@@ -1,6 +1,19 @@
-/* global define */
-define({
+define([],
+    function() {
 
-	version: "1.0.0"
+        var o = {
 
-});
+            defaultState: {
+                v: "home"
+            },
+
+            validViews: ["home", "blog", "map", "about"]
+
+
+        }
+
+
+
+        return o;
+
+    })
