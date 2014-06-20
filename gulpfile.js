@@ -6,11 +6,11 @@ var minifycss = require('gulp-minify-css');
 var minifyhtml = require('gulp-minify-html');
 
 var app_dir = {
-    src: __dirname + "\\src\\",
-    build: __dirname + "\\build\\",
-    css: __dirname + "\\src\\app\\css\\",
-    js: __dirname + "\\src\\app\\js\\",
-    root: __dirname + "\\"
+    src: __dirname + "/src/",
+    build: __dirname + "/build/",
+    css: __dirname + "/src/app/css/",
+    js: __dirname + "/src/app/js/",
+    root: __dirname + "/"
 }
 
 gulp.task('default', function() {

@@ -7,3 +7,7 @@ body,
   margin: 0;
   padding: 1;
 }
+.app-header {
+  background-color: #f00;
+  height: 170px;
+}
