@@ -27,25 +27,56 @@
   -moz-border-radius: 0;
   border-radius: 0;
 }
-.locator-widget,
-.basemap-gallery,
-.share {
+.locator-widget-button,
+.basemap-gallery-button,
+.share-button {
   border: 1px solid #444;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
+  cursor: pointer;
   height: 30px;
   width: 30px;
   right: 20px;
   z-index: 50;
 }
-.locator-widget {
+.modal-link {
+  background-color: #fff;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  right: 45px;
+  z-index: 49;
+}
+.locator-widget-button {
+  background: url("../images/locate.png") no-repeat center -2px #fff;
   top: 120px;
 }
-.basemap-gallery {
+.locator-linker {
+  top: 120px;
+}
+.basemap-gallery-button {
+  background: url("../images/basemap.png") no-repeat center -2px #fff;
   top: 160px;
 }
-.share {
+.basemap-linker {
+  top: 160px;
+}
+.basemap-gallery-container,
+.locator-widget-container {
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: absolute;
+  height: 300px;
+  width: 350px;
+  z-index: 50;
+  right: 70px;
+  top: 20px;
+}
+.share-button {
+  background: url("../images/ico-share.png") no-repeat center #fff;
   top: 200px;
 }

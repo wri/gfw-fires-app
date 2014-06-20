@@ -1,5 +1,6 @@
 /* global define, document */
 define([
+    "dojo/on",
     "dojo/dom",
     "dojo/dom-construct",
     "esri/map",
@@ -7,8 +8,9 @@ define([
     "esri/dijit/HomeButton",
     "dijit/registry",
     "views/map/MapConfig",
+    "views/map/MapModel",
     "modules/HashController"
-], function(dom, domConstruct, Map, esriConfig, HomeButton, registry, MapConfig, HashController) {
+], function(on, dom, domConstruct, Map, esriConfig, HomeButton, registry, MapConfig, MapModel, HashController) {
 
         var o = {},
             initialized = false,
@@ -31,6 +33,7 @@ define([
             require(["dojo/text!views/map/map.html"], function(html) {
                 dom.byId(viewName).innerHTML = html;
                 HashController.switchToView(viewName);
+                MapModel.applyBindings("map-view");
                 that.createMap();
             });
         };
@@ -69,7 +72,17 @@ define([
 
             
 
+            // Add Listeners for Buttons to Activate Widgets
+            var toggleLocatorWidgets = function () {
+                MapModel.set('showLocatorWidgets', !MapModel.get('showLocatorWidgets'));
+            };
 
+            var toggleBasemapGallery = function () {
+                MapModel.set('showBasemapGallery', !MapModel.get('showBasemapGallery'));
+            };
+
+            on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
+            on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
             
         };
 
