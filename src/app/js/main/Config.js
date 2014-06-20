@@ -13,7 +13,19 @@ define([],
 
             //knockout stuff
 
-            tabOptions: ["Home", "Map", "Fires Blog", "About"],
+            navigationLinks: [{
+                "html": "Home",
+                "click": "goToBlog"
+            }, {
+                "html": "Map",
+                "click": "lastestImagery"
+            }, {
+                "html": "Fires Blog",
+                "click": "goToMap"
+            }, {
+                "html": "About",
+                "click": "highlightStats"
+            }],
 
             headerTitle: "A partnership convened by the World Resources Institute",
 

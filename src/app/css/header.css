@@ -1,4 +1,5 @@
-.app-header {
-  background-color: #f00;
-  height: 170px;
+.homeTitle {
+  height: 30px;
+  border-bottom: 1px solid #9b9b9b;
+  background-color: #e6e6e6;
 }

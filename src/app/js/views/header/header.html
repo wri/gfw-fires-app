@@ -1,1 +1,22 @@
-<link rel="stylesheet" href="app/css/header.css"/><div data-bind="html:headerTitle" class="homeTitle"></div>
+<link rel="stylesheet" href="app/css/header.css"/>
+<div data-bind="html:headerTitle" class="homeTitle"></div>
+<div class="logoMenu">
+  <div class="navigationLinks">
+    <ul data-bind="foreach:navigationLinks" class="navList">
+      <li class="navItem"></li>
+    </ul>
+  </div><div class="navigationLinks" id="navigationLinks">
+  <div class="navigationLinks" id="navbar">
+  <ul class="navList" id="navList">
+  <li class="listItem" id="homeListItem"><a data-bind="text:home" class="selected" id="homeButton">Home</a></li
+  ><li class="listItem" id="dataListItem"><a class="" data-bind="text:data" id="data">Data</a></li>
+  <li class="listItem" id="methodsListItem"><a class="" data-bind="text:methods" id="methods">Methods</a></li>
+  <li class="listItem" id="aboutListItem"><a data-bind="text:about" id="about">About</a></li>
+  <li class="listItem" id="gfwListItem"><a data-bind="text:gfw" target="_blank" href="http://www.globalforestwatch.org" id="gfw">GFW</a></li>
+  </ul>
+  </div>
+  <div class="headerIconContainer" id="headerIconContainer">
+  <a class="iconLink" id="headerIconLink"></a>
+  <div>
+  <img src="app/stylesheets/images/gfwc_logo.png" class="icon" id="headerIconImg"></div></div></div>
+</div>

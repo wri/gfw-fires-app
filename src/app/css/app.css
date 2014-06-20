@@ -9,27 +9,10 @@ body,
 }
 .app-header {
   background-color: #f00;
-  position: absolute;
-  height: 170px;
-  right: 0;
-  left: 0;
-  top: 0;
+  height: 280px;
+  background: url("../images/header_tree_background.png") repeat-x scroll center top transparent;
 }
-.app-body {
-  position: absolute;
-  top: 170px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-}
-.mainStack {
-  height: 100%;
+#stackContainer {
   width: 100%;
-}
-.mainStack dijitStackContainerChildWrapper {
   height: 100%;
-  width: 100%;
-}
-.dijitHidden {
-  display: none;
 }

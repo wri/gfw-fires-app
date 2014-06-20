@@ -24,7 +24,7 @@ gulp.task('compile-stylus', function() {
     gulp.src(app_dir.src + '**/*.styl')
         .pipe(stylus({
             errors: true,
-            pretty: false
+            pretty: true
         }))
         .pipe(gulp.dest(app_dir.src));
 });
@@ -32,7 +32,7 @@ gulp.task('compile-stylus', function() {
 gulp.task('compile-jade', function() {
     gulp.src(app_dir.src + '**/*.jade')
         .pipe(jade({
-            pretty: false
+            pretty: true
         }))
         .pipe(gulp.dest(app_dir.src));
 });
