@@ -11,7 +11,7 @@ var app_dir = {
     css: __dirname + "/src/app/css/",
     js: __dirname + "/src/app/js/",
     root: __dirname + "/"
-}
+};
 
 gulp.task('default', function() {
     console.log(app_dir.src);
@@ -50,6 +50,6 @@ gulp.task('compress', function() {
     return gulp.src(app_dir.src + '**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest(app_dir.build))
-})
+});
 
 gulp.task('build', ['compress']);

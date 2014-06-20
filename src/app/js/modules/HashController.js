@@ -122,7 +122,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                     break;
 
                 case "about":
-                    require(["views/about/AboutController"], function(BlogController) {
+                    require(["views/about/AboutController"], function(AboutController) {
                         AboutController.init();
                     });
                     break;

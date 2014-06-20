@@ -11,7 +11,7 @@ define(["knockout", "main/Config", "dojo/dom"],
 
         o.applyBindings = function(domId) {
             ko.applyBindings(vm, dom.byId(domId));
-        }
+        };
 
 
         return o;

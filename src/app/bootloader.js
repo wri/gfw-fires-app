@@ -12,6 +12,9 @@
             }, {
                 src: 'app/css/app.css',
                 cdn: false
+            },{
+                src: 'app/css/map.css',
+                cdn: false
             }],
             'pro': [{
                 src: 'http://js.arcgis.com/3.9/js/esri/css/esri.css',

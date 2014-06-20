@@ -1,13 +1,35 @@
 html,
 body,
-.App {
+.app {
   background-color: #ccc;
   height: 100%;
   width: 100%;
   margin: 0;
-  padding: 1;
+  padding: 0;
 }
 .app-header {
   background-color: #f00;
+  position: absolute;
   height: 170px;
+  right: 0;
+  left: 0;
+  top: 0;
+}
+.app-body {
+  position: absolute;
+  top: 170px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.mainStack {
+  height: 100%;
+  width: 100%;
+}
+.mainStack dijitStackContainerChildWrapper {
+  height: 100%;
+  width: 100%;
+}
+.dijitHidden {
+  display: none;
 }
