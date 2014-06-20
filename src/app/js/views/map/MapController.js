@@ -1,14 +1,17 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController"],
-    function(dom, registry, HashController) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController"],
+    function(dom, registry, HashController, EventsController) {
 
         var o = {};
         var initialized = false;
         var viewName = "mapView";
+        var viewObj = {
+            viewName: "mapView"
+        }
         o.init = function() {
             var that = this;
             if (initialized) {
                 //switch to this view
-                HashController.switchToView(viewName);
+                EventsController.switchToView(viewObj);
 
                 return;
             }
@@ -20,7 +23,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController"],
                 dom.byId(viewName).innerHTML = html;
 
 
-                HashController.switchToView(viewName);
+                EventsController.switchToView(viewObj);
             })
         }
 

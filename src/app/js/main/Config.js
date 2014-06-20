@@ -15,16 +15,20 @@ define([],
 
             navigationLinks: [{
                 "html": "Home",
-                "click": "goToBlog"
+                "viewId": "home",
+                "selected": true
             }, {
                 "html": "Map",
-                "click": "lastestImagery"
+                "viewId": "map",
+                "selected": false
             }, {
                 "html": "Fires Blog",
-                "click": "goToMap"
+                "viewId": "blog",
+                "selected": false
             }, {
                 "html": "About",
-                "click": "highlightStats"
+                "viewId": "about",
+                "selected": false
             }],
 
             headerTitle: "A partnership convened by the World Resources Institute",

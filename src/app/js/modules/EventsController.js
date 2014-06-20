@@ -3,10 +3,6 @@ define(["dojo/topic"],
 
         var o = {};
 
-        o.init = function() {
-
-        }
-
         o.events = {
 
             //home events
@@ -31,7 +27,11 @@ define(["dojo/topic"],
 
             //about events
             "selectLayer": "selectLayer",
-            "initModel": "initModel"
+            "initModel": "initModel",
+
+            //header events
+            "clickNavLink": "clickNavLink",
+            "switchToView": "switchToView"
 
         };
 
@@ -41,16 +41,24 @@ define(["dojo/topic"],
             o[eventName] = (function(e) {
                 return function(dataObj) {
                     topic.publish(e, dataObj);
-                }
-            })(eventName)
+                };
+            })(eventName);
         }
 
         //register subscribtion
-        topic.subscribe("dataLoaded", function(dataObj) {
+        topic.subscribe("clickNavLink", function(dataObj) {
+            console.log(dataObj);
             require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.dataLoaded(dataObj)
-            })
-        })
+                HeaderController.clickNavLink(dataObj);
+            });
+        });
+
+        topic.subscribe("switchToView", function(dataObj) {
+            console.log(dataObj);
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.switchToView(dataObj);
+            });
+        });
 
 
 

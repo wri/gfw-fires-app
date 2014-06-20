@@ -1,5 +1,40 @@
-.homeTitle {
+.headerTitle {
   height: 30px;
   border-bottom: 1px solid #9b9b9b;
   background-color: #e6e6e6;
+}
+.navContainer {
+  max-width: 960px;
+  height: 80px;
+  margin: auto;
+}
+.navigationLinks {
+  float: right;
+  color: #000;
+  margin-right: 10px;
+}
+.navList ul {
+  list-style-type: none;
+}
+.navList li {
+  float: left;
+  color: #000;
+  list-style-type: none;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.navList li.selected {
+  color: #fff;
+  background-color: #e98300;
+}
+.logo {
+  background: url("../images/gfwc_logo.png") no-repeat;
+  width: 86px;
+  height: 86px;
+  position: absolute;
+  top: 30px;
+  margin-left: 10px;
 }
