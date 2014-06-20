@@ -7,7 +7,12 @@
       <div id="basemap-gallery-button" class="basemap-gallery-button"></div>
       <div id="share-button" class="share-button"></div>
       <div id="locator-linker" data-bind="visible: showLocatorWidgets()" class="locator-linker modal-link"></div>
-      <div id="locator-widget-container" data-bind="visible: showLocatorWidgets()" class="locator-widget-container"></div>
+      <div id="locator-widget-container" data-bind="visible: showLocatorWidgets()" class="locator-widget-container">
+        <div id="locator-container-header" data-bind="text: locatorContainerHeader" class="locator-container-header"></div>
+        <hr class="locator-line-splitter"/>
+        <div id="location-widget" class="location-widget"></div>
+        <hr class="locator-line-splitter"/>
+      </div>
       <div id="basemap-linker" data-bind="visible: showBasemapGallery()" class="basemap-linker modal-link"></div>
       <div id="basemap-gallery-container" data-bind="visible: showBasemapGallery()" class="basemap-gallery-container">
         <div id="basemap-gallery" class="basemap-gallery"></div>

@@ -6,11 +6,15 @@ define([
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
+    "esri/dijit/BasemapGallery",
+    "esri/dijit/Basemap",
+    "esri/dijit/BasemapLayer",
+    "esri/dijit/LocateButton",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
     "modules/HashController"
-], function(on, dom, domConstruct, Map, esriConfig, HomeButton, registry, MapConfig, MapModel, HashController) {
+], function(on, dom, domConstruct, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator, registry, MapConfig, MapModel, HashController) {
 
         var o = {},
             initialized = false,
@@ -41,17 +45,17 @@ define([
         o.createMap = function () {
             var self = this;
             // Add in dark gray basemap
-            esriConfig.defaults.map.basemaps.darkgray = {
-                baseMapLayers: [
-                    {url: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer"}
-                ],
-                title: "Dark Gray"
-            };
+            // esriConfig.defaults.map.basemaps.darkgray = {
+            //     baseMapLayers: [
+            //         {url: MapConfig.mapOptions.darkGrayCanvas}
+            //     ],
+            //     title: "Dark Gray"
+            // };
 
 
             map = new Map("map", {
-                basemap: "gray",
-                zoom: MapConfig.initalZoom,
+                basemap: MapConfig.mapOptions.basemap,
+                zoom: MapConfig.mapOptions.initalZoom,
                 sliderPosition: 'top-right'
             });
 
@@ -62,15 +66,45 @@ define([
         };
 
         o.addWidgets = function () {
+            var basemaps = [],
+                darkgray,
+                locator,
+                home,
+                bg;
+
+
             // Add Home Button
             domConstruct.create("div",{'id': 'home-button', 'class': 'home-butotn'},
                                     document.querySelector(".esriSimpleSliderIncrementButton"), "after");
-            var home = new HomeButton({
+
+            home = new HomeButton({
                 map: map
             }, "home-button");
             home.startup();
 
-            
+            // Add Darkgray Canvas to Basemap Gallery, first create Basemap
+            darkgray = new Basemap({
+                layers: [
+                    new BasemapLayer({url: MapConfig.mapOptions.darkGrayCanvas})
+                ],
+                title: "Dark Gray Canvas",
+                thumbnailUrl: ""
+            });
+            basemaps.push(darkgray);
+
+            bg = new BasemapGallery({
+                map: map,
+                basemaps: basemaps,
+                showArcGISBasemaps: true
+            }, "basemap-gallery");
+            bg.startup();
+
+            // Add Locator Widget
+            locator = new Locator({
+              map: map,
+              highlightLocation: false
+            }, "location-widget");
+            locator.startup();
 
             // Add Listeners for Buttons to Activate Widgets
             var toggleLocatorWidgets = function () {

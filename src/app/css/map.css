@@ -71,12 +71,42 @@
   border-radius: 5px;
   position: absolute;
   height: 300px;
-  width: 350px;
+  width: 300px;
   z-index: 50;
   right: 70px;
   top: 20px;
 }
+.basemap-gallery-container {
+  overflow-y: auto;
+}
 .share-button {
   background: url("../images/ico-share.png") no-repeat center #fff;
   top: 200px;
+}
+.locator-line-splitter {
+  text-align: center;
+  width: 290px;
+}
+.locator-container-header {
+  margin: 5px 0 0 5px;
+  font-weight: bold;
+  font-size: 18px;
+}
+.LocateButton {
+  margin: 0 5px;
+}
+.LocateButton span {
+  display: block !important;
+  text-align: center;
+  font-weight: bold;
+  line-height: 25px;
+  color: #fff;
+}
+.LocateButton .zoomLocateButton {
+  background: #555;
+  height: 25px;
+  width: 100px;
+}
+.LocateButton .zoomLocateButton:hover {
+  background: #f00;
 }
