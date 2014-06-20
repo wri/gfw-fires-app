@@ -9,5 +9,10 @@ body,
 }
 .app-header {
   background-color: #f00;
-  height: 170px;
+  height: 280px;
+  background: url("../images/header_tree_background.png") repeat-x scroll center top transparent;
+}
+#stackContainer {
+  width: 100%;
+  height: 100%;
 }

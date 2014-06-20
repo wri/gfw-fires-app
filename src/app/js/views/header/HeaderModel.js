@@ -8,6 +8,7 @@ define(["knockout", "main/Config", "dojo/dom"],
         var vm = o.vm;
 
         vm.headerTitle = ko.observable(Config.headerTitle);
+        vm.navigationLinks = ko.observableArray(Config.navigationLinks)
 
         o.applyBindings = function(domId) {
             ko.applyBindings(vm, dom.byId(domId));
