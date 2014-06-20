@@ -56,6 +56,10 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
             that.updateHash(_newState);
 
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.init();
+            });
+
         };
 
         o.handleHashChange = function(newState, oldState) {

@@ -7,29 +7,29 @@ var minifyhtml = require('gulp-minify-html');
 
 var app_dir = {
     src: __dirname + "\\src\\",
-    build:  __dirname + "\\build\\",
+    build: __dirname + "\\build\\",
     css: __dirname + "\\src\\app\\css\\",
     js: __dirname + "\\src\\app\\js\\",
     root: __dirname + "\\"
 }
 
 gulp.task('default', function() {
-	console.log(app_dir.src);
-  // place code for your default task here
+    console.log(app_dir.src);
+    // place code for your default task here
 });
 
 /*********DEVELOP************/
 
 gulp.task('compile-stylus', function() {
-    gulp.src(app_dir.css + '**/*.styl')
+    gulp.src(app_dir.src + '**/*.styl')
         .pipe(stylus({
             errors: true,
             pretty: false
         }))
-        .pipe(gulp.dest(app_dir.css));
+        .pipe(gulp.dest(app_dir.src));
 });
 
-gulp.task('compile-jade', function() {	
+gulp.task('compile-jade', function() {
     gulp.src(app_dir.src + '**/*.jade')
         .pipe(jade({
             pretty: false
@@ -38,19 +38,18 @@ gulp.task('compile-jade', function() {
 });
 
 gulp.task('develop', function() {
-  // watch jade and style
-  gulp.watch(app_dir.css + '**/*.styl', ['compile-stylus']);
-  gulp.watch(app_dir.root + '**/*.jade', ['compile-jade']);
+    // watch jade and style
+    gulp.watch(app_dir.src + '**/*.styl', ['compile-stylus']);
+    gulp.watch(app_dir.src + '**/*.jade', ['compile-jade']);
 
 });
 
 /*********BUILD************/
 
 gulp.task('compress', function() {
-  return gulp.src(app_dir.src + '**/*.js')
-    .pipe(uglify())
-    .pipe(gulp.dest(app_dir.build))
+    return gulp.src(app_dir.src + '**/*.js')
+        .pipe(uglify())
+        .pipe(gulp.dest(app_dir.build))
 })
 
 gulp.task('build', ['compress']);
-

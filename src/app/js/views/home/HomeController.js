@@ -15,12 +15,15 @@ define(["dojo/dom", "dijit/registry", "modules/HashController"],
 
             initialized = true;
             //otherwise load the view
-            require(["dojo/text!views/home/home.html"], function(html) {
+            require(["dojo/text!views/home/home.html", "views/home/HomeModel"], function(html, HomeModel) {
 
                 dom.byId(viewName).innerHTML = html;
 
 
                 HashController.switchToView(viewName);
+
+                HomeModel.applyBindings(viewName);
+
             })
         }
 
