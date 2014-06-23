@@ -4,6 +4,11 @@ border-radius()
 	-moz-border-radius arguments
 	border-radius arguments
 
+border-radius-top()
+	-webkit-border-radius arguments arguments 0 0
+	-moz-border-radius arguments arguments 0 0
+	border-radius arguments arguments 0 0 
+
 // Map Css
 .map-view
 	height 100%
@@ -105,6 +110,12 @@ border-radius()
 .LocateButton .zoomLocateButton:hover
 	background red
 
+.simpleGeocoder
+	position absolute
+	z-index 50
+	right 80px
+	top 20px
+
 .area-search-inputs
 	margin 5px
 
@@ -149,3 +160,58 @@ border-radius()
 .search-option-go-button:hover
 	background-color red
 	
+.fires-map-accordion
+	position absolute !important
+	bottom 0
+	right 0
+	left 0
+	top 0
+
+.legend-widget-container 
+	background-color white
+	border-radius-top(5px)
+	position absolute
+	overflow hidden
+	cursor pointer
+	height 200px
+	width 200px
+	z-index 50
+	right 20px
+	bottom 0
+
+.legend-widget-title
+	border-bottom 1px solid #000
+	box-sizing border-box
+	height 30px
+	
+.legend-widget-title span
+	display inline-block
+	line-height 30px
+	font-weight bold
+	margin-left 5px	
+
+.legend-content
+	height 170px
+	width 100%
+
+.active-fires-options
+	border 1px solid red
+	border-radius(5px)
+	text-align center
+	line-height 30px
+	margin 5px auto
+	cursor pointer
+	height 30px
+	width 250px
+
+.confidence-fires-container
+	margin 5px 25px
+
+.active-fires-options.selected-fire-option
+	background-color red
+	font-weight bold
+	color white
+
+.esriControlsBR
+	right inherit // Override Esri right: 5px setting
+	left 5px

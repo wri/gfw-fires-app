@@ -25,6 +25,13 @@ define([
         vm.longitudeLabel = ko.observable(MapConfig.text.longitudeLabel);
         vm.searchOptionGoButton = ko.observable(MapConfig.text.searchOptionGoButton);
         vm.clearSearchPins = ko.observable(MapConfig.text.clearSearchPins);
+        vm.legend = ko.observable(MapConfig.text.legend);
+        vm.firesCheckbox = ko.observable(MapConfig.text.firesCheckbox);
+        vm.confidenceFiresCheckbox = ko.observable(MapConfig.text.confidenceFiresCheckbox);
+        vm.firesWeek = ko.observable(MapConfig.text.firesWeek);
+        vm.fires72 = ko.observable(MapConfig.text.fires72);
+        vm.fires48 = ko.observable(MapConfig.text.fires48);
+        vm.fires24 = ko.observable(MapConfig.text.fires24);
 
         vm.showBasemapGallery = ko.observable(false);
         vm.showLocatorWidgets = ko.observable(false);

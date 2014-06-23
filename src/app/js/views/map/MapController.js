@@ -2,8 +2,11 @@
 define([
     "dojo/on",
     "dojo/dom",
+    "dojo/query",
     "dojo/dom-construct",
+    "dojo/dom-class",
     "dojo/_base/array",
+    "dojo/_base/fx",
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
@@ -11,17 +14,21 @@ define([
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
     "esri/dijit/LocateButton",
+    "esri/dijit/Geocoder",
     "esri/symbols/PictureMarkerSymbol",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
+    "esri/layers/ArcGISDynamicMapServiceLayer",
+    "esri/layers/ImageParameters",
     "esri/graphic",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
-    "modules/HashController",
+    "utils/DijitFactory",
     "modules/EventsController"
-], function(on, dom, domConstruct, arrayUtils, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator, 
-            PictureSymbol, Point, webMercatorUtils, Graphic, registry, MapConfig, MapModel, HashController, EventsController) {
+], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator, Geocoder, 
+            PictureSymbol, Point, webMercatorUtils, ArcGISDynamicMapServiceLayer, ImageParameters, Graphic, registry, MapConfig, MapModel, 
+            DijitFactory, EventsController) {
 
         var o = {},
             initialized = false,
@@ -68,6 +75,7 @@ define([
                 o.map.graphics.clear();
                 self.addWidgets();
                 self.bindEvents();
+                self.addLayers();
             });
 
         };
@@ -75,6 +83,7 @@ define([
         o.addWidgets = function () {
             var basemaps = [],
                 darkgray,
+                geocoder,
                 locator,
                 home,
                 bg;
@@ -113,6 +122,15 @@ define([
             }, "location-widget");
             locator.startup();
 
+            // Add Geocoder Widget
+            geocoder = new Geocoder({
+                map: o.map
+            }, "esri-geocoder-widget");
+            geocoder.startup();
+
+            // Add Dojo Dijits to Control Map Options
+            DijitFactory.buildDijits(MapConfig.accordionDijits);
+
             // Add Listeners for Buttons to Activate Widgets
             var toggleLocatorWidgets = function () {
                 // If basemap Gallery is Open, Close it
@@ -137,6 +155,8 @@ define([
 
         o.bindEvents = function () {
 
+            var self = this;
+
             on(dom.byId("dms-search"), "change", function (evt) {
                 var checked = evt.target ? evt.target.checked : evt.srcElement.checked;
                 if (checked) {
@@ -153,9 +173,23 @@ define([
                 }
             });
 
+            on(dom.byId("confidence-fires-checkbox"), "change", function (evt) {
+                self.updateFiresLayer(true);
+            });
+
+            on(dom.byId("fires-checkbox"), "change", function (evt) {
+                var value = evt.target ? evt.target.checked : evt.srcElement.checked;
+                self.toggleLayerVisibility(MapConfig.firesLayer.id, value);
+            });
+
 
             on(dom.byId("search-option-go-button"), "click", this.searchAreaByCoordinates);
             on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
+            on(dom.byId("legend-widget-title"), "click", this.toggleLegend);
+
+            dojoQuery(".active-fires-options").forEach(function (node) {
+                on(node, "click", self.toggleFireOption.bind(self));
+            });
 
         };
 
@@ -215,16 +249,115 @@ define([
 
         };
 
+        o.addLayers = function () {
+
+            var firesParams,
+                firesLayer;
+
+            firesParams = new ImageParameters();
+            firesParams.format = "png32";
+            firesParams.layerIds = MapConfig.firesLayer.defaultLayers;
+            firesParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+            firesLayer = new ArcGISDynamicMapServiceLayer(MapConfig.firesLayer.url, {
+                imageParameters: firesParams,
+                id: MapConfig.firesLayer.id,
+                visible: true
+            });
+
+            o.map.addLayers([
+                firesLayer
+            ]);
+
+        };
+
+        o.toggleLayerVisibility = function (layerId, visibility) {
+            var layer = o.map.getLayer(layerId);
+            if (layer) {
+                layer.setVisibility(visibility);
+            }
+        };
+
+        o.toggleFireOption = function (evt) {
+            var node = evt.target ? evt.target : evt.srcElement;
+            dojoQuery(".selected-fire-option").forEach(function (el) {
+                domClass.remove(el, "selected-fire-option");
+            });
+            domClass.add(node, "selected-fire-option");
+            this.updateFiresLayer();
+        };
+
+        o.updateFiresLayer = function (updateVisibleLayers) {
+            var node = dojoQuery(".selected-fire-option")[0],
+                time = new Date(),
+                checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
+                defs = [],
+                dateString = "",
+                where = "",
+                visibleLayers,
+                layer;
+
+            switch (node.id) {
+                case "fires72":
+                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 3) + " " +
+                                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+                    where += "ACQ_DATE > date '" + dateString + "'";
+                    break;
+                case "fires48":
+                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 2) + " " +
+                                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+                    where += "ACQ_DATE > date '" + dateString + "'";
+                    break;
+                case "fires24":
+                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 1) + " " +
+                                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+                    where += "ACQ_DATE > date '" + dateString + "'";
+                    break;
+                default:
+                    where = "1 = 1";
+                    break;
+            }
+
+            for (var i = 0, length = MapConfig.firesLayer.defaultLayers.length; i < length; i++) {
+                defs[i] = where;
+            }
+
+            layer = o.map.getLayer(MapConfig.firesLayer.id);
+            if (layer) {
+                layer.setLayerDefinitions(defs);
+            }
+
+            if (updateVisibleLayers) {
+                if (checkboxStatus) {
+                    visibleLayers = [0,1];
+                } else {
+                    visibleLayers = [0,1,2,3];
+                }
+                if (layer) {
+                    layer.setVisibleLayers(visibleLayers);
+                }
+            }
+
+        };
+
         o.clearSearchPins = function () {
             o.map.graphics.clear();
             MapModel.set('showClearPinsOption', false);
         };
 
-        //listen to key
+        o.toggleLegend = function () {
+            var node = dom.byId("legend-widget-container"),
+                height = node.offsetHeight === 200 ? 30 : 200;
 
-        //trigger event 
+            Fx.animateProperty({
+                node: node,
+                properties: {
+                    height: height
+                },
+                duration: 500
+            }).play();
 
-
+        };
 
         return o;
 
