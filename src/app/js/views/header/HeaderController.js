@@ -31,7 +31,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
         o.dataLoaded = function(data) {
-            console.log("events test");
+            
         };
 
         o.clickNavLink = function(data) {
@@ -45,7 +45,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         };
 
         o.switchToView = function(data) {
-            console.log(data.viewName);
             require(["dijit/registry", "views/header/HeaderModel"], function(registry, HeaderModel) {
                 //alert(data.viewName);
                 registry.byId("stackContainer").selectChild(data.viewName);
@@ -61,7 +60,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     return nLink;
                 });
                 HeaderModel.vm.navigationLinks(updatedNavigationLinks);
-                console.dir(HeaderModel.vm.navigationLinks());
             });
 
         };
