@@ -4,6 +4,7 @@
   "devDependencies": {},
   "dependencies": {
     "gulp": "^3.8.1",
+    "gulp-autoprefixer": "0.0.7",
     "gulp-jade": "^0.6.0",
     "gulp-minify-css": "^0.3.4",
     "gulp-minify-html": "^0.1.3",

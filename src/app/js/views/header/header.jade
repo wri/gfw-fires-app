@@ -1,8 +1,12 @@
 link(rel='stylesheet', href='app/css/header.css')
-div.headerTitle(data-bind="html:headerTitle")
+div.headerTitleContainer
+	div.headerTitle(data-bind="html:headerTitle")
 div.navContainer
+	div.headerSeparator
 	div.navigationLinks
 		ul.navList(data-bind="foreach:navigationLinks")
 			li.navItem(data-bind="css:{selected:selected},click:$root.clickNavLink")
 				a(data-bind="html:html")
 	div.logo
+div.headerDescContainer
+	div.headerDesc(data-bind="html:headerDesc")

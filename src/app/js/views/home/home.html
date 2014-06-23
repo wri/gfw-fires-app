@@ -1,2 +1,11 @@
 
-<div id="homeTitle" data-bind="html:homeTitle" class="homeTitle"></div>
+<!--div#homeTitle.homeTitle(data-bind="html:homeTitle")-->
+<link rel="stylesheet" href="app/css/home.css"/>
+<div class="homeModeOptionsContainer">
+  <div class="homeModeOptionsViewerOuter">
+    <div data-bind="foreach:homeModeOptions" class="homeModeOptionsViewerInner">
+      <div data-bind="html:html" class="modeOption"></div>
+    </div>
+  </div>
+</div>
+<div class="homeBgContainer"><img src="app/images/home-bg.jpg"/></div>

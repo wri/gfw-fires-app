@@ -15,6 +15,12 @@
             },{
                 src: 'app/css/map.css',
                 cdn: false
+            }, {
+                src: 'app/css/responsive.css',
+                cdn: false
+            }, {
+                src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
+                cdn: true
             }],
             'pro': [{
                 src: 'http://js.arcgis.com/3.9/js/esri/css/esri.css',
@@ -22,6 +28,15 @@
             }, {
                 src: 'app/css/app.css',
                 cdn: false
+            },{
+                src: 'app/css/map.css',
+                cdn: false
+            },{
+                src: 'app/css/responsive.css',
+                cdn: false
+            }, {
+                src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
+                cdn: true
             }]
         },
         URL = location.pathname.replace(/\/[^/]+$/, '') + 'app',
