@@ -46,6 +46,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         o.switchToView = function(data) {
             require(["dijit/registry", "views/header/HeaderModel"], function(registry, HeaderModel) {
+                //alert(data.viewName);
                 registry.byId("stackContainer").selectChild(data.viewName);
                 //select the 
                 var navigationLinks = HeaderModel.vm.navigationLinks();

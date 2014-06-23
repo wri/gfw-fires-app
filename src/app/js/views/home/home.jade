@@ -1,8 +1,12 @@
 //div#homeTitle.homeTitle(data-bind="html:homeTitle")
 link(rel='stylesheet', href='app/css/home.css')
 div.homeModeOptionsContainer
-	div.homeModeOptionsViewerOuter
-		div.homeModeOptionsViewerInner(data-bind="foreach:homeModeOptions")
-			div.modeOption(data-bind="html:html")
+	div.homeModeOptionsViewerOuter(data-bind="foreach:homeModeOptions")
+		div.modeGroup(data-bind="css:{dijitHidden:!display}")
+			div.modeOption
+			div.modeOptionRing(data-bind="html:html")
+
+		//div.homeModeOptionsViewerInner#homeModeOptionsViewerInner(data-bind="foreach:homeModeOptions")
+			//div.modeOption(data-bind="html:html")
 div.homeBgContainer
 	img(src="app/images/home-bg.jpg")
