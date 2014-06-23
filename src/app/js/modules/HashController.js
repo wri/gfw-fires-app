@@ -75,6 +75,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
         };
 
+
         o.updateHash = function(updateState) {
 
             var that = this;
@@ -101,29 +102,32 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
 
         o.changeView = function(newView, oldView) {
-
+            var viewObj = {
+                v: newView
+            }
+            console.log(newView);
             switch (newView) {
                 case "home":
                     require(["views/home/HomeController"], function(HomeController) {
-                        HomeController.init();
+                        HomeController.init(viewObj);
                     });
                     break;
 
                 case "map":
                     require(["views/map/MapController"], function(MapController) {
-                        MapController.init();
+                        MapController.init(viewObj);
                     });
 
                     break;
                 case "blog":
                     require(["views/blog/BlogController"], function(BlogController) {
-                        BlogController.init();
+                        BlogController.init(viewObj);
                     });
                     break;
 
                 case "about":
                     require(["views/about/AboutController"], function(AboutController) {
-                        AboutController.init();
+                        AboutController.init(viewObj);
                     });
                     break;
 
@@ -133,16 +137,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
 
 
-        },
-
-        o.switchToView = function(name) {
-
-            require(["dijit/registry"], function(registry) {
-
-                registry.byId("stackContainer").selectChild(name);
-            })
-
-        }
+        };
         //listen to hash change
 
         //change the view if needed

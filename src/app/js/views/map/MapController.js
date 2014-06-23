@@ -18,30 +18,30 @@ define([
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
-    "modules/HashController"
+    "modules/HashController",
+    "modules/EventsController"
 ], function(on, dom, domConstruct, arrayUtils, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator, 
-            PictureSymbol, Point, webMercatorUtils, Graphic, registry, MapConfig, MapModel, HashController) {
+            PictureSymbol, Point, webMercatorUtils, Graphic, registry, MapConfig, MapModel, HashController, EventsController) {
 
         var o = {},
             initialized = false,
-            viewName = "mapView";
-
-
-
+            view = {
+                viewName: "mapView"
+            };
 
         o.init = function() {
             var that = this;
             if (initialized) {
                 //switch to this view
-                HashController.switchToView(viewName);
+                EventsController.switchToView(view);
                 return;
             }
 
             initialized = true;
             //otherwise load the view
             require(["dojo/text!views/map/map.html"], function(html) {
-                dom.byId(viewName).innerHTML = html;
-                HashController.switchToView(viewName);
+                dom.byId(view.viewName).innerHTML = html;
+                EventsController.switchToView(view);
                 MapModel.applyBindings("map-view");
                 that.createMap();
             });

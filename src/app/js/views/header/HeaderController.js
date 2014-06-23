@@ -4,6 +4,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         var o = {};
         var initialized = false;
         var viewName = "app-header";
+
         o.init = function() {
             var that = this;
             if (initialized) {
@@ -23,17 +24,33 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 HeaderModel.applyBindings(viewName);
 
-                console.log(EventsController);
 
-                EventsController.dataLoaded({});
 
-            })
-        }
+            });
+        };
 
 
         o.dataLoaded = function(data) {
             console.log("events test");
-        }
+        };
+
+        o.clickNavLink = function(data) {
+            var clickedItem = data;
+
+            var updateHash = {
+                v: clickedItem.viewId
+            };
+            HashController.updateHash(updateHash);
+
+        };
+
+        o.switchToView = function(data) {
+            alert(data.viewName);
+            require(["dijit/registry"], function(registry) {
+                registry.byId("stackContainer").selectChild(data.viewName);
+            });
+
+        };
 
 
 
