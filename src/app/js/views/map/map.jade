@@ -1,5 +1,13 @@
 div#map-view(class="map-view")
 	div#control-panel(class="control-panel")
+		div#fires-map-accordion
+			div#fires-panel
+			div#forest-use-panel
+			div#conservation-panel
+			div#land-cover-panel
+			div#air-quality-panel
+			div#imagery-panel
+			div#social-media-panel
 	div#map-container(class="map-container")
 		div#map(class="map")
 			div#locator-widget-button(class="locator-widget-button")
@@ -11,6 +19,50 @@ div#map-view(class="map-view")
 				hr(class="locator-line-splitter")
 				div#location-widget(class="location-widget")
 				hr(class="locator-line-splitter")
+				div#goto-area-search(class="goto-area-search", data-bind="text: locatorSearchLabel")
+				span#clear-search-pins(class="clear-search-pins", data-bind="text: clearSearchPins, visible: showClearPinsOption()")
+				div#area-search-options-1(class="area-search-radio-container")
+					input#dms-search(type="radio", name="search-option", checked="true")
+					label(for="dms-search", data-bind="text: dmsSearch", class="search-option-label")
+				div#area-search-options-2(class="area-search-radio-container")
+					input#lat-long-search(type="radio", name="search-option")
+					label(for="lat-long-search", data-bind="text: latLongSearch", class="search-option-label")
+				div#area-search-inputs(class="area-search-inputs")
+					div#dms-inputs(class="dms-inputs-container", data-bind="visible: showDMSInputs()")
+						table
+							tr
+								td
+								td(data-bind="text: degreesLabel")
+								td(data-bind="text: minutesLabel")
+								td(data-bind="text: secondsLabel")
+							tr
+								td(data-bind="text: latitudeLabel")
+								td
+									input#degreesLatInput(type="text",class="dms-inputs")
+								td
+									input#minutesLatInput(type="text",class="dms-inputs")
+								td
+									input#secondsLatInput(type="text",class="dms-inputs")
+							tr
+								td(data-bind="text: longitudeLabel")
+								td
+									input#degreesLonInput(type="text",class="dms-inputs")
+								td
+									input#minutesLonInput(type="text",class="dms-inputs")
+								td
+									input#secondsLonInput(type="text",class="dms-inputs")
+					div#lat-long-inputs(class="lat-long-inputs-container", data-bind="visible: showLatLongInputs()")
+						table
+							tr
+								td(data-bind="text: latitudeLabel")
+								td
+									input#latitudeInput(type="text",class="lat-long-inputs")
+							tr
+								td(data-bind="text: longitudeLabel")
+								td
+									input#longitudeInput(type="text",class="lat-long-inputs")
+					div(class="search-option-button-container")
+						div#search-option-go-button(class="search-option-go-button", data-bind="text: searchOptionGoButton")
 			div#basemap-linker(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
 			div#basemap-gallery-container(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
 				div#basemap-gallery(class="basemap-gallery")

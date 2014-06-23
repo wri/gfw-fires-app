@@ -1,6 +1,16 @@
 
 <div id="map-view" class="map-view">
-  <div id="control-panel" class="control-panel"></div>
+  <div id="control-panel" class="control-panel">
+    <div id="fires-map-accordion">
+      <div id="fires-panel"></div>
+      <div id="forest-use-panel"></div>
+      <div id="conservation-panel"></div>
+      <div id="land-cover-panel"></div>
+      <div id="air-quality-panel"></div>
+      <div id="imagery-panel"></div>
+      <div id="social-media-panel"></div>
+    </div>
+  </div>
   <div id="map-container" class="map-container">
     <div id="map" class="map">
       <div id="locator-widget-button" class="locator-widget-button"></div>
@@ -12,6 +22,70 @@
         <hr class="locator-line-splitter"/>
         <div id="location-widget" class="location-widget"></div>
         <hr class="locator-line-splitter"/>
+        <div id="goto-area-search" data-bind="text: locatorSearchLabel" class="goto-area-search"></div><span id="clear-search-pins" data-bind="text: clearSearchPins, visible: showClearPinsOption()" class="clear-search-pins"></span>
+        <div id="area-search-options-1" class="area-search-radio-container">
+          <input id="dms-search" type="radio" name="search-option" checked="true"/>
+          <label for="dms-search" data-bind="text: dmsSearch" class="search-option-label"></label>
+        </div>
+        <div id="area-search-options-2" class="area-search-radio-container">
+          <input id="lat-long-search" type="radio" name="search-option"/>
+          <label for="lat-long-search" data-bind="text: latLongSearch" class="search-option-label"></label>
+        </div>
+        <div id="area-search-inputs" class="area-search-inputs">
+          <div id="dms-inputs" data-bind="visible: showDMSInputs()" class="dms-inputs-container">
+            <table>
+              <tr>
+                <td></td>
+                <td data-bind="text: degreesLabel"></td>
+                <td data-bind="text: minutesLabel"></td>
+                <td data-bind="text: secondsLabel"></td>
+              </tr>
+              <tr>
+                <td data-bind="text: latitudeLabel"></td>
+                <td>
+                  <input id="degreesLatInput" type="text" class="dms-inputs"/>
+                </td>
+                <td>
+                  <input id="minutesLatInput" type="text" class="dms-inputs"/>
+                </td>
+                <td>
+                  <input id="secondsLatInput" type="text" class="dms-inputs"/>
+                </td>
+              </tr>
+              <tr>
+                <td data-bind="text: longitudeLabel"></td>
+                <td>
+                  <input id="degreesLonInput" type="text" class="dms-inputs"/>
+                </td>
+                <td>
+                  <input id="minutesLonInput" type="text" class="dms-inputs"/>
+                </td>
+                <td>
+                  <input id="secondsLonInput" type="text" class="dms-inputs"/>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div id="lat-long-inputs" data-bind="visible: showLatLongInputs()" class="lat-long-inputs-container">
+            <table>
+              <tr>
+                <td data-bind="text: latitudeLabel"></td>
+                <td>
+                  <input id="latitudeInput" type="text" class="lat-long-inputs"/>
+                </td>
+              </tr>
+              <tr>
+                <td data-bind="text: longitudeLabel"></td>
+                <td>
+                  <input id="longitudeInput" type="text" class="lat-long-inputs"/>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="search-option-button-container">
+            <div id="search-option-go-button" data-bind="text: searchOptionGoButton" class="search-option-go-button"></div>
+          </div>
+        </div>
       </div>
       <div id="basemap-linker" data-bind="visible: showBasemapGallery()" class="basemap-linker modal-link"></div>
       <div id="basemap-gallery-container" data-bind="visible: showBasemapGallery()" class="basemap-gallery-container">
