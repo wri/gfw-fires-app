@@ -22,8 +22,8 @@ define([
         parser.parse();
 
         //enable cors servers
-        esri.config.defaults.io.corsEnabledServers.push("servername");
-        esri.config.defaults.io.corsEnabledServers.push("servername");
+        esri.config.defaults.io.corsEnabledServers.push("http://www.wri.org/");
+        //esri.config.defaults.io.corsEnabledServers.push("servername");
 
         //setup proxy url
 

@@ -70,6 +70,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var changedView = oldState.v != newState.v;
 
             if (changedView) {
+
                 that.changeView(newState.v, oldState.v);
             }
 
@@ -112,26 +113,22 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 case "map":
                     require(["views/map/MapController"], function(MapController) {
                         MapController.init();
-                    });
 
+                    });
                     break;
                 case "blog":
                     require(["views/blog/BlogController"], function(BlogController) {
+                        alert(newView)
                         BlogController.init();
+
                     });
                     break;
-
                 case "about":
-                    require(["views/about/AboutController"], function(BlogController) {
+                    require(["views/about/AboutController"], function(AboutController) {
                         AboutController.init();
                     });
                     break;
-
-
             }
-
-
-
 
         },
 

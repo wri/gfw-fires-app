@@ -19,8 +19,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 dom.byId(viewName).innerHTML = html;
 
-
-
                 HeaderModel.applyBindings(viewName);
 
                 console.log(EventsController);
