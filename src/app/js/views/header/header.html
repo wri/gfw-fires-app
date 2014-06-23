@@ -1,11 +1,17 @@
 
 <link rel="stylesheet" href="app/css/header.css"/>
-<div data-bind="html:headerTitle" class="headerTitle"></div>
+<div class="headerTitleContainer">
+  <div data-bind="html:headerTitle" class="headerTitle"></div>
+</div>
 <div class="navContainer">
+  <div class="headerSeparator"></div>
   <div class="navigationLinks">
     <ul data-bind="foreach:navigationLinks" class="navList">
       <li data-bind="css:{selected:selected},click:$root.clickNavLink" class="navItem"><a data-bind="html:html"></a></li>
     </ul>
   </div>
   <div class="logo"></div>
+</div>
+<div class="headerDescContainer">
+  <div data-bind="html:headerDesc" class="headerDesc"></div>
 </div>

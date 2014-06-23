@@ -7,6 +7,10 @@ define(["dojo/topic"],
 
             //home events
             "dataLoaded": "dataLoaded",
+            "startModeAnim": "startModeAnim",
+            "stopModeAnmin": "stopModeAnmin",
+
+
 
 
 
@@ -59,6 +63,21 @@ define(["dojo/topic"],
                 HeaderController.switchToView(dataObj);
             });
         });
+
+        topic.subscribe("startModeAnim", function(dataObj) {
+            console.log(dataObj);
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.startModeAnim(dataObj);
+            });
+        });
+
+        topic.subscribe("stopModeAnmin", function(dataObj) {
+            console.log(dataObj);
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.stopModeAnmin(dataObj);
+            });
+        });
+
 
 
 

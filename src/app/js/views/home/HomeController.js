@@ -25,11 +25,20 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 EventsController.switchToView(viewObj);
 
+                EventsController.startModeAnim();
+
                 HomeModel.applyBindings(viewName);
 
             })
         }
 
+        o.startModeAnim = function(data) {
+            console.log("start mode animation");
+        };
+
+        o.stopModeAnmin = function(data) {
+            console.log("stop mode animation");
+        };
 
 
         //listen to key

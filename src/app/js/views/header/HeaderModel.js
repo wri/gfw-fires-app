@@ -8,6 +8,8 @@ define(["knockout", "main/Config", "dojo/dom", "modules/EventsController"],
         var vm = o.vm;
 
         vm.headerTitle = ko.observable(Config.headerTitle);
+        vm.headerDesc = ko.observable(Config.headerDesc);
+
         vm.navigationLinks = ko.observableArray(Config.navigationLinks);
         vm.clickNavLink = function(obj, evt) {
             console.log(obj);

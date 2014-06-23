@@ -4,6 +4,7 @@ var jade = require('gulp-jade');
 var uglify = require('gulp-uglify');
 var minifycss = require('gulp-minify-css');
 var minifyhtml = require('gulp-minify-html');
+var autoprefixer = require('gulp-autoprefixer');
 
 var app_dir = {
     src: __dirname + "/src/",
@@ -37,10 +38,19 @@ gulp.task('compile-jade', function() {
         .pipe(gulp.dest(app_dir.src));
 });
 
+gulp.task('autoprefix-css', function() {
+    gulp.src(app_dir.src + '**/*.css')
+        .pipe(autoprefixer(["last 2 versions"], {
+            cascade: true
+        }))
+        .pipe(gulp.dest(app_dir.src));
+});
+
 gulp.task('develop', function() {
     // watch jade and style
-    gulp.watch(app_dir.src + '**/*.styl', ['compile-stylus']);
     gulp.watch(app_dir.src + '**/*.jade', ['compile-jade']);
+    gulp.watch(app_dir.src + '**/*.styl', ['compile-stylus']);
+    gulp.watch(app_dir.src + '**/*.css', ['autoprefix-css']);
 
 });
 
