@@ -65,16 +65,16 @@ define(["dojo/topic"],
         });
 
         topic.subscribe("startModeAnim", function(dataObj) {
-            console.log(dataObj);
-            require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.startModeAnim(dataObj);
+            //console.log(dataObj);
+            require(["views/home/HomeController"], function(HomeController) {
+                HomeController.startModeAnim();
             });
         });
 
         topic.subscribe("stopModeAnmin", function(dataObj) {
-            console.log(dataObj);
-            require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.stopModeAnmin(dataObj);
+            //console.log(dataObj);
+            require(["views/home/HomeController"], function(HomeController) {
+                HomeController.stopModeAnmin();
             });
         });
 

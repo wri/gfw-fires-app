@@ -44,16 +44,22 @@ define([],
 
                 {
                     "html": "Latest Analysis",
-                    "click": "goToBlog"
+                    "click": "goToBlog",
+                    "display": true
                 }, {
                     "html": "Link to TomNod or Latest Imagery",
-                    "click": "lastestImagery"
+                    "click": "lastestImagery",
+                    "display": false
                 }, {
                     "html": "View Map",
-                    "click": "goToMap"
+                    "click": "goToMap",
+                    "display": false
+
                 }, {
                     "html": "Latest Analysis",
-                    "click": "highlightStats"
+                    "click": "highlightStats",
+                    "display": false
+
                 }
 
             ]
