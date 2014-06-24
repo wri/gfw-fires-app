@@ -23,6 +23,7 @@ define(["dojo/topic"],
             //blog events
             "queryTree": "queryTree",
             "clearAll": "clearAll",
+            "getHtml":"getHtml",
 
 
             //data events
@@ -78,9 +79,11 @@ define(["dojo/topic"],
             });
         });
 
-
-
-
+         topic.subscribe("getHtml", function(dataObj) {
+            require(["views/blog/BlogController"], function(BlogController) {
+                BlogController.getHtml(dataObj)
+            })
+        });
 
         return o;
 

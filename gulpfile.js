@@ -14,6 +14,7 @@ var app_dir = {
     root: __dirname + "/"
 };
 
+
 gulp.task('default', function() {
     console.log(app_dir.src);
     // place code for your default task here

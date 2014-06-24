@@ -70,6 +70,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var changedView = oldState.v != newState.v;
 
             if (changedView) {
+
                 that.changeView(newState.v, oldState.v);
             }
 
@@ -117,27 +118,21 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                     require(["views/map/MapController"], function(MapController) {
                         MapController.init(viewObj);
                     });
-
                     break;
                 case "blog":
                     require(["views/blog/BlogController"], function(BlogController) {
                         BlogController.init(viewObj);
                     });
                     break;
-
                 case "about":
                     require(["views/about/AboutController"], function(AboutController) {
                         AboutController.init(viewObj);
                     });
                     break;
-
-
             }
 
-
-
-
         };
+ 
         //listen to hash change
 
         //change the view if needed

@@ -43,6 +43,7 @@
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
+            textPluginHeaders: {"X-Requested-With": null},
             async: true,
             cacheBust: 'v=' + version,
             packages: [{

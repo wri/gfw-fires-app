@@ -6,11 +6,12 @@ define([
     "dom-class",
     "dojo/query",
     "dojo/_base/array",
+    "esri/config",
     // Call Necessary Layout Widgets Here
     "dojox/mobile/parser",
     "dijit/layout/StackContainer",
     "dijit/layout/ContentPane"
-], function(on, dom, topic, domClass, dojoQuery, arrayUtil, parser) {
+], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, parser) {
 
     var map;
 
@@ -22,8 +23,10 @@ define([
         parser.parse();
 
         //enable cors servers
-        esri.config.defaults.io.corsEnabledServers.push("servername");
-        esri.config.defaults.io.corsEnabledServers.push("servername");
+        esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
+        // esriConfig.defaults.io.proxyUrl = "http://www.wri.org/";
+
+        //esri.config.defaults.io.corsEnabledServers.push("servername");
 
         //setup proxy url
 
