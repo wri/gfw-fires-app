@@ -9,6 +9,8 @@ border-radius-top()
 	-moz-border-radius arguments arguments 0 0
 	border-radius arguments arguments 0 0 
 
+baseRed = #e7002f
+
 // Map Css
 .map-view
 	height 100%
@@ -108,7 +110,7 @@ border-radius-top()
 	width 100px
 
 .LocateButton .zoomLocateButton:hover
-	background red
+	background baseRed
 
 .simpleGeocoder
 	position absolute
@@ -158,7 +160,7 @@ border-radius-top()
 	color white
 
 .search-option-go-button:hover
-	background-color red
+	background-color baseRed
 	
 .fires-map-accordion
 	position absolute !important
@@ -194,11 +196,25 @@ border-radius-top()
 	height 170px
 	width 100%
 
+#legend
+	overflow-y auto
+	height 100%
+	width 200px
+
+#legend_msg
+	display none !important
+
+.esriLegendServiceLabel
+	display none !important
+
+.esriLegendService
+	padding-bottom 5px !important
+
 .active-fires-options-container
 	margin-top 10px
 	
 .active-fires-options
-	border 1px solid red
+	border 1px solid baseRed
 	border-radius(5px)
 	text-align center
 	line-height 30px
@@ -211,7 +227,7 @@ border-radius-top()
 	margin 5px 25px
 
 .active-fires-options.selected-fire-option
-	background-color red
+	background-color baseRed
 	font-weight bold
 	color white
 

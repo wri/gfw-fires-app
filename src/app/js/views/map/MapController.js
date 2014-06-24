@@ -102,6 +102,7 @@ define([
                 darkgray,
                 geocoder,
                 locator,
+                legend,
                 home,
                 bg;
 
@@ -144,6 +145,16 @@ define([
                 map: o.map
             }, "esri-geocoder-widget");
             geocoder.startup();
+
+            // Add a Legend Widget
+            legend = new Legend({
+                map: o.map,
+                layerInfos: [],
+                autoUpdate: true
+            }, "legend");
+            legend.startup();
+
+            window.map = o.map;
 
             // Add Listeners for Buttons to Activate Widgets
             var toggleLocatorWidgets = function () {
@@ -268,10 +279,20 @@ define([
                 firesLayer
             ]);
 
-            landSatLayer.onError = this.layerAddError;
-            treeCoverLayer.onError = this.layerAddError;
-            additionalLayers.onError = this.layerAddError;
-            firesLayer.onError = this.layerAddError;
+            // Update the Legend on initial load
+            on.once(o.map, 'layers-add-result', function (response) {
+                var layerInfos = arrayUtils.map(response.layers, function (item) {
+                    return {
+                        layer: item.layer
+                    };
+                });
+                registry.byId("legend").refresh(layerInfos);
+            });
+
+            landSatLayer.on('error', this.layerAddError);
+            treeCoverLayer.on('error', this.layerAddError);
+            additionalLayers.on('error', this.layerAddError);
+            firesLayer.on('error', this.layerAddError);
 
         };
 

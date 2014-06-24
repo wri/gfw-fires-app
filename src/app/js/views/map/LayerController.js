@@ -1,9 +1,11 @@
 /* global define */
 define([
+	"dojo/on",
 	"dojo/dom",
 	"dojo/query",
+	"dijit/registry",
 	"views/map/MapConfig"
-], function (dom, dojoQuery, MapConfig) {
+], function (on, dom, dojoQuery, registry, MapConfig) {
 
 	var _map;
 
@@ -58,6 +60,7 @@ define([
 	      }
 
 	      layer = _map.getLayer(MapConfig.firesLayer.id);
+
 	      if (layer) {
 	          layer.setLayerDefinitions(defs);
 	      }
