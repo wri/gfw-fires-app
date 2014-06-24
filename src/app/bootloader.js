@@ -58,6 +58,9 @@
             }, {
                 name: 'views',
                 location: URL + '/js/views'
+            }, {
+                name: 'utils',
+                location: URL + '/js/utils'
             }],
             aliases: [
                 ["knockout", "libs/knockout-3.1.0"],

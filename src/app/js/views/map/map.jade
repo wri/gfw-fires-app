@@ -1,15 +1,38 @@
 div#map-view(class="map-view")
 	div#control-panel(class="control-panel")
 		div#fires-map-accordion
-			div#fires-panel
-			div#forest-use-panel
-			div#conservation-panel
-			div#land-cover-panel
-			div#air-quality-panel
-			div#imagery-panel
-			div#social-media-panel
+			div#fires-panel(class='accordion-panel')
+				div
+					input#fires-checkbox(type="checkbox", checked="checked")
+					label(for="fires-checkbox", data-bind="text: firesCheckbox")
+				div#active-fires-options
+					div#firesWeek(class="active-fires-options selected-fire-option", data-bind="text: firesWeek")
+					div#fires72(class="active-fires-options", data-bind="text: fires72")
+					div#fires48(class="active-fires-options", data-bind="text: fires48")
+					div#fires24(class="active-fires-options", data-bind="text: fires24")
+					div(class="confidence-fires-container")
+						input#confidence-fires-checkbox(type="checkbox", class="fires-confidence-checkbox")
+						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
+			div#forest-use-panel(class='accordion-panel')
+				div
+			div#conservation-panel(class='accordion-panel')
+				div
+			div#land-cover-panel(class='accordion-panel')
+				div
+			div#air-quality-panel(class='accordion-panel')
+				div
+			div#imagery-panel(class='accordion-panel')
+				div
+			div#social-media-panel(class='accordion-panel')
+				div
 	div#map-container(class="map-container")
 		div#map(class="map")
+			div#esri-geocoder-widget
+			div#legend-widget-container(class="legend-widget-container")
+				div#legend-widget-title(class="legend-widget-title")
+					span(data-bind="text: legend")
+				div#legend-content(class="legend-content")
+					div#legend
 			div#locator-widget-button(class="locator-widget-button")
 			div#basemap-gallery-button(class="basemap-gallery-button")
 			div#share-button(class="share-button")

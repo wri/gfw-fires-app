@@ -2,17 +2,51 @@
 <div id="map-view" class="map-view">
   <div id="control-panel" class="control-panel">
     <div id="fires-map-accordion">
-      <div id="fires-panel"></div>
-      <div id="forest-use-panel"></div>
-      <div id="conservation-panel"></div>
-      <div id="land-cover-panel"></div>
-      <div id="air-quality-panel"></div>
-      <div id="imagery-panel"></div>
-      <div id="social-media-panel"></div>
+      <div id="fires-panel" class="accordion-panel">
+        <div>
+          <input id="fires-checkbox" type="checkbox" checked="checked"/>
+          <label for="fires-checkbox" data-bind="text: firesCheckbox"></label>
+        </div>
+        <div id="active-fires-options">
+          <div id="firesWeek" data-bind="text: firesWeek" class="active-fires-options selected-fire-option"></div>
+          <div id="fires72" data-bind="text: fires72" class="active-fires-options"></div>
+          <div id="fires48" data-bind="text: fires48" class="active-fires-options"></div>
+          <div id="fires24" data-bind="text: fires24" class="active-fires-options"></div>
+          <div class="confidence-fires-container">
+            <input id="confidence-fires-checkbox" type="checkbox" class="fires-confidence-checkbox"/>
+            <label for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+          </div>
+        </div>
+      </div>
+      <div id="forest-use-panel" class="accordion-panel">
+        <div></div>
+      </div>
+      <div id="conservation-panel" class="accordion-panel">
+        <div></div>
+      </div>
+      <div id="land-cover-panel" class="accordion-panel">
+        <div></div>
+      </div>
+      <div id="air-quality-panel" class="accordion-panel">
+        <div></div>
+      </div>
+      <div id="imagery-panel" class="accordion-panel">
+        <div></div>
+      </div>
+      <div id="social-media-panel" class="accordion-panel">
+        <div></div>
+      </div>
     </div>
   </div>
   <div id="map-container" class="map-container">
     <div id="map" class="map">
+      <div id="esri-geocoder-widget"></div>
+      <div id="legend-widget-container" class="legend-widget-container">
+        <div id="legend-widget-title" class="legend-widget-title"><span data-bind="text: legend"></span></div>
+        <div id="legend-content" class="legend-content">
+          <div id="legend"></div>
+        </div>
+      </div>
       <div id="locator-widget-button" class="locator-widget-button"></div>
       <div id="basemap-gallery-button" class="basemap-gallery-button"></div>
       <div id="share-button" class="share-button"></div>

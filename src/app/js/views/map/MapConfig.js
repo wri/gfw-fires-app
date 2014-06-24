@@ -7,6 +7,35 @@ define({
 		initalZoom: 3
 	},
 
+	firesLayer: {
+		url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
+    id: "Active_Fires",
+    defaultLayers: [0,1,2,3],
+    query: {
+      layerId: 0,
+      outfields: ["*"],
+      fields: [{
+        'name': 'LATITUDE',
+        'label': 'LATITUDE'
+      }, {
+        'name': 'LONGITUDE',
+        'label': 'LONGITDUE'
+      }, {
+        'name': 'BRIGHTNESS',
+        'label': 'BRIGHTNESS'
+      }, {
+        'name': 'CONFIDENCE',
+        'label': 'CONFIDENCE'
+      }, {
+        'name': 'ACQ_DATE',
+        'label': 'ACQUISITION DATE'
+      }, {
+        'name': 'ACQ_TIME',
+        'label': 'ACQUISITION TIME'
+      }]
+    }
+	},
+
 	text: {
 		locatorContainerHeader: "Locator",
 		locatorSearchLabel: "Or, go to an area",
@@ -18,10 +47,17 @@ define({
 		latitudeLabel: "Latitude",
 		longitudeLabel: "Longitude",
 		searchOptionGoButton: "GO",
-		clearSearchPins: "Clear Pins"
+		clearSearchPins: "Clear Pins",
+		legend: "Legend",
+		firesCheckbox: "Active Fires",
+		confidenceFiresCheckbox: "Only show high confidence fires.",
+		firesWeek: "Past Week",
+		fires72: "Past 72 hours",
+		fires48: "Past 48 hours",
+		fires24: "Past 24 hours"
 	},
 
-	accordionDijit: [
+	accordionDijits: [
 		{
 			"id": "fires-map-accordion",
 			"type": "accordion",

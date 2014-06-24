@@ -20,21 +20,40 @@
   overflow-y: hidden;
   margin: auto;
   margin-top: 50px;
+  overflow: visible;
 }
-.homeModeOptionsViewerInner {
-  width: 1000px;
+/*.homeModeOptionsViewerInner
+	width 250px
+	height 250px
+	z-index 100
+	overflow hidden*/
+.homeModeOptionsViewerOuter .modeGroup {
   height: 250px;
-  z-index: 100;
-  overflow: hidden;
+  width: 100%;
+  -webkit-transition: display 1.5s ease;
+  transition: display 1.5s ease;
 }
-.homeModeOptionsViewerInner .modeOption {
-  border-radius: 125px;
+.homeModeOptionsViewerOuter .modeOption {
+  border-radius: 150px;
   background-color: #ccc;
   height: 250px;
   width: 250px;
   line-height: 250px;
   vertical-align: middle;
   text-align: center;
-  display: inline-block;
+  position: absolute;
   margin: auto;
+  opacity: 0.5;
+}
+.homeModeOptionsViewerOuter .modeOptionRing {
+  border-radius: 150px;
+  background: none;
+  height: 250px;
+  width: 250px;
+  line-height: 250px;
+  vertical-align: middle;
+  text-align: center;
+  position: absolute;
+  margin: auto;
+  border: 10px solid #ec1d38;
 }
