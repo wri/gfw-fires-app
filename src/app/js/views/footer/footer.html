@@ -4,8 +4,10 @@
 <div class="footerContainer">
   <div class="footerWrapper">
     <div data-bind="foreach:footerModeOptions" class="footerModes">
-      <div data-bind="attr:{class:css},click:$root.footerSelect">
+      <div data-bind="attr:{class:css}">
         <div class="icon"></div>
+        <div data-bind="html:title" class="title"></div>
+        <div data-bind="html:desc" class="desc"></div><a data-bind="html:action,click:$root.footerSelect" class="action"></a>
       </div>
     </div>
   </div>

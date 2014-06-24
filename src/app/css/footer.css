@@ -5,31 +5,52 @@
   width: 33%;
   display: inline-block;
 }
-.footerWrapper .blogPosts .icon {
-  width: 134px;
-  background-image: url("../images/home-icons.png");
-  background-position: 0px -540px;
-  backgroud-repeat: norepeat;
-  height: 92px;
-  margin: 20px auto;
-  cursor: pointer;
-}
 .footerWrapper .analysisAlerts .icon {
-  width: 134px;
   background-image: url("../images/home-icons.png");
   background-position: 0px -400px;
-  backgroud-repeat: norepeat;
+  background-repeat: norepeat;
   height: 92px;
   margin: 20px auto;
-  cursor: pointer;
+  width: 150px;
 }
 .footerWrapper .submitStory .icon {
-  width: 134px;
   background-image: url("../images/home-icons.png");
-  background-position: 0px -740px;
-  backgroud-repeat: norepeat;
+  background-position: 0px -540px;
+  background-repeat: norepeat;
   height: 92px;
   margin: 20px auto;
+  width: 134px;
+}
+.footerWrapper .blogPosts .icon {
+  background-image: url("../images/home-icons.png");
+  background-position: 0px -740px;
+  background-repeat: norepeat;
+  height: 92px;
+  margin: 20px auto;
+  width: 122px;
+}
+.footerModes {
+  text-align: center;
+}
+.footerModes .title {
+  font-size: 29px;
+  font-family: "Georgia", serif;
+  margin: 0px 0px 20px;
+}
+.footerModes .desc {
+  font-size: 15px;
+  line-height: 1.2;
+  color: #666;
+  margin: 0px 0px 20px;
+}
+.footerModes .action {
+  text-transform: uppercase;
+  background: none repeat scroll 0% 0% #9bb251;
+  padding: 14px 34px;
+  border-radius: 2px;
+  border: 1px solid #839c26;
+  font-size: 11px;
+  font-weight: bold;
   cursor: pointer;
 }
 .footerContainer {
@@ -41,4 +62,5 @@
   max-width: 960px;
   height: 100%;
   margin: auto;
+  color: #fff;
 }

@@ -3,8 +3,12 @@ link(rel='stylesheet', href='app/css/footer.css')
 div.footerContainer
 	div.footerWrapper
 		div.footerModes(data-bind="foreach:footerModeOptions")
-			div(data-bind="attr:{class:css},click:$root.footerSelect")
+			div(data-bind="attr:{class:css}")
 				div.icon
+				div.title(data-bind="html:title")
+				div.desc(data-bind="html:desc")
+				a.action(data-bind="html:action,click:$root.footerSelect")
+
 		//- div.blogPosts
 		//- 	div.icon
 		//- div.analysisAlerts

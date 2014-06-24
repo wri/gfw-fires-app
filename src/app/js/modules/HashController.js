@@ -93,6 +93,15 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
             lang.mixin(currentState, updateState);
 
+            require(["views/header/HeaderModel"], function(HeaderModel) {
+                HeaderModel.vm.appState(currentState);
+                if (currentState.v == 'map') {
+                    HeaderModel.vm.showFullHeader(false);
+                } else {
+                    HeaderModel.vm.showFullHeader(true);
+                }
+            });
+
             var newHashStr = ioQuery.objectToQuery(currentState);
 
 

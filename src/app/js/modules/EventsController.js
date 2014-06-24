@@ -108,8 +108,13 @@ define(["dojo/topic"],
         });
 
         topic.subscribe("goToMap", function(dataObj) {
-            require(["views/footer/FooterController"], function(FooterController) {
-                FooterController.goToMap(dataObj)
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.switchToView({
+                    viewName: "mapView"
+                });
+                HeaderController.clickNavLink({
+                    viewId: "map"
+                });
             })
         });
 
