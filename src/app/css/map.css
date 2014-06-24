@@ -103,7 +103,7 @@
   width: 100px;
 }
 .LocateButton .zoomLocateButton:hover {
-  background: #f00;
+  background: #e7002f;
 }
 .simpleGeocoder {
   position: absolute;
@@ -153,7 +153,7 @@
   color: #fff;
 }
 .search-option-go-button:hover {
-  background-color: #f00;
+  background-color: #e7002f;
 }
 .fires-map-accordion {
   position: absolute !important;
@@ -190,8 +190,25 @@
   height: 170px;
   width: 100%;
 }
+#legend {
+  overflow-y: auto;
+  height: 100%;
+  width: 200px;
+}
+#legend_msg {
+  display: none !important;
+}
+.esriLegendServiceLabel {
+  display: none !important;
+}
+.esriLegendService {
+  padding-bottom: 5px !important;
+}
+.active-fires-options-container {
+  margin-top: 10px;
+}
 .active-fires-options {
-  border: 1px solid #f00;
+  border: 1px solid #e7002f;
   border-radius: 5px;
   text-align: center;
   line-height: 30px;
@@ -204,9 +221,18 @@
   margin: 5px 25px;
 }
 .active-fires-options.selected-fire-option {
-  background-color: #f00;
+  background-color: #e7002f;
   font-weight: bold;
   color: #fff;
+}
+.checkbox-sub-label {
+  margin: 2px 20px;
+  font-size: 12px;
+  display: block;
+}
+.coming-soon-label {
+  font-size: 12px;
+  color: #808080;
 }
 .esriControlsBR {
   right: inherit;
