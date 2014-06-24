@@ -40,16 +40,28 @@ define({
     }
 	},
 
-	additionalLayers: {
+	forestUseLayers: {
 		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
-		id: 'Additional_Maps',
+		id: 'Forest_Use',
 		defaultLayers: [-1], // Show none by default
-		peatLands: '1',
-		landCover: '19',
-		protectedAreas: '25',
-		logging: '10',
-		woodFiber: '28',
-		oilPalm: '32'
+		oilPalm: 32,
+		woodFiber: 28,
+		logging: 10
+	},
+
+	conservationLayers: {
+		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+		id: 'Conservation',
+		defaultLayers: [-1], // Show none by default
+		protectedAreas: 25
+	},
+
+	landCoverLayers: {
+		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+		id: 'Land_Cover',
+		defaultLayers: [-1], // Show none by default
+		peatLands: 1,
+		landCover: 19
 	},
 
 	treeCoverLayer: {

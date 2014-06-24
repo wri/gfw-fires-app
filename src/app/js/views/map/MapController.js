@@ -225,29 +225,72 @@ define([
                 on(node, "click", self.toggleFireOption.bind(self));
             });
 
-            dojoQuery(".additional-layers-option").forEach(function (node) {
-                on(node, "change", LayerController.updateAdditionalVisibleLayers.bind(LayerController));
+            dojoQuery(".forest-use-layers-option").forEach(function (node) {
+                on(node, "change", function () {
+                    //Params are, class to Query to find which layers are checked on or off, and config object for the layer
+                    LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
+                });
+            });
+
+            dojoQuery(".conservation-layers-option").forEach(function (node) {
+                on(node, "change", function () {
+                    //Params are, class to Query to find which layers are checked on or off, and config object for the layer
+                    LayerController.updateAdditionalVisibleLayers("conservation-layers-option", MapConfig.conservationLayers);
+                });                
+            });
+
+            dojoQuery(".land-cover-layers-option").forEach(function (node) {
+                on(node, "change", function () {
+                    //Params are, class to Query to find which layers are checked on or off, and config object for the layer
+                    LayerController.updateAdditionalVisibleLayers("land-cover-layers-option", MapConfig.landCoverLayers);
+                });
             });
 
         };
 
         o.addLayers = function () {
 
-            var additionalLayers,
-                additionalParams,
+            var conservationParams,
+                conservationLayer,
+                landCoverParams,
+                landCoverLayer,
+                forestUseParams,
+                forestUseLayer,
                 treeCoverLayer,
                 landSatLayer,
                 firesParams,
                 firesLayer;
 
-            additionalParams = new ImageParameters();
-            additionalParams.format = "png32";
-            additionalParams.layerIds = MapConfig.additionalLayers.defaultLayers;
-            additionalParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+            conservationParams = new ImageParameters();
+            conservationParams.format = "png32";
+            conservationParams.layerIds = MapConfig.conservationLayers.defaultLayers;
+            conservationParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
 
-            additionalLayers = new ArcGISDynamicMapServiceLayer(MapConfig.additionalLayers.url, {
-                imageParameters: additionalParams,
-                id: MapConfig.additionalLayers.id,
+            conservationLayer = new ArcGISDynamicMapServiceLayer(MapConfig.conservationLayers.url, {
+                imageParameters: conservationParams,
+                id: MapConfig.conservationLayers.id,
+                visible: false
+            });
+
+            landCoverParams = new ImageParameters();
+            landCoverParams.format = "png32";
+            landCoverParams.layerIds = MapConfig.landCoverLayers.defaultLayers;
+            landCoverParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+            landCoverLayer = new ArcGISDynamicMapServiceLayer(MapConfig.landCoverLayers.url, {
+                imageParameters: landCoverParams,
+                id: MapConfig.landCoverLayers.id,
+                visible: false
+            });
+
+            forestUseParams = new ImageParameters();
+            forestUseParams.format = "png32";
+            forestUseParams.layerIds = MapConfig.forestUseLayers.defaultLayers;
+            forestUseParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+            forestUseLayer = new ArcGISDynamicMapServiceLayer(MapConfig.forestUseLayers.url, {
+                imageParameters: forestUseParams,
+                id: MapConfig.forestUseLayers.id,
                 visible: false
             });
 
@@ -275,30 +318,36 @@ define([
             o.map.addLayers([
                 treeCoverLayer,
                 landSatLayer,
-                additionalLayers,
+                landCoverLayer,
+                forestUseLayer,
+                conservationLayer,
                 firesLayer
             ]);
 
-            // Update the Legend on initial load
+            // Update the Legend when all layers are added
             on.once(o.map, 'layers-add-result', function (response) {
                 var layerInfos = arrayUtils.map(response.layers, function (item) {
                     return {
                         layer: item.layer
                     };
                 });
+                layerInfos = arrayUtils.filter(layerInfos, function (item) {
+                    return item.layer.url.search('ImageServer') < 0;
+                });
                 registry.byId("legend").refresh(layerInfos);
             });
 
             landSatLayer.on('error', this.layerAddError);
             treeCoverLayer.on('error', this.layerAddError);
-            additionalLayers.on('error', this.layerAddError);
+            conservationLayer.on('error', this.layerAddError);
+            landCoverLayer.on('error', this.layerAddError);
+            forestUseLayer.on('error', this.layerAddError);
             firesLayer.on('error', this.layerAddError);
 
         };
 
         o.layerAddError = function (evt) {
-            console.dir(evt);
-            alert("Error adding Layer");
+            alert("Error adding Layer at " + evt.target.url);
         };
 
         o.toggleFireOption = function (evt) {
