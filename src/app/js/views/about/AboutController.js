@@ -5,7 +5,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         var initialized = false;
         var viewName = "aboutView";
         var viewObj = {
-            viewName: "aboutView"
+            viewName: viewName
         }
         o.init = function() {
             var that = this;

@@ -8,10 +8,10 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
         var vm = o.vm;
 
         //vm.homeTitle = ko.observable(Config.homeTitle);
-        vm.homeModeOptions = ko.observableArray(Config.homeModeOptions);
+        vm.footerModeOptions = ko.observableArray(Config.footerModeOptions);
 
-        vm.modeSelect = function(obj) {
-            EventsController.modeSelect(obj);
+        vm.footerSelect = function(obj) {
+            EventsController.footerSelect(obj);
         }
 
         o.applyBindings = function(domId) {

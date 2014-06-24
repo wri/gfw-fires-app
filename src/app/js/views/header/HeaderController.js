@@ -43,7 +43,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         };
 
         o.switchToView = function(data) {
-            require(["dijit/registry", "views/header/HeaderModel"], function(registry, HeaderModel) {
+            require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController"], function(registry, HeaderModel, HomeController) {
                 //alert(data.viewName);
                 registry.byId("stackContainer").selectChild(data.viewName);
                 //select the 
@@ -58,6 +58,13 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     return nLink;
                 });
                 HeaderModel.vm.navigationLinks(updatedNavigationLinks);
+                /*if (data.viewName.toLowerCase() == "homeview" && HomeController.isInitialized()) {
+                    EventsController.startModeAnim();
+                }
+
+                if (data.viewName.toLowerCase() != "homeview" && HomeController.isInitialized()) {
+                    EventsController.stopModeAnim();
+                }*/
             });
 
         };

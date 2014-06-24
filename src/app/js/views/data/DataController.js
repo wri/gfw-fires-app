@@ -1,11 +1,11 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController"],
-    function(dom, registry, HashController, EventsController) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/data/DataModel"],
+    function(dom, registry, HashController, EventsController, DataModel) {
 
         var o = {};
         var initialized = false;
-        var viewName = "aboutView";
+        var viewName = "dataView";
         var viewObj = {
-            viewName: "aboutView"
+            viewName: viewName
         }
         o.init = function() {
             var that = this;
@@ -18,12 +18,15 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
             initialized = true;
             //otherwise load the view
-            require(["dojo/text!views/about/about.html"], function(html) {
+            require(["dojo/text!views/data/data.html"], function(html) {
 
                 dom.byId(viewName).innerHTML = html;
 
 
                 EventsController.switchToView(viewObj);
+
+
+                DataModel.applyBindings(viewName);
             })
         }
 

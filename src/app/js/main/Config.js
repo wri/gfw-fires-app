@@ -67,6 +67,29 @@ define([],
 
                 }
 
+            ],
+
+            footerModeOptions: [
+
+                {
+                    "title": "Read The Latest",
+                    "desc": "Read our latest blog analysis on what's happening with fires in the region",
+                    "eventName": "goToBlog",
+                    "css": "blogPosts"
+                }, {
+                    "title": "Analyze Forest Fires",
+                    "desc": "View the latest data on fire locations and air quality and do you own analysis",
+                    "eventName": "goToMap",
+                    "css": "analysisAlerts"
+
+                }, {
+                    "title": "Join The Conversation",
+                    "desc": "Tweet, tweet, tweet!",
+                    "eventName": "goToTweet",
+                    "css": "submitStory"
+
+                }
+
             ]
 
 

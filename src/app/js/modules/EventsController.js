@@ -6,7 +6,6 @@ define(["dojo/topic"],
         o.events = {
 
             //home events
-            "dataLoaded": "dataLoaded",
             "startModeAnim": "startModeAnim",
             "stopModeAnmin": "stopModeAnmin",
             "modeSelect": "modeSelect",
@@ -22,22 +21,26 @@ define(["dojo/topic"],
 
 
             //blog events
-            "queryTree": "queryTree",
-            "clearAll": "clearAll",
-            "getHtml": "getHtml",
 
 
             //data events
-            "selectLayer111": "selectLayer111",
 
 
             //about events
-            "selectLayer": "selectLayer",
-            "initModel": "initModel",
+
 
             //header events
             "clickNavLink": "clickNavLink",
-            "switchToView": "switchToView"
+            "switchToView": "switchToView",
+
+
+            //footer events
+            "footerSelect": "footerSelect",
+            "goToBlog": "goToBlog",
+            "goToMap": "goToMap",
+            "goToTweet": "goToTweet"
+
+
 
         };
 
@@ -80,15 +83,39 @@ define(["dojo/topic"],
             });
         });
 
-        topic.subscribe("getHtml", function(dataObj) {
-            require(["views/blog/BlogController"], function(BlogController) {
-                BlogController.getHtml(dataObj)
-            })
-        });
 
         topic.subscribe("modeSelect", function(dataObj) {
             require(["views/home/HomeController"], function(HomeController) {
                 HomeController.modeSelect(dataObj)
+            })
+        });
+
+        topic.subscribe("footerSelect", function(dataObj) {
+            require(["views/footer/FooterController"], function(FooterController) {
+                FooterController.footerSelect(dataObj)
+            })
+        });
+
+        topic.subscribe("goToBlog", function(dataObj) {
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.switchToView({
+                    viewName: "blogView"
+                });
+                HeaderController.clickNavLink({
+                    viewId: "blog"
+                });
+            })
+        });
+
+        topic.subscribe("goToMap", function(dataObj) {
+            require(["views/footer/FooterController"], function(FooterController) {
+                FooterController.goToMap(dataObj)
+            })
+        });
+
+        topic.subscribe("goToTweet", function(dataObj) {
+            require(["views/footer/FooterController"], function(FooterController) {
+                FooterController.goToTweet(dataObj)
             })
         });
 

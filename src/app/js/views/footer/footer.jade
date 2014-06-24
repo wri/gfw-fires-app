@@ -2,7 +2,13 @@
 link(rel='stylesheet', href='app/css/footer.css')
 div.footerContainer
 	div.footerWrapper
-		div.blogPosts
-		div.analysisAlerts
-		div.submitStory
+		div.footerModes(data-bind="foreach:footerModeOptions")
+			div(data-bind="attr:{class:css},click:$root.footerSelect")
+				div.icon
+		//- div.blogPosts
+		//- 	div.icon
+		//- div.analysisAlerts
+		//- 	div.icon
+		//- div.submitStory
+		//- 	div.icon
 

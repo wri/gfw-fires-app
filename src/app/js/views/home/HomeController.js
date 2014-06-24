@@ -17,9 +17,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 return;
             }
 
-            initialized = true;
-            //otherwise load the view
             require(["dojo/text!views/home/home.html"], function(html) {
+
+                initialized = true;
+                //otherwise load the view
+
 
                 dom.byId(viewName).innerHTML = html;
 
@@ -31,9 +33,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 HomeModel.applyBindings(viewName);
 
                 //ANIMATE ONLY AFTER BINDING DONE
-                EventsController.startModeAnim({
+                EventsController.startModeAnim();
+                /*{
                     resume: true
-                });
+                }*/
+
 
             })
         }
@@ -57,7 +61,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     return hmOpt;
                 });
                 HomeModel.vm.homeModeOptions([]);
-                console.log(mappedHomModeOptions);
+                //console.log(mappedHomModeOptions);
                 HomeModel.vm.homeModeOptions(mappedHomModeOptions);
             }
 
@@ -95,7 +99,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                                 }
                                 //currentNodeId++;
                                 //console.log(currentNodeId);
-                                console.log(nextNodeId);
+                                //console.log(nextNodeId);
 
                                 setTimeout(function() {
 
@@ -152,6 +156,10 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             var selectedMode = data;
 
             console.log(selectedMode);
+        }
+
+        o.isInitialized = function() {
+            return initialized;
         }
 
 
