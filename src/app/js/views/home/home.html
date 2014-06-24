@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="app/css/home.css"/>
 <div class="homeModeOptionsContainer">
   <div data-bind="foreach:homeModeOptions" class="homeModeOptionsViewerOuter">
-    <div data-bind="css:{dijitHidden:!display}" class="modeGroup">
+    <div data-bind="css:{dijitHidden:!display,dijitVisible:display}" class="modeGroup">
       <div class="modeOption"></div>
       <div data-bind="html:html" class="modeOptionRing"></div>
     </div>

@@ -64,20 +64,22 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             currentModeOption(currentNodeId);
 
             require(["dojo/fx", "dojo/_base/fx", "dojo/query"], function(coreFx, baseFx, dojoQuery) {
-                var itemsToAnimate = dojoQuery(".modeGroup");
-                var maxItems = itemsToAnimate.length;
+
 
                 var runAnimation = function(id) {
+                    console.log("animating " + id);
+                    var itemsToAnimate = dojoQuery(".modeGroup");
+                    var maxItems = itemsToAnimate.length;
                     baseFx.animateProperty({
                         node: itemsToAnimate[id],
                         properties: {
-                            top: {
-                                start: 50,
-                                end: 50
-                            },
+                            /*top: {
+                                start: 15,
+                                end: 15
+                            },*/
                             marginLeft: {
                                 start: 0,
-                                end: 250
+                                end: -350
                             },
                             opacity: {
                                 start: 1,
@@ -96,15 +98,24 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                             //currentNodeId++;
                             //console.log(currentNodeId);
                             console.log(nextNodeId);
-                            currentModeOption(nextNodeId);
 
-                            if (!stopAnimation) {
-                                runAnimation(nextNodeId);
-                            }
+                            setTimeout(function() {
+
+                                currentModeOption(nextNodeId);
+
+                                if (!stopAnimation) {
+                                    setTimeout(function() {
+                                        runAnimation(nextNodeId);
+                                    }, 30000);
+                                }
+
+                            }, 500);
+
+
 
                         },
                         units: "px",
-                        duration: 2000
+                        duration: 500
                     }).play();
                 };
 
