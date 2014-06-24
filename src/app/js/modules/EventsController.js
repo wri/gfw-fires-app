@@ -9,6 +9,7 @@ define(["dojo/topic"],
             "dataLoaded": "dataLoaded",
             "startModeAnim": "startModeAnim",
             "stopModeAnmin": "stopModeAnmin",
+            "modeSelect": "modeSelect",
 
 
 
@@ -23,7 +24,7 @@ define(["dojo/topic"],
             //blog events
             "queryTree": "queryTree",
             "clearAll": "clearAll",
-            "getHtml":"getHtml",
+            "getHtml": "getHtml",
 
 
             //data events
@@ -79,9 +80,15 @@ define(["dojo/topic"],
             });
         });
 
-         topic.subscribe("getHtml", function(dataObj) {
+        topic.subscribe("getHtml", function(dataObj) {
             require(["views/blog/BlogController"], function(BlogController) {
                 BlogController.getHtml(dataObj)
+            })
+        });
+
+        topic.subscribe("modeSelect", function(dataObj) {
+            require(["views/home/HomeController"], function(HomeController) {
+                HomeController.modeSelect(dataObj)
             })
         });
 

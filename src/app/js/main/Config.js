@@ -29,6 +29,11 @@ define([],
                 "domId": "blogView",
                 "selected": false
             }, {
+                "html": "Data",
+                "viewId": "data",
+                "domId": "dataView",
+                "selected": false
+            }, {
                 "html": "About",
                 "viewId": "about",
                 "domId": "aboutView",
@@ -44,20 +49,20 @@ define([],
 
                 {
                     "html": "Latest Analysis",
-                    "click": "goToBlog",
+                    "event": "goToAnalysis",
                     "display": true
                 }, {
-                    "html": "Link to TomNod or Latest Imagery",
-                    "click": "lastestImagery",
+                    "html": "Latest Imagery",
+                    "event": "goToImagery",
                     "display": false
                 }, {
                     "html": "View Map",
-                    "click": "goToMap",
+                    "event": "goToMap",
                     "display": false
 
                 }, {
-                    "html": "Latest Analysis",
-                    "click": "highlightStats",
+                    "html": "Highlight Interesting Stats",
+                    "event": "goToStats",
                     "display": false
 
                 }

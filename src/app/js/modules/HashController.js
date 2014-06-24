@@ -60,6 +60,10 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 HeaderController.init();
             });
 
+            require(["views/footer/FooterController"], function(FooterController) {
+                FooterController.init();
+            });
+
         };
 
         o.handleHashChange = function(newState, oldState) {
@@ -129,10 +133,15 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                         AboutController.init(viewObj);
                     });
                     break;
+                case "data":
+                    require(["views/data/dataController"], function(DataController) {
+                        DataController.init(viewObj);
+                    });
+                    break;
             }
 
         };
- 
+
         //listen to hash change
 
         //change the view if needed

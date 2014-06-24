@@ -70,53 +70,71 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     console.log("animating " + id);
                     var itemsToAnimate = dojoQuery(".modeGroup");
                     var maxItems = itemsToAnimate.length;
-                    baseFx.animateProperty({
-                        node: itemsToAnimate[id],
-                        properties: {
-                            /*top: {
-                                start: 15,
-                                end: 15
-                            },*/
-                            marginLeft: {
-                                start: 0,
-                                end: -350
-                            },
-                            opacity: {
-                                start: 1,
-                                end: 0
-                            }
-                        },
-                        onEnd: function() {
-                            var nextNodeId;
-                            if (currentNodeId < maxItems - 1) {
-                                nextNodeId = currentNodeId + 1;
-                                currentNodeId++;
-                            } else {
-                                nextNodeId = 0;
-                                currentNodeId = 0;
-                            }
-                            //currentNodeId++;
-                            //console.log(currentNodeId);
-                            console.log(nextNodeId);
 
-                            setTimeout(function() {
-
-                                currentModeOption(nextNodeId);
-
-                                if (!stopAnimation) {
-                                    setTimeout(function() {
-                                        runAnimation(nextNodeId);
-                                    }, 30000);
+                    var anim = coreFx.chain([
+                        baseFx.animateProperty({
+                            node: itemsToAnimate[id],
+                            properties: {
+                                marginLeft: {
+                                    start: 0,
+                                    end: -350
+                                },
+                                opacity: {
+                                    start: 1,
+                                    end: 0
                                 }
+                            },
+                            onEnd: function() {
+                                var nextNodeId;
+                                if (currentNodeId < maxItems - 1) {
+                                    nextNodeId = currentNodeId + 1;
+                                    currentNodeId++;
+                                } else {
+                                    nextNodeId = 0;
+                                    currentNodeId = 0;
+                                }
+                                //currentNodeId++;
+                                //console.log(currentNodeId);
+                                console.log(nextNodeId);
 
-                            }, 500);
+                                setTimeout(function() {
+
+                                    currentModeOption(nextNodeId);
+
+                                    if (!stopAnimation) {
+                                        setTimeout(function() {
+                                            runAnimation(nextNodeId);
+                                        }, 4000);
+                                    }
+
+                                }, 500);
 
 
 
-                        },
-                        units: "px",
-                        duration: 500
-                    }).play();
+                            },
+                            units: "px",
+                            duration: 500
+                        })
+                        /*baseFx.animateProperty({
+                            node: itemsToAnimate[id + 1],
+                            properties: {
+                                opacity: {
+                                    start: 0,
+                                    end: 1
+                                }
+                            },
+                            duration: 500
+                        })*/
+
+                    ]);
+
+                    /*aspect.before(anim, "beforeBegin", function() {
+                        domStyle.set(container, "backgroundColor", "#eee");
+                    });*/
+
+                    anim.play();
+
+                    //.play();
                 };
 
                 runAnimation(currentNodeId);
@@ -129,6 +147,12 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             stopAnimation = true;
             console.log("stop mode animation ");
         };
+
+        o.modeSelect = function(data) {
+            var selectedMode = data;
+
+            console.log(selectedMode);
+        }
 
 
 

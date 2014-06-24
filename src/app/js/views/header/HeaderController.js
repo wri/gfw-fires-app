@@ -9,7 +9,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             var that = this;
             if (initialized) {
                 //switch to this view
-                HashController.switchToView(viewName);
+                //HashController.switchToView(viewName);
 
                 return;
             }
@@ -29,7 +29,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
         o.dataLoaded = function(data) {
-            
+
         };
 
         o.clickNavLink = function(data) {
