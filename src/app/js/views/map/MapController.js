@@ -15,20 +15,22 @@ define([
     "esri/dijit/BasemapLayer",
     "esri/dijit/LocateButton",
     "esri/dijit/Geocoder",
-    "esri/symbols/PictureMarkerSymbol",
-    "esri/geometry/Point",
-    "esri/geometry/webMercatorUtils",
+    "esri/dijit/Legend",
     "esri/layers/ArcGISDynamicMapServiceLayer",
+    "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
     "esri/graphic",
+    "esri/urlUtils",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
+    "views/map/LayerController",
+    "views/map/Finder",
     "utils/DijitFactory",
     "modules/EventsController"
-], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator, Geocoder, 
-            PictureSymbol, Point, webMercatorUtils, ArcGISDynamicMapServiceLayer, ImageParameters, Graphic, registry, MapConfig, MapModel, 
-            DijitFactory, EventsController) {
+], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator, 
+            Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, Graphic, urlUtils, registry, MapConfig, MapModel, 
+            LayerController, Finder, DijitFactory, EventsController) {
 
         var o = {},
             initialized = false,
@@ -50,8 +52,18 @@ define([
                 dom.byId(view.viewName).innerHTML = html;
                 EventsController.switchToView(view);
                 MapModel.applyBindings("map-view");
+                that.addConfigurations();
                 that.createMap();
             });
+        };
+
+        o.addConfigurations = function () {
+
+            urlUtils.addProxyRule({
+                urlPrefix: MapConfig.landsat8.prefix,
+                proxyUrl: MapConfig.proxyUrl
+            });
+
         };
 
         o.createMap = function () {
@@ -64,15 +76,20 @@ define([
             //     title: "Dark Gray"
             // };
 
+            // Add Dojo Dijits to Control Map Options
+            DijitFactory.buildDijits(MapConfig.accordionDijits);
+
             o.map = new Map("map", {
                 basemap: MapConfig.mapOptions.basemap,
                 zoom: MapConfig.mapOptions.initalZoom,
-                sliderPosition: 'top-right'
+                center: MapConfig.mapOptions.center,
+                sliderPosition: MapConfig.mapOptions.sliderPosition
             });
 
             o.map.on("load", function () {
                 // Clear out default Esri Graphic at 0,0, dont know why its even there
                 o.map.graphics.clear();
+                LayerController.setMap(o.map);
                 self.addWidgets();
                 self.bindEvents();
                 self.addLayers();
@@ -128,9 +145,6 @@ define([
             }, "esri-geocoder-widget");
             geocoder.startup();
 
-            // Add Dojo Dijits to Control Map Options
-            DijitFactory.buildDijits(MapConfig.accordionDijits);
-
             // Add Listeners for Buttons to Activate Widgets
             var toggleLocatorWidgets = function () {
                 // If basemap Gallery is Open, Close it
@@ -174,85 +188,67 @@ define([
             });
 
             on(dom.byId("confidence-fires-checkbox"), "change", function (evt) {
-                self.updateFiresLayer(true);
+                LayerController.updateFiresLayer(true);
             });
 
             on(dom.byId("fires-checkbox"), "change", function (evt) {
                 var value = evt.target ? evt.target.checked : evt.srcElement.checked;
-                self.toggleLayerVisibility(MapConfig.firesLayer.id, value);
+                LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
             });
 
+            on(dom.byId("landsat-image-checkbox"), "change", function (evt) {
+                var value = evt.target ? evt.target.checked : evt.srcElement.checked;
+                LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
+            });
 
-            on(dom.byId("search-option-go-button"), "click", this.searchAreaByCoordinates);
+            on(dom.byId("search-option-go-button"), "click", function () {
+                Finder.searchAreaByCoordinates(o.map);
+            });
+
             on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
             on(dom.byId("legend-widget-title"), "click", this.toggleLegend);
+            on(dom.byId("twitter-conversations-checkbox"), "change", Finder.fetchTwitterData);
+
 
             dojoQuery(".active-fires-options").forEach(function (node) {
                 on(node, "click", self.toggleFireOption.bind(self));
             });
 
-        };
-
-        o.searchAreaByCoordinates = function () {
-            var values = {},
-                latitude, longitude,
-                invalidValue = false,
-                invalidMessage = "You did not enter a valid value.  Please check that your location values are all filled in and nubmers only.",
-                symbol = new PictureSymbol('app/images/RedStickPin.png', 32, 32),
-                attributes = {},
-                point,
-                graphic,
-                getValue = function (value) {
-                    if (!invalidValue) {
-                        invalidValue = isNaN(parseInt(value));
-                    }
-                    return isNaN(parseInt(value)) ? 0 : parseInt(value);
-                },
-                nextAvailableId = function () {
-                    var value = 0;
-                    arrayUtils.forEach(o.map.graphics.graphics, function (g) {
-                        if (g.attribtues) {
-                            if (g.attributes.locatorValue) {                            
-                                value = Math.max(value, parseInt(g.attributes.locatorValue));
-                            }
-                        }
-                    });
-                    return value;
-                };
-
-            // If the DMS Coords View is present, get the appropriate corrdinates and convert them
-            if (MapModel.get('showDMSInputs')) {
-                values.dlat = getValue(dom.byId('degreesLatInput').value);
-                values.mlat = getValue(dom.byId('minutesLatInput').value);
-                values.slat = getValue(dom.byId('secondsLatInput').value);
-                values.dlon = getValue(dom.byId('degreesLonInput').value);
-                values.mlon = getValue(dom.byId('minutesLonInput').value);
-                values.slon = getValue(dom.byId('secondsLonInput').value);
-                latitude = values.dlat + (values.mlat / 60) + (values.slat / 3600);
-                longitude = values.dlon + (values.mlon / 60) + (values.slon / 3600);
-            } else { // Else, get LatLong Coordinates and Zoom to them
-                latitude = getValue(dom.byId('latitudeInput').value);
-                longitude = getValue(dom.byId('longitudeInput').value);
-            }
-
-            if (invalidValue) {
-                alert(invalidMessage);
-            } else {
-                point = webMercatorUtils.geographicToWebMercator(new Point(longitude, latitude));
-                attributes.locatorValue = nextAvailableId();
-                attributes.id = 'LOCATOR_' + attributes.locatorValue;
-                graphic = new Graphic(point, symbol, attributes);
-                o.map.graphics.add(graphic);
-                o.map.centerAndZoom(point, 7);
-                MapModel.set('showClearPinsOption', true);
-            }
+            dojoQuery(".additional-layers-option").forEach(function (node) {
+                on(node, "change", LayerController.updateAdditionalVisibleLayers.bind(LayerController));
+            });
 
         };
 
         o.addLayers = function () {
 
-            var firesParams,
+            var additionalLayers,
+                additionalParams,
+                treeCoverLayer,
+                landSatLayer,
+                firesParams,
                 firesLayer;
+
+            additionalParams = new ImageParameters();
+            additionalParams.format = "png32";
+            additionalParams.layerIds = MapConfig.additionalLayers.defaultLayers;
+            additionalParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+            additionalLayers = new ArcGISDynamicMapServiceLayer(MapConfig.additionalLayers.url, {
+                imageParameters: additionalParams,
+                id: MapConfig.additionalLayers.id,
+                visible: false
+            });
+
+            treeCoverLayer = new ArcGISImageServiceLayer(MapConfig.treeCoverLayer.url, {
+                id: MapConfig.treeCoverLayer.id,
+                visible: false
+            });
+
+            landSatLayer = new ArcGISImageServiceLayer(MapConfig.landsat8.url, {
+                id: MapConfig.landsat8.id,
+                visible: false
+            });
 
             firesParams = new ImageParameters();
             firesParams.format = "png32";
@@ -266,16 +262,22 @@ define([
             });
 
             o.map.addLayers([
+                treeCoverLayer,
+                landSatLayer,
+                additionalLayers,
                 firesLayer
             ]);
 
+            landSatLayer.onError = this.layerAddError;
+            treeCoverLayer.onError = this.layerAddError;
+            additionalLayers.onError = this.layerAddError;
+            firesLayer.onError = this.layerAddError;
+
         };
 
-        o.toggleLayerVisibility = function (layerId, visibility) {
-            var layer = o.map.getLayer(layerId);
-            if (layer) {
-                layer.setVisibility(visibility);
-            }
+        o.layerAddError = function (evt) {
+            console.dir(evt);
+            alert("Error adding Layer");
         };
 
         o.toggleFireOption = function (evt) {
@@ -284,60 +286,7 @@ define([
                 domClass.remove(el, "selected-fire-option");
             });
             domClass.add(node, "selected-fire-option");
-            this.updateFiresLayer();
-        };
-
-        o.updateFiresLayer = function (updateVisibleLayers) {
-            var node = dojoQuery(".selected-fire-option")[0],
-                time = new Date(),
-                checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
-                defs = [],
-                dateString = "",
-                where = "",
-                visibleLayers,
-                layer;
-
-            switch (node.id) {
-                case "fires72":
-                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 3) + " " +
-                                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-                    where += "ACQ_DATE > date '" + dateString + "'";
-                    break;
-                case "fires48":
-                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 2) + " " +
-                                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-                    where += "ACQ_DATE > date '" + dateString + "'";
-                    break;
-                case "fires24":
-                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 1) + " " +
-                                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-                    where += "ACQ_DATE > date '" + dateString + "'";
-                    break;
-                default:
-                    where = "1 = 1";
-                    break;
-            }
-
-            for (var i = 0, length = MapConfig.firesLayer.defaultLayers.length; i < length; i++) {
-                defs[i] = where;
-            }
-
-            layer = o.map.getLayer(MapConfig.firesLayer.id);
-            if (layer) {
-                layer.setLayerDefinitions(defs);
-            }
-
-            if (updateVisibleLayers) {
-                if (checkboxStatus) {
-                    visibleLayers = [0,1];
-                } else {
-                    visibleLayers = [0,1,2,3];
-                }
-                if (layer) {
-                    layer.setVisibleLayers(visibleLayers);
-                }
-            }
-
+            LayerController.updateFiresLayer();
         };
 
         o.clearSearchPins = function () {
@@ -360,6 +309,5 @@ define([
         };
 
         return o;
-
 
     });
