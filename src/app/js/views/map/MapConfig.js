@@ -44,24 +44,24 @@ define({
 		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
 		id: 'Forest_Use',
 		defaultLayers: [-1], // Show none by default
-		oilPalm: 32,
-		woodFiber: 28,
-		logging: 10
+		oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+		woodFiber: 28, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+		logging: 10 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
 	},
 
 	conservationLayers: {
 		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
 		id: 'Conservation',
 		defaultLayers: [-1], // Show none by default
-		protectedAreas: 25
+		protectedAreas: 25 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
 	},
 
 	landCoverLayers: {
 		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
 		id: 'Land_Cover',
 		defaultLayers: [-1], // Show none by default
-		peatLands: 1,
-		landCover: 19
+		peatLands: 1, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+		landCover: 19 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
 	},
 
 	treeCoverLayer: {
