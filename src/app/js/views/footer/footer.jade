@@ -8,11 +8,33 @@ div.footerContainer
 				div.title(data-bind="html:title")
 				div.desc(data-bind="html:desc")
 				a.action(data-bind="html:action,click:$root.footerSelect")
-
-		//- div.blogPosts
-		//- 	div.icon
-		//- div.analysisAlerts
-		//- 	div.icon
-		//- div.submitStory
-		//- 	div.icon
+div.footerContainerWrapper
+	div.footerMovableWrapper
+		div.footerMovableModes
+			div.container-large.share
+				div.title Spread the Word Share GFW-Fires
+				div.share-container
+					span#stFacebook.st_facebook_large(displayText="Facebook")
+					span#stTwitter.st_twitter_large(displayText="Tweet")
+					span#stGoogle.st_googleplus_large(displayText="Google +")
+				div.sign-up
+					span.title Sign up to receive updates.
+					a(title="Receive Global Forest Watch updates" href="http://www.wri.org/global-forest-watch-stay-informed")
+						img.subscribe(src="app/images/envelope-gray.png")
+					a(title="Follow @globalforests" href="https://twitter.com/globalforests")
+						img.subscribe(src="app/images/twitter-gray.png")
+				div.links
+					span
+						a(href="#") Terms of Service
+						a(href="#") Global Forest Watch System Status
+			div.container-small.about-project
+				div.title GFW-Fires is a project of Global Forest Watch
+					a.gfw-logo(href="http://www.globalforestwatch.org/about/partners" target="_blank")
+			div.container-large.wri-address
+				div.title A partnership convened by
+				div.wri-logo
+				div.address 10 G Street NE Suite 800, Washington, DC 20002, USA
+								| Phone +1 (202) 729-7600
+								| Fax +1 (202) 729-7610
+								| Email gfw@wri.org
 
