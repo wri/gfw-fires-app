@@ -52,12 +52,15 @@ define([
         vm.landsatImageCheckbox = ko.observable(MapConfig.text.landsatImageCheckbox);
         vm.landsatImageSubLabel = ko.observable(MapConfig.text.landsatImageSubLabel);
         vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
+        vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
 
         vm.showBasemapGallery = ko.observable(false);
         vm.showLocatorWidgets = ko.observable(false);
         vm.showLatLongInputs = ko.observable(false);
         vm.showDMSInputs = ko.observable(true);
         vm.showClearPinsOption = ko.observable(false);
+        vm.currentLatitude = ko.observable(0);
+        vm.currentLongitude = ko.observable(0);
 
         o.applyBindings = function(domId) {
             ko.applyBindings(vm, dom.byId(domId));

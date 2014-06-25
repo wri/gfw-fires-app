@@ -15,6 +15,9 @@ div#map-view(class="map-view")
 						input#confidence-fires-checkbox(type="checkbox", class="fires-confidence-checkbox")
 						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
 			div#forest-use-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#forest-transparency-slider
 				div
 					input#oil-palm-checkbox(type="checkbox", class="forest-use-layers-option", value="oilPalm")
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
@@ -28,11 +31,17 @@ div#map-view(class="map-view")
 					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 			div#conservation-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#conservation-transparency-slider
 				div
 					input#protected-areas-checkbox(type="checkbox", class="conservation-layers-option", value="protectedAreas")
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
 			div#land-cover-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#land-cover-transparency-slider
 				div
 					input#no-land-cover-radio(type="radio", checked="checked", name="land-cover-radios", class="land-cover-layers-option", value="none")
 					label(for="no-land-cover-radio", data-bind="text: none")
@@ -66,6 +75,15 @@ div#map-view(class="map-view")
 	div#map-container(class="map-container")
 		div#map(class="map")
 			div#esri-geocoder-widget
+			div#latLongHUD(class='latLongHUD')
+				div
+					span(data-bind='text: latitudeLabel')
+					span / 
+					span(data-bind='text: longitudeLabel')
+				div
+					span(data-bind="text: currentLatitude")
+					span , 
+					span(data-bind="text: currentLongitude")
 			div#legend-widget-container(class="legend-widget-container")
 				div#legend-widget-title(class="legend-widget-title")
 					span(data-bind="text: legend")

@@ -20,7 +20,7 @@ define([
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
     "esri/graphic",
-    "esri/urlUtils",
+    "esri/urlUtils", 
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
@@ -48,12 +48,14 @@ define([
 
             initialized = true;
             //otherwise load the view
-            require(["dojo/text!views/map/map.html"], function(html) {
+            require(["dojo/text!views/map/map.html","dojo/ready"], function(html, ready) {
                 dom.byId(view.viewName).innerHTML = html;
                 EventsController.switchToView(view);
-                MapModel.applyBindings("map-view");
-                that.addConfigurations();
-                that.createMap();
+                ready(function () { // Ensure the map loads to correct size by not loading too early
+                    MapModel.applyBindings("map-view");
+                    that.addConfigurations();
+                    that.createMap();
+                });
             });
         };
 
@@ -154,8 +156,6 @@ define([
             }, "legend");
             legend.startup();
 
-            window.map = o.map;
-
             // Add Listeners for Buttons to Activate Widgets
             var toggleLocatorWidgets = function () {
                 // If basemap Gallery is Open, Close it
@@ -196,6 +196,11 @@ define([
                     MapModel.set('showLatLongInputs', true);
                     MapModel.set('showDMSInputs', false);
                 }
+            });
+
+            on(o.map, "mouse-move", function (evt) {
+                MapModel.set('currentLatitude', evt.mapPoint.getLatitude().toFixed(4));
+                MapModel.set('currentLongitude', evt.mapPoint.getLongitude().toFixed(4));
             });
 
             on(dom.byId("confidence-fires-checkbox"), "change", function (evt) {
