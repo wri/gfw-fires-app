@@ -6,15 +6,14 @@ define([
 	"dojo/dom-style",
 	"dojo/dom-class",
 	"dojo/promise/all",
-	"esri/map",
-	"dojo/text!views/report/reportBody.html"
-], function (dom, ready, Deferred, domStyle, domClass, all, Map, reportTemplate) {
+	"esri/map"
+], function (dom, ready, Deferred, domStyle, domClass, all, Map) {
 
 	var PRINT_CONFIG = {
 		zoom: 5,
 		basemap: 'gray',
 		slider: false,
-		mapcenter: [118, 0]
+		mapcenter: [100, -1]
 	};
 
 	return {
@@ -42,13 +41,30 @@ define([
         slider: PRINT_CONFIG.slider
 			});
 
-			deferred.resolve();
+			map.on('load', function () {
+				map.disableMapNavigation();
+				deferred.resolve(true);
+			});
+
 			return deferred.promise;
 		},
 
 		buildDistrictFiresMap: function () {
-			var deferred = new Deferred();
-			deferred.resolve();
+			var deferred = new Deferred(),
+					map;
+
+			map = new Map("district-fires-map", {
+				basemap: PRINT_CONFIG.basemap,
+        zoom: PRINT_CONFIG.zoom,
+        center: PRINT_CONFIG.mapcenter,
+        slider: PRINT_CONFIG.slider
+			});
+
+			map.on('load', function () {
+				map.disableMapNavigation();
+				deferred.resolve(true);
+			});
+			
 			return deferred.promise;
 		},
 
