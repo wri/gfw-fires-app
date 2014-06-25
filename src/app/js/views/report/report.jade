@@ -1,1 +1,23 @@
-div#report
+html
+	head
+		script(src='PrintLoader.js')
+	body
+		div#loading-screen(style='background-color: #CCC; height: 100%; width: 100%; z-index: 100;')
+		div#report(class='report-page')
+			div(class='report-title') GFW-FIRES ANALYSES OVER THE LAST 7 DAYS
+			div#section-one
+				div(class='section-title') DISTRIBUTION OF FIRE ALERTS, SOUTHEAST ASIA
+				div(class='map-container')
+					div#simple-fires-map(class='map')
+			div#section-two(class='page-break')
+				div(class='section-title') DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div(class='map-container')
+					div#district-fires-map(class='map')
+			div#section-three(class='page-break')
+				div(class='section-title') FIRE ALERT COUNT FOR SUMATRA, INDONESIA, AND PENINSULAR MALAYSIA
+			div#section-four(class='page-break')
+				div(class='section-title') COMPANY CONCESSIONS WITH FIRE ALERTS FOR SUMATRA, INDONESIA
+			div#section-five(class='page-break')
+				div(class='section-title') FIRE ALERTS BY LAND USE AREA FOR SUMATRA, INDONESIA
+				div(class='section-title') FIRE ALERTS IN PROTECTED AREAS FOR SUMATRA, INDONESIA
+				div(class='section-title') PORTION OF FIRES OCCURRINGON PEATLAND FOR SUMATRA, INDONESIA AND PENINSULAR MALAYSIA
