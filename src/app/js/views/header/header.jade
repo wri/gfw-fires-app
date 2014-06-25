@@ -8,6 +8,6 @@ div.navContainer
 			li.navItem(data-bind="css:{selected:selected},click:$root.clickNavLink")
 				a(data-bind="html:html")
 	div.logo
-div.headerDescContainer
-	div.headerDesc(data-bind="html:headerDesc,visible:false")
+div.headerDescContainer(data-bind="visible: (appState().v=='home')")
+	div.headerDesc(data-bind="html:headerDesc")
 

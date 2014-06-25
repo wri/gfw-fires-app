@@ -14,11 +14,11 @@ define(["knockout", "main/Config", "dojo/dom", "modules/EventsController"],
 
         vm.appState = ko.observable({});
 
-        vm.showFullHeader = ko.observable(true);
+        vm.showFullHeader = ko.observable(false);
 
 
         vm.clickNavLink = function(obj, evt) {
-            console.log(obj);
+            //console.log(obj);
             EventsController.clickNavLink(obj);
         };
 

@@ -92,15 +92,16 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var currentState = lang.clone(o.newState);
 
             lang.mixin(currentState, updateState);
-
-            require(["views/header/HeaderModel"], function(HeaderModel) {
+            require(["views/header/HeaderModel", "views/footer/FooterModel"], function(HeaderModel, FooterModel) {
                 //alert(currentState.v);
-                debugger;
+                //debugger;
                 HeaderModel.vm.appState(currentState);
-                if (currentState.v == 'map') {
-                    HeaderModel.vm.showFullHeader(false);
-                } else {
+                FooterModel.vm.appState(currentState);
+
+                if (currentState.v == 'home') {
                     HeaderModel.vm.showFullHeader(true);
+                } else {
+                    HeaderModel.vm.showFullHeader(false);
                 }
             });
 

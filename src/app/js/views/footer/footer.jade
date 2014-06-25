@@ -1,14 +1,13 @@
-//div#homeTitle.homeTitle(data-bind="html:homeTitle")
 link(rel='stylesheet', href='app/css/footer.css')
-div.footerModesContainer
+div.footerModesContainer(data-bind="visible: (appState().v=='home')")
 	div.footerWrapper
 		div.footerModes(data-bind="foreach:footerModeOptions")
-
-			div(data-bind="attr:{class:css}")
-				div.icon
-				div.title(data-bind="html:title")
-				div.desc(data-bind="html:desc")
-				a.action(data-bind="html:action,click:$root.footerSelect")
+			div.footerItem
+				div(data-bind="attr:{class:css}")
+					div.icon
+					div.title(data-bind="html:title")
+					div.desc(data-bind="html:desc")
+					a.action(data-bind="html:action,click:$root.footerSelect")
 
 
 div.footerShareContainer

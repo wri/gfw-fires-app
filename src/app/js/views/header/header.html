@@ -12,6 +12,6 @@
   </div>
   <div class="logo"></div>
 </div>
-<div class="headerDescContainer">
+<div data-bind="visible: (appState().v=='home')" class="headerDescContainer">
   <div data-bind="html:headerDesc" class="headerDesc"></div>
 </div>

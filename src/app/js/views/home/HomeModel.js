@@ -6,6 +6,7 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
         o.vm = {};
 
         var vm = o.vm;
+        vm.appState = ko.observable({});
 
         //vm.homeTitle = ko.observable(Config.homeTitle);
         vm.homeModeOptions = ko.observableArray(Config.homeModeOptions);

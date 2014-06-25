@@ -26,13 +26,19 @@ define([
         esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
         // esriConfig.defaults.io.proxyUrl = "http://www.wri.org/";
 
-        //esri.config.defaults.io.corsEnabledServers.push("servername");
+        // esri.config.defaults.io.corsEnabledServers.push("servername");
 
-        //setup proxy url
+        // setup proxy url
 
 
-        require(["modules/HashController"], function(HashController) {
+        require(["modules/ErrorController", "modules/HashController"], function(ErrorController, HashController) {
+
             HashController.init();
+
+            ErrorController.init();
+
+            //  ErrorController.show();
+
         })
 
 

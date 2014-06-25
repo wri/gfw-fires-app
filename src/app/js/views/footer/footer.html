@@ -1,13 +1,14 @@
 
-<!--div#homeTitle.homeTitle(data-bind="html:homeTitle")-->
 <link rel="stylesheet" href="app/css/footer.css"/>
-<div class="footerModesContainer">
+<div data-bind="visible: (appState().v=='home')" class="footerModesContainer">
   <div class="footerWrapper">
     <div data-bind="foreach:footerModeOptions" class="footerModes">
-      <div data-bind="attr:{class:css}">
-        <div class="icon"></div>
-        <div data-bind="html:title" class="title"></div>
-        <div data-bind="html:desc" class="desc"></div><a data-bind="html:action,click:$root.footerSelect" class="action"></a>
+      <div class="footerItem">
+        <div data-bind="attr:{class:css}">
+          <div class="icon"></div>
+          <div data-bind="html:title" class="title"></div>
+          <div data-bind="html:desc" class="desc"></div><a data-bind="html:action,click:$root.footerSelect" class="action"></a>
+        </div>
       </div>
     </div>
   </div>

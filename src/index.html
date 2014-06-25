@@ -20,7 +20,7 @@
  
 	</head>
 	<body class="app tundra">
-      <div id="app-header" data-bind="css:{small:!showFullHeader()}">
+      <div id="app-header" data-bind="css:{small:!(appState().v=='home')}">
         
       </div>
       <div id="app-body">
@@ -32,7 +32,7 @@
           <div data-dojo-type="dijit/layout/ContentPane" id="aboutView" data-dojo-props="region:'center',id:'aboutView',parseOnLoad:false" class="contentPage"></div>
         </div>
       </div>
-      <div id="app-footer">
+      <div id="app-footer"  data-bind="css:{small:!(appState().v=='home')}">
         
       </div>
 		<script src="app/bootloader.js"></script>

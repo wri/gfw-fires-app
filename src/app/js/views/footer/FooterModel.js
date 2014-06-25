@@ -10,6 +10,8 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
         //vm.homeTitle = ko.observable(Config.homeTitle);
         vm.footerModeOptions = ko.observableArray(Config.footerModeOptions);
 
+        vm.appState = ko.observable({});
+
         vm.footerSelect = function(obj) {
             EventsController.footerSelect(obj);
         }

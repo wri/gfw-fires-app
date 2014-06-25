@@ -19,7 +19,7 @@ body,
   box-sizing: border-box;
 }
 #app-header.small {
-  height: 140px;
+  height: 100px;
 }
 #app-body {
   height: 100%;
@@ -28,4 +28,14 @@ body,
 #app-footer {
   height: 480px;
   width: 100%;
+}
+#app-footer.small {
+  height: 180px;
+}
+.errorMsg {
+  position: absolute;
+  top: 10px;
+  border: 1px solid #000;
+  background-color: #ff0;
+  color: #f00;
 }

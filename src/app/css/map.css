@@ -10,6 +10,7 @@
   bottom: 0;
   left: 0;
   top: 0;
+  z-index: 5;
 }
 .map-container {
   position: absolute;
@@ -246,6 +247,8 @@
 }
 .latLongHUD {
   background-color: rgba(255,255,255,0.4);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
   font-size: 15px;

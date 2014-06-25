@@ -24,9 +24,15 @@
   border-bottom: 1px solid #cfcfcf;
 }
 .navContainer {
-  max-width: 960px;
-  height: 80px;
+  width: 960px;
+  height: 55px;
   margin: auto;
+  overflow: visible;
+  transition: width 1.5s ease;
+}
+.small .navContainer {
+  width: 100%;
+  max-width: none;
 }
 .headerDescContainer {
   height: 80px;
@@ -34,7 +40,7 @@
 }
 .headerDesc {
   height: 80px;
-  margin: auto;
+  margin: 20px auto;
   max-width: 960px;
   line-height: 80px;
   vertical-align: middle;
@@ -76,4 +82,5 @@
   top: 45px;
   margin-left: 10px;
   box-shadow: 2px 2px 2px #888;
+  z-index: 10;
 }
