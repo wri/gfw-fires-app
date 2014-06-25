@@ -54,15 +54,10 @@ define([
     vm.landsatImageSubLabel = ko.observable(MapConfig.text.landsatImageSubLabel);
     vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
-<<<<<<< HEAD
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
 
     vm.showBasemapGallery = ko.observable(false);
-=======
-
-    vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
->>>>>>> share
     vm.showLocatorWidgets = ko.observable(false);
     vm.showLatLongInputs = ko.observable(false);
     vm.showDMSInputs = ko.observable(true);
