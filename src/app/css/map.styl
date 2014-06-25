@@ -17,6 +17,7 @@ baseRed = #e7002f
 	width 100%
 	position relative
 .control-panel
+	background-color white
 	position absolute
 	width 320px
 	bottom 0
@@ -164,10 +165,10 @@ baseRed = #e7002f
 	
 .fires-map-accordion
 	position absolute !important
+	top 80px
 	bottom 0
 	right 0
 	left 0
-	top 0
 
 .legend-widget-container 
 	background-color white
@@ -235,6 +236,38 @@ baseRed = #e7002f
 	margin 2px 20px
 	font-size 12px
 	display block
+
+.latLongHUD
+	background-color rgba(255,255,255,.4)
+	border-radius(5px)
+	position absolute
+	font-size 15px
+	bottom 25px
+	z-index 50
+	left 5px
+
+.accordion-panel .slider-container
+	margin 5px 20px 10px
+
+.transparency-slider-label
+	margin 5px 20px
+
+.latLongHUD div
+	padding 2px 4px
+
+.report-link-container
+	position absolute
+	right 10px
+	top 20px
+
+.report-link
+	font-weight bold
+	cursor pointer
+	font-size 16px
+	color baseRed
+
+.report-link:hover
+	text-decoration underline
 
 .coming-soon-label
 	font-size 12px

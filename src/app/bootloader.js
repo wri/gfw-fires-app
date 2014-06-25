@@ -12,8 +12,11 @@
             }, {
                 src: 'app/css/app.css',
                 cdn: false
-            },{
+            }, {
                 src: 'app/css/map.css',
+                cdn: false
+            }, {
+                src: 'app/css/contentPages.css',
                 cdn: false
             }, {
                 src: 'app/css/responsive.css',
@@ -28,10 +31,13 @@
             }, {
                 src: 'app/css/app.css',
                 cdn: false
-            },{
+            }, {
                 src: 'app/css/map.css',
                 cdn: false
-            },{
+            }, {
+                src: 'app/css/contentPages.css',
+                cdn: false
+            }, {
                 src: 'app/css/responsive.css',
                 cdn: false
             }, {
@@ -43,7 +49,9 @@
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
-            textPluginHeaders: {"X-Requested-With": null},
+            textPluginHeaders: {
+                "X-Requested-With": null
+            },
             async: true,
             cacheBust: 'v=' + version,
             packages: [{

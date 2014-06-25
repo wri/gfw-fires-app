@@ -24,10 +24,10 @@ define(["dojo/topic"],
 
 
             //data events
-
+            "toggleDataNavList": "toggleDataNavList",
 
             //about events
-
+            "toggleAboutNavList": "toggleAboutNavList",
 
             //header events
             "clickNavLink": "clickNavLink",
@@ -122,6 +122,18 @@ define(["dojo/topic"],
             require(["views/footer/FooterController"], function(FooterController) {
                 FooterController.goToTweet(dataObj)
             })
+        });
+
+        topic.subscribe("toggleDataNavList", function(obj) {
+            require(["views/data/DataController"], function(DataController) {
+                DataController.toggleDataNavList(obj);
+            });
+        });
+
+        topic.subscribe("toggleAboutNavList", function(obj) {
+            require(["views/about/AboutController"], function(AboutController) {
+                AboutController.toggleAboutNavList(obj);
+            });
         });
 
         return o;

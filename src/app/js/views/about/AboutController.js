@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController"],
-    function(dom, registry, HashController, EventsController) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/about/AboutModel", "dojo/_base/array"],
+    function(dom, registry, HashController, EventsController, AboutModel, arrayUtil) {
 
         var o = {};
         var initialized = false;
@@ -24,7 +24,31 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
                 EventsController.switchToView(viewObj);
+                AboutModel.applyBindings(viewName);
             })
+        }
+
+        o.toggleAboutNavList = function(obj) {
+            var htmlToFetch = obj.htmlContent;
+            var aboutmodel = AboutModel.getVM();
+            // var vm = Model.getVM();
+            var currentLanguage = "en";
+            var leftLinks = aboutmodel.leftLinks();
+            aboutmodel.leftLinks([]);
+            arrayUtil.forEach(leftLinks, function(ds) {
+                if (ds == obj) {
+                    ds.selected = true;
+                } else {
+                    ds.selected = false;
+                }
+            })
+
+            aboutmodel.leftLinks(leftLinks);
+
+            require(["dojo/text!views/about/templates/" + htmlToFetch + ".htm"], function(content) {
+                aboutmodel.htmlContent(content);
+            });
+
         }
 
 

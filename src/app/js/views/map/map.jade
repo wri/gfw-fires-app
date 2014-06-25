@@ -1,5 +1,7 @@
 div#map-view(class="map-view")
 	div#control-panel(class="control-panel")
+		div(class="report-link-container")
+			span#report-link(class="report-link", data-bind="text: getReportLink")
 		div#fires-map-accordion
 			div#fires-panel(class='accordion-panel')
 				div
@@ -15,37 +17,46 @@ div#map-view(class="map-view")
 						input#confidence-fires-checkbox(type="checkbox", class="fires-confidence-checkbox")
 						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
 			div#forest-use-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#forest-transparency-slider
 				div
-					input#oil-palm-checkbox(type="checkbox", class="additional-layers-option", value="oilPalm")
+					input#oil-palm-checkbox(type="checkbox", class="forest-use-layers-option", value="oilPalm")
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div
-					input#wood-fiber-checkbox(type="checkbox", class="additional-layers-option", value="woodFiber")
+					input#wood-fiber-checkbox(type="checkbox", class="forest-use-layers-option", value="woodFiber")
 					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div
-					input#logging-checkbox(type="checkbox", class="additional-layers-option", value="logging")
+					input#logging-checkbox(type="checkbox", class="forest-use-layers-option", value="logging")
 					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 			div#conservation-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#conservation-transparency-slider
 				div
-					input#protected-areas-checkbox(type="checkbox", class="additional-layers-option", value="protectedAreas")
+					input#protected-areas-checkbox(type="checkbox", class="conservation-layers-option", value="protectedAreas")
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
 			div#land-cover-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#land-cover-transparency-slider
 				div
-					input#no-land-cover-radio(type="radio", checked="checked", name="land-cover-radios", class="additional-layers-option", value="none")
+					input#no-land-cover-radio(type="radio", checked="checked", name="land-cover-radios", class="land-cover-layers-option", value="none")
 					label(for="no-land-cover-radio", data-bind="text: none")
 				div
-					input#peat-lands-radio(type="radio", name="land-cover-radios", class="additional-layers-option", value="peatLands")
+					input#peat-lands-radio(type="radio", name="land-cover-radios", class="land-cover-layers-option", value="peatLands")
 					label(for="peat-lands-radio", data-bind="text: peatLandsRadio")
 					span(data-bind="text: peatLandsSubLabel", class="checkbox-sub-label")
 				div
-					input#tree-cover-density-radio(type="radio", name="land-cover-radios", class="additional-layers-option", value="treeCoverDensity")
+					input#tree-cover-density-radio(type="radio", name="land-cover-radios", class="land-cover-layers-option", value="treeCoverDensity")
 					label(for="tree-cover-density-radio", data-bind="text: treeCoverDensityRadio")
 					span(data-bind="text: treeCoverDensitySubLabel", class="checkbox-sub-label")
 				div
-					input#se-land-cover-radio(type="radio", name="land-cover-radios", class="additional-layers-option", value="landCover")
+					input#se-land-cover-radio(type="radio", name="land-cover-radios", class="land-cover-layers-option", value="landCover")
 					label(for="se-land-cover-radio", data-bind="text: southeastLandCoverRadio")
 					span(data-bind="text: southeastLandCoverSubLabel", class="checkbox-sub-label")
 			div#air-quality-panel(class='accordion-panel')
@@ -66,6 +77,15 @@ div#map-view(class="map-view")
 	div#map-container(class="map-container")
 		div#map(class="map")
 			div#esri-geocoder-widget
+			div#latLongHUD(class='latLongHUD')
+				div
+					span(data-bind='text: latitudeLabel')
+					span / 
+					span(data-bind='text: longitudeLabel')
+				div
+					span(data-bind="text: currentLatitude")
+					span , 
+					span(data-bind="text: currentLongitude")
 			div#legend-widget-container(class="legend-widget-container")
 				div#legend-widget-title(class="legend-widget-title")
 					span(data-bind="text: legend")

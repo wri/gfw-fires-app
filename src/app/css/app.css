@@ -1,7 +1,7 @@
 html,
 body,
 .app {
-  background-color: #ccc;
+  background-color: #fff;
   height: 100%;
   width: 100%;
   margin: 0;
@@ -16,7 +16,6 @@ body,
   background: url("../images/header_tree_background.png") repeat-x scroll center top transparent;
   border-bottom: 1px solid #717d80;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 #app-header.small {
@@ -27,6 +26,6 @@ body,
   width: 100%;
 }
 #app-footer {
-  height: 540px;
+  height: 480px;
   width: 100%;
 }

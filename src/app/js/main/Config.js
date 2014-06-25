@@ -93,6 +93,62 @@ define([],
 
                 }
 
+            ],
+
+            dataLinks: [
+
+                {
+                    "name": "FOREST CHANGE",
+                    "htmlContent": "dataForestChange",
+                    "selected": true
+                }, {
+                    "name": "FOREST AND LAND COVER",
+                    "htmlContent": "dataForestAndLandCover",
+                    "selected": false
+                }, {
+                    "name": "LAND USE",
+                    "htmlContent": "dataLandUse",
+                    "selected": false
+                }, {
+                    "name": "CONSERVATION",
+                    "htmlContent": "dataConservation",
+                    "selected": false
+                }, {
+                    "name": "SUITABILITY",
+                    "htmlContent": "dataSuitability",
+                    "selected": false
+                }, {
+                    "name": "DATA POLICY",
+                    "htmlContent": "dataPolicy",
+                    "selected": false
+                }
+
+            ],
+
+            aboutLinks: [
+
+                {
+                    "name": "ABOUT GFW-COMMODITIES",
+                    "htmlContent": "aboutGFW",
+                    "selected": true
+                }, {
+                    "name": "HISTORY",
+                    "htmlContent": "aboutHistory",
+                    "selected": false
+                }, {
+                    "name": "PARTNERS",
+                    "htmlContent": "aboutPartners",
+                    "selected": false
+                }, {
+                    "name": "USERS",
+                    "htmlContent": "aboutUsers",
+                    "selected": false
+                }, {
+                    "name": "VIDEOS",
+                    "htmlContent": "aboutVideos",
+                    "selected": false
+                }
+
             ]
 
 

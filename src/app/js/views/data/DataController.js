@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/data/DataModel"],
-    function(dom, registry, HashController, EventsController, DataModel) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/data/DataModel", "dojo/_base/array"],
+    function(dom, registry, HashController, EventsController, DataModel, arrayUtil) {
 
         var o = {};
         var initialized = false;
@@ -28,6 +28,29 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 DataModel.applyBindings(viewName);
             })
+        },
+
+        o.toggleDataNavList = function(obj) {
+            var htmlToFetch = obj.htmlContent;
+            var datamodel = DataModel.getVM();
+            // var vm = Model.getVM();
+            var currentLanguage = "en";
+            var leftLinks = datamodel.leftLinks();
+            datamodel.leftLinks([]);
+            arrayUtil.forEach(leftLinks, function(ds) {
+                if (ds == obj) {
+                    ds.selected = true;
+                } else {
+                    ds.selected = false;
+                }
+            })
+
+            datamodel.leftLinks(leftLinks);
+
+            require(["dojo/text!views/data/templates/" + htmlToFetch + ".htm"], function(content) {
+                datamodel.htmlContent(content);
+            });
+
         }
 
 

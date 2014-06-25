@@ -1,1 +1,11 @@
-div#dataTest(class="test") Data info here
+div#dataInnerContainer(class="content-inner-container")
+	div#dataHeader(class="content-header")
+	div#divContentContainer(class="content-container")
+		div#navLeft(class="navigation_left")
+			ul#dataNavList(class="navigation-list")
+				li#navListTitle(class="item-title")
+					i(class='caret-down')
+				div(data-bind="foreach:leftLinks")
+					li(data-bind='click:$root.linkClick')
+						a(data-bind='html:name,css:{selected:selected}')
+		div(class="content_right" data-bind="html:htmlContent")

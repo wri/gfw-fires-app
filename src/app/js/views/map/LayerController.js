@@ -15,6 +15,28 @@ define([
 			_map = map;
 		},
 
+		refreshLegend: function () {
+			registry.byId("legend").refresh();
+		},
+
+		setTransparency: function (layerId, value) {
+			var opaqueValue = Math.floor(value) / 100,
+					layer = _map.getLayer(layerId);
+
+			if (layer) {
+				layer.setOpacity(opaqueValue);
+			}
+
+			// If Land_Cover Slider was adjusted, set opacity on Tree Cover Image Service as well as it is under
+			// the same slider in UI and should have it's transparency the same as the other Land_Cover layers
+			if (layerId === 'Land_Cover') {
+				layer = _map.getLayer(MapConfig.treeCoverLayer.id);
+				if (layer) {
+					layer.setOpacity(opaqueValue);
+				}
+			}
+		},
+
 		toggleLayerVisibility: function (layerId, visibility) {
 				var layer = _map.getLayer(layerId);
       	if (layer) {
@@ -22,6 +44,7 @@ define([
       				  layer.setVisibility(visibility);
       			}
       	}
+      	this.refreshLegend();
 		},
 
 		updateFiresLayer: function (updateVisibleLayers) {
@@ -63,6 +86,9 @@ define([
 
 	      if (layer) {
 	          layer.setLayerDefinitions(defs);
+	          if (!updateVisibleLayers) {
+	          	this.refreshLegend();
+	          }
 	      }
 
 	      if (updateVisibleLayers) {
@@ -74,22 +100,22 @@ define([
 	          if (layer) {
 	              layer.setVisibleLayers(visibleLayers);
 	          }
+	          this.refreshLegend();
 	      }
 		},
 
-		updateAdditionalVisibleLayers: function (evt) {
-			var target = evt.target ? evt.target : evt.srcElement,
-					layer = _map.getLayer(MapConfig.additionalLayers.id),
+		updateAdditionalVisibleLayers: function (queryClass, configObject) {
+			var layer = _map.getLayer(configObject.id),
 					treeCoverLayer = _map.getLayer(MapConfig.treeCoverLayer.id),
 					treeCoverVisible = false,
 					visibleLayers = [],
 					layerID;
 
-			dojoQuery(".additional-layers-option").forEach(function (node) {
+			dojoQuery("." + queryClass).forEach(function (node) {
 				if (node.checked) {
-					layerID = MapConfig.additionalLayers[node.value];
+					layerID = configObject[node.value];
 					if (layerID) {
-						visibleLayers.push(parseInt(layerID));
+						visibleLayers.push(layerID);
 					}
 				}
 				if (node.id === "tree-cover-density-radio") {
@@ -105,7 +131,7 @@ define([
 			if (layer) {
 				layer.setVisibleLayers(visibleLayers);
 				if (!layer.visible) {
-					this.toggleLayerVisibility(MapConfig.additionalLayers.id, true);
+					this.toggleLayerVisibility(configObject.id, true);
 				}
 			}
 
@@ -113,7 +139,102 @@ define([
 				this.updateTreeCoverLayer(treeCoverVisible);
 			}
 
+			this.refreshLegend();
+
 		},
+
+		// updateForestUseLayers: function (evt) {
+		// 	var layer = _map.getLayer(MapConfig.forestUseLayers.id),
+		// 			visibleLayers = [],
+		// 			layerID;
+
+		// 	dojoQuery(".forest-use-layers-option").forEach(function (node) {
+		// 		if (node.checked) {
+		// 			layerID = MapConfig.forestUseLayers[node.value];
+		// 			if (layerID) {
+		// 				visibleLayers.push(layerID);
+		// 			}
+		// 		}
+		// 	});
+
+		// 	if (visibleLayers.length === 0) {
+		// 		// If nothing checked, turn all layers off
+		// 		visibleLayers.push(-1);
+		// 	}
+
+		// 	if (layer) {
+		// 		layer.setVisibleLayers(visibleLayers);
+		// 		if (!layer.visible) {
+		// 			this.toggleLayerVisibility(MapConfig.forestUseLayers.id, true);
+		// 		}
+		// 	}
+
+		// },
+
+		// updateConservationLayers: function (evt) {
+		// 	var layer = _map.getLayer(MapConfig.conservationLayers.id),					
+		// 			visibleLayers = [],
+		// 			layerID;
+
+		// 	dojoQuery(".conservation-layers-option").forEach(function (node) {
+		// 		if (node.checked) {
+		// 			layerID = MapConfig.conservationLayers[node.value];
+		// 			if (layerID) {
+		// 				visibleLayers.push(layerID);
+		// 			}
+		// 		}
+		// 	});
+
+		// 	if (visibleLayers.length === 0) {
+		// 		// If nothing checked, turn all layers off
+		// 		visibleLayers.push(-1);
+		// 	}
+
+		// 	if (layer) {
+		// 		layer.setVisibleLayers(visibleLayers);
+		// 		if (!layer.visible) {
+		// 			this.toggleLayerVisibility(MapConfig.conservationLayers.id, true);
+		// 		}
+		// 	}
+
+		// },
+
+		// updateLandCoverLayers: function (evt) {
+		// 	var layer = _map.getLayer(MapConfig.landCoverLayers.id),
+		// 			treeCoverLayer = _map.getLayer(MapConfig.treeCoverLayer.id),
+		// 			treeCoverVisible = false,
+		// 			visibleLayers = [],
+		// 			layerID;
+
+		// 	dojoQuery(".land-cover-layers-option").forEach(function (node) {
+		// 		if (node.checked) {
+		// 			layerID = MapConfig.treeCoverLayer[node.value];
+		// 			if (layerID) {
+		// 				visibleLayers.push(layerID);
+		// 			}
+		// 		}
+		// 		if (node.id === "tree-cover-density-radio") {
+		// 			treeCoverVisible = node.checked;
+		// 		}
+		// 	});
+
+		// 	if (visibleLayers.length === 0) {
+		// 		// If nothing checked, turn all layers off
+		// 		visibleLayers.push(-1);
+		// 	}
+
+		// 	if (layer) {
+		// 		layer.setVisibleLayers(visibleLayers);
+		// 		if (!layer.visible) {
+		// 			this.toggleLayerVisibility(MapConfig.forestUseLayers.id, true);
+		// 		}
+		// 	}
+
+		// 	if (treeCoverVisible !== treeCoverLayer.visible) {
+		// 		this.updateTreeCoverLayer(treeCoverVisible);
+		// 	}
+
+		// },
 
 		updateTreeCoverLayer: function (visibility) {
 			this.toggleLayerVisibility(MapConfig.treeCoverLayer.id, visibility);
