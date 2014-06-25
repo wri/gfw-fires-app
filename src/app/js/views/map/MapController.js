@@ -26,11 +26,12 @@ define([
     "views/map/MapModel",
     "views/map/LayerController",
     "views/map/Finder",
+    "views/report/ReportBuilder",
     "utils/DijitFactory",
     "modules/EventsController"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, Finder, DijitFactory, EventsController) {
+    LayerController, Finder, ReportBuilder, DijitFactory, EventsController) {
 
     var o = {},
         initialized = false,
@@ -229,6 +230,7 @@ define([
 
         on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
         on(dom.byId("legend-widget-title"), "click", this.toggleLegend);
+        on(dom.byId("report-link"), "click", ReportBuilder.openReportWindow);
 
         registry.byId("forest-transparency-slider").on('change', function (value) {
             LayerController.setTransparency(MapConfig.forestUseLayers.id, value);
