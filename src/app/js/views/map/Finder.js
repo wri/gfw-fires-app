@@ -85,7 +85,7 @@ define([
             var mapconfig = Config.getConfig();
             require(["esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters"], function(IdentifyTask, IdentifyParameters) {
 
-                var map = MapUI.getMap();
+                var map = _map;
                 targetLayer = map.getLayer(mapconfig.additionalPolyLayers.en.id),
                 visLayers = [],
                 isVisLayers = targetLayer.visibleLayers.indexOf(10) > -1 || map.getLayer(mapconfig.additionalProtectedLayer.en.id).visible || targetLayer.visibleLayers.indexOf(26) > -1 || targetLayer.visibleLayers.indexOf(27) > -1 || targetLayer.visibleLayers.indexOf(28) > -1 || targetLayer.visibleLayers.indexOf(32) > -1,
@@ -172,7 +172,7 @@ define([
                 }
                 // map.infoWindow.show();
             });
-        },
+        }
 
     };
 
