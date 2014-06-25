@@ -71,7 +71,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             var selectedItem = data;
 
             console.log(EventsController);
-            EventsController[selectedItem.eventName]();
+
+            eval("EventsController." + selectedItem.eventName + "()");
 
             //alert(selectedItem.event);
 

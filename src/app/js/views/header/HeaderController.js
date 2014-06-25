@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "dojo/_base/array"],
-    function(dom, registry, HashController, EventsController, arrayUtil) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "dojo/_base/array", "dojo/dom-construct"],
+    function(dom, registry, HashController, EventsController, arrayUtil, domConstruct) {
 
         var o = {};
         var initialized = false;
@@ -64,6 +64,18 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 if (data.viewName.toLowerCase() != "homeview" && HomeController.isInitialized()) {
                     EventsController.stopModeAnim();
+                }*/
+
+                //alert(data.viewName);
+
+                /*switch (data.viewName) {
+                    case "mapView":
+                        //domConstruct.place("");
+                        domConstruct.place("footerShareContainer", "app-footer");
+                        break;
+
+                    default:
+                        domConstruct.place("footerShareContainer", data.viewName);
                 }*/
             });
 

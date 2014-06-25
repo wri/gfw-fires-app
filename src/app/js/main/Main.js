@@ -39,7 +39,7 @@ define([
 
                 ErrorController.init();
 
-                ErrorController.show(5); /*time in seconds*/
+                //ErrorController.show(5); /*time in seconds*/
                 //BlockController.show("aboutView");
                 //BlockController.hide("aboutView");
 
