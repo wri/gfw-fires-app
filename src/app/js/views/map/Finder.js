@@ -2,16 +2,19 @@
 define([
     "dojo/dom",
     "dojo/_base/array",
+    "dojo/on",
     "esri/graphic",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
     "esri/symbols/PictureMarkerSymbol",
     "views/map/MapConfig",
-    "views/map/MapModel"
-], function(dom, arrayUtils, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel) {
+    "views/map/MapModel",
+    "esri/tasks/IdentifyTask",
+    "esri/tasks/IdentifyParameters"
+], function(dom, arrayUtils, on, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, IdentifyTask, IdentifyParameters) {
     var _map;
-    return {
 
+    return {
         setMap: function(map) {
             _map = map;
         },
@@ -81,96 +84,138 @@ define([
 
         },
 
-        mapclick: function(event) {
-            var mapconfig = Config.getConfig();
-            require(["esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters"], function(IdentifyTask, IdentifyParameters) {
+        mapClick: function(event) {
 
-                var map = _map;
-                targetLayer = map.getLayer(mapconfig.additionalPolyLayers.en.id),
-                visLayers = [],
-                isVisLayers = targetLayer.visibleLayers.indexOf(10) > -1 || map.getLayer(mapconfig.additionalProtectedLayer.en.id).visible || targetLayer.visibleLayers.indexOf(26) > -1 || targetLayer.visibleLayers.indexOf(27) > -1 || targetLayer.visibleLayers.indexOf(28) > -1 || targetLayer.visibleLayers.indexOf(32) > -1,
-                visible = targetLayer.visible;
 
-                arrayUtil.forEach(targetLayer.visibleLayers, function(lid) {
-                    visLayers.push(lid);
+            var map = _map;
+            forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id),
+            conservationLayers = map.getLayer(MapConfig.conservationLayers.id),
+            visLayers = [],
+            isVisLayers = forestUseLayer.visibleLayers.indexOf(10) > -1 || conservationLayers.visible || forestUseLayer.visibleLayers.indexOf(26) > -1 || forestUseLayer.visibleLayers.indexOf(27) > -1 || forestUseLayer.visibleLayers.indexOf(28) > -1 || forestUseLayer.visibleLayers.indexOf(32) > -1,
+            visible = forestUseLayer.visible;
+
+            arrayUtils.forEach(forestUseLayer.visibleLayers, function(lid) {
+                visLayers.push(lid);
+            });
+
+            if (conservationLayers.visible) {
+                visLayers.push(25);
+            }
+
+            Array.prototype.move = function(from, to) {
+                this.splice(to, 0, this.splice(from, 1)[0]);
+            };
+            visLayers.move(visLayers.indexOf(27), 0);
+
+            if (isVisLayers) {
+
+                var identifyTask = new IdentifyTask(forestUseLayer.url);
+
+                identifyParams = new IdentifyParameters();
+                identifyParams.tolerance = 3;
+                identifyParams.returnGeometry = true;
+                identifyParams.layerIds = visLayers;
+                identifyParams.width = map.width;
+                identifyParams.height = map.height;
+                identifyParams.geometry = event.mapPoint;
+                identifyParams.mapExtent = map.extent;
+                identifyTask.execute(identifyParams, function(response) {
+                    var node = response[0];
+                    if (node) {
+                        content = "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>";
+
+                        if (node.layerId == 25) {
+                            content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
+                            content += "<tr><td>Local Name</td><td>" + node.feature.attributes.ORIG_NAME + "</td></tr>";
+                            content += "<tr><td>Legal Designation</td><td>" + node.feature.attributes.DESIG_ENG + "</td></tr>";
+                            content += "<tr><td>WDPA ID</td><td>" + node.feature.attributes.WDPAID + "</td></tr>";
+                        } else if (node.layerId == 27) {
+                            content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
+                            content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
+                            content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
+                            content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
+                            content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
+                            content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
+                            content += "<tr><td>Certificate ID</td><td>" + node.feature.attributes.Certificat + "</td></tr>";
+                            content += "<tr><td>Certificate Issue Date</td><td>" + node.feature.attributes.Issued + "</td></tr>";
+                            content += "<tr><td>Certificate Expiry Date</td><td>" + node.feature.attributes.Expired + "</td></tr>";
+                            content += "<tr><td>Mill name</td><td>" + node.feature.attributes.Mill + "</td></tr>";
+                            content += "<tr><td>Mill location</td><td>" + node.feature.attributes.Location + "</td></tr>";
+                            content += "<tr><td>Mill capacity (t/hour)</td><td>" + node.feature.attributes.Capacity + "</td></tr>";
+                            content += "<tr><td>Certified CPO (mt)</td><td>" + node.feature.attributes.CPO + "</td></tr>";
+                            content += "<tr><td>Certified PK (mt)</td><td>" + node.feature.attributes.PK + "</td></tr>";
+                            //content += "<tr><td>Certified PKO (mt)</td><td>" + node.feature.attributes.PKO + "</td></tr>";
+                            content += "<tr><td>Estate Suppliers</td><td>" + node.feature.attributes.Estate + "</td></tr>";
+                            content += "<tr><td>Estate Area (ha)</td><td>" + node.feature.attributes.Estate_1 + "</td></tr>";
+                            content += "<tr><td>Outgrower Area (ha)</td><td>" + node.feature.attributes.Outgrowe + "</td></tr>";
+                            content += "<tr><td>Scheme Smallholder Area (ha)</td><td>" + node.feature.attributes.SH + "</td></tr>";
+                            // content += "<tr><td>NPP Area (ha)</td><td>" + node.feature.attributes.NPP_Area + "</td></tr>";
+                            //content += "<tr><td>HCV Area (ha)</td><td>" + node.feature.attributes.HCV_Area + "</td></tr>";
+                        } else {
+                            content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
+                            content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
+                            content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
+                            content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
+                            content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
+                            content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
+                        }
+                        content += "<tr><td>Source: </td><td>" + (node.feature.attributes.Source || "N/A") + "</td></tr>";
+                        content += "</table>";
+
+                        map.infoWindow.setContent(content);
+                        map.infoWindow.show(event.mapPoint);
+                        on.once(dom.byId("closePopup"), "click", function() {
+                            map.infoWindow.hide();
+                        });
+                    }
+                }, function(errback) {
+                    console.dir(errback);
                 });
 
-                if (map.getLayer(mapconfig.additionalProtectedLayer.en.id).visible) {
-                    visLayers.push(25);
-                }
+            }
+        },
 
-                Array.prototype.move = function(from, to) {
-                    this.splice(to, 0, this.splice(from, 1)[0]);
-                };
-                visLayers.move(visLayers.indexOf(27), 0);
 
-                if (isVisLayers) {
+        getActiveFiresInfoWindow: function(event) {
 
-                    var identifyTask = new IdentifyTask(targetLayer.url);
+            var qconfig = MapConfig.firesLayer,
+                _self = this,
+                url = qconfig.url,
+                itask = new IdentifyTask(url),
+                iparams = new IdentifyParameters(),
+                point = event.mapPoint;
+            iparams.geometry = point;
+            iparams.tolerance = 1;
+            iparams.returnGeometry = false;
+            iparams.mapExtent = _map.extent;
+            iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+            var executeReturned = true;
 
-                    identifyParams = new IdentifyParameters();
-                    identifyParams.tolerance = 3;
-                    identifyParams.returnGeometry = true;
-                    identifyParams.layerIds = visLayers;
-                    identifyParams.width = map.width;
-                    identifyParams.height = map.height;
-                    identifyParams.geometry = event.mapPoint;
-                    identifyParams.mapExtent = map.extent;
-                    identifyTask.execute(identifyParams, function(response) {
-                        var node = response[0];
-                        if (node) {
-                            content = "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>";
+            var content = "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>";
+            itask.execute(iparams, function(response) {
+                var map = _map;
+                var result = response[0];
 
-                            if (node.layerId == 25) {
-                                content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
-                                content += "<tr><td>Local Name</td><td>" + node.feature.attributes.ORIG_NAME + "</td></tr>";
-                                content += "<tr><td>Legal Designation</td><td>" + node.feature.attributes.DESIG_ENG + "</td></tr>";
-                                content += "<tr><td>WDPA ID</td><td>" + node.feature.attributes.WDPAID + "</td></tr>";
-                            } else if (node.layerId == 27) {
-                                content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
-                                content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
-                                content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                                content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
-                                content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
-                                content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
-                                content += "<tr><td>Certificate ID</td><td>" + node.feature.attributes.Certificat + "</td></tr>";
-                                content += "<tr><td>Certificate Issue Date</td><td>" + node.feature.attributes.Issued + "</td></tr>";
-                                content += "<tr><td>Certificate Expiry Date</td><td>" + node.feature.attributes.Expired + "</td></tr>";
-                                content += "<tr><td>Mill name</td><td>" + node.feature.attributes.Mill + "</td></tr>";
-                                content += "<tr><td>Mill location</td><td>" + node.feature.attributes.Location + "</td></tr>";
-                                content += "<tr><td>Mill capacity (t/hour)</td><td>" + node.feature.attributes.Capacity + "</td></tr>";
-                                content += "<tr><td>Certified CPO (mt)</td><td>" + node.feature.attributes.CPO + "</td></tr>";
-                                content += "<tr><td>Certified PK (mt)</td><td>" + node.feature.attributes.PK + "</td></tr>";
-                                //content += "<tr><td>Certified PKO (mt)</td><td>" + node.feature.attributes.PKO + "</td></tr>";
-                                content += "<tr><td>Estate Suppliers</td><td>" + node.feature.attributes.Estate + "</td></tr>";
-                                content += "<tr><td>Estate Area (ha)</td><td>" + node.feature.attributes.Estate_1 + "</td></tr>";
-                                content += "<tr><td>Outgrower Area (ha)</td><td>" + node.feature.attributes.Outgrowe + "</td></tr>";
-                                content += "<tr><td>Scheme Smallholder Area (ha)</td><td>" + node.feature.attributes.SH + "</td></tr>";
-                                // content += "<tr><td>NPP Area (ha)</td><td>" + node.feature.attributes.NPP_Area + "</td></tr>";
-                                //content += "<tr><td>HCV Area (ha)</td><td>" + node.feature.attributes.HCV_Area + "</td></tr>";
-                            } else {
-                                content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
-                                content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
-                                content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                                content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
-                                content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
-                                content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
-                            }
-                            content += "<tr><td>Source: </td><td>" + (node.feature.attributes.Source || "N/A") + "</td></tr>";
-                            content += "</table>";
+                if (result) {
+                    executeReturned = false;
+                    content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
+                    arrayUtils.forEach(qconfig.query.fields, function(field) {
+                        content += "<tr><td colspan='3'>" + field.label + "</td>";
+                        content += "<td colspan='2'>" + result.feature.attributes[field.name] + "</td></tr>";
 
-                            map.infoWindow.setContent(content);
-                            map.infoWindow.show(event.mapPoint);
-                            on.once(dom.byId("closePopup"), "click", function() {
-                                map.infoWindow.hide();
-                            });
-                        }
-                    }, function(errback) {
-                        console.dir(errback);
                     });
-
+                    content += "</table>";
+                    map.infoWindow.setContent(content);
+                    map.infoWindow.show(point);
+                    on.once(dom.byId("closePopup"), "click", function() {
+                        map.infoWindow.hide();
+                    });
+                } else {
+                    _self.mapClick(event);
                 }
-                // map.infoWindow.show();
+            }, function(err) {
+                console.log(err);
+                _self.mapClick(event);
             });
         }
 

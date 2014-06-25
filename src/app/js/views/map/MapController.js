@@ -93,7 +93,6 @@ define([
             o.map.graphics.clear();
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
-            z
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
@@ -208,6 +207,10 @@ define([
         on(o.map, "mouse-move", function(evt) {
             MapModel.set('currentLatitude', evt.mapPoint.getLatitude().toFixed(4));
             MapModel.set('currentLongitude', evt.mapPoint.getLongitude().toFixed(4));
+        });
+
+        on(o.map, "click", function(evt) {
+            Finder.getActiveFiresInfoWindow(evt);
         });
 
         on(dom.byId("confidence-fires-checkbox"), "change", function(evt) {
