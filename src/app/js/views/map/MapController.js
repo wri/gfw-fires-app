@@ -209,6 +209,10 @@ define([
             MapModel.set('currentLongitude', evt.mapPoint.getLongitude().toFixed(4));
         });
 
+        on(o.map, "click", function(evt) {
+            Finder.getActiveFiresInfoWindow(evt);
+        });
+
         on(dom.byId("confidence-fires-checkbox"), "change", function(evt) {
             LayerController.updateFiresLayer(true);
         });
