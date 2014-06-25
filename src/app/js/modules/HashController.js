@@ -94,6 +94,8 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             lang.mixin(currentState, updateState);
 
             require(["views/header/HeaderModel"], function(HeaderModel) {
+                //alert(currentState.v);
+                debugger;
                 HeaderModel.vm.appState(currentState);
                 if (currentState.v == 'map') {
                     HeaderModel.vm.showFullHeader(false);

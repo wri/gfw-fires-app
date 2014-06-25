@@ -30,7 +30,6 @@
 .homeModeOptionsViewerOuter .modeGroup {
   height: 250px;
   width: 100%;
-  -webkit-transition: display 1.5s ease;
   transition: display 1.5s ease;
   cursor: pointer;
 }
@@ -46,7 +45,6 @@
   position: absolute;
   margin: auto;
   opacity: 0.3;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .homeModeOptionsViewerOuter .modeOptionRing {
@@ -62,6 +60,5 @@
   position: absolute;
   margin: auto;
   border: 10px solid #ec1d38;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }

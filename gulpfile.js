@@ -51,7 +51,7 @@ gulp.task('develop', function() {
     // watch jade and style
     gulp.watch(app_dir.src + '**/*.jade', ['compile-jade']);
     gulp.watch(app_dir.src + '**/*.styl', ['compile-stylus']);
-    gulp.watch(app_dir.src + '**/*.css', ['autoprefix-css']);
+    //gulp.watch(app_dir.src + '**/*.css', ['autoprefix-css']);
 
 });
 

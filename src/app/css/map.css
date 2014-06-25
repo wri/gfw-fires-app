@@ -23,12 +23,16 @@
 }
 .HomeButton .home {
   padding: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
   border-radius: 0;
 }
 .locator-widget-button,
 .basemap-gallery-button,
 .share-button {
   border: 1px solid #444;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
   cursor: pointer;
@@ -62,6 +66,8 @@
 .basemap-gallery-container,
 .locator-widget-container {
   background-color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
   height: 300px;
@@ -144,6 +150,8 @@
 .search-option-go-button {
   background-color: #444;
   display: inline-block;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
   font-weight: bold;
   margin: 10px auto;
@@ -164,6 +172,10 @@
 }
 .legend-widget-container {
   background-color: #fff;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
   position: absolute;
   overflow: hidden;
@@ -176,7 +188,6 @@
 }
 .legend-widget-title {
   border-bottom: 1px solid #000;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 30px;
 }
@@ -209,6 +220,8 @@
 }
 .active-fires-options {
   border: 1px solid #e7002f;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
   border-radius: 5px;
   text-align: center;
   line-height: 30px;

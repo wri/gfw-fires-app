@@ -5,7 +5,6 @@
   border-top: 5px solid #222;
   color: #747474;
   font-size: 12px;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .headerTitle {
@@ -60,10 +59,14 @@
   padding-bottom: 5px;
   cursor: pointer;
   border-radius: 5px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  background-color: none;
 }
 .navList li.selected {
   color: #fff;
-  background-color: #e98300;
+  background-color: #ec1d38;
 }
 .logo {
   background: url("../images/gfwc_logo.png") no-repeat;
