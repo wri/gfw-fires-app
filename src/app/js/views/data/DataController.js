@@ -30,7 +30,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             })
         },
 
-        o.toggleNavList = function(obj) {
+        o.toggleDataNavList = function(obj) {
             var htmlToFetch = obj.htmlContent;
             var datamodel = DataModel.getVM();
             // var vm = Model.getVM();
