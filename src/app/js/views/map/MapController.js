@@ -93,7 +93,6 @@ define([
             o.map.graphics.clear();
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
-            z
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
@@ -231,6 +230,17 @@ define([
         on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
         on(dom.byId("legend-widget-title"), "click", this.toggleLegend);
 
+        registry.byId("forest-transparency-slider").on('change', function (value) {
+            LayerController.setTransparency(MapConfig.forestUseLayers.id, value);
+        });
+
+        registry.byId("land-cover-transparency-slider").on('change', function (value) {
+            LayerController.setTransparency(MapConfig.landCoverLayers.id, value);
+        });
+
+        registry.byId("conservation-transparency-slider").on('change', function (value) {
+            LayerController.setTransparency(MapConfig.conservationLayers.id, value);
+        });
 
         dojoQuery(".active-fires-options").forEach(function(node) {
             on(node, "click", self.toggleFireOption.bind(self));
