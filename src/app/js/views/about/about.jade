@@ -1,1 +1,11 @@
-div#aboutTest(class="test") About info here
+div#aboutInnerContainer(class="content-inner-container")
+	div#aboutHeader(class="content-header")
+	div#aboutContentContainer(class="content-container")
+		div#navLeft(class="navigation_left")
+			ul#aboutNavList(class="navigation-list")
+				li#navListTitle(class="item-title")
+					i(class='caret-down')
+				div(data-bind="foreach:leftLinks")
+					li(data-bind='click:$root.linkClick')
+						a(data-bind='html:name,css:{selected:selected}')
+		div#contentRight(class="content_right" data-bind="html:htmlContent")

@@ -24,10 +24,10 @@ define(["dojo/topic"],
 
 
             //data events
-            "toggleNavList": "toggleNavList",
+            "toggleDataNavList": "toggleDataNavList",
 
             //about events
-
+            "toggleAboutNavList": "toggleAboutNavList",
 
             //header events
             "clickNavLink": "clickNavLink",
@@ -124,9 +124,15 @@ define(["dojo/topic"],
             })
         });
 
-        topic.subscribe("toggleNavList", function(obj) {
+        topic.subscribe("toggleDataNavList", function(obj) {
             require(["views/data/DataController"], function(DataController) {
-                DataController.toggleNavList(obj);
+                DataController.toggleDataNavList(obj);
+            });
+        });
+
+        topic.subscribe("toggleAboutNavList", function(obj) {
+            require(["views/about/AboutController"], function(AboutController) {
+                AboutController.toggleAboutNavList(obj);
             });
         });
 

@@ -1,5 +1,5 @@
-define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic", "dojo/_base/array"],
-    function(ko, Config, dom, arrayUtil, topic, arrayUtil) {
+define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"],
+    function(ko, Config, dom, arrayUtil, topic) {
 
         var o = {};
 
@@ -12,7 +12,7 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic",
         vm.leftLinks = ko.observableArray(Config.dataLinks);
 
         vm.linkClick = function(obj, evt) {
-            topic.publish("toggleNavList", obj)
+            topic.publish("toggleDataNavList", obj)
         }
         var htmlToFetch;
         arrayUtil.some(vm.leftLinks(), function(linkItem) {
