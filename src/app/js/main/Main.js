@@ -37,7 +37,7 @@ define([
 
             ErrorController.init();
 
-            //  ErrorController.show();
+            ErrorController.show(5); /*time in seconds*/
 
         })
 
