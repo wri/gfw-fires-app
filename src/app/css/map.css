@@ -4,6 +4,7 @@
   position: relative;
 }
 .control-panel {
+  background-color: #fff;
   position: absolute;
   width: 320px;
   bottom: 0;
@@ -165,10 +166,10 @@
 }
 .fires-map-accordion {
   position: absolute !important;
+  top: 80px;
   bottom: 0;
   right: 0;
   left: 0;
-  top: 0;
 }
 .legend-widget-container {
   background-color: #fff;
@@ -242,6 +243,24 @@
   margin: 2px 20px;
   font-size: 12px;
   display: block;
+}
+.latLongHUD {
+  background-color: rgba(255,255,255,0.4);
+  border-radius: 5px;
+  position: absolute;
+  font-size: 15px;
+  bottom: 25px;
+  z-index: 50;
+  left: 5px;
+}
+.accordion-panel .slider-container {
+  margin: 5px 20px 10px;
+}
+.transparency-slider-label {
+  margin: 5px 20px;
+}
+.latLongHUD div {
+  padding: 2px 4px;
 }
 .coming-soon-label {
   font-size: 12px;

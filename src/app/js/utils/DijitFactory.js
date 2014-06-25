@@ -5,28 +5,32 @@ define([
   "dijit/registry",
   "dojo/Deferred",
   "dijit/layout/AccordionContainer",
-  "dijit/layout/ContentPane"
+  "dijit/layout/ContentPane",
+  "dijit/form/HorizontalSlider"
 ],
-  function(dom, arrayUtils, registry, Deferred, Accordion, ContentPane){
-
-    var item;
+  function(dom, arrayUtils, registry, Deferred, Accordion, ContentPane, HorizontalSlider){
 
     return {
 
       buildFromJSON: function (dijit) {
 
-        var panel;
+        var item, panel;
         switch (dijit.type) {
           case "accordion":
             item = new Accordion(dijit.props, dijit.id);
+            if (dijit.hasOwnProperty('children')) {              
+              arrayUtils.forEach(dijit.children, function (child) {
+                item.addChild(new ContentPane(child.props, child.id));
+              });
+            }
+            item.startup();
+            item.resize();
             break;
           case "contentpane":
-            if (dijit.hasOwnProperty("parent")) {
-              panel = new ContentPane(dijit.props, dijit.id);
-              item.addChild(panel);
-            } else {
-              item = new ContentPane(dijit.props, dijit.id);
-            }
+            item = new ContentPane(dijit.props, dijit.id);
+            break;
+          case "horizontal-slider":
+            item = new HorizontalSlider(dijit.props, dijit.id);
             break;
         }
       },
@@ -35,9 +39,7 @@ define([
         var self = this;
         arrayUtils.forEach(dijits, function (dijitJSON) {
           self.buildFromJSON(dijitJSON);
-        });  
-        item.startup();
-        item.resize();
+        });
       }
 
     };

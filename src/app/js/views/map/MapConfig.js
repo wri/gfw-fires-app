@@ -40,16 +40,28 @@ define({
     }
 	},
 
-	additionalLayers: {
+	forestUseLayers: {
 		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
-		id: 'Additional_Maps',
+		id: 'Forest_Use',
 		defaultLayers: [-1], // Show none by default
-		peatLands: '1',
-		landCover: '19',
-		protectedAreas: '25',
-		logging: '10',
-		woodFiber: '28',
-		oilPalm: '32'
+		oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+		woodFiber: 28, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+		logging: 10 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+	},
+
+	conservationLayers: {
+		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+		id: 'Conservation',
+		defaultLayers: [-1], // Show none by default
+		protectedAreas: 25 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+	},
+
+	landCoverLayers: {
+		url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+		id: 'Land_Cover',
+		defaultLayers: [-1], // Show none by default
+		peatLands: 1, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+		landCover: 19 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
 	},
 
 	treeCoverLayer: {
@@ -101,7 +113,8 @@ define({
 		digitalGlobeCheckbox: "Digital Globe - First Look (Coming Soon)",
 		landsatImageCheckbox: "Landsat 8 Pan-sharpened",
 		landsatImageSubLabel: "(updated daily, 30m, global)",
-		twitterConversationsCheckbox: "Twitter Conversations"
+		twitterConversationsCheckbox: "Twitter Conversations",
+		transparencySliderLabel: "Adjust Layer Transparency:"
 	},
 
 	accordionDijits: [
@@ -110,62 +123,45 @@ define({
 			"type": "accordion",
 			"props":{
 				"class":"fires-map-accordion"
+			},
+			"children": [
+				{"id": "fires-panel","props": {"title": "Fires"}},
+				{"id": "forest-use-panel","props": {"title": "Forest Use"}},
+				{"id": "conservation-panel","props": {"title": "Conservation"}},
+				{"id": "land-cover-panel","props": {"title": "Land Cover"}},
+				{"id": "air-quality-panel","props": {"title": "Air Quality"}},
+				{"id": "imagery-panel","props": {"title": "Imagery"}},
+				{"id": "social-media-panel","props": {"title": "Social Media"}}
+			]
+		},
+		{
+			"id":"forest-transparency-slider",
+			"type": "horizontal-slider",
+			"props": {
+				"value": 100,
+				"minimum": 0,
+				"maximum": 100,
+				"intermediateChanges": false
 			}
 		},
 		{
-			"id": "fires-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
+			"id":"conservation-transparency-slider",
+			"type": "horizontal-slider",
 			"props": {
-				"title": "Fires"
+				"value": 100,
+				"minimum": 0,
+				"maximum": 100,
+				"intermediateChanges": false
 			}
 		},
 		{
-			"id": "forest-use-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
+			"id":"land-cover-transparency-slider",
+			"type": "horizontal-slider",
 			"props": {
-				"title": "Forest Use"
-			}
-		},
-		{
-			"id": "conservation-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
-			"props": {
-				"title": "Conservation"
-			}
-		},
-		{
-			"id": "land-cover-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
-			"props": {
-				"title": "Land Cover"
-			}
-		},
-		{
-			"id": "air-quality-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
-			"props": {
-				"title": "Air Quality"
-			}
-		},
-		{
-			"id": "imagery-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
-			"props": {
-				"title": "Imagery"
-			}
-		},
-		{
-			"id": "social-media-panel",
-			"type": "contentpane",
-			"parent": "fires-map-accordion",
-			"props": {
-				"title": "Social Media"
+				"value": 100,
+				"minimum": 0,
+				"maximum": 100,
+				"intermediateChanges": false
 			}
 		}
 	]
