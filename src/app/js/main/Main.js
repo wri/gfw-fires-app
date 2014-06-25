@@ -31,15 +31,19 @@ define([
         // setup proxy url
 
 
-        require(["modules/ErrorController", "modules/HashController"], function(ErrorController, HashController) {
+        require(["modules/ErrorController", "modules/HashController", "modules/BlockController"],
 
-            HashController.init();
+            function(ErrorController, HashController, BlockController) {
 
-            ErrorController.init();
+                HashController.init();
 
-            ErrorController.show(5); /*time in seconds*/
+                ErrorController.init();
 
-        })
+                //ErrorController.show(5); /*time in seconds*/
+                //BlockController.show("aboutView");
+                //BlockController.hide("aboutView");
+
+            })
 
 
     }
