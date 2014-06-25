@@ -156,6 +156,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             var selectedMode = data;
 
             console.log(selectedMode);
+
+            EventsController[selectedMode.eventName];
         }
 
         o.isInitialized = function() {

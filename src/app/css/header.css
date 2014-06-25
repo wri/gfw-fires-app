@@ -24,7 +24,7 @@
   border-bottom: 1px solid #cfcfcf;
 }
 .navContainer {
-  width: 960px;
+  max-width: 960px;
   height: 55px;
   margin: auto;
   overflow: visible;

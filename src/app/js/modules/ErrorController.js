@@ -2,9 +2,9 @@ define(["dojo/dom-construct", "dojo/dom-class", "dojo/_base/window"],
     function(domConstruct, domClass, win) {
 
         var o = {};
-
+        var defaultMsg = "There was an error. Please try later";
         var errorDivProps = {
-            innerHTML: "There was an error. Please try later",
+            innerHTML: defaultMsg,
             "class": "errorMsg dijitHidden"
         };
 
@@ -23,12 +23,18 @@ define(["dojo/dom-construct", "dojo/dom-class", "dojo/_base/window"],
 
         };
 
-        o.show = function(seconds) {
+        o.show = function(seconds, msg) {
             var that = this;
             //inject html in page
             domClass.remove(errDiv, "dijitHidden");
             showingError = true;
             var time = seconds * 1000;
+
+            if (msg && msg.length > 0) {
+                errDiv.innerHTML = msg;
+            } else {
+                errDiv.innerHTML = defaultMsg;
+            }
 
             if (seconds !== 0) {
                 setTimeout(function() {

@@ -49,20 +49,20 @@ define([],
 
                 {
                     "html": "Latest Analysis",
-                    "event": "goToAnalysis",
+                    "eventName": "goToAnalysis",
                     "display": true
                 }, {
                     "html": "Latest Imagery",
-                    "event": "goToImagery",
+                    "eventName": "goToImagery",
                     "display": false
                 }, {
                     "html": "View Map",
-                    "event": "goToMap",
+                    "eventName": "goToMap",
                     "display": false
 
                 }, {
                     "html": "Highlight Interesting Stats",
-                    "event": "goToStats",
+                    "eventName": "goToStats",
                     "display": false
 
                 }
