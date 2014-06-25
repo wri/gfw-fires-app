@@ -15,6 +15,28 @@ define([
 			_map = map;
 		},
 
+		refreshLegend: function () {
+			registry.byId("legend").refresh();
+		},
+
+		setTransparency: function (layerId, value) {
+			var opaqueValue = Math.floor(value) / 100,
+					layer = _map.getLayer(layerId);
+
+			if (layer) {
+				layer.setOpacity(opaqueValue);
+			}
+
+			// If Land_Cover Slider was adjusted, set opacity on Tree Cover Image Service as well as it is under
+			// the same slider in UI and should have it's transparency the same as the other Land_Cover layers
+			if (layerId === 'Land_Cover') {
+				layer = _map.getLayer(MapConfig.treeCoverLayer.id);
+				if (layer) {
+					layer.setOpacity(opaqueValue);
+				}
+			}
+		},
+
 		toggleLayerVisibility: function (layerId, visibility) {
 				var layer = _map.getLayer(layerId);
       	if (layer) {
@@ -22,6 +44,7 @@ define([
       				  layer.setVisibility(visibility);
       			}
       	}
+      	this.refreshLegend();
 		},
 
 		updateFiresLayer: function (updateVisibleLayers) {
@@ -63,6 +86,9 @@ define([
 
 	      if (layer) {
 	          layer.setLayerDefinitions(defs);
+	          if (!updateVisibleLayers) {
+	          	this.refreshLegend();
+	          }
 	      }
 
 	      if (updateVisibleLayers) {
@@ -74,6 +100,7 @@ define([
 	          if (layer) {
 	              layer.setVisibleLayers(visibleLayers);
 	          }
+	          this.refreshLegend();
 	      }
 		},
 
@@ -111,6 +138,8 @@ define([
 			if (treeCoverVisible !== treeCoverLayer.visible) {
 				this.updateTreeCoverLayer(treeCoverVisible);
 			}
+
+			this.refreshLegend();
 
 		},
 

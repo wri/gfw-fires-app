@@ -114,7 +114,8 @@ define({
 		landsatImageCheckbox: "Landsat 8 Pan-sharpened",
 		landsatImageSubLabel: "(updated daily, 30m, global)",
 		twitterConversationsCheckbox: "Twitter Conversations",
-		transparencySliderLabel: "Adjust Layer Transparency:"
+		transparencySliderLabel: "Adjust Layer Transparency:",
+		getReportLink: "Get Fires Analysis"
 	},
 
 	accordionDijits: [

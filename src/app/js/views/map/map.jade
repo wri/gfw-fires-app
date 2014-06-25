@@ -1,5 +1,7 @@
 div#map-view(class="map-view")
 	div#control-panel(class="control-panel")
+		div(class="report-link-container")
+			span#report-link(class="report-link", data-bind="text: getReportLink")
 		div#fires-map-accordion
 			div#fires-panel(class='accordion-panel')
 				div
