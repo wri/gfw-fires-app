@@ -24,7 +24,7 @@ define(["dojo/topic"],
 
 
             //data events
-
+            "toggleNavList": "toggleNavList",
 
             //about events
 
@@ -117,6 +117,12 @@ define(["dojo/topic"],
             require(["views/footer/FooterController"], function(FooterController) {
                 FooterController.goToTweet(dataObj)
             })
+        });
+
+        topic.subscribe("toggleNavList", function(obj) {
+            require(["views/data/DataController"], function(DataController) {
+                DataController.toggleNavList(obj);
+            });
         });
 
         return o;

@@ -16,7 +16,7 @@
                 src: 'app/css/map.css',
                 cdn: false
             }, {
-                src: 'app/css/data.css',
+                src: 'app/css/contentPages.css',
                 cdn: false
             }, {
                 src: 'app/css/responsive.css',
@@ -35,7 +35,7 @@
                 src: 'app/css/map.css',
                 cdn: false
             }, {
-                src: 'app/css/data.css',
+                src: 'app/css/contentPages.css',
                 cdn: false
             }, {
                 src: 'app/css/responsive.css',
