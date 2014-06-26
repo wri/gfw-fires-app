@@ -62,9 +62,11 @@ define([
 
     o.addConfigurations = function() {
 
+        var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl : MapConfig.proxyUrl;
+
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
-            proxyUrl: MapConfig.proxyUrl
+            proxyUrl: proxyUrl
         });
 
     };

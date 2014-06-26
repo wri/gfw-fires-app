@@ -55,7 +55,7 @@ define([
             var self = this;
 
             // Set up some configurations
-            esriConfig.defaults.io.proxyUrl = MapConfig.proxyUrl;
+            esriConfig.defaults.io.proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl : MapConfig.proxyUrl;
             Highcharts.setOptions({
                 chart: {
                     style: {

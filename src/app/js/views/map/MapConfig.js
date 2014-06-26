@@ -2,6 +2,7 @@
 define({
 
 	proxyUrl: "http://rmb/proxy/proxy.php",
+	stagingProxyUrl: 'http://staging.blueraster.com/proxy/proxy.php',
 
 	mapOptions: {
 		darkGrayCanvas: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer",
