@@ -35,6 +35,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         o.clickNavLink = function(data) {
             var clickedItem = data;
 
+            if (clickedItem.url) {
+                window.open(clickedItem.url, "_blank")
+                return;
+            }
+
             var updateHash = {
                 v: clickedItem.viewId
             };
@@ -67,8 +72,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 }*/
 
                 //alert(data.viewName);
-                domClass.remove("app-body", "mapView homeView blogView dataView aboutView");
+                var allViews = "mapView homeView blogView dataView aboutView";
+                domClass.remove("app-body", allViews);
                 domClass.add("app-body", data.viewName)
+                domClass.remove("app-header", allViews);
+                domClass.add("app-header", data.viewName)
 
                 switch (data.viewName) {
                     case "homeView":

@@ -20,7 +20,7 @@
 .footerWrapper .analysisAlerts .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -400px;
-  background-repeat: norepeat;
+  background-repeat: no-repeat;
   height: 92px;
   margin: 20px auto;
   width: 150px;
@@ -28,7 +28,7 @@
 .footerWrapper .submitStory .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -540px;
-  background-repeat: norepeat;
+  background-repeat: no-repeat;
   height: 92px;
   margin: 20px auto;
   width: 134px;
@@ -36,7 +36,7 @@
 .footerWrapper .blogPosts .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -740px;
-  background-repeat: norepeat;
+  background-repeat: no-repeat;
   height: 92px;
   margin: 20px auto;
   width: 122px;

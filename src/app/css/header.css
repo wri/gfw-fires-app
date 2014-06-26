@@ -63,6 +63,7 @@
   padding-left: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
+  margin-right: 15px;
   cursor: pointer;
   border-radius: 5px;
   text-transform: uppercase;
@@ -79,7 +80,6 @@
   width: 86px;
   height: 86px;
   position: absolute;
-  top: 45px;
   margin-left: 10px;
   box-shadow: 2px 2px 2px #888;
   z-index: 10;

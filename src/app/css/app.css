@@ -12,17 +12,22 @@ body,
 }
 .mapView #stackContainer {
   position: absolute;
-  top: 100px;
+  top: 60px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow: hidden;
 }
 .homeView #stackContainer {
-  height: 500px !important;
+  height: 700px !important;
 }
 .blogView #stackContainer {
-  height: 100% !important;
+  position: absolute;
+  top: 100px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow-y: auto;
 }
 .dataView #stackContainer {
   position: absolute;
@@ -53,11 +58,13 @@ body,
   height: 210px;
   background: url("../images/header_tree_background.png") repeat-x scroll center top transparent;
   border-bottom: 1px solid #717d80;
-  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
   box-sizing: border-box;
 }
 #app-header.small {
   height: 100px;
+}
+#app-header.small.mapView {
+  height: 60px;
 }
 #app-body {
   width: 100%;

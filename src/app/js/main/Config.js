@@ -38,6 +38,12 @@ define([],
                 "viewId": "about",
                 "domId": "aboutView",
                 "selected": false
+            }, {
+                "html": "GFW",
+                "url": "http://www.globalforestwatch.org",
+                "viewId": "link",
+                "domId": "link",
+                "selected": false
             }],
 
             headerTitle: "A partnership convened by the World Resources Institute",

@@ -1,8 +1,8 @@
 link(rel='stylesheet', href='app/css/header.css')
-div.headerTitleContainer
+div.headerTitleContainer(data-bind="visible: (appState().v!='map')")
 	div.headerTitle(data-bind="html:headerTitle")
 div.navContainer
-	div.headerSeparator
+	div.headerSeparator(data-bind="visible: (appState().v=='home')")
 	div.navigationLinks
 		ul.navList(data-bind="foreach:navigationLinks")
 			li.navItem(data-bind="css:{selected:selected},click:$root.clickNavLink")

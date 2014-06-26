@@ -13,9 +13,6 @@
                 src: 'app/css/app.css',
                 cdn: false
             }, {
-                src: 'app/css/map.css',
-                cdn: false
-            }, {
                 src: 'app/css/contentPages.css',
                 cdn: false
             }, {
@@ -30,9 +27,6 @@
                 cdn: true
             }, {
                 src: 'app/css/app.css',
-                cdn: false
-            }, {
-                src: 'app/css/map.css',
                 cdn: false
             }, {
                 src: 'app/css/contentPages.css',
