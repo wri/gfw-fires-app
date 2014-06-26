@@ -52,6 +52,29 @@ html, body
 	bottom 5px
 	left 5px
 
+.legend-swatch
+	border 1px solid black
+	height 16px
+	width 16px
+
+.legend-label
+	padding-left 10px
+
+.legend-title 
+	max-width 160px
+
+.chart-container
+	margin 0 auto
+	height 400px
+	width 500px
+
+.chart
+	height 400px
+	width 500px
+
+.chart text
+	font-size 22px !important
+
 .fires-table
 	font-family "Arial MT Condensed Light", Arial, Georgia, sans-serif
 	border-collapse collapse
@@ -59,7 +82,7 @@ html, body
 	margin 20px auto
 
 .fires-table th
-	border-bottom 2px solid #333
+	border-bottom 2px solid #888
 	max-width 230px
 	min-width 150px
 	padding 10px
@@ -75,7 +98,7 @@ html, body
 	background-color #e89927
 
 .fires-table td
-	border-bottom 2px solid #333
+	border-bottom 2px solid #888
 	max-width 230px
 	padding 5px
 	color black
@@ -90,3 +113,5 @@ html, body
 	.page-break
 		display block 
 		page-break-before always
+	.no-break
+		page-break-inside: avoid !important;

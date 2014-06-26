@@ -2,7 +2,10 @@
 // ENV to dev for Development, pro for Production
 (function(win, doc) {
     'use strict';
-    var src = 'http://js.arcgis.com/3.9/',
+    var src = [
+            'http://js.arcgis.com/3.9/',
+            'http://code.jquery.com/jquery-1.11.0.min.js'
+        ],
         css = [
             'http://js.arcgis.com/3.9/js/esri/css/esri.css',
             '../../../css/report.css'
@@ -70,9 +73,11 @@
     function loadDependencies() {
         // Load Esri Dependencies
         win.dojoConfig = dojoConfig;
-        loadScript(src);
         for (var i = 0, len = css.length; i < len; i++) {
             loadStyle(css[i]);
+        }
+        for (var j = 0, size = src.length; j < size; j++) {
+            loadScript(src[j]);
         }
     }
 
