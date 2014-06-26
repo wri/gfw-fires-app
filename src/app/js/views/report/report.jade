@@ -1,7 +1,7 @@
 html
 	head
 		script(src='PrintLoader.js')
-	body
+	body(style='overflow: hidden')
 		div#loading-screen(style='background-color: #CCC; height: 100%; width: 100%; z-index: 100;')
 		div#report(class='report-page')
 			div(class='report-title') GFW-FIRES ANALYSES OVER THE LAST 7 DAYS
@@ -11,13 +11,19 @@ html
 					div#simple-fires-map(class='map')
 			div#section-two(class='page-break')
 				div(class='section-title') Figure 2a: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
-				div(class='map-container')
+				div(class='map-container small')
 					div#district-fires-map(class='map')
 				div(class='section-title') Figure 2b: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+					div#district-fires-table
 			div#section-three(class='page-break')
 				div(class='section-title') Figure 3: FIRE ALERT COUNT FOR SUMATRA, INDONESIA, AND PENINSULAR MALAYSIA
+				div#fire-alert-count-sumatra
+					div#fire-line-chart
 			div#section-four(class='page-break')
 				div(class='section-title') Figure 4: COMPANY CONCESSIONS WITH FIRE ALERTS FOR SUMATRA, INDONESIA
+				div#pulpwood-fires-table
+				div#palmoil-fires-table
+				div#logging-fires-table
 			div#section-five(class='page-break')
 				div(class='section-title') Figure 5: FIRE ALERTS BY LAND USE AREA FOR SUMATRA, INDONESIA
 				div(class='section-title') Figure 6: FIRE ALERTS IN PROTECTED AREAS FOR SUMATRA, INDONESIA 
