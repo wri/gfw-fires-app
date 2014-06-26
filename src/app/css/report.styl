@@ -23,10 +23,14 @@ html, body
 	text-align center
 	font-size 28px
 
-.section-title
+.section-title, .sub-title
 	font-family "Arial MT Condensed Light", Arial, Georgia, sans-serif
 	font-size 22px
 	margin 10px 0
+
+.sub-title
+	text-align center
+	font-size 18px
 
 .map-container
 	border 2px solid black
@@ -35,13 +39,21 @@ html, body
 	width 650px
 
 .map-container.small
+	position relative
 	height 400px
 
 .map
 	height 100%
 	width 100%
 
+.legend-container
+	position absolute
+	z-index 50
+	bottom 5px
+	left 5px
+
 .fires-table
+	font-family "Arial MT Condensed Light", Arial, Georgia, sans-serif
 	border-collapse collapse
 	text-align center
 	margin 20px auto

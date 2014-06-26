@@ -5,6 +5,7 @@ define([
 	"dojo/Deferred",
 	"dojo/dom-style",
 	"dojo/dom-class",
+	"dijit/registry",
 	"dojo/promise/all",
 	"dojo/_base/array",
 	"esri/map",
@@ -21,7 +22,7 @@ define([
 	"esri/tasks/query",
 	"esri/tasks/QueryTask",
 	"views/map/MapConfig"
-], function (dom, ready, Deferred, domStyle, domClass, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer, 
+], function (dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer, 
 			SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, LayerDrawingOptions, GenerateRendererTask, 
 			Query, QueryTask, MapConfig) {
 
@@ -110,6 +111,7 @@ define([
 					colorRamp,
 					classDef,
 					renderer,
+					legend,
 					ldos,
 					map;
 
@@ -146,8 +148,18 @@ define([
       generateParams = new GenerateRendererParameters();
       generateParams.classificationDefinition = classDef;
 
+      function buildLegend (rendererInfo) {
+      	var html = "<table>";
+      	arrayUtils.forEach(rendererInfo, function (item) {
+      		html += "<tr><td>" + item.minValue + " - " + item.maxValue + "</td>";
+      		html += "<td class='legend-swatch' style='background-color=rgb()'" + "></td></tr>";
+      	});
+      	html += "</table>";
+      }
+
       renderer = new GenerateRendererTask(boundaryConfig.url + "/" + boundaryConfig.layerId);
       renderer.execute(generateParams, function (customRenderer) {
+      	buildLegend(customRenderer.infos);
       	ldos = new LayerDrawingOptions();
       	ldos.renderer = customRenderer;
       	options[boundaryConfig.layerId] = ldos;
@@ -246,10 +258,13 @@ define([
 
 		generateTableRows: function (features, fieldNames) {
 			var rows = "";
+			function isValid(item) {
+				return item !== null && item !== undefined;
+			}
 			arrayUtils.forEach(features, function (feature) {
 				rows += "<tr>";
 				arrayUtils.forEach(fieldNames, function (field) {
-					rows += "<td>" + (feature.attributes[field] || ' - ') + "</td>";
+					rows += "<td>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ')+ "</td>";
 				});
 				rows += "</tr>";
 			});
