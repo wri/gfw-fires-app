@@ -3,7 +3,8 @@ div.homeModeOptionsContainer
 	div.homeModeOptionsViewerOuter(data-bind="foreach:homeModeOptions")
 		div.modeGroup(data-bind="css:{dijitHidden:!display,dijitVisible:display},click:$root.modeSelect")
 			div.modeOption
-			div.modeOptionRing(data-bind="html:html")
+			div.modeOptionRing
+				div.modeText(data-bind="html:html")
 
 		//div.homeModeOptionsViewerInner#homeModeOptionsViewerInner(data-bind="foreach:homeModeOptions")
 			//div.modeOption(data-bind="html:html")

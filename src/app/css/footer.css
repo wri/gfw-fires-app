@@ -93,6 +93,10 @@
   margin: auto;
   background-color: #464352;
 }
+.footerMovableModes a {
+  color: #fff;
+  font-size: 12px;
+}
 .footerMovableModes .container-large {
   width: 365px;
   height: 100%;
@@ -117,6 +121,7 @@
 }
 .footerMovableModes .about-project .title {
   font-weight: bold;
+  text-align: center;
 }
 .footerMovableModes .wri-address {
   color: #b1afb6;
@@ -138,6 +143,8 @@
 }
 .footerMovableModes .share .title {
   text-align: center;
+  font-family: fira_sans_otmedium;
+  font-weight: 200;
 }
 .footerMovableModes .share-container {
   padding: 10px 20px;

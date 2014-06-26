@@ -4,7 +4,9 @@
   <div data-bind="foreach:homeModeOptions" class="homeModeOptionsViewerOuter">
     <div data-bind="css:{dijitHidden:!display,dijitVisible:display},click:$root.modeSelect" class="modeGroup">
       <div class="modeOption"></div>
-      <div data-bind="html:html" class="modeOptionRing"></div>
+      <div class="modeOptionRing">
+        <div data-bind="html:html" class="modeText"></div>
+      </div>
     </div>
     <!--div.homeModeOptionsViewerInner#homeModeOptionsViewerInner(data-bind="foreach:homeModeOptions")//div.modeOption(data-bind="html:html")
     -->

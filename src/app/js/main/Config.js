@@ -51,28 +51,26 @@ define([],
             headerDesc: "Forest Fires and Haze Watch for the ASEAN Region",
 
 
-            homeModeOptions: [
+            homeModeOptions: [{
+                    "html": "<p>60 %</p> Fires Occuring in Peatland <br> in the last 7 days",
+                    "eventName": "goToMap",
+                    "display": false
+                },
 
                 {
-                    "html": "Latest Analysis",
+                    "html": "View the Latest Analysis",
                     "eventName": "goToAnalysis",
                     "display": true
                 }, {
-                    "html": "Latest Imagery",
-                    "eventName": "goToImagery",
+                    "html": "View the Latest Imagery",
+                    "eventName": "goToMap",
                     "display": false
                 }, {
-                    "html": "View Map",
+                    "html": "Explore the Map",
                     "eventName": "goToMap",
                     "display": false
 
-                }, {
-                    "html": "Highlight Interesting Stats",
-                    "eventName": "goToStats",
-                    "display": false
-
                 }
-
             ],
 
             footerModeOptions: [
