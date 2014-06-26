@@ -168,6 +168,11 @@ define([
             if (MapModel.get('showBasemapGallery')) {
                 MapModel.set('showBasemapGallery', false);
             }
+
+            if (MapModel.get('showShareContainer')) {
+                MapModel.set('showShareContainer', false);
+            }
+
             MapModel.set('showLocatorWidgets', !MapModel.get('showLocatorWidgets'));
         };
 
@@ -176,6 +181,11 @@ define([
             if (MapModel.get('showLocatorWidgets')) {
                 MapModel.set('showLocatorWidgets', false);
             }
+
+            if (MapModel.get('showShareContainer')) {
+                MapModel.set('showShareContainer', false);
+            }
+
             MapModel.set('showBasemapGallery', !MapModel.get('showBasemapGallery'));
         };
 
@@ -409,7 +419,7 @@ define([
 
     o.toggleLegend = function() {
         var node = dom.byId("legend-widget-container"),
-            height = node.offsetHeight === 200 ? 30 : 200;
+            height = node.offsetHeight - 2 === 200 ? 30 : 200; //added border, has to have - 2 to get correct height
 
         Fx.animateProperty({
             node: node,
@@ -418,6 +428,12 @@ define([
             },
             duration: 500
         }).play();
+
+        if (height === 30) {
+            domClass.add("legend-widget-title", "legend-closed");
+        } else {
+            domClass.remove("legend-widget-title", "legend-closed");
+        }
 
     };
 

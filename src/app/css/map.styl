@@ -34,12 +34,15 @@ baseRed = #e7002f
 .map 
 	height 100%
 	width 100%
+.simpleGeocoder .esriGeocoder
+	border 2px solid rgb(170, 170, 170)
+
 .HomeButton .home
 	padding 0
 	border-radius(0)
 
 .locator-widget-button, .basemap-gallery-button, .share-button
-	border 1px solid #444
+	padding 1px
 	border-radius(5px)
 	position absolute
 	cursor pointer
@@ -47,6 +50,64 @@ baseRed = #e7002f
 	width 30px
 	right 20px
 	z-index 50
+	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
+	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
+	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
+
+.esriSimpleSlider
+	border 0
+	background rgba(255,255,255,0)
+
+.esriSimpleSliderTL
+	right 20px
+	left auto
+.esriSimpleSliderVertical .esriSimpleSliderIncrementButton
+	border-bottom 0
+	padding 1px
+	color rgb(240, 171, 0)
+	background rgb(255, 255, 255)
+	border-top-left-radius 5px
+	border-top-right-radius 5px
+	-moz-border-radius-topleft 5px
+	-moz-border-radius-topright 5px
+	-webkit-border-top-left-radius 5px
+	-webkit-border-top-right-radius 5px
+	margin-bottom 2px
+	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
+	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
+	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
+
+.esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover
+	background-color #EEE !important
+
+.basemap-gallery-button, .HomeButton .home, .locator-widget-button
+	background-color #FFF
+
+.HomeButton
+	margin 0 0 4px 0
+
+.HomeButton .home
+	padding 1px
+	background-color rgb(255, 255, 255)
+	border-radius 0
+	-moz-border-radius 0
+	-webkit-border-radius 0
+	background-image url(../images/ico-home.png)
+
+.esriSimpleSliderDecrementButton
+	padding 1px
+	color rgb(240, 171, 0)
+	background rgb(255, 255, 255)
+	border-bottom-left-radius 5px
+	border-bottom-right-radius 5px
+	-moz-border-radius-bottomleft 5px
+	-moz-border-radius-bottomright 5px
+	-webkit-border-bottom-left-radius 5px
+	-webkit-border-bottom-right-radius 5px
+	margin-bottom 1px
+	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
+	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
+	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 .modal-link 
 	background-color white
@@ -57,18 +118,23 @@ baseRed = #e7002f
 	z-index 49
 
 .locator-widget-button
-	background url('../images/locate.png') no-repeat center -2px white
-	top 120px
+	background-image url('../images/locate.png')
+	background-repeat no-repeat 
+	background-position 0 -34px
+	top 130px
 
 .locator-linker
-	top 120px
+	top 130px
 
 .basemap-gallery-button
-	background url('../images/basemap.png') no-repeat center -2px white
-	top 160px
+	background-image url('../images/basemap.png')
+	background-repeat no-repeat 
+	background-position 0 -34px
+	top 170px
+	border-width 0
 
 .basemap-linker
-	top 160px
+	top 170px
 
 .basemap-gallery-container, .locator-widget-container, .map-share-container
 	background-color white
@@ -84,17 +150,17 @@ baseRed = #e7002f
 
 .map-share-container
 	height 80px
-	top 170px
+	top 180px
 
 .basemap-gallery-container
 	overflow-y auto
 
 .share-linker
-	top 200px
+	top 210px
 
 .share-button
 	background url('../images/ico-share.png') no-repeat center white
-	top 200px
+	top 210px
 
 .locator-line-splitter
 	text-align center
@@ -184,6 +250,16 @@ baseRed = #e7002f
 	right 0
 	left 0
 
+#control-panel .fires-map-accordion .dijitAccordionTitle
+	background rgb(255, 255, 255) url(../images/ico-carat-right.png) 96% center no-repeat
+	color rgb(136, 136, 136)
+	font-weight bold
+
+#control-panel .fires-map-accordion .dijitAccordionTitleSelected
+	background rgb(255, 255, 255) url(../images/ico-carat-down.png) 96% center no-repeat !important
+	color rgb(136, 136, 136)
+
+
 .legend-widget-container 
 	background-color white
 	border-radius-top(5px)
@@ -191,15 +267,30 @@ baseRed = #e7002f
 	overflow hidden
 	cursor pointer
 	height 200px
-	width 200px
+	width 250px
 	z-index 50
 	right 20px
 	bottom 0
+	border 1px solid rgb(191, 191, 191)
 
 .legend-widget-title
-	border-bottom 1px solid #000
 	box-sizing border-box
+	background-image url(../images/ico-carat-down.png) !important
+	color rgb(233, 131, 0)
+	background-color rgb(236, 236, 237)
+	cursor pointer
+	font-weight 600 !important
 	height 30px
+	line-height 30px
+	background-repeat no-repeat !important
+	background-position 90% 10px !important
+
+.legend-widget-title:hover
+	background-color rgb(255, 255, 255)
+	border-bottom 1px solid rgb(0,0,0)
+
+.legend-closed
+	background-image url(../images/ico-carat-up.png) !important
 	
 .legend-widget-title span
 	display inline-block
@@ -214,7 +305,8 @@ baseRed = #e7002f
 #legend
 	overflow-y auto
 	height 100%
-	width 200px
+	width 250px
+	padding 0 0 0 20px
 
 #legend_msg
 	display none !important
@@ -290,3 +382,27 @@ baseRed = #e7002f
 .esriControlsBR
 	right inherit // Override Esri right: 5px setting
 	left 5px
+
+#control-panel .dijitSliderRemainingBarH, #control-panel.dijitSliderProgressBarH, #control-panel.dijitSliderFocused .dijitSliderProgressBarH
+	background rgb(236, 197, 61)
+	padding 2px
+	border-width 0px
+
+.dijitSliderMoveable
+	outline none
+
+#control-panel .dijitSliderImageHandleH, #control-panel .dijitSliderImageHandleH
+	border 4px solid rgb(233, 131, 0)
+	height 8px
+	width 8px
+	margin-top 2px
+	background rgb(255, 255, 255) url('')
+	border-radius 8px
+
+#control-panel .dijitSliderLeftBumper, #control-panel .dijitSliderRightBumper, #control-panel .dijitSliderIncrementIconH, #control-panel .dijitSliderDecrementIconH
+	display none
+
+#control-panel .dijitSliderProgressBarH
+	background rgba(0,0,0,0)
+	border-width 0
+
