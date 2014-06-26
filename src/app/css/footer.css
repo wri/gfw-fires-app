@@ -68,7 +68,6 @@
   background-color: #222;
 }
 .footerShareContainer {
-  background-color: #464352;
   width: 100%;
   height: 180px;
 }
@@ -81,13 +80,18 @@
 }
 .footerMovableWrapper {
   width: 100%;
-  height: 100%;
-  max-width: 960px;
-  margin: auto;
+  height: 180px;
+  background-color: #464352;
   color: #fff;
+  clear: both;
+  bottom: 0;
 }
 .footerMovableModes {
-  height: 100%;
+  height: 180px;
+  max-width: 960px;
+  width: 100%;
+  margin: auto;
+  background-color: #464352;
 }
 .footerMovableModes .container-large {
   width: 365px;

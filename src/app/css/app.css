@@ -9,7 +9,45 @@ body,
 }
 #stackContainer {
   width: 100%;
-  height: 100%;
+}
+.mapView #stackContainer {
+  position: absolute;
+  top: 100px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow: hidden;
+}
+.homeView #stackContainer {
+  height: 500px !important;
+}
+.blogView #stackContainer {
+  height: 100% !important;
+}
+.dataView #stackContainer {
+  position: absolute;
+  top: 100px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow-y: auto;
+}
+.aboutView #stackContainer {
+  position: absolute;
+  top: 100px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  overflow-y: auto;
+}
+#homeView,
+#blogView,
+#dataView,
+#aboutView {
+  overflow: visible;
+}
+.mapView #footerMovableWrapper {
+  display: none;
 }
 #app-header {
   height: 210px;
@@ -22,11 +60,10 @@ body,
   height: 100px;
 }
 #app-body {
-  height: 100%;
   width: 100%;
 }
 #app-footer {
-  height: 480px;
+  height: 470px;
   width: 100%;
 }
 #app-footer.small {

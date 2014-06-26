@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "dojo/_base/array", "dojo/dom-construct"],
-    function(dom, registry, HashController, EventsController, arrayUtil, domConstruct) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class"],
+    function(dom, registry, HashController, EventsController, arrayUtil, domConstruct, domClass) {
 
         var o = {};
         var initialized = false;
@@ -67,16 +67,20 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 }*/
 
                 //alert(data.viewName);
+                domClass.remove("app-body", "mapView homeView blogView dataView aboutView");
+                domClass.add("app-body", data.viewName)
 
-                /*switch (data.viewName) {
-                    case "mapView":
+                switch (data.viewName) {
+                    case "homeView":
                         //domConstruct.place("");
-                        domConstruct.place("footerShareContainer", "app-footer");
+                        domConstruct.place("footerMovableWrapper", "footerShareContainer");
                         break;
 
                     default:
-                        domConstruct.place("footerShareContainer", data.viewName);
-                }*/
+                        domConstruct.place("footerMovableWrapper", data.viewName);
+                }
+
+                registry.byId("stackContainer").resize();
             });
 
         };
