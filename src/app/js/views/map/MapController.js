@@ -168,6 +168,11 @@ define([
             if (MapModel.get('showBasemapGallery')) {
                 MapModel.set('showBasemapGallery', false);
             }
+
+            if (MapModel.get('showShareContainer')) {
+                MapModel.set('showShareContainer', false);
+            }
+
             MapModel.set('showLocatorWidgets', !MapModel.get('showLocatorWidgets'));
         };
 
@@ -176,11 +181,30 @@ define([
             if (MapModel.get('showLocatorWidgets')) {
                 MapModel.set('showLocatorWidgets', false);
             }
+
+            if (MapModel.get('showShareContainer')) {
+                MapModel.set('showShareContainer', false);
+            }
+
             MapModel.set('showBasemapGallery', !MapModel.get('showBasemapGallery'));
+        };
+
+
+        var toggleShareContainer = function() {
+            // If Locator Widgets Panel is Open, Close it
+            if (MapModel.get('showLocatorWidgets')) {
+                MapModel.set('showLocatorWidgets', false);
+            }
+            if (MapModel.get('showBasemapGallery')) {
+                MapModel.set('showBasemapGallery', false);
+            }
+
+            MapModel.set('showShareContainer', !MapModel.get('showShareContainer'));
         };
 
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
+        on(dom.byId("share-button"), "click", toggleShareContainer);
 
     };
 
@@ -231,22 +255,22 @@ define([
             Finder.searchAreaByCoordinates();
         });
 
-        on(dom.byId("report-link"), "click", function () {
+        on(dom.byId("report-link"), "click", function() {
             var win = window.open('./app/js/views/report/report.html', 'Report', '');
         });
 
         on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
         on(dom.byId("legend-widget-title"), "click", this.toggleLegend);
 
-        registry.byId("forest-transparency-slider").on('change', function (value) {
+        registry.byId("forest-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.forestUseLayers.id, value);
         });
 
-        registry.byId("land-cover-transparency-slider").on('change', function (value) {
+        registry.byId("land-cover-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.landCoverLayers.id, value);
         });
 
-        registry.byId("conservation-transparency-slider").on('change', function (value) {
+        registry.byId("conservation-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.conservationLayers.id, value);
         });
 
@@ -395,7 +419,7 @@ define([
 
     o.toggleLegend = function() {
         var node = dom.byId("legend-widget-container"),
-            height = node.offsetHeight === 200 ? 30 : 200;
+            height = node.offsetHeight - 2 === 200 ? 30 : 200; //added border, has to have - 2 to get correct height
 
         Fx.animateProperty({
             node: node,
@@ -404,6 +428,12 @@ define([
             },
             duration: 500
         }).play();
+
+        if (height === 30) {
+            domClass.add("legend-widget-title", "legend-closed");
+        } else {
+            domClass.remove("legend-widget-title", "legend-closed");
+        }
 
     };
 
