@@ -42,6 +42,7 @@ define([
         var that = this;
         if (initialized) {
             //switch to this view
+            o.map.resize();
             EventsController.switchToView(view);
             return;
         }
@@ -96,6 +97,8 @@ define([
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
+
+            o.map.resize();
         });
 
     };

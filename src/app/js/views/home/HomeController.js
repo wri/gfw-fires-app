@@ -34,6 +34,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 //ANIMATE ONLY AFTER BINDING DONE
                 EventsController.startModeAnim();
+
+                that.getPeats();
                 /*{
                     resume: true
                 }*/
@@ -145,6 +147,19 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
             });
+        };
+
+        o.getPeats = function() {
+
+            /*require(["views/report/ReportBuilder"], function(ReportBuilder) {
+                var deferred = ReportBuilder.queryForPeatFires();
+
+                deferred.then(function(data) {
+                    debugger;
+                    console.log(data);
+                })
+            })*/
+
         };
 
         o.stopModeAnmin = function(data) {
