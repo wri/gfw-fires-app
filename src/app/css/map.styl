@@ -70,18 +70,27 @@ baseRed = #e7002f
 .basemap-linker
 	top 160px
 
-.basemap-gallery-container, .locator-widget-container
+.basemap-gallery-container, .locator-widget-container, .map-share-container
 	background-color white
 	border-radius(5px)
 	position absolute
-	height 300px
 	width 300px
 	z-index 50
 	right 70px
+
+.basemap-gallery-container, .locator-widget-container
+	height 300px
 	top 20px
+
+.map-share-container
+	height 80px
+	top 170px
 
 .basemap-gallery-container
 	overflow-y auto
+
+.share-linker
+	top 200px
 
 .share-button
 	background url('../images/ico-share.png') no-repeat center white
@@ -95,6 +104,9 @@ baseRed = #e7002f
 	margin 5px 0 0 5px
 	font-weight bold
 	font-size 18px
+
+.addthis_sharing_toolbox
+	padding 20px 0 0 20px
 
 .LocateButton
 	margin 0 5px

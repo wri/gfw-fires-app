@@ -179,8 +179,22 @@ define([
             MapModel.set('showBasemapGallery', !MapModel.get('showBasemapGallery'));
         };
 
+
+        var toggleShareContainer = function() {
+            // If Locator Widgets Panel is Open, Close it
+            if (MapModel.get('showLocatorWidgets')) {
+                MapModel.set('showLocatorWidgets', false);
+            }
+            if (MapModel.get('showBasemapGallery')) {
+                MapModel.set('showBasemapGallery', false);
+            }
+
+            MapModel.set('showShareContainer', !MapModel.get('showShareContainer'));
+        };
+
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
+        on(dom.byId("share-button"), "click", toggleShareContainer);
 
     };
 
@@ -231,22 +245,22 @@ define([
             Finder.searchAreaByCoordinates();
         });
 
-        on(dom.byId("report-link"), "click", function () {
+        on(dom.byId("report-link"), "click", function() {
             var win = window.open('./app/js/views/report/report.html', 'Report', '');
         });
 
         on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
         on(dom.byId("legend-widget-title"), "click", this.toggleLegend);
 
-        registry.byId("forest-transparency-slider").on('change', function (value) {
+        registry.byId("forest-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.forestUseLayers.id, value);
         });
 
-        registry.byId("land-cover-transparency-slider").on('change', function (value) {
+        registry.byId("land-cover-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.landCoverLayers.id, value);
         });
 
-        registry.byId("conservation-transparency-slider").on('change', function (value) {
+        registry.byId("conservation-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.conservationLayers.id, value);
         });
 
