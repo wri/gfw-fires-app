@@ -503,3 +503,12 @@
 #control-panel input[type="radio"]:checked {
   background-position: -94px;
 }
+.close-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 15px;
+  width: 15px;
+  background: url("../images/ico-close.png") no-repeat;
+  cursor: pointer;
+}

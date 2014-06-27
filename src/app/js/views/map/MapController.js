@@ -285,6 +285,17 @@ define([
             on(node, "click", self.toggleFireOption.bind(self));
         });
 
+        dojoQuery(".esriPopupWrapper").forEach(function(node) {
+            domConstruct.create("div", {
+                'id': 'close-icon',
+                'class': 'close-icon'
+            }, node);
+
+            on(node, "click", function() {
+                o.map.infoWindow.hide();
+            });
+        });
+
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
             domClass.add(node, "forest-use-layers-option");
         });
