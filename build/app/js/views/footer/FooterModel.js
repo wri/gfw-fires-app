@@ -1,0 +1,1 @@
+define(["knockout","main/Config","dojo/dom","modules/HashController","modules/EventsController"],function(o,e,n,t,r){var i={};i.vm={};var l=i.vm;return l.footerModeOptions=o.observableArray(e.footerModeOptions),l.appState=o.observable({}),l.footerSelect=function(o){r.footerSelect(o)},i.applyBindings=function(e){o.applyBindings(l,n.byId(e))},i});

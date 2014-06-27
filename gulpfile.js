@@ -5,6 +5,8 @@ var uglify = require('gulp-uglify');
 var minifycss = require('gulp-minify-css');
 var minifyhtml = require('gulp-minify-html');
 var autoprefixer = require('gulp-autoprefixer');
+var imagemin = require('gulp-imagemin');
+var pngcrush = require('imagemin-pngcrush');
 
 var app_dir = {
     src: __dirname + "/src/",
@@ -57,10 +59,30 @@ gulp.task('develop', function() {
 
 /*********BUILD************/
 
-gulp.task('compress', function() {
+/*gulp.task('imagemin', function() {
+    gulp.src(app_dir.src + 'app/images/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [],
+            use: [pngcrush()]
+        }))
+        .pipe(gulp.dest(app_dir.build + 'app/images/*'));
+});*/
+
+/*gulp.task('minify-css', function() {
+    console.log(app_dir.src + 'app/css/*.css');
+     gulp.src(app_dir.src + 'app/css/*.css')
+        .pipe(minifyCSS({
+            keepBreaks: true
+        }))
+        .pipe(gulp.dest(app_dir.build))
+});*/
+
+
+gulp.task('uglifyjs', ['minify-css'], function() {
     return gulp.src(app_dir.src + '**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest(app_dir.build))
 });
 
-gulp.task('build', ['compress']);
+gulp.task('build', ['uglifyjs']);

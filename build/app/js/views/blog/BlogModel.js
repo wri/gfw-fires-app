@@ -1,0 +1,1 @@
+define(["knockout","main/Config","dojo/dom"],function(n,i,o){var e={};e.vm={};var a=e.vm;return a.homeTitle=n.observable(i.homeTitle),e.applyBindings=function(i){n.applyBindings(a,o.byId(i))},e});
