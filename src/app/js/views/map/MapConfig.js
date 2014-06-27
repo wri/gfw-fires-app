@@ -1,7 +1,7 @@
 /* global define */
 define({
 
-	proxyUrl: "http://rmb/proxy/proxy.php",
+	proxyUrl: "http://rmbp/proxy/proxy.php",
 	stagingProxyUrl: 'http://staging.blueraster.com/proxy/proxy.php',
 
 	mapOptions: {
