@@ -330,7 +330,7 @@ define([
                 self.buildPieChart("peat-fires-chart", {
                     data: peatData,
                     name: 'Peat Fires',
-                    labelDistance: -30,
+                    labelDistance: -25,
                     total: total
                 });
                 deferred.resolve(true);
