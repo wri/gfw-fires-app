@@ -30,6 +30,10 @@ html, body, .app
 #stackContainer
   width 100%
 
+#homeView
+  height auto !important
+  background-color #000
+
 .mapView #stackContainer  
   position absolute
   top 60px
@@ -39,7 +43,9 @@ html, body, .app
   overflow  hidden
 
 .homeView #stackContainer
-  height 700px !important
+  max-height 700px !important
+  min-height 300px
+  position relative !important
 
 .blogView #stackContainer
   position absolute
