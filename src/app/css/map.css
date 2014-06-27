@@ -49,15 +49,15 @@
   -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
   -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
-.esriSimpleSlider {
+#map .esriSimpleSlider {
   border: 0;
   background: rgba(255,255,255,0);
 }
-.esriSimpleSliderTL {
+#map .esriSimpleSliderTL {
   right: 20px;
   left: auto;
 }
-.esriSimpleSliderVertical .esriSimpleSliderIncrementButton {
+#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton {
   border-bottom: 0;
   padding: 1px;
   color: #f0ab00;
@@ -73,7 +73,7 @@
   -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
   -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
-.esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover,
+#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover,
 .HomeButton .home:hover,
 .share-button:hover,
 .locator-widget-button:hover,
@@ -85,10 +85,10 @@
 .locator-widget-button {
   background-color: #fff;
 }
-.HomeButton {
+#map .HomeButton {
   margin: 0 0 4px 0;
 }
-.HomeButton .home {
+#map .HomeButton .home {
   padding: 1px;
   background-color: #fff;
   -webkit-border-radius: 0;
@@ -430,4 +430,46 @@
 #control-panel .dijitSliderProgressBarH {
   background: rgba(0,0,0,0);
   border-width: 0;
+}
+#control-panel input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #fff;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #898989;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  box-sizing: border-box;
+  margin: 2px 2px 0px 0px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+#control-panel input[type="checkbox"]:checked {
+  background: url("../images/ico-checkmark.png") 50% 50% no-repeat #898989;
+  border: 1px solid #898989;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+}
+#control-panel input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("../images/checkmark.png");
+  background-position: -110px;
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  margin: 2px 2px 0 0;
+  padding: 0;
+}
+#control-panel input[type="radio"]:checked {
+  background-position: -94px;
 }
