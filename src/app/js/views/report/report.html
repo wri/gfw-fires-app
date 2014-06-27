@@ -1,10 +1,16 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <script src="PrintLoader.js"></script>
+    <meta name="author" content="">
+    <meta name="keywords" content="GFW, Fires, Global, Forest, Watch">
+    <meta name="description" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   </head>
-  <body style="overflow: hidden">
-    <div id="loading-screen" style="background-color: #CCC; height: 100%; width: 100%; z-index: 100;"></div>
+  <body>
     <div id="report" class="report-page">
       <div class="report-title">GFW-FIRES ANALYSES OVER THE LAST 7 DAYS</div>
       <div id="section-one">
@@ -29,7 +35,7 @@
       <div id="section-three" class="page-break">
         <div class="section-title">Figure 3: FIRE ALERT COUNT FOR SUMATRA, INDONESIA, AND PENINSULAR MALAYSIA</div>
         <div id="fire-alert-count-sumatra">
-          <div id="fire-line-chart"></div>
+          <div id="fire-line-chart" class="fire-line-chart"></div>
         </div>
       </div>
       <div id="section-four" class="page-break">
@@ -49,10 +55,14 @@
       </div>
       <div id="section-five" class="page-break">
         <div class="section-title">Figure 5: FIRE ALERTS BY LAND USE AREA FOR SUMATRA, INDONESIA
-          <div id="land-use-fires-chart-container" class="chart-container"></div>
+          <div id="land-use-fires-chart-container" class="chart-container">
+            <div id="land-use-fires-chart" class="chart small-legend-text"></div>
+          </div>
         </div>
         <div class="section-title">Figure 6: FIRE ALERTS IN PROTECTED AREAS FOR SUMATRA, INDONESIA 
-          <div id="protected-areas-fires-chart-container" class="chart-container"></div>
+          <div id="protected-areas-fires-chart-container" class="chart-container">
+            <div id="protected-areas-fires-chart" class="chart small-legend-text"></div>
+          </div>
         </div>
         <div class="section-title">Figure 7: PORTION OF FIRES OCCURRING ON PEATLAND FOR SUMATRA, INDONESIA AND PENINSULAR MALAYSIA
           <div id="peat-fires-chart-container" class="chart-container">

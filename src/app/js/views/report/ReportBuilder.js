@@ -46,7 +46,8 @@ define([
         },
         queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
         companyConcessionsId: 1,
-        confidenceFireId: 0
+        confidenceFireId: 0,
+        dailyFiresId: 4
     };
 
     return {
@@ -55,7 +56,8 @@ define([
             var self = this;
 
             // Set up some configurations
-            esriConfig.defaults.io.proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl : MapConfig.proxyUrl;
+            // esriConfig.defaults.io.proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl : MapConfig.proxyUrl;
+
             Highcharts.setOptions({
                 chart: {
                     style: {
@@ -64,16 +66,17 @@ define([
                 }
             });
 
-
             ready(function() {
                 all([
                     self.buildFiresMap(),
                     self.buildDistrictFiresMap(),
                     self.queryDistrictsForFires(),
                     self.queryCompanyConcessions(),
-                    self.queryForPeatFires()
+                    self.queryForPeatFires(),
+                    self.queryForSumatraFires(),
+                    self.queryForDailyFireData()
                 ]).then(function(res) {
-                    self.showReport();
+                    self.printReport();
                 });
             });
         },
@@ -287,91 +290,14 @@ define([
         },
 
         queryForPeatFires: function() {
-            var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.confidenceFireId),
-                deferred = new Deferred(),
-                query = new Query(),
-                time = new Date(),
+            var deferred = new Deferred(),
+                peatData = [],
                 self = this,
-                dateString,
                 nonpeat,
                 total,
                 peat;
 
-            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
-                time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-
-            query.where = "ACQ_DATE > date '" + dateString + "'";
-            query.returnGeometry = false;
-            query.outFields = ["peat"];
-
-            function buildPieChart(totalValue, peatValue, nonpeatValue) {
-                var peatData = [];
-                peatData.push({
-                    color: "rgba(184,0,18,1)",
-                    name: "Peat",
-                    visible: true,
-                    y: peatValue
-                });
-                peatData.push({
-                    color: "rgba(17,139,187,1)",
-                    name: "Non-peat",
-                    visible: true,
-                    y: nonpeatValue
-                });
-
-                $('#peat-fires-chart').highcharts({
-                    chart: {
-                        type: 'pie'
-                    },
-                    title: {
-                        text: null
-                    },
-                    yAxis: {
-                        title: {
-                            text: null
-                        }
-                    },
-                    plotOptions: {
-                        pie: {
-                            shadow: false,
-                            center: ['50%', '50%'],
-                            showInLegend: true,
-                            dataLabels: {
-                                fontSize: '22px'
-                            }
-                        }
-                    },
-                    tooltip: {
-                        formatter: function() {
-                            return Math.round((this.y / totalValue) * 100) + "% (" + this.y + " fires)";
-                        }
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    legend: {
-                        enabled: true,
-                        align: 'right',
-                        layout: 'vertical',
-                        verticalAlign: 'middle'
-                    },
-                    series: [{
-                        name: 'Peat Fires',
-                        data: peatData,
-                        size: '80%',
-                        innerSize: '50%',
-                        dataLabels: {
-                            distance: -30,
-                            color: 'black',
-                            formatter: function() {
-                                return Math.round((this.y / totalValue) * 100) + "%";
-                            }
-                        }
-                    }]
-                });
-            }
-
-            queryTask.execute(query, function(res) {
+            var success = function (res) {
                 total = res.features.length;
                 nonpeat = 0;
                 peat = 0;
@@ -382,14 +308,293 @@ define([
                         nonpeat++;
                     }
                 });
-                buildPieChart(total, peat, nonpeat);
+                peatData.push({
+                    color: "rgba(184,0,18,1)",
+                    name: "Peat",
+                    visible: true,
+                    y: peat
+                });
+                peatData.push({
+                    color: "rgba(17,139,187,1)",
+                    name: "Non-peat",
+                    visible: true,
+                    y: nonpeat
+                });
+
+                self.buildPieChart("peat-fires-chart", {
+                    data: peatData,
+                    name: 'Peat Fires',
+                    labelDistance: -30,
+                    total: total
+                });
                 deferred.resolve(true);
-            }, function(err) {
+            };
+
+            var failure = function () {
                 deferred.resolve(false);
-            });
+            };
+
+            self.queryFireData({
+                outFields: ["peat"]
+            }, success, failure);
 
 
             return deferred.promise;
+        },
+
+        queryForSumatraFires: function () {
+            var deferred = new Deferred(),
+                protectedAreaData = [],
+                concessionData = [],
+                self = this,
+                protectedarea,
+                unprotected,
+                pulpwood,
+                palmoil,
+                logging,
+                success,
+                failure,
+                total;
+
+            success = function (res) {
+                total = res.features.length;
+                protectedarea = 0;
+                unprotected = 0;
+                pulpwood = 0;
+                palmoil = 0;
+                logging = 0;
+                arrayUtils.forEach(res.features, function (feature) {
+                    if (feature.attributes.wdpa === 1) {
+                        protectedarea++;
+                    } else {
+                        unprotected++;
+                    }
+
+                    if (feature.attributes.logging === 1) {
+                        logging++;
+                    }
+
+                    if (feature.attributes.palm_oil === 1) {
+                        palmoil++;
+                    }
+
+                    if (feature.attributes.pulpwood === 1) {
+                        pulpwood++;
+                    }
+
+                });
+                protectedAreaData.push({
+                    color: "rgba(184,0,18,1)",
+                    name: "In Protected Areas",
+                    visible: true,
+                    y: protectedarea
+                });
+                protectedAreaData.push({
+                    color: "rgba(17,139,187,1)",
+                    name: "Outside Protected Areas",
+                    visible: true,
+                    y: unprotected
+                });
+                self.buildPieChart("protected-areas-fires-chart", {
+                    data: protectedAreaData,
+                    name: 'Protected Area Fires',
+                    labelDistance: -30,
+                    total: total
+                });
+
+                concessionData.push({
+                    color: "rgba(17,139,187,1)",
+                    name: "Pulpwood Plantations",
+                    visible: true,
+                    y: pulpwood
+                });
+                concessionData.push({
+                    color: "rgba(184,0,18,1)",
+                    name: "Palm Oil Concessions",
+                    visible: true,
+                    y: palmoil
+                });
+                concessionData.push({
+                    color: "rgba(106,0,78,1)",
+                    name: "Logging Concessions",
+                    visible: true,
+                    y: logging
+                });
+                concessionData.push({
+                    color: "rgba(233,153,39,1)",
+                    name: "Outside Concessions",
+                    visible: true,
+                    y: total - (logging + palmoil + pulpwood)
+                });
+                self.buildPieChart("land-use-fires-chart", {
+                    data: concessionData,
+                    name: 'Fires in Concessions',
+                    labelDistance: 30,
+                    total: total
+                });
+                deferred.resolve(true);
+            };
+
+            failure = function (err) {
+                deferred.resolve(false);
+            };
+
+            self.queryFireData({
+                outFields: ["wdpa","pulpwood","palm_oil","logging"],
+                where: "sumatra = 1"
+            }, success, failure);
+
+            return deferred.promise;
+        },
+
+        queryForDailyFireData: function () {
+            var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.dailyFiresId),
+                deferred = new Deferred(),
+                query = new Query(),
+                fireDataLabels = [],
+                fireData = [],
+                self = this,
+                success,
+                failure;
+
+            query.returnGeometry = false;
+            query.where = "1 = 1";
+            query.outFields = ["Count, Date"];
+
+            success = function (res) {
+
+                arrayUtils.forEach(res.features, function (feature)  {
+                    fireDataLabels.push(feature.attributes.Date);
+                    fireData.push(feature.attributes.Count);
+                });
+
+                $('#fire-line-chart').highcharts({
+                    chart: { zoomType: 'x' },
+                    title: { text: null },
+                    subtitle: { 
+                        text: document.ontouchstart === undefined ?
+                            'Click and drag in the plot area to zoom in' :
+                            'Pinch the chart to zoom in'
+                    },
+                    xAxis: {
+                        categories: fireDataLabels,
+                        minTickInterval: 20,
+                        minRange: 30,
+                        labels: {
+                            rotation: -45
+                        }
+                    },
+                    yAxis: {
+                        title: {
+                            text: null
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: ''
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: 'Daily Fires',
+                        data: fireData
+                    }]
+                });
+
+            };
+
+            failure = function (err) {
+                console.dir(err);
+            };
+
+            queryTask.execute(query, success, failure);
+            deferred.resolve(true);
+            return deferred.promise;
+        },
+
+        queryFireData: function (config, callback, errback) {
+            var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.confidenceFireId),
+                deferred = new Deferred(),
+                query = new Query(),
+                time = new Date(),
+                self = this,
+                dateString;
+
+            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
+                time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+
+            query.where = (config.where === undefined) ? "ACQ_DATE > date '" + dateString + "'" : "ACQ_DATE > date '" + dateString + "' AND " + config.where;
+            query.returnGeometry = config.returnGeometry || false;
+            query.outFields = config.outFields || ["*"];
+            queryTask.execute(query, callback, errback);
+        },
+
+        buildPieChart: function (id, config) {
+            // Config object needs the following
+            //  - data: array of data objects with color, name, visible, and y 
+            //  - label distance
+            //  - series name
+            //  - total to be used for calculating %
+            // Example
+            // "peat-fires-chart", {
+            //   'name': 'Peat Fires', data: [], labelDistance: -30
+            // }
+            $('#' + id).highcharts({
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: null
+                },
+                yAxis: {
+                    title: {
+                        text: null
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        shadow: false,
+                        center: ['50%', '50%'],
+                        showInLegend: true,
+                        dataLabels: {
+                            fontSize: '22px'
+                        }
+                    }
+                },
+                tooltip: {
+                    formatter: function() {
+                        return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                legend: {
+                    layout: 'vertical',
+                },
+                series: [{
+                    name: config.name,
+                    data: config.data,
+                    size: '80%',
+                    innerSize: '50%',
+                    dataLabels: {
+                        distance: config.labelDistance,
+                        color: 'black',
+                        formatter: function() {
+                            return Math.round((this.y / config.total) * 100) + "%";
+                        }
+                    }
+                }]
+            });
+
         },
 
         generateTableRows: function(features, fieldNames) {
@@ -408,9 +613,8 @@ define([
             return rows;
         },
 
-        showReport: function() {
-            domStyle.set("loading-screen", "display", "none");
-            document.getElementsByTagName('body')[0].style.overflow = 'auto';
+        printReport: function() {
+            
         }
 
     };
