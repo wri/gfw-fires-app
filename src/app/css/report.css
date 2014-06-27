@@ -76,7 +76,13 @@ body {
   width: 500px;
 }
 .chart text {
-  font-size: 22px !important;
+  font-size: 20px !important;
+  font-weight: normal !important;
+}
+.fire-line-chart {
+  margin: 0 auto;
+  height: 500px;
+  width: 650px;
 }
 .fires-table {
   font-family: "Arial MT Condensed Light", Arial, Georgia, sans-serif;

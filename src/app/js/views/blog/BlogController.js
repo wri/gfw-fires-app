@@ -6,7 +6,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         var viewName = "blogView";
         var viewObj = {
             viewName: viewName
-        }
+        };
         o.init = function() {
             var that = this;
 
@@ -41,7 +41,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             console.log("loadFeed");
 
 
-        }
+        };
 
         //listen to key
 

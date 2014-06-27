@@ -1,8 +1,15 @@
-html
+doctype html
+html(lang="en")
 	head
 		script(src='PrintLoader.js')
-	body(style='overflow: hidden')
-		div#loading-screen(style='background-color: #CCC; height: 100%; width: 100%; z-index: 100;')
+		meta(name="author", content="")
+		meta(name="keywords", content="GFW, Fires, Global, Forest, Watch")
+		meta(name="description", content="")
+		meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
+		meta(name="apple-mobile-web-app-capable", content="yes")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+	body
 		div#report(class='report-page')
 			div(class='report-title') GFW-FIRES ANALYSES OVER THE LAST 7 DAYS
 			div#section-one
@@ -21,7 +28,7 @@ html
 			div#section-three(class='page-break')
 				div(class='section-title') Figure 3: FIRE ALERT COUNT FOR SUMATRA, INDONESIA, AND PENINSULAR MALAYSIA
 				div#fire-alert-count-sumatra
-					div#fire-line-chart
+					div#fire-line-chart(class='fire-line-chart')
 			div#section-four(class='page-break')
 				div(class='section-title') Figure 4: COMPANY CONCESSIONS WITH FIRE ALERTS FOR SUMATRA, INDONESIA
 				div(class='no-break')
@@ -36,8 +43,10 @@ html
 			div#section-five(class='page-break')
 				div(class='section-title') Figure 5: FIRE ALERTS BY LAND USE AREA FOR SUMATRA, INDONESIA
 					div#land-use-fires-chart-container(class='chart-container')
+						div#land-use-fires-chart(class='chart small-legend-text')
 				div(class='section-title') Figure 6: FIRE ALERTS IN PROTECTED AREAS FOR SUMATRA, INDONESIA 
 					div#protected-areas-fires-chart-container(class='chart-container')
+						div#protected-areas-fires-chart(class='chart small-legend-text')
 				div(class='section-title') Figure 7: PORTION OF FIRES OCCURRING ON PEATLAND FOR SUMATRA, INDONESIA AND PENINSULAR MALAYSIA
 					div#peat-fires-chart-container(class='chart-container')
 						div#peat-fires-chart(class='chart')
