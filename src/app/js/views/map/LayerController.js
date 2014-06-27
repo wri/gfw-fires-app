@@ -3,10 +3,11 @@ define([
     "dojo/on",
     "dojo/dom",
     "dojo/query",
+    "dojo/_base/array",
     "dijit/registry",
     "views/map/MapConfig",
     "esri/layers/LayerDrawingOptions"
-], function(on, dom, dojoQuery, registry, MapConfig, LayerDrawingOptions) {
+], function(on, dom, dojoQuery, arrayUtils, registry, MapConfig, LayerDrawingOptions) {
 
     var _map;
 
@@ -20,34 +21,32 @@ define([
             var legendLayer = _map.getLayer(MapConfig.landCoverLayers.id),
                 visibleLayers = legendLayer.visibleLayers,
                 layerDrawingOption = new esri.layers.LayerDrawingOptions(),
-                optionsArray = [];
+                optionsArray = [],
+                numArray = [29, 33],
+                num;
             layerDrawingOption.transparency = 0;
 
             if (_map.getLayer(MapConfig.treeCoverLayer.id).visible) {
-                visibleLayers.push(29);
-                optionsArray[29] = layerDrawingOption;
-                legendLayer.setVisibleLayers(visibleLayers);
-                legendLayer.setLayerDrawingOptions(optionsArray);
-            } else {
-                if (visibleLayers.indexOf(29) > -1) {
-                    visibleLayers.splice(visibleLayers.indexOf(29), 1);
-                    legendLayer.setVisibleLayers(visibleLayers);
-                }
-                legendLayer.setVisibleLayers(visibleLayers);
+                num = 29;
+            }
+            if (_map.getLayer(MapConfig.primaryForestsLayer.id).visible) {
+                num = 33;
             }
 
-            if (_map.getLayer(MapConfig.primaryForestsLayer.id).visible) {
-                visibleLayers.push(33);
-                optionsArray[33] = layerDrawingOption;
-                legendLayer.setVisibleLayers(visibleLayers);
-                legendLayer.setLayerDrawingOptions(optionsArray);
-            } else {
-                if (visibleLayers.indexOf(33) > -1) {
-                    visibleLayers.splice(visibleLayers.indexOf(33), 1);
+            arrayUtils.forEach(numArray, function(n) {
+                if (visibleLayers.indexOf(n) > -1) {
+                    visibleLayers.splice(visibleLayers.indexOf(n), 1);
                     legendLayer.setVisibleLayers(visibleLayers);
                 }
+            });
+
+            if (_map.getLayer(MapConfig.treeCoverLayer.id).visible || _map.getLayer(MapConfig.primaryForestsLayer.id).visible) {
+                visibleLayers.push(num);
+                optionsArray[num] = layerDrawingOption;
                 legendLayer.setVisibleLayers(visibleLayers);
+                legendLayer.setLayerDrawingOptions(optionsArray);
             }
+
             registry.byId("legend").refresh();
         },
 
