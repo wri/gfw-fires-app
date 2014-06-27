@@ -1,0 +1,1 @@
+define(["esri/request"],function(){var n={};return n.init=function(){},n.load_feed=function(){},n});

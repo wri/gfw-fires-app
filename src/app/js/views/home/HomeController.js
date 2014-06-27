@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array"],
-    function(dom, registry, HashController, EventsController, HomeModel, arrayUtil) {
+define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array"],
+    function(dom, domQuery, registry, HashController, EventsController, HomeModel, arrayUtil) {
 
         var o = {};
         var initialized = false;
@@ -151,14 +151,66 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         o.getPeats = function() {
 
-            /*require(["views/report/ReportBuilder"], function(ReportBuilder) {
-                var deferred = ReportBuilder.queryForPeatFires();
+            require(["modules/Loader", "modules/ErrorController", "dojo/promise/all"], function(Loader, ErrorController, all) {
+                var queryObj = {
+                    layer: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0",
+                    where: "peat = 1 AND ACQ_DATE > date '2014-06-20 12:00:00'",
+                    type: "executeForCount" //execute
+                }
+                var deferred1 = Loader.query(queryObj);
 
-                deferred.then(function(data) {
-                    debugger;
-                    console.log(data);
+                var queryObj2 = {
+                    layer: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0",
+                    where: "ACQ_DATE > date '2014-06-20 12:00:00'",
+                    type: "executeForCount" //execute
+                }
+                var deferred2 = Loader.query(queryObj2);
+
+                all([deferred1, deferred2]).then(function(results) {
+
+                    var peats = results[0];
+                    var total = results[1];
+                    var percent = Math.ceil((peats / total) * 100);
+
+                    var homeModeOptions = HomeModel.vm.homeModeOptions();
+                    var positionToUpdate = 0;
+                    var newStr = "";
+                    arrayUtil.some(homeModeOptions, function(item, i) {
+                        var selected = item.html.indexOf("60 %") > -1;
+                        if (selected) {
+                            positionToUpdate = i;
+                            newStr = item.html.replace("60 %", percent.toString() + " %");
+                        }
+                        return selected
+                    });
+                    HomeModel.vm.homeModeOptions()[positionToUpdate].html = newStr;
+                    console.log(homeModeOptions);
+
+                    /*HomeModel.vm.homeModeOptions([]);
+
+                    arrayUtil.forEach(homeModeOptions, function(item) {
+                        HomeModel.vm.homeModeOptions.push(item);
+                    });
+*/
+                    // EventsController.stopModeAnmin();
+
+                    /*setTimeout(function() {
+
+                        EventsController.startModeAnim();
+                    }, 20000);*/
+
+
+                    // alert(percent);
+
                 })
-            })*/
+
+
+
+                /* deferred.error(function(err) {
+                    ErrorController.show(10);
+                });
+*/
+            })
 
         };
 
