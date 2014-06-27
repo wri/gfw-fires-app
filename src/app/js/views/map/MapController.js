@@ -62,7 +62,9 @@ define([
 
     o.addConfigurations = function() {
 
-        var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl : MapConfig.proxyUrl;
+        var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl :
+            document.location.href.search('calum') > 0 ? MapConfig.calumProxyUrl : MapConfig.robProxyUrl;
+
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -242,17 +244,17 @@ define([
             Finder.getActiveFiresInfoWindow(evt);
         });
 
-        on(dom.byId("confidence-fires-checkbox"), "change", function(evt) {
+        on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
             LayerController.updateFiresLayer(true);
         });
 
-        on(dom.byId("fires-checkbox"), "change", function(evt) {
-            var value = evt.target ? evt.target.checked : evt.srcElement.checked;
+        on(registry.byId("fires-checkbox"), "change", function(evt) {
+            var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
         });
 
-        on(dom.byId("landsat-image-checkbox"), "change", function(evt) {
-            var value = evt.target ? evt.target.checked : evt.srcElement.checked;
+        on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
+            var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
         });
 
@@ -283,7 +285,19 @@ define([
             on(node, "click", self.toggleFireOption.bind(self));
         });
 
-        dojoQuery(".forest-use-layers-option").forEach(function(node) {
+        dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
+            domClass.add(node, "forest-use-layers-option");
+        });
+
+        dojoQuery("#conservation-panel div.checkbox-container div input").forEach(function(node) {
+            domClass.add(node, "conservation-layers-option");
+        });
+
+        dojoQuery("#land-cover-panel div.checkbox-container div input").forEach(function(node) {
+            domClass.add(node, "land-cover-layers-option");
+        });
+
+        dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
             on(node, "change", function() {
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
                 LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
@@ -338,7 +352,7 @@ define([
         landCoverLayer = new ArcGISDynamicMapServiceLayer(MapConfig.landCoverLayers.url, {
             imageParameters: landCoverParams,
             id: MapConfig.landCoverLayers.id,
-            visible: false
+            visible: true
         });
 
         forestUseParams = new ImageParameters();
@@ -354,6 +368,11 @@ define([
 
         treeCoverLayer = new ArcGISImageServiceLayer(MapConfig.treeCoverLayer.url, {
             id: MapConfig.treeCoverLayer.id,
+            visible: false
+        });
+
+        primaryForestsLayer = new ArcGISImageServiceLayer(MapConfig.primaryForestsLayer.url, {
+            id: MapConfig.primaryForestsLayer.id,
             visible: false
         });
 
@@ -377,6 +396,7 @@ define([
             treeCoverLayer,
             landSatLayer,
             landCoverLayer,
+            primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
             firesLayer

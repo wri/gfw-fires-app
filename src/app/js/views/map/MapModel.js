@@ -28,6 +28,7 @@ define([
     vm.clearSearchPins = ko.observable(MapConfig.text.clearSearchPins);
     vm.legend = ko.observable(MapConfig.text.legend);
     vm.firesCheckbox = ko.observable(MapConfig.text.firesCheckbox);
+    vm.noaaFiresCheckbox = ko.observable(MapConfig.text.noaaFiresCheckbox);
     vm.firesSubLabel = ko.observable(MapConfig.text.firesSubLabel);
     vm.confidenceFiresCheckbox = ko.observable(MapConfig.text.confidenceFiresCheckbox);
     vm.firesWeek = ko.observable(MapConfig.text.firesWeek);
@@ -41,11 +42,13 @@ define([
     vm.protectedAreasCheckbox = ko.observable(MapConfig.text.protectedAreasCheckbox);
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
+    vm.primaryForestsRadio = ko.observable(MapConfig.text.primaryForestsRadio);
     vm.southeastLandCoverRadio = ko.observable(MapConfig.text.southeastLandCoverRadio);
     vm.peatLandsSubLabel = ko.observable(MapConfig.text.peatLandsSubLabel);
     vm.treeCoverDensitySubLabel = ko.observable(MapConfig.text.treeCoverDensitySubLabel);
     vm.southeastLandCoverSubLabel = ko.observable(MapConfig.text.southeastLandCoverSubLabel);
     vm.forestUseCheckboxSubLabelSelect = ko.observable(MapConfig.text.forestUseCheckboxSubLabelSelect);
+    vm.primaryForestsSubLabel = ko.observable(MapConfig.text.primaryForestsSubLabel);
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
     vm.airQuality = ko.observable(MapConfig.text.airQuality);
     vm.windDirection = ko.observable(MapConfig.text.windDirection);

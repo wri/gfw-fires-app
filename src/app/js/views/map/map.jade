@@ -6,7 +6,7 @@ div#map-view(class="map-view")
 		div#fires-map-accordion
 			div#fires-panel(class='accordion-panel')
 				div
-					input#fires-checkbox(type="checkbox", checked="checked")
+					div#fires-checkbox
 					label(for="fires-checkbox", data-bind="text: firesCheckbox")
 					span(data-bind="text: firesSubLabel", class="checkbox-sub-label")
 				div#active-fires-options(class="active-fires-options-container")
@@ -15,75 +15,81 @@ div#map-view(class="map-view")
 					div#fires48(class="active-fires-options", data-bind="text: fires48")
 					div#fires24(class="active-fires-options", data-bind="text: fires24")
 					div(class="confidence-fires-container")
-						input#confidence-fires-checkbox(type="checkbox", class="fires-confidence-checkbox")
+						div#confidence-fires-checkbox
 						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
+					div#noaa-fires-18
+					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
 			div#forest-use-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
 					div#forest-transparency-slider
-				div
-					input#oil-palm-checkbox(type="checkbox", class="forest-use-layers-option", value="oilPalm")
+				div(class="checkbox-container")
+					div#oil-palm-checkbox
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
-				div
-					input#wood-fiber-checkbox(type="checkbox", class="forest-use-layers-option", value="woodFiber")
+				div(class="checkbox-container")
+					div#wood-fiber-checkbox
 					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
-				div
-					input#logging-checkbox(type="checkbox", class="forest-use-layers-option", value="logging")
+				div(class="checkbox-container")
+					div#logging-checkbox
 					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 			div#conservation-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
 					div#conservation-transparency-slider
-				div
-					input#protected-areas-checkbox(type="checkbox", class="conservation-layers-option", value="protectedAreas")
+				div(class="checkbox-container")
+					div#protected-areas-checkbox
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
 			div#land-cover-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
 					div#land-cover-transparency-slider
-				div
-					input#no-land-cover-radio(type="radio", checked="checked", name="land-cover-radios", class="land-cover-layers-option", value="none")
+				div(class="checkbox-container")
+					div#no-land-cover-radio
 					label(for="no-land-cover-radio", data-bind="text: none")
-				div
-					input#peat-lands-radio(type="radio", name="land-cover-radios", class="land-cover-layers-option", value="peatLands")
+				div(class="checkbox-container")
+					div#peat-lands-radio
 					label(for="peat-lands-radio", data-bind="text: peatLandsRadio")
 					span(data-bind="text: peatLandsSubLabel", class="checkbox-sub-label")
-				div
-					input#tree-cover-density-radio(type="radio", name="land-cover-radios", class="land-cover-layers-option", value="treeCoverDensity")
+				div(class="checkbox-container")
+					div#tree-cover-density-radio
 					label(for="tree-cover-density-radio", data-bind="text: treeCoverDensityRadio")
 					span(data-bind="text: treeCoverDensitySubLabel", class="checkbox-sub-label")
-				div
-					input#se-land-cover-radio(type="radio", name="land-cover-radios", class="land-cover-layers-option", value="landCover")
-					label(for="se-land-cover-radio", data-bind="text: southeastLandCoverRadio")
-					span(data-bind="text: southeastLandCoverSubLabel", class="checkbox-sub-label")
+				//- div(class="checkbox-container")
+				//- 	div#se-land-cover-radio
+				//- 	label(for="se-land-cover-radio", data-bind="text: southeastLandCoverRadio")
+				//- 	span(data-bind="text: southeastLandCoverSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#primary-forests-radio
+					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
+					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
 			div#air-quality-panel(class='accordion-panel')
 				div(class="coming-soon-label", data-bind="text: airQuality")
 				div(class="coming-soon-label", data-bind="text: windDirection")
 			div#imagery-panel(class='accordion-panel')
-				div
-					input#digital-globe-checkbox(type="checkbox", disabled="true")
+				div(class="checkbox-container")
+					div#digital-globe-checkbox
 					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox", class="coming-soon-label")
-				div
-					input#landsat-image-checkbox(type="checkbox")
+				div(class="checkbox-container")
+					div#landsat-image-checkbox
 					label(for="landsat-image-checkbox", data-bind="text: landsatImageCheckbox")
 					span(data-bind="text: landsatImageSubLabel", class="checkbox-sub-label")
 			div#social-media-panel(class='accordion-panel')
-				div
-					input#twitter-conversations-checkbox(type="checkbox")
+				div(class="checkbox-container")
+					div#twitter-conversations-checkbox
 					label(for="twitter-conversations-checkbox", data-bind="text: twitterConversationsCheckbox")
 	div#map-container(class="map-container")
 		div#map(class="map")
 			div#esri-geocoder-widget
 			div#latLongHUD(class='latLongHUD')
-				div
+				div(class="checkbox-container")
 					span(data-bind='text: latitudeLabel')
 					span / 
 					span(data-bind='text: longitudeLabel')
-				div
+				div(class="checkbox-container")
 					span(data-bind="text: currentLatitude")
 					span , 
 					span(data-bind="text: currentLongitude")

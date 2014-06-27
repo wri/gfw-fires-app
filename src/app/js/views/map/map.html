@@ -6,7 +6,7 @@
     <div id="fires-map-accordion">
       <div id="fires-panel" class="accordion-panel">
         <div>
-          <input id="fires-checkbox" type="checkbox" checked="checked"/>
+          <div id="fires-checkbox"></div>
           <label for="fires-checkbox" data-bind="text: firesCheckbox"></label><span data-bind="text: firesSubLabel" class="checkbox-sub-label"></span>
         </div>
         <div id="active-fires-options" class="active-fires-options-container">
@@ -15,9 +15,11 @@
           <div id="fires48" data-bind="text: fires48" class="active-fires-options"></div>
           <div id="fires24" data-bind="text: fires24" class="active-fires-options"></div>
           <div class="confidence-fires-container">
-            <input id="confidence-fires-checkbox" type="checkbox" class="fires-confidence-checkbox"/>
+            <div id="confidence-fires-checkbox"></div>
             <label for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
           </div>
+          <div id="noaa-fires-18"></div>
+          <label for="noaa-fires-18" data-bind="text: noaaFiresCheckbox" class="disabled"></label>
         </div>
       </div>
       <div id="forest-use-panel" class="accordion-panel">
@@ -25,16 +27,16 @@
         <div class="slider-container">
           <div id="forest-transparency-slider"></div>
         </div>
-        <div>
-          <input id="oil-palm-checkbox" type="checkbox" value="oilPalm" class="forest-use-layers-option"/>
+        <div class="checkbox-container">
+          <div id="oil-palm-checkbox"></div>
           <label for="oil-palm-checkbox" data-bind="text: oilPalmCheckbox"></label><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
         </div>
-        <div>
-          <input id="wood-fiber-checkbox" type="checkbox" value="woodFiber" class="forest-use-layers-option"/>
+        <div class="checkbox-container">
+          <div id="wood-fiber-checkbox"></div>
           <label for="wood-fiber-checkbox" data-bind="text: woodFiberCheckbox"></label><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
         </div>
-        <div>
-          <input id="logging-checkbox" type="checkbox" value="logging" class="forest-use-layers-option"/>
+        <div class="checkbox-container">
+          <div id="logging-checkbox"></div>
           <label for="logging-checkbox" data-bind="text: loggingCheckbox"></label><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
         </div>
       </div>
@@ -43,8 +45,8 @@
         <div class="slider-container">
           <div id="conservation-transparency-slider"></div>
         </div>
-        <div>
-          <input id="protected-areas-checkbox" type="checkbox" value="protectedAreas" class="conservation-layers-option"/>
+        <div class="checkbox-container">
+          <div id="protected-areas-checkbox"></div>
           <label for="protected-areas-checkbox" data-bind="text: protectedAreasCheckbox"></label><span data-bind="text: conservationCheckboxSubLabelGlobal" class="checkbox-sub-label"></span>
         </div>
       </div>
@@ -53,21 +55,21 @@
         <div class="slider-container">
           <div id="land-cover-transparency-slider"></div>
         </div>
-        <div>
-          <input id="no-land-cover-radio" type="radio" checked="checked" name="land-cover-radios" value="none" class="land-cover-layers-option"/>
+        <div class="checkbox-container">
+          <div id="no-land-cover-radio"></div>
           <label for="no-land-cover-radio" data-bind="text: none"></label>
         </div>
-        <div>
-          <input id="peat-lands-radio" type="radio" name="land-cover-radios" value="peatLands" class="land-cover-layers-option"/>
+        <div class="checkbox-container">
+          <div id="peat-lands-radio"></div>
           <label for="peat-lands-radio" data-bind="text: peatLandsRadio"></label><span data-bind="text: peatLandsSubLabel" class="checkbox-sub-label"></span>
         </div>
-        <div>
-          <input id="tree-cover-density-radio" type="radio" name="land-cover-radios" value="treeCoverDensity" class="land-cover-layers-option"/>
+        <div class="checkbox-container">
+          <div id="tree-cover-density-radio"></div>
           <label for="tree-cover-density-radio" data-bind="text: treeCoverDensityRadio"></label><span data-bind="text: treeCoverDensitySubLabel" class="checkbox-sub-label"></span>
         </div>
-        <div>
-          <input id="se-land-cover-radio" type="radio" name="land-cover-radios" value="landCover" class="land-cover-layers-option"/>
-          <label for="se-land-cover-radio" data-bind="text: southeastLandCoverRadio"></label><span data-bind="text: southeastLandCoverSubLabel" class="checkbox-sub-label"></span>
+        <div class="checkbox-container">
+          <div id="primary-forests-radio"></div>
+          <label for="primary-forests-radio" data-bind="text: primaryForestsRadio"></label><span data-bind="text: primaryForestsSubLabel" class="checkbox-sub-label"></span>
         </div>
       </div>
       <div id="air-quality-panel" class="accordion-panel">
@@ -75,18 +77,18 @@
         <div data-bind="text: windDirection" class="coming-soon-label"></div>
       </div>
       <div id="imagery-panel" class="accordion-panel">
-        <div>
-          <input id="digital-globe-checkbox" type="checkbox" disabled="true"/>
+        <div class="checkbox-container">
+          <div id="digital-globe-checkbox"></div>
           <label for="digital-globe-checkbox" data-bind="text: digitalGlobeCheckbox" class="coming-soon-label"></label>
         </div>
-        <div>
-          <input id="landsat-image-checkbox" type="checkbox"/>
+        <div class="checkbox-container">
+          <div id="landsat-image-checkbox"></div>
           <label for="landsat-image-checkbox" data-bind="text: landsatImageCheckbox"></label><span data-bind="text: landsatImageSubLabel" class="checkbox-sub-label"></span>
         </div>
       </div>
       <div id="social-media-panel" class="accordion-panel">
-        <div>
-          <input id="twitter-conversations-checkbox" type="checkbox"/>
+        <div class="checkbox-container">
+          <div id="twitter-conversations-checkbox"></div>
           <label for="twitter-conversations-checkbox" data-bind="text: twitterConversationsCheckbox"></label>
         </div>
       </div>
@@ -96,8 +98,8 @@
     <div id="map" class="map">
       <div id="esri-geocoder-widget"></div>
       <div id="latLongHUD" class="latLongHUD">
-        <div><span data-bind="text: latitudeLabel"></span><span>/ </span><span data-bind="text: longitudeLabel"></span></div>
-        <div><span data-bind="text: currentLatitude"></span><span>, </span><span data-bind="text: currentLongitude"></span></div>
+        <div class="checkbox-container"><span data-bind="text: latitudeLabel"></span><span>/ </span><span data-bind="text: longitudeLabel"></span></div>
+        <div class="checkbox-container"><span data-bind="text: currentLatitude"></span><span>, </span><span data-bind="text: currentLongitude"></span></div>
       </div>
       <div id="legend-widget-container" class="legend-widget-container">
         <div id="legend-widget-title" class="legend-widget-title"><span data-bind="text: legend"></span></div>
