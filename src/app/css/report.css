@@ -68,12 +68,12 @@ body {
 }
 .chart-container {
   margin: 0 auto;
-  height: 400px;
-  width: 500px;
+  height: 380px;
+  width: 450px;
 }
 .chart {
-  height: 400px;
-  width: 500px;
+  height: 380px;
+  width: 450px;
 }
 .chart text {
   font-size: 20px !important;

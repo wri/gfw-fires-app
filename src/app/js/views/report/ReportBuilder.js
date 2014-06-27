@@ -236,11 +236,17 @@ define([
                 fields = ["Name", "GROUP_NAME", "fire_count", "TYPE"],
                 deferred = new Deferred(),
                 query = new Query(),
+                time = new Date(),
                 woodFiber = [],
                 logging = [],
                 oilPalm = [],
                 self = this,
                 type;
+
+            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
+                         time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+
+
 
             query.where = "fire_count IS NOT NULL";
             query.returnGeometry = false;
@@ -476,6 +482,11 @@ define([
                             'Click and drag in the plot area to zoom in' :
                             'Pinch the chart to zoom in'
                     },
+                    plotOptions: {
+                        line: {
+                            marker: { enabled: false }
+                        }
+                    },
                     xAxis: {
                         categories: fireDataLabels,
                         minTickInterval: 20,
@@ -491,7 +502,7 @@ define([
                         plotLines: [{
                             value: 0,
                             width: 1,
-                            color: '#808080'
+                            color: '#a90016'
                         }]
                     },
                     tooltip: {
@@ -505,7 +516,8 @@ define([
                     },
                     series: [{
                         name: 'Daily Fires',
-                        data: fireData
+                        data: fireData,
+                        color: '#f49f2d'
                     }]
                 });
 
