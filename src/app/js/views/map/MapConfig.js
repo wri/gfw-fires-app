@@ -1,7 +1,7 @@
 /* global define */
 define({
 
-    robProxyUrl: "http://rmb/proxy/proxy.php",
+    robProxyUrl: "http://rmbp/proxy/proxy.php",
     calumProxyUrl: "http://localhost/~calumbutler/proxy/proxy.php",
     stagingProxyUrl: 'http://staging.blueraster.com/proxy/proxy.php',
 

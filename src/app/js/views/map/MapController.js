@@ -95,13 +95,16 @@ define([
 
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
+
+            // Resize Accordion
+            registry.byId("fires-map-accordion").resize();
+
             o.map.graphics.clear();
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
-
             o.map.resize();
         });
 

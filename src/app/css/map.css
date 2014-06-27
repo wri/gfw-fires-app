@@ -413,7 +413,7 @@
   color: #808080;
 }
 .esriControlsBR {
-  right: inherit;
+  right: inherit !important;
   left: 5px;
 }
 #control-panel .dijitSliderRemainingBarH,
