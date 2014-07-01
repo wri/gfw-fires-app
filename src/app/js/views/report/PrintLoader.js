@@ -2,22 +2,23 @@
 // ENV to dev for Development, pro for Production
 (function(win, doc) {
     'use strict';
+
     var src = [
-            'http://js.arcgis.com/3.9/',
-            'http://code.jquery.com/jquery-1.11.0.min.js'
-        ],
+        'http://js.arcgis.com/3.9/',
+        'http://code.jquery.com/jquery-1.11.0.min.js'
+    ],
         css = [
             'http://js.arcgis.com/3.9/js/esri/css/esri.css',
             '../../../css/report.css'
         ],
-        URL = location.pathname.replace(/app.*/, '') + 'app',
+        URL = location.pathname.replace(/app\/js\/views\/report.*/, '') + 'app',
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
             textPluginHeaders: {
                 "X-Requested-With": null
             },
-            async: true,            
+            async: true,
             packages: [{
                 name: 'libs',
                 location: URL + '/libs'
@@ -81,11 +82,11 @@
         }
     }
 
-    win.requestAnimationFrame = (function(){
-    return  win.requestAnimationFrame       ||
+    win.requestAnimationFrame = (function() {
+        return win.requestAnimationFrame ||
             win.webkitRequestAnimationFrame ||
-            win.mozRequestAnimationFrame    ||
-            win.oRequestAnimationFrame      ||
+            win.mozRequestAnimationFrame ||
+            win.oRequestAnimationFrame ||
             win.msRequestAnimationFrame;
     })();
 
