@@ -154,6 +154,8 @@ define([
                 visible: true
             });
 
+            map.addLayer(districtFiresLayer);
+
             classDef = new ClassBreaksDefinition();
             classDef.classificationField = boundaryConfig.classBreaksField;
             classDef.classificationMethod = boundaryConfig.classBreaksMethod;
@@ -188,7 +190,6 @@ define([
                 ldos.renderer = customRenderer;
                 options[boundaryConfig.layerId] = ldos;
                 districtFiresLayer.setLayerDrawingOptions(options);
-                map.addLayer(districtFiresLayer);
                 districtFiresLayer.on('update-end', function() {
                     deferred.resolve(true);
                 });
@@ -480,6 +481,8 @@ define([
                     fireDataLabels.push(feature.attributes.Date);
                     fireData.push(feature.attributes.Count);
                 });
+
+                console.log($('#fire-line-chart'));
 
                 $('#fire-line-chart').highcharts({
                     chart: { zoomType: 'x' },

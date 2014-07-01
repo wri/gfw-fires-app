@@ -127,4 +127,8 @@ body {
   .no-break {
     page-break-inside: avoid !important;
   }
+  html,
+  body {
+    -webkit-print-color-adjust: exact;
+  }
 }
