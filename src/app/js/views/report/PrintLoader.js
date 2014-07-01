@@ -10,7 +10,7 @@
             'http://js.arcgis.com/3.9/js/esri/css/esri.css',
             '../../../css/report.css'
         ],
-        URL = location.pathname.replace(/app.*/, '') + 'app',
+        URL = location.pathname.replace(/\/app\/.*/, '') + '/app',
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,

@@ -490,9 +490,7 @@ define([
                 arrayUtils.forEach(res.features, function(feature) {
                     fireDataLabels.push(feature.attributes.Date);
                     fireData.push(feature.attributes.Count);
-                });
-
-                console.log($('#fire-line-chart'));
+                });                
 
                 $('#fire-line-chart').highcharts({
                     chart: {
