@@ -55,9 +55,19 @@ define([
         init: function() {
             var self = this;
 
+            var proxies = MapConfig.proxies;
+
+            var url = document.location.href;
+            var proxyUrl = "/proxy/proxy.ashx";
+
+            for (var domain in proxies) {
+                if (url.indexOf(domain) == 0) {
+                    proxyUrl = proxies[domain];
+                }
+            }
+
             // Set up some configurations
-            var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl :
-                            document.location.href.search('calum') > 0 ? MapConfig.calumProxyUrl : MapConfig.robProxyUrl;
+
 
             esriConfig.defaults.io.proxyUrl = proxyUrl;
 
@@ -247,7 +257,7 @@ define([
                 type;
 
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
-                         time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+                time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 
 
 
@@ -306,7 +316,7 @@ define([
                 total,
                 peat;
 
-            var success = function (res) {
+            var success = function(res) {
                 total = res.features.length;
                 nonpeat = 0;
                 peat = 0;
@@ -339,7 +349,7 @@ define([
                 deferred.resolve(true);
             };
 
-            var failure = function () {
+            var failure = function() {
                 deferred.resolve(false);
             };
 
@@ -351,7 +361,7 @@ define([
             return deferred.promise;
         },
 
-        queryForSumatraFires: function () {
+        queryForSumatraFires: function() {
             var deferred = new Deferred(),
                 protectedAreaData = [],
                 concessionData = [],
@@ -365,14 +375,14 @@ define([
                 failure,
                 total;
 
-            success = function (res) {
+            success = function(res) {
                 total = res.features.length;
                 protectedarea = 0;
                 unprotected = 0;
                 pulpwood = 0;
                 palmoil = 0;
                 logging = 0;
-                arrayUtils.forEach(res.features, function (feature) {
+                arrayUtils.forEach(res.features, function(feature) {
                     if (feature.attributes.wdpa === 1) {
                         protectedarea++;
                     } else {
@@ -444,19 +454,19 @@ define([
                 deferred.resolve(true);
             };
 
-            failure = function (err) {
+            failure = function(err) {
                 deferred.resolve(false);
             };
 
             self.queryFireData({
-                outFields: ["wdpa","pulpwood","palm_oil","logging"],
+                outFields: ["wdpa", "pulpwood", "palm_oil", "logging"],
                 where: "sumatra = 1"
             }, success, failure);
 
             return deferred.promise;
         },
 
-        queryForDailyFireData: function () {
+        queryForDailyFireData: function() {
             var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.dailyFiresId),
                 deferred = new Deferred(),
                 query = new Query(),
@@ -470,24 +480,29 @@ define([
             query.where = "1 = 1";
             query.outFields = ["Count, Date"];
 
-            success = function (res) {
+            success = function(res) {
 
-                arrayUtils.forEach(res.features, function (feature)  {
+                arrayUtils.forEach(res.features, function(feature) {
                     fireDataLabels.push(feature.attributes.Date);
                     fireData.push(feature.attributes.Count);
                 });
 
                 $('#fire-line-chart').highcharts({
-                    chart: { zoomType: 'x' },
-                    title: { text: null },
-                    subtitle: { 
+                    chart: {
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
                         text: document.ontouchstart === undefined ?
-                            'Click and drag in the plot area to zoom in' :
-                            'Pinch the chart to zoom in'
+                            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
                     },
                     plotOptions: {
                         line: {
-                            marker: { enabled: false }
+                            marker: {
+                                enabled: false
+                            }
                         }
                     },
                     xAxis: {
@@ -526,7 +541,7 @@ define([
 
             };
 
-            failure = function (err) {
+            failure = function(err) {
                 console.dir(err);
             };
 
@@ -535,7 +550,7 @@ define([
             return deferred.promise;
         },
 
-        queryFireData: function (config, callback, errback) {
+        queryFireData: function(config, callback, errback) {
             var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.confidenceFireId),
                 deferred = new Deferred(),
                 query = new Query(),
@@ -552,7 +567,7 @@ define([
             queryTask.execute(query, callback, errback);
         },
 
-        buildPieChart: function (id, config) {
+        buildPieChart: function(id, config) {
             // Config object needs the following
             //  - data: array of data objects with color, name, visible, and y 
             //  - label distance
@@ -629,7 +644,7 @@ define([
         },
 
         printReport: function() {
-            
+
         }
 
     };

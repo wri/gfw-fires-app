@@ -48,7 +48,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             console.log("start mode animation");
             stopAnimation = false;
 
-            var currentNodeId = 0;
+            var currentNodeId = 2; //start with last one
 
             var currentModeOption = function(id) {
                 var homeModeOptions = HomeModel.vm.homeModeOptions();
@@ -152,16 +152,30 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
         o.getPeats = function() {
 
             require(["modules/Loader", "modules/ErrorController", "dojo/promise/all"], function(Loader, ErrorController, all) {
+
+                var today = new Date();
+                var sevendaysback = new Date();
+                sevendaysback.setDate(today.getDate() - 7);
+                var yyyy = sevendaysback.getFullYear();
+
+                var mm = "00" + (sevendaysback.getMonth() + 1).toString();
+                mm = mm.substr(mm.length - 2);
+
+                var dd = "00" + sevendaysback.getDate().toString();
+                dd = dd.substr(dd.length - 2);
+
+                var dateStr = yyyy.toString() + "-" + mm + "-" + dd;
+
                 var queryObj = {
                     layer: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0",
-                    where: "peat = 1 AND ACQ_DATE > date '2014-06-20 12:00:00'",
+                    where: "peat = 1 AND ACQ_DATE > date '" + dateStr + " 12:00:00'",
                     type: "executeForCount" //execute
                 }
                 var deferred1 = Loader.query(queryObj);
 
                 var queryObj2 = {
                     layer: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0",
-                    where: "ACQ_DATE > date '2014-06-20 12:00:00'",
+                    where: "ACQ_DATE > date '" + dateStr + " 12:00:00'",
                     type: "executeForCount" //execute
                 }
                 var deferred2 = Loader.query(queryObj2);
@@ -176,10 +190,10 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     var positionToUpdate = 0;
                     var newStr = "";
                     arrayUtil.some(homeModeOptions, function(item, i) {
-                        var selected = item.html.indexOf("60 %") > -1;
+                        var selected = item.html.indexOf("Fires Occuring in Peatland") > -1;
                         if (selected) {
                             positionToUpdate = i;
-                            newStr = item.html.replace("60 %", percent.toString() + " %");
+                            newStr = item.html.replace("Fires Occuring in Peatland", "<p>" + percent.toString() + " %</p> Fires Occuring in Peatland");
                         }
                         return selected
                     });

@@ -52,7 +52,7 @@ define([],
 
 
             homeModeOptions: [{
-                    "html": "<p>60 %</p> Fires Occuring in Peatland <br> in the last 7 days",
+                    "html": "Fires Occuring in Peatland <br> in the last 7 days",
                     "eventName": "goToMap",
                     "display": false
                 },
