@@ -450,7 +450,11 @@ define([
     };
 
     o.layerAddError = function(evt) {
-        alert("Error adding Layer at " + evt.target.url);
+
+        require(["modules/ErrorController"], function(ErrorController) {
+            ErrorController.show(10, "Error adding Layer : <br> " + evt.target.url);
+        })
+        //alert("Error adding Layer at " + evt.target.url);
     };
 
     o.toggleFireOption = function(evt) {

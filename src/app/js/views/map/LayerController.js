@@ -80,33 +80,53 @@ define([
 
         updateFiresLayer: function(updateVisibleLayers) {
             var node = dojoQuery(".selected-fire-option")[0],
-                time = new Date(),
                 checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
                 defs = [],
-                dateString = "",
                 where = "",
                 visibleLayers,
                 layer;
 
+            var today = new Date();
+            var backdate = new Date();
+
             switch (node.id) {
                 case "fires72":
-                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 3) + " " +
-                        time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-                    where += "ACQ_DATE > date '" + dateString + "'";
+                    backdate.setDate(today.getDate() - 3);
+
                     break;
+
                 case "fires48":
-                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 2) + " " +
-                        time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-                    where += "ACQ_DATE > date '" + dateString + "'";
+                    backdate.setDate(today.getDate() - 2);
+
                     break;
+
                 case "fires24":
-                    dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 1) + " " +
-                        time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-                    where += "ACQ_DATE > date '" + dateString + "'";
+                    backdate.setDate(today.getDate() - 1);
+
                     break;
                 default:
                     where = "1 = 1";
                     break;
+            }
+
+            if (arrayUtils.indexOf(["fires72", "fires48", "fires24"], node.id) > -1) {
+
+                var yyyy = backdate.getFullYear();
+
+                var mm = "00" + (backdate.getMonth() + 1).toString();
+                mm = mm.substr(mm.length - 2);
+
+                var dd = "00" + backdate.getDate().toString();
+                dd = dd.substr(dd.length - 2);
+
+                var hh = backdate.getHours();
+                var min = backdate.getMinutes();
+                var ss = backdate.getSeconds();
+
+
+                var dateString = yyyy.toString() + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss;
+                where += "ACQ_DATE > date '" + dateString + "'";
+
             }
 
             for (var i = 0, length = MapConfig.firesLayer.defaultLayers.length; i < length; i++) {

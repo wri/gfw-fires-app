@@ -8,8 +8,8 @@ define({
         "http://rmbp/": "http://rmbp/proxy/proxy.php",
         "http://localhost/~calumbutler/": "http://localhost/~calumbutler/proxy/proxy.php",
         "http://staging.blueraster.com/": "http://staging.blueraster.com/proxy/proxy.php",
-        "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.aspx",
-        "http://shj/": "http://shj/proxy/proxy.aspx"
+        "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.ashx",
+        "http://shj/": "http://shj/proxy/proxy.ashx"
     },
 
     mapOptions: {
