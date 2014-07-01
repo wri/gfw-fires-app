@@ -246,6 +246,10 @@ define([
                 self = this,
                 type;
 
+
+            // Make Time Relative to Last Week
+            time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 7);
+
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
                          time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 
@@ -543,7 +547,10 @@ define([
                 self = this,
                 dateString;
 
-            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
+            // Make Time Relative to Last Week
+            time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 7);
+
+            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 
             query.where = (config.where === undefined) ? "ACQ_DATE > date '" + dateString + "'" : "ACQ_DATE > date '" + dateString + "' AND " + config.where;
