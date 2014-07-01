@@ -452,7 +452,8 @@ define([
     o.layerAddError = function(evt) {
 
         require(["modules/ErrorController"], function(ErrorController) {
-            ErrorController.show(10, "Error adding Layer : <br> " + evt.target.url);
+            ErrorController.show(10, "Error adding Layer");
+            console.log("Error adding Layer: " + evt.target.url);
         })
         //alert("Error adding Layer at " + evt.target.url);
     };
