@@ -4,6 +4,13 @@ define({
     robProxyUrl: "http://rmbp/proxy/proxy.php",
     calumProxyUrl: "http://localhost/~calumbutler/proxy/proxy.php",
     stagingProxyUrl: 'http://staging.blueraster.com/proxy/proxy.php',
+    proxies: {
+        "http://rmbp/": "http://rmbp/proxy/proxy.php",
+        "http://localhost/~calumbutler/": "http://localhost/~calumbutler/proxy/proxy.php",
+        "http://staging.blueraster.com/": "http://staging.blueraster.com/proxy/proxy.php",
+        "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.aspx",
+        "http://shj/": "http://shj/proxy/proxy.aspx"
+    },
 
     mapOptions: {
         darkGrayCanvas: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer",

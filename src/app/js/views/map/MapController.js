@@ -62,8 +62,19 @@ define([
 
     o.addConfigurations = function() {
 
-        var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl :
-            document.location.href.search('calum') > 0 ? MapConfig.calumProxyUrl : MapConfig.robProxyUrl;
+        var proxies = MapConfig.proxies;
+
+        var url = document.location.href;
+        var proxyUrl = "/proxy/proxy.ashx";
+
+        for (var domain in proxies) {
+
+            if (url.indexOf(domain) == 0) {
+                proxyUrl = proxies[domain];
+            }
+        }
+        /*  var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl :
+            document.location.href.search('calum') > 0 ? MapConfig.calumProxyUrl : MapConfig.robProxyUrl;*/
 
 
         urlUtils.addProxyRule({
