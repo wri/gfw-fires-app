@@ -450,10 +450,11 @@ define([
 
 
         // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
+        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess';
 
         // var info = new WMTSLayerInfo({
         //     identifier: 'DigitalGlobe:ImageryTileService',
+        //     connectid:'4c854a5e-6806-462f-b41b-3e5b00d43d98',
         //     tileMatrixSet: '',
         //     format: 'image/jpeg'
         // });
@@ -467,11 +468,9 @@ define([
     };
 
     o.layerAddError = function(evt) {
-
         require(["modules/ErrorController"], function(ErrorController) {
             ErrorController.show(10, "Error adding Layer : <br> " + evt.target.url);
         });
-        //alert("Error adding Layer at " + evt.target.url);
     };
 
     o.toggleFireOption = function(evt) {
