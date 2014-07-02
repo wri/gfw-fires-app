@@ -137,7 +137,8 @@ define({
         landsatImageSubLabel: "(updated daily, 30m, global)",
         twitterConversationsCheckbox: "Twitter Conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
-        getReportLink: "Get Fires Analysis"
+        getReportLink: "Get Fires Analysis",
+        windyLayerCheckbox: "Wind Direction (beta feature)"
     },
 
     accordionDijits: [{
@@ -324,6 +325,12 @@ define({
         {
             "id": "twitter-conversations-checkbox",
             "class": "twitter-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "windy-layer-checkbox",
+            "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {}
         }

@@ -51,13 +51,13 @@ define([
     vm.primaryForestsSubLabel = ko.observable(MapConfig.text.primaryForestsSubLabel);
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
     vm.airQuality = ko.observable(MapConfig.text.airQuality);
-    vm.windDirection = ko.observable(MapConfig.text.windDirection);
     vm.digitalGlobeCheckbox = ko.observable(MapConfig.text.digitalGlobeCheckbox);
     vm.landsatImageCheckbox = ko.observable(MapConfig.text.landsatImageCheckbox);
     vm.landsatImageSubLabel = ko.observable(MapConfig.text.landsatImageSubLabel);
     vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
+    vm.windyLayerCheckbox = ko.observable(MapConfig.text.windyLayerCheckbox);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);

@@ -68,7 +68,9 @@ div#map-view(class="map-view")
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
 			div#air-quality-panel(class='accordion-panel')
 				div(class="coming-soon-label", data-bind="text: airQuality")
-				div(class="coming-soon-label", data-bind="text: windDirection")
+				div(class='checkbox-container')
+					div#windy-layer-checkbox
+					label(for="windy-layer-checkbox", data-bind="text: windyLayerCheckbox")
 			div#imagery-panel(class='accordion-panel')
 				div(class="checkbox-container")
 					div#digital-globe-checkbox

@@ -412,6 +412,7 @@
   text-decoration: underline;
 }
 .coming-soon-label {
+  margin-left: 20px;
   font-size: 12px;
   color: #808080;
 }

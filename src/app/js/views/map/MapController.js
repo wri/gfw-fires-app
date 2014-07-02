@@ -27,6 +27,7 @@ define([
     "views/map/MapConfig",
     "views/map/MapModel",
     "views/map/LayerController",
+    "views/map/WindyController",
     "views/map/Finder",
     "utils/DijitFactory",
     "modules/EventsController",
@@ -34,7 +35,7 @@ define([
     "esri/layers/WMTSLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
+    LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
 
     var o = {},
         initialized = false,
@@ -115,6 +116,7 @@ define([
             registry.byId("fires-map-accordion").resize();
 
             o.map.graphics.clear();
+            WindyController.setMap(o.map);
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
             self.addWidgets();
@@ -279,6 +281,10 @@ define([
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
+        });
+
+        registry.byId("windy-layer-checkbox").on('change', function (checked) {
+            WindyController.toggleWindLayer(checked);
         });
 
         on(dom.byId("search-option-go-button"), "click", function() {
