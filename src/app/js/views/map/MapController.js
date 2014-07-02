@@ -27,10 +27,12 @@ define([
     "views/map/LayerController",
     "views/map/Finder",
     "utils/DijitFactory",
-    "modules/EventsController"
+    "modules/EventsController",
+    "esri/layers/WMTSLayerInfo",
+    "esri/layers/WMTSLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, Finder, DijitFactory, EventsController) {
+    LayerController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
 
     var o = {},
         initialized = false,
@@ -73,9 +75,8 @@ define([
                 proxyUrl = proxies[domain];
             }
         }
-        /*  var proxyUrl = document.location.href.search('staging') > 0 ? MapConfig.stagingProxyUrl :
-            document.location.href.search('calum') > 0 ? MapConfig.calumProxyUrl : MapConfig.robProxyUrl;*/
-
+        
+        //esriConfig.defaults.io.proxyUrl = proxyUrl;
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -447,13 +448,29 @@ define([
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
+
+        // TESTING
+        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
+
+        // var info = new WMTSLayerInfo({
+        //     identifier: 'DigitalGlobe:ImageryTileService',
+        //     tileMatrixSet: '',
+        //     format: 'image/jpeg'
+        // });
+
+        // var WMTS = new WMTSLayer(test, {
+        //     layerInfo: info
+        // });
+
+        // o.map.addLayer(WMTS);
+
     };
 
     o.layerAddError = function(evt) {
 
         require(["modules/ErrorController"], function(ErrorController) {
             ErrorController.show(10, "Error adding Layer : <br> " + evt.target.url);
-        })
+        });
         //alert("Error adding Layer at " + evt.target.url);
     };
 
