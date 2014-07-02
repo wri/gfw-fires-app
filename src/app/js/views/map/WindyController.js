@@ -13,6 +13,11 @@ define([
 
 		setMap: function (map) {
 			_map = map;
+
+			// Check for Canvas Support, if not supported, diasble the checkbox and show a message beneath it
+			if (this.supportsCanvas() === false) {
+				
+			}
 		},
 
 		toggleWindLayer: function (checked) {
@@ -33,6 +38,10 @@ define([
 				_map.removeLayer(layer);
 			}
 
+		},
+
+		supportsCanvas: function () {
+			return !!document.createElement("canvas").getContext;
 		}
 
 	};
