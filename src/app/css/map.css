@@ -94,6 +94,9 @@
 #map .HomeButton {
   margin: 0 0 4px 0;
 }
+#map .esriPopup .sizer {
+  height: 1px !important;
+}
 #map .HomeButton .home {
   padding: 1px;
   background-color: #fff;

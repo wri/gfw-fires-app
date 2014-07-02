@@ -19,6 +19,8 @@ define([
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
+    "esri/layers/FeatureLayer",
+    "esri/InfoTemplate",
     "esri/graphic",
     "esri/urlUtils",
     "dijit/registry",
@@ -31,8 +33,8 @@ define([
     "esri/layers/WMTSLayerInfo",
     "esri/layers/WMTSLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
+    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
+    LayerController, Finder, DijitFactory, EventsController) {
 
     var o = {},
         initialized = false,
@@ -264,6 +266,11 @@ define([
             LayerController.updateFiresLayer(true);
         });
 
+        on(registry.byId("twitter-conversations-checkbox"), "change", function(evt) {
+            var value = registry.byId("twitter-conversations-checkbox").checked;
+            LayerController.toggleLayerVisibility(MapConfig.tweetLayer.id, value);
+        });
+
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
@@ -419,6 +426,17 @@ define([
             visible: true
         });
 
+        var tweet_infotemplate = new InfoTemplate();
+        tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
+
+        tweetLayer = new FeatureLayer(MapConfig.tweetLayer.url, {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            id: MapConfig.tweetLayer.id,
+            visible: false,
+            outFields: ["*"],
+            infoTemplate: tweet_infotemplate
+        });
+
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
@@ -426,7 +444,8 @@ define([
             primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
-            firesLayer
+            firesLayer,
+            tweetLayer
         ]);
 
         // Update the Legend when all layers are added

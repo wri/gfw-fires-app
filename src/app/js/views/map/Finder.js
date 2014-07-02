@@ -191,7 +191,7 @@ define([
             iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
             var executeReturned = true;
 
-            var content = "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>";
+            var content = "</div><table id='infoWindowTable'>";
             itask.execute(iparams, function(response) {
                 var map = _map;
                 var result = response[0];
@@ -206,6 +206,7 @@ define([
                     });
                     content += "</table>";
                     map.infoWindow.setContent(content);
+                    // map.infoWindow.setTitle("Title");
                     map.infoWindow.show(point);
                     on.once(dom.byId("closePopup"), "click", function() {
                         map.infoWindow.hide();
@@ -217,6 +218,19 @@ define([
                 console.log(err);
                 _self.mapClick(event);
             });
+        },
+
+        getFireTweetsInfoWindow: function(evt) {
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT"
+            var attr = evt.attributes;
+            var html = "<table><tr><td>";
+            html += "<td><img src='" + attr.UserProfileImage + "'/></td>";
+            html += "<td>" + attr.UserName + "</td></tr>";
+            html += "<p>" + attr.Text + "</p>";
+            html += "<p>" + attr.Date + "</p>";
+            //html += "</div>"
+
+            return html;
         }
 
     };
