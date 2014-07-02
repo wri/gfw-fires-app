@@ -19,6 +19,7 @@ define([
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
+    "esri/layers/FeatureLayer",
     "esri/graphic",
     "esri/urlUtils",
     "dijit/registry",
@@ -29,7 +30,7 @@ define([
     "utils/DijitFactory",
     "modules/EventsController"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, Graphic, urlUtils, registry, MapConfig, MapModel,
+    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, Graphic, urlUtils, registry, MapConfig, MapModel,
     LayerController, Finder, DijitFactory, EventsController) {
 
     var o = {},
@@ -418,6 +419,7 @@ define([
             visible: true
         });
 
+        //tweetLayer = new 
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
