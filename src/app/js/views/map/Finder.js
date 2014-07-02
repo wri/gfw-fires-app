@@ -191,7 +191,7 @@ define([
             iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
             var executeReturned = true;
 
-            var content = "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>";
+            var content = "</div><table id='infoWindowTable'>";
             itask.execute(iparams, function(response) {
                 var map = _map;
                 var result = response[0];
@@ -221,10 +221,11 @@ define([
         },
 
         getFireTweetsInfoWindow: function(evt) {
-            console.log("FIRE TWEET", evt)
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT"
             var attr = evt.attributes;
-            var html = "<div id='closePopup' class='close-icon'></div>";
-            html += "<img src='" + attr.UserProfileImage + "'/>";
+            var html = "<table><tr><td>";
+            html += "<td><img src='" + attr.UserProfileImage + "'/></td>";
+            html += "<td>" + attr.UserName + "</td></tr>";
             html += "<p>" + attr.Text + "</p>";
             html += "<p>" + attr.Date + "</p>";
             //html += "</div>"
