@@ -35,7 +35,8 @@ define([
     var o = {},
         initialized = false,
         view = {
-            viewName: "mapView"
+            viewId: "mapView",
+            viewName: "map"
         };
 
     o.init = function() {
@@ -50,7 +51,7 @@ define([
         initialized = true;
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
-            dom.byId(view.viewName).innerHTML = html;
+            dom.byId(view.viewId).innerHTML = html;
             EventsController.switchToView(view);
             ready(function() { // Ensure the map loads to correct size by not loading too early
                 MapModel.applyBindings("map-view");

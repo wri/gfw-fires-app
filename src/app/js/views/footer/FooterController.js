@@ -3,7 +3,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         var o = {};
         var initialized = false;
-        var viewName = "app-footer";
+        var viewId = "app-footer";
 
         o.init = function() {
             var that = this;
@@ -18,11 +18,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             //otherwise load the view
             require(["dojo/text!views/footer/footer.html", "views/footer/FooterModel"], function(html, FooterModel) {
 
-                dom.byId(viewName).innerHTML = html;
+                dom.byId(viewId).innerHTML = html;
 
-                that.initShareButton()
+                //EventsController.initShareButton();
 
-                FooterModel.applyBindings(viewName);
+                FooterModel.applyBindings(viewId);
 
 
 
@@ -31,7 +31,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         o.initShareButton = function() {
             //google
-            (function() {
+            /* (function() {
                 var po = document.createElement('script');
                 po.type = 'text/javascript';
                 po.async = true;
@@ -59,7 +59,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     js.src = "https://platform.twitter.com/widgets.js";
                     fjs.parentNode.insertBefore(js, fjs);
                 }
-            }(document, "script", "twitter-wjs");
+            }(document, "script", "twitter-wjs");*/
 
 
         }

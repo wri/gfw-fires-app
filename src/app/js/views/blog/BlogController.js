@@ -3,9 +3,10 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         var o = {};
         var initialized = false;
-        var viewName = "blogView";
+        var viewId = "blogView";
         var viewObj = {
-            viewName: viewName
+            viewId: viewId,
+            viewName: "blog"
         };
         o.init = function() {
             var that = this;
@@ -25,12 +26,12 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 that.loadFeed();
 
-                dom.byId(viewName).innerHTML = html;
+                dom.byId(viewId).innerHTML = html;
 
 
                 EventsController.switchToView(viewObj);
 
-                BlogModel.applyBindings(viewName);
+                BlogModel.applyBindings(viewId);
 
 
             });
