@@ -145,7 +145,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                     });
                     break;
                 case "data":
-                    require(["views/data/dataController"], function(DataController) {
+                    require(["views/data/DataController"], function(DataController) {
                         DataController.init(viewObj);
                     });
                     break;

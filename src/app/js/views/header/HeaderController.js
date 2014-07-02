@@ -90,7 +90,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                                 domConstruct.place("footerMovableWrapper", "footerShareContainer");
 
-                            }, 2000);
+                            }, 1000);
                             // EventsController.startModeAnim();
                             break;
 
