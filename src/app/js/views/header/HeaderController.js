@@ -1,9 +1,9 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class"],
-    function(dom, registry, HashController, EventsController, arrayUtil, domConstruct, domClass) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class"],
+    function(dom, registry, HashController, arrayUtil, domConstruct, domClass) {
 
         var o = {};
         var initialized = false;
-        var viewName = "app-header";
+        var viewId = "app-header";
 
         o.init = function() {
             var that = this;
@@ -18,9 +18,9 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             //otherwise load the view
             require(["dojo/text!views/header/header.html", "views/header/HeaderModel"], function(html, HeaderModel) {
 
-                dom.byId(viewName).innerHTML = html;
+                dom.byId(viewId).innerHTML = html;
 
-                HeaderModel.applyBindings(viewName);
+                HeaderModel.applyBindings(viewId);
 
 
 
@@ -48,22 +48,24 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         };
 
         o.switchToView = function(data) {
-            require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController"], function(registry, HeaderModel, HomeController) {
-                //alert(data.viewName);
-                registry.byId("stackContainer").selectChild(data.viewName);
-                //select the 
-                var navigationLinks = HeaderModel.vm.navigationLinks();
-                HeaderModel.vm.navigationLinks([]);
-                var updatedNavigationLinks = arrayUtil.map(navigationLinks, function(nLink) {
-                    if (data.viewName.toLowerCase() === nLink.domId.toLowerCase()) {
-                        nLink.selected = true;
-                    } else {
-                        nLink.selected = false;
-                    }
-                    return nLink;
-                });
-                HeaderModel.vm.navigationLinks(updatedNavigationLinks);
-                /*if (data.viewName.toLowerCase() == "homeview" && HomeController.isInitialized()) {
+            require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController", "modules/EventsController"],
+                function(registry, HeaderModel, HomeController, EventsController) {
+                    //alert(data.viewName);
+
+
+                    //select the 
+                    var navigationLinks = HeaderModel.vm.navigationLinks();
+                    HeaderModel.vm.navigationLinks([]);
+                    var updatedNavigationLinks = arrayUtil.map(navigationLinks, function(nLink) {
+                        if (data.viewId.toLowerCase() === nLink.domId.toLowerCase()) {
+                            nLink.selected = true;
+                        } else {
+                            nLink.selected = false;
+                        }
+                        return nLink;
+                    });
+                    HeaderModel.vm.navigationLinks(updatedNavigationLinks);
+                    /*if (data.viewName.toLowerCase() == "homeview" && HomeController.isInitialized()) {
                     EventsController.startModeAnim();
                 }
 
@@ -71,25 +73,36 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     EventsController.stopModeAnim();
                 }*/
 
-                //alert(data.viewName);
-                var allViews = "mapView homeView blogView dataView aboutView";
-                domClass.remove("app-body", allViews);
-                domClass.add("app-body", data.viewName)
-                domClass.remove("app-header", allViews);
-                domClass.add("app-header", data.viewName)
+                    //alert(data.viewName);
+                    var allViews = "mapView homeView blogView dataView aboutView";
+                    domClass.remove("app-body", allViews);
+                    domClass.add("app-body", data.viewId)
+                    domClass.remove("app-header", allViews);
+                    domClass.add("app-header", data.viewId)
+                    console.log("MOVE FOOTER");
 
-                switch (data.viewName) {
-                    case "homeView":
-                        //domConstruct.place("");
-                        domConstruct.place("footerMovableWrapper", "footerShareContainer");
-                        break;
 
-                    default:
-                        domConstruct.place("footerMovableWrapper", data.viewName);
-                }
 
-                registry.byId("stackContainer").resize();
-            });
+                    switch (data.viewId) {
+                        case "homeView":
+                            //domConstruct.place("");
+                            setTimeout(function() {
+
+                                domConstruct.place("footerMovableWrapper", "footerShareContainer");
+
+                            }, 1000);
+                            // EventsController.startModeAnim();
+                            break;
+
+                        default:
+                            domConstruct.place("footerMovableWrapper", data.viewId);
+                            EventsController.stopModeAnim();
+                    }
+                    console.log("MOVED FOOTER");
+
+                    registry.byId("stackContainer").selectChild(data.viewId);
+                    registry.byId("stackContainer").resize();
+                });
 
         };
 

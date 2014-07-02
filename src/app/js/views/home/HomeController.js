@@ -5,8 +5,9 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
         var initialized = false;
         var viewName = "homeView";
         var viewObj = {
-            viewName: "homeView"
-        }
+            viewId: "homeView",
+            viewName: "home"
+        };
         var stopAnimation = false;
         o.init = function() {
             var that = this;
@@ -14,6 +15,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                 //switch to this view
                 EventsController.switchToView(viewObj);
 
+                EventsController.startModeAnim();
                 return;
             }
 
@@ -33,16 +35,16 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                 HomeModel.applyBindings(viewName);
 
                 //ANIMATE ONLY AFTER BINDING DONE
-                EventsController.startModeAnim();
 
-                that.getPeats();
+
+                EventsController.getPeats();
                 /*{
                     resume: true
                 }*/
 
 
-            })
-        }
+            });
+        };
 
         o.startModeAnim = function(data) {
             console.log("start mode animation");
@@ -65,7 +67,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                 HomeModel.vm.homeModeOptions([]);
                 //console.log(mappedHomModeOptions);
                 HomeModel.vm.homeModeOptions(mappedHomModeOptions);
-            }
+            };
 
             currentModeOption(currentNodeId);
 
@@ -170,17 +172,20 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     layer: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0",
                     where: "peat = 1 AND ACQ_DATE > date '" + dateStr + " 12:00:00'",
                     type: "executeForCount" //execute
-                }
+                };
                 var deferred1 = Loader.query(queryObj);
 
                 var queryObj2 = {
                     layer: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0",
                     where: "ACQ_DATE > date '" + dateStr + " 12:00:00'",
                     type: "executeForCount" //execute
-                }
+                };
                 var deferred2 = Loader.query(queryObj2);
 
                 all([deferred1, deferred2]).then(function(results) {
+
+
+
 
                     var peats = results[0];
                     var total = results[1];
@@ -195,42 +200,32 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                             positionToUpdate = i;
                             newStr = item.html.replace("Fires Occuring in Peatland", "<p>" + percent.toString() + " %</p> Fires Occuring in Peatland");
                         }
-                        return selected
+                        return selected;
                     });
-                    HomeModel.vm.homeModeOptions()[positionToUpdate].html = newStr;
+                    homeModeOptions[positionToUpdate].html = newStr;
+                    HomeModel.vm.homeModeOptions(homeModeOptions);
+                    //once viewmodel is updated start animation
+                    // setTimeout(function() {
+                    //     EventsController.startModeAnim();
+                    // }, 500);
+                    EventsController.startModeAnim();
+
                     console.log(homeModeOptions);
 
-                    /*HomeModel.vm.homeModeOptions([]);
-
-                    arrayUtil.forEach(homeModeOptions, function(item) {
-                        HomeModel.vm.homeModeOptions.push(item);
-                    });
-*/
-                    // EventsController.stopModeAnmin();
-
-                    /*setTimeout(function() {
-
-                        EventsController.startModeAnim();
-                    }, 20000);*/
-
-
-                    // alert(percent);
-
-                })
-
-
-
-                /* deferred.error(function(err) {
-                    ErrorController.show(10);
                 });
-*/
-            })
+
+
+            });
 
         };
 
-        o.stopModeAnmin = function(data) {
+        o.stopModeAnim = function(data) {
             stopAnimation = true;
             console.log("stop mode animation ");
+        };
+
+        o.getAnimStatus = function() {
+            return stopAnimation;
         };
 
         o.modeSelect = function(data) {
@@ -239,11 +234,11 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             console.log(selectedMode);
 
             eval("EventsController." + selectedMode.eventName + "()");
-        }
+        };
 
         o.isInitialized = function() {
             return initialized;
-        }
+        };
 
 
 

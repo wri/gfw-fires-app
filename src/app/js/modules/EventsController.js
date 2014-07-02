@@ -7,9 +7,9 @@ define(["dojo/topic"],
 
             //home events
             "startModeAnim": "startModeAnim",
-            "stopModeAnmin": "stopModeAnmin",
+            "stopModeAnim": "stopModeAnim",
             "modeSelect": "modeSelect",
-
+            "getPeats": "getPeats",
 
 
 
@@ -38,7 +38,8 @@ define(["dojo/topic"],
             "footerSelect": "footerSelect",
             "goToBlog": "goToBlog",
             "goToMap": "goToMap",
-            "goToTweet": "goToTweet"
+            "goToTweet": "goToTweet",
+            "initShareButton": "initShareButton"
 
 
 
@@ -76,10 +77,10 @@ define(["dojo/topic"],
             });
         });
 
-        topic.subscribe("stopModeAnmin", function(dataObj) {
+        topic.subscribe("stopModeAnim", function(dataObj) {
             //console.log(dataObj);
             require(["views/home/HomeController"], function(HomeController) {
-                HomeController.stopModeAnmin();
+                HomeController.stopModeAnim();
             });
         });
 
@@ -87,6 +88,12 @@ define(["dojo/topic"],
         topic.subscribe("modeSelect", function(dataObj) {
             require(["views/home/HomeController"], function(HomeController) {
                 HomeController.modeSelect(dataObj)
+            })
+        });
+
+        topic.subscribe("getPeats", function(dataObj) {
+            require(["views/home/HomeController"], function(HomeController) {
+                HomeController.getPeats()
             })
         });
 
@@ -123,6 +130,13 @@ define(["dojo/topic"],
                 FooterController.goToTweet(dataObj)
             })
         });
+
+        topic.subscribe("initShareButton", function() {
+            require(["views/footer/FooterController"], function(FooterController) {
+                FooterController.initShareButton()
+            })
+        });
+
 
         topic.subscribe("toggleDataNavList", function(obj) {
             require(["views/data/DataController"], function(DataController) {

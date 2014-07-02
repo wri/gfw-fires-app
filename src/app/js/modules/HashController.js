@@ -56,13 +56,12 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
             that.updateHash(_newState);
 
-            require(["views/header/HeaderController"], function(HeaderController) {
+            require(["views/footer/FooterController", "views/header/HeaderController"], function(FooterController, HeaderController) {
+                FooterController.init();
                 HeaderController.init();
             });
 
-            require(["views/footer/FooterController"], function(FooterController) {
-                FooterController.init();
-            });
+
 
         };
 
@@ -98,11 +97,11 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 HeaderModel.vm.appState(currentState);
                 FooterModel.vm.appState(currentState);
 
-                if (currentState.v == 'home') {
+                /*if (currentState.v == 'home') {
                     HeaderModel.vm.showFullHeader(true);
                 } else {
                     HeaderModel.vm.showFullHeader(false);
-                }
+                }*/
             });
 
             var newHashStr = ioQuery.objectToQuery(currentState);
@@ -146,7 +145,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                     });
                     break;
                 case "data":
-                    require(["views/data/dataController"], function(DataController) {
+                    require(["views/data/DataController"], function(DataController) {
                         DataController.init(viewObj);
                     });
                     break;

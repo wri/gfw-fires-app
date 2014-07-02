@@ -22,10 +22,11 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "views/map/MapConfig",
-    "libs/highcharts"
+    "esri/request",
+    "libs/highcharts",
 ], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, MapConfig) {
+    Query, QueryTask, MapConfig, esriRequest) {
 
     var PRINT_CONFIG = {
         zoom: 5,
@@ -47,8 +48,23 @@ define([
         queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
         companyConcessionsId: 1,
         confidenceFireId: 0,
-        dailyFiresId: 4
+        dailyFiresId: 5
     };
+
+    esriRequest.setRequestPreCallback(function(ioArgs) {
+
+        // inspect ioArgs
+        console.log(ioArgs.url, ioArgs.content);
+
+        if (ioArgs.content && ioArgs.content.dynamicLayers) {
+            //  alert(ioArgs.content.dynamicLayers);
+        }
+
+        // don't forget to return ioArgs.
+        return ioArgs;
+
+
+    });
 
     return {
 
@@ -200,6 +216,7 @@ define([
                 ldos.renderer = customRenderer;
                 options[boundaryConfig.layerId] = ldos;
                 districtFiresLayer.setLayerDrawingOptions(options);
+                //debugger;
                 districtFiresLayer.on('update-end', function() {
                     deferred.resolve(true);
                 });
@@ -490,7 +507,7 @@ define([
                 arrayUtils.forEach(res.features, function(feature) {
                     fireDataLabels.push(feature.attributes.Date);
                     fireData.push(feature.attributes.Count);
-                });                
+                });
 
                 $('#fire-line-chart').highcharts({
                     chart: {
