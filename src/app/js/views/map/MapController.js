@@ -437,7 +437,11 @@ define([
         });
 
         // on(tweetLayer, "click", function(evt) {
-        //     Finder.getFireTweetsInfoWindow(evt)
+        //     //Finder.getFireTweetsInfoWindow(evt)
+        //     on.once(dom.byId("closePopup"), "click", function() {
+        //         var map = _map;
+        //         map.infoWindow.hide();
+        //     });
         // });
 
         o.map.addLayers([

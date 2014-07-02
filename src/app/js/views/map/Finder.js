@@ -206,6 +206,7 @@ define([
                     });
                     content += "</table>";
                     map.infoWindow.setContent(content);
+                    // map.infoWindow.setTitle("Title");
                     map.infoWindow.show(point);
                     on.once(dom.byId("closePopup"), "click", function() {
                         map.infoWindow.hide();
@@ -220,7 +221,15 @@ define([
         },
 
         getFireTweetsInfoWindow: function(evt) {
-            console.log("FIRE TWEET")
+            console.log("FIRE TWEET", evt)
+            var attr = evt.attributes;
+            var html = "<div id='closePopup' class='close-icon'></div>";
+            html += "<img src='" + attr.UserProfileImage + "'/>";
+            html += "<p>" + attr.Text + "</p>";
+            html += "<p>" + attr.Date + "</p>";
+            //html += "</div>"
+
+            return html;
         }
 
     };
