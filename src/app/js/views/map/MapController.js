@@ -34,7 +34,7 @@ define([
     "esri/layers/WMTSLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, Finder, DijitFactory, EventsController) {
+    LayerController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
 
     var o = {},
         initialized = false,
@@ -74,7 +74,7 @@ define([
 
         for (var domain in proxies) {
 
-            if (url.indexOf(domain) == 0) {
+            if (url.indexOf(domain) === 0) {
                 proxyUrl = proxies[domain];
             }
         }
