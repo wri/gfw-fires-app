@@ -217,6 +217,10 @@ define([
                 console.log(err);
                 _self.mapClick(event);
             });
+        },
+
+        getFireTweetsInfoWindow: function(evt) {
+            console.log("FIRE TWEET")
         }
 
     };

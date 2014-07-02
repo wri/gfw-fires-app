@@ -20,6 +20,7 @@ define([
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
     "esri/layers/FeatureLayer",
+    "esri/InfoTemplate",
     "esri/graphic",
     "esri/urlUtils",
     "dijit/registry",
@@ -30,7 +31,7 @@ define([
     "utils/DijitFactory",
     "modules/EventsController"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, Graphic, urlUtils, registry, MapConfig, MapModel,
+    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
     LayerController, Finder, DijitFactory, EventsController) {
 
     var o = {},
@@ -424,12 +425,20 @@ define([
             visible: true
         });
 
+        var tweet_infotemplate = new InfoTemplate();
+        tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
+
         tweetLayer = new FeatureLayer(MapConfig.tweetLayer.url, {
             mode: FeatureLayer.MODE_ONDEMAND,
             id: MapConfig.tweetLayer.id,
             visible: false,
-            outFields: ["*"]
+            outFields: ["*"],
+            infoTemplate: tweet_infotemplate
         });
+
+        // on(tweetLayer, "click", function(evt) {
+        //     Finder.getFireTweetsInfoWindow(evt)
+        // });
 
         o.map.addLayers([
             treeCoverLayer,
