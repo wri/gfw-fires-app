@@ -264,6 +264,11 @@ define([
             LayerController.updateFiresLayer(true);
         });
 
+        on(registry.byId("twitter-conversations-checkbox"), "change", function(evt) {
+            var value = registry.byId("twitter-conversations-checkbox").checked;
+            LayerController.toggleLayerVisibility(MapConfig.tweetLayer.id, value);
+        });
+
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
@@ -419,7 +424,13 @@ define([
             visible: true
         });
 
-        //tweetLayer = new 
+        tweetLayer = new FeatureLayer(MapConfig.tweetLayer.url, {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            id: MapConfig.tweetLayer.id,
+            visible: false,
+            outFields: ["*"]
+        });
+
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
@@ -427,7 +438,8 @@ define([
             primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
-            firesLayer
+            firesLayer,
+            tweetLayer
         ]);
 
         // Update the Legend when all layers are added

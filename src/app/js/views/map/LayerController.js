@@ -70,6 +70,7 @@ define([
 
         toggleLayerVisibility: function(layerId, visibility) {
             var layer = _map.getLayer(layerId);
+            console.log(layer)
             if (layer) {
                 if (layer.visible !== visibility) {
                     layer.setVisibility(visibility);

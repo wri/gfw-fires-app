@@ -49,6 +49,11 @@ define({
         }
     },
 
+    tweetLayer: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/4",
+        id: "Fire_Tweets"
+    },
+
     forestUseLayers: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Forest_Use',
