@@ -32,10 +32,11 @@ define([
     "utils/DijitFactory",
     "modules/EventsController",
     "esri/layers/WMTSLayerInfo",
-    "esri/layers/WMTSLayer"
+    "esri/layers/WMTSLayer",
+    "esri/request"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
+    LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest) {
 
     var o = {},
         initialized = false,
@@ -79,8 +80,12 @@ define([
                 proxyUrl = proxies[domain];
             }
         }
-        
-        //esriConfig.defaults.io.proxyUrl = proxyUrl;
+
+        // Rule to Test Digital Globe Fires Url
+        // urlUtils.addProxyRule({
+        //     urlPrefix: 'https://services.digitalglobe.com/',
+        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
+        // });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -476,7 +481,7 @@ define([
 
 
         // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess';
+        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
 
         // var info = new WMTSLayerInfo({
         //     identifier: 'DigitalGlobe:ImageryTileService',
@@ -486,10 +491,20 @@ define([
         // });
 
         // var WMTS = new WMTSLayer(test, {
-        //     layerInfo: info
+        //     //layerInfo: info
         // });
 
-        // o.map.addLayer(WMTS);
+        // WMTS._getCapabilities = function () {
+        //     console.log("CALLING");
+        //     esriRequest({
+        //         url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98',
+        //         handleAs: "text",
+        //         load: WMTS._parseCapabilities,
+        //         error: WMTS._getCapabilitiesError
+        //     });
+        // };
+
+        //o.map.addLayer(WMTS);
 
     };
 

@@ -475,7 +475,7 @@ var Windy = function( params ){
 
   var stop = function(){
     if (windy.field) windy.field.release();
-    if (windy.timer) clearTimeout(windy.timer)
+    if (windy.timer) clearTimeout(windy.timer);
   };
 
 
@@ -486,7 +486,7 @@ var Windy = function( params ){
   };
 
   return windy;
-}
+};
 
 
 
