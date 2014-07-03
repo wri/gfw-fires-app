@@ -348,22 +348,23 @@
   margin-top: 10px;
 }
 .active-fires-options {
-  border: 1px solid #e7002f;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   text-align: center;
   line-height: 30px;
-  margin: 5px auto;
   cursor: pointer;
   height: 30px;
   width: 250px;
+  border: 2px solid #e98300;
+  text-align: center;
+  margin: 3px 0;
+  padding: 5px;
+  color: #000;
 }
 .confidence-fires-container {
   margin: 5px 25px;
 }
 .active-fires-options.selected-fire-option {
-  background-color: #e7002f;
+  background-color: #ecc53d;
+  color: #fff;
   font-weight: bold;
   color: #fff;
 }
@@ -514,4 +515,16 @@
   width: 15px;
   background: url("../images/ico-close.png") no-repeat;
   cursor: pointer;
+}
+.infoName {
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+}
+#infoWindowTable td {
+  width: 45%;
+  padding: 0 5px 0 0;
+}
+.esriPopupWrapper {
+  top: -40px;
 }

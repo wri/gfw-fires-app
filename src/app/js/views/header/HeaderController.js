@@ -51,7 +51,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController", "modules/EventsController"],
                 function(registry, HeaderModel, HomeController, EventsController) {
                     //alert(data.viewName);
-
+                    console.log(data)
 
                     //select the 
                     var navigationLinks = HeaderModel.vm.navigationLinks();

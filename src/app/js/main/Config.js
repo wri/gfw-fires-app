@@ -80,20 +80,24 @@ define([],
                     "desc": "Read our latest blog analysis on what's happening with fires in the region",
                     "action": "Read Recent Blog Posts",
                     "eventName": "goToBlog",
-                    "css": "blogPosts"
+                    "css": "blogPosts",
+                    "url": false
                 }, {
                     "title": "Analyze Forest Fires",
                     "desc": "View the latest data on fire locations and air quality and do you own analysis",
                     "action": "Start Analyzing",
                     "eventName": "goToMap",
-                    "css": "analysisAlerts"
+                    "css": "analysisAlerts",
+                    "url": false
 
                 }, {
                     "title": "Join The Conversation",
                     "desc": "Tweet, tweet, tweet!",
                     "action": "Tweet Now",
                     "eventName": "goToTweet",
-                    "css": "submitStory"
+                    "css": "submitStory",
+                    "url": "https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd",
+                    "target": "_blank"
 
                 }
 

@@ -7,8 +7,10 @@ div.footerModesContainer(data-bind="visible: (appState().v=='home')")
 					div.icon
 					div.title(data-bind="html:title")
 					div.desc(data-bind="html:desc")
-					a.action(data-bind="html:action,click:$root.footerSelect")
-
+					div(data-bind="if: url")
+						a.action(data-bind="html:action,attr: {href: url, target: target}")
+					div(data-bind="ifnot: url")
+						a.action(data-bind="html:action,click:$root.footerSelect")
 
 div.footerShareContainer#footerShareContainer(data-bind="visible: (appState().v!='map')")
 	
@@ -19,9 +21,9 @@ div.footerMovableWrapper#footerMovableWrapper
 			div
 				div.title Spread the Word Share GFW-Fires
 				div.share-container
-					a(href="https://twitter.com/share" class="twitter-share-button" data-via="twitterapi" data-lang="en") Tweet
-					div(class="fb-share-button" data-href="http://robbiewinterbottom.com" data-type="button_count")
+					a(href="https://twitter.com/share" class="twitter-share-button" data-hashtags="MelawanAsap,Indonesiafires" data-text="GFW-Fires maps the latest fire alerts for Southeast Asia" data-lang="en") Tweet
 					div(class="g-plus" data-action="share" data-annotation="bubble")
+					div(class="fb-share-button" data-href="http://robbiewinterbottom.com" data-type="button_count")
 				div.sign-up
 					span.title Sign up to receive updates.
 					a(title="Receive Global Forest Watch updates" href="http://www.wri.org/global-forest-watch-stay-informed")
