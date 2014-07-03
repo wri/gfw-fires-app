@@ -5,8 +5,8 @@ var uglify = require('gulp-uglify');
 var minifycss = require('gulp-minify-css');
 var minifyhtml = require('gulp-minify-html');
 var autoprefixer = require('gulp-autoprefixer');
-var imagemin = require('gulp-imagemin');
-var pngcrush = require('imagemin-pngcrush');
+//var imagemin = require('gulp-imagemin');
+//var pngcrush = require('imagemin-pngcrush');
 
 var app_dir = {
     src: __dirname + "/src/",
