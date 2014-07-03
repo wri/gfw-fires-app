@@ -94,6 +94,10 @@ define({
         id: "LandSat_8"
     },
 
+    windData: {
+        prefix: "http://suitability-mapper.s3.amazonaws.com/"
+    },
+
     text: {
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",

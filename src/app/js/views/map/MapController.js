@@ -92,6 +92,11 @@ define([
             proxyUrl: proxyUrl
         });
 
+        urlUtils.addProxyRule({
+            urlPrefix: MapConfig.windData.prefix,
+            proxyUrl: proxyUrl
+        });
+
     };
 
     o.createMap = function() {
@@ -481,7 +486,7 @@ define([
 
 
         // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
+        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess';
 
         // var info = new WMTSLayerInfo({
         //     identifier: 'DigitalGlobe:ImageryTileService',
@@ -491,7 +496,7 @@ define([
         // });
 
         // var WMTS = new WMTSLayer(test, {
-        //     //layerInfo: info
+        //     layerInfo: info
         // });
 
         // WMTS._getCapabilities = function () {
@@ -504,7 +509,7 @@ define([
         //     });
         // };
 
-        //o.map.addLayer(WMTS);
+        // o.map.addLayer(WMTS);
 
     };
 

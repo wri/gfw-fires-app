@@ -12,6 +12,7 @@ define([
 	_windy,
 	_data,
 	WIND_CONFIG = {
+		dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.json',
 		id: "Wind_Direction",
 		opacity: 0.85
 	};
@@ -83,7 +84,7 @@ define([
 		fetchDataForWindLayer: function () {
 			var deferred = new Deferred(),
 				req = new esriRequest({
-					url: './app/gfs.json',
+					url: WIND_CONFIG.dataUrl,
 					content: {},
 					handleAs: 'json'
 				});
