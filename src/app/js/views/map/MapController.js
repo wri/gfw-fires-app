@@ -27,14 +27,16 @@ define([
     "views/map/MapConfig",
     "views/map/MapModel",
     "views/map/LayerController",
+    "views/map/WindyController",
     "views/map/Finder",
     "utils/DijitFactory",
     "modules/EventsController",
     "esri/layers/WMTSLayerInfo",
-    "esri/layers/WMTSLayer"
+    "esri/layers/WMTSLayer",
+    "esri/request"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer) {
+    LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest) {
 
     var o = {},
         initialized = false,
@@ -78,11 +80,20 @@ define([
                 proxyUrl = proxies[domain];
             }
         }
-        
-        //esriConfig.defaults.io.proxyUrl = proxyUrl;
+
+        // Rule to Test Digital Globe Fires Url
+        // urlUtils.addProxyRule({
+        //     urlPrefix: 'https://services.digitalglobe.com/',
+        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
+        // });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
+            proxyUrl: proxyUrl
+        });
+
+        urlUtils.addProxyRule({
+            urlPrefix: MapConfig.windData.prefix,
             proxyUrl: proxyUrl
         });
 
@@ -115,6 +126,7 @@ define([
             registry.byId("fires-map-accordion").resize();
 
             o.map.graphics.clear();
+            WindyController.setMap(o.map);
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
             self.addWidgets();
@@ -279,6 +291,10 @@ define([
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
+        });
+
+        registry.byId("windy-layer-checkbox").on('change', function (checked) {
+            WindyController.toggleWindLayer(checked);
         });
 
         on(dom.byId("search-option-go-button"), "click", function() {
@@ -482,6 +498,16 @@ define([
         // var WMTS = new WMTSLayer(test, {
         //     layerInfo: info
         // });
+
+        // WMTS._getCapabilities = function () {
+        //     console.log("CALLING");
+        //     esriRequest({
+        //         url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98',
+        //         handleAs: "text",
+        //         load: WMTS._parseCapabilities,
+        //         error: WMTS._getCapabilitiesError
+        //     });
+        // };
 
         // o.map.addLayer(WMTS);
 

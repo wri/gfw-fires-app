@@ -94,6 +94,10 @@ define({
         id: "LandSat_8"
     },
 
+    windData: {
+        prefix: "http://suitability-mapper.s3.amazonaws.com/"
+    },
+
     text: {
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",
@@ -137,7 +141,10 @@ define({
         landsatImageSubLabel: "(updated daily, 30m, global)",
         twitterConversationsCheckbox: "Twitter Conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
-        getReportLink: "Get Fires Analysis"
+        getReportLink: "Get Fires Analysis",
+        windyLayerCheckbox: "Wind Direction (beta feature)",
+        windySubLabelAdvice: "For best visual appearance, switch to the Dark Gray Canvas Basemap",
+        windySubLabel: "(Daily, NOAA)"
     },
 
     accordionDijits: [{
@@ -324,6 +331,12 @@ define({
         {
             "id": "twitter-conversations-checkbox",
             "class": "twitter-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "windy-layer-checkbox",
+            "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {}
         }
