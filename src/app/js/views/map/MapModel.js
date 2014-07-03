@@ -58,6 +58,8 @@ define([
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
     vm.windyLayerCheckbox = ko.observable(MapConfig.text.windyLayerCheckbox);
+    vm.windySubLabelAdvice = ko.observable(MapConfig.text.windySubLabelAdvice);
+    vm.windySubLabel = ko.observable(MapConfig.text.windySubLabel);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);

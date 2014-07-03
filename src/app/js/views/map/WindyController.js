@@ -7,6 +7,7 @@ define([
 ], function (Deferred, esriRequest, RasterLayer) {
 
 	var _map,
+	_handles,
 	_raster,
 	_windy,
 	_data,
@@ -43,11 +44,19 @@ define([
 					id: WIND_CONFIG.id
 				});
 
-				_map.addLayer(rasterLayer);
+				_map.addLayer(_raster);
 
-				_map.on('extent-change', self.redraw);
-				_map.on('zoom-start', self.redraw);
-				_map.on('pan-start', self.redraw);
+				_handles = [];
+				_handles.push(_map.on('extent-change', self.redraw));
+				_handles.push(_map.on('zoom-start', self.redraw));
+				_handles.push(_map.on('pan-start', self.redraw));
+
+				_windy = new Windy({
+					canvas: _raster._element,
+					data: _data
+				});
+
+				self.redraw();
 
 			}
 
@@ -62,6 +71,11 @@ define([
 			var layer = _map.getLayer(WIND_CONFIG.id);
 			if (layer) {
 				_map.removeLayer(layer);
+				_raster = undefined;
+				_windy = undefined;
+				for (var i = _handles.length - 1; i >= 0; i--) {
+					_handles[i].remove();
+				}
 			}
 
 		},
@@ -93,7 +107,18 @@ define([
 				_raster._element.height = _map.height;
 				_raster._element.width = _map.width;
 
+				_windy.stop();
 
+				var extent = _map.geographicExtent;
+
+				setTimeout(function () {
+					_windy.start(
+						[[0,0], [_map.width, _map.height]],
+						_map.width,
+						_map.height,
+						[[extent.xmin, extent.ymin],[extent.xmax, extent.ymax]]
+					);
+				}, 500);
 			}
 
 		},

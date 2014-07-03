@@ -138,7 +138,9 @@ define({
         twitterConversationsCheckbox: "Twitter Conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
-        windyLayerCheckbox: "Wind Direction (beta feature)"
+        windyLayerCheckbox: "Wind Direction (beta feature)",
+        windySubLabelAdvice: "For best visual appearance, switch to the Dark Gray Canvas Basemap",
+        windySubLabel: "(Daily, NOAA)"
     },
 
     accordionDijits: [{

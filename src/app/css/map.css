@@ -372,6 +372,11 @@
   font-size: 12px;
   display: block;
 }
+.checkbox-instructions {
+  padding: 0 0 0 20px;
+  font-weight: bold;
+  font-size: 11px;
+}
 .latLongHUD {
   background-color: rgba(255,255,255,0.4);
   -webkit-border-radius: 5px;

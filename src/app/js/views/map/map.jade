@@ -71,6 +71,8 @@ div#map-view(class="map-view")
 				div(class='checkbox-container')
 					div#windy-layer-checkbox
 					label(for="windy-layer-checkbox", data-bind="text: windyLayerCheckbox")
+					div(data-bind="text: windySubLabelAdvice", class="checkbox-instructions")
+					div(data-bind="text: windySubLabel", class="checkbox-sub-label")
 			div#imagery-panel(class='accordion-panel')
 				div(class="checkbox-container")
 					div#digital-globe-checkbox
