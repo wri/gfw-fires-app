@@ -497,17 +497,17 @@ define([
 
 
         // TESTING
-        var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
+        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
 
-        var info = new WMTSLayerInfo({
-            identifier: 'DigitalGlobe:ImageryTileService',
-            tileMatrixSet: '',
-            format: 'image/jpeg'
-        });
+        // var info = new WMTSLayerInfo({
+        //     identifier: 'DigitalGlobe:ImageryTileService',
+        //     tileMatrixSet: '',
+        //     format: 'image/jpeg'
+        // });
 
-        var WMTS = new WMTSLayer(test, {
-            layerInfo: info
-        });
+        // var WMTS = new WMTSLayer(test, {
+        //     layerInfo: info
+        // });
 
         // WMTS._getCapabilities = function () {
         //     console.log("CALLING");
@@ -519,7 +519,7 @@ define([
         //     });
         // };
 
-        o.map.addLayer(WMTS);
+        //o.map.addLayer(WMTS);
 
     };
 
