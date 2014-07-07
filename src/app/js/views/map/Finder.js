@@ -3,6 +3,7 @@ define([
     "dojo/dom",
     "dojo/_base/array",
     "dojo/on",
+    "dojo/query",
     "esri/graphic",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
@@ -11,7 +12,7 @@ define([
     "views/map/MapModel",
     "esri/tasks/IdentifyTask",
     "esri/tasks/IdentifyParameters"
-], function(dom, arrayUtils, on, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, IdentifyTask, IdentifyParameters) {
+], function(dom, arrayUtils, on, dojoQuery, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, IdentifyTask, IdentifyParameters) {
     var _map;
 
     return {
@@ -176,20 +177,50 @@ define([
         },
 
 
-        getActiveFiresInfoWindow: function(event) {
+        getActiveFiresInfoWindow: function(event) {            
 
             var qconfig = MapConfig.firesLayer,
                 _self = this,
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
-                point = event.mapPoint;
+                point = event.mapPoint,
+                executeReturned = true,
+                node = dojoQuery(".selected-fire-option")[0],
+                time = new Date(),
+                dateString = '',
+                defs = [];
+
+            switch (node.id) {
+                case "fires72":
+                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 3);
+                    break;
+
+                case "fires48":
+                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 2);
+                    break;
+
+                case "fires24":
+                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 1);
+                    break;
+                default:
+                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 7);
+                    break;
+            }
+
+            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
+                time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+
+            for (var i = 0, len = MapConfig.firesLayer.defaultLayers.length; i < len; i++) {
+                defs[i] = "ACQ_DATE > date '" + dateString + "'";
+            }
+
             iparams.geometry = point;
             iparams.tolerance = 1;
             iparams.returnGeometry = false;
+            iparams.layerDefinitions = defs;
             iparams.mapExtent = _map.extent;
             iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-            var executeReturned = true;
 
             var content = "</div><table id='infoWindowTable'>";
             itask.execute(iparams, function(response) {
