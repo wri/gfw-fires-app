@@ -12,7 +12,7 @@ define([
 	_windy,
 	_data,
 	WIND_CONFIG = {
-		dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.json',
+		dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.json.gz',
 		id: "Wind_Direction",
 		opacity: 0.85
 	};
