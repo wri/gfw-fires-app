@@ -94,6 +94,11 @@ define({
         id: "LandSat_8"
     },
 
+    digitalGlobe: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/active_fire_imagery_test/ImageServer',
+        id: 'Digital_Globe'
+    },
+
     windData: {
         prefix: "http://suitability-mapper.s3.amazonaws.com/"
     },
@@ -136,7 +141,7 @@ define({
         conservationCheckboxSubLabelGlobal: "(varies, global)",
         airQuality: "Air Quality (Coming Soon)",
         windDirection: "Wind Direction (Coming Soon)",
-        digitalGlobeCheckbox: "Digital Globe - First Look (Coming Soon)",
+        digitalGlobeCheckbox: "Digital Globe - First Look",
         landsatImageCheckbox: "Landsat 8 Pan-sharpened",
         landsatImageSubLabel: "(updated daily, 30m, global)",
         twitterConversationsCheckbox: "Twitter Conversations",
@@ -315,12 +320,10 @@ define({
                 "name": "land-cover-radios",
             }
         }, {
-            "id": "#digital-globe-checkbox",
+            "id": "digital-globe-checkbox",
             "class": "imagery-checkbox",
             "type": "checkbox",
-            "props": {
-                "disabled": "true"
-            }
+            "props": {}
         }, {
             "id": "landsat-image-checkbox",
             "class": "imagery-checkbox",

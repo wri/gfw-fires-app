@@ -82,10 +82,10 @@ define([
         }
 
         // Rule to Test Digital Globe Fires Url
-        // urlUtils.addProxyRule({
-        //     urlPrefix: 'https://services.digitalglobe.com/',
-        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
-        // });
+        urlUtils.addProxyRule({
+            urlPrefix: 'https://services.digitalglobe.com/',
+            proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
+        });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -297,6 +297,10 @@ define([
             WindyController.toggleWindLayer(checked);
         });
 
+        registry.byId("digital-globe-checkbox").on('change', function (checked) {
+            LayerController.toggleDigitalGlobeLayer(checked);
+        });
+
         on(dom.byId("search-option-go-button"), "click", function() {
             Finder.searchAreaByCoordinates();
         });
@@ -374,6 +378,7 @@ define([
 
         var conservationParams,
             conservationLayer,
+            digitalGlobeLayer,
             landCoverParams,
             landCoverLayer,
             forestUseParams,
@@ -431,6 +436,11 @@ define([
             visible: false
         });
 
+        digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.url, {
+            id: MapConfig.digitalGlobe.id,
+            visible: false
+        });
+
         firesParams = new ImageParameters();
         firesParams.format = "png32";
         firesParams.layerIds = MapConfig.firesLayer.defaultLayers;
@@ -456,6 +466,7 @@ define([
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
+            digitalGlobeLayer,
             landCoverLayer,
             primaryForestsLayer,
             forestUseLayer,
@@ -486,18 +497,17 @@ define([
 
 
         // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess';
+        var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
 
-        // var info = new WMTSLayerInfo({
-        //     identifier: 'DigitalGlobe:ImageryTileService',
-        //     connectid:'4c854a5e-6806-462f-b41b-3e5b00d43d98',
-        //     tileMatrixSet: '',
-        //     format: 'image/jpeg'
-        // });
+        var info = new WMTSLayerInfo({
+            identifier: 'DigitalGlobe:ImageryTileService',
+            tileMatrixSet: '',
+            format: 'image/jpeg'
+        });
 
-        // var WMTS = new WMTSLayer(test, {
-        //     layerInfo: info
-        // });
+        var WMTS = new WMTSLayer(test, {
+            layerInfo: info
+        });
 
         // WMTS._getCapabilities = function () {
         //     console.log("CALLING");
@@ -509,7 +519,7 @@ define([
         //     });
         // };
 
-        // o.map.addLayer(WMTS);
+        o.map.addLayer(WMTS);
 
     };
 

@@ -6,8 +6,13 @@ define([
     "dojo/_base/array",
     "dijit/registry",
     "views/map/MapConfig",
-    "esri/layers/LayerDrawingOptions"
-], function(on, dom, dojoQuery, arrayUtils, registry, MapConfig, LayerDrawingOptions) {
+    "esri/layers/LayerDrawingOptions",
+    // Temporary Modules to add Graphic to Map
+    "esri/graphic",
+    "esri/geometry/Point",
+    "esri/symbols/PictureMarkerSymbol"
+
+], function(on, dom, dojoQuery, arrayUtils, registry, MapConfig, LayerDrawingOptions, Graphic, Point, PictureSymbol) {
 
     var _map;
 
@@ -296,14 +301,42 @@ define([
 
         // },
 
+        toggleDigitalGlobeLayer: function (visibility) {
+            this.toggleLayerVisibility(MapConfig.digitalGlobe.id, visibility);
+            if (visibility) {
+                this.addTemporaryGraphicForDigitalGlobe();
+            } else {
+                this.removeDigitalGlobeTemporaryGraphic();
+            }
+        },
+
         updateTreeCoverLayer: function(visibility) {
             this.toggleLayerVisibility(MapConfig.treeCoverLayer.id, visibility);
-            this.refreshLegend();
         },
 
         updatePrimaryForestsLayer: function(visibility) {
             this.toggleLayerVisibility(MapConfig.primaryForestsLayer.id, visibility);
-            this.refreshLegend();
+        },
+
+        addTemporaryGraphicForDigitalGlobe: function () {
+            var graphic, point, symbol;
+
+            point = new Point(100.45, 2.015);
+            symbol = new PictureSymbol('app/images/map-pin.png', 15 , 30);
+            graphic = new Graphic(point, symbol, {
+                id: 'temp_graphic'
+            });
+            _map.graphics.add(graphic);
+        },
+
+        removeDigitalGlobeTemporaryGraphic: function () {
+            arrayUtils.forEach(_map.graphics.graphics, function (g) {
+                if (g.attributes) {
+                    if (g.attributes.id === 'temp_graphic') {
+                        _map.graphics.remove(g);
+                    }
+                }
+            });
         },
 
         updateLegend: function(layer, title) {
