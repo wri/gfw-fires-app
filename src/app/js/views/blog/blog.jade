@@ -1,1 +1,24 @@
-div#blogTest(class="test") Blog here
+link(rel='stylesheet', href='app/css/blog.css')
+div#blogInnerContainer(class="content-inner-container")
+    div#blogHeader(class="content-header")
+        h1 Fires Blog
+        h3 Text about Fires Blog
+    div#blogContentContainer(class="content-container")
+        section.blogView(data-bind="foreach: getAllPost()")
+            article#post.blog-post
+                h1.post-title: a(href="#", data-bind="text: title, attr: {href: 'http://www.wri.org'+more}") Indonesia Fires Flare: A Foreboding Start to Dry Season in Riau
+                section.post-authors
+                    ul.post-authors(data-bind="foreach: getAuthors()")
+                        li: a(href="#")(data-bind="text: $data"): Nigel Sizer
+                div.clear
+                section.post-snippet
+                    span(data-bind="if: img.length > 0")
+                        img.thumbnail(src="http://www.wri.org/sites/default/files/styles/medium/public/image_0.jpg?itok=RUDU40eN", data-bind="attr: {src: img}").pull-right
+                    p(data-bind="text: text") Indonesia and Singapore have been bracing themselves in recent weeks as warnings that this year's dry season would likely herald a severe spike in forest fires in Sumatra, with toxic haze across the region.
+
+                section.post-read-more
+                    a(href="#")(data-bind="attr: {href: 'http://www.wri.org'+more}") read more
+                        span.icon
+
+
+

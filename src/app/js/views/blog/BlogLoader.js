@@ -1,5 +1,5 @@
-define(["esri/request"],
-    function(esriRequest) {
+define(["esri/request", 'dojo/io/script', 'dojo/request/xhr', "dojo/Deferred"],
+    function(esriRequest, io, xhr, Deferred) {
 
         var o = {};
 
@@ -8,14 +8,26 @@ define(["esri/request"],
         };
 
         //listen to key
-
-        //trigger event 
+        //trigger event
         o.load_feed = function() {
-            var url = "http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=200&q=http://feeds.feedburner.com/WRI_News_and_Views";
+            var deffered = new Deferred();
+
+            var url = "http://gis-potico.wri.org/blogs/fireblog.txt";
+
+            var request = esriRequest({
+                url: url,
+                handleAs: 'text'
+            });
+
+            request.then(function (res) {
+                o.response = res;
+                deffered.resolve(res);
+            });
+
+            return deffered.promise;
         };
 
 
         return o;
-
-
-    });
+    }
+);
