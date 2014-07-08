@@ -17,7 +17,9 @@
   top: 26%;
 }
 .blog-post {
-  padding: 20px 20px 80px 20px;
+  height: 250px;
+  padding: 20px 20px 100px 20px;
+  border-bottom: 1px solid #ddd;
 }
 #post .post-title a {
   color: #292929;
