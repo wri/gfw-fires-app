@@ -63,10 +63,14 @@ define([
                 layer.setOpacity(opaqueValue);
             }
 
-            // If Land_Cover Slider was adjusted, set opacity on Tree Cover Image Service as well as it is under
-            // the same slider in UI and should have it's transparency the same as the other Land_Cover layers
+            // If Land_Cover Slider was adjusted, set opacity on Tree Cover Image Service and Primary Forests Image Service
+            // as well as it is under the same slider in UI and should have it's transparency the same as the other Land_Cover layers
             if (layerId === 'Land_Cover') {
                 layer = _map.getLayer(MapConfig.treeCoverLayer.id);
+                if (layer) {
+                    layer.setOpacity(opaqueValue);
+                }
+                layer = _map.getLayer(MapConfig.primaryForestsLayer.id);
                 if (layer) {
                     layer.setOpacity(opaqueValue);
                 }
