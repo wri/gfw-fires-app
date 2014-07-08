@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class"],
-    function(dom, registry, HashController, arrayUtil, domConstruct, domClass) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect"],
+    function(dom, registry, HashController, arrayUtil, domConstruct, domClass, aspect) {
 
         var o = {};
         var initialized = false;
@@ -79,25 +79,29 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     domClass.remove("app-header", allViews);
                     domClass.add("app-header", data.viewId);
 
-                    switch (data.viewId) {
-                        case "homeView":
-                            //domConstruct.place("");
-                            setTimeout(function() {
 
-                                domConstruct.place("footerMovableWrapper", "footerShareContainer");
-
-                            }, 1000);
-                            // EventsController.startModeAnim();
-                            break;
-
-                        default:
-                            //domConstruct.place("footerMovableWrapper", data.viewId);
-                            EventsController.stopModeAnim();
-                    }
-                    console.log("MOVED FOOTER");
 
                     registry.byId("stackContainer").selectChild(data.viewId);
                     registry.byId("stackContainer").resize();
+
+                    var contentPane = registry.byId(data.viewId);
+
+
+                    aspect.after(registry.byId("stackContainer"), "selectChild", function() {
+                        switch (data.viewId) {
+                            case "homeView":
+                                domConstruct.place("footerMovableWrapper", "footerShareContainer");
+                                break;
+
+                            default:
+
+                                domConstruct.place("footerMovableWrapper", data.viewId);
+                                EventsController.stopModeAnim();
+                        }
+                    });
+
+
+                    console.log("MOVED FOOTER");
                 });
 
         };
