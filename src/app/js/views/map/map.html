@@ -73,12 +73,15 @@
         </div>
       </div>
       <div id="air-quality-panel" class="accordion-panel">
-        <div data-bind="text: airQuality" class="coming-soon-label"></div>
         <div class="checkbox-container">
           <div id="windy-layer-checkbox"></div>
           <label for="windy-layer-checkbox" data-bind="text: windyLayerCheckbox"></label>
           <div data-bind="text: windySubLabelAdvice" class="checkbox-instructions"></div>
           <div data-bind="text: windySubLabel" class="checkbox-sub-label"></div>
+        </div>
+        <div class="checkbox-container">
+          <div id="air-quality-checkbox"></div>
+          <label data-bind="text: airQuality" class="coming-soon-label"></label>
         </div>
       </div>
       <div id="imagery-panel" class="accordion-panel">

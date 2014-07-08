@@ -342,6 +342,14 @@ define({
             "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {}
+        },
+        {
+            "id": "air-quality-checkbox",
+            "class": "air-quality-checkbox",
+            "type": "checkbox",
+            "props": {
+                "disabled": true
+            }
         }
     ]
 
