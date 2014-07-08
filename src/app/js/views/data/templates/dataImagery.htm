@@ -1,7 +1,7 @@
-<h2 class="source_category_title">Data Policy</h2>
+<h2 class="source_category_title">Imagery</h2>
 
 <p class="source_category_description">
-	enter description
+
 </p>
 
 
@@ -21,11 +21,11 @@
                     <div class="source_table">
                         <dl class="sources_row">
                             <dt>Function</dt>
-                            <dd>Identifies the direction and speed of wind globally and updated 4 times a day</dd>
+                            <dd>Provides imagery of burn scars and active fires for ground truthing the NASA Active Fire alerts.</dd>
                         </dl>
                         <dl class="sources_row even">
                             <dt>Resolution/scale</dt>
-                            <dd>N/A</dd>
+                            <dd>50-60 cm GSD at-nadir, up to 1 m at 45˚ off-nadir</dd>
                         </dl>
                         <dl class="sources_row">
                             <dt>Geographic Coverage</dt>
@@ -33,11 +33,11 @@
                         </dl>
                         <dl class="sources_row even">
                             <dt>Source data</dt>
-                            <dd>NOAA</dd>
+                            <dd>DigitalGlobe</dd>
                         </dl>
                         <dl class="sources_row">
                             <dt>Date of content</dt>
-                            <dd>Every 6 hours</dd>
+                            <dd>Varies</dd>
                         </dl>
                         <dl class="sources_row even">
                             <dt>Cautions</dt>
@@ -45,9 +45,9 @@
                         </dl>
                     </div>
                     <div class="source_summary">
-                       <p>
-                           <a href="http://nomads.ncdc.noaa.gov/data.php?name=access#hires_weather_datasets">Learn more or download data </a>
-                       </p>
+                      <p>
+                          Effective emergency planning and response requires quick and easy access to accurate, up-to-date information.  DigitalGlobe’s FirstLook is an online subscription service for emergency management that provides fast web-based access to pre-and post-event imagery of world disasters delivered to almost any desktop or web-based mapping platform. High-resolution satellite imagery provides the essential information required for emergency planning, risk assessment, monitoring of staging areas and emergency response, damage assessment, and recovery.
+                      </p>
                     </div>
                 </div>
             </article>
@@ -65,17 +65,50 @@
         </div>  
         <article class="ac-auto">
         <div class="source_body">
+            <div class="source_table">
+                <dl class="sources_row">
+                    <dt>Function</dt>
+                    <dd>FUNCTION	Provides access to Landsat 8 OLI 30m natural color scenes enhanced with 15m Panchromatic data covering the landmass of the world for visual interpretation. </dd>
+                </dl>
+                <dl class="sources_row even">
+                    <dt>Resolution/scale</dt>
+                    <dd>15 x 15 meters</dd>
+                </dl>
+                <dl class="sources_row">
+                    <dt>Geographic Coverage</dt>
+                    <dd>Global</dd>
+                </dl>
+                <dl class="sources_row even">
+                    <dt>Source data</dt>
+                    <dd>NOAA</dd>
+                </dl>
+                <dl class="sources_row">
+                    <dt>Date of content</dt>
+                    <dd>Every 6 hours</dd>
+                </dl>
+                <dl class="sources_row even">
+                    <dt>Cautions</dt>
+                    <dd>ArcGIS Online subscription required.</dd>
+                </dl>
+            </div>
         <div class="source_summary">
-            <p>Landsat 8 (formerly called the Landsat Data Continuity Mission, or LDCM) is NASA’s eighth satellite in the Landsat series and continues the Landsat program’s critical role in monitoring, understanding and managing the resources needed for human sustainment such as food, water and forests. As our population surpasses seven billion people, the impact of human society on the planet will increase, and Landsat monitors those impacts as well as environmental changes.</p>
+            <p>Dynamic Image Service provides access to Landsat 8 OLI 30m natural color scenes enhanced with 15m Panchromatic data covering the landmass of the world for visual interpretation. Landsat 8 collects new scenes for each location on Earth every 16 days, assuming limited cloud coverage. The service is updated on a daily basis to include the latest ‘Best’ scenes from the USGS.</p>
 
-            <p>With the longest unbroken data stream of Earth’s surface as seen from space, NASA’s Earth-observing Landsat fleet has provided the world with unprecedented information on land cover changes and their residual effects since 1972. The knowledge gained from 40 years of continuous data contributes to research on climate, carbon cycle, ecosystems, water cycle, biogeochemistry and changes to Earth’s surface, as well as our understanding of visible human effects on land surfaces. Building off that research, the Landsat imaging data set has, over time, led to the improvement of human and biodiversity health, energy and water management, urban planning, disaster recovery and agriculture monitoring, all resulting in incalculable benefits to the United States and world economy.</p>
+            <p>Each scene is processed on-the-fly from the original Landsat 8 12 bit/channel scenes (with only lossless compression applied) to compute apparent reflectance and then apply pansharpening from the 15m panchromatic band to the 30m multispectral bands. An appropriate renderer is then applied to return an 8 bit/channel image. A Dynamic Range Adjustment (DRA) version of the function is also included, which enables the full dynamic range of the images.</p>
 
-            <p>Landsat 8 joined the Landsat 7 satellite in orbit and produces stunning pictures of Earth’s surface along with a wealth of scientific data. Landsat 8 measures Earth’s surfaces in the visible, near-infrared, short wave infrared and thermal infrared, with a moderate-resolution of 15 to 100 meters, depending on spectral frequency.
-            <br/>
-            Landsat 8 is a collaboration between NASA and the U.S. Geological Survey (USGS).</p>
+            <p>Currently ‘Best’ is defined as the latest 4 scenes for each path/row with a cloud coverage of <50%, plus the scene closest to the corresponding GLS 2000 scene. Over time the older or cloudier scenes will be removed from the service.</p>
+
+            <p>Each scene is attributed with properties such as the acquisition date and estimated cloud cover percentage. The service is time-enabled, so applications can restrict the displayed scenes to specific date range. Additionally filters can be set to restrict and order the scenes based on the attributes.</p>
+
+            <p>Overviews are created at 300m resolution meaning that at scales smaller than approximately 1:1Million overviews based on the ‘best’ or ‘latest’ scenes will be displayed. To work with an individual scene(s) at all scales use the lock raster functionality  - (Set display order to a list of images Web Maps). Note that ‘Lock Raster’ should not be used on the service except for short periods of time, since each day a new service is created the Object IDs will change.</p>
 
             <p>The Pan-sharepened imagery is a service provided through Esri’s ArcGIS Online subscription.
             <a href="http://www.nasa.gov/mission_pages/landsat/main/index.html">http://www.nasa.gov/mission_pages/landsat/main/index.html</a></p>
+
+            <p class="credits"><strong>Credit:</strong> <a
+                    href="http://www.nasa.gov/mission_pages/landsat/main/index.html">Landsat 8</a>
+                is a collaboration between NASA and the U.S. Geological Survey (USGS).
+            </p>
 
 
 
