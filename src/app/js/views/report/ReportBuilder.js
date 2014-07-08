@@ -63,7 +63,6 @@ define([
         // don't forget to return ioArgs.
         return ioArgs;
 
-
     });
 
     return {
@@ -677,11 +676,11 @@ define([
 
         printReport: function() {
             // We need to wait for the chart animation to complete, animation duration 
-            setTimeout(function () {
-               if (window.print) {
-                    window.print();
-                } 
-            }, 500);
+            // setTimeout(function () {
+            //    if (window.print) {
+            //         window.print();
+            //     } 
+            // }, 500);
         }
 
     };

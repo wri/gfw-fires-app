@@ -58,15 +58,15 @@ define([],
                 },
 
                 {
-                    "html": "View the Latest Analysis",
+                    "html": "<span>View the Latest Analysis</span>",
                     "eventName": "goToAnalysis",
                     "display": true
                 }, {
-                    "html": "View the Latest Imagery",
+                    "html": "<span>View the Latest Imagery</span>",
                     "eventName": "goToMap",
                     "display": false
                 }, {
-                    "html": "Explore the Map",
+                    "html": "<span>Explore the Map</span>",
                     "eventName": "goToMap",
                     "display": false
 

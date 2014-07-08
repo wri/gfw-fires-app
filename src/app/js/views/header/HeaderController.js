@@ -51,7 +51,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController", "modules/EventsController"],
                 function(registry, HeaderModel, HomeController, EventsController) {
                     //alert(data.viewName);
-                    console.log(data)
+                    console.log(data);
 
                     //select the 
                     var navigationLinks = HeaderModel.vm.navigationLinks();
@@ -73,15 +73,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     EventsController.stopModeAnim();
                 }*/
 
-                    //alert(data.viewName);
                     var allViews = "mapView homeView blogView dataView aboutView";
                     domClass.remove("app-body", allViews);
-                    domClass.add("app-body", data.viewId)
+                    domClass.add("app-body", data.viewId);
                     domClass.remove("app-header", allViews);
-                    domClass.add("app-header", data.viewId)
-                    console.log("MOVE FOOTER");
-
-
+                    domClass.add("app-header", data.viewId);
 
                     switch (data.viewId) {
                         case "homeView":
@@ -95,7 +91,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                             break;
 
                         default:
-                            domConstruct.place("footerMovableWrapper", data.viewId);
+                            //domConstruct.place("footerMovableWrapper", data.viewId);
                             EventsController.stopModeAnim();
                     }
                     console.log("MOVED FOOTER");

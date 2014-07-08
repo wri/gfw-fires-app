@@ -231,7 +231,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
         o.modeSelect = function(data) {
             var selectedMode = data;
 
-            console.log(selectedMode);
+            console.log(selectedMode.eventName);
 
             eval("EventsController." + selectedMode.eventName + "()");
         };

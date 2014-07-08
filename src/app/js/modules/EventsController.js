@@ -15,7 +15,6 @@ define(["dojo/topic"],
 
 
 
-
             //map events
             "createUI": "createUI",
 
@@ -37,7 +36,10 @@ define(["dojo/topic"],
             //footer events
             "footerSelect": "footerSelect",
             "goToBlog": "goToBlog",
+
             "goToMap": "goToMap",
+            "goToAnalysis": "goToAnalysis",
+
             "goToTweet": "goToTweet",
             "initShareButton": "initShareButton"
 
@@ -45,14 +47,16 @@ define(["dojo/topic"],
 
         };
 
+        var publisher = function (evtName) {
+            return function (dataObj) {
+                topic.publish(evtName, dataObj);
+            };
+        };
+
 
         //handle publishing
         for (var eventName in o.events) {
-            o[eventName] = (function(e) {
-                return function(dataObj) {
-                    topic.publish(e, dataObj);
-                };
-            })(eventName);
+            o[eventName] = publisher(eventName);
         }
 
         //register subscribtion
@@ -87,20 +91,20 @@ define(["dojo/topic"],
 
         topic.subscribe("modeSelect", function(dataObj) {
             require(["views/home/HomeController"], function(HomeController) {
-                HomeController.modeSelect(dataObj)
-            })
+                HomeController.modeSelect(dataObj);
+            });
         });
 
         topic.subscribe("getPeats", function(dataObj) {
             require(["views/home/HomeController"], function(HomeController) {
-                HomeController.getPeats()
-            })
+                HomeController.getPeats();
+            });
         });
 
         topic.subscribe("footerSelect", function(dataObj) {
             require(["views/footer/FooterController"], function(FooterController) {
-                FooterController.footerSelect(dataObj)
-            })
+                FooterController.footerSelect(dataObj);
+            });
         });
 
         topic.subscribe("goToBlog", function(dataObj) {
@@ -111,30 +115,19 @@ define(["dojo/topic"],
                 HeaderController.clickNavLink({
                     viewId: "blog"
                 });
-            })
-        });
-
-        topic.subscribe("goToMap", function(dataObj) {
-            require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.switchToView({
-                    viewName: "mapView"
-                });
-                HeaderController.clickNavLink({
-                    viewId: "map"
-                });
-            })
+            });
         });
 
         topic.subscribe("goToTweet", function(dataObj) {
             require(["views/footer/FooterController"], function(FooterController) {
-                FooterController.goToTweet(dataObj)
-            })
+                FooterController.goToTweet(dataObj);
+            });
         });
 
         topic.subscribe("initShareButton", function() {
             require(["views/footer/FooterController"], function(FooterController) {
-                FooterController.initShareButton()
-            })
+                FooterController.initShareButton();
+            });
         });
 
 
@@ -148,6 +141,22 @@ define(["dojo/topic"],
             require(["views/about/AboutController"], function(AboutController) {
                 AboutController.toggleAboutNavList(obj);
             });
+        });
+
+        topic.subscribe("goToMap", function(dataObj) {
+            require(["views/header/HeaderController"], function(HeaderController) {
+                HeaderController.switchToView({
+                    viewName: "map",
+                    viewId: "mapView"
+                });
+                HeaderController.clickNavLink({
+                    viewId: "map"
+                });
+            });
+        });
+
+        topic.subscribe("goToAnalysis", function (dataObj) {
+
         });
 
         return o;

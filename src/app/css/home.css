@@ -65,13 +65,16 @@
   color: #ec1d38;
   margin-top: -50px;
   margin-bottom: 0px;
-  font-family: "Georgia", serif;
 }
 .homeModeOptionsViewerOuter .modeGroup .modeText {
+  font-family: "Georgia", serif;
   color: #ccc;
   position: absolute;
   left: 0px;
   top: 140px;
   right: 0px;
   vertical-align: middle;
+}
+.homeModeOptionsViewerOuter .modeGroup .modeText span {
+  font-size: 32px;
 }
