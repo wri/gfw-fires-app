@@ -1,12 +1,15 @@
 /* global define */
 define([
 	"dojo/Deferred",
+	"dijit/registry",
 	"esri/request",
 	"utils/RasterLayer",
+	"modules/ErrorController",
 	"libs/windy"
-], function (Deferred, esriRequest, RasterLayer) {
+], function (Deferred, registry, esriRequest, RasterLayer, ErrorController) {
 
 	var _map,
+	_isSupported,
 	_handles,
 	_raster,
 	_windy,
@@ -21,13 +24,21 @@ define([
 
 		setMap: function (map) {
 			_map = map;
-			// Check for Canvas Support, if not supported, diasble the checkbox and show a message beneath it
-			if (this.supportsCanvas() === false) {
-				
-			}
 		},
 
 		toggleWindLayer: function (checked) {
+
+			if (_isSupported === undefined) {
+				_isSupported = this.supportsCanvas();
+				// Check for Canvas Support, if not supported, diasble the checkbox and show a message beneath it
+				if (_isSupported === false) {
+					registry.byId("windy-layer-checkbox").set('checked', false);
+					registry.byId("windy-layer-checkbox").set('disabled', true);
+					ErrorController.show(10, "This browser does not support this feature. " + 
+						"Visit <a target='_blank' href='http://www.caniuse.com/#search=canvas'>caniuse.com</a> for supported browsers.");
+				}
+			}
+
 			if (checked) {
 				this.activateWindLayer();
 			} else {
