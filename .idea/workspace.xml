@@ -2,10 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b190754-71fc-41d9-9ed3-e19f0b723b70" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/blog.css" afterPath="$PROJECT_DIR$/src/app/css/blog.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/blog/blog.html" afterPath="$PROJECT_DIR$/src/app/js/views/blog/blog.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/blog/blog.jade" afterPath="$PROJECT_DIR$/src/app/js/views/blog/blog.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/blog.styl" afterPath="$PROJECT_DIR$/src/app/css/blog.styl" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataAirQuality.htm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataFires.htm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataImagery.htm" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm" />
+      <change type="DELETED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\js\views\data\templates\dataForestAndLandCover.htm" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\js\views\data\templates\dataForestChange.htm" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\js\views\data\templates\dataPolicy.htm" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\js\views\data\templates\dataSuitability.htm" afterPath="" />
+      <change type="MOVED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\js\views\data\templates\dataLandUse.htm" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataForestUse.htm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/main/Config.js" afterPath="$PROJECT_DIR$/src/app/js/main/Config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/templates/dataConservation.htm" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataConservation.htm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/footer/footer.html" afterPath="$PROJECT_DIR$/src/app/js/views/footer/footer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/map.html" afterPath="$PROJECT_DIR$/src/app/js/views/map/map.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="2278-wri-oil-palm.4.iws" />
@@ -29,63 +39,92 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BlogController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/BlogController.js">
+      <file leaf-file-name="dataLandCover.htm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="29" selection-start="1705" selection-end="1714" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1870">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BlogModel.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/BlogModel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="55" selection-start="505" selection-end="505" vertical-scroll-proportion="0.0" vertical-offset="189" max-vertical-offset="1598">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="blog.jade" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="33" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="blog.styl" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/css/blog.styl">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="11" selection-start="475" selection-end="475" vertical-scroll-proportion="0.49881518" vertical-offset="55" max-vertical-offset="1462">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="blog.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="37" selection-start="37" selection-end="37" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="102">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="blog.css" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/css/blog.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="0" selection-start="445" selection-end="445" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1581">
+            <state line="161" column="14" selection-start="7558" selection-end="8741" vertical-scroll-proportion="-27.461538" vertical-offset="153" max-vertical-offset="1377">
               <folding>
-                <marker date="1404835287587" expanded="true" signature="550:604" placeholder="{...}" />
-                <marker date="1404835287587" expanded="true" signature="642:671" placeholder="{...}" />
-                <marker date="1404835287587" expanded="true" signature="646:671" placeholder="{...}" />
-                <marker date="1404835287587" expanded="true" signature="719:762" placeholder="{...}" />
-                <marker date="1404835287587" expanded="true" signature="1074:1134" placeholder="{...}" />
-                <marker date="1404835287587" expanded="true" signature="1166:1182" placeholder="{...}" />
+                <element signature="tag#div#0;tag#section#0" expanded="false" />
+                <element signature="tag#div#1;tag#section#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataImagery.htm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataImagery.htm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="76" column="14" selection-start="4427" selection-end="4427" vertical-scroll-proportion="-44.53846" vertical-offset="134" max-vertical-offset="1581">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Config.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/js/main/Config.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="122" column="36" selection-start="3868" selection-end="3881" vertical-scroll-proportion="0.8459716" vertical-offset="1360" max-vertical-offset="2975">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataConservation.htm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataConservation.htm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="87" column="12" selection-start="8933" selection-end="8933" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="272">
+              <folding>
+                <element signature="tag#div#0;tag#section#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataFires.htm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataFires.htm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="206" selection-end="206" vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="1581">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataForestUse.htm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataForestUse.htm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="381" column="0" selection-start="29329" selection-end="29329" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="374">
+              <folding>
+                <element signature="tag#div#0;tag#section#0" expanded="false" />
+                <element signature="tag#div#1;tag#section#0" expanded="false" />
+                <element signature="tag#div#2;tag#section#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataAirQuality.htm" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataAirQuality.htm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="28" selection-start="401" selection-end="401" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1207">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="data.jade" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/data.jade">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataModel.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/data/DataModel.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="17" selection-start="514" selection-end="523" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -113,6 +152,14 @@
         <option value="$PROJECT_DIR$/src/app/js/views/blog/BlogModel.js" />
         <option value="$PROJECT_DIR$/src/app/js/views/blog/blog.jade" />
         <option value="$PROJECT_DIR$/src/app/css/blog.styl" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataForestChange.htm" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataSuitability.htm" />
+        <option value="$PROJECT_DIR$/src/app/js/main/Config.js" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataFires.htm" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataForestUse.htm" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataConservation.htm" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm" />
+        <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataImagery.htm" />
       </list>
     </option>
   </component>
@@ -133,7 +180,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="0" />
+    <option name="STATE" value="2" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -250,6 +297,70 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="blog" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -328,6 +439,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -364,9 +501,13 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="preferences.sourceCode.General" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -374,14 +515,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="scope" value="ALL" />
-      <option name="testName" />
-      <method />
-    </configuration>
     <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -390,6 +523,14 @@
       <option name="saveOutputToFile" value="false" />
       <option name="showConsoleOnStdErr" value="false" />
       <option name="showConsoleOnStdOut" value="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="scope" value="ALL" />
+      <option name="testName" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
@@ -416,13 +557,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24984913" sideWeight="0.67087156" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24984913" sideWeight="0.67087156" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -431,7 +573,6 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -449,79 +590,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/data.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/home/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/data.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/home/home.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/home/HomeController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-4.0959716" vertical-offset="3457" max-vertical-offset="4301" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/DataController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1241" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/home/HomeModel.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="844" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/bootloader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.3163507" vertical-offset="1111" max-vertical-offset="2210" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="73" selection-start="2212" selection-end="2227" vertical-scroll-proportion="0.74969023" vertical-offset="160" max-vertical-offset="1003">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/css/blog.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="445" selection-end="445" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1581">
-          <folding>
-            <marker date="1404835287587" expanded="true" signature="550:604" placeholder="{...}" />
-            <marker date="1404835287587" expanded="true" signature="642:671" placeholder="{...}" />
-            <marker date="1404835287587" expanded="true" signature="646:671" placeholder="{...}" />
-            <marker date="1404835287587" expanded="true" signature="719:762" placeholder="{...}" />
-            <marker date="1404835287587" expanded="true" signature="1074:1134" placeholder="{...}" />
-            <marker date="1404835287587" expanded="true" signature="1166:1182" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/BlogController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="29" selection-start="1705" selection-end="1714" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1870">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataConservation.htm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="29" selection-start="923" selection-end="923" vertical-scroll-proportion="0.54906833" vertical-offset="0" max-vertical-offset="2601" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="37" selection-start="37" selection-end="37" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="805">
@@ -536,16 +604,109 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.jade">
+    <entry file="file://$PROJECT_DIR$/src/app/css/blog.styl">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="33" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+        <state line="50" column="20" selection-start="1012" selection-end="1012" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1462">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/css/blog.styl">
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataTemplate.htm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="11" selection-start="475" selection-end="475" vertical-scroll-proportion="0.49881518" vertical-offset="55" max-vertical-offset="1462">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="846">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/data.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="51" selection-start="273" selection-end="273" vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="0" selection-start="1428" selection-end="1428" vertical-scroll-proportion="0.47051746" vertical-offset="0" max-vertical-offset="831">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/data.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/DataModel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="17" selection-start="514" selection-end="523" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="748">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/DataController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="395" max-vertical-offset="1241">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataAirQuality.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="28" selection-start="401" selection-end="401" vertical-scroll-proportion="-8.5" vertical-offset="0" max-vertical-offset="1207">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataFires.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="206" selection-end="206" vertical-scroll-proportion="-3.9230769" vertical-offset="0" max-vertical-offset="1581">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataForestUse.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="381" column="0" selection-start="29329" selection-end="29329" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="374">
+          <folding>
+            <element signature="tag#div#0;tag#section#0" expanded="false" />
+            <element signature="tag#div#1;tag#section#0" expanded="false" />
+            <element signature="tag#div#2;tag#section#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataConservation.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="12" selection-start="8933" selection-end="8933" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="272">
+          <folding>
+            <element signature="tag#div#0;tag#section#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="161" column="14" selection-start="7558" selection-end="8741" vertical-scroll-proportion="-27.461538" vertical-offset="153" max-vertical-offset="1377">
+          <folding>
+            <element signature="tag#div#0;tag#section#0" expanded="false" />
+            <element signature="tag#div#1;tag#section#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataImagery.htm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="14" selection-start="4427" selection-end="4427" vertical-scroll-proportion="-44.53846" vertical-offset="134" max-vertical-offset="1581">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/main/Config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="36" selection-start="3868" selection-end="3881" vertical-scroll-proportion="0.8459716" vertical-offset="1360" max-vertical-offset="2975">
           <folding />
         </state>
       </provider>

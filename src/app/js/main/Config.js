@@ -106,28 +106,29 @@ define([],
             dataLinks: [
 
                 {
-                    "name": "FOREST CHANGE",
-                    "htmlContent": "dataForestChange",
+                    "name": "FIRES",
+                    "htmlContent": "dataFires",
                     "selected": true
                 }, {
-                    "name": "FOREST AND LAND COVER",
-                    "htmlContent": "dataForestAndLandCover",
-                    "selected": false
-                }, {
-                    "name": "LAND USE",
-                    "htmlContent": "dataLandUse",
+                    "name": "FOREST USE",
+                    "htmlContent": "dataForestUse",
                     "selected": false
                 }, {
                     "name": "CONSERVATION",
                     "htmlContent": "dataConservation",
                     "selected": false
-                }, {
-                    "name": "SUITABILITY",
-                    "htmlContent": "dataSuitability",
+                },
+                   {
+                    "name": "LAND COVER",
+                    "htmlContent": "dataLandCover",
                     "selected": false
                 }, {
-                    "name": "DATA POLICY",
-                    "htmlContent": "dataPolicy",
+                    "name": "Air Quality",
+                    "htmlContent": "dataAirQuality",
+                    "selected": false
+                }, {
+                    "name": "Imagery",
+                    "htmlContent": "dataImagery",
                     "selected": false
                 }
 
