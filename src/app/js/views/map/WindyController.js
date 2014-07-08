@@ -3,10 +3,11 @@ define([
 	"dojo/Deferred",
 	"dijit/registry",
 	"esri/request",
+	"utils/Helper",
 	"utils/RasterLayer",
 	"modules/ErrorController",
 	"libs/windy"
-], function (Deferred, registry, esriRequest, RasterLayer, ErrorController) {
+], function (Deferred, registry, esriRequest, Helper, RasterLayer, ErrorController) {
 
 	var _map,
 	_isSupported,
@@ -17,7 +18,9 @@ define([
 	WIND_CONFIG = {
 		dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.json.gz',
 		id: "Wind_Direction",
-		opacity: 0.85
+		opacity: 0.85,
+		mapLoaderId: 'map_loader',
+		mapLoaderContainer: 'map-container'
 	};
 
 	return {
@@ -93,6 +96,9 @@ define([
 		},
 
 		fetchDataForWindLayer: function () {
+
+			Helper.showLoader(WIND_CONFIG.mapLoaderContainer, WIND_CONFIG.mapLoaderId);
+
 			var deferred = new Deferred(),
 				req = new esriRequest({
 					url: WIND_CONFIG.dataUrl,
@@ -103,9 +109,11 @@ define([
 			req.then(function (res) {
 				_data = res;
 				deferred.resolve(true);
+				Helper.hideLoader(WIND_CONFIG.mapLoaderId);
 			}, function (err) {
 				console.error(err);
 				deferred.resolve(false);
+				Helper.hideLoader(WIND_CONFIG.mapLoaderId);
 			});
 			
 

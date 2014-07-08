@@ -537,3 +537,20 @@
 .esriPopupWrapper {
   top: -40px;
 }
+.loadingWheelContainer {
+  background-color: #ddd;
+  position: absolute;
+  z-index: 5000;
+  opacity: 0.5;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+.loadingWheel {
+  position: absolute;
+  margin-left: -12px;
+  margin-top: -12px;
+  left: 50%;
+  top: 50%;
+}
