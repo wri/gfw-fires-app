@@ -180,8 +180,6 @@ define([
                 visible: true
             });
 
-            map.addLayer(districtFiresLayer);
-
             classDef = new ClassBreaksDefinition();
             classDef.classificationField = boundaryConfig.classBreaksField;
             classDef.classificationMethod = boundaryConfig.classBreaksMethod;
@@ -209,20 +207,25 @@ define([
                 dom.byId("legend").innerHTML = html;
             }
 
-            renderer = new GenerateRendererTask(boundaryConfig.url + "/" + boundaryConfig.layerId);
-            renderer.execute(generateParams, function(customRenderer) {
-                buildLegend(customRenderer.infos);
-                ldos = new LayerDrawingOptions();
-                ldos.renderer = customRenderer;
-                options[boundaryConfig.layerId] = ldos;
-                districtFiresLayer.setLayerDrawingOptions(options);
-                //debugger;
-                districtFiresLayer.on('update-end', function() {
-                    deferred.resolve(true);
+            function generateRenderer() {
+                renderer = new GenerateRendererTask(boundaryConfig.url + "/" + boundaryConfig.layerId);
+                renderer.execute(generateParams, function(customRenderer) {
+                    buildLegend(customRenderer.infos);
+                    ldos = new LayerDrawingOptions();
+                    ldos.renderer = customRenderer;
+                    options[boundaryConfig.layerId] = ldos;
+                    districtFiresLayer.setLayerDrawingOptions(options);
+                    districtFiresLayer.on('update-end', function() {
+                        deferred.resolve(true);
+                    });
+                }, function() {
+                    deferred.resolve(false);
                 });
-            }, function() {
-                deferred.resolve(false);
-            });
+            }
+
+            districtFiresLayer.on('load', generateRenderer);
+
+            map.addLayer(districtFiresLayer);
 
             map.on('load', function() {
                 map.disableMapNavigation();
@@ -292,10 +295,14 @@ define([
                 var tableHeader = "<table class='fires-table'><tr><th>NAME</th><th>GROUP, AFFILIATE, OR MAIN BUYER</th><th>NUMBER OF FIRE ALERTS</th></tr>",
                     woodTable = tableHeader + self.generateTableRows(woodFiberFeatures, fields.slice(0, 3)) + "</table>",
                     palmTable = tableHeader + self.generateTableRows(palmOilFeatures, fields.slice(0, 3)) + "</table>",
-                    logTable = tableHeader + self.generateTableRows(loggingFeatures, fields.slice(0, 3)) + "</table>";
-                dom.byId("pulpwood-fires-table").innerHTML = woodTable;
-                dom.byId("palmoil-fires-table").innerHTML = palmTable;
-                dom.byId("logging-fires-table").innerHTML = logTable;
+                    logTable = tableHeader + self.generateTableRows(loggingFeatures, fields.slice(0, 3)) + "</table>",
+                    noWoodFeatures = "There are no fire alerts in pulpwood concessions in the last 7 days.",
+                    noPalmFeatures = "There are no fire alerts in palm oil concessions in the last 7 days.",
+                    noLogFeatures = "There are no fire alerts in logging concessions in the last 7 days.";
+
+                dom.byId("pulpwood-fires-table").innerHTML = (woodFiberFeatures.length > 0) ? woodTable : '<div class="noFiresTable">' + noWoodFeatures + '</div>';
+                dom.byId("palmoil-fires-table").innerHTML = (palmOilFeatures.length > 0) ? palmTable : '<div class="noFiresTable">' + noPalmFeatures + '</div>';
+                dom.byId("logging-fires-table").innerHTML = (loggingFeatures.length > 0) ? logTable : '<div class="noFiresTable">' + noLogFeatures + '</div>';
             }
 
             queryTask.execute(query, function(res) {
@@ -669,7 +676,12 @@ define([
         },
 
         printReport: function() {
-
+            // We need to wait for the chart animation to complete, animation duration 
+            setTimeout(function () {
+               if (window.print) {
+                    window.print();
+                } 
+            }, 500);
         }
 
     };

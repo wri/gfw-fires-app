@@ -61,6 +61,8 @@ define([
             EventsController.switchToView(view);
             ready(function() { // Ensure the map loads to correct size by not loading too early
                 MapModel.applyBindings("map-view");
+                // Initialize addthis since it was loaded asynchronously
+                addthis.init();
                 that.addConfigurations();
                 that.createMap();
             });

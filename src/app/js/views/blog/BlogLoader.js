@@ -9,7 +9,7 @@ define(["esri/request", 'dojo/io/script', 'dojo/request/xhr', "dojo/Deferred"],
 
         //listen to key
         //trigger event
-        o.load_feed = function() {
+        o.load_feed = function(proxyUrl) {
             var deffered = new Deferred();
 
             var url = "http://gis-potico.wri.org/blogs/fireblog.txt";
@@ -17,7 +17,7 @@ define(["esri/request", 'dojo/io/script', 'dojo/request/xhr', "dojo/Deferred"],
             var request = esriRequest({
                 url: url,
                 handleAs: 'text'
-            });
+            }, {useProxy: true});
 
             request.then(function (res) {
                 o.response = res;

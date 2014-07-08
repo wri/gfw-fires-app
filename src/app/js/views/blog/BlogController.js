@@ -46,7 +46,6 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             if (initialized) {
                 //switch to this view
                 EventsController.switchToView(viewObj);
-
                 return;
             }
 
@@ -55,8 +54,7 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             //"dojo/text!//www.wri.org/blog-tags/8705"
             require(["dojo/text!views/blog/blog.html"], function(html) {
 
-
-                var feed = o.loadFeed("");
+                var feed = o.loadFeed(esri.config.defaults.io.proxyUrl);
 
                 feed.then(function (res) {
 
@@ -76,12 +74,12 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
 
         },
 
-        o.loadFeed = function(data) {
+        o.loadFeed = function(proxyUrl) {
             var deffered = new Deferred();
 
-            require(["views/blog/BlogLoader",], function (BlogLoader, Deferred) {
+            require(["views/blog/BlogLoader"], function (BlogLoader) {
 
-                var loader = BlogLoader.load_feed()
+                var loader = BlogLoader.load_feed(proxyUrl);
 
                 loader.then(function (res) {
                     deffered.resolve(res);

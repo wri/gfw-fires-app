@@ -446,7 +446,7 @@ var Windy = function( params ){
             console.error(e);
         }
     })();
-  }
+  };
 
   var start = function( bounds, width, height, extent ){
 

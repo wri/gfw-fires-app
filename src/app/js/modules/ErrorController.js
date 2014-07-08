@@ -17,10 +17,6 @@ define(["dojo/dom-construct", "dojo/dom-class", "dojo/_base/window"],
             // Take a string and turn it into a DOM node
             errDiv = domConstruct.create("div", errorDivProps, win.body());
 
-            console.log(errDiv);
-
-
-
         };
 
         o.show = function(seconds, msg) {
