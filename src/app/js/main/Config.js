@@ -15,33 +15,33 @@ define([],
 
             navigationLinks: [{
                 "html": "Home",
-                "viewId": "home",
+                "viewName": "home",
                 "domId": "homeView",
                 "selected": true
             }, {
                 "html": "Map",
-                "viewId": "map",
+                "viewName": "map",
                 "domId": "mapView",
                 "selected": false
             }, {
                 "html": "Fires Blog",
-                "viewId": "blog",
+                "viewName": "blog",
                 "domId": "blogView",
                 "selected": false
             }, {
                 "html": "Data",
-                "viewId": "data",
+                "viewName": "data",
                 "domId": "dataView",
                 "selected": false
             }, {
                 "html": "About",
-                "viewId": "about",
+                "viewName": "about",
                 "domId": "aboutView",
                 "selected": false
             }, {
                 "html": "GFW",
                 "url": "http://www.globalforestwatch.org",
-                "viewId": "link",
+                "viewName": "link",
                 "domId": "link",
                 "selected": false
             }],
@@ -117,8 +117,7 @@ define([],
                     "name": "CONSERVATION",
                     "htmlContent": "dataConservation",
                     "selected": false
-                },
-                   {
+                }, {
                     "name": "LAND COVER",
                     "htmlContent": "dataLandCover",
                     "selected": false

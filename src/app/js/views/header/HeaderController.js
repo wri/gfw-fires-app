@@ -41,7 +41,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             }
 
             var updateHash = {
-                v: clickedItem.viewId
+                v: clickedItem.viewName
             };
             HashController.updateHash(updateHash);
 
@@ -79,18 +79,18 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     domClass.remove("app-header", allViews);
                     domClass.add("app-header", data.viewId);
 
-
-
-                    registry.byId("stackContainer").selectChild(data.viewId);
-                    registry.byId("stackContainer").resize();
-
-                    var contentPane = registry.byId(data.viewId);
-
-
-                    aspect.after(registry.byId("stackContainer"), "selectChild", function() {
+                    /*aspect.after(registry.byId("stackContainer"), "selectChild", function() {
+                        //registry.byId("stackContainer").selectedChildWidget.id;
+                        registry.byId("stackContainer").resize();
                         switch (data.viewId) {
                             case "homeView":
+                                //domConstruct.place("");
                                 domConstruct.place("footerMovableWrapper", "footerShareContainer");
+                                setTimeout(function() {
+
+
+                                }, 1000);
+                                // EventsController.startModeAnim();
                                 break;
 
                             default:
@@ -98,10 +98,31 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                                 domConstruct.place("footerMovableWrapper", data.viewId);
                                 EventsController.stopModeAnim();
                         }
-                    });
+                        console.log("MOVED FOOTER");
+                        //debugger;
 
+                    })*/
+                    3
 
+                    switch (data.viewId) {
+                        case "homeView":
+                            //domConstruct.place("");
+                            setTimeout(function() {
+
+                                domConstruct.place("footerMovableWrapper", "footerShareContainer");
+
+                            }, 1000);
+                            // EventsController.startModeAnim();
+                            break;
+
+                        default:
+                            //EventsController.stopModeAnim();
+                            domConstruct.place("footerMovableWrapper", data.viewId);
+                    }
                     console.log("MOVED FOOTER");
+
+                    registry.byId("stackContainer").selectChild(data.viewId);
+                    registry.byId("stackContainer").resize();
                 });
 
         };
