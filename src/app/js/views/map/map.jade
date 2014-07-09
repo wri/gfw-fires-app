@@ -72,6 +72,11 @@ div#map-view(class="map-view")
 					label(for="windy-layer-checkbox", data-bind="text: windyLayerCheckbox")
 					div(data-bind="text: windySubLabelAdvice", class="checkbox-instructions")
 					div(data-bind="text: windySubLabel", class="checkbox-sub-label")
+					div.windLegendContainer(data-bind="visible: showWindLegend()")
+						div#windLegendNode(class='windLegendNode windLayerLegendColorRamp')
+						div#windLegendLabels
+							span 0 m/s
+							span.rightWindLabel > 40 m/s
 				div(class='checkbox-container')
 					div#air-quality-checkbox
 					label(class="coming-soon-label", data-bind="text: airQuality")

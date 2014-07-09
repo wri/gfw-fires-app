@@ -16,6 +16,7 @@ define([
     "esri/dijit/LocateButton",
     "esri/dijit/Geocoder",
     "esri/dijit/Legend",
+    "esri/dijit/Scalebar",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
@@ -36,8 +37,8 @@ define([
     "esri/request",
     "views/map/CustomWMTSLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest, CustomWMTSLayer) {
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest, CustomWMTSLayer) {
 
     var o = {},
         initialized = false,
@@ -116,9 +117,10 @@ define([
         DijitFactory.buildDijits(MapConfig.accordionDijits);
 
         o.map = new Map("map", {
+            center: MapConfig.mapOptions.center,
             basemap: MapConfig.mapOptions.basemap,
             zoom: MapConfig.mapOptions.initalZoom,
-            center: MapConfig.mapOptions.center,
+            minZoom: MapConfig.mapOptions.minZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
         });
 
@@ -142,6 +144,7 @@ define([
 
     o.addWidgets = function() {
         var basemaps = [],
+            scalebar,
             darkgray,
             geocoder,
             locator,
@@ -149,6 +152,11 @@ define([
             home,
             bg;
 
+        // Add Scalebar
+        scalebar = new Scalebar({
+            map: o.map,
+            scalebarUnit: "metric"
+        });
 
         // Add Home Button
         domConstruct.create("div", {
@@ -469,11 +477,11 @@ define([
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
-            digitalGlobeLayer,
             landCoverLayer,
             primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
+            digitalGlobeLayer,
             firesLayer,
             tweetLayer
         ]);

@@ -7,7 +7,7 @@ div.navContainer
 		ul.navList(data-bind="foreach:navigationLinks")
 			li.navItem(data-bind="css:{selected:selected},click:$root.clickNavLink")
 				a(data-bind="html:html")
-	div.logo
+	div#logo.logo
 div.headerDescContainer(data-bind="visible: (appState().v=='home')")
 	div.headerDesc(data-bind="html:headerDesc")
 

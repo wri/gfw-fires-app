@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect"],
-    function(dom, registry, HashController, arrayUtil, domConstruct, domClass, aspect) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect","dojo/on"],
+    function(dom, registry, HashController, arrayUtil, domConstruct, domClass, aspect, on) {
 
         var o = {};
         var initialized = false;
@@ -22,7 +22,16 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                 HeaderModel.applyBindings(viewId);
 
-
+                // Add Listener to go home if logo is clicked
+                on(dom.byId("logo"), "click", function () {
+                    var mock = {
+                        domId: "homeView",
+                        html: "Home",
+                        selected: true,
+                        viewId: "home"
+                    };
+                    that.clickNavLink(mock);
+                });
 
             });
         };
@@ -36,7 +45,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             var clickedItem = data;
 
             if (clickedItem.url) {
-                window.open(clickedItem.url, "_blank")
+                window.open(clickedItem.url, "_blank");
                 return;
             }
 

@@ -5,9 +5,10 @@ define([
 	"esri/request",
 	"utils/Helper",
 	"utils/RasterLayer",
+	"views/map/MapModel",
 	"modules/ErrorController",
 	"libs/windy"
-], function (Deferred, registry, esriRequest, Helper, RasterLayer, ErrorController) {
+], function (Deferred, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController) {
 
 	var _map,
 	_isSupported,
@@ -72,6 +73,7 @@ define([
 				});
 
 				self.redraw();
+				self.toggleLegend(true);
 
 			}
 
@@ -92,7 +94,7 @@ define([
 					_handles[i].remove();
 				}
 			}
-
+			this.toggleLegend(false);
 		},
 
 		fetchDataForWindLayer: function () {
@@ -141,6 +143,14 @@ define([
 				}, 500);
 			}
 
+		},
+
+		toggleLegend: function (show) {
+			if (show) {
+				MapModel.set('showWindLegend', true);
+			} else {
+				MapModel.set('showWindLegend', false);
+			}
 		},
 
 		supportsCanvas: function () {
