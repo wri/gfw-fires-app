@@ -1,4 +1,4 @@
-<filesMatch "index\.html">
+<FilesMatch "index\.(html|htm)$">
 	FileETag None
 	<ifModule mod_headers.c>
 		Header unset ETag
@@ -6,4 +6,4 @@
 		Header set Pragma "no-cache"
 		Header set Expires "Wed, 11 Jan 1984 05:00:00 GMT"
 	</ifModule>
-</filesMatch>
+</FilesMatch>
