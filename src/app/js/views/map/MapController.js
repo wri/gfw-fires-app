@@ -16,6 +16,7 @@ define([
     "esri/dijit/LocateButton",
     "esri/dijit/Geocoder",
     "esri/dijit/Legend",
+    "esri/dijit/Scalebar",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
@@ -33,10 +34,11 @@ define([
     "modules/EventsController",
     "esri/layers/WMTSLayerInfo",
     "esri/layers/WMTSLayer",
-    "esri/request"
+    "esri/request",
+    "views/map/CustomWMTSLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, registry, MapConfig, MapModel,
-    LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest) {
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest, CustomWMTSLayer) {
 
     var o = {},
         initialized = false,
@@ -84,10 +86,10 @@ define([
         }
 
         // Rule to Test Digital Globe Fires Url
-        urlUtils.addProxyRule({
-            urlPrefix: 'https://services.digitalglobe.com/',
-            proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
-        });
+        // urlUtils.addProxyRule({
+        //     urlPrefix: 'https://services.digitalglobe.com/',
+        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
+        // });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -115,9 +117,10 @@ define([
         DijitFactory.buildDijits(MapConfig.accordionDijits);
 
         o.map = new Map("map", {
+            center: MapConfig.mapOptions.center,
             basemap: MapConfig.mapOptions.basemap,
             zoom: MapConfig.mapOptions.initalZoom,
-            center: MapConfig.mapOptions.center,
+            minZoom: MapConfig.mapOptions.minZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
         });
 
@@ -141,6 +144,7 @@ define([
 
     o.addWidgets = function() {
         var basemaps = [],
+            scalebar,
             darkgray,
             geocoder,
             locator,
@@ -148,6 +152,11 @@ define([
             home,
             bg;
 
+        // Add Scalebar
+        scalebar = new Scalebar({
+            map: o.map,
+            scalebarUnit: "metric"
+        });
 
         // Add Home Button
         domConstruct.create("div", {
@@ -468,11 +477,11 @@ define([
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
-            digitalGlobeLayer,
             landCoverLayer,
             primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
+            digitalGlobeLayer,
             firesLayer,
             tweetLayer
         ]);
@@ -499,29 +508,47 @@ define([
 
 
         // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98';
+        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f';
 
         // var info = new WMTSLayerInfo({
         //     identifier: 'DigitalGlobe:ImageryTileService',
-        //     tileMatrixSet: '',
-        //     format: 'image/jpeg'
+        //     tileMatrixSet: 'EPSG: 4326', //EPSG:3857:11
+        //     format: 'image/jpeg',
+        //     style: "_null"
         // });
+
+        // WMTSLayer.prototype._getCapabilities = function () {
+        //   esriRequest.setRequestPreCallback(function (ioArgs) {
+        //     if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
+        //       //ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
+        //     }
+        //     return ioArgs;
+        //   });
+        //   var self = this;
+        //   esriRequest({
+        //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',
+        //       handleAs: "text",
+        //       load: function () {
+        //         console.dir(arguments);
+        //         self._parseCapabilities(arguments);
+        //       },
+        //       error: self._getCapabilitiesError
+        //   }, {useProxy: false});
+        // };
 
         // var WMTS = new WMTSLayer(test, {
         //     layerInfo: info
         // });
 
-        // WMTS._getCapabilities = function () {
-        //     console.log("CALLING");
-        //     esriRequest({
-        //         url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=4c854a5e-6806-462f-b41b-3e5b00d43d98',
-        //         handleAs: "text",
-        //         load: WMTS._parseCapabilities,
-        //         error: WMTS._getCapabilitiesError
-        //     });
-        // };
+        // o.map.addLayer(WMTS);
 
-        //o.map.addLayer(WMTS);
+        // WMTS.on('load', function () {
+            
+        // });
+
+        // WMTS.on('error', function (err) {
+        //     console.error(err);
+        // });
 
     };
 

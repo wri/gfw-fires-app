@@ -64,6 +64,7 @@ define([
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
+    vm.showWindLegend = ko.observable(false);
     vm.showLatLongInputs = ko.observable(false);
     vm.showDMSInputs = ko.observable(true);
     vm.showClearPinsOption = ko.observable(false);

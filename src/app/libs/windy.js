@@ -347,7 +347,7 @@ var Windy = function( params ){
           "rgba(" + hexToR('#e185ff') + ", " + hexToG('#e185ff') + ", " + hexToB('#e185ff') + ", " + 0.5 + ")",
           "rgba(" + hexToR('#ec6dff') + ", " + hexToG('#ec6dff') + ", " + hexToB('#ec6dff') + ", " + 0.5 + ")",
           "rgba(" + hexToR('#ff1edb') + ", " + hexToG('#ff1edb') + ", " + hexToB('#ff1edb') + ", " + 0.5 + ")"
-        ]
+        ];
         /*
         var result = [];
         for (var j = 225; j >= 100; j = j - step) {
@@ -357,6 +357,7 @@ var Windy = function( params ){
         result.indexFor = function(m) {  // map wind speed to a style
             return Math.floor(Math.min(m, maxWind) / maxWind * (result.length - 1));
         };
+
         return result;
     }
 
