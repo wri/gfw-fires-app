@@ -34,10 +34,11 @@ define([
     "modules/EventsController",
     "esri/layers/WMTSLayerInfo",
     "esri/layers/WMTSLayer",
-    "esri/request"
+    "esri/request",
+    "views/map/DigitalGlobeTiledLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest) {
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest, DigitalGlobeTiledLayer) {
 
     var o = {},
         initialized = false,
@@ -548,10 +549,6 @@ define([
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
-
-        // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f';
-
         // var info = new WMTSLayerInfo({
         //     identifier: 'DigitalGlobe:ImageryTileService',
         //     tileMatrixSet: 'EPSG: 4326', //EPSG:3857:11
@@ -560,37 +557,31 @@ define([
         // });
 
         // WMTSLayer.prototype._getCapabilities = function () {
-        //   // esriRequest.setRequestPreCallback(function (ioArgs) {
-        //   //   if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
-        //   //     ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
-        //   //   }
-        //   //   return ioArgs;
-        //   // });
+        //   esriRequest.setRequestPreCallback(function (ioArgs) {
+        //     if (ioArgs.url.search('REQUEST=GetCapabilities') > -1) {
+        //       ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess?CONNECTID=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
+        //     }
+        //     return ioArgs;
+        //   });
         //   var self = this;
         //   esriRequest({
-        //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',
+        //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess?CONNECTID=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',
         //       handleAs: "text",
         //       load: function () {
         //         console.dir(arguments);
         //         self._parseCapabilities(arguments);
         //       },
         //       error: self._getCapabilitiesError
-        //   }, {useProxy: false});
+        //   }, {useProxy: false, usePost: true});
         // };
 
-        // var WMTS = new WMTSLayer(test, {
-        //     layerInfo: info
-        // });
+        // Testing
+
+        // var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
+
+        // var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
 
         // o.map.addLayer(WMTS);
-
-        // WMTS.on('load', function () {
-            
-        // });
-
-        // WMTS.on('error', function (err) {
-        //     console.error(err);
-        // });
 
     };
 
