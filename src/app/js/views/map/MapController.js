@@ -34,11 +34,10 @@ define([
     "modules/EventsController",
     "esri/layers/WMTSLayerInfo",
     "esri/layers/WMTSLayer",
-    "esri/request",
-    "views/map/CustomWMTSLayer"
+    "esri/request"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest, CustomWMTSLayer) {
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest) {
 
     var o = {},
         initialized = false,
