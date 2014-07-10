@@ -566,6 +566,15 @@
   left: 50%;
   top: 50%;
 }
+#primary-forests-options {
+  margin: 0 20px;
+}
+#primary-forests-options label {
+  font-weight: normal;
+}
+#primary-forests-options .inline {
+  display: inline-block;
+}
 #windLegendLabels {
   margin: 0 25px;
   font-size: 10px;

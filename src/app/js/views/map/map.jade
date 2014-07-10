@@ -66,6 +66,20 @@ div#map-view(class="map-view")
 					div#primary-forests-radio
 					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
+				div#primary-forests-options(data-bind="visible: showPrimaryForestOptions()")
+					div(class="checkbox-container inline")
+						div#pf2000-radio
+						label(for="pf2000-radio", data-bind="text: pf2000Radio")
+					div(class="checkbox-container inline")
+						div#pf2005-radio
+						label(for="pf2005-radio", data-bind="text: pf2005Radio")
+					div(style='clear: both;')
+					div(class="checkbox-container inline")
+						div#pf2010-radio
+						label(for="pf2010-radio", data-bind="text: pf2010Radio")
+					div(class="checkbox-container inline")
+						div#pf2012-radio
+						label(for="pf2012-radio", data-bind="text: pf2012Radio")
 			div#air-quality-panel(class='accordion-panel')
 				div(class='checkbox-container')
 					div#windy-layer-checkbox

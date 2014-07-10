@@ -239,9 +239,6 @@ define([
                     map.infoWindow.setContent(content);
                     // map.infoWindow.setTitle("Title");
                     map.infoWindow.show(point);
-                    on.once(dom.byId("closePopup"), "click", function() {
-                        map.infoWindow.hide();
-                    });
                 } else {
                     _self.mapClick(event);
                 }
@@ -252,7 +249,7 @@ define([
         },
 
         getFireTweetsInfoWindow: function(evt) {
-            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT"
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
             var attr = evt.attributes;
             var html = "<table><tr><td>";
             html += "<td><img src='" + attr.UserProfileImage + "'/></td>";

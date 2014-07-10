@@ -5,6 +5,7 @@ define([
     "dojo/query",
     "dojo/_base/array",
     "dijit/registry",
+    "views/map/MapModel",
     "views/map/MapConfig",
     "esri/layers/LayerDrawingOptions",
     // Temporary Modules to add Graphic to Map
@@ -12,7 +13,7 @@ define([
     "esri/geometry/Point",
     "esri/symbols/PictureMarkerSymbol"
 
-], function(on, dom, dojoQuery, arrayUtils, registry, MapConfig, LayerDrawingOptions, Graphic, Point, PictureSymbol) {
+], function(on, dom, dojoQuery, arrayUtils, registry, MapModel, MapConfig, LayerDrawingOptions, Graphic, Point, PictureSymbol) {
 
     var _map;
 
@@ -27,15 +28,12 @@ define([
                 visibleLayers = legendLayer.visibleLayers,
                 layerDrawingOption = new esri.layers.LayerDrawingOptions(),
                 optionsArray = [],
-                numArray = [29, 33],
+                numArray = [29],
                 num;
             layerDrawingOption.transparency = 0;
 
             if (_map.getLayer(MapConfig.treeCoverLayer.id).visible) {
                 num = 29;
-            }
-            if (_map.getLayer(MapConfig.primaryForestsLayer.id).visible) {
-                num = 33;
             }
 
             arrayUtils.forEach(numArray, function(n) {
@@ -45,7 +43,7 @@ define([
                 }
             });
 
-            if (_map.getLayer(MapConfig.treeCoverLayer.id).visible || _map.getLayer(MapConfig.primaryForestsLayer.id).visible) {
+            if (_map.getLayer(MapConfig.treeCoverLayer.id).visible) {
                 visibleLayers.push(num);
                 optionsArray[num] = layerDrawingOption;
                 legendLayer.setVisibleLayers(visibleLayers);
@@ -75,6 +73,7 @@ define([
                     layer.setOpacity(opaqueValue);
                 }
             }
+            this.refreshLegend();
         },
 
         toggleLayerVisibility: function(layerId, visibility) {
@@ -166,10 +165,6 @@ define([
 
         updateAdditionalVisibleLayers: function(queryClass, configObject) {
             var layer = _map.getLayer(configObject.id),
-                treeCoverLayer = _map.getLayer(MapConfig.treeCoverLayer.id),
-                primaryForestsLayer = _map.getLayer(MapConfig.primaryForestsLayer.id),
-                treeCoverVisible = false,
-                priamryForestsVisible = false,
                 visibleLayers = [],
                 layerID;
 
@@ -179,12 +174,6 @@ define([
                     if (layerID) {
                         visibleLayers.push(layerID);
                     }
-                }
-                if (node.id === "tree-cover-density-radio") {
-                    treeCoverVisible = node.checked;
-                }
-                if (node.id === "primary-forests-radio") {
-                    primaryForestsVisible = node.checked;
                 }
             });
 
@@ -198,14 +187,6 @@ define([
                 if (!layer.visible) {
                     this.toggleLayerVisibility(configObject.id, true);
                 }
-            }
-
-            if (treeCoverVisible !== treeCoverLayer.visible) {
-                this.updateTreeCoverLayer(treeCoverVisible);
-            }
-
-            if (primaryForestsVisible !== primaryForestsLayer.visible) {
-                this.updatePrimaryForestsLayer(primaryForestsVisible);
             }
 
             this.refreshLegend();
@@ -268,42 +249,19 @@ define([
 
         // },
 
-        // updateLandCoverLayers: function (evt) {
-        // 	var layer = _map.getLayer(MapConfig.landCoverLayers.id),
-        // 			treeCoverLayer = _map.getLayer(MapConfig.treeCoverLayer.id),
-        // 			treeCoverVisible = false,
-        // 			visibleLayers = [],
-        // 			layerID;
+        updateLandCoverLayers: function (evt) {
+        	var target = evt.target ? evt.target : evt.srcElement;
 
-        // 	dojoQuery(".land-cover-layers-option").forEach(function (node) {
-        // 		if (node.checked) {
-        // 			layerID = MapConfig.treeCoverLayer[node.value];
-        // 			if (layerID) {
-        // 				visibleLayers.push(layerID);
-        // 			}
-        // 		}
-        // 		if (node.id === "tree-cover-density-radio") {
-        // 			treeCoverVisible = node.checked;
-        // 		}
-        // 	});
+            // Update the Peat Lands Layer
+            this.updatePeatLandsLayer(target.id);
 
-        // 	if (visibleLayers.length === 0) {
-        // 		// If nothing checked, turn all layers off
-        // 		visibleLayers.push(-1);
-        // 	}
+            // Update the Tree Cover Layer
+            this.updateTreeCoverLayer(target.id === "tree-cover-density-radio");
 
-        // 	if (layer) {
-        // 		layer.setVisibleLayers(visibleLayers);
-        // 		if (!layer.visible) {
-        // 			this.toggleLayerVisibility(MapConfig.forestUseLayers.id, true);
-        // 		}
-        // 	}
+            // Update the Primary Forest Layer
+            this.updatePrimaryForestsLayer(target.id === "primary-forests-radio");
 
-        // 	if (treeCoverVisible !== treeCoverLayer.visible) {
-        // 		this.updateTreeCoverLayer(treeCoverVisible);
-        // 	}
-
-        // },
+        },
 
         toggleDigitalGlobeLayer: function (visibility) {
             this.toggleLayerVisibility(MapConfig.digitalGlobe.id, visibility);
@@ -314,12 +272,48 @@ define([
             }
         },
 
+        updatePeatLandsLayer: function (target) {
+            var configObject = MapConfig.landCoverLayers,
+                layer = _map.getLayer(configObject.id),
+                visibleLayers = [];
+
+            if (target === 'peat-lands-radio') {
+                visibleLayers.push(configObject.peatLands);
+            } else {
+                visibleLayers.push(-1);
+            }
+
+            layer.setVisibleLayers(visibleLayers);
+            // Only Hide the layer if we are on primary forests layer, we need it visible 
+            // for Tree Cover Loss to show the legend
+            this.toggleLayerVisibility(configObject.id, target !== "primary-forests-radio");
+        },
+
         updateTreeCoverLayer: function(visibility) {
             this.toggleLayerVisibility(MapConfig.treeCoverLayer.id, visibility);
         },
 
         updatePrimaryForestsLayer: function(visibility) {
-            this.toggleLayerVisibility(MapConfig.primaryForestsLayer.id, visibility);
+            var ID = MapConfig.primaryForestsLayer.id, 
+                layer = _map.getLayer(ID),
+                layerIds = [];
+
+            // Show or hide the various options for this layer
+            MapModel.set('showPrimaryForestOptions', visibility);
+
+            dojoQuery("#primary-forests-options input:checked").forEach(function (input) {
+                layerIds.push(input.value);
+            });
+            
+            if (layerIds.length === 0) {
+                layerIds.push(-1);
+            }
+
+            if (layer) {
+                layer.setVisibleLayers(layerIds);
+            }
+
+            this.toggleLayerVisibility(ID, visibility);
         },
 
         addTemporaryGraphicForDigitalGlobe: function () {
@@ -354,31 +348,32 @@ define([
 
         adjustOverlaysLayer: function () {
             var layerIds = [],
-                layer = _map.getLayer(MapConfig.overlaysLayer.id),
-                nodes = dojoQuery(".overlays-checkboxes .dijitCheckBoxInput").forEach(function (node) {
-                    switch (node.id) {
-                        case "provinces-checkbox":
-                            if (node.checked) {
-                                layerIds.push(4);
-                            }
-                            break;
-                        case "districts-checkbox":
-                            if (node.checked) {
-                                layerIds.push(3);
-                            }
-                            break;
-                        case "subdistricts-checkbox":
-                            if (node.checked) {
-                                layerIds.push(2);
-                            }
-                            break;
-                        case "villages-checkbox":
-                            if (node.checked) {
-                                layerIds.push(1);
-                            }
-                            break;
-                    }
-                });
+                layer = _map.getLayer(MapConfig.overlaysLayer.id);
+            
+            dojoQuery(".overlays-checkboxes .dijitCheckBoxInput").forEach(function (node) {
+                switch (node.id) {
+                    case "provinces-checkbox":
+                        if (node.checked) {
+                            layerIds.push(4);
+                        }
+                        break;
+                    case "districts-checkbox":
+                        if (node.checked) {
+                            layerIds.push(3);
+                        }
+                        break;
+                    case "subdistricts-checkbox":
+                        if (node.checked) {
+                            layerIds.push(2);
+                        }
+                        break;
+                    case "villages-checkbox":
+                        if (node.checked) {
+                            layerIds.push(1);
+                        }
+                        break;
+                }
+            });
 
             if (layerIds.length === 0) {
                 layerIds.push(-1);

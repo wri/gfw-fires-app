@@ -374,7 +374,9 @@ define([
         });
 
         dojoQuery("#land-cover-panel div.checkbox-container div input").forEach(function(node) {
-            domClass.add(node, "land-cover-layers-option");
+            if (node.name === 'land-cover-radios') {
+                domClass.add(node, "land-cover-layers-option");
+            }
         });
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
@@ -392,9 +394,14 @@ define([
         });
 
         dojoQuery(".land-cover-layers-option").forEach(function(node) {
-            on(node, "change", function() {
-                //Params are, class to Query to find which layers are checked on or off, and config object for the layer
-                LayerController.updateAdditionalVisibleLayers("land-cover-layers-option", MapConfig.landCoverLayers);
+            on(node, "change", function(evt) {
+                LayerController.updateLandCoverLayers(evt);
+            });
+        });
+
+        dojoQuery("#primary-forests-options input").forEach(function (node) {
+            on(node, "change", function () {
+                LayerController.updatePrimaryForestsLayer(true); // The True is to keep it visible
             });
         });
 
@@ -404,6 +411,8 @@ define([
 
         var conservationParams,
             conservationLayer,
+            primaryForestsParams,
+            primaryForestsLayer,
             digitalGlobeLayer,
             landCoverParams,
             landCoverLayer,
@@ -453,7 +462,13 @@ define([
             visible: false
         });
 
-        primaryForestsLayer = new ArcGISImageServiceLayer(MapConfig.primaryForestsLayer.url, {
+        primaryForestsParams = new ImageParameters();
+        primaryForestsParams.format = "png32";
+        primaryForestsParams.layerIds = MapConfig.primaryForestsLayer.defaultLayers;
+        primaryForestsParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        primaryForestsLayer = new ArcGISDynamicMapServiceLayer(MapConfig.primaryForestsLayer.url, {
+            imageParameters: primaryForestsParams,
             id: MapConfig.primaryForestsLayer.id,
             visible: false
         });
