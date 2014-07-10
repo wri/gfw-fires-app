@@ -86,10 +86,10 @@ define([
         }
 
         // Rule to Test Digital Globe Fires Url
-        // urlUtils.addProxyRule({
-        //     urlPrefix: 'https://services.digitalglobe.com/',
-        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
-        // });
+        urlUtils.addProxyRule({
+            urlPrefix: 'https://services.digitalglobe.com/',
+            proxyUrl: proxyUrl//'http://rmbp/proxy/dg_proxy.php'
+        });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -312,6 +312,22 @@ define([
             LayerController.toggleDigitalGlobeLayer(checked);
         });
 
+        registry.byId("provinces-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("districts-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("subdistricts-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("villages-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
         on(dom.byId("search-option-go-button"), "click", function() {
             Finder.searchAreaByCoordinates();
         });
@@ -395,6 +411,7 @@ define([
             forestUseParams,
             forestUseLayer,
             treeCoverLayer,
+            overlaysLayer,
             landSatLayer,
             firesParams,
             firesLayer;
@@ -452,6 +469,11 @@ define([
             visible: false
         });
 
+        overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
+            id: MapConfig.overlaysLayer.id,
+            visible: false
+        });
+
         firesParams = new ImageParameters();
         firesParams.format = "png32";
         firesParams.layerIds = MapConfig.firesLayer.defaultLayers;
@@ -482,6 +504,7 @@ define([
             forestUseLayer,
             conservationLayer,
             digitalGlobeLayer,
+            overlaysLayer,
             firesLayer,
             tweetLayer
         ]);
@@ -499,10 +522,15 @@ define([
             registry.byId("legend").refresh(layerInfos);
         });
 
+        // Set the default layer ordering for Overlays Layer
+        overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
+
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
+        primaryForestsLayer.on('error', this.layerAddError);
         conservationLayer.on('error', this.layerAddError);
         landCoverLayer.on('error', this.layerAddError);
+        overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
@@ -518,12 +546,12 @@ define([
         // });
 
         // WMTSLayer.prototype._getCapabilities = function () {
-        //   esriRequest.setRequestPreCallback(function (ioArgs) {
-        //     if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
-        //       //ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
-        //     }
-        //     return ioArgs;
-        //   });
+        //   // esriRequest.setRequestPreCallback(function (ioArgs) {
+        //   //   if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
+        //   //     ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
+        //   //   }
+        //   //   return ioArgs;
+        //   // });
         //   var self = this;
         //   esriRequest({
         //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',

@@ -60,6 +60,10 @@ define([
     vm.windyLayerCheckbox = ko.observable(MapConfig.text.windyLayerCheckbox);
     vm.windySubLabelAdvice = ko.observable(MapConfig.text.windySubLabelAdvice);
     vm.windySubLabel = ko.observable(MapConfig.text.windySubLabel);
+    vm.provincesCheckbox = ko.observable(MapConfig.text.provincesCheckbox);
+    vm.districtsCheckbox = ko.observable(MapConfig.text.districtsCheckbox);
+    vm.subDistrictsCheckbox = ko.observable(MapConfig.text.subDistrictsCheckbox);
+    vm.villagesCheckbox = ko.observable(MapConfig.text.villagesCheckbox);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);

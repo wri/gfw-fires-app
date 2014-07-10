@@ -81,6 +81,11 @@ define({
         landCover: 19 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
     },
 
+    overlaysLayer: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer",
+        id: "Overlays_Layer"
+    },
+
     primaryForestsLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/primary_forest_extent/ImageServer",
         id: "Primary_Forest"
@@ -152,7 +157,11 @@ define({
         getReportLink: "Get Fires Analysis",
         windyLayerCheckbox: "Wind Direction (beta feature)",
         windySubLabelAdvice: "For best visual appearance, switch to the Dark Gray Canvas Basemap",
-        windySubLabel: "(Daily, NOAA)"
+        windySubLabel: "(Daily, NOAA)",
+        provincesCheckbox: "Provinces",
+        districtsCheckbox: "Districts", 
+        subDistrictsCheckbox: "Subdistricts", 
+        villagesCheckbox: "Villages"
     },
 
     accordionDijits: [{
@@ -353,7 +362,32 @@ define({
             "props": {
                 "disabled": true
             }
+        },
+        {
+            "id": "provinces-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "districts-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "subdistricts-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "villages-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
         }
+
     ]
 
 });

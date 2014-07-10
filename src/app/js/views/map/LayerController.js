@@ -352,6 +352,57 @@ define([
             });
         },
 
+        adjustOverlaysLayer: function () {
+            var layerIds = [],
+                layer = _map.getLayer(MapConfig.overlaysLayer.id),
+                nodes = dojoQuery(".overlays-checkboxes .dijitCheckBoxInput").forEach(function (node) {
+                    switch (node.id) {
+                        case "provinces-checkbox":
+                            if (node.checked) {
+                                layerIds.push(4);
+                            }
+                            break;
+                        case "districts-checkbox":
+                            if (node.checked) {
+                                layerIds.push(3);
+                            }
+                            break;
+                        case "subdistricts-checkbox":
+                            if (node.checked) {
+                                layerIds.push(2);
+                            }
+                            break;
+                        case "villages-checkbox":
+                            if (node.checked) {
+                                layerIds.push(1);
+                            }
+                            break;
+                    }
+                });
+
+            if (layerIds.length === 0) {
+                layerIds.push(-1);
+                this.toggleLayerVisibility(MapConfig.overlaysLayer.id, false);
+            }
+
+            if (layer) {
+                layer.setVisibleLayers(layerIds);
+                this.toggleLayerVisibility(MapConfig.overlaysLayer.id, true);
+            }
+            
+        },
+
+        setOverlayLayerOrder: function (evt) {
+            var layer = _map.getLayer(MapConfig.overlaysLayer.id),
+                layerInfos = evt.target.createDynamicLayerInfosFromLayerInfos();
+
+            // We dont want layer 0 and we need to reverse the order of the array
+            layerInfos = layerInfos.slice(1);
+            layerInfos.reverse();
+            layer.setDynamicLayerInfos(layerInfos);
+
+        },
+
         updateLegend: function(layer, title) {
 
         }

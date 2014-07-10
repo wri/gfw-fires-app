@@ -195,6 +195,26 @@
       </div>
       <div id="basemap-linker" data-bind="visible: showBasemapGallery()" class="basemap-linker modal-link"></div>
       <div id="basemap-gallery-container" data-bind="visible: showBasemapGallery()" class="basemap-gallery-container">
+        <div class="basemap-container-labels">Overlays</div>
+        <div class="overlays-checkboxes">
+          <div class="checkbox-container">
+            <div id="provinces-checkbox"></div>
+            <label for="provinces-checkbox" data-bind="text: provincesCheckbox"></label>
+          </div>
+          <div class="checkbox-container">
+            <div id="districts-checkbox"></div>
+            <label for="districts-checkbox" data-bind="text: districtsCheckbox"></label>
+          </div>
+          <div class="checkbox-container">
+            <div id="subdistricts-checkbox"></div>
+            <label for="subdistricts-checkbox" data-bind="text: subDistrictsCheckbox"></label>
+          </div>
+          <div class="checkbox-container">
+            <div id="villages-checkbox"></div>
+            <label for="villages-checkbox" data-bind="text: villagesCheckbox"></label>
+          </div>
+        </div>
+        <div class="basemap-container-labels">Basemaps</div>
         <div id="basemap-gallery" class="basemap-gallery"></div>
       </div>
       <div id="share-linker" data-bind="visible: showShareContainer()" class="share-linker modal-link"></div>
