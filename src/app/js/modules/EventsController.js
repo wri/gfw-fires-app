@@ -47,8 +47,8 @@ define(["dojo/topic"],
 
         };
 
-        var publisher = function (evtName) {
-            return function (dataObj) {
+        var publisher = function(evtName) {
+            return function(dataObj) {
                 topic.publish(evtName, dataObj);
             };
         };
@@ -109,11 +109,11 @@ define(["dojo/topic"],
 
         topic.subscribe("goToBlog", function(dataObj) {
             require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.switchToView({
+                /*HeaderController.switchToView({
                     viewName: "blogView"
-                });
+                });*/
                 HeaderController.clickNavLink({
-                    viewId: "blog"
+                    viewName: "blog"
                 });
             });
         });
@@ -145,18 +145,27 @@ define(["dojo/topic"],
 
         topic.subscribe("goToMap", function(dataObj) {
             require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.switchToView({
+                /*HeaderController.switchToView({
                     viewName: "map",
                     viewId: "mapView"
-                });
+                });*/
                 HeaderController.clickNavLink({
-                    viewId: "map"
+                    viewName: "map"
                 });
             });
         });
 
-        topic.subscribe("goToAnalysis", function (dataObj) {
-
+        topic.subscribe("goToAnalysis", function(dataObj) {
+            require(["views/header/HeaderController"], function(HeaderController) {
+                /*HeaderController.switchToView({
+                    viewName: "map",
+                    viewId: "mapView"
+                });*/
+                HeaderController.clickNavLink({
+                    viewName: "link",
+                    url: "app/js/views/report/report.html"
+                });
+            });
         });
 
         return o;
