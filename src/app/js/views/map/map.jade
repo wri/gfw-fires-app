@@ -66,6 +66,20 @@ div#map-view(class="map-view")
 					div#primary-forests-radio
 					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
+				div#primary-forests-options(data-bind="visible: showPrimaryForestOptions()")
+					div(class="checkbox-container inline")
+						div#pf2000-radio
+						label(for="pf2000-radio", data-bind="text: pf2000Radio")
+					div(class="checkbox-container inline")
+						div#pf2005-radio
+						label(for="pf2005-radio", data-bind="text: pf2005Radio")
+					div(style='clear: both;')
+					div(class="checkbox-container inline")
+						div#pf2010-radio
+						label(for="pf2010-radio", data-bind="text: pf2010Radio")
+					div(class="checkbox-container inline")
+						div#pf2012-radio
+						label(for="pf2012-radio", data-bind="text: pf2012Radio")
 			div#air-quality-panel(class='accordion-panel')
 				div(class='checkbox-container')
 					div#windy-layer-checkbox
@@ -164,6 +178,21 @@ div#map-view(class="map-view")
 						div#search-option-go-button(class="search-option-go-button", data-bind="text: searchOptionGoButton")
 			div#basemap-linker(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
 			div#basemap-gallery-container(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
+				div(class='basemap-container-labels') Overlays
+				div(class='overlays-checkboxes')
+					div(class="checkbox-container")
+						div#provinces-checkbox
+						label(for="provinces-checkbox", data-bind="text: provincesCheckbox")
+					div(class="checkbox-container")
+						div#districts-checkbox
+						label(for="districts-checkbox", data-bind="text: districtsCheckbox")
+					div(class="checkbox-container")
+						div#subdistricts-checkbox
+						label(for="subdistricts-checkbox", data-bind="text: subDistrictsCheckbox")
+					div(class="checkbox-container")
+						div#villages-checkbox
+						label(for="villages-checkbox", data-bind="text: villagesCheckbox")
+				div(class='basemap-container-labels') Basemaps
 				div#basemap-gallery(class="basemap-gallery")
 			div#share-linker(data-bind="visible: showShareContainer()" class="share-linker modal-link")
 			div#share-container(data-bind="visible: showShareContainer()" class="map-share-container")

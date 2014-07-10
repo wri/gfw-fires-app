@@ -166,6 +166,13 @@ baseRed = #e7002f
 .basemap-gallery-container
 	overflow-y auto
 
+.basemap-container-labels
+	border-bottom 1px solid #000
+	padding-bottom 10px
+	font-weight bold
+	font-size 18px
+	margin 10px
+
 .share-linker
 	top 210px
 
@@ -455,7 +462,7 @@ baseRed = #e7002f
 	background rgba(0,0,0,0)
 	border-width 0
 
-#control-panel .dijitCheckBox
+#control-panel .dijitCheckBox, #basemap-gallery-container .dijitCheckBox
 	appearance none
 	background rgb(255, 255, 255)
 	width 16px
@@ -474,7 +481,7 @@ baseRed = #e7002f
 	border-bottom-left-radius 3px
 
 
-#control-panel .dijitCheckBoxChecked
+#control-panel .dijitCheckBoxChecked, #basemap-gallery-container .dijitCheckBoxChecked
 	background url(../images/ico-checkmark.png) 50% 50% no-repeat rgb(137, 137, 137)
 	border 1px solid rgb(137, 137, 137)
 	border-image-source initial
@@ -534,6 +541,15 @@ baseRed = #e7002f
 	margin-top -12px
 	left 50%
 	top 50%
+
+#primary-forests-options
+	margin 0 20px
+
+#primary-forests-options label
+	font-weight normal
+
+#primary-forests-options .inline
+	display inline-block
 
 #windLegendLabels
 	margin 0 25px

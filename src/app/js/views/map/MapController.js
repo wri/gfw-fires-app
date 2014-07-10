@@ -85,10 +85,10 @@ define([
         }
 
         // Rule to Test Digital Globe Fires Url
-        // urlUtils.addProxyRule({
-        //     urlPrefix: 'https://services.digitalglobe.com/',
-        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
-        // });
+        urlUtils.addProxyRule({
+            urlPrefix: 'https://services.digitalglobe.com/',
+            proxyUrl: proxyUrl//'http://rmbp/proxy/dg_proxy.php'
+        });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -311,6 +311,22 @@ define([
             LayerController.toggleDigitalGlobeLayer(checked);
         });
 
+        registry.byId("provinces-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("districts-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("subdistricts-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("villages-checkbox").on('change', function () {
+            LayerController.adjustOverlaysLayer();
+        });
+
         on(dom.byId("search-option-go-button"), "click", function() {
             Finder.searchAreaByCoordinates();
         });
@@ -358,7 +374,9 @@ define([
         });
 
         dojoQuery("#land-cover-panel div.checkbox-container div input").forEach(function(node) {
-            domClass.add(node, "land-cover-layers-option");
+            if (node.name === 'land-cover-radios') {
+                domClass.add(node, "land-cover-layers-option");
+            }
         });
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
@@ -376,9 +394,14 @@ define([
         });
 
         dojoQuery(".land-cover-layers-option").forEach(function(node) {
-            on(node, "change", function() {
-                //Params are, class to Query to find which layers are checked on or off, and config object for the layer
-                LayerController.updateAdditionalVisibleLayers("land-cover-layers-option", MapConfig.landCoverLayers);
+            on(node, "change", function(evt) {
+                LayerController.updateLandCoverLayers(evt);
+            });
+        });
+
+        dojoQuery("#primary-forests-options input").forEach(function (node) {
+            on(node, "change", function () {
+                LayerController.updatePrimaryForestsLayer(true); // The True is to keep it visible
             });
         });
 
@@ -388,12 +411,15 @@ define([
 
         var conservationParams,
             conservationLayer,
+            primaryForestsParams,
+            primaryForestsLayer,
             digitalGlobeLayer,
             landCoverParams,
             landCoverLayer,
             forestUseParams,
             forestUseLayer,
             treeCoverLayer,
+            overlaysLayer,
             landSatLayer,
             firesParams,
             firesLayer;
@@ -436,7 +462,13 @@ define([
             visible: false
         });
 
-        primaryForestsLayer = new ArcGISImageServiceLayer(MapConfig.primaryForestsLayer.url, {
+        primaryForestsParams = new ImageParameters();
+        primaryForestsParams.format = "png32";
+        primaryForestsParams.layerIds = MapConfig.primaryForestsLayer.defaultLayers;
+        primaryForestsParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        primaryForestsLayer = new ArcGISDynamicMapServiceLayer(MapConfig.primaryForestsLayer.url, {
+            imageParameters: primaryForestsParams,
             id: MapConfig.primaryForestsLayer.id,
             visible: false
         });
@@ -448,6 +480,11 @@ define([
 
         digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.url, {
             id: MapConfig.digitalGlobe.id,
+            visible: false
+        });
+
+        overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
+            id: MapConfig.overlaysLayer.id,
             visible: false
         });
 
@@ -481,6 +518,7 @@ define([
             forestUseLayer,
             conservationLayer,
             digitalGlobeLayer,
+            overlaysLayer,
             firesLayer,
             tweetLayer
         ]);
@@ -498,10 +536,15 @@ define([
             registry.byId("legend").refresh(layerInfos);
         });
 
+        // Set the default layer ordering for Overlays Layer
+        overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
+
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
+        primaryForestsLayer.on('error', this.layerAddError);
         conservationLayer.on('error', this.layerAddError);
         landCoverLayer.on('error', this.layerAddError);
+        overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
@@ -517,12 +560,12 @@ define([
         // });
 
         // WMTSLayer.prototype._getCapabilities = function () {
-        //   esriRequest.setRequestPreCallback(function (ioArgs) {
-        //     if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
-        //       //ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
-        //     }
-        //     return ioArgs;
-        //   });
+        //   // esriRequest.setRequestPreCallback(function (ioArgs) {
+        //   //   if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
+        //   //     ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
+        //   //   }
+        //   //   return ioArgs;
+        //   // });
         //   var self = this;
         //   esriRequest({
         //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',

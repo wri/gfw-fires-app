@@ -60,10 +60,19 @@ define([
     vm.windyLayerCheckbox = ko.observable(MapConfig.text.windyLayerCheckbox);
     vm.windySubLabelAdvice = ko.observable(MapConfig.text.windySubLabelAdvice);
     vm.windySubLabel = ko.observable(MapConfig.text.windySubLabel);
+    vm.provincesCheckbox = ko.observable(MapConfig.text.provincesCheckbox);
+    vm.districtsCheckbox = ko.observable(MapConfig.text.districtsCheckbox);
+    vm.subDistrictsCheckbox = ko.observable(MapConfig.text.subDistrictsCheckbox);
+    vm.villagesCheckbox = ko.observable(MapConfig.text.villagesCheckbox);
+    vm.pf2000Radio = ko.observable(MapConfig.text.pf2000Radio);
+    vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
+    vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
+    vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
+    vm.showPrimaryForestOptions = ko.observable(false);
     vm.showWindLegend = ko.observable(false);
     vm.showLatLongInputs = ko.observable(false);
     vm.showDMSInputs = ko.observable(true);

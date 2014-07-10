@@ -77,13 +77,18 @@ define({
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Land_Cover',
         defaultLayers: [1], // Show peatLands by default
-        peatLands: 1, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
-        landCover: 19 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+        peatLands: 1 // These map to the value of an input in the UI, so peatLands is the value of a checkbox
+    },
+
+    overlaysLayer: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer",
+        id: "Overlays_Layer"
     },
 
     primaryForestsLayer: {
-        url: "http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/primary_forest_extent/ImageServer",
-        id: "Primary_Forest"
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer",
+        id: "Primary_Forest",
+        defaultLayers: [0]
     },
 
     treeCoverLayer: {
@@ -152,7 +157,15 @@ define({
         getReportLink: "Get Fires Analysis",
         windyLayerCheckbox: "Wind Direction (beta feature)",
         windySubLabelAdvice: "For best visual appearance, switch to the Dark Gray Canvas Basemap",
-        windySubLabel: "(Daily, NOAA)"
+        windySubLabel: "(Daily, NOAA)",
+        provincesCheckbox: "Provinces",
+        districtsCheckbox: "Districts", 
+        subDistrictsCheckbox: "Subdistricts", 
+        villagesCheckbox: "Villages",
+        pf2000Radio: "2000",
+        pf2005Radio: "2005",
+        pf2010Radio: "2010",
+        pf2012Radio: "2012",
     },
 
     accordionDijits: [{
@@ -353,7 +366,70 @@ define({
             "props": {
                 "disabled": true
             }
+        },
+        {
+            "id": "provinces-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "districts-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "subdistricts-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+        {
+            "id": "villages-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+
+        {
+            "id": "pf2000-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "0",
+                "name": "primary-forest-radios",
+                "checked": true
+            }
+        },
+        {
+            "id": "pf2005-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "1",
+                "name": "primary-forest-radios"
+            }
+        },
+        {
+            "id": "pf2010-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "2",
+                "name": "primary-forest-radios"
+            }
+        },
+        {
+            "id": "pf2012-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "3",
+                "name": "primary-forest-radios"
+            }
         }
+
     ]
 
 });
