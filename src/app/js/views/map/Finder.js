@@ -25,7 +25,7 @@ define([
                 latitude, longitude,
                 invalidValue = false,
                 invalidMessage = "You did not enter a valid value.  Please check that your location values are all filled in and nubmers only.",
-                symbol = new PictureSymbol('app/images/RedStickPin.png', 32, 32),
+                symbol = new PictureSymbol('app/images/RedStickpin.png', 32, 32),
                 attributes = {},
                 point,
                 graphic,
