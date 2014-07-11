@@ -68,7 +68,8 @@
 .checkbox-instructions{padding:0 0 0 20px;font-weight:700;font-size:11px}
 .latLongHUD{background-color:rgba(255,255,255,.4);border-radius:5px;position:absolute;font-size:15px;bottom:25px;z-index:50;left:5px}
 #control-panel .dijitAccordionContainer-dijitContentPane{padding:10px}
-.accordion-panel .slider-container{margin:20px}
+.accordion-panel .slider-container{width:250px;margin:20px}
+.slider-container .dijitSlider{width:100%}
 .transparency-slider-label{font-size:11px;padding:0 0 0 20px;color:#000}
 .latLongHUD div{padding:2px 4px}
 .report-link-container{border-radius:5px;background-color:#e7002f;position:absolute;right:10px;top:10px}

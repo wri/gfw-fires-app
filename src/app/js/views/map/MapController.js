@@ -199,7 +199,7 @@ define([
                 x: x,
                 y: y,
                 l: lod.level
-            })
+            });
 
 
         });
@@ -361,6 +361,10 @@ define([
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
+        });
+
+        on(registry.byId("air-quality-checkbox"), "change", function(value) {
+            LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
         });
 
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
@@ -659,9 +663,68 @@ define([
 
     o.enableLayersFromHash = function () {
 
+        var hash = HashController.getHash(),
+            layers = hash.lyrs,
+            layersArray = layers.split(":"),
+            layersToWidgets = MapConfig.layersCheckboxes,
+            layerComponents,
+            widgetId,
+            layerObj,
+            layerIds;
 
+        function useDefaults() {
+            registry.byId('fires-checkbox').set('checked', true);
+            registry.byId('peat-lands-radio').set('checked', true);
+            on.emit(dom.byId('peat-lands-radio'),'change',{});
+            LayerController.updateLayersInHash('add',MapConfig.firesLayer.id, MapConfig.firesLayer.id);
+            LayerController.updateLayersInHash('add',MapConfig.landCoverLayers.id, MapConfig.landCoverLayers.id + "/1");
+        }
 
+        function turnOnLayers(id, layerNums) {
 
+            if (id === undefined || id === '') {
+                return;
+            }            
+
+            if (layerNums === undefined) {
+                widgetId = layersToWidgets[id].id;
+                if (registry.byId(widgetId)) {
+                    registry.byId(widgetId).set('checked', true);
+                    if (layersToWidgets[id].type === 'radio') {
+                        on.emit(dom.byId(widgetId),'change',{});
+                    }
+                }
+            } else {
+                layerObj = layersToWidgets[id];
+                layerIds = layerNums.split(",");
+                for (var i = 0, len = layerIds.length; i < len; i++) {
+                    widgetId = layerObj[layerIds[i]].id;
+                    if (registry.byId(widgetId)) {
+                        registry.byId(widgetId).set('checked', true);
+                        if (layerObj[layerIds[i]].type === 'radio') {
+                            on.emit(dom.byId(widgetId),'change',{});
+                        }
+                    }
+                }
+            }
+        }
+
+        // If nothing is specified, something went wrong, use these defaults
+        if (layers === undefined) {        
+            useDefaults();
+            return;
+        }
+
+        // If the lyrs hash is empty, something went wrong, use these defaults
+        if (layersArray.length === 1 && layersArray[0] === '') {
+            useDefaults();
+            return;
+        }
+
+        for (var index = 0, length = layersArray.length; index < length; index++) {
+            layerComponents = layersArray[index].split('/');
+            turnOnLayers(layerComponents[0], layerComponents[1]);
+        }
 
     };
 

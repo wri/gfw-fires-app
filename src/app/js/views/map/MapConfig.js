@@ -121,6 +121,88 @@ define({
         id: 'Air_Quality'
     },
 
+    // Key: LayerID
+    // Value: Assoicated Checkbox
+    // If has multiple checkboxes per layer, value is an object and layerID is lookup for checkbox
+    layersCheckboxes: {
+        'Active_Fires': {
+            'id': "fires-checkbox",
+            'type': 'checkbox'
+        },
+        'Fire_Tweets': {
+            'id': "twitter-conversations-checkbox",
+            'type': 'checkbox'
+        },
+        'Forest_Use': {
+            32: {
+                'id': 'oil-palm-checkbox',
+                'type': 'checkbox'
+            },
+            28: {
+                'id': 'wood-fiber-checkbox',
+                'type': 'checkbox'
+            },
+            10: {
+                'id': 'logging-checkbox',
+                'type': 'checkbox'
+            }
+        },
+        'Conservation': { 
+            'id': "protected-areas-checkbox",
+            'type': 'checkbox'
+        },
+        'Land_Cover': {
+            1: {
+                'id': "peat-lands-radio",
+                'type': 'radio'
+            }
+        },
+        'Overlays_Layer': {
+            1: {},
+            2: {},
+            3: {},
+            4: {}
+        },
+        'Primary_Forest': {
+            0: {
+                'id': ['primary-forests-radio',''],
+                'type': 'radio'
+            },
+            1: {
+                'id': ['primary-forests-radio',''],
+                'type': 'radio'
+            },
+            2: {
+                'id': ['primary-forests-radio',''],
+                'type': 'radio'
+            },
+            3: {
+                'id': ['primary-forests-radio',''],
+                'type': 'radio'
+            }
+        },
+        'Tree_Cover_Density': {
+            'id': "tree-cover-density-radio",
+            'type': 'radio'
+        },
+        'LandSat_8': {
+            'id': "landsat-image-checkbox",
+            'type': 'checkbox'
+        },
+        'Digital_Globe': {
+            'id': "digital-globe-checkbox",
+            'type': 'checkbox'
+        },
+        'Air_Quality': {
+            'id': "air-quality-checkbox",
+            'type': 'checkbox'
+        },
+        'Wind_Layer': {
+            'id': "windy-layer-checkbox",
+            'type': 'checkbox'
+        }
+    },
+
     text: {
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",
@@ -157,8 +239,8 @@ define({
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
-        airQuality: "Air Quality (Coming Soon)",
-        windDirection: "Wind Direction (Coming Soon)",
+        airQuality: "Air Quality",
+        windDirection: "Wind Direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
         landsatImageCheckbox: "Landsat 8 Pan-sharpened",
         landsatImageSubLabel: "(updated daily, 30m, global)",

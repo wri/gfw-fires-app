@@ -160,6 +160,10 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
         };
 
+        o.getHash = function () {
+            return ioQuery.queryToObject(hash());
+        };
+
         //listen to hash change
 
         //change the view if needed

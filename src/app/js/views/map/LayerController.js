@@ -430,6 +430,10 @@ define([
                 }
             }
 
+            layersArray = arrayUtils.filter(layersArray, function (item) {
+                return item !== '';
+            });
+
             HashController.updateHash({
                 lyrs: layersArray.join(':')
             });
