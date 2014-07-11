@@ -4,10 +4,13 @@ define([],
         var o = {
 
             defaultState: {
-                v: "home"
+                v: "home",
+                x: 112,
+                y: 0,
+                l: 9
             },
 
-            validViews: ["home", "blog", "map", "about"],
+            validViews: ["home", "blog", "map", "about", "data"],
 
 
 
