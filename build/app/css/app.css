@@ -1,0 +1,20 @@
+@font-face{font-family:fira_sans_otregular;src:url(../fonts/firasansot-regular-webfont.eot);src:url(../fonts/firasansot-regular-webfont.eot?#iefix) format("embedded-opentype"),url(../fonts/firasansot-regular-webfont.woff) format("woff"),url(../fonts/firasansot-regular-webfont.ttf) format("truetype"),url(../fonts/firasansot-regular-webfont.svg#fira_sans_otregular) format("svg");font-weight:400;font-style:normal}
+@font-face{font-family:fira_sans_otmedium;src:url(../fonts/firasansot-medium-webfont.eot);src:url(../fonts/firasansot-medium-webfont.eot?#iefix) format("embedded-opentype"),url(../fonts/firasansot-medium-webfont.woff) format("woff"),url(../fonts/firasansot-medium-webfont.ttf) format("truetype"),url(../fonts/firasansot-medium-webfont.svg#fira_sans_otmedium) format("svg");font-weight:400;font-style:normal}
+@font-face{font-family:fira_sans_otlight;src:url(../fonts/firasansot-light-webfont.eot);src:url(../fonts/firasansot-light-webfont.eot?#iefix) format("embedded-opentype"),url(../fonts/firasansot-light-webfont.woff) format("woff"),url(../fonts/firasansot-light-webfont.ttf) format("truetype"),url(../fonts/firasansot-light-webfont.svg#fira_sans_otmedium) format("svg");font-weight:400;font-style:normal}
+.app,body,html{background-color:#fff;height:100%;width:100%;margin:0;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+#stackContainer{width:100%}
+#homeView{height:auto!important;background-color:#000}
+.mapView #stackContainer{position:absolute;top:60px;bottom:0;left:0;right:0;overflow:hidden}
+.homeView #stackContainer{max-height:700px!important;min-height:300px;position:relative!important}
+.aboutView #stackContainer,.blogView #stackContainer,.dataView #stackContainer{position:absolute;top:100px;bottom:0;left:0;right:0;overflow-y:auto}
+#aboutView,#blogView,#dataView,#homeView{overflow:visible}
+.mapView #footerMovableWrapper{display:none}
+#app-header{height:210px;background:url(../images/header_tree_background.png) repeat-x scroll center top transparent;border-bottom:1px solid #717d80;box-sizing:border-box}
+#app-header.small{height:100px}
+#app-header.small.mapView{height:60px}
+#app-body{width:100%}
+#app-footer{height:470px;width:100%}
+#app-footer.small{height:180px}
+#app-footer.small.nomap{height:0}
+.errorMsg{position:absolute;top:10px;border:1px solid #000;background-color:#ff0;color:red;z-index:1000;padding:5px;text-align:center;width:300px;left:50%;margin-left:-150px;overflow:hidden}
+.blocker{background-color:#ff0;opacity:.2;position:absolute;top:0;bottom:0;left:0;z-index:1000;right:0}
