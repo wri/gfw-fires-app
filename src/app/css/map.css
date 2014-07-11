@@ -40,7 +40,8 @@
 }
 .locator-widget-button,
 .basemap-gallery-button,
-.share-button {
+.share-button,
+.print-button {
   padding: 1px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -83,7 +84,8 @@
 .HomeButton .home:hover,
 .share-button:hover,
 .locator-widget-button:hover,
-.basemap-gallery-button:hover {
+.basemap-gallery-button:hover,
+.print-button:hover {
   background-color: #eee !important;
 }
 .basemap-gallery-button,
@@ -186,6 +188,15 @@
 .share-button {
   background: url("../images/ico-share.png") no-repeat center #fff;
   top: 210px;
+}
+.print-button {
+  background: #fff;
+  text-align: center;
+  line-height: 30px;
+  top: 250px;
+}
+.print-button.loading {
+  background: url("../images/loader.gif") no-repeat center #fff;
 }
 .locator-line-splitter {
   text-align: center;
@@ -589,7 +600,7 @@
 }
 .windLayerLegendColorRamp {
   background: -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%); /* FF3.6+ */
-  background -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
   background: -webkit-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,0.5) 100%); /* Chrome10+,Safari5.1+ */
   background: -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* IE10+ */

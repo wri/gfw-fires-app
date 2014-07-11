@@ -49,7 +49,7 @@ baseRed = #e7002f
 	padding 0
 	border-radius(0)
 
-.locator-widget-button, .basemap-gallery-button, .share-button
+.locator-widget-button, .basemap-gallery-button, .share-button, .print-button
 	padding 1px
 	border-radius(5px)
 	position absolute
@@ -85,7 +85,7 @@ baseRed = #e7002f
 	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
 	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
-#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover
+#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover
 	background-color #EEE !important
 
 .basemap-gallery-button, .HomeButton .home, .locator-widget-button
@@ -179,6 +179,15 @@ baseRed = #e7002f
 .share-button
 	background url('../images/ico-share.png') no-repeat center white
 	top 210px
+
+.print-button
+	background white
+	text-align center
+	line-height 30px
+	top 250px
+
+.print-button.loading
+	background url('../images/loader.gif') no-repeat center white
 
 .locator-line-splitter
 	text-align center
@@ -564,11 +573,11 @@ baseRed = #e7002f
 	float right
 
 // .windLayerLegendColorRamp 
-// 	  background: -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%); /* FF3.6+ */
-//    background -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
-//    background: -webkit-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,0.5) 100%); /* Chrome10+,Safari5.1+ */
-//    background: -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* Opera 11.10+ */
-//    background: -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* IE10+ */
-//    background: linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* W3C */
-//    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffff', endColorstr='#FF1EDBff',GradientType=1 ); /* IE6-9 */
+// 	 background: -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%); /* FF3.6+ */
+//   background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
+//   background: -webkit-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,0.5) 100%); /* Chrome10+,Safari5.1+ */
+//   background: -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* Opera 11.10+ */
+//   background: -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* IE10+ */
+//   background: linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* W3C */
+//   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffff', endColorstr='#FF1EDBff',GradientType=1 ); /* IE6-9 */
 	

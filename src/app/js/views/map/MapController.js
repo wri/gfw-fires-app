@@ -32,13 +32,15 @@ define([
     "views/map/Finder",
     "utils/DijitFactory",
     "modules/EventsController",
-    "esri/layers/WMTSLayerInfo",
-    "esri/layers/WMTSLayer",
     "esri/request",
+    "esri/tasks/PrintTask",
+    "esri/tasks/PrintParameters",
+    "esri/tasks/PrintTemplate",
     "views/map/DigitalGlobeTiledLayer"
 ], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest, DigitalGlobeTiledLayer) {
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters, 
+    PrintTemplate, DigitalGlobeTiledLayer) {
 
     var o = {},
         initialized = false,
@@ -88,7 +90,7 @@ define([
         // Rule to Test Digital Globe Fires Url
         urlUtils.addProxyRule({
             urlPrefix: 'https://services.digitalglobe.com/',
-            proxyUrl: proxyUrl//'http://rmbp/proxy/dg_proxy.php'
+            proxyUrl: proxyUrl
         });
 
         urlUtils.addProxyRule({
@@ -332,6 +334,10 @@ define([
             Finder.searchAreaByCoordinates();
         });
 
+        on(dom.byId("print-button"), "click", function () {
+            self.printMap();
+        });
+
         on(dom.byId("report-link"), "click", function() {
             var win = window.open('./app/js/views/report/report.html', 'Report', '');
         });
@@ -549,39 +555,15 @@ define([
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
-        // var info = new WMTSLayerInfo({
-        //     identifier: 'DigitalGlobe:ImageryTileService',
-        //     tileMatrixSet: 'EPSG: 4326', //EPSG:3857:11
-        //     format: 'image/jpeg',
-        //     style: "_null"
-        // });
-
-        // WMTSLayer.prototype._getCapabilities = function () {
-        //   esriRequest.setRequestPreCallback(function (ioArgs) {
-        //     if (ioArgs.url.search('REQUEST=GetCapabilities') > -1) {
-        //       ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess?CONNECTID=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
-        //     }
-        //     return ioArgs;
-        //   });
-        //   var self = this;
-        //   esriRequest({
-        //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess?CONNECTID=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',
-        //       handleAs: "text",
-        //       load: function () {
-        //         console.dir(arguments);
-        //         self._parseCapabilities(arguments);
-        //       },
-        //       error: self._getCapabilitiesError
-        //   }, {useProxy: false, usePost: true});
-        // };
-
         // Testing
 
-        // var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
+        var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
 
-        // var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
+        var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
 
-        // o.map.addLayer(WMTS);
+        window.map = o.map;
+
+        o.map.addLayer(WMTS);
 
     };
 
@@ -623,6 +605,55 @@ define([
             domClass.remove("legend-widget-title", "legend-closed");
         }
 
+    };
+
+    o.printMap = function() {
+        var printTask = new PrintTask(MapConfig.printOptions.url),
+            template = new PrintTemplate(),
+            params = new PrintParameters(),
+            popupBlockerMsg = 'You need to disable your pop-up blocker to see the printed map.',
+            success,
+            fail;
+
+        // Configure Print Template
+        template.format = "png32";
+        template.layout = MapConfig.printOptions.template;
+        template.showAttribution = false;
+        template.preserveScale = false;
+
+        params.map = o.map;
+        //params.template = template;
+
+        // This function is temporary since print button has a P and not an icon, once we add an icon, 
+        // remove the following function and any of it's references in this method
+        function toggleInnerHtml() {
+            if (dom.byId('print-button').innerHTML === 'P') {
+                dom.byId('print-button').innerHTML = '';
+            } else {
+                dom.byId('print-button').innerHTML = 'P';
+            }
+        }
+
+        success = function (res) {
+            var redirect = window.open(res.url, '_blank');
+            domClass.remove('print-button', 'loading');
+            toggleInnerHtml();
+            if (redirect === null || typeof(redirect) === undefined || redirect === undefined) {
+                alert(popupBlockerMsg);
+            }
+        };
+
+        fail = function (err) {
+            domClass.remove('print-button', 'loading');
+            toggleInnerHtml();
+            console.error(err);
+        };
+
+        // Change Background image of Print Button to be the loading wheel, TEMP, toggle html
+        toggleInnerHtml();
+        domClass.add('print-button', 'loading');
+
+        printTask.execute(params, success, fail);
     };
 
     return o;
