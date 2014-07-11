@@ -103,7 +103,7 @@ define([
                 o.mapExtentPausable.resume();
             });
             var ptWM = webMercatorUtils.geographicToWebMercator(new Point(parseFloat(newState.x), parseFloat(newState.y)));
-            o.map.centerAt(ptWM);
+            o.map.centerAndZoom(ptWM, parseInt(newState.l));
         }
 
 
