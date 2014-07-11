@@ -28,7 +28,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                         domId: "homeView",
                         html: "Home",
                         selected: true,
-                        viewId: "home"
+                        viewId: "homeView",
+                        viewName: "home"
                     };
                     that.clickNavLink(mock);
                 });

@@ -23,6 +23,11 @@ define({
         sliderPosition: 'top-right'
     },
 
+    printOptions: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/GFWFiresPrintMap/GPServer/Export%20Web%20Map',
+        template: 'GFWFires'
+    },
+
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
         id: "Active_Fires",
@@ -143,7 +148,7 @@ define({
         southeastLandCoverRadio: "Land Cover - Southeast Asia",
         peatLandsSubLabel: "(year 2002, Indonesia)",
         treeCoverDensitySubLabel: "(year 2000, 30m, global)",
-        primaryForestsSubLabel: "(2000, 30m, Indonesia)",
+        primaryForestsSubLabel: "(2000 - 2012, 30m, Indonesia)",
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
@@ -155,7 +160,7 @@ define({
         twitterConversationsCheckbox: "Twitter Conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
-        windyLayerCheckbox: "Wind Direction (beta feature)",
+        windyLayerCheckbox: "Wind Direction",
         windySubLabelAdvice: "For best visual appearance, switch to the Dark Gray Canvas Basemap",
         windySubLabel: "(Daily, NOAA)",
         provincesCheckbox: "Provinces",
