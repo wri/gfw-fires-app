@@ -557,13 +557,11 @@ define([
 
         // Testing
 
-        var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
+        // var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
 
-        var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
+        // var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
 
-        window.map = o.map;
-
-        o.map.addLayer(WMTS);
+        // o.map.addLayer(WMTS);
 
     };
 
