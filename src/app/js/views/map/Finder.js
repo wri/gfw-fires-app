@@ -216,7 +216,7 @@ define([
             }
 
             iparams.geometry = point;
-            iparams.tolerance = 1;
+            iparams.tolerance = 3;
             iparams.returnGeometry = false;
             iparams.layerDefinitions = defs;
             iparams.mapExtent = _map.extent;

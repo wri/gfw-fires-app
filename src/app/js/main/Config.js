@@ -7,7 +7,9 @@ define([],
                 v: "home",
                 x: 112,
                 y: 0,
-                l: 9
+                l: 9,
+                lyrs: 'Active_Fires:Land_Cover[1]'
+
             },
 
             validViews: ["home", "blog", "map", "about", "data"],

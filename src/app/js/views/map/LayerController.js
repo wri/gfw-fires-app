@@ -2,18 +2,20 @@
 define([
     "dojo/on",
     "dojo/dom",
+    "dojo/hash",
     "dojo/query",
+    "dojo/io-query",
     "dojo/_base/array",
     "dijit/registry",
     "views/map/MapModel",
     "views/map/MapConfig",
+    "modules/HashController",
     "esri/layers/LayerDrawingOptions",
     // Temporary Modules to add Graphic to Map
     "esri/graphic",
     "esri/geometry/Point",
     "esri/symbols/PictureMarkerSymbol"
-
-], function(on, dom, dojoQuery, arrayUtils, registry, MapModel, MapConfig, LayerDrawingOptions, Graphic, Point, PictureSymbol) {
+], function(on, dom, hash, dojoQuery, ioQuery, arrayUtils, registry, MapModel, MapConfig, HashController, LayerDrawingOptions, Graphic, Point, PictureSymbol) {
 
     var _map;
 
@@ -395,6 +397,42 @@ define([
             layerInfos = layerInfos.slice(1);
             layerInfos.reverse();
             layer.setDynamicLayerInfos(layerInfos);
+
+        },
+
+        updateLayersInHash: function (operation, key, value) {
+            var queryObj = ioQuery.queryToObject(hash()),
+                layers = queryObj.lyrs,
+                layersArray = layers.split(':'),
+                length = layersArray.length, 
+                index = 0, 
+                indexToRemove;
+
+            if (operation === "remove") {
+                for(index; index < length; index++) {
+                    if (layersArray[index].search(key) > -1) {
+                        indexToRemove = index;
+                    }
+                }
+                if (indexToRemove !== undefined) {
+                    layersArray.splice(indexToRemove, 1);
+                }
+            } else if (operation === "add") {
+                for(index; index < length; index++) {
+                    if (layersArray[index].search(key) > -1) {
+                        indexToRemove = index;
+                    }
+                }
+                if (indexToRemove !== undefined) {
+                    layersArray.splice(indexToRemove, 1, value);
+                } else {
+                    layersArray.push(value);
+                }
+            }
+
+            HashController.updateHash({
+                lyrs: layersArray.join(':')
+            });
 
         },
 

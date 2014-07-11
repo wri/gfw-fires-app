@@ -116,6 +116,11 @@ define({
         prefix: "http://suitability-mapper.s3.amazonaws.com/"
     },
 
+    airQualityLayer: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality/MapServer',
+        id: 'Air_Quality'
+    },
+
     text: {
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",
