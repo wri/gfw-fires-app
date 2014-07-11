@@ -49,6 +49,12 @@
   font-family: "Georgia", serif;
   font-size: 37px;
 }
+.google_translate_element {
+  position: relative;
+  margin-right: 10px;
+  float: right;
+  top: 17px;
+}
 .navigationLinks {
   float: right;
   color: #000;
