@@ -7,7 +7,7 @@ define([],
                 v: "home",
                 x: 112,
                 y: 0,
-                l: 9
+                l: 5
             },
 
             validViews: ["home", "blog", "map", "about", "data"],
