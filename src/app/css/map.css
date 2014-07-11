@@ -566,10 +566,4 @@
 .windLayerLegendColorRamp {
   background: -webkit-linear-gradient(left, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
   background: linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
-  background: -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
-  background: -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* IE10+ */
-  background: linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffff', endColorstr='#FF1EDBff',GradientType=1 ); /* IE6-9 */
 }
