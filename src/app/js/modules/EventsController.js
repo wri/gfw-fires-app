@@ -17,6 +17,7 @@ define(["dojo/topic"],
 
             //map events
             "createUI": "createUI",
+            "centerChange": "centerChange",
 
 
             //blog events
@@ -60,6 +61,13 @@ define(["dojo/topic"],
         }
 
         //register subscribtion
+        topic.subscribe("centerChange", function(dataObj) {
+            console.log(dataObj);
+            require(["views/map/MapController"], function(MapController) {
+                MapController.centerChange(dataObj);
+            });
+        });
+
         topic.subscribe("clickNavLink", function(dataObj) {
             console.log(dataObj);
             require(["views/header/HeaderController"], function(HeaderController) {

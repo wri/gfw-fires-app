@@ -116,6 +116,11 @@ define({
         prefix: "http://suitability-mapper.s3.amazonaws.com/"
     },
 
+    airQualityLayer: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality/MapServer',
+        id: 'Air_Quality'
+    },
+
     text: {
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",
@@ -247,9 +252,7 @@ define({
         {
             "id": "fires-checkbox",
             "type": "checkbox",
-            "props": {
-                "checked": "checked"
-            }
+            "props": {}
         }, {
             "id": "confidence-fires-checkbox",
             "class": "fires-confidence-checkbox",
@@ -310,8 +313,7 @@ define({
             "type": "radio",
             "props": {
                 "value": "peatLands",
-                "name": "land-cover-radios",
-                "checked": "checked"
+                "name": "land-cover-radios"
             }
         }, {
             "id": "tree-cover-density-radio",
@@ -368,9 +370,7 @@ define({
             "id": "air-quality-checkbox",
             "class": "air-quality-checkbox",
             "type": "checkbox",
-            "props": {
-                "disabled": true
-            }
+            "props": {}
         },
         {
             "id": "provinces-checkbox",
