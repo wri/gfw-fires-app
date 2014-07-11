@@ -8,13 +8,9 @@
 
 // General Functions
 border-radius()
-	-webkit-border-radius arguments
-	-moz-border-radius arguments
 	border-radius arguments
 
 border-radius-top()
-	-webkit-border-radius arguments arguments 0 0
-	-moz-border-radius arguments arguments 0 0
 	border-radius arguments arguments 0 0 
 
 baseRed = #e7002f
@@ -59,8 +55,6 @@ baseRed = #e7002f
 	right 20px
 	z-index 50
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
-	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
-	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 #map .esriSimpleSlider
 	border 0
@@ -75,15 +69,9 @@ baseRed = #e7002f
 	color rgb(240, 171, 0)
 	background rgb(255, 255, 255)
 	border-top-left-radius 5px
-	border-top-right-radius 5px
-	-moz-border-radius-topleft 5px
-	-moz-border-radius-topright 5px
-	-webkit-border-top-left-radius 5px
-	-webkit-border-top-right-radius 5px
+	border-top-right-radius 5px	
 	margin-bottom 2px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
-	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
-	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover
 	background-color #EEE !important
@@ -101,7 +89,6 @@ baseRed = #e7002f
 	padding 1px
 	background-color rgb(255, 255, 255)
 	border-radius 0
-	-moz-border-radius 0
 	-webkit-border-radius 0
 	background-image url(../images/ico-home.png)
 
@@ -111,14 +98,8 @@ baseRed = #e7002f
 	background rgb(255, 255, 255)
 	border-bottom-left-radius 5px
 	border-bottom-right-radius 5px
-	-moz-border-radius-bottomleft 5px
-	-moz-border-radius-bottomright 5px
-	-webkit-border-bottom-left-radius 5px
-	-webkit-border-bottom-right-radius 5px
 	margin-bottom 1px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
-	-moz-box-shadow 1px 1px 5px rgba(0,0,0,.25)
-	-webkit-box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 .modal-link 
 	background-color white
@@ -491,8 +472,6 @@ baseRed = #e7002f
 	border-image-repeat initial
 
 #control-panel input[type="radio"]
-	-webkit-appearance none
-	-moz-appearance none
 	background-image url(../images/checkmark.png)
 	background-position -110px
 	background-repeat no-repeat
@@ -563,12 +542,12 @@ baseRed = #e7002f
 .rightWindLabel
 	float right
 
-// .windLayerLegendColorRamp 
-// 	  background: -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%); /* FF3.6+ */
-//    background -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
-//    background: -webkit-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,0.5) 100%); /* Chrome10+,Safari5.1+ */
-//    background: -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* Opera 11.10+ */
-//    background: -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* IE10+ */
-//    background: linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* W3C */
-//    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffff', endColorstr='#FF1EDBff',GradientType=1 ); /* IE6-9 */
+.windLayerLegendColorRamp 
+	background linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%)
+	// background -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%)
+	// background -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5)))
+	// background -webkit-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,0.5) 100%)
+	// background -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%)
+	// background -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%)
+	// filter progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffff', endColorstr='#FF1EDBff',GradientType=1)
 	

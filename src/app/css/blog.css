@@ -68,6 +68,9 @@
 }
 #post .post-read-more {
   float: left;
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
   display: inline-flex;
 }
 #post .post-read-more a {
