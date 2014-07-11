@@ -1,9 +1,11 @@
-define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array"],
-    function(hash, topic, lang, ioQuery, Config, arrayUtil) {
+define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array", "modules/EventsController"],
+    function(hash, topic, lang, ioQuery, Config, arrayUtil, EventsController) {
 
         var url = window.location.href;
         var o = {};
         var currentState = {};
+        o.newState = {};
+
         var emptyState = lang.clone(Config.defaultState); //take copy from defaultState and empty it
 
         for (k in emptyState) {
@@ -48,6 +50,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
                 that.handleHashChange(newAppState, oldAppState);
 
+
             });
 
             //push the app state initially
@@ -67,8 +70,12 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             console.log(oldState);
             var that = this;
 
+            o.newState = newState;
+
             var changedView = oldState.v != newState.v;
             var mapView = newState.v == "map";
+            var centerChange = ((oldState.x != newState.x) || (oldState.y != newState.y) || (oldState.y != newState.y));
+
             //var centerChange = 
 
             //handle different scenarios here
@@ -76,9 +83,10 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 that.changeView(newState.v, oldState.v);
             }
 
-            if (mapView) {
-
+            if (mapView && centerChange) {
+                EventsController.centerChange(newState);
             }
+
             currentState = newState; //important
 
         };

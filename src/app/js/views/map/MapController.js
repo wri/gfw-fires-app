@@ -4,12 +4,14 @@ define([
     "dojo/dom",
     "dojo/query",
     "dojo/dom-construct",
+    "dojo/number",
     "dojo/dom-class",
     "dojo/_base/array",
     "dojo/_base/fx",
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
+    "esri/geometry/Point",
     "esri/dijit/BasemapGallery",
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
@@ -21,6 +23,7 @@ define([
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
     "esri/layers/FeatureLayer",
+    "esri/geometry/webMercatorUtils",
     "esri/InfoTemplate",
     "esri/graphic",
     "esri/urlUtils",
@@ -36,11 +39,13 @@ define([
     "esri/tasks/PrintTask",
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
-    "views/map/DigitalGlobeTiledLayer"
-], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters, 
-    PrintTemplate, DigitalGlobeTiledLayer) {
+    "views/map/DigitalGlobeTiledLayer",
+    "modules/HashController"
+
+], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, InfoTemplate, Graphic, urlUtils,
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
+    PrintTemplate, DigitalGlobeTiledLayer, HashController) {
 
     var o = {},
         initialized = false,
@@ -48,6 +53,8 @@ define([
             viewId: "mapView",
             viewName: "map"
         };
+
+    o.mapExtentPausable; //pausable
 
     o.init = function() {
         var that = this;
@@ -71,6 +78,37 @@ define([
                 that.createMap();
             });
         });
+    };
+
+    o.centerChange = function() {
+        //alert("center change");
+        //alert(o.map);
+        //compare current center and change if different
+        if (!o.map) {
+            return; //map not initialized yet
+        }
+        var currentExtent = webMercatorUtils.webMercatorToGeographic(o.map.extent);
+        var x = number.round(currentExtent.getCenter().x, 2);
+        var y = number.round(currentExtent.getCenter().y, 2);
+        var l = o.map.getLevel();
+
+        var newState = HashController.newState;
+        var centerChangeByUrl = ((parseFloat(newState.x) != x) || (parseFloat(newState.y) != y) || (parseInt(newState.l) != l));
+
+        //alert(centerChangeByUrl + " " + newState.y + " " + newState.x);
+
+        if (centerChangeByUrl) {
+            o.mapExtentPausable.pause();
+            on.once(o.map, "extent-change", function() {
+                o.mapExtentPausable.resume();
+            });
+            var ptWM = webMercatorUtils.geographicToWebMercator(new Point(parseFloat(newState.x), parseFloat(newState.y)));
+            o.map.centerAndZoom(ptWM, parseInt(newState.l));
+        }
+
+
+
+
     };
 
     o.addConfigurations = function() {
@@ -117,11 +155,15 @@ define([
 
         // Add Dojo Dijits to Control Map Options
         DijitFactory.buildDijits(MapConfig.accordionDijits);
+        var hashX = HashController.newState.x;
+        var hashY = HashController.newState.y;
+        var hashL = HashController.newState.l;
 
         o.map = new Map("map", {
-            center: MapConfig.mapOptions.center,
+            center: [hashX, hashY], //MapConfig.mapOptions.center,
+            zoom: hashL, //MapConfig.mapOptions.initalZoom,
+
             basemap: MapConfig.mapOptions.basemap,
-            zoom: MapConfig.mapOptions.initalZoom,
             minZoom: MapConfig.mapOptions.minZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
         });
@@ -140,6 +182,26 @@ define([
             self.bindEvents();
             self.addLayers();
             o.map.resize();
+        });
+
+        o.mapExtentPausable = on.pausable(o.map, "extent-change", function(e) {
+
+            var delta = e.delta;
+            var extent = webMercatorUtils.webMercatorToGeographic(e.extent);
+            var levelChange = e.levelChange;
+            var lod = e.lod;
+            var map = e.target;
+
+            var x = number.round(extent.getCenter().x, 2);
+            var y = number.round(extent.getCenter().y, 2);
+
+            HashController.updateHash({
+                x: x,
+                y: y,
+                l: lod.level
+            })
+
+
         });
 
     };
@@ -306,27 +368,27 @@ define([
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
         });
 
-        registry.byId("windy-layer-checkbox").on('change', function (checked) {
+        registry.byId("windy-layer-checkbox").on('change', function(checked) {
             WindyController.toggleWindLayer(checked);
         });
 
-        registry.byId("digital-globe-checkbox").on('change', function (checked) {
+        registry.byId("digital-globe-checkbox").on('change', function(checked) {
             LayerController.toggleDigitalGlobeLayer(checked);
         });
 
-        registry.byId("provinces-checkbox").on('change', function () {
+        registry.byId("provinces-checkbox").on('change', function() {
             LayerController.adjustOverlaysLayer();
         });
 
-        registry.byId("districts-checkbox").on('change', function () {
+        registry.byId("districts-checkbox").on('change', function() {
             LayerController.adjustOverlaysLayer();
         });
 
-        registry.byId("subdistricts-checkbox").on('change', function () {
+        registry.byId("subdistricts-checkbox").on('change', function() {
             LayerController.adjustOverlaysLayer();
         });
 
-        registry.byId("villages-checkbox").on('change', function () {
+        registry.byId("villages-checkbox").on('change', function() {
             LayerController.adjustOverlaysLayer();
         });
 
@@ -334,7 +396,7 @@ define([
             Finder.searchAreaByCoordinates();
         });
 
-        on(dom.byId("print-button"), "click", function () {
+        on(dom.byId("print-button"), "click", function() {
             self.printMap();
         });
 
@@ -406,8 +468,8 @@ define([
             });
         });
 
-        dojoQuery("#primary-forests-options input").forEach(function (node) {
-            on(node, "change", function () {
+        dojoQuery("#primary-forests-options input").forEach(function(node) {
+            on(node, "change", function() {
                 LayerController.updatePrimaryForestsLayer(true); // The True is to keep it visible
             });
         });
@@ -423,13 +485,15 @@ define([
             digitalGlobeLayer,
             landCoverParams,
             landCoverLayer,
+            airQualityLayer,
             forestUseParams,
             forestUseLayer,
             treeCoverLayer,
             overlaysLayer,
             landSatLayer,
             firesParams,
-            firesLayer;
+            firesLayer,
+            self = this;
 
         conservationParams = new ImageParameters();
         conservationParams.format = "png32";
@@ -450,7 +514,7 @@ define([
         landCoverLayer = new ArcGISDynamicMapServiceLayer(MapConfig.landCoverLayers.url, {
             imageParameters: landCoverParams,
             id: MapConfig.landCoverLayers.id,
-            visible: true
+            visible: false
         });
 
         forestUseParams = new ImageParameters();
@@ -495,6 +559,11 @@ define([
             visible: false
         });
 
+        airQualityLayer = new ArcGISDynamicMapServiceLayer(MapConfig.airQualityLayer.url, {
+            id: MapConfig.airQualityLayer.id,
+            visible: false
+        });
+
         firesParams = new ImageParameters();
         firesParams.format = "png32";
         firesParams.layerIds = MapConfig.firesLayer.defaultLayers;
@@ -503,7 +572,7 @@ define([
         firesLayer = new ArcGISDynamicMapServiceLayer(MapConfig.firesLayer.url, {
             imageParameters: firesParams,
             id: MapConfig.firesLayer.id,
-            visible: true
+            visible: false
         });
 
         var tweet_infotemplate = new InfoTemplate();
@@ -526,12 +595,20 @@ define([
             conservationLayer,
             digitalGlobeLayer,
             overlaysLayer,
+            airQualityLayer,
             firesLayer,
             tweetLayer
         ]);
 
         // Update the Legend when all layers are added
         on.once(o.map, 'layers-add-result', function(response) {
+
+            // This turns on all the layers present in the hash,
+            // All layers are turned off onload, by default Fires and Land Cover will be turned on from hash
+            // Unless hash values are different
+
+            self.enableLayersFromHash();
+
             var layerInfos = arrayUtils.map(response.layers, function(item) {
                 return {
                     layer: item.layer
@@ -578,6 +655,14 @@ define([
         });
         domClass.add(node, "selected-fire-option");
         LayerController.updateFiresLayer();
+    };
+
+    o.enableLayersFromHash = function () {
+
+
+
+
+
     };
 
     o.clearSearchPins = function() {
@@ -632,7 +717,7 @@ define([
             }
         }
 
-        success = function (res) {
+        success = function(res) {
             var redirect = window.open(res.url, '_blank');
             domClass.remove('print-button', 'loading');
             toggleInnerHtml();
@@ -641,7 +726,7 @@ define([
             }
         };
 
-        fail = function (err) {
+        fail = function(err) {
             domClass.remove('print-button', 'loading');
             toggleInnerHtml();
             console.error(err);

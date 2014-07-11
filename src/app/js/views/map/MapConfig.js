@@ -252,9 +252,7 @@ define({
         {
             "id": "fires-checkbox",
             "type": "checkbox",
-            "props": {
-                "checked": "checked"
-            }
+            "props": {}
         }, {
             "id": "confidence-fires-checkbox",
             "class": "fires-confidence-checkbox",
@@ -315,8 +313,7 @@ define({
             "type": "radio",
             "props": {
                 "value": "peatLands",
-                "name": "land-cover-radios",
-                "checked": "checked"
+                "name": "land-cover-radios"
             }
         }, {
             "id": "tree-cover-density-radio",
@@ -373,9 +370,7 @@ define({
             "id": "air-quality-checkbox",
             "class": "air-quality-checkbox",
             "type": "checkbox",
-            "props": {
-                "disabled": true
-            }
+            "props": {}
         },
         {
             "id": "provinces-checkbox",
