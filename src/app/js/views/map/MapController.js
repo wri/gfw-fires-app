@@ -54,6 +54,8 @@ define([
             viewName: "map"
         };
 
+    o.mapExtentPausable; //pausable
+
     o.init = function() {
         var that = this;
         if (initialized) {
@@ -91,12 +93,17 @@ define([
         var l = o.map.getLevel();
 
         var newState = HashController.newState;
-        var centerChange = ((parseFloat(newState.x) != x) || (parseFloat(newState.y) != y) || (parseInt(newState.l) != l));
+        var centerChangeByUrl = ((parseFloat(newState.x) != x) || (parseFloat(newState.y) != y) || (parseInt(newState.l) != l));
 
-        //alert(centerChange + " " + x + " " + y);
+        //alert(centerChangeByUrl + " " + newState.y + " " + newState.x);
 
-        if (centerChange) {
-            o.map.centerAt(webMercatorUtils.geographicToWebMercator(new Point(parseFloat(newState.y), parseFloat(newState.x))));
+        if (centerChangeByUrl) {
+            o.mapExtentPausable.pause();
+            on.once(o.map, "extent-change", function() {
+                o.mapExtentPausable.resume();
+            });
+            var ptWM = webMercatorUtils.geographicToWebMercator(new Point(parseFloat(newState.x), parseFloat(newState.y)));
+            o.map.centerAt(ptWM);
         }
 
 
@@ -177,7 +184,7 @@ define([
             o.map.resize();
         });
 
-        o.map.on("extent-change", function(e) {
+        o.mapExtentPausable = on.pausable(o.map, "extent-change", function(e) {
 
             var delta = e.delta;
             var extent = webMercatorUtils.webMercatorToGeographic(e.extent);

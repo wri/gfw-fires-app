@@ -75,6 +75,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var changedView = oldState.v != newState.v;
             var mapView = newState.v == "map";
             var centerChange = ((oldState.x != newState.x) || (oldState.y != newState.y) || (oldState.y != newState.y));
+
             //var centerChange = 
 
             //handle different scenarios here
@@ -82,7 +83,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 that.changeView(newState.v, oldState.v);
             }
 
-            if (mapView) {
+            if (mapView && centerChange) {
                 EventsController.centerChange(newState);
             }
 
