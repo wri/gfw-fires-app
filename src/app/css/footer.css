@@ -178,7 +178,7 @@
   width: 88px;
 }
 .footerMovableModes .footer-logo.digital-globe {
-  background: url("../images/dg_logo_white_RGB.png") no-repeat scroll 0% 0% transparent;
+  background: url("../images/dg-globe.png") no-repeat scroll 0% 0% transparent;
   background-position: 0px 0px;
   height: 28px;
 }
@@ -191,7 +191,7 @@
   height: 52px;
 }
 .footerMovableModes .footer-logo.bpredd {
-  background: url("../images/bpredd72dpi.png") no-repeat scroll 0% 0% transparent;
+  background: url("../images/bpredd.png") no-repeat scroll 0% 0% transparent;
   background-position: 0px 0px;
   height: 57px;
 }

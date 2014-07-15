@@ -31,7 +31,7 @@
 .footerMovableModes .subscribe{margin:0 5px}
 .footerMovableModes .gfw-logo{background:url(../images/monochromatic_gfw.jpg) no-repeat scroll 0 0 transparent;text-align:center;height:71px;display:block;width:122px;margin:10px}
 .footerMovableModes .footer-logo{background:url(../images/logos-from-gfw.png) no-repeat scroll 0 0 transparent;display:inline-block;vertical-align:middle;margin:0 38px 38px 0;width:88px}
-.footerMovableModes .footer-logo.digital-globe{background:url(../images/dg_logo_white_RGB.png) no-repeat scroll 0 0 transparent;background-position:0 0;height:28px}
+.footerMovableModes .footer-logo.digital-globe{background:url(../images/dg-globe.png) no-repeat scroll 0 0 transparent;background-position:0 0;height:28px}
 .footerMovableModes .footer-logo.esri{background-position:0 -654px;height:28px}
 .footerMovableModes .footer-logo.google{background-position:0 -734px;height:52px}
-.footerMovableModes .footer-logo.bpredd{background:url(../images/bpredd72dpi.png) no-repeat scroll 0 0 transparent;background-position:0 0;height:57px}
+.footerMovableModes .footer-logo.bpredd{background:url(../images/bpredd.png) no-repeat scroll 0 0 transparent;background-position:0 0;height:57px}
