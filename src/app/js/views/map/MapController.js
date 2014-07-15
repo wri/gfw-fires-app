@@ -484,6 +484,8 @@ define([
 
         var conservationParams,
             conservationLayer,
+            burendAreaParams,
+            burnedScarLayer,
             primaryForestsParams,
             primaryForestsLayer,
             digitalGlobeLayer,
@@ -507,6 +509,17 @@ define([
         conservationLayer = new ArcGISDynamicMapServiceLayer(MapConfig.conservationLayers.url, {
             imageParameters: conservationParams,
             id: MapConfig.conservationLayers.id,
+            visible: false
+        });
+
+        burendAreaParams = new ImageParameters();
+        burendAreaParams.format = "png32";
+        burendAreaParams.layerIds = MapConfig.burnedAreaLayers.defaultLayers;
+        burendAreaParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        burnedScarLayer = new ArcGISDynamicMapServiceLayer(MapConfig.burnedAreaLayers.url, {
+            imageParameters: burendAreaParams,
+            id: MapConfig.burnedAreaLayers.id,
             visible: false
         });
 
@@ -597,6 +610,7 @@ define([
             primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
+            burnedScarLayer,
             digitalGlobeLayer,
             overlaysLayer,
             airQualityLayer,
@@ -661,7 +675,7 @@ define([
         LayerController.updateFiresLayer();
     };
 
-    o.enableLayersFromHash = function () {
+    o.enableLayersFromHash = function() {
 
         var hash = HashController.getHash(),
             layers = hash.lyrs,
@@ -675,23 +689,23 @@ define([
         function useDefaults() {
             registry.byId('fires-checkbox').set('checked', true);
             registry.byId('peat-lands-radio').set('checked', true);
-            on.emit(dom.byId('peat-lands-radio'),'change',{});
-            LayerController.updateLayersInHash('add',MapConfig.firesLayer.id, MapConfig.firesLayer.id);
-            LayerController.updateLayersInHash('add',MapConfig.landCoverLayers.id, MapConfig.landCoverLayers.id + "/1");
+            on.emit(dom.byId('peat-lands-radio'), 'change', {});
+            LayerController.updateLayersInHash('add', MapConfig.firesLayer.id, MapConfig.firesLayer.id);
+            LayerController.updateLayersInHash('add', MapConfig.landCoverLayers.id, MapConfig.landCoverLayers.id + "/1");
         }
 
         function turnOnLayers(id, layerNums) {
 
             if (id === undefined || id === '') {
                 return;
-            }            
+            }
 
             if (layerNums === undefined) {
                 widgetId = layersToWidgets[id].id;
                 if (registry.byId(widgetId)) {
                     registry.byId(widgetId).set('checked', true);
                     if (layersToWidgets[id].type === 'radio') {
-                        on.emit(dom.byId(widgetId),'change',{});
+                        on.emit(dom.byId(widgetId), 'change', {});
                     }
                 }
             } else {
@@ -702,7 +716,7 @@ define([
                     if (registry.byId(widgetId)) {
                         registry.byId(widgetId).set('checked', true);
                         if (layerObj[layerIds[i]].type === 'radio') {
-                            on.emit(dom.byId(widgetId),'change',{});
+                            on.emit(dom.byId(widgetId), 'change', {});
                         }
                     }
                 }
@@ -710,7 +724,7 @@ define([
         }
 
         // If nothing is specified, something went wrong, use these defaults
-        if (layers === undefined) {        
+        if (layers === undefined) {
             useDefaults();
             return;
         }

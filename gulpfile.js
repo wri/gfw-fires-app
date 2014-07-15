@@ -7,7 +7,7 @@ var minifyhtml = require('gulp-minify-html');
 var autoprefixer = require('gulp-autoprefixer');
 var imagemin = require('gulp-imagemin');
 //var pngcrush = require('imagemin-pngcrush');
-var notify = require('gulp-notify');
+//var notify = require('gulp-notify');
 var clean = require('gulp-clean');
 
 var app_dir = {
@@ -34,9 +34,9 @@ gulp.task('compile-jade', function() {
             pretty: true
         }))
         .pipe(gulp.dest(app_dir.src))
-        .pipe(notify({
+        /*.pipe(notify({
             message: 'Jade Compiled'
-        }));
+        }));*/
 });
 
 gulp.task('compile-stylus', function() {
@@ -47,9 +47,9 @@ gulp.task('compile-stylus', function() {
             pretty: true
         }))
         .pipe(gulp.dest(app_dir.src))
-    // .pipe(notify({
-    //     message: 'Styl Compiled'
-    // }));
+        // .pipe(notify({
+        //     message: 'Styl Compiled'
+        // }));
 });
 
 gulp.task('autoprefix-css', ['compile-stylus'], function() {
@@ -66,9 +66,9 @@ gulp.task('autoprefix-css', ['compile-stylus'], function() {
             cascade: true
         }))
         .pipe(gulp.dest(app_dir.src))
-    // .pipe(notify({
-    //     message: 'Auto Prefix done'
-    // }));
+        // .pipe(notify({
+        //     message: 'Auto Prefix done'
+        // }));
 });
 
 gulp.task('develop', function() {
@@ -87,9 +87,9 @@ gulp.task('minifycss', function() {
             keepBreaks: true
         }))
         .pipe(gulp.dest(app_dir.build))
-    // .pipe(notify({
-    //     message: 'Minify CSS complete'
-    // }));
+        // .pipe(notify({
+        //     message: 'Minify CSS complete'
+        // }));
 })
 
 gulp.task('minifyhtml', function() {
@@ -101,9 +101,9 @@ gulp.task('minifyhtml', function() {
     return gulp.src(app_dir.src + '**/*.html')
         .pipe(minifyhtml(opts))
         .pipe(gulp.dest(app_dir.build))
-    // .pipe(notify({
-    //     message: 'Minify HTML complete'
-    // }));
+        // .pipe(notify({
+        //     message: 'Minify HTML complete'
+        // }));
 });
 
 
@@ -115,9 +115,9 @@ gulp.task('imagemin', function() {
             interlaced: true
         }))
         .pipe(gulp.dest(app_dir.build + 'app/images'))
-    // .pipe(notify({
-    //     message: 'Images task complete'
-    // }));
+        // .pipe(notify({
+        //     message: 'Images task complete'
+        // }));
 });
 
 
@@ -125,15 +125,15 @@ gulp.task('uglifyjs', function() {
     return gulp.src(app_dir.src + '**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest(app_dir.build))
-    // .pipe(notify({
-    //     message: 'Uglify Complete'
-    // }));
+        // .pipe(notify({
+        //     message: 'Uglify Complete'
+        // }));
 });
 
 gulp.task('clean', function() {
     return gulp.src([app_dir.build + '**/*'], {
-        read: false
-    })
+            read: false
+        })
         .pipe(clean());
 
 });

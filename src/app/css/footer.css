@@ -71,7 +71,7 @@
 }
 .footerShareContainer {
   width: 100%;
-  height: 180px;
+  height: 400px;
 }
 .footerWrapper {
   width: 100%;
@@ -82,14 +82,18 @@
 }
 .footerMovableWrapper {
   width: 100%;
-  height: 180px;
+  height: 400px;
   background-color: #464352;
   color: #fff;
   clear: both;
   bottom: 0;
 }
+.fb-share-button {
+  bottom: 3px;
+  left: 10px;
+}
 .footerMovableModes {
-  height: 180px;
+  height: 400px;
   max-width: 960px;
   width: 100%;
   margin: auto;
@@ -154,10 +158,6 @@
   background-color: #fff;
   margin: 10px 0px;
 }
-.fb-share-button {
-  bottom: 3px;
-  left: 10px;
-}
 .footerMovableModes .sign-up {
   margin: 10px 0px;
 }
@@ -171,4 +171,29 @@
   display: block;
   width: 122px;
   margin: 10px auto;
+}
+.footerMovableModes .footer-logo {
+  background: url("../images/logos-from-gfw.png") no-repeat scroll 0% 0% transparent;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0px 38px 38px 0px;
+  width: 88px;
+}
+.footerMovableModes .footer-logo.digital-globe {
+  background: url("../images/logo_dg.png") no-repeat scroll 0% 0% transparent;
+  background-position: 0px 0px;
+  height: 28px;
+}
+.footerMovableModes .footer-logo.esri {
+  background-position: 0px -654px;
+  height: 28px;
+}
+.footerMovableModes .footer-logo.google {
+  background-position: 0px -734px;
+  height: 52px;
+}
+.footerMovableModes .footer-logo.bpredd {
+  background: url("../images/bpredd.png") no-repeat scroll 0% 0% transparent;
+  background-position: 0px 0px;
+  height: 82px;
 }
