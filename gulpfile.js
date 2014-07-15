@@ -138,9 +138,16 @@ gulp.task('clean', function() {
 
 });
 
+gulp.task('copy', function() {
+    gulp.src(app_dir.src + 'app/fonts/**/*')
+        .pipe(gulp.dest(app_dir.build + 'app/fonts'));
+
+});
+
+
 //gulp.task('build', ['uglifyjs']);
 
 // Default task
 gulp.task('build', ['clean'], function() {
-    gulp.start('uglifyjs', 'imagemin', 'minifyhtml', 'minifycss');
+    gulp.start('uglifyjs', 'imagemin', 'minifyhtml', 'minifycss', 'copy');
 });
