@@ -240,7 +240,7 @@ define({
         woodFiberCheckbox: "Wood Fiber plantations",
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected Areas",
-        burnedScarsCheckbox: "Burned Scars (Coming Soon)",
+        burnedScarsCheckbox: "Burned Scars mapped by Google Earth (coming soon)",
         peatLandsRadio: "Peat Lands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary Forests",
@@ -284,11 +284,6 @@ define({
                     "title": "Fires"
                 }
             }, {
-                "id": "burned-area-panel",
-                "props": {
-                    "title": "Burned Area"
-                }
-            }, {
                 "id": "forest-use-panel",
                 "props": {
                     "title": "Forest Use"
@@ -322,15 +317,6 @@ define({
         },
         //sliders
         {
-            "id": "burned-area-transparency-slider",
-            "type": "horizontal-slider",
-            "props": {
-                "value": 100,
-                "minimum": 0,
-                "maximum": 100,
-                "intermediateChanges": false
-            }
-        }, {
             "id": "forest-transparency-slider",
             "type": "horizontal-slider",
             "props": {
@@ -375,9 +361,7 @@ define({
             "props": {
                 "disabled": "disabled"
             }
-        },
-        //BURNED AREA
-        {
+        }, {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",
             "type": "checkbox",
