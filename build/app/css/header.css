@@ -8,6 +8,6 @@
 .google_translate_element{position:relative;margin-right:10px;float:right;top:17px}
 .navigationLinks{float:right;color:#000;margin-right:10px}
 .navList ul{list-style-type:none}
-.navList li{float:left;color:#000;list-style-type:none;padding:5px 10px;margin-right:15px;cursor:pointer;border-radius:5px;text-transform:uppercase;font-size:12px;font-weight:700;background-color:none}
+.navList li{float:left;color:#000;list-style-type:none;padding-right:10px;padding-left:10px;padding-top:5px;padding-bottom:5px;margin-right:15px;cursor:pointer;border-radius:5px;text-transform:uppercase;font-size:12px;font-weight:700;background-color:none}
 .navList li.selected{color:#fff;background-color:#ec1d38}
 .logo{background:url(../images/gfwc_logo.png) no-repeat;width:86px;height:86px;position:absolute;margin-left:10px;box-shadow:2px 2px 2px #888;cursor:pointer;z-index:10}
