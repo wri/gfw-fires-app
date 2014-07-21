@@ -7,7 +7,7 @@
 .simpleGeocoder .esriGeocoder{border:2px solid #aaa}
 .HomeButton .home{padding:0;border-radius:0}
 .basemap-gallery-button,.locator-widget-button,.print-button,.share-button{padding:1px;border-radius:5px;position:absolute;cursor:pointer;height:30px;width:30px;right:20px;z-index:50;box-shadow:1px 1px 5px rgba(0,0,0,.25)}
-#map .esriSimpleSlider{border:0;background:rgba(255,255,255,0)}
+#map .esriSimpleSlider{border:0;background:0 0}
 #map .esriSimpleSliderTL{right:20px;left:auto}
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton{border-bottom:0;padding:1px;color:#f0ab00;background:#fff;border-top-left-radius:5px;border-top-right-radius:5px;margin-bottom:2px;box-shadow:1px 1px 5px rgba(0,0,0,.25)}
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover,.HomeButton .home:hover,.basemap-gallery-button:hover,.locator-widget-button:hover,.print-button:hover,.share-button:hover{background-color:#eee!important}
@@ -27,8 +27,8 @@
 .basemap-gallery-container{overflow-y:auto}
 .basemap-container-labels{border-bottom:1px solid #000;padding-bottom:10px;font-weight:700;font-size:18px;margin:10px}
 .share-linker{top:210px}
-.share-button{background:url(../images/ico-share.png) no-repeat center #fff;top:210px}
-.print-button{background:#fff;text-align:center;line-height:30px;top:250px}
+.share-button{background:url(../images/share-icon.png) no-repeat #fff -2px -35px;top:210px}
+.print-button{background:url(../images/print-icon.png) no-repeat #fff -1px -35px;text-align:center;line-height:30px;top:250px}
 .print-button.loading{background:url(../images/loader.gif) no-repeat center #fff}
 .locator-line-splitter{text-align:center;width:290px}
 .locator-container-header{margin:5px 0 0 5px;font-weight:700;font-size:18px}
@@ -51,12 +51,12 @@
 #control-panel .dijitAccordionContainer{border-width:0;margin:0 5px}
 #control-panel .fires-map-accordion .dijitAccordionTitle{background:#fff url(../images/ico-carat-right.png) 96% center no-repeat;color:#888;font-weight:700}
 #control-panel .fires-map-accordion .dijitAccordionTitleSelected{background:#fff url(../images/ico-carat-down.png) 96% center no-repeat!important;color:#888}
-.legend-widget-container{background-color:#fff;border-radius:5px 5px 0 0;position:absolute;overflow:hidden;cursor:pointer;height:200px;width:250px;z-index:50;right:20px;bottom:0;border:1px solid #bfbfbf}
+.legend-widget-container{background-color:#fff;border-radius:5px 5px 0 0;position:absolute;overflow:hidden;cursor:pointer;font-size:12px;height:280px;width:250px;z-index:50;right:20px;bottom:0;border:1px solid #bfbfbf}
 .legend-widget-title{-moz-box-sizing:border-box;box-sizing:border-box;background-image:url(../images/ico-carat-down.png)!important;color:#e98300;background-color:#ececed;cursor:pointer;font-weight:600!important;height:30px;line-height:30px;background-repeat:no-repeat!important;background-position:90% 10px!important}
 .legend-widget-title:hover{background-color:#fff;border-bottom:1px solid #000}
 .legend-closed{background-image:url(../images/ico-carat-up.png)!important}
 .legend-widget-title span{display:inline-block;line-height:30px;font-weight:700;margin-left:5px}
-.legend-content{height:170px;width:100%}
+.legend-content{height:250px;width:100%}
 #legend{overflow-y:auto;height:100%;width:230px;padding:0 0 0 20px}
 #legend_msg,.esriLegendServiceLabel{display:none!important}
 .esriLegendService{padding-bottom:5px!important}
@@ -84,8 +84,8 @@
 #control-panel label{display:inline;color:#000;margin-left:4px;font-size:13px;font-weight:600}
 #control-panel .checkbox-sub-label{clear:both;font-size:11px;padding:0 0 0 20px;font-weight:100}
 #control-panel .dijitSliderDecrementIconH,#control-panel .dijitSliderIncrementIconH,#control-panel .dijitSliderLeftBumper,#control-panel .dijitSliderRightBumper{display:none}
-#control-panel .dijitSliderProgressBarH{background:rgba(0,0,0,0);border-width:0}
-#basemap-gallery-container .dijitCheckBox,#control-panel .dijitCheckBox{appearance:none;background:#fff;width:16px;height:16px;border:1px solid #898989;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;-moz-box-sizing:border-box;box-sizing:border-box;margin:2px 2px 0 0;border-top-left-radius:3px;border-top-right-radius:3px;border-bottom-right-radius:3px;border-bottom-left-radius:3px}
+#control-panel .dijitSliderProgressBarH{background:0 0;border-width:0}
+#basemap-gallery-container .dijitCheckBox,#control-panel .dijitCheckBox{appearance:none;background:#fff;width:16px;height:16px;border:1px solid #898989;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;-moz-box-sizing:border-box;box-sizing:border-box;margin:2px 2px 0 0;border-radius:3px}
 #basemap-gallery-container .dijitCheckBoxChecked,#control-panel .dijitCheckBoxChecked{background:url(../images/ico-checkmark.png) 50% 50% no-repeat #898989;border:1px solid #898989;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial}
 #control-panel input[type=radio]{background-image:url(../images/checkmark.png);background-position:-110px;background-repeat:no-repeat;width:16px;height:16px;margin:2px 2px 0 0;padding:0}
 #control-panel input[type=radio]:checked{background-position:-94px}
@@ -101,4 +101,4 @@
 #windLegendLabels{margin:0 25px;font-size:10px}
 .windLegendNode{margin:10px auto;height:13px;width:80%}
 .rightWindLabel{float:right}
-.windLayerLegendColorRamp{background:-webkit-linear-gradient(left,rgba(0,255,255,.5)0,rgba(255,30,219,.5)100%);background:linear-gradient(to right,rgba(0,255,255,.5)0,rgba(255,30,219,.5)100%)}
+.windLayerLegendColorRamp{background:-webkit-linear-gradient(left,rgba(0,255,255,.5) 0,rgba(255,30,219,.5) 100%);background:linear-gradient(to right,rgba(0,255,255,.5) 0,rgba(255,30,219,.5) 100%)}
