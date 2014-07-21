@@ -163,11 +163,13 @@
   top: 210px;
 }
 .share-button {
-  background: url("../images/ico-share.png") no-repeat center #fff;
+  background: url("../images/share-icon.png") no-repeat #fff;
+  background-position: -2px -35px;
   top: 210px;
 }
 .print-button {
-  background: #fff;
+  background: url("../images/print-icon.png") no-repeat #fff;
+  background-position: -1px -35px;
   text-align: center;
   line-height: 30px;
   top: 250px;
@@ -282,7 +284,8 @@
   position: absolute;
   overflow: hidden;
   cursor: pointer;
-  height: 200px;
+  font-size: 12px;
+  height: 280px;
   width: 250px;
   z-index: 50;
   right: 20px;
@@ -316,7 +319,7 @@
   margin-left: 5px;
 }
 .legend-content {
-  height: 170px;
+  height: 250px;
   width: 100%;
 }
 #legend {

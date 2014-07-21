@@ -7,7 +7,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         var viewObj = {
             viewId: viewId,
             viewName: "data"
-        }
+        };
         o.init = function() {
             var that = this;
             if (initialized) {
@@ -28,8 +28,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
                 DataModel.applyBindings(viewId);
-            })
-        },
+            });
+        };
 
         o.toggleDataNavList = function(obj) {
             var htmlToFetch = obj.htmlContent;
@@ -44,7 +44,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 } else {
                     ds.selected = false;
                 }
-            })
+            });
 
             datamodel.leftLinks(leftLinks);
 
@@ -52,14 +52,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 datamodel.htmlContent(content);
             });
 
-        }
-
-
-
-        //listen to key
-
-        //trigger event 
-
+        };
 
 
         return o;

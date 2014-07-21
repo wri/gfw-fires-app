@@ -101,18 +101,16 @@ define([
 
             switch (node.id) {
                 case "fires72":
-                    backdate.setDate(today.getDate() - 3);
-
+                    backdate.setDate(today.getDate() - 4);
+                    today.setDate(today.getDate() - 3);
                     break;
-
                 case "fires48":
-                    backdate.setDate(today.getDate() - 2);
-
+                    backdate.setDate(today.getDate() - 3);
+                    today.setDate(today.getDate() - 2);
                     break;
-
                 case "fires24":
-                    backdate.setDate(today.getDate() - 1);
-
+                    backdate.setDate(today.getDate() - 2);
+                    today.setDate(today.getDate() - 1);
                     break;
                 default:
                     where = "1 = 1";
@@ -129,13 +127,18 @@ define([
                 var dd = "00" + backdate.getDate().toString();
                 dd = dd.substr(dd.length - 2);
 
+                var todayDD = "00" + today.getDate().toString();
+                todayDD = todayDD.substring(todayDD.length - 2);
+
                 var hh = backdate.getHours();
                 var min = backdate.getMinutes();
                 var ss = backdate.getSeconds();
 
-
+                // defs needs to be (date > dateString and time > hhmm) or date > todayString
                 var dateString = yyyy.toString() + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss;
-                where += "ACQ_DATE > date '" + dateString + "'";
+                var todayString = yyyy.toString() + "-" + mm + "-" + todayDD + " " + hh + ":" + min + ":" + ss;
+                where += "(ACQ_DATE > date '" + dateString + "' AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + hh + "" + min + ")" +
+                      " OR ACQ_DATE > date '" + todayString + "'";
 
             }
 

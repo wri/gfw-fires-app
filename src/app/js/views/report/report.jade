@@ -16,14 +16,24 @@ html(lang="en")
 				div(class='section-title') Figure 1: DISTRIBUTION OF FIRE ALERTS, SOUTHEAST ASIA
 				div(class='map-container')
 					div#simple-fires-map(class='map')
+						div#fires-legend-container(class='legend-container')
+							div(class='legend-title') Active Fires
+							div#fires-legend
+								table
+									tr
+										td(class='legend-swatch-round hc-fire')
+										td(class='legend-label') High Confidence Fires
+									tr
+										td(class='legend-swatch-round oa-fire')
+										td(class='legend-label') Other Active Fires	
 			div#section-two(class='page-break')
-				div(class='section-title') Figure 2a: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div(class='section-title') Figure 2a: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS IN SUMATRA
 				div(class='map-container small')
 					div#district-fires-map(class='map')
 						div#legend-container(class='legend-container')
 							div(class='legend-title') Fire Alerts by Districts in the Last 7 days
 							div#legend
-				div(class='section-title') Figure 2b: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div(class='section-title') Figure 2b: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS IN SUMATRA
 				div#district-fires-table
 			div#section-three(class='page-break')
 				div(class='section-title') Figure 3: FIRE ALERT COUNT FOR SUMATRA, INDONESIA, AND PENINSULAR MALAYSIA

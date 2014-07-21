@@ -24,6 +24,7 @@ define([
     "esri/layers/ImageParameters",
     "esri/layers/FeatureLayer",
     "esri/geometry/webMercatorUtils",
+    "esri/geometry/Extent",
     "esri/InfoTemplate",
     "esri/graphic",
     "esri/urlUtils",
@@ -40,12 +41,13 @@ define([
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
     "views/map/DigitalGlobeTiledLayer",
+    "views/map/BurnScarTiledLayer",
     "modules/HashController"
 
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, InfoTemplate, Graphic, urlUtils,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, HashController) {
+    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController) {
 
     var o = {},
         initialized = false,
@@ -162,7 +164,6 @@ define([
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
             zoom: hashL, //MapConfig.mapOptions.initalZoom,
-
             basemap: MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
@@ -170,11 +171,9 @@ define([
 
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
-
+            o.map.graphics.clear();
             // Resize Accordion
             registry.byId("fires-map-accordion").resize();
-
-            o.map.graphics.clear();
             WindyController.setMap(o.map);
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
@@ -182,6 +181,14 @@ define([
             self.bindEvents();
             self.addLayers();
             o.map.resize();
+
+            // Hack to get the correct extent set on load, this can be removed
+            // when the hash controller workflow is corrected
+            on.once(o.map,'update-end', function () {
+                o.map.centerAt(new Point(hashX, hashY)).then(function () {
+                    o.mapExtentPausable.resume();
+                });
+            });
         });
 
         o.mapExtentPausable = on.pausable(o.map, "extent-change", function(e) {
@@ -201,8 +208,9 @@ define([
                 l: lod.level
             });
 
-
         });
+
+        o.mapExtentPausable.pause();
 
     };
 
@@ -367,6 +375,10 @@ define([
             LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
         });
 
+        on(registry.byId("burned-scars-checkbox"), "change", function (value) {
+            LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
+        });
+
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
@@ -484,8 +496,8 @@ define([
 
         var conservationParams,
             conservationLayer,
-            burendAreaParams,
-            burnedScarLayer,
+            // burendAreaParams,
+            // burnedScarLayer,
             primaryForestsParams,
             primaryForestsLayer,
             digitalGlobeLayer,
@@ -496,6 +508,7 @@ define([
             forestUseLayer,
             treeCoverLayer,
             overlaysLayer,
+            burnScarLayer,
             landSatLayer,
             firesParams,
             firesLayer,
@@ -512,16 +525,16 @@ define([
             visible: false
         });
 
-        burendAreaParams = new ImageParameters();
-        burendAreaParams.format = "png32";
-        burendAreaParams.layerIds = MapConfig.burnedAreaLayers.defaultLayers;
-        burendAreaParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+        // burendAreaParams = new ImageParameters();
+        // burendAreaParams.format = "png32";
+        // burendAreaParams.layerIds = MapConfig.burnedAreaLayers.defaultLayers;
+        // burendAreaParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
 
-        burnedScarLayer = new ArcGISDynamicMapServiceLayer(MapConfig.burnedAreaLayers.url, {
-            imageParameters: burendAreaParams,
-            id: MapConfig.burnedAreaLayers.id,
-            visible: false
-        });
+        // burnedScarLayer = new ArcGISDynamicMapServiceLayer(MapConfig.burnedAreaLayers.url, {
+        //     imageParameters: burendAreaParams,
+        //     id: MapConfig.burnedAreaLayers.id,
+        //     visible: false
+        // });
 
         landCoverParams = new ImageParameters();
         landCoverParams.format = "png32";
@@ -581,6 +594,8 @@ define([
             visible: false
         });
 
+        burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
+
         firesParams = new ImageParameters();
         firesParams.format = "png32";
         firesParams.layerIds = MapConfig.firesLayer.defaultLayers;
@@ -610,8 +625,8 @@ define([
             primaryForestsLayer,
             forestUseLayer,
             conservationLayer,
-            burnedScarLayer,
             digitalGlobeLayer,
+            burnScarLayer,
             overlaysLayer,
             airQualityLayer,
             firesLayer,
@@ -641,6 +656,7 @@ define([
         // Set the default layer ordering for Overlays Layer
         overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
 
+        burnScarLayer.on('error', this.layerAddError);
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
         primaryForestsLayer.on('error', this.layerAddError);
@@ -749,7 +765,7 @@ define([
 
     o.toggleLegend = function() {
         var node = dom.byId("legend-widget-container"),
-            height = node.offsetHeight - 2 === 200 ? 30 : 200; //added border, has to have - 2 to get correct height
+            height = node.offsetHeight - 2 === 280 ? 30 : 280; //added border, has to have - 2 to get correct height
 
         Fx.animateProperty({
             node: node,
@@ -784,20 +800,9 @@ define([
         params.map = o.map;
         //params.template = template;
 
-        // This function is temporary since print button has a P and not an icon, once we add an icon, 
-        // remove the following function and any of it's references in this method
-        function toggleInnerHtml() {
-            if (dom.byId('print-button').innerHTML === 'P') {
-                dom.byId('print-button').innerHTML = '';
-            } else {
-                dom.byId('print-button').innerHTML = 'P';
-            }
-        }
-
         success = function(res) {
             var redirect = window.open(res.url, '_blank');
             domClass.remove('print-button', 'loading');
-            toggleInnerHtml();
             if (redirect === null || typeof(redirect) === undefined || redirect === undefined) {
                 alert(popupBlockerMsg);
             }
@@ -805,12 +810,10 @@ define([
 
         fail = function(err) {
             domClass.remove('print-button', 'loading');
-            toggleInnerHtml();
             console.error(err);
         };
 
         // Change Background image of Print Button to be the loading wheel, TEMP, toggle html
-        toggleInnerHtml();
         domClass.add('print-button', 'loading');
 
         printTask.execute(params, success, fail);

@@ -11,7 +11,7 @@
 .footerWrapper .footerItem .desc {
   height: 35px;
 }
-.footerWrapper .blogPosts,
+.footerWrapper .receiveAlerts,
 .footerWrapper .analysisAlerts,
 .footerWrapper .submitStory {
   width: 100%;
@@ -33,7 +33,7 @@
   margin: 20px auto;
   width: 134px;
 }
-.footerWrapper .blogPosts .icon {
+.footerWrapper .receiveAlerts .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -740px;
   background-repeat: no-repeat;
@@ -63,6 +63,9 @@
   cursor: pointer;
   color: #fff;
   text-decoration: none;
+}
+.footerModes .receiveAlerts .action {
+  cursor: default;
 }
 .footerModesContainer {
   width: 100%;

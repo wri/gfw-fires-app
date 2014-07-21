@@ -3,7 +3,6 @@ define(["dojo/_base/declare"],function(declare){
     constructor: function(url,id) {
       this.url = url;
       this.id = id;
-      console.dir(this);
       this.visible = false;
       this.spatialReference = new esri.SpatialReference({ wkid:102100 });
       this.initialExtent = (this.fullExtent = {
@@ -59,12 +58,7 @@ define(["dojo/_base/declare"],function(declare){
     },
 
     getTileUrl: function(level, row, col) {
-
-      // The Layer needs visibility set to true to work correctly
-
-      return this.url + "&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&TileMatrixSet=EPSG:3857&LAYER=DigitalGlobe:ImageryTileService&" + 
-                        "FORMAT=image/jpeg&STYLE=&featureProfile=Global_Currency_Profile&TileMatrix=EPSG:3857:"+level+"&TILEROW="+row+
-                        "&TILECOL="+col;
+      return this.url + "&x=" + col + "&y=" + row + "&z=" + level + "&s=";
     }
 
   });
