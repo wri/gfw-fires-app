@@ -37,6 +37,7 @@ define([
     vm.fires24 = ko.observable(MapConfig.text.fires24);
     vm.none = ko.observable(MapConfig.text.none);
     vm.oilPalmCheckbox = ko.observable(MapConfig.text.oilPalmCheckbox);
+    vm.rspoOilPalmCheckbox = ko.observable(MapConfig.text.rspoOilPalmCheckbox);
     vm.woodFiberCheckbox = ko.observable(MapConfig.text.woodFiberCheckbox);
     vm.loggingCheckbox = ko.observable(MapConfig.text.loggingCheckbox);
     vm.protectedAreasCheckbox = ko.observable(MapConfig.text.protectedAreasCheckbox);
@@ -49,6 +50,7 @@ define([
     vm.treeCoverDensitySubLabel = ko.observable(MapConfig.text.treeCoverDensitySubLabel);
     vm.southeastLandCoverSubLabel = ko.observable(MapConfig.text.southeastLandCoverSubLabel);
     vm.forestUseCheckboxSubLabelSelect = ko.observable(MapConfig.text.forestUseCheckboxSubLabelSelect);
+    vm.rspoOilPalmCheckboxSubLabel = ko.observable(MapConfig.text.rspoOilPalmCheckboxSubLabel);
     vm.primaryForestsSubLabel = ko.observable(MapConfig.text.primaryForestsSubLabel);
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
     vm.airQuality = ko.observable(MapConfig.text.airQuality);

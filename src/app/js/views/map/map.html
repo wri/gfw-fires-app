@@ -18,13 +18,13 @@
             <div id="confidence-fires-checkbox"></div>
             <label for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
           </div>
-          <div class="checkbox-container">							
-            <div id="noaa-fires-18"></div>
-            <label for="noaa-fires-18" data-bind="text: noaaFiresCheckbox" class="disabled"></label>
-          </div>
           <div class="checkbox-container">
             <div id="burned-scars-checkbox"></div>
             <label for="burned-scars-checkbox" data-bind="text: burnedScarsCheckbox"></label>
+          </div>
+          <div class="checkbox-container">
+            <div id="noaa-fires-18"></div>
+            <label for="noaa-fires-18" data-bind="text: noaaFiresCheckbox" class="disabled"></label>
           </div>
         </div>
       </div>
@@ -36,6 +36,10 @@
         <div class="checkbox-container">
           <div id="oil-palm-checkbox"></div>
           <label for="oil-palm-checkbox" data-bind="text: oilPalmCheckbox"></label><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
+        </div>
+        <div class="checkbox-container">
+          <div id="rspo-oil-palm-checkbox"></div>
+          <label for="rspo-oil-palm-checkbox" data-bind="text: rspoOilPalmCheckbox"></label><span data-bind="text: rspoOilPalmCheckboxSubLabel" class="checkbox-sub-label"></span>
         </div>
         <div class="checkbox-container">
           <div id="wood-fiber-checkbox"></div>
@@ -147,7 +151,7 @@
       <div id="locator-widget-button" class="locator-widget-button"></div>
       <div id="basemap-gallery-button" class="basemap-gallery-button"></div>
       <div id="share-button" class="share-button"></div>
-      <div id="print-button" class="print-button">P</div>
+      <div id="print-button" class="print-button"></div>
       <div id="locator-linker" data-bind="visible: showLocatorWidgets()" class="locator-linker modal-link"></div>
       <div id="locator-widget-container" data-bind="visible: showLocatorWidgets()" class="locator-widget-container">
         <div id="locator-container-header" data-bind="text: locatorContainerHeader" class="locator-container-header"></div>

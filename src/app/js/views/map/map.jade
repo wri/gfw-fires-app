@@ -17,12 +17,12 @@ div#map-view(class="map-view")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
 						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
-					div(class="checkbox-container")							
-						div#noaa-fires-18
-						label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
 					div(class="checkbox-container")
 						div#burned-scars-checkbox
 						label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+					div(class="checkbox-container")
+						div#noaa-fires-18
+						label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
 			//- div#burned-area-panel(class='accordion-panel')
 			//- 	div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 			//- 	div(class="slider-container")
@@ -39,6 +39,10 @@ div#map-view(class="map-view")
 					div#oil-palm-checkbox
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#rspo-oil-palm-checkbox
+					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
+					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#wood-fiber-checkbox
 					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
@@ -138,7 +142,7 @@ div#map-view(class="map-view")
 			div#locator-widget-button(class="locator-widget-button")
 			div#basemap-gallery-button(class="basemap-gallery-button")
 			div#share-button(class="share-button")
-			div#print-button(class="print-button") P
+			div#print-button(class="print-button")
 			div#locator-linker(class="locator-linker modal-link", data-bind="visible: showLocatorWidgets()")
 			div#locator-widget-container(class="locator-widget-container", data-bind="visible: showLocatorWidgets()")
 				div#locator-container-header(class="locator-container-header", data-bind="text: locatorContainerHeader")

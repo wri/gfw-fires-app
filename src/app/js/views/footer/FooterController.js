@@ -64,21 +64,14 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
 
-        }
+        };
 
 
         o.footerSelect = function(data) {
-
-            console.log(data);
             var selectedItem = data;
-
-            console.log(EventsController);
-
             eval("EventsController." + selectedItem.eventName + "()");
-
             //alert(selectedItem.event);
-
-        }
+        };
 
 
         return o;

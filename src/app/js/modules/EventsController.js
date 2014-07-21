@@ -37,7 +37,7 @@ define(["dojo/topic"],
             //footer events
             "footerSelect": "footerSelect",
             "goToBlog": "goToBlog",
-
+            "subscribeToAlerts":"subscribeToAlerts",
             "goToMap": "goToMap",
             "goToAnalysis": "goToAnalysis",
 
@@ -62,35 +62,30 @@ define(["dojo/topic"],
 
         //register subscribtion
         topic.subscribe("centerChange", function(dataObj) {
-            console.log(dataObj);
             require(["views/map/MapController"], function(MapController) {
                 MapController.centerChange(dataObj);
             });
         });
 
         topic.subscribe("clickNavLink", function(dataObj) {
-            console.log(dataObj);
             require(["views/header/HeaderController"], function(HeaderController) {
                 HeaderController.clickNavLink(dataObj);
             });
         });
 
         topic.subscribe("switchToView", function(dataObj) {
-            console.log(dataObj);
             require(["views/header/HeaderController"], function(HeaderController) {
                 HeaderController.switchToView(dataObj);
             });
         });
 
         topic.subscribe("startModeAnim", function(dataObj) {
-            //console.log(dataObj);
             require(["views/home/HomeController"], function(HomeController) {
                 HomeController.startModeAnim();
             });
         });
 
         topic.subscribe("stopModeAnim", function(dataObj) {
-            //console.log(dataObj);
             require(["views/home/HomeController"], function(HomeController) {
                 HomeController.stopModeAnim();
             });
@@ -117,13 +112,14 @@ define(["dojo/topic"],
 
         topic.subscribe("goToBlog", function(dataObj) {
             require(["views/header/HeaderController"], function(HeaderController) {
-                /*HeaderController.switchToView({
-                    viewName: "blogView"
-                });*/
                 HeaderController.clickNavLink({
                     viewName: "blog"
                 });
             });
+        });
+
+        topic.subscribe("subscribeToAlerts", function (dataObj) {
+            // Do Nothing for Now
         });
 
         topic.subscribe("goToTweet", function(dataObj) {
@@ -153,10 +149,6 @@ define(["dojo/topic"],
 
         topic.subscribe("goToMap", function(dataObj) {
             require(["views/header/HeaderController"], function(HeaderController) {
-                /*HeaderController.switchToView({
-                    viewName: "map",
-                    viewId: "mapView"
-                });*/
                 HeaderController.clickNavLink({
                     viewName: "map"
                 });
@@ -165,10 +157,6 @@ define(["dojo/topic"],
 
         topic.subscribe("goToAnalysis", function(dataObj) {
             require(["views/header/HeaderController"], function(HeaderController) {
-                /*HeaderController.switchToView({
-                    viewName: "map",
-                    viewId: "mapView"
-                });*/
                 HeaderController.clickNavLink({
                     viewName: "link",
                     url: "app/js/views/report/report.html"

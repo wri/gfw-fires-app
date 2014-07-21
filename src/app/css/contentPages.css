@@ -8,7 +8,20 @@
   background: url("../images/header_block.jpg");
   margin: 40px 0 40px 0;
 }
-
+.content-header h1 {
+	font-weight: normal;
+	position: relative;
+	color: white;
+	left: 30px;
+	top: 30px;
+}
+.content-header h4 {
+	font-weight: normal;
+	position: relative;
+	margin: 0 30px;
+	color: #CCC;
+	top: 20px;
+}
 
 /* CSS Document */
 /* header view */

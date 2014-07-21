@@ -66,17 +66,18 @@ define({
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Forest_Use',
         defaultLayers: [-1], // Show none by default
+        rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
         oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
         woodFiber: 28, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
         logging: 10 // These map to the value of an input in the UI, so logging is the value of a checkbox
     },
 
-    burnedAreaLayers: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
-        id: 'Burned_Area',
-        defaultLayers: [-1], // Show none by default
-        burnedAreas: 25 // These map to the value of an input in the UI, so burnedAreas is the value of a checkbox
-    },
+    // burnedAreaLayers: {
+    //     url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+    //     id: 'Burned_Area',
+    //     defaultLayers: [-1], // Show none by default
+    //     burnedAreas: 25 // These map to the value of an input in the UI, so burnedAreas is the value of a checkbox
+    // },
 
     conservationLayers: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
@@ -100,12 +101,17 @@ define({
     primaryForestsLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer",
         id: "Primary_Forest",
-        defaultLayers: [0]
+        defaultLayers: [3]
     },
 
     treeCoverLayer: {
         url: "http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer",
         id: "Tree_Cover_Density"
+    },
+
+    burnScarLayer: {
+        url: "https://earthbuilder.googleapis.com/06900458292272798243-17544903107431804602-4/maptile/maps?v=2&authToken=CghofYahvv-STxDx37SeBQ==",
+        id: "Burn_Scar"
     },
 
     landsat8: {
@@ -154,7 +160,7 @@ define({
                 'type': 'checkbox'
             }
         },
-        'Burned_Area': {
+        'Burn_Scar': {
             'id': "burned-scars-checkbox",
             'type': 'checkbox'
         },
@@ -237,10 +243,11 @@ define({
         fires24: "Past 24 hours",
         none: "None",
         oilPalmCheckbox: "Oil Palm concessions",
+        rspoOilPalmCheckbox: "RSPO Oil Palm concessions",
         woodFiberCheckbox: "Wood Fiber plantations",
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected Areas",
-        burnedScarsCheckbox: "Burned Scars mapped by Google Earth (coming soon)",
+        burnedScarsCheckbox: "Burned Scars mapped by Google Earth Engine",
         peatLandsRadio: "Peat Lands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary Forests",
@@ -250,12 +257,13 @@ define({
         primaryForestsSubLabel: "(2000 - 2012, 30m, Indonesia)",
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
+        rspoOilPalmCheckboxSubLabel: "(May 2013, select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
         airQuality: "Air Quality",
         windDirection: "Wind Direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
-        landsatImageCheckbox: "Landsat 8 Pan-sharpened",
-        landsatImageSubLabel: "(updated daily, 30m, global)",
+        landsatImageCheckbox: "Latest Landsat 8 Imagery",
+        landsatImageSubLabel: "(latest image, 30m, global)",
         twitterConversationsCheckbox: "Twitter Conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
@@ -366,8 +374,7 @@ define({
             "class": "burned-area-layers-option",
             "type": "checkbox",
             "props": {
-                "value": "burnedAreas",
-                "disabled": "disabled"
+                "value": "burnedAreas"
             }
         },
 
@@ -378,6 +385,13 @@ define({
             "type": "checkbox",
             "props": {
                 "value": "oilPalm"
+            }
+        },{
+            "id": "rspo-oil-palm-checkbox",
+            "class": "forest-use-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "rspoOilPalm"
             }
         }, {
             "id": "wood-fiber-checkbox",
@@ -502,8 +516,7 @@ define({
             "class": "primary-forests-option",
             "props": {
                 "value": "0",
-                "name": "primary-forest-radios",
-                "checked": true
+                "name": "primary-forest-radios"
             }
         }, {
             "id": "pf2005-radio",
@@ -527,7 +540,8 @@ define({
             "class": "primary-forests-option",
             "props": {
                 "value": "3",
-                "name": "primary-forest-radios"
+                "name": "primary-forest-radios",
+                "checked": true
             }
         }
 

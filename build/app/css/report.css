@@ -7,10 +7,13 @@ body,html{height:100%;width:100%;padding:0;margin:0}
 .noFiresTable,.section-title,.sub-title{font-family:"Arial MT Condensed Light",Arial,Georgia,sans-serif;font-size:22px;margin:10px 0}
 .sub-title{text-align:center;font-size:18px}
 .map-container{border:2px solid #000;margin:0 auto;height:500px;width:650px}
-.map-container.small{position:relative;height:400px}
-.map{height:100%;width:100%}
+.map-container.small{height:400px}
+.map{position:relative;height:100%;width:100%}
 .legend-container{position:absolute;z-index:50;bottom:5px;left:5px}
 .legend-swatch{border:1px solid #000;height:16px;width:16px}
+.legend-swatch-round{border:1px solid #fff;border-radius:35px;height:16px;width:16px}
+.hc-fire{background-color:#e16e20}
+.oa-fire{background-color:#fba730}
 .legend-label{padding-left:10px}
 .legend-title{max-width:160px}
 .chart-container{margin:0 auto;height:380px;width:450px}
