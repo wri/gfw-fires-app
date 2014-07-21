@@ -134,7 +134,7 @@ define([
                             content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
                             content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
                             content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                            content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
+                            //content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
                             content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
                             content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
                             content += "<tr><td>Certificate ID</td><td>" + node.feature.attributes.Certificat + "</td></tr>";
@@ -156,7 +156,7 @@ define([
                             content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
                             content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
                             content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                            content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
+                            //content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
                             content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
                             content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
                         }
@@ -177,7 +177,7 @@ define([
         },
 
 
-        getActiveFiresInfoWindow: function(event) {            
+        getActiveFiresInfoWindow: function(event) {
 
             var qconfig = MapConfig.firesLayer,
                 _self = this,
