@@ -140,20 +140,8 @@ define([],
                     "htmlContent": "aboutGFW",
                     "selected": true
                 }, {
-                    "name": "HISTORY",
-                    "htmlContent": "aboutHistory",
-                    "selected": false
-                }, {
                     "name": "PARTNERS",
                     "htmlContent": "aboutPartners",
-                    "selected": false
-                }, {
-                    "name": "USERS",
-                    "htmlContent": "aboutUsers",
-                    "selected": false
-                }, {
-                    "name": "VIDEOS",
-                    "htmlContent": "aboutVideos",
                     "selected": false
                 }
 
