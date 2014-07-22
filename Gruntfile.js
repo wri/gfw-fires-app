@@ -152,7 +152,7 @@ module.exports = function(grunt) {
     imagemin: {
       main: {
         options: {
-          optimizationLevel: 6,
+          optimizationLevel: 7,
           progressive: true
         },
         files: [{
@@ -167,6 +167,12 @@ module.exports = function(grunt) {
           src: ['**/*.jpg'],
           dest: 'build/app/images/',
           ext: '.jpg'
+        },{
+          expand: true,
+          cwd: 'build/app/images/',
+          src: ['**/*.gif'],
+          dest: 'build/app/images/',
+          ext: '.gif'
         }]
       }
     },
