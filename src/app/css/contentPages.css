@@ -716,29 +716,32 @@ background-position: 0 -2800px;
 .logo_list .danida:hover {
 background-position: 0 -2240px;
 }
+
+
 .digital-globe {
-  background: url("../images/dg-globe.png") no-repeat scroll 0% 0% transparent;
-  background-position: 10px 0px;
-  height: 28px;
+  background: url("../images/dg_logo_grey.png") no-repeat scroll 0% 0% transparent;
+}
+.digital-globe:hover {
+  background: url("../images/dg_logo_clr.png") no-repeat scroll 0% 0% transparent;
 }
 .bpredd {
-  background: url("../images/bpredd.png") no-repeat scroll 0% 0% transparent;
-  background-position: 0px 0px;
-  height: 57px;
+  background: url("../images/bp_redd_grey.png") no-repeat scroll 0% 0% transparent;  
+}
+.bpredd:hover {
+  background: url("../images/bp_redd_clr.png") no-repeat scroll 0% 0% transparent;  
 }
 .bnbp {
-  background: url("../images/BNPBlogo-greyscale.png") no-repeat scroll 0% 0% transparent;
-  background-position: 0px 0px;
-  height: 119px;
+  background: url("../images/BNPBlogo-greyscale.png") no-repeat scroll 0% 0% transparent;  
 }
 .bnbp:hover {
-  background: url("../images/BNPBlogo-color.png") no-repeat scroll 0% 0% transparent;
+  background: url("../images/BNPBlogo.png") no-repeat scroll 0% 0% transparent;
 }
 .blueraster{
-	background: url(../images/blueraster.gif) no-repeat; 
-	width: 157px !important;
-	height: 77px !important;
+	background: url(../images/br_grey.png) no-repeat; 
 }
 .blueraster:hover{
-	background: url(../images/blueraster.gif) no-repeat;
+	background: url(../images/br_color.png) no-repeat;
+}
+.coming-soon{
+	padding: 20px;
 }

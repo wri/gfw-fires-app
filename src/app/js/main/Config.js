@@ -133,14 +133,6 @@ define([],
                     "name": "Imagery",
                     "htmlContent": "dataImagery",
                     "selected": false
-                }, {
-                    "name": "Burn Scars - Coming Soon",
-                    "htmlContent": "burnScars",
-                    "selected": false
-                }, {
-                    "name": "NOAA-18 FIRES - Coming Soon",
-                    "htmlContent": "noaa18Fires",
-                    "selected": false
                 }
 
             ],
