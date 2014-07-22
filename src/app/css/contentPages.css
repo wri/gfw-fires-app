@@ -716,11 +716,29 @@ background-position: 0 -2800px;
 .logo_list .danida:hover {
 background-position: 0 -2240px;
 }
-
+.digital-globe {
+  background: url("../images/dg-globe.png") no-repeat scroll 0% 0% transparent;
+  background-position: 10px 0px;
+  height: 28px;
+}
+.bpredd {
+  background: url("../images/bpredd.png") no-repeat scroll 0% 0% transparent;
+  background-position: 0px 0px;
+  height: 57px;
+}
+.bnbp {
+  background: url("../images/BNPBlogo-greyscale.png") no-repeat scroll 0% 0% transparent;
+  background-position: 0px 0px;
+  height: 119px;
+}
+.bnbp:hover {
+  background: url("../images/BNPBlogo-color.png") no-repeat scroll 0% 0% transparent;
+}
 .blueraster{
-	background: url(images/brlogo-grey.png) no-repeat; 
+	background: url(../images/blueraster.gif) no-repeat; 
+	width: 157px !important;
+	height: 77px !important;
 }
 .blueraster:hover{
-	background: url(images/brlogo.png) no-repeat;
-	background-size: 112px 49px 
+	background: url(../images/blueraster.gif) no-repeat;
 }

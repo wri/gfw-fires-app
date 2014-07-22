@@ -133,6 +133,14 @@ define([],
                     "name": "Imagery",
                     "htmlContent": "dataImagery",
                     "selected": false
+                }, {
+                    "name": "Burn Scars - Coming Soon",
+                    "htmlContent": "burnScars",
+                    "selected": false
+                }, {
+                    "name": "NOAA-18 FIRES - Coming Soon",
+                    "htmlContent": "noaa18Fires",
+                    "selected": false
                 }
 
             ],
@@ -140,16 +148,19 @@ define([],
             dataHeaderDescription: "Data sources Global Forest Watch hosts a wealth of data relating to forests. Some data have been developed by WRI or by GFW partner organizations. Other data are in the public domain and have been developed by governments, NGOs, and companies. The data vary in accuracy, resolution, frequency of update, and geographic coverage. The summaries below include links to further information such as methods and technical documents. Full download of the data sets is available for most sources.",
 
             aboutLinks: [
-
                 {
+                    "name": "ABOUT GFW-FIRES",
+                    "htmlContent": "aboutGfwFires",
+                    "selected": true
+                }, {
                     "name": "Forest fires and their impact",
                     "htmlContent": "foreFireAndTheirImpact",
-                    "selected": true
+                    "selected": false
                 }, {
                     "name": "PARTNERS",
                     "htmlContent": "aboutPartners",
                     "selected": false
-                }
+                },
 
             ]
 

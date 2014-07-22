@@ -1,21 +1,6 @@
 .clear {
   clear: both;
 }
-#blogHeader h1 {
-  font-weight: normal;
-  left: 30px;
-  color: #fff;
-  position: relative;
-  top: 25%;
-}
-#blogHeader h3 {
-  font-size: 12px;
-  font-weight: normal;
-  left: 30px;
-  color: #c2c1ae;
-  position: relative;
-  top: 26%;
-}
 .blog-post {
   height: 250px;
   padding: 20px 20px 100px 20px;
