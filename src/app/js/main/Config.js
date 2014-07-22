@@ -52,31 +52,31 @@ define([],
 
             headerTitle: "A partnership convened by the World Resources Institute",
 
-            headerDesc: "Forest Fires and Haze Watch for the ASEAN Region",
+            headerDesc: "Track forest fires and haze in the ASEAN region",
 
 
             homeModeOptions: [{
-                    "html": "Fires Occuring in Peatland <br> in the last 7 days",
+                    "html": "Fires occuring in peatland <br> in the last 7 days",
                     "eventName": "goToMap",
                     "display": false
                 },
 
                 {
-                    "html": "<span>View the Latest Analysis</span>",
+                    "html": "<span>View the latest analysis</span>",
                     "eventName": "goToAnalysis",
                     "display": true
                 }, {
-                    "html": "<span>View the Latest Imagery</span>",
+                    "html": "<span>View the latest imagery</span>",
                     "eventName": "goToMap",
                     "display": false
                 }, {
-                    "html": "<span>Explore the Map</span>",
+                    "html": "<span>Explore the map</span>",
                     "eventName": "goToMap",
                     "display": false
 
                 },
                 {
-                    "html": "<span class='more-text'>Coming soon:<br>Sign up for SMS and Email fire alerts</span>",
+                    "html": "<span class='more-text'>Coming soon:<br>Sign up for SMS and email fire alerts</span>",
                     "eventName": "",
                     "display": false
 
