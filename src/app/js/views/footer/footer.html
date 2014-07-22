@@ -1,4 +1,54 @@
-<link rel="stylesheet" href="app/css/footer.css"/><div data-bind="visible: (appState().v=='home')" class="footerModesContainer"><div class="footerWrapper"><div data-bind="foreach:footerModeOptions" class="footerModes"><div class="footerItem"><div data-bind="attr:{class:css}"><div class="icon"></div><div data-bind="html:title" class="title"></div><div data-bind="html:desc" class="desc"></div><div data-bind="if: url"><a data-bind="html:action,attr: {href: url, target: target}" class="action"></a></div><div data-bind="ifnot: url"><a data-bind="html:action,click:$root.footerSelect" class="action"></a></div></div></div></div></div></div><div id="footerShareContainer" data-bind="visible: (appState().v!='map')" class="footerShareContainer"></div><div id="footerMovableWrapper" class="footerMovableWrapper"><div class="footerMovableModes"><div class="container-large share"><div><div class="title">Spread the Word Share GFW-Fires</div><div class="share-container"><a href="https://twitter.com/share" data-hashtags="MelawanAsap,Indonesiafires" data-text="GFW-Fires maps the latest fire alerts for Southeast Asia" data-lang="en" class="twitter-share-button">Tweet</a><div data-action="share" data-annotation="bubble" class="g-plus"></div><div data-href="http://localhost.com" data-type="button_count" class="fb-share-button"></div></div><div class="sign-up"><span class="title">Sign up to receive updates.</span><a title="Receive Global Forest Watch updates" href="http://www.wri.org/global-forest-watch-stay-informed"><img src="app/images/envelope-gray.png" class="subscribe"/></a><a title="Follow @globalforests" href="https://twitter.com/globalforests"><img src="app/images/twitter-gray.png" class="subscribe"/></a></div><div class="links"><span><a href="#">Terms of Service</a>&nbsp; · &nbsp;<a href="#">Global Forest Watch System Status</a></span></div><div class="wri-address"><br/><br/><div class="title">A partnership convened by</div><a href="http://www.wri.org" target="_blank" class="wri-logo"></a><div class="address">10 G Street NE Suite 800, Washington, DC 20002, USA
-<br> Phone +1 (202) 729-7600
-<br> Fax +1 (202) 729-7610
-<br> Email <a href="mailto:gfw@wri.org">gfw@wri.org</a></div></div></div></div><div class="container-small about-project"></div><div class="container-large wri-address"><div><div class="title">GFW-Fires is a project of Global Forest Watch<a href="http://www.globalforestwatch.org/about/partners" target="_blank" class="gfw-logo"></a></div></div><div><div class="title">Core partners</div><div><br/></div><div class="footer-logos"><a target="_blank" href="http://www.esri.com/gfw" class="footer-logo digital-globe">					</a><a target="_blank" href="http://www.esri.com/gfw" class="footer-logo esri"></a><a target="_blank" href="https://earthengine.google.org" class="footer-logo google"></a><a target="_blank" href="hhttp://www.redd-indonesia.org/" class="footer-logo bpredd"></a></div></div></div><div></div></div></div>
+
+<link rel="stylesheet" href="app/css/footer.css"/>
+<div data-bind="visible: (appState().v=='home')" class="footerModesContainer">
+  <div class="footerWrapper">
+    <div data-bind="foreach:footerModeOptions" class="footerModes">
+      <div class="footerItem">
+        <div data-bind="attr:{class:css}">
+          <div class="icon"></div>
+          <div data-bind="html:title" class="title"></div>
+          <div data-bind="html:desc" class="desc"></div>
+          <div data-bind="if: url"><a data-bind="html:action,attr: {href: url, target: target}" class="action"></a></div>
+          <div data-bind="ifnot: url"><a data-bind="html:action,click:$root.footerSelect" class="action"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footerShareContainer" data-bind="visible: (appState().v!='map')" class="footerShareContainer"></div>
+<div id="footerMovableWrapper" class="footerMovableWrapper">
+  <div class="footerMovableModes">
+    <div class="container-large share">
+      <div>
+        <div class="title">Spread the Word Share GFW-Fires</div>
+        <div class="share-container"><a href="https://twitter.com/share" data-hashtags="MelawanAsap,Indonesiafires" data-text="GFW-Fires maps the latest fire alerts for Southeast Asia" data-lang="en" class="twitter-share-button">Tweet</a>
+          <div data-action="share" data-annotation="bubble" class="g-plus"></div>
+          <div data-href="http://localhost.com" data-type="button_count" class="fb-share-button"></div>
+        </div>
+        <div class="sign-up"><span class="title">Sign up to receive updates.</span><a title="Receive Global Forest Watch updates" href="http://www.wri.org/global-forest-watch-stay-informed"><img src="app/images/envelope-gray.png" class="subscribe"/></a><a title="Follow @globalforests" href="https://twitter.com/globalforests"><img src="app/images/twitter-gray.png" class="subscribe"/></a></div>
+        <div class="links"><span><a href="#">Terms of Service</a>&nbsp; · &nbsp;<a href="#">Global Forest Watch System Status</a></span></div>
+        <div class="wri-address"><br/><br/>
+          <div class="title">A partnership convened by</div><a href="http://www.wri.org" target="_blank" class="wri-logo"></a>
+          <div class="address">
+            10 G Street NE Suite 800, Washington, DC 20002, USA
+            <br> Phone +1 (202) 729-7600
+            <br> Fax +1 (202) 729-7610
+            <br> Email <a href="mailto:gfw@wri.org">gfw@wri.org</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-small about-project"></div>
+    <div class="container-large wri-address">
+      <div>
+        <div class="title">GFW-Fires is a project of Global Forest Watch<a href="http://www.globalforestwatch.org/about/partners" target="_blank" class="gfw-logo"></a></div>
+      </div>
+      <div>
+        <div class="title">Core partners</div>
+        <div><br/></div>
+        <div class="footer-logos"><a target="_blank" href="http://www.esri.com/gfw" class="footer-logo digital-globe">					</a><a target="_blank" href="http://www.esri.com/gfw" class="footer-logo esri"></a><a target="_blank" href="https://earthengine.google.org" class="footer-logo google"></a><a target="_blank" href="hhttp://www.redd-indonesia.org/" class="footer-logo bpredd"></a></div>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</div>

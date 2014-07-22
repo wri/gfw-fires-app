@@ -7,8 +7,9 @@ define([
 	"utils/RasterLayer",
 	"views/map/MapModel",
 	"modules/ErrorController",
+	"views/map/LayerController",
 	"libs/windy"
-], function (Deferred, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController) {
+], function (Deferred, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController) {
 
 	var _map,
 	_isSupported,
@@ -45,8 +46,10 @@ define([
 
 			if (checked) {
 				this.activateWindLayer();
+				LayerController.updateLayersInHash('add', WIND_CONFIG.id, WIND_CONFIG.id);
 			} else {
 				this.deactivateWindLayer();
+				LayerController.updateLayersInHash('remove', WIND_CONFIG.id, WIND_CONFIG.id);
 			}
 		},
 

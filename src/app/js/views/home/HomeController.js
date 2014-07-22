@@ -230,9 +230,9 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
         o.modeSelect = function(data) {
             var selectedMode = data;
-
-            console.log(selectedMode.eventName);
-
+            if (selectedMode.eventName === '') {
+                return;
+            }
             eval("EventsController." + selectedMode.eventName + "()");
         };
 

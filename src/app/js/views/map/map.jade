@@ -5,7 +5,7 @@ div#map-view(class="map-view")
 			span#report-link(class="report-link", data-bind="text: getReportLink")
 		div#fires-map-accordion
 			div#fires-panel(class='accordion-panel')
-				div
+				div(class="checkbox-container")
 					div#fires-checkbox
 					label(for="fires-checkbox", data-bind="text: firesCheckbox")
 					span(data-bind="text: firesSubLabel", class="checkbox-sub-label")
@@ -17,12 +17,12 @@ div#map-view(class="map-view")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
 						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
-					div(class="checkbox-container")
-						div#burned-scars-checkbox
-						label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
-					div(class="checkbox-container")
-						div#noaa-fires-18
-						label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
+				div(class="checkbox-container")
+					div#burned-scars-checkbox
+					label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+				div(class="checkbox-container")
+					div#noaa-fires-18
+					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
 			//- div#burned-area-panel(class='accordion-panel')
 			//- 	div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 			//- 	div(class="slider-container")

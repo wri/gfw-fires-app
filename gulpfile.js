@@ -98,7 +98,7 @@ gulp.task('minifyhtml', function() {
         spare: true
     };
 
-    return gulp.src(app_dir.src + '**/*.html')
+    return gulp.src(app_dir.src + '**/*.htm*')
         .pipe(minifyhtml(opts))
         .pipe(gulp.dest(app_dir.build))
         // .pipe(notify({

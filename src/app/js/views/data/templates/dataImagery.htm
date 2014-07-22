@@ -96,7 +96,7 @@
 
             <p>Each scene is processed on-the-fly from the original Landsat 8 12 bit/channel scenes (with only lossless compression applied) to compute apparent reflectance and then apply pansharpening from the 15m panchromatic band to the 30m multispectral bands. An appropriate renderer is then applied to return an 8 bit/channel image. A Dynamic Range Adjustment (DRA) version of the function is also included, which enables the full dynamic range of the images.</p>
 
-            <p>Currently ‘Best’ is defined as the latest 4 scenes for each path/row with a cloud coverage of <50%, plus the scene closest to the corresponding GLS 2000 scene. Over time the older or cloudier scenes will be removed from the service.</p>
+            <p>Currently ‘Best’ is defined as the latest 4 scenes for each path/row with a cloud coverage of &lt; 50%, plus the scene closest to the corresponding GLS 2000 scene. Over time the older or cloudier scenes will be removed from the service.</p>
 
             <p>Each scene is attributed with properties such as the acquisition date and estimated cloud cover percentage. The service is time-enabled, so applications can restrict the displayed scenes to specific date range. Additionally filters can be set to restrict and order the scenes based on the attributes.</p>
 

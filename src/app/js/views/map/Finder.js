@@ -123,7 +123,7 @@ define([
                 identifyTask.execute(identifyParams, function(response) {
                     var node = response[0];
                     if (node) {
-                        content = "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>";
+                        content =  dom.byId("close-icon") === undefined ? "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>" : "<table id='infoWindowTable'>";
 
                         if (node.layerId == 25) {
                             content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
@@ -226,8 +226,9 @@ define([
 
             // defs needs to be (date > dateString and time > hhmm) or date > todayString
             for (var i = 0, len = MapConfig.firesLayer.defaultLayers.length; i < len; i++) {
-                defs[i] = "(ACQ_DATE > date '" + dateString + "' AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" + 
-                          " OR  ACQ_DATE > date '" + todayString + "'";
+                defs[i] = "ACQ_DATE > date '" + dateString + "'";
+                // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" + 
+                //          " OR  ACQ_DATE > date '" + todayString + "'";
             }
 
             iparams.geometry = point;
