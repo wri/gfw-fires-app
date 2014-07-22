@@ -23,6 +23,11 @@ define({
         sliderPosition: 'top-right'
     },
 
+    printOptions: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/GFWFiresPrintMap/GPServer/Export%20Web%20Map',
+        template: 'GFWFires'
+    },
+
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
         id: "Active_Fires",
@@ -61,34 +66,52 @@ define({
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Forest_Use',
         defaultLayers: [-1], // Show none by default
+        rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
         oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
-        woodFiber: 28, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
-        logging: 10 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+        woodFiber: 28, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
+        logging: 10 // These map to the value of an input in the UI, so logging is the value of a checkbox
     },
+
+    // burnedAreaLayers: {
+    //     url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+    //     id: 'Burned_Area',
+    //     defaultLayers: [-1], // Show none by default
+    //     burnedAreas: 25 // These map to the value of an input in the UI, so burnedAreas is the value of a checkbox
+    // },
 
     conservationLayers: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Conservation',
         defaultLayers: [-1], // Show none by default
-        protectedAreas: 25 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+        protectedAreas: 25 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
     },
 
     landCoverLayers: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Land_Cover',
         defaultLayers: [1], // Show peatLands by default
-        peatLands: 1, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
-        landCover: 19 // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+        peatLands: 1 // These map to the value of an input in the UI, so peatLands is the value of a checkbox
+    },
+
+    overlaysLayer: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer",
+        id: "Overlays_Layer"
     },
 
     primaryForestsLayer: {
-        url: "http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/primary_forest_extent/ImageServer",
-        id: "Primary_Forest"
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer",
+        id: "Primary_Forest",
+        defaultLayers: [3]
     },
 
     treeCoverLayer: {
         url: "http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer",
         id: "Tree_Cover_Density"
+    },
+
+    burnScarLayer: {
+        url: "https://earthbuilder.googleapis.com/06900458292272798243-17544903107431804602-4/maptile/maps?v=2&authToken=CghofYahvv-STxDx37SeBQ==",
+        id: "Burn_Scar"
     },
 
     landsat8: {
@@ -104,6 +127,97 @@ define({
 
     windData: {
         prefix: "http://suitability-mapper.s3.amazonaws.com/"
+    },
+
+    airQualityLayer: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality/MapServer',
+        id: 'Air_Quality'
+    },
+
+    // Key: LayerID
+    // Value: Assoicated Checkbox
+    // If has multiple checkboxes per layer, value is an object and layerID is lookup for checkbox
+    layersCheckboxes: {
+        'Active_Fires': {
+            'id': "fires-checkbox",
+            'type': 'checkbox'
+        },
+        'Fire_Tweets': {
+            'id': "twitter-conversations-checkbox",
+            'type': 'checkbox'
+        },
+        'Forest_Use': {
+            32: {
+                'id': 'oil-palm-checkbox',
+                'type': 'checkbox'
+            },
+            28: {
+                'id': 'wood-fiber-checkbox',
+                'type': 'checkbox'
+            },
+            10: {
+                'id': 'logging-checkbox',
+                'type': 'checkbox'
+            }
+        },
+        'Burn_Scar': {
+            'id': "burned-scars-checkbox",
+            'type': 'checkbox'
+        },
+        'Conservation': {
+            'id': "protected-areas-checkbox",
+            'type': 'checkbox'
+        },
+        'Land_Cover': {
+            1: {
+                'id': "peat-lands-radio",
+                'type': 'radio'
+            }
+        },
+        'Overlays_Layer': {
+            1: {},
+            2: {},
+            3: {},
+            4: {}
+        },
+        'Primary_Forest': {
+            0: {
+                'id': ['primary-forests-radio', ''],
+                'type': 'radio'
+            },
+            1: {
+                'id': ['primary-forests-radio', ''],
+                'type': 'radio'
+            },
+            2: {
+                'id': ['primary-forests-radio', ''],
+                'type': 'radio'
+            },
+            3: {
+                'id': ['primary-forests-radio', ''],
+                'type': 'radio'
+            }
+        },
+        'Tree_Cover_Density': {
+            'id': "tree-cover-density-radio",
+            'type': 'radio'
+        },
+        'LandSat_8': {
+            'id': "landsat-image-checkbox",
+            'type': 'checkbox'
+        },
+        'Digital_Globe': {
+            'id': "digital-globe-checkbox",
+            'type': 'checkbox'
+        },
+        'Air_Quality': {
+            'id': "air-quality-checkbox",
+            'type': 'checkbox'
+        },
+        'Wind_Layer': {
+            'id': "windy-layer-checkbox",
+            'type': 'checkbox'
+        }
     },
 
     text: {
@@ -129,30 +243,41 @@ define({
         fires24: "Past 24 hours",
         none: "None",
         oilPalmCheckbox: "Oil Palm concessions",
+        rspoOilPalmCheckbox: "RSPO Oil Palm concessions",
         woodFiberCheckbox: "Wood Fiber plantations",
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected Areas",
+        burnedScarsCheckbox: "Burned Scars mapped by Google Earth Engine",
         peatLandsRadio: "Peat Lands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary Forests",
         southeastLandCoverRadio: "Land Cover - Southeast Asia",
         peatLandsSubLabel: "(year 2002, Indonesia)",
         treeCoverDensitySubLabel: "(year 2000, 30m, global)",
-        primaryForestsSubLabel: "(2000, 30m, Indonesia)",
+        primaryForestsSubLabel: "(2000 - 2012, 30m, Indonesia)",
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
+        rspoOilPalmCheckboxSubLabel: "(May 2013, select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
-        airQuality: "Air Quality (Coming Soon)",
-        windDirection: "Wind Direction (Coming Soon)",
+        airQuality: "Air Quality",
+        windDirection: "Wind Direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
-        landsatImageCheckbox: "Landsat 8 Pan-sharpened",
-        landsatImageSubLabel: "(updated daily, 30m, global)",
+        landsatImageCheckbox: "Latest Landsat 8 Imagery",
+        landsatImageSubLabel: "(latest image, 30m, global)",
         twitterConversationsCheckbox: "Twitter Conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
-        windyLayerCheckbox: "Wind Direction (beta feature)",
+        windyLayerCheckbox: "Wind Direction",
         windySubLabelAdvice: "For best visual appearance, switch to the Dark Gray Canvas Basemap",
-        windySubLabel: "(Daily, NOAA)"
+        windySubLabel: "(Daily, NOAA)",
+        provincesCheckbox: "Provinces",
+        districtsCheckbox: "Districts",
+        subDistrictsCheckbox: "Subdistricts",
+        villagesCheckbox: "Villages",
+        pf2000Radio: "2000",
+        pf2005Radio: "2005",
+        pf2010Radio: "2010",
+        pf2012Radio: "2012",
     },
 
     accordionDijits: [{
@@ -197,7 +322,9 @@ define({
                     "title": "Social Media"
                 }
             }]
-        }, {
+        },
+        //sliders
+        {
             "id": "forest-transparency-slider",
             "type": "horizontal-slider",
             "props": {
@@ -229,9 +356,7 @@ define({
         {
             "id": "fires-checkbox",
             "type": "checkbox",
-            "props": {
-                "checked": "checked"
-            }
+            "props": {}
         }, {
             "id": "confidence-fires-checkbox",
             "class": "fires-confidence-checkbox",
@@ -244,7 +369,15 @@ define({
             "props": {
                 "disabled": "disabled"
             }
+        }, {
+            "id": "burned-scars-checkbox",
+            "class": "burned-area-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "burnedAreas"
+            }
         },
+
         //FOREST USE
         {
             "id": "oil-palm-checkbox",
@@ -252,6 +385,13 @@ define({
             "type": "checkbox",
             "props": {
                 "value": "oilPalm"
+            }
+        },{
+            "id": "rspo-oil-palm-checkbox",
+            "class": "forest-use-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "rspoOilPalm"
             }
         }, {
             "id": "wood-fiber-checkbox",
@@ -268,7 +408,7 @@ define({
                 "value": "logging"
             }
         },
-        //PROTECTED AREAS
+        //CONSERVATION
         {
             "id": "protected-areas-checkbox",
             "class": "conservation-layers-option",
@@ -292,8 +432,7 @@ define({
             "type": "radio",
             "props": {
                 "value": "peatLands",
-                "name": "land-cover-radios",
-                "checked": "checked"
+                "name": "land-cover-radios"
             }
         }, {
             "id": "tree-cover-density-radio",
@@ -339,21 +478,73 @@ define({
             "class": "twitter-checkbox",
             "type": "checkbox",
             "props": {}
-        },
-        {
+        }, {
             "id": "windy-layer-checkbox",
             "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {}
-        },
-        {
+        }, {
             "id": "air-quality-checkbox",
             "class": "air-quality-checkbox",
             "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "provinces-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "districts-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "subdistricts-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "villages-checkbox",
+            "class": "overlays-checkbox",
+            "type": "checkbox",
+            "props": {}
+        },
+
+        {
+            "id": "pf2000-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
             "props": {
-                "disabled": true
+                "value": "0",
+                "name": "primary-forest-radios"
+            }
+        }, {
+            "id": "pf2005-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "1",
+                "name": "primary-forest-radios"
+            }
+        }, {
+            "id": "pf2010-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "2",
+                "name": "primary-forest-radios"
+            }
+        }, {
+            "id": "pf2012-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "3",
+                "name": "primary-forest-radios",
+                "checked": true
             }
         }
+
     ]
 
 });

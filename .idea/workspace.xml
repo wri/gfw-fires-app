@@ -2,12 +2,173 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2b190754-71fc-41d9-9ed3-e19f0b723b70" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/ArialMTStd-BoldCond.otf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/ArialMTStd-LightCond.otf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/RedStickpin.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/Thumbs.db" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/basemap.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/bpredd.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/bpredd.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/bpredd72dpi.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/bpredd72dpi.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/checkmark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/darkGreyThumb.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/dg-globe.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/dg-globe.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/dg_logo_2color_RGB.tif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/dg_logo_2color_RGB.tif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/dg_logo_white_RGB.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/dg_logo_white_RGB.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/dg_logo_white_RGB.tif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/dg_logo_white_RGB.tif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/envelope-gray.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-light-webfont.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-light-webfont.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-light-webfont.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-medium-webfont.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-medium-webfont.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-medium-webfont.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-regular-webfont.eot" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-regular-webfont.ttf" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-regular-webfont.woff" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/gfwFires-logo-new.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/gfwFires-logo-new.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/gfwc_logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/header_block.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/header_tree_background.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/home-bg - Copy.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/home-bg.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/home-bg2.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/home-icons.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-carat-down.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-carat-right.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-carat-up.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-checkmark.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-close.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-home.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/ico-share.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/loader.gif" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/locate.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/logo_dg.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/logo_dg.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/logos-from-gfw.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/logos-from-gfw.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/monochromatic_gfw.jpg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/print-icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/print-icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/read-more-icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/share-icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/images/share-icon.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/static-icons.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/static-logos.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/twitter-gray.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/images/wri.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/map/BurnScarTiledLayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/views/map/BurnScarTiledLayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/map/DigitalGlobeTiledLayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/app/js/views/map/DigitalGlobeTiledLayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/utils/Helper.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/utils/RasterLayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/map/WindyController.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/about/about.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/app.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/blog.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/blog/blog.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/partial/body.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/contentPages.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/data/data.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/develop.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-light-webfont.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-medium-webfont.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/fonts/firasansot-regular-webfont.svg" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/footer.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/footer/footer.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/header.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/header/header.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/home.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/home/home.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/layout.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/map.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/map/map.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/report.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/js/views/report/report.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/css/responsive.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build/app/libs/windy.js" />
+      <change type="DELETED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\gfs.json" afterPath="" />
+      <change type="DELETED" beforePath="C:\wamp\www\2278-wri-oil-palm.4\src\app\js\views\map\CustomWMTSLayer.js" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/about/AboutController.js" afterPath="$PROJECT_DIR$/build/app/js/views/about/AboutController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/blog/BlogController.js" afterPath="$PROJECT_DIR$/build/app/js/views/blog/BlogController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/blog/BlogLoader.js" afterPath="$PROJECT_DIR$/build/app/js/views/blog/BlogLoader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/blog/BlogModel.js" afterPath="$PROJECT_DIR$/build/app/js/views/blog/BlogModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/main/Config.js" afterPath="$PROJECT_DIR$/build/app/js/main/Config.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/main/Config.js" afterPath="$PROJECT_DIR$/src/app/js/main/Config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/data/DataController.js" afterPath="$PROJECT_DIR$/build/app/js/views/data/DataController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/DataController.js" afterPath="$PROJECT_DIR$/src/app/js/views/data/DataController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/data/DataModel.js" afterPath="$PROJECT_DIR$/build/app/js/views/data/DataModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/DataModel.js" afterPath="$PROJECT_DIR$/src/app/js/views/data/DataModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/utils/DijitFactory.js" afterPath="$PROJECT_DIR$/build/app/js/utils/DijitFactory.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/modules/ErrorController.js" afterPath="$PROJECT_DIR$/build/app/js/modules/ErrorController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/modules/EventsController.js" afterPath="$PROJECT_DIR$/build/app/js/modules/EventsController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/modules/EventsController.js" afterPath="$PROJECT_DIR$/src/app/js/modules/EventsController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/map/Finder.js" afterPath="$PROJECT_DIR$/build/app/js/views/map/Finder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/Finder.js" afterPath="$PROJECT_DIR$/src/app/js/views/map/Finder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/footer/FooterController.js" afterPath="$PROJECT_DIR$/build/app/js/views/footer/FooterController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/footer/FooterController.js" afterPath="$PROJECT_DIR$/src/app/js/views/footer/FooterController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/modules/HashController.js" afterPath="$PROJECT_DIR$/build/app/js/modules/HashController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/modules/HashController.js" afterPath="$PROJECT_DIR$/src/app/js/modules/HashController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/header/HeaderController.js" afterPath="$PROJECT_DIR$/build/app/js/views/header/HeaderController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/header/HeaderController.js" afterPath="$PROJECT_DIR$/src/app/js/views/header/HeaderController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/header/HeaderModel.js" afterPath="$PROJECT_DIR$/build/app/js/views/header/HeaderModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/home/HomeController.js" afterPath="$PROJECT_DIR$/build/app/js/views/home/HomeController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/map/LayerController.js" afterPath="$PROJECT_DIR$/build/app/js/views/map/LayerController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/LayerController.js" afterPath="$PROJECT_DIR$/src/app/js/views/map/LayerController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/modules/Loader.js" afterPath="$PROJECT_DIR$/build/app/js/modules/Loader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/main/Main.js" afterPath="$PROJECT_DIR$/src/app/js/main/Main.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/map/MapConfig.js" afterPath="$PROJECT_DIR$/build/app/js/views/map/MapConfig.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/MapConfig.js" afterPath="$PROJECT_DIR$/src/app/js/views/map/MapConfig.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/map/MapController.js" afterPath="$PROJECT_DIR$/build/app/js/views/map/MapController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/MapController.js" afterPath="$PROJECT_DIR$/src/app/js/views/map/MapController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/map/MapModel.js" afterPath="$PROJECT_DIR$/build/app/js/views/map/MapModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/MapModel.js" afterPath="$PROJECT_DIR$/src/app/js/views/map/MapModel.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/report/PrintLoader.js" afterPath="$PROJECT_DIR$/build/app/js/views/report/PrintLoader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/js/views/report/ReportBuilder.js" afterPath="$PROJECT_DIR$/build/app/js/views/report/ReportBuilder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/report/ReportBuilder.js" afterPath="$PROJECT_DIR$/src/app/js/views/report/ReportBuilder.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/app.css" afterPath="$PROJECT_DIR$/src/app/css/app.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/blog.css" afterPath="$PROJECT_DIR$/src/app/css/blog.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/blog/blog.html" afterPath="$PROJECT_DIR$/src/app/js/views/blog/blog.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/blog/blog.jade" afterPath="$PROJECT_DIR$/src/app/js/views/blog/blog.jade" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/templates/dataAirQuality.htm" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataAirQuality.htm" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm" afterPath="$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/bootloader.js" afterPath="$PROJECT_DIR$/build/app/bootloader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/bootloader.js" afterPath="$PROJECT_DIR$/src/app/bootloader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/contentPages.css" afterPath="$PROJECT_DIR$/src/app/css/contentPages.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/data.html" afterPath="$PROJECT_DIR$/src/app/js/views/data/data.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/data/data.jade" afterPath="$PROJECT_DIR$/src/app/js/views/data/data.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/libs/es5-sham.min.js" afterPath="$PROJECT_DIR$/build/app/libs/es5-sham.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/libs/es5-shim.min.js" afterPath="$PROJECT_DIR$/build/app/libs/es5-shim.min.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/footer.css" afterPath="$PROJECT_DIR$/src/app/css/footer.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/footer/footer.html" afterPath="$PROJECT_DIR$/src/app/js/views/footer/footer.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/footer/footer.jade" afterPath="$PROJECT_DIR$/src/app/js/views/footer/footer.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/footer.styl" afterPath="$PROJECT_DIR$/src/app/css/footer.styl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gulpfile.js" afterPath="$PROJECT_DIR$/gulpfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/header.css" afterPath="$PROJECT_DIR$/src/app/css/header.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/header/header.html" afterPath="$PROJECT_DIR$/src/app/js/views/header/header.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/header/header.jade" afterPath="$PROJECT_DIR$/src/app/js/views/header/header.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/header.styl" afterPath="$PROJECT_DIR$/src/app/css/header.styl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/home.css" afterPath="$PROJECT_DIR$/src/app/css/home.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/app/libs/html5shiv.js" afterPath="$PROJECT_DIR$/build/app/libs/html5shiv.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.html" afterPath="$PROJECT_DIR$/src/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/layout.css" afterPath="$PROJECT_DIR$/src/app/css/layout.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/map.css" afterPath="$PROJECT_DIR$/src/app/css/map.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/map.html" afterPath="$PROJECT_DIR$/src/app/js/views/map/map.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/map/map.jade" afterPath="$PROJECT_DIR$/src/app/js/views/map/map.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/map.styl" afterPath="$PROJECT_DIR$/src/app/css/map.styl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/report.css" afterPath="$PROJECT_DIR$/src/app/css/report.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/report/report.html" afterPath="$PROJECT_DIR$/src/app/js/views/report/report.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/js/views/report/report.jade" afterPath="$PROJECT_DIR$/src/app/js/views/report/report.jade" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/css/report.styl" afterPath="$PROJECT_DIR$/src/app/css/report.styl" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="2278-wri-oil-palm.4.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,19 +191,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="HashController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/modules/HashController.js">
+      <file leaf-file-name="ErrorController.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/js/modules/ErrorController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2890">
+            <state line="53" column="24" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.0" vertical-offset="565" max-vertical-offset="1122">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ErrorController.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/js/modules/ErrorController.js">
+      <file leaf-file-name="blog.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="1122">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="518">
               <folding />
             </state>
           </provider>
@@ -62,7 +223,7 @@
       <file leaf-file-name="Config.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/js/main/Config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="145" column="17" selection-start="4642" selection-end="4642" vertical-scroll-proportion="0.0" vertical-offset="2057" max-vertical-offset="2754">
+            <state line="151" column="17" selection-start="5299" selection-end="5299" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2856">
               <folding />
             </state>
           </provider>
@@ -95,10 +256,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="aboutTemplate.htm" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="aboutTemplate.htm" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/js/views/about/templates/aboutTemplate.htm">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527">
+            <state line="9" column="12" selection-start="183" selection-end="183" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="527">
               <folding />
             </state>
           </provider>
@@ -142,7 +303,6 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/src/app/js/views/blog/BlogController.js" />
-        <option value="$PROJECT_DIR$/src/app/js/views/blog/blog.html" />
         <option value="$PROJECT_DIR$/src/app/js/views/blog/BlogModel.js" />
         <option value="$PROJECT_DIR$/src/app/js/views/blog/blog.jade" />
         <option value="$PROJECT_DIR$/src/app/css/blog.styl" />
@@ -156,6 +316,7 @@
         <option value="$PROJECT_DIR$/src/app/js/views/footer/footer.html" />
         <option value="$PROJECT_DIR$/src/app/js/views/data/templates/dataAirQuality.htm" />
         <option value="$PROJECT_DIR$/src/app/js/main/Config.js" />
+        <option value="$PROJECT_DIR$/src/app/js/views/blog/blog.html" />
       </list>
     </option>
   </component>
@@ -339,6 +500,70 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="footer" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="2278-wri-oil-palm.4" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="blog.jade" />
+              <option name="myItemType" value="com.intellij.plugins.watcher.projectView.NestingTreeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -622,13 +847,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/footer/footer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="4.923077" vertical-offset="128" max-vertical-offset="986">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/views/data/templates/dataLandCover.htm">
       <provider selected="true" editor-type-id="text-editor">
         <state line="123" column="0" selection-start="7060" selection-end="7060" vertical-scroll-proportion="25.846153" vertical-offset="893" max-vertical-offset="1411">
@@ -667,13 +885,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/modules/HashController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2890">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/modules/ModelController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="536">
@@ -688,13 +899,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/modules/ErrorController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1122">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/main/Model.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867">
@@ -704,23 +908,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/main/Config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="145" column="17" selection-start="4642" selection-end="4642" vertical-scroll-proportion="0.0" vertical-offset="2057" max-vertical-offset="2754">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/views/about/templates/aboutGFW.htm">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/js/views/about/about.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="557">
           <folding />
         </state>
       </provider>
@@ -734,7 +924,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/js/views/about/templates/aboutTemplate.htm">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="536">
+        <state line="9" column="12" selection-start="183" selection-end="183" vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="527">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/main/Config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="151" column="17" selection-start="5299" selection-end="5299" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2856">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/about/about.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="557">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/modules/HashController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-2.5690298" vertical-offset="1377" max-vertical-offset="3077">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/modules/ErrorController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="24" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.0" vertical-offset="565" max-vertical-offset="1122">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/js/views/blog/blog.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
           <folding />
         </state>
       </provider>

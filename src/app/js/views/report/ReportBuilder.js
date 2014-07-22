@@ -266,7 +266,7 @@ define([
 
         queryCompanyConcessions: function() {
             var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.companyConcessionsId),
-                fields = ["Name", "GROUP_NAME", "fire_count", "TYPE"],
+                fields = ["Name", "fire_count", "TYPE"], //"GROUP_NAME"
                 deferred = new Deferred(),
                 query = new Query(),
                 time = new Date(),
@@ -291,10 +291,10 @@ define([
             query.orderByFields = ["fire_count DESC"];
 
             function buildTables(woodFiberFeatures, palmOilFeatures, loggingFeatures) {
-                var tableHeader = "<table class='fires-table'><tr><th>NAME</th><th>GROUP, AFFILIATE, OR MAIN BUYER</th><th>NUMBER OF FIRE ALERTS</th></tr>",
-                    woodTable = tableHeader + self.generateTableRows(woodFiberFeatures, fields.slice(0, 3)) + "</table>",
-                    palmTable = tableHeader + self.generateTableRows(palmOilFeatures, fields.slice(0, 3)) + "</table>",
-                    logTable = tableHeader + self.generateTableRows(loggingFeatures, fields.slice(0, 3)) + "</table>",
+                var tableHeader = "<table class='fires-table'><tr><th>NAME</th><th>NUMBER OF FIRE ALERTS</th></tr>", //<th>GROUP, AFFILIATE, OR MAIN BUYER</th>
+                    woodTable = tableHeader + self.generateTableRows(woodFiberFeatures, fields.slice(0, 2)) + "</table>",
+                    palmTable = tableHeader + self.generateTableRows(palmOilFeatures, fields.slice(0, 2)) + "</table>",
+                    logTable = tableHeader + self.generateTableRows(loggingFeatures, fields.slice(0, 2)) + "</table>",
                     noWoodFeatures = "There are no fire alerts in pulpwood concessions in the last 7 days.",
                     noPalmFeatures = "There are no fire alerts in palm oil concessions in the last 7 days.",
                     noLogFeatures = "There are no fire alerts in logging concessions in the last 7 days.";

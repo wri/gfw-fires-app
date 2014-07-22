@@ -43,15 +43,16 @@ body {
   width: 650px;
 }
 .map-container.small {
-  position: relative;
   height: 400px;
 }
 .map {
+  position: relative;
   height: 100%;
   width: 100%;
 }
 .legend-container {
   position: absolute;
+  font-size: 12px;
   z-index: 50;
   bottom: 5px;
   left: 5px;
@@ -60,6 +61,18 @@ body {
   border: 1px solid #000;
   height: 16px;
   width: 16px;
+}
+.legend-swatch-round {
+  border: 1px solid #fff;
+  border-radius: 35px;
+  height: 12px;
+  width: 12px;
+}
+.hc-fire {
+  background-color: #e16e20;
+}
+.oa-fire {
+  background-color: #fba730;
 }
 .legend-label {
   padding-left: 10px;

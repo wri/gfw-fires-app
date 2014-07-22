@@ -1,3 +1,6 @@
+footer-height = 350px
+
+
 .footerModes
 	text-align center
 	width 100%
@@ -11,7 +14,7 @@
 .footerWrapper .footerItem .desc
 	height 35px
 
-.footerWrapper .blogPosts, .footerWrapper .analysisAlerts, .footerWrapper .submitStory
+.footerWrapper .receiveAlerts, .footerWrapper .analysisAlerts, .footerWrapper .submitStory
     //top 0px
 	width 100%	
 	height 100%
@@ -32,7 +35,7 @@
 	margin 20px auto
 	width 134px
 
-.footerWrapper .blogPosts .icon
+.footerWrapper .receiveAlerts .icon
 	background-image url('../images/home-icons.png')
 	background-position 0px -740px
 	background-repeat no-repeat
@@ -64,6 +67,9 @@
 	color #FFF
 	text-decoration none
 
+.footerModes .receiveAlerts .action
+	cursor default
+
 .footerModesContainer
 	width 100%
 	height 300px
@@ -72,7 +78,7 @@
 .footerShareContainer
 	//background-color #464352
 	width 100%
-	height 180px
+	height footer-height
 
 .footerWrapper
 	width 100%
@@ -83,99 +89,123 @@
 
 .footerMovableWrapper
 	width 100%
-	height 180px	
+	height footer-height	
 	background-color #464352
 	color #FFF
 	clear both
 	bottom 0
+
+.fb-share-button
+	bottom 3px
+	left 10px
 	
 
 .footerMovableModes
-	height 180px
+	height footer-height
 	max-width 960px
 	width 100%
 	margin auto
 	background-color #464352
 	
-.footerMovableModes a
-	color #FFF
-	font-size 12px
+	a
+		color #FFF
+		font-size 12px
 
 
-.footerMovableModes .container-large
-	width 365px
-	height 100%
-	padding 0px
-	float left
+	.container-large
+		width 365px
+		height 100%
+		padding 0px
+		float left
 
-.footerMovableModes .container-large>div
-	padding 10px
+	.container-large>div
+		padding 10px
 
-.footerMovableModes .container-small
-	width 200px
-	height 100%	
-	padding 0px
-	float left
+	.container-small
+		width 200px
+		height 100%	
+		padding 0px
+		float left
 
-.footerMovableModes .container-small>div
-	padding 10px
-
-
-.footerMovableModes .about-project
-	color #B1AFB6
-	font-size 12px
-
-.footerMovableModes .about-project .title
-	font-weight bold
-	text-align center
-
-.footerMovableModes .wri-address
-	color #B1AFB6
-	font-size 12px
-
-.footerMovableModes .wri-address .title
-	font-weight bold
-
-.footerMovableModes .wri-address .wri-logo
-	font-weight bold
-	background url('../images/wri.png') no-repeat scroll 0% 0% transparent
-	height 31px
-	width 269px
-	display block
-	margin 10px 0px
+	.container-small>div
+		padding 10px
 
 
+	.about-project
+		color #B1AFB6
+		font-size 12px
 
-.footerMovableModes .share
-	color #FFF
+	.title
+		font-weight bold		
 
-.footerMovableModes .share .title
-	text-align center
-	font-family fira_sans_otmedium
-	font-weight 200
+	.wri-address
+		color #B1AFB6
+		font-size 12px
 
-.footerMovableModes .share-container
-	padding 10px 20px
-	border-radius 160px
-	background-color #FFF
-	margin 10px 0px
+	.wri-address .title
+		font-weight bold
 
-.fb-share-button
-	bottom 3px
-	left 10px
-
-
-.footerMovableModes .sign-up
-	margin 10px 0px
-
-.footerMovableModes .subscribe
-	margin 0px 5px
+	.wri-address .wri-logo
+		font-weight bold
+		background url('../images/wri.png') no-repeat scroll 0% 0% transparent
+		height 31px
+		width 269px
+		display block
+		margin 10px 0px
 
 
-.footerMovableModes .about-project .gfw-logo
-	background url('../images/monochromatic_gfw.jpg') no-repeat scroll 0% 0% transparent
-	text-align center
-	height 71px
-	display block
-	width 122px
-	margin 10px auto
+
+	.share
+		color #FFF
+
+	.share .title
+		font-family fira_sans_otmedium
+		font-weight 200
+
+	.share-container
+		padding 10px 20px
+		border-radius 160px
+		background-color #FFF
+		margin 10px 0px
+
+
+	.sign-up
+		margin 10px 0px
+
+	.subscribe
+		margin 0px 5px
+
+
+	.gfw-logo
+		background url('../images/monochromatic_gfw.jpg') no-repeat scroll 0% 0% transparent
+		text-align center
+		height 71px
+		display block
+		width 122px
+		margin 10px
+
+	.footer-logo
+		background url('../images/logos-from-gfw.png') no-repeat scroll 0% 0% transparent
+		display inline-block
+		vertical-align middle
+		margin 0px 38px 38px 0px
+		width 88px
+
+	.footer-logo.digital-globe
+			background url('../images/dg-globe.png') no-repeat scroll 0% 0% transparent		
+			background-position 0px 0px
+			height 28px
+
+	.footer-logo.esri
+			background-position 0px -654px
+			height 28px
+
+	.footer-logo.google
+			background-position 0px -734px
+			height 52px
+
+	.footer-logo.bpredd		
+			background url('../images/bpredd.png') no-repeat scroll 0% 0% transparent
+			background-position 0px 0px
+			height 57px
+			

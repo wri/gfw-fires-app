@@ -1,1 +1,1 @@
-define(["knockout","main/Config","dojo/dom"],function(n,i,o){var e={};e.vm={};var a=e.vm;return a.homeTitle=n.observable(i.homeTitle),e.applyBindings=function(i){n.applyBindings(a,o.byId(i))},e});
+define(["knockout","main/Config","dojo/dom"],function(o,n,e){var i={};i.vm={};var t=i.vm;return t.blogPost=o.observableArray([]),t.homeTitle=o.observable(n.homeTitle),i.applyBindings=function(n){o.applyBindings(t,e.byId(n))},t.getAllPost=function(){return i.vm.blogPost()[0].articles},i});

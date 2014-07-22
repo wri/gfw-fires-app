@@ -37,9 +37,11 @@ define([
     vm.fires24 = ko.observable(MapConfig.text.fires24);
     vm.none = ko.observable(MapConfig.text.none);
     vm.oilPalmCheckbox = ko.observable(MapConfig.text.oilPalmCheckbox);
+    vm.rspoOilPalmCheckbox = ko.observable(MapConfig.text.rspoOilPalmCheckbox);
     vm.woodFiberCheckbox = ko.observable(MapConfig.text.woodFiberCheckbox);
     vm.loggingCheckbox = ko.observable(MapConfig.text.loggingCheckbox);
     vm.protectedAreasCheckbox = ko.observable(MapConfig.text.protectedAreasCheckbox);
+    vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
     vm.primaryForestsRadio = ko.observable(MapConfig.text.primaryForestsRadio);
@@ -48,6 +50,7 @@ define([
     vm.treeCoverDensitySubLabel = ko.observable(MapConfig.text.treeCoverDensitySubLabel);
     vm.southeastLandCoverSubLabel = ko.observable(MapConfig.text.southeastLandCoverSubLabel);
     vm.forestUseCheckboxSubLabelSelect = ko.observable(MapConfig.text.forestUseCheckboxSubLabelSelect);
+    vm.rspoOilPalmCheckboxSubLabel = ko.observable(MapConfig.text.rspoOilPalmCheckboxSubLabel);
     vm.primaryForestsSubLabel = ko.observable(MapConfig.text.primaryForestsSubLabel);
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
     vm.airQuality = ko.observable(MapConfig.text.airQuality);
@@ -60,10 +63,19 @@ define([
     vm.windyLayerCheckbox = ko.observable(MapConfig.text.windyLayerCheckbox);
     vm.windySubLabelAdvice = ko.observable(MapConfig.text.windySubLabelAdvice);
     vm.windySubLabel = ko.observable(MapConfig.text.windySubLabel);
+    vm.provincesCheckbox = ko.observable(MapConfig.text.provincesCheckbox);
+    vm.districtsCheckbox = ko.observable(MapConfig.text.districtsCheckbox);
+    vm.subDistrictsCheckbox = ko.observable(MapConfig.text.subDistrictsCheckbox);
+    vm.villagesCheckbox = ko.observable(MapConfig.text.villagesCheckbox);
+    vm.pf2000Radio = ko.observable(MapConfig.text.pf2000Radio);
+    vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
+    vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
+    vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
+    vm.showPrimaryForestOptions = ko.observable(false);
     vm.showWindLegend = ko.observable(false);
     vm.showLatLongInputs = ko.observable(false);
     vm.showDMSInputs = ko.observable(true);

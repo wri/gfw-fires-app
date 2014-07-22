@@ -1,43 +1,41 @@
-define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array"],
-    function(hash, topic, lang, ioQuery, Config, arrayUtil) {
+define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array", "modules/EventsController"],
+    function(hash, topic, lang, ioQuery, Config, arrayUtil, EventsController) {
 
+        var url = window.location.href;
         var o = {};
+        var currentState = {};
+        o.newState = {};
 
-        //app states
-        o.oldState = {
-            v: ""
-        };
-        o.newState = {
-            v: ""
-        };
+        var emptyState = lang.clone(Config.defaultState); //take copy from defaultState and empty it
+
+        for (k in emptyState) {
+            emptyState[k] = "";
+        }
+
+        currentState = emptyState; //initially current state should be empty
 
         o.init = function() {
             var that = this;
-            //whats the current hash?
-            var url = window.location.href;
-            /*var initHash = "";
 
-            //is it a queryString?
-            var queryString = ioQuery.queryToObject(url);
-            var isQueryString = (url.split("?").length == 2);*/
-            var _newState;
+            var _initialState;
+
             var hasHash = (url.split("#").length == 2 && url.split("#")[1].length > 1);
 
             if (hasHash) {
-                _newState = ioQuery.queryToObject(url.split("#")[1]);
+                _initialState = ioQuery.queryToObject(url.split("#")[1]);
             } else {
-                _newState = Config.defaultState;
+                _initialState = Config.defaultState;
                 //state with
             }
 
-            //is _newState valid?
+            //is _initialState valid?
             if (hasHash) {
-                var isValidState = (_newState.v && (arrayUtil.indexOf(Config.validViews, _newState.v) > -1));
+                var isValidState = (_initialState.v && (arrayUtil.indexOf(Config.validViews, _initialState.v) > -1));
                 if (!isValidState) {
-                    _newState = Config.defaultState;
+                    _initialState = Config.defaultState;
                 } else {
                     //if valid then make it dirty so that it pushes a change
-                    !_newState.dirty ? _newState.dirty = "true" : delete _newState.dirty;
+                    !_initialState.dirty ? _initialState.dirty = "true" : delete _initialState.dirty;
                 }
             }
 
@@ -48,13 +46,15 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 //alert(changedHash);
 
                 var newAppState = ioQuery.queryToObject(changedHash);
-                var oldAppState = o.oldState;
+                var oldAppState = currentState;
 
                 that.handleHashChange(newAppState, oldAppState);
 
+
             });
 
-            that.updateHash(_newState);
+            //push the app state initially
+            that.updateHash(_initialState);
 
             require(["views/footer/FooterController", "views/header/HeaderController"], function(FooterController, HeaderController) {
                 FooterController.init();
@@ -70,12 +70,24 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             console.log(oldState);
             var that = this;
 
+            o.newState = newState;
+
             var changedView = oldState.v != newState.v;
+            var mapView = newState.v == "map";
+            var centerChange = ((oldState.x != newState.x) || (oldState.y != newState.y) || (oldState.y != newState.y));
 
+            //var centerChange = 
+
+            //handle different scenarios here
             if (changedView) {
-
                 that.changeView(newState.v, oldState.v);
             }
+
+            if (mapView && centerChange) {
+                EventsController.centerChange(newState);
+            }
+
+            currentState = newState; //important
 
         };
 
@@ -88,23 +100,18 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             //var updateState = ioQuery.queryToObject(newHash);
 
             //merge with current hash (newState)
-            var currentState = lang.clone(o.newState);
+            var _currentState = lang.clone(currentState);
 
-            lang.mixin(currentState, updateState);
+            lang.mixin(_currentState, updateState);
+            //debugger;
             require(["views/header/HeaderModel", "views/footer/FooterModel"], function(HeaderModel, FooterModel) {
-                //alert(currentState.v);
 
-                HeaderModel.vm.appState(currentState);
-                FooterModel.vm.appState(currentState);
+                HeaderModel.vm.appState(_currentState);
+                FooterModel.vm.appState(_currentState);
 
-                /*if (currentState.v == 'home') {
-                    HeaderModel.vm.showFullHeader(true);
-                } else {
-                    HeaderModel.vm.showFullHeader(false);
-                }*/
             });
 
-            var newHashStr = ioQuery.objectToQuery(currentState);
+            var newHashStr = ioQuery.objectToQuery(_currentState);
 
 
             console.log(newHashStr);
@@ -151,6 +158,10 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                     break;
             }
 
+        };
+
+        o.getHash = function () {
+            return ioQuery.queryToObject(hash());
         };
 
         //listen to hash change

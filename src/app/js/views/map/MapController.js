@@ -4,12 +4,14 @@ define([
     "dojo/dom",
     "dojo/query",
     "dojo/dom-construct",
+    "dojo/number",
     "dojo/dom-class",
     "dojo/_base/array",
     "dojo/_base/fx",
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
+    "esri/geometry/Point",
     "esri/dijit/BasemapGallery",
     "esri/dijit/Basemap",
     "esri/dijit/BasemapLayer",
@@ -21,6 +23,8 @@ define([
     "esri/layers/ArcGISImageServiceLayer",
     "esri/layers/ImageParameters",
     "esri/layers/FeatureLayer",
+    "esri/geometry/webMercatorUtils",
+    "esri/geometry/Extent",
     "esri/InfoTemplate",
     "esri/graphic",
     "esri/urlUtils",
@@ -32,12 +36,18 @@ define([
     "views/map/Finder",
     "utils/DijitFactory",
     "modules/EventsController",
-    "esri/layers/WMTSLayerInfo",
-    "esri/layers/WMTSLayer",
-    "esri/request"
-], function(on, dom, dojoQuery, domConstruct, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, InfoTemplate, Graphic, urlUtils, 
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, WMTSLayerInfo, WMTSLayer, esriRequest) {
+    "esri/request",
+    "esri/tasks/PrintTask",
+    "esri/tasks/PrintParameters",
+    "esri/tasks/PrintTemplate",
+    "views/map/DigitalGlobeTiledLayer",
+    "views/map/BurnScarTiledLayer",
+    "modules/HashController"
+
+], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
+    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController) {
 
     var o = {},
         initialized = false,
@@ -45,6 +55,8 @@ define([
             viewId: "mapView",
             viewName: "map"
         };
+
+    o.mapExtentPausable; //pausable
 
     o.init = function() {
         var that = this;
@@ -70,6 +82,37 @@ define([
         });
     };
 
+    o.centerChange = function() {
+        //alert("center change");
+        //alert(o.map);
+        //compare current center and change if different
+        if (!o.map) {
+            return; //map not initialized yet
+        }
+        var currentExtent = webMercatorUtils.webMercatorToGeographic(o.map.extent);
+        var x = number.round(currentExtent.getCenter().x, 2);
+        var y = number.round(currentExtent.getCenter().y, 2);
+        var l = o.map.getLevel();
+
+        var newState = HashController.newState;
+        var centerChangeByUrl = ((parseFloat(newState.x) != x) || (parseFloat(newState.y) != y) || (parseInt(newState.l) != l));
+
+        //alert(centerChangeByUrl + " " + newState.y + " " + newState.x);
+
+        if (centerChangeByUrl) {
+            o.mapExtentPausable.pause();
+            on.once(o.map, "extent-change", function() {
+                o.mapExtentPausable.resume();
+            });
+            var ptWM = webMercatorUtils.geographicToWebMercator(new Point(parseFloat(newState.x), parseFloat(newState.y)));
+            o.map.centerAndZoom(ptWM, parseInt(newState.l));
+        }
+
+
+
+
+    };
+
     o.addConfigurations = function() {
 
         var proxies = MapConfig.proxies;
@@ -85,10 +128,10 @@ define([
         }
 
         // Rule to Test Digital Globe Fires Url
-        // urlUtils.addProxyRule({
-        //     urlPrefix: 'https://services.digitalglobe.com/',
-        //     proxyUrl: 'http://rmbp/proxy/dg_proxy.php'
-        // });
+        urlUtils.addProxyRule({
+            urlPrefix: 'https://services.digitalglobe.com/',
+            proxyUrl: proxyUrl
+        });
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -114,22 +157,23 @@ define([
 
         // Add Dojo Dijits to Control Map Options
         DijitFactory.buildDijits(MapConfig.accordionDijits);
+        var hashX = HashController.newState.x;
+        var hashY = HashController.newState.y;
+        var hashL = HashController.newState.l;
 
         o.map = new Map("map", {
-            center: MapConfig.mapOptions.center,
+            center: [hashX, hashY], //MapConfig.mapOptions.center,
+            zoom: hashL, //MapConfig.mapOptions.initalZoom,
             basemap: MapConfig.mapOptions.basemap,
-            zoom: MapConfig.mapOptions.initalZoom,
             minZoom: MapConfig.mapOptions.minZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
         });
 
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
-
+            o.map.graphics.clear();
             // Resize Accordion
             registry.byId("fires-map-accordion").resize();
-
-            o.map.graphics.clear();
             WindyController.setMap(o.map);
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
@@ -137,7 +181,36 @@ define([
             self.bindEvents();
             self.addLayers();
             o.map.resize();
+
+            // Hack to get the correct extent set on load, this can be removed
+            // when the hash controller workflow is corrected
+            on.once(o.map,'update-end', function () {
+                o.map.centerAt(new Point(hashX, hashY)).then(function () {
+                    o.mapExtentPausable.resume();
+                });
+            });
         });
+
+        o.mapExtentPausable = on.pausable(o.map, "extent-change", function(e) {
+
+            var delta = e.delta;
+            var extent = webMercatorUtils.webMercatorToGeographic(e.extent);
+            var levelChange = e.levelChange;
+            var lod = e.lod;
+            var map = e.target;
+
+            var x = number.round(extent.getCenter().x, 2);
+            var y = number.round(extent.getCenter().y, 2);
+
+            HashController.updateHash({
+                x: x,
+                y: y,
+                l: lod.level
+            });
+
+        });
+
+        o.mapExtentPausable.pause();
 
     };
 
@@ -298,21 +371,49 @@ define([
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
         });
 
+        on(registry.byId("air-quality-checkbox"), "change", function(value) {
+            LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
+        });
+
+        on(registry.byId("burned-scars-checkbox"), "change", function (value) {
+            LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
+        });
+
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
         });
 
-        registry.byId("windy-layer-checkbox").on('change', function (checked) {
+        registry.byId("windy-layer-checkbox").on('change', function(checked) {
             WindyController.toggleWindLayer(checked);
         });
 
-        registry.byId("digital-globe-checkbox").on('change', function (checked) {
+        registry.byId("digital-globe-checkbox").on('change', function(checked) {
             LayerController.toggleDigitalGlobeLayer(checked);
+        });
+
+        registry.byId("provinces-checkbox").on('change', function() {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("districts-checkbox").on('change', function() {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("subdistricts-checkbox").on('change', function() {
+            LayerController.adjustOverlaysLayer();
+        });
+
+        registry.byId("villages-checkbox").on('change', function() {
+            LayerController.adjustOverlaysLayer();
         });
 
         on(dom.byId("search-option-go-button"), "click", function() {
             Finder.searchAreaByCoordinates();
+        });
+
+        on(dom.byId("print-button"), "click", function() {
+            self.printMap();
         });
 
         on(dom.byId("report-link"), "click", function() {
@@ -358,7 +459,9 @@ define([
         });
 
         dojoQuery("#land-cover-panel div.checkbox-container div input").forEach(function(node) {
-            domClass.add(node, "land-cover-layers-option");
+            if (node.name === 'land-cover-radios') {
+                domClass.add(node, "land-cover-layers-option");
+            }
         });
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
@@ -376,9 +479,14 @@ define([
         });
 
         dojoQuery(".land-cover-layers-option").forEach(function(node) {
+            on(node, "change", function(evt) {
+                LayerController.updateLandCoverLayers(evt);
+            });
+        });
+
+        dojoQuery("#primary-forests-options input").forEach(function(node) {
             on(node, "change", function() {
-                //Params are, class to Query to find which layers are checked on or off, and config object for the layer
-                LayerController.updateAdditionalVisibleLayers("land-cover-layers-option", MapConfig.landCoverLayers);
+                LayerController.updatePrimaryForestsLayer(true); // The True is to keep it visible
             });
         });
 
@@ -388,15 +496,23 @@ define([
 
         var conservationParams,
             conservationLayer,
+            // burendAreaParams,
+            // burnedScarLayer,
+            primaryForestsParams,
+            primaryForestsLayer,
             digitalGlobeLayer,
             landCoverParams,
             landCoverLayer,
+            airQualityLayer,
             forestUseParams,
             forestUseLayer,
             treeCoverLayer,
+            overlaysLayer,
+            burnScarLayer,
             landSatLayer,
             firesParams,
-            firesLayer;
+            firesLayer,
+            self = this;
 
         conservationParams = new ImageParameters();
         conservationParams.format = "png32";
@@ -409,6 +525,17 @@ define([
             visible: false
         });
 
+        // burendAreaParams = new ImageParameters();
+        // burendAreaParams.format = "png32";
+        // burendAreaParams.layerIds = MapConfig.burnedAreaLayers.defaultLayers;
+        // burendAreaParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        // burnedScarLayer = new ArcGISDynamicMapServiceLayer(MapConfig.burnedAreaLayers.url, {
+        //     imageParameters: burendAreaParams,
+        //     id: MapConfig.burnedAreaLayers.id,
+        //     visible: false
+        // });
+
         landCoverParams = new ImageParameters();
         landCoverParams.format = "png32";
         landCoverParams.layerIds = MapConfig.landCoverLayers.defaultLayers;
@@ -417,7 +544,7 @@ define([
         landCoverLayer = new ArcGISDynamicMapServiceLayer(MapConfig.landCoverLayers.url, {
             imageParameters: landCoverParams,
             id: MapConfig.landCoverLayers.id,
-            visible: true
+            visible: false
         });
 
         forestUseParams = new ImageParameters();
@@ -436,7 +563,13 @@ define([
             visible: false
         });
 
-        primaryForestsLayer = new ArcGISImageServiceLayer(MapConfig.primaryForestsLayer.url, {
+        primaryForestsParams = new ImageParameters();
+        primaryForestsParams.format = "png32";
+        primaryForestsParams.layerIds = MapConfig.primaryForestsLayer.defaultLayers;
+        primaryForestsParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        primaryForestsLayer = new ArcGISDynamicMapServiceLayer(MapConfig.primaryForestsLayer.url, {
+            imageParameters: primaryForestsParams,
             id: MapConfig.primaryForestsLayer.id,
             visible: false
         });
@@ -451,6 +584,18 @@ define([
             visible: false
         });
 
+        overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
+            id: MapConfig.overlaysLayer.id,
+            visible: false
+        });
+
+        airQualityLayer = new ArcGISDynamicMapServiceLayer(MapConfig.airQualityLayer.url, {
+            id: MapConfig.airQualityLayer.id,
+            visible: false
+        });
+
+        burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
+
         firesParams = new ImageParameters();
         firesParams.format = "png32";
         firesParams.layerIds = MapConfig.firesLayer.defaultLayers;
@@ -459,7 +604,7 @@ define([
         firesLayer = new ArcGISDynamicMapServiceLayer(MapConfig.firesLayer.url, {
             imageParameters: firesParams,
             id: MapConfig.firesLayer.id,
-            visible: true
+            visible: false
         });
 
         var tweet_infotemplate = new InfoTemplate();
@@ -481,12 +626,22 @@ define([
             forestUseLayer,
             conservationLayer,
             digitalGlobeLayer,
+            burnScarLayer,
+            overlaysLayer,
+            airQualityLayer,
             firesLayer,
             tweetLayer
         ]);
 
         // Update the Legend when all layers are added
         on.once(o.map, 'layers-add-result', function(response) {
+
+            // This turns on all the layers present in the hash,
+            // All layers are turned off onload, by default Fires and Land Cover will be turned on from hash
+            // Unless hash values are different
+
+            self.enableLayersFromHash();
+
             var layerInfos = arrayUtils.map(response.layers, function(item) {
                 return {
                     layer: item.layer
@@ -498,56 +653,26 @@ define([
             registry.byId("legend").refresh(layerInfos);
         });
 
+        // Set the default layer ordering for Overlays Layer
+        overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
+
+        burnScarLayer.on('error', this.layerAddError);
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
+        primaryForestsLayer.on('error', this.layerAddError);
         conservationLayer.on('error', this.layerAddError);
         landCoverLayer.on('error', this.layerAddError);
+        overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
+        // Testing
 
-        // TESTING
-        // var test = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f';
+        // var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
 
-        // var info = new WMTSLayerInfo({
-        //     identifier: 'DigitalGlobe:ImageryTileService',
-        //     tileMatrixSet: 'EPSG: 4326', //EPSG:3857:11
-        //     format: 'image/jpeg',
-        //     style: "_null"
-        // });
-
-        // WMTSLayer.prototype._getCapabilities = function () {
-        //   esriRequest.setRequestPreCallback(function (ioArgs) {
-        //     if (ioArgs.url.search('WMTSCapabilities.xml') > -1) {
-        //       //ioArgs.url = 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities';
-        //     }
-        //     return ioArgs;
-        //   });
-        //   var self = this;
-        //   esriRequest({
-        //       url: 'https://services.digitalglobe.com/earthservice/wmtsaccess/1.0.0/WMTSCapabilities.xml?connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f&REQUEST=GetCapabilities',
-        //       handleAs: "text",
-        //       load: function () {
-        //         console.dir(arguments);
-        //         self._parseCapabilities(arguments);
-        //       },
-        //       error: self._getCapabilitiesError
-        //   }, {useProxy: false});
-        // };
-
-        // var WMTS = new WMTSLayer(test, {
-        //     layerInfo: info
-        // });
+        // var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
 
         // o.map.addLayer(WMTS);
-
-        // WMTS.on('load', function () {
-            
-        // });
-
-        // WMTS.on('error', function (err) {
-        //     console.error(err);
-        // });
 
     };
 
@@ -566,6 +691,73 @@ define([
         LayerController.updateFiresLayer();
     };
 
+    o.enableLayersFromHash = function() {
+
+        var hash = HashController.getHash(),
+            layers = hash.lyrs,
+            layersArray = layers.split(":"),
+            layersToWidgets = MapConfig.layersCheckboxes,
+            layerComponents,
+            widgetId,
+            layerObj,
+            layerIds;
+
+        function useDefaults() {
+            registry.byId('fires-checkbox').set('checked', true);
+            registry.byId('peat-lands-radio').set('checked', true);
+            on.emit(dom.byId('peat-lands-radio'), 'change', {});
+            LayerController.updateLayersInHash('add', MapConfig.firesLayer.id, MapConfig.firesLayer.id);
+            LayerController.updateLayersInHash('add', MapConfig.landCoverLayers.id, MapConfig.landCoverLayers.id + "/1");
+        }
+
+        function turnOnLayers(id, layerNums) {
+
+            if (id === undefined || id === '') {
+                return;
+            }
+
+            if (layerNums === undefined) {
+                widgetId = layersToWidgets[id].id;
+                if (registry.byId(widgetId)) {
+                    registry.byId(widgetId).set('checked', true);
+                    if (layersToWidgets[id].type === 'radio') {
+                        on.emit(dom.byId(widgetId), 'change', {});
+                    }
+                }
+            } else {
+                layerObj = layersToWidgets[id];
+                layerIds = layerNums.split(",");
+                for (var i = 0, len = layerIds.length; i < len; i++) {
+                    widgetId = layerObj[layerIds[i]].id;
+                    if (registry.byId(widgetId)) {
+                        registry.byId(widgetId).set('checked', true);
+                        if (layerObj[layerIds[i]].type === 'radio') {
+                            on.emit(dom.byId(widgetId), 'change', {});
+                        }
+                    }
+                }
+            }
+        }
+
+        // If nothing is specified, something went wrong, use these defaults
+        if (layers === undefined) {
+            useDefaults();
+            return;
+        }
+
+        // If the lyrs hash is empty, something went wrong, use these defaults
+        if (layersArray.length === 1 && layersArray[0] === '') {
+            useDefaults();
+            return;
+        }
+
+        for (var index = 0, length = layersArray.length; index < length; index++) {
+            layerComponents = layersArray[index].split('/');
+            turnOnLayers(layerComponents[0], layerComponents[1]);
+        }
+
+    };
+
     o.clearSearchPins = function() {
         o.map.graphics.clear();
         MapModel.set('showClearPinsOption', false);
@@ -573,7 +765,7 @@ define([
 
     o.toggleLegend = function() {
         var node = dom.byId("legend-widget-container"),
-            height = node.offsetHeight - 2 === 200 ? 30 : 200; //added border, has to have - 2 to get correct height
+            height = node.offsetHeight - 2 === 280 ? 30 : 280; //added border, has to have - 2 to get correct height
 
         Fx.animateProperty({
             node: node,
@@ -589,6 +781,42 @@ define([
             domClass.remove("legend-widget-title", "legend-closed");
         }
 
+    };
+
+    o.printMap = function() {
+        var printTask = new PrintTask(MapConfig.printOptions.url),
+            template = new PrintTemplate(),
+            params = new PrintParameters(),
+            popupBlockerMsg = 'You need to disable your pop-up blocker to see the printed map.',
+            success,
+            fail;
+
+        // Configure Print Template
+        template.format = "png32";
+        template.layout = MapConfig.printOptions.template;
+        template.showAttribution = false;
+        template.preserveScale = false;
+
+        params.map = o.map;
+        //params.template = template;
+
+        success = function(res) {
+            var redirect = window.open(res.url, '_blank');
+            domClass.remove('print-button', 'loading');
+            if (redirect === null || typeof(redirect) === undefined || redirect === undefined) {
+                alert(popupBlockerMsg);
+            }
+        };
+
+        fail = function(err) {
+            domClass.remove('print-button', 'loading');
+            console.error(err);
+        };
+
+        // Change Background image of Print Button to be the loading wheel, TEMP, toggle html
+        domClass.add('print-button', 'loading');
+
+        printTask.execute(params, success, fail);
     };
 
     return o;

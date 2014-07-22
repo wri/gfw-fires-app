@@ -25,7 +25,7 @@ define([
                 latitude, longitude,
                 invalidValue = false,
                 invalidMessage = "You did not enter a valid value.  Please check that your location values are all filled in and nubmers only.",
-                symbol = new PictureSymbol('app/images/RedStickPin.png', 32, 32),
+                symbol = new PictureSymbol('app/images/RedStickpin.png', 32, 32),
                 attributes = {},
                 point,
                 graphic,
@@ -134,7 +134,7 @@ define([
                             content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
                             content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
                             content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                            content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
+                            //content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
                             content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
                             content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
                             content += "<tr><td>Certificate ID</td><td>" + node.feature.attributes.Certificat + "</td></tr>";
@@ -156,7 +156,7 @@ define([
                             content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
                             content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
                             content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                            content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
+                            //content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
                             content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
                             content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
                         }
@@ -177,7 +177,7 @@ define([
         },
 
 
-        getActiveFiresInfoWindow: function(event) {            
+        getActiveFiresInfoWindow: function(event) {
 
             var qconfig = MapConfig.firesLayer,
                 _self = this,
@@ -188,35 +188,50 @@ define([
                 executeReturned = true,
                 node = dojoQuery(".selected-fire-option")[0],
                 time = new Date(),
+                today = new Date(),
+                todayString = '',
                 dateString = '',
                 defs = [];
 
+            // If the layer is not visible, then dont show it
+            if (!_map.getLayer(qconfig.id).visible) {
+                _self.mapClick(event);
+                return;
+            }
+
             switch (node.id) {
                 case "fires72":
-                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 3);
+                    time.setDate(time.getDate() - 4);
+                    today.setDate(today.getDate() - 3);
                     break;
-
                 case "fires48":
-                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 2);
+                    time.setDate(time.getDate() - 3);
+                    today.setDate(today.getDate() - 2);
                     break;
-
                 case "fires24":
-                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 1);
+                    time.setDate(time.getDate() - 2);
+                    today.setDate(today.getDate() - 1);
                     break;
                 default:
-                    time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 7);
+                    time.setDate(time.getDate() - 8);
+                    today.setDate(today.getDate() - 7);                    
                     break;
             }
 
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 
+            todayString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + (today.getDate()) + " " +
+                today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+            // defs needs to be (date > dateString and time > hhmm) or date > todayString
             for (var i = 0, len = MapConfig.firesLayer.defaultLayers.length; i < len; i++) {
-                defs[i] = "ACQ_DATE > date '" + dateString + "'";
+                defs[i] = "(ACQ_DATE > date '" + dateString + "' AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" + 
+                          " OR  ACQ_DATE > date '" + todayString + "'";
             }
 
             iparams.geometry = point;
-            iparams.tolerance = 1;
+            iparams.tolerance = 3;
             iparams.returnGeometry = false;
             iparams.layerDefinitions = defs;
             iparams.mapExtent = _map.extent;
@@ -239,20 +254,16 @@ define([
                     map.infoWindow.setContent(content);
                     // map.infoWindow.setTitle("Title");
                     map.infoWindow.show(point);
-                    on.once(dom.byId("closePopup"), "click", function() {
-                        map.infoWindow.hide();
-                    });
                 } else {
                     _self.mapClick(event);
                 }
             }, function(err) {
-                console.log(err);
                 _self.mapClick(event);
             });
         },
 
         getFireTweetsInfoWindow: function(evt) {
-            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT"
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
             var attr = evt.attributes;
             var html = "<table><tr><td>";
             html += "<td><img src='" + attr.UserProfileImage + "'/></td>";

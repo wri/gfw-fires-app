@@ -4,10 +4,10 @@
     'use strict';
     var ENV = 'dev',
         version = "0.1.0",
-        src = 'http://js.arcgis.com/3.9/',
+        src = 'http://js.arcgis.com/3.10/',
         css = {
             'dev': [{
-                src: 'http://js.arcgis.com/3.9/js/esri/css/esri.css',
+                src: 'http://js.arcgis.com/3.10/js/esri/css/esri.css',
                 cdn: true
             }, {
                 src: 'app/css/app.css',
@@ -23,7 +23,7 @@
                 cdn: true
             }],
             'pro': [{
-                src: 'http://js.arcgis.com/3.9/js/esri/css/esri.css',
+                src: 'http://js.arcgis.com/3.10/js/esri/css/esri.css',
                 cdn: true
             }, {
                 src: 'app/css/app.css',

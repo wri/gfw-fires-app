@@ -17,8 +17,20 @@ div#map-view(class="map-view")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
 						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
-					div#noaa-fires-18
-					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
+					div(class="checkbox-container")
+						div#burned-scars-checkbox
+						label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+					div(class="checkbox-container")
+						div#noaa-fires-18
+						label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" class="disabled")
+			//- div#burned-area-panel(class='accordion-panel')
+			//- 	div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+			//- 	div(class="slider-container")
+			//- 		div#burned-area-transparency-slider
+			//- 	div(class="checkbox-container")
+			//- 		div#burned-scars-checkbox
+			//- 		label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+			//- 		span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
 			div#forest-use-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
@@ -27,6 +39,10 @@ div#map-view(class="map-view")
 					div#oil-palm-checkbox
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#rspo-oil-palm-checkbox
+					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
+					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#wood-fiber-checkbox
 					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
@@ -66,6 +82,20 @@ div#map-view(class="map-view")
 					div#primary-forests-radio
 					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
+				div#primary-forests-options(data-bind="visible: showPrimaryForestOptions()")
+					div(class="checkbox-container inline")
+						div#pf2000-radio
+						label(for="pf2000-radio", data-bind="text: pf2000Radio")
+					div(class="checkbox-container inline")
+						div#pf2005-radio
+						label(for="pf2005-radio", data-bind="text: pf2005Radio")
+					div(style='clear: both;')
+					div(class="checkbox-container inline")
+						div#pf2010-radio
+						label(for="pf2010-radio", data-bind="text: pf2010Radio")
+					div(class="checkbox-container inline")
+						div#pf2012-radio
+						label(for="pf2012-radio", data-bind="text: pf2012Radio")
 			div#air-quality-panel(class='accordion-panel')
 				div(class='checkbox-container')
 					div#windy-layer-checkbox
@@ -79,7 +109,7 @@ div#map-view(class="map-view")
 							span.rightWindLabel > 40 m/s
 				div(class='checkbox-container')
 					div#air-quality-checkbox
-					label(class="coming-soon-label", data-bind="text: airQuality")
+					label(for="air-quality-checkbox", data-bind="text: airQuality")
 			div#imagery-panel(class='accordion-panel')
 				div(class="checkbox-container")
 					div#digital-globe-checkbox
@@ -112,6 +142,7 @@ div#map-view(class="map-view")
 			div#locator-widget-button(class="locator-widget-button")
 			div#basemap-gallery-button(class="basemap-gallery-button")
 			div#share-button(class="share-button")
+			div#print-button(class="print-button")
 			div#locator-linker(class="locator-linker modal-link", data-bind="visible: showLocatorWidgets()")
 			div#locator-widget-container(class="locator-widget-container", data-bind="visible: showLocatorWidgets()")
 				div#locator-container-header(class="locator-container-header", data-bind="text: locatorContainerHeader")
@@ -164,6 +195,21 @@ div#map-view(class="map-view")
 						div#search-option-go-button(class="search-option-go-button", data-bind="text: searchOptionGoButton")
 			div#basemap-linker(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
 			div#basemap-gallery-container(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
+				div(class='basemap-container-labels') Overlays
+				div(class='overlays-checkboxes')
+					div(class="checkbox-container")
+						div#provinces-checkbox
+						label(for="provinces-checkbox", data-bind="text: provincesCheckbox")
+					div(class="checkbox-container")
+						div#districts-checkbox
+						label(for="districts-checkbox", data-bind="text: districtsCheckbox")
+					div(class="checkbox-container")
+						div#subdistricts-checkbox
+						label(for="subdistricts-checkbox", data-bind="text: subDistrictsCheckbox")
+					div(class="checkbox-container")
+						div#villages-checkbox
+						label(for="villages-checkbox", data-bind="text: villagesCheckbox")
+				div(class='basemap-container-labels') Basemaps
 				div#basemap-gallery(class="basemap-gallery")
 			div#share-linker(data-bind="visible: showShareContainer()" class="share-linker modal-link")
 			div#share-container(data-bind="visible: showShareContainer()" class="map-share-container")

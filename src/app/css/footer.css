@@ -11,7 +11,7 @@
 .footerWrapper .footerItem .desc {
   height: 35px;
 }
-.footerWrapper .blogPosts,
+.footerWrapper .receiveAlerts,
 .footerWrapper .analysisAlerts,
 .footerWrapper .submitStory {
   width: 100%;
@@ -33,7 +33,7 @@
   margin: 20px auto;
   width: 134px;
 }
-.footerWrapper .blogPosts .icon {
+.footerWrapper .receiveAlerts .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -740px;
   background-repeat: no-repeat;
@@ -64,6 +64,9 @@
   color: #fff;
   text-decoration: none;
 }
+.footerModes .receiveAlerts .action {
+  cursor: default;
+}
 .footerModesContainer {
   width: 100%;
   height: 300px;
@@ -71,7 +74,7 @@
 }
 .footerShareContainer {
   width: 100%;
-  height: 180px;
+  height: 350px;
 }
 .footerWrapper {
   width: 100%;
@@ -82,14 +85,18 @@
 }
 .footerMovableWrapper {
   width: 100%;
-  height: 180px;
+  height: 350px;
   background-color: #464352;
   color: #fff;
   clear: both;
   bottom: 0;
 }
+.fb-share-button {
+  bottom: 3px;
+  left: 10px;
+}
 .footerMovableModes {
-  height: 180px;
+  height: 350px;
   max-width: 960px;
   width: 100%;
   margin: auto;
@@ -121,9 +128,8 @@
   color: #b1afb6;
   font-size: 12px;
 }
-.footerMovableModes .about-project .title {
+.footerMovableModes .title {
   font-weight: bold;
-  text-align: center;
 }
 .footerMovableModes .wri-address {
   color: #b1afb6;
@@ -144,7 +150,6 @@
   color: #fff;
 }
 .footerMovableModes .share .title {
-  text-align: center;
   font-family: fira_sans_otmedium;
   font-weight: 200;
 }
@@ -154,21 +159,42 @@
   background-color: #fff;
   margin: 10px 0px;
 }
-.fb-share-button {
-  bottom: 3px;
-  left: 10px;
-}
 .footerMovableModes .sign-up {
   margin: 10px 0px;
 }
 .footerMovableModes .subscribe {
   margin: 0px 5px;
 }
-.footerMovableModes .about-project .gfw-logo {
+.footerMovableModes .gfw-logo {
   background: url("../images/monochromatic_gfw.jpg") no-repeat scroll 0% 0% transparent;
   text-align: center;
   height: 71px;
   display: block;
   width: 122px;
-  margin: 10px auto;
+  margin: 10px;
+}
+.footerMovableModes .footer-logo {
+  background: url("../images/logos-from-gfw.png") no-repeat scroll 0% 0% transparent;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0px 38px 38px 0px;
+  width: 88px;
+}
+.footerMovableModes .footer-logo.digital-globe {
+  background: url("../images/dg-globe.png") no-repeat scroll 0% 0% transparent;
+  background-position: 0px 0px;
+  height: 28px;
+}
+.footerMovableModes .footer-logo.esri {
+  background-position: 0px -654px;
+  height: 28px;
+}
+.footerMovableModes .footer-logo.google {
+  background-position: 0px -734px;
+  height: 52px;
+}
+.footerMovableModes .footer-logo.bpredd {
+  background: url("../images/bpredd.png") no-repeat scroll 0% 0% transparent;
+  background-position: 0px 0px;
+  height: 57px;
 }

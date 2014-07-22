@@ -1,1 +1,1 @@
-define(["esri/request"],function(){var n={};return n.init=function(){},n.load_feed=function(){},n});
+define(["esri/request","dojo/io/script","dojo/request/xhr","dojo/Deferred"],function(e,o,r,t){var n={};return n.init=function(){},n.load_feed=function(){var o=new t,r="http://gis-potico.wri.org/blogs/fireblog.txt",i=e({url:r,handleAs:"text"},{useProxy:!0});return i.then(function(e){n.response=e,o.resolve(e)}),o.promise},n});

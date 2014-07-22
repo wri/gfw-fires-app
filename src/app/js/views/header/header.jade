@@ -3,11 +3,12 @@ div.headerTitleContainer(data-bind="visible: (appState().v!='map')")
 	div.headerTitle(data-bind="html:headerTitle")
 div.navContainer
 	div.headerSeparator(data-bind="visible: (appState().v=='home')")
+	div#google_translate_element.google_translate_element
 	div.navigationLinks
 		ul.navList(data-bind="foreach:navigationLinks")
 			li.navItem(data-bind="css:{selected:selected},click:$root.clickNavLink")
 				a(data-bind="html:html")
 	div#logo.logo
+	span#betaTag.betaTag BETA VERSION
 div.headerDescContainer(data-bind="visible: (appState().v=='home')")
 	div.headerDesc(data-bind="html:headerDesc")
-

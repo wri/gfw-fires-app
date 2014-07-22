@@ -34,16 +34,13 @@
 }
 .HomeButton .home {
   padding: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
 }
 .locator-widget-button,
 .basemap-gallery-button,
-.share-button {
+.share-button,
+.print-button {
   padding: 1px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
   cursor: pointer;
@@ -52,8 +49,6 @@
   right: 20px;
   z-index: 50;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
-  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
-  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 #map .esriSimpleSlider {
   border: 0;
@@ -70,20 +65,15 @@
   background: #fff;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
   margin-bottom: 2px;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
-  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
-  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover,
 .HomeButton .home:hover,
 .share-button:hover,
 .locator-widget-button:hover,
-.basemap-gallery-button:hover {
+.basemap-gallery-button:hover,
+.print-button:hover {
   background-color: #eee !important;
 }
 .basemap-gallery-button,
@@ -100,10 +90,7 @@
 #map .HomeButton .home {
   padding: 1px;
   background-color: #fff;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
   border-radius: 0;
-  -moz-border-radius: 0;
   -webkit-border-radius: 0;
   background-image: url("../images/ico-home.png");
 }
@@ -113,14 +100,8 @@
   background: #fff;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  -moz-border-radius-bottomleft: 5px;
-  -moz-border-radius-bottomright: 5px;
-  -webkit-border-bottom-left-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
   margin-bottom: 1px;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
-  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
-  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 .modal-link {
   background-color: #fff;
@@ -153,8 +134,6 @@
 .locator-widget-container,
 .map-share-container {
   background-color: #fff;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
   width: 300px;
@@ -173,12 +152,30 @@
 .basemap-gallery-container {
   overflow-y: auto;
 }
+.basemap-container-labels {
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 10px;
+}
 .share-linker {
   top: 210px;
 }
 .share-button {
-  background: url("../images/ico-share.png") no-repeat center #fff;
+  background: url("../images/share-icon.png") no-repeat #fff;
+  background-position: -2px -35px;
   top: 210px;
+}
+.print-button {
+  background: url("../images/print-icon.png") no-repeat #fff;
+  background-position: -1px -35px;
+  text-align: center;
+  line-height: 30px;
+  top: 250px;
+}
+.print-button.loading {
+  background: url("../images/loader.gif") no-repeat center #fff;
 }
 .locator-line-splitter {
   text-align: center;
@@ -250,8 +247,6 @@
 .search-option-go-button {
   background-color: #444;
   display: inline-block;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   font-weight: bold;
   margin: 10px auto;
@@ -285,15 +280,12 @@
 }
 .legend-widget-container {
   background-color: #fff;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
   position: absolute;
   overflow: hidden;
   cursor: pointer;
-  height: 200px;
+  font-size: 12px;
+  height: 280px;
   width: 250px;
   z-index: 50;
   right: 20px;
@@ -326,7 +318,7 @@
   margin-left: 5px;
 }
 .legend-content {
-  height: 170px;
+  height: 250px;
   width: 100%;
 }
 #legend {
@@ -380,8 +372,6 @@
 }
 .latLongHUD {
   background-color: rgba(255,255,255,0.4);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   position: absolute;
   font-size: 15px;
@@ -393,7 +383,11 @@
   padding: 10px;
 }
 .accordion-panel .slider-container {
+  width: 250px;
   margin: 20px;
+}
+.slider-container .dijitSlider {
+  width: 100%;
 }
 .transparency-slider-label {
   font-size: 11px;
@@ -404,8 +398,6 @@
   padding: 2px 4px;
 }
 .report-link-container {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   background-color: #e7002f;
   position: absolute;
@@ -451,8 +443,6 @@
   width: 8px;
   margin-top: 2px;
   background: #fff url("");
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
   border-radius: 8px;
 }
 #control-panel label {
@@ -478,7 +468,8 @@
   background: rgba(0,0,0,0);
   border-width: 0;
 }
-#control-panel .dijitCheckBox {
+#control-panel .dijitCheckBox,
+#basemap-gallery-container .dijitCheckBox {
   appearance: none;
   background: #fff;
   width: 16px;
@@ -496,7 +487,8 @@
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
-#control-panel .dijitCheckBoxChecked {
+#control-panel .dijitCheckBoxChecked,
+#basemap-gallery-container .dijitCheckBoxChecked {
   background: url("../images/ico-checkmark.png") 50% 50% no-repeat #898989;
   border: 1px solid #898989;
   border-image-source: initial;
@@ -506,8 +498,6 @@
   border-image-repeat: initial;
 }
 #control-panel input[type="radio"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   background-image: url("../images/checkmark.png");
   background-position: -110px;
   background-repeat: no-repeat;
@@ -521,6 +511,7 @@
 }
 .close-icon {
   position: absolute;
+  z-index: 1;
   right: 10px;
   top: 10px;
   height: 15px;
@@ -557,6 +548,15 @@
   left: 50%;
   top: 50%;
 }
+#primary-forests-options {
+  margin: 0 20px;
+}
+#primary-forests-options label {
+  font-weight: normal;
+}
+#primary-forests-options .inline {
+  display: inline-block;
+}
 #windLegendLabels {
   margin: 0 25px;
   font-size: 10px;
@@ -570,11 +570,5 @@
   float: right;
 }
 .windLayerLegendColorRamp {
-  background: -moz-linear-gradient(left, rgba(0,255,255,.5) 0%, rgba(255,30,219,.5) 100%); /* FF3.6+ */
-  background -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,255,255,.5)), color-stop(100%,rgba(255,30,219,.5))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,0.5) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(left, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* IE10+ */
-  background: linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffff', endColorstr='#FF1EDBff',GradientType=1 ); /* IE6-9 */
+  background: linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
 }

@@ -4,10 +4,14 @@ define([],
         var o = {
 
             defaultState: {
-                v: "home"
+                v: "home",
+                x: 115,
+                y: 0,
+                l: 5,
+                lyrs: 'Active_Fires:Land_Cover/1'
             },
 
-            validViews: ["home", "blog", "map", "about"],
+            validViews: ["home", "blog", "map", "about", "data"],
 
 
 
@@ -76,11 +80,11 @@ define([],
             footerModeOptions: [
 
                 {
-                    "title": "Read The Latest",
-                    "desc": "Read our latest blog analysis on what's happening with fires in the region",
-                    "action": "Read Recent Blog Posts",
-                    "eventName": "goToBlog",
-                    "css": "blogPosts",
+                    "title": "Receive Fire Alerts",
+                    "desc": "Sign up for emails alerting you of new fires in your area of interest.",
+                    "action": "Coming Soon",
+                    "eventName": "subscribeToAlerts",
+                    "css": "receiveAlerts",
                     "url": false
                 }, {
                     "title": "Analyze Forest Fires",
@@ -133,6 +137,8 @@ define([],
 
             ],
 
+            dataHeaderDescription: "Data sources Global Forest Watch hosts a wealth of data relating to forests. Some data have been developed by WRI or by GFW partner organizations. Other data are in the public domain and have been developed by governments, NGOs, and companies. The data vary in accuracy, resolution, frequency of update, and geographic coverage. The summaries below include links to further information such as methods and technical documents. Full download of the data sets is available for most sources.",
+
             aboutLinks: [
 
                 {
@@ -148,7 +154,7 @@ define([],
             ]
 
 
-        }
+        };
 
 
 

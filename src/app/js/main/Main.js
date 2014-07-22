@@ -15,7 +15,7 @@ define([
 
     var map;
 
-    var o = {}
+    var o = {};
 
 
     o.init = function() {
@@ -43,10 +43,10 @@ define([
                 //BlockController.show("aboutView");
                 //BlockController.hide("aboutView");
 
-            })
+            });
 
 
-    }
+    };
 
 
 
