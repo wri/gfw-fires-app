@@ -65,8 +65,8 @@ body {
 .legend-swatch-round {
   border: 1px solid #fff;
   border-radius: 35px;
-  height: 16px;
-  width: 16px;
+  height: 12px;
+  width: 12px;
 }
 .hc-fire {
   background-color: #e16e20;

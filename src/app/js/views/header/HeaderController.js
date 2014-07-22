@@ -34,6 +34,17 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     that.clickNavLink(mock);
                 });
 
+                // Load in Google Translate
+                (function(d, s) {
+                    var gt = d.createElement(s),
+                        as = d.getElementsByTagName(s)[0];
+
+                    gt.type = 'text/javascript';
+                    gt.async = true;
+                    gt.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                    as.parentNode.insertBefore(gt, as);
+                })(document, 'script');
+
             });
         };
 
@@ -112,8 +123,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                         //debugger;
 
                     })*/
-                    3
-
                     switch (data.viewId) {
                         case "homeView":
                             //domConstruct.place("");
@@ -129,15 +138,12 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                             //EventsController.stopModeAnim();
                             domConstruct.place("footerMovableWrapper", data.viewId);
                     }
-                    console.log("MOVED FOOTER");
 
                     registry.byId("stackContainer").selectChild(data.viewId);
                     registry.byId("stackContainer").resize();
                 });
 
         };
-
-
 
         //listen to key
 

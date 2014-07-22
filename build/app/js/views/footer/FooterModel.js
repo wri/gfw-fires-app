@@ -1,1 +1,2 @@
-define(["knockout","main/Config","dojo/dom","modules/HashController","modules/EventsController"],function(o,e,n,t,r){var i={};i.vm={};var l=i.vm;return l.footerModeOptions=o.observableArray(e.footerModeOptions),l.appState=o.observable({}),l.footerSelect=function(o){r.footerSelect(o)},i.applyBindings=function(e){o.applyBindings(l,n.byId(e))},i});
+/*! Global-Forest-Watch-Fires Tue Jul 22 2014 14:19:27 */
+define(["knockout","main/Config","dojo/dom","modules/HashController","modules/EventsController"],function(a,b,c,d,e){var f={};f.vm={};var g=f.vm;return g.footerModeOptions=a.observableArray(b.footerModeOptions),g.appState=a.observable({}),g.footerSelect=function(a){e.footerSelect(a)},f.applyBindings=function(b){a.applyBindings(g,c.byId(b))},f});

@@ -180,15 +180,18 @@ define([
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
-            o.map.resize();
 
             // Hack to get the correct extent set on load, this can be removed
-            // when the hash controller workflow is corrected
-            on.once(o.map,'update-end', function () {
-                o.map.centerAt(new Point(hashX, hashY)).then(function () {
-                    o.mapExtentPausable.resume();
+            // when the hash controller workflow is corrected            
+            var handle = o.map.on('resize', function () {
+                on.once(o.map,'update-end', function () {
+                    o.map.centerAt(new Point(hashX, hashY)).then(function () {
+                        o.mapExtentPausable.resume();
+                    });
                 });
+                handle.remove();
             });
+            o.map.resize();
         });
 
         o.mapExtentPausable = on.pausable(o.map, "extent-change", function(e) {
@@ -704,10 +707,7 @@ define([
 
         function useDefaults() {
             registry.byId('fires-checkbox').set('checked', true);
-            registry.byId('peat-lands-radio').set('checked', true);
-            on.emit(dom.byId('peat-lands-radio'), 'change', {});
             LayerController.updateLayersInHash('add', MapConfig.firesLayer.id, MapConfig.firesLayer.id);
-            LayerController.updateLayersInHash('add', MapConfig.landCoverLayers.id, MapConfig.landCoverLayers.id + "/1");
         }
 
         function turnOnLayers(id, layerNums) {
@@ -720,18 +720,23 @@ define([
                 widgetId = layersToWidgets[id].id;
                 if (registry.byId(widgetId)) {
                     registry.byId(widgetId).set('checked', true);
-                    if (layersToWidgets[id].type === 'radio') {
-                        on.emit(dom.byId(widgetId), 'change', {});
-                    }
+                    on.emit(dom.byId(widgetId), 'change', {});
                 }
             } else {
                 layerObj = layersToWidgets[id];
                 layerIds = layerNums.split(",");
                 for (var i = 0, len = layerIds.length; i < len; i++) {
                     widgetId = layerObj[layerIds[i]].id;
-                    if (registry.byId(widgetId)) {
-                        registry.byId(widgetId).set('checked', true);
-                        if (layerObj[layerIds[i]].type === 'radio') {
+                    if (Object.prototype.toString.call(widgetId) === '[object Array]') {
+                        for (var j = 0, jLen = widgetId.length; j < jLen; j++) {
+                            if (registry.byId(widgetId[j])) {
+                                registry.byId(widgetId[j]).set('checked', true);
+                                on.emit(dom.byId(widgetId[j]), 'change', {});
+                            }
+                        }
+                    } else {
+                        if (registry.byId(widgetId)) {
+                            registry.byId(widgetId).set('checked', true);
                             on.emit(dom.byId(widgetId), 'change', {});
                         }
                     }

@@ -78,11 +78,16 @@ define([
             this.refreshLegend();
         },
 
-        toggleLayerVisibility: function(layerId, visibility) {
+        toggleLayerVisibility: function(layerId, visibility, valueForHash) {
             var layer = _map.getLayer(layerId);
             if (layer) {
                 if (layer.visible !== visibility) {
                     layer.setVisibility(visibility);
+                }
+                if (visibility) {
+                    this.updateLayersInHash('add', layerId, valueForHash || layerId);
+                } else {
+                    this.updateLayersInHash('remove', layerId, layerId);
                 }
             }
             this.refreshLegend();
@@ -137,8 +142,9 @@ define([
                 // defs needs to be (date > dateString and time > hhmm) or date > todayString
                 var dateString = yyyy.toString() + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss;
                 var todayString = yyyy.toString() + "-" + mm + "-" + todayDD + " " + hh + ":" + min + ":" + ss;
-                where += "(ACQ_DATE > date '" + dateString + "' AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + hh + "" + min + ")" +
-                      " OR ACQ_DATE > date '" + todayString + "'";
+                where += "ACQ_DATE > date '" + dateString + "'";
+                    // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + hh + "" + min + ")" +
+                    //  " OR ACQ_DATE > date '" + todayString + "'";
 
             }
 
@@ -171,6 +177,7 @@ define([
         updateAdditionalVisibleLayers: function(queryClass, configObject) {
             var layer = _map.getLayer(configObject.id),
                 visibleLayers = [],
+                valueForHash = '',
                 layerID;
 
             dojoQuery("." + queryClass).forEach(function(node) {
@@ -190,7 +197,13 @@ define([
             if (layer) {
                 layer.setVisibleLayers(visibleLayers);
                 if (!layer.visible) {
-                    this.toggleLayerVisibility(configObject.id, true);
+                    valueForHash = "/" + visibleLayers.join(",");
+                    this.toggleLayerVisibility(configObject.id, true, configObject.id + valueForHash);
+                } else if (visibleLayers[0] === -1) {
+                    this.toggleLayerVisibility(configObject.id, false);
+                } else {
+                    valueForHash = "/" + visibleLayers.join(",");
+                    this.updateLayersInHash('add', configObject.id, configObject.id + valueForHash);
                 }
             }
 
@@ -256,7 +269,6 @@ define([
 
         updateLandCoverLayers: function (evt) {
         	var target = evt.target ? evt.target : evt.srcElement;
-
             // Update the Peat Lands Layer
             this.updatePeatLandsLayer(target.id);
 
@@ -280,18 +292,25 @@ define([
         updatePeatLandsLayer: function (target) {
             var configObject = MapConfig.landCoverLayers,
                 layer = _map.getLayer(configObject.id),
-                visibleLayers = [];
+                visibleLayers = [],
+                valueForHash = '';
 
             if (target === 'peat-lands-radio') {
                 visibleLayers.push(configObject.peatLands);
+                valueForHash = "/" + visibleLayers.join(",");
             } else {
                 visibleLayers.push(-1);
             }
 
             layer.setVisibleLayers(visibleLayers);
-            // Only Hide the layer if we are on primary forests layer, we need it visible 
-            // for Tree Cover Loss to show the legend
-            this.toggleLayerVisibility(configObject.id, target !== "primary-forests-radio");
+            // Only Hide the layer if we are on primary forests layer or none, we need it visible 
+            // for Tree Cover Loss to show the legend, so show if target is tree-cover-density-radio
+            // or peat lands radio
+            if (valueForHash !== '') {
+                this.toggleLayerVisibility(configObject.id, (target === "tree-cover-density-radio" || target === "peat-lands-radio"), configObject.id + valueForHash);
+            } else {
+                this.toggleLayerVisibility(configObject.id, (target === "tree-cover-density-radio" || target === "peat-lands-radio"));
+            }
         },
 
         updateTreeCoverLayer: function(visibility) {
@@ -301,6 +320,7 @@ define([
         updatePrimaryForestsLayer: function(visibility) {
             var ID = MapConfig.primaryForestsLayer.id, 
                 layer = _map.getLayer(ID),
+                valueForHash = '',
                 layerIds = [];
 
             // Show or hide the various options for this layer
@@ -318,7 +338,8 @@ define([
                 layer.setVisibleLayers(layerIds);
             }
 
-            this.toggleLayerVisibility(ID, visibility);
+            valueForHash = "/" + layerIds.join(",");
+            this.toggleLayerVisibility(ID, visibility, ID + valueForHash);
         },
 
         addTemporaryGraphicForDigitalGlobe: function () {
@@ -353,7 +374,8 @@ define([
 
         adjustOverlaysLayer: function () {
             var layerIds = [],
-                layer = _map.getLayer(MapConfig.overlaysLayer.id);
+                layer = _map.getLayer(MapConfig.overlaysLayer.id),
+                valueForHash = '';
             
             dojoQuery(".overlays-checkboxes .dijitCheckBoxInput").forEach(function (node) {
                 switch (node.id) {
@@ -383,11 +405,10 @@ define([
             if (layerIds.length === 0) {
                 layerIds.push(-1);
                 this.toggleLayerVisibility(MapConfig.overlaysLayer.id, false);
-            }
-
-            if (layer) {
+            } else if (layer) {
                 layer.setVisibleLayers(layerIds);
-                this.toggleLayerVisibility(MapConfig.overlaysLayer.id, true);
+                valueForHash = "/" + layerIds.join(",");
+                this.toggleLayerVisibility(MapConfig.overlaysLayer.id, true, MapConfig.overlaysLayer.id + valueForHash);
             }
             
         },

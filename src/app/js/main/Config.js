@@ -8,7 +8,7 @@ define([],
                 x: 115,
                 y: 0,
                 l: 5,
-                lyrs: 'Active_Fires:Land_Cover/1'
+                lyrs: 'Active_Fires'
             },
 
             validViews: ["home", "blog", "map", "about", "data"],
@@ -74,6 +74,12 @@ define([],
                     "eventName": "goToMap",
                     "display": false
 
+                },
+                {
+                    "html": "<span class='more-text'>Coming soon:<br>Sign up for SMS and Email fire alerts</span>",
+                    "eventName": "",
+                    "display": false
+
                 }
             ],
 
@@ -81,7 +87,7 @@ define([],
 
                 {
                     "title": "Receive Fire Alerts",
-                    "desc": "Sign up for emails alerting you of new fires in your area of interest.",
+                    "desc": "Sign up to receive email or SMS fire alerts in your area of interest.",
                     "action": "Coming Soon",
                     "eventName": "subscribeToAlerts",
                     "css": "receiveAlerts",

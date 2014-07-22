@@ -110,7 +110,7 @@ define({
     },
 
     burnScarLayer: {
-        url: "https://earthbuilder.googleapis.com/06900458292272798243-17544903107431804602-4/maptile/maps?v=2&authToken=CghofYahvv-STxDx37SeBQ==",
+        url: "https://earthbuilder.googleapis.com/06900458292272798243-05939008152464994523-4/maptile/maps?authToken=CghZPyHDmV2R8BCzubqeBQ==",
         id: "Burn_Scar"
     },
 
@@ -158,6 +158,10 @@ define({
             10: {
                 'id': 'logging-checkbox',
                 'type': 'checkbox'
+            },
+            27: {
+                'id': 'rspo-oil-palm-checkbox',
+                'type': 'checkbox'
             }
         },
         'Burn_Scar': {
@@ -165,8 +169,10 @@ define({
             'type': 'checkbox'
         },
         'Conservation': {
-            'id': "protected-areas-checkbox",
-            'type': 'checkbox'
+            25: {
+                'id': "protected-areas-checkbox",
+                'type': 'checkbox'
+            }
         },
         'Land_Cover': {
             1: {
@@ -175,26 +181,38 @@ define({
             }
         },
         'Overlays_Layer': {
-            1: {},
-            2: {},
-            3: {},
-            4: {}
+            1: {
+                'id': 'villages-checkbox',
+                'type': 'checkbox'
+            },
+            2: {
+                'id': 'subdistricts-checkbox',
+                'type': 'checkbox'
+            },
+            3: {
+                'id': 'districts-checkbox',
+                'type': 'checkbox'
+            },
+            4: {
+                'id': 'provinces-checkbox',
+                'type': 'checkbox'
+            }
         },
         'Primary_Forest': {
             0: {
-                'id': ['primary-forests-radio', ''],
+                'id': ['primary-forests-radio', 'pf2000-radio'],
                 'type': 'radio'
             },
             1: {
-                'id': ['primary-forests-radio', ''],
+                'id': ['primary-forests-radio', 'pf2005-radio'],
                 'type': 'radio'
             },
             2: {
-                'id': ['primary-forests-radio', ''],
+                'id': ['primary-forests-radio', 'pf2010-radio'],
                 'type': 'radio'
             },
             3: {
-                'id': ['primary-forests-radio', ''],
+                'id': ['primary-forests-radio', 'pf2012-radio'],
                 'type': 'radio'
             }
         },
@@ -214,7 +232,7 @@ define({
             'id': "air-quality-checkbox",
             'type': 'checkbox'
         },
-        'Wind_Layer': {
+        'Wind_Direction': {
             'id': "windy-layer-checkbox",
             'type': 'checkbox'
         }

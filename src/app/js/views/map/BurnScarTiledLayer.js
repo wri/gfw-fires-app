@@ -58,7 +58,7 @@ define(["dojo/_base/declare"],function(declare){
     },
 
     getTileUrl: function(level, row, col) {
-      return this.url + "&x=" + col + "&y=" + row + "&z=" + level + "&s=";
+      return this.url + "&x=" + col + "&y=" + row + "&z=" + level + "&v=2&s=";
     }
 
   });
