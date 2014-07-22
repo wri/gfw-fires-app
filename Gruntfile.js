@@ -77,7 +77,7 @@ module.exports = function(grunt) {
         },{
           expand: true,
           cwd: 'build/app/libs/',
-          src: ['**/*.js','!**/*.min.js'],
+          src: ['**/*.js','!**/*.min.js','!knockout-3.1.0.js'],
           dest: 'build/app/libs/',
           ext: '.js'
         },
@@ -152,7 +152,7 @@ module.exports = function(grunt) {
     imagemin: {
       main: {
         options: {
-          optimizationLevel: 3,
+          optimizationLevel: 6,
           progressive: true
         },
         files: [{

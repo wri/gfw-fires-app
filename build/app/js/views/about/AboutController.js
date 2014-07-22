@@ -1,2 +1,2 @@
-/*! Global-Forest-Watch-Fires Tue Jul 22 2014 14:19:27 */
+/*! Global-Forest-Watch-Fires Tue Jul 22 2014 16:30:35 */
 define(["dojo/dom","dijit/registry","modules/HashController","modules/EventsController","views/about/AboutModel","dojo/_base/array"],function(a,b,c,d,e,f){var g={},h=!1,i="aboutView",j={viewId:i,viewName:"about"};return g.init=function(){return h?void d.switchToView(j):(h=!0,void require(["dojo/text!views/about/about.html"],function(b){a.byId(i).innerHTML=b,d.switchToView(j),e.applyBindings(i)}))},g.toggleAboutNavList=function(a){var b=a.htmlContent,c=e.getVM(),d=c.leftLinks();c.leftLinks([]),f.forEach(d,function(b){b.selected=b==a?!0:!1}),c.leftLinks(d),require(["dojo/text!views/about/templates/"+b+".htm"],function(a){c.htmlContent(a)})},g});
