@@ -142,8 +142,8 @@ define([],
             aboutLinks: [
 
                 {
-                    "name": "ABOUT GFW-COMMODITIES",
-                    "htmlContent": "aboutGFW",
+                    "name": "Forest fires and their impact",
+                    "htmlContent": "foreFireAndTheirImpact",
                     "selected": true
                 }, {
                     "name": "PARTNERS",
