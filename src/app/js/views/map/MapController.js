@@ -236,7 +236,7 @@ define([
         // Add Home Button
         domConstruct.create("div", {
                 'id': 'home-button',
-                'class': 'home-butotn'
+                'class': 'home-button'
             },
             document.querySelector(".esriSimpleSliderIncrementButton"), "after");
 

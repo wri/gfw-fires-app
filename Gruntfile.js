@@ -163,6 +163,24 @@ module.exports = function(grunt) {
           ext: '.png'
         }]
       }
+    },
+
+    ftp_push: {
+      default: {
+        options: {
+          host: 'staging.blueraster.com',
+          dest: 'html/wri/gfw-fires/v12/',
+          username: '',
+          password: ''
+        },
+        files: [
+          {
+            expand: true,
+            cwd: 'build',
+            src: ['**']
+          }
+        ]
+      }
     }
 
   });
@@ -174,10 +192,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-ftp-push');
   // grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   // Task(s).
-  grunt.registerTask('build', ['copy', 'uglify', 'cssmin', 'htmlmin', 'imagemin']);
+  grunt.registerTask('build', ['copy', 'uglify', 'cssmin', 'htmlmin', 'imagemin','ftp_push']);
   // grunt.registerTask('optimize', ['copy:optimize','requirejs','uglify:optimize','concat:optimize','cssmin:optimize','imagemin:optimize']);
 
 };

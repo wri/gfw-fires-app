@@ -265,7 +265,7 @@ define({
         woodFiberCheckbox: "Wood Fiber plantations",
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected Areas",
-        burnedScarsCheckbox: "Burned Scars mapped by Google Earth Engine",
+        burnedScarsCheckbox: "Burn Scars mapped by Google Earth Engine",
         peatLandsRadio: "Peat Lands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary Forests",
