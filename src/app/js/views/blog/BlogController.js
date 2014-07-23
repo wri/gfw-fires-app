@@ -103,7 +103,6 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                     var completed = false;
                     authors[authors.length-2] = authors[authors.length-2]+authors[authors.length-1];
                     authors.pop();
-
                     /**
                      *  We are currently in a blog post. We want to add a function that will
                      *  return all the authors in a nice array for us to print out to the view.
@@ -127,10 +126,18 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                              * */
                             if (!completed) {
 
-                                if (item.match('by') !== null) {
+                                if (item.match('by') !== null &&
+                                    item.match('-') === null ) {
                                     var author = item.split('by');
                                     result.push('by');
                                     result.push(author[1].trim());
+                                } else if (item.match('by') !== null &&
+                                           item.match('-') !== null) {                                    
+                                    var byLineAuthorDate = item.split('-');
+                                    result.push('by');
+                                    result.push(byLineAuthorDate[0].split('by')[1].trim());
+                                    result.push(byLineAuthorDate[1].trim())
+                                    completed = true;
                                 } else if (item.match('and') !== null &&
                                            item.match('-') !== null) {                                    
                                     // split item
