@@ -138,10 +138,7 @@ define([
             proxyUrl: proxyUrl
         });
 
-        urlUtils.addProxyRule({
-            urlPrefix: MapConfig.windData.prefix,
-            proxyUrl: proxyUrl
-        });
+        esriConfig.defaults.io.corsEnabledServers.push(MapConfig.windData.domain);
 
     };
 
