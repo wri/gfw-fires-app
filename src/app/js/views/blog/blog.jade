@@ -9,7 +9,7 @@ div#blogInnerContainer(class="content-inner-container")
                 h1.post-title: a(href="#", data-bind="text: title, attr: {href: 'http://www.wri.org'+more}") Indonesia Fires Flare: A Foreboding Start to Dry Season in Riau
                 section.post-authors
                     ul.post-authors(data-bind="foreach: getAuthors()")
-                        li: a(href="#")(data-bind="text: $data"): Nigel Sizer
+                        li: a(href="#")(data-bind="text: $data"):=Nigel Sizer
                 div.clear
                 section.post-snippet
                     span(data-bind="if: img.length > 0")

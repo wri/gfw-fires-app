@@ -99,63 +99,90 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             Posts['articles'].forEach(function (item) {
                 item.getAuthors = function () {
                     var authors = this.author.split(",");
-
                     var result = [];
+                    var completed = false;
+                    authors[authors.length-2] = authors[authors.length-2]+authors[authors.length-1];
+                    authors.pop();
+
                     /**
                      *  We are currently in a blog post. We want to add a function that will
                      *  return all the authors in a nice array for us to print out to the view.
                      */
                     array.forEach(authors, function (item, index) {
 
-                        /**
-                         * Iterate over the authors that we now have in an array.
-                         * The if statement correspond to the following rules:
-                         * 1. if it is the first item in the array, take out the by
-                         *    line and add it as two separate eateries into the array.
-                         * 2. If there are only one author in the array, we have to everything in one go.
-                         *    Separate the by line, and the date.
-                         * 3. if we are -2 index away from the array, the last index holds the date and
-                         *    current index holds the first half of the date. Separate the two things out and
-                         *    add as two separate entities
-                         * 4. do nothing
-                         * 5. Just remove the empty white space and add the value to the array.
-                         * */
-
-                        if ( index == 0 && authors.length != 2 )
-                        { // remove by from the author and add the author to the list
-                            result.push("by");
-                            result.push(item.substring(3,item.length));
-                        }
-                        else if ( authors.length == 2 && index == 0 )
+                        try
                         {
-                            var a = item.split("-");
+                            /**
+                             * Iterate over the authors that we now have in an array.
+                             * The if statement correspond to the following rules:
+                             * 1. if it is the first item in the array, take out the by
+                             *    line and add it as two separate eateries into the array.
+                             * 2. If there are only one author in the array, we have to everything in one go.
+                             *    Separate the by line, and the date.
+                             * 3. if we are -2 index away from the array, the last index holds the date and
+                             *    current index holds the first half of the date. Separate the two things out and
+                             *    add as two separate entities
+                             * 4. do nothing
+                             * 5. Just remove the empty white space and add the value to the array.
+                             * */
+                            if (!completed) {
 
-                            result.push("by");
-                            result.push(a[0].substring(3,item.length));
-                            result.push(a[1].trim() + authors[index+1]);
+                                if (item.match('by') !== null) {
+                                    var author = item.split('by');
+                                    result.push('by');
+                                    result.push(author[1].trim());
+                                } else if (item.match('and') !== null &&
+                                           item.match('-') !== null) {                                    
+                                    // split item
+                                    var tempAuthors = item.split('and');
+                                    array.forEach(tempAuthors, function (item) {
+                                        if (item.match('-') === null) {
+                                            result.push(item.trim());
+                                        } else {
+                                            var lastAuthorAndDate = item.split('-');
+                                            result.push('and');
+                                            result.push(lastAuthorAndDate[0].trim());
+                                            result.push(lastAuthorAndDate[1].trim());
+                                            completed = true;
+                                        };
+                                    })
+                                } else if (item.match('and') === null &&
+                                           item.match('-') !== null   &&
+                                           index === authors.length-1) { 
 
+                                    var firstHalf = authors[authors.length-2].split('and');
+                                    var secondHalf = item.split('-');
+                                    // --- hard fix ---
+                                    result.pop(); result.pop(); result.pop();
+                                    
+                                    result.push(firstHalf[0].trim());
+                                    result.push('and');
+                                    result.push(firstHalf[1].trim() + ', ' + secondHalf[0].trim());
+                                    result.push(secondHalf[1].trim());
+                                    completed = true;
+                                    
+                                } else if (item.match('and') !== null) {
+                                    var tempAuthors = item.split('and');
+                                    result.push(tempAuthors[0].trim());
+                                    result.push('and');
+                                    result.push(tempAuthors[1].trim());
+                                } else if (item.match('-') !== null) {                                    
+                                    var lastAuthorAndDate = item.split('-');
+                                    result.push(lastAuthorAndDate[0].trim());
+                                    result.push(lastAuthorAndDate[1].trim());
+                                    completed = true;
+                                } else {
+                                    result.push(item.trim());
+                                } 
+                            };
+                            
+                        } catch (e) {
+                            console.log(e);
                         }
-                        else if ( index == authors.length-2)
-                        { // seperate the n-2 index of the array and make it 3, and concat the string.
-                            var a = authors[index].split("and");
-                            // the first item in the set is fine
-                            result.push(a[0].trim());
-                            result.push("and");
 
-                            // more logic
-                            var b = a[1].split("-")
-                            result.push(b[0].trim())
-                            result.push(b[1]+authors[index+1]);
-                        }
-                        else if ( index == authors.length-1)
-                        {
-                            // do nothing
-                        }
-                        else
-                        {
-                            result.push(item.trim());
-                        }
+
                     })
+                    // console.dir(result);
                     return result;
                 };
             });
