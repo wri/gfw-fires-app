@@ -126,6 +126,7 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                              * 5. Just remove the empty white space and add the value to the array.
                              * */
                             if (!completed) {
+
                                 if (item.match('by') !== null) {
                                     var author = item.split('by');
                                     result.push('by');
@@ -145,12 +146,27 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                                             completed = true;
                                         };
                                     })
+                                } else if (item.match('and') === null &&
+                                           item.match('-') !== null   &&
+                                           index === authors.length-1) { 
+
+                                    var firstHalf = authors[authors.length-2].split('and');
+                                    var secondHalf = item.split('-');
+                                    // --- hard fix ---
+                                    result.pop(); result.pop(); result.pop();
+                                    
+                                    result.push(firstHalf[0].trim());
+                                    result.push('and');
+                                    result.push(firstHalf[1].trim() + ', ' + secondHalf[0].trim());
+                                    result.push(secondHalf[1].trim());
+                                    completed = true;
+                                    
                                 } else if (item.match('and') !== null) {
                                     var tempAuthors = item.split('and');
                                     result.push(tempAuthors[0].trim());
                                     result.push('and');
                                     result.push(tempAuthors[1].trim());
-                                } else if (item.match('-') !== null) {
+                                } else if (item.match('-') !== null) {                                    
                                     var lastAuthorAndDate = item.split('-');
                                     result.push(lastAuthorAndDate[0].trim());
                                     result.push(lastAuthorAndDate[1].trim());
