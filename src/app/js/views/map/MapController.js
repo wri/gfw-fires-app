@@ -42,12 +42,12 @@ define([
     "esri/tasks/PrintTemplate",
     "views/map/DigitalGlobeTiledLayer",
     "views/map/BurnScarTiledLayer",
-    "modules/HashController"
-
+    "modules/HashController",
+    "esri/layers/GraphicsLayer"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController) {
+    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController, GraphicsLayer) {
 
     var o = {},
         initialized = false,
@@ -618,6 +618,11 @@ define([
             infoTemplate: tweet_infotemplate
         });
 
+        var digitalGlobeFeatureLayer = new GraphicsLayer({
+            id: MapConfig.digitalGlobe.graphicsLayerId,
+            visible: false
+        });
+
         o.map.addLayers([
             treeCoverLayer,
             landSatLayer,
@@ -629,6 +634,7 @@ define([
             burnScarLayer,
             overlaysLayer,
             airQualityLayer,
+            digitalGlobeFeatureLayer,
             firesLayer,
             tweetLayer
         ]);
@@ -648,7 +654,7 @@ define([
                 };
             });
             layerInfos = arrayUtils.filter(layerInfos, function(item) {
-                return item.layer.url.search('ImageServer') < 0;
+                return !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
             });
             registry.byId("legend").refresh(layerInfos);
         });

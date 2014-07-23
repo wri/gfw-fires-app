@@ -5,19 +5,27 @@ define([
     "dojo/hash",
     "dojo/query",
     "dojo/io-query",
+    "dojo/Deferred",
     "dojo/_base/array",
     "dijit/registry",
     "views/map/MapModel",
     "views/map/MapConfig",
     "modules/HashController",
     "esri/layers/LayerDrawingOptions",
+    "esri/tasks/query",
+    "esri/tasks/QueryTask",
     // Temporary Modules to add Graphic to Map
+    "esri/Color",
     "esri/graphic",
     "esri/geometry/Point",
+    "esri/geometry/Polygon",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol"
-], function(on, dom, hash, dojoQuery, ioQuery, arrayUtils, registry, MapModel, MapConfig, HashController, LayerDrawingOptions, Graphic, Point, PictureSymbol) {
-
-    var _map;
+], function(on, dom, hash, dojoQuery, ioQuery, Deferred, arrayUtils, registry, MapModel, MapConfig, HashController, LayerDrawingOptions, Query, QueryTask, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
+    'use strict';
+    var _map,
+        _dgGlobeFeaturesFetched = false;
 
     return {
 
@@ -281,12 +289,59 @@ define([
         },
 
         toggleDigitalGlobeLayer: function (visibility) {
-            this.toggleLayerVisibility(MapConfig.digitalGlobe.id, visibility);
-            if (visibility) {
-                this.addTemporaryGraphicForDigitalGlobe();
-            } else {
-                this.removeDigitalGlobeTemporaryGraphic();
+            var self = this,
+                layer = _map.getLayer(MapConfig.digitalGlobe.id);
+            this.getBoundingBoxesForDigitalGlobe().then(function (foundBounds) {
+                self.toggleLayerVisibility(MapConfig.digitalGlobe.id, visibility);
+                self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
+                self.showHelperLayers(MapConfig.digitalGlobe.labelLayerId, visibility);
+            });
+            if (layer) {
+                layer.setDefinitionExpression("0 = 1");
             }
+        },
+
+        // show helper layers does not add layer ids to the URL and do not have a UI element to turn them on
+        showHelperLayers: function (layerId, visibility) {
+            var layer = _map.getLayer(layerId);
+
+            if (layer) {
+                if (layer.visible !== visibility) {
+                    layer.setVisibility(visibility);
+                }
+            }
+        },
+
+        getBoundingBoxesForDigitalGlobe: function () {
+            var deferred = new Deferred();
+
+            if (_dgGlobeFeaturesFetched) {
+                deferred.resolve();
+            } else {
+                var queryTask = new QueryTask(MapConfig.digitalGlobe.url),
+                    query = new Query(),
+                    dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
+
+                query.outFields = ['OBJECTID','Name','Date'];
+                query.where = 'Category = 1';
+                query.returnGeometry = true;
+                queryTask.execute(query, function (res) {
+                    _dgGlobeFeaturesFetched = true;
+                    arrayUtils.forEach(res.features, function (feature) {
+                        feature.setSymbol(
+                            new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2),
+                            new Color([0,255,0,0]))
+                        );
+                        dgLayer.add(feature);
+                    });
+                    deferred.resolve(true);
+                }, function (err) {
+                    console.error(err);
+                    deferred.resolve(false);
+                });
+            }
+            return deferred.promise;
         },
 
         updatePeatLandsLayer: function (target) {

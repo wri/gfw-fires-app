@@ -182,8 +182,8 @@ module.exports = function(grunt) {
         options: {
           host: 'staging.blueraster.com',
           dest: 'html/wri/gfw-fires/v12/',
-          username: '',
-          password: ''
+          username: 'rwinterbottom@blueraster.com',
+          password: 'BlueRaster2012!'
         },
         files: [
           {

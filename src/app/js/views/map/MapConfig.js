@@ -122,8 +122,9 @@ define({
     },
 
     digitalGlobe: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/active_fire_imagery_test/ImageServer',
-        id: 'Digital_Globe'
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/digitalGlobe/ImageServer',
+        id: 'Digital_Globe',
+        graphicsLayerId: 'Digital_Globe_Bounding_Boxes'
     },
 
     windData: {

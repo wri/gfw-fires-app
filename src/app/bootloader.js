@@ -4,7 +4,7 @@
     'use strict';
     var ENV = 'dev',
         version = "0.1.0",
-        src = 'http://js.arcgis.com/3.10/',
+        src = 'http://js.arcgis.com/3.9/',
         css = {
             'dev': [{
                 src: 'http://js.arcgis.com/3.10/js/esri/css/esri.css',
