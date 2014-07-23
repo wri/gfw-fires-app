@@ -11,7 +11,8 @@ define({
         "http://staging.blueraster.com/": "http://staging.blueraster.com/proxy/proxy.php",
         "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.ashx",
         "http://shj/": "http://shj/proxy/proxy.ashx",
-        "http://localhost:": "http://localhost:8080/php/proxy.php"
+        "http://localhost:": "http://localhost:8080/php/proxy.php",
+        "http://fires.globalforestwatch.org":"http://www.wri.org/applications/maps/proxy/proxy.php"
     },
 
     mapOptions: {
@@ -126,7 +127,8 @@ define({
     },
 
     windData: {
-        prefix: "http://suitability-mapper.s3.amazonaws.com/"
+        prefix: "http://suitability-mapper.s3.amazonaws.com/",
+        domain: "suitability-mapper.s3.amazonaws.com"
     },
 
     airQualityLayer: {
@@ -442,7 +444,8 @@ define({
             "type": "radio",
             "props": {
                 "value": "none",
-                "name": "land-cover-radios"
+                "name": "land-cover-radios",
+                "checked": true
             }
         }, {
             "id": "peat-lands-radio",
