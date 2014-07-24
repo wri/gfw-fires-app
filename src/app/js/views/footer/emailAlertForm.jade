@@ -1,0 +1,25 @@
+form(id='signUpAlertsForm',class='alert-dialog-box',action='javascript:void(0)')
+	p Please choose an area of interest from below and then enter your email or phone number.
+	table
+		tr
+			td
+				span Choose a district: 
+			td
+				select#aoiDistrictPicker(data-bind="options:districtsAvailableForAlerts,optionsText:'label',optionsValue:'value'")
+		tr
+			td
+				span Choose a subdistrict: 
+			td
+				select#aoiSubDistrictPicker(data-bind="options:subDistrictsAvailableForAlerts,optionsText:'label',optionsValue:'value'",multiple='true')
+		tr
+			td
+				span Enter a valid email address:
+			td
+				input(type="email",name="email",id="emailForAlerts")
+		tr
+			td
+				span or Enter a valid phone number:
+			td
+				input(type="tel",name="phone_number",id="phoneNumberForAlerts")
+	div(class='submit-button')
+		button(id="alerts-submit-button") Submit
