@@ -13,11 +13,11 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
 
         vm.modeSelect = function(obj) {
             EventsController.modeSelect(obj);
-        }
+        };
 
         o.applyBindings = function(domId) {
             ko.applyBindings(vm, dom.byId(domId));
-        }
+        };
 
 
         return o;

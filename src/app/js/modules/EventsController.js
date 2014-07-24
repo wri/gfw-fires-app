@@ -119,7 +119,9 @@ define(["dojo/topic"],
         });
 
         topic.subscribe("subscribeToAlerts", function (dataObj) {
-            // Do Nothing for Now
+            require(["views/footer/FooterController"], function(FooterController) {
+                FooterController.subscribeToAlerts();
+            });
         });
 
         topic.subscribe("goToTweet", function(dataObj) {

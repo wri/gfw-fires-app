@@ -43,11 +43,12 @@ define([
     "views/map/DigitalGlobeTiledLayer",
     "views/map/BurnScarTiledLayer",
     "modules/HashController",
-    "esri/layers/GraphicsLayer"
+    "esri/layers/GraphicsLayer",
+    "esri/layers/ImageServiceParameters",
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController, GraphicsLayer) {
+    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters) {
 
     var o = {},
         initialized = false,
@@ -580,7 +581,11 @@ define([
             visible: false
         });
 
+        var digitalGlobeParams = new ImageServiceParameters();
+        digitalGlobeParams.format = "png8";
+
         digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.url, {
+            imageServiceParameters: digitalGlobeParams,
             id: MapConfig.digitalGlobe.id,
             visible: false
         });

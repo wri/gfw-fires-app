@@ -184,9 +184,6 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
                 all([deferred1, deferred2]).then(function(results) {
 
-
-
-
                     var peats = results[0];
                     var total = results[1];
                     var percent = Math.ceil((peats / total) * 100);
@@ -195,10 +192,10 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     var positionToUpdate = 0;
                     var newStr = "";
                     arrayUtil.some(homeModeOptions, function(item, i) {
-                        var selected = item.html.indexOf("Fires Occuring in Peatland") > -1;
+                        var selected = item.html.indexOf("Fires occuring in peatland") > -1;
                         if (selected) {
                             positionToUpdate = i;
-                            newStr = item.html.replace("Fires Occuring in Peatland", "<p>" + percent.toString() + " %</p> Fires Occuring in Peatland");
+                            newStr = item.html.replace("Fires occuring in peatland", "<p>" + percent.toString() + " %</p> Fires occuring in peatland");
                         }
                         return selected;
                     });

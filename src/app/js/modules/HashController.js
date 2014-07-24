@@ -127,7 +127,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
         o.changeView = function(newView, oldView) {
             var viewObj = {
                 v: newView
-            }
+            };
             console.log(newView);
             switch (newView) {
                 case "home":

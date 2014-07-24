@@ -137,6 +137,16 @@ define({
         id: 'Air_Quality'
     },
 
+    layerForDistrictQuery: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/3',
+        outFields: ['NAME']
+    },
+
+    layerForSubDistrictQuery: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/1',
+        outFields: ['SUBDISTRIC','ID_KEC']
+    },
+
     // Key: LayerID
     // Value: Assoicated Checkbox
     // If has multiple checkboxes per layer, value is an object and layerID is lookup for checkbox

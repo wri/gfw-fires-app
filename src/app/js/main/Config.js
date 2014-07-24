@@ -88,7 +88,7 @@ define([],
                 {
                     "title": "Receive Fire Alerts",
                     "desc": "Sign up to receive email or SMS fire alerts in your area of interest.",
-                    "action": "Coming Soon",
+                    "action": "Sign up now",
                     "eventName": "subscribeToAlerts",
                     "css": "receiveAlerts",
                     "url": false
