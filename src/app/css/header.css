@@ -5,6 +5,7 @@
   border-top: 5px solid #222;
   color: #747474;
   font-size: 12px;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .headerTitle {
@@ -28,6 +29,7 @@
   height: 55px;
   margin: auto;
   overflow: visible;
+  -webkit-transition: width 1.5s ease;
   transition: width 1.5s ease;
 }
 .small .navContainer {

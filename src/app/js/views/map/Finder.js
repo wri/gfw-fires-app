@@ -10,9 +10,10 @@ define([
     "esri/symbols/PictureMarkerSymbol",
     "views/map/MapConfig",
     "views/map/MapModel",
+    "views/map/LayerController",
     "esri/tasks/IdentifyTask",
     "esri/tasks/IdentifyParameters"
-], function(dom, arrayUtils, on, dojoQuery, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, IdentifyTask, IdentifyParameters) {
+], function(dom, arrayUtils, on, dojoQuery, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters) {
     var _map;
 
     return {
@@ -261,6 +262,16 @@ define([
             }, function(err) {
                 _self.mapClick(event);
             });
+        },
+
+        getDigitalGlobeInfoWindow: function (evt) {
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
+            LayerController.showDigitalGlobeImagery(evt);
+            var attr = evt.attributes;
+            var html = "<table><tr><td>Date:</td>";
+            html += "<td>" + attr.Date + "</td>";
+            html += "</tr></table>";
+            return html;
         },
 
         getFireTweetsInfoWindow: function(evt) {

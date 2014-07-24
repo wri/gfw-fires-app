@@ -293,6 +293,7 @@
   border: 1px solid #bfbfbf;
 }
 .legend-widget-title {
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   background-image: url("../images/ico-carat-down.png") !important;
   color: #e98300;
@@ -480,6 +481,7 @@
   border-image-width: initial;
   border-image-outset: initial;
   border-image-repeat: initial;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin: 2px 2px 0px 0px;
   border-top-left-radius: 3px;
@@ -570,5 +572,21 @@
   float: right;
 }
 .windLayerLegendColorRamp {
+  background: -webkit-linear-gradient(left, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
   background: linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
+}
+#windLayerBasemapDialog .dijitDialogPaneActionBar {
+  margin: 10px 0 0;
+  text-align: center;
+}
+#windLayerBasemapDialog .dijitDialogPaneActionBar button {
+  padding: 5px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+#windLayerBasemapDialog .dialogCheckbox {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #777;
 }

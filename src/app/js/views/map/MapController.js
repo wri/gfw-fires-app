@@ -249,6 +249,7 @@ define([
                     url: MapConfig.mapOptions.darkGrayCanvas
                 })
             ],
+            id: "darkgray",
             title: "Dark Gray Canvas",
             thumbnailUrl: "app/images/darkGreyThumb.png"
         });
@@ -618,8 +619,12 @@ define([
             infoTemplate: tweet_infotemplate
         });
 
-        var digitalGlobeFeatureLayer = new GraphicsLayer({
+        var digitalGlobeInfoTemplate = new InfoTemplate();
+        digitalGlobeInfoTemplate.setContent(Finder.getDigitalGlobeInfoWindow);
+
+        var digitalGlobeGraphicsLayer = new GraphicsLayer({
             id: MapConfig.digitalGlobe.graphicsLayerId,
+            infoTemplate: digitalGlobeInfoTemplate,
             visible: false
         });
 
@@ -634,7 +639,7 @@ define([
             burnScarLayer,
             overlaysLayer,
             airQualityLayer,
-            digitalGlobeFeatureLayer,
+            digitalGlobeGraphicsLayer,
             firesLayer,
             tweetLayer
         ]);

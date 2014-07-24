@@ -322,7 +322,7 @@ define([
                     query = new Query(),
                     dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
 
-                query.outFields = ['OBJECTID','Name','Date'];
+                query.outFields = ['OBJECTID','Name', 'Date'];
                 query.where = 'Category = 1';
                 query.returnGeometry = true;
                 queryTask.execute(query, function (res) {
@@ -333,6 +333,9 @@ define([
                             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2),
                             new Color([0,255,0,0]))
                         );
+                        // Give the feature a layer attribute so It's easier to tell which layer a 
+                        // clicked feature belongs to
+                        feature.attributes.Layer = "Digital_Globe"; 
                         dgLayer.add(feature);
                     });
                     deferred.resolve(true);
@@ -342,6 +345,16 @@ define([
                 });
             }
             return deferred.promise;
+        },
+
+        showDigitalGlobeImagery: function (graphic) {
+            var name = graphic.attributes.Name,
+                layer = _map.getLayer(MapConfig.digitalGlobe.id);
+
+            if (layer) {
+                layer.setDefinitionExpression("Name = '" + name + "'");
+            }
+
         },
 
         updatePeatLandsLayer: function (target) {

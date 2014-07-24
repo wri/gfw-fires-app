@@ -1,6 +1,10 @@
 /* global define */
 define([
+	"dojo/on",
+	"dojo/dom",
+	"dojo/cookie",
 	"dojo/Deferred",
+	"dijit/Dialog",
 	"dijit/registry",
 	"esri/request",
 	"utils/Helper",
@@ -9,7 +13,7 @@ define([
 	"modules/ErrorController",
 	"views/map/LayerController",
 	"libs/windy"
-], function (Deferred, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController) {
+], function (on, dom, cookie, Deferred, Dialog, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController) {
 
 	var _map,
 	_isSupported,
@@ -81,10 +85,88 @@ define([
 			}
 
 			if (!_data) {
-				this.fetchDataForWindLayer().then(createWindLayer);
+				this.promptAboutBasemap().then(function () {
+					self.fetchDataForWindLayer().then(createWindLayer);
+				});
 			} else {
-				createWindLayer();
+				this.promptAboutBasemap().then(createWindLayer);
 			}
+		},
+
+		promptAboutBasemap: function () {
+			var dialog = new Dialog({
+					title: "Would you like to change basemaps?",
+					style: "width: 350px",
+					id: "windLayerBasemapDialog",
+					content: "This layer is best visualized with the Dark Gray Canvas basemap." +
+					  		 "  Would you like to switch to it now.<div class='dijitDialogPaneActionBar'>" + 
+					  		 "<button id='acceptBasemapChange'>Yes</button><button id='denyBasemapChange'>No</button></div>" +
+					  		 "<div class='dialogCheckbox'><input type='checkbox' id='rememberBasemapDecision' />" +
+					  		 "<label for='rememberBasemapDecision'>Remember my decision</label></div>"
+				}),
+				deferred = new Deferred(),
+				changeBasemaps,
+				destroyDialog,
+				currentCookie,
+				setCookie,
+				yesHandle,
+				noHandle,
+				cancel;
+
+			setCookie = function (cookieValue) {
+				if(dom.byId("rememberBasemapDecision")) {
+					if(dom.byId("rememberBasemapDecision").checked) {
+						cookie("windBasemapDecision", cookieValue, { expires: 7 });
+					}
+				}
+			};
+
+			destroyDialog = function() {
+				if (dialog) {
+					dialog.destroy();
+				}
+				if (yesHandle) {
+					yesHandle.remove();
+				}
+				if (noHandle) {
+					noHandle.remove();
+				}
+			};
+
+			cancel = function () {				
+				setCookie("dontChange");
+				destroyDialog();
+				deferred.resolve();
+			};
+
+			changeBasemaps = function () {
+				setCookie("changeBasemap");
+				destroyDialog();
+				deferred.resolve();
+				var currentBasemap = registry.byId("basemap-gallery").getSelected();
+				if (currentBasemap) {
+					if (currentBasemap.id !== "darkgray") {
+						registry.byId("basemap-gallery").select("darkgray");
+					}
+				} else {
+					registry.byId("basemap-gallery").select("darkgray");
+				}
+			};
+
+			currentCookie = cookie("windBasemapDecision");
+
+			if (currentCookie === undefined) {
+				dialog.show();
+				yesHandle = on(dom.byId("acceptBasemapChange"), "click", changeBasemaps);
+				noHandle = on(dom.byId("denyBasemapChange"), "click", cancel);
+				dialog.on('cancel', cancel);
+			} else if (currentCookie === "changeBasemap") {
+				changeBasemaps();
+			} else {
+				cancel();
+			}
+
+			return deferred.promise;
 		},
 
 		deactivateWindLayer: function () {

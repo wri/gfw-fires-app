@@ -122,7 +122,7 @@ define({
     },
 
     digitalGlobe: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/digitalGlobe/ImageServer',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/dg_imagery/ImageServer',
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes'
     },
