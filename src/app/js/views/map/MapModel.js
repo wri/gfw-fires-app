@@ -66,6 +66,7 @@ define([
     vm.provincesCheckbox = ko.observable(MapConfig.text.provincesCheckbox);
     vm.districtsCheckbox = ko.observable(MapConfig.text.districtsCheckbox);
     vm.subDistrictsCheckbox = ko.observable(MapConfig.text.subDistrictsCheckbox);
+    vm.digitalGlobeSubLabel = ko.observable(MapConfig.text.digitalGlobeSubLabel);
     vm.villagesCheckbox = ko.observable(MapConfig.text.villagesCheckbox);
     vm.pf2000Radio = ko.observable(MapConfig.text.pf2000Radio);
     vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);

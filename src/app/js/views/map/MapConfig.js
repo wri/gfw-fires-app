@@ -138,8 +138,8 @@ define({
     },
 
     layerForDistrictQuery: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/3',
-        outFields: ['NAME']
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/2',
+        outFields: ['DISTRICT']
     },
 
     layerForSubDistrictQuery: {
@@ -304,6 +304,7 @@ define({
         provincesCheckbox: "Provinces",
         districtsCheckbox: "Districts",
         subDistrictsCheckbox: "Subdistricts",
+        digitalGlobeSubLabel: "Click inside a footprint to display the image",
         villagesCheckbox: "Villages",
         pf2000Radio: "2000",
         pf2005Radio: "2005",

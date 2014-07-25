@@ -170,12 +170,17 @@ define([
                             model.errorMessages.push("You must atleast provide a phone number and/or an email.");
                         }
 
-                        if (model.errorMessages().length > 0) {
+                        if (!formIsValid) {
                             model.showErrorMessages(true);
                         } else {
-                            self.postSubscribeRequest(selectedOptions, email, phone);
+                            if (phone !== '') {
+                                phone = phone.replace(/[^\d]/g,'');
+                                self.postSubscribeRequest(selectedOptions, phone, 'sms');
+                            }
+                            if (validate.isEmailAddress(email)) {
+                                self.postSubscribeRequest(selectedOptions, email, 'email');
+                            }                            
                         }
-
                     });
 
                     dialog.on('cancel', function () {
@@ -189,20 +194,14 @@ define([
             });
         };
 
-        o.postSubscribeRequest = function (areas, email, phone) {
+        o.postSubscribeRequest = function (areas, address, type) {
             var subscribeUrl = MainConfig.emailSubscribeUrl,
                 content = {
-                    areas: JSON.stringify(areas)
+                    areas: JSON.stringify(areas),
+                    msg_addr: address,
+                    msg_type: type
                 },
                 req;
-
-            if (email !== '') {
-                content.msg_type = 'email';
-                content.msg_addr = email;
-            } else {
-                content.msg_addr = phone;
-                content.msg_type = 'sms';
-            }
 
             req = esriRequest({
                 url: subscribeUrl,
@@ -226,6 +225,8 @@ define([
                 queryTask = new QueryTask(MapConfig.layerForDistrictQuery.url),
                 query = new Query(),
                 results = [],
+                temp = [],
+                name,
                 attrs;
 
             if (FooterModel.get('districtsAvailableForAlerts').length > 0) {
@@ -236,11 +237,23 @@ define([
                 query.where = "1 = 1";
 
                 queryTask.execute(query, function (res) {
-                    results.push({ label: 'Choose one', value: 'NONE', selected: true });
                     arrayUtil.forEach(res.features, function (feature) {
                         attrs = feature.attributes;
-                        results.push({ label: attrs.NAME, value: attrs.NAME });
+                        name = attrs[MapConfig.layerForDistrictQuery.outFields[0]];
+                        if (arrayUtil.indexOf(temp, name) === -1) {
+                            temp.push(name);
+                            results.push({ 
+                                label: name,
+                                value: name
+                            });
+                        }
                     });
+                    results.sort(function (a,b) {
+                        if (a.label < b.label) { return -1; }
+                        if (a.label > b.label) { return 1; }
+                        return 0;
+                    });
+                    results.unshift({ label: 'Choose one', value: 'NONE', selected: true });
                     deferred.resolve(results);
                 }, function (err) {
                     deferred.resolve(false);
@@ -265,7 +278,6 @@ define([
             query.where = "DISTRICT = '" + districtName.toUpperCase() + "'";
 
             queryTask.execute(query, function (res) {
-                results.push({ label: 'Select All', value: 'ALL', selected: true });
                 arrayUtil.forEach(res.features, function (feature) {
                     attrs = feature.attributes;
                     id = attrs[MapConfig.layerForSubDistrictQuery.outFields[1]];
@@ -277,6 +289,12 @@ define([
                         });
                     } 
                 });
+                results.sort(function (a,b) {
+                    if (a.label < b.label) { return -1; }
+                    if (a.label > b.label) { return 1; }
+                    return 0;
+                });
+                results.unshift({ label: 'Select All', value: 'ALL', selected: true });
                 deferred.resolve(results);
             }, function (err) {
                 deferred.resolve(false);

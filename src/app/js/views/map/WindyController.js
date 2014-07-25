@@ -5,6 +5,7 @@ define([
 	"dojo/cookie",
 	"dojo/Deferred",
 	"dijit/Dialog",
+	"dijit/form/CheckBox",
 	"dijit/registry",
 	"esri/request",
 	"utils/Helper",
@@ -13,7 +14,7 @@ define([
 	"modules/ErrorController",
 	"views/map/LayerController",
 	"libs/windy"
-], function (on, dom, cookie, Deferred, Dialog, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController) {
+], function (on, dom, cookie, Deferred, Dialog, CheckBox, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController) {
 
 	var _map,
 	_isSupported,
@@ -94,6 +95,9 @@ define([
 		},
 
 		promptAboutBasemap: function () {
+			if (registry.byId("windLayerBasemapDialog")) {
+				registry.byId("windLayerBasemapDialog").destroy();
+			}
 			var dialog = new Dialog({
 					title: "Would you like to change basemaps?",
 					style: "width: 350px",
@@ -111,19 +115,20 @@ define([
 				setCookie,
 				yesHandle,
 				noHandle,
-				cancel;
+				cancel,
+				cbox;
 
 			setCookie = function (cookieValue) {
 				if(dom.byId("rememberBasemapDecision")) {
-					if(dom.byId("rememberBasemapDecision").checked) {
+					if(dom.byId("rememberBasemapDecision").checked && cookieValue) {
 						cookie("windBasemapDecision", cookieValue, { expires: 7 });
 					}
 				}
 			};
 
 			destroyDialog = function() {
-				if (dialog) {
-					dialog.destroy();
+				if (cbox) {
+					cbox.destroy();
 				}
 				if (yesHandle) {
 					yesHandle.remove();
@@ -133,8 +138,10 @@ define([
 				}
 			};
 
-			cancel = function () {				
-				setCookie("dontChange");
+			cancel = function (set) {
+				if (set) {
+					setCookie("dontChange");
+				}				
 				destroyDialog();
 				deferred.resolve();
 			};
@@ -157,13 +164,20 @@ define([
 
 			if (currentCookie === undefined) {
 				dialog.show();
+				cbox = new CheckBox({
+					checked: false,
+				}, "rememberBasemapDecision");
 				yesHandle = on(dom.byId("acceptBasemapChange"), "click", changeBasemaps);
-				noHandle = on(dom.byId("denyBasemapChange"), "click", cancel);
-				dialog.on('cancel', cancel);
+				noHandle = on(dom.byId("denyBasemapChange"), "click", function () {
+					cancel(true);
+				});
+				dialog.on('cancel', function () {
+					cancel(false);
+				});
 			} else if (currentCookie === "changeBasemap") {
 				changeBasemaps();
 			} else {
-				cancel();
+				cancel(false);
 			}
 
 			return deferred.promise;
