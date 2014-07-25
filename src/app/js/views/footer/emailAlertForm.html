@@ -1,32 +1,39 @@
 
 <form id="signUpAlertsForm" action="javascript:void(0)" class="alert-dialog-box">
-  <p>Please choose an area of interest from below and then enter your email or phone number.</p>
+  <p class="signup-info">Please choose an area of interest from below and then enter your email and/or phone number.</p>
   <table>
     <tr>
-      <td><span>Choose a district: </span></td>
+      <td><span>1. Choose a district: </span></td>
       <td>
-        <select id="aoiDistrictPicker" data-bind="options:districtsAvailableForAlerts,optionsText:'label',optionsValue:'value'"></select>
+        <div class="select-container">
+          <select id="aoiDistrictPicker" data-bind="options:districtsAvailableForAlerts,optionsText:'label',optionsValue:'value'"></select>
+        </div>
       </td>
     </tr>
     <tr>
-      <td><span>Choose a subdistrict: </span></td>
+      <td><span>2. Choose one, many, or all subdistricts: </span></td>
       <td>
         <select id="aoiSubDistrictPicker" data-bind="options:subDistrictsAvailableForAlerts,optionsText:'label',optionsValue:'value'" multiple="true"></select>
       </td>
     </tr>
     <tr>
-      <td><span>Enter a valid email address:</span></td>
+      <td><span>3. Subscribe via email:</span></td>
       <td>
-        <input type="email" name="email" id="emailForAlerts"/>
+        <input type="email" name="email" id="emailForAlerts" placeholder="Email"/>
       </td>
     </tr>
     <tr>
-      <td><span>or Enter a valid phone number:</span></td>
+      <td><span>&nbsp;&nbsp;&nbsp;or subscribe via sms:</span></td>
       <td>
-        <input type="tel" name="phone_number" id="phoneNumberForAlerts"/>
+        <input type="tel" name="phone_number" id="phoneNumberForAlerts" placeholder="Phone number"/>
       </td>
     </tr>
   </table>
+  <div data-bind="visible: showErrorMessages()" class="error-messages">
+    <ul data-bind="foreach:errorMessages">
+      <li data-bind="text: $data"></li>
+    </ul>
+  </div>
   <div class="submit-button">
     <button id="alerts-submit-button">Submit</button>
   </div>

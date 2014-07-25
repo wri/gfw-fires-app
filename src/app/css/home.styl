@@ -94,12 +94,46 @@
 #signUpAlertsForm
 	font-family "Arial MT Condensed Light"
 	src url("../fonts/ArialMTStd-LightCond.otf") format("opentype")
+	color #464052
+
+#signUpAlertsForm .select-container
+	background url('../images/ico-carat-down.png') no-repeat 95% center transparent
+
+#signUpAlertsForm #aoiDistrictPicker
+	background transparent
+	-webkit-appearance none
+	-moz-appearance none
+	appearance none
+	font-size 14px
+	padding 5px
+	height 30px
+	width 240px
 
 #signUpAlertsForm #aoiSubDistrictPicker
+	border 1px solid #BBB
+	border-radius 5px
 	font-size 12px
 	width 240px
 
 #signUpAlertsForm input[type="email"], #signUpAlertsForm input[type="tel"]
 	border-radius 5px
+	font-size 16px
 	width 235px
-	height 20px
+	height 30px
+
+#alerts-submit-button
+	background #e50036
+	padding 5px 10px
+	font-size 14px
+	color white
+	border none
+
+#signUpAlertsForm td
+	padding 2px 6px
+
+#signUpAlertsForm .error-messages
+	color #e50036
+
+// .dijitDialogTitleBar
+// 	background #e50036 !important
+// 	color white

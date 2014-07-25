@@ -76,14 +76,12 @@ define([
             var proxyUrl = "/proxy/proxy.ashx";
 
             for (var domain in proxies) {
-                if (url.indexOf(domain) == 0) {
+                if (url.indexOf(domain) === 0) {
                     proxyUrl = proxies[domain];
                 }
             }
 
             // Set up some configurations
-
-
             esriConfig.defaults.io.proxyUrl = proxyUrl;
 
             Highcharts.setOptions({

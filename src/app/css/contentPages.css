@@ -461,6 +461,34 @@
     font-size: 13px;
 }
 
+.source_dropdown {
+	background: #EEE;
+	margin-bottom: 30px;
+}
+
+.source_dropdown_header .overview_title {
+	margin: 0;
+	padding: 0 10px;
+	line-height: 60px;
+}
+
+.source_dropdown_body.active, .source_dropdown_body.sinlge_active, .source_dropdown_menu.active {
+	display: block;
+}
+
+.source_dropdown_body {
+	padding: 0 10px 10px;
+}
+
+.source_dropdown_menu, .source_dropdown_body {
+	display: none;
+}
+
+.source_dropdown_menu ul {
+	margin-left: 10px;
+	padding-bottom: 10px;
+}
+
 .overview_title, .source_coverage_title {
     margin: 30px 0px 10px;
     font: 21px/1.1 "fira_sans_otmedium";

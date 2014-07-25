@@ -72,22 +72,25 @@
           <p class="first">GFW currently includes logging concession data for the following countries:</p>
 
           <div class="source_dropdown">
-            <a href="#" class="source_dropdown_header source_dropdown_header_logging" data-hasqtip="0">
-              <h3 class="overview_title" title="Select a country"><span>Select a country</span> <i class="dropdown_arrow"></i>
-              </h3>
-            </a>
+            <div id="loggingDropdown" >
+              <a href="javascript:void(0)" class="source_dropdown_header source_dropdown_header_logging" data-hasqtip="0">
+                <h3 class="overview_title" title="Select a country">
+                  <span id='loggingDropdownTitle'>Select a country</span> <i class="dropdown_arrow"></i>
+                </h3>
+              </a>
+            </div>
 
-            <div class="source_dropdown_menu source_dropdown_menu_logging">
-              <ul>
-                <li><a href="#" data-slug="cameroon_forest_management_units">Cameroon forest management units</a></li>
-                <li><a href="#" data-slug="canada_forest_tenures">Canada forest tenures</a></li>
-                <li><a href="#" data-slug="central_african_republic_logging_permits">Central African republic logging permits</a></li>
-                <li><a href="#" data-slug="democratic_republic_of_the_congo_forest_titles">Democratic Republic of the Congo forest titles</a></li>
-                <li><a href="#" data-slug="equatorial_guinea_logging_concessions">Equatorial Guinea logging concessions</a></li>
-                <li><a href="#" data-slug="gabon_forest_licenses">Gabon forest licenses</a></li>
-                <li><a href="#" data-slug="indonesia_logging_concessions">Indonesia logging concessions</a></li>
-                <li><a href="#" data-slug="liberia_logging_concessions">Liberia logging concessions</a></li>
-                <li><a href="#" data-slug="republic_of_the_congo_logging_concessions">Republic of the Congo logging concessions</a></li>
+            <div id="loggingDropdownMenu" class="source_dropdown_menu source_dropdown_menu_logging">
+              <ul class='source_download_links'>
+                <li><a href="javascript:void(0)" data-slug="cameroon_forest_management_units" data-container="loggingDropdown">Cameroon forest management units</a></li>
+                <li><a href="javascript:void(0)" data-slug="canada_forest_tenures" data-container="loggingDropdown">Canada forest tenures</a></li>
+                <li><a href="javascript:void(0)" data-slug="central_african_republic_logging_permits" data-container="loggingDropdown">Central African republic logging permits</a></li>
+                <li><a href="javascript:void(0)" data-slug="democratic_republic_of_the_congo_forest_titles" data-container="loggingDropdown">Democratic Republic of the Congo forest titles</a></li>
+                <li><a href="javascript:void(0)" data-slug="equatorial_guinea_logging_concessions" data-container="loggingDropdown">Equatorial Guinea logging concessions</a></li>
+                <li><a href="javascript:void(0)" data-slug="gabon_forest_licenses" data-container="loggingDropdown">Gabon forest licenses</a></li>
+                <li><a href="javascript:void(0)" data-slug="indonesia_logging_concessions" data-container="loggingDropdown">Indonesia logging concessions</a></li>
+                <li><a href="javascript:void(0)" data-slug="liberia_logging_concessions" data-container="loggingDropdown">Liberia logging concessions</a></li>
+                <li><a href="javascript:void(0)" data-slug="republic_of_the_congo_logging_concessions" data-container="loggingDropdown">Republic of the Congo logging concessions</a></li>
               </ul>
             </div>
 
@@ -233,16 +236,18 @@
           <p class="first">GFW currently includes oil palm concession data for the following countries:</p>
 
           <div class="source_dropdown">
-            <a href="#" class="source_dropdown_header source_dropdown_header_oil_palm" data-hasqtip="2">
-              <h3 class="overview_title" title="Select a country"><span>Select a country</span> <i class="dropdown_arrow"></i></h3>
-            </a>
-
-            <div class="source_dropdown_menu source_dropdown_menu_oil_palm">
-              <ul>
-                <li><a href="#" data-slug="cameroon_agro_industrial_zones">Cameroon agro-industrial zones</a></li>
-                <li><a href="#" data-slug="indonesia_oil_palm_concessions">Indonesia oil palm concessions</a></li>
-                <li><a href="#" data-slug="liberia_oil_palm_concessions">Liberia oil palm concessions</a></li>
-                <li><a href="#" data-slug="republic_of_the_congo_oil_palm_concessions">Republic of the Congo oil palm concessions</a></li>
+            <div id="oilPalmDropdown">  
+              <a href="#" class="source_dropdown_header source_dropdown_header_oil_palm" data-hasqtip="2">
+                <h3 class="overview_title" title="Select a country">
+                  <span id='oilPalmDropdownTitle'>Select a country</span> <i class="dropdown_arrow"></i></h3>
+              </a>
+            </div>
+            <div id="oilPalmDropdownMenu" class="source_dropdown_menu source_dropdown_menu_oil_palm">
+              <ul class='source_download_links'>
+                <li><a href="#" data-slug="cameroon_agro_industrial_zones" data-container="oilPalmDropdown">Cameroon agro-industrial zones</a></li>
+                <li><a href="#" data-slug="indonesia_oil_palm_concessions" data-container="oilPalmDropdown">Indonesia oil palm concessions</a></li>
+                <li><a href="#" data-slug="liberia_oil_palm_concessions" data-container="oilPalmDropdown">Liberia oil palm concessions</a></li>
+                <li><a href="#" data-slug="republic_of_the_congo_oil_palm_concessions" data-container="oilPalmDropdown">Republic of the Congo oil palm concessions</a></li>
               </ul>
             </div>
 
@@ -348,14 +353,16 @@
           <p class="first">GFW currently hosts wood fiber concession data for the following countries:</p>
 
           <div class="source_dropdown">
-            <a href="#" class="source_dropdown_header source_dropdown_header_wood_fiber_plantations" data-hasqtip="3">
-              <h3 class="overview_title" title="Select a country"><span>Select a country</span> <i class="dropdown_arrow"></i></h3>
-            </a>
-
-            <div class="source_dropdown_menu source_dropdown_menu_wood_fiber_plantations">
-              <ul>
-                <li><a href="#" data-slug="indonesia_wood_fiber_plantations">Indonesia wood fiber plantations</a></li>
-                <li><a href="#" data-slug="republic_of_the_congo_eucalyptus_plantations">Republic of the Congo eucalyptus plantations</a></li>
+            <div id="woodFiberDropdown">
+              <a href="#" class="source_dropdown_header source_dropdown_header_wood_fiber_plantations" data-hasqtip="3">
+                <h3 class="overview_title" title="Select a country">
+                  <span id='woodFiberDropdownTitle'>Select a country</span> <i class="dropdown_arrow"></i></h3>
+              </a>
+            </div>
+            <div id="woodFiberDropdownMenu" class="source_dropdown_menu source_dropdown_menu_wood_fiber_plantations">
+              <ul class='source_download_links'>
+                <li><a href="#" data-slug="indonesia_wood_fiber_plantations" data-container="woodFiberDropdown">Indonesia wood fiber plantations</a></li>
+                <li><a href="#" data-slug="republic_of_the_congo_eucalyptus_plantations" data-container="woodFiberDropdown">Republic of the Congo eucalyptus plantations</a></li>
               </ul>
             </div>
 

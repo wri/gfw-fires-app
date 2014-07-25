@@ -13,6 +13,8 @@ define([],
 
             validViews: ["home", "blog", "map", "about", "data"],
 
+            emailSubscribeUrl: "http://54.88.253.17/subscribe",
+
 
 
             //knockout stuff

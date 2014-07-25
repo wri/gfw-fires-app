@@ -7,11 +7,12 @@ define([
     "dojo/query",
     "dojo/_base/array",
     "esri/config",
+    "main/Config",
     // Call Necessary Layout Widgets Here
     "dojox/mobile/parser",
     "dijit/layout/StackContainer",
     "dijit/layout/ContentPane"
-], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, parser) {
+], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, MainConfig, parser) {
 
     var map;
 
@@ -24,6 +25,7 @@ define([
 
         //enable cors servers
         esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
+        esriConfig.defaults.io.corsEnabledServers.push(MainConfig.emailSubscribeUrl);
         
         // esriConfig.defaults.io.proxyUrl = "http://www.wri.org/";
 

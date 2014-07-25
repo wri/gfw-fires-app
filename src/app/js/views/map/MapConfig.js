@@ -17,7 +17,7 @@ define({
 
     mapOptions: {
         darkGrayCanvas: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer",
-        basemap: "gray",
+        basemap: "topo",
         minZoom: 3,
         initalZoom: 5,
         center: [115, 0],
