@@ -6,16 +6,31 @@ define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/stri
       this.visible = false;
       this._bucket = "dg_053748166090_01_wm_ImageServer"; // Default Bucket
       this.spatialReference = new esri.SpatialReference({ wkid:102100 });
+
+      // TODO: THIS WILL CHANGE BASED ON WHICH FEATURE IS ACTIVE
       this.initialExtent = (this.fullExtent = {
         "spatialReference": {
           "latestWkid": 3857,
           "wkid": 102100
         },
-        "xmax": 11320829.473451713,
-        "xmin": 11296730.9633,
-        "ymax": 11643.276799999294,
-        "ymin": -34966.171717882935
+        "xmax": 11746768.31199022,
+        "xmin": 10989124.487627592,
+        "ymax": 263916.6022425296,
+        "ymin": -47946.47316097398
       });
+
+      /* EXTENT FROM THE MAP SERVICE */
+      // this.initialExtent = (this.fullExtent = {
+      //   "spatialReference": {
+      //     "latestWkid": 3857,
+      //     "wkid": 102100
+      //   },
+      //   "xmax": 11320829.473451713,
+      //   "xmin": 11296730.9633,
+      //   "ymax": 11643.276799999294,
+      //   "ymin": -34966.171717882935
+      // });
+
       this.tileInfo = new esri.layers.TileInfo({
         "rows" : 256, //y
         "cols" : 256, //x
@@ -58,7 +73,7 @@ define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/stri
       this.onLoad(this);
     },
 
-    getTileUrl: function(level, row, col) {
+    getTileUrl: function(level, row, col) {      
 
       // The Layer needs visibility set to true to work correctly
       // this._bucket needs to be something other then "" to work
@@ -70,6 +85,10 @@ define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/stri
 
     setBucket: function (newBucket) {
       this._bucket = newBucket;
+    },
+
+    updateExtentValues: function () {
+
     }
 
   });

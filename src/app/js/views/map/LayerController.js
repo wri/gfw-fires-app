@@ -312,7 +312,6 @@ define([
         // show helper layers does not add layer ids to the URL and do not have a UI element to turn them on
         showHelperLayers: function (layerId, visibility) {
             var layer = _map.getLayer(layerId);
-
             if (layer) {
                 if (layer.visible !== visibility) {
                     layer.setVisibility(visibility);
@@ -322,7 +321,6 @@ define([
 
         getBoundingBoxesForDigitalGlobe: function () {
             var deferred = new Deferred();
-
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
             } else {
@@ -358,15 +356,14 @@ define([
         showDigitalGlobeImagery: function (graphic) {
             var tiles = graphic.attributes.Tiles,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
+
             if (!layer.visible) {
                 layer.setVisibility(true);
             }
-
             if (layer) {
                 layer.setBucket(tiles);
                 layer.refresh();
             }
-
         },
 
         updatePeatLandsLayer: function (target) {

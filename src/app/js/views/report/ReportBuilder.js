@@ -48,7 +48,7 @@ define([
         queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
         companyConcessionsId: 1,
         confidenceFireId: 0,
-        dailyFiresId: 5
+        dailyFiresId: 6
     };
 
     esriRequest.setRequestPreCallback(function(ioArgs) {
