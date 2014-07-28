@@ -23,7 +23,7 @@ define([
     "esri/tasks/QueryTask",
     "views/map/MapConfig",
     "esri/request",
-    "libs/highcharts",
+    "libs/highcharts"
 ], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, MapConfig, esriRequest) {

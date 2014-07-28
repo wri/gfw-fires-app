@@ -1,26 +1,26 @@
-define(["dojo/_base/declare"],function(declare){
-  return declare("TiledServiceLayer",esri.layers.TiledMapServiceLayer, {
+define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/string"],function(declare, ArcGISTiledMapServiceLayer, string){
+  return declare("TiledServiceLayer", ArcGISTiledMapServiceLayer, {
     constructor: function(url,id) {
       this.url = url;
       this.id = id;
-      console.dir(this);
       this.visible = false;
+      this._bucket = "dg_053748166090_01_wm_ImageServer"; // Default Bucket
       this.spatialReference = new esri.SpatialReference({ wkid:102100 });
       this.initialExtent = (this.fullExtent = {
         "spatialReference": {
           "latestWkid": 3857,
           "wkid": 102100
         },
-        "xmax": 15744261.282091608,
-        "xmin": 9859221.600360883,
-        "ymax": 1293926.0148111186,
-        "ymin": -1293926.0148111205
+        "xmax": 11320829.473451713,
+        "xmin": 11296730.9633,
+        "ymax": 11643.276799999294,
+        "ymin": -34966.171717882935
       });
       this.tileInfo = new esri.layers.TileInfo({
         "rows" : 256, //y
         "cols" : 256, //x
         "dpi" : 96, //z
-        "format" : "image/jpeg",
+        "format" : "PNG32",
         "compressionQuality" : 0,
         "lods": [
           {"level": 0,"resolution": 156543.03392800014,"scale": 591657527.591555},
@@ -45,8 +45,8 @@ define(["dojo/_base/declare"],function(declare){
           {"level": 19,"resolution": 0.29858214164761665,"scale": 1128.497176}
         ],
         "origin" : {
-          "x" : -20037508.342787,
-          "y" : 20037508.342787
+          "x" : -20037508.342787001,
+          "y" : 20037508.342787001
         },
         "spatialReference" : {
           "latestwkid":"3857",
@@ -61,10 +61,15 @@ define(["dojo/_base/declare"],function(declare){
     getTileUrl: function(level, row, col) {
 
       // The Layer needs visibility set to true to work correctly
+      // this._bucket needs to be something other then "" to work
+      return this.url + this._bucket + "/_alllayers/" + 
+            "L" + string.pad(level, 2, '0') + "/" + 
+            "R" + string.pad(row.toString(16),8,'0') + "/" + 
+            "C" + string.pad(col.toString(16),8,'0') + ".png"; 
+    },
 
-      return this.url + "&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&TileMatrixSet=EPSG:3857&LAYER=DigitalGlobe:ImageryTileService&" + 
-                        "FORMAT=image/jpeg&STYLE=&featureProfile=Global_Currency_Profile&TileMatrix=EPSG:3857:"+level+"&TILEROW="+row+
-                        "&TILECOL="+col;
+    setBucket: function (newBucket) {
+      this._bucket = newBucket;
     }
 
   });

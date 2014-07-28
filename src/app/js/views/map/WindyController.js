@@ -126,7 +126,7 @@ define([
 				}
 			};
 
-			destroyDialog = function() {
+			destroyDialog = function(cancelFromButtons) {
 				if (cbox) {
 					cbox.destroy();
 				}
@@ -136,19 +136,22 @@ define([
 				if (noHandle) {
 					noHandle.remove();
 				}
+				if (cancelFromButtons) {
+					dialog.destroy();
+				}
 			};
 
 			cancel = function (set) {
 				if (set) {
 					setCookie("dontChange");
 				}				
-				destroyDialog();
+				destroyDialog(set);
 				deferred.resolve();
 			};
 
 			changeBasemaps = function () {
 				setCookie("changeBasemap");
-				destroyDialog();
+				destroyDialog(true);
 				deferred.resolve();
 				var currentBasemap = registry.byId("basemap-gallery").getSelected();
 				if (currentBasemap) {

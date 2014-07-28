@@ -210,9 +210,7 @@ define([
             }, {usePost: true});
 
             req.then(function (res) {
-                if (res.status_code === 200) {
-                    alert("You have successfully subscribed.");
-                }
+                alert("You have successfully subscribed, you should start receiving alerts as they come in for your area(s) of interest.");
             }, function (err) {
                 alert("There was an error subcribing at this time.  Please try again later.");
             });

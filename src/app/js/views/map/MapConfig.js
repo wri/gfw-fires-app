@@ -122,7 +122,8 @@ define({
     },
 
     digitalGlobe: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/dg_imagery/ImageServer',
+        queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/dg_footprints/MapServer/0',
+        tileUrl: 'http://suitability-mapper.blueraster.com/dg_imagery/',
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes'
     },

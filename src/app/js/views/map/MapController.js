@@ -44,7 +44,7 @@ define([
     "views/map/BurnScarTiledLayer",
     "modules/HashController",
     "esri/layers/GraphicsLayer",
-    "esri/layers/ImageServiceParameters",
+    "esri/layers/ImageServiceParameters"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
@@ -580,14 +580,16 @@ define([
             visible: false
         });
 
-        var digitalGlobeParams = new ImageServiceParameters();
-        digitalGlobeParams.format = "png8";
+        // var digitalGlobeParams = new ImageServiceParameters();
+        // digitalGlobeParams.format = "png8";
 
-        digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.url, {
-            imageServiceParameters: digitalGlobeParams,
-            id: MapConfig.digitalGlobe.id,
-            visible: false
-        });
+        // digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.tileUrl, {
+        //     imageServiceParameters: digitalGlobeParams,
+        //     id: MapConfig.digitalGlobe.id,
+        //     visible: false
+        // });
+
+        digitalGlobeLayer = new DigitalGlobeTiledLayer(MapConfig.digitalGlobe.tileUrl, MapConfig.digitalGlobe.id);
 
         overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
             id: MapConfig.overlaysLayer.id,

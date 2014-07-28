@@ -292,12 +292,20 @@ define([
             var self = this,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
             this.getBoundingBoxesForDigitalGlobe().then(function (foundBounds) {
-                self.toggleLayerVisibility(MapConfig.digitalGlobe.id, visibility);
+                self.toggleDigitalGlobeLayerVisibility(MapConfig.digitalGlobe.id, visibility);
                 self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
-                self.showHelperLayers(MapConfig.digitalGlobe.labelLayerId, visibility);
             });
-            if (layer) {
-                layer.setDefinitionExpression("0 = 1");
+        },
+
+        toggleDigitalGlobeLayerVisibility: function (layerId, visibility) {
+            if (visibility) {
+                this.updateLayersInHash('add', layerId, layerId);
+            } else {
+                this.updateLayersInHash('remove', layerId, layerId);
+                var layer = _map.getLayer(layerId);
+                if (layer) {
+                    layer.setVisibility(false);
+                }
             }
         },
 
@@ -318,11 +326,11 @@ define([
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
             } else {
-                var queryTask = new QueryTask(MapConfig.digitalGlobe.url),
+                var queryTask = new QueryTask(MapConfig.digitalGlobe.queryUrl),
                     query = new Query(),
                     dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
 
-                query.outFields = ['OBJECTID','Name', 'Date'];
+                query.outFields = ['OBJECTID','Name', 'Date','Tiles'];
                 query.where = 'Category = 1';
                 query.returnGeometry = true;
                 queryTask.execute(query, function (res) {
@@ -335,7 +343,7 @@ define([
                         );
                         // Give the feature a layer attribute so It's easier to tell which layer a 
                         // clicked feature belongs to
-                        feature.attributes.Layer = "Digital_Globe"; 
+                        feature.attributes.Layer = "Digital_Globe";
                         dgLayer.add(feature);
                     });
                     deferred.resolve(true);
@@ -348,11 +356,15 @@ define([
         },
 
         showDigitalGlobeImagery: function (graphic) {
-            var name = graphic.attributes.Name,
+            var tiles = graphic.attributes.Tiles,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
+            if (!layer.visible) {
+                layer.setVisibility(true);
+            }
 
             if (layer) {
-                layer.setDefinitionExpression("Name = '" + name + "'");
+                layer.setBucket(tiles);
+                layer.refresh();
             }
 
         },
