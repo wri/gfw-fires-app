@@ -228,12 +228,18 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             if (selectedMode.eventName === '') {
                 return;
             }
+            eval("EventsController." + selectedMode.eventName + "()");
             if (data.html) {
                 if (data.html.search("latest imagery") > -1) {
-                    LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
+                    // Necessary because eval is changing the hash and undoing this change
+                    setTimeout(function () {
+                        LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
+                        if (registry.byId("digital-globe-checkbox")) {
+                            registry.byId("digital-globe-checkbox").set("checked", true);
+                        }
+                    }, 0);
                 }
             }
-            eval("EventsController." + selectedMode.eventName + "()");
         };
 
         o.isInitialized = function() {

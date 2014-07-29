@@ -64,6 +64,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             var updateHash = {
                 v: clickedItem.viewName
             };
+
             HashController.updateHash(updateHash);
 
         };
