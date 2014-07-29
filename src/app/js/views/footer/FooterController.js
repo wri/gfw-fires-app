@@ -154,8 +154,6 @@ define([
                             });
                         }
 
-                        console.log(selectedOptions);
-
                         if (selectedOptions.length === 0) {
                             domStyle.set("aoiSubDistrictPicker","border","1px solid red");
                             model.errorMessages.push("You need to select at least one subdistrict.");

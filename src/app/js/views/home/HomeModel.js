@@ -19,7 +19,6 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
             ko.applyBindings(vm, dom.byId(domId));
         };
 
-
         return o;
 
-    })
+    });

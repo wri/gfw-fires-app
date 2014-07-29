@@ -66,8 +66,6 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
         };
 
         o.handleHashChange = function(newState, oldState) {
-            console.log(newState);
-            console.log(oldState);
             var that = this;
 
             o.newState = newState;

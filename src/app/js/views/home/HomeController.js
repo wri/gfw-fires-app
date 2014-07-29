@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array"],
-    function(dom, domQuery, registry, HashController, EventsController, HomeModel, arrayUtil) {
+define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array","views/map/LayerController", "views/map/MapConfig"],
+    function(dom, domQuery, registry, HashController, EventsController, HomeModel, arrayUtil, LayerController, MapConfig) {
 
         var o = {};
         var initialized = false;
@@ -205,9 +205,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     // setTimeout(function() {
                     //     EventsController.startModeAnim();
                     // }, 500);
-                    EventsController.startModeAnim();
-
-                    console.log(homeModeOptions);
+                    EventsController.startModeAnim();                    
 
                 });
 
@@ -229,6 +227,11 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             var selectedMode = data;
             if (selectedMode.eventName === '') {
                 return;
+            }
+            if (data.html) {
+                if (data.html.search("latest imagery") > -1) {
+                    LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
+                }
             }
             eval("EventsController." + selectedMode.eventName + "()");
         };
