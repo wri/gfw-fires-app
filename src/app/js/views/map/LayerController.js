@@ -321,6 +321,7 @@ define([
 
         getBoundingBoxesForDigitalGlobe: function () {
             var deferred = new Deferred();
+
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
             } else {

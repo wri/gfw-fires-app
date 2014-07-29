@@ -34,6 +34,7 @@ define([
         slider: false,
         mapcenter: [100, -1.2],
         adminBoundary: {
+            mapDiv: "district-fires-map",
             url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
             id: 'district-bounds',
             defaultLayers: [2],
@@ -43,7 +44,34 @@ define([
             classBreaksMethod: 'natural-breaks',
             breakCount: 5,
             fromHex: "#fcddd1",
-            toHex: "#930016"
+            toHex: "#930016",
+            legendId: "legend"
+        },
+        subdistrictBoundary: {
+            mapDiv: "subdistrict-fires-map",
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+            id: 'subdistrict-bounds',
+            defaultLayers: [5],
+            layerId: 5,
+            where: "fire_count > 0",
+            classBreaksField: 'fire_count',
+            classBreaksMethod: 'natural-breaks',
+            breakCount: 5,
+            fromHex: "#fcddd1",
+            toHex: "#930016",
+            legendId: "SubDistrict-legend"
+        },
+        adminQuery: {
+            outFields: ['NAME_2', 'NAME_1', 'fire_count'],
+            tableId: "district-fires-table",
+            headerField: ['DISTRICT','PROVINCE'],
+            layerId: 2
+        },
+        subDistrictQuery: {
+            outFields: ['SUBDISTRIC','DISTRICT','fire_count'],
+            tableId: "subdistrict-fires-table",
+            headerField: ['SUBDISTRICT','DISTRICT'],
+            layerId: 5
         },
         queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
         companyConcessionsId: 1,
@@ -51,19 +79,19 @@ define([
         dailyFiresId: 6
     };
 
-    esriRequest.setRequestPreCallback(function(ioArgs) {
+    // esriRequest.setRequestPreCallback(function(ioArgs) {
 
-        // inspect ioArgs
-        console.log(ioArgs.url, ioArgs.content);
+    //     // inspect ioArgs
+    //     console.log(ioArgs.url, ioArgs.content);
 
-        if (ioArgs.content && ioArgs.content.dynamicLayers) {
-            //  alert(ioArgs.content.dynamicLayers);
-        }
+    //     if (ioArgs.content && ioArgs.content.dynamicLayers) {
+    //         //  alert(ioArgs.content.dynamicLayers);
+    //     }
 
-        // don't forget to return ioArgs.
-        return ioArgs;
+    //     // don't forget to return ioArgs.
+    //     return ioArgs;
 
-    });
+    // });
 
     return {
 
@@ -95,8 +123,10 @@ define([
             ready(function() {
                 all([
                     self.buildFiresMap(),
-                    self.buildDistrictFiresMap(),
-                    self.queryDistrictsForFires(),
+                    self.buildOtherFiresMap("adminBoundary"),
+                    self.buildOtherFiresMap("subdistrictBoundary"),
+                    self.queryDistrictsForFires('adminQuery'),
+                    self.queryDistrictsForFires('subDistrictQuery'),
                     self.queryCompanyConcessions(),
                     self.queryForPeatFires(),
                     self.queryForSumatraFires(),
@@ -144,12 +174,12 @@ define([
             return deferred.promise;
         },
 
-        buildDistrictFiresMap: function() {
+        buildOtherFiresMap: function(configKey) {
             var deferred = new Deferred(),
-                boundaryConfig = PRINT_CONFIG.adminBoundary,
+                boundaryConfig = PRINT_CONFIG[configKey],
                 options = [],
-                districtFiresParams,
-                districtFiresLayer,
+                otherFiresParams,
+                otherFiresLayer,
                 generateParams,
                 generateTask,
                 colorRamp,
@@ -159,20 +189,20 @@ define([
                 ldos,
                 map;
 
-            map = new Map("district-fires-map", {
+            map = new Map(boundaryConfig.mapDiv, {
                 basemap: PRINT_CONFIG.basemap,
                 zoom: PRINT_CONFIG.zoom,
                 center: PRINT_CONFIG.mapcenter,
                 slider: PRINT_CONFIG.slider
             });
 
-            districtFiresParams = new ImageParameters();
-            districtFiresParams.format = "png32";
-            districtFiresParams.layerIds = boundaryConfig.defaultLayers;
-            districtFiresParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+            otherFiresParams = new ImageParameters();
+            otherFiresParams.format = "png32";
+            otherFiresParams.layerIds = boundaryConfig.defaultLayers;
+            otherFiresParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
 
-            districtFiresLayer = new ArcGISDynamicLayer(boundaryConfig.url, {
-                imageParameters: districtFiresParams,
+            otherFiresLayer = new ArcGISDynamicLayer(boundaryConfig.url, {
+                imageParameters: otherFiresParams,
                 id: boundaryConfig.id,
                 visible: true
             });
@@ -201,7 +231,7 @@ define([
                     html += "<td class='legend-label'>" + item.minValue + " - " + item.maxValue + "</td></tr>";
                 });
                 html += "</table>";
-                dom.byId("legend").innerHTML = html;
+                dom.byId(boundaryConfig.legendId).innerHTML = html;
             }
 
             function generateRenderer() {
@@ -211,8 +241,8 @@ define([
                     ldos = new LayerDrawingOptions();
                     ldos.renderer = customRenderer;
                     options[boundaryConfig.layerId] = ldos;
-                    districtFiresLayer.setLayerDrawingOptions(options);
-                    districtFiresLayer.on('update-end', function() {
+                    otherFiresLayer.setLayerDrawingOptions(options);
+                    otherFiresLayer.on('update-end', function() {
                         deferred.resolve(true);
                     });
                 }, function() {
@@ -220,9 +250,9 @@ define([
                 });
             }
 
-            districtFiresLayer.on('load', generateRenderer);
+            otherFiresLayer.on('load', generateRenderer);
 
-            map.addLayer(districtFiresLayer);
+            map.addLayer(otherFiresLayer);
 
             map.on('load', function() {
                 map.disableMapNavigation();
@@ -231,9 +261,10 @@ define([
             return deferred.promise;
         },
 
-        queryDistrictsForFires: function() {
-            var queryTask = new QueryTask(PRINT_CONFIG.adminBoundary.url + "/" + PRINT_CONFIG.adminBoundary.layerId),
-                fields = ['NAME_2', 'NAME_1', 'fire_count'],
+        queryDistrictsForFires: function(configKey) {
+            var queryConfig = PRINT_CONFIG[configKey],
+                queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + queryConfig.layerId),
+                fields = queryConfig.outFields,
                 deferred = new Deferred(),
                 query = new Query(),
                 self = this;
@@ -244,7 +275,8 @@ define([
             query.orderByFields = ["fire_count DESC"];
 
             function buildTable(features) {
-                var table = "<table class='fires-table'><tr><th>DISTRICT</th><th>PROVINCE</th><th>NUMBER OF FIRE ALERTS</th></tr>";
+                var table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + 
+                            "</th><th>" + queryConfig.headerField[1] + "</th><th>NUMBER OF FIRE ALERTS</th></tr>";
                 table += self.generateTableRows(features, fields);
                 table += "</table>";
                 return table;
@@ -252,7 +284,7 @@ define([
 
             queryTask.execute(query, function(res) {
                 if (res.features.length > 0) {
-                    dom.byId("district-fires-table").innerHTML = buildTable(res.features.slice(0, 10));
+                    dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
                     deferred.resolve(true);
                 }
             }, function(err) {

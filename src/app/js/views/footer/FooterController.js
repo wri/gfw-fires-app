@@ -137,10 +137,12 @@ define([
 
                         if (dom.byId("aoiSubDistrictPicker").value === "ALL") {
                             arrayUtil.forEach(dom.byId("aoiSubDistrictPicker").options, function (item) {
-                                selectedOptions.push({
-                                    "aoi_id": parseInt(item.value),
-                                    "aoi_name": item.innerHTML
-                                });
+                                if (item.innerHTML !== "Select All") {
+                                    selectedOptions.push({
+                                        "aoi_id": parseInt(item.value),
+                                        "aoi_name": item.innerHTML
+                                    });
+                                }
                             });
                         } else {
                             arrayUtil.forEach(dom.byId("aoiSubDistrictPicker").options, function (item) {
@@ -152,6 +154,8 @@ define([
                                 }
                             });
                         }
+
+                        console.log(selectedOptions);
 
                         if (selectedOptions.length === 0) {
                             domStyle.set("aoiSubDistrictPicker","border","1px solid red");
@@ -201,20 +205,22 @@ define([
                     msg_addr: address,
                     msg_type: type
                 },
+                honeyPotValue = dom.byId("verifyEmailForAlerts").value,
                 req;
 
-            req = esriRequest({
-                url: subscribeUrl,
-                content: content,
-                handleAs: "json"
-            }, {usePost: true});
+            if (honeyPotValue === '') {
+                req = esriRequest({
+                    url: subscribeUrl,
+                    content: content,
+                    handleAs: "json"
+                }, {usePost: true});
 
-            req.then(function (res) {
-                alert("You have successfully subscribed, you should start receiving alerts as they come in for your area(s) of interest.");
-            }, function (err) {
-                alert("There was an error subcribing at this time.  Please try again later.");
-            });
-
+                req.then(function (res) {
+                    alert("You have successfully subscribed, you should start receiving alerts as they come in for your area(s) of interest.");
+                }, function (err) {
+                    alert("There was an error subcribing at this time. " + err.message);
+                });
+            }
 
         };
 

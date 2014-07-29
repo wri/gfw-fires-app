@@ -148,6 +148,16 @@ define({
         outFields: ['SUBDISTRIC','ID_KEC']
     },
 
+    digitalGlobeTiledExtents: {
+        'dg_053748166030_01_wm_ImageServer': {'xmin': 11297272.8169, 'xmax': 11320116.177475661,'ymin': -36313.05295946365, 'ymax': 11266.611600000033},
+        'dg_053748166040_01_wm_ImageServer': {'xmin': 11303228.1107, 'xmax': 11363081.650831264,'ymin': -40285.32983358677, 'ymax': -10812.65980000133},
+        'dg_053748166050_01_wm_ImageServer': {'xmin': 11227264.5673, 'xmax': 11247780.370912714,'ymin': 208832.68983864193, 'ymax': 256114.79740000155},
+        'dg_053748166060_01_wm_ImageServer': {'xmin': 11158483.556699999, 'xmax': 11204353.420720316,'ymin': 210346.4121365949, 'ymax': 239288.08819999933},
+        'dg_053748166070_01_wm_ImageServer': {'xmin': 11413928.036899999, 'xmax': 11447978.275764622,'ymin': 6488.202793674875, 'ymax': 27819.13229999963},
+        'dg_053748166080_01_wm_ImageServer': {'xmin': 11405195.531, 'xmax': 11437627.240128234,'ymin': -5138.3676402936835, 'ymax': 32095.83130000064},
+        'dg_053748166090_01_wm_ImageServer': {'xmin': 11296730.9633, 'xmax': 11320829.473451713,'ymin': -34966.171717882935, 'ymax': 11643.276799999294},
+    },
+
     // Key: LayerID
     // Value: Assoicated Checkbox
     // If has multiple checkboxes per layer, value is an object and layerID is lookup for checkbox

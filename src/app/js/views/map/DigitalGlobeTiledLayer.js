@@ -1,4 +1,9 @@
-define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/string"],function(declare, ArcGISTiledMapServiceLayer, string){
+define([
+  "dojo/_base/declare",
+  "esri/layers/ArcGISTiledMapServiceLayer",
+  "dojo/string",
+  "views/map/MapConfig"
+],function (declare, ArcGISTiledMapServiceLayer, string, Config) {
   return declare("TiledServiceLayer", ArcGISTiledMapServiceLayer, {
     constructor: function(url,id) {
       this.url = url;
@@ -74,7 +79,6 @@ define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/stri
     },
 
     getTileUrl: function(level, row, col) {      
-
       // The Layer needs visibility set to true to work correctly
       // this._bucket needs to be something other then "" to work
       return this.url + this._bucket + "/_alllayers/" + 
@@ -84,11 +88,22 @@ define(["dojo/_base/declare","esri/layers/ArcGISTiledMapServiceLayer","dojo/stri
     },
 
     setBucket: function (newBucket) {
+      var extent = Config.digitalGlobeTiledExtents[newBucket];
       this._bucket = newBucket;
-    },
-
-    updateExtentValues: function () {
-
+      if (!extent) {
+        alert("No Extent for This one Yet");
+      } else {
+        this.initialExtent = (this.fullExtent = {
+          "spatialReference": {
+            "latestWkid": 3857,
+            "wkid": 102100
+          },
+          "xmax": extent.xmax,
+          "xmin": extent.xmin,
+          "ymax": extent.ymax,
+          "ymin": extent.ymin
+        });
+      }
     }
 
   });
