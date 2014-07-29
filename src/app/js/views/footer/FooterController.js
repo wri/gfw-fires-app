@@ -1,5 +1,5 @@
 define([
-    "dojo/dom", 
+    "dojo/dom",
     "dojo/Deferred",
     "dijit/registry", 
     "modules/HashController", 
@@ -10,9 +10,8 @@ define([
     "dojo/_base/array",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
-    "esri/request",
-    "views/footer/FooterModel"
-], function(dom, Deferred, registry, HashController, EventsController, FooterModel, MapConfig, MainConfig, arrayUtil, Query, QueryTask, esriRequest, FooterModel) {
+    "esri/request"
+], function(dom, Deferred, registry, HashController, EventsController, FooterModel, MapConfig, MainConfig, arrayUtil, Query, QueryTask, esriRequest) {
 
         var o = {};
         var initialized = false;
@@ -208,7 +207,10 @@ define([
                 honeyPotValue = dom.byId("verifyEmailForAlerts").value,
                 req;
 
+
             if (honeyPotValue === '') {
+                // Set status in submit button
+                dom.byId("alerts-submit-button").innerHTML = "Submitting...";
                 req = esriRequest({
                     url: subscribeUrl,
                     content: content,
@@ -216,8 +218,10 @@ define([
                 }, {usePost: true});
 
                 req.then(function (res) {
+                    dom.byId("alerts-submit-button").innerHTML = "Submit";
                     alert("You have successfully subscribed, you should start receiving alerts as they come in for your area(s) of interest.");
                 }, function (err) {
+                    dom.byId("alerts-submit-button").innerHTML = "Submit";
                     alert("There was an error subcribing at this time. " + err.message);
                 });
             }

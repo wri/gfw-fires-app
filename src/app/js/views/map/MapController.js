@@ -683,8 +683,6 @@ define([
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
 
-        window.map = o.map;
-
         // Testing
 
         // var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';

@@ -42,12 +42,13 @@ define([
         "dpi" : 96, //z
         "format" : "PNG32",
         "compressionQuality" : 0,
+        // Levels 0-4 and 19 Not Available with this tile set of imagery
         "lods": [
-          {"level": 0,"resolution": 156543.03392800014,"scale": 591657527.591555},
-          {"level": 1,"resolution": 78271.51696399994,"scale": 295828763.795777},
-          {"level": 2,"resolution": 39135.75848200009,"scale": 147914381.897889},
-          {"level": 3,"resolution": 19567.87924099992,"scale": 73957190.948944},
-          {"level": 4,"resolution": 9783.93962049996,"scale": 36978595.474472},
+          //{"level": 0,"resolution": 156543.03392800014,"scale": 591657527.591555},
+          //{"level": 1,"resolution": 78271.51696399994,"scale": 295828763.795777},
+          //{"level": 2,"resolution": 39135.75848200009,"scale": 147914381.897889},
+          //{"level": 3,"resolution": 19567.87924099992,"scale": 73957190.948944},
+          //{"level": 4,"resolution": 9783.93962049996,"scale": 36978595.474472},
           {"level": 5,"resolution": 4891.96981024998,"scale": 18489297.737236},
           {"level": 6,"resolution": 2445.98490512499,"scale": 9244648.868618},
           {"level": 7,"resolution": 1222.992452562495,"scale": 4622324.434309},
@@ -61,8 +62,8 @@ define([
           {"level": 15,"resolution": 4.77731426794937,"scale": 18055.954822},
           {"level": 16,"resolution": 2.388657133974685,"scale": 9027.977411},
           {"level": 17,"resolution": 1.1943285668550503,"scale": 4513.988705},
-          {"level": 18,"resolution": 0.5971642835598172,"scale": 2256.994353},
-          {"level": 19,"resolution": 0.29858214164761665,"scale": 1128.497176}
+          {"level": 18,"resolution": 0.5971642835598172,"scale": 2256.994353}
+          //,{"level": 19,"resolution": 0.29858214164761665,"scale": 1128.497176}
         ],
         "origin" : {
           "x" : -20037508.342787001,
@@ -103,6 +104,8 @@ define([
           "ymax": extent.ymax,
           "ymin": extent.ymin
         });
+        // Force the layer to reload
+        this.onLoad(this);
       }
     }
 

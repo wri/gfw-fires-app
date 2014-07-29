@@ -87,8 +87,6 @@ define([
         },
 
         mapClick: function(event) {
-
-
             var map = _map;
             forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id),
             conservationLayers = map.getLayer(MapConfig.conservationLayers.id),

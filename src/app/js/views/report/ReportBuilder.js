@@ -130,6 +130,7 @@ define([
                     self.queryCompanyConcessions(),
                     self.queryForPeatFires(),
                     self.queryForSumatraFires(),
+                    self.queryForMoratoriumFires(),
                     self.queryForDailyFireData()
                 ]).then(function(res) {
                     self.printReport();
@@ -419,6 +420,58 @@ define([
             return deferred.promise;
         },
 
+        queryForMoratoriumFires: function () {
+            var deferred = new Deferred(),
+            chartData = [],
+            self = this,
+            outside,
+            inside,
+            total;
+
+            function success(res) {
+                total = res.features.length;
+                inside = 0;
+                outside = 0;
+                arrayUtils.forEach(res.features, function (feature) {
+                    if (feature.attributes.moratorium === 1) {
+                        inside++;
+                    } else {
+                        outside++;
+                    }
+                });
+                chartData.push({
+                    color: "rgba(184,0,18,1)",
+                    name: "In Moratorium lands",
+                    visible: true,
+                    y: inside
+                });
+                chartData.push({
+                    color: "rgba(17,139,187,1)",
+                    name: "Not in Moratorium lands",
+                    visible: true,
+                    y: outside
+                });
+                self.buildPieChart("moratorium-fires-chart", {
+                    data: chartData,
+                    name: 'Moratorium Fires',
+                    labelDistance: -25,
+                    total: total
+                });
+                deferred.resolve(true);
+            }
+
+            function failure(err) {
+                deferred.resolve(false);
+                console.error(err);
+            }
+
+            self.queryFireData({
+                outFields: ["moratorium"]
+            }, success, failure);
+
+            return deferred.promise;
+        },
+
         queryForSumatraFires: function() {
             var deferred = new Deferred(),
                 protectedAreaData = [],
@@ -617,7 +670,7 @@ define([
                 dateString;
 
             // Make Time Relative to Last Week
-            time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 7);
+            time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 8);
 
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
