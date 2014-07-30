@@ -441,13 +441,13 @@ define([
                 });
                 chartData.push({
                     color: "rgba(184,0,18,1)",
-                    name: "In Moratorium lands",
+                    name: "In Indicative Moratorium Areas",
                     visible: true,
                     y: inside
                 });
                 chartData.push({
                     color: "rgba(17,139,187,1)",
-                    name: "Not in Moratorium lands",
+                    name: "Not in Indicative Moratorium Areas",
                     visible: true,
                     y: outside
                 });

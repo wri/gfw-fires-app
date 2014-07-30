@@ -108,6 +108,12 @@ define([
                 dialog.show();
                 FooterModel.applyBindings("signUpAlertsForm");
 
+                function cleanup                                                                                                        () {
+                    domConstruct.destroy(dom.byId("signUpAlertsForm"));
+                    districtHandle.remove();
+                    submitHandle.remove();
+                }
+
                 self.getDistrictValues().then(function (districtArray) {
                     var model = FooterModel.get('model');
                     if (districtArray) {
@@ -168,7 +174,7 @@ define([
                             formIsValid = false;
                             domStyle.set("emailForAlerts","border","1px solid red");
                             domStyle.set("phoneNumberForAlerts","border","1px solid red");
-                            model.errorMessages.push("You must atleast provide a phone number and/or an email.");
+                            model.errorMessages.push("You must at least provide a phone number and/or an email.");
                         }
 
                         if (!formIsValid) {
@@ -176,19 +182,25 @@ define([
                         } else {
                             if (phone !== '') {
                                 phone = phone.replace(/[^\d]/g,'');
-                                self.postSubscribeRequest(selectedOptions, phone, 'sms');
+                                self.postSubscribeRequest(selectedOptions, phone, 'sms').then(function (result) {
+                                    if (result) {
+                                        dialog.destroy();
+                                        cleanup();
+                                    }
+                                });
                             }
                             if (validate.isEmailAddress(email)) {
-                                self.postSubscribeRequest(selectedOptions, email, 'email');
+                                self.postSubscribeRequest(selectedOptions, email, 'email').then(function (result) {
+                                    if (result) {
+                                        dialog.destroy();
+                                        cleanup();
+                                    }
+                                });
                             }                            
                         }
                     });
 
-                    dialog.on('cancel', function () {
-                        domConstruct.destroy(dom.byId("signUpAlertsForm"));
-                        districtHandle.remove();
-                        submitHandle.remove();
-                    });
+                    dialog.on('cancel', cleanup);
 
                 });
                 
@@ -203,6 +215,7 @@ define([
                     msg_type: type
                 },
                 honeyPotValue = dom.byId("verifyEmailForAlerts").value,
+                deferred = new Deferred(),
                 req;
 
 
@@ -218,11 +231,17 @@ define([
                 req.then(function (res) {
                     dom.byId("alerts-submit-button").innerHTML = "Submit";
                     alert("You have successfully subscribed, you should start receiving alerts as they come in for your area(s) of interest.");
+                    deferred.resolve(true);
                 }, function (err) {
                     dom.byId("alerts-submit-button").innerHTML = "Submit";
                     alert("There was an error subcribing at this time. " + err.message);
+                    deferred.resolve(false);
                 });
+            } else {
+                deferred.resolve(true);
             }
+
+            return deferred.promise;
 
         };
 
