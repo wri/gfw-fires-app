@@ -2,8 +2,9 @@ define([
   "dojo/_base/declare",
   "esri/layers/ArcGISTiledMapServiceLayer",
   "dojo/string",
+  "views/map/MapModel",
   "views/map/MapConfig"
-],function (declare, ArcGISTiledMapServiceLayer, string, Config) {
+],function (declare, ArcGISTiledMapServiceLayer, string, MapModel, Config) {
   return declare("TiledServiceLayer", ArcGISTiledMapServiceLayer, {
     constructor: function(url,id) {
       this.url = url;
@@ -23,18 +24,6 @@ define([
         "ymax": 263916.6022425296,
         "ymin": -47946.47316097398
       });
-
-      /* EXTENT FROM THE MAP SERVICE */
-      // this.initialExtent = (this.fullExtent = {
-      //   "spatialReference": {
-      //     "latestWkid": 3857,
-      //     "wkid": 102100
-      //   },
-      //   "xmax": 11320829.473451713,
-      //   "xmin": 11296730.9633,
-      //   "ymax": 11643.276799999294,
-      //   "ymin": -34966.171717882935
-      // });
 
       this.tileInfo = new esri.layers.TileInfo({
         "rows" : 256, //y
@@ -82,6 +71,10 @@ define([
     getTileUrl: function(level, row, col) {      
       // The Layer needs visibility set to true to work correctly
       // this._bucket needs to be something other then "" to work
+      console.log(this.url + this._bucket + "/_alllayers/" + 
+            "L" + string.pad(level, 2, '0') + "/" + 
+            "R" + string.pad(row.toString(16),8,'0') + "/" + 
+            "C" + string.pad(col.toString(16),8,'0') + ".png");
       return this.url + this._bucket + "/_alllayers/" + 
             "L" + string.pad(level, 2, '0') + "/" + 
             "R" + string.pad(row.toString(16),8,'0') + "/" + 
@@ -89,10 +82,12 @@ define([
     },
 
     setBucket: function (newBucket) {
-      var extent = Config.digitalGlobeTiledExtents[newBucket];
+      var extents = MapModel.get('DigitalGlobeExtents'),
+          extent = extents[newBucket];
+
       this._bucket = newBucket;
       if (!extent) {
-        alert("No Extent for This one Yet");
+        alert("There seems to be a problem with this feature, please try another.");
       } else {
         this.initialExtent = (this.fullExtent = {
           "spatialReference": {

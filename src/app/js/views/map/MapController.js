@@ -164,6 +164,7 @@ define([
             zoom: hashL, //MapConfig.mapOptions.initalZoom,
             basemap: MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
+            maxZoom: MapConfig.mapOptions.maxZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
         });
 
@@ -360,65 +361,104 @@ define([
 
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
             LayerController.updateFiresLayer(true);
+            if (evt) {
+                self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
+            }
         });
 
         on(registry.byId("twitter-conversations-checkbox"), "change", function(evt) {
             var value = registry.byId("twitter-conversations-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.tweetLayer.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Twitter Conversations layer on.');
+            }
         });
 
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Active Fires layer on.');
+            }
         });
 
         on(registry.byId("air-quality-checkbox"), "change", function(value) {
             LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Air Quality layer on.');
+            }
         });
 
         on(registry.byId("burned-scars-checkbox"), "change", function (value) {
             LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');                
+            }
         });
 
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Latest Landsat 8 Imagery layer on.');
+            }
         });
 
         registry.byId("windy-layer-checkbox").on('change', function(checked) {
             WindyController.toggleWindLayer(checked);
+            if (checked) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Wind direction layer on.');                
+            }
         });
 
         registry.byId("digital-globe-checkbox").on('change', function(checked) {
             LayerController.toggleDigitalGlobeLayer(checked);
+            if (checked) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Digital Globe - First Look layer on.');
+            }
         });
 
-        registry.byId("provinces-checkbox").on('change', function() {
+        registry.byId("provinces-checkbox").on('change', function(checked) {
             LayerController.adjustOverlaysLayer();
+            if (checked) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Provinces overlay layer on.');
+            }
         });
 
-        registry.byId("districts-checkbox").on('change', function() {
+        registry.byId("districts-checkbox").on('change', function(checked) {
             LayerController.adjustOverlaysLayer();
+            if (checked) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Districts overlay layer on.');
+            }
         });
 
-        registry.byId("subdistricts-checkbox").on('change', function() {
+        registry.byId("subdistricts-checkbox").on('change', function(checked) {
             LayerController.adjustOverlaysLayer();
+            if (checked) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Subdistricts overlay layer on.');
+            }
         });
 
-        registry.byId("villages-checkbox").on('change', function() {
+        registry.byId("villages-checkbox").on('change', function(checked) {
             LayerController.adjustOverlaysLayer();
+            if (checked) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Villages overlay layer on.');
+            }
         });
 
         on(dom.byId("search-option-go-button"), "click", function() {
             Finder.searchAreaByCoordinates();
+            self.reportAnalyticsHelper('widget', 'search', 'The user searched for location by latitude/longitude or Degrees/Minutes/Seconds.');
         });
 
         on(dom.byId("print-button"), "click", function() {
             self.printMap();
+            self.reportAnalyticsHelper('widget', 'print', 'The user clicked the print widget to print the map.');
         });
 
         on(dom.byId("report-link"), "click", function() {
             var win = window.open('./app/js/views/report/report.html', 'Report', '');
+            self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
         });
 
         on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
@@ -466,28 +506,65 @@ define([
         });
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
-            on(node, "change", function() {
+            on(node, "change", function(evt) {
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
                 LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
+                // Try to parse out some arguments, and use them for Analytics
+                var target = evt.target ? evt.target : evt.srcElement;
+                if (target.checked) {
+                    if (target.labels.length > 0) {
+                        var label = target.labels[0].innerHTML;
+                        self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    }
+                }
             });
         });
 
         dojoQuery(".conservation-layers-option").forEach(function(node) {
-            on(node, "change", function() {
+            on(node, "change", function(evt) {
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
                 LayerController.updateAdditionalVisibleLayers("conservation-layers-option", MapConfig.conservationLayers);
+                // Try to parse out some arguments, and use them for Analytics
+                var target = evt.target ? evt.target : evt.srcElement;
+                if (target.checked) {
+                    if (target.labels.length > 0) {
+                        var label = target.labels[0].innerHTML;
+                        self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    }
+                }
             });
         });
 
         dojoQuery(".land-cover-layers-option").forEach(function(node) {
             on(node, "change", function(evt) {
                 LayerController.updateLandCoverLayers(evt);
+                // Try to parse out some arguments, and use them for Analytics
+                var target = evt.target ? evt.target : evt.srcElement;
+                if (target.checked) {
+                    if (target.labels.length > 0) {
+                        var label = target.labels[0].innerHTML;
+                        if (label.search("None") === -1) {
+                            self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                        }                        
+                    }
+                }
             });
         });
 
         dojoQuery("#primary-forests-options input").forEach(function(node) {
-            on(node, "change", function() {
+            on(node, "change", function(evt) {
                 LayerController.updatePrimaryForestsLayer(true); // The True is to keep it visible
+                // Try to parse out some arguments, and use them for Analytics
+                var target = evt.target ? evt.target : evt.srcElement;
+                if (target.checked) {
+                    if (target.labels.length > 0) {
+                        var label = target.labels[0].innerHTML;
+                        if (label.search('Primary') === -1) {
+                            label = 'Primary Forests ' + label;
+                        }
+                        self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    }
+                }
             });
         });
 
@@ -672,7 +749,6 @@ define([
 
         // Set the default layer ordering for Overlays Layer
         overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
-
         burnScarLayer.on('error', this.layerAddError);
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
@@ -682,6 +758,8 @@ define([
         overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
+        //digitalGlobeLayer.on('error', this.layerAddError);
+        airQualityLayer.on('error', this.layerAddError);
 
         // Testing
 
@@ -836,6 +914,11 @@ define([
         domClass.add('print-button', 'loading');
 
         printTask.execute(params, success, fail);
+    };
+
+    o.reportAnalyticsHelper = function (eventType, action, label) {
+        ga('A.send', 'event', eventType, action, label);
+        ga('B.send', 'event', eventType, action, label);
     };
 
     return o;

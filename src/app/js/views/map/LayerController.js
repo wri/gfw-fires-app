@@ -14,6 +14,7 @@ define([
     "esri/layers/LayerDrawingOptions",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
+    "esri/geometry/webMercatorUtils",
     // Temporary Modules to add Graphic to Map
     "esri/Color",
     "esri/graphic",
@@ -22,7 +23,7 @@ define([
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol"
-], function(on, dom, hash, dojoQuery, ioQuery, Deferred, arrayUtils, registry, MapModel, MapConfig, HashController, LayerDrawingOptions, Query, QueryTask, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
+], function (on, dom, hash, dojoQuery, ioQuery, Deferred, arrayUtils, registry, MapModel, MapConfig, HashController, LayerDrawingOptions, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -320,7 +321,9 @@ define([
         },
 
         getBoundingBoxesForDigitalGlobe: function () {
-            var deferred = new Deferred();
+            var deferred = new Deferred(),
+                model = MapModel.get('model'),
+                extents = {};
 
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
@@ -344,7 +347,9 @@ define([
                         // clicked feature belongs to
                         feature.attributes.Layer = "Digital_Globe";
                         dgLayer.add(feature);
+                        extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
                     });
+                    model.DigitalGlobeExtents(extents);
                     deferred.resolve(true);
                 }, function (err) {
                     console.error(err);

@@ -78,7 +78,7 @@ define([],
 
                 },
                 {
-                    "html": "<span class='more-text'>Coming soon:<br>Sign up for SMS and email fire alerts</span>",
+                    "html": "<span class='more-text'>Sign up for SMS and email fire alerts</span>",
                     "eventName": "",
                     "display": false
 

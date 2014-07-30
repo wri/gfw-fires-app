@@ -19,6 +19,7 @@ define({
         darkGrayCanvas: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer",
         basemap: "topo",
         minZoom: 3,
+        maxZoom: 18,
         initalZoom: 5,
         center: [115, 0],
         sliderPosition: 'top-right'
@@ -146,18 +147,6 @@ define({
     layerForSubDistrictQuery: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/1',
         outFields: ['SUBDISTRIC','ID_KEC']
-    },
-
-    digitalGlobeTiledExtents: {
-        'dg_053748166010_01_wm_ImageServer': {'xmin': 11423064.809700001, 'xmax': 11461920.043065228,'ymin': 25681.09138384004, 'ymax': 51959.281700001426},
-        'dg_053748166020_01_wm_ImageServer': {'xmin': 11307262.711800002, 'xmax': 11333449.531070601,'ymin': -40776.7840007848, 'ymax': 5310.887800000797},
-        'dg_053748166030_01_wm_ImageServer': {'xmin': 11297272.8169, 'xmax': 11320116.177475661,'ymin': -36313.05295946365, 'ymax': 11266.611600000033},
-        'dg_053748166040_01_wm_ImageServer': {'xmin': 11303228.1107, 'xmax': 11363081.650831264,'ymin': -40285.32983358677, 'ymax': -10812.65980000133},
-        'dg_053748166050_01_wm_ImageServer': {'xmin': 11227264.5673, 'xmax': 11247780.370912714,'ymin': 208832.68983864193, 'ymax': 256114.79740000155},
-        'dg_053748166060_01_wm_ImageServer': {'xmin': 11158483.556699999, 'xmax': 11204353.420720316,'ymin': 210346.4121365949, 'ymax': 239288.08819999933},
-        'dg_053748166070_01_wm_ImageServer': {'xmin': 11413928.036899999, 'xmax': 11447978.275764622,'ymin': 6488.202793674875, 'ymax': 27819.13229999963},
-        'dg_053748166080_01_wm_ImageServer': {'xmin': 11405195.531, 'xmax': 11437627.240128234,'ymin': -5138.3676402936835, 'ymax': 32095.83130000064},
-        'dg_053748166090_01_wm_ImageServer': {'xmin': 11296730.9633, 'xmax': 11320829.473451713,'ymin': -34966.171717882935, 'ymax': 11643.276799999294},
     },
 
     // Key: LayerID
