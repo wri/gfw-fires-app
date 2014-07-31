@@ -273,11 +273,12 @@ define([
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
                 point = evt.mapPoint,
-                handles = [];
+                handles = [],
+                activeFeatureIndex;
 
             iparams.geometry = point;
             iparams.tolerance = 3;
-            iparams.returnGeometry = false;
+            iparams.returnGeometry = true;
             iparams.mapExtent = _map.extent;
             iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
             iparams.layerIds = [0];
@@ -297,35 +298,42 @@ define([
                     return;
                 }
 
-                content += "Images: <br><ul style='margin-left: 10px;'>";
+                content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
 
                 arrayUtils.forEach(features, function (f) {
                     content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
                 });
 
-                content += "</ul>";
+                content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
 
                 _map.infoWindow.setContent(content);
                 _map.infoWindow.show(point);
 
                 if (features.length === 1) {
                     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                    activeFeatureIndex = 0;
                 } else {
                     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-                    dojoQuery(".contentPane .popup-link").forEach(function (node) {
+                    activeFeatureIndex = 0;
+                    dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
                         handles.push(on(node, "click", function (evt) {
                             var target = evt.target ? evt.target : evt.srcElement,
                                 bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
                             LayerController.showDigitalGlobeImagery(bucket);
+                            activeFeatureIndex = index;
                         }));
                     });
-
-                    on.once(_map.infoWindow, "hide", function () {
-                        arrayUtils.forEach(handles, function (handle) {
-                            handle.remove();
-                        });
-                    });
                 }
+
+                handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
+                    _map.setExtent(features[activeFeatureIndex].geometry.getExtent(), true);
+                }));
+
+                on.once(_map.infoWindow, "hide", function () {
+                    arrayUtils.forEach(handles, function (handle) {
+                        handle.remove();
+                    });
+                });
 
             }, function (err) {
                 console.dir(err);
