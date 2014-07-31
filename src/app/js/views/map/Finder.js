@@ -18,7 +18,7 @@ define([
 
     return {
         setMap: function(map) {
-            _map = map;
+            _map = map;            
         },
 
         searchAreaByCoordinates: function() {
@@ -164,9 +164,9 @@ define([
 
                         map.infoWindow.setContent(content);
                         map.infoWindow.show(event.mapPoint);
-                        on.once(dom.byId("closePopup"), "click", function() {
-                            map.infoWindow.hide();
-                        });
+                        // on.once(dom.byId("closePopup"), "click", function() {
+                        //     map.infoWindow.hide();
+                        // });
                     }
                 }, function(errback) {
                     console.dir(errback);
@@ -263,13 +263,61 @@ define([
         },
 
         getDigitalGlobeInfoWindow: function (evt) {
-            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
-            LayerController.showDigitalGlobeImagery(evt);
-            var attr = evt.attributes;
-            var html = "<table><tr><td>Date:</td>";
-            html += "<td>" + attr.Date + "</td>";
-            html += "</tr></table>";
-            return html;
+            if (evt.graphic) {
+                if (evt.graphic.attributes.Layer !== 'Digital_Globe') {
+                    return;
+                }
+            }
+
+            var url = MapConfig.digitalGlobe.identifyUrl,
+                itask = new IdentifyTask(url),
+                iparams = new IdentifyParameters(),
+                point = evt.mapPoint;
+
+            iparams.geometry = point;
+            iparams.tolerance = 3;
+            iparams.returnGeometry = false;
+            iparams.mapExtent = _map.extent;
+            iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+            iparams.layerIds = [0];
+
+            function getContent(graphic) {
+                return "<div>Date: " + graphic.attributes.Date + "</div>";
+            }
+
+            itask.execute(iparams, function (res) {
+                var features = [],
+                    content = "";
+                arrayUtils.forEach(res, function (item) {
+                    features.push(item.feature);
+                });
+
+                if (features.length === 0) {
+                    return;
+                }
+
+                content += "Images: <br><ul style='margin-left: 10px;'>";
+
+                arrayUtils.forEach(features, function (f) {
+                    content += "<li><a>Date: " + f.attributes.Date + "</a></li>";
+                });
+
+                content += "</ul>";
+
+                _map.infoWindow.setContent(content);
+                _map.infoWindow.show(point);
+
+            }, function (err) {
+                console.dir(err);
+            });
+
+            // _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
+            // LayerController.showDigitalGlobeImagery(evt);
+            // var attr = evt.attributes;
+            // var html = "<table><tr><td>Date:</td>";
+            // html += "<td>" + attr.Date + "</td>";
+            // html += "</tr></table>";
+            // return html;
         },
 
         getFireTweetsInfoWindow: function(evt) {

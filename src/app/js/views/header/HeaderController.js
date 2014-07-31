@@ -56,6 +56,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
         o.clickNavLink = function(data) {
             var clickedItem = data;
 
+            this.reportAnalyticsHelper('link', 'navigate', 'The user navigated to the ' + clickedItem.html + ' page.');
+
             if (clickedItem.url) {
                 window.open(clickedItem.url, "_blank");
                 return;
@@ -144,6 +146,11 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     registry.byId("stackContainer").resize();
                 });
 
+        };
+
+        o.reportAnalyticsHelper = function (eventType, action, label) {
+            ga('A.send', 'event', eventType, action, label);
+            ga('B.send', 'event', eventType, action, label);
         };
 
         //listen to key

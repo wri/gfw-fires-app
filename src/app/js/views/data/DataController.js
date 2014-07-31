@@ -44,6 +44,7 @@ define(["dojo/on","dojo/dom", "dojo/dom-class","dojo/query","dijit/registry", "m
             });
 
             datamodel.leftLinks(leftLinks);
+            self.reportAnalyticsHelper('view', 'content', 'The user viewed the ' + self.toTitleCase(obj.name) + ' content on the Data page.');
 
             require(["dojo/text!views/data/templates/" + htmlToFetch + ".htm"], function(content) {                
                 datamodel.htmlContent(content);
@@ -107,6 +108,17 @@ define(["dojo/on","dojo/dom", "dojo/dom-class","dojo/query","dijit/registry", "m
             } else {
                 domClass.add(id + "Menu", "active");
             }
+        };
+
+        o.toTitleCase = function (str) {
+            return str.replace(/\w*/g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        };
+
+        o.reportAnalyticsHelper = function (eventType, action, label) {
+            ga('A.send', 'event', eventType, action, label);
+            ga('B.send', 'event', eventType, action, label);
         };
 
         return o;

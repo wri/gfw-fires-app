@@ -27,7 +27,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 EventsController.switchToView(viewObj);
                 AboutModel.applyBindings(viewId);
             })
-        }
+        };
 
         o.toggleAboutNavList = function(obj) {
             var htmlToFetch = obj.htmlContent;
@@ -42,16 +42,28 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 } else {
                     ds.selected = false;
                 }
-            })
+            });
 
             aboutmodel.leftLinks(leftLinks);
+            datamodel.leftLinks(leftLinks);
+            this.reportAnalyticsHelper('view', 'content', 'The user viewed the ' + this.toTitleCase(obj.name) + ' content on the Data page.');
 
             require(["dojo/text!views/about/templates/" + htmlToFetch + ".htm"], function(content) {
                 aboutmodel.htmlContent(content);
             });
 
-        }
+        };
 
+        o.toTitleCase = function (str) {
+            return str.replace(/\w*/g, function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        };
+
+        o.reportAnalyticsHelper = function (eventType, action, label) {
+            ga('A.send', 'event', eventType, action, label);
+            ga('B.send', 'event', eventType, action, label);
+        };
 
 
         //listen to key

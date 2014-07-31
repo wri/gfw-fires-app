@@ -357,6 +357,7 @@ define([
 
         on(o.map, "click", function(evt) {
             Finder.getActiveFiresInfoWindow(evt);
+            Finder.getDigitalGlobeInfoWindow(evt);
         });
 
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
@@ -486,7 +487,7 @@ define([
                 'class': 'close-icon'
             }, node);
 
-            on(node, "click", function() {
+            on(dom.byId('close-icon'), "click", function() {
                 o.map.infoWindow.hide();
             });
         });
@@ -702,12 +703,9 @@ define([
             infoTemplate: tweet_infotemplate
         });
 
-        var digitalGlobeInfoTemplate = new InfoTemplate();
-        digitalGlobeInfoTemplate.setContent(Finder.getDigitalGlobeInfoWindow);
-
         var digitalGlobeGraphicsLayer = new GraphicsLayer({
             id: MapConfig.digitalGlobe.graphicsLayerId,
-            infoTemplate: digitalGlobeInfoTemplate,
+            //infoTemplate: digitalGlobeInfoTemplate,
             visible: false
         });
 

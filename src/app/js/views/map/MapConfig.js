@@ -124,6 +124,7 @@ define({
 
     digitalGlobe: {
         queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/dg_footprints/MapServer/0',
+        identifyUrl: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/dg_footprints/MapServer',
         tileUrl: 'http://suitability-mapper.blueraster.com/dg_imagery/',
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes'

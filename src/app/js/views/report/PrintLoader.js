@@ -68,7 +68,7 @@
         l.setAttribute('rel', 'stylesheet');
         l.setAttribute('type', 'text/css');
         l.setAttribute('href', src);
-        doc.getElementsByTagName('body')[0].appendChild(l);
+        doc.getElementsByTagName('head')[0].appendChild(l);
     };
 
     function loadDependencies() {
