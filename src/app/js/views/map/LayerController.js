@@ -4,10 +4,14 @@ define([
     "dojo/dom",
     "dojo/hash",
     "dojo/query",
+    "dojo/cookie",
+    "dijit/Dialog",
     "dojo/io-query",
     "dojo/Deferred",
     "dojo/_base/array",
+    "dojo/promise/all",
     "dijit/registry",
+    "dijit/form/CheckBox",
     "views/map/MapModel",
     "views/map/MapConfig",
     "modules/HashController",
@@ -23,7 +27,7 @@ define([
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol"
-], function (on, dom, hash, dojoQuery, ioQuery, Deferred, arrayUtils, registry, MapModel, MapConfig, HashController, LayerDrawingOptions, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
+], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -220,62 +224,6 @@ define([
 
         },
 
-        // updateForestUseLayers: function (evt) {
-        // 	var layer = _map.getLayer(MapConfig.forestUseLayers.id),
-        // 			visibleLayers = [],
-        // 			layerID;
-
-        // 	dojoQuery(".forest-use-layers-option").forEach(function (node) {
-        // 		if (node.checked) {
-        // 			layerID = MapConfig.forestUseLayers[node.value];
-        // 			if (layerID) {
-        // 				visibleLayers.push(layerID);
-        // 			}
-        // 		}
-        // 	});
-
-        // 	if (visibleLayers.length === 0) {
-        // 		// If nothing checked, turn all layers off
-        // 		visibleLayers.push(-1);
-        // 	}
-
-        // 	if (layer) {
-        // 		layer.setVisibleLayers(visibleLayers);
-        // 		if (!layer.visible) {
-        // 			this.toggleLayerVisibility(MapConfig.forestUseLayers.id, true);
-        // 		}
-        // 	}
-
-        // },
-
-        // updateConservationLayers: function (evt) {
-        // 	var layer = _map.getLayer(MapConfig.conservationLayers.id),					
-        // 			visibleLayers = [],
-        // 			layerID;
-
-        // 	dojoQuery(".conservation-layers-option").forEach(function (node) {
-        // 		if (node.checked) {
-        // 			layerID = MapConfig.conservationLayers[node.value];
-        // 			if (layerID) {
-        // 				visibleLayers.push(layerID);
-        // 			}
-        // 		}
-        // 	});
-
-        // 	if (visibleLayers.length === 0) {
-        // 		// If nothing checked, turn all layers off
-        // 		visibleLayers.push(-1);
-        // 	}
-
-        // 	if (layer) {
-        // 		layer.setVisibleLayers(visibleLayers);
-        // 		if (!layer.visible) {
-        // 			this.toggleLayerVisibility(MapConfig.conservationLayers.id, true);
-        // 		}
-        // 	}
-
-        // },
-
         updateLandCoverLayers: function (evt) {
         	var target = evt.target ? evt.target : evt.srcElement;
             // Update the Peat Lands Layer
@@ -292,7 +240,11 @@ define([
         toggleDigitalGlobeLayer: function (visibility) {
             var self = this,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
-            this.getBoundingBoxesForDigitalGlobe().then(function (foundBounds) {
+
+            this.getBoundingBoxesForDigitalGlobe().then(function (results) {
+                if (visibility) {
+                    self.promptAboutDigitalGlobe();
+                }
                 self.toggleDigitalGlobeLayerVisibility(MapConfig.digitalGlobe.id, visibility);
                 self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
             });
@@ -359,17 +311,78 @@ define([
             return deferred.promise;
         },
 
-        showDigitalGlobeImagery: function (graphic) {
-            var tiles = graphic.attributes.Tiles,
-                layer = _map.getLayer(MapConfig.digitalGlobe.id);
+        showDigitalGlobeImagery: function (bucket) {
+            var layer = _map.getLayer(MapConfig.digitalGlobe.id);
 
             if (!layer.visible) {
                 layer.setVisibility(true);
             }
             if (layer) {
-                layer.setBucket(tiles);
+                layer.setBucket(bucket);
                 layer.refresh();
             }
+        },
+
+        promptAboutDigitalGlobe: function () {
+            if (registry.byId("digitalGlobeInstructions")) {
+                registry.byId("digitalGlobeInstructions").destroy();
+            }
+            var dialog = new Dialog({
+                    title: "Digital Globe - First Look",
+                    style: "width: 350px",
+                    id: "digitalGlobeInstructions",
+                    content: "Click inside a footprint to display the imagery.<div class='dijitDialogPaneActionBar'>" + 
+                             "<button id='closeDGInstructions'>Ok</button></div>" +
+                             "<div class='dialogCheckbox'><input type='checkbox' id='remembershowInstructions' />" +
+                             "<label for='rememberBasemapDecision'>Don't show me this again.</label></div>"
+                }),
+                currentCookie,
+                setCookie,
+                okHandle,
+                cleanup,          
+                cbox;
+
+            setCookie = function () {
+                if(dom.byId("remembershowInstructions")) {
+                    if(dom.byId("remembershowInstructions").checked) {
+                        cookie("digitalGlobeInstructions", 'dontShow', { expires: 7 });
+                    }
+                }
+            };
+
+            cleanup = function (destroyDialog) {
+                setCookie();
+
+                if (cbox) {
+                    cbox.destroy();
+                }
+
+                if (okHandle) {
+                    okHandle.remove();
+                }
+
+                if (destroyDialog) {
+                    dialog.destroy();
+                }
+            };
+
+            currentCookie = cookie("digitalGlobeInstructions");
+
+            if (currentCookie === undefined || currentCookie !== "dontShow") {
+                dialog.show();
+                cbox = new CheckBox({
+                    checked: false,
+                }, "remembershowInstructions");
+                okHandle = on(dom.byId("closeDGInstructions"), "click", function () {
+                    cleanup(true);
+                });
+                dialog.on('cancel', function () {
+                    cleanup(false);
+                });
+            } else {
+                cleanup(true);
+            }
+
         },
 
         updatePeatLandsLayer: function (target) {

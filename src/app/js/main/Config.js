@@ -79,7 +79,7 @@ define([],
                 },
                 {
                     "html": "<span class='more-text'>Sign up for SMS and email fire alerts</span>",
-                    "eventName": "",
+                    "eventName": "subscribeToAlerts",
                     "display": false
 
                 }

@@ -39,7 +39,7 @@ define([
                 nextAvailableId = function() {
                     var value = 0;
                     arrayUtils.forEach(_map.graphics.graphics, function(g) {
-                        if (g.attribtues) {
+                        if (g.attributes) {
                             if (g.attributes.locatorValue) {
                                 value = Math.max(value, parseInt(g.attributes.locatorValue));
                             }
@@ -272,7 +272,8 @@ define([
             var url = MapConfig.digitalGlobe.identifyUrl,
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
-                point = evt.mapPoint;
+                point = evt.mapPoint,
+                handles = [];
 
             iparams.geometry = point;
             iparams.tolerance = 3;
@@ -299,13 +300,32 @@ define([
                 content += "Images: <br><ul style='margin-left: 10px;'>";
 
                 arrayUtils.forEach(features, function (f) {
-                    content += "<li><a>Date: " + f.attributes.Date + "</a></li>";
+                    content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
                 });
 
                 content += "</ul>";
 
                 _map.infoWindow.setContent(content);
                 _map.infoWindow.show(point);
+
+                if (features.length === 1) {
+                    LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                } else {
+                    LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                    dojoQuery(".contentPane .popup-link").forEach(function (node) {
+                        handles.push(on(node, "click", function (evt) {
+                            var target = evt.target ? evt.target : evt.srcElement,
+                                bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                            LayerController.showDigitalGlobeImagery(bucket);
+                        }));
+                    });
+
+                    on.once(_map.infoWindow, "hide", function () {
+                        arrayUtils.forEach(handles, function (handle) {
+                            handle.remove();
+                        });
+                    });
+                }
 
             }, function (err) {
                 console.dir(err);

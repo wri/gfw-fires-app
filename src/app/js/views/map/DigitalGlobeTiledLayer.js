@@ -71,10 +71,6 @@ define([
     getTileUrl: function(level, row, col) {      
       // The Layer needs visibility set to true to work correctly
       // this._bucket needs to be something other then "" to work
-      console.log(this.url + this._bucket + "/_alllayers/" + 
-            "L" + string.pad(level, 2, '0') + "/" + 
-            "R" + string.pad(row.toString(16),8,'0') + "/" + 
-            "C" + string.pad(col.toString(16),8,'0') + ".png");
       return this.url + this._bucket + "/_alllayers/" + 
             "L" + string.pad(level, 2, '0') + "/" + 
             "R" + string.pad(row.toString(16),8,'0') + "/" + 
