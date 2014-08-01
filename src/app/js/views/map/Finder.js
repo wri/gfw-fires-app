@@ -313,7 +313,7 @@ define([
                     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
                     activeFeatureIndex = 0;
                 } else {
-                    LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                    // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
                     activeFeatureIndex = 0;
                     dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
                         handles.push(on(node, "click", function (evt) {
