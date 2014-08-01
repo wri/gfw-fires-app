@@ -94,22 +94,29 @@ define([
                 "dojo/dom-construct",
                 "dijit/form/Select",
                 "dojox/validate/web",
-                "dojo/text!views/footer/emailAlertForm.html"
+                "dojo/text!views/footer/emailAlertForm.html",
+                // add validation
             ], function (on, Dialog, domStyle, domConstruct, Select, validate, html) {
                 var dialog = new Dialog({
                         title: "Sign up to receive fire alerts!",
-                        style: "width: 550px"
+                        style: "width: 550px;height: 400px;"
                     }),
                     content = html,
                     submitHandle,
+                    telInput,
                     districtHandle;
 
                 dialog.setContent(content);
                 dialog.show();
                 FooterModel.applyBindings("signUpAlertsForm");
+                telInput = $("#phoneNumberForAlerts");
+                telInput.intlTelInput({
+                    validationScript: './app/libs/isValidNumber.js'
+                });
 
                 function cleanup                                                                                                        () {
                     domConstruct.destroy(dom.byId("signUpAlertsForm"));
+                    telInput.intlTelInput('destroy');
                     districtHandle.remove();
                     submitHandle.remove();
                 }
@@ -163,11 +170,12 @@ define([
                         if (selectedOptions.length === 0) {
                             domStyle.set("aoiSubDistrictPicker","border","1px solid red");
                             model.errorMessages.push("You need to select at least one subdistrict.");
+                            formIsValid = false;
                         } else {
                             domStyle.set("aoiSubDistrictPicker","border","");
                         }
 
-                        if (validate.isEmailAddress(email) || phone !== "") {
+                        if (validate.isEmailAddress(email) || telInput.intlTelInput("isValidNumber")) {
                             domStyle.set("phoneNumberForAlerts","border","");
                             domStyle.set("emailForAlerts","border","");
                         } else {
@@ -181,7 +189,7 @@ define([
                             model.showErrorMessages(true);
                         } else {
                             if (phone !== '') {
-                                phone = phone.replace(/[^\d]/g,'');
+                                phone = phone.replace(/[^\d]/g,'');                                
                                 self.postSubscribeRequest(selectedOptions, phone, 'sms').then(function (result) {
                                     if (result) {
                                         dialog.destroy();
