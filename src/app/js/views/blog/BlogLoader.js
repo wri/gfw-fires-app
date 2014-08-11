@@ -17,7 +17,7 @@ define(["esri/request", 'dojo/io/script', 'dojo/request/xhr', "dojo/Deferred"],
             var request = esriRequest({
                 url: url,
                 handleAs: 'text'
-            }, {useProxy: true});
+            }, {useProxy: true, usePost: true});
 
             request.then(function (res) {
                 o.response = res;

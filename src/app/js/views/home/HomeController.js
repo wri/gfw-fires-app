@@ -185,8 +185,6 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
                 all([deferred1, deferred2]).then(function(results) {
 
-                    console.dir(results);
-
                     var peats = results[0];
                     var total = results[1];
                     var percent = Math.ceil((peats / total) * 100);

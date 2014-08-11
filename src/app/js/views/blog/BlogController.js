@@ -27,7 +27,7 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             }
 
             esri.config.defaults.io.proxyUrl = proxyUrl;
-
+            esri.config.defaults.io.corsEnabledServers.push("http://gis-potico.wri.org");
             /*urlUtils.addProxyRule({
                 urlPrefix: "http://gis-potico.wri.org/blogs/fireblog.txt",
                 proxyUrl: proxyUrl
