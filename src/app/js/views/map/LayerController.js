@@ -16,6 +16,7 @@ define([
     "views/map/MapConfig",
     "modules/HashController",
     "esri/layers/LayerDrawingOptions",
+    "esri/request",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/geometry/webMercatorUtils",
@@ -27,7 +28,7 @@ define([
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol"
-], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
+], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -307,6 +308,34 @@ define([
                     console.error(err);
                     deferred.resolve(false);
                 });
+
+
+                // Test Hitting WFS Service for GeoJson
+                // var req = esriRequest({
+                //     url: "https://services.digitalglobe.com/catalogservice/wfsaccess",
+                //     content: {
+                //         'request': 'getFeature',
+                //         'service': 'WFS',
+                //         'version': '1.1.0',
+                //         'featureprofile': 'Global_Currency_Mid_Profile',
+                //         'propertyname': 'featureId,acquisitionDate,geometry',
+                //         'typename': 'DigitalGlobe:FinishedFeature',
+                //         'showtherasterreturned': true,
+                //         'outputformat': 'application/json',
+                //         'bbox': '-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469',
+                //         'width': 1920,
+                //         'connectid': 'dec7c992-899b-4d85-99b9-8a60a0e6047f'
+                //     },
+                //     handleAs: "application/json"
+                // }, { useProxy: 0 });
+
+                // req.then(function (res) {
+                //     alert("Yeah");
+                // }, function (err) {
+                //     console.dir(err);
+                //     alert("Awww");
+                // });
+
             }
             return deferred.promise;
         },
