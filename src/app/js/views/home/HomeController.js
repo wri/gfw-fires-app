@@ -157,7 +157,8 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
                 var today = new Date();
                 var sevendaysback = new Date();
-                sevendaysback.setDate(today.getDate() - 7);
+                sevendaysback.setDate(today.getDate() - 8); 
+                // Minus 8 to cover for other time zones where minus 7 might not be the whole week
                 var yyyy = sevendaysback.getFullYear();
 
                 var mm = "00" + (sevendaysback.getMonth() + 1).toString();
@@ -183,6 +184,8 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                 var deferred2 = Loader.query(queryObj2);
 
                 all([deferred1, deferred2]).then(function(results) {
+
+                    console.dir(results);
 
                     var peats = results[0];
                     var total = results[1];
