@@ -209,6 +209,7 @@ module.exports = function(grunt) {
 
   // Task(s).
   grunt.registerTask('build', ['copy', 'uglify', 'cssmin', 'htmlmin', 'imagemin','ftp_push']);
+  grunt.registerTask('minify', ['copy', 'uglify', 'cssmin', 'htmlmin', 'imagemin']);
   // grunt.registerTask('optimize', ['copy:optimize','requirejs','uglify:optimize','concat:optimize','cssmin:optimize','imagemin:optimize']);
 
 };

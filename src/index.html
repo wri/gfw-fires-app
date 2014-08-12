@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53ab205a21ddceee&async=1"></script>
+    <script async type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53ab205a21ddceee&async=1"></script>
     <script type="text/javascript">
       var addthis_share = {
         url_transforms: {
@@ -23,8 +23,8 @@
         }
       }; //end addThis_share
     </script>
-    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="app/libs/intlTelInput.min.js"></script>
+    <script defer src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script defer src="app/libs/intlTelInput.min.js"></script>
     <link rel="stylesheet" href="app/css/intlTelInput.css"/>
     <script type="text/javascript">
       function googleTranslateElementInit() {
@@ -50,7 +50,7 @@
       ga('B.send', 'pageview');
 
     </script>
-
+    <script async src="app/bootloader.js?v=0.1.8"></script>
  
 	</head>
 	<body class="app tundra">
@@ -70,7 +70,5 @@
       <div id="app-footer"  data-bind="css:{small:!(appState().v=='home'),nomap:(appState().v=='map')}">
         
       </div>
-		<script src="app/bootloader.js?v=0.1.8"></script>
-
 	</body>
 </html>

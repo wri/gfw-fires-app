@@ -27,8 +27,12 @@ define([
     "esri/geometry/Polygon",
     "esri/symbols/SimpleLineSymbol",
     "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/PictureMarkerSymbol"
-], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol) {
+    "esri/symbols/PictureMarkerSymbol",
+    // Modules for Terraformer
+    "esri/SpatialReference",
+    "libs/terraformer-1.0.3.min",
+    "libs/terraformer-arcgis-parser-1.0.3.min",
+], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol, SpatialReference) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -311,61 +315,69 @@ define([
 
 
                 // Test Hitting WFS Service for GeoJson
+                // var req = esriRequest({
+                //     url: "http://suitability-mapper.s3.amazonaws.com/wind/imageryFootprints.json.gz",
+                //     handleAs: "json"
+                // });
 
-                // var req = new XMLHttpRequest(),
-                //     url = "http://rmbp/proxy/proxy.php?https://services.digitalglobe.com/catalogservice/wfsaccess?";
+                // req.then(function (res) {
+                //     try {
+                //         var esriJson = Terraformer.ArcGIS.convert(res),
+                //             feature,
+                //             symbol,
+                //             newGeo,
+                //             poly;
 
-                // url += 'request=getFeature';
-                // url += '&service=wfs';
-                // url += '&version=1.1.0';
-                // url += '&featureprofile=Global_Currency_Mid_Profile';
-                // url += '&propertyname=featureId,acquisitionDate,geometry';
-                // url += '&typename=DigitalGlobe:FinishedFeature';
-                // url += '&showtherasterreturned=true';
-                // url += '&outputformat=application/json';
-                // url += '&bbox=-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469';
-                // url += '&width=1920';
-                // url += '&connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f';
+                //         symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                //             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0,255,0]), 2),
+                //             new Color([0,255,0,0]));
 
-                // req.onreadystatechange = function () {
-                //     if (req.readyState === 4 && req.status === 200) {
-                //         console.dir(req.responseText);
-                //     } else {
-                //         console.dir(req);
+
+                //         arrayUtils.forEach(esriJson, function (item) {
+                //             item.geometry.rings[0] = arrayUtils.map(item.geometry.rings[0], function (ring) {
+                //                 return ring.reverse();
+                //             });
+                //             poly = new Polygon(item.geometry);
+                //             item.attributes.Layer = "Digital_Globe";
+                //             feature = new Graphic(poly, symbol, item.attributes);
+                //             dgLayer.add(feature);
+                //         });
+                        
+                //         // console.dir(webMercatorUtils.webMercatorToGeographic(feature.geometry).getExtent().getCenter());
+                //         console.dir(feature.geometry.getExtent().getCenter());
+
+                //     } catch (e) {
+                //         alert(e);
                 //     }
-                // };
+                // }, function (err) {
+                //     console.dir(err);
+                // });
 
-                // req.open("GET", url, true);
-                // req.setRequestHeader('Content-Type','application/json');
-                // req.send(null);
+                // OLD REQUEST, NOW DONE ON SERVER
+                // var req = esriRequest({
+                //     url: "https://services.digitalglobe.com/catalogservice/wfsaccess",
+                //     content: {
+                //         'request': 'getFeature',
+                //         'service': 'WFS',
+                //         'version': '1.1.0',
+                //         'featureprofile': 'Global_Currency_Mid_Profile',
+                //         'propertyname': 'featureId,acquisitionDate,geometry',
+                //         'typename': 'DigitalGlobe:FinishedFeature',
+                //         'showtherasterreturned': true,
+                //         'outputformat': 'application/json',
+                //         'bbox': '-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469',
+                //         'width': 1920,
+                //         'connectid': 'dec7c992-899b-4d85-99b9-8a60a0e6047f'
+                //     },
+                //     handleAs: "json"
+                //     // callbackParamName: "jsoncallback"   
+                // });
 
-                //esri.config.defaults.io.corsEnabledServers.push("services.digitalglobe.com");
-
-                var req = esriRequest({
-                    url: "https://services.digitalglobe.com/catalogservice/wfsaccess",
-                    content: {
-                        'request': 'getFeature',
-                        'service': 'WFS',
-                        'version': '1.1.0',
-                        'featureprofile': 'Global_Currency_Mid_Profile',
-                        'propertyname': 'featureId,acquisitionDate,geometry',
-                        'typename': 'DigitalGlobe:FinishedFeature',
-                        'showtherasterreturned': true,
-                        'outputformat': 'application/json',
-                        'bbox': '-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469',
-                        'width': 1920,
-                        'connectid': 'dec7c992-899b-4d85-99b9-8a60a0e6047f'
-                    },
-                    handleAs: "json"
-                    // callbackParamName: "jsoncallback"   
-                });
-
-                req.then(function (res) {
-                    alert("Yeah");
-                }, function (err) {
-                    console.dir(err);
-                    alert("Awww");
-                });
+                // req.then(function (res) {
+                //     console.dir(res);
+                // }, function (err) {
+                //     console.dir(err);
+                // });
 
             }
             return deferred.promise;

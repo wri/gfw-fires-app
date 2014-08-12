@@ -326,7 +326,9 @@ define([
                 }
 
                 handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
-                    _map.setExtent(features[activeFeatureIndex].geometry.getExtent(), true);
+                    //console.dir(features[activeFeatureIndex].geometry.getExtent());
+                    // TODO INCORPORATE CENTERX AND CENTERY FOR ZOOM TO FUNCTIONS
+                    _map.setExtent(esri.geometry.webMercatorToGeographic(features[activeFeatureIndex].geometry).getExtent(), true);
                 }));
 
                 on.once(_map.infoWindow, "hide", function () {

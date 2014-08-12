@@ -39,7 +39,7 @@
                 cdn: true
             }]
         },
-        URL = location.pathname.replace(/\/[^/]+$/, '') + 'app',
+        URL = location.pathname.replace(/\/[^/]+$/, '') + '/app',
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
@@ -95,31 +95,57 @@
     }; //end addThis_share
 
     var loadScript = function(src, attrs) {
-        var s = doc.createElement('script');
+        var s = doc.createElement('script'),
+            h = doc.getElementsByTagName('head')[0];
         s.setAttribute('src', src);
+        s.setAttribute('async', 'true');
         for (var key in attrs) {
             if (attrs.hasOwnProperty(key)) {
                 s.setAttribute(key, attrs[key]);
             }
         }
-        doc.getElementsByTagName('body')[0].appendChild(s);
+        h.parentNode.insertBefore(s, h);
     };
 
     var loadStyle = function(src, isCDN) {
         var l = doc.createElement('link'),
-            path = isCDN ? src : src + '?v=' + version;
+            path = isCDN ? src : src + '?v=' + version,
+            h = doc.getElementsByTagName('head')[0];
         l.setAttribute('rel', 'stylesheet');
         l.setAttribute('type', 'text/css');
         l.setAttribute('href', path);
-        doc.getElementsByTagName('body')[0].appendChild(l);
+        l.media = "only x";
+        h.parentNode.insertBefore(l, h);
+        setTimeout(function () {
+            l.media = "all";
+        });
     };
 
     // Load Esri Dependencies
-    win.dojoConfig = dojoConfig;
-    loadScript(src);
-    var files = css[ENV];
-    for (var i = 0, length = files.length; i < length; i++) {
-        loadStyle(files[i].src, files[i].cdn);
+    function loadDependencies() {
+        win.dojoConfig = dojoConfig;
+        loadScript(src);
+        var files = css[ENV];
+        for (var i = 0, length = files.length; i < length; i++) {
+            loadStyle(files[i].src, files[i].cdn);
+        }
+    }
+
+    win.requestAnimationFrame = (function() {
+        return win.requestAnimationFrame ||
+            win.webkitRequestAnimationFrame ||
+            win.mozRequestAnimationFrame ||
+            win.oRequestAnimationFrame ||
+            win.msRequestAnimationFrame;
+    })();
+
+    // Make Sure scripts and css are not loaded in a blocking fashion
+    if (win.requestAnimationFrame) {
+        win.requestAnimationFrame(loadDependencies);
+    } else if (doc.readyState === "loaded") {
+        loadDependencies();
+    } else {
+        win.onload = loadDependencies;
     }
 
 })(window, document);
