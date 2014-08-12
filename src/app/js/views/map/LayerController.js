@@ -311,30 +311,61 @@ define([
 
 
                 // Test Hitting WFS Service for GeoJson
-                // var req = esriRequest({
-                //     url: "https://services.digitalglobe.com/catalogservice/wfsaccess",
-                //     content: {
-                //         'request': 'getFeature',
-                //         'service': 'WFS',
-                //         'version': '1.1.0',
-                //         'featureprofile': 'Global_Currency_Mid_Profile',
-                //         'propertyname': 'featureId,acquisitionDate,geometry',
-                //         'typename': 'DigitalGlobe:FinishedFeature',
-                //         'showtherasterreturned': true,
-                //         'outputformat': 'application/json',
-                //         'bbox': '-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469',
-                //         'width': 1920,
-                //         'connectid': 'dec7c992-899b-4d85-99b9-8a60a0e6047f'
-                //     },
-                //     handleAs: "application/json"
-                // }, { useProxy: 0 });
 
-                // req.then(function (res) {
-                //     alert("Yeah");
-                // }, function (err) {
-                //     console.dir(err);
-                //     alert("Awww");
-                // });
+                // var req = new XMLHttpRequest(),
+                //     url = "http://rmbp/proxy/proxy.php?https://services.digitalglobe.com/catalogservice/wfsaccess?";
+
+                // url += 'request=getFeature';
+                // url += '&service=wfs';
+                // url += '&version=1.1.0';
+                // url += '&featureprofile=Global_Currency_Mid_Profile';
+                // url += '&propertyname=featureId,acquisitionDate,geometry';
+                // url += '&typename=DigitalGlobe:FinishedFeature';
+                // url += '&showtherasterreturned=true';
+                // url += '&outputformat=application/json';
+                // url += '&bbox=-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469';
+                // url += '&width=1920';
+                // url += '&connectid=dec7c992-899b-4d85-99b9-8a60a0e6047f';
+
+                // req.onreadystatechange = function () {
+                //     if (req.readyState === 4 && req.status === 200) {
+                //         console.dir(req.responseText);
+                //     } else {
+                //         console.dir(req);
+                //     }
+                // };
+
+                // req.open("GET", url, true);
+                // req.setRequestHeader('Content-Type','application/json');
+                // req.send(null);
+
+                //esri.config.defaults.io.corsEnabledServers.push("services.digitalglobe.com");
+
+                var req = esriRequest({
+                    url: "https://services.digitalglobe.com/catalogservice/wfsaccess",
+                    content: {
+                        'request': 'getFeature',
+                        'service': 'WFS',
+                        'version': '1.1.0',
+                        'featureprofile': 'Global_Currency_Mid_Profile',
+                        'propertyname': 'featureId,acquisitionDate,geometry',
+                        'typename': 'DigitalGlobe:FinishedFeature',
+                        'showtherasterreturned': true,
+                        'outputformat': 'application/json',
+                        'bbox': '-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469',
+                        'width': 1920,
+                        'connectid': 'dec7c992-899b-4d85-99b9-8a60a0e6047f'
+                    },
+                    handleAs: "json"
+                    // callbackParamName: "jsoncallback"   
+                });
+
+                req.then(function (res) {
+                    alert("Yeah");
+                }, function (err) {
+                    console.dir(err);
+                    alert("Awww");
+                });
 
             }
             return deferred.promise;
