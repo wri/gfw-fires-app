@@ -342,13 +342,13 @@
 }
 .active-fires-options {
   text-align: center;
-  line-height: 30px;
+  line-height: 15px;
   cursor: pointer;
-  height: 30px;
-  width: 230px;
+  height: 15px;
+  width: 185px;
   border: 2px solid #e98300;
   text-align: center;
-  margin: 3px 20px;
+  margin: 3px auto;
   padding: 5px;
   color: #000;
 }

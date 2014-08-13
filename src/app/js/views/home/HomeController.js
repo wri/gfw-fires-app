@@ -184,10 +184,9 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                 var deferred2 = Loader.query(queryObj2);
 
                 all([deferred1, deferred2]).then(function(results) {
-
                     var peats = results[0];
                     var total = results[1];
-                    var percent = Math.ceil((peats / total) * 100);
+                    var percent = Math.round((peats / total) * 100);
 
                     var homeModeOptions = HomeModel.vm.homeModeOptions();
                     var positionToUpdate = 0;
