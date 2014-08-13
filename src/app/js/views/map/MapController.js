@@ -253,7 +253,7 @@ define([
             ],
             id: "darkgray",
             title: "Dark Gray Canvas",
-            thumbnailUrl: "app/images/darkGreyThumb.png"
+            thumbnailUrl: "app/images/darkGreyThumb.jpg"
         });
         basemaps.push(darkgray);
 

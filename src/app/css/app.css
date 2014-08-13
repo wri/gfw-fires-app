@@ -83,7 +83,7 @@ body,
 }
 #app-header {
   height: 210px;
-  background: url("../images/header_tree_background.png") repeat-x scroll center top transparent;
+  background: url("../images/header_tree_background.jpg") repeat-x scroll center top transparent;
   border-bottom: 1px solid #717d80;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

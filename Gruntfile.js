@@ -97,20 +97,6 @@ module.exports = function(grunt) {
       // }
     },
 
-    // concat: {
-    //   options: {
-    //     separator: ""
-    //   },
-    //   optimize: {
-    //     src: [
-    //       "src/app/css/app.css",
-    //       "src/app/css/fontello.css",
-    //       "src/app/css/animation.css",
-    //       "src/app/css/owl/owl.carousel.css"
-    //     ],
-    //     dest: 'prod/app/css/app.css'
-    //   }
-    // },
     concat: {
       options: {
         separator: 'min'

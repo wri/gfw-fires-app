@@ -22,6 +22,9 @@
                 src: 'app/css/intlTelInput.css',
                 cdn: false
             }, {
+                src: 'app/css/map.css',
+                cdn: false
+            }, {
                 src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
                 cdn: true
             }],
@@ -39,6 +42,9 @@
                 cdn: false
             }, {
                 src: 'app/css/intlTelInput.css',
+                cdn: false
+            }, {
+                src: 'app/css/map.css',
                 cdn: false
             }, {
                 src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
@@ -110,7 +116,7 @@
                 s.setAttribute(key, attrs[key]);
             }
         }
-        h.parentNode.insertBefore(s, h);
+        h.appendChild(s);
     };
 
     var loadStyle = function(src, isCDN) {
@@ -121,7 +127,7 @@
         l.setAttribute('type', 'text/css');
         l.setAttribute('href', path);
         l.media = "only x";
-        h.parentNode.insertBefore(l, h);
+        h.appendChild(l);
         setTimeout(function () {
             l.media = "all";
         });

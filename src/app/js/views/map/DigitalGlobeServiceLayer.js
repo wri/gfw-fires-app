@@ -36,7 +36,7 @@ define([
         HEIGHT: height,
         WIDTH: width,
         BGCOLOR: "0xFFFFFF",
-        CONNECTID: "dec7c992-899b-4d85-99b9-8a60a0e6047f",
+        
         FEATURECOLLECTION: this.featureId,
         BBOX: geom.xmin + "," + geom.ymin + "," + geom.xmax + "," + geom.ymax,
         SRS: "EPSG:" + this.spatialReference.wkid

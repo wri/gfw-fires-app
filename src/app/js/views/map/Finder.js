@@ -336,7 +336,8 @@ define([
 
                 handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
                     var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
-                    _map.centerAt(point);
+                    _map.centerAndZoom(point, 17);
+                    _map.infoWindow.show(point);
                 }));
 
                 on.once(_map.infoWindow, "hide", function () {
