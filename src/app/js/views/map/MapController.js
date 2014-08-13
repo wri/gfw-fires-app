@@ -41,6 +41,7 @@ define([
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
     "views/map/DigitalGlobeTiledLayer",
+    "views/map/DigitalGlobeServiceLayer",
     "views/map/BurnScarTiledLayer",
     "modules/HashController",
     "esri/layers/GraphicsLayer",
@@ -48,7 +49,7 @@ define([
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters) {
+    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters) {
 
     var o = {},
         initialized = false,
@@ -703,11 +704,31 @@ define([
             infoTemplate: tweet_infotemplate
         });
 
-        var digitalGlobeGraphicsLayer = new GraphicsLayer({
+        // var digitalGlobeGraphicsLayer = new GraphicsLayer({
+        //     id: MapConfig.digitalGlobe.graphicsLayerId,
+        //     //infoTemplate: digitalGlobeInfoTemplate,
+        //     visible: false
+        // });
+
+        var featureCollection = {
+            layerDefinition: {
+                "geometryType": "esriGeometryPolygon",
+                "fields": []
+            },
+            featureSet: null
+        };
+
+        var digitalGlobeGraphicsLayer = new FeatureLayer(featureCollection, {
             id: MapConfig.digitalGlobe.graphicsLayerId,
             //infoTemplate: digitalGlobeInfoTemplate,
             visible: false
         });
+
+        // TESTING LAYER
+        // var dgGlobeWMSLayer = new DigitalGlobeServiceLayer("https://services.digitalglobe.com/mapservice/wmsaccess", {
+        //     id: "DG_WMS",
+        //     visible: true
+        // });
 
         o.map.addLayers([
             treeCoverLayer,
@@ -758,14 +779,6 @@ define([
         firesLayer.on('error', this.layerAddError);
         //digitalGlobeLayer.on('error', this.layerAddError);
         airQualityLayer.on('error', this.layerAddError);
-
-        // Testing
-
-        // var digitalGlobeUrl = 'https://services.digitalglobe.com/earthservice/wmtsaccess?connectId=dec7c992-899b-4d85-99b9-8a60a0e6047f';
-
-        // var WMTS = new DigitalGlobeTiledLayer(digitalGlobeUrl, "Testing");
-
-        // o.map.addLayer(WMTS);
 
     };
 

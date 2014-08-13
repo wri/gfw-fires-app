@@ -12,8 +12,10 @@ define([
     "views/map/MapModel",
     "views/map/LayerController",
     "esri/tasks/IdentifyTask",
-    "esri/tasks/IdentifyParameters"
-], function(dom, arrayUtils, on, dojoQuery, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters) {
+    "esri/tasks/IdentifyParameters",
+    "esri/tasks/query",
+    "esri/geometry/Circle",
+], function (dom, arrayUtils, on, dojoQuery, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, Circle) {
     var _map;
 
     return {
@@ -269,6 +271,13 @@ define([
                 }
             }
 
+            // Temporary, Remove All Code below when done and import code from 
+            // getDigitalGlobeServiceInfoWindow function
+            // if (evt.graphic.attributes.Source === 'Digital_Globe') {
+            //     this.getDigitalGlobeServiceInfoWindow(evt);
+            //     return;
+            // }
+
             var url = MapConfig.digitalGlobe.identifyUrl,
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
@@ -340,14 +349,62 @@ define([
                 console.dir(err);
             });
 
-            // _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
-            // LayerController.showDigitalGlobeImagery(evt);
-            // var attr = evt.attributes;
-            // var html = "<table><tr><td>Date:</td>";
-            // html += "<td>" + attr.Date + "</td>";
-            // html += "</tr></table>";
-            // return html;
         },
+
+        // getDigitalGlobeServiceInfoWindow: function (evt) {
+        //     var layer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
+        //         mapPoint = evt.mapPoint,
+        //         activeFeatureIndex = 0,
+        //         query = new Query(),
+        //         foundFeatures,
+        //         handles = [],
+        //         content = "",
+        //         circle;
+
+        //     circle = new Circle({
+        //         center: mapPoint,
+        //         geodesic: true,
+        //         radius: 3,
+        //         radiusUnit: "esriMiles"
+        //     });
+
+        //     query.geometry = circle.getExtent();
+
+        //     layer.queryFeatures(query, function (res) {
+        //         if (res.features.length === 0) {
+        //             return;
+        //         }
+        //         foundFeatures = res.features;
+        //         content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
+        //         arrayUtils.forEach(foundFeatures, function (feature) {
+        //             content += "<li><a class='popup-link' data-id='" + feature.attributes.featureId + "'>Date: " + feature.attributes.acquisitionDate + "</a></li>";
+        //         });
+        //         content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
+        //         _map.infoWindow.setContent(content);
+        //         _map.infoWindow.show(mapPoint);
+
+        //         dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
+        //             handles.push(on(node, "click", function (evt) {
+        //                 var target = evt.target ? evt.target : evt.srcElement,
+        //                     id = target.dataset ? target.dataset.id : target.getAttribute("data-id");
+        //                 LayerController.showDigitalGlobeService(id);
+        //                 activeFeatureIndex = index;
+        //             }));
+        //         });
+
+        //         handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+        //             _map.setExtent(foundFeatures[activeFeatureIndex].geometry.getExtent(), true);
+        //         }));
+
+        //         on.once(_map.infoWindow, "hide", function () {
+        //             arrayUtils.forEach(handles, function (handle) {
+        //                 handle.remove();
+        //             });
+        //         });
+
+        //     });
+
+        // },
 
         getFireTweetsInfoWindow: function(evt) {
             _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";

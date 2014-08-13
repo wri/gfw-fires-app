@@ -337,42 +337,14 @@ define([
                 //             });
                 //             poly = new Polygon(item.geometry);
                 //             item.attributes.Layer = "Digital_Globe";
+                //             item.attributes.Source = 'Digital_Globe';
                 //             feature = new Graphic(poly, symbol, item.attributes);
                 //             dgLayer.add(feature);
                 //         });
-                        
-                //         // console.dir(webMercatorUtils.webMercatorToGeographic(feature.geometry).getExtent().getCenter());
-                //         console.dir(feature.geometry.getExtent().getCenter());
 
                 //     } catch (e) {
                 //         alert(e);
                 //     }
-                // }, function (err) {
-                //     console.dir(err);
-                // });
-
-                // OLD REQUEST, NOW DONE ON SERVER
-                // var req = esriRequest({
-                //     url: "https://services.digitalglobe.com/catalogservice/wfsaccess",
-                //     content: {
-                //         'request': 'getFeature',
-                //         'service': 'WFS',
-                //         'version': '1.1.0',
-                //         'featureprofile': 'Global_Currency_Mid_Profile',
-                //         'propertyname': 'featureId,acquisitionDate,geometry',
-                //         'typename': 'DigitalGlobe:FinishedFeature',
-                //         'showtherasterreturned': true,
-                //         'outputformat': 'application/json',
-                //         'bbox': '-2.4437167766633623,102.26554870605469,-1.9908712313470716,103.58390808105469',
-                //         'width': 1920,
-                //         'connectid': 'dec7c992-899b-4d85-99b9-8a60a0e6047f'
-                //     },
-                //     handleAs: "json"
-                //     // callbackParamName: "jsoncallback"   
-                // });
-
-                // req.then(function (res) {
-                //     console.dir(res);
                 // }, function (err) {
                 //     console.dir(err);
                 // });
@@ -392,6 +364,10 @@ define([
                 layer.refresh();
             }
         },
+
+        // showDigitalGlobeService: function (id) {
+        //     alert(id);
+        // },
 
         promptAboutDigitalGlobe: function () {
             if (registry.byId("digitalGlobeInstructions")) {
