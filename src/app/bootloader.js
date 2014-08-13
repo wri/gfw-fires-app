@@ -19,6 +19,9 @@
                 src: 'app/css/responsive.css',
                 cdn: false
             }, {
+                src: 'app/css/intlTelInput.css',
+                cdn: false
+            }, {
                 src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
                 cdn: true
             }],
@@ -33,6 +36,9 @@
                 cdn: false
             }, {
                 src: 'app/css/responsive.css',
+                cdn: false
+            }, {
+                src: 'app/css/intlTelInput.css',
                 cdn: false
             }, {
                 src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',

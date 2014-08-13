@@ -325,10 +325,9 @@ define([
                     });
                 }
 
-                handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
-                    //console.dir(features[activeFeatureIndex].geometry.getExtent());
-                    // TODO INCORPORATE CENTERX AND CENTERY FOR ZOOM TO FUNCTIONS
-                    _map.setExtent(esri.geometry.webMercatorToGeographic(features[activeFeatureIndex].geometry).getExtent(), true);
+                handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+                    var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
+                    _map.centerAt(point);
                 }));
 
                 on.once(_map.infoWindow, "hide", function () {

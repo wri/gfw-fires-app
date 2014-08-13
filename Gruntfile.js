@@ -111,6 +111,17 @@ module.exports = function(grunt) {
     //     dest: 'prod/app/css/app.css'
     //   }
     // },
+    concat: {
+      options: {
+        separator: 'min'
+      },
+      main: {
+        src: [
+          'build/app/css/*.css'
+        ],
+        dest: 'build/app/css/master.css'
+      }
+    },
 
     cssmin: {
       options: {
@@ -199,7 +210,7 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-copy');
-  // grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');

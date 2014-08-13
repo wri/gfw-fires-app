@@ -29,9 +29,7 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol",
     // Modules for Terraformer
-    "esri/SpatialReference",
-    "libs/terraformer-1.0.3.min",
-    "libs/terraformer-arcgis-parser-1.0.3.min",
+    "esri/SpatialReference"
 ], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol, SpatialReference) {
     'use strict';
     var _map,
