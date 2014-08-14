@@ -51,7 +51,7 @@
                 cdn: true
             }]
         },
-        URL = location.pathname.replace(/\/[^/]+$/, '') + '/app',
+        URL = location.pathname.replace(/\/[^/]+$/, '') + 'app',
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,

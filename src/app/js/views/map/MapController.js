@@ -45,11 +45,12 @@ define([
     "views/map/BurnScarTiledLayer",
     "modules/HashController",
     "esri/layers/GraphicsLayer",
-    "esri/layers/ImageServiceParameters"
+    "esri/layers/ImageServiceParameters",
+    "dijit/Dialog"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters) {
+    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
 
     var o = {},
         initialized = false,
@@ -461,6 +462,10 @@ define([
         on(dom.byId("report-link"), "click", function() {
             var win = window.open('./app/js/views/report/report.html', 'Report', '');
             self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
+        });
+
+        on(dom.byId("embedShare"), "click", function () {
+            self.showEmbedCode();
         });
 
         on(dom.byId("clear-search-pins"), "click", this.clearSearchPins);
@@ -892,44 +897,93 @@ define([
     };
 
     o.printMap = function() {
-        var printTask = new PrintTask(MapConfig.printOptions.url),
-            template = new PrintTemplate(),
-            params = new PrintParameters(),
-            popupBlockerMsg = 'You need to disable your pop-up blocker to see the printed map.',
-            success,
-            fail;
 
-        // Configure Print Template
-        template.format = "png32";
-        template.layout = MapConfig.printOptions.template;
-        template.showAttribution = false;
-        template.preserveScale = false;
+        var body = document.getElementsByTagName("body")[0];
 
-        params.map = o.map;
-        //params.template = template;
-
-        success = function(res) {
-            var redirect = window.open(res.url, '_blank');
-            domClass.remove('print-button', 'loading');
-            if (redirect === null || typeof(redirect) === undefined || redirect === undefined) {
-                alert(popupBlockerMsg);
-            }
-        };
-
-        fail = function(err) {
-            domClass.remove('print-button', 'loading');
-            console.error(err);
-        };
-
-        // Change Background image of Print Button to be the loading wheel, TEMP, toggle html
         domClass.add('print-button', 'loading');
+        domClass.add(body, "map-view-print");
+        registry.byId("stackContainer").resize();
+        registry.byId("mapView").resize();
+        o.map.resize();
+        on.once(o.map, 'resize', function () {
+            // Allow Layers to redraw themselves, wind layer takes 1500ms 
+            setTimeout(function() {
+                window.print();
+                domClass.remove('print-button', 'loading');
+                domClass.remove(body, "map-view-print");
+                registry.byId("stackContainer").resize();
+                o.map.resize();
+            }, 2000);
+        });
 
-        printTask.execute(params, success, fail);
+        // var printTask = new PrintTask(MapConfig.printOptions.url),
+        //     template = new PrintTemplate(),
+        //     params = new PrintParameters(),
+        //     popupBlockerMsg = 'You need to disable your pop-up blocker to see the printed map.',
+        //     success,
+        //     fail;
+
+        // // Configure Print Template
+        // template.format = "png32";
+        // template.layout = MapConfig.printOptions.template;
+        // template.showAttribution = false;
+        // template.preserveScale = false;
+
+        // params.map = o.map;
+        // params.template = template;
+
+        // success = function(res) {
+        //     var redirect = window.open(res.url, '_blank');
+        //     domClass.remove('print-button', 'loading');
+        //     domClass.remove("map-container", "map-container-print");
+        //     if (redirect === null || typeof(redirect) === undefined || redirect === undefined) {
+        //         alert(popupBlockerMsg);
+        //     }
+        // };
+
+        // fail = function(err) {
+        //     domClass.remove('print-button', 'loading');
+        //     domClass.remove("map-container", "map-container-print");
+        //     console.error(err);
+        // };
+
+        // // Change Background image of Print Button to be the loading wheel, TEMP, toggle html
+        // domClass.add('print-button', 'loading');
+
+        // printTask.execute(params, success, fail);
     };
 
     o.reportAnalyticsHelper = function (eventType, action, label) {
         ga('A.send', 'event', eventType, action, label);
         ga('B.send', 'event', eventType, action, label);
+    };
+
+    o.showEmbedCode = function () {
+        if (registry.byId("embedCodeShareDialog")) {
+            registry.byId("embedCodeShareDialog").destroy();
+        }
+        var embedCode = "<iframe src='" + window.location + "' height='600' width='900'></iframe>",
+            dialog = new Dialog({
+                title: "Embed Code",
+                style: "width: 350px",
+                id: "embedCodeShareDialog",
+                content: "Copy the code below to embed in your site. (Ctrl+C on PC and Cmd+C on Mac)" +
+                         "<div class='dijitDialogPaneActionBar'>" + 
+                         '<input id="embedInput" type="text" value="' + embedCode + '" autofocus /></div>'
+            }),
+            cleanup;
+
+
+        cleanup = function () {
+            dialog.destroy();
+        };
+
+        dialog.show();
+        dom.byId("embedInput").select();
+
+        dialog.on('cancel', function () {
+            cleanup();
+        });
     };
 
     return o;

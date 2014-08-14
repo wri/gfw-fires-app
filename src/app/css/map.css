@@ -147,7 +147,15 @@
 }
 .map-share-container {
   height: 80px;
+  width: auto;
   top: 180px;
+}
+.map .embed_code_share {
+  background: url("../images/embed_icon.png") no-repeat #fff;
+  display: inline-block;
+  cursor: pointer;
+  height: 32px;
+  width: 32px;
 }
 .basemap-gallery-container {
   overflow-y: auto;
@@ -186,8 +194,11 @@
   font-weight: bold;
   font-size: 18px;
 }
+.map .sharing_toolbox {
+  padding: 20px 20px 0;
+}
 .addthis_sharing_toolbox {
-  padding: 20px 0 0 20px;
+  display: inline-block;
 }
 .LocateButton {
   margin: 0 5px;
@@ -590,13 +601,15 @@
   background: linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
 }
 #windLayerBasemapDialog,
-#digitalGlobeInstructions {
+#digitalGlobeInstructions,
+#embedCodeShareDialog {
   font-family: "Arial MT Condensed Light";
   src: url("../fonts/ArialMTStd-LightCond.otf") format("opentype");
   color: #464052;
 }
 #windLayerBasemapDialog .dijitDialogPaneActionBar,
-#digitalGlobeInstructions .dijitDialogPaneActionBar {
+#digitalGlobeInstructions .dijitDialogPaneActionBar,
+#embedCodeShareDialog .dijitDialogPaneActionBar {
   margin: 10px 0 0;
   text-align: center;
 }
@@ -612,6 +625,10 @@
   color: #fff;
   border: none;
 }
+#embedCodeShareDialog .dijitDialogPaneActionBar input[type="text"] {
+  height: 20px;
+  width: 90%;
+}
 #windLayerBasemapDialog .dialogCheckbox,
 #digitalGlobeInstructions .dialogCheckbox {
   margin-top: 15px;
@@ -623,4 +640,41 @@
   position: relative;
   left: 4px;
   top: 2px;
+}
+.map-view-print .mapView #stackContainer {
+  top: 0px;
+}
+.map-view-print #app-header {
+  display: none;
+}
+.map-view-print #control-panel {
+  width: 0 !important;
+}
+.map-view-print #map-container {
+  left: 0 !important;
+  max-width: 100%;
+  max-height: 100%;
+}
+.map-view-print .esriControlsBR,
+.map-view-print .legend-widget-container,
+.map-view-print .locator-widget-button,
+.map-view-print .basemap-gallery-button,
+.map-view-print .share-button,
+.map-view-print .print-button,
+.map-view-print .simpleGeocoder,
+.map-view-print .esriSimpleSlider {
+  display: none !important;
+}
+.map-view-print .latLongHUD,
+.map-view-print .esriScalebar {
+  top: 15px;
+}
+.map-view-print .latLongHUD {
+  bottom: auto;
+}
+@media print {
+  html,
+  body {
+    -webkit-print-color-adjust: exact;
+  }
 }
