@@ -92,7 +92,6 @@ define([
             var year = vm.dateVals().fYear();
             var isLeap = new Date(year, 1, 29).getMonth() == 1
             var days = [];
-            console.log(vm.months[month])
             for (var i = 1;i <= vm.months[month];i++){
 
                 days.push(i);
@@ -100,7 +99,6 @@ define([
             if (month==2 && isLeap){
                 days.push(29);
             }
-            console.log("fromDays",days);
             return days;
         });
     vm.toDay = ko.computed(function(){
