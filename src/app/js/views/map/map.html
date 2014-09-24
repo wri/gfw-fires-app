@@ -137,6 +137,53 @@
   <div id="map-container" class="map-container">
     <div id="map" class="map">
       <div id="esri-geocoder-widget"></div>
+      <div id="report-options" data-bind="visible: showReportOptions()" class="reportOptions">
+        <div data-bind="text:reportText().selectAOILabel"></div>
+        <div class="report-select-div">
+          <div id="report-island-radio"></div>
+          <label for="report-island-radio" data-bind="text:reportText().islandRadio"></label>
+          <div id="report-province-radio"></div>
+          <label for="report-island-radio" data-bind="text:reportText().provinceRadio"></label>
+        </div>
+        <div class="report-select-div">
+          <select multiple="true" data-bind="options:reportAOIs,selectedOptions:selectedAOIs"></select>
+        </div>
+        <div data-bind="text:reportText().multiSelectInfo"></div>
+        <div data-bind="text:reportText().selectTimeLabel"></div>
+        <table>
+          <tr>
+            <td></td>
+            <td data-bind="text:reportText().year"></td>
+            <td data-bind="text:reportText().month"></td>
+            <td data-bind="text:reportText().day"></td>
+          </tr>
+          <tr>
+            <td data-bind="text:reportText().fromLabel"></td>
+            <td>
+              <select data-bind="options:fromYear,value:dateVals().fYear"></select>
+            </td>
+            <td>
+              <select data-bind="options:fromMonth,value:dateVals().fMonth"></select>
+            </td>
+            <td>
+              <select data-bind="options:fromDay,value:dateVals().fDay"></select>
+            </td>
+          </tr>
+          <tr>
+            <td data-bind="text:reportText().toLabel"></td>
+            <td>
+              <select data-bind="options:toYear,value:dateVals().tYear"></select>
+            </td>
+            <td>
+              <select data-bind="options:toMonth,value:dateVals().tMonth"></select>
+            </td>
+            <td>
+              <select data-bind="options:toDay,value:dateVals().tDay"></select>
+            </td>
+          </tr>
+        </table>
+        <div id="report-launch">Go</div>
+      </div>
       <div id="latLongHUD" class="latLongHUD">
         <div class="checkbox-container"><span data-bind="text: latitudeLabel"></span><span>/ </span><span data-bind="text: longitudeLabel"></span></div>
         <div class="checkbox-container"><span data-bind="text: currentLatitude"></span><span>, </span><span data-bind="text: currentLongitude"></span></div>
