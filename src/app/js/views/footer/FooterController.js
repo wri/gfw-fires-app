@@ -19,15 +19,7 @@ define([
 
         o.init = function() {
             var that = this;
-            if (initialized) {
-                //switch to this view
-                //HashController.switchToView(viewName);
 
-                return;
-            }
-
-            initialized = true;
-            //otherwise load the view
             require(["dojo/text!views/footer/footer.html", "views/footer/FooterModel"], function(html, FooterModel) {
 
                 dom.byId(viewId).innerHTML = html;
