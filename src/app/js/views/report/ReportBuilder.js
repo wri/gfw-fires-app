@@ -29,10 +29,39 @@ define([
     Query, QueryTask, MapConfig, esriRequest) {
 
     var PRINT_CONFIG = {
-        zoom: 5,
+        zoom: 4,
         basemap: 'gray',
         slider: false,
-        mapcenter: [100, -1.2],
+        firesLayer: {
+            url: "http://gishttp://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
+            id: "Active_Fires",
+            fire_id: 0,
+            defaultLayers: [0, 1, 2, 3],
+            //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
+            query: {
+                layerId: 0,
+                outfields: ["*"],
+                fields: [{
+                    'name': 'LATITUDE',
+                    'label': 'LATITUDE'
+                }, {
+                    'name': 'LONGITUDE',
+                    'label': 'LONGITDUE'
+                }, {
+                    'name': 'BRIGHTNESS',
+                    'label': 'BRIGHTNESS'
+                }, {
+                    'name': 'CONFIDENCE',
+                    'label': 'CONFIDENCE'
+                }, {
+                    'name': 'ACQ_DATE',
+                    'label': 'ACQUISITION DATE'
+                }, {
+                    'name': 'ACQ_TIME',
+                    'label': 'ACQUISITION TIME'
+                }]
+            }
+    }
         adminBoundary: {
             mapDiv: "district-fires-map",
             url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
@@ -138,12 +167,29 @@ define([
             });
         },
 
+        date_obj_to_string: function(dateobj){
+            var dtstr = "date'";
+            dtstr+= dateobj.year + '-';
+            dtstr+= dateobj.month + '-';
+            dtstr+= dateobj.day + "'";
+            return dtstr;
+        },
+
+        get_layer_definition: function(){
+            var dateobj = window.reportOptions.dates;
+            var aois = window.reportOptions.aois;
+            var aoi = window.reportOptions.type + " in ('";
+            aoi+= aois.join("','");
+            aoi+= "')"
+            return aoi;
+        },
+
         buildFiresMap: function() {
+            var self = this;
             var deferred = new Deferred(),
                 fireParams,
                 fireLayer,
                 map;
-
             map = new Map("simple-fires-map", {
                 basemap: PRINT_CONFIG.basemap,
                 zoom: PRINT_CONFIG.zoom,
@@ -162,6 +208,8 @@ define([
                 visible: true
             });
 
+            fireLayer.setLayerDefinitions([self.get_layer_definition()]);
+
             map.addLayer(fireLayer);
 
             map.on('load', function() {
@@ -171,7 +219,8 @@ define([
             fireLayer.on('load', function() {
                 deferred.resolve(true);
             });
-
+            mp = map;
+            console.log("MAP",mp)
             return deferred.promise;
         },
 

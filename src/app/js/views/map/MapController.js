@@ -34,6 +34,7 @@ define([
     "views/map/LayerController",
     "views/map/WindyController",
     "views/map/Finder",
+    "views/report/ReportOptionsController",
     "utils/DijitFactory",
     "modules/EventsController",
     "esri/request",
@@ -49,7 +50,7 @@ define([
     "dijit/Dialog"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
 
     var o = {},
@@ -156,6 +157,8 @@ define([
         // };
 
         // Add Dojo Dijits to Control Map Options
+        DijitFactory.buildDijits(MapConfig.reportOptionsDijits);
+
         DijitFactory.buildDijits(MapConfig.accordionDijits);
         var hashX = HashController.newState.x;
         var hashY = HashController.newState.y;
@@ -460,7 +463,9 @@ define([
         });
 
         on(dom.byId("report-link"), "click", function() {
-            var win = window.open('./app/js/views/report/report.html', 'Report', '');
+            MapModel.vm.showReportOptions(true);
+            ReportOptionsController.populate_select();
+            //var win = window.open('./app/js/views/report/report.html', 'Report', '');
             self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
         });
 
@@ -870,6 +875,7 @@ define([
         }
 
     };
+
 
     o.clearSearchPins = function() {
         o.map.graphics.clear();

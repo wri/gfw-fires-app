@@ -34,6 +34,7 @@ define({
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
         id: "Active_Fires",
         defaultLayers: [0, 1, 2, 3],
+        report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
         query: {
             layerId: 0,
             outfields: ["*"],
@@ -313,7 +314,36 @@ define({
         pf2005Radio: "2005",
         pf2010Radio: "2010",
         pf2012Radio: "2012",
+        reportOptions: {    
+                selectAOILabel:'Select area of interest:',
+                islandRadio:'By Island(s)',
+                provinceRadio:'By Province(s)', 
+                multiSelectInfo: 'To select more than one, hold down the control (PC) or command (Mac) key when clicking',
+                selectTimeLabel: 'Select timeframe of interest:',
+                year: 'YYYY',
+                month: 'MM',
+                day: 'DD',
+                toLabel: 'To:',
+                fromLabel: 'From:'
+            }
     },
+
+    reportOptionsDijits:[{
+        "id": "report-island-radio",
+            "type": "radio",
+            "props": {
+                "class": "report-radio",
+                "checked": true
+            },
+        },
+        {
+            "id": "report-province-radio",
+            "type": "radio",
+            "props": {
+                "class": "report-radio"
+            },
+        }
+    ],
 
     accordionDijits: [{
             "id": "fires-map-accordion",

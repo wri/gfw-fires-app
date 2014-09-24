@@ -73,8 +73,58 @@ define([
     vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
     vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
 
+    vm.reportText = ko.observable(MapConfig.text.reportOptions);
+    vm.months = [0,31,28,31,30,31,30,31,31,30,31,30,31];
+    vm.reportAOIs = ko.observableArray([]);
+    vm.selectedAOIs = ko.observableArray([]);
+    vm.fromYear = ko.observableArray([]);
+    vm.fromMonth = ko.observableArray([]);
+    vm.dateVals = ko.observable({
+        fYear:ko.observable(''),
+        fMonth:ko.observable(1),
+        fDay:ko.observable(''),
+        tYear:ko.observable(''),
+        tMonth:ko.observable(2),
+        tDay:ko.observable('')
+    })
+    vm.fromDay = ko.computed(function(){
+            var month = vm.dateVals().fMonth();
+            var year = vm.dateVals().fYear();
+            var isLeap = new Date(year, 1, 29).getMonth() == 1
+            var days = [];
+            console.log(vm.months[month])
+            for (var i = 1;i <= vm.months[month];i++){
+
+                days.push(i);
+            }
+            if (month==2 && isLeap){
+                days.push(29);
+            }
+            console.log("fromDays",days);
+            return days;
+        });
+    vm.toDay = ko.computed(function(){
+            var month = vm.dateVals().tMonth();
+            var year = vm.dateVals().tYear();
+            var isLeap = new Date(year, 1, 29).getMonth() == 1
+            var days = [];
+            for (var i = 1;i <= vm.months[month];i++){
+                days.push(i);
+            }
+            if (month==2 && isLeap){
+                days.push(29);
+            }
+            return days;
+        });
+    
+    vm.toYear = ko.observableArray([]);
+    vm.toMonth = ko.observableArray([]);
+    vm.islands = ko.observableArray([]);
+    vm.provinces = ko.observableArray([]);
+
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
+    vm.showReportOptions = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
     vm.showPrimaryForestOptions = ko.observable(false);
     vm.showWindLegend = ko.observable(false);
