@@ -165,7 +165,14 @@ define([
 
 			currentCookie = cookie("windBasemapDecision");
 
-			if (currentCookie === undefined) {
+            var currentSelectedBasemap;
+            if (registry.byId("basemap-gallery").getSelected()){
+                currentSelectedBasemap = registry.byId("basemap-gallery").getSelected().id;
+            } else {
+                currentSelectedBasemap = "topo";
+            }
+
+			if (currentCookie === undefined && (currentSelectedBasemap !== "darkgray")) {
 				dialog.show();
 				cbox = new CheckBox({
 					checked: false,
