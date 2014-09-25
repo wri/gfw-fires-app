@@ -22,21 +22,24 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "views/map/MapConfig",
+    "views/map/MapModel",
     "esri/request",
+    "knockout",
     "libs/highcharts"
 ], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, MapConfig, esriRequest) {
+    Query, QueryTask, MapConfig, MapModel, esriRequest, ko) {
 
     var PRINT_CONFIG = {
         zoom: 4,
         basemap: 'gray',
         slider: false,
+        mapcenter:[120,-1.2],
         firesLayer: {
-            url: "http://gishttp://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
+            url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
             id: "Active_Fires",
             fire_id: 0,
-            defaultLayers: [0, 1, 2, 3],
+            defaultLayers: [0],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
@@ -61,7 +64,7 @@ define([
                     'label': 'ACQUISITION TIME'
                 }]
             }
-    }
+        },
         adminBoundary: {
             mapDiv: "district-fires-map",
             url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
@@ -102,7 +105,7 @@ define([
             headerField: ['SUBDISTRICT','DISTRICT'],
             layerId: 5
         },
-        queryUrl: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+        queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 6
@@ -137,7 +140,7 @@ define([
                     proxyUrl = proxies[domain];
                 }
             }
-
+            self.init_report_options();
             // Set up some configurations
             esriConfig.defaults.io.proxyUrl = proxyUrl;
 
@@ -167,21 +170,46 @@ define([
             });
         },
 
+        init_report_options: function(){
+            var self = this;
+            var dateobj = window.reportOptions.dates;
+            this.startdate = self.date_obj_to_string({
+                year:dateobj.fYear,
+                month:dateobj.fMonth,
+                day:dateobj.fDay
+            });
+            this.enddate = self.date_obj_to_string({
+                year:dateobj.tYear,
+                month:dateobj.tMonth,
+                day:dateobj.tDay
+            });
+            console.log(self.startdate)
+            this.aoilist = window.reportOptions.aois.join(', ');
+            this.aoitype = window.reportOptions.aoitype;
+            dom.byId('fromDate').innerHTML = "From: "+self.startdate;
+            dom.byId('toDate').innerHTML = "To: "+self.enddate;
+            dom.byId('aoiList').innerHTML = 'ON ' + self.aoitype.toUpperCase() + 'S: ' + self.aoilist;
+        },
+
         date_obj_to_string: function(dateobj){
-            var dtstr = "date'";
+            //var dtstr = "date'";
+            var dtstr ='';
             dtstr+= dateobj.year + '-';
             dtstr+= dateobj.month + '-';
-            dtstr+= dateobj.day + "'";
+            dtstr+= dateobj.day ;
             return dtstr;
         },
 
         get_layer_definition: function(){
-            var dateobj = window.reportOptions.dates;
             var aois = window.reportOptions.aois;
-            var aoi = window.reportOptions.type + " in ('";
+            var startdate = "ACQ_DATE >= date'" + this.startdate + "'";
+            var enddate = "ACQ_DATE <= date'" + this.enddate + "'";
+            var aoi = window.reportOptions.aoitype + " in ('";
             aoi+= aois.join("','");
             aoi+= "')"
-            return aoi;
+            var sql = [aoi,startdate,enddate].join(' AND ')
+            console.log("SQL",sql);
+            return sql;
         },
 
         buildFiresMap: function() {
@@ -199,12 +227,12 @@ define([
 
             fireParams = new ImageParameters();
             fireParams.format = "png32";
-            fireParams.layerIds = MapConfig.firesLayer.defaultLayers;
+            fireParams.layerIds = PRINT_CONFIG.firesLayer.defaultLayers;
             fireParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
 
-            fireLayer = new ArcGISDynamicLayer(MapConfig.firesLayer.url, {
+            fireLayer = new ArcGISDynamicLayer(PRINT_CONFIG.firesLayer.url, {
                 imageParameters: fireParams,
-                id: MapConfig.firesLayer.id,
+                id: PRINT_CONFIG.firesLayer.id,
                 visible: true
             });
 
@@ -620,7 +648,7 @@ define([
 
             self.queryFireData({
                 outFields: ["wdpa", "pulpwood", "palm_oil", "logging"],
-                where: "sumatra = 1"
+                where: ''//"sumatra = 1"
             }, success, failure);
 
             return deferred.promise;
@@ -721,10 +749,13 @@ define([
             // Make Time Relative to Last Week
             time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 8);
 
+
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-
-            query.where = (config.where === undefined) ? "ACQ_DATE > date '" + dateString + "'" : "ACQ_DATE > date '" + dateString + "' AND " + config.where;
+            var layerdef = self.get_layer_definition()
+            query.where = (config.where === undefined) ? layerdef : layerdef + " AND " + config.where;
+            console.log('LAYER DEF QUERY',query.where);
+           
             query.returnGeometry = config.returnGeometry || false;
             query.outFields = config.outFields || ["*"];
             queryTask.execute(query, callback, errback);
