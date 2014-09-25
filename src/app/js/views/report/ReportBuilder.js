@@ -648,7 +648,7 @@ define([
 
             self.queryFireData({
                 outFields: ["wdpa", "pulpwood", "palm_oil", "logging"],
-                where: ''//"sumatra = 1"
+                //where: ''//"sumatra = 1"
             }, success, failure);
 
             return deferred.promise;
@@ -753,6 +753,7 @@ define([
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
             var layerdef = self.get_layer_definition()
+            console.log("QUERY FIRE DATA", config);
             query.where = (config.where === undefined) ? layerdef : layerdef + " AND " + config.where;
             console.log('LAYER DEF QUERY',query.where);
            

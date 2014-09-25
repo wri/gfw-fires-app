@@ -14,10 +14,7 @@ define([
         o.queryDistinct = function(url,fieldname,callback){
             var query = new Query();
             query.returnGeometry = false;
-            query.where = "OBJECTID < 700";
-            // query.outFields = ['*'];
-            //query.returnGeometry = false;
-            //query.where = '1=1';
+            query.where = "1=1";
             query.outFields = [fieldname]
             query.returnDistinctValues = true;
             var task = new QueryTask(url);
@@ -29,11 +26,8 @@ define([
         }
 
         o.init_time_selects = function(){
-            console.log("TIME SELECTS")
             var today = new Date();
-            console.log("TODAY",today)
             var yesterday = new Date(today.getFullYear()-1,today.getMonth()-1,today.getDay()-1);
-            console.log(yesterday);
             var initial = new Date(2013, 1,1);
             var years = [];
             for (var i = initial.getFullYear();i<=today.getFullYear();i++){
@@ -58,13 +52,10 @@ define([
             })
             on(dom.byId('report-province-radio'),'change',function(evt,node){
                 MapModel.vm.reportAOIs(MapModel.vm.provinces());
-
             })
+
             on(dom.byId('report-launch'),'click',function(){
-                var win = window.open('./app/js/views/report/report.html', 'Report', '');
                 var dates = MapModel.vm.dateVals();
-                console.log("datevals",dates);
-                win.report = true;
 
                 var reportdates = {};
                 for (var val in dates){
@@ -72,14 +63,20 @@ define([
                         reportdates[val] = dates[val]();
                     }
                 }
-                console.log("report dates",reportdates)
                 if (dom.byId('report-province-radio').checked){
                         aoitype = 'PROVINCE';
                 }
                 else if (dom.byId('report-island-radio').checked){
                         aoitype = 'ISLAND';
                 }
-                win.reportOptions = {'dates':reportdates, 'aois':MapModel.vm.selectedAOIs(), 'aoitype':aoitype};
+
+                var win = window.open('./app/js/views/report/report.html', 'Report', '');
+                win.report = true;
+                win.reportOptions = {
+                    'dates':reportdates, 
+                    'aois':MapModel.vm.selectedAOIs(), 
+                    'aoitype':aoitype
+                };
             })
         }
 
@@ -90,7 +87,6 @@ define([
             self.bind_events();
             selaois = MapModel.vm.selectedAOIs;
             var islandresults = function(results){
-                console.log("ISLAND RESULTS",results);
                 var islands = [];
                 arrayUtil.forEach(results.features,function(f){
                     islands.push(f.attributes.ISLAND);
@@ -99,7 +95,6 @@ define([
                 MapModel.vm.reportAOIs(islands);
             }
             var provinceresults = function(results){
-                console.log("PROVINCE RESULTS",results);
                 var provinces = [];
                 arrayUtil.forEach(results.features,function(f){
                     provinces.push(f.attributes.PROVINCE);
@@ -138,14 +133,10 @@ define([
             return deferred;
 
         }
-
         //listen to key
 
         //trigger event 
 
-
-
         return o;
-
 
     });
