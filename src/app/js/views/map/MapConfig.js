@@ -142,13 +142,19 @@ define({
     },
 
     layerForDistrictQuery: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/2',
-        outFields: ['DISTRICT']
+        //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/2',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/6',
+        outFields: ['DISTRICT', 'PROVINCE']
     },
 
     layerForSubDistrictQuery: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/1',
         outFields: ['SUBDISTRIC','ID_KEC']
+    },
+
+    layerForProvinceQuery: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/7',
+        outFields: ['PROVINCE']
     },
 
     // Key: LayerID

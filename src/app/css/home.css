@@ -78,6 +78,12 @@
   right: 0px;
   vertical-align: middle;
 }
+.alert-dialog-box {
+  height: 430px !important;
+}
+.many-subDistricts-warning {
+  color: #f00;
+}
 .homeModeOptionsViewerOuter .modeGroup .modeText span {
   font-size: 32px;
 }
@@ -95,6 +101,12 @@
   width: 240px;
 }
 #signUpAlertsForm #aoiDistrictPicker {
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  font-size: 12px;
+  width: 240px;
+}
+#signUpAlertsForm #aoiProvincePicker {
   background: transparent;
   -webkit-appearance: none;
   -moz-appearance: none;
