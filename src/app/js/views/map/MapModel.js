@@ -106,17 +106,37 @@ define([
             var year = vm.dateVals().tYear();
             var isLeap = new Date(year, 1, 29).getMonth() == 1
             var days = [];
-            for (var i = 1;i <= vm.months[month];i++){
+            var startDay = 1;
+            if(vm.dateVals().fYear() == vm.dateVals().tYear() && vm.dateVals().tMonth() == vm.dateVals().fMonth()){
+                startDay = vm.dateVals().fDay();
+            }
+            for (var i = startDay;i <= vm.months[month];i++){
                 days.push(i);
             }
             if (month==2 && isLeap){
                 days.push(29);
             }
+
             return days;
         });
+
     
     vm.toYear = ko.observableArray([]);
-    vm.toMonth = ko.observableArray([]);
+    vm.toMonth = ko.computed(function(){
+        var fMonth = vm.dateVals().fMonth();
+        var months = [];
+        if (vm.dateVals().tYear() == vm.dateVals().fYear()){
+            for (var i = fMonth;i <= 12;i++){
+                months.push(i);
+            }
+        } else {
+            for (var i = 1;i <= 12;i++){
+                months.push(i);
+            }
+        }
+        return months;
+    });
+
     vm.islands = ko.observableArray([]);
     vm.provinces = ko.observableArray([]);
 
@@ -132,6 +152,10 @@ define([
     vm.currentLatitude = ko.observable(0);
     vm.currentLongitude = ko.observable(0);
     vm.DigitalGlobeExtents = ko.observable();
+
+    vm.closeReportOptions = function () {
+        vm.showReportOptions(false);
+    };
 
     o.applyBindings = function(domId) {
         ko.applyBindings(vm, dom.byId(domId));

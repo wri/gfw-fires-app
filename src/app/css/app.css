@@ -131,3 +131,9 @@ body,
   z-index: 1000;
   right: 0;
 }
+.reportOptionsHeader {
+  text-align: right;
+  border: 1px solid #000;
+  padding-right: 4px;
+  padding-bottom: 3px;
+}
