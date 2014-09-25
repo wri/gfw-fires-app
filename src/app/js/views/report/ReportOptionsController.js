@@ -52,12 +52,11 @@ define([
         }
 
         o.bind_events = function (){
+            var aoitype;
             on(dom.byId('report-island-radio'),'change',function(evt,node){
-                console.log('island radio change',evt);
                 MapModel.vm.reportAOIs(MapModel.vm.islands());
             })
             on(dom.byId('report-province-radio'),'change',function(evt,node){
-                console.log('province radio change',evt);
                 MapModel.vm.reportAOIs(MapModel.vm.provinces());
 
             })
@@ -74,7 +73,13 @@ define([
                     }
                 }
                 console.log("report dates",reportdates)
-                win.reportOptions = {'dates':reportdates, 'aois':MapModel.vm.selectedAOIs(), 'type':'PROVINCE'};
+                if (dom.byId('report-province-radio').checked){
+                        aoitype = 'PROVINCE';
+                }
+                else if (dom.byId('report-island-radio').checked){
+                        aoitype = 'ISLAND';
+                }
+                win.reportOptions = {'dates':reportdates, 'aois':MapModel.vm.selectedAOIs(), 'aoitype':aoitype};
             })
         }
 
