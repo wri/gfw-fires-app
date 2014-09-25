@@ -126,6 +126,7 @@ div#map-view(class="map-view")
 		div#map(class="map")
 			div#esri-geocoder-widget
 			div#report-options(data-bind="visible: showReportOptions()" class="reportOptions")
+				div#report-options-close(data-bind="click: closeReportOptions" class="reportOptionsHeader") x
 				div(data-bind="text:reportText().selectAOILabel")
 				div.report-select-div
 					div#report-island-radio
