@@ -48,7 +48,6 @@ define([
             MapModel.vm.toYear(years);
             MapModel.vm.dateVals().tYear(years[0]);
             MapModel.vm.fromMonth(months);
-            MapModel.vm.toMonth(months);
         }
 
         o.bind_events = function (){
