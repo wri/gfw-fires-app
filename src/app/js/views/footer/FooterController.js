@@ -99,7 +99,7 @@ define([
             ], function (on, Dialog, domStyle, domConstruct, Select, validate, html) {
                 var dialog = new Dialog({
                         title: "Sign up to receive fire alerts!",
-                        style: "width: 550px;height: 400px;"
+                        style: "width: 550px;height: auto;"
                     }),
                     content = html,
                     submitHandle,
@@ -146,8 +146,9 @@ define([
                         //TODO all. then have select all districts add all subdistrs
 
                         var provinceDistrictMapping = new Array();
+                        var selectAll = {label: 'Select All', value: 'ALL'}
                         arrayUtil.forEach(provincesAvailable, function (province){
-                            provinceDistrictMapping[province.value] = new Array();
+                            provinceDistrictMapping[province.value] = new Array(selectAll);
                         });
 
                         arrayUtil.forEach(districtArray, function (district){
@@ -159,6 +160,7 @@ define([
                         provinceHandle = on(dom.byId("aoiProvincePicker"), "change", function (evt) {
                             var value = evt.target ? evt.target.value : evt.srcElement.value;
                             model.districtsAvailableForAlerts(provinceDistrictMapping[value]);
+                            model.subDistrictsAvailableForAlerts([]);
                         });
 
                         districtHandle = on(dom.byId("aoiDistrictPicker"), "change", function (evt) {
@@ -416,16 +418,21 @@ define([
             // query.returnDistinctValues = true;
             query.outFields = MapConfig.layerForSubDistrictQuery.outFields;
 
-            var whereClause = "DISTRICT = '";
-            for(var key = 0; key < districtNamesArray.length; key++) {
-                whereClause += districtNamesArray[key].value;
-                if(key == districtNamesArray.length -1) {//last value
-                    whereClause += "'";
-                } else {
-                    whereClause += "' OR DISTRICT = '";
+            var whereClause;
+            if(districtNamesArray[0].value === "ALL"){
+                console.log("ALL");
+                whereClause = "1 = 1";
+            } else {
+                var whereClause = "DISTRICT = '";
+                for(var key = 0; key < districtNamesArray.length; key++) {
+                    whereClause += districtNamesArray[key].value;
+                    if(key == districtNamesArray.length -1) {//last value
+                        whereClause += "'";
+                    } else {
+                        whereClause += "' OR DISTRICT = '";
+                    }
                 }
             }
-
 
             query.where = whereClause;
 
