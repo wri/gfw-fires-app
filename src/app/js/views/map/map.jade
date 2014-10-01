@@ -127,39 +127,45 @@ div#map-view(class="map-view")
 			div#esri-geocoder-widget
 			div#report-options(data-bind="visible: showReportOptions()" class="reportOptions")
 				div#report-options-close(data-bind="click: closeReportOptions" class="reportOptionsHeader") x
-				div(data-bind="text:reportText().selectAOILabel")
-				div.report-select-div
-					div#report-island-radio
-					label(for="report-island-radio" data-bind="text:reportText().islandRadio")
-					div#report-province-radio
-					label(for="report-island-radio" data-bind="text:reportText().provinceRadio")
-				div.report-select-div
-					select(multiple="true",data-bind="options:reportAOIs,selectedOptions:selectedAOIs")
-				div(data-bind="text:reportText().multiSelectInfo")
-				div(data-bind="text:reportText().selectTimeLabel")
-				table
-					tr
-						td
-						td(data-bind="text:reportText().year")
-						td(data-bind="text:reportText().month")
-						td(data-bind="text:reportText().day")
-					tr
-						td(data-bind="text:reportText().fromLabel")
-						td
-							select(data-bind="options:fromYear,value:dateVals().fYear")
-						td
-							select(data-bind="options:fromMonth,value:dateVals().fMonth")
-						td
-							select(data-bind="options:fromDay,value:dateVals().fDay")
-					tr
-						td(data-bind="text:reportText().toLabel")
-						td
-							select(data-bind="options:toYear,value:dateVals().tYear")
-						td
-							select(data-bind="options:toMonth,value:dateVals().tMonth")
-						td
-							select(data-bind="options:toDay,value:dateVals().tDay")
-				div#report-launch Go
+				div.font14(data-bind="text:reportText().selectAOILabel")
+				div.report-options-section
+
+					div.report-select-div
+						div#report-island-radio
+						label(for="report-island-radio" data-bind="text:reportText().islandRadio")
+						div#report-province-radio
+						label(for="report-island-radio" data-bind="text:reportText().provinceRadio")
+					div.font10.selInfo(data-bind="text:reportText().multiSelectInfo")
+					div.report-select-div
+						select(multiple="true",data-bind="options:reportAOIs,selectedOptions:selectedAOIs")
+					
+				div.font14(data-bind="text:reportText().selectTimeLabel")
+				div.report-options-section
+
+					table.font10
+						tr
+							td
+							td(data-bind="text:reportText().year")
+							td(data-bind="text:reportText().month")
+							td(data-bind="text:reportText().day")
+						tr
+							td(data-bind="text:reportText().fromLabel")
+							td
+								select(data-bind="options:fromYear,value:dateVals().fYear")
+							td
+								select(data-bind="options:fromMonth,value:dateVals().fMonth")
+							td
+								select(data-bind="options:fromDay,value:dateVals().fDay")
+						tr
+							td(data-bind="text:reportText().toLabel")
+							td
+								select(data-bind="options:toYear,value:dateVals().tYear")
+							td
+								select(data-bind="options:toMonth,value:dateVals().tMonth")
+							td
+								select(data-bind="options:toDay,value:dateVals().tDay")
+				div#report-launch.report-link-container
+					div.report-link Run Analysis
 			div#latLongHUD(class='latLongHUD')
 				div(class="checkbox-container")
 					span(data-bind='text: latitudeLabel')
