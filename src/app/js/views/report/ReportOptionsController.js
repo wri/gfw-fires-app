@@ -88,7 +88,9 @@ define([
             var islandresults = function(results){
                 var islands = [];
                 arrayUtil.forEach(results.features,function(f){
-                    islands.push(f.attributes.ISLAND);
+                    if (f.attributes.ISLAND!=''){
+                        islands.push(f.attributes.ISLAND);
+                    }
                 })
                 MapModel.vm.islands(islands);
                 MapModel.vm.reportAOIs(islands);
@@ -96,12 +98,14 @@ define([
             var provinceresults = function(results){
                 var provinces = [];
                 arrayUtil.forEach(results.features,function(f){
-                    provinces.push(f.attributes.PROVINCE);
+                    if (f.attributes.PROVINCE!=''){
+                        provinces.push(f.attributes.PROVINCE);
+                    }
                 })
                 MapModel.vm.provinces(provinces);
 
             }
-            var url = "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/0"
+            var url = "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/7"
             self.queryDistinct(url+ "?returnDistinctValues=true",
                     fires.report_fields.islands,islandresults
                 )
