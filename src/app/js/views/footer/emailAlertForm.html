@@ -3,21 +3,34 @@
   <p class="signup-info">Please choose an area of interest from below and then enter your email and/or phone number.</p>
   <table>
     <tr>
-      <td><span>1. Choose a district: </span></td>
+      <td><span>1. Choose a province:</span></td>
       <td>
         <div class="select-container">
-          <select id="aoiDistrictPicker" data-bind="options:districtsAvailableForAlerts,optionsText:'label',optionsValue:'value'"></select>
+          <select id="aoiProvincePicker" data-bind="options:provincesAvailableForAlerts,optionsText:'label',optionsValue:'value'"></select>
         </div>
       </td>
     </tr>
     <tr>
-      <td><span>2. Choose one, many, or all subdistricts: </span></td>
+      <td><span>2. Choose one or more districts:</span></td>
+      <td>
+        <div class="select-container">
+          <select id="aoiDistrictPicker" data-bind="options:districtsAvailableForAlerts,optionsText:'label',optionsValue:'value'" multiple="true"></select>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><span>3. Choose one, many, or all subdistricts:</span></td>
       <td>
         <select id="aoiSubDistrictPicker" data-bind="options:subDistrictsAvailableForAlerts,optionsText:'label',optionsValue:'value'" multiple="true"></select>
       </td>
     </tr>
     <tr>
-      <td><span>3. Subscribe via email:</span></td>
+      <td>
+        <div data-bind="visible: showSubDistrictWarning()" class="many-subDistricts-warning"><span>Warning: Selecting too many subdistricts may result in several alerts!</span></div>
+      </td>
+    </tr>
+    <tr>
+      <td><span>4. Subscribe via email:</span></td>
       <td>
         <input type="email" name="email" id="emailForAlerts" placeholder="Email"/>
         <input type="email" name="verify_email" id="verifyEmailForAlerts" placeholder="Verify Email(Leave blank if your human)"/>

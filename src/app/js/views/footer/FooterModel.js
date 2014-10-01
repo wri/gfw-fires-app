@@ -9,10 +9,12 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
 
         //vm.homeTitle = ko.observable(Config.homeTitle);
         vm.footerModeOptions = ko.observableArray(Config.footerModeOptions);
+        vm.provincesAvailableForAlerts = ko.observableArray([]);
         vm.districtsAvailableForAlerts = ko.observableArray([]);
         vm.subDistrictsAvailableForAlerts = ko.observableArray([]);
         vm.errorMessages = ko.observableArray([]);
         vm.showErrorMessages = ko.observable(false);
+        vm.showSubDistrictWarning = ko.observable(false);
 
         vm.appState = ko.observable({});
 
