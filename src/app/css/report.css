@@ -137,6 +137,9 @@ body {
   text-align: center;
   font-size: 16px;
 }
+#noFiresMsg {
+  color: #e7002f;
+}
 @media print {
   .page-break {
     display: block;

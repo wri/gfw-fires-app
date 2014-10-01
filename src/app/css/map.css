@@ -177,14 +177,51 @@
 }
 #report-options {
   width: auto;
-  max-width: 400px;
+  max-width: 300px;
   padding: 10px;
-  height: 300px;
+  height: auto;
   position: absolute;
   top: 20%;
   right: 50%;
   background: #fff;
   z-index: 1;
+  font-size: 12pt;
+  border-radius: 5px;
+}
+#report-options .font14 {
+  font-size: 14pt;
+  padding-top: 3px;
+  padding-bottom: 1px;
+}
+#report-options .font10 {
+  font-size: 10pt;
+}
+#report-options .selInfo {
+  padding-top: 5px;
+  font-style: italic;
+}
+#report-options .report-options-section {
+  padding: 8px 15px 16px 15px;
+}
+#report-options .report-link-container {
+  position: relative;
+  width: 115px;
+  top: 0px;
+  left: 30%;
+  right: 0px;
+  bottom: 10px;
+}
+#report-options .report-link-container > {
+  margin-left: 10px;
+}
+#report-options select[multiple=true] {
+  margin: 8px 8px 8px 0px;
+  padding: 3px;
+  width: 250px;
+  height: 100px;
+}
+#report-options input[type=radio] {
+  margin: 3px;
 }
 .print-button {
   background: url("../images/print-icon.png") no-repeat #fff;
