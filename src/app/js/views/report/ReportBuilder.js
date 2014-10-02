@@ -94,7 +94,7 @@ define([
             fromHex: "#fcddd1",
             toHex: "#930016",
             legendId: "legend",
-            
+            queryKey:'adminQuery'
         },
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
@@ -110,7 +110,8 @@ define([
             breakCount: 5,
             fromHex: "#fcddd1",
             toHex: "#930016",
-            legendId: "SubDistrict-legend"
+            legendId: "SubDistrict-legend",
+            queryKey:'subDistrictQuery'
         },
         adminQuery: {
             outFields: ['NAME_2', 'NAME_1', 'fire_count'],
@@ -342,56 +343,125 @@ define([
             //     deferred.resolve(false); 
             //     return;
             // }
+            var arr = feat_stats.map(function(item){return item.attributes['fire_count']}).sort(function(a, b){return a-b});
+            console.log("sorted ",arr)
+            sar = arr;
             var dist_names = feat_stats.map(function(item){
+                    if (item.attributes[boundaryConfig.UniqueValueField]!=''){
+                        return item.attributes[boundaryConfig.UniqueValueField]
+                        }
+                    });
+
+            var equal_interval_renderer = function(feat_stats){
+                var dist_names = feat_stats.map(function(item){
                 if (item.attributes[boundaryConfig.UniqueValueField]!=''){
                     return item.attributes[boundaryConfig.UniqueValueField]
                 }
-            });
-            var arr = feat_stats.map(function(item){return item.attributes['fire_count']});
-            var min_count = Math.min.apply( null, arr );
-            var max_count = Math.max.apply( null, arr );
-            var interval = (max_count - min_count)/PRINT_CONFIG[configKey].breakCount;
-            var symbols = {};
-            var j = 0;
+                });
+                var arr = feat_stats.map(function(item){return item.attributes['fire_count']});
+                var min_count = Math.min.apply( null, arr );
+                var max_count = Math.max.apply( null, arr );
+                var interval = (max_count - min_count)/PRINT_CONFIG[configKey].breakCount;
+                var symbols = {};
+                var j = 0;
 
-            if (interval == 0){
-                var symbol = new SimpleFillSymbol();
-                var color = PRINT_CONFIG.colorramp[j];
-                symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
-                symbols[0] = symbol;
+                if (interval == 0){
+                    var symbol = new SimpleFillSymbol();
+                    var color = PRINT_CONFIG.colorramp[j];
+                    symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
+                    symbols[0] = symbol;
+                }
+                for (var i = min_count;i<max_count;i+=interval){
+                    var symbol = new SimpleFillSymbol();
+                    var color = PRINT_CONFIG.colorramp[j];
+                    symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
+                    symbols[j] = symbol;
+                    j++;
+                }
+                var defaultSymbol = new SimpleFillSymbol();
+                defaultSymbol.setColor({ a:255, r:255, g:255, b:255 });
+
+                var renderer = new UniqueValueRenderer(defaultSymbol, boundaryConfig.UniqueValueField);
+
+                arrayUtils.forEach(feat_stats,function(feat){
+                        var count = feat.attributes['fire_count'];
+                        var brk = min_count;
+                        var clss = -1;
+                        while (count > brk) {
+                            clss++;
+                            brk += interval;
+                        }
+
+                        var sym = symbols[clss];
+                        if (interval==0){
+                            sym = symbols[0];
+                        }
+                        renderer.addValue({
+                            value: feat.attributes[boundaryConfig.UniqueValueField],
+                            symbol: sym
+                        });
+
+                });
+                return renderer;
             }
-            for (var i = min_count;i<max_count;i+=interval){
-                var symbol = new SimpleFillSymbol();
-                var color = PRINT_CONFIG.colorramp[j];
-                symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
-                symbols[j] = symbol;
-                j++;
+            var quantile_renderer = function(feat_stats,dist_names){
+                    console.log("QUANTILE RENDERER")
+                var symbols = {};
+
+                var total = arr.length;
+                var quantiles = Math.floor(arr.length / boundaryConfig.breakCount);
+                console.log("quantiles" ,quantiles, total, boundaryConfig.breakCount)
+
+                var brkCount = boundaryConfig.breakCount;
+                while (quantiles < 1){
+                    brkCount -= 1;
+                    quantiles = arr.length / brkCount;
+                }
+                console.log("quantiles" ,quantiles)
+
+                var minbreak = 0;
+                var maxbreak = quantiles;
+                for (var i = 0;i<brkCount;i+=1){
+                    var symbol = new SimpleFillSymbol();
+                    var color = PRINT_CONFIG.colorramp[i];
+                    symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
+
+                    if (maxbreak > total -1){
+                        maxbreak = total -1
+                    }
+                    symbols[i] = {symbol:symbol,max:arr[maxbreak],min:arr[minbreak]};
+                    minbreak+=quantiles;
+                    maxbreak+=quantiles;
+                }
+                var defaultSymbol = new SimpleFillSymbol();
+                defaultSymbol.setColor({ a:255, r:255, g:255, b:255 });
+                console.log("SYMBOLS",symbols, quantiles)
+
+                var renderer = new UniqueValueRenderer(defaultSymbol, boundaryConfig.UniqueValueField);
+                arrayUtils.forEach(feat_stats,function(feat){
+                        var count = feat.attributes['fire_count'];
+                        var quant = 0;
+                        var sym;
+                        for (q in symbols){
+                            if (count<symbols[q].max && count >= symbols[q].min){
+
+                                    sym = symbols[q].symbol;
+                            }
+                        }
+                        renderer.addValue({
+                            value: feat.attributes[boundaryConfig.UniqueValueField],
+                            symbol: sym
+                        });
+
+                });
+                return {r: renderer, s:symbols, q: quantiles};
             }
-            var defaultSymbol = new SimpleFillSymbol();
-            defaultSymbol.setColor({ a:255, r:255, g:255, b:255 });
 
-            var renderer = new UniqueValueRenderer(defaultSymbol, boundaryConfig.UniqueValueField);
-
-            arrayUtils.forEach(feat_stats,function(feat){
-                    var count = feat.attributes['fire_count'];
-                    var brk = min_count;
-                    var clss = -1;
-                    while (count > brk) {
-                        clss++;
-                        brk += interval;
-                    }
-
-                    var sym = symbols[clss];
-                    if (interval==0){
-                        sym = symbols[0];
-                    }
-                    renderer.addValue({
-                        value: feat.attributes[boundaryConfig.UniqueValueField],
-                        symbol: sym
-                    });
-
-            });
-                console.log("SYMBOLS",symbols, interval, renderer,feat_stats,arr,min_count,max_count)
+            var obj = quantile_renderer(feat_stats,dist_names);
+            var renderer = obj.r;
+            var symbols = obj.s;
+            var quantiles = obj.q;
+            console.log("RENDERER Q", renderer)
 
 
             map = new Map(boundaryConfig.mapDiv, {
@@ -416,17 +486,17 @@ define([
 
             function buildLegend(rendererInfo) {
                 var html = "<table>";
-                var curbreak = min_count;
+                var curbreak = 0;
                 for (var i = 0;i<PRINT_CONFIG[configKey].breakCount;i++){
                 //arrayUtils.forEach(rendererInfo, function(item) {
-                    var item = symbols[i];
+                    var item = symbols[i].symbol;
                     if (item){
                         html += "<tr><td class='legend-swatch' style='background-color: rgb(" + item.color.r +
                         "," + item.color.g + "," + item.color.b + ");'" + "></td>";
-                        html += "<td class='legend-label'>" + Math.floor(curbreak) + " - " + Math.floor(curbreak + interval)+ "</td></tr>";
+                        html += "<td class='legend-label'>" + symbols[i].min + " - " + symbols[i].max+ "</td></tr>";
                     }
                     
-                    curbreak += interval;
+                    curbreak += quantiles;
                 //});
                 }
                 html += "</table>";
@@ -1157,6 +1227,10 @@ define([
                     console.log("RESULTS EXTENT QUERY",results);
                     var extent = graphicsUtils.graphicsExtent(results.features);
                     console.log("extent",extent);
+                    // extent.xmax *= 1.2;
+                    // extent.ymax*=1.2;
+                    // extent.ymin*=1.2;
+                    // extent.xmin*=1.2;
                     arrayUtils.forEach(mapkeys,function(key){
                         var map = PRINT_CONFIG.maps[key];
                         map.setExtent(extent);
