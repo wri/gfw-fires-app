@@ -24,17 +24,13 @@
       <div class="section-title">Figure 1: DISTRIBUTION OF FIRE ALERTS</div>
       <div class="map-container">
         <div id="simple-fires-map" class="map">
+          <div id="firesmapload" class="loader"></div>
           <div id="fires-legend-container" class="legend-container">
-            <div class="legend-title">Active Fires</div>
             <div id="fires-legend">
               <table>
                 <tr>
                   <td class="legend-swatch-round hc-fire"></td>
                   <td class="legend-label">High Confidence Fires</td>
-                </tr>
-                <tr>
-                  <td class="legend-swatch-round oa-fire"></td>
-                  <td class="legend-label">Other Active Fires	</td>
                 </tr>
               </table>
             </div>
@@ -45,6 +41,7 @@
         <div class="section-title">Figure 2a: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS</div>
         <div class="map-container small">
           <div id="district-fires-map" class="map">
+            <div id="distmapload" class="loader"></div>
             <div id="legend-container" class="legend-container">
               <div class="legend-title">Fire Alerts by Districts in the Last 7 days</div>
               <div id="legend"></div>
@@ -58,6 +55,7 @@
         <div class="section-title">Figure 3a: SUBDISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS</div>
         <div class="map-container small">
           <div id="subdistrict-fires-map" class="map">
+            <div id="subdistmapload" class="loader"></div>
             <div class="legend-container">
               <div class="legend-title">Fire Alerts by SubDistricts in the Last 7 days</div>
               <div id="SubDistrict-legend"></div>

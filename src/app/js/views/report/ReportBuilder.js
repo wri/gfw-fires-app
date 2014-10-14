@@ -24,14 +24,18 @@ define([
     "esri/tasks/QueryTask",
     "esri/tasks/StatisticDefinition",
     "esri/graphicsUtils",
+    "esri/tasks/Date",
     "views/map/MapConfig",
     "views/map/MapModel",
     "esri/request",
     "knockout",
-    "libs/highcharts"
+    "libs/geostats",
+    "libs/highcharts",
+    "libs/moment",
+    "libs/timezone"
 ], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, StatisticDefinition, graphicsUtils, MapConfig, MapModel, esriRequest, ko) {
+    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, MapConfig, MapModel, esriRequest, ko,geostats) {
 
     var PRINT_CONFIG = {
         zoom: 4,
@@ -94,7 +98,8 @@ define([
             fromHex: "#fcddd1",
             toHex: "#930016",
             legendId: "legend",
-            queryKey:'adminQuery'
+            queryKey:'adminQuery',
+            loaderId: 'distmapload'
         },
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
@@ -111,7 +116,8 @@ define([
             fromHex: "#fcddd1",
             toHex: "#930016",
             legendId: "SubDistrict-legend",
-            queryKey:'subDistrictQuery'
+            queryKey:'subDistrictQuery',
+            loaderId: 'subdistmapload'
         },
         adminQuery: {
             outFields: ['NAME_2', 'NAME_1', 'fire_count'],
@@ -156,7 +162,8 @@ define([
         queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
-        dailyFiresId: 8
+        dailyFiresId: 8,
+        dailyFiresField: 'ACQ_DATE'
     };
 
     // esriRequest.setRequestPreCallback(function(ioArgs) {
@@ -264,7 +271,7 @@ define([
             var aoi = window.reportOptions.aoitype + " in ('";
             aoi+= aois.join("','");
             aoi+= "')"
-            var sql = [aoi,startdate,enddate,"HIGH_CONF = 'y'"].join(' AND ')
+            var sql = [aoi,startdate,enddate,"BRIGHTNESS >= 330","CONFIDENCE >= 30"].join(' AND ')
             return sql;
         },
 
@@ -279,7 +286,6 @@ define([
         },
 
         buildFiresMap: function() {
-            console.log('BUILDFIRESMAP')
 
             var self = this;
             var deferred = new Deferred(),
@@ -291,6 +297,13 @@ define([
                 zoom: PRINT_CONFIG.zoom,
                 center: PRINT_CONFIG.mapcenter,
                 slider: PRINT_CONFIG.slider
+            });
+
+            map.on("update-start",function(){
+                esri.show(dom.byId("firesmapload"));
+            });
+            map.on("update-end",function(){
+                esri.hide(dom.byId("firesmapload"));
             });
 
             PRINT_CONFIG.maps['fires'] = map;
@@ -310,15 +323,14 @@ define([
 
             map.addLayer(fireLayer);
 
-            map.on('load', function() {
-                map.disableMapNavigation();
-            });
+            // map.on('load', function() {
+            //     map.disableMapNavigation();
+            // });
 
             fireLayer.on('load', function() {
                 deferred.resolve(true);
             });
             mp = map;
-            console.log('END BUILDFIRESMAP')
 
             return deferred.promise;
         },
@@ -337,115 +349,81 @@ define([
                 legend,
                 ldos,
                 map;
-            console.log('BUILDFIRECOUNT')
             var feat_stats = PRINT_CONFIG.query_results[queryKey];
             // if (feat_stats.length >= 1){
             //     deferred.resolve(false); 
             //     return;
             // }
             var arr = feat_stats.map(function(item){return item.attributes['fire_count']}).sort(function(a, b){return a-b});
-            console.log("sorted ",arr)
             sar = arr;
             var dist_names = feat_stats.map(function(item){
-                    if (item.attributes[boundaryConfig.UniqueValueField]!=''){
-                        return item.attributes[boundaryConfig.UniqueValueField]
+                    if (item.attributes[boundaryConfig.UniqueValueField]!=null){
+
+                        return item.attributes[boundaryConfig.UniqueValueField].replace("'","''");
+                    }
+                    }).filter(function(item){
+                        if (item!=null){
+                                return item;
                         }
-                    });
+                    }); 
 
-            var equal_interval_renderer = function(feat_stats){
-                var dist_names = feat_stats.map(function(item){
-                if (item.attributes[boundaryConfig.UniqueValueField]!=''){
-                    return item.attributes[boundaryConfig.UniqueValueField]
+            var natural_breaks_renderer = function(feat_stats,dist_names,method){
+                var nbks;
+                geostats();
+                setSerie(arr);
+
+                if(arr.length<boundaryConfig.breakCount){
+                    boundaryConfig.breakCount = arr.length-1;
                 }
-                });
-                var arr = feat_stats.map(function(item){return item.attributes['fire_count']});
-                var min_count = Math.min.apply( null, arr );
-                var max_count = Math.max.apply( null, arr );
-                var interval = (max_count - min_count)/PRINT_CONFIG[configKey].breakCount;
-                var symbols = {};
-                var j = 0;
-
-                if (interval == 0){
-                    var symbol = new SimpleFillSymbol();
-                    var color = PRINT_CONFIG.colorramp[j];
-                    symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
-                    symbols[0] = symbol;
-                }
-                for (var i = min_count;i<max_count;i+=interval){
-                    var symbol = new SimpleFillSymbol();
-                    var color = PRINT_CONFIG.colorramp[j];
-                    symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
-                    symbols[j] = symbol;
-                    j++;
-                }
-                var defaultSymbol = new SimpleFillSymbol();
-                defaultSymbol.setColor({ a:255, r:255, g:255, b:255 });
-
-                var renderer = new UniqueValueRenderer(defaultSymbol, boundaryConfig.UniqueValueField);
-
-                arrayUtils.forEach(feat_stats,function(feat){
-                        var count = feat.attributes['fire_count'];
-                        var brk = min_count;
-                        var clss = -1;
-                        while (count > brk) {
-                            clss++;
-                            brk += interval;
-                        }
-
-                        var sym = symbols[clss];
-                        if (interval==0){
-                            sym = symbols[0];
-                        }
-                        renderer.addValue({
-                            value: feat.attributes[boundaryConfig.UniqueValueField],
-                            symbol: sym
-                        });
-
-                });
-                return renderer;
-            }
-            var quantile_renderer = function(feat_stats,dist_names){
-                    console.log("QUANTILE RENDERER")
-                var symbols = {};
-
-                var total = arr.length;
-                var quantiles = Math.floor(arr.length / boundaryConfig.breakCount);
-                console.log("quantiles" ,quantiles, total, boundaryConfig.breakCount)
-
                 var brkCount = boundaryConfig.breakCount;
-                while (quantiles < 1){
-                    brkCount -= 1;
-                    quantiles = arr.length / brkCount;
-                }
-                console.log("quantiles" ,quantiles)
+                switch (method){
+                    case 'natural':
+                        nbks = getClassJenks(boundaryConfig.breakCount);
+                        break;
+                    case 'equal':
+                        nbks = getClassEqInterval(boundaryConfig.breakCount);
+                        break;
 
-                var minbreak = 0;
-                var maxbreak = quantiles;
+                    case 'quantile':
+                        nbks = getClassQuantile(boundaryConfig.breakCount);
+                        break;
+
+                    case 'stddev':
+                        nbks = getClassStdDeviation(nbClass);
+                        break;
+
+                    case 'arithmetic':
+                        nbks = getClassArithmeticProgression(nbClass);
+                        break;
+
+                    case 'geometric':
+                        nbks = getClassGeometricProgression(nbClass);
+                        break;
+
+                    default:
+                        nbks = getClassJenks(boundaryConfig.breakCount);
+                        break;
+                }
+
+                var symbols = {};
                 for (var i = 0;i<brkCount;i+=1){
                     var symbol = new SimpleFillSymbol();
                     var color = PRINT_CONFIG.colorramp[i];
                     symbol.setColor({ a:255, r:color[0], g:color[1], b:color[2] });
-
-                    if (maxbreak > total -1){
-                        maxbreak = total -1
-                    }
-                    symbols[i] = {symbol:symbol,max:arr[maxbreak],min:arr[minbreak]};
-                    minbreak+=quantiles;
-                    maxbreak+=quantiles;
+                    // symbols[i] = {symbol:symbol,max:nbks[i+1],min:arr[i]};
+                    symbols[i] = symbol;
                 }
                 var defaultSymbol = new SimpleFillSymbol();
                 defaultSymbol.setColor({ a:255, r:255, g:255, b:255 });
-                console.log("SYMBOLS",symbols, quantiles)
 
                 var renderer = new UniqueValueRenderer(defaultSymbol, boundaryConfig.UniqueValueField);
                 arrayUtils.forEach(feat_stats,function(feat){
                         var count = feat.attributes['fire_count'];
-                        var quant = 0;
                         var sym;
-                        for (q in symbols){
-                            if (count<symbols[q].max && count >= symbols[q].min){
-
-                                    sym = symbols[q].symbol;
+                        for (var i = 0; i<nbks.length;i++){
+                            if (count<nbks[i+1]){
+                                sym = symbols[i];
+                                break;
                             }
                         }
                         renderer.addValue({
@@ -454,15 +432,21 @@ define([
                         });
 
                 });
-                return {r: renderer, s:symbols, q: quantiles};
+                return {r: renderer, s:symbols, b:nbks};
+                
             }
 
-            var obj = quantile_renderer(feat_stats,dist_names);
+            // var obj = quantile_renderer(feat_stats,dist_names);
+            // var renderer = obj.r;
+            // var symbols = obj.s;
+            // var quantiles = obj.q;
+
+            var obj = natural_breaks_renderer(feat_stats,dist_names,'natural');
+
             var renderer = obj.r;
             var symbols = obj.s;
-            var quantiles = obj.q;
-            console.log("RENDERER Q", renderer)
-
+            var breaks = obj.b;
+            //var quantiles = obj.q;
 
             map = new Map(boundaryConfig.mapDiv, {
                 basemap: PRINT_CONFIG.basemap,
@@ -489,18 +473,19 @@ define([
                 var curbreak = 0;
                 for (var i = 0;i<PRINT_CONFIG[configKey].breakCount;i++){
                 //arrayUtils.forEach(rendererInfo, function(item) {
-                    var item = symbols[i].symbol;
+                    // if (!min){
+                    //     min = breaks[i];
+                    // }
+                    var item = symbols[i];
                     if (item){
                         html += "<tr><td class='legend-swatch' style='background-color: rgb(" + item.color.r +
                         "," + item.color.g + "," + item.color.b + ");'" + "></td>";
-                        html += "<td class='legend-label'>" + symbols[i].min + " - " + symbols[i].max+ "</td></tr>";
+                        html += "<td class='legend-label'>" + breaks[i] + " - " + breaks[i+1] + "</td></tr>";
                     }
                     
-                    curbreak += quantiles;
                 //});
                 }
                 html += "</table>";
-                console.log(html)
                 dom.byId(boundaryConfig.legendId).innerHTML = html;
             }
 
@@ -510,7 +495,7 @@ define([
                     ldos.renderer = renderer;
                     options[boundaryConfig.layerId] = ldos;
                     var layerdefs = [];
-                    layerdefs[boundaryConfig.layerId] = boundaryConfig.UniqueValueField +" in ('" + dist_names.join("','").replace(/,''/g,'') + "')";
+                    layerdefs[boundaryConfig.layerId] = boundaryConfig.UniqueValueField +" in ('" + dist_names.join("','") + "')";
                     otherFiresLayer.setLayerDefinitions(layerdefs);
                     otherFiresLayer.setLayerDrawingOptions(options);
 
@@ -523,11 +508,19 @@ define([
 
             map.addLayer(otherFiresLayer);
 
-            map.on('load', function() {
-                map.disableMapNavigation();
+            // map.on('load', function() {
+            //     map.disableMapNavigation();
+            // });
+            map.on("update-start",function(){
+                esri.show(dom.byId(boundaryConfig['loaderId']));
             });
+            map.on("update-end",function(){
+                esri.hide(dom.byId(boundaryConfig['loaderId']));
+            });
+            // map.on('update',function(){
+            //     esri.show(dom.byId())
+            // })
 
-            console.log('END BUILDFIRECOUNT')
 
             return deferred.promise;
         },
@@ -649,7 +642,6 @@ define([
         },
 
         queryDistrictsFireCount: function(configKey) {
-            console.log("queryDistrictsFireCount")
             var queryConfig = PRINT_CONFIG[configKey],
                 queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + queryConfig.fire_stats.id),
                 fields = [queryConfig.fire_stats.onField, window.reportOptions.aoitype, queryConfig.fire_stats.outField ],
@@ -682,7 +674,6 @@ define([
                 var filtered =  arrayUtils.filter(features, function(feature) {
                     return feature.attributes.fire_count !== 0;
                 });
-                console.log("FILTEDERE",filtered,features)
                 table+= "<th>NUMBER OF FIRE ALERTS</th></tr>";
                 // table += self.generateTableRows(features, fields);
                 table += self.generateTableRows(filtered, fields);
@@ -694,7 +685,6 @@ define([
             }
 
             queryTask.execute(query, function(res) {
-                console.log("FC res",res, query.where)
                     PRINT_CONFIG.query_results[configKey] = res.features;
                 if (res.features.length > 0) {
                     if (queryConfig['UniqueValueField']){
@@ -722,7 +712,6 @@ define([
             }, function(err) {
                 deferred.resolve(false);
             });
-            console.log("END queryDistrictsFireCount",PRINT_CONFIG.regionmap)
             
             return deferred.promise;
         },
@@ -953,7 +942,6 @@ define([
 
             success = function(res) {
                 total = res.features.length;
-                console.log("PIE SUCCESS",res)
                 protectedarea = 0;
                 unprotected = 0;
                 pulpwood = 0;
@@ -1044,23 +1032,31 @@ define([
         },
 
         queryForDailyFireData: function() {
-            var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.dailyFiresId),
+            var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.firesLayer.fire_id),
                 deferred = new Deferred(),
                 query = new Query(),
                 fireDataLabels = [],
                 fireData = [],
                 self = this,
+                statdef = new StatisticDefinition(),
                 success,
                 failure;
 
+
+            
+            query.where = self.get_layer_definition();
             query.returnGeometry = false;
-            query.where = "1 = 1";
-            query.outFields = ["Count, Date"];
+            query.groupByFieldsForStatistics = [PRINT_CONFIG.dailyFiresField];
+            query.orderByFields=['ACQ_DATE ASC'];
+
+            statdef.onStatisticField = PRINT_CONFIG.dailyFiresField;
+            statdef.outStatisticFieldName = 'Count';
+            statdef.statisticType = "count";
+            query.outStatistics = [statdef];
 
             success = function(res) {
-
                 arrayUtils.forEach(res.features, function(feature) {
-                    fireDataLabels.push(feature.attributes.Date);
+                    fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).tz('Asia/Jakarta').format("M/D/YYYY"));
                     fireData.push(feature.attributes.Count);
                 });
 
@@ -1084,6 +1080,7 @@ define([
                     },
                     xAxis: {
                         categories: fireDataLabels,
+                        type: 'datetime',
                         minTickInterval: 20,
                         minRange: 30,
                         labels: {
@@ -1219,14 +1216,11 @@ define([
 
                 mapkeys = ['fires','adminBoundary','subdistrictBoundary'];
                 query.where = self.get_aoi_definition();
-                console.log("GET _EXTENT",query.where);
                
                 query.returnGeometry = true;
                 query.outFields = ["DISTRICT"];
                 callback = function(results){
-                    console.log("RESULTS EXTENT QUERY",results);
                     var extent = graphicsUtils.graphicsExtent(results.features);
-                    console.log("extent",extent);
                     // extent.xmax *= 1.2;
                     // extent.ymax*=1.2;
                     // extent.ymin*=1.2;
