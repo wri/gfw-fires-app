@@ -132,9 +132,9 @@ div#map-view(class="map-view")
 
 					div.report-select-div
 						div#report-island-radio
-						label(for="report-island-radio" data-bind="text:reportText().islandRadio")
+						label.report-label(for="report-island-radio" data-bind="text:reportText().islandRadio")
 						div#report-province-radio
-						label(for="report-island-radio" data-bind="text:reportText().provinceRadio")
+						label.report-label(for="report-island-radio" data-bind="text:reportText().provinceRadio")
 					div.font10.selInfo(data-bind="text:reportText().multiSelectInfo")
 					div.report-select-div
 						select(multiple="true",data-bind="options:reportAOIs,selectedOptions:selectedAOIs")

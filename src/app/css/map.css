@@ -203,6 +203,9 @@
 #report-options .report-options-section {
   padding: 8px 15px 16px 15px;
 }
+#report-options .report-label {
+  margin-right: 10px;
+}
 #report-options .report-link-container {
   position: relative;
   width: 115px;

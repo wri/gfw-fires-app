@@ -141,6 +141,6 @@ body,
 padding-right 4px {
   padding-bottom: 3px;
 }
-#noFiresMsg {
-  color: #e7002f;
+#report-options-close {
+  cursor: pointer;
 }
