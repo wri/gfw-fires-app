@@ -270,6 +270,7 @@ define([
                     return;
                 }
             }
+            LayerController.showDigitalGlobeImagery();
 
             // Temporary, Remove All Code below when done and import code from 
             // getDigitalGlobeServiceInfoWindow function
@@ -296,59 +297,59 @@ define([
                 return "<div>Date: " + graphic.attributes.Date + "</div>";
             }
 
-            itask.execute(iparams, function (res) {
-                var features = [],
-                    content = "";
-                arrayUtils.forEach(res, function (item) {
-                    features.push(item.feature);
-                });
+            // itask.execute(iparams, function (res) {
+            //     var features = [],
+            //         content = "";
+            //     arrayUtils.forEach(res, function (item) {
+            //         features.push(item.feature);
+            //     });
 
-                if (features.length === 0) {
-                    return;
-                }
+            //     if (features.length === 0) {
+            //         return;
+            //     }
 
-                content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
+            //     content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
 
-                arrayUtils.forEach(features, function (f) {
-                    content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
-                });
+            //     arrayUtils.forEach(features, function (f) {
+            //         content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
+            //     });
 
-                content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
+            //     content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
 
-                _map.infoWindow.setContent(content);
-                _map.infoWindow.show(point);
+            //     _map.infoWindow.setContent(content);
+            //     _map.infoWindow.show(point);
 
-                if (features.length === 1) {
-                    LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-                    activeFeatureIndex = 0;
-                } else {
-                    // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-                    activeFeatureIndex = 0;
-                    dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
-                        handles.push(on(node, "click", function (evt) {
-                            var target = evt.target ? evt.target : evt.srcElement,
-                                bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-                            LayerController.showDigitalGlobeImagery(bucket);
-                            activeFeatureIndex = index;
-                        }));
-                    });
-                }
+            //     if (features.length === 1) {
+            //         LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+            //         activeFeatureIndex = 0;
+            //     } else {
+            //         // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+            //         activeFeatureIndex = 0;
+            //         dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
+            //             handles.push(on(node, "click", function (evt) {
+            //                 var target = evt.target ? evt.target : evt.srcElement,
+            //                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+            //                 LayerController.showDigitalGlobeImagery(bucket);
+            //                 activeFeatureIndex = index;
+            //             }));
+            //         });
+            //     }
 
-                handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
-                    var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
-                    _map.centerAndZoom(point, 17);
-                    _map.infoWindow.show(point);
-                }));
+            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+            //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
+            //         _map.centerAndZoom(point, 17);
+            //         _map.infoWindow.show(point);
+            //     }));
 
-                on.once(_map.infoWindow, "hide", function () {
-                    arrayUtils.forEach(handles, function (handle) {
-                        handle.remove();
-                    });
-                });
+            //     on.once(_map.infoWindow, "hide", function () {
+            //         arrayUtils.forEach(handles, function (handle) {
+            //             handle.remove();
+            //         });
+            //     });
 
-            }, function (err) {
-                console.dir(err);
-            });
+            // }, function (err) {
+            //     console.dir(err);
+            // });
 
         },
 

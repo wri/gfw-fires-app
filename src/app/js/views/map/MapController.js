@@ -114,7 +114,6 @@ define([
 
 
 
-
     };
 
     o.addConfigurations = function() {
@@ -333,7 +332,17 @@ define([
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
         on(dom.byId("share-button"), "click", toggleShareContainer);
 
+        this.initTransparency();
     };
+
+
+    o.initTransparency =function(){
+        ['forest-transparency-slider','conservation-transparency-slider',
+        'land-cover-transparency-slider'].map(function(id){
+            var slider = dijit.byId(id).set("value",70);
+        })
+    };
+
 
     o.bindEvents = function() {
 
@@ -464,7 +473,9 @@ define([
 
         on(dom.byId("report-link"), "click", function() {
             MapModel.vm.showReportOptions(true);
-            ReportOptionsController.populate_select();
+            if (MapModel.vm.reportAOIs().length<1){
+                ReportOptionsController.populate_select();
+            }
             //var win = window.open('./app/js/views/report/report.html', 'Report', '');
             self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
         });
@@ -590,7 +601,7 @@ define([
             // burnedScarLayer,
             primaryForestsParams,
             primaryForestsLayer,
-            digitalGlobeLayer,
+            digitalGlobeLayers,
             landCoverParams,
             landCoverLayer,
             airQualityLayer,
@@ -602,6 +613,7 @@ define([
             landSatLayer,
             firesParams,
             firesLayer,
+            dgConf ,
             self = this;
 
         conservationParams = new ImageParameters();
@@ -678,7 +690,21 @@ define([
         //     visible: false
         // });
 
-        digitalGlobeLayer = new DigitalGlobeTiledLayer(MapConfig.digitalGlobe.tileUrl, MapConfig.digitalGlobe.id);
+        //digitalGlobeLayer = new DigitalGlobeTiledLayer(MapConfig.digitalGlobe.tileUrl, MapConfig.digitalGlobe.id);
+        dgConf = MapConfig.digitalGlobe;
+        // digitalGlobeLayer = new ArcGISImageServiceLayer(dgConf.imagedir + dgConf.mosaics[0] +'/ImageServer', {
+        //     id: dgConf.id,
+        //     visible: false
+        // });
+        digitalGlobeLayers = dgConf.mosaics.map(function(i){
+            return( new ArcGISImageServiceLayer(dgConf.imagedir + i +'/ImageServer', {
+                id: i,
+                visible: false
+            }));
+        })
+        dglyrs = digitalGlobeLayers
+        console.log('digitalGlobeLayers',digitalGlobeLayers)
+
 
         overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
             id: MapConfig.overlaysLayer.id,
@@ -739,22 +765,35 @@ define([
         //     id: "DG_WMS",
         //     visible: true
         // });
-
-        o.map.addLayers([
-            treeCoverLayer,
-            landSatLayer,
-            landCoverLayer,
-            primaryForestsLayer,
-            forestUseLayer,
-            conservationLayer,
-            digitalGlobeLayer,
-            burnScarLayer,
-            overlaysLayer,
-            airQualityLayer,
-            digitalGlobeGraphicsLayer,
-            firesLayer,
-            tweetLayer
+        var layerlist = [
+                landSatLayer,
+                treeCoverLayer,
+                landCoverLayer,
+                primaryForestsLayer,
+                digitalGlobeGraphicsLayer
+            ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
+                conservationLayer,
+                burnScarLayer,
+                forestUseLayer,
+                overlaysLayer,
+                tweetLayer,
+                airQualityLayer,
+                firesLayer
         ]);
+        console.log("LAYER LIST", layerlist);
+
+        // Fires
+        // Air Quality
+        // Social Media
+        // Forest Use
+        // Conservation
+        // DG Imagery
+        // Landcover
+        // Basemap
+        // Landsat Imagery
+
+        o.map.addLayers(layerlist);
+        mp = o.map;
 
         // Update the Legend when all layers are added
         on.once(o.map, 'layers-add-result', function(response) {

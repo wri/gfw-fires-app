@@ -133,6 +133,18 @@
         });
     };
 
+    var loadFavicon = function(path){
+        var l = doc.createElement('link'),
+            h = doc.getElementsByTagName('head')[0];
+        l.setAttribute('rel', 'shortcut icon');
+        l.setAttribute('type', 'image/png');
+        l.setAttribute('href', path);
+        h.appendChild(l);
+        setTimeout(function () {
+            l.media = "all";
+        });
+    };
+
     // Load Esri Dependencies
     function loadDependencies() {
         win.dojoConfig = dojoConfig;
@@ -141,6 +153,7 @@
         for (var i = 0, length = files.length; i < length; i++) {
             loadStyle(files[i].src, files[i].cdn);
         }
+        loadFavicon("app/images/favicon.ico");
     }
 
     win.requestAnimationFrame = (function() {

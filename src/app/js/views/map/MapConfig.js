@@ -128,7 +128,9 @@ define({
         identifyUrl: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/dg_footprints/MapServer',
         tileUrl: 'http://suitability-mapper.blueraster.com/dg_imagery/',
         id: 'Digital_Globe',
-        graphicsLayerId: 'Digital_Globe_Bounding_Boxes'
+        graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
+        imagedir: 'http://175.41.139.43/arcgis/rest/services/dg_imagery/',
+        mosaics: ['WV01', 'QB02','WV02','GE01']
     },
 
     windData: {

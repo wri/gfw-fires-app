@@ -258,10 +258,16 @@ define([
                 this.updateLayersInHash('add', layerId, layerId);
             } else {
                 this.updateLayersInHash('remove', layerId, layerId);
-                var layer = _map.getLayer(layerId);
-                if (layer) {
-                    layer.setVisibility(false);
-                }
+                // var layer = _map.getLayer(layerId);
+                // if (layer) {
+                //     layer.setVisibility(false);
+                // }
+                var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
+                    var layer = _map.getLayer(i);
+                    if (!layer.visible) {
+                        layer.setVisibility(true);
+                    }
+                })
             }
         },
 
@@ -278,40 +284,43 @@ define([
         getBoundingBoxesForDigitalGlobe: function () {
             var deferred = new Deferred(),
                 model = MapModel.get('model'),
+                dgConf = MapConfig.digitalGlobe,
+                dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
                 extents = {};
 
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
             } else {
-                var queryTask = new QueryTask(MapConfig.digitalGlobe.queryUrl),
-                    query = new Query(),
-                    dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
+                var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
+                    var queryTask = new QueryTask(dgConf.imagedir + i +'/ImageServer'),
+                        query = new Query();
+                        
 
-                query.outFields = ['OBJECTID','Name', 'Date','Tiles'];
-                query.where = 'Category = 1';
-                query.returnGeometry = true;
-                queryTask.execute(query, function (res) {
-                    _dgGlobeFeaturesFetched = true;
-                    arrayUtils.forEach(res.features, function (feature) {
-                        feature.setSymbol(
-                            new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2),
-                            new Color([0,255,0,0]))
-                        );
-                        // Give the feature a layer attribute so It's easier to tell which layer a 
-                        // clicked feature belongs to
-                        feature.attributes.Layer = "Digital_Globe";
-                        dgLayer.add(feature);
-                        extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
+                    query.outFields = ['OBJECTID','Name'];//, 'Date','Tiles'];
+                    query.where = 'Category = 1';
+                    query.returnGeometry = true;
+                    queryTask.execute(query, function (res) {
+                        _dgGlobeFeaturesFetched = true;
+                        arrayUtils.forEach(res.features, function (feature) {
+                            feature.setSymbol(
+                                new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2),
+                                new Color([0,255,0,0]))
+                            );
+                            // Give the feature a layer attribute so It's easier to tell which layer a 
+                            // clicked feature belongs to
+                            feature.attributes.Layer = "Digital_Globe";
+                            dgLayer.add(feature);
+                            extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
+                        });
+                        model.DigitalGlobeExtents(extents);
+                        deferred.resolve(true);
+                    }, function (err) {
+                        console.error(err);
+                        deferred.resolve(false);
                     });
-                    model.DigitalGlobeExtents(extents);
-                    deferred.resolve(true);
-                }, function (err) {
-                    console.error(err);
-                    deferred.resolve(false);
+
                 });
-
-
                 // Test Hitting WFS Service for GeoJson
                 // var req = esriRequest({
                 //     url: "http://suitability-mapper.s3.amazonaws.com/wind/imageryFootprints.json.gz",
@@ -354,15 +363,18 @@ define([
         },
 
         showDigitalGlobeImagery: function (bucket) {
-            var layer = _map.getLayer(MapConfig.digitalGlobe.id);
+            var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
+                var layer = _map.getLayer(i);
+                if (!layer.visible) {
+                    layer.setVisibility(true);
+                }
+            })
 
-            if (!layer.visible) {
-                layer.setVisibility(true);
-            }
-            if (layer) {
-                layer.setBucket(bucket);
-                layer.refresh();
-            }
+            
+            // if (layer) {
+            //     layer.setBucket(bucket);
+            //     layer.refresh();
+            // }
         },
 
         // showDigitalGlobeService: function (id) {

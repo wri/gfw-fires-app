@@ -1228,7 +1228,7 @@ define([
                     arrayUtils.forEach(mapkeys,function(key){
                         var map = PRINT_CONFIG.maps[key];
                         map.setExtent(extent);
-                        map.setExtent(extent);
+                        //map.setExtent(extent);
                     })
                     deferred.resolve(true);
                 }

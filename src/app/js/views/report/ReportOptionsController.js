@@ -18,7 +18,8 @@ define([
             query.outFields = [fieldname]
             query.returnDistinctValues = true;
             var task = new QueryTask(url);
-            task.execute(query,callback)
+            task.execute(query,callback);
+
         }
 
         o.populatecallback = function(results){
@@ -47,13 +48,26 @@ define([
         o.bind_events = function (){
             var aoitype;
             on(dom.byId('report-island-radio'),'change',function(evt,node){
-                MapModel.vm.reportAOIs(MapModel.vm.islands());
+                var islands = MapModel.vm.islands();
+                MapModel.vm.reportAOIs([]);
+                arrayUtil.forEach(islands,function(island){
+                    MapModel.vm.reportAOIs.push(island);
+                })
+                MapModel.vm.selectedAOIs(['Sumatra']);
+
             })
             on(dom.byId('report-province-radio'),'change',function(evt,node){
-                MapModel.vm.reportAOIs(MapModel.vm.provinces());
+                var provinces = MapModel.vm.provinces();
+                MapModel.vm.reportAOIs([]);
+                arrayUtil.forEach(provinces,function(province){
+                    MapModel.vm.reportAOIs.push(province);
+                })
+                MapModel.vm.selectedAOIs(['Riau']);
+
             })
 
             on(dom.byId('report-launch'),'click',function(){
+                console.log("run")
                 var dates = MapModel.vm.dateVals();
 
                 var reportdates = {};
@@ -92,8 +106,9 @@ define([
                         islands.push(f.attributes.ISLAND);
                     }
                 })
-                MapModel.vm.islands(islands);
+                MapModel.vm.islands(islands.sort());
                 MapModel.vm.reportAOIs(islands);
+                MapModel.vm.selectedAOIs(['Sumatra']);
             }
             var provinceresults = function(results){
                 var provinces = [];
@@ -102,16 +117,16 @@ define([
                         provinces.push(f.attributes.PROVINCE);
                     }
                 })
-                MapModel.vm.provinces(provinces);
+                MapModel.vm.provinces(provinces.sort());
 
             }
             var url = "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/7"
             self.queryDistinct(url+ "?returnDistinctValues=true",
                     fires.report_fields.islands,islandresults
-                )
+                );
             self.queryDistinct(url+ "?returnDistinctValues=true",
                     fires.report_fields.provinces,provinceresults
-                )
+                );
             
         }
 
