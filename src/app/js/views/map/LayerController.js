@@ -20,6 +20,7 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/geometry/webMercatorUtils",
+    "esri/layers/MosaicRule",
     // Temporary Modules to add Graphic to Map
     "esri/Color",
     "esri/graphic",
@@ -30,7 +31,7 @@ define([
     "esri/symbols/PictureMarkerSymbol",
     // Modules for Terraformer
     "esri/SpatialReference"
-], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol, SpatialReference) {
+], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, MosaicRule, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol, SpatialReference) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -264,10 +265,15 @@ define([
                 // }
                 var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
                     var layer = _map.getLayer(i);
-                    if (!layer.visible) {
-                        layer.setVisibility(true);
+
+                    if (!layer.visible && visibility) {
+                        layer.setVisibility(visibility);
                     }
-                })
+                    if(!visibility){
+                        layer.setVisibility(visibility)
+                    }
+
+                });
             }
         },
 
@@ -296,7 +302,7 @@ define([
                         query = new Query();
                         
 
-                    query.outFields = ['OBJECTID','Name'];//, 'Date','Tiles'];
+                    query.outFields = ['OBJECTID','Name', 'AcquisitionDate'];//, 'Date','Tiles'];
                     query.where = 'Category = 1';
                     query.returnGeometry = true;
                     queryTask.execute(query, function (res) {
@@ -363,12 +369,29 @@ define([
         },
 
         showDigitalGlobeImagery: function (bucket) {
+            var sensor_id = bucket.split('_id_');
+            var rasterId = sensor_id[1];
+            var sensorType = sensor_id[0];
+            var layer = _map.getLayer(MapConfig.digitalGlobe.sensorTypes[sensorType]);
+            var mrule = new MosaicRule();
+            mrule.method = MosaicRule.METHOD_LOCKRASTER
             var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
                 var layer = _map.getLayer(i);
-                if (!layer.visible) {
-                    layer.setVisibility(true);
+                if (layer && layer.visible) {
+                    layer.setVisibility(false);
                 }
             })
+            if (layer && !layer.visible) {
+                mrule.lockRasterIds = [rasterId];
+                layer.setMosaicRule(mrule);
+                layer.setVisibility(true);
+            }
+            // var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
+            //     var layer = _map.getLayer(i);
+            //     if (layer && !layer.visible) {
+            //         layer.setVisibility(true);
+            //     }
+            // })
 
             
             // if (layer) {

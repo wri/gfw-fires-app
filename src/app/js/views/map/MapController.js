@@ -123,13 +123,15 @@ define([
         var url = document.location.href;
         var proxyUrl = "/proxy/proxy.ashx";
 
+
         for (var domain in proxies) {
 
             if (url.indexOf(domain) === 0) {
                 proxyUrl = proxies[domain];
+                esriConfig.defaults.io.proxyUrl = proxies[domain];
+
             }
         }
-
         // Rule to Test Digital Globe Fires Url
         urlUtils.addProxyRule({
             urlPrefix: 'https://services.digitalglobe.com/',
@@ -703,8 +705,6 @@ define([
             }));
         })
         dglyrs = digitalGlobeLayers
-        console.log('digitalGlobeLayers',digitalGlobeLayers)
-
 
         overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
             id: MapConfig.overlaysLayer.id,
@@ -780,7 +780,6 @@ define([
                 airQualityLayer,
                 firesLayer
         ]);
-        console.log("LAYER LIST", layerlist);
 
         // Fires
         // Air Quality

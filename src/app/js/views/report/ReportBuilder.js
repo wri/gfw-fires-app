@@ -277,8 +277,6 @@ define([
 
         get_aoi_definition: function(){
             var aois = window.reportOptions.aois;
-            var startdate = "ACQ_DATE >= date'" + this.startdate + "'";
-            var enddate = "ACQ_DATE <= date'" + this.enddate + "'";
             var aoi = window.reportOptions.aoitype + " in ('";
             aoi+= aois.join("','");
             aoi+= "')"
@@ -1044,7 +1042,7 @@ define([
 
 
             
-            query.where = self.get_layer_definition();
+            query.where = [self.get_aoi_definition(),"BRIGHTNESS >= 330","CONFIDENCE >= 30"].join(' AND ');
             query.returnGeometry = false;
             query.groupByFieldsForStatistics = [PRINT_CONFIG.dailyFiresField];
             query.orderByFields=['ACQ_DATE ASC'];
@@ -1227,7 +1225,7 @@ define([
                     // extent.xmin*=1.2;
                     arrayUtils.forEach(mapkeys,function(key){
                         var map = PRINT_CONFIG.maps[key];
-                        map.setExtent(extent);
+                        map.setExtent(extent, true);
                         //map.setExtent(extent);
                     })
                     deferred.resolve(true);

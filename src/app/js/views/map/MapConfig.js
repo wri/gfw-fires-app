@@ -3,6 +3,7 @@ define({
 
     robProxyUrl: "http://rmbp/proxy/proxy.php",
     calumProxyUrl: "http://localhost/~calumbutler/proxy/proxy.php",
+    aliciaProxyUrl: "http://bur/projs/2278-wri-aqueduct.water-risk-tool/app/proxy/proxy.php",
 
     stagingProxyUrl: 'http://staging.blueraster.com/proxy/proxy.php',
     proxies: {
@@ -12,7 +13,8 @@ define({
         "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.ashx",
         "http://shj/": "http://shj/proxy/proxy.ashx",
         "http://localhost:": "http://localhost:8080/php/proxy.php",
-        "http://fires.globalforestwatch.org":"http://www.wri.org/applications/maps/proxy/proxy.php"
+        "http://fires.globalforestwatch.org":"http://www.wri.org/applications/maps/proxy/proxy.php",
+        "http://bur/": "http://bur/projs/2278-wri-aqueduct.water-risk-tool/app/proxy/proxy.php"
     },
 
     mapOptions: {
@@ -129,8 +131,9 @@ define({
         tileUrl: 'http://suitability-mapper.blueraster.com/dg_imagery/',
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
-        imagedir: 'http://175.41.139.43/arcgis/rest/services/dg_imagery/',
-        mosaics: ['WV01', 'QB02','WV02','GE01']
+        imagedir: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/',
+        mosaics: ['WV01', 'QB01','WV02','GEO1'],
+        sensorTypes: {'QuickBird':'QB01',"GeoEye-1":'GEO1',"WorldView-2":"WV02","WorldView-1":"WV01"}
     },
 
     windData: {

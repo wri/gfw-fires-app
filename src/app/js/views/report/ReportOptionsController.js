@@ -67,7 +67,6 @@ define([
             })
 
             on(dom.byId('report-launch'),'click',function(){
-                console.log("run")
                 var dates = MapModel.vm.dateVals();
 
                 var reportdates = {};
@@ -82,7 +81,6 @@ define([
                 else if (dom.byId('report-island-radio').checked){
                         aoitype = 'ISLAND';
                 }
-
                 var win = window.open('./app/js/views/report/report.html', 'Report', '');
                 win.report = true;
                 win.reportOptions = {

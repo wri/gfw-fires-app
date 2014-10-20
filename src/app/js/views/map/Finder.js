@@ -4,6 +4,8 @@ define([
     "dojo/_base/array",
     "dojo/on",
     "dojo/query",
+    "dojo/Deferred",
+    "dojo/promise/all",
     "esri/graphic",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
@@ -14,8 +16,12 @@ define([
     "esri/tasks/IdentifyTask",
     "esri/tasks/IdentifyParameters",
     "esri/tasks/query",
+    "esri/tasks/QueryTask",
     "esri/geometry/Circle",
-], function (dom, arrayUtils, on, dojoQuery, Graphic, Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, Circle) {
+    "libs/moment",
+    "libs/timezone"
+], function (dom, arrayUtils, on, dojoQuery, Deferred, all, Graphic, Point, webMercatorUtils, PictureSymbol, 
+    MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
     return {
@@ -265,12 +271,151 @@ define([
         },
 
         getDigitalGlobeInfoWindow: function (evt) {
+            var dgConf = MapConfig.digitalGlobe,
+                dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
+                query = new Query(),
+                extents = {};
+
             if (evt.graphic) {
                 if (evt.graphic.attributes.Layer !== 'Digital_Globe') {
                     return;
                 }
             }
-            LayerController.showDigitalGlobeImagery();
+            query.geometry = evt.graphic.geometry;
+            query.where = "Category = 1";
+            query.returnGeometry = false;
+            query.outFields = ['*'];
+
+            // esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
+
+
+        var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i){
+                    var deferred = new Deferred;
+                    query.geometry = evt.graphic.geometry;
+                    query.returnGeometry = false;
+                    query.outFields = ['*'];
+                    var task = new QueryTask(MapConfig.digitalGlobe.imagedir+i+"/ImageServer")
+                    task.execute(query,function(results){
+                        deferred.resolve(results.features);
+                    })
+                    return deferred.promise;
+            })).then(function(results){
+                var content = '';
+                var features = [];
+
+                results.map(function(featureArr){
+                        featureArr.map(function(feature){
+                            features.push(feature);
+                        });
+                    });
+
+
+                    content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
+
+                    arrayUtils.forEach(features, function (f) {
+                        var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta').format("M/D/YYYY");
+
+                        // content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
+                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_"+f.attributes.OBJECTID +"'>Date: " + date + " Satellite: "+f.attributes.SensorName + "</a>"+"</li>";//f.attributes.Date + "</a></li>";
+
+                    });
+
+                    content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
+
+                    _map.infoWindow.setContent(content);
+                    _map.infoWindow.show(point);
+
+                    // if (features.length === 1) {
+                    //     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                    //     activeFeatureIndex = 0;
+                    // } else {
+                        // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                        activeFeatureIndex = 0;
+                        dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
+                            handles.push(on(node, "click", function (evt) {
+                                var target = evt.target ? evt.target : evt.srcElement,
+                                    bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                                LayerController.showDigitalGlobeImagery(bucket);
+                                activeFeatureIndex = index;
+                            }));
+                        });
+                    // }
+
+                    handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) { 
+
+                        var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY,
+                            _map.spatialReference);
+                        
+                        _map.centerAndZoom(point, 12);
+                        // _map.infoWindow.show(point);
+                    }));
+
+                    on.once(_map.infoWindow, "hide", function () {
+                        arrayUtils.forEach(handles, function (handle) {
+                            handle.remove();
+                        });
+                    });
+
+            });
+
+            // dgLayer.queryFeatures(query,function (res) {
+            //     var features = [],
+            //         content = "";
+
+            //     console.log("DG FP RES", res);
+
+            //     arrayUtils.forEach(res, function (item) {
+            //         features.push(item.feature);
+            //     });
+
+            //     if (features.length === 0) {
+            //         return;
+            //     }
+
+            //     content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
+
+            //     arrayUtils.forEach(features, function (f) {
+            //         content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
+            //     });
+
+            //     content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
+
+            //     _map.infoWindow.setContent(content);
+            //     _map.infoWindow.show(point);
+
+            //     if (features.length === 1) {
+            //         LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+            //         activeFeatureIndex = 0;
+            //     } else {
+            //         // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+            //         activeFeatureIndex = 0;
+            //         dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
+            //             handles.push(on(node, "click", function (evt) {
+            //                 var target = evt.target ? evt.target : evt.srcElement,
+            //                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+            //                 LayerController.showDigitalGlobeImagery(bucket);
+            //                 activeFeatureIndex = index;
+            //             }));
+            //         });
+            //     }
+
+            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+            //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
+            //         _map.centerAndZoom(point, 17);
+            //         _map.infoWindow.show(point);
+            //     }));
+
+            //     on.once(_map.infoWindow, "hide", function () {
+            //         arrayUtils.forEach(handles, function (handle) {
+            //             handle.remove();
+            //         });
+            //     });
+
+            // }, function (err) {
+            //     console.dir(err);
+            // });
+
+            // LayerController.showDigitalGlobeImagery();
 
             // Temporary, Remove All Code below when done and import code from 
             // getDigitalGlobeServiceInfoWindow function
@@ -296,6 +441,8 @@ define([
             function getContent(graphic) {
                 return "<div>Date: " + graphic.attributes.Date + "</div>";
             }
+
+
 
             // itask.execute(iparams, function (res) {
             //     var features = [],
