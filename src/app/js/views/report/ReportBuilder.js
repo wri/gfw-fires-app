@@ -8,6 +8,7 @@ define([
     "dijit/registry",
     "dojo/promise/all",
     "dojo/_base/array",
+    "dojo/io-query", 
     "esri/map",
     "esri/Color",
     "esri/config",
@@ -33,7 +34,7 @@ define([
     "libs/highcharts",
     "libs/moment",
     "libs/timezone"
-], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
+], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, MapConfig, MapModel, esriRequest, ko,geostats) {
 
@@ -195,6 +196,7 @@ define([
                     proxyUrl = proxies[domain];
                 }
             }
+
             self.init_report_options();
             // Set up some configurations
             esriConfig.defaults.io.proxyUrl = proxyUrl;
@@ -237,6 +239,9 @@ define([
 
         init_report_options: function(){
             var self = this;
+            if (!window.reportOptions){
+                self.read_hash();
+            }
             var dateobj = window.reportOptions.dates;
             this.startdate = self.date_obj_to_string({
                 year:dateobj.fYear,
@@ -253,6 +258,40 @@ define([
             dom.byId('fromDate').innerHTML = "From: "+self.startdate;
             dom.byId('toDate').innerHTML = "To: "+self.enddate;
             dom.byId('aoiList').innerHTML = 'ON ' + self.aoitype.toUpperCase() + 'S: ' + self.aoilist;
+        },
+
+        read_hash: function(){
+            var _initialState;
+            var url = window.location.href;
+
+            var hasHash = (url.split("#").length == 2 && url.split("#")[1].length > 1);
+
+            if (hasHash) {
+                _initialState = ioQuery.queryToObject(url.split("#")[1]);
+            } else {
+                _initialState = MapConfig.defaultState;
+                //state with
+            }
+
+            //is _initialState valid?
+            // if (hasHash) {
+            //     var isValidState = (_initialState.v && (arrayUtil.indexOf(Config.validViews, _initialState.v) > -1));
+            //     if (!isValidState) {
+            //         _initialState = Config.defaultState;
+            //     } else {
+            //         //if valid then make it dirty so that it pushes a change
+            //         !_initialState.dirty ? _initialState.dirty = "true" : delete _initialState.dirty;
+            //     }
+            // }
+            var dateObj = {};
+            _initialState.dates.split('!').map(function(date){
+                var datearr = date.split('-');
+                dateObj[datearr[0]] = datearr[1];
+            })
+
+            window.reportOptions = {aoitype:_initialState.aoitype}
+            window.reportOptions['aois'] = _initialState.aois.split('!')
+            window.reportOptions['dates'] = dateObj;
         },
 
         date_obj_to_string: function(dateobj){
