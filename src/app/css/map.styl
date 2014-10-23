@@ -83,7 +83,30 @@ baseRed = #e7002f
 	margin 0 0 4px 0
 
 #map .esriPopupWrapper .sizer:first-child
-	height: 1px !important
+	// height: 1px !important
+	
+	.titlePane
+		height 20px
+		background #F7F7F7
+		.title
+			display none
+		.maximize
+			display none
+		.close
+			display none
+		.next
+			background url(../images/arrow_go.png) no-repeat !important
+			margin-top 3px
+		.prev  
+			background url(../images/arrow_prev.png) no-repeat 
+			margin-top 3px
+
+#map .esriPopupWrapper .sizer
+	h3
+		margin-top 0px
+		margin-bottom 3px
+	.contentPane
+		padding-top 0px
 
 #map .HomeButton .home
 	padding 1px
@@ -560,8 +583,8 @@ baseRed = #e7002f
 .close-icon
 	position absolute
 	z-index 1
-	right 10px
-	top 10px
+	right 2px
+	top 5px
 	height 15px
 	width 15px
 	background url(../images/ico-close.png) no-repeat
