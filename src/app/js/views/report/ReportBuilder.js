@@ -159,6 +159,14 @@ define([
             fire_stats: {id:0,outField:'fire_count',onField:'loggingt'},
             layerId: 5
         },
+        rspoQuery:{
+            outFields: ['palm_oil','fire_count'],
+            tableId: "rspo-cert-table",
+            headerField: ['NAME'],
+            groupByFieldsForStatistics:['CERT_SCHEME','palm_oil'],
+            fire_stats: {id:0, outField:'fire_count', onField:'CERT_SCHEME'},
+            layerId: 5
+        },
         
         queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
         companyConcessionsId: 1,
@@ -223,9 +231,10 @@ define([
                     self.queryDistrictsFireCount("pulpwoodQuery"),
                     self.queryDistrictsFireCount("palmoilQuery"),
                     self.queryDistrictsFireCount("loggingQuery"),
+                    self.queryDistrictsFireCount("rspoQuery"),
                     // self.queryDistrictsForFires('adminQuery'),
                     // self.queryDistrictsForFires('subDistrictQuery'),
-                    //self.queryCompanyConcessions()
+                    // self.queryCompanyConcessions()
                     self.queryForPeatFires(),
                     self.queryForSumatraFires(),
                     self.queryForMoratoriumFires(),
@@ -693,14 +702,60 @@ define([
             query.outFields = [queryConfig.fire_stats.onField];
             query.orderByFields = ["fire_count DESC"];
             query.groupByFieldsForStatistics = [query.outFields[0]];
+            if (queryConfig.groupByFieldsForStatistics){
+                query.groupByFieldsForStatistics = queryConfig.groupByFieldsForStatistics;
+            }
 
             statdef.onStatisticField = queryConfig.fire_stats.onField;
             statdef.outStatisticFieldName = queryConfig.fire_stats.outField;
             statdef.statisticType = "count";
             query.outStatistics = [statdef];
 
+            function buildRSPOTable(features) {
+
+                var table = "<table class='fires-table'><tr>"
+                table+=  "<th>CONCESSION TYPE</th>";
+                table+= "<th>NUMBER OF FIRE ALERTS</th></tr>";
+
+                var po_cons = {};
+
+                var rspo_count = 0;
+                var palm_oil_count = 0;
+                arrayUtils.map(features, function(item,index,arr) {
+                    if(item.attributes.palm_oil === '1'){
+                        palm_oil_count += item.attributes.fire_count;
+                        if (item.attributes.CERT_SCHEME === 'RSPO'){
+                            rspo_count += item.attributes.fire_count;
+                        }
+                    }
+
+                });
+                var filtered = [
+                    {
+                        attributes: {
+                            'type': "RSPO CERTIFIED PALM OIL CONCESSIONS",
+                            'fire_count':rspo_count
+                        }
+                    },
+                    {
+                        attributes: {
+                            'type': "ALL PALM OIL CONCESSIONS",
+                            'fire_count':palm_oil_count
+                        }
+                    }
+                ]
+                // table += self.generateTableRows(features, fields);
+                table += self.generateTableRows(filtered, ['type','fire_count']);
+
+                table += "</table>";
+                
+                var finaltable = (filtered.length > 0) ? table: '<div class="noFiresTable">' + PRINT_CONFIG.noFeatures[configKey] + '</div>';
+                
+                return finaltable;
+            }
 
             function buildTable(features) {
+
                 var table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>"
                 if(queryConfig.headerField.length>1){
                           table+=  "<th>" + window.reportOptions.aoitype.toUpperCase() + "</th>";
@@ -718,6 +773,7 @@ define([
                 table += "</table>";
                 
                 var finaltable = (filtered.length > 0) ? table: '<div class="noFiresTable">' + PRINT_CONFIG.noFeatures[configKey] + '</div>';
+                
                 return finaltable;
             }
 
@@ -734,7 +790,13 @@ define([
                         });
                     }
                     else {
-                        dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
+                            if (configKey == 'rspoQuery'){
+                                dom.byId(queryConfig.tableId).innerHTML = buildRSPOTable(res.features);
+                            }
+                            else{
+                                dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
+                            }
+
 
                     }
                     deferred.resolve(true);
@@ -1125,6 +1187,7 @@ define([
                         }
                     },
                     yAxis: {
+                        min: 0,
                         title: {
                             text: null
                         },
@@ -1133,6 +1196,7 @@ define([
                             width: 1,
                             color: '#a90016'
                         }]
+
                     },
                     tooltip: {
                         valueSuffix: ''
@@ -1277,10 +1341,15 @@ define([
                 return deferred.promise;
         },
 
+        generateRSPOtableRows: function(features, fieldNames){
+
+        },
+
         generateTableRows: function(features, fieldNames) {
             var rows = "";
 
             function isValid(item) {
+                // console.log(item, fieldNames, item !== null && item !== undefined)
                 return item !== null && item !== undefined;
             }
             arrayUtils.forEach(features, function(feature) {
