@@ -84,8 +84,33 @@
 #map .HomeButton {
   margin: 0 0 4px 0;
 }
-#map .esriPopupWrapper .sizer:first-child {
-  height: 1px !important;
+#map .esriPopupWrapper .sizer:first-child .titlePane {
+  height: 20px;
+  background: #f7f7f7;
+}
+#map .esriPopupWrapper .sizer:first-child .titlePane .title {
+  display: none;
+}
+#map .esriPopupWrapper .sizer:first-child .titlePane .maximize {
+  display: none;
+}
+#map .esriPopupWrapper .sizer:first-child .titlePane .close {
+  display: none;
+}
+#map .esriPopupWrapper .sizer:first-child .titlePane .next {
+  background: url("../images/arrow_go.png") no-repeat !important;
+  margin-top: 3px;
+}
+#map .esriPopupWrapper .sizer:first-child .titlePane .prev {
+  background: url("../images/arrow_prev.png") no-repeat;
+  margin-top: 3px;
+}
+#map .esriPopupWrapper .sizer h3 {
+  margin-top: 0px;
+  margin-bottom: 3px;
+}
+#map .esriPopupWrapper .sizer .contentPane {
+  padding-top: 0px;
 }
 #map .HomeButton .home {
   padding: 1px;
@@ -578,8 +603,8 @@
 .close-icon {
   position: absolute;
   z-index: 1;
-  right: 10px;
-  top: 10px;
+  right: 2px;
+  top: 5px;
   height: 15px;
   width: 15px;
   background: url("../images/ico-close.png") no-repeat;

@@ -62,6 +62,21 @@ define({
         }
     },
 
+    tomnodLayer: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
+        id: 'tomnod',
+        sel_id: 'tomnod_sel',
+        chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
+        defaultLayers: [8],
+        query:{
+            fields:[{
+                'name':'CrowdRank', 'label':'Crowd Rank',
+                'name':'name','label':'Name'
+
+            }]
+        }
+    },
+
     tweetLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/4",
         id: "Fire_Tweets"
@@ -132,7 +147,7 @@ define({
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
         imagedir: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/',
-        mosaics: ['WV01', 'QB01','WV02','GEO1'],
+        mosaics: ['WV02'],//['WV01', 'QB01','WV02','GEO1'],
         sensorTypes: {'QuickBird':'QB01',"GeoEye-1":'GEO1',"WorldView-2":"WV02","WorldView-1":"WV01"}
     },
 
@@ -195,6 +210,10 @@ define({
         'Burn_Scar': {
             'id': "burned-scars-checkbox",
             'type': 'checkbox'
+        },
+        'Tomnod':{
+            'id': "tomnod-checkbox",
+            'type':'checkbox'
         },
         'Conservation': {
             25: {
@@ -294,6 +313,7 @@ define({
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
+        tomnodCheckbox: "Tomnod",
         peatLandsRadio: "Peatlands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary forests",
@@ -451,6 +471,13 @@ define({
             "type": "checkbox",
             "props": {
                 "value": "burnedAreas"
+            }
+        },{
+            "id": "tomnod-checkbox",
+            "class": "tomnod-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "tomnodAreas"
             }
         },
 

@@ -372,8 +372,13 @@ define([
         });
 
         on(o.map, "click", function(evt) {
-            Finder.getActiveFiresInfoWindow(evt);
-            Finder.getDigitalGlobeInfoWindow(evt);
+            // Finder.getActiveFiresInfoWindow(evt);
+            // Finder.getTomnodInfoWindow(evt);
+            console.log("map click")
+            Finder.selectTomnodFeatures(evt);
+            // Finder.getTomnodInfoWindow(evt);
+
+            // Finder.getDigitalGlobeInfoWindow(evt);
         });
 
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
@@ -403,6 +408,14 @@ define([
             LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
             if (value) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Air Quality layer on.');
+            }
+        });
+
+        on(registry.byId("tomnod-checkbox"), "change", function (value) {
+            LayerController.toggleLayerVisibility(MapConfig.tomnodLayer.id, value);
+            LayerController.toggleLayerVisibility(MapConfig.tomnodLayer.sel_id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Tomnod layer on.');                
             }
         });
 
@@ -612,6 +625,7 @@ define([
             treeCoverLayer,
             overlaysLayer,
             burnScarLayer,
+            tomnodLayer,
             landSatLayer,
             firesParams,
             firesLayer,
@@ -716,6 +730,23 @@ define([
             visible: false
         });
 
+        tomnodParams = new ImageParameters();
+        tomnodParams.layerIds = MapConfig.tomnodLayer.defaultLayers;
+        tomnodParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+        tomnodLayer = new ArcGISDynamicMapServiceLayer(MapConfig.tomnodLayer.url, {
+            imageParameters: tomnodParams,
+            id: MapConfig.tomnodLayer.id,
+            visible: false
+        });
+        var tomnodInfoTemplate = new InfoTemplate("${name}", Finder.getTomnodInfoWindow);
+        var tomnodSellayer = new FeatureLayer(MapConfig.tomnodLayer.url + "/" + MapConfig.tomnodLayer.defaultLayers[0],
+                 {
+                    mode: FeatureLayer.MODE_SELECTION,
+                    infoTemplate: tomnodInfoTemplate,
+                    outFields: ["*"],
+                    id: MapConfig.tomnodLayer.sel_id
+            });
+
         burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
 
         firesParams = new ImageParameters();
@@ -774,13 +805,15 @@ define([
             ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
                 conservationLayer,
                 burnScarLayer,
+                tomnodLayer,
                 forestUseLayer,
                 overlaysLayer,
                 tweetLayer,
                 airQualityLayer,
+                tomnodSellayer,
                 firesLayer
         ]);
-
+            console.log("layerList",layerlist)
         // Fires
         // Air Quality
         // Social Media

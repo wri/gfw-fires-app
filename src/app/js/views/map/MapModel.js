@@ -42,6 +42,8 @@ define([
     vm.loggingCheckbox = ko.observable(MapConfig.text.loggingCheckbox);
     vm.protectedAreasCheckbox = ko.observable(MapConfig.text.protectedAreasCheckbox);
     vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
+    vm.tomnodCheckbox = ko.observable(MapConfig.text.tomnodCheckbox);
+
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
     vm.primaryForestsRadio = ko.observable(MapConfig.text.primaryForestsRadio);

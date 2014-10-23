@@ -6,6 +6,7 @@ define([
     "dojo/query",
     "dojo/Deferred",
     "dojo/promise/all",
+    "esri/layers/FeatureLayer",
     "esri/graphic",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
@@ -20,7 +21,7 @@ define([
     "esri/geometry/Circle",
     "libs/moment",
     "libs/timezone"
-], function (dom, arrayUtils, on, dojoQuery, Deferred, all, Graphic, Point, webMercatorUtils, PictureSymbol, 
+], function (dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic, Point, webMercatorUtils, PictureSymbol, 
     MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
@@ -29,6 +30,7 @@ define([
             _map = map;            
         },
 
+        clickNext: '',
         searchAreaByCoordinates: function() {
             var values = {},
                 latitude, longitude,
@@ -183,6 +185,115 @@ define([
             }
         },
 
+        getTomnodInfoWindow: function(response){
+            var qconfig = MapConfig.tomnodLayer;
+             var   url = qconfig.url;
+                var map = _map;
+                var result = response;
+                var _self = this;
+                var content ='';
+                console.log("GET TOMNOD", response);
+
+                    if (result) {
+                            console.log("TOMNOD QUERY RESULT", result);
+                            executeReturned = false;
+                        // content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
+                            content +=" <div><h3>"+ result.attributes['name'] + "</h3></div>";
+                            content += "<tr><td><img src='" +  qconfig.chipBucket + result.attributes['ChipLink'];
+                            content += "' style='width:300px' /></tc></tr>"
+                            content += "<div><strong>Confirmation:</strong> "+result.attributes['Confirmation'] + " people</div>";
+                            content += "<div><b>Crowd Rank:</b> "+result.attributes['CrowdRank'] + "%</div>";
+                            content += "<a href='"+result.attributes['ImageLink'];
+                            content +=  "' target='_blank'>See this point on ";
+                            content += "<img style='height:20px;width:100px;' src='app/images/tomnod_logo.png'></div>";
+                        return content;
+                        
+                        
+                        
+
+                        // map.infoWindow.setContent(content);
+                        // map.infoWindow.resize(500,450);
+                        // // map.infoWindow.setTitle("Title");
+                        // map.infoWindow.show(point);
+
+                        // var clicknext = on(dojo.byId('nexttomnod'),"click",function(evt){
+                        //     console.log("CLICK NEXT",evt);
+                        // });
+                        // var clickprev = on(dojo.byId('prevtomnod'),"click",function(evt){
+                        //     console.log("CLICK prev",evt);
+                        // });
+                    } else {
+                        // _self.getActiveFiresInfoWindow(event);
+                    }
+        },
+
+        selectTomnodFeatures: function(event,arg2){
+            console.log("get tomnod infowindow",event,arg2);
+           var qconfig = MapConfig.tomnodLayer,_self = this,
+                url = qconfig.url,
+                itask = new IdentifyTask(url),
+                iparams = new IdentifyParameters(),
+                qtask = new QueryTask(url),
+                query = new Query(),
+                point = event.mapPoint,
+                executeReturned = true,
+                node = dojoQuery(".selected-fire-option")[0],
+                time = new Date(),
+                today = new Date(),
+                todayString = '',
+                dateString = '',
+                defs = [];
+
+                if (!_map.getLayer(qconfig.id).visible) {
+                    _self.getActiveFiresInfoWindow(event);
+                    return;
+                }
+
+                iparams.geometry = point;
+                iparams.tolerance = 3;
+                iparams.returnGeometry = false;
+                iparams.layerDefinitions = defs;
+                iparams.mapExtent = _map.extent;
+                iparams.layerIds = [8];
+
+                // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+                query.where = 'OBJECTID in (';
+                query.returnGeometry = false;
+                query.outFields = ['OBJECTID', 'ChipLink','CrowdRank','Confirmation', 'name', 'ImageLink'];
+                var objectids = [];
+                
+
+                var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
+                itask.execute(iparams, function(response) {
+                    console.log("IDENTIFY TASK",response)
+                    arrayUtils.forEach(response,function(feature){
+                        objectids.push(feature.feature.attributes.OBJECTID);
+                    });
+                    if (objectids.length < 1){
+                        _map.infoWindow.setFeatures(undefined);
+                        _self.getActiveFiresInfoWindow(event);
+                        _self.getDigitalGlobeInfoWindow(event);
+                        return;
+                    }
+                    _map.infoWindow.resize(340,500);
+                    query.where += objectids.join(',') + ")"
+                    console.log(query.where);
+                    selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query,FeatureLayer.SELECTION_NEW);
+                        
+                    selected_features.then(function(features){
+                        console.log('select features')
+                        console.log("selected features",features);
+                        _map.infoWindow.setFeatures(features);
+                        _map.infoWindow.show(event.mapPoint);
+                    });
+
+            }, function(err) {
+                console.log('IdentifyTask error')
+                _self.mapClick(event);
+            });
+        },
+
 
         getActiveFiresInfoWindow: function(event) {
 
@@ -251,6 +362,7 @@ define([
                 var result = response[0];
 
                 if (result) {
+                    console.log("FIRES QUERY RESULT", result);
                     executeReturned = false;
                     content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
                     arrayUtils.forEach(qconfig.query.fields, function(field) {
@@ -297,6 +409,9 @@ define([
                     var task = new QueryTask(MapConfig.digitalGlobe.imagedir+i+"/ImageServer")
                     task.execute(query,function(results){
                         deferred.resolve(results.features);
+                    },function(err){
+
+                        deferred.resolve([])
                     })
                     return deferred.promise;
             })).then(function(results){
