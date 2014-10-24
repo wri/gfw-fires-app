@@ -313,7 +313,7 @@ define({
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
-        tomnodCheckbox: "Tomnod",
+        tomnodCheckbox: "Crowdsourced Fires and Burnscars",
         peatLandsRadio: "Peatlands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary forests",
