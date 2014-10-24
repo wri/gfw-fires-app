@@ -14,7 +14,7 @@ define({
         "http://shj/": "http://shj/proxy/proxy.ashx",
         "http://localhost:": "http://localhost:8080/php/proxy.php",
         "http://fires.globalforestwatch.org":"http://www.wri.org/applications/maps/proxy/proxy.php",
-        "http://bur/": "http://bur/projs/2278-wri-aqueduct.water-risk-tool/app/proxy/proxy.php"
+        "http://bur/": "projs/2278-wri-oil-palm.4/src/app/proxy/proxy.php"
     },
 
     mapOptions: {
@@ -64,7 +64,7 @@ define({
 
     tomnodLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
-        id: 'tomnod',
+        id: 'Tomnod',
         sel_id: 'tomnod_sel',
         chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
         defaultLayers: [8],
