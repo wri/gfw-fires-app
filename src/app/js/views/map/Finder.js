@@ -192,10 +192,8 @@ define([
                 var result = response;
                 var _self = this;
                 var content ='';
-                console.log("GET TOMNOD", response);
 
                     if (result) {
-                            console.log("TOMNOD QUERY RESULT", result);
                             executeReturned = false;
                         // content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
                             content +=" <div><h3>"+ result.attributes['name'] + "</h3></div>";
@@ -228,7 +226,6 @@ define([
         },
 
         selectTomnodFeatures: function(event,arg2){
-            console.log("get tomnod infowindow",event,arg2);
            var qconfig = MapConfig.tomnodLayer,_self = this,
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
@@ -266,7 +263,6 @@ define([
 
                 var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
                 itask.execute(iparams, function(response) {
-                    console.log("IDENTIFY TASK",response)
                     arrayUtils.forEach(response,function(feature){
                         objectids.push(feature.feature.attributes.OBJECTID);
                     });
@@ -278,18 +274,14 @@ define([
                     }
                     _map.infoWindow.resize(340,500);
                     query.where += objectids.join(',') + ")"
-                    console.log(query.where);
                     selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query,FeatureLayer.SELECTION_NEW);
                         
                     selected_features.then(function(features){
-                        console.log('select features')
-                        console.log("selected features",features);
                         _map.infoWindow.setFeatures(features);
                         _map.infoWindow.show(event.mapPoint);
                     });
 
             }, function(err) {
-                console.log('IdentifyTask error')
                 _self.mapClick(event);
             });
         },
@@ -362,7 +354,6 @@ define([
                 var result = response[0];
 
                 if (result) {
-                    console.log("FIRES QUERY RESULT", result);
                     executeReturned = false;
                     content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
                     arrayUtils.forEach(qconfig.query.fields, function(field) {
