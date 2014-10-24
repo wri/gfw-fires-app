@@ -163,8 +163,8 @@ define([
             outFields: ['palm_oil','fire_count'],
             tableId: "rspo-cert-table",
             headerField: ['NAME'],
-            groupByFieldsForStatistics:['CERT_SCHEME','palm_oil'],
-            fire_stats: {id:0, outField:'fire_count', onField:'CERT_SCHEME'},
+            groupByFieldsForStatistics:['CERT_SCHEM','palm_oil'],
+            fire_stats: {id:0, outField:'fire_count', onField:'palm_oil'},
             layerId: 5
         },
         
@@ -724,7 +724,7 @@ define([
                 arrayUtils.map(features, function(item,index,arr) {
                     if(item.attributes.palm_oil === '1'){
                         palm_oil_count += item.attributes.fire_count;
-                        if (item.attributes.CERT_SCHEME === 'RSPO'){
+                        if (item.attributes.CERT_SCHEM === 'RSPO'){
                             rspo_count += item.attributes.fire_count;
                         }
                     }
