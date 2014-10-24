@@ -128,6 +128,7 @@ define([
 
             if (url.indexOf(domain) === 0) {
                 proxyUrl = proxies[domain];
+                
                 esriConfig.defaults.io.proxyUrl = proxies[domain];
 
             }
@@ -374,7 +375,6 @@ define([
         on(o.map, "click", function(evt) {
             // Finder.getActiveFiresInfoWindow(evt);
             // Finder.getTomnodInfoWindow(evt);
-            console.log("map click")
             Finder.selectTomnodFeatures(evt);
             // Finder.getTomnodInfoWindow(evt);
 
@@ -813,7 +813,6 @@ define([
                 tomnodSellayer,
                 firesLayer
         ]);
-            console.log("layerList",layerlist)
         // Fires
         // Air Quality
         // Social Media
@@ -824,7 +823,6 @@ define([
         // Basemap
         // Landsat Imagery
 
-        o.map.addLayers(layerlist);
         mp = o.map;
 
         // Update the Legend when all layers are added
@@ -833,7 +831,7 @@ define([
             // This turns on all the layers present in the hash,
             // All layers are turned off onload, by default Fires and Land Cover will be turned on from hash
             // Unless hash values are different
-
+            console.log('layers-add-result')
             self.enableLayersFromHash();
 
             var layerInfos = arrayUtils.map(response.layers, function(item) {
@@ -842,10 +840,14 @@ define([
                 };
             });
             layerInfos = arrayUtils.filter(layerInfos, function(item) {
-                return !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
+                var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
+                var flyr = !(item.layer.id === tomnodSellayer.id);
+                return (url && flyr);
             });
+            console.dir(layerInfos)
             registry.byId("legend").refresh(layerInfos);
         });
+        o.map.addLayers(layerlist);
 
         // Set the default layer ordering for Overlays Layer
         overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
@@ -901,11 +903,13 @@ define([
             }
 
             if (layerNums === undefined) {
-                widgetId = layersToWidgets[id].id;
-                if (registry.byId(widgetId)) {
-                    registry.byId(widgetId).set('checked', true);
-                    on.emit(dom.byId(widgetId), 'change', {});
-                }
+                if (layersToWidgets[id]){
+                    widgetId = layersToWidgets[id].id;
+                    if (registry.byId(widgetId)) {
+                        registry.byId(widgetId).set('checked', true);
+                        on.emit(dom.byId(widgetId), 'change', {});
+                    }
+                } 
             } else {
                 layerObj = layersToWidgets[id];
                 layerIds = layerNums.split(",");
