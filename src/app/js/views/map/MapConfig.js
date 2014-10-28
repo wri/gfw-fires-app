@@ -147,7 +147,7 @@ define({
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
         imagedir: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/',
-        mosaics: ['WV02'],//['WV01', 'QB01','WV02','GEO1'],
+        mosaics: ['WV01', 'QB01','WV02','GEO1'],
         sensorTypes: {'QuickBird':'QB01',"GeoEye-1":'GEO1',"WorldView-2":"WV02","WorldView-1":"WV01"}
     },
 

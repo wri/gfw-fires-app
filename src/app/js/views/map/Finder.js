@@ -243,6 +243,8 @@ define([
 
                 if (!_map.getLayer(qconfig.id).visible) {
                     _self.getActiveFiresInfoWindow(event);
+                    _self.getDigitalGlobeInfoWindow(event);
+
                     return;
                 }
 
