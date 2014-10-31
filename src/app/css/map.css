@@ -748,6 +748,41 @@
 .map-view-print .latLongHUD {
   bottom: auto;
 }
+Time slider,
+.esriTimeSlider {
+  padding-top: 10px;
+}
+.timeSliderContainer {
+  height: 95px;
+  width: 270px;
+  overflow: hidden;
+  position: relative;
+  margin-left: 5px;
+}
+.timeSliderPanel .dijitRuleLabel {
+  float: left;
+  width: 36px;
+  font-size: 11px;
+  line-height: 20px;
+  text-align: center;
+  color: #000;
+  font-family: "Lucida Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+/* rotate labels */
+  -webkit-transform: rotate(-55deg);
+  transform: rotate(-55deg);
+}
+.timeSliderContainer .dijitRuleLabelH {
+  left: -55% !important;
+}
+.timeSliderPanelLabel {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: #fff;
+  position: absolute;
+  padding: 0 5px 5px;
+  left: 30px;
+  top: -20px;
+}
 @media print {
   html,
   body {

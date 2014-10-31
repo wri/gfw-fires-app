@@ -153,7 +153,7 @@ define([
     vm.showClearPinsOption = ko.observable(false);
     vm.currentLatitude = ko.observable(0);
     vm.currentLongitude = ko.observable(0);
-    vm.DigitalGlobeExtents = ko.observable();
+    vm.DigitalGlobeExtents = ko.observable([]);
 
     vm.closeReportOptions = function () {
         vm.showReportOptions(false);

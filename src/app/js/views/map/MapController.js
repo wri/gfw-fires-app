@@ -791,6 +791,8 @@ define([
             visible: false
         });
 
+        dglyr = digitalGlobeGraphicsLayer;
+
         // TESTING LAYER
         // var dgGlobeWMSLayer = new DigitalGlobeServiceLayer("https://services.digitalglobe.com/mapservice/wmsaccess", {
         //     id: "DG_WMS",

@@ -287,6 +287,16 @@ define([
             }
         },
 
+        filter_footprints: function(attribute, minimum, maximum){
+                dglyr = map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
+                dgrp = MapModel.get('model').DigitalGlobeExtents();
+                dglyr.graphics.filter(function(graphic){
+                    return (graphic.attributes[attribute] >= minimum || graphic.attributes[attribute] < maximum);
+                });
+                dglyr.clear();
+                dgrps.map(function(gp){dglyr.add(gp)});
+        },
+
         getBoundingBoxesForDigitalGlobe: function () {
             var deferred = new Deferred(),
                 model = MapModel.get('model'),
@@ -300,7 +310,7 @@ define([
                 var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
                     var queryTask = new QueryTask(dgConf.imagedir + i +'/ImageServer'),
                         query = new Query();
-                        
+                        var footprints = [];
 
                     query.outFields = ['OBJECTID','Name', 'AcquisitionDate'];//, 'Date','Tiles'];
                     query.where = 'Category = 1';
@@ -317,9 +327,12 @@ define([
                             // clicked feature belongs to
                             feature.attributes.Layer = "Digital_Globe";
                             dgLayer.add(feature);
+                            footprints.push(feature);
                             extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
                         });
-                        model.DigitalGlobeExtents(extents);
+                        model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
+                            console.log('model dg',model.DigitalGlobeExtents())
+
                         deferred.resolve(true);
                     }, function (err) {
                         console.error(err);
