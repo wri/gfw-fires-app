@@ -154,6 +154,8 @@ define([
     vm.currentLatitude = ko.observable(0);
     vm.currentLongitude = ko.observable(0);
     vm.DigitalGlobeExtents = ko.observable([]);
+    vm.dgMoments = ko.observable([]);
+    vm.valuenodes = ko.observable();
 
     vm.closeReportOptions = function () {
         vm.showReportOptions(false);

@@ -1,7 +1,10 @@
 /* global define */
 define([
+    "knockout",
     "dojo/on",
+    "dojo/mouse",
     "dojo/dom",
+    "dojo/dom-attr",
     "dojo/hash",
     "dojo/query",
     "dojo/cookie",
@@ -10,8 +13,12 @@ define([
     "dojo/Deferred",
     "dojo/_base/array",
     "dojo/promise/all",
+    "dojo/dom-construct",
+    "dojo/dom-style",
     "dijit/registry",
     "dijit/form/CheckBox",
+    "dijit/TooltipDialog", 
+    "dijit/Tooltip", 
     "views/map/MapModel",
     "views/map/MapConfig",
     "modules/HashController",
@@ -21,6 +28,9 @@ define([
     "esri/tasks/QueryTask",
     "esri/geometry/webMercatorUtils",
     "esri/layers/MosaicRule",
+
+    "esri/TimeExtent",
+    "esri/dijit/TimeSlider",
     // Temporary Modules to add Graphic to Map
     "esri/Color",
     "esri/graphic",
@@ -30,8 +40,14 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol",
     // Modules for Terraformer
-    "esri/SpatialReference"
-], function (on, dom, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, registry, CheckBox, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, Query, QueryTask, webMercatorUtils, MosaicRule, Color, Graphic, Point, Polygon, SimpleLineSymbol, SimpleFillSymbol, PictureSymbol, SpatialReference) {
+    "esri/SpatialReference",
+    "libs/moment",
+    "libs/timezone"
+], function (ko,on, mouse, dom, domAttr,  hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle,
+    registry, CheckBox, TooltipDialog, Tooltip, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, 
+    Query, QueryTask, webMercatorUtils, MosaicRule, 
+    TimeExtent, TimeSlider, Color, Graphic, Point, Polygon, SimpleLineSymbol, 
+    SimpleFillSymbol, PictureSymbol, SpatialReference) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -244,6 +260,9 @@ define([
         toggleDigitalGlobeLayer: function (visibility) {
             var self = this,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
+            var disp = visibility ? 'block':'none';
+
+            domStyle.set(dom.byId("timeSliderPanel"),'display',disp);
 
             this.getBoundingBoxesForDigitalGlobe().then(function (results) {
                 if (visibility) {
@@ -251,6 +270,8 @@ define([
                 }
                 self.toggleDigitalGlobeLayerVisibility(MapConfig.digitalGlobe.id, visibility);
                 self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
+                self.generateTimeSlider("timeSliderDG","timeSliderPanel");
+
             });
         },
 
@@ -288,13 +309,13 @@ define([
         },
 
         filter_footprints: function(attribute, minimum, maximum){
-                dglyr = map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
-                dgrp = MapModel.get('model').DigitalGlobeExtents();
-                dglyr.graphics.filter(function(graphic){
-                    return (graphic.attributes[attribute] >= minimum || graphic.attributes[attribute] < maximum);
+                var dglyr = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
+                var graphics = MapModel.get('model').DigitalGlobeExtents();
+                var dgrp = graphics.filter(function(graphic){
+                    return (graphic.attributes[attribute] >= minimum && graphic.attributes[attribute] <= maximum);
                 });
                 dglyr.clear();
-                dgrps.map(function(gp){dglyr.add(gp)});
+                dgrp.map(function(gp){dglyr.add(gp)});
         },
 
         getBoundingBoxesForDigitalGlobe: function () {
@@ -302,13 +323,17 @@ define([
                 model = MapModel.get('model'),
                 dgConf = MapConfig.digitalGlobe,
                 dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
-                extents = {};
+                extents = {},
+                dgMoment = '',
+                moment_arr = [],
+                self = this;
 
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
             } else {
                 var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
                     var queryTask = new QueryTask(dgConf.imagedir + i +'/ImageServer'),
+                        qdef = new Deferred(),
                         query = new Query();
                         var footprints = [];
 
@@ -316,6 +341,8 @@ define([
                     query.where = 'Category = 1';
                     query.returnGeometry = true;
                     queryTask.execute(query, function (res) {
+                        // deferred.resolve(true);
+
                         _dgGlobeFeaturesFetched = true;
                         arrayUtils.forEach(res.features, function (feature) {
                             feature.setSymbol(
@@ -326,20 +353,33 @@ define([
                             // Give the feature a layer attribute so It's easier to tell which layer a 
                             // clicked feature belongs to
                             feature.attributes.Layer = "Digital_Globe";
+                            dgMoment = moment(feature.attributes.AcquisitionDate)
+                            moment_arr.push(dgMoment);
+                            feature.attributes.moment = dgMoment;
                             dgLayer.add(feature);
                             footprints.push(feature);
                             extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
                         });
-                        model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
-                            console.log('model dg',model.DigitalGlobeExtents())
+                        
+                        if(moment_arr.length){
+                            model.dgMoments(moment_arr.sort(function(a,b){return a-b;}));
 
-                        deferred.resolve(true);
+                        }
+                        model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
+                        qdef.resolve(true);
+
                     }, function (err) {
                         console.error(err);
-                        deferred.resolve(false);
+                        // deferred.resolve(false);
+                        qdef.resolve(true);
+                        return 
                     });
+                    return qdef.promise;
+
 
                 });
+                    all(layers).then(function(){ deferred.resolve(true); })
+
                 // Test Hitting WFS Service for GeoJson
                 // var req = esriRequest({
                 //     url: "http://suitability-mapper.s3.amazonaws.com/wind/imageryFootprints.json.gz",
@@ -399,23 +439,140 @@ define([
                 layer.setMosaicRule(mrule);
                 layer.setVisibility(true);
             }
-            // var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
-            //     var layer = _map.getLayer(i);
-            //     if (layer && !layer.visible) {
-            //         layer.setVisibility(true);
-            //     }
-            // })
-
-            
-            // if (layer) {
-            //     layer.setBucket(bucket);
-            //     layer.refresh();
-            // }
         },
 
-        // showDigitalGlobeService: function (id) {
-        //     alert(id);
-        // },
+        getSliderTicLabels: function(timeSlider){
+                var toolsmodel = MapModel.get('model');
+                dojoQuery(".dijitRuleLabel.dijitRuleLabelH").forEach(function(node,i){
+                        var month = moment(timeSlider.timeStops[i]).format("MMM YYYY")
+                                domAttr.set(node,'title',month);
+                        if (node.innerHTML.length <= 0){
+                                domStyle.set(node,'width','10px');
+                                domStyle.set(node,'height','20px');
+                                domStyle.set(node,'top','-20px');
+                        }
+                });
+
+                // var valuenode = timeSlider._slider.valueNode
+                // domAttr.set(valuenode,'data-bind','value:valuenodes,attr:{testv:4}')
+                // toolsmodel.valuenodes.subscribe(function(value){
+                //     console.log("model value subscribe",value)
+                // })
+                // ko.applyBindings(toolsmodel,valuenode)
+                // on(valuenode,'Change',function(){console.log("VALUE NODE CHANGE")});
+        },
+
+        generateTimeTooltips: function(timeSlider){
+            var selector = "#timeSliderDG .dijitSliderImageHandle";
+            var timeNodes = dojoQuery(selector);
+            dojoQuery(".dijitRuleMark.dijitRuleMarkH").forEach(function(node,i){
+                domAttr.set(node,"title",moment(timeSlider.timeStops[i]).format("MMM YY"));
+            });
+            timeNodes.forEach(function(node,i){
+                domAttr.set(node,"thumbIndex",i);
+
+                var ttnode = domConstruct.toDom("<div id = 'thumbIndex_" + i + "class='TimeTT' thumbIndex=" + i +" ></div>")
+                domConstruct.place(ttnode, node, 'before');
+                on(node,mouse.enter,function(){
+                    domStyle.set(ttnode,'display','block');
+                })
+                on(node,mouse.leave,function(){
+                    domStyle.set(ttnode,'display','none');
+
+                })
+            });
+
+            this.getSliderTicLabels(timeSlider);
+
+            var tt = new Tooltip({
+                       connectId: "timeSliderDG",
+                       selector: ".dijitSliderImageHandle",
+                       defaultPosition: "above",
+                       showDelay:1,
+                       getContent: function (matchedNode) {
+                            var valuenode = timeSlider._slider.valueNode
+                            var vals = domAttr.get(valuenode,'value').split(',');
+
+                            var thumbIndex = domAttr.get(matchedNode,"thumbIndex");
+                            var slider_val = vals[thumbIndex];
+                            var timestep = 100/timeSlider.timeStops.length
+                            var index = parseInt(slider_val/timestep)
+                            return moment(timeSlider.timeStops[index]).format('MMM YY');
+                       }
+                   });
+
+            return tt;
+        },
+
+        generateTimeSlider: function(location, parent) {
+                var self = this,
+                    timeSlider,
+                    locked = true,
+                    toolsmodel = MapModel.get('model'),
+                    mmts = '';
+
+                domConstruct.create("div", {
+                    "id": location
+                }, dom.byId(parent));
+                if (registry.byId("timeSliderDG")) {
+                    registry.byId("timeSliderDG").destroy();
+                }
+                timeSlider = new TimeSlider({
+                    style: "width: 100%;",
+                    id: "timeSliderDG"
+                }, dom.byId(location));
+
+                var timeExtent = new TimeExtent();
+                timeSlider.setThumbCount(2);
+                timeSlider.setThumbMovingRate(2000);
+                timeSlider.setLoop(true);
+
+                domConstruct.destroy(registry.byId(timeSlider.nextBtn.id).domNode.parentNode);
+                registry.byId(timeSlider.previousBtn.id).domNode.style["vertical-align"] = "text-bottom";
+                registry.byId(timeSlider.playPauseBtn.id).domNode.style["vertical-align"] = "text-bottom";
+
+                // If toolspanel is open, adjust left position of slider
+                // domStyle.set("timeSliderPanel", "left", "310px");
+                        mmts = toolsmodel.dgMoments();
+                        timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY'));//new Date("1/1/2013 UTC");
+                        timeExtent.endTime = new Date(mmts[mmts.length-1].format('MM/DD/YYYY'));
+                        self.filter_footprints('moment',mmts[0],mmts[1]);
+
+                        timeSlider.createTimeStopsByTimeInterval(timeExtent,1,'esriTimeUnitsMonths');
+                        var curyear = timeExtent.startTime.getUTCFullYear();
+                        var labels = timeSlider.timeStops.map(function(timeStop,i){ 
+                            if (i===0){
+                                return curyear;
+                            }
+
+                            if( timeStop.getUTCFullYear() != curyear){
+                                curyear = timeStop.getUTCFullYear();
+                              return curyear; }
+                            else{
+                              return '';
+                            }
+                          });
+                        
+                        timeSlider.setLabels(labels);
+                        timeSlider.startup();
+                        var tt = self.generateTimeTooltips(timeSlider);
+                        _map.setTimeSlider(timeSlider);
+
+                timeSlider.on("change",function(evt,obj){
+                    var te = timeSlider.getCurrentTimeExtent()
+                });
+
+                timeSlider.on("time-extent-change", function(evt) {
+                    var values;
+                    // These values are not updated immediately, call setTimeout to 0 to execute on next pass in the event loop
+                    setTimeout(function() {
+                        _map.infoWindow.hide();
+                        values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
+                        var stops = timeSlider.timeStops;
+                        self.filter_footprints('moment',moment(evt.startTime),moment(evt.endTime));
+                    }, 0);
+                });
+        },
 
         promptAboutDigitalGlobe: function () {
             if (registry.byId("digitalGlobeInstructions")) {
@@ -433,7 +590,7 @@ define([
                 currentCookie,
                 setCookie,
                 okHandle,
-                cleanup,          
+                cleanup,
                 cbox;
 
             setCookie = function () {

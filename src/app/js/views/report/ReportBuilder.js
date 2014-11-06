@@ -55,7 +55,7 @@ define([
                     subDistrictQuery:"There are no fire alerts for this AOI and time range."
                 },
         firesLayer: {
-            url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
+            url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
             id: "Active_Fires",
             fire_id: 0,
             defaultLayers: [0],
@@ -86,7 +86,7 @@ define([
         },
         adminBoundary: {
             mapDiv: "district-fires-map",
-            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer',
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
             id: 'district-bounds',
             defaultLayers: [6],
             UniqueValueField: 'DISTRICT',
@@ -104,7 +104,7 @@ define([
         },
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
-            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer',
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             UniqueValueField: 'SUBDISTRIC',
@@ -168,7 +168,7 @@ define([
             layerId: 5
         },
         
-        queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
+        queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 8,

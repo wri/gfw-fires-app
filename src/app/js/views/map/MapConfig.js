@@ -68,7 +68,7 @@ define({
     },
 
     tomnodLayer: {
-        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer",
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         id: 'Tomnod',
         sel_id: 'tomnod_sel',
         chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
@@ -168,7 +168,7 @@ define({
 
     layerForDistrictQuery: {
         //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/2',
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/6',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/6',
         outFields: ['DISTRICT', 'PROVINCE']
     },
 
@@ -178,7 +178,7 @@ define({
     },
 
     layerForProvinceQuery: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_staging/MapServer/7',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7',
         outFields: ['PROVINCE']
     },
 

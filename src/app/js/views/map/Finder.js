@@ -11,8 +11,6 @@ define([
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
     "esri/symbols/PictureMarkerSymbol",
-    "esri/TimeExtent",
-    "esri/dijit/TimeSlider",
     "views/map/MapConfig",
     "views/map/MapModel",
     "views/map/LayerController",
@@ -24,8 +22,7 @@ define([
     "libs/moment",
     "libs/timezone"
 ], function (dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic, 
-    Point, webMercatorUtils, PictureSymbol, 
-    TimeExtent, TimeSlider, MapConfig, MapModel, LayerController, IdentifyTask, 
+    Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, 
     IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
@@ -414,7 +411,10 @@ define([
             })).then(function(results){
                 var content = '';
                 var features = [];
-
+                var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
+                var timeStops = dijit.byId('timeSliderDG').timeStops;
+                var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
+                var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
                 results.map(function(featureArr){
                         featureArr.map(function(feature){
                             features.push(feature);
@@ -425,10 +425,11 @@ define([
                     content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
 
                     arrayUtils.forEach(features, function (f) {
-                        var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta').format("M/D/YYYY");
-
+                        var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                        if (date >= start && date <= end){
+                            content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_"+f.attributes.OBJECTID +"'>Date: " + date.format("M/D/YYYY") + " Satellite: "+f.attributes.SensorName + "</a>"+"</li>";//f.attributes.Date + "</a></li>";
+                        }
                         // content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
-                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_"+f.attributes.OBJECTID +"'>Date: " + date + " Satellite: "+f.attributes.SensorName + "</a>"+"</li>";//f.attributes.Date + "</a></li>";
 
                     });
 
@@ -667,89 +668,7 @@ define([
 
         // },
 
-        generateTimeSlider: function(location, parent) {
-                var self = this,
-                    timeSlider,
-                    locked = true,
-                    toolsmodel = Model.getVM();
-
-                construct.create("div", {
-                    "id": location
-                }, dom.byId(parent));
-                if (registry.byId("timeSliderDG")) {
-                    registry.byId("timeSliderDG").destroy();
-                }
-                timeSlider = new TimeSlider({
-                    style: "width: 100%;",
-                    id: "timeSliderDG"
-                }, dom.byId(location));
-
-                var timeExtent = new TimeExtent();
-                timeSlider.setThumbCount(1);
-                timeSlider.setThumbMovingRate(2000);
-                timeSlider.setLoop(true);
-
-                construct.destroy(registry.byId(timeSlider.nextBtn.id).domNode.parentNode);
-                registry.byId(timeSlider.previousBtn.id).domNode.style["vertical-align"] = "text-bottom";
-                registry.byId(timeSlider.playPauseBtn.id).domNode.style["vertical-align"] = "text-bottom";
-
-                // If toolspanel is open, adjust left position of slider
-                if (style.get("toolsExpandedPanel", "width") === 300) {
-                    style.set("timeSliderPanel", "left", "310px");
-                }
-
-
-                switch (location) {
-                    case "MonthlyAlertsSlider":
-                        self.fetchLayerNames().then(function(res) {
-                            toolsmodel.timeSliderPanelLabel("Monthly Clearance Alerts");
-                            var labels = [],
-                                baseYear = 13,
-                                month, incrementer = 0;
-                            for (var i = res.minValues[0], length = res.maxValues[0]; i <= length; i++) {
-                                month = i % 12 === 0 ? 12 : i % 12;
-                                if (i % 12 === 0) {
-                                    incrementer++;
-                                }
-                                labels.push(month + "-" + (baseYear + incrementer));
-                            }
-
-                            timeExtent.startTime = new Date("1/1/2013 UTC");
-                            timeExtent.endTime = new Date("12/31/2014 UTC");
-                            timeSlider.createTimeStopsByCount(timeExtent, res.maxValues[0]);
-                            timeSlider.setLabels(labels);
-                            timeSlider.setThumbIndexes([labels.length - 1]);
-                            timeSlider.startup();
-                        });
-                        break;
-                    case "TreeCoverSlider":
-                        toolsmodel.timeSliderPanelLabel("Annual Tree Cover Loss");
-                        timeExtent.startTime = new Date("1/1/2001 UTC");
-                        timeExtent.endTime = new Date("12/31/2010 UTC");
-                        timeSlider.createTimeStopsByCount(timeExtent, TREECOVER_LABELS.length);
-                        timeSlider.setLabels(TREECOVER_LABELS);
-                        timeSlider.setThumbIndexes([TREECOVER_LABELS.length - 1]);
-                        timeSlider.startup();
-                        break;
-                }
-
-                timeSlider.on("time-extent-change", function(evt) {
-                    var values;
-                    // These values are not updated immediately, call setTimeout to 0 to execute on next pass in the event loop
-                    setTimeout(function() {
-                        switch (location) {
-                            case "MonthlyAlertsSlider":
-                                values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
-                                self.setMonthlyAlertsLayerDefinition(values);
-                                break;
-                            case "TreeCoverSlider":
-                                values = locked ? [1, timeSlider.thumbIndexes[0] + 1] : [timeSlider.thumbIndexes[0] + 1, timeSlider.thumbIndexes[1] + 1];
-                                self.setTreeCoverLayerDefinition(values);
-                                break;
-                        }
-                    }, 0);
-                });
-            },
+        
 
 
         getFireTweetsInfoWindow: function(evt) {

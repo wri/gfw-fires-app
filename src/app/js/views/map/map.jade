@@ -127,6 +127,8 @@ div#map-view(class="map-view")
 					label(for="twitter-conversations-checkbox", data-bind="text: twitterConversationsCheckbox")
 	div#map-container(class="map-container")
 		div#map(class="map")
+			div#timeSliderPanel.timeSliderPanel
+				//- div#timeSliderDG
 			div#esri-geocoder-widget
 			div#report-options(data-bind="visible: showReportOptions()" class="reportOptions")
 				div#report-options-close(data-bind="click: closeReportOptions" class="reportOptionsHeader") x

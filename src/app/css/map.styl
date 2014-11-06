@@ -59,6 +59,8 @@ baseRed = #e7002f
 #map .esriSimpleSlider
 	border 0
 	background rgba(255,255,255,0)
+	
+
 
 #map .esriSimpleSliderTL
 	right 20px
@@ -451,7 +453,7 @@ baseRed = #e7002f
 	border-radius(5px)
 	position absolute
 	font-size 15px
-	bottom 25px
+	top 5px
 	z-index 50
 	left 5px
 
@@ -498,7 +500,8 @@ baseRed = #e7002f
 	left 5px
 
 .esriScalebar
-	left 150px !important
+	// left 150px !important
+	top 55px !important
 
 #control-panel .dijitSliderRemainingBarH, #control-panel.dijitSliderProgressBarH, #control-panel.dijitSliderFocused .dijitSliderProgressBarH
 	background rgb(236, 197, 61)
@@ -719,8 +722,22 @@ baseRed = #e7002f
 .map-view-print .latLongHUD
 	bottom auto
 	
-	
-Time slider 
+
+// Time slider 
+
+#timeSliderPanel
+	display:none;
+
+.TimeTT
+	height 20px
+	width 40px
+	top -20px
+	left -5px
+	z-index 500000000
+	position absolute
+	background #222
+	display: none
+
 .esriTimeSlider
 	padding-top 10px
 	
@@ -757,6 +774,176 @@ Time slider
 	 padding 0 5px 5px
 	 left 30px
 	 top -20px
+
+#timeSliderPanel
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+	background: rgb(255, 255, 255);
+	border-radius: 5px;
+	position: absolute;
+	bottom: 40px;
+	height: 60px;
+	right: 280px;
+	left: 10px;
+	z-index 10
+
+.esriTimeSlider .tsPlayButton
+	background: url(../images/ico-play.png) no-repeat center;
+	border-right: 0px solid rgb(209, 208, 212);
+	display: block;
+	height: 60px;
+	width: 0px;
+
+.esriTimeSlider .tsPauseButton 
+	background: url(images/ico-pause.png) no-repeat center;
+	border-right: 2px solid rgb(209, 208, 212);
+	display: block;
+	height: 60px;
+	width: 24px;
+
+#timeSliderPanel .esriTimeSlider
+	padding-top:0;
+
+#timeSliderPanel .dijitButton
+	margin:0;
+
+#timeSliderPanel .esriTimeSlider td:first-child
+	width 2%
+	text-align: left;
+
+#timeSliderPanel .esriTimeSlider td:nth-child(3)
+	width 2%
+	text-align: right;
+
+#timeSliderPanel .dijitButtonNode
+	 border: 0px solid rgb(192, 192, 192);
+	 border-bottom: 0px solid rgb(155, 155, 155);
+
+	 padding: 0px; 
+	 background: rgb(255, 255, 255) url("") repeat-x bottom left; 
+
+#timeSliderPanel table td:first-child .dijitButtonNode
+		 border-radius: 5px 0px 0px 5px;
+
+#timeSliderPanel table td:nth-child(3) .dijitButtonNode
+		 border-radius: 0px 5px 5px 0px;
+
+#timeSliderPanel .tsPrevButton
+	// background: url(images/ico-lock.png) no-repeat center !important;
+	border-left: 2px solid rgb(209, 208, 212);
+	border-radius: 0px 5px 5px 0px;
+	// /*display: block;*/
+	display: none;
+	height: 60px;
+	width: 24px;
+
+#timeSliderPanel .pauseIcon 
+	background: url(images/ico-unlock.png) no-repeat center !important;
+
+#timeSliderPanel .dijitSliderBarContainerH
+	background: url("images/timeline-bg.png") repeat-x scroll center 10px rgba(0, 0, 0, 0);
+	position: relative;
+	height: 10px;
+	width: 100%;
+	margin: 0;
+
+
+#timeSliderPanel .dijitSliderRemainingBarH 
+	border-color: rgba(255, 255, 255, 0);
+	background: rgba(255, 255, 255, 0) url("") repeat-x top left;
+
+#timeSliderPanel .dijitSliderBumperH 
+	border-width: 0;
+	background-size: 340px;
+	z-index: 500;
+	position: relative;
+	height: 0;
+	width: 100%;
+	margin: 0 0 4px 0;
+
+#timeSliderPanel .dijitSliderProgressBarH 
+	border: 0 solid rgba(255, 255, 255, 0);
+	background: rgb(233, 131, 0);
+	position: absolute !important;
+	height:10px;
+
+#timeSliderPanel .dijitSliderImageHandleH, #timeSliderPanel .dijitSliderFocused .dijitSliderImageHandleH
+	width: 10px;
+	height: 10px;
+	background: rgb(255, 255, 255) url("") no-repeat center top;
+	border: 4px solid rgb(233, 131, 0);
+	border-radius: 10px;
+	margin: 3px 0 0 0px;
+	z-index: 50002;
+
+#timeSliderPanel .esriTimeSlider .ts 
+	position: relative;
+	margin: 0px;
+	top: -10px;
+	// top: -15px;
+	// margin: 0 0 15px 0;
+
+// ToolTip
+.tundra .dijitTooltipRight 
+	padding-left 8px !imprtant
+	.dijitTooltipContainer
+		background #222
+		border 0px 
+		color #CCC
+	.dijitTooltipConnector
+		background-image none !important
+		
+	
+	
+		
+
+	
+.tstmp
+	vertical-align: top !important;
+
+.dj_gecko #timeSliderPanel .esriTimeSlider .ts 
+	position: relative;
+	/*5*/
+
+#timeSliderPanel .dijitSliderRemainingBarH 
+	background: #ecc53d;
+	margin-bottom: 4px;
+	height: 6px;
+
+#timeSliderPanel .tsTicks 
+	height: 10px;
+	z-index: 0;
+	width: 99.9%; /* This prevents the ticks from sitting outside of the slider bar container */
+
+.dijitRuleMark 
+	border: 1px solid rgb(0,0,0);
+	margin: -2px 0 0 0;
+
+#timeSliderPanel .dojoxRangeSlider, #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH 
+	background: rgb(233, 131, 0) !important;
+	border: 0 solid rgb(70, 29, 124) !important;
+	/*height: 8px;*/
+
+
+#timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH 
+	position: absolute !important;
+
+
+#timeSliderPanel .dojoxRangeSlider
+	background: rgba(233, 131, 0, 0) !important;
+	border: 0px solid rgb(70, 29, 124) !important;
+	// /*height:4px;*/
+
+
+#timeSliderPanel .dojoxRangeSliderBarContainer .dijitSliderMoveable .dijitSliderImageHandleH
+	margin-top:3px;
+
+
+
+#timeSliderPanel .dijitSliderImageHandleH 
+.dijitContentPane
+	overflow-x: hidden;
+
 
 
 @media print
