@@ -83,7 +83,7 @@ define({
     },
 
     tweetLayer: {
-        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/4",
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/3",
         id: "Fire_Tweets"
     },
 
