@@ -77,9 +77,17 @@ define({
             fields:[{
                 'name':'CrowdRank', 'label':'Crowd Rank',
                 'name':'name','label':'Name'
-
             }]
         }
+    },
+
+    indonesiaLayers:{
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_stage/MapServer",
+        id: 'IndonesiaFires',
+        sel_id: 'indonesia_sel',
+        chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
+        defaultLayers: [-1],
+        layerIds:{'noaa18':9,'indonesiaFires':0}
     },
 
     tweetLayer: {
@@ -220,6 +228,10 @@ define({
             'id': "tomnod-checkbox",
             'type':'checkbox'
         },
+        // 'Indonesia_Fires':{
+
+        // },
+        // 'noaa-checkbox'
         'Conservation': {
             25: {
                 'id': "protected-areas-checkbox",
@@ -305,7 +317,8 @@ define({
         legend: "Legend",
         firesCheckbox: "Active fires",
         firesSubLabel: "(past 7 days and archive, 1km, global, NASA)",
-        noaaFiresCheckbox: "NOAA-18 fires (coming soon)",
+        noaaFiresCheckbox: "NOAA-18 fires",
+        indonesiaFiresCheckbox: "Indonesia Archive Fires",
         confidenceFiresCheckbox: "Only show high confidence fires.",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
@@ -468,9 +481,17 @@ define({
             "class": "noaa-checkbox",
             "type": "checkbox",
             "props": {
-                "disabled": "disabled"
+                // "disabled": "disabled"
             }
         }, {
+            "id": "indonesia-fires",
+            "class": "indonesia-fires-checkbox",
+            "type": "checkbox",
+            "props": {
+                // "disabled": "disabled"
+            }
+        },
+        {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",
             "type": "checkbox",

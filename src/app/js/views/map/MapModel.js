@@ -29,6 +29,7 @@ define([
     vm.legend = ko.observable(MapConfig.text.legend);
     vm.firesCheckbox = ko.observable(MapConfig.text.firesCheckbox);
     vm.noaaFiresCheckbox = ko.observable(MapConfig.text.noaaFiresCheckbox);
+    vm.indonesiaFiresCheckbox = ko.observable(MapConfig.text.indonesiaFiresCheckbox);
     vm.firesSubLabel = ko.observable(MapConfig.text.firesSubLabel);
     vm.confidenceFiresCheckbox = ko.observable(MapConfig.text.confidenceFiresCheckbox);
     vm.firesWeek = ko.observable(MapConfig.text.firesWeek);

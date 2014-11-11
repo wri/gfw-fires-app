@@ -419,6 +419,16 @@ define([
             }
         });
 
+        on(registry.byId("indonesia-fires"), "change", function (value) {
+            LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
+                MapConfig.indonesiaLayers.layerIds['indonesiaFires'],value);
+        });
+
+        on(registry.byId("noaa-fires-18"), "change", function (value) {
+            LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
+                MapConfig.indonesiaLayers.layerIds['noaa18'],value);
+        });
+
         on(registry.byId("burned-scars-checkbox"), "change", function (value) {
             LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
             if (value) {
@@ -628,6 +638,7 @@ define([
             tomnodLayer,
             landSatLayer,
             firesParams,
+            indonesiaLayers,
             firesLayer,
             dgConf ,
             self = this;
@@ -653,6 +664,17 @@ define([
         //     id: MapConfig.burnedAreaLayers.id,
         //     visible: false
         // });
+
+        indonesiaParams = new ImageParameters();
+        indonesiaParams.format = "png32";
+        indonesiaParams.layerIds = MapConfig.indonesiaLayers.defaultLayers;
+        indonesiaParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        indonesiaLayer = new ArcGISDynamicMapServiceLayer(MapConfig.indonesiaLayers.url, {
+            imageParameters: indonesiaParams,
+            id: MapConfig.indonesiaLayers.id,
+            visible: false
+        });
 
         landCoverParams = new ImageParameters();
         landCoverParams.format = "png32";
@@ -813,6 +835,7 @@ define([
                 tweetLayer,
                 airQualityLayer,
                 tomnodSellayer,
+                indonesiaLayer,
                 firesLayer
         ]);
         // Fires
@@ -825,15 +848,12 @@ define([
         // Basemap
         // Landsat Imagery
 
-        mp = o.map;
-
         // Update the Legend when all layers are added
         on.once(o.map, 'layers-add-result', function(response) {
 
             // This turns on all the layers present in the hash,
             // All layers are turned off onload, by default Fires and Land Cover will be turned on from hash
             // Unless hash values are different
-            console.log('layers-add-result')
             self.enableLayersFromHash();
 
             var layerInfos = arrayUtils.map(response.layers, function(item) {
