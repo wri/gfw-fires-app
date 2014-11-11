@@ -126,6 +126,39 @@ define([
             this.refreshLegend();
         },
 
+        toggleMapServiceLayerVisibility: function(dynamicMapService, layerId, visibility, valueForHash) {
+            var updatedvis;
+            var visibles = dynamicMapService.visibleLayers;
+            if (visibility) {
+                //if turning layer on, add layer id to the dynamic map service 
+                //visible layers list
+                if (!dynamicMapService.visible){
+                    dynamicMapService.setVisibility(visibility);
+                }
+                visibles.push(layerId);
+                updatedvis = visibles;
+            }
+            else {
+                //if turning layer off, remove only specified layer id to the dynamic map service 
+                //visible layers list
+                updatedvis = arrayUtils.filter(visibles, function (item) { return item != layerId; });
+            }
+            dynamicMapService.setVisibleLayers(updatedvis);
+        },
+        
+        getTimeDefinition: function(datefield,startdate,enddate){
+            var startdatequery =  datefield + ">= date'" + startdate + "'";
+            var enddatequery = datefield + " <= date'" + enddate + "'";
+            var sql = [startdate,enddate].join(' AND ')
+            return sql;
+        },
+
+        updateDynamicMapServiceLayerDefinition: function(dynamicMapService,layerId,definition){
+            var layerdefinitions = dynamicMapService.layerDefinitions;
+            layerdefinitions[layerId] = definition;
+            dynamicMapService.setLayerDefinitions(layerdefinitions);
+        },
+
         updateFiresLayer: function(updateVisibleLayers) {
             var node = dojoQuery(".selected-fire-option")[0],
                 checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
@@ -452,14 +485,6 @@ define([
                                 domStyle.set(node,'top','-20px');
                         }
                 });
-
-                // var valuenode = timeSlider._slider.valueNode
-                // domAttr.set(valuenode,'data-bind','value:valuenodes,attr:{testv:4}')
-                // toolsmodel.valuenodes.subscribe(function(value){
-                //     console.log("model value subscribe",value)
-                // })
-                // ko.applyBindings(toolsmodel,valuenode)
-                // on(valuenode,'Change',function(){console.log("VALUE NODE CHANGE")});
         },
 
         generateTimeTooltips: function(timeSlider){
