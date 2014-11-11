@@ -82,7 +82,7 @@ define({
     },
 
     indonesiaLayers:{
-        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN_stage/MapServer",
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         id: 'IndonesiaFires',
         sel_id: 'indonesia_sel',
         chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
