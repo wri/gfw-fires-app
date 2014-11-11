@@ -40,7 +40,7 @@ define([
             }
             MapModel.vm.fromYear(years);
             MapModel.vm.dateVals().fYear(years[0]);
-            MapModel.vm.toYear(years);
+            // MapModel.vm.toYear(years);
             MapModel.vm.dateVals().tYear(years[0]);
             MapModel.vm.fromMonth(months);
         }

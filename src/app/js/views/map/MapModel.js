@@ -122,9 +122,16 @@ define([
 
             return days;
         });
+    vm.toYear = ko.computed(function(){
+        var fYear = vm.dateVals().fYear(),
+            curYear = new Date().getFullYear();
+        var years = [];
+        for (var i = fYear; i <= curYear; i += 1){
+            years.push(i);
+        }
+        return years;
+    });
 
-    
-    vm.toYear = ko.observableArray([]);
     vm.toMonth = ko.computed(function(){
         var fMonth = vm.dateVals().fMonth();
         var months = [];
