@@ -89,7 +89,8 @@ define([
         tYear:ko.observable(''),
         tMonth:ko.observable(2),
         tDay:ko.observable('')
-    })
+    });
+    
     vm.fromDay = ko.computed(function(){
             var month = vm.dateVals().fMonth();
             var year = vm.dateVals().fYear();
@@ -104,16 +105,20 @@ define([
             }
             return days;
         });
+
     vm.toDay = ko.computed(function(){
+            var today = new Date();
             var month = vm.dateVals().tMonth();
             var year = vm.dateVals().tYear();
             var isLeap = new Date(year, 1, 29).getMonth() == 1
             var days = [];
             var startDay = 1;
+            var lastDay = ((year === today.getFullYear()) && month=== (today.getMonth() + 1)) ? today.getUTCDate() : vm.months[month];
+
             if(vm.dateVals().fYear() == vm.dateVals().tYear() && vm.dateVals().tMonth() == vm.dateVals().fMonth()){
                 startDay = vm.dateVals().fDay();
             }
-            for (var i = startDay;i <= vm.months[month];i++){
+            for (var i = startDay;i <= lastDay ;i++){
                 days.push(i);
             }
             if (month==2 && isLeap){
@@ -122,6 +127,7 @@ define([
 
             return days;
         });
+
     vm.toYear = ko.computed(function(){
         var fYear = vm.dateVals().fYear(),
             curYear = new Date().getFullYear();
@@ -133,14 +139,17 @@ define([
     });
 
     vm.toMonth = ko.computed(function(){
+        var curDate = new Date();
+        var lastMonth = (vm.dateVals().tYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
+
         var fMonth = vm.dateVals().fMonth();
         var months = [];
         if (vm.dateVals().tYear() == vm.dateVals().fYear()){
-            for (var i = fMonth;i <= 12;i++){
+            for (var i = fMonth;i <= lastMonth;i++){
                 months.push(i);
             }
         } else {
-            for (var i = 1;i <= 12;i++){
+            for (var i = 1;i <= lastMonth;i++){
                 months.push(i);
             }
         }
