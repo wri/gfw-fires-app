@@ -17,8 +17,8 @@ define([
     "dojo/dom-style",
     "dijit/registry",
     "dijit/form/CheckBox",
-    "dijit/TooltipDialog", 
-    "dijit/Tooltip", 
+    "dijit/TooltipDialog",
+    "dijit/Tooltip",
     "views/map/MapModel",
     "views/map/MapConfig",
     "modules/HashController",
@@ -43,10 +43,10 @@ define([
     "esri/SpatialReference",
     "libs/moment",
     "libs/timezone"
-], function (ko,on, mouse, dom, domAttr,  hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle,
-    registry, CheckBox, TooltipDialog, Tooltip, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest, 
-    Query, QueryTask, webMercatorUtils, MosaicRule, 
-    TimeExtent, TimeSlider, Color, Graphic, Point, Polygon, SimpleLineSymbol, 
+], function(ko, on, mouse, dom, domAttr, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle,
+    registry, CheckBox, TooltipDialog, Tooltip, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest,
+    Query, QueryTask, webMercatorUtils, MosaicRule,
+    TimeExtent, TimeSlider, Color, Graphic, Point, Polygon, SimpleLineSymbol,
     SimpleFillSymbol, PictureSymbol, SpatialReference) {
     'use strict';
     var _map,
@@ -132,28 +132,29 @@ define([
             if (visibility) {
                 //if turning layer on, add layer id to the dynamic map service 
                 //visible layers list
-                if (!dynamicMapService.visible){
+                if (!dynamicMapService.visible) {
                     dynamicMapService.setVisibility(visibility);
                 }
                 visibles.push(layerId);
                 updatedvis = visibles;
-            }
-            else {
+            } else {
                 //if turning layer off, remove only specified layer id to the dynamic map service 
                 //visible layers list
-                updatedvis = arrayUtils.filter(visibles, function (item) { return item != layerId; });
+                updatedvis = arrayUtils.filter(visibles, function(item) {
+                    return item != layerId;
+                });
             }
             dynamicMapService.setVisibleLayers(updatedvis);
         },
-        
-        getTimeDefinition: function(datefield,startdate,enddate){
-            var startdatequery =  datefield + ">= date'" + startdate + "'";
+
+        getTimeDefinition: function(datefield, startdate, enddate) {
+            var startdatequery = datefield + ">= date'" + startdate + "'";
             var enddatequery = datefield + " <= date'" + enddate + "'";
-            var sql = [startdate,enddate].join(' AND ')
+            var sql = [startdate, enddate].join(' AND ')
             return sql;
         },
 
-        updateDynamicMapServiceLayerDefinition: function(dynamicMapService,layerId,definition){
+        updateDynamicMapServiceLayerDefinition: function(dynamicMapService, layerId, definition) {
             var layerdefinitions = dynamicMapService.layerDefinitions;
             layerdefinitions[layerId] = definition;
             dynamicMapService.setLayerDefinitions(layerdefinitions);
@@ -209,8 +210,8 @@ define([
                 var dateString = yyyy.toString() + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss;
                 var todayString = yyyy.toString() + "-" + mm + "-" + todayDD + " " + hh + ":" + min + ":" + ss;
                 where += "ACQ_DATE > date '" + dateString + "'";
-                    // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + hh + "" + min + ")" +
-                    //  " OR ACQ_DATE > date '" + todayString + "'";
+                // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + hh + "" + min + ")" +
+                //  " OR ACQ_DATE > date '" + todayString + "'";
 
             }
 
@@ -277,8 +278,8 @@ define([
 
         },
 
-        updateLandCoverLayers: function (evt) {
-        	var target = evt.target ? evt.target : evt.srcElement;
+        updateLandCoverLayers: function(evt) {
+            var target = evt.target ? evt.target : evt.srcElement;
             // Update the Peat Lands Layer
             this.updatePeatLandsLayer(target.id);
 
@@ -290,25 +291,25 @@ define([
 
         },
 
-        toggleDigitalGlobeLayer: function (visibility) {
+        toggleDigitalGlobeLayer: function(visibility) {
             var self = this,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
-            var disp = visibility ? 'block':'none';
+            var disp = visibility ? 'block' : 'none';
 
-            domStyle.set(dom.byId("timeSliderPanel"),'display',disp);
+            domStyle.set(dom.byId("timeSliderPanel"), 'display', disp);
 
-            this.getBoundingBoxesForDigitalGlobe().then(function (results) {
+            this.getBoundingBoxesForDigitalGlobe().then(function(results) {
                 if (visibility) {
                     self.promptAboutDigitalGlobe();
                 }
                 self.toggleDigitalGlobeLayerVisibility(MapConfig.digitalGlobe.id, visibility);
                 self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
-                self.generateTimeSlider("timeSliderDG","timeSliderPanel");
+                self.generateTimeSlider("timeSliderDG", "timeSliderPanel");
 
             });
         },
 
-        toggleDigitalGlobeLayerVisibility: function (layerId, visibility) {
+        toggleDigitalGlobeLayerVisibility: function(layerId, visibility) {
             if (visibility) {
                 this.updateLayersInHash('add', layerId, layerId);
             } else {
@@ -317,13 +318,13 @@ define([
                 // if (layer) {
                 //     layer.setVisibility(false);
                 // }
-                var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
+                var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
                     var layer = _map.getLayer(i);
 
                     if (!layer.visible && visibility) {
                         layer.setVisibility(visibility);
                     }
-                    if(!visibility){
+                    if (!visibility) {
                         layer.setVisibility(visibility)
                     }
 
@@ -332,7 +333,7 @@ define([
         },
 
         // show helper layers does not add layer ids to the URL and do not have a UI element to turn them on
-        showHelperLayers: function (layerId, visibility) {
+        showHelperLayers: function(layerId, visibility) {
             var layer = _map.getLayer(layerId);
             if (layer) {
                 if (layer.visible !== visibility) {
@@ -341,17 +342,19 @@ define([
             }
         },
 
-        filter_footprints: function(attribute, minimum, maximum){
-                var dglyr = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
-                var graphics = MapModel.get('model').DigitalGlobeExtents();
-                var dgrp = graphics.filter(function(graphic){
-                    return (graphic.attributes[attribute] >= minimum && graphic.attributes[attribute] <= maximum);
-                });
-                dglyr.clear();
-                dgrp.map(function(gp){dglyr.add(gp)});
+        filter_footprints: function(attribute, minimum, maximum) {
+            var dglyr = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
+            var graphics = MapModel.get('model').DigitalGlobeExtents();
+            var dgrp = graphics.filter(function(graphic) {
+                return (graphic.attributes[attribute] >= minimum && graphic.attributes[attribute] <= maximum);
+            });
+            dglyr.clear();
+            dgrp.map(function(gp) {
+                dglyr.add(gp)
+            });
         },
 
-        getBoundingBoxesForDigitalGlobe: function () {
+        getBoundingBoxesForDigitalGlobe: function() {
             var deferred = new Deferred(),
                 model = MapModel.get('model'),
                 dgConf = MapConfig.digitalGlobe,
@@ -364,24 +367,24 @@ define([
             if (_dgGlobeFeaturesFetched) {
                 deferred.resolve();
             } else {
-                var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
-                    var queryTask = new QueryTask(dgConf.imagedir + i +'/ImageServer'),
+                var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
+                    var queryTask = new QueryTask(dgConf.imagedir + i + '/ImageServer'),
                         qdef = new Deferred(),
                         query = new Query();
-                        var footprints = [];
+                    var footprints = [];
 
-                    query.outFields = ['OBJECTID','Name', 'AcquisitionDate'];//, 'Date','Tiles'];
+                    query.outFields = ['OBJECTID', 'Name', 'AcquisitionDate']; //, 'Date','Tiles'];
                     query.where = 'Category = 1';
                     query.returnGeometry = true;
-                    queryTask.execute(query, function (res) {
+                    queryTask.execute(query, function(res) {
                         // deferred.resolve(true);
 
                         _dgGlobeFeaturesFetched = true;
-                        arrayUtils.forEach(res.features, function (feature) {
+                        arrayUtils.forEach(res.features, function(feature) {
                             feature.setSymbol(
                                 new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2),
-                                new Color([0,255,0,0]))
+                                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2),
+                                    new Color([0, 255, 0, 0]))
                             );
                             // Give the feature a layer attribute so It's easier to tell which layer a 
                             // clicked feature belongs to
@@ -393,25 +396,29 @@ define([
                             footprints.push(feature);
                             extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
                         });
-                        
-                        if(moment_arr.length){
-                            model.dgMoments(moment_arr.sort(function(a,b){return a-b;}));
+
+                        if (moment_arr.length) {
+                            model.dgMoments(moment_arr.sort(function(a, b) {
+                                return a - b;
+                            }));
 
                         }
                         model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
                         qdef.resolve(true);
 
-                    }, function (err) {
+                    }, function(err) {
                         console.error(err);
                         // deferred.resolve(false);
                         qdef.resolve(true);
-                        return 
+                        return
                     });
                     return qdef.promise;
 
 
                 });
-                    all(layers).then(function(){ deferred.resolve(true); })
+                all(layers).then(function() {
+                    deferred.resolve(true);
+                })
 
                 // Test Hitting WFS Service for GeoJson
                 // var req = esriRequest({
@@ -454,14 +461,14 @@ define([
             return deferred.promise;
         },
 
-        showDigitalGlobeImagery: function (bucket) {
+        showDigitalGlobeImagery: function(bucket) {
             var sensor_id = bucket.split('_id_');
             var rasterId = sensor_id[1];
             var sensorType = sensor_id[0];
             var layer = _map.getLayer(MapConfig.digitalGlobe.sensorTypes[sensorType]);
             var mrule = new MosaicRule();
             mrule.method = MosaicRule.METHOD_LOCKRASTER
-            var layers = MapConfig.digitalGlobe.mosaics.map(function(i){
+            var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
                 var layer = _map.getLayer(i);
                 if (layer && layer.visible) {
                     layer.setVisibility(false);
@@ -474,35 +481,35 @@ define([
             }
         },
 
-        getSliderTicLabels: function(timeSlider){
-                var toolsmodel = MapModel.get('model');
-                dojoQuery(".dijitRuleLabel.dijitRuleLabelH").forEach(function(node,i){
-                        var month = moment(timeSlider.timeStops[i]).format("MMM YYYY")
-                                domAttr.set(node,'title',month);
-                        if (node.innerHTML.length <= 0){
-                                domStyle.set(node,'width','10px');
-                                domStyle.set(node,'height','20px');
-                                domStyle.set(node,'top','-20px');
-                        }
-                });
+        getSliderTicLabels: function(timeSlider) {
+            var toolsmodel = MapModel.get('model');
+            dojoQuery(".dijitRuleLabel.dijitRuleLabelH").forEach(function(node, i) {
+                var month = moment(timeSlider.timeStops[i]).format("MMM YYYY")
+                domAttr.set(node, 'title', month);
+                if (node.innerHTML.length <= 0) {
+                    domStyle.set(node, 'width', '10px');
+                    domStyle.set(node, 'height', '20px');
+                    domStyle.set(node, 'top', '-20px');
+                }
+            });
         },
 
-        generateTimeTooltips: function(timeSlider){
+        generateTimeTooltips: function(timeSlider) {
             var selector = "#timeSliderDG .dijitSliderImageHandle";
             var timeNodes = dojoQuery(selector);
-            dojoQuery(".dijitRuleMark.dijitRuleMarkH").forEach(function(node,i){
-                domAttr.set(node,"title",moment(timeSlider.timeStops[i]).format("MMM YY"));
+            dojoQuery(".dijitRuleMark.dijitRuleMarkH").forEach(function(node, i) {
+                domAttr.set(node, "title", moment(timeSlider.timeStops[i]).format("MMM YY"));
             });
-            timeNodes.forEach(function(node,i){
-                domAttr.set(node,"thumbIndex",i);
+            timeNodes.forEach(function(node, i) {
+                domAttr.set(node, "thumbIndex", i);
 
-                var ttnode = domConstruct.toDom("<div id = 'thumbIndex_" + i + "class='TimeTT' thumbIndex=" + i +" ></div>")
+                var ttnode = domConstruct.toDom("<div id = 'thumbIndex_" + i + "class='TimeTT' thumbIndex=" + i + " ></div>")
                 domConstruct.place(ttnode, node, 'before');
-                on(node,mouse.enter,function(){
-                    domStyle.set(ttnode,'display','block');
+                on(node, mouse.enter, function() {
+                    domStyle.set(ttnode, 'display', 'block');
                 })
-                on(node,mouse.leave,function(){
-                    domStyle.set(ttnode,'display','none');
+                on(node, mouse.leave, function() {
+                    domStyle.set(ttnode, 'display', 'none');
 
                 })
             });
@@ -510,96 +517,96 @@ define([
             this.getSliderTicLabels(timeSlider);
 
             var tt = new Tooltip({
-                       connectId: "timeSliderDG",
-                       selector: ".dijitSliderImageHandle",
-                       defaultPosition: "above",
-                       showDelay:1,
-                       getContent: function (matchedNode) {
-                            var valuenode = timeSlider._slider.valueNode
-                            var vals = domAttr.get(valuenode,'value').split(',');
+                connectId: "timeSliderDG",
+                selector: ".dijitSliderImageHandle",
+                defaultPosition: "above",
+                showDelay: 1,
+                getContent: function(matchedNode) {
+                    var valuenode = timeSlider._slider.valueNode
+                    var vals = domAttr.get(valuenode, 'value').split(',');
 
-                            var thumbIndex = domAttr.get(matchedNode,"thumbIndex");
-                            var slider_val = vals[thumbIndex];
-                            var timestep = 100/timeSlider.timeStops.length
-                            var index = parseInt(slider_val/timestep)
-                            return moment(timeSlider.timeStops[index]).format('MMM YY');
-                       }
-                   });
+                    var thumbIndex = domAttr.get(matchedNode, "thumbIndex");
+                    var slider_val = vals[thumbIndex];
+                    var timestep = 100 / timeSlider.timeStops.length
+                    var index = parseInt(slider_val / timestep)
+                    return moment(timeSlider.timeStops[index]).format('MMM YY');
+                }
+            });
 
             return tt;
         },
 
         generateTimeSlider: function(location, parent) {
-                var self = this,
-                    timeSlider,
-                    locked = true,
-                    toolsmodel = MapModel.get('model'),
-                    mmts = '';
+            var self = this,
+                timeSlider,
+                locked = true,
+                toolsmodel = MapModel.get('model'),
+                mmts = '';
 
-                domConstruct.create("div", {
-                    "id": location
-                }, dom.byId(parent));
-                if (registry.byId("timeSliderDG")) {
-                    registry.byId("timeSliderDG").destroy();
+            domConstruct.create("div", {
+                "id": location
+            }, dom.byId(parent));
+            if (registry.byId("timeSliderDG")) {
+                registry.byId("timeSliderDG").destroy();
+            }
+            timeSlider = new TimeSlider({
+                style: "width: 100%;",
+                id: "timeSliderDG"
+            }, dom.byId(location));
+
+            var timeExtent = new TimeExtent();
+            timeSlider.setThumbCount(2);
+            timeSlider.setThumbMovingRate(2000);
+            timeSlider.setLoop(true);
+
+            domConstruct.destroy(registry.byId(timeSlider.nextBtn.id).domNode.parentNode);
+            registry.byId(timeSlider.previousBtn.id).domNode.style["vertical-align"] = "text-bottom";
+            registry.byId(timeSlider.playPauseBtn.id).domNode.style["vertical-align"] = "text-bottom";
+
+            // If toolspanel is open, adjust left position of slider
+            // domStyle.set("timeSliderPanel", "left", "310px");
+            mmts = toolsmodel.dgMoments();
+            timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY')); //new Date("1/1/2013 UTC");
+            timeExtent.endTime = new Date(mmts[mmts.length - 1].format('MM/DD/YYYY'));
+            self.filter_footprints('moment', mmts[0], mmts[1]);
+
+            timeSlider.createTimeStopsByTimeInterval(timeExtent, 1, 'esriTimeUnitsMonths');
+            var curyear = timeExtent.startTime.getUTCFullYear();
+            var labels = timeSlider.timeStops.map(function(timeStop, i) {
+                if (i === 0) {
+                    return curyear;
                 }
-                timeSlider = new TimeSlider({
-                    style: "width: 100%;",
-                    id: "timeSliderDG"
-                }, dom.byId(location));
 
-                var timeExtent = new TimeExtent();
-                timeSlider.setThumbCount(2);
-                timeSlider.setThumbMovingRate(2000);
-                timeSlider.setLoop(true);
+                if (timeStop.getUTCFullYear() != curyear) {
+                    curyear = timeStop.getUTCFullYear();
+                    return curyear;
+                } else {
+                    return '';
+                }
+            });
 
-                domConstruct.destroy(registry.byId(timeSlider.nextBtn.id).domNode.parentNode);
-                registry.byId(timeSlider.previousBtn.id).domNode.style["vertical-align"] = "text-bottom";
-                registry.byId(timeSlider.playPauseBtn.id).domNode.style["vertical-align"] = "text-bottom";
+            timeSlider.setLabels(labels);
+            timeSlider.startup();
+            var tt = self.generateTimeTooltips(timeSlider);
+            _map.setTimeSlider(timeSlider);
 
-                // If toolspanel is open, adjust left position of slider
-                // domStyle.set("timeSliderPanel", "left", "310px");
-                        mmts = toolsmodel.dgMoments();
-                        timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY'));//new Date("1/1/2013 UTC");
-                        timeExtent.endTime = new Date(mmts[mmts.length-1].format('MM/DD/YYYY'));
-                        self.filter_footprints('moment',mmts[0],mmts[1]);
+            timeSlider.on("change", function(evt, obj) {
+                var te = timeSlider.getCurrentTimeExtent()
+            });
 
-                        timeSlider.createTimeStopsByTimeInterval(timeExtent,1,'esriTimeUnitsMonths');
-                        var curyear = timeExtent.startTime.getUTCFullYear();
-                        var labels = timeSlider.timeStops.map(function(timeStop,i){ 
-                            if (i===0){
-                                return curyear;
-                            }
-
-                            if( timeStop.getUTCFullYear() != curyear){
-                                curyear = timeStop.getUTCFullYear();
-                              return curyear; }
-                            else{
-                              return '';
-                            }
-                          });
-                        
-                        timeSlider.setLabels(labels);
-                        timeSlider.startup();
-                        var tt = self.generateTimeTooltips(timeSlider);
-                        _map.setTimeSlider(timeSlider);
-
-                timeSlider.on("change",function(evt,obj){
-                    var te = timeSlider.getCurrentTimeExtent()
-                });
-
-                timeSlider.on("time-extent-change", function(evt) {
-                    var values;
-                    // These values are not updated immediately, call setTimeout to 0 to execute on next pass in the event loop
-                    setTimeout(function() {
-                        _map.infoWindow.hide();
-                        values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
-                        var stops = timeSlider.timeStops;
-                        self.filter_footprints('moment',moment(evt.startTime),moment(evt.endTime));
-                    }, 0);
-                });
+            timeSlider.on("time-extent-change", function(evt) {
+                var values;
+                // These values are not updated immediately, call setTimeout to 0 to execute on next pass in the event loop
+                setTimeout(function() {
+                    _map.infoWindow.hide();
+                    values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
+                    var stops = timeSlider.timeStops;
+                    self.filter_footprints('moment', moment(evt.startTime), moment(evt.endTime));
+                }, 0);
+            });
         },
 
-        promptAboutDigitalGlobe: function () {
+        promptAboutDigitalGlobe: function() {
             if (registry.byId("digitalGlobeInstructions")) {
                 registry.byId("digitalGlobeInstructions").destroy();
             }
@@ -607,10 +614,10 @@ define([
                     title: "Digital Globe - First Look",
                     style: "width: 350px",
                     id: "digitalGlobeInstructions",
-                    content: "Click inside a footprint to display the imagery.<div class='dijitDialogPaneActionBar'>" + 
-                             "<button id='closeDGInstructions'>Ok</button></div>" +
-                             "<div class='dialogCheckbox'><input type='checkbox' id='remembershowInstructions' />" +
-                             "<label for='rememberBasemapDecision'>Don't show me this again.</label></div>"
+                    content: "Click inside a footprint to display the imagery.<div class='dijitDialogPaneActionBar'>" +
+                        "<button id='closeDGInstructions'>Ok</button></div>" +
+                        "<div class='dialogCheckbox'><input type='checkbox' id='remembershowInstructions' />" +
+                        "<label for='rememberBasemapDecision'>Don't show me this again.</label></div>"
                 }),
                 currentCookie,
                 setCookie,
@@ -618,15 +625,17 @@ define([
                 cleanup,
                 cbox;
 
-            setCookie = function () {
-                if(dom.byId("remembershowInstructions")) {
-                    if(dom.byId("remembershowInstructions").checked) {
-                        cookie("digitalGlobeInstructions", 'dontShow', { expires: 7 });
+            setCookie = function() {
+                if (dom.byId("remembershowInstructions")) {
+                    if (dom.byId("remembershowInstructions").checked) {
+                        cookie("digitalGlobeInstructions", 'dontShow', {
+                            expires: 7
+                        });
                     }
                 }
             };
 
-            cleanup = function (destroyDialog) {
+            cleanup = function(destroyDialog) {
                 setCookie();
 
                 if (cbox) {
@@ -649,10 +658,10 @@ define([
                 cbox = new CheckBox({
                     checked: false,
                 }, "remembershowInstructions");
-                okHandle = on(dom.byId("closeDGInstructions"), "click", function () {
+                okHandle = on(dom.byId("closeDGInstructions"), "click", function() {
                     cleanup(true);
                 });
-                dialog.on('cancel', function () {
+                dialog.on('cancel', function() {
                     cleanup(false);
                 });
             } else {
@@ -661,7 +670,7 @@ define([
 
         },
 
-        updatePeatLandsLayer: function (target) {
+        updatePeatLandsLayer: function(target) {
             var configObject = MapConfig.landCoverLayers,
                 layer = _map.getLayer(configObject.id),
                 visibleLayers = [],
@@ -690,7 +699,7 @@ define([
         },
 
         updatePrimaryForestsLayer: function(visibility) {
-            var ID = MapConfig.primaryForestsLayer.id, 
+            var ID = MapConfig.primaryForestsLayer.id,
                 layer = _map.getLayer(ID),
                 valueForHash = '',
                 layerIds = [];
@@ -698,10 +707,10 @@ define([
             // Show or hide the various options for this layer
             MapModel.set('showPrimaryForestOptions', visibility);
 
-            dojoQuery("#primary-forests-options input:checked").forEach(function (input) {
+            dojoQuery("#primary-forests-options input:checked").forEach(function(input) {
                 layerIds.push(input.value);
             });
-            
+
             if (layerIds.length === 0) {
                 layerIds.push(-1);
             }
@@ -714,7 +723,7 @@ define([
             this.toggleLayerVisibility(ID, visibility, ID + valueForHash);
         },
 
-        addTemporaryGraphicForDigitalGlobe: function () {
+        addTemporaryGraphicForDigitalGlobe: function() {
             var graphic, point, symbol;
 
             point = new Point(100.45, 2.015);
@@ -734,8 +743,8 @@ define([
             _map.graphics.add(graphic);
         },
 
-        removeDigitalGlobeTemporaryGraphic: function () {
-            arrayUtils.forEach(_map.graphics.graphics, function (g) {
+        removeDigitalGlobeTemporaryGraphic: function() {
+            arrayUtils.forEach(_map.graphics.graphics, function(g) {
                 if (g.attributes) {
                     if (g.attributes.id === 'temp_graphic') {
                         _map.graphics.remove(g);
@@ -744,12 +753,12 @@ define([
             });
         },
 
-        adjustOverlaysLayer: function () {
+        adjustOverlaysLayer: function() {
             var layerIds = [],
                 layer = _map.getLayer(MapConfig.overlaysLayer.id),
                 valueForHash = '';
-            
-            dojoQuery(".overlays-checkboxes .dijitCheckBoxInput").forEach(function (node) {
+
+            dojoQuery(".overlays-checkboxes .dijitCheckBoxInput").forEach(function(node) {
                 switch (node.id) {
                     case "provinces-checkbox":
                         if (node.checked) {
@@ -782,10 +791,10 @@ define([
                 valueForHash = "/" + layerIds.join(",");
                 this.toggleLayerVisibility(MapConfig.overlaysLayer.id, true, MapConfig.overlaysLayer.id + valueForHash);
             }
-            
+
         },
 
-        setOverlayLayerOrder: function (evt) {
+        setOverlayLayerOrder: function(evt) {
             var layer = _map.getLayer(MapConfig.overlaysLayer.id),
                 layerInfos = evt.target.createDynamicLayerInfosFromLayerInfos();
 
@@ -796,16 +805,16 @@ define([
 
         },
 
-        updateLayersInHash: function (operation, key, value) {
+        updateLayersInHash: function(operation, key, value) {
             var queryObj = ioQuery.queryToObject(hash()),
                 layers = queryObj.lyrs,
                 layersArray = layers.split(':'),
-                length = layersArray.length, 
-                index = 0, 
+                length = layersArray.length,
+                index = 0,
                 indexToRemove;
 
             if (operation === "remove") {
-                for(index; index < length; index++) {
+                for (index; index < length; index++) {
                     if (layersArray[index].search(key) > -1) {
                         indexToRemove = index;
                     }
@@ -814,7 +823,7 @@ define([
                     layersArray.splice(indexToRemove, 1);
                 }
             } else if (operation === "add") {
-                for(index; index < length; index++) {
+                for (index; index < length; index++) {
                     if (layersArray[index].search(key) > -1) {
                         indexToRemove = index;
                     }
@@ -826,7 +835,7 @@ define([
                 }
             }
 
-            layersArray = arrayUtils.filter(layersArray, function (item) {
+            layersArray = arrayUtils.filter(layersArray, function(item) {
                 return item !== '';
             });
 

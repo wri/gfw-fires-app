@@ -1,3 +1,4 @@
+map.styl,
 .disabled {
   color: #bebebe;
 }
@@ -251,6 +252,18 @@
 #report-options input[type=radio] {
   margin: 3px;
 }
+#report-optionsNOAA {
+  margin-top: 5px;
+  padding: 5px;
+  border: 1px solid #000;
+}
+#report-options-closeNOAA {
+  position: relative;
+  cursor: pointer;
+  width: 10px;
+  float: right;
+  top: -5px;
+}
 .print-button {
   background: url("../images/print-icon.png") no-repeat #fff;
   background-position: -1px -35px;
@@ -499,6 +512,21 @@
   font-size: 16px;
   padding: 5px;
   color: #fff;
+}
+#report-optionsNOAA > div.report-options-section > table {
+  margin-bottom: 5px;
+}
+.report-link-dates {
+  display: inline-block;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px;
+  color: #f00;
+  background-color: #808080;
+  border-radius: 5px;
+  display: table;
+  margin: auto;
 }
 .coming-soon-label {
   margin-left: 20px;
@@ -923,8 +951,7 @@
 #timeSliderPanel .tsTicks {
   height: 10px;
   z-index: 0;
-  width: 99.9%;
-/* This prevents the ticks from sitting outside of the slider bar container */
+  width: 99.9%; /* This prevents the ticks from sitting outside of the slider bar container */
 }
 .dijitRuleMark {
   border: 1px solid #000;
