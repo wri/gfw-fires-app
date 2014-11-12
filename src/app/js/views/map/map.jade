@@ -150,22 +150,22 @@ div#map-view(class="map-view")
 				div.font14(data-bind="text:reportText().selectTimeLabel")
 				div.report-options-section
 
-					table.font10
+					table.font10(data-bind="with:reportDateControl")
 						tr
 							td
-							td(data-bind="text:reportText().year")
-							td(data-bind="text:reportText().month")
-							td(data-bind="text:reportText().day")
+							td(data-bind="text:yearLabel")
+							td(data-bind="text:monthLabel")
+							td(data-bind="text:dayLabel")
 						tr
-							td(data-bind="text:reportText().fromLabel")
+							td(data-bind="text:fromLabel")
 							td
 								select(data-bind="options:fromYear,value:dateVals().fYear")
 							td
-								select(data-bind="options:fromMonth,value:dateVals().fMonth")
+								select(data-bind="options:fromMonth(),value:dateVals().fMonth")
 							td
 								select(data-bind="options:fromDay,value:dateVals().fDay")
 						tr
-							td(data-bind="text:reportText().toLabel")
+							td(data-bind="text:toLabel")
 							td
 								select(data-bind="options:toYear,value:dateVals().tYear")
 							td

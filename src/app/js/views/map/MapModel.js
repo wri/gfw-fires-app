@@ -76,85 +76,112 @@ define([
     vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
     vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
 
-    vm.reportText = ko.observable(MapConfig.text.reportOptions);
     vm.months = [0,31,28,31,30,31,30,31,31,30,31,30,31];
     vm.reportAOIs = ko.observableArray([]);
     vm.selectedAOIs = ko.observableArray([]);
-    vm.fromYear = ko.observableArray([]);
-    vm.fromMonth = ko.observableArray([]);
-    vm.dateVals = ko.observable({
-        fYear:ko.observable(''),
-        fMonth:ko.observable(1),
-        fDay:ko.observable(''),
-        tYear:ko.observable(''),
-        tMonth:ko.observable(2),
-        tDay:ko.observable('')
-    });
-    
-    vm.fromDay = ko.computed(function(){
-            var month = vm.dateVals().fMonth();
-            var year = vm.dateVals().fYear();
-            var isLeap = new Date(year, 1, 29).getMonth() == 1
-            var days = [];
-            for (var i = 1;i <= vm.months[month];i++){
+    vm.reportText = ko.observable(MapConfig.text.reportOptions);
 
-                days.push(i);
-            }
-            if (month==2 && isLeap){
-                days.push(29);
-            }
-            return days;
-        });
+    vm.dateControl = function(){ 
+        var dateValueObject = ko.observable({
+                fYear:ko.observable(''),
+                fMonth:ko.observable(1),
+                fDay:ko.observable(''),
+                tYear:ko.observable(''),
+                tMonth:ko.observable(2),
+                tDay:ko.observable('')
+            })
 
-    vm.toDay = ko.computed(function(){
-            var today = new Date();
-            var month = vm.dateVals().tMonth();
-            var year = vm.dateVals().tYear();
-            var isLeap = new Date(year, 1, 29).getMonth() == 1
-            var days = [];
-            var startDay = 1;
-            var lastDay = ((year === today.getFullYear()) && month=== (today.getMonth() + 1)) ? today.getUTCDate() : vm.months[month];
+        var monthComputed = function(compareYear,startMonth){
+            return ko.computed(function(){
+                                console.log("toMonth", this);
+                                var curDate = new Date();
+                                var lastMonth = (compareYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
+                                var firstMonth = startMonth ? startMonth() : 1;
+                                var months = [];
+                                if (dateValueObject().tYear() == dateValueObject().fYear()){
+                                    for (var i = firstMonth;i <= lastMonth;i++){
+                                        months.push(i);
+                                    }
+                                } else {
+                                    for (var i = 1;i <= lastMonth;i++){
+                                        months.push(i);
+                                    }
+                                }
+                                return months;
+                });
+        };
 
-            if(vm.dateVals().fYear() == vm.dateVals().tYear() && vm.dateVals().tMonth() == vm.dateVals().fMonth()){
-                startDay = vm.dateVals().fDay();
-            }
-            for (var i = startDay;i <= lastDay ;i++){
-                days.push(i);
-            }
-            if (month==2 && isLeap){
-                days.push(29);
-            }
+        var dayComputed = function(compareYear, compareMonth, startYear, startMonth, startDay){
+                return ko.computed(function(){
+                            var firstDay;
+                            var today = new Date();
+                            var isLeap = new Date(compareYear(), 1, 29).getMonth() == 1
+                            var days = [];
+                            var lastDay = ((compareYear() === today.getFullYear()) && compareMonth() === (today.getMonth() + 1)) ? today.getUTCDate() : vm.months[compareMonth()];
+                            if (startDay){
+                                if(startYear() == compareYear() && startMonth() == compareMonth()){
+                                    firstDay = startDay();
+                                }
+                                else{
+                                    firstDay = 1;
+                                }
+                            }
+                            else{
+                                firstDay = 1;
+                            }
+                            
+                            for (var i = firstDay;i <= lastDay ;i++){
+                                days.push(i);
+                            }
+                            if (compareMonth==2 && isLeap){
+                                days.push(29);
+                            }
+                            console.log("days",firstDay,lastDay,days)
 
-            return days;
-        });
+                            return days;
+                });
+        };
+        return {
+                toDay:  dayComputed(dateValueObject().tYear, dateValueObject().tMonth, dateValueObject().fYear, dateValueObject().fMonth, dateValueObject().fDay),
+                fromDay: dayComputed(dateValueObject().fYear,dateValueObject().fMonth),
+                fromMonth: monthComputed(dateValueObject().fYear),
+                toMonth: monthComputed(dateValueObject().tYear,dateValueObject().fMonth),
 
-    vm.toYear = ko.computed(function(){
-        var fYear = vm.dateVals().fYear(),
-            curYear = new Date().getFullYear();
-        var years = [];
-        for (var i = fYear; i <= curYear; i += 1){
-            years.push(i);
+                fromYear: ko.observableArray([]),
+                toYear: ko.computed(function(){
+                                var fYear = dateValueObject().fYear(),
+                                    curYear = new Date().getFullYear();
+                                var years = [];
+                                for (var i = fYear; i <= curYear; i += 1){
+                                    years.push(i);
+                                }
+                                return years;
+                }),
+                
+                dateVals: dateValueObject,
+                yearLabel: 'YYYY',
+                monthLabel: 'MM',
+                dayLabel: 'DD',
+                toLabel: 'To:',
+                fromLabel: 'From:'
         }
-        return years;
-    });
+    }
 
-    vm.toMonth = ko.computed(function(){
-        var curDate = new Date();
-        var lastMonth = (vm.dateVals().tYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
-
-        var fMonth = vm.dateVals().fMonth();
-        var months = [];
-        if (vm.dateVals().tYear() == vm.dateVals().fYear()){
-            for (var i = fMonth;i <= lastMonth;i++){
-                months.push(i);
-            }
-        } else {
-            for (var i = 1;i <= lastMonth;i++){
-                months.push(i);
-            }
-        }
-        return months;
-    });
+    vm.reportDateControl = vm.dateControl();
+    // vm.fromDay = vm.dateUtilities.fromDay(vm.dateVals);
+    // vm.toDay = vm.dateUtilities.toDay(vm.dateVals);
+    // vm.toYear = vm.dateVals.toYear(vm.dateVals);
+    // vm.toMonth = vm.dateUtilities.toMonth(vm.dateVals);
+    // vm.fromYear = ko.observableArray([]);
+    // vm.fromMonth = ko.observableArray([]);
+    // vm.dateVals = ko.observable({
+    //     fYear:ko.observable(''),
+    //     fMonth:ko.observable(1),
+    //     fDay:ko.observable(''),
+    //     tYear:ko.observable(''),
+    //     tMonth:ko.observable(2),
+    //     tDay:ko.observable('')
+    // });
 
     vm.islands = ko.observableArray([]);
     vm.provinces = ko.observableArray([]);
@@ -173,6 +200,8 @@ define([
     vm.DigitalGlobeExtents = ko.observable([]);
     vm.dgMoments = ko.observable([]);
     vm.valuenodes = ko.observable();
+
+    
 
     vm.closeReportOptions = function () {
         vm.showReportOptions(false);

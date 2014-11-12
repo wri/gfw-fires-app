@@ -28,7 +28,7 @@ define([
 
         o.init_time_selects = function(){
             var today = new Date();
-            var yesterday = new Date(today.getFullYear()-1,today.getMonth()-1,today.getDay()-1);
+            var yesterday = new Date(today.getFullYear()-1,today.getMonth()-1,today.getUTCDate()-1);
             var initial = new Date(2013, 1,1);
             var years = [];
             for (var i = initial.getFullYear();i<=today.getFullYear();i++){
@@ -38,11 +38,11 @@ define([
             for (var i = 1;i<=12;i++){
                 months.push(i);
             }
-            MapModel.vm.fromYear(years);
-            MapModel.vm.dateVals().fYear(years[0]);
+            MapModel.vm.reportDateControl.fromYear(years);
+            MapModel.vm.reportDateControl.dateVals().fYear(years[0]);
             // MapModel.vm.toYear(years);
-            MapModel.vm.dateVals().tYear(years[0]);
-            MapModel.vm.fromMonth(months);
+            MapModel.vm.reportDateControl.dateVals().tYear(years[0]);
+            // MapModel.vm.reportDateControl.fromMonth(months);
         }
 
         o.bind_events = function (){
