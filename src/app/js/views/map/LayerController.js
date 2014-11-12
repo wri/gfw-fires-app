@@ -154,9 +154,9 @@ define([
         },
 
         updateDynamicMapServiceLayerDefinition: function(dynamicMapService,layerId,definition){
-            var layerdefinitions = dynamicMapService.layerDefinitions;
-            layerdefinitions[layerId] = definition;
-            dynamicMapService.setLayerDefinitions(layerdefinitions);
+            var currentlayerdefinitions = dynamicMapService.layerDefinitions;
+            currentlayerdefinitions[layerId] = definition;
+            dynamicMapService.setLayerDefinitions(currentlayerdefinitions);
         },
 
         updateFiresLayer: function(updateVisibleLayers) {
@@ -558,34 +558,31 @@ define([
 
                 // If toolspanel is open, adjust left position of slider
                 // domStyle.set("timeSliderPanel", "left", "310px");
-                        mmts = toolsmodel.dgMoments();
-                        timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY'));//new Date("1/1/2013 UTC");
-                        timeExtent.endTime = new Date(mmts[mmts.length-1].format('MM/DD/YYYY'));
-                        self.filter_footprints('moment',mmts[0],mmts[1]);
+                mmts = toolsmodel.dgMoments();
+                timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY'));//new Date("1/1/2013 UTC");
+                timeExtent.endTime = new Date(mmts[mmts.length-1].format('MM/DD/YYYY'));
+                self.filter_footprints('moment',mmts[0],mmts[1]);
 
-                        timeSlider.createTimeStopsByTimeInterval(timeExtent,1,'esriTimeUnitsMonths');
-                        var curyear = timeExtent.startTime.getUTCFullYear();
-                        var labels = timeSlider.timeStops.map(function(timeStop,i){ 
-                            if (i===0){
-                                return curyear;
-                            }
+                timeSlider.createTimeStopsByTimeInterval(timeExtent,1,'esriTimeUnitsMonths');
+                var curyear = timeExtent.startTime.getUTCFullYear();
+                var labels = timeSlider.timeStops.map(function(timeStop,i){ 
+                    if (i===0){
+                        return curyear;
+                    }
 
-                            if( timeStop.getUTCFullYear() != curyear){
-                                curyear = timeStop.getUTCFullYear();
-                              return curyear; }
-                            else{
-                              return '';
-                            }
-                          });
-                        
-                        timeSlider.setLabels(labels);
-                        timeSlider.startup();
-                        var tt = self.generateTimeTooltips(timeSlider);
-                        _map.setTimeSlider(timeSlider);
+                    if( timeStop.getUTCFullYear() != curyear){
+                        curyear = timeStop.getUTCFullYear();
+                      return curyear; }
+                    else{
+                      return '';
+                    }
+                  });
+                
+                timeSlider.setLabels(labels);
+                timeSlider.startup();
+                var tt = self.generateTimeTooltips(timeSlider);
 
-                timeSlider.on("change",function(evt,obj){
-                    var te = timeSlider.getCurrentTimeExtent()
-                });
+                _map.setTimeSlider(timeSlider);
 
                 timeSlider.on("time-extent-change", function(evt) {
                     var values;
@@ -597,6 +594,8 @@ define([
                         self.filter_footprints('moment',moment(evt.startTime),moment(evt.endTime));
                     }, 0);
                 });
+                timeSlider.setThumbIndexes([0,timeSlider.timeStops.length-1]);
+                
         },
 
         promptAboutDigitalGlobe: function () {

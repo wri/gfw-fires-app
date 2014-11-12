@@ -93,7 +93,6 @@ define([
 
         var monthComputed = function(compareYear,startMonth){
             return ko.computed(function(){
-                                console.log("toMonth", this);
                                 var curDate = new Date();
                                 var lastMonth = (compareYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
                                 var firstMonth = startMonth ? startMonth() : 1;
@@ -136,7 +135,6 @@ define([
                             if (compareMonth==2 && isLeap){
                                 days.push(29);
                             }
-                            console.log("days",firstDay,lastDay,days)
 
                             return days;
                 });
