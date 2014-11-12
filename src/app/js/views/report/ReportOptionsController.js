@@ -35,6 +35,8 @@ define([
             for (var i = initial.getFullYear(); i <= today.getFullYear(); i++) {
                 years.push(i);
             }
+
+
             MapModel.vm.reportDateControl.fromYear(years);
             MapModel.vm.reportDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
             MapModel.vm.reportDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
@@ -42,6 +44,23 @@ define([
             MapModel.vm.reportDateControl.dateVals().tYear(today.getFullYear());
             MapModel.vm.reportDateControl.dateVals().tMonth(today.getMonth() + 1);
             MapModel.vm.reportDateControl.dateVals().tDay(today.getUTCDate());
+
+            MapModel.vm.noaaDateControl.fromYear(years);
+            MapModel.vm.noaaDateControl.dateVals().fYear(today.getFullYear());
+            MapModel.vm.noaaDateControl.dateVals().fMonth(today.getMonth() + 1);
+            MapModel.vm.noaaDateControl.dateVals().fDay(today.getUTCDate());
+            MapModel.vm.noaaDateControl.dateVals().tYear(today.getFullYear());
+            MapModel.vm.noaaDateControl.dateVals().tMonth(today.getMonth() + 1);
+            MapModel.vm.noaaDateControl.dateVals().tDay(today.getUTCDate());
+
+            MapModel.vm.indoDateControl.fromYear(years);
+            MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
+            MapModel.vm.indoDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
+            MapModel.vm.indoDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
+            MapModel.vm.indoDateControl.dateVals().tYear(oneWeekAgo.getFullYear());
+            MapModel.vm.indoDateControl.dateVals().tMonth(oneWeekAgo.getMonth() + 1);
+            MapModel.vm.indoDateControl.dateVals().tDay(oneWeekAgo.getUTCDate());
+
         }
 
         o.bind_events = function() {
@@ -65,11 +84,9 @@ define([
 
             });
 
-
-
             on(dom.byId('report-launch'), 'click', function() {
-                debugger;
-                var dates = MapModel.vm.dateVals();
+                var dates = MapModel.vm.reportDateControl.dateVals();
+                //var dates = MapModel.vm.dateVals();
 
                 var reportdates = {};
                 for (var val in dates) {

@@ -167,6 +167,8 @@ define([
     }
 
     vm.reportDateControl = vm.dateControl();
+    vm.noaaDateControl = vm.dateControl();
+    vm.indoDateControl = vm.dateControl();
     // vm.fromDay = vm.dateUtilities.fromDay(vm.dateVals);
     // vm.toDay = vm.dateUtilities.toDay(vm.dateVals);
     // vm.toYear = vm.dateVals.toYear(vm.dateVals);
@@ -189,6 +191,7 @@ define([
     vm.showShareContainer = ko.observable(false);
     vm.showReportOptions = ko.observable(false);
     vm.showReportOptionsNOAA = ko.observable(false);
+    vm.showReportOptionsINDO = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
     vm.showPrimaryForestOptions = ko.observable(false);
     vm.showWindLegend = ko.observable(false);
@@ -209,6 +212,9 @@ define([
 
     vm.closeReportOptionsNOAA = function() {
         vm.showReportOptionsNOAA(false);
+    };
+    vm.closeReportOptionsINDO = function() {
+        vm.showReportOptionsINDO(false);
     };
 
     o.applyBindings = function(domId) {

@@ -252,12 +252,12 @@ map.styl,
 #report-options input[type=radio] {
   margin: 3px;
 }
-#report-optionsNOAA {
+.reportOptionsSidebar {
   margin-top: 5px;
   padding: 5px;
   border: 1px solid #000;
 }
-#report-options-closeNOAA {
+.reportOptionsHeader {
   position: relative;
   cursor: pointer;
   width: 10px;
@@ -513,7 +513,7 @@ map.styl,
   padding: 5px;
   color: #fff;
 }
-#report-optionsNOAA > div.report-options-section > table {
+div.report-options-section > table {
   margin-bottom: 5px;
 }
 .report-link-dates {

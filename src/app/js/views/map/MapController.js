@@ -517,8 +517,43 @@ define([
             ReportOptionsController.populate_select();
         });
 
-        on(dom.byId('updateNOAA'), 'click', function(evt, node) {
-            debugger;
+        on(dom.byId("indonesia-fires"), "click", function() {
+            if (this.getAttribute("aria-checked") == "false") {
+                MapModel.vm.showReportOptionsINDO(false);
+                return;
+            }
+            MapModel.vm.showReportOptionsINDO(true);
+            ReportOptionsController.populate_select();
+        });
+
+        on(dom.byId('updateNOAA'), 'click', function() {
+            var dates = MapModel.vm.noaaDateControl.dateVals();
+            var reportdates = {};
+            for (var val in dates) {
+                if (dates.hasOwnProperty(val)) {
+                    reportdates[val] = dates[val]();
+                }
+            }
+            var startDateFormatted = reportdates.fDay + "-" + +reportdates.fMonth + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tDay + "-" + +reportdates.tMonth + "-" + reportdates.tYear;
+
+            var sqlQuery = LayerController.getTimeDefinition("Date", startDateFormatted, endDateFormatted);
+            LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
+        });
+
+        on(dom.byId('updateINDO'), 'click', function() {
+            var dates = MapModel.vm.indoDateControl.dateVals();
+            var reportdates = {};
+            for (var val in dates) {
+                if (dates.hasOwnProperty(val)) {
+                    reportdates[val] = dates[val]();
+                }
+            }
+            var startDateFormatted = reportdates.fDay + "-" + +reportdates.fMonth + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tDay + "-" + +reportdates.tMonth + "-" + reportdates.tYear;
+
+            var sqlQuery = LayerController.getTimeDefinition("Date", startDateFormatted, endDateFormatted);
+            LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
 

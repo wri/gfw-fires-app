@@ -148,16 +148,23 @@ define([
         },
 
         getTimeDefinition: function(datefield, startdate, enddate) {
-            var startdatequery = datefield + ">= date'" + startdate + "'";
-            var enddatequery = datefield + " <= date'" + enddate + "'";
-            var sql = [startdate, enddate].join(' AND ')
+            // var startdatequery = datefield + ">= date'" + startdate + "'";
+            // var enddatequery = datefield + " <= date'" + enddate + "'";
+            var startdatequery = datefield + " >= '" + startdate + "'";
+            var enddatequery = datefield + " <= '" + enddate + "'";
+            var sql = [startdatequery, enddatequery].join(' AND ')
+            console.log(sql);
             return sql;
         },
 
         updateDynamicMapServiceLayerDefinition: function(dynamicMapService, layerId, definition) {
+
             var layerdefinitions = dynamicMapService.layerDefinitions;
             layerdefinitions[layerId] = definition;
             dynamicMapService.setLayerDefinitions(layerdefinitions);
+            dynamicMapService.refresh();
+            //this.toggleMapServiceLayerVisibility();
+            debugger;
         },
 
         updateFiresLayer: function(updateVisibleLayers) {

@@ -21,15 +21,53 @@
         <div class="checkbox-container">
           <div id="indonesia-fires"></div>
           <label for="indonesia-fires" data-bind="text: indonesiaFiresCheckbox"></label>
+          <div id="report-optionsINDO" data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar">
+            <div id="report-options-closeINDO" data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader">x</div>
+            <div data-bind="text:reportText().selectTimeLabel" class="font14"></div>
+            <div class="report-options-section">
+              <table data-bind="with:indoDateControl" class="font10">
+                <tr>
+                  <td></td>
+                  <td data-bind="text:yearLabel"></td>
+                  <td data-bind="text:monthLabel"></td>
+                  <td data-bind="text:dayLabel"></td>
+                </tr>
+                <tr>
+                  <td data-bind="text:fromLabel"></td>
+                  <td>
+                    <select data-bind="options:fromYear,value:dateVals().fYear"></select>
+                  </td>
+                  <td>
+                    <select data-bind="options:fromMonth(),value:dateVals().fMonth"></select>
+                  </td>
+                  <td>
+                    <select data-bind="options:fromDay,value:dateVals().fDay"></select>
+                  </td>
+                </tr>
+                <tr>
+                  <td data-bind="text:toLabel"></td>
+                  <td>
+                    <select data-bind="options:toYear,value:dateVals().tYear"></select>
+                  </td>
+                  <td>
+                    <select data-bind="options:toMonth,value:dateVals().tMonth"></select>
+                  </td>
+                  <td>
+                    <select data-bind="options:toDay,value:dateVals().tDay"></select>
+                  </td>
+                </tr>
+              </table><span id="updateINDO" data-bind="text: getDates" class="report-link-dates"></span>
+            </div>
+          </div>
         </div>
         <div class="checkbox-container">
           <div id="noaa-fires-18"></div>
           <label for="noaa-fires-18" data-bind="text: noaaFiresCheckbox"></label>
-          <div id="report-optionsNOAA" data-bind="visible: showReportOptionsNOAA()" class="reportOptions">
+          <div id="report-optionsNOAA" data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar">
             <div id="report-options-closeNOAA" data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader">x</div>
             <div data-bind="text:reportText().selectTimeLabel" class="font14"></div>
             <div class="report-options-section">
-              <table data-bind="with:reportDateControl" class="font10">
+              <table data-bind="with:noaaDateControl" class="font10">
                 <tr>
                   <td></td>
                   <td data-bind="text:yearLabel"></td>
