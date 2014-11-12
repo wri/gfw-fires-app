@@ -28,21 +28,20 @@ define([
 
         o.init_time_selects = function(){
             var today = new Date();
-            var yesterday = new Date(today.getFullYear()-1,today.getMonth()-1,today.getUTCDate()-1);
+            var oneWeekAgo = new Date();
+            oneWeekAgo.setDate(today.getDate() -7);
             var initial = new Date(2013, 1,1);
             var years = [];
             for (var i = initial.getFullYear();i<=today.getFullYear();i++){
                 years.push(i);
             }
-            var months = [];
-            for (var i = 1;i<=12;i++){
-                months.push(i);
-            }
             MapModel.vm.reportDateControl.fromYear(years);
-            MapModel.vm.reportDateControl.dateVals().fYear(years[0]);
-            // MapModel.vm.toYear(years);
-            MapModel.vm.reportDateControl.dateVals().tYear(years[0]);
-            // MapModel.vm.reportDateControl.fromMonth(months);
+            MapModel.vm.reportDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
+            MapModel.vm.reportDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
+            MapModel.vm.reportDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
+            MapModel.vm.reportDateControl.dateVals().tYear(today.getFullYear());
+            MapModel.vm.reportDateControl.dateVals().tMonth(today.getMonth() + 1);
+            MapModel.vm.reportDateControl.dateVals().tDay(today.getUTCDate());
         }
 
         o.bind_events = function (){
