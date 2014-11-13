@@ -223,6 +223,7 @@ define([
     vm.reportDateControl = vm.dateControl();
     vm.noaaDateControl = vm.dateControl(10, 12);
     vm.indoDateControl = vm.dateControl();
+    vm.windDateControl = vm.dateControl();
 
     // vm.fromDay = vm.dateUtilities.fromDay(vm.dateVals);
     // vm.toDay = vm.dateUtilities.toDay(vm.dateVals);
@@ -247,6 +248,7 @@ define([
     vm.showReportOptions = ko.observable(false);
     vm.showReportOptionsNOAA = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
+    vm.showReportOptionsWIND = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
     vm.showPrimaryForestOptions = ko.observable(false);
     vm.showWindLegend = ko.observable(false);
@@ -266,8 +268,13 @@ define([
     vm.closeReportOptionsNOAA = function() {
         vm.showReportOptionsNOAA(false);
     };
+
     vm.closeReportOptionsINDO = function() {
         vm.showReportOptionsINDO(false);
+    };
+
+    vm.closeReportOptionsWIND = function() {
+        vm.showReportOptionsWIND(false);
     };
 
     o.applyBindings = function(domId) {

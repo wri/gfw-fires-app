@@ -59,7 +59,6 @@ define([
             MapModel.vm.noaaDateControl.dateVals().tMonth(today.getMonth() + 1);
             MapModel.vm.noaaDateControl.dateVals().tDay(today.getUTCDate());
 
-
             MapModel.vm.indoDateControl.fromYear(years);
             MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
             MapModel.vm.indoDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
@@ -68,6 +67,13 @@ define([
             MapModel.vm.indoDateControl.dateVals().tMonth(oneWeekAgo.getMonth() + 1);
             MapModel.vm.indoDateControl.dateVals().tDay(oneWeekAgo.getUTCDate());
 
+            MapModel.vm.windDateControl.fromYear(years);
+            MapModel.vm.windDateControl.dateVals().fYear(today.getFullYear());
+            MapModel.vm.windDateControl.dateVals().fMonth(today.getMonth() + 1);
+            MapModel.vm.windDateControl.dateVals().fDay(today.getUTCDate());
+            MapModel.vm.windDateControl.dateVals().tYear(today.getFullYear());
+            MapModel.vm.windDateControl.dateVals().tMonth(today.getMonth() + 1);
+            MapModel.vm.windDateControl.dateVals().tDay(today.getUTCDate());
         }
 
         o.bind_events = function() {

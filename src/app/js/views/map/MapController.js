@@ -525,6 +525,16 @@ define([
             ReportOptionsController.populate_select();
         });
 
+        on(dom.byId("windy-layer-checkbox"), "click", function() {
+            if (this.getAttribute("aria-checked") == "false") {
+                MapModel.vm.showReportOptionsWIND(false);
+                return;
+            }
+            MapModel.vm.showReportOptionsWIND(true);
+            ReportOptionsController.populate_select();
+        });
+
+
         on(dom.byId('updateNOAA'), 'click', function() {
             var dates = MapModel.vm.noaaDateControl.dateVals();
             var reportdates = {};
@@ -553,6 +563,22 @@ define([
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", startDateFormatted, endDateFormatted);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
+
+        });
+
+        on(dom.byId('updateWIND'), 'click', function() {
+            var dates = MapModel.vm.windDateControl.dateVals();
+            var reportdates = {};
+            for (var val in dates) {
+                if (dates.hasOwnProperty(val)) {
+                    reportdates[val] = dates[val]();
+                }
+            }
+            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+
+            //var sqlQuery = LayerController.getTimeDefinition("placeHolderField!", startDateFormatted, endDateFormatted);
+            //LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.windData??), MapConfig.windData['wind??'], sqlQuery);
 
         });
 
