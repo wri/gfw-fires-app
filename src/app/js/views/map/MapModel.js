@@ -204,8 +204,6 @@ define([
     vm.dgMoments = ko.observable([]);
     vm.valuenodes = ko.observable();
 
-
-
     vm.closeReportOptions = function() {
         vm.showReportOptions(false);
     };
@@ -214,7 +212,7 @@ define([
         vm.showReportOptionsNOAA(false);
     };
     vm.closeReportOptionsINDO = function() {
-        vm.showReportOptionsINDO(false);
+        vm.showReportOptions(false);
     };
 
     o.applyBindings = function(domId) {

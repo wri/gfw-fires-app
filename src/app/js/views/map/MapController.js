@@ -190,6 +190,7 @@ define([
             // Hack to get the correct extent set on load, this can be removed
             // when the hash controller workflow is corrected
             on.once(o.map, "update-end", function() {
+
                 o.map.centerAt(new Point(hashX, hashY)).then(function() {
                     setTimeout(function() {
                         o.mapExtentPausable.resume();
