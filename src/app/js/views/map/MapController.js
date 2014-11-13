@@ -128,7 +128,7 @@ define([
 
             if (url.indexOf(domain) === 0) {
                 proxyUrl = proxies[domain];
-                
+
                 esriConfig.defaults.io.proxyUrl = proxies[domain];
 
             }
@@ -189,9 +189,10 @@ define([
 
             // Hack to get the correct extent set on load, this can be removed
             // when the hash controller workflow is corrected
-            on.once(o.map, "update-end", function () {
-                o.map.centerAt(new Point(hashX, hashY)).then(function () {
-                    setTimeout(function () {
+            on.once(o.map, "update-end", function() {
+
+                o.map.centerAt(new Point(hashX, hashY)).then(function() {
+                    setTimeout(function() {
                         o.mapExtentPausable.resume();
                     }, 1000);
                 });
@@ -339,10 +340,11 @@ define([
     };
 
 
-    o.initTransparency =function(){
-        ['forest-transparency-slider','conservation-transparency-slider',
-        'land-cover-transparency-slider'].map(function(id){
-            var slider = dijit.byId(id).set("value",70);
+    o.initTransparency = function() {
+        ['forest-transparency-slider', 'conservation-transparency-slider',
+            'land-cover-transparency-slider'
+        ].map(function(id) {
+            var slider = dijit.byId(id).set("value", 70);
         })
     };
 
@@ -411,28 +413,28 @@ define([
             }
         });
 
-        on(registry.byId("tomnod-checkbox"), "change", function (value) {
+        on(registry.byId("tomnod-checkbox"), "change", function(value) {
             LayerController.toggleLayerVisibility(MapConfig.tomnodLayer.id, value);
             LayerController.toggleLayerVisibility(MapConfig.tomnodLayer.sel_id, value);
             if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Tomnod layer on.');                
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Tomnod layer on.');
             }
         });
 
-        on(registry.byId("indonesia-fires"), "change", function (value) {
+        on(registry.byId("indonesia-fires"), "change", function(value) {
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
-                MapConfig.indonesiaLayers.layerIds['indonesiaFires'],value);
+                MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });
 
-        on(registry.byId("noaa-fires-18"), "change", function (value) {
+        on(registry.byId("noaa-fires-18"), "change", function(value) {
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
-                MapConfig.indonesiaLayers.layerIds['noaa18'],value);
+                MapConfig.indonesiaLayers.layerIds['noaa18'], value);
         });
 
-        on(registry.byId("burned-scars-checkbox"), "change", function (value) {
+        on(registry.byId("burned-scars-checkbox"), "change", function(value) {
             LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
             if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');                
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');
             }
         });
 
@@ -447,7 +449,7 @@ define([
         registry.byId("windy-layer-checkbox").on('change', function(checked) {
             WindyController.toggleWindLayer(checked);
             if (checked) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Wind direction layer on.');                
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Wind direction layer on.');
             }
         });
 
@@ -498,14 +500,89 @@ define([
 
         on(dom.byId("report-link"), "click", function() {
             MapModel.vm.showReportOptions(true);
-            if (MapModel.vm.reportAOIs().length<1){
+            if (MapModel.vm.reportAOIs().length < 1) {
                 ReportOptionsController.populate_select();
             }
             //var win = window.open('./app/js/views/report/report.html', 'Report', '');
             self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
         });
 
-        on(dom.byId("embedShare"), "click", function () {
+        on(dom.byId("noaa-fires-18"), "click", function() {
+            if (this.getAttribute("aria-checked") == "false") {
+                MapModel.vm.showReportOptionsNOAA(false);
+                return;
+            }
+            MapModel.vm.showReportOptionsNOAA(true);
+            ReportOptionsController.populate_select();
+        });
+
+        on(dom.byId("indonesia-fires"), "click", function() {
+            if (this.getAttribute("aria-checked") == "false") {
+                MapModel.vm.showReportOptionsINDO(false);
+                return;
+            }
+            MapModel.vm.showReportOptionsINDO(true);
+            ReportOptionsController.populate_select();
+        });
+
+        on(dom.byId("windy-layer-checkbox"), "click", function() {
+            if (this.getAttribute("aria-checked") == "false") {
+                MapModel.vm.showReportOptionsWIND(false);
+                return;
+            }
+            MapModel.vm.showReportOptionsWIND(true);
+            ReportOptionsController.populate_select();
+        });
+
+
+        on(dom.byId('updateNOAA'), 'click', function() {
+            var dates = MapModel.vm.noaaDateControl.dateVals();
+            var reportdates = {};
+            for (var val in dates) {
+                if (dates.hasOwnProperty(val)) {
+                    reportdates[val] = dates[val]();
+                }
+            }
+            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+
+            var sqlQuery = LayerController.getTimeDefinition("Date", startDateFormatted, endDateFormatted);
+            LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
+        });
+
+        on(dom.byId('updateINDO'), 'click', function() {
+            var dates = MapModel.vm.indoDateControl.dateVals();
+            var reportdates = {};
+            for (var val in dates) {
+                if (dates.hasOwnProperty(val)) {
+                    reportdates[val] = dates[val]();
+                }
+            }
+            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+
+            var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", startDateFormatted, endDateFormatted);
+            LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
+
+        });
+
+        on(dom.byId('updateWIND'), 'click', function() {
+            var dates = MapModel.vm.windDateControl.dateVals();
+            var reportdates = {};
+            for (var val in dates) {
+                if (dates.hasOwnProperty(val)) {
+                    reportdates[val] = dates[val]();
+                }
+            }
+            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+
+            //var sqlQuery = LayerController.getTimeDefinition("placeHolderField!", startDateFormatted, endDateFormatted);
+            //LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.windData??), MapConfig.windData['wind??'], sqlQuery);
+
+        });
+
+        on(dom.byId("embedShare"), "click", function() {
             self.showEmbedCode();
         });
 
@@ -593,7 +670,7 @@ define([
                         var label = target.labels[0].innerHTML;
                         if (label.search("None") === -1) {
                             self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
-                        }                        
+                        }
                     }
                 }
             });
@@ -640,7 +717,7 @@ define([
             firesParams,
             indonesiaLayers,
             firesLayer,
-            dgConf ,
+            dgConf,
             self = this;
 
         conservationParams = new ImageParameters();
@@ -734,8 +811,8 @@ define([
         //     id: dgConf.id,
         //     visible: false
         // });
-        digitalGlobeLayers = dgConf.mosaics.map(function(i){
-            return( new ArcGISImageServiceLayer(dgConf.imagedir + i +'/ImageServer', {
+        digitalGlobeLayers = dgConf.mosaics.map(function(i) {
+            return (new ArcGISImageServiceLayer(dgConf.imagedir + i + '/ImageServer', {
                 id: i,
                 visible: false
             }));
@@ -761,13 +838,12 @@ define([
             visible: false
         });
         var tomnodInfoTemplate = new InfoTemplate("${name}", Finder.getTomnodInfoWindow);
-        var tomnodSellayer = new FeatureLayer(MapConfig.tomnodLayer.url + "/" + MapConfig.tomnodLayer.defaultLayers[0],
-                 {
-                    mode: FeatureLayer.MODE_SELECTION,
-                    infoTemplate: tomnodInfoTemplate,
-                    outFields: ["*"],
-                    id: MapConfig.tomnodLayer.sel_id
-            });
+        var tomnodSellayer = new FeatureLayer(MapConfig.tomnodLayer.url + "/" + MapConfig.tomnodLayer.defaultLayers[0], {
+            mode: FeatureLayer.MODE_SELECTION,
+            infoTemplate: tomnodInfoTemplate,
+            outFields: ["*"],
+            id: MapConfig.tomnodLayer.sel_id
+        });
 
         burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
 
@@ -821,22 +897,22 @@ define([
         //     visible: true
         // });
         var layerlist = [
-                landSatLayer,
-                treeCoverLayer,
-                landCoverLayer,
-                primaryForestsLayer,
-                digitalGlobeGraphicsLayer
-            ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
-                conservationLayer,
-                burnScarLayer,
-                tomnodLayer,
-                forestUseLayer,
-                overlaysLayer,
-                tweetLayer,
-                airQualityLayer,
-                tomnodSellayer,
-                indonesiaLayer,
-                firesLayer
+            landSatLayer,
+            treeCoverLayer,
+            landCoverLayer,
+            primaryForestsLayer,
+            digitalGlobeGraphicsLayer
+        ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
+            conservationLayer,
+            burnScarLayer,
+            tomnodLayer,
+            forestUseLayer,
+            overlaysLayer,
+            tweetLayer,
+            airQualityLayer,
+            tomnodSellayer,
+            indonesiaLayer,
+            firesLayer
         ]);
         // Fires
         // Air Quality
@@ -925,13 +1001,13 @@ define([
             }
 
             if (layerNums === undefined) {
-                if (layersToWidgets[id]){
+                if (layersToWidgets[id]) {
                     widgetId = layersToWidgets[id].id;
                     if (registry.byId(widgetId)) {
                         registry.byId(widgetId).set('checked', true);
                         on.emit(dom.byId(widgetId), 'change', {});
                     }
-                } 
+                }
             } else {
                 layerObj = layersToWidgets[id];
                 layerIds = layerNums.split(",");
@@ -1008,7 +1084,7 @@ define([
         registry.byId("stackContainer").resize();
         registry.byId("mapView").resize();
         o.map.resize();
-        on.once(o.map, 'resize', function () {
+        on.once(o.map, 'resize', function() {
             // Allow Layers to redraw themselves, wind layer takes 1500ms 
             setTimeout(function() {
                 window.print();
@@ -1056,12 +1132,12 @@ define([
         // printTask.execute(params, success, fail);
     };
 
-    o.reportAnalyticsHelper = function (eventType, action, label) {
+    o.reportAnalyticsHelper = function(eventType, action, label) {
         ga('A.send', 'event', eventType, action, label);
         ga('B.send', 'event', eventType, action, label);
     };
 
-    o.showEmbedCode = function () {
+    o.showEmbedCode = function() {
         if (registry.byId("embedCodeShareDialog")) {
             registry.byId("embedCodeShareDialog").destroy();
         }
@@ -1071,20 +1147,20 @@ define([
                 style: "width: 350px",
                 id: "embedCodeShareDialog",
                 content: "Copy the code below to embed in your site. (Ctrl+C on PC and Cmd+C on Mac)" +
-                         "<div class='dijitDialogPaneActionBar'>" + 
-                         '<input id="embedInput" type="text" value="' + embedCode + '" autofocus /></div>'
+                    "<div class='dijitDialogPaneActionBar'>" +
+                    '<input id="embedInput" type="text" value="' + embedCode + '" autofocus /></div>'
             }),
             cleanup;
 
 
-        cleanup = function () {
+        cleanup = function() {
             dialog.destroy();
         };
 
         dialog.show();
         dom.byId("embedInput").select();
 
-        dialog.on('cancel', function () {
+        dialog.on('cancel', function() {
             cleanup();
         });
     };

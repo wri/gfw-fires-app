@@ -13,7 +13,7 @@ define({
         "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.ashx",
         "http://shj/": "http://shj/proxy/proxy.ashx",
         "http://localhost:": "http://localhost:8080/php/proxy.php",
-        "http://fires.globalforestwatch.org":"http://www.wri.org/applications/maps/proxy/proxy.php",
+        "http://fires.globalforestwatch.org": "http://www.wri.org/applications/maps/proxy/proxy.php",
         "http://bur/": "projs/2278-wri-oil-palm.4/src/app/proxy/proxy.php"
     },
 
@@ -41,7 +41,10 @@ define({
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
         id: "Active_Fires",
         defaultLayers: [0, 1, 2, 3],
-        report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
+        report_fields: {
+            islands: 'ISLAND',
+            provinces: 'PROVINCE'
+        },
         query: {
             layerId: 0,
             outfields: ["*"],
@@ -73,21 +76,26 @@ define({
         sel_id: 'tomnod_sel',
         chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
         defaultLayers: [8],
-        query:{
-            fields:[{
-                'name':'CrowdRank', 'label':'Crowd Rank',
-                'name':'name','label':'Name'
+        query: {
+            fields: [{
+                'name': 'CrowdRank',
+                'label': 'Crowd Rank',
+                'name': 'name',
+                'label': 'Name'
             }]
         }
     },
 
-    indonesiaLayers:{
+    indonesiaLayers: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         id: 'IndonesiaFires',
         sel_id: 'indonesia_sel',
         chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
         defaultLayers: [-1],
-        layerIds:{'noaa18':9,'indonesiaFires':0}
+        layerIds: {
+            'noaa18': 9,
+            'indonesiaFires': 0
+        }
     },
 
     tweetLayer: {
@@ -160,8 +168,13 @@ define({
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
         imagedir: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/',
-        mosaics: ['WV01', 'QB01','WV02','GEO1'],
-        sensorTypes: {'QuickBird':'QB01',"GeoEye-1":'GEO1',"WorldView-2":"WV02","WorldView-1":"WV01"}
+        mosaics: ['WV01', 'QB01', 'WV02', 'GEO1'],
+        sensorTypes: {
+            'QuickBird': 'QB01',
+            "GeoEye-1": 'GEO1',
+            "WorldView-2": "WV02",
+            "WorldView-1": "WV01"
+        }
     },
 
     windData: {
@@ -182,7 +195,7 @@ define({
 
     layerForSubDistrictQuery: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer/1',
-        outFields: ['SUBDISTRIC','ID_KEC']
+        outFields: ['SUBDISTRIC', 'ID_KEC']
     },
 
     layerForProvinceQuery: {
@@ -224,9 +237,9 @@ define({
             'id': "burned-scars-checkbox",
             'type': 'checkbox'
         },
-        'Tomnod':{
+        'Tomnod': {
             'id': "tomnod-checkbox",
-            'type':'checkbox'
+            'type': 'checkbox'
         },
         // 'Indonesia_Fires':{
 
@@ -318,7 +331,7 @@ define({
         firesCheckbox: "Active fires",
         firesSubLabel: "(past 7 days and archive, 1km, global, NASA)",
         noaaFiresCheckbox: "NOAA-18 fires",
-        indonesiaFiresCheckbox: "Indonesia Archive Fires",
+        indonesiaFiresCheckbox: "Indonesia archive fires",
         confidenceFiresCheckbox: "Only show high confidence fires.",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
@@ -331,7 +344,7 @@ define({
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
-        tomnodCheckbox: "Crowdsourced Fires and Burnscars on Tomnod",
+        tomnodCheckbox: "Active fires and burn scars (<a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>Crowdsourced from Tomnod</a>)",
         peatLandsRadio: "Peatlands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary forests",
@@ -351,6 +364,7 @@ define({
         twitterConversationsCheckbox: "Twitter conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
+        getDates: "Query Selected Range",
         windyLayerCheckbox: "Wind direction",
         windySubLabelAdvice: "For best visual appearance, switch to Dark Gray Canvas basemap option on the right",
         windySubLabel: "(Daily, NOAA)",
@@ -363,36 +377,34 @@ define({
         pf2005Radio: "2005",
         pf2010Radio: "2010",
         pf2012Radio: "2012",
-        reportOptions: {    
-                selectAOILabel:'Select area of interest:',
-                islandRadio:'By Island(s)',
-                provinceRadio:'By Province(s)', 
-                multiSelectInfo: 'To select more than one, hold down the control (PC) or command (Mac) key when clicking',
-                selectTimeLabel: 'Select timeframe of interest:',
-                year: 'YYYY',
-                month: 'MM',
-                day: 'DD',
-                toLabel: 'To:',
-                fromLabel: 'From:'
-            }
+        reportOptions: {
+            selectAOILabel: 'Select area of interest:',
+            islandRadio: 'By Island(s)',
+            provinceRadio: 'By Province(s)',
+            multiSelectInfo: 'To select more than one, hold down the control (PC) or command (Mac) key when clicking',
+            selectTimeLabel: 'Select timeframe of interest:',
+            year: 'YYYY',
+            month: 'MM',
+            day: 'DD',
+            toLabel: 'To:',
+            fromLabel: 'From:'
+        }
     },
 
-    reportOptionsDijits:[{
+    reportOptionsDijits: [{
         "id": "report-island-radio",
-            "type": "radio",
-            "props": {
-                "class": "report-radio",
-                "checked": true
-            },
+        "type": "radio",
+        "props": {
+            "class": "report-radio",
+            "checked": true
         },
-        {
-            "id": "report-province-radio",
-            "type": "radio",
-            "props": {
-                "class": "report-radio"
-            },
-        }
-    ],
+    }, {
+        "id": "report-province-radio",
+        "type": "radio",
+        "props": {
+            "class": "report-radio"
+        },
+    }],
 
     accordionDijits: [{
             "id": "fires-map-accordion",
@@ -490,15 +502,14 @@ define({
             "props": {
                 // "disabled": "disabled"
             }
-        },
-        {
+        }, {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",
             "type": "checkbox",
             "props": {
                 "value": "burnedAreas"
             }
-        },{
+        }, {
             "id": "tomnod-checkbox",
             "class": "tomnod-layers-option",
             "type": "checkbox",
@@ -515,7 +526,7 @@ define({
             "props": {
                 "value": "oilPalm"
             }
-        },{
+        }, {
             "id": "rspo-oil-palm-checkbox",
             "class": "forest-use-layers-option",
             "type": "checkbox",

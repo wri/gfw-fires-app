@@ -19,15 +19,76 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
+
+
+					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
+						div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
+						div.font14(data-bind="text:reportText().selectTimeLabel")
+						div.report-options-section
+
+							table.font10(data-bind="with:indoDateControl")
+								tr
+									td
+									td(data-bind="text:yearLabel")
+									td(data-bind="text:monthLabel")
+									td(data-bind="text:dayLabel")
+								tr
+									td(data-bind="text:fromLabel")
+									td
+										select(data-bind="options:fromYear,value:dateVals().fYear")
+									td
+										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
+									td
+										select(data-bind="options:fromDay,value:dateVals().fDay")
+								tr
+									td(data-bind="text:toLabel")
+									td
+										select(data-bind="options:toYear,value:dateVals().tYear")
+									td
+										select(data-bind="options:toMonth,value:dateVals().tMonth")
+									td
+										select(data-bind="options:toDay,value:dateVals().tDay")
+							span#updateINDO(class="report-link-dates", data-bind="text: getDates")
+
+
 				div(class="checkbox-container")
 					div#noaa-fires-18
 					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" )
+					div#report-optionsNOAA(data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar")
+						div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
+						div.font14(data-bind="text:reportText().selectTimeLabel")
+						div.report-options-section
+
+							table.font10(data-bind="with:noaaDateControl")
+								tr
+									td
+									td(data-bind="text:yearLabel")
+									td(data-bind="text:monthLabel")
+									td(data-bind="text:dayLabel")
+								tr
+									td(data-bind="text:fromLabel")
+									td
+										select(data-bind="options:fromYear,value:dateVals().fYear")
+									td
+										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
+									td
+										select(data-bind="options:fromDay,value:dateVals().fDay")
+								tr
+									td(data-bind="text:toLabel")
+									td
+										select(data-bind="options:toYear,value:dateVals().tYear")
+									td
+										select(data-bind="options:toMonth,value:dateVals().tMonth")
+									td
+										select(data-bind="options:toDay,value:dateVals().tDay")
+							span#updateNOAA(class="report-link-dates", data-bind="text: getDates")
+
 				div(class="checkbox-container")
 					div#burned-scars-checkbox
 					label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
 				div(class="checkbox-container")
 					div#tomnod-checkbox
-					label(for="tomnod-checkbox", data-bind="text: tomnodCheckbox")
+					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox")
 			//- div#burned-area-panel(class='accordion-panel')
 			//- 	div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 			//- 	div(class="slider-container")
@@ -112,6 +173,38 @@ div#map-view(class="map-view")
 						div#windLegendLabels
 							span 0 m/s
 							span.rightWindLabel > 40 m/s
+
+					div#report-optionsWIND(data-bind="visible: showReportOptionsWIND()" class="reportOptionsSidebar")
+						div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
+						div.font14(data-bind="text:reportText().selectTimeLabel")
+						div.report-options-section
+
+							table.font10(data-bind="with:windDateControl")
+								tr
+									td
+									td(data-bind="text:yearLabel")
+									td(data-bind="text:monthLabel")
+									td(data-bind="text:dayLabel")
+								tr
+									td(data-bind="text:fromLabel")
+									td
+										select(data-bind="options:fromYear,value:dateVals().fYear")
+									td
+										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
+									td
+										select(data-bind="options:fromDay,value:dateVals().fDay")
+								tr
+									td(data-bind="text:toLabel")
+									td
+										select(data-bind="options:toYear,value:dateVals().tYear")
+									td
+										select(data-bind="options:toMonth,value:dateVals().tMonth")
+									td
+										select(data-bind="options:toDay,value:dateVals().tDay")
+							span#updateWIND(class="report-link-dates", data-bind="text: getDates")
+
+
+
 				div(class='checkbox-container')
 					div#air-quality-checkbox
 					label(for="air-quality-checkbox", data-bind="text: airQuality")
