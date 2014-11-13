@@ -498,9 +498,7 @@ define([
         });
 
         on(dom.byId("report-link"), "click", function() {
-            debugger;
             MapModel.vm.showReportOptions(true);
-            debugger;
             if (MapModel.vm.reportAOIs().length < 1) {
                 ReportOptionsController.populate_select();
             }
@@ -552,7 +550,7 @@ define([
             var startDateFormatted = reportdates.fDay + "-" + +reportdates.fMonth + "-" + reportdates.fYear;
             var endDateFormatted = reportdates.tDay + "-" + +reportdates.tMonth + "-" + reportdates.tYear;
 
-            var sqlQuery = LayerController.getTimeDefinition("Date", startDateFormatted, endDateFormatted);
+            var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", startDateFormatted, endDateFormatted);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
