@@ -66,7 +66,8 @@ define([
             })
 
             on(dom.byId('report-launch'),'click',function(){
-                var dates = MapModel.vm.dateVals();
+                var dates = MapModel.vm.reportDateControl.dateVals();
+                console.log('dates launch', dates)
 
                 var reportdates = {};
                 for (var val in dates){
