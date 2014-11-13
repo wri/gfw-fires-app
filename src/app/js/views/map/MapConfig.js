@@ -344,7 +344,7 @@ define({
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
-        tomnodCheckbox: "Active fires and burn scars (<a href='http://www.tomnod.com/campaign/indonesiafires012014'>Crowdsourced from Tomnod</a>)",
+        tomnodCheckbox: "Active fires and burn scars (<a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>Crowdsourced from Tomnod</a>)",
         peatLandsRadio: "Peatlands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary forests",

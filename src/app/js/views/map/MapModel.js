@@ -82,19 +82,21 @@ define([
     vm.selectedAOIs = ko.observableArray([]);
     vm.reportText = ko.observable(MapConfig.text.reportOptions);
 
-    vm.dateControl = function() {
+    vm.dateControl = function(monthOverride, dayOverride) {
         var dateValueObject = ko.observable({
             fYear: ko.observable(''),
             fMonth: ko.observable(1),
             fDay: ko.observable(''),
             tYear: ko.observable(''),
             tMonth: ko.observable(2),
-            tDay: ko.observable('')
+            tDay: ko.observable(''),
+            monthOverride: ko.observable(monthOverride),
+            dayOverride: ko.observable(dayOverride)
         })
 
         var monthComputed = function(compareYear, startMonth) {
             return ko.computed(function() {
-                console.log("toMonth", this);
+
                 var curDate = new Date();
                 var lastMonth = (compareYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
                 var firstMonth = startMonth ? startMonth() : 1;
@@ -135,10 +137,62 @@ define([
                 if (compareMonth == 2 && isLeap) {
                     days.push(29);
                 }
-                console.log("days", firstDay, lastDay, days)
 
                 return days;
             });
+        };
+        // if (dayOverride) {
+        //     var dayComputed = function(compareYear, compareMonth, startYear, startMonth, startDay) {
+        //         return ko.computed(function() {
+        //             var firstDay;
+        //             var today = new Date();
+        //             var isLeap = new Date(compareYear(), 1, 29).getMonth() == 1
+        //             var days = [];
+        //             var lastDay = ((compareYear() === today.getFullYear()) && compareMonth() === (today.getMonth() + 1)) ? today.getUTCDate() : vm.months[compareMonth()];
+        //             if (startDay) {
+        //                 if (startYear() == compareYear() && startMonth() == compareMonth()) {
+        //                     firstDay = startDay();
+        //                 } else {
+        //                     firstDay = 1;
+        //                 }
+        //             } else {
+        //                 firstDay = 1;
+        //             }
+
+        //             for (var i = firstDay; i <= lastDay; i++) {
+        //                 if (i >= dayOverride) {
+        //                     days.push(i);
+        //                 }
+
+        //             }
+        //             if (compareMonth == 2 && isLeap) {
+        //                 days.push(29);
+        //             }
+        //             return days;
+        //         });
+        //     };
+        // };
+        if (monthOverride) {
+            var monthComputed = function(compareYear, startMonth) {
+                var args = arguments.length;
+                return ko.computed(function(args) {
+                    var curDate = new Date();
+                    var lastMonth = (compareYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
+                    var firstMonth = monthOverride;
+                    var months = [];
+                    for (var i = firstMonth; i <= lastMonth; i++) {
+                        if (args == 2) {
+                            if (i >= monthOverride) {
+                                months.push(i);
+                            }
+                        } else {
+                            months.push(i);
+                        }
+                    }
+                    return months;
+                });
+
+            };
         };
         return {
             toDay: dayComputed(dateValueObject().tYear, dateValueObject().tMonth, dateValueObject().fYear, dateValueObject().fMonth, dateValueObject().fDay),
@@ -167,8 +221,9 @@ define([
     }
 
     vm.reportDateControl = vm.dateControl();
-    vm.noaaDateControl = vm.dateControl();
+    vm.noaaDateControl = vm.dateControl(10, 12);
     vm.indoDateControl = vm.dateControl();
+
     // vm.fromDay = vm.dateUtilities.fromDay(vm.dateVals);
     // vm.toDay = vm.dateUtilities.toDay(vm.dateVals);
     // vm.toYear = vm.dateVals.toYear(vm.dateVals);
@@ -212,7 +267,7 @@ define([
         vm.showReportOptionsNOAA(false);
     };
     vm.closeReportOptionsINDO = function() {
-        vm.showReportOptions(false);
+        vm.showReportOptionsINDO(false);
     };
 
     o.applyBindings = function(domId) {

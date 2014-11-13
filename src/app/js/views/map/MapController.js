@@ -533,8 +533,8 @@ define([
                     reportdates[val] = dates[val]();
                 }
             }
-            var startDateFormatted = reportdates.fDay + "-" + +reportdates.fMonth + "-" + reportdates.fYear;
-            var endDateFormatted = reportdates.tDay + "-" + +reportdates.tMonth + "-" + reportdates.tYear;
+            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
 
             var sqlQuery = LayerController.getTimeDefinition("Date", startDateFormatted, endDateFormatted);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
@@ -548,8 +548,8 @@ define([
                     reportdates[val] = dates[val]();
                 }
             }
-            var startDateFormatted = reportdates.fDay + "-" + +reportdates.fMonth + "-" + reportdates.fYear;
-            var endDateFormatted = reportdates.tDay + "-" + +reportdates.tMonth + "-" + reportdates.tYear;
+            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
+            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", startDateFormatted, endDateFormatted);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
