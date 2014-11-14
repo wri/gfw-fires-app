@@ -76,6 +76,10 @@ define([
     vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
     vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
     vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
+    vm.wind00Radio = ko.observable("00");
+    vm.wind06Radio = ko.observable("06");
+    vm.wind12Radio = ko.observable("12");
+    vm.wind18Radio = ko.observable("18");
 
     vm.months = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     vm.reportAOIs = ko.observableArray([]);
@@ -216,7 +220,9 @@ define([
             monthLabel: 'MM',
             dayLabel: 'DD',
             toLabel: 'To:',
-            fromLabel: 'From:'
+            fromLabel: 'From:',
+            dateLabel: "Date",
+            timeLabel: "Time"
         }
     }
 
@@ -250,7 +256,10 @@ define([
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
+
     vm.showPrimaryForestOptions = ko.observable(false);
+    vm.windDateControl.showWindLayerOptions = ko.observable(true);
+
     vm.showWindLegend = ko.observable(false);
     vm.showLatLongInputs = ko.observable(false);
     vm.showDMSInputs = ko.observable(true);

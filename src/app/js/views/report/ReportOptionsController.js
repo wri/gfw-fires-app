@@ -51,16 +51,13 @@ define([
             //MapModel.vm.noaaDateControl.fromMonth();
             MapModel.vm.noaaDateControl.dateVals().fYear(2014);
             MapModel.vm.noaaDateControl.dateVals().fMonth(10);
-            // for (var i = 1; i < MapModel.vm.noaaDateControl.dateVals().fMonth(); i++) {
-            //     MapModel.vm.noaaDateControl.fromMonth().shift()
-            // };
             MapModel.vm.noaaDateControl.dateVals().fDay(12);
             MapModel.vm.noaaDateControl.dateVals().tYear(today.getFullYear());
             MapModel.vm.noaaDateControl.dateVals().tMonth(today.getMonth() + 1);
             MapModel.vm.noaaDateControl.dateVals().tDay(today.getUTCDate());
 
             MapModel.vm.indoDateControl.fromYear(years);
-            MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
+            MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear() - 1);
             MapModel.vm.indoDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
             MapModel.vm.indoDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
             MapModel.vm.indoDateControl.dateVals().tYear(oneWeekAgo.getFullYear());

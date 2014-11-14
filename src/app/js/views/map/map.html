@@ -22,8 +22,8 @@
           <div id="indonesia-fires"></div>
           <label for="indonesia-fires" data-bind="text: indonesiaFiresCheckbox"></label>
           <div id="report-optionsINDO" data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar">
-            <div id="report-options-closeINDO" data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader">x</div>
-            <div data-bind="text:reportText().selectTimeLabel" class="font14"></div>
+            <!--div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x-->
+            <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">
               <table data-bind="with:indoDateControl" class="font10">
                 <tr>
@@ -64,8 +64,8 @@
           <div id="noaa-fires-18"></div>
           <label for="noaa-fires-18" data-bind="text: noaaFiresCheckbox"></label>
           <div id="report-optionsNOAA" data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar">
-            <div id="report-options-closeNOAA" data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader">x</div>
-            <div data-bind="text:reportText().selectTimeLabel" class="font14"></div>
+            <!--div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x-->
+            <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">
               <table data-bind="with:noaaDateControl" class="font10">
                 <tr>
@@ -108,7 +108,7 @@
         </div>
         <div class="checkbox-container">
           <div id="tomnod-checkbox"></div>
-          <label for="tomnod-checkbox" data-bind="html: tomnodCheckbox"></label>
+          <label for="tomnod-checkbox" data-bind="html: tomnodCheckbox, css: 'tomnodLink'"></label>
         </div>
       </div>
       <div id="forest-use-panel" class="accordion-panel">
@@ -195,8 +195,8 @@
             <div id="windLegendLabels"><span>0 m/s</span><span class="rightWindLabel">> 40 m/s</span></div>
           </div>
           <div id="report-optionsWIND" data-bind="visible: showReportOptionsWIND()" class="reportOptionsSidebar">
-            <div id="report-options-closeWIND" data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader">x</div>
-            <div data-bind="text:reportText().selectTimeLabel" class="font14"></div>
+            <!--div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x-->
+            <div data-bind="text:reportText().selectTimeLabelWIND" class="font10"></div>
             <div class="report-options-section">
               <table data-bind="with:windDateControl" class="font10">
                 <tr>
@@ -206,7 +206,7 @@
                   <td data-bind="text:dayLabel"></td>
                 </tr>
                 <tr>
-                  <td data-bind="text:fromLabel"></td>
+                  <td data-bind="text:dateLabel"></td>
                   <td>
                     <select data-bind="options:fromYear,value:dateVals().fYear"></select>
                   </td>
@@ -218,15 +218,24 @@
                   </td>
                 </tr>
                 <tr>
-                  <td data-bind="text:toLabel"></td>
+                  <td data-bind="text:timeLabel"></td>
                   <td>
-                    <select data-bind="options:toYear,value:dateVals().tYear"></select>
-                  </td>
-                  <td>
-                    <select data-bind="options:toMonth,value:dateVals().tMonth"></select>
-                  </td>
-                  <td>
-                    <select data-bind="options:toDay,value:dateVals().tDay"></select>
+                    <div class="checkbox-container-wind inline">
+                      <div id="wind00-radio"></div>
+                      <label for="wind00-radio" data-bind="text: '00'"></label>
+                    </div>
+                    <div class="checkbox-container-wind inline">
+                      <div id="wind06-radio"></div>
+                      <label for="wind06-radio" data-bind="text: '06'"></label>
+                    </div>
+                    <div class="checkbox-container-wind inline">
+                      <div id="wind12-radio"></div>
+                      <label for="wind12-radio" data-bind="text: '12'"></label>
+                    </div>
+                    <div class="checkbox-container-wind inline">
+                      <div id="wind18-radio"></div>
+                      <label for="wind18-radio" data-bind="text: '18'"></label>
+                    </div>
                   </td>
                 </tr>
               </table><span id="updateWIND" data-bind="text: getDates" class="report-link-dates"></span>
