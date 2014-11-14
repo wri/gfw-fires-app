@@ -178,6 +178,7 @@ define({
     },
 
     windData: {
+        dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
         prefix: "http://suitability-mapper.s3.amazonaws.com/",
         domain: "suitability-mapper.s3.amazonaws.com"
     },

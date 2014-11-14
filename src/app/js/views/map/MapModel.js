@@ -86,29 +86,16 @@ define([
     vm.selectedAOIs = ko.observableArray([]);
     vm.reportText = ko.observable(MapConfig.text.reportOptions);
 
-    vm.dateControl = function(monthOverride, dayOverride) {
+    vm.dateControl = function() {
         var dateValueObject = ko.observable({
             fYear: ko.observable(''),
             fMonth: ko.observable(1),
             fDay: ko.observable(''),
             tYear: ko.observable(''),
             tMonth: ko.observable(2),
-            tDay: ko.observable(''),
-            monthOverride: ko.observable(monthOverride),
-            dayOverride: ko.observable(dayOverride)
+            tDay: ko.observable('')
+
         })
-        if (dayOverride) {
-            var dateValueObject = ko.observable({
-                fYear: ko.observable(''),
-                fMonth: ko.observable(1),
-                fDay: ko.observable(12),
-                tYear: ko.observable(''),
-                tMonth: ko.observable(2),
-                tDay: ko.observable(''),
-                monthOverride: ko.observable(monthOverride),
-                dayOverride: ko.observable(dayOverride)
-            })
-        }
 
         var monthComputed = function(compareYear, startMonth) {
             return ko.computed(function() {
@@ -185,14 +172,15 @@ define([
     }
 
     vm.reportDateControl = vm.dateControl();
-    vm.noaaDateControl = vm.dateControl(10, 12);
-    vm.indoDateControl = vm.dateControl();
+    //vm.noaaDateControl = vm.dateControl(10, 12);
+    //vm.indoDateControl = vm.dateControl();
 
 
     vm.windPicker = function() {
         var newDate = jQuery('#windDate').datepicker({
-            minDate: -20,
-            defaultDate: "11/10/14",
+            minDate: (new Date(2014, 11 - 1, 14)),
+            maxDate: "+0M +0D",
+            //defaultDate: "11/10/14",
             onSelect: function(selectedDate) {
                 //console.log(datepicker.currentText);
                 //update windObserv
@@ -208,23 +196,92 @@ define([
 
         return date;
     }
+    vm.noaaPickerFrom = function() {
+        var newDate = jQuery('#noaaDateFrom').datepicker({
+            date: (new Date(2014, 10 - 1, 12)),
+            minDate: (new Date(2014, 10 - 1, 12)),
+            maxDate: "+0M +0D",
+            //defaultDate: "11/10/14",
+            onSelect: function(selectedDate) {
+                //console.log(datepicker.currentText);
+                //update windObserv
+                vm.noaaObservFrom(selectedDate);
+                return selectedDate;
+            }
+        });
 
-    vm.windObserv = ko.observable();
+    }
+    vm.noaaPickerTo = function() {
+        var newDate = jQuery('#noaaDateTo').datepicker({
+            minDate: (new Date(2014, 10 - 1, 12)),
+            maxDate: "+0M +0D",
+            //defaultDate: "11/10/14",
+            onSelect: function(selectedDate) {
+                //console.log(datepicker.currentText);
+                //update windObserv
+                vm.noaaObservTo(selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date();
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
 
-    // vm.fromDay = vm.dateUtilities.fromDay(vm.dateVals);
-    // vm.toDay = vm.dateUtilities.toDay(vm.dateVals);
-    // vm.toYear = vm.dateVals.toYear(vm.dateVals);
-    // vm.toMonth = vm.dateUtilities.toMonth(vm.dateVals);
-    // vm.fromYear = ko.observableArray([]);
-    // vm.fromMonth = ko.observableArray([]);
-    // vm.dateVals = ko.observable({
-    //     fYear:ko.observable(''),
-    //     fMonth:ko.observable(1),
-    //     fDay:ko.observable(''),
-    //     tYear:ko.observable(''),
-    //     tMonth:ko.observable(2),
-    //     tDay:ko.observable('')
-    // });
+        return date;
+    }
+    vm.indoPickerFrom = function() {
+        var newDate = jQuery('#indoDateFrom').datepicker({
+            //date: (new Date(2014, 10 - 1, 12)),
+            minDate: (new Date(2013, 1 - 1, 1)),
+            maxDate: "+0M +0D",
+            //defaultDate: "11/10/14",
+            onSelect: function(selectedDate) {
+                //console.log(datepicker.currentText);
+                //update windObserv
+                vm.indoObservFrom(selectedDate);
+                return selectedDate;
+            }
+        });
+
+    }
+    vm.indoPickerTo = function() {
+        var newDate = jQuery('#indoDateTo').datepicker({
+            minDate: (new Date(2013, 1 - 1, 1)),
+            maxDate: "+0M -7D",
+            //defaultDate: "11/10/14",
+            onSelect: function(selectedDate) {
+                //console.log(datepicker.currentText);
+                //update windObserv
+                vm.indoObservTo(selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date();
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+
+        return date;
+    }
+
+
+
+    var today = new Date();
+    var days = today.getDate();
+    var months = today.getMonth() + 1;
+    var years = today.getFullYear();
+    var date = months + "/" + days + "/" + years;
+
+    vm.windObserv = ko.observable(date);
+    vm.noaaObservFrom = ko.observable("10/12/2014");
+    vm.noaaObservTo = ko.observable(date);
+    vm.indoObservFrom = ko.observable("1/1/2013");
+    vm.indoObservTo = ko.observable();
+
+
 
     vm.islands = ko.observableArray([]);
     vm.provinces = ko.observableArray([]);

@@ -208,9 +208,13 @@ define([
             this.toggleLegend(false);
         },
 
-        fetchDataForWindLayer: function() {
+        fetchDataForWindLayer: function(optionURL) {
 
             Helper.showLoader(WIND_CONFIG.mapLoaderContainer, WIND_CONFIG.mapLoaderId);
+
+            if (optionURL) {
+                WIND_CONFIG.dataUrl = optionURL;
+            }
 
             var deferred = new Deferred(),
                 req = new esriRequest({

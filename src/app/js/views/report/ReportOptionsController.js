@@ -47,22 +47,22 @@ define([
 
 
             //fromMonth: monthComputed(dateValueObject().fYear),
-            MapModel.vm.noaaDateControl.fromYear(2014);
-            //MapModel.vm.noaaDateControl.fromMonth();
-            MapModel.vm.noaaDateControl.dateVals().fYear(2014);
-            MapModel.vm.noaaDateControl.dateVals().fMonth(10);
-            MapModel.vm.noaaDateControl.dateVals().fDay(12);
-            MapModel.vm.noaaDateControl.dateVals().tYear(today.getFullYear());
-            MapModel.vm.noaaDateControl.dateVals().tMonth(today.getMonth() + 1);
-            MapModel.vm.noaaDateControl.dateVals().tDay(today.getUTCDate());
+            // MapModel.vm.noaaDateControl.fromYear(2014);
+            // //MapModel.vm.noaaDateControl.fromMonth();
+            // MapModel.vm.noaaDateControl.dateVals().fYear(2014);
+            // MapModel.vm.noaaDateControl.dateVals().fMonth(10);
+            // MapModel.vm.noaaDateControl.dateVals().fDay(12);
+            // MapModel.vm.noaaDateControl.dateVals().tYear(today.getFullYear());
+            // MapModel.vm.noaaDateControl.dateVals().tMonth(today.getMonth() + 1);
+            // MapModel.vm.noaaDateControl.dateVals().tDay(today.getUTCDate());
 
-            MapModel.vm.indoDateControl.fromYear(years);
-            MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear() - 1);
-            MapModel.vm.indoDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
-            MapModel.vm.indoDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
-            MapModel.vm.indoDateControl.dateVals().tYear(oneWeekAgo.getFullYear());
-            MapModel.vm.indoDateControl.dateVals().tMonth(oneWeekAgo.getMonth() + 1);
-            MapModel.vm.indoDateControl.dateVals().tDay(oneWeekAgo.getUTCDate());
+            // MapModel.vm.indoDateControl.fromYear(years);
+            // MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear() - 1);
+            // MapModel.vm.indoDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
+            // MapModel.vm.indoDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
+            // MapModel.vm.indoDateControl.dateVals().tYear(oneWeekAgo.getFullYear());
+            // MapModel.vm.indoDateControl.dateVals().tMonth(oneWeekAgo.getMonth() + 1);
+            // MapModel.vm.indoDateControl.dateVals().tDay(oneWeekAgo.getUTCDate());
         }
 
         o.bind_events = function() {
