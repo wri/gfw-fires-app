@@ -178,6 +178,7 @@ define([
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
+            MapModel.vm.windPicker();
             // Resize Accordion
             registry.byId("fires-map-accordion").resize();
             WindyController.setMap(o.map);
@@ -567,15 +568,12 @@ define([
         });
 
         on(dom.byId('updateWIND'), 'click', function() {
-            var dates = MapModel.vm.windDateControl.dateVals();
-            var reportdates = {};
-            for (var val in dates) {
-                if (dates.hasOwnProperty(val)) {
-                    reportdates[val] = dates[val]();
-                }
-            }
-            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
-            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+            var dates = MapModel.vm.windObserv();
+
+            var reportdates = dates.split("/");
+
+            var datesFormatted = reportdates[0].toString() + "-" + reportdates[1].toString() + "-" + reportdates[2].toString();
+            console.log(datesFormatted);
 
             //var sqlQuery = LayerController.getTimeDefinition("placeHolderField!", startDateFormatted, endDateFormatted);
             //LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.windData??), MapConfig.windData['wind??'], sqlQuery);

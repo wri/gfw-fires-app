@@ -1,3 +1,4 @@
+link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#map-view(class="map-view")
 	div#control-panel(class="control-panel")
 		div(class="report-link-container")
@@ -180,23 +181,15 @@ div#map-view(class="map-view")
 						div.font10(data-bind="text:reportText().selectTimeLabelWIND")
 						div.report-options-section
 
-							table.font10(data-bind="with:windDateControl")
-								tr
-									td
-									td(data-bind="text:yearLabel")
-									td(data-bind="text:monthLabel")
-									td(data-bind="text:dayLabel")
-								tr
-									td(data-bind="text:dateLabel")
-									td
-										select(data-bind="options:fromYear,value:dateVals().fYear")
-									td
-										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
-									td
-										select(data-bind="options:fromDay,value:dateVals().fDay")
+							table.font10
 								
 								tr
-									td(data-bind="text:timeLabel")
+									td(data-bind="text: 'Date'")
+									td
+										input(type="text", name="user" value=4, id="windDate", data-bind="value:windPicker()")
+								
+								tr
+									td(data-bind="text:'Time'")
 									td
 										div(class="checkbox-container-wind inline")
 											div#wind00-radio
@@ -214,8 +207,7 @@ div#map-view(class="map-view")
 										div(class="checkbox-container-wind inline")
 											div#wind18-radio
 											label(for="wind18-radio", data-bind="text: '18'")
-					
-
+								
 							span#updateWIND(class="report-link-dates", data-bind="text: getDates")
 
 

@@ -413,9 +413,7 @@ define({
             month: 'MM',
             day: 'DD',
             toLabel: 'To:',
-            fromLabel: 'From:',
-            dateLabel: "Date",
-            timeLable: "Time"
+            fromLabel: 'From:'
         }
     },
 
