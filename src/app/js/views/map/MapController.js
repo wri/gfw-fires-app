@@ -179,6 +179,7 @@ define([
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             $("#noaaDateFrom").datepicker("setDate", "10/12/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
+
             o.map.graphics.clear();
             MapModel.vm.windPicker();
             // Resize Accordion

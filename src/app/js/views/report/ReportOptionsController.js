@@ -37,13 +37,13 @@ define([
             }
 
 
-            MapModel.vm.reportDateControl.fromYear(years);
-            MapModel.vm.reportDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
-            MapModel.vm.reportDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
-            MapModel.vm.reportDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
-            MapModel.vm.reportDateControl.dateVals().tYear(today.getFullYear());
-            MapModel.vm.reportDateControl.dateVals().tMonth(today.getMonth() + 1);
-            MapModel.vm.reportDateControl.dateVals().tDay(today.getUTCDate());
+            // MapModel.vm.reportDateControl.fromYear(years);
+            // MapModel.vm.reportDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
+            // MapModel.vm.reportDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
+            // MapModel.vm.reportDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
+            // MapModel.vm.reportDateControl.dateVals().tYear(today.getFullYear());
+            // MapModel.vm.reportDateControl.dateVals().tMonth(today.getMonth() + 1);
+            // MapModel.vm.reportDateControl.dateVals().tDay(today.getUTCDate());
 
 
             //fromMonth: monthComputed(dateValueObject().fYear),
@@ -87,23 +87,25 @@ define([
             });
 
             on(dom.byId('report-launch'), 'click', function() {
-                var dates = MapModel.vm.reportDateControl.dateVals();
-                console.log('dates launch', dates)
 
-
-                var reportdates = {};
-                for (var val in dates) {
-                    if (dates.hasOwnProperty(val)) {
-                        reportdates[val] = dates[val]();
-                    }
-                }
                 if (dom.byId('report-province-radio').checked) {
                     aoitype = 'PROVINCE';
                 } else if (dom.byId('report-island-radio').checked) {
                     aoitype = 'ISLAND';
                 }
 
-                var hash = o.report_data_to_hash(aoitype, dates, MapModel.vm.selectedAOIs);
+                var reportdateFrom = MapModel.vm.firesObservFrom().split("/");
+                var reportdateTo = MapModel.vm.firesObservTo().split("/");
+                var reportdates = {};
+
+                reportdates.fYear = Number(reportdateFrom[2]);
+                reportdates.fMonth = Number(reportdateFrom[0]);
+                reportdates.fDay = Number(reportdateFrom[1]);
+                reportdates.tYear = Number(reportdateTo[2]);
+                reportdates.tMonth = Number(reportdateTo[0]);
+                reportdates.tDay = Number(reportdateTo[1]);
+
+                var hash = o.report_data_to_hash(aoitype, reportdates, MapModel.vm.selectedAOIs);
                 var win = window.open('./app/js/views/report/report.html' + hash, 'Report', '');
                 win.report = true;
                 win.reportOptions = {
@@ -120,11 +122,13 @@ define([
                 datestring,
                 aoistring;
 
+
             for (var val in dates) {
                 if (dates.hasOwnProperty(val)) {
-                    dateargs.push([val, dates[val]()].join('-'));
+                    dateargs.push([val, dates[val]].join('-'));
                 }
             }
+
             datestring = "dates=" + dateargs.join('!');
 
             aoistring = "aois=" + aois().join('!');
@@ -137,7 +141,7 @@ define([
         o.populate_select = function() {
             var self = this;
             var fires = MapConfig.firesLayer
-            self.init_time_selects();
+                //self.init_time_selects();
             self.bind_events();
             selaois = MapModel.vm.selectedAOIs;
             var islandresults = function(results) {

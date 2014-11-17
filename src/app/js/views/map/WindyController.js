@@ -214,6 +214,7 @@ define([
 
             if (optionURL) {
                 WIND_CONFIG.dataUrl = optionURL;
+                console.log(WIND_CONFIG.dataUrl);
             }
 
             var deferred = new Deferred(),

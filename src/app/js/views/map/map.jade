@@ -232,28 +232,17 @@ div#map-view(class="map-view")
 				div.font14(data-bind="text:reportText().selectTimeLabel")
 				div.report-options-section
 
-					table.font10(data-bind="with:reportDateControl")
-						tr
-							td
-							td(data-bind="text:yearLabel")
-							td(data-bind="text:monthLabel")
-							td(data-bind="text:dayLabel")
-						tr
-							td(data-bind="text:fromLabel")
-							td
-								select(data-bind="options:fromYear,value:dateVals().fYear")
-							td
-								select(data-bind="options:fromMonth(),value:dateVals().fMonth")
-							td
-								select(data-bind="options:fromDay,value:dateVals().fDay")
-						tr
-							td(data-bind="text:toLabel")
-							td
-								select(data-bind="options:toYear,value:dateVals().tYear")
-							td
-								select(data-bind="options:toMonth,value:dateVals().tMonth")
-							td
-								select(data-bind="options:toDay,value:dateVals().tDay")
+					table.font10
+								
+								tr
+									td(data-bind="text: 'From'")
+									td
+										input(type="text", name="user" value=4, id="firesDateFrom", data-bind="value:firesPickerFrom()")
+
+								tr
+									td(data-bind="text: 'To'")
+									td
+										input(type="text", name="user" value=4, id="firesDateTo", data-bind="value:firesPickerTo()")
 				div#report-launch.report-link-container
 					div.report-link Run Analysis
 			div#latLongHUD(class='latLongHUD')
