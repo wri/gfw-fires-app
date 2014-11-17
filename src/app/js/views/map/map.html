@@ -170,28 +170,24 @@
                     <input type="text" name="user" value="4" id="windDate" data-bind="value:windPicker()"/>
                   </td>
                 </tr>
-                <tr>
-                  <td data-bind="text:'Time'"></td>
-                  <td>
-                    <div class="checkbox-container-wind inline">
-                      <div id="wind00-radio"></div>
-                      <label for="wind00-radio" data-bind="text: '00'"></label>
-                    </div>
-                    <div class="checkbox-container-wind inline">
-                      <div id="wind06-radio"></div>
-                      <label for="wind06-radio" data-bind="text: '06'"></label>
-                    </div>
-                    <div class="checkbox-container-wind inline">
-                      <div id="wind12-radio"></div>
-                      <label for="wind12-radio" data-bind="text: '12'"></label>
-                    </div>
-                    <div class="checkbox-container-wind inline">
-                      <div id="wind18-radio"></div>
-                      <label for="wind18-radio" data-bind="text: '18'"></label>
-                    </div>
-                  </td>
-                </tr>
-              </table><span id="updateWIND" data-bind="text: getDates" class="report-link-dates"></span>
+              </table>
+              <!--
+              tr
+               td(data-bind="text:'Time'")
+               td
+                div(class="checkbox-container-wind inline")
+                 div#wind00-radio
+                 label(for="wind00-radio", data-bind="text: '00'")
+                div(class="checkbox-container-wind inline")
+                 div#wind06-radio
+                 label(for="wind06-radio", data-bind="text: '06'")
+                div(class="checkbox-container-wind inline")
+                 div#wind12-radio
+                 label(for="wind12-radio", data-bind="text: '12'")
+                div(class="checkbox-container-wind inline")
+                 div#wind18-radio
+                 label(for="wind18-radio", data-bind="text: '18'")
+              --><span id="updateWIND" data-bind="text: getDates" class="report-link-dates"></span>
             </div>
           </div>
         </div>

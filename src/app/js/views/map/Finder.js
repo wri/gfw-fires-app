@@ -21,14 +21,14 @@ define([
     "esri/geometry/Circle",
     "libs/moment",
     "libs/timezone"
-], function (dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic, 
-    Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, 
+], function(dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic,
+    Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask,
     IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
     return {
         setMap: function(map) {
-            _map = map;            
+            _map = map;
         },
 
         clickNext: '',
@@ -133,7 +133,7 @@ define([
                 identifyTask.execute(identifyParams, function(response) {
                     var node = response[0];
                     if (node) {
-                        content =  dom.byId("close-icon") === undefined ? "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>" : "<table id='infoWindowTable'>";
+                        content = dom.byId("close-icon") === undefined ? "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>" : "<table id='infoWindowTable'>";
 
                         if (node.layerId == 25) {
                             content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
@@ -186,48 +186,49 @@ define([
             }
         },
 
-        getTomnodInfoWindow: function(response){
+        getTomnodInfoWindow: function(response) {
             var qconfig = MapConfig.tomnodLayer;
-             var   url = qconfig.url;
-                var map = _map;
-                var result = response;
-                var _self = this;
-                var content ='';
+            var url = qconfig.url;
+            var map = _map;
+            var result = response;
+            var _self = this;
+            var content = '';
 
-                    if (result) {
-                            executeReturned = false;
-                        // content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
-                            content +=" <div><h3>"+ result.attributes['name'] + "</h3></div>";
-                            content += "<tr><td><img src='" +  qconfig.chipBucket + result.attributes['ChipLink'];
-                            content += "' style='width:300px' /></tc></tr>"
-                            content += "<div><strong>Confirmation:</strong> "+result.attributes['Confirmation'] + " people</div>";
-                            content += "<div><b>Crowd Rank:</b> "+result.attributes['CrowdRank'] + "%</div>";
-                            content += "<a href='"+result.attributes['ImageLink'];
-                            content +=  "' target='_blank'>See this point on ";
-                            content += "<img style='height:20px;width:100px;' src='app/images/tomnod_logo.png'></div>";
-                        return content;
-                        
-                        
-                        
+            if (result) {
+                executeReturned = false;
+                // content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
+                content += " <div><h3>" + result.attributes['name'] + "</h3></div>";
+                content += "<tr><td><img src='" + qconfig.chipBucket + result.attributes['ChipLink'];
+                content += "' style='width:300px' /></tc></tr>"
+                content += "<div><strong>Confirmation:</strong> " + result.attributes['Confirmation'] + " people</div>";
+                content += "<div><b>Crowd Rank:</b> " + result.attributes['CrowdRank'] + "%</div>";
+                content += "<a href='" + result.attributes['ImageLink'];
+                content += "' target='_blank'>See this point on ";
+                content += "<img style='height:20px;width:100px;' src='app/images/tomnod_logo.png'></div>";
+                return content;
 
-                        // map.infoWindow.setContent(content);
-                        // map.infoWindow.resize(500,450);
-                        // // map.infoWindow.setTitle("Title");
-                        // map.infoWindow.show(point);
 
-                        // var clicknext = on(dojo.byId('nexttomnod'),"click",function(evt){
-                        //     console.log("CLICK NEXT",evt);
-                        // });
-                        // var clickprev = on(dojo.byId('prevtomnod'),"click",function(evt){
-                        //     console.log("CLICK prev",evt);
-                        // });
-                    } else {
-                        // _self.getActiveFiresInfoWindow(event);
-                    }
+
+
+                // map.infoWindow.setContent(content);
+                // map.infoWindow.resize(500,450);
+                // // map.infoWindow.setTitle("Title");
+                // map.infoWindow.show(point);
+
+                // var clicknext = on(dojo.byId('nexttomnod'),"click",function(evt){
+                //     console.log("CLICK NEXT",evt);
+                // });
+                // var clickprev = on(dojo.byId('prevtomnod'),"click",function(evt){
+                //     console.log("CLICK prev",evt);
+                // });
+            } else {
+                // _self.getActiveFiresInfoWindow(event);
+            }
         },
 
-        selectTomnodFeatures: function(event,arg2){
-           var qconfig = MapConfig.tomnodLayer,_self = this,
+        selectTomnodFeatures: function(event, arg2) {
+            var qconfig = MapConfig.tomnodLayer,
+                _self = this,
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
@@ -242,47 +243,47 @@ define([
                 dateString = '',
                 defs = [];
 
-                if (!_map.getLayer(qconfig.id).visible) {
+            if (!_map.getLayer(qconfig.id).visible) {
+                _self.getActiveFiresInfoWindow(event);
+                _self.getDigitalGlobeInfoWindow(event);
+
+                return;
+            }
+
+            iparams.geometry = point;
+            iparams.tolerance = 3;
+            iparams.returnGeometry = false;
+            iparams.layerDefinitions = defs;
+            iparams.mapExtent = _map.extent;
+            iparams.layerIds = [8];
+
+            // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            query.where = 'OBJECTID in (';
+            query.returnGeometry = false;
+            query.outFields = ['OBJECTID', 'ChipLink', 'CrowdRank', 'Confirmation', 'name', 'ImageLink'];
+            var objectids = [];
+
+
+            var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
+            itask.execute(iparams, function(response) {
+                arrayUtils.forEach(response, function(feature) {
+                    objectids.push(feature.feature.attributes.OBJECTID);
+                });
+                if (objectids.length < 1) {
+                    _map.infoWindow.setFeatures(undefined);
                     _self.getActiveFiresInfoWindow(event);
                     _self.getDigitalGlobeInfoWindow(event);
-
                     return;
                 }
+                _map.infoWindow.resize(340, 500);
+                query.where += objectids.join(',') + ")"
+                selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query, FeatureLayer.SELECTION_NEW);
 
-                iparams.geometry = point;
-                iparams.tolerance = 3;
-                iparams.returnGeometry = false;
-                iparams.layerDefinitions = defs;
-                iparams.mapExtent = _map.extent;
-                iparams.layerIds = [8];
-
-                // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-
-                query.where = 'OBJECTID in (';
-                query.returnGeometry = false;
-                query.outFields = ['OBJECTID', 'ChipLink','CrowdRank','Confirmation', 'name', 'ImageLink'];
-                var objectids = [];
-                
-
-                var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
-                itask.execute(iparams, function(response) {
-                    arrayUtils.forEach(response,function(feature){
-                        objectids.push(feature.feature.attributes.OBJECTID);
-                    });
-                    if (objectids.length < 1){
-                        _map.infoWindow.setFeatures(undefined);
-                        _self.getActiveFiresInfoWindow(event);
-                        _self.getDigitalGlobeInfoWindow(event);
-                        return;
-                    }
-                    _map.infoWindow.resize(340,500);
-                    query.where += objectids.join(',') + ")"
-                    selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query,FeatureLayer.SELECTION_NEW);
-                        
-                    selected_features.then(function(features){
-                        _map.infoWindow.setFeatures(features);
-                        _map.infoWindow.show(event.mapPoint);
-                    });
+                selected_features.then(function(features) {
+                    _map.infoWindow.setFeatures(features);
+                    _map.infoWindow.show(event.mapPoint);
+                });
 
             }, function(err) {
                 _self.mapClick(event);
@@ -327,7 +328,7 @@ define([
                     break;
                 default:
                     time.setDate(time.getDate() - 8);
-                    today.setDate(today.getDate() - 7);                    
+                    today.setDate(today.getDate() - 7);
                     break;
             }
 
@@ -376,7 +377,7 @@ define([
             });
         },
 
-        getDigitalGlobeInfoWindow: function (evt) {
+        getDigitalGlobeInfoWindow: function(evt) {
             var dgConf = MapConfig.digitalGlobe,
                 dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
                 query = new Query(),
@@ -395,79 +396,79 @@ define([
             // esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
 
 
-        var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i){
-                    var deferred = new Deferred;
-                    query.geometry = evt.graphic.geometry;
-                    query.returnGeometry = false;
-                    query.outFields = ['*'];
-                    var task = new QueryTask(MapConfig.digitalGlobe.imagedir+i+"/ImageServer")
-                    task.execute(query,function(results){
-                        deferred.resolve(results.features);
-                    },function(err){
+            var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+                var deferred = new Deferred;
+                query.geometry = evt.graphic.geometry;
+                query.returnGeometry = false;
+                query.outFields = ['*'];
+                var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer")
+                task.execute(query, function(results) {
+                    deferred.resolve(results.features);
+                }, function(err) {
 
-                        deferred.resolve([])
-                    })
-                    return deferred.promise;
-            })).then(function(results){
+                    deferred.resolve([])
+                })
+                return deferred.promise;
+            })).then(function(results) {
                 var content = '';
                 var features = [];
                 var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
                 var timeStops = dijit.byId('timeSliderDG').timeStops;
                 var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
                 var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
-                results.map(function(featureArr){
-                        featureArr.map(function(feature){
-                            features.push(feature);
-                        });
+                results.map(function(featureArr) {
+                    featureArr.map(function(feature) {
+                        features.push(feature);
                     });
+                });
 
 
-                    content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
+                content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
 
-                    arrayUtils.forEach(features, function (f) {
-                        var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                        if (date >= start && date <= end){
-                            content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_"+f.attributes.OBJECTID +"'>Date: " + date.format("M/D/YYYY") + " Satellite: "+f.attributes.SensorName + "</a>"+"</li>";//f.attributes.Date + "</a></li>";
-                        }
-                        // content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
+                arrayUtils.forEach(features, function(f) {
+                    var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                    if (date >= start && date <= end) {
+                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>Date: " + date.format("M/D/YYYY") + " Satellite: " + f.attributes.SensorName + "</a>" + "</li>"; //f.attributes.Date + "</a></li>";
+                    }
+                    // content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
 
-                    });
+                });
 
-                    content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
+                content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
 
-                    _map.infoWindow.setContent(content);
-                    _map.infoWindow.show(point);
+                _map.infoWindow.setContent(content);
+                _map.infoWindow.show(point);
 
-                    // if (features.length === 1) {
-                    //     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-                    //     activeFeatureIndex = 0;
-                    // } else {
-                        // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-                        activeFeatureIndex = 0;
-                        dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
-                            handles.push(on(node, "click", function (evt) {
-                                var target = evt.target ? evt.target : evt.srcElement,
-                                    bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-                                LayerController.showDigitalGlobeImagery(bucket);
-                                activeFeatureIndex = index;
-                            }));
-                        });
-                    // }
-
-                    handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) { 
-
-                        var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY,
-                            _map.spatialReference);
-                        
-                        _map.centerAndZoom(point, 12);
-                        // _map.infoWindow.show(point);
+                // if (features.length === 1) {
+                //     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                //     activeFeatureIndex = 0;
+                // } else {
+                // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
+                activeFeatureIndex = 0;
+                dojoQuery(".contentPane .popup-link").forEach(function(node, index) {
+                    handles.push(on(node, "click", function(evt) {
+                        var target = evt.target ? evt.target : evt.srcElement,
+                            bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                        LayerController.showDigitalGlobeImagery(bucket);
+                        activeFeatureIndex = index;
                     }));
+                });
+                // }
 
-                    on.once(_map.infoWindow, "hide", function () {
-                        arrayUtils.forEach(handles, function (handle) {
-                            handle.remove();
-                        });
+                handles.push(on(dom.byId("custom-zoom-to"), "click", function(evt) {
+
+                    var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY,
+                        _map.spatialReference);
+
+                    _map.centerAndZoom(point, 12);
+                    // _map.infoWindow.show(point);
+                }));
+
+                on.once(_map.infoWindow, "hide", function() {
+                    arrayUtils.forEach(handles, function(handle) {
+                        handle.remove();
                     });
+                });
 
             });
 
@@ -668,7 +669,7 @@ define([
 
         // },
 
-        
+
 
 
         getFireTweetsInfoWindow: function(evt) {

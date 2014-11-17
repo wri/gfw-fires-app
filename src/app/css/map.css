@@ -55,6 +55,22 @@ map.styl,
   border: 0;
   background: rgba(255,255,255,0);
 }
+#map_WV01 {
+  z-index: 1;
+  pointer-events: none;
+}
+#map_QB01 {
+  z-index: 1;
+  pointer-events: none;
+}
+#map_WV02 {
+  z-index: 1;
+  pointer-events: none;
+}
+#map_GE01 {
+  z-index: 1;
+  pointer-events: none;
+}
 #map .esriSimpleSliderTL {
   right: 20px;
   left: auto;
@@ -210,7 +226,7 @@ map.styl,
   top: 20%;
   right: 50%;
   background: #fff;
-  z-index: 1;
+  z-index: 2;
   font-size: 12pt;
   border-radius: 5px;
 }

@@ -807,6 +807,7 @@ define([
         //     visible: false
         // });
         digitalGlobeLayers = dgConf.mosaics.map(function(i) {
+            console.log("Here are the layers to adjust z index of: " + i);
             return (new ArcGISImageServiceLayer(dgConf.imagedir + i + '/ImageServer', {
                 id: i,
                 visible: false

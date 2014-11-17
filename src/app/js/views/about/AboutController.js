@@ -45,7 +45,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             });
 
             aboutmodel.leftLinks(leftLinks);
-            datamodel.leftLinks(leftLinks);
+            //datamodel.leftLinks(leftLinks);
             this.reportAnalyticsHelper('view', 'content', 'The user viewed the ' + this.toTitleCase(obj.name) + ' content on the Data page.');
 
             require(["dojo/text!views/about/templates/" + htmlToFetch + ".htm"], function(content) {
@@ -54,13 +54,13 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         };
 
-        o.toTitleCase = function (str) {
-            return str.replace(/\w*/g, function (txt) {
+        o.toTitleCase = function(str) {
+            return str.replace(/\w*/g, function(txt) {
                 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
             });
         };
 
-        o.reportAnalyticsHelper = function (eventType, action, label) {
+        o.reportAnalyticsHelper = function(eventType, action, label) {
             ga('A.send', 'event', eventType, action, label);
             ga('B.send', 'event', eventType, action, label);
         };
