@@ -178,6 +178,7 @@ define({
     },
 
     windData: {
+        dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
         prefix: "http://suitability-mapper.s3.amazonaws.com/",
         domain: "suitability-mapper.s3.amazonaws.com"
     },
@@ -312,7 +313,31 @@ define({
         'Wind_Direction': {
             'id': "windy-layer-checkbox",
             'type': 'checkbox'
-        }
+        },
+        'Wind_Direction_Time': {
+            1: {
+                'id': "windy-layer-radio",
+                'type': 'checkbox'
+            }
+        },
+        'Wind_Direction_Time2': {
+            0: {
+                'id': ['windy-layer-radio', 'wind00-radio'],
+                'type': 'radio'
+            },
+            1: {
+                'id': ['windy-layer-radio', 'wind06-radio'],
+                'type': 'radio'
+            },
+            2: {
+                'id': ['windy-layer-radio', 'wind12-radio'],
+                'type': 'radio'
+            },
+            3: {
+                'id': ['windy-layer-radio', 'wind18-radio'],
+                'type': 'radio'
+            }
+        },
     },
 
     text: {
@@ -344,7 +369,8 @@ define({
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
-        tomnodCheckbox: "Active fires and burn scars (<a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>Crowdsourced from Tomnod</a>)",
+        tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
+        //tomnodLink: "tomnodLinkClass",
         peatLandsRadio: "Peatlands",
         treeCoverDensityRadio: "Tree cover density",
         primaryForestsRadio: "Primary forests",
@@ -364,7 +390,7 @@ define({
         twitterConversationsCheckbox: "Twitter conversations",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
-        getDates: "Query Selected Range",
+        getDates: "Update",
         windyLayerCheckbox: "Wind direction",
         windySubLabelAdvice: "For best visual appearance, switch to Dark Gray Canvas basemap option on the right",
         windySubLabel: "(Daily, NOAA)",
@@ -383,6 +409,7 @@ define({
             provinceRadio: 'By Province(s)',
             multiSelectInfo: 'To select more than one, hold down the control (PC) or command (Mac) key when clicking',
             selectTimeLabel: 'Select timeframe of interest:',
+            selectTimeLabelWIND: 'Select a date and time:',
             year: 'YYYY',
             month: 'MM',
             day: 'DD',
@@ -682,6 +709,39 @@ define({
             "props": {
                 "value": "3",
                 "name": "primary-forest-radios",
+                "checked": true
+            }
+        }, {
+            "id": "wind00-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "0",
+                "name": "windy-layer-radio"
+            }
+        }, {
+            "id": "wind06-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "1",
+                "name": "windy-layer-radio"
+            }
+        }, {
+            "id": "wind12-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "2",
+                "name": "windy-layer-radio"
+            }
+        }, {
+            "id": "wind18-radio",
+            "type": "radio",
+            "class": "primary-forests-option",
+            "props": {
+                "value": "3",
+                "name": "windy-layer-radio",
                 "checked": true
             }
         }

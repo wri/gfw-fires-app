@@ -1,3 +1,4 @@
+link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#map-view(class="map-view")
 	div#control-panel(class="control-panel")
 		div(class="report-link-container")
@@ -22,32 +23,24 @@ div#map-view(class="map-view")
 
 
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
-						div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
-						div.font14(data-bind="text:reportText().selectTimeLabel")
+						//div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
 
-							table.font10(data-bind="with:indoDateControl")
+
+
+							table.font10
+								
 								tr
+									td(data-bind="text: 'From'")
 									td
-									td(data-bind="text:yearLabel")
-									td(data-bind="text:monthLabel")
-									td(data-bind="text:dayLabel")
+										input(type="text", name="user" value=4, id="indoDateFrom", data-bind="value:indoPickerFrom()")
+
 								tr
-									td(data-bind="text:fromLabel")
+									td(data-bind="text: 'To'")
 									td
-										select(data-bind="options:fromYear,value:dateVals().fYear")
-									td
-										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
-									td
-										select(data-bind="options:fromDay,value:dateVals().fDay")
-								tr
-									td(data-bind="text:toLabel")
-									td
-										select(data-bind="options:toYear,value:dateVals().tYear")
-									td
-										select(data-bind="options:toMonth,value:dateVals().tMonth")
-									td
-										select(data-bind="options:toDay,value:dateVals().tDay")
+										input(type="text", name="user" value=4, id="indoDateTo", data-bind="value:indoPickerTo()")
+							
 							span#updateINDO(class="report-link-dates", data-bind="text: getDates")
 
 
@@ -55,32 +48,22 @@ div#map-view(class="map-view")
 					div#noaa-fires-18
 					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" )
 					div#report-optionsNOAA(data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar")
-						div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
-						div.font14(data-bind="text:reportText().selectTimeLabel")
+						//div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
 
-							table.font10(data-bind="with:noaaDateControl")
+							table.font10
+								
 								tr
+									td(data-bind="text: 'From'")
 									td
-									td(data-bind="text:yearLabel")
-									td(data-bind="text:monthLabel")
-									td(data-bind="text:dayLabel")
+										input(type="text", name="user" value=4, id="noaaDateFrom", data-bind="value:noaaPickerFrom()")
+
 								tr
-									td(data-bind="text:fromLabel")
+									td(data-bind="text: 'To'")
 									td
-										select(data-bind="options:fromYear,value:dateVals().fYear")
-									td
-										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
-									td
-										select(data-bind="options:fromDay,value:dateVals().fDay")
-								tr
-									td(data-bind="text:toLabel")
-									td
-										select(data-bind="options:toYear,value:dateVals().tYear")
-									td
-										select(data-bind="options:toMonth,value:dateVals().tMonth")
-									td
-										select(data-bind="options:toDay,value:dateVals().tDay")
+										input(type="text", name="user" value=4, id="noaaDateTo", data-bind="value:noaaPickerTo()")
+							
 							span#updateNOAA(class="report-link-dates", data-bind="text: getDates")
 
 				div(class="checkbox-container")
@@ -88,7 +71,7 @@ div#map-view(class="map-view")
 					label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
 				div(class="checkbox-container")
 					div#tomnod-checkbox
-					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox")
+					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox, css: 'tomnodLink'")
 			//- div#burned-area-panel(class='accordion-panel')
 			//- 	div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 			//- 	div(class="slider-container")
@@ -129,6 +112,7 @@ div#map-view(class="map-view")
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
 					div#land-cover-transparency-slider
+
 				div(class="checkbox-container")
 					div#no-land-cover-radio
 					label(for="no-land-cover-radio", data-bind="text: none")
@@ -175,32 +159,37 @@ div#map-view(class="map-view")
 							span.rightWindLabel > 40 m/s
 
 					div#report-optionsWIND(data-bind="visible: showReportOptionsWIND()" class="reportOptionsSidebar")
-						div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
-						div.font14(data-bind="text:reportText().selectTimeLabel")
+						//div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabelWIND")
 						div.report-options-section
 
-							table.font10(data-bind="with:windDateControl")
+							table.font10
+								
 								tr
+									td(data-bind="text: 'Date'")
 									td
-									td(data-bind="text:yearLabel")
-									td(data-bind="text:monthLabel")
-									td(data-bind="text:dayLabel")
+										input(type="text", name="user" value=4, id="windDate", data-bind="value:windPicker()")
+								
 								tr
-									td(data-bind="text:fromLabel")
+									td(data-bind="text:'Time'")
 									td
-										select(data-bind="options:fromYear,value:dateVals().fYear")
-									td
-										select(data-bind="options:fromMonth(),value:dateVals().fMonth")
-									td
-										select(data-bind="options:fromDay,value:dateVals().fDay")
-								tr
-									td(data-bind="text:toLabel")
-									td
-										select(data-bind="options:toYear,value:dateVals().tYear")
-									td
-										select(data-bind="options:toMonth,value:dateVals().tMonth")
-									td
-										select(data-bind="options:toDay,value:dateVals().tDay")
+										div(class="checkbox-container-wind inline")
+											div#wind00-radio
+											label(for="wind00-radio", data-bind="text: '00'")
+									
+										div(class="checkbox-container-wind inline")
+											div#wind06-radio
+											label(for="wind06-radio", data-bind="text: '06'")
+											
+									
+										div(class="checkbox-container-wind inline")
+											div#wind12-radio
+											label(for="wind12-radio", data-bind="text: '12'")
+									
+										div(class="checkbox-container-wind inline")
+											div#wind18-radio
+											label(for="wind18-radio", data-bind="text: '18'")
+								
 							span#updateWIND(class="report-link-dates", data-bind="text: getDates")
 
 
@@ -243,28 +232,17 @@ div#map-view(class="map-view")
 				div.font14(data-bind="text:reportText().selectTimeLabel")
 				div.report-options-section
 
-					table.font10(data-bind="with:reportDateControl")
-						tr
-							td
-							td(data-bind="text:yearLabel")
-							td(data-bind="text:monthLabel")
-							td(data-bind="text:dayLabel")
-						tr
-							td(data-bind="text:fromLabel")
-							td
-								select(data-bind="options:fromYear,value:dateVals().fYear")
-							td
-								select(data-bind="options:fromMonth(),value:dateVals().fMonth")
-							td
-								select(data-bind="options:fromDay,value:dateVals().fDay")
-						tr
-							td(data-bind="text:toLabel")
-							td
-								select(data-bind="options:toYear,value:dateVals().tYear")
-							td
-								select(data-bind="options:toMonth,value:dateVals().tMonth")
-							td
-								select(data-bind="options:toDay,value:dateVals().tDay")
+					table.font10
+								
+								tr
+									td(data-bind="text: 'From'")
+									td
+										input(type="text", name="user" value=4, id="firesDateFrom", data-bind="value:firesPickerFrom()")
+
+								tr
+									td(data-bind="text: 'To'")
+									td
+										input(type="text", name="user" value=4, id="firesDateTo", data-bind="value:firesPickerTo()")
 				div#report-launch.report-link-container
 					div.report-link Run Analysis
 			div#latLongHUD(class='latLongHUD')

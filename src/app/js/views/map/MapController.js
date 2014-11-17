@@ -177,7 +177,11 @@ define([
 
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
+            $("#noaaDateFrom").datepicker("setDate", "10/12/2014");
+            $("#indoDateFrom").datepicker("setDate", "1/1/2013");
+
             o.map.graphics.clear();
+            MapModel.vm.windPicker();
             // Resize Accordion
             registry.byId("fires-map-accordion").resize();
             WindyController.setMap(o.map);
@@ -536,49 +540,40 @@ define([
 
 
         on(dom.byId('updateNOAA'), 'click', function() {
-            var dates = MapModel.vm.noaaDateControl.dateVals();
-            var reportdates = {};
-            for (var val in dates) {
-                if (dates.hasOwnProperty(val)) {
-                    reportdates[val] = dates[val]();
-                }
-            }
-            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
-            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+            var dateFrom = MapModel.vm.noaaObservFrom();
+            var dateTo = MapModel.vm.noaaObservTo();
 
-            var sqlQuery = LayerController.getTimeDefinition("Date", startDateFormatted, endDateFormatted);
+            var reportdateFrom = dateFrom.replace("/", "-");
+            var reportdateTo = dateTo.replace("/", "-");
+
+            var sqlQuery = LayerController.getTimeDefinition("Date", reportdateFrom, dateTo);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
         });
 
         on(dom.byId('updateINDO'), 'click', function() {
-            var dates = MapModel.vm.indoDateControl.dateVals();
-            var reportdates = {};
-            for (var val in dates) {
-                if (dates.hasOwnProperty(val)) {
-                    reportdates[val] = dates[val]();
-                }
-            }
-            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
-            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+            var dateFrom = MapModel.vm.indoObservFrom();
+            var dateTo = MapModel.vm.indoObservTo();
 
-            var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", startDateFormatted, endDateFormatted);
+            var reportdateFrom = dateFrom.replace("/", "-");
+            var reportdateTo = dateTo.replace("/", "-");
+
+            var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
 
         on(dom.byId('updateWIND'), 'click', function() {
-            var dates = MapModel.vm.windDateControl.dateVals();
-            var reportdates = {};
-            for (var val in dates) {
-                if (dates.hasOwnProperty(val)) {
-                    reportdates[val] = dates[val]();
-                }
-            }
-            var startDateFormatted = reportdates.fMonth + "-" + reportdates.fDay + "-" + reportdates.fYear;
-            var endDateFormatted = reportdates.tMonth + "-" + reportdates.tDay + "-" + reportdates.tYear;
+            var dates = MapModel.vm.windObserv();
 
-            //var sqlQuery = LayerController.getTimeDefinition("placeHolderField!", startDateFormatted, endDateFormatted);
-            //LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.windData??), MapConfig.windData['wind??'], sqlQuery);
+            var reportdates = dates.split("/");
+            var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
+            console.log(datesFormatted);
+
+
+            //WindyController.WIND_CONFIG.dataUrl = "http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-" + datesFormatted + "1.0.gz.json";
+            var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + ".1-0.gz.json";
+            WindyController.fetchDataForWindLayer(updatedURL);
+            WindyController.redraw();
 
         });
 

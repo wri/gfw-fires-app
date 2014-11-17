@@ -76,169 +76,145 @@ define([
     vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
     vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
     vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
+    vm.wind00Radio = ko.observable("00");
+    vm.wind06Radio = ko.observable("06");
+    vm.wind12Radio = ko.observable("12");
+    vm.wind18Radio = ko.observable("18");
 
     vm.months = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     vm.reportAOIs = ko.observableArray([]);
     vm.selectedAOIs = ko.observableArray([]);
     vm.reportText = ko.observable(MapConfig.text.reportOptions);
 
-    vm.dateControl = function(monthOverride, dayOverride) {
-        var dateValueObject = ko.observable({
-            fYear: ko.observable(''),
-            fMonth: ko.observable(1),
-            fDay: ko.observable(''),
-            tYear: ko.observable(''),
-            tMonth: ko.observable(2),
-            tDay: ko.observable(''),
-            monthOverride: ko.observable(monthOverride),
-            dayOverride: ko.observable(dayOverride)
-        })
+    var today = new Date();
+    var days = today.getDate();
+    var months = today.getMonth() + 1;
+    var years = today.getFullYear();
+    var date = months + "/" + days + "/" + years;
 
-        var monthComputed = function(compareYear, startMonth) {
-            return ko.computed(function() {
+    var oneWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7));
+    var days2 = oneWeekAgo.getDate();
+    var months2 = oneWeekAgo.getMonth() + 1;
+    var years2 = oneWeekAgo.getFullYear();
+    var date2 = months2 + "/" + days2 + "/" + years2;
 
-                var curDate = new Date();
-                var lastMonth = (compareYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
-                var firstMonth = startMonth ? startMonth() : 1;
-                var months = [];
-                if (dateValueObject().tYear() == dateValueObject().fYear()) {
-                    for (var i = firstMonth; i <= lastMonth; i++) {
-                        months.push(i);
-                    }
-                } else {
-                    for (var i = 1; i <= lastMonth; i++) {
-                        months.push(i);
-                    }
-                }
-                return months;
-            });
-        };
 
-        var dayComputed = function(compareYear, compareMonth, startYear, startMonth, startDay) {
-            return ko.computed(function() {
-                var firstDay;
-                var today = new Date();
-                var isLeap = new Date(compareYear(), 1, 29).getMonth() == 1
-                var days = [];
-                var lastDay = ((compareYear() === today.getFullYear()) && compareMonth() === (today.getMonth() + 1)) ? today.getUTCDate() : vm.months[compareMonth()];
-                if (startDay) {
-                    if (startYear() == compareYear() && startMonth() == compareMonth()) {
-                        firstDay = startDay();
-                    } else {
-                        firstDay = 1;
-                    }
-                } else {
-                    firstDay = 1;
-                }
+    vm.firesPickerFrom = function() {
+        var newDate = jQuery('#firesDateFrom').datepicker({
+            minDate: "+0M -7D",
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.firesObservFrom(selectedDate);
+                $("#firesDateTo").datepicker("option", "minDate", selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date(new Date().setDate(new Date().getDate() - 7));
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        return date;
+    }
+    vm.firesPickerTo = function() {
+        var newDate = jQuery('#firesDateTo').datepicker({
+            minDate: "+0M -7D",
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.firesObservTo(selectedDate);
+                $("#firesDateFrom").datepicker("option", "maxDate", selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date();
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        return date;
+    }
+    vm.windPicker = function() {
+        var newDate = jQuery('#windDate').datepicker({
+            minDate: (new Date(2014, 11 - 1, 14)),
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.windObserv(selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date();
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        return date;
+    }
+    vm.noaaPickerFrom = function() {
+        var newDate = jQuery('#noaaDateFrom').datepicker({
+            date: (new Date(2014, 10 - 1, 12)),
+            minDate: (new Date(2014, 10 - 1, 12)),
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.noaaObservFrom(selectedDate);
+                $("#noaaDateTo").datepicker("option", "minDate", selectedDate);
+                return selectedDate;
+            }
+        });
+    }
+    vm.noaaPickerTo = function() {
+        var newDate = jQuery('#noaaDateTo').datepicker({
+            minDate: (new Date(2014, 10 - 1, 12)),
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.noaaObservTo(selectedDate);
+                $("#noaaDateFrom").datepicker("option", "maxDate", selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date();
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        return date;
+    }
+    vm.indoPickerFrom = function() {
+        var newDate = jQuery('#indoDateFrom').datepicker({
+            minDate: (new Date(2013, 1 - 1, 1)),
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.indoObservFrom(selectedDate);
+                $("#indoDateTo").datepicker("option", "minDate", selectedDate);
+                return selectedDate;
+            }
+        });
 
-                for (var i = firstDay; i <= lastDay; i++) {
-                    days.push(i);
-                }
-                if (compareMonth == 2 && isLeap) {
-                    days.push(29);
-                }
-
-                return days;
-            });
-        };
-        // if (dayOverride) {
-        //     var dayComputed = function(compareYear, compareMonth, startYear, startMonth, startDay) {
-        //         return ko.computed(function() {
-        //             var firstDay;
-        //             var today = new Date();
-        //             var isLeap = new Date(compareYear(), 1, 29).getMonth() == 1
-        //             var days = [];
-        //             var lastDay = ((compareYear() === today.getFullYear()) && compareMonth() === (today.getMonth() + 1)) ? today.getUTCDate() : vm.months[compareMonth()];
-        //             if (startDay) {
-        //                 if (startYear() == compareYear() && startMonth() == compareMonth()) {
-        //                     firstDay = startDay();
-        //                 } else {
-        //                     firstDay = 1;
-        //                 }
-        //             } else {
-        //                 firstDay = 1;
-        //             }
-
-        //             for (var i = firstDay; i <= lastDay; i++) {
-        //                 if (i >= dayOverride) {
-        //                     days.push(i);
-        //                 }
-
-        //             }
-        //             if (compareMonth == 2 && isLeap) {
-        //                 days.push(29);
-        //             }
-        //             return days;
-        //         });
-        //     };
-        // };
-        if (monthOverride) {
-            var monthComputed = function(compareYear, startMonth) {
-                var args = arguments.length;
-                return ko.computed(function(args) {
-                    var curDate = new Date();
-                    var lastMonth = (compareYear() === curDate.getFullYear()) ? curDate.getMonth() + 1 : 12;
-                    var firstMonth = monthOverride;
-                    var months = [];
-                    for (var i = firstMonth; i <= lastMonth; i++) {
-                        if (args == 2) {
-                            if (i >= monthOverride) {
-                                months.push(i);
-                            }
-                        } else {
-                            months.push(i);
-                        }
-                    }
-                    return months;
-                });
-
-            };
-        };
-        return {
-            toDay: dayComputed(dateValueObject().tYear, dateValueObject().tMonth, dateValueObject().fYear, dateValueObject().fMonth, dateValueObject().fDay),
-            fromDay: dayComputed(dateValueObject().fYear, dateValueObject().fMonth),
-            fromMonth: monthComputed(dateValueObject().fYear),
-            toMonth: monthComputed(dateValueObject().tYear, dateValueObject().fMonth),
-
-            fromYear: ko.observableArray([]),
-            toYear: ko.computed(function() {
-                var fYear = dateValueObject().fYear(),
-                    curYear = new Date().getFullYear();
-                var years = [];
-                for (var i = fYear; i <= curYear; i += 1) {
-                    years.push(i);
-                }
-                return years;
-            }),
-
-            dateVals: dateValueObject,
-            yearLabel: 'YYYY',
-            monthLabel: 'MM',
-            dayLabel: 'DD',
-            toLabel: 'To:',
-            fromLabel: 'From:'
-        }
+    }
+    vm.indoPickerTo = function() {
+        var newDate = jQuery('#indoDateTo').datepicker({
+            minDate: (new Date(2013, 1 - 1, 1)),
+            maxDate: "+0M -7D",
+            onSelect: function(selectedDate) {
+                vm.indoObservTo(selectedDate);
+                $("#indoDateFrom").datepicker("option", "maxDate", selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date(new Date().setDate(new Date().getDate() - 7));
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        return date;
     }
 
-    vm.reportDateControl = vm.dateControl();
-    vm.noaaDateControl = vm.dateControl(10, 12);
-    vm.indoDateControl = vm.dateControl();
-    vm.windDateControl = vm.dateControl();
-
-    // vm.fromDay = vm.dateUtilities.fromDay(vm.dateVals);
-    // vm.toDay = vm.dateUtilities.toDay(vm.dateVals);
-    // vm.toYear = vm.dateVals.toYear(vm.dateVals);
-    // vm.toMonth = vm.dateUtilities.toMonth(vm.dateVals);
-    // vm.fromYear = ko.observableArray([]);
-    // vm.fromMonth = ko.observableArray([]);
-    // vm.dateVals = ko.observable({
-    //     fYear:ko.observable(''),
-    //     fMonth:ko.observable(1),
-    //     fDay:ko.observable(''),
-    //     tYear:ko.observable(''),
-    //     tMonth:ko.observable(2),
-    //     tDay:ko.observable('')
-    // });
+    vm.firesObservFrom = ko.observable(date2);
+    vm.firesObservTo = ko.observable(date);
+    vm.windObserv = ko.observable(date);
+    vm.noaaObservFrom = ko.observable("10/12/2014");
+    vm.noaaObservTo = ko.observable(date);
+    vm.indoObservFrom = ko.observable("1/1/2013");
+    vm.indoObservTo = ko.observable(date2);
 
     vm.islands = ko.observableArray([]);
     vm.provinces = ko.observableArray([]);
@@ -250,7 +226,10 @@ define([
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
+
     vm.showPrimaryForestOptions = ko.observable(false);
+    vm.showWindLayerOptions = ko.observable(true);
+
     vm.showWindLegend = ko.observable(false);
     vm.showLatLongInputs = ko.observable(false);
     vm.showDMSInputs = ko.observable(true);

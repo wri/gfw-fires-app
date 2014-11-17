@@ -78,7 +78,7 @@
             }],
             aliases: [
                 ["knockout", "libs/knockout-3.1.0"],
-
+                ["jqueryUI", "libs/jquery-ui.min"],
                 ["dom-style", "dojo/dom-style"],
                 ["dom-class", "dojo/dom-class"],
                 ["topic", "dojo/topic"],
@@ -128,19 +128,19 @@
         l.setAttribute('href', path);
         l.media = "only x";
         h.appendChild(l);
-        setTimeout(function () {
+        setTimeout(function() {
             l.media = "all";
         });
     };
 
-    var loadFavicon = function(path){
+    var loadFavicon = function(path) {
         var l = doc.createElement('link'),
             h = doc.getElementsByTagName('head')[0];
         l.setAttribute('rel', 'shortcut icon');
         l.setAttribute('type', 'image/png');
         l.setAttribute('href', path);
         h.appendChild(l);
-        setTimeout(function () {
+        setTimeout(function() {
             l.media = "all";
         });
     };
