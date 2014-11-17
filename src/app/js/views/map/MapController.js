@@ -572,8 +572,8 @@ define([
 
             //WindyController.WIND_CONFIG.dataUrl = "http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-" + datesFormatted + "1.0.gz.json";
             var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + ".1-0.gz.json";
-            WindyController.fetchDataForWindLayer(updatedURL);
-            WindyController.redraw();
+            WindyController.deactivateWindLayer();
+            WindyController.activateWindLayer(updatedURL);
 
         });
 

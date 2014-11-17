@@ -58,7 +58,7 @@ define([
             }
         },
 
-        activateWindLayer: function() {
+        activateWindLayer: function(updatedURL) {
 
             var self = this;
 
@@ -83,6 +83,11 @@ define([
                 self.redraw();
                 self.toggleLegend(true);
 
+            }
+
+            if (updatedURL) {
+                self.fetchDataForWindLayer(updatedURL).then(createWindLayer);
+                return;
             }
 
             if (!_data) {
@@ -208,15 +213,15 @@ define([
             this.toggleLegend(false);
         },
 
-        fetchDataForWindLayer: function(optionURL) {
+        fetchDataForWindLayer: function(optionalURL) {
 
             Helper.showLoader(WIND_CONFIG.mapLoaderContainer, WIND_CONFIG.mapLoaderId);
 
-            if (optionURL) {
-                WIND_CONFIG.dataUrl = optionURL;
-                console.log(WIND_CONFIG.dataUrl);
+            if (optionalURL) {
+                WIND_CONFIG.dataUrl = optionalURL;
+                //console.log(WIND_CONFIG.dataUrl);
             }
-
+            console.log(WIND_CONFIG.dataUrl);
             var deferred = new Deferred(),
                 req = new esriRequest({
                     url: WIND_CONFIG.dataUrl,
