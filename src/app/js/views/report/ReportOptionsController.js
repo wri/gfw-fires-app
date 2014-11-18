@@ -144,6 +144,7 @@ define([
                 //self.init_time_selects();
             self.bind_events();
             selaois = MapModel.vm.selectedAOIs;
+
             var islandresults = function(results) {
                 var islands = [];
                 arrayUtil.forEach(results.features, function(f) {
@@ -153,7 +154,7 @@ define([
                 })
                 MapModel.vm.islands(islands.sort());
                 MapModel.vm.reportAOIs(islands);
-                MapModel.vm.selectedAOIs(['Sumatra']);
+                MapModel.vm.selectedAOIs(['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java']);
             }
             var provinceresults = function(results) {
                 var provinces = [];

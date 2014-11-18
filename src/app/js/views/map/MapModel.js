@@ -101,7 +101,7 @@ define([
 
     vm.firesPickerFrom = function() {
         var newDate = jQuery('#firesDateFrom').datepicker({
-            minDate: "+0M -7D",
+            minDate: (new Date(2013, 1 - 1, 1)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 vm.firesObservFrom(selectedDate);
@@ -109,16 +109,16 @@ define([
                 return selectedDate;
             }
         });
-        var today = new Date(new Date().setDate(new Date().getDate() - 7));
-        var days = today.getDate();
-        var months = today.getMonth() + 1;
-        var years = today.getFullYear();
-        var date = months + "/" + days + "/" + years;
-        return date;
+        // var today = new Date(new Date().setDate(new Date().getDate() - 7));
+        // var days = today.getDate();
+        // var months = today.getMonth() + 1;
+        // var years = today.getFullYear();
+        // var date = months + "/" + days + "/" + years;
+        // return date;
     }
     vm.firesPickerTo = function() {
         var newDate = jQuery('#firesDateTo').datepicker({
-            minDate: "+0M -7D",
+            minDate: (new Date(2013, 1 - 1, 1)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 vm.firesObservTo(selectedDate);
@@ -181,7 +181,7 @@ define([
     vm.indoPickerFrom = function() {
         var newDate = jQuery('#indoDateFrom').datepicker({
             minDate: (new Date(2013, 1 - 1, 1)),
-            maxDate: "+0M +0D",
+            maxDate: "+0M -7D",
             onSelect: function(selectedDate) {
                 vm.indoObservFrom(selectedDate);
                 $("#indoDateTo").datepicker("option", "minDate", selectedDate);

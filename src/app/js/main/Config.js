@@ -81,6 +81,11 @@ define([],
                     "eventName": "subscribeToAlerts",
                     "display": false
 
+                }, {
+                    "html": "<span class='most-text'>Tag illegal fires in Indonesia with Tomnod crowdsourcing</span>",
+                    "eventName": "goToTomnod",
+                    "display": false
+
                 }
             ],
 
@@ -158,7 +163,7 @@ define([],
                     "name": "PARTNERS",
                     "htmlContent": "aboutPartners",
                     "selected": false
-                },
+                }
 
             ]
 

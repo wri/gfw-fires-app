@@ -1,4 +1,4 @@
-define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array","views/map/LayerController", "views/map/MapConfig"],
+define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array", "views/map/LayerController", "views/map/MapConfig"],
     function(dom, domQuery, registry, HashController, EventsController, HomeModel, arrayUtil, LayerController, MapConfig) {
 
         var o = {};
@@ -50,7 +50,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             console.log("start mode animation");
             stopAnimation = false;
 
-            var currentNodeId = 2; //start with last one
+            var currentNodeId = 1; //start with last one
 
             var currentModeOption = function(id) {
                 var homeModeOptions = HomeModel.vm.homeModeOptions();
@@ -78,6 +78,8 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     console.log("animating " + id);
                     var itemsToAnimate = dojoQuery(".modeGroup");
                     var maxItems = itemsToAnimate.length;
+                    console.log(maxItems);
+                    console.log('');
 
                     var anim = coreFx.chain([
                         baseFx.animateProperty({
@@ -157,7 +159,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
                 var today = new Date();
                 var sevendaysback = new Date();
-                sevendaysback.setDate(today.getDate() - 8); 
+                sevendaysback.setDate(today.getDate() - 8);
                 // Minus 8 to cover for other time zones where minus 7 might not be the whole week
                 var yyyy = sevendaysback.getFullYear();
 
@@ -205,7 +207,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     // setTimeout(function() {
                     //     EventsController.startModeAnim();
                     // }, 500);
-                    EventsController.startModeAnim();                    
+                    EventsController.startModeAnim();
 
                 });
 
@@ -226,11 +228,11 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
         o.modeSelect = function(data) {
             var selectedMode = data;
             eval("EventsController." + selectedMode.eventName + "()");
-            
+
             if (data.html) {
                 if (data.html.search("latest imagery") > -1) {
                     // Necessary because eval is changing the hash and undoing this change
-                    setTimeout(function () {
+                    setTimeout(function() {
                         LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
                         if (registry.byId("digital-globe-checkbox")) {
                             registry.byId("digital-globe-checkbox").set("checked", true);

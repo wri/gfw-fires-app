@@ -50,6 +50,16 @@ define([
             }
 
             if (checked) {
+                /*console.log("initial call!");
+                var dates = MapModel.vm.windObserv();
+                var reportdates = dates.split("/");
+                var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
+                console.log(datesFormatted);
+
+                //WindyController.WIND_CONFIG.dataUrl = "http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-" + datesFormatted + "1.0.gz.json";
+                var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + ".1-0.gz.json";
+
+                this.activateWindLayer(updatedURL);*/
                 this.activateWindLayer();
                 LayerController.updateLayersInHash('add', WIND_CONFIG.id, WIND_CONFIG.id);
             } else {
@@ -86,15 +96,20 @@ define([
             }
 
             if (updatedURL) {
-                self.fetchDataForWindLayer(updatedURL).then(createWindLayer);
+                // TODO: If we're calling the INITIAL data fetch WITH an updatedURL parameter, we need to then also add the promptAboutBasemap.then() statement per 5 lines down.
+                this.promptAboutBasemap().then(function() {
+                    self.fetchDataForWindLayer(updatedURL).then(createWindLayer);
+                });
                 return;
             }
 
             if (!_data) {
+                console.log("fetching data then creating");
                 this.promptAboutBasemap().then(function() {
                     self.fetchDataForWindLayer().then(createWindLayer);
                 });
             } else {
+                console.log("just promptinggg then creating");
                 this.promptAboutBasemap().then(createWindLayer);
             }
         },
@@ -216,13 +231,14 @@ define([
         fetchDataForWindLayer: function(optionalURL) {
 
             Helper.showLoader(WIND_CONFIG.mapLoaderContainer, WIND_CONFIG.mapLoaderId);
-
+            //debugger;
             if (optionalURL) {
                 WIND_CONFIG.dataUrl = optionalURL;
                 //console.log(WIND_CONFIG.dataUrl);
             }
 
             console.log(WIND_CONFIG.dataUrl);
+
             var deferred = new Deferred(),
                 req = new esriRequest({
                     url: WIND_CONFIG.dataUrl,
