@@ -147,7 +147,7 @@ define([],
             dataHeaderDescription: "Data sources Global Forest Watch hosts a wealth of data relating to forests. Some data have been developed by WRI or by GFW partner organizations. Other data are in the public domain and have been developed by governments, NGOs, and companies. The data vary in accuracy, resolution, frequency of update, and geographic coverage. The summaries below include links to further information such as methods and technical documents. Full download of the data sets is available for most sources.",
 
             aboutLinks: [{
-                    "name": "ABOUT GFW-FIRES",
+                    "name": "ABOUT GFW FIRES",
                     "htmlContent": "aboutGfwFires",
                     "selected": true
                 }, {

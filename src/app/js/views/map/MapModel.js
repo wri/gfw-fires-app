@@ -135,7 +135,7 @@ define([
     }
     vm.windPicker = function() {
         var newDate = jQuery('#windDate').datepicker({
-            minDate: (new Date(2014, 11 - 1, 14)),
+            minDate: (new Date(2014, 10 - 1, 19)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 vm.windObserv(selectedDate);

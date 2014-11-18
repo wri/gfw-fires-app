@@ -221,6 +221,7 @@ define([
                 WIND_CONFIG.dataUrl = optionalURL;
                 //console.log(WIND_CONFIG.dataUrl);
             }
+
             console.log(WIND_CONFIG.dataUrl);
             var deferred = new Deferred(),
                 req = new esriRequest({
