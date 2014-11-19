@@ -7,7 +7,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
         o.newState = {};
 
         var emptyState = lang.clone(Config.defaultState); //take copy from defaultState and empty it
-
+        console.log(emptyState);
         for (k in emptyState) {
             emptyState[k] = "";
         }
@@ -74,7 +74,6 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var mapView = newState.v == "map";
             var centerChange = ((oldState.x != newState.x) || (oldState.y != newState.y) || (oldState.y != newState.y));
 
-            //var centerChange = 
 
             //handle different scenarios here
             if (changedView) {
@@ -158,7 +157,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
         };
 
-        o.getHash = function () {
+        o.getHash = function() {
             return ioQuery.queryToObject(hash());
         };
 

@@ -20,7 +20,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
-
+					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
 
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
 						//div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
@@ -47,6 +47,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#noaa-fires-18
 					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" )
+					span(data-bind="text: noaaSubLabel", class="checkbox-sub-label")
 					div#report-optionsNOAA(data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar")
 						//div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
