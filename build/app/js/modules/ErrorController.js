@@ -1,2 +1,2 @@
-/*! Global-Forest-Watch-Fires Fri Nov 14 2014 15:52:50 */
+/*! Global-Forest-Watch-Fires Thu Nov 20 2014 12:06:49 */
 define(["dojo/dom-construct","dojo/dom-class","dojo/_base/window"],function(a,b,c){var d,e={},f="There was an error. Please try later",g={innerHTML:f,"class":"errorMsg dijitHidden"},h=!1;return e.init=function(){d=a.create("div",g,c.body())},e.show=function(a,c){var e=this;b.remove(d,"dijitHidden"),h=!0;var g=1e3*a;d.innerHTML=c&&c.length>0?c:f,0!==a&&setTimeout(function(){e.hide()},g)},e.hide=function(){b.add(d,"dijitHidden")},e});
