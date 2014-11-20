@@ -86,6 +86,11 @@ define([],
                     "eventName": "goToTomnod",
                     "display": false
 
+                }, {
+                    "html": "<span>Submit a story</span>",
+                    "eventName": "goToStory",
+                    "display": false
+
                 }
             ],
 

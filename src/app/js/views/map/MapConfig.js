@@ -95,6 +95,29 @@ define({
         layerIds: {
             'noaa18': 9,
             'indonesiaFires': 0
+        },
+        query: {
+            layerId: 0,
+            outfields: ["*"],
+            fields: [{
+                'name': 'LATITUDE',
+                'label': 'LATITUDE'
+            }, {
+                'name': 'LONGITUDE',
+                'label': 'LONGITDUE'
+            }, {
+                'name': 'BRIGHTNESS',
+                'label': 'BRIGHTNESS'
+            }, {
+                'name': 'CONFIDENCE',
+                'label': 'CONFIDENCE'
+            }, {
+                'name': 'ACQUISITION DATE',
+                'label': 'ACQUISITION DATE'
+            }, {
+                'name': 'ACQUISITION TIME',
+                'label': 'ACQUISITION TIME'
+            }]
         }
     },
 

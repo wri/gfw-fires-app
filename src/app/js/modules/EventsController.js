@@ -41,6 +41,7 @@ define(["dojo/topic"],
             "goToMap": "goToMap",
             "goToAnalysis": "goToAnalysis",
             "goToTomnod": "goToTomnod",
+            "goToStory": "goToStory",
 
             "goToTweet": "goToTweet",
             "initShareButton": "initShareButton"
@@ -172,6 +173,18 @@ define(["dojo/topic"],
                 HeaderController.clickNavLink({
                     viewName: "link",
                     url: "http://www.tomnod.com/campaign/indonesiafires012014"
+                });
+            });
+        });
+
+        topic.subscribe("goToStory", function(dataObj) {
+            require(["views/header/HeaderController"], function(HeaderController) {
+                // HeaderController.clickNavLink({
+                //     viewName: "map"
+                // });
+                HeaderController.clickNavLink({
+                    viewName: "story"
+                    //url: "app/js/views/story/story.html"
                 });
             });
         });

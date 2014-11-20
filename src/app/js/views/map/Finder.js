@@ -246,7 +246,7 @@ define([
             if (!_map.getLayer(qconfig.id).visible) {
                 _self.getActiveFiresInfoWindow(event);
                 _self.getDigitalGlobeInfoWindow(event);
-
+                _self.getArchiveFiresInfoWindow(event);
                 return;
             }
 
@@ -272,8 +272,11 @@ define([
                 });
                 if (objectids.length < 1) {
                     _map.infoWindow.setFeatures(undefined);
+
                     _self.getActiveFiresInfoWindow(event);
+
                     _self.getDigitalGlobeInfoWindow(event);
+                    _self.getArchiveFiresInfoWindow(event);
                     return;
                 }
                 _map.infoWindow.resize(340, 500);
@@ -292,7 +295,6 @@ define([
 
 
         getActiveFiresInfoWindow: function(event) {
-
             var qconfig = MapConfig.firesLayer,
                 _self = this,
                 url = qconfig.url,
@@ -353,6 +355,7 @@ define([
             iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
             var content = "</div><table id='infoWindowTable'>";
+
             itask.execute(iparams, function(response) {
                 var map = _map;
                 var result = response[0];
@@ -377,6 +380,129 @@ define([
             });
         },
 
+        getArchiveFiresInfoWindow: function(event) {
+
+            var qconfig = MapConfig.indonesiaLayers,
+                _self = this,
+                url = qconfig.url,
+                itask = new IdentifyTask(url),
+                iparams = new IdentifyParameters(),
+                point = event.mapPoint,
+                executeReturned = true,
+                time = new Date(),
+                today = new Date(),
+                todayString = '',
+                dateString = '',
+                defs = [];
+
+            // If the layer is not visible, then dont show it
+            if (!_map.getLayer(qconfig.id).visible) {
+                _self.mapClick(event);
+                return;
+            }
+
+            iparams.geometry = point;
+            iparams.tolerance = 3;
+            iparams.returnGeometry = false;
+            iparams.mapExtent = _map.extent;
+            iparams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
+            //iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+            //iparams.layerOption = "top";
+            iparams.layerIds = [0, 9];
+
+
+            var content = "</div><table id='infoWindowTable'>";
+
+            itask.execute(iparams, function(response) {
+
+                var map = _map;
+                var result = response[0];
+                console.log(result);
+
+                if (result) {
+                    if (result.layerId == 2) {
+                        return;
+                    }
+                    executeReturned = false;
+                    content += "<tr class='infoName'><strong>NASA archived fires for Indonesia</strong></tr>";
+                    arrayUtils.forEach(qconfig.query.fields, function(field) {
+                        content += "<tr><td colspan='3'>" + field.label + "</td>";
+                        content += "<td colspan='2'>" + result.feature.attributes[field.name] + "</td></tr>";
+                    });
+                    content += "</table>";
+                    if (result.layerId == 9) {
+                        var content = "</div><table id='infoWindowTable'>";
+                        content += "<tr class='infoName'><strong>NOAA-18 fires</strong></tr>";
+                        content += "<tr><td colspan='3'>DATE</td>";
+                        content += "<td colspan='2'>" + result.feature.attributes.Date + "</td></tr>";
+                        content += "</table>";
+                    }
+                    map.infoWindow.setContent(content);
+                    // map.infoWindow.setTitle("Title");
+                    map.infoWindow.show(point);
+                } else {
+                    console.log("No result returned!");
+                    _self.mapClick(event);
+                }
+            }, function(err) {
+                _self.mapClick(event);
+            });
+        },
+
+        getNOAAFiresInfoWindow: function(event) {
+
+            var qconfig = MapConfig.indonesiaLayers,
+                _self = this,
+                url = qconfig.url,
+                itask = new IdentifyTask(url),
+                iparams = new IdentifyParameters(),
+                point = event.mapPoint,
+                executeReturned = true,
+                time = new Date(),
+                today = new Date(),
+                todayString = '',
+                dateString = '',
+                defs = [];
+
+            // If the layer is not visible, then dont show it
+            if (!_map.getLayer(qconfig.id).visible) {
+                _self.mapClick(event);
+                return;
+            }
+
+            iparams.geometry = point;
+            iparams.tolerance = 10;
+            iparams.returnGeometry = false;
+            iparams.mapExtent = _map.extent;
+            iparams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
+
+            var content = "</div><table id='infoWindowTable'>";
+
+            itask.execute(iparams, function(response) {
+                var map = _map;
+                var result = response[0];
+
+                if (result) {
+                    executeReturned = false;
+                    content += "<tr class='infoName'><strong>NASA archived fires for Indonesia</strong></tr>";
+                    arrayUtils.forEach(qconfig.query.fields, function(field) {
+                        content += "<tr><td colspan='3'>" + field.label + "</td>";
+                        content += "<td colspan='2'>" + result.feature.attributes[field.name] + "</td></tr>";
+
+                    });
+                    content += "</table>";
+                    map.infoWindow.setContent(content);
+                    // map.infoWindow.setTitle("Title");
+                    map.infoWindow.show(point);
+                } else {
+                    console.log("No result returned!");
+                    _self.mapClick(event);
+                }
+            }, function(err) {
+                _self.mapClick(event);
+            });
+        },
+
         getDigitalGlobeInfoWindow: function(evt) {
             var dgConf = MapConfig.digitalGlobe,
                 dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
@@ -388,6 +514,10 @@ define([
                     return;
                 }
             }
+            if (evt.graphic == undefined) {
+                return;
+            }
+
             query.geometry = evt.graphic.geometry;
             query.where = "Category = 1";
             query.returnGeometry = false;
