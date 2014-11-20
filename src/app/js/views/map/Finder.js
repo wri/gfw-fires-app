@@ -246,7 +246,9 @@ define([
             if (!_map.getLayer(qconfig.id).visible) {
                 _self.getActiveFiresInfoWindow(event);
                 _self.getDigitalGlobeInfoWindow(event);
+                // If one of these has been triggered, don't call the 3rd (it will overwrite and put a new infoWindo there because with InfoWindows, it doesn't matter if the layer is turned off or not; it will always trigger). And since the Archived Fires are EVERYWHERE, almost any click triggers this 3rd function.
                 _self.getArchiveFiresInfoWindow(event);
+                _self.getArchiveNoaaInfoWindow(event);
                 return;
             }
 
@@ -277,6 +279,7 @@ define([
 
                     _self.getDigitalGlobeInfoWindow(event);
                     _self.getArchiveFiresInfoWindow(event);
+                    _self.getArchiveNoaaInfoWindow(event);
                     return;
                 }
                 _map.infoWindow.resize(340, 500);
@@ -370,7 +373,7 @@ define([
                     });
                     content += "</table>";
                     map.infoWindow.setContent(content);
-                    // map.infoWindow.setTitle("Title");
+                    map.infoWindow.resize(270, 140);
                     map.infoWindow.show(point);
                 } else {
                     _self.mapClick(event);
@@ -381,6 +384,67 @@ define([
         },
 
         getArchiveFiresInfoWindow: function(event) {
+
+            var qconfig = MapConfig.indonesiaLayers,
+                _self = this,
+                url = qconfig.url,
+                itask = new IdentifyTask(url),
+                iparams = new IdentifyParameters(),
+                point = event.mapPoint,
+                executeReturned = true,
+                time = new Date(),
+                today = new Date(),
+                todayString = '',
+                dateString = '',
+                defs = [];
+
+            var checked = dom.byId("indonesia-fires");
+            // If the layer is not visible or turned on, then dont show it
+            if (!_map.getLayer(qconfig.id).visible || checked.checked != true) {
+                _self.mapClick(event);
+                return;
+            }
+
+            iparams.geometry = point;
+            iparams.tolerance = 3;
+            iparams.returnGeometry = false;
+            iparams.mapExtent = _map.extent;
+            iparams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
+            iparams.layerIds = [0];
+
+            var thisLayer = _map.getLayer(qconfig.id);
+
+            var content = "</div><table id='infoWindowTable'>";
+
+            itask.execute(iparams, function(response) {
+                var map = _map;
+                var result = response[0];
+
+                if (result) {
+                    if (result.layerId == 2) {
+                        return;
+                    }
+                    executeReturned = false;
+                    content += "<tr class='infoName'><strong>NASA archived fires for Indonesia</strong></tr>";
+                    arrayUtils.forEach(qconfig.query.fields, function(field) {
+                        content += "<tr><td colspan='3'>" + field.label + "</td>";
+                        content += "<td colspan='2'>" + result.feature.attributes[field.name] + "</td></tr>";
+
+                    });
+                    content += "</table>";
+
+                    map.infoWindow.setContent(content);
+                    map.infoWindow.resize(270, 140);
+                    map.infoWindow.show(point);
+                } else {
+                    _self.mapClick(event);
+                }
+            }, function(err) {
+                _self.mapClick(event);
+            });
+        },
+
+        getArchiveNoaaInfoWindow: function(event) {
 
             var qconfig = MapConfig.indonesiaLayers,
                 _self = this,
@@ -406,42 +470,34 @@ define([
             iparams.returnGeometry = false;
             iparams.mapExtent = _map.extent;
             iparams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
-            //iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-            //iparams.layerOption = "top";
-            iparams.layerIds = [0, 9];
+            iparams.layerIds = [9];
 
-
-            var content = "</div><table id='infoWindowTable'>";
+            var thisLayer = _map.getLayer(qconfig.id);
 
             itask.execute(iparams, function(response) {
 
                 var map = _map;
                 var result = response[0];
-                console.log(result);
 
                 if (result) {
                     if (result.layerId == 2) {
                         return;
                     }
                     executeReturned = false;
-                    content += "<tr class='infoName'><strong>NASA archived fires for Indonesia</strong></tr>";
-                    arrayUtils.forEach(qconfig.query.fields, function(field) {
-                        content += "<tr><td colspan='3'>" + field.label + "</td>";
-                        content += "<td colspan='2'>" + result.feature.attributes[field.name] + "</td></tr>";
-                    });
+                    var date = result.feature.attributes.Date;
+                    var dateFormatted = date.split(" ");
+                    var dateFormatted = dateFormatted[0];
+
+                    var content = "</div><table id='infoWindowTable'>";
+                    content += "<tr class='infoName'><strong>NOAA-18 fires</strong></tr>";
+                    content += "<tr><td colspan='3'>DATE</td>";
+                    content += "<td colspan='2'>" + dateFormatted + "</td></tr>";
                     content += "</table>";
-                    if (result.layerId == 9) {
-                        var content = "</div><table id='infoWindowTable'>";
-                        content += "<tr class='infoName'><strong>NOAA-18 fires</strong></tr>";
-                        content += "<tr><td colspan='3'>DATE</td>";
-                        content += "<td colspan='2'>" + result.feature.attributes.Date + "</td></tr>";
-                        content += "</table>";
-                    }
+
                     map.infoWindow.setContent(content);
-                    // map.infoWindow.setTitle("Title");
+                    map.infoWindow.resize(170, 50);
                     map.infoWindow.show(point);
                 } else {
-                    console.log("No result returned!");
                     _self.mapClick(event);
                 }
             }, function(err) {
