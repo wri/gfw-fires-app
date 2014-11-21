@@ -1,4 +1,4 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect","dojo/on"],
+define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect", "dojo/on"],
     function(dom, registry, HashController, arrayUtil, domConstruct, domClass, aspect, on) {
 
         var o = {};
@@ -23,7 +23,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                 HeaderModel.applyBindings(viewId);
 
                 // Add Listener to go home if logo is clicked
-                on(dom.byId("logo"), "click", function () {
+                on(dom.byId("logo"), "click", function() {
                     var mock = {
                         domId: "homeView",
                         html: "Home",
@@ -56,12 +56,17 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
         o.clickNavLink = function(data) {
             var clickedItem = data;
 
+
+
             this.reportAnalyticsHelper('link', 'navigate', 'The user navigated to the ' + clickedItem.html + ' page.');
 
             if (clickedItem.url) {
                 window.open(clickedItem.url, "_blank");
                 return;
             }
+            // if (data.viewName == "story") {
+            //     o.switchToView(data);
+            // }
 
             var updateHash = {
                 v: clickedItem.viewName
@@ -74,8 +79,12 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
         o.switchToView = function(data) {
             require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController", "modules/EventsController"],
                 function(registry, HeaderModel, HomeController, EventsController) {
-                    //alert(data.viewName);
-                    //select the 
+
+
+                    // if (data.viewName == "story") {
+                    //     data.viewId = "story";
+                    // }
+                    //eventscoloroller.gotomap and modeslect in homemodel or contoller
                     var navigationLinks = HeaderModel.vm.navigationLinks();
                     HeaderModel.vm.navigationLinks([]);
                     var updatedNavigationLinks = arrayUtil.map(navigationLinks, function(nLink) {
@@ -95,7 +104,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     EventsController.stopModeAnim();
                 }*/
 
-                    var allViews = "mapView homeView blogView dataView aboutView";
+                    var allViews = "mapView homeView blogView dataView aboutView storyView";
                     domClass.remove("app-body", allViews);
                     domClass.add("app-body", data.viewId);
                     domClass.remove("app-header", allViews);
@@ -146,7 +155,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
         };
 
-        o.reportAnalyticsHelper = function (eventType, action, label) {
+        o.reportAnalyticsHelper = function(eventType, action, label) {
             ga('A.send', 'event', eventType, action, label);
             ga('B.send', 'event', eventType, action, label);
         };

@@ -11,7 +11,7 @@ define([],
                 lyrs: 'Active_Fires'
             },
 
-            validViews: ["home", "blog", "map", "about", "data"],
+            validViews: ["home", "blog", "map", "about", "data", "story"],
 
             emailSubscribeUrl: "http://54.164.126.73/subscribe",
 
@@ -49,6 +49,11 @@ define([],
                 "url": "http://www.globalforestwatch.org",
                 "viewName": "link",
                 "domId": "link",
+                "selected": false
+            }, {
+                "html": "Story",
+                "viewName": "story",
+                "domId": "storyView",
                 "selected": false
             }],
 
@@ -167,6 +172,22 @@ define([],
                 }, {
                     "name": "PARTNERS",
                     "htmlContent": "aboutPartners",
+                    "selected": false
+                }
+
+            ],
+
+            storyLinks: [{
+                    "name": "STORY LINK 1",
+                    "htmlContent": "aboutGfwStories1",
+                    "selected": true
+                }, {
+                    "name": "STORY LINK 2",
+                    "htmlContent": "aboutGfwStories2",
+                    "selected": false
+                }, {
+                    "name": "STORY LINK 3",
+                    "htmlContent": "aboutGfwStories3",
                     "selected": false
                 }
 

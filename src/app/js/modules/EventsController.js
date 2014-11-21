@@ -29,6 +29,9 @@ define(["dojo/topic"],
             //about events
             "toggleAboutNavList": "toggleAboutNavList",
 
+            //story events
+            "toggleStoryNavList": "toggleStoryNavList",
+
             //header events
             "clickNavLink": "clickNavLink",
             "switchToView": "switchToView",
@@ -142,6 +145,12 @@ define(["dojo/topic"],
         topic.subscribe("toggleDataNavList", function(obj) {
             require(["views/data/DataController"], function(DataController) {
                 DataController.toggleDataNavList(obj);
+            });
+        });
+
+        topic.subscribe("toggleStoryNavList", function(obj) {
+            require(["views/story/StoryController"], function(StoryController) {
+                StoryController.toggleStoryNavList(obj);
             });
         });
 

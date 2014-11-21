@@ -10,10 +10,10 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.headerTitle = ko.observable(Config.headerTitle);
 
         vm.htmlContent = ko.observable("Loading....");
-        vm.leftLinks = ko.observableArray(Config.aboutLinks);
+        vm.leftLinks = ko.observableArray(Config.storyLinks);
 
         vm.linkClick = function(obj, evt) {
-            topic.publish("toggleAboutNavList", obj)
+            topic.publish("toggleStoryNavList", obj)
         }
 
         var htmlToFetch;

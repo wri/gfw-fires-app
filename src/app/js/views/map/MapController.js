@@ -543,20 +543,30 @@ define([
         on(dom.byId('updateNOAA'), 'click', function() {
             var dateFrom = MapModel.vm.noaaObservFrom();
             var dateTo = MapModel.vm.noaaObservTo();
+            dateTo = moment(dateTo).add(1, 'day');
 
-            var reportdateFrom = dateFrom.replace("/", "-");
-            var reportdateTo = dateTo.replace("/", "-");
+            dateFrom = moment(dateFrom).tz('Asia/Jakarta').format("M/D/YYYY");
+            dateTo = moment(dateTo._d).tz('Asia/Jakarta').format("M/D/YYYY");
 
-            var sqlQuery = LayerController.getTimeDefinition("Date", reportdateFrom, dateTo);
+            var reportdateFrom = dateFrom.replace(/\//g, "-");
+            var reportdateTo = dateTo.replace(/\//g, "-");
+
+
+            var sqlQuery = LayerController.getTimeDefinition("Date", reportdateFrom, reportdateTo);
+
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
         });
 
         on(dom.byId('updateINDO'), 'click', function() {
             var dateFrom = MapModel.vm.indoObservFrom();
             var dateTo = MapModel.vm.indoObservTo();
+            dateTo = moment(dateTo).add(1, 'day');
 
-            var reportdateFrom = dateFrom.replace("/", "-");
-            var reportdateTo = dateTo.replace("/", "-");
+            dateFrom = moment(dateFrom).tz('Asia/Jakarta').format("M/D/YYYY");
+            dateTo = moment(dateTo._d).tz('Asia/Jakarta').format("M/D/YYYY");
+
+            var reportdateFrom = dateFrom.replace(/\//g, "-");
+            var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
