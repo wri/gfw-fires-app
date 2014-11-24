@@ -170,26 +170,46 @@ div#map-view(class="map-view")
 									td(data-bind="text: 'Date'")
 									td
 										input(type="text", name="user" value=4, id="windDate", data-bind="value:windPicker()")
-							//
+							
 								tr
 									td(data-bind="text:'Time'")
 									td
-										div(class="checkbox-container-wind inline")
-											div#wind00-radio
+										//div(class="checkbox-container-wind inline")
+											div#wind00-radio(value="00", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind00-radio", data-bind="text: '00'")
 									
-										div(class="checkbox-container-wind inline")
-											div#wind06-radio
+										//div(class="checkbox-container-wind inline")
+											div#wind06-radio(value="06", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind06-radio", data-bind="text: '06'")
-											
 									
-										div(class="checkbox-container-wind inline")
-											div#wind12-radio
+										//div(class="checkbox-container-wind inline")
+											div#wind12-radio(value="12", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind12-radio", data-bind="text: '12'")
 									
-										div(class="checkbox-container-wind inline")
-											div#wind18-radio
+										//div(class="checkbox-container-wind inline")
+											div#wind18-radio(value="18", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind18-radio", data-bind="text: '18'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind00
+												input(type="radio", value="00", data-bind="checked: timeOfDay")
+												label(data-bind="text: '00'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind06
+												input(type="radio", value="06", data-bind="checked: timeOfDay")
+												label(data-bind="text: '06'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind12
+												input(type="radio", value="12", data-bind="checked: timeOfDay")
+												label(data-bind="text: '12'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind18
+												input(type="radio", value="18", data-bind="checked: timeOfDay")
+												label(data-bind="text: '18'")
+
 								
 							span#updateWIND(class="report-link-dates", data-bind="text: getDates")
 

@@ -178,7 +178,7 @@ define([
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             $("#firesDateFrom").datepicker("setDate", "6/1/2014");
-            $("#noaaDateFrom").datepicker("setDate", "10/12/2014");
+            $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
 
             o.map.graphics.clear();
@@ -575,13 +575,14 @@ define([
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
+            var time = MapModel.vm.timeOfDay();
 
             var reportdates = dates.split("/");
             var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
             console.log(datesFormatted);
 
             //WindyController.WIND_CONFIG.dataUrl = "http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-" + datesFormatted + "1.0.gz.json";
-            var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + ".1-0.gz.json";
+            var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + time + ".1-0.gz.json";
             WindyController.deactivateWindLayer();
             WindyController.activateWindLayer(updatedURL);
 

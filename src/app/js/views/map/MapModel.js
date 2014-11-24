@@ -78,10 +78,12 @@ define([
     vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
     vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
     vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
+    vm.timeOfDay = ko.observable("00");
     vm.wind00Radio = ko.observable("00");
     vm.wind06Radio = ko.observable("06");
     vm.wind12Radio = ko.observable("12");
     vm.wind18Radio = ko.observable("18");
+
 
     vm.months = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     vm.reportAOIs = ko.observableArray([]);
@@ -153,8 +155,8 @@ define([
     }
     vm.noaaPickerFrom = function() {
         var newDate = jQuery('#noaaDateFrom').datepicker({
-            date: (new Date(2014, 10 - 1, 12)),
-            minDate: (new Date(2014, 10 - 1, 12)),
+            date: (new Date(2014, 10 - 1, 22)),
+            minDate: (new Date(2014, 10 - 1, 22)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 vm.noaaObservFrom(selectedDate);
@@ -165,7 +167,7 @@ define([
     }
     vm.noaaPickerTo = function() {
         var newDate = jQuery('#noaaDateTo').datepicker({
-            minDate: (new Date(2014, 10 - 1, 12)),
+            minDate: (new Date(2014, 10 - 1, 22)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 vm.noaaObservTo(selectedDate);
