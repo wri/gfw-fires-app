@@ -149,7 +149,7 @@ define([
 
         getTimeDefinition: function(datefield, startdate, enddate) {
             var startdatequery = datefield + ">= date'" + startdate + "'";
-            var enddatequery = datefield + " <= date'" + enddate + "'";
+            var enddatequery = datefield + " < date'" + enddate + "'";
             var sql = [startdatequery, enddatequery].join(' AND ')
             console.log(sql);
             return sql;

@@ -178,7 +178,7 @@ define([
         o.map.on("load", function() {
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             $("#firesDateFrom").datepicker("setDate", "6/1/2014");
-            $("#noaaDateFrom").datepicker("setDate", "10/12/2014");
+            $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
 
             o.map.graphics.clear();
@@ -543,20 +543,30 @@ define([
         on(dom.byId('updateNOAA'), 'click', function() {
             var dateFrom = MapModel.vm.noaaObservFrom();
             var dateTo = MapModel.vm.noaaObservTo();
+            dateTo = moment(dateTo).add(1, 'day');
 
-            var reportdateFrom = dateFrom.replace("/", "-");
-            var reportdateTo = dateTo.replace("/", "-");
+            dateFrom = moment(dateFrom).tz('Asia/Jakarta').format("M/D/YYYY");
+            dateTo = moment(dateTo._d).tz('Asia/Jakarta').format("M/D/YYYY");
 
-            var sqlQuery = LayerController.getTimeDefinition("Date", reportdateFrom, dateTo);
+            var reportdateFrom = dateFrom.replace(/\//g, "-");
+            var reportdateTo = dateTo.replace(/\//g, "-");
+
+
+            var sqlQuery = LayerController.getTimeDefinition("Date", reportdateFrom, reportdateTo);
+
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
         });
 
         on(dom.byId('updateINDO'), 'click', function() {
             var dateFrom = MapModel.vm.indoObservFrom();
             var dateTo = MapModel.vm.indoObservTo();
+            dateTo = moment(dateTo).add(1, 'day');
 
-            var reportdateFrom = dateFrom.replace("/", "-");
-            var reportdateTo = dateTo.replace("/", "-");
+            dateFrom = moment(dateFrom).tz('Asia/Jakarta').format("M/D/YYYY");
+            dateTo = moment(dateTo._d).tz('Asia/Jakarta').format("M/D/YYYY");
+
+            var reportdateFrom = dateFrom.replace(/\//g, "-");
+            var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
@@ -565,13 +575,14 @@ define([
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
+            var time = MapModel.vm.timeOfDay();
 
             var reportdates = dates.split("/");
             var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
             console.log(datesFormatted);
 
             //WindyController.WIND_CONFIG.dataUrl = "http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-" + datesFormatted + "1.0.gz.json";
-            var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + ".1-0.gz.json";
+            var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + time + ".1-0.gz.json";
             WindyController.deactivateWindLayer();
             WindyController.activateWindLayer(updatedURL);
 

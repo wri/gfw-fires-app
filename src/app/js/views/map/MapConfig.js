@@ -95,6 +95,29 @@ define({
         layerIds: {
             'noaa18': 9,
             'indonesiaFires': 0
+        },
+        query: {
+            layerId: 0,
+            outfields: ["*"],
+            fields: [{
+                'name': 'LATITUDE',
+                'label': 'LATITUDE'
+            }, {
+                'name': 'LONGITUDE',
+                'label': 'LONGITDUE'
+            }, {
+                'name': 'BRIGHTNESS',
+                'label': 'BRIGHTNESS'
+            }, {
+                'name': 'CONFIDENCE',
+                'label': 'CONFIDENCE'
+            }, {
+                'name': 'ACQUISITION DATE',
+                'label': 'ACQUISITION DATE'
+            }, {
+                'name': 'ACQUISITION TIME',
+                'label': 'ACQUISITION TIME'
+            }]
         }
     },
 
@@ -719,7 +742,8 @@ define({
             "class": "primary-forests-option",
             "props": {
                 "value": "0",
-                "name": "windy-layer-radio"
+                "name": "windy-layer-radio",
+                "checked": true
             }
         }, {
             "id": "wind06-radio",
@@ -743,8 +767,8 @@ define({
             "class": "primary-forests-option",
             "props": {
                 "value": "3",
-                "name": "windy-layer-radio",
-                "checked": true
+                "name": "windy-layer-radio"
+
             }
         }
 

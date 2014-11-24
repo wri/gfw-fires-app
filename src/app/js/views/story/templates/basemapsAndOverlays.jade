@@ -1,0 +1,32 @@
+div#layerControlContainer.appContainer(data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Basemaps and Overlays', open:false")
+	div
+		div Basemaps
+		hr
+		div#basemapGalleryContainer
+			div#basemapGallery
+		br
+		div Overlays
+		hr
+		div#layerTogglesContainer.layerTogglesContainer
+			div.pseudoCheckboxContainer
+				input#protectedAreasToggle(type="checkbox" checked)
+				label(for="protectedAreasToggle")
+					div.pseudoCheckbox.peach
+					div.pseudoLabel Protected Areas
+			div.pseudoCheckboxContainer
+				input#fisheriesToggle(type="checkbox" checked)
+				label(for="fisheriesToggle")
+					div.pseudoCheckbox.blue
+					div.pseudoLabel Fisheries
+			div.pseudoCheckboxContainer
+				input#forestReservesToggle(type="checkbox" checked)
+				label(for="forestReservesToggle")
+					div.pseudoCheckbox.green
+					div.pseudoLabel Forest Reserves
+			div.pseudoCheckboxContainer
+				input#landCoverToggle(type="checkbox")
+				label(for="landCoverToggle")
+					div.pseudoCheckbox.grey
+					div.pseudoLabel Land Cover
+			div.legendContainer.landCover
+				div#landCoverLegend.legend

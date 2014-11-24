@@ -153,6 +153,11 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                         DataController.init(viewObj);
                     });
                     break;
+                case "story":
+                    require(["views/story/StoryController"], function(StoryController) {
+                        StoryController.init(viewObj);
+                    });
+                    break;
             }
 
         };

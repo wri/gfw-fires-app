@@ -229,6 +229,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             var selectedMode = data;
             eval("EventsController." + selectedMode.eventName + "()");
 
+
             if (data.html) {
                 if (data.html.search("latest imagery") > -1) {
                     // Necessary because eval is changing the hash and undoing this change

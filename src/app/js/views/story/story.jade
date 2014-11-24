@@ -1,0 +1,88 @@
+div#aboutInnerContainer(class="content-inner-container")
+    h1#storyTitle.source_category_title Submit a story
+    div#submitBox
+        form(name="login", action="/login", method="post")
+            div.storiesInput
+                h5.storyHeader TITLE
+                h5#requiredTitle.requiredItem Required
+                input(id="storyTitleInput", type="text", placeholder="Illegal Logging in National Park" required)
+            div.storiesInput
+                h5.storyHeader AFFECTED AREAS
+                h5#requiredArea.requiredItem Drop a pin on the map near the affected area
+                div#storiesMap
+                    div#basemapGalleryContainer
+                        div#basemapGallery
+            //
+                div#storiesMap(style='position:relative;')
+                    div#TitlePane(style='position:absolute; right:20px; top:10px; z-Index:999;')
+                        div#basemapGallery(style="width:180px; height:180px; overflow:auto;")
+
+
+                
+                    <div style="position:absolute; right:20px; top:10px; z-Index:999;">
+                        <div data-dojo-type="dijit/TitlePane" 
+                             data-dojo-props="title:'Switch Basemap', closable:false, open:false">
+                          <div data-dojo-type="dijit/layout/ContentPane" style="width:380px; height:280px; overflow:auto;">
+                            <div id="basemapGallery"></div>
+                          </div>
+                        </div>
+                      </div>
+
+
+            div.storiesInput
+                h5.storyHeader LOCATION
+                input(id="storyLocationInput", type="text", placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'")
+            div.storiesInput
+                h5.storyHeader DATE
+                input(id="storyDateInput", type="text", placeholder="mm/dd/yyyy")
+            div.storiesInput
+                h5.storyHeader DETAILS
+                textarea(id="storyDetailsInput", type="text", placeholder="'Selective logging with chainsaws', 'Burning peatland', 'Forest cleared for agriculture', 'Affected species'")
+            div.storiesInput
+                h5.storyHeader VIDEO
+                input(id="storyVideoInput", type="url", placeholder="http://www.youtube.com/watch?v=ITG-0brb98I")
+            div.storiesInput
+                h5.storyHeader MEDIA
+                input(id="storyMediaInput", type="file")
+            div.storiesInput
+                h5.storyHeader NAME
+                input(id="storyNameInput", type="text")
+            div.storiesInput
+                h5.storyHeader EMAIL
+                h5#requiredEmail.requiredItem Required
+                input(id="storyEmailInput", type="email" required)
+        div#submitStory.footerModes
+                input(type="submit", value="Submit Story", class="action")
+            p
+
+    div#contentRightStory.footerModes
+        h5.storyHeader WHY SUBMIT STORIES?
+        p.desc Your participation can greatly improve understanding of what is happening to forests in Indonesia
+
+        h5.storyHeader HOW YOUR STORIES WILL BE USED
+        p.desc Your story will be immediately displayed on the GFW Fires map and will be visible to all visitors to the site. For how this information is used by these visitors, and it reserves the right to remove stories that are inappropriate or not related to forest issues. 
+        p
+        p.desc You can submit a story by sharing text, image, video, or web links showing how forests are being managed, cleared, or protected in your area. Submit a story to: 
+            li.desc
+                p confirm or refute remotely sensed data;
+            li.desc
+                p report illegal activities;
+            li.desc
+                p call attention to a threat or conflict in your area;
+            li.desc
+                p tell a forest conservation success story; or
+            li.desc
+                p share your local expertise.
+        p#alignWithMedia.desc Drag & drop images and videos to reorder them within the carrousel. The first one will be considered as the preferred one. If you share your name, it will be visible on the GFW website, but your email will not be published. 
+        p#alignWithEmail.desc In some areas, forest clearing information is considered to be highly sensitive-users are encouraged to be cautious when sharing their names. 
+
+//
+    div#aboutContentContainer(class="content-container")
+        div#navLeft(class="navigation_left")
+            ul#aboutNavList(class="navigation-list")
+                li#navListTitle(class="item-title")
+                    i(class='caret-down')
+                div(data-bind="foreach:leftLinks")
+                    li(data-bind='click:$root.linkClick')
+                        a(data-bind='html:name,css:{selected:selected}')
+        div#contentRight(class="content_right" data-bind="html:htmlContent")
