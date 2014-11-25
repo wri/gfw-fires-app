@@ -1,3 +1,4 @@
+link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#aboutInnerContainer(class="content-inner-container")
     h1#storyTitle.source_category_title Submit a story
     div#submitBox
@@ -10,6 +11,8 @@ div#aboutInnerContainer(class="content-inner-container")
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 div#storiesMap
+                    button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
+                    //button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")
                     div#basemapGalleryContainer
                         div#basemapGallery
             //
@@ -17,8 +20,6 @@ div#aboutInnerContainer(class="content-inner-container")
                     div#TitlePane(style='position:absolute; right:20px; top:10px; z-Index:999;')
                         div#basemapGallery(style="width:180px; height:180px; overflow:auto;")
 
-
-                
                     <div style="position:absolute; right:20px; top:10px; z-Index:999;">
                         <div data-dojo-type="dijit/TitlePane" 
                              data-dojo-props="title:'Switch Basemap', closable:false, open:false">
@@ -34,7 +35,8 @@ div#aboutInnerContainer(class="content-inner-container")
                 input(id="storyLocationInput", type="text", placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'")
             div.storiesInput
                 h5.storyHeader DATE
-                input(id="storyDateInput", type="text", placeholder="mm/dd/yyyy")
+                input(id="storyDateInput", type="text", placeholder="mm/dd/yyyy", data-bind="value:datePicker()")
+
             div.storiesInput
                 h5.storyHeader DETAILS
                 textarea(id="storyDetailsInput", type="text", placeholder="'Selective logging with chainsaws', 'Burning peatland', 'Forest cleared for agriculture', 'Affected species'")

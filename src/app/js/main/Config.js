@@ -191,7 +191,15 @@ define([],
                     "selected": false
                 }
 
-            ]
+            ],
+
+            newStory: {
+                "title": "Illegal Logging in National Park",
+                "affectedAreas": "",
+                "location": "",
+                "details": "",
+                "video": ""
+            }
 
 
         };

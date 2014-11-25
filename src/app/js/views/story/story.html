@@ -1,4 +1,5 @@
 
+<link rel="stylesheet" href="app/css/jquery-ui.min.css"/>
 <div id="aboutInnerContainer" class="content-inner-container">
   <h1 id="storyTitle" class="source_category_title">Submit a story</h1>
   <div id="submitBox">
@@ -12,6 +13,8 @@
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap">
+          <button id="addPoint" type="button" onClick="return false;" data-bind="text: addButtonLabel"></button>
+          <!--button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")-->
           <div id="basemapGalleryContainer">
             <div id="basemapGallery"></div>
           </div>
@@ -21,8 +24,6 @@
       div#storiesMap(style='position:relative;')
           div#TitlePane(style='position:absolute; right:20px; top:10px; z-Index:999;')
               div#basemapGallery(style="width:180px; height:180px; overflow:auto;")
-              
-              
               
           <div style="position:absolute; right:20px; top:10px; z-Index:999;">
               <div data-dojo-type="dijit/TitlePane" 
@@ -41,7 +42,7 @@
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">DATE</h5>
-        <input id="storyDateInput" type="text" placeholder="mm/dd/yyyy"/>
+        <input id="storyDateInput" type="text" placeholder="mm/dd/yyyy" data-bind="value:datePicker()"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">DETAILS</h5>

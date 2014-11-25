@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "dojo/_base/array", "esri/map", "esri/dijit/BasemapGallery", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate"],
-    function(dom, on, registry, HashController, EventsController, StoryModel, arrayUtil, Map, BasemapGallery, ContentPane, TitlePane, FeatureLayer, InfoTemplate) {
+define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", ],
+    function(dom, on, dom, registry, HashController, EventsController, StoryModel, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
 
         var o = {};
         var initialized = false;
@@ -7,7 +7,7 @@ define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modu
         var viewObj = {
             viewId: viewId,
             viewName: "story"
-        }
+        };
         o.init = function() {
             var that = this;
             if (initialized) {
@@ -27,7 +27,12 @@ define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modu
                 EventsController.switchToView(viewObj);
                 StoryModel.applyBindings(viewId);
 
-            })
+            });
+            // $("#addPoint").click(function(event) {
+            //     event.preventDefault(); // cancel default behavior
+
+            //     //... rest of add logic
+            // });
         };
 
         o.createMap = function() {
@@ -41,7 +46,7 @@ define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modu
                 center: [115, 0],
                 //sliderPosition: MapConfig.mapOptions.sliderPosition
             });
-
+            o.map.setInfoWindowOnClick(true);
             /*var tp = new TitlePane({
                 title: 'Switch Basemap',
                 open: 'false',
@@ -67,8 +72,7 @@ define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modu
             // });
 
             o.map.on("load", function() {
-                // Clear out default Esri Graphic at 0,0, dont know why its even there
-                //o.map.graphics.clear();
+                o.initToolbar();
 
                 // Finder.setMap(o.map);
                 // self.addWidgets();
@@ -77,39 +81,121 @@ define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modu
                 var infoTemplate = new InfoTemplate("Attributes", "${*}");
                 var storiesLayer = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2");
                 storiesLayer.setInfoTemplate(infoTemplate);
-                //debugger;
 
-                // Hack to get the correct extent set on load, this can be removed
-                // when the hash controller workflow is corrected
                 on.once(o.map, "update-end", function() {
                     o.map.addLayer(storiesLayer);
                 });
             });
         };
 
-        o.toggleStoryNavList = function(obj) {
-            var htmlToFetch = obj.htmlContent;
-            var storymodel = StoryModel.getVM();
-            // var vm = Model.getVM();
-            var currentLanguage = "en";
-            var leftLinks = storymodel.leftLinks();
-            storymodel.leftLinks([]);
-            arrayUtil.forEach(leftLinks, function(ds) {
-                if (ds == obj) {
-                    ds.selected = true;
-                } else {
-                    ds.selected = false;
+        o.initToolbar = function() {
+            tb = new Draw(o.map);
+            tb.on("draw-end", o.addGraphic);
+
+            // event delegation so a click handler is not
+            // needed for each individual button
+            on(dom.byId("addPoint"), "click", function(evt) {
+
+                tool = "point";
+                o.map.disableMapNavigation();
+                tb.activate(tool);
+            });
+        }
+
+
+        o.addGraphic = function(evt) {
+            o.map.graphics.clear();
+            var pictureMarkerSymbol = new PictureMarkerSymbol('app/images/RedStickpin.png', 32, 32);
+            tb.deactivate();
+            o.map.enableMapNavigation();
+
+            var graphic = new Graphic(evt.geometry, pictureMarkerSymbol);
+
+            var title = dom.byId("storyTitleInput");
+            if (title.value) {
+                title = title.value;
+            } else {
+                title = title.placeholder;
+            }
+
+            var infoTemplate = new InfoTemplate(title);
+
+            var originalPoint = webMercatorUtils.xyToLngLat(evt.geometry.x, evt.geometry.y);
+            var originalPointLat = originalPoint[0].toFixed(3);
+            var originalPointLng = originalPoint[1].toFixed(3);
+
+            infoTemplate.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>"); //titled the user's Story Title
+            //STATENAEME will be graphic.x value or something
+            // dojo.connect(o.map.graphics, "onMouseMove", function(evt) {
+            //     //var g = evt.graphic;
+            //     //debugger;
+            //     o.map.infoWindow.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>");
+            //     o.map.infoWindow.setTitle(title);
+
+
+            //     //o.map.graphics.disableMouseEvents();
+            //     //Allow mouse events again once the mouse moves
+            //     //dojo.connect(o.map, "onMouseMove", o.map.graphics, o.map.graphics.enableMouseEvents());
+            //     //o.map.infoWindow.show(evt.screenPoint, o.map.getInfoWindowAnchor(evt.screenPoint));
+
+            //     o.map.infoWindow.show(evt.screenPoint, o.map.getInfoWindowAnchor(evt.screenPoint));
+            // });
+            // dojo.connect(o.map.graphics, "onMouseOut", function() {
+            //     o.map.infoWindow.hide();
+            // });
+
+            graphic.setInfoTemplate(infoTemplate); // will be populated with whatever fields the user has filled out so far
+            o.map.graphics.add(graphic);
+
+
+            var dojoShape = graphic.getDojoShape();
+            var moveable = new dojox.gfx.Moveable(dojoShape);
+
+            var moveStopToken = dojo.connect(moveable, "onMoveStop", function(mover) {
+                // Get the transformation that was applied to the shape since the last move  
+                var tx = dojoShape.getTransform();
+
+                var startPoint = graphic.geometry;
+                var endPoint = o.map.toMap(o.map.toScreen(startPoint).offset(tx.dx, tx.dy));
+
+                // clear out the transformation  
+                dojoShape.setTransform(null);
+
+                var endPoint2 = webMercatorUtils.xyToLngLat(endPoint.x, endPoint.y);
+                var endPointLat = endPoint2[0].toFixed(3);
+                var endPointLng = endPoint2[1].toFixed(3);
+                // update the graphic geometry
+
+                console.log(endPoint);
+
+                console.log(endPoint2);
+                graphic.setGeometry(endPoint);
+                infoTemplate.setContent("<tr>Lat: <td>" + endPointLat + "<br></tr></td> <tr>Lat: <td>" + endPointLng + "</tr></td>");
+
+                // You can find quite a bit of information about  
+                // applying transformations to Dojo gfx shapes in this  
+                // document:  
+                // http://docs.dojocampus.org/dojox/gfx#coordinates-and-transformations  
+            });
+
+            // dojo.connect(o.map.graphics, "onMouseDown", o.holdGraphic);
+            // dojo.connect(o.map, "onMouseDragEnd", o.releaseGraphic);
+            //o.initEditing();
+        };
+
+
+
+        o.initEditing = function() {
+            var graphicLayers = o.map.getLayersVisibleAtScale();
+            var affectedArea = graphicLayers[1];
+
+            var editToolbar = new Edit(o.map);
+            editToolbar.on("deactivate", function(evt) {
+                if (evt.info.isModified) {
+                    affectedArea.applyEdits(null, [evt.graphic], null);
                 }
             });
-
-            storymodel.leftLinks(leftLinks);
-            //datamodel.leftLinks(leftLinks);
-            this.reportAnalyticsHelper('view', 'content', 'The user viewed the ' + this.toTitleCase(obj.name) + ' content on the Data page.');
-
-            require(["dojo/text!views/story/templates/" + htmlToFetch + ".htm"], function(content) {
-                storymodel.htmlContent(content);
-            });
-
+            debugger;
         };
 
         o.toTitleCase = function(str) {
@@ -123,12 +209,9 @@ define(["dojo/dom", "dojo/on", "dijit/registry", "modules/HashController", "modu
             ga('B.send', 'event', eventType, action, label);
         };
 
+        // o.formatSubmission = function() {
 
-        //listen to key
-
-        //trigger event 
-
-
+        // }
 
         return o;
 
