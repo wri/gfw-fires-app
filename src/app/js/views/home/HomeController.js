@@ -75,11 +75,11 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
 
                 var runAnimation = function(id) {
-                    console.log("animating " + id);
+                    //console.log("animating " + id);
                     var itemsToAnimate = dojoQuery(".modeGroup");
                     var maxItems = itemsToAnimate.length;
-                    console.log(maxItems);
-                    console.log('');
+                    //console.log(maxItems);
+                    //console.log('');
 
                     var anim = coreFx.chain([
                         baseFx.animateProperty({
