@@ -197,17 +197,17 @@ div#map-view(class="map-view")
 
 										div(class="checkbox-container-wind inline")
 											div#wind06
-												input(type="radio", value="06", data-bind="checked: timeOfDay")
+												input(type="radio", value="06", data-bind="checked: timeOfDay, disable: wind06Disable(), enable: wind06Enable()")
 												label(data-bind="text: '06'")
 
 										div(class="checkbox-container-wind inline")
 											div#wind12
-												input(type="radio", value="12", data-bind="checked: timeOfDay")
+												input(type="radio", value="12", data-bind="checked: timeOfDay, disable: wind12Disable(), enable: wind12Enable()")
 												label(data-bind="text: '12'")
 
 										div(class="checkbox-container-wind inline")
 											div#wind18
-												input(type="radio", value="18", data-bind="checked: timeOfDay")
+												input(type="radio", value="18", data-bind="checked: timeOfDay, disable: wind18Disable(), enable: wind18Enable()")
 												label(data-bind="text: '18'")
 
 								

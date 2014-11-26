@@ -513,7 +513,16 @@ define([
         });
 
         on(dom.byId("noaa-fires-18"), "click", function() {
+            //debugger;
             if (this.getAttribute("aria-checked") == "false") {
+                // tell the map this layer is no longer visible!
+                var otherCheck = dom.byId("indonesia-fires");
+                //debugger;
+                if (otherCheck.getAttribute("aria-checked") == 'false') {
+                    o.map.getLayer("IndonesiaFires").visible = false;
+                    console.log("Should disable pop-ups");
+                }
+
                 MapModel.vm.showReportOptionsNOAA(false);
                 return;
             }
@@ -523,6 +532,11 @@ define([
 
         on(dom.byId("indonesia-fires"), "click", function() {
             if (this.getAttribute("aria-checked") == "false") {
+                var otherCheck = dom.byId("noaa-fires-18");
+                if (otherCheck.getAttribute("aria-checked") == 'false') {
+                    o.map.getLayer("IndonesiaFires").visible = false;
+                    console.log("Should disable pop-ups");
+                }
                 MapModel.vm.showReportOptionsINDO(false);
                 return;
             }

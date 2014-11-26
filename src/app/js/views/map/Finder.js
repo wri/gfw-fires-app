@@ -288,6 +288,7 @@ define([
 
                 selected_features.then(function(features) {
                     _map.infoWindow.setFeatures(features);
+                    _map.infoWindow.resize(270, 140);
                     _map.infoWindow.show(event.mapPoint);
                 });
 
@@ -312,8 +313,10 @@ define([
                 dateString = '',
                 defs = [];
 
+
             // If the layer is not visible, then dont show it
             if (!_map.getLayer(qconfig.id).visible) {
+                console.log("didn't display active fires popup!");
                 _self.mapClick(event);
                 return;
             }
@@ -401,6 +404,8 @@ define([
             var checked = dom.byId("indonesia-fires");
             // If the layer is not visible or turned on, then dont show it
             if (!_map.getLayer(qconfig.id).visible || checked.checked != true) {
+
+                //IndonesiaFires
                 _self.mapClick(event);
                 return;
             }
@@ -459,8 +464,14 @@ define([
                 dateString = '',
                 defs = [];
 
+            var otherCheck = dom.byId("noaa-fires-18");
+            if (otherCheck.getAttribute("aria-checked") == 'false') {
+                return;
+                console.log("Should disable pop-ups");
+            }
             // If the layer is not visible, then dont show it
-            if (!_map.getLayer(qconfig.id).visible) {
+            if (!_map.getLayer("IndonesiaFires").visible) {
+                console.log("didn't display noaa popup!");
                 _self.mapClick(event);
                 return;
             }
