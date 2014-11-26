@@ -246,9 +246,23 @@ define([
             if (!_map.getLayer(qconfig.id).visible) {
                 _self.getActiveFiresInfoWindow(event);
                 _self.getDigitalGlobeInfoWindow(event);
-                // If one of these has been triggered, don't call the 3rd (it will overwrite and put a new infoWindo there because with InfoWindows, it doesn't matter if the layer is turned off or not; it will always trigger). And since the Archived Fires are EVERYWHERE, almost any click triggers this 3rd function.
+
                 _self.getArchiveFiresInfoWindow(event);
-                _self.getArchiveNoaaInfoWindow(event);
+
+
+                var noaaCheck = dom.byId("noaa-fires-18");
+                var archiveCheck = dom.byId("indonesia-fires");
+                var firesCheck = dom.byId("fires-checkbox");
+                if ((noaaCheck.getAttribute("aria-checked") == 'true' && archiveCheck.getAttribute("aria-checked") == 'true') || (noaaCheck.getAttribute("aria-checked") == 'true' && firesCheck.getAttribute("aria-checked") == 'true')) {
+                    setTimeout(function() {
+                        if (!_map.infoWindow.isShowing) {
+                            _self.getArchiveNoaaInfoWindow(event);
+                        }
+                    }, 800);
+                } else {
+                    _self.getArchiveNoaaInfoWindow(event);
+                }
+
                 return;
             }
 
@@ -288,7 +302,7 @@ define([
 
                 selected_features.then(function(features) {
                     _map.infoWindow.setFeatures(features);
-                    _map.infoWindow.resize(270, 140);
+                    _map.infoWindow.resize(340, 500);
                     _map.infoWindow.show(event.mapPoint);
                 });
 
@@ -316,7 +330,6 @@ define([
 
             // If the layer is not visible, then dont show it
             if (!_map.getLayer(qconfig.id).visible) {
-                console.log("didn't display active fires popup!");
                 _self.mapClick(event);
                 return;
             }
@@ -467,11 +480,9 @@ define([
             var otherCheck = dom.byId("noaa-fires-18");
             if (otherCheck.getAttribute("aria-checked") == 'false') {
                 return;
-                console.log("Should disable pop-ups");
             }
             // If the layer is not visible, then dont show it
             if (!_map.getLayer("IndonesiaFires").visible) {
-                console.log("didn't display noaa popup!");
                 _self.mapClick(event);
                 return;
             }
@@ -634,6 +645,7 @@ define([
                 content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
 
                 _map.infoWindow.setContent(content);
+                _map.infoWindow.resize(270, 500);
                 _map.infoWindow.show(point);
 
                 // if (features.length === 1) {
