@@ -20,42 +20,44 @@ define([],
             //knockout stuff
 
             navigationLinks: [{
-                "html": "Home",
-                "viewName": "home",
-                "domId": "homeView",
-                "selected": true
-            }, {
-                "html": "Map",
-                "viewName": "map",
-                "domId": "mapView",
-                "selected": false
-            }, {
-                "html": "Fires Blog",
-                "viewName": "blog",
-                "domId": "blogView",
-                "selected": false
-            }, {
-                "html": "Data",
-                "viewName": "data",
-                "domId": "dataView",
-                "selected": false
-            }, {
-                "html": "About",
-                "viewName": "about",
-                "domId": "aboutView",
-                "selected": false
-            }, {
-                "html": "GFW",
-                "url": "http://www.globalforestwatch.org",
-                "viewName": "link",
-                "domId": "link",
-                "selected": false
-            }, {
-                "html": "Story",
-                "viewName": "story",
-                "domId": "storyView",
-                "selected": false
-            }],
+                    "html": "Home",
+                    "viewName": "home",
+                    "domId": "homeView",
+                    "selected": true
+                }, {
+                    "html": "Map",
+                    "viewName": "map",
+                    "domId": "mapView",
+                    "selected": false
+                }, {
+                    "html": "Fires Blog",
+                    "viewName": "blog",
+                    "domId": "blogView",
+                    "selected": false
+                }, {
+                    "html": "Data",
+                    "viewName": "data",
+                    "domId": "dataView",
+                    "selected": false
+                }, {
+                    "html": "About",
+                    "viewName": "about",
+                    "domId": "aboutView",
+                    "selected": false
+                }, {
+                    "html": "GFW",
+                    "url": "http://www.globalforestwatch.org",
+                    "viewName": "link",
+                    "domId": "link",
+                    "selected": false
+                }
+                // , {
+                //     "html": "Story",
+                //     "viewName": "story",
+                //     "domId": "storyView",
+                //     "selected": false
+                // }
+            ],
 
             headerTitle: "A partnership convened by the World Resources Institute",
 
@@ -91,12 +93,13 @@ define([],
                     "eventName": "goToTomnod",
                     "display": false
 
-                }, {
-                    "html": "<span>Submit a story</span>",
-                    "eventName": "goToStory",
-                    "display": false
-
                 }
+                // , {
+                //     "html": "<span>Submit a story</span>",
+                //     "eventName": "goToStory",
+                //     "display": false
+
+                // }
             ],
 
             footerModeOptions: [
@@ -191,7 +194,15 @@ define([],
                     "selected": false
                 }
 
-            ]
+            ],
+
+            newStory: {
+                "title": "Illegal Logging in National Park",
+                "affectedAreas": "",
+                "location": "",
+                "details": "",
+                "video": ""
+            }
 
 
         };

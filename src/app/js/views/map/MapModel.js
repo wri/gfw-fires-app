@@ -84,6 +84,44 @@ define([
     vm.wind12Radio = ko.observable("12");
     vm.wind18Radio = ko.observable("18");
 
+    vm.wind06Enable = ko.observable();
+    vm.wind12Enable = ko.observable();
+    vm.wind18Enable = ko.observable();
+
+
+    vm.wind06Disable = function() {
+        var now = new Date();
+        var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
+        if (millisTill6 > 0) {
+            vm.wind06Enable(false);
+            return true;
+        } else {
+            vm.wind06Enable(true);
+            return false;
+        }
+    }
+    vm.wind12Disable = function() {
+        var now = new Date();
+        var millisTill12 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0) - now;
+        if (millisTill12 > 0) {
+            vm.wind12Enable(false);
+            return true;
+        } else {
+            vm.wind12Enable(true);
+            return false;
+        }
+    }
+    vm.wind18Disable = function() {
+        var now = new Date();
+        var millisTill18 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0) - now;
+        if (millisTill18 > 0) {
+            vm.wind18Enable(false);
+            return true;
+        } else {
+            vm.wind18Enable(true);
+            return false;
+        }
+    }
 
     vm.months = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     vm.reportAOIs = ko.observableArray([]);
@@ -142,6 +180,18 @@ define([
             minDate: (new Date(2014, 10 - 1, 19)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
+                var selectedDate2 = Date.parse(selectedDate);
+                var today = new Date();
+                today.setHours(0, 0, 0, 0);
+                if (today.getTime() > selectedDate2) {
+                    vm.wind06Enable(true);
+                    vm.wind12Enable(true);
+                    vm.wind18Enable(true);
+                } else {
+                    vm.wind06Disable();
+                    vm.wind12Disable();
+                    vm.wind18Disable();
+                }
                 vm.windObserv(selectedDate);
                 return selectedDate;
             }
