@@ -632,11 +632,12 @@ define([
 
 
                 content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
+                content += "<li><strong>Date <span class='satelliteColumn'>Satellite</span></strong></li>";
 
                 arrayUtils.forEach(features, function(f) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
                     if (date >= start && date <= end) {
-                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>Date: " + date.format("M/D/YYYY") + " Satellite: " + f.attributes.SensorName + "</a>" + "</li>"; //f.attributes.Date + "</a></li>";
+                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("M/D/YYYY") + "  <span class='satelliteColumn'>" + f.attributes.SensorName + "</span></a>" + "</li>"; //f.attributes.Date + "</a></li>";
                     }
                     // content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
 

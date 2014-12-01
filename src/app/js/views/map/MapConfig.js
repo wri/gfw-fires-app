@@ -325,8 +325,12 @@ define({
             'id': "landsat-image-checkbox",
             'type': 'checkbox'
         },
-        'Digital_Globe': {
+        'Digital_Globe_Footprints': {
             'id': "digital-globe-checkbox",
+            'type': 'checkbox'
+        },
+        'Digital_Globe': {
+            'id': "digital-globe-footprints-checkbox",
             'type': 'checkbox'
         },
         'Air_Quality': {
@@ -410,6 +414,7 @@ define({
         airQuality: "Air quality",
         windDirection: "Wind direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
+        digitalGlobeFootprintsCheckbox: "Imagery Footprint Outlines",
         landsatImageCheckbox: "Latest Landsat 8 imagery",
         landsatImageSubLabel: "(latest image, 30m, global)",
         twitterConversationsCheckbox: "Twitter conversations",
@@ -423,6 +428,7 @@ define({
         districtsCheckbox: "Districts",
         subDistrictsCheckbox: "Subdistricts",
         digitalGlobeSubLabel: "Click inside a footprint to display the image",
+        digitalGlobeFootprintsSubLabel: "Toggle the red imagery footprints on & off",
         villagesCheckbox: "Villages",
         pf2000Radio: "2000",
         pf2005Radio: "2005",
@@ -656,6 +662,11 @@ define({
             }
         }, {
             "id": "digital-globe-checkbox",
+            "class": "imagery-checkbox",
+            "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "digital-globe-footprints-checkbox",
             "class": "imagery-checkbox",
             "type": "checkbox",
             "props": {}

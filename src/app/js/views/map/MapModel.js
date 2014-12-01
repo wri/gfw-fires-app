@@ -3,7 +3,9 @@ define([
     "knockout",
     "main/Config",
     "views/map/MapConfig",
-    "dojo/dom"
+    "dojo/dom",
+    "libs/moment",
+    "libs/timezone"
 ], function(ko, Config, MapConfig, dom) {
 
     var o = {};
@@ -60,6 +62,7 @@ define([
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
     vm.airQuality = ko.observable(MapConfig.text.airQuality);
     vm.digitalGlobeCheckbox = ko.observable(MapConfig.text.digitalGlobeCheckbox);
+    vm.digitalGlobeFootprintsCheckbox = ko.observable(MapConfig.text.digitalGlobeFootprintsCheckbox);
     vm.landsatImageCheckbox = ko.observable(MapConfig.text.landsatImageCheckbox);
     vm.landsatImageSubLabel = ko.observable(MapConfig.text.landsatImageSubLabel);
     vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
@@ -73,6 +76,7 @@ define([
     vm.districtsCheckbox = ko.observable(MapConfig.text.districtsCheckbox);
     vm.subDistrictsCheckbox = ko.observable(MapConfig.text.subDistrictsCheckbox);
     vm.digitalGlobeSubLabel = ko.observable(MapConfig.text.digitalGlobeSubLabel);
+    vm.digitalGlobeFootprintsSubLabel = ko.observable(MapConfig.text.digitalGlobeFootprintsSubLabel);
     vm.villagesCheckbox = ko.observable(MapConfig.text.villagesCheckbox);
     vm.pf2000Radio = ko.observable(MapConfig.text.pf2000Radio);
     vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
@@ -91,8 +95,22 @@ define([
 
     vm.wind06Disable = function() {
         var now = new Date();
-        var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
-        if (millisTill6 > 0) {
+        var nowRefined = moment(now);
+        now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
+        if (now.indexOf("am") != -1) {
+            var timeInParis = now.split("am");
+            timeInParis = timeInParis[0];
+        } else {
+            var timeInParis = now.split("pm");
+            timeInParis = timeInParis[0];
+            timeInParis = parseInt(timeInParis) + 12;
+        }
+        console.log(timeInParis);
+        // find out if its am or pm then add 12 as needed
+        //debugger;
+        //var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
+
+        if (timeInParis < 6) {
             vm.wind06Enable(false);
             $("#wind06 > label").css("color", "grey");
             return true;
@@ -103,8 +121,22 @@ define([
     }
     vm.wind12Disable = function() {
         var now = new Date();
-        var millisTill12 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0) - now;
-        if (millisTill12 > 0) {
+        var nowRefined = moment(now);
+        now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
+        if (now.indexOf("am") != -1) {
+            var timeInParis = now.split("am");
+            timeInParis = timeInParis[0];
+        } else {
+            var timeInParis = now.split("pm");
+            timeInParis = timeInParis[0];
+            timeInParis = parseInt(timeInParis) + 12;
+        }
+        console.log(timeInParis);
+        // find out if its am or pm then add 12 as needed
+        //debugger;
+        //var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
+
+        if (timeInParis < 12) {
             vm.wind12Enable(false);
             $("#wind12 > label").css("color", "grey");
             return true;
@@ -115,8 +147,22 @@ define([
     }
     vm.wind18Disable = function() {
         var now = new Date();
-        var millisTill18 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0) - now;
-        if (millisTill18 > 0) {
+        var nowRefined = moment(now);
+        now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
+        if (now.indexOf("am") != -1) {
+            var timeInParis = now.split("am");
+            timeInParis = timeInParis[0];
+        } else {
+            var timeInParis = now.split("pm");
+            timeInParis = timeInParis[0];
+            timeInParis = parseInt(timeInParis) + 12;
+        }
+        console.log(timeInParis);
+        // find out if its am or pm then add 12 as needed
+        //debugger;
+        //var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
+
+        if (timeInParis < 18) {
             vm.wind18Enable(false);
             $("#wind18 > label").css("color", "grey");
             return true;
@@ -149,6 +195,7 @@ define([
             minDate: (new Date(2013, 1 - 1, 1)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
+                console.log(selectedDate);
                 vm.firesObservFrom(selectedDate);
                 $("#firesDateTo").datepicker("option", "minDate", selectedDate);
                 return selectedDate;
@@ -263,7 +310,7 @@ define([
         return date;
     }
 
-    vm.firesObservFrom = ko.observable(date2);
+    vm.firesObservFrom = ko.observable("06/01/2014");
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
     vm.noaaObservFrom = ko.observable("10/12/2014");
@@ -280,6 +327,7 @@ define([
     vm.showReportOptionsNOAA = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
+    vm.showReportOptionsDigitalGlobe = ko.observable(false);
     vm.showLocatorWidgets = ko.observable(false);
 
     vm.showPrimaryForestOptions = ko.observable(false);
@@ -309,6 +357,10 @@ define([
 
     vm.closeReportOptionsWIND = function() {
         vm.showReportOptionsWIND(false);
+    };
+
+    vm.closeReportOptionsDigitalGlobe = function() {
+        vm.showReportOptionsDigitalGlobe(false);
     };
 
     o.applyBindings = function(domId) {

@@ -227,12 +227,18 @@
       </div>
       <div id="imagery-panel" class="accordion-panel">
         <div class="checkbox-container">
-          <div id="digital-globe-checkbox"></div>
-          <label for="digital-globe-checkbox" data-bind="text: digitalGlobeCheckbox"></label><span data-bind="text: digitalGlobeSubLabel" class="checkbox-sub-label"></span>
-        </div>
-        <div class="checkbox-container">
           <div id="landsat-image-checkbox"></div>
           <label for="landsat-image-checkbox" data-bind="text: landsatImageCheckbox"></label><span data-bind="text: landsatImageSubLabel" class="checkbox-sub-label"></span>
+        </div>
+        <div class="checkbox-container">
+          <div id="digital-globe-checkbox"></div>
+          <label for="digital-globe-checkbox" data-bind="text: digitalGlobeCheckbox"></label><span data-bind="text: digitalGlobeSubLabel" class="checkbox-sub-label"></span>
+          <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
+            <div class="checkbox-container">
+              <div id="digital-globe-footprints-checkbox"></div>
+              <label for="digital-globe-footprints-checkbox" data-bind="text: digitalGlobeFootprintsCheckbox"></label><span data-bind="text: digitalGlobeFootprintsSubLabel" class="checkbox-sub-label"></span>
+            </div>
+          </div>
         </div>
       </div>
       <div id="social-media-panel" class="accordion-panel">

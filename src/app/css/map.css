@@ -55,22 +55,19 @@ map.styl,
   border: 0;
   background: rgba(255,255,255,0);
 }
-#map_WV01 {
-  z-index: 1;
-  pointer-events: none;
-}
-#map_QB01 {
-  z-index: 1;
-  pointer-events: none;
-}
-#map_WV02 {
-  z-index: 1;
-  pointer-events: none;
-}
-#map_GEO1 {
-  z-index: 1;
-  pointer-events: none;
-}
+/*
+#map_WV01
+	z-index 1
+	 pointer-events none
+#map_QB01
+	z-index 1
+	pointer-events none
+#map_WV02
+	z-index 1
+	pointer-events none
+#map_GEO1
+	z-index 1
+	pointer-events none */
 #map .esriSimpleSliderTL {
   right: 20px;
   left: auto;
@@ -685,6 +682,10 @@ div.report-options-section > table {
 }
 .popup-list {
   margin-bottom: 20px !important;
+}
+.satelliteColumn {
+  position: absolute;
+  left: 110px;
 }
 .custom-zoom-to {
   position: absolute;

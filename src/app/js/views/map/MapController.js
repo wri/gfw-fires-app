@@ -176,11 +176,13 @@ define([
         });
 
         o.map.on("load", function() {
-            // Clear out default Esri Graphic at 0,0, dont know why its even there
+
             $("#firesDateFrom").datepicker("setDate", "6/1/2014");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
+            $("#firesDateTo").datepicker("option", "minDate", "6/1/2014");
 
+            // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
             MapModel.vm.windPicker();
             // Resize Accordion
@@ -460,9 +462,19 @@ define([
 
         registry.byId("digital-globe-checkbox").on('change', function(checked) {
             LayerController.toggleDigitalGlobeLayer(checked);
+            MapModel.vm.showReportOptionsDigitalGlobe(checked);
+            //#digital-globe-footprints-checkbox
             if (checked) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Digital Globe - First Look layer on.');
             }
+        });
+
+        registry.byId("digital-globe-footprints-checkbox").on('change', function(checked) {
+            LayerController.toggleDigitalGlobeLayer(checked);
+
+
+            //#digital-globe-footprints-checkbox
+
         });
 
         registry.byId("provinces-checkbox").on('change', function(checked) {

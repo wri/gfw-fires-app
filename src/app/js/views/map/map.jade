@@ -220,13 +220,21 @@ div#map-view(class="map-view")
 					label(for="air-quality-checkbox", data-bind="text: airQuality")
 			div#imagery-panel(class='accordion-panel')
 				div(class="checkbox-container")
-					div#digital-globe-checkbox
-					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
-					span(data-bind="text: digitalGlobeSubLabel", class="checkbox-sub-label")
-				div(class="checkbox-container")
 					div#landsat-image-checkbox 
 					label(for="landsat-image-checkbox", data-bind="text: landsatImageCheckbox")
 					span(data-bind="text: landsatImageSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#digital-globe-checkbox
+					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
+					span(data-bind="text: digitalGlobeSubLabel", class="checkbox-sub-label")
+
+					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
+						div(class="checkbox-container")
+							div#digital-globe-footprints-checkbox
+							label(for="digital-globe-footprints-checkbox", data-bind="text: digitalGlobeFootprintsCheckbox")
+							span(data-bind="text: digitalGlobeFootprintsSubLabel", class="checkbox-sub-label")
+
+
 			div#social-media-panel(class='accordion-panel')
 				div(class="checkbox-container")
 					div#twitter-conversations-checkbox
