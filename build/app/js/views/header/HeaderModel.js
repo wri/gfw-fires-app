@@ -1,2 +1,2 @@
-/*! Global-Forest-Watch-Fires Thu Nov 20 2014 12:06:49 */
+/*! Global-Forest-Watch-Fires Mon Dec 01 2014 10:54:58 */
 define(["knockout","main/Config","dojo/dom","modules/EventsController"],function(a,b,c,d){var e={};e.vm={};var f=e.vm;return f.headerTitle=a.observable(b.headerTitle),f.headerDesc=a.observable(b.headerDesc),f.navigationLinks=a.observableArray(b.navigationLinks),f.appState=a.observable({}),f.clickNavLink=function(a){d.clickNavLink(a)},e.applyBindings=function(b){a.applyBindings(f,c.byId(b))},e});
