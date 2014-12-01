@@ -94,7 +94,7 @@ define([
         var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
         if (millisTill6 > 0) {
             vm.wind06Enable(false);
-            $("#wind60 > label").css("color", "grey");
+            $("#wind06 > label").css("color", "grey");
             return true;
         } else {
             vm.wind06Enable(true);
@@ -177,6 +177,9 @@ define([
             minDate: (new Date(2014, 10 - 1, 19)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
+                $("#wind06 > label").css("color", "black");
+                $("#wind12 > label").css("color", "black");
+                $("#wind18 > label").css("color", "black");
                 var selectedDate2 = Date.parse(selectedDate);
                 var today = new Date();
                 today.setHours(0, 0, 0, 0);
