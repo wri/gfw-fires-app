@@ -151,12 +151,6 @@ define([
                 return selectedDate;
             }
         });
-        // var today = new Date(new Date().setDate(new Date().getDate() - 7));
-        // var days = today.getDate();
-        // var months = today.getMonth() + 1;
-        // var years = today.getFullYear();
-        // var date = months + "/" + days + "/" + years;
-        // return date;
     }
     vm.firesPickerTo = function() {
         var newDate = jQuery('#firesDateTo').datepicker({
@@ -188,6 +182,7 @@ define([
                     vm.wind12Enable(true);
                     vm.wind18Enable(true);
                 } else {
+                    vm.timeOfDay("00");
                     vm.wind06Disable();
                     vm.wind12Disable();
                     vm.wind18Disable();
