@@ -94,6 +94,7 @@ define([
         var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
         if (millisTill6 > 0) {
             vm.wind06Enable(false);
+            $("#wind60 > label").css("color", "grey");
             return true;
         } else {
             vm.wind06Enable(true);
@@ -105,6 +106,7 @@ define([
         var millisTill12 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0, 0) - now;
         if (millisTill12 > 0) {
             vm.wind12Enable(false);
+            $("#wind12 > label").css("color", "grey");
             return true;
         } else {
             vm.wind12Enable(true);
@@ -116,6 +118,7 @@ define([
         var millisTill18 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 18, 0, 0, 0) - now;
         if (millisTill18 > 0) {
             vm.wind18Enable(false);
+            $("#wind18 > label").css("color", "grey");
             return true;
         } else {
             vm.wind18Enable(true);
