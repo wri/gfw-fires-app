@@ -95,22 +95,21 @@ define([
 
     vm.wind06Disable = function() {
         var now = new Date();
+        var now3 = new Date();
+        var currentHours = now.getHours();
         var nowRefined = moment(now);
         now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
-        if (now.indexOf("am") != -1) {
-            var timeInParis = now.split("am");
-            timeInParis = timeInParis[0];
-        } else {
-            var timeInParis = now.split("pm");
-            timeInParis = timeInParis[0];
-            timeInParis = parseInt(timeInParis) + 12;
-        }
-        console.log(timeInParis);
-        // find out if its am or pm then add 12 as needed
-        //debugger;
-        //var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
 
-        if (timeInParis < 6) {
+        if (now.indexOf("am") != -1) {
+            var dataUpdateTime = now.split("am");
+            dataUpdateTime = dataUpdateTime[0];
+        } else {
+            var dataUpdateTime = now.split("pm");
+            dataUpdateTime = dataUpdateTime[0];
+            dataUpdateTime = parseInt(dataUpdateTime) + 12;
+        }
+
+        if (dataUpdateTime < 6) {
             vm.wind06Enable(false);
             $("#wind06 > label").css("color", "grey");
             return true;
@@ -124,19 +123,15 @@ define([
         var nowRefined = moment(now);
         now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
         if (now.indexOf("am") != -1) {
-            var timeInParis = now.split("am");
-            timeInParis = timeInParis[0];
+            var dataUpdateTime = now.split("am");
+            dataUpdateTime = dataUpdateTime[0];
         } else {
-            var timeInParis = now.split("pm");
-            timeInParis = timeInParis[0];
-            timeInParis = parseInt(timeInParis) + 12;
+            var dataUpdateTime = now.split("pm");
+            dataUpdateTime = dataUpdateTime[0];
+            dataUpdateTime = parseInt(dataUpdateTime) + 12;
         }
-        console.log(timeInParis);
-        // find out if its am or pm then add 12 as needed
-        //debugger;
-        //var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
 
-        if (timeInParis < 12) {
+        if (dataUpdateTime < 12) {
             vm.wind12Enable(false);
             $("#wind12 > label").css("color", "grey");
             return true;
@@ -148,21 +143,20 @@ define([
     vm.wind18Disable = function() {
         var now = new Date();
         var nowRefined = moment(now);
+        // var newDayCheck = nowRefined.tz('Asia/Tokyo');
+        // if (newDayCheck._d.getDay() != newDayCheck._i.getDay()) {
+        //     console.log("day is different, this button must be enabled")
+        // }
         now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
         if (now.indexOf("am") != -1) {
-            var timeInParis = now.split("am");
-            timeInParis = timeInParis[0];
+            var dataUpdateTime = now.split("am");
+            dataUpdateTime = dataUpdateTime[0];
         } else {
-            var timeInParis = now.split("pm");
-            timeInParis = timeInParis[0];
-            timeInParis = parseInt(timeInParis) + 12;
+            var dataUpdateTime = now.split("pm");
+            dataUpdateTime = dataUpdateTime[0];
+            dataUpdateTime = parseInt(dataUpdateTime) + 12;
         }
-        console.log(timeInParis);
-        // find out if its am or pm then add 12 as needed
-        //debugger;
-        //var millisTill6 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0, 0) - now;
-
-        if (timeInParis < 18) {
+        if (dataUpdateTime < 18) {
             vm.wind18Enable(false);
             $("#wind18 > label").css("color", "grey");
             return true;
@@ -176,6 +170,7 @@ define([
     vm.reportAOIs = ko.observableArray([]);
     vm.selectedAOIs = ko.observableArray([]);
     vm.reportText = ko.observable(MapConfig.text.reportOptions);
+    vm.reportTextImagery = ko.observable(MapConfig.text.digitalGlobeWindowText);
 
     var today = new Date();
     var days = today.getDate();
@@ -328,6 +323,15 @@ define([
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showReportOptionsDigitalGlobe = ko.observable(false);
+
+    vm.showReportOptionsDigitalGlobeFootprints = ko.observable(true);
+
+    vm.digitalGlobeInView = ko.observableArray();
+
+    // vm.showReportOptionsDigitalGlobeFootprints.subscribe(function(newValue) {
+    //     return true;
+    // })
+
     vm.showLocatorWidgets = ko.observable(false);
 
     vm.showPrimaryForestOptions = ko.observable(false);
@@ -361,6 +365,10 @@ define([
 
     vm.closeReportOptionsDigitalGlobe = function() {
         vm.showReportOptionsDigitalGlobe(false);
+    };
+
+    vm.selectImageryMinimize = function() {
+        $("#imageryWindow").css("height", "50px");
     };
 
     o.applyBindings = function(domId) {

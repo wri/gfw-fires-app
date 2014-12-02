@@ -245,10 +245,7 @@ define([
 
             if (!_map.getLayer(qconfig.id).visible) {
                 _self.getActiveFiresInfoWindow(event);
-                _self.getDigitalGlobeInfoWindow(event);
-
                 _self.getArchiveFiresInfoWindow(event);
-
 
                 var noaaCheck = dom.byId("noaa-fires-18");
                 var archiveCheck = dom.byId("indonesia-fires");
@@ -262,6 +259,16 @@ define([
                 } else {
                     _self.getArchiveNoaaInfoWindow(event);
                 }
+
+                // if (noaaCheck.getAttribute("aria-checked") == 'true' || archiveCheck.getAttribute("aria-checked") == 'true' || noaaCheck.getAttribute("aria-checked") == 'true' || firesCheck.getAttribute("aria-checked") == 'true') {
+                setTimeout(function() {
+                    if (!_map.infoWindow.isShowing) {
+                        _self.getDigitalGlobeInfoWindow(event);
+                    }
+                }, 400);
+                // } else {
+                //     _self.getDigitalGlobeInfoWindow(event);
+                // }
 
                 return;
             }
@@ -582,6 +589,7 @@ define([
         },
 
         getDigitalGlobeInfoWindow: function(evt) {
+
             var dgConf = MapConfig.digitalGlobe,
                 dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
                 query = new Query(),
@@ -602,7 +610,6 @@ define([
             query.outFields = ['*'];
 
             // esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
-
 
             var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
                 var deferred = new Deferred;
@@ -627,19 +634,21 @@ define([
                 results.map(function(featureArr) {
                     featureArr.map(function(feature) {
                         features.push(feature);
+                        //var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                        //feature.attributes.AcquisitionDate = date.format("M/D/YYYY");
+                        //MapModel.vm.digitalGlobeInView.push(feature);
                     });
                 });
+                features.reverse();
+                //debugger;
 
-
-                content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
-                content += "<li><strong>Date <span class='satelliteColumn'>Satellite</span></strong></li>";
+                content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'><li><strong>Date <span class='satelliteColumn'>Satellite</span></strong></li>";
 
                 arrayUtils.forEach(features, function(f) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
                     if (date >= start && date <= end) {
-                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("M/D/YYYY") + "  <span class='satelliteColumn'>" + f.attributes.SensorName + "</span></a>" + "</li>"; //f.attributes.Date + "</a></li>";
+                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("M/D/YYYY") + "  <span class='satelliteColumn' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span></a>" + "</li>";
                     }
-                    // content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
 
                 });
 
@@ -659,6 +668,7 @@ define([
                     handles.push(on(node, "click", function(evt) {
                         var target = evt.target ? evt.target : evt.srcElement,
                             bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+
                         LayerController.showDigitalGlobeImagery(bucket);
                         activeFeatureIndex = index;
                     }));

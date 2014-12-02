@@ -293,10 +293,14 @@ define([
 
         },
 
-        toggleDigitalGlobeLayer: function(visibility) {
+        toggleDigitalGlobeLayer: function(visibility, footprints) {
             var self = this,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
             var disp = visibility ? 'block' : 'none';
+            if (footprints) {
+                disp = "block";
+            }
+            console.log("toggling layer");
 
             domStyle.set(dom.byId("timeSliderPanel"), 'display', disp);
 
@@ -304,11 +308,17 @@ define([
                 if (visibility) {
                     self.promptAboutDigitalGlobe();
                 }
+                if (footprints && visibility == false) {
+                    var dglyr = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId);
+                    dglyr.clear();
+                    return;
+                }
                 self.toggleDigitalGlobeLayerVisibility(MapConfig.digitalGlobe.id, visibility);
                 self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
                 self.generateTimeSlider("timeSliderDG", "timeSliderPanel");
 
             });
+
         },
 
         toggleDigitalGlobeLayerVisibility: function(layerId, visibility) {

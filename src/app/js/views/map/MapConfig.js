@@ -325,11 +325,11 @@ define({
             'id': "landsat-image-checkbox",
             'type': 'checkbox'
         },
-        'Digital_Globe_Footprints': {
+        'Digital_Globe': {
             'id': "digital-globe-checkbox",
             'type': 'checkbox'
         },
-        'Digital_Globe': {
+        'Digital_Globe_Footprints': {
             'id': "digital-globe-footprints-checkbox",
             'type': 'checkbox'
         },
@@ -414,7 +414,8 @@ define({
         airQuality: "Air quality",
         windDirection: "Wind direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
-        digitalGlobeFootprintsCheckbox: "Imagery Footprint Outlines",
+        digitalGlobeFootprintsCheckbox: "Display footprints",
+        digitalGlobeWindowText: "Digital Globe - First Look Imagery",
         landsatImageCheckbox: "Latest Landsat 8 imagery",
         landsatImageSubLabel: "(latest image, 30m, global)",
         twitterConversationsCheckbox: "Twitter conversations",

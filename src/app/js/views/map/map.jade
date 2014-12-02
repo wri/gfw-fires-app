@@ -174,19 +174,19 @@ div#map-view(class="map-view")
 								tr
 									td(data-bind="text:'Time'")
 									td
-										//div(class="checkbox-container-wind inline")
+										//-div(class="checkbox-container-wind inline")
 											div#wind00-radio(value="00", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind00-radio", data-bind="text: '00'")
 									
-										//div(class="checkbox-container-wind inline")
+										//-div(class="checkbox-container-wind inline")
 											div#wind06-radio(value="06", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind06-radio", data-bind="text: '06'")
 									
-										//div(class="checkbox-container-wind inline")
+										//-div(class="checkbox-container-wind inline")
 											div#wind12-radio(value="12", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind12-radio", data-bind="text: '12'")
 									
-										//div(class="checkbox-container-wind inline")
+										//-div(class="checkbox-container-wind inline")
 											div#wind18-radio(value="18", data-bind="checked: timeOfDay, click: windTimeClick")
 											label(for="wind18-radio", data-bind="text: '18'")
 
@@ -228,12 +228,6 @@ div#map-view(class="map-view")
 					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
 					span(data-bind="text: digitalGlobeSubLabel", class="checkbox-sub-label")
 
-					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
-						div(class="checkbox-container")
-							div#digital-globe-footprints-checkbox
-							label(for="digital-globe-footprints-checkbox", data-bind="text: digitalGlobeFootprintsCheckbox")
-							span(data-bind="text: digitalGlobeFootprintsSubLabel", class="checkbox-sub-label")
-
 
 			div#social-media-panel(class='accordion-panel')
 				div(class="checkbox-container")
@@ -241,6 +235,48 @@ div#map-view(class="map-view")
 					label(for="twitter-conversations-checkbox", data-bind="text: twitterConversationsCheckbox")
 	div#map-container(class="map-container")
 		div#map(class="map")
+			div#imageryWindow(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions")
+				div#select-imagery-close(data-bind="click: selectImageryMinimize" class="reportOptionsHeader") -
+				div.font10(data-bind="text:reportTextImagery()")
+				div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
+						div(class="checkbox-container")
+							//-input#digital-globe-footprints-checkbox1(data-dojo-type="dijit/form/checkbox" type="checkbox" checked)
+							input#digital-globe-footprints-checkbox(type="checkbox" checked)
+							//- p space
+							//- input#digital-globe-footprints-checkbox1
+							//-input#digital-globe-footprints-checkbox(data-bind="checked: timeOfDay")
+							//-input#digital-globe-footprints-checkbox(data-bind="checked: showReportOptionsDigitalGlobeFootprints()")
+							//-input#digital-globe-footprints-checkbox(aria-checked= "true")
+
+							label(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")
+							//-span(data-bind="text: digitalGlobeFootprintsSubLabel", class="checkbox-sub-label")
+				table.imageryTable.font10
+					tr(class="imageryTopRow")
+						td(data-bind="text: 'Date'")
+						td(data-bind="text: 'Satellite Type'")
+						td
+					tr
+						td mm/dd/yyyy
+						td placeholder
+						td zoom to
+					tr
+						td mm/dd/yyyy
+						td placeholder
+						td zoom to
+					tr
+						td mm/dd/yyyy
+						td placeholder
+						td zoom to
+					tr
+						td mm/dd/yyyy
+						td placeholder
+						td zoom to
+				table.imageryTable.font10(data-bind="foreach: digitalGlobeInView")
+					tr
+						td.font10(data-bind="text: attributes.AcquisitionDate")
+						td.font10(data-bind="text: attributes.SensorName")
+						td.font10(data-bind="text: 'Zoom To'")
+				
 			div#timeSliderPanel.timeSliderPanel
 				//- div#timeSliderDG
 			div#esri-geocoder-widget

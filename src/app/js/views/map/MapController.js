@@ -8,6 +8,8 @@ define([
     "dojo/dom-class",
     "dojo/_base/array",
     "dojo/_base/fx",
+    "dojo/promise/all",
+    "dojo/Deferred",
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
@@ -38,6 +40,8 @@ define([
     "utils/DijitFactory",
     "modules/EventsController",
     "esri/request",
+    "esri/tasks/query",
+    "esri/tasks/QueryTask",
     "esri/tasks/PrintTask",
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
@@ -48,9 +52,9 @@ define([
     "esri/layers/GraphicsLayer",
     "esri/layers/ImageServiceParameters",
     "dijit/Dialog"
-], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
+], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, PrintTask, PrintParameters,
+    registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
 
     var o = {},
@@ -463,14 +467,56 @@ define([
         registry.byId("digital-globe-checkbox").on('change', function(checked) {
             LayerController.toggleDigitalGlobeLayer(checked);
             MapModel.vm.showReportOptionsDigitalGlobe(checked);
-            //#digital-globe-footprints-checkbox
             if (checked) {
+                dijit.byId("digital-globe-footprints-checkbox").setValue(true); // TODO: figure out why we can't just set this value to 'checked' or true based on a KO observable
+
+                //clear the array!!
+                //myObservableArray.removeAll()
+                MapModel.vm.digitalGlobeInView.removeAll();
+
+                var dgConf = MapConfig.digitalGlobe,
+                    dgLayer = o.map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
+                    query = new Query(),
+                    extents = {};
+
+                var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+                    var deferred = new Deferred;
+                    var geom = o.map.extent;
+                    query.geometry = geom;
+                    query.returnGeometry = false;
+                    query.outFields = ['*'];
+
+                    var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer")
+                    task.execute(query, function(results) {
+                        deferred.resolve(results.features);
+                    }, function(err) {
+
+                        deferred.resolve([])
+                    })
+                    return deferred.promise;
+                })).then(function(results) {
+                    var content = '';
+                    var features = [];
+                    var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
+                    var timeStops = dijit.byId('timeSliderDG').timeStops;
+                    var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
+                    var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
+                    results.map(function(featureArr) {
+                        featureArr.map(function(feature) {
+                            features.push(feature);
+                            var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                            feature.attributes.AcquisitionDate = date.format("M/D/YYYY");
+                            MapModel.vm.digitalGlobeInView.push(feature);
+                        });
+                    });
+                });
+
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Digital Globe - First Look layer on.');
             }
         });
 
         registry.byId("digital-globe-footprints-checkbox").on('change', function(checked) {
-            LayerController.toggleDigitalGlobeLayer(checked);
+            LayerController.toggleDigitalGlobeLayer(checked, 'footprints');
 
 
             //#digital-globe-footprints-checkbox
@@ -605,9 +651,7 @@ define([
 
             var reportdates = dates.split("/");
             var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
-            console.log(datesFormatted);
 
-            //WindyController.WIND_CONFIG.dataUrl = "http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-" + datesFormatted + "1.0.gz.json";
             var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + time + ".1-0.gz.json";
             WindyController.deactivateWindLayer();
             WindyController.activateWindLayer(updatedURL);

@@ -173,23 +173,6 @@
                 <tr>
                   <td data-bind="text:'Time'"></td>
                   <td>
-                    <!--div(class="checkbox-container-wind inline")
-                    div#wind00-radio(value="00", data-bind="checked: timeOfDay, click: windTimeClick")
-                    label(for="wind00-radio", data-bind="text: '00'")
-                    -->
-                    <!--div(class="checkbox-container-wind inline")
-                    div#wind06-radio(value="06", data-bind="checked: timeOfDay, click: windTimeClick")
-                    label(for="wind06-radio", data-bind="text: '06'")
-                    -->
-                    <!--div(class="checkbox-container-wind inline")
-                    div#wind12-radio(value="12", data-bind="checked: timeOfDay, click: windTimeClick")
-                    label(for="wind12-radio", data-bind="text: '12'")
-                    -->
-                    <!--div(class="checkbox-container-wind inline")
-                    div#wind18-radio(value="18", data-bind="checked: timeOfDay, click: windTimeClick")
-                    label(for="wind18-radio", data-bind="text: '18'")
-                    
-                    -->
                     <div class="checkbox-container-wind inline">
                       <div id="wind00">
                         <input type="radio" value="00" data-bind="checked: timeOfDay"/>
@@ -233,12 +216,6 @@
         <div class="checkbox-container">
           <div id="digital-globe-checkbox"></div>
           <label for="digital-globe-checkbox" data-bind="text: digitalGlobeCheckbox"></label><span data-bind="text: digitalGlobeSubLabel" class="checkbox-sub-label"></span>
-          <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
-            <div class="checkbox-container">
-              <div id="digital-globe-footprints-checkbox"></div>
-              <label for="digital-globe-footprints-checkbox" data-bind="text: digitalGlobeFootprintsCheckbox"></label><span data-bind="text: digitalGlobeFootprintsSubLabel" class="checkbox-sub-label"></span>
-            </div>
-          </div>
         </div>
       </div>
       <div id="social-media-panel" class="accordion-panel">
@@ -251,6 +228,50 @@
   </div>
   <div id="map-container" class="map-container">
     <div id="map" class="map">
+      <div id="imageryWindow" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions">
+        <div id="select-imagery-close" data-bind="click: selectImageryMinimize" class="reportOptionsHeader">-</div>
+        <div data-bind="text:reportTextImagery()" class="font10"></div>
+        <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
+          <div class="checkbox-container">
+            <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
+            <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox"></label>
+          </div>
+        </div>
+        <table class="imageryTable font10">
+          <tr class="imageryTopRow">
+            <td data-bind="text: 'Date'"></td>
+            <td data-bind="text: 'Satellite Type'"></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>mm/dd/yyyy</td>
+            <td>placeholder</td>
+            <td>zoom to</td>
+          </tr>
+          <tr>
+            <td>mm/dd/yyyy</td>
+            <td>placeholder</td>
+            <td>zoom to</td>
+          </tr>
+          <tr>
+            <td>mm/dd/yyyy</td>
+            <td>placeholder</td>
+            <td>zoom to</td>
+          </tr>
+          <tr>
+            <td>mm/dd/yyyy</td>
+            <td>placeholder</td>
+            <td>zoom to</td>
+          </tr>
+        </table>
+        <table data-bind="foreach: digitalGlobeInView" class="imageryTable font10">
+          <tr>
+            <td data-bind="text: attributes.AcquisitionDate" class="font10"></td>
+            <td data-bind="text: attributes.SensorName" class="font10"></td>
+            <td data-bind="text: 'Zoom To'" class="font10"></td>
+          </tr>
+        </table>
+      </div>
       <div id="timeSliderPanel" class="timeSliderPanel">
       </div>
       <div id="esri-geocoder-widget"></div>
