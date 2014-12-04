@@ -622,9 +622,11 @@ define([
         },
 
         promptAboutDigitalGlobe: function() {
-            /*if (registry.byId("digitalGlobeInstructions")) {
+
+            if (registry.byId("digitalGlobeInstructions")) {
                 registry.byId("digitalGlobeInstructions").destroy();
-            } //TODO: find out why '#rememberShowInstructions' is already registered
+            }
+
             var dialog = new Dialog({
                     title: "Digital Globe - First Look",
                     style: "width: 350px",
@@ -667,8 +669,10 @@ define([
             };
 
             currentCookie = cookie("digitalGlobeInstructions");
+            // if dialog.open == true, return
 
             if (currentCookie === undefined || currentCookie !== "dontShow") {
+
                 dialog.show();
                 cbox = new CheckBox({
                     checked: false,
@@ -682,7 +686,7 @@ define([
             } else {
                 cleanup(true);
             }
-*/
+
         },
 
         updatePeatLandsLayer: function(target) {

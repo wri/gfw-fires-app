@@ -333,6 +333,10 @@ define({
             'id': "digital-globe-footprints-checkbox",
             'type': 'checkbox'
         },
+        'Digital_Globe_Footprints': {
+            'id': "digital-globe-footprints-checkbox1",
+            'type': 'checkbox'
+        },
         'Air_Quality': {
             'id': "air-quality-checkbox",
             'type': 'checkbox'

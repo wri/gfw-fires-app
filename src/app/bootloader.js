@@ -110,7 +110,7 @@
         var s = doc.createElement('script'),
             h = doc.getElementsByTagName('head')[0];
         s.setAttribute('src', src);
-        s.setAttribute('async', 'true');
+        //s.setAttribute('async', 'true');
         for (var key in attrs) {
             if (attrs.hasOwnProperty(key)) {
                 s.setAttribute(key, attrs[key]);

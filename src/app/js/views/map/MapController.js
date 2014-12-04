@@ -302,7 +302,7 @@ define([
             var activeFeatureIndex = 0;
             var handles = [];
             dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
-                handles.push(on(node, "click", function(evt) { //TODO: dont push on click; just push now
+                handles.push(on(node, "click", function(evt) {
                     var target = evt.target ? evt.target : evt.srcElement,
                         bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
                     $('#imageryWindow > table > tbody > tr').each(function() {
@@ -317,6 +317,8 @@ define([
                     $(parent).parent().addClass("imageryRowSelected");
                 }));
             });
+
+            //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
             var highlightGraphic;
             $("#imageryWindow > table > tbody > tr").mouseenter(function() {
                 var highlightedRow = this.firstElementChild;
@@ -335,10 +337,10 @@ define([
                         highlightGraphic.id = "highlight";
 
                         o.map.graphics.add(highlightGraphic);
-                        //TODO turn back on dialog box in LayerController
                     }
                 }
             });
+            //MapModel.vm.imageryMouseOut(o.map);
             $("#imageryWindow > table > tbody > tr").mouseleave(function() {
                 $(this).removeClass("imageryRowHover");
                 o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
@@ -601,10 +603,9 @@ define([
             LayerController.toggleDigitalGlobeLayer(checked);
             MapModel.vm.showReportOptionsDigitalGlobe(checked);
             if (checked) {
-                //dijit.byId("digital-globe-footprints-checkbox").setValue(true); // TODO: figure out why we can't just set this value to 'checked' or true based on a KO observable
                 setTimeout(function() {
-
-                    dijit.byId("digital-globe-footprints-checkbox").setValue(true);
+                    dijit.byId("digital-globe-footprints-checkbox").set("value", "true", false);
+                    //dijit.byId("digital-globe-footprints-checkbox").setValue(true);
                 }, 1000);
 
 

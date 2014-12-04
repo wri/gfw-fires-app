@@ -657,11 +657,6 @@ define([
                 _map.infoWindow.resize(270, 500);
                 _map.infoWindow.show(point);
 
-                // if (features.length === 1) {
-                //     LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-                //     activeFeatureIndex = 0;
-                // } else {
-                // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
                 activeFeatureIndex = 0;
                 dojoQuery(".contentPane .popup-link").forEach(function(node, index) {
                     handles.push(on(node, "click", function(evt) {
@@ -679,15 +674,17 @@ define([
 
                             if (bucket == selectedRow) {
                                 $(this).addClass("imageryRowSelected");
+
+                                // var rowpos = $(this).position();
+                                // $('#imageryWindow > table > tbody').scrollTop(rowpos.top);
+
                             }
                         });
                         LayerController.showDigitalGlobeImagery(bucket);
                         activeFeatureIndex = index;
 
-
                     }));
                 });
-                // }
 
                 handles.push(on(dom.byId("custom-zoom-to"), "click", function(evt) {
 
@@ -695,7 +692,6 @@ define([
                         _map.spatialReference);
 
                     _map.centerAndZoom(point, 12);
-                    // _map.infoWindow.show(point);
                 }));
 
                 on.once(_map.infoWindow, "hide", function() {
