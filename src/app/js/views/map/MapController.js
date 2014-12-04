@@ -294,10 +294,9 @@ define([
                 }
 
             });
-            //reorder digitalGlobeInView
-            //debugger;
+
             MapModel.vm.digitalGlobeInView.sort(function(left, right) {
-                return left.lastName == right.attributes.AcquisitionDate2 ? 0 : (left.lastName < right.attributes.AcquisitionDate2 ? -1 : 1);
+                return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
             });
 
             var activeFeatureIndex = 0;
@@ -329,7 +328,7 @@ define([
                     if (check == highlightedRow) {
                         var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
                             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                new Color([150, 0, 150]), 5), new Color([255, 255, 0, 0])
+                                new Color("yellow"), 5), new Color([255, 255, 0, 0])
                         );
                         features[i].setSymbol(highlightSymbol);
                         highlightGraphic = new Graphic(features[i].geometry, highlightSymbol);

@@ -637,21 +637,9 @@ define([
                     });
                 });
                 //features.reverse();
-
-                function dynamicSort(property) {
-                    var sortOrder = 1;
-                    if (property[0] === "-") {
-                        sortOrder = -1;
-                        property = property.substr(1);
-                    }
-                    return function(a, b) {
-                        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-                        return result * sortOrder;
-                    }
-                }
-
-                features = features.sort(dynamicSort("attributes.AcquisitionDate"));
-
+                features.sort(function(left, right) {
+                    return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
+                });
 
                 content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'><li><strong>Date <span class='satelliteColumn'>Satellite</span></strong></li>";
 
