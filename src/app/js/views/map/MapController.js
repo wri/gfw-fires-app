@@ -348,10 +348,10 @@ define([
                 //         o.map.graphics.remove(g);
                 //     }
                 // }, this);
-
             });
 
             handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
+                o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
                 var highlightedRow = $(this).parent().parent();
                 var child = highlightedRow[0].firstElementChild;
                 child = $(child).html();
@@ -364,7 +364,6 @@ define([
                     }
                 }
             }));
-            // TODO: Reorder the MapModel's digitalGlobeInView array by date (latest first)
         });
     };
 
