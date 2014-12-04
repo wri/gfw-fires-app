@@ -606,7 +606,7 @@ define([
                 setTimeout(function() {
                     dijit.byId("digital-globe-footprints-checkbox").set("value", "true", false);
                     //dijit.byId("digital-globe-footprints-checkbox").setValue(true);
-                }, 1000);
+                }, 0);
 
 
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Digital Globe - First Look layer on.');

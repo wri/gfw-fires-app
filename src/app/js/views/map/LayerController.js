@@ -306,7 +306,7 @@ define([
             domStyle.set(dom.byId("timeSliderPanel"), 'display', disp);
 
             this.getBoundingBoxesForDigitalGlobe().then(function(results) {
-                if (visibility) {
+                if (visibility & !footprints) {
                     self.promptAboutDigitalGlobe();
                 }
                 if (footprints && visibility == false) {
@@ -605,13 +605,17 @@ define([
             _map.setTimeSlider(timeSlider);
 
             timeSlider.on("time-extent-change", function(evt) {
+
                 var values;
                 // These values are not updated immediately, call setTimeout to 0 to execute on next pass in the event loop
                 setTimeout(function() {
                     _map.infoWindow.hide();
                     values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
                     var stops = timeSlider.timeStops;
-                    self.filter_footprints('moment', moment(evt.startTime), moment(evt.endTime));
+                    if (dijit.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
+                        self.filter_footprints('moment', moment(evt.startTime), moment(evt.endTime));
+                    }
+
                     topic.publish("time-extent-changed");
                 }, 0);
 
