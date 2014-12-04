@@ -15,6 +15,7 @@ define([
     "dojo/promise/all",
     "dojo/dom-construct",
     "dojo/dom-style",
+    "dojo/topic",
     "dijit/registry",
     "dijit/form/CheckBox",
     "dijit/TooltipDialog",
@@ -43,7 +44,7 @@ define([
     "esri/SpatialReference",
     "libs/moment",
     "libs/timezone"
-], function(ko, on, mouse, dom, domAttr, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle,
+], function(ko, on, mouse, dom, domAttr, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle, topic,
     registry, CheckBox, TooltipDialog, Tooltip, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest,
     Query, QueryTask, webMercatorUtils, MosaicRule,
     TimeExtent, TimeSlider, Color, Graphic, Point, Polygon, SimpleLineSymbol,
@@ -611,16 +612,19 @@ define([
                     values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
                     var stops = timeSlider.timeStops;
                     self.filter_footprints('moment', moment(evt.startTime), moment(evt.endTime));
+                    topic.publish("time-extent-changed");
                 }, 0);
+
             });
             timeSlider.setThumbIndexes([0, timeSlider.timeStops.length - 1]);
+
 
         },
 
         promptAboutDigitalGlobe: function() {
-            if (registry.byId("digitalGlobeInstructions")) {
+            /*if (registry.byId("digitalGlobeInstructions")) {
                 registry.byId("digitalGlobeInstructions").destroy();
-            }
+            } //TODO: find out why '#rememberShowInstructions' is already registered
             var dialog = new Dialog({
                     title: "Digital Globe - First Look",
                     style: "width: 350px",
@@ -678,7 +682,7 @@ define([
             } else {
                 cleanup(true);
             }
-
+*/
         },
 
         updatePeatLandsLayer: function(target) {

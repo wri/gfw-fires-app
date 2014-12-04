@@ -72,6 +72,12 @@ define(["dojo/topic"],
             });
         });
 
+        topic.subscribe("time-extent-changed", function(dataObj) {
+            require(["views/map/MapController"], function(MapController) {
+                MapController.updateImageryList(dataObj);
+            });
+        });
+
         topic.subscribe("clickNavLink", function(dataObj) {
             require(["views/header/HeaderController"], function(HeaderController) {
                 HeaderController.clickNavLink(dataObj);

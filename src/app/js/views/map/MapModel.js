@@ -368,7 +368,17 @@ define([
     };
 
     vm.selectImageryMinimize = function() {
-        $("#imageryWindow").css("height", "50px");
+        if ($("#imageryWindow > table").css("display") == "table") {
+            $("#imageryWindow > table").css("display", "none");
+            $("#report-optionsDigitalGlobe").css("border-bottom", "none");
+            //$("#imageryWindow > table").addClass("minimizeImageryWindow");
+        } else {
+            $("#imageryWindow > table").css("display", "table");
+            $("#report-optionsDigitalGlobe").css("border-bottom", "2px solid black");
+
+        }
+
+
     };
 
     o.applyBindings = function(domId) {

@@ -30,6 +30,9 @@ define([
     "esri/InfoTemplate",
     "esri/graphic",
     "esri/urlUtils",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/Color",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
@@ -53,7 +56,7 @@ define([
     "esri/layers/ImageServiceParameters",
     "dijit/Dialog"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
 
@@ -228,10 +231,142 @@ define([
                 l: lod.level
             });
 
+            if (dijit.byId("digital-globe-checkbox").getValue() == 'on') {
+                o.updateImageryList();
+            }
+
         });
 
         o.mapExtentPausable.pause();
 
+    };
+
+    o.updateImageryList = function() {
+
+        MapModel.vm.digitalGlobeInView.removeAll();
+
+        var dgConf = MapConfig.digitalGlobe,
+            dgLayer = o.map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
+            query = new Query(),
+            extents = {};
+
+        var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+            var deferred = new Deferred;
+            var geom = o.map.extent;
+            query.geometry = geom;
+            query.returnGeometry = false;
+            query.outFields = ['*'];
+
+            var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer")
+            task.execute(query, function(results) {
+                deferred.resolve(results.features);
+            }, function(err) {
+
+                deferred.resolve([])
+            })
+            return deferred.promise;
+        })).then(function(results) {
+            var content = '';
+            var features = [];
+            var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
+            var timeStops = dijit.byId('timeSliderDG').timeStops;
+            var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
+            var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
+            results.map(function(featureArr) {
+                featureArr.map(function(feature) {
+                    features.push(feature);
+                });
+            });
+
+            arrayUtils.forEach(features, function(f) {
+                var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                if (date >= start && date <= end) {
+                    var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                    f.attributes.AcquisitionDate2 = f.attributes.AcquisitionDate;
+                    f.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
+                    var dateLink = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
+
+                    var dateLink2 = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</a>";
+                    f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
+                    f.attributes.formattedDatePrefix1 = dateLink;
+                    f.attributes.formattedDatePrefix2 = dateLink2;
+                    MapModel.vm.digitalGlobeInView.push(f);
+                }
+
+            });
+            //reorder digitalGlobeInView
+            //debugger;
+            MapModel.vm.digitalGlobeInView.sort(function(left, right) {
+                return left.lastName == right.attributes.AcquisitionDate2 ? 0 : (left.lastName < right.attributes.AcquisitionDate2 ? -1 : 1);
+            });
+
+            var activeFeatureIndex = 0;
+            var handles = [];
+            dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
+                handles.push(on(node, "click", function(evt) { //TODO: dont push on click; just push now
+                    var target = evt.target ? evt.target : evt.srcElement,
+                        bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                    $('#imageryWindow > table > tbody > tr').each(function() {
+                        $(this).removeClass("imageryRowSelected");
+                    });
+
+                    LayerController.showDigitalGlobeImagery(bucket);
+                    activeFeatureIndex = index;
+                    var parent = $(this).parent();
+                    console.log(parent); //use this class in Finder's same function
+                    $(parent).parent().removeClass("imageryRowHover");
+                    $(parent).parent().addClass("imageryRowSelected");
+                }));
+            });
+            var highlightGraphic;
+            $("#imageryWindow > table > tbody > tr").mouseenter(function() {
+                var highlightedRow = this.firstElementChild;
+                $(this).addClass("imageryRowHover");
+                highlightedRow = $(highlightedRow).html();
+                highlightedRow = $(highlightedRow).attr("data-bucket");
+                for (var i = 0; i < features.length; i++) {
+                    var check = features[i].attributes.SensorName + "_id_" + features[i].attributes.OBJECTID;
+                    if (check == highlightedRow) {
+                        var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                new Color([150, 0, 150]), 5), new Color([255, 255, 0, 0])
+                        );
+                        features[i].setSymbol(highlightSymbol);
+                        highlightGraphic = new Graphic(features[i].geometry, highlightSymbol);
+                        highlightGraphic.id = "highlight";
+
+                        o.map.graphics.add(highlightGraphic);
+                        //TODO turn back on dialog box in LayerController
+                    }
+                }
+            });
+            $("#imageryWindow > table > tbody > tr").mouseleave(function() {
+                $(this).removeClass("imageryRowHover");
+                o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+                //arrayUtils.forEach(o.map.graphics.graphics, function(g) {
+                // dojo.forEach(o.map.graphics.graphics, function(g) {
+                //     if (g && g.id === "highlight") {
+                //         o.map.graphics.remove(g);
+                //     }
+                // }, this);
+
+            });
+
+            handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
+                var highlightedRow = $(this).parent().parent();
+                var child = highlightedRow[0].firstElementChild;
+                child = $(child).html();
+                child = $(child).attr("data-bucket");
+
+                for (var i = 0; i < features.length; i++) {
+                    var check = features[i].attributes.SensorName + "_id_" + features[i].attributes.OBJECTID;
+                    if (check == child) {
+                        o.map.setExtent((features[i].geometry.getExtent()));
+                    }
+                }
+            }));
+            // TODO: Reorder the MapModel's digitalGlobeInView array by date (latest first)
+        });
     };
 
     o.addWidgets = function() {
@@ -468,48 +603,12 @@ define([
             LayerController.toggleDigitalGlobeLayer(checked);
             MapModel.vm.showReportOptionsDigitalGlobe(checked);
             if (checked) {
-                dijit.byId("digital-globe-footprints-checkbox").setValue(true); // TODO: figure out why we can't just set this value to 'checked' or true based on a KO observable
+                //dijit.byId("digital-globe-footprints-checkbox").setValue(true); // TODO: figure out why we can't just set this value to 'checked' or true based on a KO observable
+                setTimeout(function() {
 
-                //clear the array!!
-                //myObservableArray.removeAll()
-                MapModel.vm.digitalGlobeInView.removeAll();
+                    dijit.byId("digital-globe-footprints-checkbox").setValue(true);
+                }, 1000);
 
-                var dgConf = MapConfig.digitalGlobe,
-                    dgLayer = o.map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
-                    query = new Query(),
-                    extents = {};
-
-                var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
-                    var deferred = new Deferred;
-                    var geom = o.map.extent;
-                    query.geometry = geom;
-                    query.returnGeometry = false;
-                    query.outFields = ['*'];
-
-                    var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer")
-                    task.execute(query, function(results) {
-                        deferred.resolve(results.features);
-                    }, function(err) {
-
-                        deferred.resolve([])
-                    })
-                    return deferred.promise;
-                })).then(function(results) {
-                    var content = '';
-                    var features = [];
-                    var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
-                    var timeStops = dijit.byId('timeSliderDG').timeStops;
-                    var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
-                    var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
-                    results.map(function(featureArr) {
-                        featureArr.map(function(feature) {
-                            features.push(feature);
-                            var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                            feature.attributes.AcquisitionDate = date.format("M/D/YYYY");
-                            MapModel.vm.digitalGlobeInView.push(feature);
-                        });
-                    });
-                });
 
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Digital Globe - First Look layer on.');
             }
@@ -517,8 +616,6 @@ define([
 
         registry.byId("digital-globe-footprints-checkbox").on('change', function(checked) {
             LayerController.toggleDigitalGlobeLayer(checked, 'footprints');
-
-
             //#digital-globe-footprints-checkbox
 
         });
@@ -570,12 +667,12 @@ define([
             self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
         });
 
+
         on(dom.byId("noaa-fires-18"), "click", function() {
-            //debugger;
             if (this.getAttribute("aria-checked") == "false") {
                 // tell the map this layer is no longer visible!
                 var otherCheck = dom.byId("indonesia-fires");
-                //debugger;
+
                 if (otherCheck.getAttribute("aria-checked") == 'false') {
                     o.map.getLayer("IndonesiaFires").visible = false;
                     console.log("Should disable pop-ups");

@@ -242,7 +242,6 @@ div#map-view(class="map-view")
 						div(class="checkbox-container")
 							//-input#digital-globe-footprints-checkbox1(data-dojo-type="dijit/form/checkbox" type="checkbox" checked)
 							input#digital-globe-footprints-checkbox(type="checkbox" checked)
-							//- p space
 							//- input#digital-globe-footprints-checkbox1
 							//-input#digital-globe-footprints-checkbox(data-bind="checked: timeOfDay")
 							//-input#digital-globe-footprints-checkbox(data-bind="checked: showReportOptionsDigitalGlobeFootprints()")
@@ -251,31 +250,18 @@ div#map-view(class="map-view")
 							label(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")
 							//-span(data-bind="text: digitalGlobeFootprintsSubLabel", class="checkbox-sub-label")
 				table.imageryTable.font10
-					tr(class="imageryTopRow")
-						td(data-bind="text: 'Date'")
-						td(data-bind="text: 'Satellite Type'")
-						td
-					tr
-						td mm/dd/yyyy
-						td placeholder
-						td zoom to
-					tr
-						td mm/dd/yyyy
-						td placeholder
-						td zoom to
-					tr
-						td mm/dd/yyyy
-						td placeholder
-						td zoom to
-					tr
-						td mm/dd/yyyy
-						td placeholder
-						td zoom to
-				table.imageryTable.font10(data-bind="foreach: digitalGlobeInView")
-					tr
-						td.font10(data-bind="text: attributes.AcquisitionDate")
-						td.font10(data-bind="text: attributes.SensorName")
-						td.font10(data-bind="text: 'Zoom To'")
+					thead
+						tr(class="imageryTopRow")
+							th(data-bind="text: 'Date'")
+							th(data-bind="text: 'Satellite Type'")
+							th
+					tbody(data-bind="foreach: digitalGlobeInView")
+						tr
+							td.font10(data-bind="html: attributes.formattedDatePrefix1")
+							td.font10(data-bind="html: attributes.formattedDatePrefix2")
+							//-td.font10(data-bind="text: 'Zoom To'")
+							td.font10(data-bind="html: attributes.formattedZoomTo")
+							
 				
 			div#timeSliderPanel.timeSliderPanel
 				//- div#timeSliderDG

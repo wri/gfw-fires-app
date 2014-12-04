@@ -634,20 +634,31 @@ define([
                 results.map(function(featureArr) {
                     featureArr.map(function(feature) {
                         features.push(feature);
-                        //var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                        //feature.attributes.AcquisitionDate = date.format("M/D/YYYY");
-                        //MapModel.vm.digitalGlobeInView.push(feature);
                     });
                 });
-                features.reverse();
-                //debugger;
+                //features.reverse();
+
+                function dynamicSort(property) {
+                    var sortOrder = 1;
+                    if (property[0] === "-") {
+                        sortOrder = -1;
+                        property = property.substr(1);
+                    }
+                    return function(a, b) {
+                        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+                        return result * sortOrder;
+                    }
+                }
+
+                features = features.sort(dynamicSort("attributes.AcquisitionDate"));
+
 
                 content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'><li><strong>Date <span class='satelliteColumn'>Satellite</span></strong></li>";
 
                 arrayUtils.forEach(features, function(f) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
                     if (date >= start && date <= end) {
-                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("M/D/YYYY") + "  <span class='satelliteColumn' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span></a>" + "</li>";
+                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("YYYY/MM/DD") + "  <span class='satelliteColumn' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span></a>" + "</li>";
                     }
 
                 });
@@ -668,9 +679,24 @@ define([
                     handles.push(on(node, "click", function(evt) {
                         var target = evt.target ? evt.target : evt.srcElement,
                             bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                        //pass in either bucket or target and have an 'if' saying whether the current row has an id = to the popup that was clicked
 
+                        $("#imageryWindow > table > tbody > tr").each(function() {
+
+                            $(this).removeClass("imageryRowSelected");
+
+                            var selectedRow = this.firstElementChild;
+                            selectedRow = $(selectedRow).html();
+                            selectedRow = $(selectedRow).attr("data-bucket");
+
+                            if (bucket == selectedRow) {
+                                $(this).addClass("imageryRowSelected");
+                            }
+                        });
                         LayerController.showDigitalGlobeImagery(bucket);
                         activeFeatureIndex = index;
+
+
                     }));
                 });
                 // }

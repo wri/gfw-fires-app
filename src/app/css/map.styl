@@ -227,26 +227,65 @@ baseRed = #e7002f
 	tr:nth-child(odd) {background: #F0F0F0 }
 	max-height 250px
 
-.imageryTable > tbody > tr.imageryTopRow
+.imageryTopRow
 	background #A9A9A9 !important
 
+.imageryTable tr
+	border-left: 1px solid transparent;
+	
 .imageryTable td
 	border-left: 1px solid #000;
 	border-right: 1px solid #000;
 	text-align center
+
+.imageryTable th
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	text-align center
+	//font-weight normal
+
+
+#imageryWindow > table > thead > tr > th:nth-child(1)
+	width 81px
+	
+#imageryWindow > table > tbody > tr > td:nth-child(1)
+	width 81px
+	
+#imageryWindow > table > thead > tr > th:nth-child(2)
+	width 104px
+
+#imageryWindow > table > tbody > tr > td:nth-child(2)
+	width 104px
+	
+#imageryWindow > table > thead > tr > th:nth-child(3)
+	width 60px
+	
+#imageryWindow > table > tbody > tr > td:nth-child(3)
+	width 60px
 	
 .imageryTable tr
 	height 25px
+	
+	
+table.imageryTable thead, table.imageryTable tbody
+	float left
+	width 100%
+	
+	
+table.imageryTable tbody
+	overflow auto
+	height 300px
+	border-top 1px solid black
+	
 
 #imageryWindow
 	width auto
 	max-width 300px
 	min-height 50px
-	height 300px
 	padding 10px
 	position absolute
-	top 15%
-	right 75%
+	top 80px
+	left 25px
 	width 250px
 	background white
 	z-index 6
@@ -272,7 +311,8 @@ baseRed = #e7002f
 	background white
 	z-index 6
 	font-size 12pt
-	border-radius(5px)
+	border-radius 5px
+
 
 	.font14
 		font-size 14pt
@@ -703,6 +743,12 @@ div.report-options-section > table
 	margin 0 0 10px 0
 	border-bottom 1px solid rgb(255, 255, 255)
 	font-weight bold
+	
+.imageryRowHover
+	border 2px solid yellow
+	
+.imageryRowSelected
+	border 2px solid #00FFFF
 
 #infoWindowTable td
 	width 45%
@@ -711,7 +757,7 @@ div.report-options-section > table
 .esriPopupWrapper
 	top -40px
 
-.popup-link, .custom-zoom-to
+.popup-link, .custom-zoom-to, .popup-link-zoom
 	cursor pointer
 
 .popup-list
@@ -853,7 +899,7 @@ div.report-options-section > table
 	
 .timeSliderContainer 
 	height 95px
-	width 270px
+	width 272px
 	overflow hidden
 	position relative
 	margin-left 5px
