@@ -1,2 +1,2 @@
-/*! Global-Forest-Watch-Fires Mon Dec 01 2014 10:54:58 */
+/*! Global-Forest-Watch-Fires Fri Dec 05 2014 09:10:06 */
 define(["on","dom","topic","dom-class","dojo/query","dojo/_base/array","esri/config","main/Config","dojox/mobile/parser","dijit/layout/StackContainer","dijit/layout/ContentPane"],function(a,b,c,d,e,f,g,h,i){var j={};return j.init=function(){i.parse(),g.defaults.io.corsEnabledServers.push("www.wri.org"),g.defaults.io.corsEnabledServers.push(h.emailSubscribeUrl),require(["modules/ErrorController","modules/HashController","modules/BlockController"],function(a,b){b.init(),a.init()})},j});

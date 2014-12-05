@@ -1,1 +1,1 @@
-/*! Global-Forest-Watch-Fires Mon Dec 01 2014 10:54:58 */
+/*! Global-Forest-Watch-Fires Fri Dec 05 2014 09:10:06 */
