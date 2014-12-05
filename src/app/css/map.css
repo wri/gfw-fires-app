@@ -265,7 +265,7 @@ map.styl,
   width: 104px;
 }
 #imageryWindow > table > thead > tr > th:nth-child(3) {
-  width: 60px;
+  width: px;
 }
 #imageryWindow > table > tbody > tr > td:nth-child(3) {
   width: 60px;

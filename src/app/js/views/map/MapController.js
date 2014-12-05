@@ -65,7 +65,8 @@ define([
         view = {
             viewId: "mapView",
             viewName: "map"
-        };
+        },
+        featuresImageryFootprints = [];
 
     o.mapExtentPausable; //pausable
 
@@ -267,18 +268,18 @@ define([
             return deferred.promise;
         })).then(function(results) {
             var content = '';
-            var features = [];
+            featuresImageryFootprints = [];
             var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
             var timeStops = dijit.byId('timeSliderDG').timeStops;
             var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
             var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
             results.map(function(featureArr) {
                 featureArr.map(function(feature) {
-                    features.push(feature);
+                    featuresImageryFootprints.push(feature); //TODO: replace features with featuresImageryFootprints and add logic to new function below
                 });
             });
 
-            arrayUtils.forEach(features, function(f) {
+            arrayUtils.forEach(featuresImageryFootprints, function(f) {
                 var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
                 if (date >= start && date <= end) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
@@ -294,6 +295,13 @@ define([
                 }
 
             });
+
+            if (featuresImageryFootprints.length > 12) {
+                //$("#imageryWindow > table > thead > tr > th:nth-child(3)").css("width", "77px");
+            } else {
+                //$("#imageryWindow > table > thead > tr > th:nth-child(3)").css("width", "77px");
+                $("#imageryWindow > table > tbody > tr > td:nth-child(3)").css("width", "77px");
+            }
 
             MapModel.vm.digitalGlobeInView.sort(function(left, right) {
                 return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
@@ -320,26 +328,26 @@ define([
 
             //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
             var highlightGraphic;
-            $("#imageryWindow > table > tbody > tr").mouseenter(function() {
-                var highlightedRow = this.firstElementChild;
-                $(this).addClass("imageryRowHover");
-                highlightedRow = $(highlightedRow).html();
-                highlightedRow = $(highlightedRow).attr("data-bucket");
-                for (var i = 0; i < features.length; i++) {
-                    var check = features[i].attributes.SensorName + "_id_" + features[i].attributes.OBJECTID;
-                    if (check == highlightedRow) {
-                        var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                new Color("yellow"), 5), new Color([255, 255, 0, 0])
-                        );
-                        features[i].setSymbol(highlightSymbol);
-                        highlightGraphic = new Graphic(features[i].geometry, highlightSymbol);
-                        highlightGraphic.id = "highlight";
+            // $("#imageryWindow > table > tbody > tr").mouseenter(function() {
+            //     var highlightedRow = this.firstElementChild;
+            //     $(this).addClass("imageryRowHover");
+            //     highlightedRow = $(highlightedRow).html();
+            //     highlightedRow = $(highlightedRow).attr("data-bucket");
+            //     for (var i = 0; i < featuresImageryFootprints.length; i++) {
+            //         var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+            //         if (check == highlightedRow) {
+            //             var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            //                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+            //                     new Color("yellow"), 5), new Color([255, 255, 0, 0])
+            //             );
+            //             featuresImageryFootprints[i].setSymbol(highlightSymbol);
+            //             highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
+            //             highlightGraphic.id = "highlight";
 
-                        o.map.graphics.add(highlightGraphic);
-                    }
-                }
-            });
+            //             o.map.graphics.add(highlightGraphic);
+            //         }
+            //     }
+            // });
             //MapModel.vm.imageryMouseOut(o.map);
             $("#imageryWindow > table > tbody > tr").mouseleave(function() {
                 $(this).removeClass("imageryRowHover");
@@ -359,14 +367,41 @@ define([
                 child = $(child).html();
                 child = $(child).attr("data-bucket");
 
-                for (var i = 0; i < features.length; i++) {
-                    var check = features[i].attributes.SensorName + "_id_" + features[i].attributes.OBJECTID;
+                for (var i = 0; i < featuresImageryFootprints.length; i++) {
+                    var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
                     if (check == child) {
-                        o.map.setExtent((features[i].geometry.getExtent()));
+                        o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
                     }
                 }
             }));
         });
+    };
+
+    o.handleImageryOver = function(dataObj) { // need to call these two w/ 'this' & somehow retaining their same values/scope as in the above function!!
+        debugger;
+        var highlightedRow = this.firstElementChild;
+        $(this).addClass("imageryRowHover");
+        highlightedRow = $(highlightedRow).html();
+        highlightedRow = $(highlightedRow).attr("data-bucket");
+        for (var i = 0; i < featuresImageryFootprints.length; i++) {
+            var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+            if (check == highlightedRow) {
+                var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                        new Color("yellow"), 5), new Color([255, 255, 0, 0])
+                );
+                featuresImageryFootprints[i].setSymbol(highlightSymbol);
+                highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
+                highlightGraphic.id = "highlight";
+
+                o.map.graphics.add(highlightGraphic);
+            }
+        }
+    };
+
+    o.handleImageryOut = function() { // need to call these two w/ 'this' & somehow retaining their same values/scope as in the above function!!
+        $(this).removeClass("imageryRowHover");
+        o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
     };
 
     o.addWidgets = function() {

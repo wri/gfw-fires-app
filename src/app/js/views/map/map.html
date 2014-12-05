@@ -246,7 +246,7 @@
             </tr>
           </thead>
           <tbody data-bind="foreach: digitalGlobeInView">
-            <tr>
+            <tr data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}">
               <td data-bind="html: attributes.formattedDatePrefix1" class="font10"></td>
               <td data-bind="html: attributes.formattedDatePrefix2" class="font10"></td>
               <td data-bind="html: attributes.formattedZoomTo" class="font10"></td>

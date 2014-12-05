@@ -367,19 +367,17 @@ define([
         vm.showReportOptionsDigitalGlobe(false);
     };
 
-    /*vm.imageryMouseOver = function() {
-        console.log("mouse over!");
-        debugger;
-        return true;
+    vm.imageryMouseOver = function(dataObj) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.handleImageryOver(dataObj);
+        });
     };
 
-    vm.imageryMouseOut = function(map) {
-        debugger;
-        console.log("mouse leave!");
-        $(this).removeClass("imageryRowHover");
-        map.graphics.remove(map.graphics.graphics[map.graphics.graphics.length - 1]);
-        return true;
-    };*/
+    vm.imageryMouseOut = function(dataObj) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.handleImageryOut(dataObj);
+        });
+    };
 
     vm.selectImageryMinimize = function() {
         if ($("#imageryWindow > table").css("display") == "table") {
