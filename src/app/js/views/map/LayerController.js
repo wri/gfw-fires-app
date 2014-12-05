@@ -635,7 +635,7 @@ define([
                     title: "Digital Globe - First Look",
                     style: "width: 350px",
                     id: "digitalGlobeInstructions",
-                    content: "Click inside a footprint to display the imagery.<div class='dijitDialogPaneActionBar'>" +
+                    content: "To display an image, click on the image in the list or click on the footprint on the map and select the image from the pop-up.<div class='dijitDialogPaneActionBar'>" +
                         "<button id='closeDGInstructions'>Ok</button></div>" +
                         "<div class='dialogCheckbox'><input type='checkbox' id='remembershowInstructions' />" +
                         "<label for='rememberBasemapDecision'>Don't show me this again.</label></div>"
