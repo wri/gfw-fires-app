@@ -84,7 +84,8 @@
   background-color: #ec1d38;
 }
 .logo {
-  background: url("../images/gfwFires-logo-new.png") no-repeat;
+  background-image: url("../images/gfwFires-logo-new.png");
+  background-repat: no-repeat;
   width: 86px;
   height: 86px;
   position: absolute;

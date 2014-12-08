@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect", "dojo/on"],
-    function(dom, registry, HashController, arrayUtil, domConstruct, domClass, aspect, on) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/array", "dojo/dom-construct", "dojo/dom-class", "dojo/aspect", "dojo/on", "dojo/query"],
+    function(dom, registry, HashController, arrayUtil, domConstruct, domClass, aspect, on, query) {
 
         var o = {};
         var initialized = false;
@@ -45,6 +45,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     as.parentNode.insertBefore(gt, as);
                 })(document, 'script');
 
+
+
             });
         };
 
@@ -77,6 +79,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
         };
 
         o.switchToView = function(data) {
+
             require(["dijit/registry", "views/header/HeaderModel", "views/home/HomeController", "modules/EventsController"],
                 function(registry, HeaderModel, HomeController, EventsController) {
 
@@ -149,8 +152,17 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                             domConstruct.place("footerMovableWrapper", data.viewId);
                     }
 
+                    //remove hidden stuff
+                    query(".dijitHidden.initialHide").forEach(function(node) {
+                        domClass.remove(node, "dijitHidden");
+                    });
+
                     registry.byId("stackContainer").selectChild(data.viewId);
                     registry.byId("stackContainer").resize();
+
+
+
+
                 });
 
         };
