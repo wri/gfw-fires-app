@@ -1,2 +1,1 @@
-/*! Global-Forest-Watch-Fires Fri Dec 05 2014 09:10:06 */
-define(["esri/request","dojo/io/script","dojo/request/xhr","dojo/Deferred"],function(a,b,c,d){var e={};return e.init=function(){},e.load_feed=function(){var b=new d,c="http://gis-potico.wri.org/blogs/fireblog.txt",f=a({url:c,handleAs:"text"},{useProxy:!0,usePost:!0});return f.then(function(a){e.response=a,b.resolve(a)}),b.promise},e});
+define(["esri/request","dojo/io/script","dojo/request/xhr","dojo/Deferred"],function(e,o,r,t){var n={};return n.init=function(){},n.load_feed=function(){var o=new t,r="http://gis-potico.wri.org/blogs/fireblog.txt",i=e({url:r,handleAs:"text"},{useProxy:!0,usePost:!0});return i.then(function(e){n.response=e,o.resolve(e)}),o.promise},n});
