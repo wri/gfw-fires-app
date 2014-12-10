@@ -217,6 +217,30 @@
           <div id="digital-globe-checkbox"></div>
           <label for="digital-globe-checkbox" data-bind="text: digitalGlobeCheckbox"></label><span data-bind="text: digitalGlobeSubLabel" class="checkbox-sub-label"></span>
         </div>
+        <div id="imageryWindow" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions">
+          <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
+            <div id="footprintsCheckBox" class="checkbox-container">
+              <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
+              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox"></label>
+            </div>
+          </div>
+          <table class="imageryTable font10">
+            <thead>
+              <tr class="imageryTopRow">
+                <th data-bind="text: 'Date'"></th>
+                <th data-bind="text: 'Satellite Type'"></th>
+                <th data-bind="text: 'Zoom'"></th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: digitalGlobeInView">
+              <tr>
+                <td data-bind="html: feature.attributes.formattedDatePrefix1" class="font10"></td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix2" class="font10"></td>
+                <td class="popup-link-zoom"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div id="social-media-panel" class="accordion-panel">
         <div class="checkbox-container">
@@ -228,32 +252,6 @@
   </div>
   <div id="map-container" class="map-container">
     <div id="map" class="map">
-      <div id="imageryWindow" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions">
-        <div id="select-imagery-close" data-bind="click: selectImageryMinimize" class="reportOptionsHeader">-</div>
-        <div data-bind="text:reportTextImagery()" class="font10"></div>
-        <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
-          <div class="checkbox-container">
-            <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
-            <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox"></label>
-          </div>
-        </div>
-        <table class="imageryTable font10">
-          <thead>
-            <tr class="imageryTopRow">
-              <th data-bind="text: 'Date'"></th>
-              <th data-bind="text: 'Satellite Type'"></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody data-bind="foreach: digitalGlobeInView">
-            <tr data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}">
-              <td data-bind="html: attributes.formattedDatePrefix1" class="font10"></td>
-              <td data-bind="html: attributes.formattedDatePrefix2" class="font10"></td>
-              <td data-bind="html: attributes.formattedZoomTo" class="font10"></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
       <div id="timeSliderPanel" class="timeSliderPanel">
       </div>
       <div id="esri-geocoder-widget"></div>

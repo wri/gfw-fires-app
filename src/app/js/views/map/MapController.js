@@ -10,6 +10,8 @@ define([
     "dojo/_base/fx",
     "dojo/promise/all",
     "dojo/Deferred",
+    "dojo/dom-style",
+    "dojo/dom-geometry",
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
@@ -55,7 +57,7 @@ define([
     "esri/layers/GraphicsLayer",
     "esri/layers/ImageServiceParameters",
     "dijit/Dialog"
-], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
+], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
@@ -66,7 +68,13 @@ define([
             viewId: "mapView",
             viewName: "map"
         },
-        featuresImageryFootprints = [];
+        featuresImageryFootprints = [],
+        highlightGraphic,
+        highlightedRow,
+        highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color("yellow"), 5), new Color([255, 255, 0, 0])
+        );
 
     o.mapExtentPausable; //pausable
 
@@ -182,13 +190,13 @@ define([
             maxZoom: MapConfig.mapOptions.maxZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition
         });
+        window.map = o.map;
 
         o.map.on("load", function() {
 
-            $("#firesDateFrom").datepicker("setDate", "6/1/2014");
+            $("#firesDateFrom").datepicker('setDate', '+0m -7d');
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
-            $("#firesDateTo").datepicker("option", "minDate", "6/1/2014");
 
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
@@ -275,7 +283,7 @@ define([
             var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
             results.map(function(featureArr) {
                 featureArr.map(function(feature) {
-                    featuresImageryFootprints.push(feature); //TODO: replace features with featuresImageryFootprints and add logic to new function below
+                    featuresImageryFootprints.push(feature);
                 });
             });
 
@@ -291,20 +299,17 @@ define([
                     f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
                     f.attributes.formattedDatePrefix1 = dateLink;
                     f.attributes.formattedDatePrefix2 = dateLink2;
-                    MapModel.vm.digitalGlobeInView.push(f);
+                    MapModel.vm.digitalGlobeInView.push({
+                        feature: f,
+                        mouseover: false
+                    });
+
                 }
 
             });
 
-            if (featuresImageryFootprints.length > 12) {
-                //$("#imageryWindow > table > thead > tr > th:nth-child(3)").css("width", "77px");
-            } else {
-                //$("#imageryWindow > table > thead > tr > th:nth-child(3)").css("width", "77px");
-                $("#imageryWindow > table > tbody > tr > td:nth-child(3)").css("width", "77px");
-            }
-
             MapModel.vm.digitalGlobeInView.sort(function(left, right) {
-                return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
+                return left.feature.attributes.AcquisitionDate == right.feature.attributes.AcquisitionDate ? 0 : (left.feature.attributes.AcquisitionDate > right.feature.attributes.AcquisitionDate ? -1 : 1);
             });
 
             var activeFeatureIndex = 0;
@@ -327,27 +332,26 @@ define([
             });
 
             //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
-            var highlightGraphic;
-            // $("#imageryWindow > table > tbody > tr").mouseenter(function() {
-            //     var highlightedRow = this.firstElementChild;
-            //     $(this).addClass("imageryRowHover");
-            //     highlightedRow = $(highlightedRow).html();
-            //     highlightedRow = $(highlightedRow).attr("data-bucket");
-            //     for (var i = 0; i < featuresImageryFootprints.length; i++) {
-            //         var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-            //         if (check == highlightedRow) {
-            //             var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-            //                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-            //                     new Color("yellow"), 5), new Color([255, 255, 0, 0])
-            //             );
-            //             featuresImageryFootprints[i].setSymbol(highlightSymbol);
-            //             highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
-            //             highlightGraphic.id = "highlight";
+            $("#imageryWindow > table > tbody > tr").mouseenter(function() {
+                var highlightedRow = this.firstElementChild;
+                $(this).addClass("imageryRowHover");
+                highlightedRow = $(highlightedRow).html();
+                highlightedRow = $(highlightedRow).attr("data-bucket");
+                for (var i = 0; i < featuresImageryFootprints.length; i++) {
+                    var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+                    if (check == highlightedRow) {
+                        var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                new Color("yellow"), 5), new Color([255, 255, 0, 0])
+                        );
+                        featuresImageryFootprints[i].setSymbol(highlightSymbol);
+                        highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
+                        highlightGraphic.id = "highlight";
 
-            //             o.map.graphics.add(highlightGraphic);
-            //         }
-            //     }
-            // });
+                        o.map.graphics.add(highlightGraphic);
+                    }
+                }
+            });
             //MapModel.vm.imageryMouseOut(o.map);
             $("#imageryWindow > table > tbody > tr").mouseleave(function() {
                 $(this).removeClass("imageryRowHover");
@@ -361,10 +365,11 @@ define([
             });
 
             handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
+
                 o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-                var highlightedRow = $(this).parent().parent();
-                var child = highlightedRow[0].firstElementChild;
-                child = $(child).html();
+                var highlightedRow = ($(this).parent())[0];
+                var child = highlightedRow.firstElementChild;
+                child = child.firstElementChild;
                 child = $(child).attr("data-bucket");
 
                 for (var i = 0; i < featuresImageryFootprints.length; i++) {
@@ -376,32 +381,174 @@ define([
             }));
         });
     };
+    var parent = $(this).parent();
+    $(parent).parent().removeClass("imageryRowHover");
+    $(parent).parent().addClass("imageryRowSelected");
 
-    o.handleImageryOver = function(dataObj) { // need to call these two w/ 'this' & somehow retaining their same values/scope as in the above function!!
-        debugger;
-        var highlightedRow = this.firstElementChild;
-        $(this).addClass("imageryRowHover");
-        highlightedRow = $(highlightedRow).html();
-        highlightedRow = $(highlightedRow).attr("data-bucket");
-        for (var i = 0; i < featuresImageryFootprints.length; i++) {
-            var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-            if (check == highlightedRow) {
-                var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                        new Color("yellow"), 5), new Color([255, 255, 0, 0])
-                );
-                featuresImageryFootprints[i].setSymbol(highlightSymbol);
-                highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
-                highlightGraphic.id = "highlight";
+    o.handleImageryOver = function(data, event) {
+        //debugger;
+        console.log("starting function");
+        var parent = event.currentTarget;
 
-                o.map.graphics.add(highlightGraphic);
-            }
-        }
+        //parent = parent[0];
+        // if (parent.nodeName == "TD") {
+        //     parent = $(parent).parent();
+        // }
+        //data.feature.geometry
+        $(parent).addClass("imageryRowHover");
+
+        //highlightedRow = event.target.firstElementChild;
+        //f (event.target != event.currentTarget) {
+        // if (highlightedRow == "") {
+        //     debugger;
+        // }
+        // if (parent.nodeName == "TD") {
+        //     console.log("td");
+        //     var highlightedRow = event.target;
+        // }
+
+        //highlightedRow = $(highlightedRow).html();
+        //highlightedRow = $(highlightedRow).attr("data-bucket");
+        // for (var i = 0; i < featuresImageryFootprints.length; i++) {
+        //     var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+        //     if (check == highlightedRow) {
+
+        //featuresImageryFootprints[i].setSymbol(highlightSymbol);
+
+        highlightGraphic = new Graphic(data.geometry, highlightSymbol);
+        highlightGraphic.id = "highlight";
+
+        o.map.graphics.add(highlightGraphic);
+        //         }
+        //     }
     };
 
-    o.handleImageryOut = function() { // need to call these two w/ 'this' & somehow retaining their same values/scope as in the above function!!
-        $(this).removeClass("imageryRowHover");
+    o.handleImageryOut = function(data, event) {
+        var parent = $(event.target).parent();
+
+        $(parent).removeClass("imageryRowHover");
         o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+    };
+
+    o.resizeMapPanel = function(data) {
+        require(["dojo/fx", "dojo/_base/fx", "dojo/query", "dojo/dom-geometry"], function(coreFx, baseFx, dojoQuery, domGeom) {
+            var runAnimation = function(id) {
+                var anim = coreFx.chain([
+                    baseFx.animateProperty({
+                        node: dom.byId("control-panel"),
+                        properties: {
+                            marginLeft: {
+                                start: 0,
+                                end: -320
+                            }
+                        },
+                        units: "px",
+                        duration: 500
+                    })
+                ]);
+                var anim2 = coreFx.chain([
+                    baseFx.animateProperty({
+                        node: dom.byId("map-container"),
+                        properties: {
+                            // width: {
+                            //     start: 1507,
+                            //     end: 1837
+                            // },
+                            left: {
+                                start: 320,
+                                end: 0
+                            }
+                        },
+                        units: "px",
+                        duration: 500
+                    })
+                ]);
+                var anim3 = coreFx.chain([
+                    baseFx.animateProperty({
+                        node: dom.byId("map"),
+                        properties: {
+                            // width: {
+                            //     start: 1531,
+                            //     end: 1851
+                            // },
+                            left: {
+                                start: 320,
+                                end: 0
+                            }
+                        },
+                        onEnd: function() {
+                            var nextNodeId;
+                        },
+                        units: "px",
+                        duration: 500
+                    })
+                ]);
+                anim.play();
+                anim2.play();
+                anim3.play();
+            };
+
+            runAnimation();
+            setTimeout(function() {
+                o.map.resize();
+            }, 500);
+
+        });
+
+
+
+        // var mapWidth = domGeom.position(dom.byId("map_root")).w,
+        //     wizardContainer = dom.byId("control-panel"),
+        //     deferred = new Deferred(),
+        //     MAX_WIDTH = 525, // 600 - Currently we are forcing the size to be 525 and not responsive
+        //     MIN_WIDTH = 525, // 450
+        //     halfMapWidth = mapWidth / 2,
+        //     orignalCenterPoint,
+        //     duration = 500,
+        //     wizardAnimation,
+        //     tabAnimation,
+        //     mapAnimation,
+        //     controlsWidth;
+
+        // controlsWidth = (halfMapWidth >= MIN_WIDTH && halfMapWidth <= MAX_WIDTH) ? halfMapWidth :
+        //     (halfMapWidth < MIN_WIDTH) ? MIN_WIDTH : MAX_WIDTH;
+        // // Get original center point before animation and set it after animation complete
+        // orignalCenterPoint = o.map.extent.getCenter();
+
+        // //if (domClass.contains(wizardContainer, "activated")) {
+        // if (MapModel.vm.toggleMapPane() == true) {
+        //     domStyle.set('control-panel', 'display', 'none');
+        //     controlsWidth = 0;
+        //     MapModel.vm.toggleMapPane(false);
+        // }
+        // //domClass.toggle(wizardContainer, "activated");
+
+        // wizardAnimation = Fx.animateProperty({
+        //     node: wizardContainer,
+        //     properties: {
+        //         width: controlsWidth
+        //     },
+        //     duration: duration
+        // });
+
+        //set tab's 
+        // mapAnimation = Fx.animateProperty({
+        //     node: dom.byId("map-container"),
+        //     properties: {
+        //         left: controlsWidth
+        //     },
+        //     duration: duration,
+        //     onEnd: function() {
+        //         o.map.resize(true);
+        //         //o.map.centerAt(orignalCenterPoint);
+        //         debugger;
+        //         if (controlsWidth > 0) {
+        //             domStyle.set('#control-panel', 'display', 'block');
+        //         }
+        //         deferred.resolve(true);
+        //     }
+        // });
+
     };
 
     o.addWidgets = function() {
