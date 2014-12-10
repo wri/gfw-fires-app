@@ -223,7 +223,6 @@ define([
 
         init: function() {
             var self = this;
-
             var proxies = MapConfig.proxies;
 
             var url = document.location.href;
@@ -802,7 +801,6 @@ define([
             }
 
             function buildTable(features) {
-
                 var table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>"
                 if (queryConfig.headerField.length > 1) {
                     table += "<th>" + window.reportOptions.aoitype.toUpperCase() + "</th>";
@@ -817,9 +815,7 @@ define([
                 table += self.generateTableRows(filtered, fields);
 
                 table += "</table>";
-
                 var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + PRINT_CONFIG.noFeatures[configKey] + '</div>';
-
                 return finaltable;
             }
 
@@ -1390,17 +1386,27 @@ define([
 
         generateTableRows: function(features, fieldNames) {
             var rows = "";
-
+            var whitespace = /^\s+$/;
             function isValid(item) {
-                // console.log(item, fieldNames, item !== null && item !== undefined)
-                return item !== null && item !== undefined;
+                return item !== null && item !== undefined && !whitespace.test(item);
             }
             arrayUtils.forEach(features, function(feature) {
-                rows += "<tr>";
+                var valid = true;
+                var cols = '';
                 arrayUtils.forEach(fieldNames, function(field) {
-                    rows += "<td>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ') + "</td>";
+                    if (isValid(feature.attributes[field])){
+                        cols += "<td>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ') + "</td>";
+                    }
+                    else {
+                        valid = false
+                    }
                 });
-                rows += "</tr>";
+                if (valid){
+                    rows += "<tr>";
+                    rows += cols;
+                    rows += "</tr>";
+                }
+                
             });
             return rows;
         },
