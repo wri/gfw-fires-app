@@ -208,39 +208,55 @@ baseRed = #e7002f
 	background url('../images/share-icon.png') no-repeat white
 	background-position -2px -35px
 	top 210px
+	
+.popup-link-zoom
+	background url('../images/magnifyingGlass.png') no-repeat
+	background-position 20px 2px
+	cursor pointer
+	
+#leftPaneToggle
+	z-index 30
+	position absolute
+	top 80px
+	background-color red
+	height 10px
+	width 10px
+	
 
 #ui-datepicker-div
 	z-index 35 !important
 
+#footprintsCheckBox > label
+	color gray !important
+
 #report-optionsDigitalGlobe
-	border-bottom 2px solid black
-	width 260px
-	margin-left -10px
-	font-size 10pt
+	margin-top -10px
+	margin-left 20px
 	
+.imageryTopRow th
+	background white
+	color gray
+	border-top 1px solid #000
+	border-bottom 1px solid #000
+	height 30px
+
 .imageryTable 
 	border-collapse collapse
 	border-spacing 0
-	width 272px
-	margin-left -11px
 	tr:nth-child(even) {background: #FFF}
 	tr:nth-child(odd) {background: #F0F0F0 }
-	max-height 250px
-
-.imageryTopRow
-	background #A9A9A9 !important
+	
 
 .imageryTable tr
 	border-left: 1px solid transparent;
 	
 .imageryTable td
-	border-left: 1px solid #000;
-	border-right: 1px solid #000;
 	text-align center
 
+.imageryTable td a
+	color black
+
 .imageryTable th
-	border-left: 1px solid #000;
-	border-right: 1px solid #000;
 	text-align center
 	//font-weight normal
 
@@ -258,7 +274,7 @@ baseRed = #e7002f
 	width 104px
 	
 #imageryWindow > table > thead > tr > th:nth-child(3)
-	width 60px
+	width 77px
 	
 #imageryWindow > table > tbody > tr > td:nth-child(3)
 	width 60px
@@ -275,23 +291,21 @@ table.imageryTable thead, table.imageryTable tbody
 table.imageryTable tbody
 	overflow auto
 	height 300px
-	border-top 1px solid black
 	
 
 #imageryWindow
 	width auto
-	max-width 300px
-	min-height 50px
+	//max-width 300px
+	//min-height 50px
 	padding 10px
-	position absolute
-	top 80px
-	left 25px
-	width 250px
+	//position absolute
+	//top 80px
+	//left 25px
+	//width 250px
 	background white
 	z-index 6
 	font-size 12pt
-	border 2px solid black
-	border-radius(5px)
+	//border 2px solid black
 	
 	.font14
 		font-size 14pt
@@ -757,7 +771,7 @@ div.report-options-section > table
 .esriPopupWrapper
 	top -40px
 
-.popup-link, .custom-zoom-to, .popup-link-zoom
+.popup-link, .custom-zoom-to
 	cursor pointer
 
 .popup-list

@@ -82,6 +82,7 @@ define([
     vm.pf2005Radio = ko.observable(MapConfig.text.pf2005Radio);
     vm.pf2010Radio = ko.observable(MapConfig.text.pf2010Radio);
     vm.pf2012Radio = ko.observable(MapConfig.text.pf2012Radio);
+    vm.imageIconPath = ko.observable(MapConfig.text.imageSourcePath);
     vm.timeOfDay = ko.observable("00");
     vm.wind00Radio = ko.observable("00");
     vm.wind06Radio = ko.observable("06");
@@ -188,6 +189,7 @@ define([
     vm.firesPickerFrom = function() {
         var newDate = jQuery('#firesDateFrom').datepicker({
             minDate: (new Date(2013, 1 - 1, 1)),
+            //minDate: "+0M -7D",
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 console.log(selectedDate);
@@ -328,11 +330,10 @@ define([
 
     vm.digitalGlobeInView = ko.observableArray();
 
-    // vm.showReportOptionsDigitalGlobeFootprints.subscribe(function(newValue) {
-    //     return true;
-    // })
-
     vm.showLocatorWidgets = ko.observable(false);
+
+    vm.toggleMapPane = ko.observable(true);
+
 
     vm.showPrimaryForestOptions = ko.observable(false);
     vm.showWindLayerOptions = ko.observable(true);
@@ -367,19 +368,49 @@ define([
         vm.showReportOptionsDigitalGlobe(false);
     };
 
-    /*vm.imageryMouseOver = function() {
-        console.log("mouse over!");
-        debugger;
-        return true;
+    vm.imageryMouseOver = function(data, event) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.handleImageryOver(data, event);
+        });
     };
 
-    vm.imageryMouseOut = function(map) {
-        debugger;
-        console.log("mouse leave!");
-        $(this).removeClass("imageryRowHover");
-        map.graphics.remove(map.graphics.graphics[map.graphics.graphics.length - 1]);
-        return true;
+    vm.imageryMouseOut = function(data, event) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.handleImageryOut(data, event);
+        });
+    };
+
+    vm.slidePanel = function(data) {
+        // if (vm.toggleMapPane() == true) {
+        //     //$("#map_root").css("width", "+=320px");
+        //     $("#control-panel").css("width", "0px");
+        //     $(".map-container").css("left", "0px");
+        //     vm.toggleMapPane(false);
+        // } else {
+        //     //$("#map_root").css("width", "-=320px");
+        //     $("#control-panel").css("width", "320px");
+        //     $(".map-container").css("left", "320px");
+        //     vm.toggleMapPane(true);
+        // }
+
+        require(["views/map/MapController"], function(MapController) {
+            MapController.resizeMapPanel(data);
+        });
+
+    };
+
+    /*ko.bindingHandlers.preventBubble = {
+        init: function(element, valueAccessor) {
+            var eventName = ko.utils.unwrapObservable(valueAccessor());
+            ko.utils.registerEventHandler(element, eventName, function(event) {
+                event.cancelBubble = true;
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                }
+            });
+        }
     };*/
+
 
     vm.selectImageryMinimize = function() {
         if ($("#imageryWindow > table").css("display") == "table") {
