@@ -214,21 +214,39 @@ map.styl,
   background-position: -2px -35px;
   top: 210px;
 }
+.popup-link-zoom {
+  background: url("../images/magnifyingGlass.png") no-repeat;
+  background-position: 20px 2px;
+  cursor: pointer;
+}
+#leftPaneToggle {
+  z-index: 30;
+  position: absolute;
+  top: 80px;
+  background-color: #f00;
+  height: 10px;
+  width: 10px;
+}
 #ui-datepicker-div {
   z-index: 35 !important;
 }
+#footprintsCheckBox > label {
+  color: #808080 !important;
+}
 #report-optionsDigitalGlobe {
-  border-bottom: 2px solid #000;
-  width: 260px;
-  margin-left: -10px;
-  font-size: 10pt;
+  margin-top: -10px;
+  margin-left: 20px;
+}
+.imageryTopRow th {
+  background: #fff;
+  color: #808080;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  height: 30px;
 }
 .imageryTable {
   border-collapse: collapse;
   border-spacing: 0;
-  width: 272px;
-  margin-left: -11px;
-  max-height: 250px;
 }
 .imageryTable tr:nth-child(even) {
   background: #fff;
@@ -236,20 +254,16 @@ map.styl,
 .imageryTable tr:nth-child(odd) {
   background: #f0f0f0;
 }
-.imageryTopRow {
-  background: #a9a9a9 !important;
-}
 .imageryTable tr {
   border-left: 1px solid transparent;
 }
 .imageryTable td {
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
   text-align: center;
 }
+.imageryTable td a {
+  color: #000;
+}
 .imageryTable th {
-  border-left: 1px solid #000;
-  border-right: 1px solid #000;
   text-align: center;
 }
 #imageryWindow > table > thead > tr > th:nth-child(1) {
@@ -265,7 +279,7 @@ map.styl,
   width: 104px;
 }
 #imageryWindow > table > thead > tr > th:nth-child(3) {
-  width: 60px;
+  width: 77px;
 }
 #imageryWindow > table > tbody > tr > td:nth-child(3) {
   width: 60px;
@@ -281,22 +295,13 @@ table.imageryTable tbody {
 table.imageryTable tbody {
   overflow: auto;
   height: 300px;
-  border-top: 1px solid #000;
 }
 #imageryWindow {
   width: auto;
-  max-width: 300px;
-  min-height: 50px;
   padding: 10px;
-  position: absolute;
-  top: 80px;
-  left: 25px;
-  width: 250px;
   background: #fff;
   z-index: 6;
   font-size: 12pt;
-  border: 2px solid #000;
-  border-radius: 5px;
 }
 #imageryWindow .font14 {
   font-size: 14pt;
@@ -772,8 +777,7 @@ div.report-options-section > table {
   top: -40px;
 }
 .popup-link,
-.custom-zoom-to,
-.popup-link-zoom {
+.custom-zoom-to {
   cursor: pointer;
 }
 .popup-list {

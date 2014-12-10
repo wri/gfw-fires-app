@@ -439,6 +439,7 @@ define({
         pf2005Radio: "2005",
         pf2010Radio: "2010",
         pf2012Radio: "2012",
+        imageSourcePath: "../images/magnifyingGlass.png",
         reportOptions: {
             selectAOILabel: 'Select area of interest:',
             islandRadio: 'By Island(s)',
