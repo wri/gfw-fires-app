@@ -277,6 +277,7 @@ define([
         })).then(function(results) {
             var content = '';
             featuresImageryFootprints = [];
+
             var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
             var timeStops = dijit.byId('timeSliderDG').timeStops;
             var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');

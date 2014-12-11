@@ -73,9 +73,13 @@ define(["dojo/topic"],
         });
 
         topic.subscribe("time-extent-changed", function(dataObj) {
+            //if (dijit.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
+            //console.log("time changed from events");
+            //console.log('');
             require(["views/map/MapController"], function(MapController) {
                 MapController.updateImageryList(dataObj);
             });
+            //}
         });
 
         topic.subscribe("clickNavLink", function(dataObj) {
