@@ -1,2 +1,2 @@
-/*! Global-Forest-Watch-Fires Thu Dec 11 2014 14:55:24 */
+/*! Global-Forest-Watch-Fires Thu Dec 11 2014 15:29:32 */
 define([],function(){var a={};return a.init=function(){},a});

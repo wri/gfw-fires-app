@@ -310,6 +310,17 @@ define([
                 }
 
             });
+            $("#imageryWindow > table > tbody > tr").each(function() {
+                var selectedRow = this.firstElementChild;
+                selectedRow = $(selectedRow).html();
+                selectedRow = $(selectedRow).attr("data-bucket");
+
+                if (MapModel.vm.selectedImageryRow) {
+                    if (MapModel.vm.selectedImageryRow == selectedRow) {
+                        $(this).addClass("imageryRowSelected");
+                    }
+                }
+            });
 
             MapModel.vm.digitalGlobeInView.sort(function(left, right) {
                 return left.feature.attributes.AcquisitionDate == right.feature.attributes.AcquisitionDate ? 0 : (left.feature.attributes.AcquisitionDate > right.feature.attributes.AcquisitionDate ? -1 : 1);
