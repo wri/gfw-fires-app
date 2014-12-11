@@ -156,6 +156,8 @@ define([
             return sql;
         },
 
+
+
         updateDynamicMapServiceLayerDefinition: function(dynamicMapService, layerId, definition) {
             var layerdefinitions = dynamicMapService.layerDefinitions;
             layerdefinitions[layerId] = definition;

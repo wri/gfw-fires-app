@@ -49,7 +49,7 @@ padding-right 4px{padding-bottom:3px}
 .google_translate_element{position:relative;margin-right:10px;float:right;top:17px}
 .navigationLinks{float:right;color:#000;margin-right:10px}
 .navList ul{list-style-type:none}
-.navList li{float:left;color:#000;list-style-type:none;padding-right:10px;padding-left:10px;padding-top:5px;padding-bottom:5px;margin-right:15px;cursor:pointer;border-radius:5px;text-transform:uppercase;font-size:12px;font-weight:700;background-color:none}
+.navList li{float:left;color:#000;list-style-type:none;padding:5px 10px;margin-right:15px;cursor:pointer;border-radius:5px;text-transform:uppercase;font-size:12px;font-weight:700;background-color:none}
 .navList li.selected{color:#fff;background-color:#ec1d38}
 .logo{background-image:url(../images/gfwFires-logo-new.png);background-repat:no-repeat;width:86px;height:86px;position:absolute;margin-left:10px;box-shadow:2px 2px 2px #888;cursor:pointer;z-index:10}
 .betaTag{background-color:#888;border-radius:5px;position:relative;font-size:11px;padding:5px;color:#fff;left:110px;top:20px}
@@ -88,7 +88,7 @@ padding-right 4px{padding-bottom:3px}
 .footerMovableModes .subscribe{margin:0 5px}
 .footerMovableModes .gfw-logo{background:url(../images/monochromatic_gfw.jpg) no-repeat scroll 0 0 transparent;text-align:center;height:71px;display:block;width:122px;margin:10px}
 .footerMovableModes .footer-logo{background:url(../images/logos-from-gfw.png) no-repeat scroll 0 0 transparent;display:inline-block;vertical-align:middle;margin:0 38px 38px 0;width:88px}
-.footerMovableModes .footer-logo.digital-globe{background:url(../images/dg-globe.png) no-repeat scroll 0 0 transparent;background-position:0 0;height:28px}
+.footerMovableModes .footer-logo.digital-globe{background:url(../images/dg-globe.png) no-repeat scroll 0 0 transparent;height:28px}
 .footerMovableModes .footer-logo.esri{background-position:0 -654px;height:28px}
 .footerMovableModes .footer-logo.google{background-position:0 -734px;height:52px}
-.footerMovableModes .footer-logo.bpredd{background:url(../images/bpredd.png) no-repeat scroll 0 0 transparent;background-position:0 0;height:57px}
+.footerMovableModes .footer-logo.bpredd{background:url(../images/bpredd.png) no-repeat scroll 0 0 transparent;height:57px}

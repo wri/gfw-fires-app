@@ -21,8 +21,12 @@ div#map-view(class="map-view")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
 					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
+					
 
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
+						div(class="confidence-archive-container")
+							div#confidence-archive-checkbox
+							label(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
 						//div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section

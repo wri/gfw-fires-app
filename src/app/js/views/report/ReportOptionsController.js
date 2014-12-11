@@ -45,7 +45,6 @@ define([
             // MapModel.vm.reportDateControl.dateVals().tMonth(today.getMonth() + 1);
             // MapModel.vm.reportDateControl.dateVals().tDay(today.getUTCDate());
 
-
             //fromMonth: monthComputed(dateValueObject().fYear),
             // MapModel.vm.noaaDateControl.fromYear(2014);
             // //MapModel.vm.noaaDateControl.fromMonth();
@@ -81,7 +80,7 @@ define([
                 MapModel.vm.reportAOIs([]);
                 arrayUtil.forEach(provinces, function(province) {
                     MapModel.vm.reportAOIs.push(province);
-                })
+                });
                 MapModel.vm.selectedAOIs(['Riau']);
 
             });

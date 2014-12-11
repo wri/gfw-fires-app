@@ -430,6 +430,8 @@ define([
                 return;
             }
 
+            iparams.layerDefinitions = _map.getLayer(qconfig.id).layerDefinitions;
+
             iparams.geometry = point;
             iparams.tolerance = 3;
             iparams.returnGeometry = false;

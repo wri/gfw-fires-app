@@ -23,6 +23,10 @@
           <div id="indonesia-fires"></div>
           <label for="indonesia-fires" data-bind="text: indonesiaFiresCheckbox"></label><span data-bind="text: indonesiaSubLabel" class="checkbox-sub-label"></span>
           <div id="report-optionsINDO" data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar">
+            <div class="confidence-archive-container">
+              <div id="confidence-archive-checkbox"></div>
+              <label for="confidence-archive-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+            </div>
             <!--div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x-->
             <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">

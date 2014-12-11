@@ -40,6 +40,7 @@ define({
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
         id: "Active_Fires",
+        highConfidence: "BRIGHTNESS >= 330 AND CONFIDENCE >= 30",
         defaultLayers: [0, 1, 2, 3],
         report_fields: {
             islands: 'ISLAND',
@@ -566,6 +567,11 @@ define({
             "props": {
                 // "disabled": "disabled"
             }
+        },{
+            "id": "confidence-archive-checkbox",
+            "class": "fires-confidence-checkbox",
+            "type": "checkbox",
+            "props": {}
         }, {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",

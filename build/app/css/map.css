@@ -7,7 +7,7 @@
 .simpleGeocoder .esriGeocoder{border:2px solid #aaa}
 .HomeButton .home{padding:0;border-radius:0}
 .basemap-gallery-button,.locator-widget-button,.print-button,.share-button{padding:1px;border-radius:5px;position:absolute;cursor:pointer;height:30px;width:30px;right:20px;z-index:50;box-shadow:1px 1px 5px rgba(0,0,0,.25)}
-#map .esriSimpleSlider{border:0;background:rgba(255,255,255,0)}
+#map .esriSimpleSlider{border:0;background:0 0}
 #map .esriSimpleSliderTL{right:20px;left:auto}
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton{border-bottom:0;padding:1px;color:#f0ab00;background:#fff;border-top-left-radius:5px;border-top-right-radius:5px;margin-bottom:2px;box-shadow:1px 1px 5px rgba(0,0,0,.25)}
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover,.HomeButton .home:hover,.basemap-gallery-button:hover,.locator-widget-button:hover,.print-button:hover,.share-button:hover{background-color:#eee!important}
@@ -33,22 +33,28 @@
 .basemap-gallery-container{overflow-y:auto}
 .basemap-container-labels{border-bottom:1px solid #000;padding-bottom:10px;font-weight:700;font-size:18px;margin:10px}
 .share-linker{top:210px}
-.share-button{background:url(../images/share-icon.png) no-repeat #fff;background-position:-2px -35px;top:210px}
+.share-button{background:url(../images/share-icon.png) no-repeat #fff -2px -35px;top:210px}
+.popup-link-zoom{background:url(../images/magnifyingGlass.png) no-repeat 20px 2px;cursor:pointer}
+#leftPaneToggle{z-index:30;position:absolute;top:80px;background-color:red;height:10px;width:10px}
 #ui-datepicker-div{z-index:35!important}
-#report-optionsDigitalGlobe{border-bottom:2px solid #000;width:260px;margin-left:-10px;font-size:10pt}
-.imageryTable{border-collapse:collapse;border-spacing:0;width:272px;margin-left:-11px;max-height:250px}
+#footprintsCheckBox>label{color:gray!important}
+#report-optionsDigitalGlobe{margin-top:-10px;margin-left:20px}
+.imageryTopRow th{background:#fff;color:gray;border-top:1px solid #000;border-bottom:1px solid #000;height:30px}
+.imageryTable{border-collapse:collapse;border-spacing:0}
 .imageryTable tr:nth-child(even){background:#fff}
 .imageryTable tr:nth-child(odd){background:#f0f0f0}
-.imageryTopRow{background:#a9a9a9!important}
 .imageryTable tr{border-left:1px solid transparent}
-.imageryTable td,.imageryTable th{border-left:1px solid #000;border-right:1px solid #000;text-align:center}
+.imageryTable td{text-align:center}
+.imageryTable td a{color:#000}
+.imageryTable th{text-align:center}
 #imageryWindow>table>tbody>tr>td:nth-child(1),#imageryWindow>table>thead>tr>th:nth-child(1){width:81px}
 #imageryWindow>table>tbody>tr>td:nth-child(2),#imageryWindow>table>thead>tr>th:nth-child(2){width:104px}
-#imageryWindow>table>tbody>tr>td:nth-child(3),#imageryWindow>table>thead>tr>th:nth-child(3){width:60px}
+#imageryWindow>table>thead>tr>th:nth-child(3){width:77px}
+#imageryWindow>table>tbody>tr>td:nth-child(3){width:60px}
 .imageryTable tr{height:25px}
 table.imageryTable tbody,table.imageryTable thead{float:left;width:100%}
-table.imageryTable tbody{overflow:auto;height:300px;border-top:1px solid #000}
-#imageryWindow{max-width:300px;min-height:50px;padding:10px;position:absolute;top:80px;left:25px;width:250px;background:#fff;z-index:6;font-size:12pt;border:2px solid #000;border-radius:5px}
+table.imageryTable tbody{overflow:auto;height:300px}
+#imageryWindow{width:auto;padding:10px;background:#fff;z-index:6;font-size:12pt}
 #imageryWindow .font14{font-size:14pt;padding-top:3px;padding-bottom:1px}
 #imageryWindow .font10{font-size:10pt}
 #report-options{width:auto;max-width:300px;padding:10px;height:auto;position:absolute;top:20%;right:50%;background:#fff;z-index:6;font-size:12pt;border-radius:5px}
@@ -64,7 +70,7 @@ table.imageryTable tbody{overflow:auto;height:300px;border-top:1px solid #000}
 .reportOptionsSidebar{margin-top:5px;padding:5px;font-size:14px}
 .reportOptionsHeader{position:relative;cursor:pointer;width:10px;float:right;top:-5px}
 .tomnodLink a{text-decoration:underline;font-size:11px;color:gray;padding:0 0 0 25px;font-weight:300}
-.print-button{background:url(../images/print-icon.png) no-repeat #fff;background-position:-1px -35px;text-align:center;line-height:30px;top:250px}
+.print-button{background:url(../images/print-icon.png) no-repeat #fff -1px -35px;text-align:center;line-height:30px;top:250px}
 .print-button.loading{background:url(../images/loader.gif) no-repeat center #fff}
 .locator-line-splitter{text-align:center;width:290px}
 .locator-container-header{margin:5px 0 0 5px;font-weight:700;font-size:18px}
@@ -124,8 +130,8 @@ div.report-options-section>table{margin-bottom:5px}
 #control-panel label{display:inline;color:#000;margin-left:4px;font-size:13px;font-weight:600}
 #control-panel .checkbox-sub-label{clear:both;font-size:11px;padding:0 0 0 20px;font-weight:100}
 #control-panel .dijitSliderDecrementIconH,#control-panel .dijitSliderIncrementIconH,#control-panel .dijitSliderLeftBumper,#control-panel .dijitSliderRightBumper{display:none}
-#control-panel .dijitSliderProgressBarH{background:rgba(0,0,0,0);border-width:0}
-#basemap-gallery-container .dijitCheckBox,#control-panel .dijitCheckBox,#windLayerBasemapDialog .dijitCheckBox{appearance:none;background:#fff;width:16px;height:16px;border:1px solid #898989;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;-moz-box-sizing:border-box;box-sizing:border-box;margin:2px 2px 0 0;border-top-left-radius:3px;border-top-right-radius:3px;border-bottom-right-radius:3px;border-bottom-left-radius:3px}
+#control-panel .dijitSliderProgressBarH{background:0 0;border-width:0}
+#basemap-gallery-container .dijitCheckBox,#control-panel .dijitCheckBox,#windLayerBasemapDialog .dijitCheckBox{appearance:none;background:#fff;width:16px;height:16px;border:1px solid #898989;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial;-moz-box-sizing:border-box;box-sizing:border-box;margin:2px 2px 0 0;border-radius:3px}
 #basemap-gallery-container .dijitCheckBoxChecked,#control-panel .dijitCheckBoxChecked,#windLayerBasemapDialog .dijitCheckBoxChecked{background:url(../images/ico-checkmark.png) 50% 50% no-repeat #898989;border:1px solid #898989;border-image-source:initial;border-image-slice:initial;border-image-width:initial;border-image-outset:initial;border-image-repeat:initial}
 #control-panel input[type=radio]{background-image:url(../images/checkmark.png);background-position:-110px;background-repeat:no-repeat;width:16px;height:16px;margin:2px 2px 0 0;padding:0}
 #control-panel input[type=radio]:checked{background-position:-94px}
@@ -135,7 +141,7 @@ div.report-options-section>table{margin-bottom:5px}
 .imageryRowSelected{border:2px solid #0ff}
 #infoWindowTable td{width:45%;padding:0 5px 0 0}
 .esriPopupWrapper{top:-40px}
-.custom-zoom-to,.popup-link,.popup-link-zoom{cursor:pointer}
+.custom-zoom-to,.popup-link{cursor:pointer}
 .popup-list{margin-bottom:20px!important}
 .satelliteColumn{position:absolute;left:110px}
 .custom-zoom-to{position:absolute;left:10px;bottom:0}
@@ -147,7 +153,7 @@ div.report-options-section>table{margin-bottom:5px}
 #windLegendLabels{margin:0 25px;font-size:10px}
 .windLegendNode{margin:10px auto;height:13px;width:80%}
 .rightWindLabel{float:right}
-.windLayerLegendColorRamp{background:-webkit-linear-gradient(left,rgba(0,255,255,.5)0,rgba(255,30,219,.5)100%);background:linear-gradient(to right,rgba(0,255,255,.5)0,rgba(255,30,219,.5)100%)}
+.windLayerLegendColorRamp{background:-webkit-linear-gradient(left,rgba(0,255,255,.5) 0,rgba(255,30,219,.5) 100%);background:linear-gradient(to right,rgba(0,255,255,.5) 0,rgba(255,30,219,.5) 100%)}
 #digitalGlobeInstructions,#embedCodeShareDialog,#windLayerBasemapDialog{font-family:"Arial MT Condensed Light";src:url(../fonts/ArialMTStd-LightCond.otf) format("opentype");color:#464052}
 #digitalGlobeInstructions .dijitDialogPaneActionBar,#embedCodeShareDialog .dijitDialogPaneActionBar,#windLayerBasemapDialog .dijitDialogPaneActionBar{margin:10px 0 0;text-align:center}
 #digitalGlobeInstructions .dijitDialogPaneActionBar button,#windLayerBasemapDialog .dijitDialogPaneActionBar button{border-radius:5px;background:#e7002f;font-weight:700;padding:5px 15px;font-size:12px;cursor:pointer;margin:0 10px;color:#fff;border:none}
@@ -180,10 +186,10 @@ div.report-options-section>table{margin-bottom:5px}
 #timeSliderPanel table td:nth-child(3) .dijitButtonNode{border-radius:0 5px 5px 0}
 #timeSliderPanel .tsPrevButton{border-left:2px solid #d1d0d4;border-radius:0 5px 5px 0;display:none;height:60px;width:24px}
 #timeSliderPanel .pauseIcon{background:url(images/ico-unlock.png) no-repeat center!important}
-#timeSliderPanel .dijitSliderBarContainerH{background:url(images/timeline-bg.png) repeat-x scroll center 10px rgba(0,0,0,0);position:relative;height:10px;width:100%;margin:0}
-#timeSliderPanel .dijitSliderRemainingBarH{border-color:rgba(255,255,255,0)}
+#timeSliderPanel .dijitSliderBarContainerH{background:url(images/timeline-bg.png) repeat-x scroll center 10px transparent;position:relative;height:10px;width:100%;margin:0}
+#timeSliderPanel .dijitSliderRemainingBarH{border-color:transparent}
 #timeSliderPanel .dijitSliderBumperH{border-width:0;background-size:340px;z-index:500;position:relative;height:0;width:100%;margin:0 0 4px}
-#timeSliderPanel .dijitSliderProgressBarH{border:0 solid rgba(255,255,255,0);background:#e98300;position:absolute!important;height:10px}
+#timeSliderPanel .dijitSliderProgressBarH{border:0 solid transparent;background:#e98300;position:absolute!important;height:10px}
 #timeSliderPanel .dijitSliderFocused .dijitSliderImageHandleH,#timeSliderPanel .dijitSliderImageHandleH{width:10px;height:10px;background:#fff url("") no-repeat center top;border:4px solid #e98300;border-radius:10px;margin:3px 0 0;z-index:50002}
 #timeSliderPanel .esriTimeSlider .ts{position:relative;margin:0;top:-10px}
 .tundra .dijitTooltipRight{padding-left:8px false}
@@ -194,10 +200,10 @@ div.report-options-section>table{margin-bottom:5px}
 .dj_gecko #timeSliderPanel .esriTimeSlider .ts{position:relative}
 #timeSliderPanel .dijitSliderRemainingBarH{background:#ecc53d;margin-bottom:4px;height:6px}
 #timeSliderPanel .tsTicks{height:10px;z-index:0;width:99.9%}
-.dijitRuleMark{border:1px solid #000;margin:-2px 0 0 0}
+.dijitRuleMark{border:1px solid #000;margin:-2px 0 0}
 #timeSliderPanel .dojoxRangeSlider,#timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH{background:#e98300!important;border:0 solid #461d7c!important}
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH{position:absolute!important}
-#timeSliderPanel .dojoxRangeSlider{background:rgba(233,131,0,0)!important;border:0 solid #461d7c!important}
+#timeSliderPanel .dojoxRangeSlider{background:0 0!important;border:0 solid #461d7c!important}
 #timeSliderPanel .dojoxRangeSliderBarContainer .dijitSliderMoveable .dijitSliderImageHandleH{margin-top:3px}
 #timeSliderPanel .dijitSliderImageHandleH,.dijitContentPane{overflow-x:hidden}
 @media print{body,html{-webkit-print-color-adjust:exact}}

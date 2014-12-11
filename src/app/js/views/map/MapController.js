@@ -754,6 +754,8 @@ define([
                 MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });
 
+        
+
         on(registry.byId("noaa-fires-18"), "change", function(value) {
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
                 MapConfig.indonesiaLayers.layerIds['noaa18'], value);
@@ -919,8 +921,27 @@ define([
             var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
+            if (registry.byId('confidence-archive-checkbox').checked){
+                sqlQuery = [sqlQuery,MapConfig.firesLayer.highConfidence].join(' AND ');
+            }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
+        });
+
+        on(registry.byId("confidence-archive-checkbox"), "change", function(value){
+            console.log("confidence",value);
+            var sql = value?MapConfig.firesLayer.highConfidence:'';
+            var indonesiaLayer = o.map.getLayer(MapConfig.indonesiaLayers.id);
+            var indonesiaID = MapConfig.indonesiaLayers.layerIds.indonesiaFires;
+            var layerDefinitions = indonesiaLayer.layerDefinitions;
+            var curLayerDef = layerDefinitions[indonesiaID];
+            if (value){
+                var newLayerDef = curLayerDef != undefined ? [curLayerDef,sql].join(' AND '):sql;
+            }
+            else{
+                var newLayerDef = curLayerDef.replace(' AND ' + MapConfig.firesLayer.highConfidence, sql).replace(MapConfig.firesLayer.highConfidence, sql);
+            }
+            LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], newLayerDef);
         });
 
         on(dom.byId('updateWIND'), 'click', function() {
