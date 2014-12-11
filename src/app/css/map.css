@@ -292,10 +292,6 @@ table.imageryTable tbody {
   float: left;
   width: 100%;
 }
-table.imageryTable tbody {
-  overflow: auto;
-  height: 300px;
-}
 #imageryWindow {
   width: auto;
   padding: 10px;

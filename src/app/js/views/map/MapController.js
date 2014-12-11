@@ -321,9 +321,9 @@ define([
                 handles.push(on(node, "click", function(evt) {
                     var target = evt.target ? evt.target : evt.srcElement,
                         bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-                    //debugger;
+
                     $('#imageryWindow > table > tbody > tr').each(function() {
-                        $(this).removeClass("imageryRowSelected"); //but what if we're here ONLY because we turned the footprints on/off, or the extent changed? As long as the image is showing on the map And that image's row is in the table (aka w/in map extent), we should KEEP the imageryRowSelected class!
+                        $(this).removeClass("imageryRowSelected");
                     });
 
                     LayerController.showDigitalGlobeImagery(bucket);
@@ -331,7 +331,9 @@ define([
                     var parent = $(this).parent();
                     console.log(parent); //use this class in Finder's same function
                     $(parent).parent().removeClass("imageryRowHover");
+                    MapModel.vm.selectedImageryRow = this.dataset.bucket;
                     $(parent).parent().addClass("imageryRowSelected");
+
                 }));
             });
 
