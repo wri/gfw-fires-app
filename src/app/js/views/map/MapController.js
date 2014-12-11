@@ -194,7 +194,8 @@ define([
 
         o.map.on("load", function() {
 
-            $("#firesDateFrom").datepicker('setDate', '+0m -7d');
+            $("#firesDateFrom").datepicker("setDate", "+0m -7d");
+            $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
 
@@ -259,6 +260,7 @@ define([
             query = new Query(),
             extents = {};
 
+
         var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
             var deferred = new Deferred;
             var geom = o.map.extent;
@@ -319,8 +321,9 @@ define([
                 handles.push(on(node, "click", function(evt) {
                     var target = evt.target ? evt.target : evt.srcElement,
                         bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                    //debugger;
                     $('#imageryWindow > table > tbody > tr').each(function() {
-                        $(this).removeClass("imageryRowSelected");
+                        $(this).removeClass("imageryRowSelected"); //but what if we're here ONLY because we turned the footprints on/off, or the extent changed? As long as the image is showing on the map And that image's row is in the table (aka w/in map extent), we should KEEP the imageryRowSelected class!
                     });
 
                     LayerController.showDigitalGlobeImagery(bucket);
@@ -387,7 +390,7 @@ define([
     $(parent).parent().addClass("imageryRowSelected");
 
     o.handleImageryOver = function(data, event) {
-        //debugger;
+
         console.log("starting function");
         var parent = event.currentTarget;
 
@@ -755,7 +758,7 @@ define([
                 MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });
 
-        
+
 
         on(registry.byId("noaa-fires-18"), "change", function(value) {
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
@@ -922,24 +925,23 @@ define([
             var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
-            if (registry.byId('confidence-archive-checkbox').checked){
-                sqlQuery = [sqlQuery,MapConfig.firesLayer.highConfidence].join(' AND ');
+            if (registry.byId('confidence-archive-checkbox').checked) {
+                sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
             }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
 
-        on(registry.byId("confidence-archive-checkbox"), "change", function(value){
-            console.log("confidence",value);
-            var sql = value?MapConfig.firesLayer.highConfidence:'';
+        on(registry.byId("confidence-archive-checkbox"), "change", function(value) {
+            console.log("confidence", value);
+            var sql = value ? MapConfig.firesLayer.highConfidence : '';
             var indonesiaLayer = o.map.getLayer(MapConfig.indonesiaLayers.id);
             var indonesiaID = MapConfig.indonesiaLayers.layerIds.indonesiaFires;
             var layerDefinitions = indonesiaLayer.layerDefinitions;
             var curLayerDef = layerDefinitions[indonesiaID];
-            if (value){
-                var newLayerDef = curLayerDef != undefined ? [curLayerDef,sql].join(' AND '):sql;
-            }
-            else{
+            if (value) {
+                var newLayerDef = curLayerDef != undefined ? [curLayerDef, sql].join(' AND ') : sql;
+            } else {
                 var newLayerDef = curLayerDef.replace(' AND ' + MapConfig.firesLayer.highConfidence, sql).replace(MapConfig.firesLayer.highConfidence, sql);
             }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], newLayerDef);

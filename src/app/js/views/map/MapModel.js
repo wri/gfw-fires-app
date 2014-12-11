@@ -198,6 +198,12 @@ define([
                 return selectedDate;
             }
         });
+        var oneWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7));
+        var days2 = oneWeekAgo.getDate();
+        var months2 = oneWeekAgo.getMonth() + 1;
+        var years2 = oneWeekAgo.getFullYear();
+        var date2 = months2 + "/" + days2 + "/" + years2;
+        return date2;
     }
     vm.firesPickerTo = function() {
         var newDate = jQuery('#firesDateTo').datepicker({
@@ -329,6 +335,7 @@ define([
     vm.showReportOptionsDigitalGlobeFootprints = ko.observable(true);
 
     vm.digitalGlobeInView = ko.observableArray();
+    vm.sortedImageryArray = [];
 
     vm.showLocatorWidgets = ko.observable(false);
 
