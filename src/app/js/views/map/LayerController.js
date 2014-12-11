@@ -301,7 +301,6 @@ define([
             if (footprints) {
                 disp = "block";
             }
-            console.log("toggling layer");
 
             domStyle.set(dom.byId("timeSliderPanel"), 'display', disp);
 
@@ -314,9 +313,10 @@ define([
                     dglyr.clear();
                     return;
                 }
+
                 self.toggleDigitalGlobeLayerVisibility(MapConfig.digitalGlobe.id, visibility);
                 self.showHelperLayers(MapConfig.digitalGlobe.graphicsLayerId, visibility);
-                self.generateTimeSlider("timeSliderDG", "timeSliderPanel");
+                self.generateTimeSlider("timeSliderDG", "timeSliderPanel", footprints);
 
             });
 
@@ -549,79 +549,86 @@ define([
             return tt;
         },
 
-        generateTimeSlider: function(location, parent) {
+        generateTimeSlider: function(location, parent, footprints) {
             var self = this,
                 timeSlider,
                 locked = true,
                 toolsmodel = MapModel.get('model'),
                 mmts = '';
-
             domConstruct.create("div", {
                 "id": location
             }, dom.byId(parent));
-            if (registry.byId("timeSliderDG")) {
-                registry.byId("timeSliderDG").destroy();
+
+            if (!registry.byId("timeSliderDG")) {
+                timeSlider = new TimeSlider({
+                    style: "width: 100%;",
+                    id: "timeSliderDG"
+                }, dom.byId(location));
+
+                var timeExtent = new TimeExtent();
+                timeSlider.setThumbCount(2);
+                timeSlider.setThumbMovingRate(2000);
+                timeSlider.setLoop(true);
+
+                domConstruct.destroy(registry.byId(timeSlider.nextBtn.id).domNode.parentNode);
+                registry.byId(timeSlider.previousBtn.id).domNode.style["vertical-align"] = "text-bottom";
+                registry.byId(timeSlider.playPauseBtn.id).domNode.style["vertical-align"] = "text-bottom";
+
+                // If toolspanel is open, adjust left position of slider
+                // domStyle.set("timeSliderPanel", "left", "310px");
+                mmts = toolsmodel.dgMoments();
+                timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY')); //new Date("1/1/2013 UTC");
+                timeExtent.endTime = new Date(mmts[mmts.length - 1].format('MM/DD/YYYY'));
+                self.filter_footprints('moment', mmts[0], mmts[1]);
+
+                timeSlider.createTimeStopsByTimeInterval(timeExtent, 1, 'esriTimeUnitsMonths');
+                var curyear = timeExtent.startTime.getUTCFullYear();
+                var labels = timeSlider.timeStops.map(function(timeStop, i) {
+                    if (i === 0) {
+                        return curyear;
+                    }
+
+                    if (timeStop.getUTCFullYear() != curyear) {
+                        curyear = timeStop.getUTCFullYear();
+                        return curyear;
+                    } else {
+                        return '';
+                    }
+                });
+
+                timeSlider.setLabels(labels);
+                timeSlider.startup();
+                var tt = self.generateTimeTooltips(timeSlider);
+
+                _map.setTimeSlider(timeSlider);
+                toolsmodel.timeSlider = timeSlider;
             }
-            timeSlider = new TimeSlider({
-                style: "width: 100%;",
-                id: "timeSliderDG"
-            }, dom.byId(location));
 
-            var timeExtent = new TimeExtent();
-            timeSlider.setThumbCount(2);
-            timeSlider.setThumbMovingRate(2000);
-            timeSlider.setLoop(true);
-
-            domConstruct.destroy(registry.byId(timeSlider.nextBtn.id).domNode.parentNode);
-            registry.byId(timeSlider.previousBtn.id).domNode.style["vertical-align"] = "text-bottom";
-            registry.byId(timeSlider.playPauseBtn.id).domNode.style["vertical-align"] = "text-bottom";
-
-            // If toolspanel is open, adjust left position of slider
-            // domStyle.set("timeSliderPanel", "left", "310px");
-            mmts = toolsmodel.dgMoments();
-            timeExtent.startTime = new Date(mmts[0].format('MM/DD/YYYY')); //new Date("1/1/2013 UTC");
-            timeExtent.endTime = new Date(mmts[mmts.length - 1].format('MM/DD/YYYY'));
-            self.filter_footprints('moment', mmts[0], mmts[1]);
-
-            timeSlider.createTimeStopsByTimeInterval(timeExtent, 1, 'esriTimeUnitsMonths');
-            var curyear = timeExtent.startTime.getUTCFullYear();
-            var labels = timeSlider.timeStops.map(function(timeStop, i) {
-                if (i === 0) {
-                    return curyear;
-                }
-
-                if (timeStop.getUTCFullYear() != curyear) {
-                    curyear = timeStop.getUTCFullYear();
-                    return curyear;
-                } else {
-                    return '';
-                }
-            });
-
-            timeSlider.setLabels(labels);
-            timeSlider.startup();
-            var tt = self.generateTimeTooltips(timeSlider);
-
-            _map.setTimeSlider(timeSlider);
-
-            timeSlider.on("time-extent-change", function(evt) {
+            toolsmodel.timeSlider.on("time-extent-change", function(evt) {
 
                 var values;
                 // These values are not updated immediately, call setTimeout to 0 to execute on next pass in the event loop
                 setTimeout(function() {
                     _map.infoWindow.hide();
-                    values = locked ? [0, timeSlider.thumbIndexes[0]] : [timeSlider.thumbIndexes[0], timeSlider.thumbIndexes[1]];
-                    var stops = timeSlider.timeStops;
+                    values = locked ? [0, toolsmodel.timeSlider.thumbIndexes[0]] : [toolsmodel.timeSlider.thumbIndexes[0], toolsmodel.timeSlider.thumbIndexes[1]];
+                    var stops = toolsmodel.timeSlider.timeStops;
                     if (dijit.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
                         self.filter_footprints('moment', moment(evt.startTime), moment(evt.endTime));
                     }
 
-                    topic.publish("time-extent-changed");
+                    if (evt != toolsmodel.timeEvent) {
+                        topic.publish("time-extent-changed");
+                    }
+                    toolsmodel.timeEvent = evt;
                 }, 0);
-
             });
-            timeSlider.setThumbIndexes([0, timeSlider.timeStops.length - 1]);
-
+            if (!footprints) {
+                toolsmodel.timeSlider.setThumbIndexes([0, toolsmodel.timeSlider.timeStops.length - 1]);
+            } else {
+                if (dijit.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
+                    self.filter_footprints('moment', moment(toolsmodel.timeEvent.startTime), moment(toolsmodel.timeEvent.endTime));
+                }
+            }
 
         },
 
@@ -635,7 +642,7 @@ define([
                     title: "Digital Globe - First Look",
                     style: "width: 350px",
                     id: "digitalGlobeInstructions",
-                    content: "To display an image, click on the image in the list or click on the footprint on the map and select the image from the pop-up.<div class='dijitDialogPaneActionBar'>" +
+                    content: "<p>To display an image, click on the image in the list or click on the footprint on the map and select the image from the pop-up.</p><p>Filter the image list by date via the timeline or by map extent via panning or zooming.</p><div class='dijitDialogPaneActionBar'>" +
                         "<button id='closeDGInstructions'>Ok</button></div>" +
                         "<div class='dialogCheckbox'><input type='checkbox' id='remembershowInstructions' />" +
                         "<label for='rememberBasemapDecision'>Don't show me this again.</label></div>"
