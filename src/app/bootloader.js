@@ -51,7 +51,7 @@
                 cdn: true
             }]
         },
-        URL = location.pathname.replace(/\/[^/]+$/, '') + '/app',
+        URL = location.pathname.replace(/\/[^/]+$/, '') + 'app', // do not use / before app, fails in prod
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
@@ -83,7 +83,8 @@
                 ["dom-class", "dojo/dom-class"],
                 ["topic", "dojo/topic"],
                 ["dom", "dojo/dom"],
-                ["on", "dojo/on"]
+                ["on", "dojo/on"],
+                ["jquery", "http://code.jquery.com/jquery-2.1.1.min.js"] //this is added as a hack for prod
             ],
             deps: [
                 'main/Main',
