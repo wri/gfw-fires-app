@@ -460,19 +460,20 @@ define([
         if (data == true) {
             $("#control-panel").css("width", "2px");
             $(".map-container").css("left", "2px");
+            ///$("#leftPaneToggle").css("left", "2px");
+            $("#leftPaneToggle").html("+");
             $("#latLongHUD").css("left", "100px");
             $("div.scalebar_bottom-left.esriScalebar").css("left", "119px");
             $("#map").css("left", "2px");
-
-            $("#control-panel").css("background-color", "red");
-
-
+            $("#control-panel").css("background-color", "#ecc53d");
             o.map.resize();
             MapModel.vm.toggleMapPane(false);
 
         } else {
             $("#control-panel").css("width", "320px");
             $(".map-container").css("left", "320px");
+            //$("#leftPaneToggle").css("left", "0px");
+            $("#leftPaneToggle").html("-");
             $("#map").css("left", "320px");
             $("#latLongHUD").css("left", "0px");
             $("div.scalebar_bottom-left.esriScalebar").css("left", "19px");
@@ -484,10 +485,13 @@ define([
         $("#leftPaneToggle").hide();
         $("#latLongHUD").hide();
         $("div.scalebar_bottom-left.esriScalebar").hide();
+        $("#control-panel > div.report-link-container").hide();
         setTimeout(function() {
+            //$("#control-panel").css("background-color", "#ecc53d");
             $("#latLongHUD").show();
             $("#leftPaneToggle").show();
             $("div.scalebar_bottom-left.esriScalebar").show();
+            $("#control-panel > div.report-link-container").show();
         }, 1000);
 
     };
@@ -671,6 +675,7 @@ define([
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
+            MapModel.vm.showActiveFiresButtons(value);
             if (value) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Active Fires layer on.');
             }
@@ -1457,6 +1462,7 @@ define([
     o.reportAnalyticsHelper = function(eventType, action, label) {
         ga('A.send', 'event', eventType, action, label);
         ga('B.send', 'event', eventType, action, label);
+        ga('C.send', 'event', eventType, action, label);
     };
 
     o.showEmbedCode = function() {

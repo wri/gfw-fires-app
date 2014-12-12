@@ -328,6 +328,7 @@ define([
     vm.showShareContainer = ko.observable(false);
     vm.showReportOptions = ko.observable(false);
     vm.showReportOptionsNOAA = ko.observable(false);
+    vm.showActiveFiresButtons = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showReportOptionsDigitalGlobe = ko.observable(false);
@@ -373,6 +374,10 @@ define([
 
     vm.closeReportOptionsDigitalGlobe = function() {
         vm.showReportOptionsDigitalGlobe(false);
+    };
+
+    vm.closeOptionsNASA = function() {
+        vm.showActiveFiresButtons(false);
     };
 
     vm.imageryMouseOver = function(data, event) {

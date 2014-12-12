@@ -63,6 +63,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         o.reportAnalyticsHelper = function(eventType, action, label) {
             ga('A.send', 'event', eventType, action, label);
             ga('B.send', 'event', eventType, action, label);
+            ga('C.send', 'event', eventType, action, label);
         };
 
 
