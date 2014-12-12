@@ -194,10 +194,18 @@ define([
 
         o.map.on("load", function() {
 
-            $("#firesDateFrom").datepicker("setDate", "+0m -7d");
+            //$("#firesDateFrom").datepicker("setDate", "+0m -7d");
             $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
+            // setTimeout(function() {
+            //     (dom.byId("#galleryNode_basemap_6")
+            //     var basemapArray = registry.byId("basemap-gallery").basemaps;
+            //     basemapArray.splice(4, 1);
+            // }, 1000);
+
+            //var basemapArray = registry.byId("basemap-gallery").basemaps;
+            //basemapArray.splice(6, 1);
 
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
@@ -448,123 +456,39 @@ define([
     };
 
     o.resizeMapPanel = function(data) {
-        require(["dojo/fx", "dojo/_base/fx", "dojo/query", "dojo/dom-geometry"], function(coreFx, baseFx, dojoQuery, domGeom) {
-            var runAnimation = function(id) {
-                var anim = coreFx.chain([
-                    baseFx.animateProperty({
-                        node: dom.byId("control-panel"),
-                        properties: {
-                            marginLeft: {
-                                start: 0,
-                                end: -320
-                            }
-                        },
-                        units: "px",
-                        duration: 500
-                    })
-                ]);
-                var anim2 = coreFx.chain([
-                    baseFx.animateProperty({
-                        node: dom.byId("map-container"),
-                        properties: {
-                            // width: {
-                            //     start: 1507,
-                            //     end: 1837
-                            // },
-                            left: {
-                                start: 320,
-                                end: 0
-                            }
-                        },
-                        units: "px",
-                        duration: 500
-                    })
-                ]);
-                var anim3 = coreFx.chain([
-                    baseFx.animateProperty({
-                        node: dom.byId("map"),
-                        properties: {
-                            // width: {
-                            //     start: 1531,
-                            //     end: 1851
-                            // },
-                            left: {
-                                start: 320,
-                                end: 0
-                            }
-                        },
-                        onEnd: function() {
-                            var nextNodeId;
-                        },
-                        units: "px",
-                        duration: 500
-                    })
-                ]);
-                anim.play();
-                anim2.play();
-                anim3.play();
-            };
 
-            runAnimation();
-            setTimeout(function() {
-                o.map.resize();
-            }, 500);
+        if (data == true) {
+            $("#control-panel").css("width", "2px");
+            $(".map-container").css("left", "2px");
+            $("#latLongHUD").css("left", "100px");
+            $("div.scalebar_bottom-left.esriScalebar").css("left", "119px");
+            $("#map").css("left", "2px");
 
-        });
+            $("#control-panel").css("background-color", "red");
 
 
+            o.map.resize();
+            MapModel.vm.toggleMapPane(false);
 
-        // var mapWidth = domGeom.position(dom.byId("map_root")).w,
-        //     wizardContainer = dom.byId("control-panel"),
-        //     deferred = new Deferred(),
-        //     MAX_WIDTH = 525, // 600 - Currently we are forcing the size to be 525 and not responsive
-        //     MIN_WIDTH = 525, // 450
-        //     halfMapWidth = mapWidth / 2,
-        //     orignalCenterPoint,
-        //     duration = 500,
-        //     wizardAnimation,
-        //     tabAnimation,
-        //     mapAnimation,
-        //     controlsWidth;
+        } else {
+            $("#control-panel").css("width", "320px");
+            $(".map-container").css("left", "320px");
+            $("#map").css("left", "320px");
+            $("#latLongHUD").css("left", "0px");
+            $("div.scalebar_bottom-left.esriScalebar").css("left", "19px");
+            $("#control-panel").css("background-color", "transparent");
+            o.map.resize();
+            MapModel.vm.toggleMapPane(true);
 
-        // controlsWidth = (halfMapWidth >= MIN_WIDTH && halfMapWidth <= MAX_WIDTH) ? halfMapWidth :
-        //     (halfMapWidth < MIN_WIDTH) ? MIN_WIDTH : MAX_WIDTH;
-        // // Get original center point before animation and set it after animation complete
-        // orignalCenterPoint = o.map.extent.getCenter();
-
-        // //if (domClass.contains(wizardContainer, "activated")) {
-        // if (MapModel.vm.toggleMapPane() == true) {
-        //     domStyle.set('control-panel', 'display', 'none');
-        //     controlsWidth = 0;
-        //     MapModel.vm.toggleMapPane(false);
-        // }
-        // //domClass.toggle(wizardContainer, "activated");
-
-        // wizardAnimation = Fx.animateProperty({
-        //     node: wizardContainer,
-        //     properties: {
-        //         width: controlsWidth
-        //     },
-        //     duration: duration
-        // });
-
-        //set tab's 
-        // mapAnimation = Fx.animateProperty({
-        //     node: dom.byId("map-container"),
-        //     properties: {
-        //         left: controlsWidth
-        //     },
-        //     duration: duration,
-        //     onEnd: function() {
-        //         o.map.resize(true);
-        //         //o.map.centerAt(orignalCenterPoint);
-        //         debugger;
-        //         if (controlsWidth > 0) {
-        //             domStyle.set('#control-panel', 'display', 'block');
-        //         }
-        //         deferred.resolve(true);
-        //     }
-        // });
+        }
+        $("#leftPaneToggle").hide();
+        $("#latLongHUD").hide();
+        $("div.scalebar_bottom-left.esriScalebar").hide();
+        setTimeout(function() {
+            $("#latLongHUD").show();
+            $("#leftPaneToggle").show();
+            $("div.scalebar_bottom-left.esriScalebar").show();
+        }, 1000);
 
     };
 
@@ -607,7 +531,8 @@ define([
             title: "Dark Gray Canvas",
             thumbnailUrl: "app/images/darkGreyThumb.jpg"
         });
-        basemaps.push(darkgray);
+        //basemaps.push(darkgray);
+        console.log(basemaps);
 
         bg = new BasemapGallery({
             map: o.map,
@@ -767,6 +692,14 @@ define([
         });
 
         on(registry.byId("indonesia-fires"), "change", function(value) {
+            console.log(value);
+            if (value == true) {
+                $(".confidence-fires-container").css("margin-left", "38px");
+            } else {
+                $(".confidence-fires-container").css("margin-left", "46px");
+            }
+            //confidence-fires-container
+            //margin 5px 46px --> 38px
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
                 MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });

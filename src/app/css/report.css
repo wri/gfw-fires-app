@@ -36,6 +36,10 @@ body {
   text-align: center;
   font-size: 18px;
 }
+.sub-title2 {
+  text-align: center;
+  font-size: 22px;
+}
 .map-container {
   border: 2px solid #000;
   margin: 0 auto;

@@ -177,11 +177,11 @@ define([
                 deferred.resolve();
                 var currentBasemap = registry.byId("basemap-gallery").getSelected();
                 if (currentBasemap) {
-                    if (currentBasemap.id !== "darkgray") {
-                        registry.byId("basemap-gallery").select("darkgray");
+                    if (currentBasemap.id !== "galleryNode_basemap_6") {
+                        registry.byId("basemap-gallery").select("basemap_6");
                     }
                 } else {
-                    registry.byId("basemap-gallery").select("darkgray");
+                    registry.byId("basemap-gallery").select("basemap_6");
                 }
             };
 
@@ -189,12 +189,13 @@ define([
 
             var currentSelectedBasemap;
             if (registry.byId("basemap-gallery").getSelected()) {
+
                 currentSelectedBasemap = registry.byId("basemap-gallery").getSelected().id;
             } else {
                 currentSelectedBasemap = "topo";
             }
 
-            if (currentCookie === undefined && (currentSelectedBasemap !== "darkgray")) {
+            if (currentCookie === undefined && (currentSelectedBasemap !== "basemap_6")) {
                 dialog.show();
                 cbox = new CheckBox({
                     checked: false,
@@ -231,7 +232,6 @@ define([
         fetchDataForWindLayer: function(optionalURL) {
 
             Helper.showLoader(WIND_CONFIG.mapLoaderContainer, WIND_CONFIG.mapLoaderId);
-            //debugger;
             if (optionalURL) {
                 WIND_CONFIG.dataUrl = optionalURL;
                 //console.log(WIND_CONFIG.dataUrl);

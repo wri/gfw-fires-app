@@ -313,7 +313,7 @@ define([
         return date;
     }
 
-    vm.firesObservFrom = ko.observable("06/01/2014");
+    vm.firesObservFrom = ko.observable(date2);
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
     vm.noaaObservFrom = ko.observable("10/12/2014");
@@ -387,6 +387,8 @@ define([
         });
     };
 
+
+
     vm.slidePanel = function(data) {
         // if (vm.toggleMapPane() == true) {
         //     //$("#map_root").css("width", "+=320px");
@@ -399,9 +401,10 @@ define([
         //     $(".map-container").css("left", "320px");
         //     vm.toggleMapPane(true);
         // }
+        var data2 = vm.toggleMapPane();
 
         require(["views/map/MapController"], function(MapController) {
-            MapController.resizeMapPanel(data);
+            MapController.resizeMapPanel(data2);
         });
 
     };
