@@ -118,6 +118,7 @@ define(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/query", "dijit/registry",
         o.reportAnalyticsHelper = function(eventType, action, label) {
             ga('A.send', 'event', eventType, action, label);
             ga('B.send', 'event', eventType, action, label);
+            ga('C.send', 'event', eventType, action, label);
         };
 
         return o;

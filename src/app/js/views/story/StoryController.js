@@ -207,6 +207,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
         o.reportAnalyticsHelper = function(eventType, action, label) {
             ga('A.send', 'event', eventType, action, label);
             ga('B.send', 'event', eventType, action, label);
+            ga('C.send', 'event', eventType, action, label);
         };
 
         // o.formatSubmission = function() {

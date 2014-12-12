@@ -19,6 +19,10 @@ map.styl,
   top: 0;
   z-index: 5;
 }
+#control-panel {
+  -webkit-transition: all 1s;
+  transition: all 1s;
+}
 .map-container {
   position: absolute;
   left: 320px;
@@ -55,19 +59,6 @@ map.styl,
   border: 0;
   background: rgba(255,255,255,0);
 }
-/*
-#map_WV01
-	z-index 1
-	 pointer-events none
-#map_QB01
-	z-index 1
-	pointer-events none
-#map_WV02
-	z-index 1
-	pointer-events none
-#map_GEO1
-	z-index 1
-	pointer-events none */
 #map .esriSimpleSliderTL {
   right: 20px;
   left: auto;
@@ -222,10 +213,22 @@ map.styl,
 #leftPaneToggle {
   z-index: 30;
   position: absolute;
-  top: 80px;
-  background-color: #f00;
-  height: 10px;
-  width: 10px;
+  left: 0px;
+  top: 90px;
+  background-color: #ecc53d;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+  font-size: 28px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 25px;
+}
+.confidence-archive-container {
+  margin-left: 13px;
+  padding-bottom: 10px;
 }
 #ui-datepicker-div {
   z-index: 35 !important;
@@ -291,10 +294,6 @@ table.imageryTable thead,
 table.imageryTable tbody {
   float: left;
   width: 100%;
-}
-table.imageryTable tbody {
-  overflow: auto;
-  height: 300px;
 }
 #imageryWindow {
   width: auto;
@@ -570,7 +569,7 @@ table.imageryTable tbody {
   color: #000;
 }
 .confidence-fires-container {
-  margin: 5px 30px;
+  margin: 5px 46px;
 }
 .active-fires-options.selected-fire-option {
   background-color: #ecc53d;

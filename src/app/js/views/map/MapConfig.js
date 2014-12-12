@@ -391,7 +391,7 @@ define({
         noaaSubLabel: "(Oct 22 to present, 1km, Sumatra and Borneo)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
-        confidenceFiresCheckbox: "Only show high confidence fires.",
+        confidenceFiresCheckbox: "Only show high confidence fires",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
         fires48: "Past 48 hours",
@@ -567,7 +567,7 @@ define({
             "props": {
                 // "disabled": "disabled"
             }
-        },{
+        }, {
             "id": "confidence-archive-checkbox",
             "class": "fires-confidence-checkbox",
             "type": "checkbox",

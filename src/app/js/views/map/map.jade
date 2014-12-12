@@ -9,7 +9,7 @@ div#map-view(class="map-view")
 					div#fires-checkbox
 					label(for="fires-checkbox", data-bind="text: firesCheckbox")
 					span(data-bind="text: firesSubLabel", class="checkbox-sub-label")
-				div#active-fires-options(class="active-fires-options-container")
+				div#active-fires-options(data-bind="visible: showActiveFiresButtons" class="active-fires-options-container")
 					div#firesWeek(class="active-fires-options selected-fire-option", data-bind="text: firesWeek")
 					div#fires72(class="active-fires-options", data-bind="text: fires72")
 					div#fires48(class="active-fires-options", data-bind="text: fires48")
@@ -27,7 +27,7 @@ div#map-view(class="map-view")
 						div(class="confidence-archive-container")
 							div#confidence-archive-checkbox
 							label(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
-						//div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
+						//-div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
 
@@ -53,7 +53,7 @@ div#map-view(class="map-view")
 					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" )
 					span(data-bind="text: noaaSubLabel", class="checkbox-sub-label")
 					div#report-optionsNOAA(data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar")
-						//div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
+						//-div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
 
@@ -164,7 +164,7 @@ div#map-view(class="map-view")
 							span.rightWindLabel > 40 m/s
 
 					div#report-optionsWIND(data-bind="visible: showReportOptionsWIND()" class="reportOptionsSidebar")
-						//div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
+						//-div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabelWIND")
 						div.report-options-section
 
@@ -230,7 +230,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#digital-globe-checkbox
 					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
-					span(data-bind="text: digitalGlobeSubLabel", class="checkbox-sub-label")
+					//-span(data-bind="text: digitalGlobeSubLabel", class="checkbox-sub-label")
 				div#imageryWindow(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions")
 					//-div#select-imagery-close(data-bind="click: selectImageryMinimize" class="reportOptionsHeader") -
 					//-div.font10(data-bind="text:reportTextImagery()")
@@ -268,8 +268,8 @@ div#map-view(class="map-view")
 					label(for="twitter-conversations-checkbox", data-bind="text: twitterConversationsCheckbox")
 	div#map-container(class="map-container")
 		div#map(class="map")
-			//-div#leftPaneToggle(data-bind="click: slidePanel")
-							
+			//-div#leftPaneToggle(data-bind="click: slidePanel")!='&lt;'
+			div#leftPaneToggle(data-bind="click: slidePanel")!='-'
 				
 			div#timeSliderPanel.timeSliderPanel
 				//- div#timeSliderDG

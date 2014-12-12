@@ -638,7 +638,7 @@ define([
                         features.push(feature);
                     });
                 });
-                //features.reverse();
+
                 features.sort(function(left, right) {
                     return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
                 });

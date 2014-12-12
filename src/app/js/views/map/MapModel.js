@@ -198,6 +198,12 @@ define([
                 return selectedDate;
             }
         });
+        var oneWeekAgo = new Date(new Date().setDate(new Date().getDate() - 7));
+        var days2 = oneWeekAgo.getDate();
+        var months2 = oneWeekAgo.getMonth() + 1;
+        var years2 = oneWeekAgo.getFullYear();
+        var date2 = months2 + "/" + days2 + "/" + years2;
+        return date2;
     }
     vm.firesPickerTo = function() {
         var newDate = jQuery('#firesDateTo').datepicker({
@@ -307,7 +313,7 @@ define([
         return date;
     }
 
-    vm.firesObservFrom = ko.observable("06/01/2014");
+    vm.firesObservFrom = ko.observable(date2);
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
     vm.noaaObservFrom = ko.observable("10/12/2014");
@@ -322,6 +328,7 @@ define([
     vm.showShareContainer = ko.observable(false);
     vm.showReportOptions = ko.observable(false);
     vm.showReportOptionsNOAA = ko.observable(false);
+    vm.showActiveFiresButtons = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showReportOptionsDigitalGlobe = ko.observable(false);
@@ -329,6 +336,7 @@ define([
     vm.showReportOptionsDigitalGlobeFootprints = ko.observable(true);
 
     vm.digitalGlobeInView = ko.observableArray();
+    vm.sortedImageryArray = [];
 
     vm.showLocatorWidgets = ko.observable(false);
 
@@ -368,6 +376,10 @@ define([
         vm.showReportOptionsDigitalGlobe(false);
     };
 
+    vm.closeOptionsNASA = function() {
+        vm.showActiveFiresButtons(false);
+    };
+
     vm.imageryMouseOver = function(data, event) {
         require(["views/map/MapController"], function(MapController) {
             MapController.handleImageryOver(data, event);
@@ -379,6 +391,8 @@ define([
             MapController.handleImageryOut(data, event);
         });
     };
+
+
 
     vm.slidePanel = function(data) {
         // if (vm.toggleMapPane() == true) {
@@ -392,9 +406,10 @@ define([
         //     $(".map-container").css("left", "320px");
         //     vm.toggleMapPane(true);
         // }
+        var data2 = vm.toggleMapPane();
 
         require(["views/map/MapController"], function(MapController) {
-            MapController.resizeMapPanel(data);
+            MapController.resizeMapPanel(data2);
         });
 
     };

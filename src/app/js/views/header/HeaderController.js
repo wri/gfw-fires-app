@@ -170,6 +170,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
         o.reportAnalyticsHelper = function(eventType, action, label) {
             ga('A.send', 'event', eventType, action, label);
             ga('B.send', 'event', eventType, action, label);
+            ga('C.send', 'event', eventType, action, label);
         };
 
         //listen to key
