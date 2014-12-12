@@ -698,8 +698,6 @@ define([
             } else {
                 $(".confidence-fires-container").css("margin-left", "46px");
             }
-            //confidence-fires-container
-            //margin 5px 46px --> 38px
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
                 MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });
