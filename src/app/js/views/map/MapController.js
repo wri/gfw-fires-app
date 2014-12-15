@@ -820,9 +820,11 @@ define([
         on(dom.byId('updateNOAA'), 'click', function() {
             var dateFrom = MapModel.vm.noaaObservFrom();
             var dateTo = MapModel.vm.noaaObservTo();
-            dateTo = moment(dateTo).add(1, 'day');
+            var currentDate = $("#noaaDateFrom").datepicker("getDate");
+            var currentDateTo = $("#noaaDateTo").datepicker("getDate");
+            dateTo = moment(currentDateTo).add(1, 'day');
 
-            dateFrom = moment(dateFrom).tz('Asia/Jakarta').format("M/D/YYYY");
+            dateFrom = moment(currentDate).tz('Asia/Jakarta').format("M/D/YYYY");
             dateTo = moment(dateTo._d).tz('Asia/Jakarta').format("M/D/YYYY");
 
             var reportdateFrom = dateFrom.replace(/\//g, "-");
@@ -837,9 +839,11 @@ define([
         on(dom.byId('updateINDO'), 'click', function() {
             var dateFrom = MapModel.vm.indoObservFrom();
             var dateTo = MapModel.vm.indoObservTo();
-            dateTo = moment(dateTo).add(1, 'day');
+            var currentDate = $("#indoDateFrom").datepicker("getDate");
+            var currentDateTo = $("#indoDateTo").datepicker("getDate");
+            dateTo = moment(currentDateTo).add(1, 'day');
 
-            dateFrom = moment(dateFrom).tz('Asia/Jakarta').format("M/D/YYYY");
+            dateFrom = moment(currentDate).tz('Asia/Jakarta').format("M/D/YYYY");
             dateTo = moment(dateTo._d).tz('Asia/Jakarta').format("M/D/YYYY");
 
             var reportdateFrom = dateFrom.replace(/\//g, "-");
@@ -870,11 +874,14 @@ define([
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
+            var currentDate = $("#windDate").datepicker("getDate");
+            var dateArray = moment(currentDate).tz('Asia/Jakarta').format("MM/DD/YYYY");
+
             var time = MapModel.vm.timeOfDay();
 
-            var reportdates = dates.split("/");
+            var reportdates = dateArray.split("/");
             var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
-
+            console.log(datesFormatted);
             var updatedURL = "http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" + datesFormatted + time + ".1-0.gz.json";
             WindyController.deactivateWindLayer();
             WindyController.activateWindLayer(updatedURL);

@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", ],
-    function(dom, on, dom, registry, HashController, EventsController, StoryModel, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
+define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", ],
+    function(dom, on, dom, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
 
         var o = {};
         var initialized = false;
@@ -43,7 +43,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
                 basemap: "satellite",
                 minZoom: 3,
                 maxZoom: 18,
-                center: [115, 0],
+                center: [115, 0]
                 //sliderPosition: MapConfig.mapOptions.sliderPosition
             });
             o.map.setInfoWindowOnClick(true);

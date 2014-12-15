@@ -35,33 +35,6 @@ define([
             for (var i = initial.getFullYear(); i <= today.getFullYear(); i++) {
                 years.push(i);
             }
-
-
-            // MapModel.vm.reportDateControl.fromYear(years);
-            // MapModel.vm.reportDateControl.dateVals().fYear(oneWeekAgo.getFullYear());
-            // MapModel.vm.reportDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
-            // MapModel.vm.reportDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
-            // MapModel.vm.reportDateControl.dateVals().tYear(today.getFullYear());
-            // MapModel.vm.reportDateControl.dateVals().tMonth(today.getMonth() + 1);
-            // MapModel.vm.reportDateControl.dateVals().tDay(today.getUTCDate());
-
-            //fromMonth: monthComputed(dateValueObject().fYear),
-            // MapModel.vm.noaaDateControl.fromYear(2014);
-            // //MapModel.vm.noaaDateControl.fromMonth();
-            // MapModel.vm.noaaDateControl.dateVals().fYear(2014);
-            // MapModel.vm.noaaDateControl.dateVals().fMonth(10);
-            // MapModel.vm.noaaDateControl.dateVals().fDay(12);
-            // MapModel.vm.noaaDateControl.dateVals().tYear(today.getFullYear());
-            // MapModel.vm.noaaDateControl.dateVals().tMonth(today.getMonth() + 1);
-            // MapModel.vm.noaaDateControl.dateVals().tDay(today.getUTCDate());
-
-            // MapModel.vm.indoDateControl.fromYear(years);
-            // MapModel.vm.indoDateControl.dateVals().fYear(oneWeekAgo.getFullYear() - 1);
-            // MapModel.vm.indoDateControl.dateVals().fMonth(oneWeekAgo.getMonth() + 1);
-            // MapModel.vm.indoDateControl.dateVals().fDay(oneWeekAgo.getUTCDate());
-            // MapModel.vm.indoDateControl.dateVals().tYear(oneWeekAgo.getFullYear());
-            // MapModel.vm.indoDateControl.dateVals().tMonth(oneWeekAgo.getMonth() + 1);
-            // MapModel.vm.indoDateControl.dateVals().tDay(oneWeekAgo.getUTCDate());
         }
 
         o.bind_events = function() {
@@ -86,15 +59,32 @@ define([
             });
 
             on(dom.byId('report-launch'), 'click', function() {
-
                 if (dom.byId('report-province-radio').checked) {
                     aoitype = 'PROVINCE';
                 } else if (dom.byId('report-island-radio').checked) {
                     aoitype = 'ISLAND';
                 }
 
-                var reportdateFrom = MapModel.vm.firesObservFrom().split("/");
-                var reportdateTo = MapModel.vm.firesObservTo().split("/");
+                var currentDate = $("#firesDateFrom").datepicker("getDate");
+                var dateFrom = ("0" + (currentDate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + currentDate.getDate().toString()).substr(-2) + "/" + (currentDate.getFullYear().toString());
+                // var observedDate = new Date(MapModel.vm.firesObservFrom());
+
+                // var observedDate2 = ("0" + (observedDate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + observedDate.getDate().toString()).substr(-2) + "/" + (observedDate.getFullYear().toString());
+
+                // if (dateFrom != observedDate2) {
+                //     observedDate2 = dateFrom;
+                // }
+
+                var currentDateTo = $("#firesDateTo").datepicker("getDate");
+                var dateTo = ("0" + (currentDateTo.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + currentDateTo.getDate().toString()).substr(-2) + "/" + (currentDateTo.getFullYear().toString());
+                // if (dateTo != MapModel.vm.firesObservTo()) {
+                //     debugger;
+                // }
+
+                //var reportdateFrom = MapModel.vm.firesObservFrom().split("/");
+                var reportdateFrom = dateFrom.split("/");
+                //var reportdateTo = MapModel.vm.firesObservTo().split("/");
+                var reportdateTo = dateTo.split("/");
                 var reportdates = {};
 
                 reportdates.fYear = Number(reportdateFrom[2]);
