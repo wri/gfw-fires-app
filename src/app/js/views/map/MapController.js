@@ -263,148 +263,120 @@ define([
 
         MapModel.vm.digitalGlobeInView.removeAll();
 
-        var dgConf = MapConfig.digitalGlobe,
-            dgLayer = o.map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
-            query = new Query(),
-            extents = {};
+        var mapExtent = o.map.extent;
+        var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes");
+        featuresImageryFootprints = [];
+        var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
+        var timeStops = dijit.byId('timeSliderDG').timeStops;
+        var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
+        var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
+        for (var i = 0; i < imageBoxes.graphics.length; i++) {
+            if (mapExtent.intersects(imageBoxes.graphics[i].geometry)) {
+                featuresImageryFootprints.push(imageBoxes.graphics[i]);
+            }
+        }
 
-
-        var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
-            var deferred = new Deferred;
-            var geom = o.map.extent;
-            query.geometry = geom;
-            query.returnGeometry = false;
-            query.outFields = ['*'];
-
-            var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer")
-            task.execute(query, function(results) {
-                deferred.resolve(results.features);
-            }, function(err) {
-
-                deferred.resolve([])
-            })
-            return deferred.promise;
-        })).then(function(results) {
-            var content = '';
-            featuresImageryFootprints = [];
-
-            var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
-            var timeStops = dijit.byId('timeSliderDG').timeStops;
-            var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
-            var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
-            results.map(function(featureArr) {
-                featureArr.map(function(feature) {
-                    featuresImageryFootprints.push(feature);
-                });
-            });
-
-            arrayUtils.forEach(featuresImageryFootprints, function(f) {
+        arrayUtils.forEach(featuresImageryFootprints, function(f) {
+            var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
+            if (date >= start && date <= end) {
                 var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                if (date >= start && date <= end) {
-                    var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                    f.attributes.AcquisitionDate2 = f.attributes.AcquisitionDate;
-                    f.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
-                    var dateLink = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
+                f.attributes.AcquisitionDate2 = f.attributes.AcquisitionDate;
+                f.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
+                var dateLink = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
 
-                    var dateLink2 = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</a>";
-                    f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
-                    f.attributes.formattedDatePrefix1 = dateLink;
-                    f.attributes.formattedDatePrefix2 = dateLink2;
-                    MapModel.vm.digitalGlobeInView.push({
-                        feature: f,
-                        mouseover: false
-                    });
+                var dateLink2 = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</a>";
+                f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
+                f.attributes.formattedDatePrefix1 = dateLink;
+                f.attributes.formattedDatePrefix2 = dateLink2;
+                MapModel.vm.digitalGlobeInView.push({
+                    feature: f,
+                    mouseover: false
+                });
+            }
 
+        });
+        $("#imageryWindow > table > tbody > tr").each(function() {
+            var selectedRow = this.firstElementChild;
+            selectedRow = $(selectedRow).html();
+            selectedRow = $(selectedRow).attr("data-bucket");
+
+            if (MapModel.vm.selectedImageryRow) {
+                if (MapModel.vm.selectedImageryRow == selectedRow) {
+                    $(this).addClass("imageryRowSelected");
                 }
+            }
+        });
 
-            });
-            $("#imageryWindow > table > tbody > tr").each(function() {
-                var selectedRow = this.firstElementChild;
-                selectedRow = $(selectedRow).html();
-                selectedRow = $(selectedRow).attr("data-bucket");
+        MapModel.vm.digitalGlobeInView.sort(function(left, right) {
+            return left.feature.attributes.AcquisitionDate == right.feature.attributes.AcquisitionDate ? 0 : (left.feature.attributes.AcquisitionDate > right.feature.attributes.AcquisitionDate ? -1 : 1);
+        });
 
-                if (MapModel.vm.selectedImageryRow) {
-                    if (MapModel.vm.selectedImageryRow == selectedRow) {
-                        $(this).addClass("imageryRowSelected");
-                    }
-                }
-            });
+        var activeFeatureIndex = 0;
+        var handles = [];
+        dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
+            handles.push(on(node, "click", function(evt) {
+                var target = evt.target ? evt.target : evt.srcElement,
+                    bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
 
-            MapModel.vm.digitalGlobeInView.sort(function(left, right) {
-                return left.feature.attributes.AcquisitionDate == right.feature.attributes.AcquisitionDate ? 0 : (left.feature.attributes.AcquisitionDate > right.feature.attributes.AcquisitionDate ? -1 : 1);
-            });
+                $('#imageryWindow > table > tbody > tr').each(function() {
+                    $(this).removeClass("imageryRowSelected");
+                });
+                LayerController.showDigitalGlobeImagery(bucket);
+                activeFeatureIndex = index;
+                var parent = $(this).parent();
+                $(parent).parent().removeClass("imageryRowHover");
+                MapModel.vm.selectedImageryRow = this.dataset.bucket;
+                $(parent).parent().addClass("imageryRowSelected");
 
-            var activeFeatureIndex = 0;
-            var handles = [];
-            dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
-                handles.push(on(node, "click", function(evt) {
-                    var target = evt.target ? evt.target : evt.srcElement,
-                        bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-
-                    $('#imageryWindow > table > tbody > tr').each(function() {
-                        $(this).removeClass("imageryRowSelected");
-                    });
-
-                    LayerController.showDigitalGlobeImagery(bucket);
-                    activeFeatureIndex = index;
-                    var parent = $(this).parent();
-                    console.log(parent); //use this class in Finder's same function
-                    $(parent).parent().removeClass("imageryRowHover");
-                    MapModel.vm.selectedImageryRow = this.dataset.bucket;
-                    $(parent).parent().addClass("imageryRowSelected");
-
-                }));
-            });
-
-            //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
-            $("#imageryWindow > table > tbody > tr").mouseenter(function() {
-                var highlightedRow = this.firstElementChild;
-                $(this).addClass("imageryRowHover");
-                highlightedRow = $(highlightedRow).html();
-                highlightedRow = $(highlightedRow).attr("data-bucket");
-                for (var i = 0; i < featuresImageryFootprints.length; i++) {
-                    var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-                    if (check == highlightedRow) {
-                        var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                                new Color("yellow"), 5), new Color([255, 255, 0, 0])
-                        );
-                        featuresImageryFootprints[i].setSymbol(highlightSymbol);
-                        highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
-                        highlightGraphic.id = "highlight";
-
-                        o.map.graphics.add(highlightGraphic);
-                    }
-                }
-            });
-            //MapModel.vm.imageryMouseOut(o.map);
-            $("#imageryWindow > table > tbody > tr").mouseleave(function() {
-                $(this).removeClass("imageryRowHover");
-                o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-                //arrayUtils.forEach(o.map.graphics.graphics, function(g) {
-                // dojo.forEach(o.map.graphics.graphics, function(g) {
-                //     if (g && g.id === "highlight") {
-                //         o.map.graphics.remove(g);
-                //     }
-                // }, this);
-            });
-
-            handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
-
-                o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-                var highlightedRow = ($(this).parent())[0];
-                var child = highlightedRow.firstElementChild;
-                child = child.firstElementChild;
-                child = $(child).attr("data-bucket");
-
-                for (var i = 0; i < featuresImageryFootprints.length; i++) {
-                    var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-                    if (check == child) {
-                        o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
-                    }
-                }
             }));
         });
+
+        //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
+        $("#imageryWindow > table > tbody > tr").mouseenter(function() {
+            var highlightedRow = this.firstElementChild;
+            $(this).addClass("imageryRowHover");
+            highlightedRow = $(highlightedRow).html();
+            highlightedRow = $(highlightedRow).attr("data-bucket");
+            for (var i = 0; i < featuresImageryFootprints.length; i++) {
+                var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+                if (check == highlightedRow) {
+                    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                            new Color("yellow"), 5), new Color([255, 255, 0, 0])
+                    );
+                    // featuresImageryFootprints[i].setSymbol(highlightSymbol);
+                    highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
+                    highlightGraphic.id = "highlight";
+
+                    o.map.graphics.add(highlightGraphic);
+                }
+            }
+        });
+        $("#imageryWindow > table > tbody > tr").mouseleave(function() {
+            $(this).removeClass("imageryRowHover");
+            o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+            //arrayUtils.forEach(o.map.graphics.graphics, function(g) {
+            // dojo.forEach(o.map.graphics.graphics, function(g) {
+            //     if (g && g.id === "highlight") {
+            //         o.map.graphics.remove(g);
+            //     }
+            // }, this);
+        });
+
+        handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
+            o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+            var highlightedRow = ($(this).parent())[0];
+            var child = highlightedRow.firstElementChild;
+            child = child.firstElementChild;
+            child = $(child).attr("data-bucket");
+
+            for (var i = 0; i < featuresImageryFootprints.length; i++) {
+                var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+                if (check == child) {
+                    o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
+                }
+            }
+        }));
     };
     var parent = $(this).parent();
     $(parent).parent().removeClass("imageryRowHover");

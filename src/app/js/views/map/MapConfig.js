@@ -175,7 +175,7 @@ define({
     },
 
     burnScarLayer: {
-        url: "https://earthbuilder.googleapis.com/06900458292272798243-05939008152464994523-4/maptile/maps?authToken=CghZPyHDmV2R8BCzubqeBQ==",
+        url: "https://earthbuilder.googleapis.com/06900458292272798243-05939008152464994523-4/maptile/maps?v=5&authToken=Cggrqs_EJmdATxCF_b-iBQ==&x=1603&y=1028&z=11&s=",
         id: "Burn_Scar"
     },
 
@@ -388,7 +388,7 @@ define({
         firesCheckbox: "NASA active fires",
         firesSubLabel: "(past 7 days, 1km, global)",
         noaaFiresCheckbox: "NOAA-18 fires",
-        noaaSubLabel: "(Oct 22 to present, 1km, Sumatra and Borneo)",
+        noaaSubLabel: "(Oct 22 to present, 1km, Southeast Asia)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show high confidence fires",

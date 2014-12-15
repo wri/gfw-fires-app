@@ -388,7 +388,7 @@ define([
                         query = new Query();
                     var footprints = [];
 
-                    query.outFields = ['OBJECTID', 'Name', 'AcquisitionDate']; //, 'Date','Tiles'];
+                    query.outFields = ['OBJECTID', 'Name', 'AcquisitionDate', 'SensorName']; //, 'Date','Tiles'];
                     query.where = 'Category = 1';
                     query.returnGeometry = true;
                     queryTask.execute(query, function(res) {
@@ -407,6 +407,17 @@ define([
                             dgMoment = moment(feature.attributes.AcquisitionDate)
                             moment_arr.push(dgMoment);
                             feature.attributes.moment = dgMoment;
+
+                            // var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                            // feature.attributes.AcquisitionDate2 = feature.attributes.AcquisitionDate;
+                            // feature.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
+                            // var dateLink = "<a class='popup-link' data-bucket='" + feature.attributes.SensorName + "_id_" + feature.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
+
+                            // var dateLink2 = "<a class='popup-link' data-bucket='" + feature.attributes.SensorName + "_id_" + feature.attributes.OBJECTID + "'>" + feature.attributes.SensorName + "</a>";
+                            // feature.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
+                            // feature.attributes.formattedDatePrefix1 = dateLink;
+                            // feature.attributes.formattedDatePrefix2 = dateLink2;
+
                             dgLayer.add(feature);
                             footprints.push(feature);
                             extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
