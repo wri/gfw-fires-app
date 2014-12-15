@@ -213,6 +213,18 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
         // o.formatSubmission = function() {
 
         // }
+        $("#storyMediaInput").on('dragenter', function(e) {
+            console.log("sdgf");
+            // e.stopPropagation();
+            // e.preventDefault();
+            if (event.target === this) {
+                console.log('dragenter');
+            } else {
+                console.log(event.target);
+            }
+            var par = $(this).parent();
+            $(par).css('background-color', 'orange');
+        });
 
         return o;
 

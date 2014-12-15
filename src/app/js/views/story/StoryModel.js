@@ -15,6 +15,7 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.addButtonLabel = "Add Point";
         vm.removeButtonLabel = "Remove Point";
         vm.submissionInputs = ko.observableArray([]);
+        vm.storyTitleData = ko.observable();
 
         vm.linkClick = function(obj, evt) {
             topic.publish("toggleStoryNavList", obj)
@@ -29,12 +30,26 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
                     return selectedDate;
                 }
             });
-            // var today = new Date();
-            // var days = today.getDate();
-            // var months = today.getMonth() + 1;
-            // var years = today.getFullYear();
-            // var date = months + "/" + days + "/" + years;
-            // return date;
+            var today = new Date();
+            var days = today.getDate();
+            var months = today.getMonth() + 1;
+            var years = today.getFullYear();
+            var date = months + "/" + days + "/" + years;
+            return date;
+        }
+
+        vm.uploadStory = function(obj, evt) {
+            console.log(obj);
+            console.log(evt);
+            console.log("submitting!");
+            debugger;
+            var title, area, locations, dateSubmit, details, video, name, email;
+            var media = []; // but don't even do it this way; just have ALL of the submit box value's as observables and in this function just say if (someObserv()), feature.someAttr = someOberv();
+            if (!vm.dateObserv()) {
+                dateSubmit = vm.datePicker();
+            } else {
+                dateSubmit = vm.dateObserv();
+            }
         }
 
         var htmlToFetch;
@@ -55,64 +70,91 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
 
 
 
-        function cancel(e) {
-            if (e.preventDefault) e.preventDefault(); // required by FF + Safari
-            e.dataTransfer.dropEffect = 'copy'; // tells the browser what drop effect is allowed here
-            return false; // required by IE
+        // function cancel(e) {
+        //     if (e.preventDefault) e.preventDefault(); // required by FF + Safari
+        //     e.dataTransfer.dropEffect = 'copy'; // tells the browser what drop effect is allowed here
+        //     return false; // required by IE
+        // }
+
+        // function entities(s) {
+        //     var e = {
+        //         '"': '"',
+        //         '&': '&',
+        //         '<': '<',
+        //         '>': '>'
+        //     };
+        //     return s.replace(/["&<>]/g, function(m) {
+        //         return e[m];
+        //     });
+        // }
+
+
+        // var drop = document.querySelector('#storyMediaInput');
+
+        // // Tells the browser that we *can* drop on this target
+        // document.addEventListener(drop, 'dragover', cancel);
+        // document.addEventListener(drop, 'dragenter', cancel);
+        function handleFileUpload(files, obj) {
+            for (var i = 0; i < files.length; i++) {
+                var fd = new FormData();
+                fd.append('file', files[i]);
+
+                var status = new createStatusbar(obj); //Using this we can set progress.
+                status.setFileNameSize(files[i].name, files[i].size);
+                //sendFileToServer(fd, status);
+
+            }
         }
 
-        function entities(s) {
-            var e = {
-                '"': '"',
-                '&': '&',
-                '<': '<',
-                '>': '>'
-            };
-            return s.replace(/["&<>]/g, function(m) {
-                return e[m];
+        handleFiles = function(files) {
+            $("#storyMediaInput").on('dragenter', function(e) {
+                var par = $(this).parent();
+                $(this).css('background-color', 'gray');
             });
-        }
+            $("#storyMediaInput").on('dragleave', function(e) {
+                var par = $(this).parent();
+                $(this).css('background-color', 'transparent');
+            });
+            $("#storyMediaInput").on('mouseleave', function(e) {
+                var par = $(this).parent();
+                $(this).css('background-color', 'transparent');
+            });
 
+            //handleFileUpload
+        };
+        // document.addEventListener(drop, 'drop', function(e) {
+        //     if (e.preventDefault) e.preventDefault(); // stops the browser from redirecting off to the text.
 
-        var drop = document.querySelector('#storyMediaInput');
+        //     // just rendering the text in to the list
 
-        // Tells the browser that we *can* drop on this target
-        document.addEventListener(drop, 'dragover', cancel);
-        document.addEventListener(drop, 'dragenter', cancel);
+        //     // clear out the original text
+        //     drop.innerHTML = '<ul></ul>';
 
-        document.addEventListener(drop, 'drop', function(e) {
-            if (e.preventDefault) e.preventDefault(); // stops the browser from redirecting off to the text.
+        //     var li = document.createElement('li');
 
-            // just rendering the text in to the list
+        //     /** THIS IS THE MAGIC: we read from getData based on the content type - so it grabs the item matching that format **/
+        //     if (e.dataTransfer.types) {
+        //         li.innerHTML = '<ul>';
+        //         [].forEach.call(e.dataTransfer.types, function(type) {
+        //             li.innerHTML += '<li>' + entities(e.dataTransfer.getData(type) + ' (content-type: ' + type + ')') + '</li>';
+        //         });
+        //         li.innerHTML += '</ul>';
 
-            // clear out the original text
-            drop.innerHTML = '<ul></ul>';
+        //     } else {
+        //         // ... however, if we're IE, we don't have the .types property, so we'll just get the Text value
+        //         li.innerHTML = e.dataTransfer.getData('Text');
+        //     }
 
-            var li = document.createElement('li');
+        //     var ul = drop.querySelector('ul');
 
-            /** THIS IS THE MAGIC: we read from getData based on the content type - so it grabs the item matching that format **/
-            if (e.dataTransfer.types) {
-                li.innerHTML = '<ul>';
-                [].forEach.call(e.dataTransfer.types, function(type) {
-                    li.innerHTML += '<li>' + entities(e.dataTransfer.getData(type) + ' (content-type: ' + type + ')') + '</li>';
-                });
-                li.innerHTML += '</ul>';
+        //     if (ul.firstChild) {
+        //         ul.insertBefore(li, ul.firstChild);
+        //     } else {
+        //         ul.appendChild(li);
+        //     }
 
-            } else {
-                // ... however, if we're IE, we don't have the .types property, so we'll just get the Text value
-                li.innerHTML = e.dataTransfer.getData('Text');
-            }
-
-            var ul = drop.querySelector('ul');
-
-            if (ul.firstChild) {
-                ul.insertBefore(li, ul.firstChild);
-            } else {
-                ul.appendChild(li);
-            }
-
-            return false;
-        });
+        //     return false;
+        // });
 
 
 

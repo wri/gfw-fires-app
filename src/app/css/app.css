@@ -184,9 +184,17 @@ padding-right 4px {
   height: 150px;
 }
 #storyMediaInput {
-  width: 100px;
+  width: 200px;
   height: 50px;
   border: 1px dashed #9bb251;
+  background: url("../images/greenCross.jpg") no-repeat center;
+  cursor: pointer;
+}
+#uploadStoryMedia {
+  width: 200px;
+  height: 50px;
+  display: none;
+  cursor: pointer;
 }
 #alignWithMedia {
   position: relative;

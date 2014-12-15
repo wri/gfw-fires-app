@@ -7,35 +7,18 @@
       <div class="storiesInput">
         <h5 class="storyHeader">TITLE</h5>
         <h5 id="requiredTitle" class="requiredItem">Required</h5>
-        <input id="storyTitleInput" type="text" placeholder="Illegal Logging in National Park" required="required"/>
+        <input id="storyTitleInput" data-bind="storyTitleData" type="text" placeholder="Illegal Logging in National Park" required="required"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap">
           <button id="addPoint" type="button" onClick="return false;" data-bind="text: addButtonLabel"></button>
-          <!--button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")-->
           <div id="basemapGalleryContainer">
             <div id="basemapGallery"></div>
           </div>
         </div>
       </div>
-      <!--
-      div#storiesMap(style='position:relative;')
-          div#TitlePane(style='position:absolute; right:20px; top:10px; z-Index:999;')
-              div#basemapGallery(style="width:180px; height:180px; overflow:auto;")
-              
-          <div style="position:absolute; right:20px; top:10px; z-Index:999;">
-              <div data-dojo-type="dijit/TitlePane" 
-                   data-dojo-props="title:'Switch Basemap', closable:false, open:false">
-              <div data-dojo-type="dijit/layout/ContentPane" style="width:380px; height:280px; overflow:auto;">
-                  <div id="basemapGallery"></div>
-              </div>
-              </div>
-          </div>
-          
-          
-      -->
       <div class="storiesInput">
         <h5 class="storyHeader">LOCATION</h5>
         <input id="storyLocationInput" type="text" placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'"/>
@@ -54,7 +37,9 @@
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">MEDIA</h5>
-        <input id="storyMediaInput" type="file"/>
+        <div id="storyMediaInput">
+          <input type="file" multiple="multiple" onchange="handleFiles(this.files)" id="uploadStoryMedia"/>
+        </div>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">NAME</h5>
@@ -67,7 +52,7 @@
       </div>
     </form>
     <div id="submitStory" class="footerModes">
-      <input type="submit" value="Submit Story" class="action"/>
+      <input type="submit" value="Submit Story" data-bind="click: uploadStory" class="action"/>
     </div>
     <p></p>
   </div>
@@ -98,14 +83,3 @@
     <p id="alignWithEmail" class="desc">In some areas, forest clearing information is considered to be highly sensitive-users are encouraged to be cautious when sharing their names. </p>
   </div>
 </div>
-<!--
-div#aboutContentContainer(class="content-container")
-    div#navLeft(class="navigation_left")
-        ul#aboutNavList(class="navigation-list")
-            li#navListTitle(class="item-title")
-                i(class='caret-down')
-            div(data-bind="foreach:leftLinks")
-                li(data-bind='click:$root.linkClick')
-                    a(data-bind='html:name,css:{selected:selected}')
-    div#contentRight(class="content_right" data-bind="html:htmlContent")
--->

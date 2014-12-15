@@ -6,16 +6,16 @@ div#aboutInnerContainer(class="content-inner-container")
             div.storiesInput
                 h5.storyHeader TITLE
                 h5#requiredTitle.requiredItem Required
-                input(id="storyTitleInput", type="text", placeholder="Illegal Logging in National Park" required)
+                input(id="storyTitleInput", data-bind="storyTitleData", type="text", placeholder="Illegal Logging in National Park" required)
             div.storiesInput
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 div#storiesMap
                     button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
-                    //button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")
+                    //-button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")
                     div#basemapGalleryContainer
                         div#basemapGallery
-            //
+            //-
                 div#storiesMap(style='position:relative;')
                     div#TitlePane(style='position:absolute; right:20px; top:10px; z-Index:999;')
                         div#basemapGallery(style="width:180px; height:180px; overflow:auto;")
@@ -45,7 +45,8 @@ div#aboutInnerContainer(class="content-inner-container")
                 input(id="storyVideoInput", type="url", placeholder="http://www.youtube.com/watch?v=ITG-0brb98I")
             div.storiesInput
                 h5.storyHeader MEDIA
-                input(id="storyMediaInput", type="file")
+                div(id="storyMediaInput")
+                    input(type="file", multiple onchange="handleFiles(this.files)", id="uploadStoryMedia")
             div.storiesInput
                 h5.storyHeader NAME
                 input(id="storyNameInput", type="text")
@@ -54,7 +55,7 @@ div#aboutInnerContainer(class="content-inner-container")
                 h5#requiredEmail.requiredItem Required
                 input(id="storyEmailInput", type="email" required)
         div#submitStory.footerModes
-                input(type="submit", value="Submit Story", class="action")
+                input(type="submit", value="Submit Story", class="action", data-bind="click: uploadStory")
             p
 
     div#contentRightStory.footerModes
@@ -78,7 +79,7 @@ div#aboutInnerContainer(class="content-inner-container")
         p#alignWithMedia.desc Drag & drop images and videos to reorder them within the carrousel. The first one will be considered as the preferred one. If you share your name, it will be visible on the GFW website, but your email will not be published. 
         p#alignWithEmail.desc In some areas, forest clearing information is considered to be highly sensitive-users are encouraged to be cautious when sharing their names. 
 
-//
+//-
     div#aboutContentContainer(class="content-container")
         div#navLeft(class="navigation_left")
             ul#aboutNavList(class="navigation-list")
