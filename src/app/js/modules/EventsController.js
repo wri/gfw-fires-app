@@ -179,11 +179,8 @@ define(["dojo/topic"],
         });
 
         topic.subscribe("goToAnalysis", function(dataObj) {
-            require(["views/header/HeaderController"], function(HeaderController) {
-                HeaderController.clickNavLink({
-                    viewName: "link",
-                    url: "app/js/views/report/report.html"
-                });
+            require(["views/report/ReportOptionsController"], function(ReportOptionsController) {
+                ReportOptionsController.reportFromBuble();
             });
         });
 

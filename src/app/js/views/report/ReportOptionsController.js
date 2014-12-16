@@ -186,6 +186,42 @@ define([
             return deferred;
 
         }
+
+        o.reportFromBuble = function() {
+            //This function only gets called from the home page's 'View Latest Analysis' bubble and has hard-coded parameters for the past week.
+            var aoitype = 'ISLAND';
+            var initialAOIs = ['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java']
+
+            var date = new Date();
+
+            var dateTo = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2) + "/" + (date.getFullYear().toString());
+
+            var date2 = new Date(new Date().setDate(new Date().getDate() - 7));
+
+            var dateFrom = ("0" + (date2.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date2.getDate().toString()).substr(-2) + "/" + (date2.getFullYear().toString());
+
+
+            var reportdateFrom = dateFrom.split("/");
+            var reportdateTo = dateTo.split("/");
+            var reportdates = {};
+
+            reportdates.fYear = Number(reportdateFrom[2]);
+            reportdates.fMonth = Number(reportdateFrom[0]);
+            reportdates.fDay = Number(reportdateFrom[1]);
+            reportdates.tYear = Number(reportdateTo[2]);
+            reportdates.tMonth = Number(reportdateTo[0]);
+            reportdates.tDay = Number(reportdateTo[1]);
+            MapModel.vm.selectedAOIs(['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java']);
+            var hash = o.report_data_to_hash(aoitype, reportdates, MapModel.vm.selectedAOIs);
+            var win = window.open('./app/js/views/report/report.html' + hash, 'Report', '');
+            // win.report = true;
+            // win.reportOptions = {
+            //     'dates': reportdates,
+            //     'aois': MapModel.vm.selectedAOIs(),
+            //     'aoitype': aoitype
+            // };
+
+        }
         //listen to key
 
         //trigger event 

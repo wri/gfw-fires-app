@@ -232,15 +232,18 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
             if (data.html) {
+
                 if (data.html.search("latest imagery") > -1) {
                     // Necessary because eval is changing the hash and undoing this change
+                    console.log(data.html);
                     require(["views/map/LayerController"], function(LayerController) {
                         //  setTimeout(function() {
                         // debugger;
-                        LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
-                        if (registry.byId("digital-globe-checkbox")) {
-                            registry.byId("digital-globe-checkbox").set("checked", true);
-                        }
+                        //LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
+                        MapConfig.digitalGlobe.navigationBool = true;
+                        // if (registry.byId("digital-globe-checkbox")) {
+                        //     registry.byId("digital-globe-checkbox").set("checked", true);
+                        // }
                         // }, 0);
                     })
 
