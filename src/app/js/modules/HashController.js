@@ -57,8 +57,8 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             that.updateHash(_initialState);
 
             require(["views/footer/FooterController", "views/header/HeaderController"], function(FooterController, HeaderController) {
-                FooterController.init();
                 HeaderController.init();
+                FooterController.init();
             });
 
 
@@ -102,9 +102,9 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             lang.mixin(_currentState, updateState);
             //debugger;
             require(["views/header/HeaderModel", "views/footer/FooterModel"], function(HeaderModel, FooterModel) {
-
-                HeaderModel.vm.appState(_currentState);
                 FooterModel.vm.appState(_currentState);
+                HeaderModel.vm.appState(_currentState);
+
 
             });
 

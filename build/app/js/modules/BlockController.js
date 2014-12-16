@@ -1,2 +1,2 @@
-/*! Global-Forest-Watch-Fires Mon Dec 15 2014 10:23:58 */
+/*! Global-Forest-Watch-Fires Tue Dec 16 2014 10:40:51 */
 define(["dojo/dom-construct","dojo/dom-class","dojo/dom"],function(a,b,c){var d={},e={"class":"blocker"},f={};return d.show=function(b){f[b]=a.create("div",e,c.byId(b))},d.hide=function(b){a.destroy(f[b])},d});
