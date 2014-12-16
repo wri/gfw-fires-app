@@ -195,7 +195,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
                     affectedArea.applyEdits(null, [evt.graphic], null);
                 }
             });
-            debugger;
+
         };
 
         o.toTitleCase = function(str) {

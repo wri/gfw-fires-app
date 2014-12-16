@@ -175,7 +175,7 @@ define({
     },
 
     burnScarLayer: {
-        url: "https://earthbuilder.googleapis.com/06900458292272798243-05939008152464994523-4/maptile/maps?v=5&authToken=Cggrqs_EJmdATxCF_b-iBQ==&x=1603&y=1028&z=11&s=",
+        url: "https://earthbuilder.googleapis.com/06900458292272798243-05939008152464994523-4/maptile/maps?authToken=Cggrqs_EJmdATxCF_b-iBQ==",
         id: "Burn_Scar"
     },
 
