@@ -1,2 +1,1 @@
-/*! Global-Forest-Watch-Fires Tue Dec 16 2014 17:59:14 */
-define(["knockout","main/Config","dojo/dom"],function(a,b,c){var d={};d.vm={};var e=d.vm;return e.blogPost=a.observableArray([]),e.homeTitle=a.observable(b.homeTitle),d.applyBindings=function(b){a.applyBindings(e,c.byId(b))},e.getAllPost=function(){return d.vm.blogPost()[0].articles},d});
+define(["knockout","main/Config","dojo/dom"],function(o,n,e){var i={};i.vm={};var t=i.vm;return t.blogPost=o.observableArray([]),t.homeTitle=o.observable(n.homeTitle),i.applyBindings=function(n){o.applyBindings(t,e.byId(n))},t.getAllPost=function(){return i.vm.blogPost()[0].articles},i});

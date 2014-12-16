@@ -7,14 +7,10 @@ define([
     "dojo/query",
     "dojo/_base/array",
     "esri/config",
-    "main/Config",
+    "main/Config"
     // Call Necessary Layout Widgets Here
-    "dojox/mobile/parser",
-    "dojox/mobile",
-    "dojox/mobile/compat",
-    "dijit/layout/StackContainer",
-    "dijit/layout/ContentPane"
-], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, MainConfig, parser) {
+
+], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, MainConfig) {
 
     var map;
 
@@ -23,7 +19,8 @@ define([
 
     o.init = function() {
 
-        parser.parse();
+
+
 
         //enable cors servers
         esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
@@ -36,9 +33,17 @@ define([
         // setup proxy url
 
 
-        require(["modules/ErrorController", "modules/HashController"],
+        require(["modules/ErrorController", "modules/HashController", "dojox/mobile/parser",
+                "dojox/mobile",
+                "dijit/layout/StackContainer",
+                "dijit/layout/ContentPane"
+            ],
 
-            function(ErrorController, HashController) {
+            function(ErrorController, HashController, parser) {
+
+                if (parser.parse) {
+                    parser.parse();
+                }
 
                 HashController.init();
 
