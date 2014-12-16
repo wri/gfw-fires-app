@@ -18,9 +18,7 @@ define([
     "esri/tasks/IdentifyParameters",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
-    "esri/geometry/Circle",
-    "libs/moment",
-    "libs/timezone"
+    "esri/geometry/Circle"
 ], function(dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic,
     Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask,
     IdentifyParameters, Query, QueryTask, Circle) {

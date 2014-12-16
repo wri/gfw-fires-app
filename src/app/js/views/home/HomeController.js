@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array", "views/map/LayerController", "views/map/MapConfig"],
-    function(dom, domQuery, registry, HashController, EventsController, HomeModel, arrayUtil, LayerController, MapConfig) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array", "views/map/MapConfig"],
+    function(dom, registry, HashController, EventsController, HomeModel, arrayUtil, MapConfig) {
 
         var o = {};
         var initialized = false;
@@ -218,6 +218,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
         o.stopModeAnim = function(data) {
             stopAnimation = true;
+            http: //shj.blueraster.com/apps-git/2278-wri-oil-palm.GFW-FIRES/src/#v=home&x=115&y=0&l=5&lyrs=Active_Fires
             console.log("stop mode animation ");
         };
 
@@ -233,12 +234,16 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
             if (data.html) {
                 if (data.html.search("latest imagery") > -1) {
                     // Necessary because eval is changing the hash and undoing this change
-                    setTimeout(function() {
+                    require(["views/map/LayerController"], function(LayerController) {
+                        //  setTimeout(function() {
+                        // debugger;
                         LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
                         if (registry.byId("digital-globe-checkbox")) {
                             registry.byId("digital-globe-checkbox").set("checked", true);
                         }
-                    }, 0);
+                        // }, 0);
+                    })
+
                 }
             }
         };

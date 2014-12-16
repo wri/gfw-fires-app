@@ -3,9 +3,7 @@ define([
     "knockout",
     "main/Config",
     "views/map/MapConfig",
-    "dojo/dom",
-    "libs/moment",
-    "libs/timezone"
+    "dojo/dom"
 ], function(ko, Config, MapConfig, dom) {
 
     var o = {};

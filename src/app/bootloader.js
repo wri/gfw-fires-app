@@ -4,10 +4,10 @@
     'use strict';
     var ENV = 'dev',
         version = "0.1.8",
-        src = 'http://js.arcgis.com/3.10/',
+        src = 'http://js.arcgis.com/3.11/',
         css = {
             'dev': [{
-                src: 'http://js.arcgis.com/3.10/js/esri/css/esri.css',
+                src: 'http://js.arcgis.com/3.11/esri/css/esri.css',
                 cdn: true
             }, {
                 src: 'app/css/app.css',
@@ -25,11 +25,11 @@
                 src: 'app/css/map.css',
                 cdn: false
             }, {
-                src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
+                src: 'http://js.arcgis.com/3.11/dijit/themes/tundra/tundra.css',
                 cdn: true
             }],
             'pro': [{
-                src: 'http://js.arcgis.com/3.10/js/esri/css/esri.css',
+                src: 'http://js.arcgis.com/3.11/esri/css/esri.css',
                 cdn: true
             }, {
                 src: 'app/css/app.css',
@@ -47,7 +47,7 @@
                 src: 'app/css/map.css',
                 cdn: false
             }, {
-                src: 'http://js.arcgis.com/3.8/js/dojo/dijit/themes/tundra/tundra.css',
+                src: 'http://js.arcgis.com/3.11/dijit/themes/tundra/tundra.css',
                 cdn: true
             }]
         },

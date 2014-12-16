@@ -1,8 +1,8 @@
 /* global define, alert */
 define([
-    "on",
-    "dom",
-    "topic",
+    "dojo/on",
+    "dojo/dom",
+    "dojo/topic",
     "dom-class",
     "dojo/query",
     "dojo/_base/array",
@@ -10,6 +10,8 @@ define([
     "main/Config",
     // Call Necessary Layout Widgets Here
     "dojox/mobile/parser",
+    "dojox/mobile",
+    "dojox/mobile/compat",
     "dijit/layout/StackContainer",
     "dijit/layout/ContentPane"
 ], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, MainConfig, parser) {
@@ -34,9 +36,9 @@ define([
         // setup proxy url
 
 
-        require(["modules/ErrorController", "modules/HashController", "modules/BlockController"],
+        require(["modules/ErrorController", "modules/HashController"],
 
-            function(ErrorController, HashController, BlockController) {
+            function(ErrorController, HashController) {
 
                 HashController.init();
 

@@ -41,9 +41,8 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol",
     // Modules for Terraformer
-    "esri/SpatialReference",
-    "libs/moment",
-    "libs/timezone"
+    "esri/SpatialReference"
+
 ], function(ko, on, mouse, dom, domAttr, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle, topic,
     registry, CheckBox, TooltipDialog, Tooltip, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest,
     Query, QueryTask, webMercatorUtils, MosaicRule,
@@ -52,6 +51,8 @@ define([
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
+
+
 
     return {
 
@@ -404,7 +405,9 @@ define([
                             // Give the feature a layer attribute so It's easier to tell which layer a 
                             // clicked feature belongs to
                             feature.attributes.Layer = "Digital_Globe";
-                            dgMoment = moment(feature.attributes.AcquisitionDate)
+
+                            dgMoment = moment(feature.attributes.AcquisitionDate);
+
                             moment_arr.push(dgMoment);
                             feature.attributes.moment = dgMoment;
 
