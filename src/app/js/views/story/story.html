@@ -7,21 +7,25 @@
       <div class="storiesInput">
         <h5 class="storyHeader">TITLE</h5>
         <h5 id="requiredTitle" class="requiredItem">Required</h5>
-        <input id="storyTitleInput" data-bind="storyTitleData" type="text" placeholder="Illegal Logging in National Park" required="required"/>
+        <input id="storyTitleInput" data-bind="value: storyTitleData" type="text" placeholder="Illegal Logging in National Park" required="required"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap">
           <button id="addPoint" type="button" onClick="return false;" data-bind="text: addButtonLabel"></button>
-          <div id="basemapGalleryContainer">
-            <div id="basemapGallery"></div>
+          <div id="basemap-gallery-button2" title="Basemaps/Overlays" class="basemap-gallery-button">
+            <div id="basemap-linker-story" data-bind="visible: showBasemapGallery()" class="basemap-linker modal-link"></div>
+            <div id="basemap-gallery-container-story" data-bind="visible: showBasemapGallery()" class="basemap-gallery-container">
+              <div class="basemap-container-labels">Basemaps</div>
+              <div id="basemap-gallery" class="basemap-gallery"></div>
+            </div>
           </div>
         </div>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">LOCATION</h5>
-        <input id="storyLocationInput" type="text" placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'"/>
+        <input id="storyLocationInput" data-bind="value: storyLocationData" type="text" placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">DATE</h5>
@@ -29,26 +33,26 @@
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">DETAILS</h5>
-        <textarea id="storyDetailsInput" type="text" placeholder="'Selective logging with chainsaws', 'Burning peatland', 'Forest cleared for agriculture', 'Affected species'"></textarea>
+        <textarea id="storyDetailsInput" data-bind="value: storyDetailsData" type="text" placeholder="'Selective logging with chainsaws', 'Burning peatland', 'Forest cleared for agriculture', 'Affected species'"></textarea>
       </div>
       <div class="storiesInput">
-        <h5 class="storyHeader">VIDEO</h5>
-        <input id="storyVideoInput" type="url" placeholder="http://www.youtube.com/watch?v=ITG-0brb98I"/>
+        <h5 id="videoHeader" class="storyHeader">VIDEO</h5>
+        <input id="storyVideoInput" data-bind="value: storyVideoData" type="url" placeholder="http://www.youtube.com/watch?v=ITG-0brb98I"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">MEDIA</h5>
         <div id="storyMediaInput">
-          <input type="file" multiple="multiple" onchange="handleFiles(this.files)" id="uploadStoryMedia"/>
+          <input type="file" data-bind="value: storyMediaData" multiple="multiple" onchange="handleFiles(this.files)" id="uploadStoryMedia"/>
         </div>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">NAME</h5>
-        <input id="storyNameInput" type="text"/>
+        <input id="storyNameInput" data-bind="value: storyNameData" type="text"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">EMAIL</h5>
         <h5 id="requiredEmail" class="requiredItem">Required</h5>
-        <input id="storyEmailInput" type="email" required="required"/>
+        <input id="storyEmailInput" data-bind="value: storyEmailData" type="email" required="required"/>
       </div>
     </form>
     <div id="submitStory" class="footerModes">

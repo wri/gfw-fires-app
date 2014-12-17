@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", ],
-    function(dom, on, dom, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
+define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", ],
+    function(dom, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
 
         var o = {};
         var initialized = false;
@@ -46,7 +46,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
                 center: [115, 0]
                 //sliderPosition: MapConfig.mapOptions.sliderPosition
             });
-            o.map.setInfoWindowOnClick(true);
+
             /*var tp = new TitlePane({
                 title: 'Switch Basemap',
                 open: 'false',
@@ -57,7 +57,12 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
             tp.resize(50, 50);
             dom.byId("TitlePane").appendChild(tp.domNode);
             */
-
+            // bg = new BasemapGallery({
+            //     map: o.map,
+            //     basemaps: basemaps,
+            //     showArcGISBasemaps: true
+            // }, "basemap-gallery");
+            // bg.startup();
 
 
             var basemapGallery = new BasemapGallery({
@@ -65,7 +70,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
                 map: o.map
             }, "basemapGallery");
 
-            //basemapGallery.startup();
+            basemapGallery.startup();
 
             // basemapGallery.on("error", function(msg) {
             //     console.log("basemap gallery error:  ", msg);
@@ -73,18 +78,27 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
 
             o.map.on("load", function() {
                 o.initToolbar();
+                //o.map.setInfoWindowOnClick(true);
+                var infoTitle = StoryModel.vm.storyTitleData();
+                var infoTemplate = new InfoTemplate(infoTitle, "${*}");
 
-                // Finder.setMap(o.map);
-                // self.addWidgets();
-                // self.bindEvents();
-                // self.addLayers();
-                var infoTemplate = new InfoTemplate("Attributes", "${*}");
-                var storiesLayer = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2");
+                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.localToken, {
+                    id: "storiesLayer",
+                    outFields: ["*"]
+                    //outFields: ["Title", "Details", "Video", "Name", "Email", "Publish"]
+                });
+
+                storiesLayer.on("edits-complete", function() {
+                    storiesLayer.refresh();
+                });
+                //var storiesLayer = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2");
                 storiesLayer.setInfoTemplate(infoTemplate);
+
 
                 on.once(o.map, "update-end", function() {
                     o.map.addLayer(storiesLayer);
                 });
+                on(dom.byId("basemap-gallery-button2"), "click", o.toggleBasemapGallery);
             });
         };
 
@@ -95,7 +109,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
             // event delegation so a click handler is not
             // needed for each individual button
             on(dom.byId("addPoint"), "click", function(evt) {
-
+                debugger;
                 tool = "point";
                 o.map.disableMapNavigation();
                 tb.activate(tool);
@@ -111,11 +125,9 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
 
             var graphic = new Graphic(evt.geometry, pictureMarkerSymbol);
 
-            var title = dom.byId("storyTitleInput");
-            if (title.value) {
-                title = title.value;
-            } else {
-                title = title.placeholder;
+            var title = StoryModel.vm.storyTitleData();
+            if (!title) {
+                title = (dom.byId("storyTitleInput")).placeholder;
             }
 
             var infoTemplate = new InfoTemplate(title);
@@ -124,8 +136,8 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
             var originalPointLat = originalPoint[0].toFixed(3);
             var originalPointLng = originalPoint[1].toFixed(3);
 
-            infoTemplate.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>"); //titled the user's Story Title
-            //STATENAEME will be graphic.x value or something
+            infoTemplate.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>");
+
             // dojo.connect(o.map.graphics, "onMouseMove", function(evt) {
             //     //var g = evt.graphic;
             //     //debugger;
@@ -144,38 +156,55 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
             //     o.map.infoWindow.hide();
             // });
 
-            graphic.setInfoTemplate(infoTemplate); // will be populated with whatever fields the user has filled out so far
+            graphic.setInfoTemplate(infoTemplate);
             o.map.graphics.add(graphic);
-
+            StoryModel.vm.pointGeom(graphic);
+            StoryModel.vm.storyTitleData.subscribe(function(newValue) {
+                //var infoTemplate = new InfoTemplate(newValue, "${*}");
+                //graphic.setInfoTemplate(infoTemplate);
+                infoTemplate.setTitle(newValue);
+            });
+            StoryModel.vm.storyLocationData.subscribe(function(newValue) {
+                var newContent = infoTemplate.content;
+                newContent += "<br><tr><b>Location: </b><td>" + newValue + "</td></tr>";
+                infoTemplate.setContent(newContent);
+            });
+            StoryModel.vm.storyDetailsData.subscribe(function(newValue) {
+                var newContent = infoTemplate.content;
+                newContent += "<br><tr><b>Details: </b><td>" + newValue + "</td></tr>";
+                infoTemplate.setContent(newContent);
+            });
+            StoryModel.vm.storyNameData.subscribe(function(newValue) {
+                var newContent = infoTemplate.content;
+                newContent += "<br><tr><b>Name: </b><td>" + newValue + "</td></tr>";
+                infoTemplate.setContent(newContent);
+            });
+            StoryModel.vm.storyEmailData.subscribe(function(newValue) {
+                var newContent = infoTemplate.content;
+                newContent += "<br><tr><b>Email: </b><td>" + newValue + "</td></tr>";
+                infoTemplate.setContent(newContent);
+            });
 
             var dojoShape = graphic.getDojoShape();
             var moveable = new dojox.gfx.Moveable(dojoShape);
 
             var moveStopToken = dojo.connect(moveable, "onMoveStop", function(mover) {
-                // Get the transformation that was applied to the shape since the last move  
                 var tx = dojoShape.getTransform();
 
                 var startPoint = graphic.geometry;
                 var endPoint = o.map.toMap(o.map.toScreen(startPoint).offset(tx.dx, tx.dy));
 
-                // clear out the transformation  
                 dojoShape.setTransform(null);
 
                 var endPoint2 = webMercatorUtils.xyToLngLat(endPoint.x, endPoint.y);
                 var endPointLat = endPoint2[0].toFixed(3);
                 var endPointLng = endPoint2[1].toFixed(3);
-                // update the graphic geometry
 
-                console.log(endPoint);
 
-                console.log(endPoint2);
                 graphic.setGeometry(endPoint);
                 infoTemplate.setContent("<tr>Lat: <td>" + endPointLat + "<br></tr></td> <tr>Lat: <td>" + endPointLng + "</tr></td>");
-
-                // You can find quite a bit of information about  
-                // applying transformations to Dojo gfx shapes in this  
-                // document:  
-                // http://docs.dojocampus.org/dojox/gfx#coordinates-and-transformations  
+                StoryModel.vm.pointGeom(graphic);
+                console.log(StoryModel.vm.pointGeom()); //TODO: Find out why this geometry isn't updating!
             });
 
             // dojo.connect(o.map.graphics, "onMouseDown", o.holdGraphic);
@@ -196,6 +225,134 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
                 }
             });
 
+        };
+        o.handleUpload = function(obj, evt) {
+
+            var graphicToAdd = StoryModel.vm.pointGeom(),
+                email = StoryModel.vm.storyEmailData(),
+                title = StoryModel.vm.storyTitleData(),
+                video = StoryModel.vm.storyVideoData(),
+                formIsValid = true,
+                selectedOptions = [];
+
+            if (!graphicToAdd) {
+                alert(StoryModel.vm.noMapPoint);
+                return;
+            }
+            graphicToAdd.attributes = {};
+            StoryModel.vm.errorMessages([]);
+            StoryModel.vm.showErrorMessages(false);
+            //or instead of dojoForEach'ing through the selectedOptions, why don't we just push all of our Observables into an Observable Array, and onSubmit we'll see which have values
+
+
+            // dojoQuery(".storiesInput").forEach(function(node, index) {
+            //     console.log(node);
+            //     console.log(index);
+
+            // });
+
+            if ((validate.isEmailAddress(email) && !video) || (validate.isEmailAddress(email) && validate.isUrl(video))) {
+                $("#storyEmailInput").css("border-color", "#c0c0c0");
+                $("#requiredEmail").css("color", "#464052");
+                $("#storyVideoInput").css("border-color", "#c0c0c0");
+                $(".storyHeader").css("color", "#464052");
+            } else {
+                formIsValid = false;
+                //model.errorMessages.push("You must at least provide a phone number and/or an email.");
+                if (!validate.isEmailAddress(email)) {
+                    $("#storyEmailInput").css("border-color", "red");
+                    $("#requiredEmail").css("color", "red");
+                } else {
+                    $("#storyEmailInput").css("border-color", "#c0c0c0");
+                    $("#requiredEmail").css("color", "#464052");
+                }
+                if (!validate.isUrl(video) && (video)) {
+                    $("#storyVideoInput").css("border-color", "red");
+                    $("#videoHeader").css("color", "red");
+                } else {
+                    $("#storyVideoInput").css("border-color", "#c0c0c0");
+                    $(".storyHeader").css("color", "#464052");
+                }
+            }
+
+            if (!formIsValid) {
+                //model.showErrorMessages(true);
+                alert(StoryModel.vm.formInvalidText);
+                return;
+            }
+            /*else {
+                if (validate.isEmailAddress(email)) {
+                    //self.postSubscribeRequest(selectedOptions, email, 'email').then(function(result) {
+                    //Make a JSON object out of my selectedOptions array that is submittable as a feature
+                    //});
+                }
+            }*/
+
+            if (!StoryModel.vm.storyTitleData()) {
+                $("#storyTitleInput").css("border-color", "red");
+                $("#requiredTitle").css("color", "red");
+                alert(StoryModel.vm.stopSubmissionText);
+                return;
+            } else {
+                $("#storyTitleInput").css("border-color", "#c0c0c0");
+                $("#requiredTitle").css("color", "#464052");
+            }
+
+            if (title) {
+                selectedOptions.push(title);
+                graphicToAdd.attributes.Title = title;
+            }
+            // if (StoryModel.vm.pointGeom()) {
+            //     selectedOptions.push(StoryModel.vm.pointGeom());
+            // }
+            if (StoryModel.vm.storyLocationData()) {
+                var locationsArray = (StoryModel.vm.storyLocationData()).split(",");
+                selectedOptions.push(); // TODO: check if the JSON POST wants array or string & Find out Where in the Feature (what attribute) this should be added as
+
+            }
+            var currentDate = $("#storyDateInput").datepicker("getDate");
+            var days = currentDate.getDate();
+            var months = currentDate.getMonth() + 1;
+            var years = currentDate.getFullYear();
+            var date = months + "/" + days + "/" + years;
+            selectedOptions.push(date);
+            if (StoryModel.vm.storyDetailsData()) {
+                selectedOptions.push(StoryModel.vm.storyDetailsData());
+                //TODO: Create a Date Field in the Feature Service and decide on a Format, then fit that
+            }
+            if (video) {
+                selectedOptions.push(video);
+                graphicToAdd.attributes.Video = video;
+            }
+            if (StoryModel.vm.storyMediaData()) {
+                selectedOptions.push(StoryModel.vm.storyMediaData());
+                //TODO: Create a Video Field in the Feature Service and decide on a Format, then fit that
+            }
+            if (StoryModel.vm.storyNameData()) {
+                selectedOptions.push(StoryModel.vm.storyNameData());
+                graphicToAdd.attributes.Name = StoryModel.vm.storyNameData();
+            }
+            selectedOptions.push(StoryModel.vm.storyEmailData());
+            graphicToAdd.attributes.Email = email;
+            graphicToAdd.attributes.Publish = 'Y';
+
+            var stories = o.map.getLayer("storiesLayer");
+            var success = function() {
+                //remove graphic from map!!
+                alert(StoryModel.vm.submitSuccess);
+            }
+            var failure = function() {
+                alert(StoryModel.vm.submitFailure);
+            }
+            stories.applyEdits([graphicToAdd], null, null, success, failure);
+
+        };
+
+
+        o.toggleBasemapGallery = function() {
+
+
+            StoryModel.set('showBasemapGallery', !StoryModel.get('showBasemapGallery'));
         };
 
         o.toTitleCase = function(str) {
@@ -225,6 +382,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dijit/registry", "modules/HashContro
             var par = $(this).parent();
             $(par).css('background-color', 'orange');
         });
+
 
         return o;
 

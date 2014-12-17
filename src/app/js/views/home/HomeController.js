@@ -232,11 +232,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
 
             if (data.html) {
-<<<<<<< HEAD
-                debugger;
-=======
-
->>>>>>> develop
                 if (data.html.search("latest imagery") > -1) {
                     // Necessary because eval is changing the hash and undoing this change
                     console.log(data.html);
