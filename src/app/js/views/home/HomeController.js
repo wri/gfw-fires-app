@@ -207,7 +207,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     // setTimeout(function() {
                     //     EventsController.startModeAnim();
                     // }, 500);
-                    EventsController.startModeAnim();
+                    // EventsController.startModeAnim();
 
                 });
 
