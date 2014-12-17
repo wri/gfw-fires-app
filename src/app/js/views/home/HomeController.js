@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array", "views/map/LayerController", "views/map/MapConfig"],
-    function(dom, domQuery, registry, HashController, EventsController, HomeModel, arrayUtil, LayerController, MapConfig) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/home/HomeModel", "dojo/_base/array", "views/map/MapConfig"],
+    function(dom, registry, HashController, EventsController, HomeModel, arrayUtil, MapConfig) {
 
         var o = {};
         var initialized = false;
@@ -15,7 +15,6 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                 //switch to this view
                 EventsController.switchToView(viewObj);
 
-                EventsController.startModeAnim();
                 return;
             }
 
@@ -42,6 +41,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     resume: true
                 }*/
 
+                EventsController.startModeAnim();
 
             });
         };
@@ -207,7 +207,7 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
                     // setTimeout(function() {
                     //     EventsController.startModeAnim();
                     // }, 500);
-                    EventsController.startModeAnim();
+                    // EventsController.startModeAnim();
 
                 });
 
@@ -217,7 +217,8 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
         };
 
         o.stopModeAnim = function(data) {
-            stopAnimation = true;
+            //stopAnimation = true;
+
             console.log("stop mode animation ");
         };
 
@@ -231,15 +232,25 @@ define(["dojo/dom", "dijit/registry", "dojo/query", "modules/HashController", "m
 
 
             if (data.html) {
+<<<<<<< HEAD
                 debugger;
+=======
+
+>>>>>>> develop
                 if (data.html.search("latest imagery") > -1) {
                     // Necessary because eval is changing the hash and undoing this change
-                    setTimeout(function() {
-                        LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
-                        if (registry.byId("digital-globe-checkbox")) {
-                            registry.byId("digital-globe-checkbox").set("checked", true);
-                        }
-                    }, 0);
+                    console.log(data.html);
+                    require(["views/map/LayerController"], function(LayerController) {
+                        //  setTimeout(function() {
+                        // debugger;
+                        //LayerController.updateLayersInHash('add', MapConfig.digitalGlobe.id, MapConfig.digitalGlobe.id);
+                        MapConfig.digitalGlobe.navigationBool = true;
+                        // if (registry.byId("digital-globe-checkbox")) {
+                        //     registry.byId("digital-globe-checkbox").set("checked", true);
+                        // }
+                        // }, 0);
+                    })
+
                 }
             }
         };

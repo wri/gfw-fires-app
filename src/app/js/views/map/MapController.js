@@ -84,6 +84,7 @@ define([
             //switch to this view
             o.map.resize();
             EventsController.switchToView(view);
+            o.checkBubble();
             return;
         }
 
@@ -98,6 +99,13 @@ define([
                 addthis.init();
                 that.addConfigurations();
                 that.createMap();
+                // that.createMap().then(function() {
+                //     that.checkBubble();
+                // });
+                setTimeout(function() {
+                    that.checkBubble();
+                }, 1000);
+
             });
         });
     };
@@ -192,9 +200,10 @@ define([
         });
         window.map = o.map;
 
-        o.map.on("load", function() {
 
+        o.map.on("load", function() {
             //$("#firesDateFrom").datepicker("setDate", "+0m -7d");
+
             $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
@@ -257,6 +266,14 @@ define([
 
         o.mapExtentPausable.pause();
 
+    };
+    o.checkBubble = function() {
+        console.log("checking bubble");
+        if (MapConfig.digitalGlobe.navigationBool) {
+            registry.byId("digital-globe-checkbox").setValue(true);
+            registry.byId("fires-map-accordion").selectChild(registry.byId("imagery-panel"));
+            MapConfig.digitalGlobe.navigationBool = false;
+        }
     };
 
     o.updateImageryList = function() {
@@ -344,7 +361,6 @@ define([
                         new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                             new Color("yellow"), 5), new Color([255, 255, 0, 0])
                     );
-                    // featuresImageryFootprints[i].setSymbol(highlightSymbol);
                     highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
                     highlightGraphic.id = "highlight";
 
@@ -355,12 +371,6 @@ define([
         $("#imageryWindow > table > tbody > tr").mouseleave(function() {
             $(this).removeClass("imageryRowHover");
             o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-            //arrayUtils.forEach(o.map.graphics.graphics, function(g) {
-            // dojo.forEach(o.map.graphics.graphics, function(g) {
-            //     if (g && g.id === "highlight") {
-            //         o.map.graphics.remove(g);
-            //     }
-            // }, this);
         });
 
         handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
@@ -1236,6 +1246,7 @@ define([
             // This turns on all the layers present in the hash,
             // All layers are turned off onload, by default Fires and Land Cover will be turned on from hash
             // Unless hash values are different
+
             self.enableLayersFromHash();
 
             var layerInfos = arrayUtils.map(response.layers, function(item) {

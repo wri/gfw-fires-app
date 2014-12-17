@@ -1,18 +1,11 @@
 /* global define, alert */
 define([
-    "on",
-    "dom",
-    "topic",
-    "dom-class",
-    "dojo/query",
-    "dojo/_base/array",
+
     "esri/config",
-    "main/Config",
+    "main/Config"
     // Call Necessary Layout Widgets Here
-    "dojox/mobile/parser",
-    "dijit/layout/StackContainer",
-    "dijit/layout/ContentPane"
-], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, MainConfig, parser) {
+
+], function(esriConfig, MainConfig) {
 
     var map;
 
@@ -21,7 +14,8 @@ define([
 
     o.init = function() {
 
-        parser.parse();
+
+
 
         //enable cors servers
         esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
@@ -34,13 +28,24 @@ define([
         // setup proxy url
 
 
-        require(["modules/ErrorController", "modules/HashController", "modules/BlockController"],
+        require(["modules/ErrorController", "modules/HashController", "dojo/parser",
+                "dijit/layout/StackContainer",
+                "dijit/layout/ContentPane"
+            ],
 
-            function(ErrorController, HashController, BlockController) {
+            function(ErrorController, HashController, parser) {
 
-                HashController.init();
+                if (parser.parse) {
+                    parser.parse().then(function() {
 
-                ErrorController.init();
+                        HashController.init();
+
+                        ErrorController.init();
+
+                    });
+                }
+
+
 
                 //ErrorController.show(5); /*time in seconds*/
                 //BlockController.show("aboutView");

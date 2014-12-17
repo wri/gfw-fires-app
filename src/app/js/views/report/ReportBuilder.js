@@ -31,9 +31,7 @@ define([
     "esri/request",
     "knockout",
     "libs/geostats",
-    "libs/highcharts",
-    "libs/moment",
-    "libs/timezone"
+    "libs/highcharts"
 ], function(dom, ready, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, MapConfig, MapModel, esriRequest, ko, geostats) {
@@ -1387,6 +1385,7 @@ define([
         generateTableRows: function(features, fieldNames) {
             var rows = "";
             var whitespace = /^\s+$/;
+
             function isValid(item) {
                 return item !== null && item !== undefined && !whitespace.test(item);
             }
@@ -1394,19 +1393,18 @@ define([
                 var valid = true;
                 var cols = '';
                 arrayUtils.forEach(fieldNames, function(field) {
-                    if (isValid(feature.attributes[field])){
+                    if (isValid(feature.attributes[field])) {
                         cols += "<td>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ') + "</td>";
-                    }
-                    else {
+                    } else {
                         valid = false
                     }
                 });
-                if (valid){
+                if (valid) {
                     rows += "<tr>";
                     rows += cols;
                     rows += "</tr>";
                 }
-                
+
             });
             return rows;
         },

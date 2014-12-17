@@ -198,7 +198,8 @@ define({
             "GeoEye-1": 'GEO1',
             "WorldView-2": "WV02",
             "WorldView-1": "WV01"
-        }
+        },
+        navigationBool: false
     },
 
     windData: {

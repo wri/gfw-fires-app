@@ -59,7 +59,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             var clickedItem = data;
 
 
-
             this.reportAnalyticsHelper('link', 'navigate', 'The user navigated to the ' + clickedItem.html + ' page.');
 
             if (clickedItem.url) {
