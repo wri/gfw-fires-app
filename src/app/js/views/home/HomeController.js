@@ -15,7 +15,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                 //switch to this view
                 EventsController.switchToView(viewObj);
 
-                EventsController.startModeAnim();
                 return;
             }
 
@@ -42,6 +41,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                     resume: true
                 }*/
 
+                EventsController.startModeAnim();
 
             });
         };
@@ -217,8 +217,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
         };
 
         o.stopModeAnim = function(data) {
-            stopAnimation = true;
-            http: //shj.blueraster.com/apps-git/2278-wri-oil-palm.GFW-FIRES/src/#v=home&x=115&y=0&l=5&lyrs=Active_Fires
+            //stopAnimation = true;
+
             console.log("stop mode animation ");
         };
 

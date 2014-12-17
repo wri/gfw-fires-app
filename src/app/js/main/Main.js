@@ -1,16 +1,11 @@
 /* global define, alert */
 define([
-    "dojo/on",
-    "dojo/dom",
-    "dojo/topic",
-    "dom-class",
-    "dojo/query",
-    "dojo/_base/array",
+
     "esri/config",
     "main/Config"
     // Call Necessary Layout Widgets Here
 
-], function(on, dom, topic, domClass, dojoQuery, arrayUtil, esriConfig, MainConfig) {
+], function(esriConfig, MainConfig) {
 
     var map;
 
@@ -33,8 +28,7 @@ define([
         // setup proxy url
 
 
-        require(["modules/ErrorController", "modules/HashController", "dojox/mobile/parser",
-                "dojox/mobile",
+        require(["modules/ErrorController", "modules/HashController", "dojo/parser",
                 "dijit/layout/StackContainer",
                 "dijit/layout/ContentPane"
             ],
@@ -42,12 +36,16 @@ define([
             function(ErrorController, HashController, parser) {
 
                 if (parser.parse) {
-                    parser.parse();
+                    parser.parse().then(function() {
+
+                        HashController.init();
+
+                        ErrorController.init();
+
+                    });
                 }
 
-                HashController.init();
 
-                ErrorController.init();
 
                 //ErrorController.show(5); /*time in seconds*/
                 //BlockController.show("aboutView");
