@@ -176,7 +176,9 @@ define([
                 destroyDialog(true);
                 deferred.resolve();
                 var currentBasemap = registry.byId("basemap-gallery").getSelected();
+                debugger;
                 if (currentBasemap) {
+
                     if (currentBasemap.id !== "galleryNode_basemap_6") {
                         registry.byId("basemap-gallery").select("basemap_6");
                     }

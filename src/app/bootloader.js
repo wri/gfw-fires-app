@@ -3,7 +3,7 @@
 (function(win, doc) {
     'use strict';
     var ENV = 'dev',
-        version = "0.1.8",
+        version = "0.1.9",
         src = 'http://js.arcgis.com/3.11/',
         css = {
             'dev': [{

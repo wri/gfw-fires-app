@@ -30,6 +30,7 @@ define([
     "esri/geometry/webMercatorUtils",
     "esri/geometry/Extent",
     "esri/InfoTemplate",
+    "esri/dijit/PopupTemplate",
     "esri/graphic",
     "esri/urlUtils",
     "esri/symbols/SimpleFillSymbol",
@@ -58,7 +59,7 @@ define([
     "esri/layers/ImageServiceParameters",
     "dijit/Dialog"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, Color,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
 
@@ -654,6 +655,14 @@ define([
             }
         });
 
+        on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
+            var value = registry.byId("fire-stories-checkbox").checked;
+            LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
+            }
+        });
+
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.firesLayer.id, value);
@@ -1185,6 +1194,24 @@ define([
             infoTemplate: tweet_infotemplate
         });
 
+        var htmlContent = Finder.getFireStoriesInfoWindow;
+
+        var fireStory_popupTemplate = new PopupTemplate({
+            "title": "Beverly Hills Trees By Block",
+            //"value": htmlContent,
+            "showAttachments": true
+
+        });
+        //fireStory_popupTemplate.setContent(Finder.getFireStoriesInfoWindow);
+
+        fireStories = new FeatureLayer(MapConfig.fireStories.url, {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            id: MapConfig.fireStories.id,
+            visible: false,
+            outFields: ["*"],
+            infoTemplate: fireStory_popupTemplate
+        });
+
         // var digitalGlobeGraphicsLayer = new GraphicsLayer({
         //     id: MapConfig.digitalGlobe.graphicsLayerId,
         //     //infoTemplate: digitalGlobeInfoTemplate,
@@ -1225,6 +1252,7 @@ define([
             forestUseLayer,
             overlaysLayer,
             tweetLayer,
+            fireStories,
             airQualityLayer,
             tomnodSellayer,
             indonesiaLayer,

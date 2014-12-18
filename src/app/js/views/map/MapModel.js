@@ -64,6 +64,7 @@ define([
     vm.landsatImageCheckbox = ko.observable(MapConfig.text.landsatImageCheckbox);
     vm.landsatImageSubLabel = ko.observable(MapConfig.text.landsatImageSubLabel);
     vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
+    vm.fireStoriesCheckbox = ko.observable(MapConfig.text.fireStoriesCheckbox);
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
     vm.getDates = ko.observable(MapConfig.text.getDates);

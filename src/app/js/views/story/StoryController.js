@@ -86,18 +86,27 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
                 var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.localToken, {
                     id: "storiesLayer",
                     outFields: ["*"]
-                    //outFields: ["Title", "Details", "Video", "Name", "Email", "Publish"]
                 });
                 storiesLayer.setVisibility(false);
-                storiesLayer.on("edits-complete", function() {
+                var attachmentSuccess = function() {
+                    console.log(StoryModel.vm.attachSuccess);
+                }
+                var attachmentError = function() {
+                    console.log(StoryModel.vm.attachFailure);
+                }
+                storiesLayer.on("edits-complete", function(adds, updates, deletes) {
+                    if (StoryModel.vm.storyMediaData()) {
+                        var objID = adds.adds[0].objectId;
+                        var entireForm = document.login;
+                        storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
+                    }
                     storiesLayer.refresh();
                 });
-                //var storiesLayer = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2");
-                //storiesLayer.setInfoTemplate(infoTemplate);
 
                 on.once(o.map, "update-end", function() {
                     o.map.addLayer(storiesLayer);
                 });
+
                 //on(dom.byId("basemap-gallery-button2"), "click", o.toggleBasemapGallery);
             });
         };

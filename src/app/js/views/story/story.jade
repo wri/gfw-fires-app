@@ -1,6 +1,6 @@
 link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#aboutInnerContainer(class="content-inner-container")
-    h1#storyTitle.source_category_title Submit a story
+    h1#storyTitle.source_category_title Report a Fire
     div#submitBox
         form(name="login", action="/login", method="post")
             div.storiesInput
@@ -37,7 +37,7 @@ div#aboutInnerContainer(class="content-inner-container")
             div.storiesInput
                 h5.storyHeader MEDIA
                 div(id="storyMediaInput")
-                    input(type="file", data-bind="value: storyMediaData", multiple onchange="handleFiles(this.files)", id="uploadStoryMedia")
+                    input(type="file", name="attachment", data-bind="value: storyMediaData", multiple onchange="handleFiles(this.files)", id="uploadStoryMedia")
                     div#uploadList(data-bind="text: storyMediaData")
             div.storiesInput
                 h5.storyHeader NAME

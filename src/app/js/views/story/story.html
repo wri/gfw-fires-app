@@ -1,7 +1,7 @@
 
 <link rel="stylesheet" href="app/css/jquery-ui.min.css"/>
 <div id="aboutInnerContainer" class="content-inner-container">
-  <h1 id="storyTitle" class="source_category_title">Submit a story</h1>
+  <h1 id="storyTitle" class="source_category_title">Report a Fire</h1>
   <div id="submitBox">
     <form name="login" action="/login" method="post">
       <div class="storiesInput">
@@ -34,7 +34,7 @@
       <div class="storiesInput">
         <h5 class="storyHeader">MEDIA</h5>
         <div id="storyMediaInput">
-          <input type="file" data-bind="value: storyMediaData" multiple="multiple" onchange="handleFiles(this.files)" id="uploadStoryMedia"/>
+          <input type="file" name="attachment" data-bind="value: storyMediaData" multiple="multiple" onchange="handleFiles(this.files)" id="uploadStoryMedia"/>
           <div id="uploadList" data-bind="text: storyMediaData"></div>
         </div>
       </div>

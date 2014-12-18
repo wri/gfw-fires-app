@@ -34,7 +34,8 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.noMapPoint = "Please place a point on the map to represent your story!";
         vm.submitSuccess = "Your story was successfully submitted!";
         vm.submitFailure = "An error occured during the submission.";
-
+        vm.attachSuccess = "The attachment you added was successfully added to the Story!";
+        vm.attachFailure = "The attachment you attempted to add could not be added to the Story";
 
         vm.errorMessages = ko.observableArray();
         vm.showErrorMessages = ko.observable();
