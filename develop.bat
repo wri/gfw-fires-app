@@ -1,1 +1,1 @@
-gulp develop
+gulp watch
