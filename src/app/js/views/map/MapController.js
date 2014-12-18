@@ -56,11 +56,12 @@ define([
     "modules/HashController",
     "esri/layers/GraphicsLayer",
     "esri/layers/ImageServiceParameters",
-    "dijit/Dialog"
+    "dijit/Dialog",
+    "utils/Helper"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog) {
+    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper) {
 
     var o = {},
         initialized = false,
@@ -89,6 +90,10 @@ define([
         }
 
         initialized = true;
+        //debugger;
+        Helper.showLoader("app-body", "map-blocker");
+        //debugger;
+
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
             dom.byId(view.viewId).innerHTML = html;
@@ -1259,7 +1264,9 @@ define([
                 var flyr = !(item.layer.id === tomnodSellayer.id);
                 return (url && flyr);
             });
-            console.dir(layerInfos)
+            console.dir(layerInfos);
+            //debugger;
+            Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
         });
         o.map.addLayers(layerlist);

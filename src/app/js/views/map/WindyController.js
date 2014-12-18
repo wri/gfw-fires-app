@@ -13,8 +13,9 @@ define([
     "views/map/MapModel",
     "modules/ErrorController",
     "views/map/LayerController",
+    "dojo/_base/array",
     "libs/windy"
-], function(on, dom, cookie, Deferred, Dialog, CheckBox, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController) {
+], function(on, dom, cookie, Deferred, Dialog, CheckBox, registry, esriRequest, Helper, RasterLayer, MapModel, ErrorController, LayerController, arrayUtil) {
 
     var _map,
         _isSupported,
@@ -138,6 +139,8 @@ define([
                 cancel,
                 cbox;
 
+            var darkGrayTitle = "dark gray canvas"; //used for comparison
+
             setCookie = function(cookieValue) {
                 if (dom.byId("rememberBasemapDecision")) {
                     if (dom.byId("rememberBasemapDecision").checked && cookieValue) {
@@ -171,17 +174,25 @@ define([
                 deferred.resolve();
             };
 
+
             changeBasemaps = function() {
+                var darkGrayBasemap;
+                arrayUtil.some(registry.byId("basemap-gallery").basemaps, function(bm) {
+                    var found = (bm.title.toLowerCase() === darkGrayTitle);
+                    darkGrayBasemap = bm;
+                    return found;
+                });
+
                 setCookie("changeBasemap");
                 destroyDialog(true);
                 deferred.resolve();
                 var currentBasemap = registry.byId("basemap-gallery").getSelected();
                 if (currentBasemap) {
-                    if (currentBasemap.id !== "galleryNode_basemap_6") {
-                        registry.byId("basemap-gallery").select("basemap_6");
+                    if (currentBasemap.title.toLowerCase() != darkGrayTitle) {
+                        registry.byId("basemap-gallery").select(darkGrayBasemap.id);
                     }
                 } else {
-                    registry.byId("basemap-gallery").select("basemap_6");
+                    registry.byId("basemap-gallery").select(darkGrayBasemap.id);
                 }
             };
 
@@ -190,12 +201,12 @@ define([
             var currentSelectedBasemap;
             if (registry.byId("basemap-gallery").getSelected()) {
 
-                currentSelectedBasemap = registry.byId("basemap-gallery").getSelected().id;
+                currentSelectedBasemap = registry.byId("basemap-gallery").getSelected();
             } else {
                 currentSelectedBasemap = "topo";
             }
 
-            if (currentCookie === undefined && (currentSelectedBasemap !== "basemap_6")) {
+            if (currentCookie === undefined && ((currentSelectedBasemap === "topo") || (currentSelectedBasemap.title.toLowerCase() != darkGrayTitle))) {
                 dialog.show();
                 cbox = new CheckBox({
                     checked: false,

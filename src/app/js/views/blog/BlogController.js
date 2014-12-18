@@ -1,6 +1,7 @@
-define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
-    "views/map/MapConfig", "modules/EventsController", "views/blog/BlogModel",  "dojo/Deferred", "dojo/_base/array"],
-    function(dom, registry, HashController, urlUtils, MapConfig, EventsController, BlogModel, Deferred, array) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "esri/urlUtils",
+        "views/map/MapConfig", "modules/EventsController", "views/blog/BlogModel", "dojo/Deferred", "dojo/_base/array", "utils/Helper"
+    ],
+    function(dom, registry, HashController, urlUtils, MapConfig, EventsController, BlogModel, Deferred, array, Helper) {
 
         var o = {};
         var initialized = false;
@@ -29,7 +30,7 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             esri.config.defaults.io.proxyUrl = proxyUrl;
             esri.config.defaults.io.corsEnabledServers.push("http://gis-potico.wri.org");
             esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
-            
+
             /*urlUtils.addProxyRule({
                 urlPrefix: "http://gis-potico.wri.org/blogs/fireblog.txt",
                 proxyUrl: proxyUrl
@@ -52,13 +53,13 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             }
 
             initialized = true;
-
+            Helper.showLoader("app-body", "blog-blocker");
             //"dojo/text!//www.wri.org/blog-tags/8705"
             require(["dojo/text!views/blog/blog.html"], function(html) {
 
                 var feed = o.loadFeed(esri.config.defaults.io.proxyUrl);
 
-                feed.then(function (res) {
+                feed.then(function(res) {
 
                     var model = JSON.parse(res);
 
@@ -67,8 +68,8 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                     dom.byId(viewId).innerHTML = html;
                     EventsController.switchToView(viewObj);
                     BlogModel.applyBindings(viewId);
-
-                }, function (error) {
+                    Helper.hideLoader("blog-blocker");
+                }, function(error) {
                     console.log('There was an error in binding');
 
                 });
@@ -79,13 +80,13 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
         o.loadFeed = function(proxyUrl) {
             var deffered = new Deferred();
 
-            require(["views/blog/BlogLoader"], function (BlogLoader) {
+            require(["views/blog/BlogLoader"], function(BlogLoader) {
 
                 var loader = BlogLoader.load_feed(proxyUrl);
 
-                loader.then(function (res) {
+                loader.then(function(res) {
                     deffered.resolve(res);
-                }, function (err) {
+                }, function(err) {
                     console.dir('error');
                 });
 
@@ -95,24 +96,23 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
             return deffered.promise;
         };
 
-        o.addPosts = function (Posts) {
+        o.addPosts = function(Posts) {
             // add arrays
             console.log(Posts)
-            Posts['articles'].forEach(function (item) {
-                item.getAuthors = function () {
+            Posts['articles'].forEach(function(item) {
+                item.getAuthors = function() {
                     var authors = this.author.split(",");
                     var result = [];
                     var completed = false;
-                    authors[authors.length-2] = authors[authors.length-2]+authors[authors.length-1];
+                    authors[authors.length - 2] = authors[authors.length - 2] + authors[authors.length - 1];
                     authors.pop();
                     /**
                      *  We are currently in a blog post. We want to add a function that will
                      *  return all the authors in a nice array for us to print out to the view.
                      */
-                    array.forEach(authors, function (item, index) {
+                    array.forEach(authors, function(item, index) {
 
-                        try
-                        {
+                        try {
                             /**
                              * Iterate over the authors that we now have in an array.
                              * The if statement correspond to the following rules:
@@ -129,22 +129,22 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                             if (!completed) {
 
                                 if (item.match('by') !== null &&
-                                    item.match('-') === null ) {
+                                    item.match('-') === null) {
                                     var author = item.split('by');
                                     result.push('by');
                                     result.push(author[1].trim());
                                 } else if (item.match('by') !== null &&
-                                           item.match('-') !== null) {                                    
+                                    item.match('-') !== null) {
                                     var byLineAuthorDate = item.split('-');
                                     result.push('by');
                                     result.push(byLineAuthorDate[0].split('by')[1].trim());
                                     result.push(byLineAuthorDate[1].trim())
                                     completed = true;
                                 } else if (item.match('and') !== null &&
-                                           item.match('-') !== null) {                                    
+                                    item.match('-') !== null) {
                                     // split item
                                     var tempAuthors = item.split('and');
-                                    array.forEach(tempAuthors, function (item) {
+                                    array.forEach(tempAuthors, function(item) {
                                         if (item.match('-') === null) {
                                             result.push(item.trim());
                                         } else {
@@ -156,35 +156,37 @@ define(["dojo/dom","dijit/registry", "modules/HashController", "esri/urlUtils",
                                         };
                                     })
                                 } else if (item.match('and') === null &&
-                                           item.match('-') !== null   &&
-                                           index === authors.length-1) { 
+                                    item.match('-') !== null &&
+                                    index === authors.length - 1) {
 
-                                    var firstHalf = authors[authors.length-2].split('and');
+                                    var firstHalf = authors[authors.length - 2].split('and');
                                     var secondHalf = item.split('-');
                                     // --- hard fix ---
-                                    result.pop(); result.pop(); result.pop();
-                                    
+                                    result.pop();
+                                    result.pop();
+                                    result.pop();
+
                                     result.push(firstHalf[0].trim());
                                     result.push('and');
                                     result.push(firstHalf[1].trim() + ', ' + secondHalf[0].trim());
                                     result.push(secondHalf[1].trim());
                                     completed = true;
-                                    
+
                                 } else if (item.match('and') !== null) {
                                     var tempAuthors = item.split('and');
                                     result.push(tempAuthors[0].trim());
                                     result.push('and');
                                     result.push(tempAuthors[1].trim());
-                                } else if (item.match('-') !== null) {                                    
+                                } else if (item.match('-') !== null) {
                                     var lastAuthorAndDate = item.split('-');
                                     result.push(lastAuthorAndDate[0].trim());
                                     result.push(lastAuthorAndDate[1].trim());
                                     completed = true;
                                 } else {
                                     result.push(item.trim());
-                                } 
+                                }
                             };
-                            
+
                         } catch (e) {
                             console.log(e);
                         }

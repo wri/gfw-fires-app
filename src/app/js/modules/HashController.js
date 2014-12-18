@@ -1,11 +1,11 @@
 define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array", "modules/EventsController"],
     function(hash, topic, lang, ioQuery, Config, arrayUtil, EventsController) {
 
-        var url = window.location.href;
+
         var o = {};
         var currentState = {};
         o.newState = {};
-
+        console.log(window.location.href);
         var emptyState = lang.clone(Config.defaultState); //take copy from defaultState and empty it
         console.log(emptyState);
         for (k in emptyState) {
@@ -18,7 +18,8 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var that = this;
 
             var _initialState;
-
+            var url = window.location.href;
+            console.log(url);
             var hasHash = (url.split("#").length == 2 && url.split("#")[1].length > 1);
 
             if (hasHash) {
