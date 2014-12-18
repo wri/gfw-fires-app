@@ -26,14 +26,15 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
 
                 EventsController.switchToView(viewObj);
                 StoryModel.applyBindings(viewId);
-
             });
+            o.StoryConfig = StoryConfig;
             // $("#addPoint").click(function(event) {
             //     event.preventDefault(); // cancel default behavior
 
             //     //... rest of add logic
             // });
         };
+
 
         o.createMap = function() {
             var self = this;
@@ -79,26 +80,25 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
             o.map.on("load", function() {
                 o.initToolbar();
                 //o.map.setInfoWindowOnClick(true);
-                var infoTitle = StoryModel.vm.storyTitleData();
-                var infoTemplate = new InfoTemplate(infoTitle, "${*}");
+                // var infoTitle = StoryModel.vm.storyTitleData();
+                // var infoTemplate = new InfoTemplate(infoTitle, "${*}");
 
                 var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.localToken, {
                     id: "storiesLayer",
                     outFields: ["*"]
                     //outFields: ["Title", "Details", "Video", "Name", "Email", "Publish"]
                 });
-
+                storiesLayer.setVisibility(false);
                 storiesLayer.on("edits-complete", function() {
                     storiesLayer.refresh();
                 });
                 //var storiesLayer = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2");
-                storiesLayer.setInfoTemplate(infoTemplate);
-
+                //storiesLayer.setInfoTemplate(infoTemplate);
 
                 on.once(o.map, "update-end", function() {
                     o.map.addLayer(storiesLayer);
                 });
-                on(dom.byId("basemap-gallery-button2"), "click", o.toggleBasemapGallery);
+                //on(dom.byId("basemap-gallery-button2"), "click", o.toggleBasemapGallery);
             });
         };
 
@@ -106,37 +106,55 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
             tb = new Draw(o.map);
             tb.on("draw-end", o.addGraphic);
 
-            // event delegation so a click handler is not
-            // needed for each individual button
-            on(dom.byId("addPoint"), "click", function(evt) {
-                debugger;
+            on(dom.byId("storiesMap"), "mouseover", function(evt) {
                 tool = "point";
-                o.map.disableMapNavigation();
+                //o.map.disableMapNavigation();
                 tb.activate(tool);
             });
+
+
+
+            // on(dom.byId("storiesMap"), "click", function(evt) {
+            //     tool = "point";
+            //     o.map.disableMapNavigation();
+            //     tb.activate(tool);
+            // });
+
         }
 
 
         o.addGraphic = function(evt) {
             o.map.graphics.clear();
-            var pictureMarkerSymbol = new PictureMarkerSymbol('app/images/RedStickpin.png', 32, 32);
+            //var pictureMarkerSymbol = new PictureMarkerSymbol('app/images/RedStickpin.png', 32, 32);
+
+            var symbol = new PictureMarkerSymbol({
+                "angle": 0,
+                "xoffset": 0,
+                "yoffset": 10,
+                "type": "esriPMS",
+                "url": StoryConfig.markerJSONUrl,
+                "imageData": StoryConfig.markerJSONImageData,
+                "contentType": "image/png",
+                "width": 24,
+                "height": 24
+            });
             tb.deactivate();
             o.map.enableMapNavigation();
 
-            var graphic = new Graphic(evt.geometry, pictureMarkerSymbol);
+            var graphic = new Graphic(evt.geometry, symbol);
 
             var title = StoryModel.vm.storyTitleData();
             if (!title) {
                 title = (dom.byId("storyTitleInput")).placeholder;
             }
 
-            var infoTemplate = new InfoTemplate(title);
+            // var infoTemplate = new InfoTemplate(title);
 
-            var originalPoint = webMercatorUtils.xyToLngLat(evt.geometry.x, evt.geometry.y);
-            var originalPointLat = originalPoint[0].toFixed(3);
-            var originalPointLng = originalPoint[1].toFixed(3);
+            // var originalPoint = webMercatorUtils.xyToLngLat(evt.geometry.x, evt.geometry.y);
+            // var originalPointLat = originalPoint[0].toFixed(3);
+            // var originalPointLng = originalPoint[1].toFixed(3);
 
-            infoTemplate.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>");
+            // infoTemplate.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>");
 
             // dojo.connect(o.map.graphics, "onMouseMove", function(evt) {
             //     //var g = evt.graphic;
@@ -156,34 +174,34 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
             //     o.map.infoWindow.hide();
             // });
 
-            graphic.setInfoTemplate(infoTemplate);
+            //graphic.setInfoTemplate(infoTemplate);
             o.map.graphics.add(graphic);
             StoryModel.vm.pointGeom(graphic);
-            StoryModel.vm.storyTitleData.subscribe(function(newValue) {
-                //var infoTemplate = new InfoTemplate(newValue, "${*}");
-                //graphic.setInfoTemplate(infoTemplate);
-                infoTemplate.setTitle(newValue);
-            });
-            StoryModel.vm.storyLocationData.subscribe(function(newValue) {
-                var newContent = infoTemplate.content;
-                newContent += "<br><tr><b>Location: </b><td>" + newValue + "</td></tr>";
-                infoTemplate.setContent(newContent);
-            });
-            StoryModel.vm.storyDetailsData.subscribe(function(newValue) {
-                var newContent = infoTemplate.content;
-                newContent += "<br><tr><b>Details: </b><td>" + newValue + "</td></tr>";
-                infoTemplate.setContent(newContent);
-            });
-            StoryModel.vm.storyNameData.subscribe(function(newValue) {
-                var newContent = infoTemplate.content;
-                newContent += "<br><tr><b>Name: </b><td>" + newValue + "</td></tr>";
-                infoTemplate.setContent(newContent);
-            });
-            StoryModel.vm.storyEmailData.subscribe(function(newValue) {
-                var newContent = infoTemplate.content;
-                newContent += "<br><tr><b>Email: </b><td>" + newValue + "</td></tr>";
-                infoTemplate.setContent(newContent);
-            });
+            // StoryModel.vm.storyTitleData.subscribe(function(newValue) {
+            //     //var infoTemplate = new InfoTemplate(newValue, "${*}");
+            //     //graphic.setInfoTemplate(infoTemplate);
+            //     infoTemplate.setTitle(newValue);
+            // });
+            // StoryModel.vm.storyLocationData.subscribe(function(newValue) {
+            //     var newContent = infoTemplate.content;
+            //     newContent += "<br><tr><b>Location: </b><td>" + newValue + "</td></tr>";
+            //     infoTemplate.setContent(newContent);
+            // });
+            // StoryModel.vm.storyDetailsData.subscribe(function(newValue) {
+            //     var newContent = infoTemplate.content;
+            //     newContent += "<br><tr><b>Details: </b><td>" + newValue + "</td></tr>";
+            //     infoTemplate.setContent(newContent);
+            // });
+            // StoryModel.vm.storyNameData.subscribe(function(newValue) {
+            //     var newContent = infoTemplate.content;
+            //     newContent += "<br><tr><b>Name: </b><td>" + newValue + "</td></tr>";
+            //     infoTemplate.setContent(newContent);
+            // });
+            // StoryModel.vm.storyEmailData.subscribe(function(newValue) {
+            //     var newContent = infoTemplate.content;
+            //     newContent += "<br><tr><b>Email: </b><td>" + newValue + "</td></tr>";
+            //     infoTemplate.setContent(newContent);
+            // });
 
             var dojoShape = graphic.getDojoShape();
             var moveable = new dojox.gfx.Moveable(dojoShape);
@@ -202,7 +220,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
 
 
                 graphic.setGeometry(endPoint);
-                infoTemplate.setContent("<tr>Lat: <td>" + endPointLat + "<br></tr></td> <tr>Lat: <td>" + endPointLng + "</tr></td>");
+                //infoTemplate.setContent("<tr>Lat: <td>" + endPointLat + "<br></tr></td> <tr>Lat: <td>" + endPointLng + "</tr></td>");
                 StoryModel.vm.pointGeom(graphic);
                 console.log(StoryModel.vm.pointGeom()); //TODO: Find out why this geometry isn't updating!
             });

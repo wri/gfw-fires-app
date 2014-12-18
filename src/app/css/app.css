@@ -182,11 +182,11 @@ padding-right 4px {
   top: 250px;
   right: 860px;
 }
-#basemap-gallery-container-story {
+#basemapGalleryContainer {
   appearance: none;
-  background: url("../images/ico-checkmark.png") 50% 50% no-repeat #898989;
-  width: 16px;
-  height: 16px;
+  position: absolute;
+  width: 350px;
+  height: 200px;
   border: 1px solid #898989;
   border-image-source: initial;
   border-image-slice: initial;
@@ -219,17 +219,24 @@ padding-right 4px {
   height: 150px;
 }
 #storyMediaInput {
-  width: 200px;
-  height: 50px;
+  width: 150px;
+  height: 75px;
   border: 1px dashed #9bb251;
   background: url("../images/greenCross.jpg") no-repeat center;
   cursor: pointer;
 }
 #uploadStoryMedia {
-  width: 200px;
-  height: 50px;
-  display: none;
+  width: 150px;
+  height: 75px;
+  opacity: 0;
   cursor: pointer;
+}
+#uploadList {
+  position: relative;
+  left: 160px;
+  bottom: 80px;
+  font-size: 14px;
+  width: 350px;
 }
 #alignWithMedia {
   position: relative;

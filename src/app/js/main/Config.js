@@ -177,22 +177,6 @@ define([],
 
             ],
 
-            storyLinks: [{
-                    "name": "STORY LINK 1",
-                    "htmlContent": "aboutGfwStories1",
-                    "selected": true
-                }, {
-                    "name": "STORY LINK 2",
-                    "htmlContent": "aboutGfwStories2",
-                    "selected": false
-                }, {
-                    "name": "STORY LINK 3",
-                    "htmlContent": "aboutGfwStories3",
-                    "selected": false
-                }
-
-            ],
-
             newStory: {
                 "title": "Illegal Logging in National Park",
                 "affectedAreas": "",

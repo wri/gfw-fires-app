@@ -11,11 +11,11 @@ div#aboutInnerContainer(class="content-inner-container")
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 div#storiesMap
-                    button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
+                    //-button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
                     //-button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")
                     //-div#basemapGalleryContainer
                         div#basemapGallery
-                    div#basemap-gallery-button2(class="basemap-gallery-button",title="Basemaps/Overlays")
+                    //-div#basemap-gallery-button2(class="basemap-gallery-button",title="Basemaps/Overlays")
                         div#basemap-linker-story(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
                         div#basemap-gallery-container-story(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
                             div(class='basemap-container-labels') Basemaps
@@ -38,6 +38,7 @@ div#aboutInnerContainer(class="content-inner-container")
                 h5.storyHeader MEDIA
                 div(id="storyMediaInput")
                     input(type="file", data-bind="value: storyMediaData", multiple onchange="handleFiles(this.files)", id="uploadStoryMedia")
+                    div#uploadList(data-bind="text: storyMediaData")
             div.storiesInput
                 h5.storyHeader NAME
                 input(id="storyNameInput", data-bind="value: storyNameData", type="text")

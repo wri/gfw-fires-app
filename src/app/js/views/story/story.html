@@ -13,14 +13,6 @@
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap">
-          <button id="addPoint" type="button" onClick="return false;" data-bind="text: addButtonLabel"></button>
-          <div id="basemap-gallery-button2" title="Basemaps/Overlays" class="basemap-gallery-button">
-            <div id="basemap-linker-story" data-bind="visible: showBasemapGallery()" class="basemap-linker modal-link"></div>
-            <div id="basemap-gallery-container-story" data-bind="visible: showBasemapGallery()" class="basemap-gallery-container">
-              <div class="basemap-container-labels">Basemaps</div>
-              <div id="basemap-gallery" class="basemap-gallery"></div>
-            </div>
-          </div>
         </div>
       </div>
       <div class="storiesInput">
@@ -43,6 +35,7 @@
         <h5 class="storyHeader">MEDIA</h5>
         <div id="storyMediaInput">
           <input type="file" data-bind="value: storyMediaData" multiple="multiple" onchange="handleFiles(this.files)" id="uploadStoryMedia"/>
+          <div id="uploadList" data-bind="text: storyMediaData"></div>
         </div>
       </div>
       <div class="storiesInput">

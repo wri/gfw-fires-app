@@ -10,11 +10,10 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.headerTitle = ko.observable(Config.headerTitle);
         vm.newStoryTitle = ko.observable(Config.newStory.title);
 
-        //vm.htmlContent = ko.observable("Loading....");
-        vm.leftLinks = ko.observableArray(Config.storyLinks);
-
         vm.storiesURL = "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0";
         vm.localToken = "?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2";
+        vm.stagingToken = "?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L";
+        vm.productionToken = "?token=BvwcoIq9AJ04z_pusnxTw-awCMGU93bMurQ44KpDNwc0w0vyjsE9Gk8WZAtqkagp";
 
         vm.addButtonLabel = "Add Point";
         vm.removeButtonLabel = "Remove Point";
@@ -30,7 +29,6 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.storyEmailData = ko.observable();
         vm.showBasemapGallery = ko.observable(false);
 
-        //vm.submissionInputs = ko.observableArray([vm.storyTitleData(), vm.storyEmailData]);
         vm.stopSubmissionText = "Wait! Both a Title and a valid email are required to submit your story.";
         vm.formInvalidText = "The email and/or the video url you provided is invalid.";
         vm.noMapPoint = "Please place a point on the map to represent your story!";
