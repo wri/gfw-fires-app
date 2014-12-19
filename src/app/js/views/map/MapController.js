@@ -93,12 +93,14 @@ define([
 
         initialized = true;
         //debugger;
-        Helper.showLoader("app-body", "map-blocker");
+
         //debugger;
 
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
             dom.byId(view.viewId).innerHTML = html;
+            Helper.showLoader("map", "map-blocker");
+
             EventsController.switchToView(view);
             ready(function() { // Ensure the map loads to correct size by not loading too early
                 MapModel.applyBindings("map-view");
@@ -327,13 +329,14 @@ define([
     };
 
     o.showDigitalGlobe = function(data, event) {
-        LayerController.showDigitalGlobeImagery(event.target.dataset.bucket);
-        var tableRows = $(event.target).parent().parent().parent()[0];
+
+        LayerController.showDigitalGlobeImagery(data);
+        /*var tableRows = $(event.target).parent().parent().parent()[0];
         $(tableRows).find('tr').each(function() {
             $(this).removeClass("imageryRowSelected");
         });
         var rowToHighlight = $(event.target).parent().parent();
-        $(rowToHighlight).addClass("imageryRowSelected");
+        $(rowToHighlight).addClass("imageryRowSelected");*/
         //MapModel.vm.selectedImageryRow = event.target.dataset.bucket;
         MapModel.vm.selectedImageryID = data.feature.attributes.OBJECTID
     };

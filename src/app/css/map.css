@@ -255,9 +255,8 @@ map.styl,
 .imageryTable tr:nth-child(odd) {
   background: #f0f0f0;
 }
-.imageryTable tr {
-  border-left: 1px solid transparent;
-}
+/*.imageryTable tr
+	border-left: 1px solid transparent;*/
 .imageryTable td {
   text-align: center;
 }
@@ -760,9 +759,11 @@ div.report-options-section > table {
 }
 .imageryRowHover {
   border: 2px solid #ff0;
+  box-sizing: border-box;
 }
 .imageryRowSelected {
   border: 2px solid #0ff;
+  box-sizing: border-box;
 }
 #infoWindowTable td {
   width: 45%;
@@ -792,10 +793,11 @@ div.report-options-section > table {
   position: absolute;
   z-index: 5000;
   opacity: 0.5;
-  height: 100%;
-  width: 100%;
+  right: 0;
+  bottom: 0;
   left: 0;
   top: 0;
+  z-index: 1000;
 }
 .loadingWheel {
   position: absolute;

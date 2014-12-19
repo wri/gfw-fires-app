@@ -53,7 +53,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "esri/urlUtils",
             }
 
             initialized = true;
-            Helper.showLoader("app-body", "blog-blocker");
+            Helper.showLoader("stackContainer", "blog-blocker");
             //"dojo/text!//www.wri.org/blog-tags/8705"
             require(["dojo/text!views/blog/blog.html"], function(html) {
 

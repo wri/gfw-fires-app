@@ -41,13 +41,14 @@ define([
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/PictureMarkerSymbol",
     // Modules for Terraformer
-    "esri/SpatialReference"
+    "esri/SpatialReference",
+    "utils/Helper"
 
 ], function(ko, on, mouse, dom, domAttr, hash, dojoQuery, cookie, Dialog, ioQuery, Deferred, arrayUtils, all, domConstruct, domStyle, topic,
     registry, CheckBox, TooltipDialog, Tooltip, MapModel, MapConfig, HashController, LayerDrawingOptions, esriRequest,
     Query, QueryTask, webMercatorUtils, MosaicRule,
     TimeExtent, TimeSlider, Color, Graphic, Point, Polygon, SimpleLineSymbol,
-    SimpleFillSymbol, PictureSymbol, SpatialReference) {
+    SimpleFillSymbol, PictureSymbol, SpatialReference, Helper) {
     'use strict';
     var _map,
         _dgGlobeFeaturesFetched = false;
@@ -298,6 +299,7 @@ define([
         },
 
         toggleDigitalGlobeLayer: function(visibility, footprints) {
+
             var self = this,
                 layer = _map.getLayer(MapConfig.digitalGlobe.id);
             var disp = visibility ? 'block' : 'none';
@@ -384,6 +386,7 @@ define([
                 deferred.resolve();
             } else {
                 var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
+                    Helper.showLoader("map", "map-blocker");
                     var queryTask = new QueryTask(dgConf.imagedir + i + '/ImageServer'),
                         qdef = new Deferred(),
                         query = new Query();
@@ -434,9 +437,10 @@ define([
                         }
                         model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
                         qdef.resolve(true);
-
+                        Helper.hideLoader("map-blocker");
                     }, function(err) {
                         console.error(err);
+                        Helper.hideLoader("map-blocker");
                         // deferred.resolve(false);
                         qdef.resolve(true);
                         return
@@ -490,11 +494,17 @@ define([
             return deferred.promise;
         },
 
-        showDigitalGlobeImagery: function(bucket) {
-            var sensor_id = bucket.split('_id_');
-            var rasterId = sensor_id[1];
-            var sensorType = sensor_id[0];
-            var layer = _map.getLayer(MapConfig.digitalGlobe.sensorTypes[sensorType]);
+        showDigitalGlobeImagery: function(imageryItem) {
+            var feature = imageryItem.feature;
+            var sensorName = feature.attributes.SensorName;
+            var objectId = feature.attributes.OBJECTID;
+
+
+            //var sensor_id = bucket.split('_id_');
+            // var rasterId = sensor_id[1];
+            //var sensorType = sensor_id[0];
+
+            var layer = _map.getLayer(MapConfig.digitalGlobe.sensorTypes[sensorName]);
             var mrule = new MosaicRule();
             mrule.method = MosaicRule.METHOD_LOCKRASTER
             var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
@@ -504,7 +514,7 @@ define([
                 }
             })
             if (layer && !layer.visible) {
-                mrule.lockRasterIds = [rasterId];
+                mrule.lockRasterIds = [objectId];
                 layer.setMosaicRule(mrule);
                 layer.setVisibility(true);
             }

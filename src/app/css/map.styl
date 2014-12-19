@@ -246,8 +246,8 @@ baseRed = #e7002f
 	tr:nth-child(odd) {background: #F0F0F0 }
 	
 
-.imageryTable tr
-	border-left: 1px solid transparent;
+/*.imageryTable tr
+	border-left: 1px solid transparent;*/
 	
 .imageryTable td
 	text-align center
@@ -750,9 +750,12 @@ div.report-options-section > table
 	
 .imageryRowHover
 	border 2px solid yellow
+	box-sizing border-box
+	
 	
 .imageryRowSelected
 	border 2px solid #00FFFF
+	box-sizing border-box
 
 #infoWindowTable td
 	width 45%
@@ -781,10 +784,11 @@ div.report-options-section > table
 	position absolute
 	z-index 5000
 	opacity .50
-	height 100%
-	width 100%
+	right 0
+	bottom 0
 	left 0
 	top 0
+	z-index 1000
 
 .loadingWheel
 	position absolute
