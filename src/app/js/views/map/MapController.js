@@ -311,10 +311,11 @@ define([
                 var dateLink2 = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</a>";
                 f.attributes.formattedDatePrefix1 = dateLink;
                 f.attributes.formattedDatePrefix2 = dateLink2;
+
                 MapModel.vm.digitalGlobeInView.push({
                     feature: f,
                     mouseover: false,
-                    selected: (f.attributes.OBJECTID == MapModel.vm.selectedImageryID)
+                    selected: (f.attributes.OBJECTID == MapModel.vm.selectedImageryID())
                 });
             }
 
@@ -338,6 +339,18 @@ define([
         //     var rowToHighlight = $(event.target).parent().parent();
         // }
         // $(rowToHighlight).addClass("imageryRowSelected");
+
+        var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
+        MapModel.vm.digitalGlobeInView([]);
+
+        arrayUtils.forEach(digitalGlobeInView, function(f) {
+            if (f == data) {
+                f.selected = true;
+            } else {
+                f.selected = false;
+            }
+            MapModel.vm.digitalGlobeInView.push(f);
+        });
         MapModel.vm.selectedImageryID(data.feature.attributes.OBJECTID);
         LayerController.showDigitalGlobeImagery(data);
     };
