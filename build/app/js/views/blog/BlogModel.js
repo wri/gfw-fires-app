@@ -1,1 +1,0 @@
-define(["knockout","main/Config","dojo/dom"],function(o,n,e){var i={};i.vm={};var t=i.vm;return t.blogPost=o.observableArray([]),t.homeTitle=o.observable(n.homeTitle),i.applyBindings=function(n){o.applyBindings(t,e.byId(n))},t.getAllPost=function(){return i.vm.blogPost()[0].articles},i});

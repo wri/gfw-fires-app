@@ -94,7 +94,6 @@ body,
   height: 210px;
   background: url("../images/header_tree_background.jpg") repeat-x scroll center top transparent;
   border-bottom: 1px solid #717d80;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 #app-header.small {
@@ -165,6 +164,7 @@ padding-right 4px {
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #c0c0c0;
+  -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
 #contentRightStory.footerModes .desc {
@@ -255,7 +255,6 @@ padding-right 4px {
   border-top: 5px solid #222;
   color: #747474;
   font-size: 12px;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 .headerTitle {
@@ -279,7 +278,6 @@ padding-right 4px {
   height: 55px;
   margin: auto;
   overflow: visible;
-  -webkit-transition: width 1.5s ease;
   transition: width 1.5s ease;
 }
 .small .navContainer {

@@ -1,1 +1,0 @@
-define(["dojo/dom","dojo/dom-construct"],function(e,r){return{showLoader:function(o,d){if(e.byId(d)&&r.destroy(d),e.byId(o)){{var i=r.create("div",{id:d,"class":"loadingWheelContainer"},o,"first");r.create("img",{"class":"loadingWheel",src:"app/images/loader.gif"},i,"first")}return!0}return!1},hideLoader:function(o){return e.byId(o)?(r.destroy(o),!0):!1}}});
