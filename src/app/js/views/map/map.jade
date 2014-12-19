@@ -252,8 +252,8 @@ div#map-view(class="map-view")
 								th(data-bind="text: 'Satellite Type'")
 								th(data-bind="text: 'Zoom'")
 						tbody(data-bind="foreach: digitalGlobeInView")
-							//-tr(data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
-							tr
+							//-tr
+							tr(data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
 								td.font10(data-bind="html: feature.attributes.formattedDatePrefix1")
 								td.font10(data-bind="html: feature.attributes.formattedDatePrefix2")
 								//-td.font10(data-bind="html: feature.attributes.formattedZoomTo")

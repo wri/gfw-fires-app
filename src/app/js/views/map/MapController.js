@@ -330,10 +330,9 @@ define([
         });
 
         var activeFeatureIndex = 0;
-        var handles = [];
+
         dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
-            console.log("here");
-            handles.push(on(node, "click", function(evt) {
+            on(node, "click", function(evt) {
                 var target = evt.target ? evt.target : evt.srcElement,
                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
 
@@ -347,35 +346,36 @@ define([
                 MapModel.vm.selectedImageryRow = this.dataset.bucket;
                 $(parent).parent().addClass("imageryRowSelected");
 
-            }));
+            });
         });
 
         //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
-        $("#imageryWindow > table > tbody > tr").mouseenter(function() {
-            var highlightedRow = this.firstElementChild;
-            $(this).addClass("imageryRowHover");
-            highlightedRow = $(highlightedRow).html();
-            highlightedRow = $(highlightedRow).attr("data-bucket");
-            for (var i = 0; i < featuresImageryFootprints.length; i++) {
-                var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-                if (check == highlightedRow) {
-                    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                            new Color("yellow"), 5), new Color([255, 255, 0, 0])
-                    );
-                    highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
-                    highlightGraphic.id = "highlight";
+        // $("#imageryWindow > table > tbody > tr").mouseenter(function() {
+        //     var highlightedRow = this.firstElementChild;
+        //     $(this).addClass("imageryRowHover");
+        //     highlightedRow = $(highlightedRow).html();
+        //     highlightedRow = $(highlightedRow).attr("data-bucket");
+        //     for (var i = 0; i < featuresImageryFootprints.length; i++) {
+        //         var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+        //         if (check == highlightedRow) {
+        //             var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+        //                 new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+        //                     new Color("yellow"), 5), new Color([255, 255, 0, 0])
+        //             );
+        //             highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
+        //             highlightGraphic.id = "highlight";
 
-                    o.map.graphics.add(highlightGraphic);
-                }
-            }
-        });
-        $("#imageryWindow > table > tbody > tr").mouseleave(function() {
-            $(this).removeClass("imageryRowHover");
-            o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-        });
+        //             o.map.graphics.add(highlightGraphic);
+        //         }
+        //     }
+        // });
 
-        handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
+        // $("#imageryWindow > table > tbody > tr").mouseleave(function() {
+        //     $(this).removeClass("imageryRowHover");
+        //     o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+        // });
+
+        on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
             o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
             var highlightedRow = ($(this).parent())[0];
             var child = highlightedRow.firstElementChild;
@@ -388,53 +388,30 @@ define([
                     o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
                 }
             }
-        }));
+        });
     };
     var parent = $(this).parent();
     $(parent).parent().removeClass("imageryRowHover");
     $(parent).parent().addClass("imageryRowSelected");
 
     o.handleImageryOver = function(data, event) {
-
-        console.log("starting function");
         var parent = event.currentTarget;
-
-        //parent = parent[0];
-        // if (parent.nodeName == "TD") {
-        //     parent = $(parent).parent();
-        // }
-        //data.feature.geometry
         $(parent).addClass("imageryRowHover");
 
-        //highlightedRow = event.target.firstElementChild;
-        //f (event.target != event.currentTarget) {
-        // if (highlightedRow == "") {
-        //     debugger;
-        // }
-        // if (parent.nodeName == "TD") {
-        //     console.log("td");
-        //     var highlightedRow = event.target;
-        // }
-
-        //highlightedRow = $(highlightedRow).html();
-        //highlightedRow = $(highlightedRow).attr("data-bucket");
-        // for (var i = 0; i < featuresImageryFootprints.length; i++) {
-        //     var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-        //     if (check == highlightedRow) {
-
-        //featuresImageryFootprints[i].setSymbol(highlightSymbol);
-
-        highlightGraphic = new Graphic(data.geometry, highlightSymbol);
+        highlightGraphic = new Graphic(data.feature.geometry, highlightSymbol);
         highlightGraphic.id = "highlight";
 
         o.map.graphics.add(highlightGraphic);
-        //         }
-        //     }
     };
 
     o.handleImageryOut = function(data, event) {
         var parent = $(event.target).parent();
+        parent = parent[0];
 
+        if (parent.nodeName == "TD") {
+            parent = $(parent).parent();
+            parent = parent[0];
+        }
         $(parent).removeClass("imageryRowHover");
         o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
     };
