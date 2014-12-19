@@ -30,10 +30,12 @@ define([
     "esri/geometry/webMercatorUtils",
     "esri/geometry/Extent",
     "esri/InfoTemplate",
+    "esri/dijit/PopupTemplate",
     "esri/graphic",
     "esri/urlUtils",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
+    "esri/renderers/SimpleRenderer",
     "esri/Color",
     "dijit/registry",
     "views/map/MapConfig",
@@ -59,7 +61,7 @@ define([
     "dijit/Dialog",
     "utils/Helper"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, Color,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper) {
 
@@ -280,7 +282,7 @@ define([
             MapConfig.digitalGlobe.navigationBool = false;
         }
     };
-    var handles = [];
+
     o.updateImageryList = function() {
 
         MapModel.vm.digitalGlobeInView.removeAll();
@@ -302,169 +304,69 @@ define([
             var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
             if (date >= start && date <= end) {
                 var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                f.attributes.AcquisitionDate2 = f.attributes.AcquisitionDate;
+                //f.attributes.AcquisitionDate2 = f.attributes.AcquisitionDate;
                 f.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
                 var dateLink = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
-
                 var dateLink2 = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</a>";
-                f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
+                //f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
                 f.attributes.formattedDatePrefix1 = dateLink;
                 f.attributes.formattedDatePrefix2 = dateLink2;
                 MapModel.vm.digitalGlobeInView.push({
                     feature: f,
-                    mouseover: false
+                    mouseover: false,
+                    selected: (f.attributes.OBJECTID == MapModel.vm.selectedImageryID)
                 });
             }
 
-        });
-        $("#imageryWindow > table > tbody > tr").each(function() {
-            var selectedRow = this.firstElementChild;
-            selectedRow = $(selectedRow).html();
-            selectedRow = $(selectedRow).attr("data-bucket");
-
-            if (MapModel.vm.selectedImageryRow) {
-                if (MapModel.vm.selectedImageryRow == selectedRow) {
-                    $(this).addClass("imageryRowSelected");
-                }
-            }
         });
 
         MapModel.vm.digitalGlobeInView.sort(function(left, right) {
             return left.feature.attributes.AcquisitionDate == right.feature.attributes.AcquisitionDate ? 0 : (left.feature.attributes.AcquisitionDate > right.feature.attributes.AcquisitionDate ? -1 : 1);
         });
 
-        var activeFeatureIndex = 0;
-
-        //TODO: Change how these event handlers work
-
-        arrayUtils.forEach(handles, function(h) { //Remove handlers
-            h.remove();
-        });
-
-        handles = [];
-
-        //debugger;
-        dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
-            console.log("Added an Event");
-
-            var handleClick = on(node, "click", function(evt) {
-                var target = evt.target ? evt.target : evt.srcElement,
-                    bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-
-                $('#imageryWindow > table > tbody > tr').each(function() {
-                    $(this).removeClass("imageryRowSelected");
-                });
-                LayerController.showDigitalGlobeImagery(bucket);
-                activeFeatureIndex = index;
-                var parent = $(this).parent();
-                $(parent).parent().removeClass("imageryRowHover");
-                MapModel.vm.selectedImageryRow = this.dataset.bucket;
-                $(parent).parent().addClass("imageryRowSelected");
-
-            });
-            handles.push(handleClick);
-        });
-
-        //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
-        var imageryMouseEnter = $("#imageryWindow > table > tbody > tr").mouseenter(function() {
-            var highlightedRow = this.firstElementChild;
-            $(this).addClass("imageryRowHover");
-            highlightedRow = $(highlightedRow).html();
-            highlightedRow = $(highlightedRow).attr("data-bucket");
-            for (var i = 0; i < featuresImageryFootprints.length; i++) {
-                var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-                if (check == highlightedRow) {
-                    var highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                        new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                            new Color("yellow"), 5), new Color([255, 255, 0, 0])
-                    );
-                    highlightGraphic = new Graphic(featuresImageryFootprints[i].geometry, highlightSymbol);
-                    highlightGraphic.id = "highlight";
-
-                    o.map.graphics.add(highlightGraphic);
-                }
-            }
-        });
-
-        handles.push(imageryMouseEnter);
-
-        var imageryMouseLeave = $("#imageryWindow > table > tbody > tr").mouseleave(function() {
-            $(this).removeClass("imageryRowHover");
-            o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-        });
-
-        handles.push(imageryMouseLeave);
-        //debugger;
-
-        dojoQuery(".popup-link-zoom").forEach(function(node) {
-            var handleClick = on(node, "click", function(evt) {
-                console.log(">>>>>>>>>>>>>>>>>> CREATE HANDLE");
-                o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-                var highlightedRow = ($(this).parent())[0];
-                var child = highlightedRow.firstElementChild;
-                child = child.firstElementChild;
-                child = $(child).attr("data-bucket");
-
-                for (var i = 0; i < featuresImageryFootprints.length; i++) {
-                    console.log(">>>>>>>>>>>>>>>>>>> CREATE HANDLE - featuresImageryFootprints");
-                    var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-                    if (check == child) {
-                        console.log("setting extent");
-                        o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
-                    }
-                }
-            });
-            handles.push(handleClick);
-        })
-
     };
-    var parent = $(this).parent();
-    $(parent).parent().removeClass("imageryRowHover");
-    $(parent).parent().addClass("imageryRowSelected");
+
+    o.showDigitalGlobe = function(data, event) {
+        LayerController.showDigitalGlobeImagery(event.target.dataset.bucket);
+        var tableRows = $(event.target).parent().parent().parent()[0];
+        $(tableRows).find('tr').each(function() {
+            $(this).removeClass("imageryRowSelected");
+        });
+        var rowToHighlight = $(event.target).parent().parent();
+        $(rowToHighlight).addClass("imageryRowSelected");
+        //MapModel.vm.selectedImageryRow = event.target.dataset.bucket;
+        MapModel.vm.selectedImageryID = data.feature.attributes.OBJECTID
+    };
+
+    o.imageryZoom = function(data, event) {
+        //o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+        var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
+        imageBoxes.clear();
+        o.map.setExtent((data.feature.geometry.getExtent()));
+    };
 
     o.handleImageryOver = function(data, event) {
-
-        console.log("starting function");
         var parent = event.currentTarget;
-
-        //parent = parent[0];
-        // if (parent.nodeName == "TD") {
-        //     parent = $(parent).parent();
-        // }
-        //data.feature.geometry
         $(parent).addClass("imageryRowHover");
-
-        //highlightedRow = event.target.firstElementChild;
-        //f (event.target != event.currentTarget) {
-        // if (highlightedRow == "") {
-        //     debugger;
-        // }
-        // if (parent.nodeName == "TD") {
-        //     console.log("td");
-        //     var highlightedRow = event.target;
-        // }
-
-        //highlightedRow = $(highlightedRow).html();
-        //highlightedRow = $(highlightedRow).attr("data-bucket");
-        // for (var i = 0; i < featuresImageryFootprints.length; i++) {
-        //     var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-        //     if (check == highlightedRow) {
-
-        //featuresImageryFootprints[i].setSymbol(highlightSymbol);
-
-        highlightGraphic = new Graphic(data.geometry, highlightSymbol);
+        highlightGraphic = new Graphic(data.feature.geometry, highlightSymbol);
         highlightGraphic.id = "highlight";
-
-        o.map.graphics.add(highlightGraphic);
-        //         }
-        //     }
+        var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
+        imageBoxes.add(highlightGraphic);
+        //o.map.graphics.add(highlightGraphic);
     };
 
     o.handleImageryOut = function(data, event) {
         var parent = $(event.target).parent();
+        parent = parent[0];
 
+        if (parent.nodeName == "TD") {
+            parent = $(parent).parent();
+            parent = parent[0];
+        }
         $(parent).removeClass("imageryRowHover");
-        o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+        var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
+        imageBoxes.clear();
+        //o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
     };
 
     o.resizeMapPanel = function(data) {
@@ -661,12 +563,7 @@ define([
         });
 
         on(o.map, "click", function(evt) {
-            // Finder.getActiveFiresInfoWindow(evt);
-            // Finder.getTomnodInfoWindow(evt);
             Finder.selectTomnodFeatures(evt);
-            // Finder.getTomnodInfoWindow(evt);
-
-            // Finder.getDigitalGlobeInfoWindow(evt);
         });
 
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
@@ -681,6 +578,14 @@ define([
             LayerController.toggleLayerVisibility(MapConfig.tweetLayer.id, value);
             if (value) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Twitter Conversations layer on.');
+            }
+        });
+
+        on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
+            var value = registry.byId("fire-stories-checkbox").checked;
+            LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
             }
         });
 
@@ -1229,6 +1134,42 @@ define([
             infoTemplate: tweet_infotemplate
         });
 
+        var htmlContent = Finder.getFireStoriesInfoWindow;
+
+        var fireStory_popupTemplate = new PopupTemplate({
+            title: "{Title}",
+            //"content": htmlContent,
+            fieldInfos: [{
+                fieldName: "Details",
+                label: "Details",
+                visible: true
+            }, {
+                fieldName: "Video",
+                label: "Video",
+                visible: true
+            }, {
+                fieldName: "Name",
+                label: "Name",
+                visible: true
+            }, {
+                fieldName: "Email",
+                label: "Email",
+                visible: true
+            }],
+            "showAttachments": true
+
+        }); //TODO: Find a way to filter out attributes w/o values from the popup
+
+        //fireStory_popupTemplate.setContent(Finder.getFireStoriesInfoWindow);
+
+        fireStories = new FeatureLayer(MapConfig.fireStories.url, {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            id: MapConfig.fireStories.id,
+            visible: false,
+            outFields: ["*"],
+            infoTemplate: fireStory_popupTemplate
+        });
+
         // var digitalGlobeGraphicsLayer = new GraphicsLayer({
         //     id: MapConfig.digitalGlobe.graphicsLayerId,
         //     //infoTemplate: digitalGlobeInfoTemplate,
@@ -1249,6 +1190,13 @@ define([
             visible: false
         });
 
+        var digitalGlobeGraphicsHighlight = new GraphicsLayer(featureCollection, {
+            id: MapConfig.digitalGlobe.graphicsLayerHighlight,
+            visible: true
+        });
+        var highlightRenderer = new SimpleRenderer(highlightSymbol);
+        digitalGlobeGraphicsHighlight.setRenderer(highlightRenderer);
+
         dglyr = digitalGlobeGraphicsLayer;
 
         // TESTING LAYER
@@ -1261,7 +1209,8 @@ define([
             treeCoverLayer,
             landCoverLayer,
             primaryForestsLayer,
-            digitalGlobeGraphicsLayer
+            digitalGlobeGraphicsLayer,
+            digitalGlobeGraphicsHighlight
         ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
             conservationLayer,
             burnScarLayer,
@@ -1269,6 +1218,7 @@ define([
             forestUseLayer,
             overlaysLayer,
             tweetLayer,
+            fireStories,
             airQualityLayer,
             tomnodSellayer,
             indonesiaLayer,

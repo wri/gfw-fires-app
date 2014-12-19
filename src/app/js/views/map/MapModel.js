@@ -64,6 +64,7 @@ define([
     vm.landsatImageCheckbox = ko.observable(MapConfig.text.landsatImageCheckbox);
     vm.landsatImageSubLabel = ko.observable(MapConfig.text.landsatImageSubLabel);
     vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
+    vm.fireStoriesCheckbox = ko.observable(MapConfig.text.fireStoriesCheckbox);
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
     vm.getDates = ko.observable(MapConfig.text.getDates);
@@ -390,7 +391,17 @@ define([
         });
     };
 
+    vm.imageryZoomTo = function(data, event) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.imageryZoom(data, event);
+        });
+    };
 
+    vm.digitalGlobeToggle = function(data,event) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.showDigitalGlobe(data, event);
+        });
+    }
 
     vm.slidePanel = function(data) {
         // if (vm.toggleMapPane() == true) {

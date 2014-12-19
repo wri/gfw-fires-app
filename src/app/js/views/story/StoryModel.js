@@ -10,12 +10,36 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.headerTitle = ko.observable(Config.headerTitle);
         vm.newStoryTitle = ko.observable(Config.newStory.title);
 
-        //vm.htmlContent = ko.observable("Loading....");
-        vm.leftLinks = ko.observableArray(Config.storyLinks);
+        vm.storiesURL = "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0";
+        vm.localToken = "?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2";
+        vm.stagingToken = "?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L";
+        vm.productionToken = "?token=BvwcoIq9AJ04z_pusnxTw-awCMGU93bMurQ44KpDNwc0w0vyjsE9Gk8WZAtqkagp";
+
         vm.addButtonLabel = "Add Point";
         vm.removeButtonLabel = "Remove Point";
-        vm.submissionInputs = ko.observableArray([]);
+
         vm.storyTitleData = ko.observable();
+        vm.pointGeom = ko.observable();
+        vm.storyLocationData = ko.observable();
+        vm.dateObserv = ko.observable();
+        vm.storyDetailsData = ko.observable();
+        vm.storyVideoData = ko.observable();
+        vm.storyMediaData = ko.observable();
+        vm.storyNameData = ko.observable();
+        vm.storyEmailData = ko.observable();
+        vm.showBasemapGallery = ko.observable(false);
+
+        vm.stopSubmissionText = "Wait! Both a Title and a valid email are required to submit your story.";
+        vm.formInvalidText = "The email and/or the video url you provided is invalid.";
+        vm.noMapPoint = "Please place a point on the map to represent your story!";
+        vm.submitSuccess = "Your story was successfully submitted!";
+        vm.submitFailure = "An error occured during the submission.";
+        vm.attachSuccess = "The attachment you added was successfully added to the Story!";
+        vm.attachFailure = "The attachment you attempted to add could not be added to the Story";
+
+        vm.errorMessages = ko.observableArray();
+        vm.showErrorMessages = ko.observable();
+
 
         vm.linkClick = function(obj, evt) {
             topic.publish("toggleStoryNavList", obj)
@@ -39,17 +63,9 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         }
 
         vm.uploadStory = function(obj, evt) {
-            console.log(obj);
-            console.log(evt);
-            console.log("submitting!");
-            debugger;
-            var title, area, locations, dateSubmit, details, video, name, email;
-            var media = []; // but don't even do it this way; just have ALL of the submit box value's as observables and in this function just say if (someObserv()), feature.someAttr = someOberv();
-            if (!vm.dateObserv()) {
-                dateSubmit = vm.datePicker();
-            } else {
-                dateSubmit = vm.dateObserv();
-            }
+            require(["views/story/StoryController"], function(StoryController) {
+                StoryController.handleUpload(obj, evt);
+            });
         }
 
         var htmlToFetch;
@@ -62,12 +78,6 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         //     }
         //     return linkItem.selected;
         // });
-
-
-        vm.dateObserv = ko.observable();
-
-
-
 
 
         // function cancel(e) {
@@ -94,17 +104,18 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         // // Tells the browser that we *can* drop on this target
         // document.addEventListener(drop, 'dragover', cancel);
         // document.addEventListener(drop, 'dragenter', cancel);
-        function handleFileUpload(files, obj) {
-            for (var i = 0; i < files.length; i++) {
-                var fd = new FormData();
-                fd.append('file', files[i]);
+        // function handleFileUpload(files, obj) {
+        //     debugger;
+        //     for (var i = 0; i < files.length; i++) {
+        //         var fd = new FormData();
+        //         fd.append('file', files[i]);
 
-                var status = new createStatusbar(obj); //Using this we can set progress.
-                status.setFileNameSize(files[i].name, files[i].size);
-                //sendFileToServer(fd, status);
+        //         var status = new createStatusbar(obj); //Using this we can set progress.
+        //         status.setFileNameSize(files[i].name, files[i].size);
+        //         //sendFileToServer(fd, status);
 
-            }
-        }
+        //     }
+        // }
 
         handleFiles = function(files) {
             $("#storyMediaInput").on('dragenter', function(e) {
@@ -157,7 +168,13 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         // });
 
 
+        o.get = function(item) {
+            return item === 'model' ? o.vm : o.vm[item]();
+        };
 
+        o.set = function(key, value) {
+            o.vm[key](value);
+        };
 
         o.getVM = function() {
             return vm;

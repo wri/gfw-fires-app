@@ -913,6 +913,27 @@ define([
             //html += "</div>"
 
             return html;
+        },
+
+        getFireStoriesInfoWindow: function(evt) {
+            //TODO: Add Attachments!
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
+            var attr = evt.attributes;
+            var html = "<table>";
+
+            for (var propertyName in attr) {
+                if (attr[propertyName] && propertyName != 'OBJECTID') {
+                    html += "<tr><td>" + propertyName + ": " + attr[propertyName] + "</td></tr>";
+                }
+            }
+
+            // html += "<td><img src='" + attr.Title + "'/></td>";
+            // html += "<td>" + attr.Name + "</td></tr>";
+            //html += "<p>" + attr.Details + "</p>";
+            //html += "<p>" + attr.Email + "</p>";
+            html += "</div>"
+
+            return html;
         }
 
     };

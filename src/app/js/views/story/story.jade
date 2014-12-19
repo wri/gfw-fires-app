@@ -1,59 +1,51 @@
 link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#aboutInnerContainer(class="content-inner-container")
-    h1#storyTitle.source_category_title Submit a story
+    h1#storyTitle.source_category_title Report a Fire
     div#submitBox
         form(name="login", action="/login", method="post")
             div.storiesInput
                 h5.storyHeader TITLE
                 h5#requiredTitle.requiredItem Required
-                input(id="storyTitleInput", data-bind="storyTitleData", type="text", placeholder="Illegal Logging in National Park" required)
+                input(id="storyTitleInput", data-bind="value: storyTitleData", type="text", placeholder="Illegal Logging in National Park" required)
             div.storiesInput
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 div#storiesMap
-                    button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
+                    //-button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
                     //-button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")
-                    div#basemapGalleryContainer
+                    //-div#basemapGalleryContainer
                         div#basemapGallery
-            //-
-                div#storiesMap(style='position:relative;')
-                    div#TitlePane(style='position:absolute; right:20px; top:10px; z-Index:999;')
-                        div#basemapGallery(style="width:180px; height:180px; overflow:auto;")
-
-                    <div style="position:absolute; right:20px; top:10px; z-Index:999;">
-                        <div data-dojo-type="dijit/TitlePane" 
-                             data-dojo-props="title:'Switch Basemap', closable:false, open:false">
-                          <div data-dojo-type="dijit/layout/ContentPane" style="width:380px; height:280px; overflow:auto;">
-                            <div id="basemapGallery"></div>
-                          </div>
-                        </div>
-                      </div>
-
+                    //-div#basemap-gallery-button2(class="basemap-gallery-button",title="Basemaps/Overlays")
+                        div#basemap-linker-story(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
+                        div#basemap-gallery-container-story(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
+                            div(class='basemap-container-labels') Basemaps
+                            div#basemap-gallery(class="basemap-gallery")
 
             div.storiesInput
                 h5.storyHeader LOCATION
-                input(id="storyLocationInput", type="text", placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'")
+                input(id="storyLocationInput", data-bind="value: storyLocationData", type="text", placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'")
             div.storiesInput
                 h5.storyHeader DATE
                 input(id="storyDateInput", type="text", placeholder="mm/dd/yyyy", data-bind="value:datePicker()")
 
             div.storiesInput
                 h5.storyHeader DETAILS
-                textarea(id="storyDetailsInput", type="text", placeholder="'Selective logging with chainsaws', 'Burning peatland', 'Forest cleared for agriculture', 'Affected species'")
+                textarea(id="storyDetailsInput", data-bind="value: storyDetailsData", type="text", placeholder="'Selective logging with chainsaws', 'Burning peatland', 'Forest cleared for agriculture', 'Affected species'")
             div.storiesInput
-                h5.storyHeader VIDEO
-                input(id="storyVideoInput", type="url", placeholder="http://www.youtube.com/watch?v=ITG-0brb98I")
+                h5#videoHeader.storyHeader VIDEO
+                input(id="storyVideoInput", data-bind="value: storyVideoData", type="url", placeholder="http://www.youtube.com/watch?v=ITG-0brb98I")
             div.storiesInput
                 h5.storyHeader MEDIA
                 div(id="storyMediaInput")
-                    input(type="file", multiple onchange="handleFiles(this.files)", id="uploadStoryMedia")
+                    input(type="file", name="attachment", data-bind="value: storyMediaData", id="uploadStoryMedia" multiple)
+                    div#uploadList(data-bind="text: storyMediaData")
             div.storiesInput
                 h5.storyHeader NAME
-                input(id="storyNameInput", type="text")
+                input(id="storyNameInput", data-bind="value: storyNameData", type="text")
             div.storiesInput
                 h5.storyHeader EMAIL
                 h5#requiredEmail.requiredItem Required
-                input(id="storyEmailInput", type="email" required)
+                input(id="storyEmailInput", data-bind="value: storyEmailData", type="email" required)
         div#submitStory.footerModes
                 input(type="submit", value="Submit Story", class="action", data-bind="click: uploadStory")
             p

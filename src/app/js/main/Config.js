@@ -50,11 +50,11 @@ define([],
                 "viewName": "link",
                 "domId": "link",
                 "selected": false
-                // }, {
-                //     "html": "Story",
-                //     "viewName": "story",
-                //     "domId": "storyView",
-                //     "selected": false
+            }, {
+                "html": "Story",
+                "viewName": "story",
+                "domId": "storyView",
+                "selected": false
             }],
 
             headerTitle: "A partnership convened by the World Resources Institute",
@@ -91,10 +91,10 @@ define([],
                     "eventName": "goToTomnod",
                     "display": false
 
-                    // }, {
-                    //     "html": "<span>Submit a story</span>",
-                    //     "eventName": "goToStory",
-                    //     "display": false
+                }, {
+                    "html": "<span>Submit a story</span>",
+                    "eventName": "goToStory",
+                    "display": false
 
                 }
             ],
@@ -172,22 +172,6 @@ define([],
                 }, {
                     "name": "PARTNERS",
                     "htmlContent": "aboutPartners",
-                    "selected": false
-                }
-
-            ],
-
-            storyLinks: [{
-                    "name": "STORY LINK 1",
-                    "htmlContent": "aboutGfwStories1",
-                    "selected": true
-                }, {
-                    "name": "STORY LINK 2",
-                    "htmlContent": "aboutGfwStories2",
-                    "selected": false
-                }, {
-                    "name": "STORY LINK 3",
-                    "htmlContent": "aboutGfwStories3",
                     "selected": false
                 }
 

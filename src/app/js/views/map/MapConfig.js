@@ -127,6 +127,11 @@ define({
         id: "Fire_Tweets"
     },
 
+    fireStories: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2",
+        id: "Fire_Stories"
+    },
+
     forestUseLayers: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Forest_Use',
@@ -191,6 +196,7 @@ define({
         tileUrl: 'http://suitability-mapper.blueraster.com/dg_imagery/',
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
+        graphicsLayerHighlight: 'Digital_Globe_Bounding_Boxes_Highlight',
         imagedir: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/',
         mosaics: ['WV01', 'QB01', 'WV02', 'GEO1'],
         sensorTypes: {
@@ -239,6 +245,10 @@ define({
         },
         'Fire_Tweets': {
             'id': "twitter-conversations-checkbox",
+            'type': 'checkbox'
+        },
+        'Fire_Stories': {
+            'id': "fire-stories-checkbox",
             'type': 'checkbox'
         },
         'Forest_Use': {
@@ -425,6 +435,7 @@ define({
         landsatImageCheckbox: "Latest Landsat 8 imagery",
         landsatImageSubLabel: "(latest image, 30m, global)",
         twitterConversationsCheckbox: "Twitter conversations",
+        fireStoriesCheckbox: "Fire Stories",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
         getDates: "Update",
@@ -693,6 +704,11 @@ define({
         {
             "id": "twitter-conversations-checkbox",
             "class": "twitter-checkbox",
+            "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "fire-stories-checkbox",
+            "class": "fireStories-checkbox",
             "type": "checkbox",
             "props": {}
         }, {
