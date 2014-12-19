@@ -98,6 +98,13 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
                     if (StoryModel.vm.storyMediaData()) {
                         var objID = adds.adds[0].objectId;
                         var entireForm = document.login;
+                        // var media = $('#uploadStoryMedia')[0];
+                        // var length = media.files.length;
+                        // for (var i = 0; i < length; i++) {
+                        // TODO: Add multiple attachments if the user has selected > 1. 
+                        // TODO: Also append MULTIPLE attachments to that list I display to the user
+                        //     //add Attachment. --> But how to specify we're adding an attachment OTHER than the first one??
+                        // }
                         storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
                     }
                     storiesLayer.refresh();
@@ -124,9 +131,9 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
 
 
             // on(dom.byId("storiesMap"), "click", function(evt) {
-            //     tool = "point";
-            //     o.map.disableMapNavigation();
-            //     tb.activate(tool);
+            //     // tool = "point";
+            //     // o.map.disableMapNavigation();
+            //     // tb.activate(tool);
             // });
 
         }

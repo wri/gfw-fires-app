@@ -332,6 +332,7 @@ define([
         var activeFeatureIndex = 0;
         var handles = [];
         dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
+            console.log("here");
             handles.push(on(node, "click", function(evt) {
                 var target = evt.target ? evt.target : evt.srcElement,
                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
@@ -632,12 +633,7 @@ define([
         });
 
         on(o.map, "click", function(evt) {
-            // Finder.getActiveFiresInfoWindow(evt);
-            // Finder.getTomnodInfoWindow(evt);
             Finder.selectTomnodFeatures(evt);
-            // Finder.getTomnodInfoWindow(evt);
-
-            // Finder.getDigitalGlobeInfoWindow(evt);
         });
 
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
@@ -1197,11 +1193,29 @@ define([
         var htmlContent = Finder.getFireStoriesInfoWindow;
 
         var fireStory_popupTemplate = new PopupTemplate({
-            "title": "Beverly Hills Trees By Block",
-            //"value": htmlContent,
+            title: "{Title}",
+            //"content": htmlContent,
+            fieldInfos: [{
+                fieldName: "Details",
+                label: "Details",
+                visible: true
+            }, {
+                fieldName: "Video",
+                label: "Video",
+                visible: true
+            }, {
+                fieldName: "Name",
+                label: "Name",
+                visible: true
+            }, {
+                fieldName: "Email",
+                label: "Email",
+                visible: true
+            }],
             "showAttachments": true
 
-        });
+        }); //TODO: Find a way to filter out attributes w/o values from the popup
+
         //fireStory_popupTemplate.setContent(Finder.getFireStoriesInfoWindow);
 
         fireStories = new FeatureLayer(MapConfig.fireStories.url, {

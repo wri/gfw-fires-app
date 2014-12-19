@@ -37,7 +37,7 @@ div#aboutInnerContainer(class="content-inner-container")
             div.storiesInput
                 h5.storyHeader MEDIA
                 div(id="storyMediaInput")
-                    input(type="file", name="attachment", data-bind="value: storyMediaData", multiple onchange="handleFiles(this.files)", id="uploadStoryMedia")
+                    input(type="file", name="attachment", data-bind="value: storyMediaData", id="uploadStoryMedia" multiple)
                     div#uploadList(data-bind="text: storyMediaData")
             div.storiesInput
                 h5.storyHeader NAME

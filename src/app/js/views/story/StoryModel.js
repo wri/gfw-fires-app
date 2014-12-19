@@ -104,17 +104,18 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         // // Tells the browser that we *can* drop on this target
         // document.addEventListener(drop, 'dragover', cancel);
         // document.addEventListener(drop, 'dragenter', cancel);
-        function handleFileUpload(files, obj) {
-            for (var i = 0; i < files.length; i++) {
-                var fd = new FormData();
-                fd.append('file', files[i]);
+        // function handleFileUpload(files, obj) {
+        //     debugger;
+        //     for (var i = 0; i < files.length; i++) {
+        //         var fd = new FormData();
+        //         fd.append('file', files[i]);
 
-                var status = new createStatusbar(obj); //Using this we can set progress.
-                status.setFileNameSize(files[i].name, files[i].size);
-                //sendFileToServer(fd, status);
+        //         var status = new createStatusbar(obj); //Using this we can set progress.
+        //         status.setFileNameSize(files[i].name, files[i].size);
+        //         //sendFileToServer(fd, status);
 
-            }
-        }
+        //     }
+        // }
 
         handleFiles = function(files) {
             $("#storyMediaInput").on('dragenter', function(e) {
