@@ -196,6 +196,7 @@ define({
         tileUrl: 'http://suitability-mapper.blueraster.com/dg_imagery/',
         id: 'Digital_Globe',
         graphicsLayerId: 'Digital_Globe_Bounding_Boxes',
+        graphicsLayerHighlight: 'Digital_Globe_Bounding_Boxes_Highlight',
         imagedir: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/',
         mosaics: ['WV01', 'QB01', 'WV02', 'GEO1'],
         sensorTypes: {

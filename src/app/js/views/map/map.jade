@@ -253,11 +253,11 @@ div#map-view(class="map-view")
 								th(data-bind="text: 'Zoom'")
 						tbody(data-bind="foreach: digitalGlobeInView")
 							//-tr
-							tr(data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
-								td.font10(data-bind="html: feature.attributes.formattedDatePrefix1")
-								td.font10(data-bind="html: feature.attributes.formattedDatePrefix2")
+							tr(data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}, css: {imageryRowSelected:selected}")
+								td.font10(data-bind="html: feature.attributes.formattedDatePrefix1, click: $root.digitalGlobeToggle")
+								td.font10(data-bind="html: feature.attributes.formattedDatePrefix2, click: $root.digitalGlobeToggle")
 								//-td.font10(data-bind="html: feature.attributes.formattedZoomTo")
-								td.popup-link-zoom
+								td.popup-link-zoom(data-bind="click: $root.imageryZoomTo")
 								//-td.imageryZoomIcon(data-bind="html: feature.attributes.formattedZoomTo")
 									<a class='popup-link-zoom'>Zoom To</a>
 								//-td.imageryZoomIcon(data-bind="click: closeReportOptionsWIND"

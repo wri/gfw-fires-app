@@ -391,7 +391,17 @@ define([
         });
     };
 
+    vm.imageryZoomTo = function(data, event) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.imageryZoom(data, event);
+        });
+    };
 
+    vm.digitalGlobeToggle = function(data,event) {
+        require(["views/map/MapController"], function(MapController) {
+            MapController.showDigitalGlobe(data, event);
+        });
+    }
 
     vm.slidePanel = function(data) {
         // if (vm.toggleMapPane() == true) {
