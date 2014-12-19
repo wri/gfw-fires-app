@@ -19,7 +19,7 @@ gulp.task('clean', function(cb) {
     del(app_dir.build, cb);
 });
 
-gulp.task('minify-html', function () {
+gulp.task('minify-html', function() {
     return gulp.src(app_dir.src + '**/*.htm*')
         .pipe(minifyhtml({
             comments: false,
@@ -28,13 +28,13 @@ gulp.task('minify-html', function () {
         .pipe(gulp.dest(app_dir.build));
 });
 
-gulp.task('minify-css', function () {
+gulp.task('minify-css', function() {
     return gulp.src(app_dir.src + '**/*.css')
         .pipe(minifycss())
         .pipe(gulp.dest(app_dir.build));
 });
 
-gulp.task('minify-images', function () {
+gulp.task('minify-images', function() {
     return gulp.src(app_dir.src + 'app/images/**/*')
         .pipe(imagemin({
             optimizationLevel: 7,
@@ -44,23 +44,23 @@ gulp.task('minify-images', function () {
         .pipe(gulp.dest(app_dir.build + 'app/images'));
 });
 
-gulp.task('minify-js', function () {
+gulp.task('minify-js', function() {
     return gulp.src(app_dir.src + '**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest(app_dir.build));
 });
 
 gulp.task('copy', ['copy-fonts', 'copy-access']);
-gulp.task('copy-fonts', function () {
+gulp.task('copy-fonts', function() {
     return gulp.src(app_dir.src + 'app/fonts/**/*')
         .pipe(gulp.dest(app_dir.build + 'app/fonts'));
 });
-gulp.task('copy-access', function () {
+gulp.task('copy-access', function() {
     return gulp.src(app_dir.src + '.htaccess')
         .pipe(gulp.dest(app_dir.build));
 });
 
-gulp.task('watch-stylus', function () {
+gulp.task('watch-stylus', function() {
     return gulp.src(app_dir.src + '**/*.styl')
         .pipe(stylus({
             errors: true,
@@ -69,7 +69,7 @@ gulp.task('watch-stylus', function () {
         .pipe(gulp.dest(app_dir.src));
 });
 
-gulp.task('watch-jade', function () {
+gulp.task('watch-jade', function() {
     return gulp.src(app_dir.src + '**/*.jade')
         .pipe(jade({
             pretty: true
@@ -77,7 +77,7 @@ gulp.task('watch-jade', function () {
         .pipe(gulp.dest(app_dir.src));
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
     // Run the Compilation
     gulp.start('watch-stylus', 'watch-jade');
     // Then Start the Watch
@@ -85,6 +85,6 @@ gulp.task('watch', function () {
     gulp.watch(app_dir.src + '**/*.jade', ['watch-jade']);
 });
 
-gulp.task('build', ['clean'], function () {
+gulp.task('build', ['clean'], function() {
     gulp.start('minify-html', 'minify-css', 'minify-images', 'minify-js', 'copy');
 });

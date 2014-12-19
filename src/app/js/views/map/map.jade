@@ -230,21 +230,11 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#digital-globe-checkbox
 					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
-					//-span(data-bind="text: digitalGlobeSubLabel", class="checkbox-sub-label")
 				div#imageryWindow(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions")
-					//-div#select-imagery-close(data-bind="click: selectImageryMinimize" class="reportOptionsHeader") -
-					//-div.font10(data-bind="text:reportTextImagery()")
 					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
 							div#footprintsCheckBox(class="checkbox-container")
-								//-input#digital-globe-footprints-checkbox1(data-dojo-type="dijit/form/checkbox" type="checkbox" checked)
 								input#digital-globe-footprints-checkbox(type="checkbox" checked)
-								//- input#digital-globe-footprints-checkbox1
-								//-input#digital-globe-footprints-checkbox(data-bind="checked: timeOfDay")
-								//-input#digital-globe-footprints-checkbox(data-bind="checked: showReportOptionsDigitalGlobeFootprints()")
-								//-input#digital-globe-footprints-checkbox(aria-checked= "true")
-
 								label(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")
-								//-span(data-bind="text: digitalGlobeFootprintsSubLabel", class="checkbox-sub-label")
 					table.imageryTable.font10
 						thead
 							tr(class="imageryTopRow")
@@ -252,15 +242,13 @@ div#map-view(class="map-view")
 								th(data-bind="text: 'Satellite Type'")
 								th(data-bind="text: 'Zoom'")
 						tbody(data-bind="foreach: digitalGlobeInView")
-							//-tr
-							tr(data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}, css: {imageryRowSelected:selected}")
-								td.font10(data-bind="html: feature.attributes.formattedDatePrefix1, click: $root.digitalGlobeToggle")
-								td.font10(data-bind="html: feature.attributes.formattedDatePrefix2, click: $root.digitalGlobeToggle")
-								//-td.font10(data-bind="html: feature.attributes.formattedZoomTo")
-								td.popup-link-zoom(data-bind="click: $root.imageryZoomTo")
-								//-td.imageryZoomIcon(data-bind="html: feature.attributes.formattedZoomTo")
-									<a class='popup-link-zoom'>Zoom To</a>
-								//-td.imageryZoomIcon(data-bind="click: closeReportOptionsWIND"
+							tr(data-bind="css: {imageryRowSelected:selected, imageryRowHover:mouseover}")
+								//-td.font10(data-bind="event:{click: $root.digitalGlobeToggle, mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
+								td.font10(data-bind="event:{click: $root.digitalGlobeToggle}")
+									span(data-bind="html: feature.attributes.formattedDatePrefix1")
+								td.font10(data-bind="event:{click: $root.digitalGlobeToggle}")
+									span(data-bind="html: feature.attributes.formattedDatePrefix2")
+								td.popup-link-zoom(data-bind="event:{click: $root.imageryZoomTo}")
 
 			div#social-media-panel(class='accordion-panel')
 				div(class="checkbox-container")

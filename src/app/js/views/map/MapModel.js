@@ -354,6 +354,7 @@ define([
     vm.DigitalGlobeExtents = ko.observable([]);
     vm.dgMoments = ko.observable([]);
     vm.valuenodes = ko.observable();
+    vm.selectedImageryID = ko.observable();
 
     vm.closeReportOptions = function() {
         vm.showReportOptions(false);
@@ -397,7 +398,7 @@ define([
         });
     };
 
-    vm.digitalGlobeToggle = function(data,event) {
+    vm.digitalGlobeToggle = function(data, event) {
         require(["views/map/MapController"], function(MapController) {
             MapController.showDigitalGlobe(data, event);
         });

@@ -506,7 +506,7 @@ define([
 
             var layer = _map.getLayer(MapConfig.digitalGlobe.sensorTypes[sensorName]);
             var mrule = new MosaicRule();
-            mrule.method = MosaicRule.METHOD_LOCKRASTER
+            mrule.method = MosaicRule.METHOD_LOCKRASTER;
             var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
                 var layer = _map.getLayer(i);
                 if (layer && layer.visible) {

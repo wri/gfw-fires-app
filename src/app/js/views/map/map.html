@@ -234,10 +234,10 @@
               </tr>
             </thead>
             <tbody data-bind="foreach: digitalGlobeInView">
-              <tr data-bind="event:{mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}, css: {imageryRowSelected:selected}">
-                <td data-bind="html: feature.attributes.formattedDatePrefix1, click: $root.digitalGlobeToggle" class="font10"></td>
-                <td data-bind="html: feature.attributes.formattedDatePrefix2, click: $root.digitalGlobeToggle" class="font10"></td>
-                <td data-bind="click: $root.imageryZoomTo" class="popup-link-zoom"></td>
+              <tr data-bind="css: {imageryRowSelected:selected, imageryRowHover:mouseover}">
+                <td data-bind="event:{click: $root.digitalGlobeToggle}" class="font10"><span data-bind="html: feature.attributes.formattedDatePrefix1"></span></td>
+                <td data-bind="event:{click: $root.digitalGlobeToggle}" class="font10"><span data-bind="html: feature.attributes.formattedDatePrefix2"></span></td>
+                <td data-bind="event:{click: $root.imageryZoomTo}" class="popup-link-zoom"></td>
               </tr>
             </tbody>
           </table>

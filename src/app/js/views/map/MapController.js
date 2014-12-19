@@ -306,11 +306,9 @@ define([
             var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
             if (date >= start && date <= end) {
                 var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                //f.attributes.AcquisitionDate2 = f.attributes.AcquisitionDate;
                 f.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
                 var dateLink = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
                 var dateLink2 = "<a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</a>";
-                //f.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
                 f.attributes.formattedDatePrefix1 = dateLink;
                 f.attributes.formattedDatePrefix2 = dateLink2;
                 MapModel.vm.digitalGlobeInView.push({
@@ -330,46 +328,64 @@ define([
 
     o.showDigitalGlobe = function(data, event) {
 
+        // var tableRows = $(event.target).parent().parent().parent()[0];
+        // $(tableRows).find('tr').each(function() {
+        //     $(this).removeClass("imageryRowSelected");
+        // });
+        // if (event.target.nodeName == "TD") {
+        //     var rowToHighlight = $(event.target).parent();
+        // } else {
+        //     var rowToHighlight = $(event.target).parent().parent();
+        // }
+        // $(rowToHighlight).addClass("imageryRowSelected");
+        MapModel.vm.selectedImageryID(data.feature.attributes.OBJECTID);
         LayerController.showDigitalGlobeImagery(data);
-        /*var tableRows = $(event.target).parent().parent().parent()[0];
-        $(tableRows).find('tr').each(function() {
-            $(this).removeClass("imageryRowSelected");
-        });
-        var rowToHighlight = $(event.target).parent().parent();
-        $(rowToHighlight).addClass("imageryRowSelected");*/
-        //MapModel.vm.selectedImageryRow = event.target.dataset.bucket;
-        MapModel.vm.selectedImageryID = data.feature.attributes.OBJECTID
     };
 
     o.imageryZoom = function(data, event) {
-        //o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.clear();
         o.map.setExtent((data.feature.geometry.getExtent()));
     };
 
     o.handleImageryOver = function(data, event) {
-        var parent = event.currentTarget;
-        $(parent).addClass("imageryRowHover");
+        // var parent = event.currentTarget;
+        // $(parent).addClass("imageryRowHover");
+        var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
+        MapModel.vm.digitalGlobeInView([]);
+
+        arrayUtils.forEach(digitalGlobeInView, function(f) {
+            if (f == data) {
+                f.mouseover = true;
+            } else {
+                f.mouseover = false;
+            }
+            MapModel.vm.digitalGlobeInView.push(f);
+        });
+
         highlightGraphic = new Graphic(data.feature.geometry, highlightSymbol);
         highlightGraphic.id = "highlight";
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.add(highlightGraphic);
-        //o.map.graphics.add(highlightGraphic);
     };
 
     o.handleImageryOut = function(data, event) {
-        var parent = $(event.target).parent();
-        parent = parent[0];
+        // var parent = $(event.target).parent();
+        // parent = parent[0];
 
-        if (parent.nodeName == "TD") {
-            parent = $(parent).parent();
-            parent = parent[0];
-        }
-        $(parent).removeClass("imageryRowHover");
+        // if (parent.nodeName == "TD") {
+        //     parent = $(parent).parent();
+        //     parent = parent[0];
+        // }
+        //$(parent).removeClass("imageryRowHover");
+        var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
+        arrayUtils.forEach(digitalGlobeInView, function(f) {
+            f.mouseover = false;
+            MapModel.vm.digitalGlobeInView.push(f);
+        });
+
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.clear();
-        //o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
     };
 
     o.resizeMapPanel = function(data) {
