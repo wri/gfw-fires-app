@@ -280,7 +280,7 @@ define([
             MapConfig.digitalGlobe.navigationBool = false;
         }
     };
-
+    var handles = [];
     o.updateImageryList = function() {
 
         MapModel.vm.digitalGlobeInView.removeAll();
@@ -334,9 +334,20 @@ define([
         });
 
         var activeFeatureIndex = 0;
-        var handles = [];
+
+        //TODO: Change how these event handlers work
+
+        arrayUtils.forEach(handles, function(h) { //Remove handlers
+            h.remove();
+        });
+
+        handles = [];
+
+        //debugger;
         dojoQuery(".imageryTable .popup-link").forEach(function(node, index) {
-            handles.push(on(node, "click", function(evt) {
+            console.log("Added an Event");
+
+            var handleClick = on(node, "click", function(evt) {
                 var target = evt.target ? evt.target : evt.srcElement,
                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
 
@@ -350,11 +361,12 @@ define([
                 MapModel.vm.selectedImageryRow = this.dataset.bucket;
                 $(parent).parent().addClass("imageryRowSelected");
 
-            }));
+            });
+            handles.push(handleClick);
         });
 
         //TODO Replace jquery onClicks w/ ko data-bind="attr: { click: someFunction
-        $("#imageryWindow > table > tbody > tr").mouseenter(function() {
+        var imageryMouseEnter = $("#imageryWindow > table > tbody > tr").mouseenter(function() {
             var highlightedRow = this.firstElementChild;
             $(this).addClass("imageryRowHover");
             highlightedRow = $(highlightedRow).html();
@@ -373,25 +385,38 @@ define([
                 }
             }
         });
-        $("#imageryWindow > table > tbody > tr").mouseleave(function() {
+
+        handles.push(imageryMouseEnter);
+
+        var imageryMouseLeave = $("#imageryWindow > table > tbody > tr").mouseleave(function() {
             $(this).removeClass("imageryRowHover");
             o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
         });
 
-        handles.push(on(dojoQuery(".popup-link-zoom"), "click", function(evt) {
-            o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
-            var highlightedRow = ($(this).parent())[0];
-            var child = highlightedRow.firstElementChild;
-            child = child.firstElementChild;
-            child = $(child).attr("data-bucket");
+        handles.push(imageryMouseLeave);
+        //debugger;
 
-            for (var i = 0; i < featuresImageryFootprints.length; i++) {
-                var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
-                if (check == child) {
-                    o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
+        dojoQuery(".popup-link-zoom").forEach(function(node) {
+            var handleClick = on(node, "click", function(evt) {
+                console.log(">>>>>>>>>>>>>>>>>> CREATE HANDLE");
+                o.map.graphics.remove(o.map.graphics.graphics[o.map.graphics.graphics.length - 1]);
+                var highlightedRow = ($(this).parent())[0];
+                var child = highlightedRow.firstElementChild;
+                child = child.firstElementChild;
+                child = $(child).attr("data-bucket");
+
+                for (var i = 0; i < featuresImageryFootprints.length; i++) {
+                    console.log(">>>>>>>>>>>>>>>>>>> CREATE HANDLE - featuresImageryFootprints");
+                    var check = featuresImageryFootprints[i].attributes.SensorName + "_id_" + featuresImageryFootprints[i].attributes.OBJECTID;
+                    if (check == child) {
+                        console.log("setting extent");
+                        o.map.setExtent((featuresImageryFootprints[i].geometry.getExtent()));
+                    }
                 }
-            }
-        }));
+            });
+            handles.push(handleClick);
+        })
+
     };
     var parent = $(this).parent();
     $(parent).parent().removeClass("imageryRowHover");
@@ -957,10 +982,15 @@ define([
                 LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
+
                 if (target.checked) {
-                    if (target.labels.length > 0) {
-                        var label = target.labels[0].innerHTML;
-                        self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    //TODO : find better way to get label
+                    var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1];
+                    if (labelNode.innerHTML.length > 0) {
+                        var label = labelNode.innerHTML;
+                        if (label.search("None") === -1) {
+                            self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                        }
                     }
                 }
             });
@@ -970,12 +1000,17 @@ define([
             on(node, "change", function(evt) {
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
                 LayerController.updateAdditionalVisibleLayers("conservation-layers-option", MapConfig.conservationLayers);
+
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
                 if (target.checked) {
-                    if (target.labels.length > 0) {
-                        var label = target.labels[0].innerHTML;
-                        self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    //TODO : find better way to get label
+                    var labelNode = dojoQuery("#conservation-panel .dijitChecked")[0].parentNode.children[1];
+                    if (labelNode.innerHTML.length > 0) {
+                        var label = labelNode.innerHTML;
+                        if (label.search("None") === -1) {
+                            self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                        }
                     }
                 }
             });
@@ -984,11 +1019,15 @@ define([
         dojoQuery(".land-cover-layers-option").forEach(function(node) {
             on(node, "change", function(evt) {
                 LayerController.updateLandCoverLayers(evt);
+                //debugger;
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
                 if (target.checked) {
-                    if (target.labels.length > 0) {
-                        var label = target.labels[0].innerHTML;
+                    //dojoQuery("land-cover-panel_wrapper .land-cover-layers-option.dijitChecked label")[0];
+                    //TODO : find better way to get label
+                    var labelNode = dojoQuery("#land-cover-panel .dijitChecked")[0].parentNode.children[1];
+                    if (labelNode.innerHTML.length > 0) {
+                        var label = labelNode.innerHTML;
                         if (label.search("None") === -1) {
                             self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
                         }
