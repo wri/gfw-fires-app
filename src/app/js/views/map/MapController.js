@@ -203,7 +203,9 @@ define([
             basemap: MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
             maxZoom: MapConfig.mapOptions.maxZoom,
-            sliderPosition: MapConfig.mapOptions.sliderPosition
+            sliderPosition: MapConfig.mapOptions.sliderPosition,
+            force3DTransforms: true,
+            navigationMode: "css-transforms"
         });
         window.map = o.map;
 
