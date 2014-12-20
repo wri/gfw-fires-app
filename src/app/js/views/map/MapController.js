@@ -72,8 +72,6 @@ define([
             viewName: "map"
         },
         featuresImageryFootprints = [],
-        highlightGraphic,
-        highlightedRow,
         highlightSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color("yellow"), 5), new Color([255, 255, 0, 0])
@@ -314,7 +312,6 @@ define([
 
                 MapModel.vm.digitalGlobeInView.push({
                     feature: f,
-                    mouseover: false,
                     selected: (f.attributes.OBJECTID == MapModel.vm.selectedImageryID())
                 });
             }
@@ -362,40 +359,14 @@ define([
     };
 
     o.handleImageryOver = function(data, event) {
-        // var parent = event.currentTarget;
-        // $(parent).addClass("imageryRowHover");
-        var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
-        MapModel.vm.digitalGlobeInView([]);
 
-        arrayUtils.forEach(digitalGlobeInView, function(f) {
-            if (f == data) {
-                f.mouseover = true;
-            } else {
-                f.mouseover = false;
-            }
-            MapModel.vm.digitalGlobeInView.push(f);
-        });
-
-        highlightGraphic = new Graphic(data.feature.geometry, highlightSymbol);
-        highlightGraphic.id = "highlight";
+        var highlightGraphic = new Graphic(data.feature.geometry);
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.add(highlightGraphic);
     };
 
     o.handleImageryOut = function(data, event) {
-        // var parent = $(event.target).parent();
-        // parent = parent[0];
 
-        // if (parent.nodeName == "TD") {
-        //     parent = $(parent).parent();
-        //     parent = parent[0];
-        // }
-        //$(parent).removeClass("imageryRowHover");
-        var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
-        arrayUtils.forEach(digitalGlobeInView, function(f) {
-            f.mouseover = false;
-            MapModel.vm.digitalGlobeInView.push(f);
-        });
 
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.clear();

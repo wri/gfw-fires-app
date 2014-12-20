@@ -222,7 +222,7 @@
           <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
             <div id="footprintsCheckBox" class="checkbox-container">
               <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
-              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox"></label>
+              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
             </div>
           </div>
           <table class="imageryTable font10">
@@ -234,9 +234,9 @@
               </tr>
             </thead>
             <tbody data-bind="foreach: digitalGlobeInView">
-              <tr data-bind="css: {imageryRowSelected:selected}" class="imageryRow">
-                <td class="font10"><span data-bind="html: feature.attributes.formattedDatePrefix1, event:{click: $root.digitalGlobeToggle}"></span></td>
-                <td data-bind="event:{click: $root.digitalGlobeToggle}" class="font10"><span data-bind="html: feature.attributes.formattedDatePrefix2, event:{click: $root.digitalGlobeToggle}"></span></td>
+              <tr data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}" class="imageryRow">
+                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
                 <td data-bind="event:{click: $root.imageryZoomTo}" class="popup-link-zoom"></td>
               </tr>
             </tbody>

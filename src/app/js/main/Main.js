@@ -21,6 +21,13 @@ define([
         esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
         esriConfig.defaults.io.corsEnabledServers.push(MainConfig.emailSubscribeUrl);
 
+        //https://developers.arcgis.com/javascript/jssamples/mapconfig_smoothpan.html
+        //configure map animation to be faster
+        esriConfig.defaults.map.panDuration = 50; // time in milliseconds, default panDuration: 350
+        esriConfig.defaults.map.panRate = 10; // default panRate: 25
+        esriConfig.defaults.map.zoomDuration = 100; // default zoomDuration: 500
+        esriConfig.defaults.map.zoomRate = 10; // default zoomRate: 25
+
         // esriConfig.defaults.io.proxyUrl = "http://www.wri.org/";
 
         // esri.config.defaults.io.corsEnabledServers.push("servername");
