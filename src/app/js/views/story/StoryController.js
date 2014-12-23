@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", ],
-    function(dom, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
+define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils"],
+    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
 
         var o = {};
         var initialized = false;
@@ -77,8 +77,10 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
             //     console.log("basemap gallery error:  ", msg);
             // });
 
-            o.map.on("load", function() {
+            var mapLoad = o.map.on("load", function() {
+                mapLoad.remove();
                 o.initToolbar();
+                o.map.resize();
                 //o.map.setInfoWindowOnClick(true);
                 // var infoTitle = StoryModel.vm.storyTitleData();
                 // var infoTemplate = new InfoTemplate(infoTitle, "${*}");
@@ -87,31 +89,53 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
                     id: "storiesLayer",
                     outFields: ["*"]
                 });
+
                 storiesLayer.setVisibility(false);
                 var attachmentSuccess = function() {
                     console.log(StoryModel.vm.attachSuccess);
+
+                    // var inputAreas = StoryModel.vm.inputFilesSelector();
+                    // StoryModel.vm.inputFilesSelector([]);
+                    // arrayUtil.forEach(inputAreas, function(f) {
+                    //     f.display = false;
+                    //     StoryModel.vm.inputFilesSelector.push(f);
+                    // });
+                    //domConstruct.destroy(attachmentDoms[i]);
                 }
                 var attachmentError = function() {
                     console.log(StoryModel.vm.attachFailure);
                 }
                 storiesLayer.on("edits-complete", function(adds, updates, deletes) {
-                    if (StoryModel.vm.storyMediaData()) {
+                    //var media = $('#uploadStoryMedia')[0];
+                    var attachmentDoms = $(".uploadInput");
+
+                    if (StoryModel.vm.inputFilesSelector().length > 1) {
                         var objID = adds.adds[0].objectId;
                         var entireForm = document.login;
-                        // var media = $('#uploadStoryMedia')[0];
-                        // var length = media.files.length;
-                        // for (var i = 0; i < length; i++) {
-                        // TODO: Add multiple attachments if the user has selected > 1. 
-                        // TODO: Also append MULTIPLE attachments to that list I display to the user
-                        //     //add Attachment. --> But how to specify we're adding an attachment OTHER than the first one??
-                        // }
-                        storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
+                        //var media = $('#uploadStoryMedia')[0];
+                        //var length = media.files.length;
+                        //debugger;
+                        //for (var i = attachmentDoms.length - 1; i >= 0; i--) {
+                        for (var i = StoryModel.vm.inputFilesSelector().length - 1; i > 0; i--) {
+                            storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
+                            domConstruct.destroy(attachmentDoms[i - 1]);
+                        }
+                        //domConstruct.destroy(attachmentDoms[i]);
+                        //attachmentDoms.pop();
+
+
+                        //TODO: Add multiple attachments if the user has selected > 1.  --> But how to specify we're adding an attachment OTHER than the first one?
+                        //remove that attachment from the media.files after I add it?
+                        //}
+                        //debugger;
+                        //storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
                     }
                     storiesLayer.refresh();
                 });
 
                 on.once(o.map, "update-end", function() {
                     o.map.addLayer(storiesLayer);
+
                 });
 
                 //on(dom.byId("basemap-gallery-button2"), "click", o.toggleBasemapGallery);
@@ -124,6 +148,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
 
             on(dom.byId("storiesMap"), "mouseover", function(evt) {
                 tool = "point";
+
                 //o.map.disableMapNavigation();
                 tb.activate(tool);
             });
@@ -260,8 +285,33 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
             });
 
         };
-        o.handleUpload = function(obj, evt) {
 
+        o.handleFileChange = function(obj, evt) {
+
+            var fileName = evt.currentTarget.files[0].name;
+            var oldButton = evt.currentTarget;
+            $(oldButton).css("opacity", "0");
+
+            var oldContent = StoryModel.vm.mediaListData();
+            oldContent += "<p>" + fileName + "</p>";
+            StoryModel.vm.mediaListData(oldContent);
+
+            // var inputAreas = StoryModel.vm.inputFilesSelector();
+            // StoryModel.vm.inputFilesSelector([]);
+            // arrayUtil.forEach(inputAreas, function(f) {
+            //     f.display = false;
+            //     StoryModel.vm.inputFilesSelector.push(f);
+            // });
+            StoryModel.vm.inputFilesSelector.push({
+                display: true
+            });
+        };
+
+        o.handleUpload = function(obj, evt) {
+            honeyPotValue = dom.byId("verifyEmailForStory").value;
+            if (honeyPotValue) {
+                return;
+            }
             var graphicToAdd = StoryModel.vm.pointGeom(),
                 email = StoryModel.vm.storyEmailData(),
                 title = StoryModel.vm.storyTitleData(),
@@ -274,16 +324,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
                 return;
             }
             graphicToAdd.attributes = {};
-            StoryModel.vm.errorMessages([]);
-            StoryModel.vm.showErrorMessages(false);
-            //or instead of dojoForEach'ing through the selectedOptions, why don't we just push all of our Observables into an Observable Array, and onSubmit we'll see which have values
 
-
-            // dojoQuery(".storiesInput").forEach(function(node, index) {
-            //     console.log(node);
-            //     console.log(index);
-
-            // });
 
             if ((validate.isEmailAddress(email) && !video) || (validate.isEmailAddress(email) && validate.isUrl(video))) {
                 $("#storyEmailInput").css("border-color", "#c0c0c0");
@@ -292,7 +333,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
                 $(".storyHeader").css("color", "#464052");
             } else {
                 formIsValid = false;
-                //model.errorMessages.push("You must at least provide a phone number and/or an email.");
+
                 if (!validate.isEmailAddress(email)) {
                     $("#storyEmailInput").css("border-color", "red");
                     $("#requiredEmail").css("color", "red");
@@ -310,17 +351,9 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
             }
 
             if (!formIsValid) {
-                //model.showErrorMessages(true);
                 alert(StoryModel.vm.formInvalidText);
                 return;
             }
-            /*else {
-                if (validate.isEmailAddress(email)) {
-                    //self.postSubscribeRequest(selectedOptions, email, 'email').then(function(result) {
-                    //Make a JSON object out of my selectedOptions array that is submittable as a feature
-                    //});
-                }
-            }*/
 
             if (!StoryModel.vm.storyTitleData()) {
                 $("#storyTitleInput").css("border-color", "red");
@@ -336,9 +369,7 @@ define(["dojo/dom", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web
                 selectedOptions.push(title);
                 graphicToAdd.attributes.Title = title;
             }
-            // if (StoryModel.vm.pointGeom()) {
-            //     selectedOptions.push(StoryModel.vm.pointGeom());
-            // }
+
             if (StoryModel.vm.storyLocationData()) {
                 var locationsArray = (StoryModel.vm.storyLocationData()).split(",");
                 selectedOptions.push(); // TODO: check if the JSON POST wants array or string & Find out Where in the Feature (what attribute) this should be added as

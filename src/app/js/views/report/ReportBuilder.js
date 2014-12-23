@@ -424,7 +424,13 @@ define([
                 legend,
                 ldos,
                 map;
+
             var feat_stats = PRINT_CONFIG.query_results[queryKey];
+
+            if (feat_stats.length == 0) {
+                return;
+            }
+
             // if (feat_stats.length >= 1){
             //     deferred.resolve(false); 
             //     return;

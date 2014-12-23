@@ -33,10 +33,10 @@
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">MEDIA</h5>
-        <div id="storyMediaInput">
-          <input type="file" name="attachment" data-bind="value: storyMediaData" id="uploadStoryMedia" multiple="multiple"/>
-          <div id="uploadList" data-bind="text: storyMediaData"></div>
+        <div id="storyMediaInput" data-bind="foreach:inputFilesSelector">
+          <input type="file" name="attachment" data-bind="event: {change:$root.mediaChange}" class="uploadInput"/>
         </div>
+        <div id="uploadList" data-bind="html: mediaListData, click:attachmentRemove, event: {mouseenter: mouseoverFile, mouseleave: mouseoutFile}"></div>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">NAME</h5>
@@ -46,6 +46,7 @@
         <h5 class="storyHeader">EMAIL</h5>
         <h5 id="requiredEmail" class="requiredItem">Required</h5>
         <input id="storyEmailInput" data-bind="value: storyEmailData" type="email" required="required"/>
+        <input type="email" name="verify_email" id="verifyEmailForStory" placeholder="Verify Email(Leave blank if your human)"/>
       </div>
     </form>
     <div id="submitStory" class="footerModes">

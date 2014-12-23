@@ -638,7 +638,7 @@ define([
                     _map.infoWindow.hide();
                     values = locked ? [0, toolsmodel.timeSlider.thumbIndexes[0]] : [toolsmodel.timeSlider.thumbIndexes[0], toolsmodel.timeSlider.thumbIndexes[1]];
                     var stops = toolsmodel.timeSlider.timeStops;
-                    if (dijit.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
+                    if (dom.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
                         self.filter_footprints('moment', moment(evt.startTime), moment(evt.endTime));
                     }
 
@@ -651,7 +651,7 @@ define([
             if (!footprints) {
                 toolsmodel.timeSlider.setThumbIndexes([0, toolsmodel.timeSlider.timeStops.length - 1]);
             } else {
-                if (dijit.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
+                if (dom.byId("digital-globe-footprints-checkbox").getValue() == 'true') {
                     self.filter_footprints('moment', moment(toolsmodel.timeEvent.startTime), moment(toolsmodel.timeEvent.endTime));
                 }
             }

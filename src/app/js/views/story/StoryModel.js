@@ -25,6 +25,7 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.storyDetailsData = ko.observable();
         vm.storyVideoData = ko.observable();
         vm.storyMediaData = ko.observable();
+        vm.mediaListData = ko.observable('');
         vm.storyNameData = ko.observable();
         vm.storyEmailData = ko.observable();
         vm.showBasemapGallery = ko.observable(false);
@@ -34,11 +35,12 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.noMapPoint = "Please place a point on the map to represent your story!";
         vm.submitSuccess = "Your story was successfully submitted!";
         vm.submitFailure = "An error occured during the submission.";
-        vm.attachSuccess = "The attachment you added was successfully added to the Story!";
-        vm.attachFailure = "The attachment you attempted to add could not be added to the Story";
+        vm.attachSuccess = "The attachment you selected was successfully added to the Story!";
+        vm.attachFailure = "The attachment you selected could not be added to the Story";
 
-        vm.errorMessages = ko.observableArray();
-        vm.showErrorMessages = ko.observable();
+        vm.inputFilesSelector = ko.observableArray([{
+            display: true
+        }]);
 
 
         vm.linkClick = function(obj, evt) {
@@ -68,54 +70,27 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
             });
         }
 
-        var htmlToFetch;
-        // arrayUtil.some(vm.leftLinks(), function(linkItem) {
-        //     if (linkItem.selected) {
-        //         htmlToFetch = linkItem.htmlContent;
-        //         require(["dojo/text!views/story/templates/" + htmlToFetch + ".htm"], function(content) {
-        //             vm.htmlContent(content);
-        //         });
-        //     }
-        //     return linkItem.selected;
-        // });
+        vm.mediaChange = function(obj, evt) {
+            require(["views/story/StoryController"], function(StoryController) {
+                StoryController.handleFileChange(obj, evt);
+            });
+        }
 
+        vm.attachmentRemove = function(obj, evt) {
+            var arrayOfLabels = evt.currentTarget.getElementsByTagName('p');
+            var indexNumber = $.inArray(evt.target, arrayOfLabels);
+            vm.inputFilesSelector.remove(vm.inputFilesSelector()[indexNumber]);
+            evt.currentTarget.removeChild(evt.target);
+        }
+        vm.mouseoverFile = function(obj, evt) {
+            //append img
+            //debugger;
+        }
 
-        // function cancel(e) {
-        //     if (e.preventDefault) e.preventDefault(); // required by FF + Safari
-        //     e.dataTransfer.dropEffect = 'copy'; // tells the browser what drop effect is allowed here
-        //     return false; // required by IE
-        // }
-
-        // function entities(s) {
-        //     var e = {
-        //         '"': '"',
-        //         '&': '&',
-        //         '<': '<',
-        //         '>': '>'
-        //     };
-        //     return s.replace(/["&<>]/g, function(m) {
-        //         return e[m];
-        //     });
-        // }
-
-
-        // var drop = document.querySelector('#storyMediaInput');
-
-        // // Tells the browser that we *can* drop on this target
-        // document.addEventListener(drop, 'dragover', cancel);
-        // document.addEventListener(drop, 'dragenter', cancel);
-        // function handleFileUpload(files, obj) {
-        //     debugger;
-        //     for (var i = 0; i < files.length; i++) {
-        //         var fd = new FormData();
-        //         fd.append('file', files[i]);
-
-        //         var status = new createStatusbar(obj); //Using this we can set progress.
-        //         status.setFileNameSize(files[i].name, files[i].size);
-        //         //sendFileToServer(fd, status);
-
-        //     }
-        // }
+        vm.mouseoutFile = function(obj, evt) {
+            //rmv
+            //debugger;
+        }
 
         handleFiles = function(files) {
             $("#storyMediaInput").on('dragenter', function(e) {
@@ -133,39 +108,7 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
 
             //handleFileUpload
         };
-        // document.addEventListener(drop, 'drop', function(e) {
-        //     if (e.preventDefault) e.preventDefault(); // stops the browser from redirecting off to the text.
 
-        //     // just rendering the text in to the list
-
-        //     // clear out the original text
-        //     drop.innerHTML = '<ul></ul>';
-
-        //     var li = document.createElement('li');
-
-        //     /** THIS IS THE MAGIC: we read from getData based on the content type - so it grabs the item matching that format **/
-        //     if (e.dataTransfer.types) {
-        //         li.innerHTML = '<ul>';
-        //         [].forEach.call(e.dataTransfer.types, function(type) {
-        //             li.innerHTML += '<li>' + entities(e.dataTransfer.getData(type) + ' (content-type: ' + type + ')') + '</li>';
-        //         });
-        //         li.innerHTML += '</ul>';
-
-        //     } else {
-        //         // ... however, if we're IE, we don't have the .types property, so we'll just get the Text value
-        //         li.innerHTML = e.dataTransfer.getData('Text');
-        //     }
-
-        //     var ul = drop.querySelector('ul');
-
-        //     if (ul.firstChild) {
-        //         ul.insertBefore(li, ul.firstChild);
-        //     } else {
-        //         ul.appendChild(li);
-        //     }
-
-        //     return false;
-        // });
 
 
         o.get = function(item) {

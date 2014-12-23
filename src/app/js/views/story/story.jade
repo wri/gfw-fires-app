@@ -36,9 +36,10 @@ div#aboutInnerContainer(class="content-inner-container")
                 input(id="storyVideoInput", data-bind="value: storyVideoData", type="url", placeholder="http://www.youtube.com/watch?v=ITG-0brb98I")
             div.storiesInput
                 h5.storyHeader MEDIA
-                div(id="storyMediaInput")
-                    input(type="file", name="attachment", data-bind="value: storyMediaData", id="uploadStoryMedia" multiple)
-                    div#uploadList(data-bind="text: storyMediaData")
+                div(id="storyMediaInput", data-bind="foreach:inputFilesSelector")
+                    input(type="file", name="attachment", class="uploadInput" data-bind="event: {change:$root.mediaChange}")
+                div#uploadList(data-bind="html: mediaListData, click:attachmentRemove, event: {mouseenter: mouseoverFile, mouseleave: mouseoutFile}")
+
             div.storiesInput
                 h5.storyHeader NAME
                 input(id="storyNameInput", data-bind="value: storyNameData", type="text")
@@ -46,6 +47,7 @@ div#aboutInnerContainer(class="content-inner-container")
                 h5.storyHeader EMAIL
                 h5#requiredEmail.requiredItem Required
                 input(id="storyEmailInput", data-bind="value: storyEmailData", type="email" required)
+                input(type="email",name="verify_email",id="verifyEmailForStory",placeholder='Verify Email(Leave blank if your human)')
         div#submitStory.footerModes
                 input(type="submit", value="Submit Story", class="action", data-bind="click: uploadStory")
             p

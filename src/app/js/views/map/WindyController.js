@@ -187,7 +187,6 @@ define([
                 destroyDialog(true);
                 deferred.resolve();
                 var currentBasemap = registry.byId("basemap-gallery").getSelected();
-                debugger;
                 if (currentBasemap) {
                     if (currentBasemap.title.toLowerCase() != darkGrayTitle) {
                         registry.byId("basemap-gallery").select(darkGrayBasemap.id);
