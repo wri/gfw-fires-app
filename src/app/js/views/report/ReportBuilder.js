@@ -428,7 +428,7 @@ define([
             // if (feat_stats.length >= 1){
             //     deferred.resolve(false); 
             //     return;
-            // }
+            // }nb
             var arr = feat_stats.map(function(item) {
                 return item.attributes['fire_count']
             }).sort(function(a, b) {
@@ -510,11 +510,13 @@ define([
                     var count = feat.attributes['fire_count'];
                     var sym;
                     for (var i = 0; i < nbks.length; i++) {
-                        if (count < nbks[i + 1]) {
+                        if (count <= nbks[i + 1]) {
                             sym = symbols[i];
                             break;
                         }
                     }
+                    if (sym == undefined) { console.log ("UNDEFINED", feat);}
+
                     renderer.addValue({
                         value: feat.attributes[boundaryConfig.UniqueValueField],
                         symbol: sym
@@ -571,9 +573,10 @@ define([
                     // }
                     var item = symbols[i];
                     if (item) {
+                        var low = i < 1? breaks[i]: breaks[i] + 1;
                         html += "<tr><td class='legend-swatch' style='background-color: rgb(" + item.color.r +
                             "," + item.color.g + "," + item.color.b + ");'" + "></td>";
-                        html += "<td class='legend-label'>" + breaks[i] + " - " + breaks[i + 1] + "</td></tr>";
+                        html += "<td class='legend-label'>" + low + " - " + breaks[i + 1] + "</td></tr>";
                     }
 
                     //});
