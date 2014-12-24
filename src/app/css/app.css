@@ -229,10 +229,10 @@ padding-right 4px {
   opacity: 0;
   cursor: pointer;
 }
-#uploadList {
+.uploadList {
   position: relative;
   left: 250px;
-  bottom: 135px;
+  bottom: 20px;
   font-size: 14px;
   width: 290px;
   cursor: no-drop;
@@ -243,11 +243,11 @@ padding-right 4px {
 }
 #alignWithMedia {
   position: relative;
-  top: 270px;
+  top: 290px;
 }
 #alignWithEmail {
   position: relative;
-  top: 335px;
+  top: 325px;
 }
 #submitBox {
   float: left;

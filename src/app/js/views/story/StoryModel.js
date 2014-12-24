@@ -25,7 +25,7 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.storyDetailsData = ko.observable();
         vm.storyVideoData = ko.observable();
         vm.storyMediaData = ko.observable();
-        vm.mediaListData = ko.observable('');
+
         vm.storyNameData = ko.observable();
         vm.storyEmailData = ko.observable();
         vm.showBasemapGallery = ko.observable(false);
@@ -42,6 +42,12 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
             display: true
         }]);
 
+        vm.mediaListData = function(obj, evt) {
+            if (evt) {
+                $(evt.target.nextSibling.nextSibling).append(evt.currentTarget.files[0].name);
+            }
+            return evt;
+        }
 
         vm.linkClick = function(obj, evt) {
             topic.publish("toggleStoryNavList", obj)
@@ -77,39 +83,19 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         }
 
         vm.attachmentRemove = function(obj, evt) {
-            var arrayOfLabels = evt.currentTarget.getElementsByTagName('p');
-            var indexNumber = $.inArray(evt.target, arrayOfLabels);
-            vm.inputFilesSelector.remove(vm.inputFilesSelector()[indexNumber]);
-            evt.currentTarget.removeChild(evt.target);
+            require(["views/story/StoryController"], function(StoryController) {
+                StoryController.handleAttachmentRemove(obj, evt);
+            });
         }
+
         vm.mouseoverFile = function(obj, evt) {
-            //append img
-            //debugger;
+            $(evt.target).children("img").remove();
+            $(evt.target).append('<img id="theImg" src="app/images/redX.png" />');
         }
 
         vm.mouseoutFile = function(obj, evt) {
-            //rmv
-            //debugger;
+            $(evt.target).children("img").remove();
         }
-
-        handleFiles = function(files) {
-            $("#storyMediaInput").on('dragenter', function(e) {
-                var par = $(this).parent();
-                $(this).css('background-color', 'gray');
-            });
-            $("#storyMediaInput").on('dragleave', function(e) {
-                var par = $(this).parent();
-                $(this).css('background-color', 'transparent');
-            });
-            $("#storyMediaInput").on('mouseleave', function(e) {
-                var par = $(this).parent();
-                $(this).css('background-color', 'transparent');
-            });
-
-            //handleFileUpload
-        };
-
-
 
         o.get = function(item) {
             return item === 'model' ? o.vm : o.vm[item]();

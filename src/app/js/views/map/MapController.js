@@ -216,7 +216,7 @@ define([
             $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
-            $("#hiddenFires").css("display", "none");
+            //$("#hiddenFires").css("display", "none");
             // setTimeout(function() {
             //     (dom.byId("#galleryNode_basemap_6")
             //     var basemapArray = registry.byId("basemap-gallery").basemaps;
@@ -268,7 +268,7 @@ define([
                 l: lod.level
             });
 
-            if (dom.byId("digital-globe-checkbox").getValue() == 'on') {
+            if (dijit.byId("digital-globe-checkbox").getValue() == 'on') {
                 o.updateImageryList();
             }
 
@@ -293,8 +293,8 @@ define([
         var mapExtent = o.map.extent;
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes");
         featuresImageryFootprints = [];
-        var thumbs = dom.byId('timeSliderDG').thumbIndexes;
-        var timeStops = dom.byId('timeSliderDG').timeStops;
+        var thumbs = dijit.byId('timeSliderDG').thumbIndexes;
+        var timeStops = dijit.byId('timeSliderDG').timeStops;
         var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
         var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
         for (var i = 0; i < imageBoxes.graphics.length; i++) {
@@ -538,7 +538,7 @@ define([
         ['forest-transparency-slider', 'conservation-transparency-slider',
             'land-cover-transparency-slider'
         ].map(function(id) {
-            var slider = dom.byId(id).set("value", 70);
+            var slider = dijit.byId(id).set("value", 70);
         })
     };
 
@@ -664,7 +664,7 @@ define([
             MapModel.vm.showReportOptionsDigitalGlobe(checked);
             if (checked) {
                 setTimeout(function() {
-                    dom.byId("digital-globe-footprints-checkbox").set("value", "true", false);
+                    dijit.byId("digital-globe-footprints-checkbox").set("value", "true", false);
                     //dijit.byId("digital-globe-footprints-checkbox").setValue(true);
                 }, 0);
 

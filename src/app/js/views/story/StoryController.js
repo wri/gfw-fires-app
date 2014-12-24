@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils"],
-    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils) {
+define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", "dojo/parser"],
+    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils, parser) {
 
         var o = {};
         var initialized = false;
@@ -22,17 +22,16 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             require(["dojo/text!views/story/story.html"], function(html) {
 
                 dom.byId(viewId).innerHTML = html;
-                o.createMap();
+                parser.parse(dom.byId("storyInnerContainer")).then(function() {
 
-                EventsController.switchToView(viewObj);
-                StoryModel.applyBindings(viewId);
+                    o.createMap();
+
+                    EventsController.switchToView(viewObj);
+                    StoryModel.applyBindings(viewId);
+                });
+
             });
             o.StoryConfig = StoryConfig;
-            // $("#addPoint").click(function(event) {
-            //     event.preventDefault(); // cancel default behavior
-
-            //     //... rest of add logic
-            // });
         };
 
 
@@ -48,42 +47,21 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 //sliderPosition: MapConfig.mapOptions.sliderPosition
             });
 
-            /*var tp = new TitlePane({
-                title: 'Switch Basemap',
-                open: 'false',
-                content: '<div id="basemapGallery"></div>'
-            });
-            debugger;
-            tp.startup();
-            tp.resize(50, 50);
-            dom.byId("TitlePane").appendChild(tp.domNode);
-            */
-            // bg = new BasemapGallery({
-            //     map: o.map,
-            //     basemaps: basemaps,
-            //     showArcGISBasemaps: true
-            // }, "basemap-gallery");
-            // bg.startup();
-
-
             var basemapGallery = new BasemapGallery({
                 showArcGISBasemaps: true,
                 map: o.map
             }, "basemapGallery");
 
             basemapGallery.startup();
-
-            // basemapGallery.on("error", function(msg) {
-            //     console.log("basemap gallery error:  ", msg);
-            // });
+            dojo.connect(basemapGallery, "onError", function(msg) {
+                console.log(msg);
+            });
 
             var mapLoad = o.map.on("load", function() {
                 mapLoad.remove();
                 o.initToolbar();
-                o.map.resize();
-                //o.map.setInfoWindowOnClick(true);
-                // var infoTitle = StoryModel.vm.storyTitleData();
-                // var infoTemplate = new InfoTemplate(infoTitle, "${*}");
+                // o.map.resize();
+                // o.map.reposition();
 
                 var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.localToken, {
                     id: "storiesLayer",
@@ -93,42 +71,20 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 storiesLayer.setVisibility(false);
                 var attachmentSuccess = function() {
                     console.log(StoryModel.vm.attachSuccess);
-
-                    // var inputAreas = StoryModel.vm.inputFilesSelector();
-                    // StoryModel.vm.inputFilesSelector([]);
-                    // arrayUtil.forEach(inputAreas, function(f) {
-                    //     f.display = false;
-                    //     StoryModel.vm.inputFilesSelector.push(f);
-                    // });
-                    //domConstruct.destroy(attachmentDoms[i]);
                 }
                 var attachmentError = function() {
                     console.log(StoryModel.vm.attachFailure);
                 }
                 storiesLayer.on("edits-complete", function(adds, updates, deletes) {
-                    //var media = $('#uploadStoryMedia')[0];
                     var attachmentDoms = $(".uploadInput");
 
                     if (StoryModel.vm.inputFilesSelector().length > 1) {
                         var objID = adds.adds[0].objectId;
                         var entireForm = document.login;
-                        //var media = $('#uploadStoryMedia')[0];
-                        //var length = media.files.length;
-                        //debugger;
-                        //for (var i = attachmentDoms.length - 1; i >= 0; i--) {
                         for (var i = StoryModel.vm.inputFilesSelector().length - 1; i > 0; i--) {
                             storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
                             domConstruct.destroy(attachmentDoms[i - 1]);
                         }
-                        //domConstruct.destroy(attachmentDoms[i]);
-                        //attachmentDoms.pop();
-
-
-                        //TODO: Add multiple attachments if the user has selected > 1.  --> But how to specify we're adding an attachment OTHER than the first one?
-                        //remove that attachment from the media.files after I add it?
-                        //}
-                        //debugger;
-                        //storiesLayer.addAttachment(objID, entireForm, attachmentSuccess, attachmentError);
                     }
                     storiesLayer.refresh();
                 });
@@ -137,8 +93,6 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                     o.map.addLayer(storiesLayer);
 
                 });
-
-                //on(dom.byId("basemap-gallery-button2"), "click", o.toggleBasemapGallery);
             });
         };
 
@@ -148,25 +102,14 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
 
             on(dom.byId("storiesMap"), "mouseover", function(evt) {
                 tool = "point";
-
-                //o.map.disableMapNavigation();
                 tb.activate(tool);
             });
-
-
-
-            // on(dom.byId("storiesMap"), "click", function(evt) {
-            //     // tool = "point";
-            //     // o.map.disableMapNavigation();
-            //     // tb.activate(tool);
-            // });
 
         }
 
 
         o.addGraphic = function(evt) {
             o.map.graphics.clear();
-            //var pictureMarkerSymbol = new PictureMarkerSymbol('app/images/RedStickpin.png', 32, 32);
 
             var symbol = new PictureMarkerSymbol({
                 "angle": 0,
@@ -189,60 +132,9 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 title = (dom.byId("storyTitleInput")).placeholder;
             }
 
-            // var infoTemplate = new InfoTemplate(title);
 
-            // var originalPoint = webMercatorUtils.xyToLngLat(evt.geometry.x, evt.geometry.y);
-            // var originalPointLat = originalPoint[0].toFixed(3);
-            // var originalPointLng = originalPoint[1].toFixed(3);
-
-            // infoTemplate.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>");
-
-            // dojo.connect(o.map.graphics, "onMouseMove", function(evt) {
-            //     //var g = evt.graphic;
-            //     //debugger;
-            //     o.map.infoWindow.setContent("<tr><b>Lat:</b> <td>" + originalPointLat + "<br></tr></td> <tr><b>Lat:</b> <td>" + originalPointLng + "</tr></td>");
-            //     o.map.infoWindow.setTitle(title);
-
-
-            //     //o.map.graphics.disableMouseEvents();
-            //     //Allow mouse events again once the mouse moves
-            //     //dojo.connect(o.map, "onMouseMove", o.map.graphics, o.map.graphics.enableMouseEvents());
-            //     //o.map.infoWindow.show(evt.screenPoint, o.map.getInfoWindowAnchor(evt.screenPoint));
-
-            //     o.map.infoWindow.show(evt.screenPoint, o.map.getInfoWindowAnchor(evt.screenPoint));
-            // });
-            // dojo.connect(o.map.graphics, "onMouseOut", function() {
-            //     o.map.infoWindow.hide();
-            // });
-
-            //graphic.setInfoTemplate(infoTemplate);
             o.map.graphics.add(graphic);
             StoryModel.vm.pointGeom(graphic);
-            // StoryModel.vm.storyTitleData.subscribe(function(newValue) {
-            //     //var infoTemplate = new InfoTemplate(newValue, "${*}");
-            //     //graphic.setInfoTemplate(infoTemplate);
-            //     infoTemplate.setTitle(newValue);
-            // });
-            // StoryModel.vm.storyLocationData.subscribe(function(newValue) {
-            //     var newContent = infoTemplate.content;
-            //     newContent += "<br><tr><b>Location: </b><td>" + newValue + "</td></tr>";
-            //     infoTemplate.setContent(newContent);
-            // });
-            // StoryModel.vm.storyDetailsData.subscribe(function(newValue) {
-            //     var newContent = infoTemplate.content;
-            //     newContent += "<br><tr><b>Details: </b><td>" + newValue + "</td></tr>";
-            //     infoTemplate.setContent(newContent);
-            // });
-            // StoryModel.vm.storyNameData.subscribe(function(newValue) {
-            //     var newContent = infoTemplate.content;
-            //     newContent += "<br><tr><b>Name: </b><td>" + newValue + "</td></tr>";
-            //     infoTemplate.setContent(newContent);
-            // });
-            // StoryModel.vm.storyEmailData.subscribe(function(newValue) {
-            //     var newContent = infoTemplate.content;
-            //     newContent += "<br><tr><b>Email: </b><td>" + newValue + "</td></tr>";
-            //     infoTemplate.setContent(newContent);
-            // });
 
             var dojoShape = graphic.getDojoShape();
             var moveable = new dojox.gfx.Moveable(dojoShape);
@@ -259,16 +151,12 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 var endPointLat = endPoint2[0].toFixed(3);
                 var endPointLng = endPoint2[1].toFixed(3);
 
-
                 graphic.setGeometry(endPoint);
-                //infoTemplate.setContent("<tr>Lat: <td>" + endPointLat + "<br></tr></td> <tr>Lat: <td>" + endPointLng + "</tr></td>");
                 StoryModel.vm.pointGeom(graphic);
-                console.log(StoryModel.vm.pointGeom()); //TODO: Find out why this geometry isn't updating!
+                console.log(StoryModel.vm.pointGeom());
             });
 
-            // dojo.connect(o.map.graphics, "onMouseDown", o.holdGraphic);
-            // dojo.connect(o.map, "onMouseDragEnd", o.releaseGraphic);
-            //o.initEditing();
+
         };
 
 
@@ -291,20 +179,33 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var fileName = evt.currentTarget.files[0].name;
             var oldButton = evt.currentTarget;
             $(oldButton).css("opacity", "0");
-
+            if (evt) {
+                $(evt.target.nextSibling.nextSibling).append(evt.currentTarget.files[0].name);
+            }
             var oldContent = StoryModel.vm.mediaListData();
-            oldContent += "<p>" + fileName + "</p>";
-            StoryModel.vm.mediaListData(oldContent);
 
-            // var inputAreas = StoryModel.vm.inputFilesSelector();
-            // StoryModel.vm.inputFilesSelector([]);
-            // arrayUtil.forEach(inputAreas, function(f) {
-            //     f.display = false;
-            //     StoryModel.vm.inputFilesSelector.push(f);
-            // });
             StoryModel.vm.inputFilesSelector.push({
                 display: true
             });
+        };
+
+        o.handleAttachmentRemove = function(obj, evt) {
+            //$(evt.target).children("img").remove();
+            var indexNumber = 0;
+            var attachmentDoms = $(".uploadInput");
+            for (var i = 0; i < attachmentDoms.length; i++) {
+                if (attachmentDoms[i].files.length > 0) {
+                    if (evt.currentTarget.firstChild.data == attachmentDoms[i].files[0].name) {
+                        domConstruct.destroy(attachmentDoms[i]);
+                        indexNumber = i;
+                        console.log("destroyed");
+                    }
+                }
+
+            }
+            var attachmentDoms = $(".uploadInput");
+            StoryModel.vm.inputFilesSelector.remove(StoryModel.vm.inputFilesSelector()[indexNumber]);
+            evt.target.remove();
         };
 
         o.handleUpload = function(obj, evt) {

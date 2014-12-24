@@ -1,26 +1,20 @@
 link(rel='stylesheet', href='app/css/jquery-ui.min.css')
-div#aboutInnerContainer(class="content-inner-container")
-    h1#storyTitle.source_category_title Report a Fire
+div#storyInnerContainer(class="content-inner-container")
+    h1#storyTitle.source_category_title Share information on fires
     div#submitBox
         form(name="login", action="/login", method="post")
             div.storiesInput
                 h5.storyHeader TITLE
-                h5#requiredTitle.requiredItem Required
+                //-h5#requiredTitle.requiredItem Required
                 input(id="storyTitleInput", data-bind="value: storyTitleData", type="text", placeholder="Illegal Logging in National Park" required)
             div.storiesInput
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
-                div#storiesMap
-                    //-button(id="addPoint", type="button", onClick="return false;" data-bind="text: addButtonLabel")
-                    //-button(id="removePoint", type="button", onClick="return false;" data-bind="text: removeButtonLabel")
-                    //-div#basemapGalleryContainer
-                        div#basemapGallery
-                    //-div#basemap-gallery-button2(class="basemap-gallery-button",title="Basemaps/Overlays")
-                        div#basemap-linker-story(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
-                        div#basemap-gallery-container-story(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
-                            div(class='basemap-container-labels') Basemaps
-                            div#basemap-gallery(class="basemap-gallery")
-
+                #storiesMap(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'", style='padding:0;')
+                    div(style='position:absolute; left:480px; top:255px; z-Index:999;')
+                      div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
+                        div(data-dojo-type='dijit/layout/ContentPane', style='width:255px; height:220px; overflow:auto;')
+                          #basemapGallery
             div.storiesInput
                 h5.storyHeader LOCATION
                 input(id="storyLocationInput", data-bind="value: storyLocationData", type="text", placeholder="'Katingan Peatland area, Indonesia,' 'Near Ambanja, Mozambique'")
@@ -38,14 +32,14 @@ div#aboutInnerContainer(class="content-inner-container")
                 h5.storyHeader MEDIA
                 div(id="storyMediaInput", data-bind="foreach:inputFilesSelector")
                     input(type="file", name="attachment", class="uploadInput" data-bind="event: {change:$root.mediaChange}")
-                div#uploadList(data-bind="html: mediaListData, click:attachmentRemove, event: {mouseenter: mouseoverFile, mouseleave: mouseoutFile}")
+                    div.uploadList(data-bind="click:$root.attachmentRemove, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}")
 
             div.storiesInput
                 h5.storyHeader NAME
                 input(id="storyNameInput", data-bind="value: storyNameData", type="text")
             div.storiesInput
                 h5.storyHeader EMAIL
-                h5#requiredEmail.requiredItem Required
+                //-h5#requiredEmail.requiredItem Required
                 input(id="storyEmailInput", data-bind="value: storyEmailData", type="email" required)
                 input(type="email",name="verify_email",id="verifyEmailForStory",placeholder='Verify Email(Leave blank if your human)')
         div#submitStory.footerModes
@@ -53,13 +47,13 @@ div#aboutInnerContainer(class="content-inner-container")
             p
 
     div#contentRightStory.footerModes
-        h5.storyHeader WHY SUBMIT STORIES?
-        p.desc Your participation can greatly improve understanding of what is happening to forests in Indonesia
+        h5.storyHeader WHY SHARE COMMENTS?
+        p.desc Your participation can greatly improve understanding of what is happening with land fires in Southeast Asia
 
         h5.storyHeader HOW YOUR STORIES WILL BE USED
-        p.desc Your story will be immediately displayed on the GFW Fires map and will be visible to all visitors to the site. For how this information is used by these visitors, and it reserves the right to remove stories that are inappropriate or not related to forest issues. 
+        p.desc Your story will be immediately displayed on the GFW Fires map and will be visible to all visitors to the site. WRI is not responsible for how this information is used by these visitors, and it reserves the right to remove stories that are inappropriate or not related to forest issues. 
         p
-        p.desc You can submit a story by sharing text, image, video, or web links showing how forests are being managed, cleared, or protected in your area. Submit a story to: 
+        p.desc You can submit a story by sharing text, image, video, or web links showing how land fires are impacting people and forests in Indonesia. Submit a story to: 
             li.desc
                 p confirm or refute remotely sensed data;
             li.desc
@@ -67,11 +61,11 @@ div#aboutInnerContainer(class="content-inner-container")
             li.desc
                 p call attention to a threat or conflict in your area;
             li.desc
-                p tell a forest conservation success story; or
+                p tell a fire response success story; or
             li.desc
                 p share your local expertise.
-        p#alignWithMedia.desc Drag & drop images and videos to reorder them within the carrousel. The first one will be considered as the preferred one. If you share your name, it will be visible on the GFW website, but your email will not be published. 
-        p#alignWithEmail.desc In some areas, forest clearing information is considered to be highly sensitive-users are encouraged to be cautious when sharing their names. 
+        p#alignWithMedia.desc Drag & drop images and videos to reorder them within the carrousel. The first one will be considered as the preferred one. If you share your name, it will be visible on the GFW Fires website, but your email will not be published. 
+        p#alignWithEmail.desc In some areas, fire information is considered to be highly sensitive-users are encouraged to be cautious when sharing their names. 
 
 //-
     div#aboutContentContainer(class="content-container")
