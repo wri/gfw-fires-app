@@ -1146,6 +1146,13 @@ define([
             title: "{Title}",
             //"content": htmlContent,
             fieldInfos: [{
+                //     fieldName: "Date",
+                //     label: "Date",
+                //     format: {
+                //         dateFormat: 'shortDate'
+                //     },
+                //     visible: true
+                // }, {
                 fieldName: "Details",
                 label: "Details",
                 visible: true
