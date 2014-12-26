@@ -76,9 +76,11 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                     console.log(StoryModel.vm.attachFailure);
                 }
                 storiesLayer.on("edits-complete", function(adds, updates, deletes) {
-                    var attachmentDoms = $(".uploadInput");
+                    document.login[0].remove();
+
 
                     if (StoryModel.vm.inputFilesSelector().length > 1) {
+                        var attachmentDoms = $(".uploadInput");
                         var objID = adds.adds[0].objectId;
                         var entireForm = document.login;
                         for (var i = StoryModel.vm.inputFilesSelector().length - 1; i > 0; i--) {
@@ -208,24 +210,17 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             evt.target.remove();
         };
 
-        o.handleUpload = function(obj, evt) {
-            honeyPotValue = dom.byId("verifyEmailForStory").value;
-            if (honeyPotValue) {
-                return;
-            }
+        o.previewStorySubmission = function(obj, evt) {
+
             var graphicToAdd = StoryModel.vm.pointGeom(),
                 email = StoryModel.vm.storyEmailData(),
-                title = StoryModel.vm.storyTitleData(),
                 video = StoryModel.vm.storyVideoData(),
-                formIsValid = true,
-                selectedOptions = [];
+                formIsValid = true;
 
             if (!graphicToAdd) {
                 alert(StoryModel.vm.noMapPoint);
                 return;
             }
-            graphicToAdd.attributes = {};
-
 
             if ((validate.isEmailAddress(email) && !video) || (validate.isEmailAddress(email) && validate.isUrl(video))) {
                 $("#storyEmailInput").css("border-color", "#c0c0c0");
@@ -266,50 +261,103 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 $("#requiredTitle").css("color", "#464052");
             }
 
-            if (title) {
-                selectedOptions.push(title);
-                graphicToAdd.attributes.Title = title;
+
+            $("#storyBasemaps").hide();
+            $("#previewDiv").dialog({
+                title: "Confirm submission?",
+                width: 600,
+                height: 800,
+                autoOpen: false,
+                open: function() {
+                    $("#storyBasemaps").hide();
+                },
+                close: function() {
+                    $("#storyBasemaps").show();
+                },
+                show: "blind",
+                buttons: [{
+                    text: "Publish",
+                    click: function(obj, evt) {
+
+                        $(this).dialog("destroy");
+                        //var attachmentDoms = $(".uploadInput");
+                        // for (var i = 0; i < attachmentDoms.length; i++) {
+                        //     if (attachmentDoms[i].readOnly == true) {
+                        //         domConstruct.destroy(attachmentDoms[i]);
+                        //     }
+
+                        // }
+                        // or just change the html of previewDiv so there's not another 'form' anymore?
+                        setTimeout(function() {
+                            o.handleUpload();
+                        }, 1000);
+
+                    }
+                }, {
+                    text: "Go back",
+                    click: function() {
+                        $(this).dialog("close");
+                    }
+                }]
+
+            });
+            var clonetext = $('#submitBox > form').clone(true);
+            clonetext.className = "duplicate";
+            $('#previewDiv').html(clonetext);
+            $('#previewDiv input').attr('readonly', 'readonly');
+            $("#previewDiv").dialog("open");
+            return false;
+        };
+
+        o.handleUpload = function(obj, evt) {
+
+            honeyPotValue = dom.byId("verifyEmailForStory").value;
+            if (honeyPotValue) {
+                console.log("honeyPot!");
+                return;
             }
 
-            if (StoryModel.vm.storyLocationData()) {
-                var locationsArray = (StoryModel.vm.storyLocationData()).split(",");
-                selectedOptions.push(); // TODO: check if the JSON POST wants array or string & Find out Where in the Feature (what attribute) this should be added as
+            var graphicToAdd = StoryModel.vm.pointGeom(),
+                email = StoryModel.vm.storyEmailData(),
+                title = StoryModel.vm.storyTitleData(),
+                video = StoryModel.vm.storyVideoData(),
+                formIsValid = true;
 
-            }
+            graphicToAdd.attributes = {};
+
+            // if (StoryModel.vm.storyLocationData()) {
+            //     var locationsArray = (StoryModel.vm.storyLocationData()).split(",");
+            // }
             var currentDate = $("#storyDateInput").datepicker("getDate");
             var days = currentDate.getDate();
             var months = currentDate.getMonth() + 1;
             var years = currentDate.getFullYear();
-            var date = months + "/" + days + "/" + years;
-            selectedOptions.push(date);
+            var date = months + "/" + days + "/" + years; //TODO: Add this somehow!
+
             if (StoryModel.vm.storyDetailsData()) {
-                selectedOptions.push(StoryModel.vm.storyDetailsData());
                 //TODO: Create a Date Field in the Feature Service and decide on a Format, then fit that
             }
             if (video) {
-                selectedOptions.push(video);
                 graphicToAdd.attributes.Video = video;
             }
             if (StoryModel.vm.storyMediaData()) {
-                selectedOptions.push(StoryModel.vm.storyMediaData());
                 //TODO: Create a Video Field in the Feature Service and decide on a Format, then fit that
             }
             if (StoryModel.vm.storyNameData()) {
-                selectedOptions.push(StoryModel.vm.storyNameData());
                 graphicToAdd.attributes.Name = StoryModel.vm.storyNameData();
             }
-            selectedOptions.push(StoryModel.vm.storyEmailData());
+            graphicToAdd.attributes.Title = title;
             graphicToAdd.attributes.Email = email;
             graphicToAdd.attributes.Publish = 'Y';
 
             var stories = o.map.getLayer("storiesLayer");
             var success = function() {
-                //remove graphic from map!!
                 alert(StoryModel.vm.submitSuccess);
             }
             var failure = function() {
                 alert(StoryModel.vm.submitFailure);
             }
+
             stories.applyEdits([graphicToAdd], null, null, success, failure);
 
         };

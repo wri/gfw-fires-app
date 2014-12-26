@@ -1173,6 +1173,7 @@ define([
             id: MapConfig.fireStories.id,
             visible: false,
             outFields: ["*"],
+            definitionExpression: "Publish = 'Y'",
             infoTemplate: fireStory_popupTemplate
         });
 

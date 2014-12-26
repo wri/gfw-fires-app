@@ -2,6 +2,7 @@ link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#storyInnerContainer(class="content-inner-container")
     h1#storyTitle.source_category_title Share information on fires
     div#submitBox
+        div#previewDiv(style='display:none;')
         form(name="login", action="/login", method="post")
             div.storiesInput
                 h5.storyHeader TITLE
@@ -11,7 +12,7 @@ div#storyInnerContainer(class="content-inner-container")
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 #storiesMap(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'", style='padding:0;')
-                    div(style='position:absolute; left:480px; top:255px; z-Index:999;')
+                    div(id='storyBasemaps' style='position:absolute; left:480px; top:255px; z-Index:999;')
                       div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
                         div(data-dojo-type='dijit/layout/ContentPane', style='width:255px; height:220px; overflow:auto;')
                           #basemapGallery
@@ -43,12 +44,12 @@ div#storyInnerContainer(class="content-inner-container")
                 input(id="storyEmailInput", data-bind="value: storyEmailData", type="email" required)
                 input(type="email",name="verify_email",id="verifyEmailForStory",placeholder='Verify Email(Leave blank if your human)')
         div#submitStory.footerModes
-                input(type="submit", value="Submit Story", class="action", data-bind="click: uploadStory")
+                input(type="submit", value="Submit Story", class="action", data-bind="click: previewSubmit")
             p
 
     div#contentRightStory.footerModes
         h5.storyHeader WHY SHARE COMMENTS?
-        p.desc Your participation can greatly improve understanding of what is happening with land fires in Southeast Asia
+        p.desc Your participation can greatly improve understanding of what is happening with land fires in Southeast Asia.
 
         h5.storyHeader HOW YOUR STORIES WILL BE USED
         p.desc Your story will be immediately displayed on the GFW Fires map and will be visible to all visitors to the site. WRI is not responsible for how this information is used by these visitors, and it reserves the right to remove stories that are inappropriate or not related to forest issues. 

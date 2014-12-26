@@ -3,6 +3,7 @@
 <div id="storyInnerContainer" class="content-inner-container">
   <h1 id="storyTitle" class="source_category_title">Share information on fires</h1>
   <div id="submitBox">
+    <div id="previewDiv" style="display:none;"></div>
     <form name="login" action="/login" method="post">
       <div class="storiesInput">
         <h5 class="storyHeader">TITLE</h5>
@@ -12,7 +13,7 @@
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="padding:0;">
-          <div style="position:absolute; left:480px; top:255px; z-Index:999;">
+          <div id="storyBasemaps" style="position:absolute; left:480px; top:255px; z-Index:999;">
             <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Basemaps', closable:false, open:false">
               <div data-dojo-type="dijit/layout/ContentPane" style="width:255px; height:220px; overflow:auto;">
                 <div id="basemapGallery"></div>
@@ -55,13 +56,13 @@
       </div>
     </form>
     <div id="submitStory" class="footerModes">
-      <input type="submit" value="Submit Story" data-bind="click: uploadStory" class="action"/>
+      <input type="submit" value="Submit Story" data-bind="click: previewSubmit" class="action"/>
     </div>
     <p></p>
   </div>
   <div id="contentRightStory" class="footerModes">
     <h5 class="storyHeader">WHY SHARE COMMENTS?</h5>
-    <p class="desc">Your participation can greatly improve understanding of what is happening with land fires in Southeast Asia</p>
+    <p class="desc">Your participation can greatly improve understanding of what is happening with land fires in Southeast Asia.</p>
     <h5 class="storyHeader">HOW YOUR STORIES WILL BE USED</h5>
     <p class="desc">Your story will be immediately displayed on the GFW Fires map and will be visible to all visitors to the site. WRI is not responsible for how this information is used by these visitors, and it reserves the right to remove stories that are inappropriate or not related to forest issues. </p>
     <p></p>

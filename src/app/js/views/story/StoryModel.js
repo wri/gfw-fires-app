@@ -97,6 +97,13 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
             $(evt.target).children("img").remove();
         }
 
+
+        vm.previewSubmit = function(obj, evt) {
+            require(["views/story/StoryController"], function(StoryController) {
+                StoryController.previewStorySubmission(obj, evt);
+            });
+        }
+
         o.get = function(item) {
             return item === 'model' ? o.vm : o.vm[item]();
         };
