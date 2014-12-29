@@ -76,8 +76,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                     console.log(StoryModel.vm.attachFailure);
                 }
                 storiesLayer.on("edits-complete", function(adds, updates, deletes) {
-                    document.login[0].remove();
-
+                    //document.login[0].remove();
 
                     if (StoryModel.vm.inputFilesSelector().length > 1) {
                         var attachmentDoms = $(".uploadInput");
@@ -181,6 +180,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var fileName = evt.currentTarget.files[0].name;
             var oldButton = evt.currentTarget;
             $(oldButton).css("opacity", "0");
+            //$(oldButton).css("margin-top", "-10px");
             if (evt) {
                 $(evt.target.nextSibling.nextSibling).append(evt.currentTarget.files[0].name);
             }
@@ -210,7 +210,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             evt.target.remove();
         };
 
-        o.previewStorySubmission = function(obj, evt) {
+        /*o.previewStorySubmission = function(obj, evt) {
 
             var graphicToAdd = StoryModel.vm.pointGeom(),
                 email = StoryModel.vm.storyEmailData(),
@@ -307,7 +307,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             $('#previewDiv input').attr('readonly', 'readonly');
             $("#previewDiv").dialog("open");
             return false;
-        };
+        };*/
 
         o.handleUpload = function(obj, evt) {
 
@@ -322,6 +322,50 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 title = StoryModel.vm.storyTitleData(),
                 video = StoryModel.vm.storyVideoData(),
                 formIsValid = true;
+
+            if (!graphicToAdd) {
+                alert(StoryModel.vm.noMapPoint);
+                return;
+            }
+
+            if ((validate.isEmailAddress(email) && !video) || (validate.isEmailAddress(email) && validate.isUrl(video))) {
+                $("#storyEmailInput").css("border-color", "#c0c0c0");
+                $("#requiredEmail").css("color", "#464052");
+                $("#storyVideoInput").css("border-color", "#c0c0c0");
+                $(".storyHeader").css("color", "#464052");
+            } else {
+                formIsValid = false;
+
+                if (!validate.isEmailAddress(email)) {
+                    $("#storyEmailInput").css("border-color", "red");
+                    $("#requiredEmail").css("color", "red");
+                } else {
+                    $("#storyEmailInput").css("border-color", "#c0c0c0");
+                    $("#requiredEmail").css("color", "#464052");
+                }
+                if (!validate.isUrl(video) && (video)) {
+                    $("#storyVideoInput").css("border-color", "red");
+                    $("#videoHeader").css("color", "red");
+                } else {
+                    $("#storyVideoInput").css("border-color", "#c0c0c0");
+                    $(".storyHeader").css("color", "#464052");
+                }
+            }
+
+            if (!formIsValid) {
+                alert(StoryModel.vm.formInvalidText);
+                return;
+            }
+
+            if (!StoryModel.vm.storyTitleData()) {
+                $("#storyTitleInput").css("border-color", "red");
+                $("#requiredTitle").css("color", "red");
+                alert(StoryModel.vm.stopSubmissionText);
+                return;
+            } else {
+                $("#storyTitleInput").css("border-color", "#c0c0c0");
+                $("#requiredTitle").css("color", "#464052");
+            }
 
             graphicToAdd.attributes = {};
 

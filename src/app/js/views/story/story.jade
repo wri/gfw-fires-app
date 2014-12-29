@@ -2,7 +2,7 @@ link(rel='stylesheet', href='app/css/jquery-ui.min.css')
 div#storyInnerContainer(class="content-inner-container")
     h1#storyTitle.source_category_title Share information on fires
     div#submitBox
-        div#previewDiv(style='display:none;')
+        //-div#previewDiv(style='display:none;')
         form(name="login", action="/login", method="post")
             div.storiesInput
                 h5.storyHeader TITLE
@@ -12,7 +12,7 @@ div#storyInnerContainer(class="content-inner-container")
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 #storiesMap(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'", style='padding:0;')
-                    div(id='storyBasemaps' style='position:absolute; left:480px; top:255px; z-Index:999;')
+                    div(id='storyBasemaps' style='position:absolute; right:835px; top:270px; z-Index:10;')
                       div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
                         div(data-dojo-type='dijit/layout/ContentPane', style='width:255px; height:220px; overflow:auto;')
                           #basemapGallery
@@ -44,7 +44,7 @@ div#storyInnerContainer(class="content-inner-container")
                 input(id="storyEmailInput", data-bind="value: storyEmailData", type="email" required)
                 input(type="email",name="verify_email",id="verifyEmailForStory",placeholder='Verify Email(Leave blank if your human)')
         div#submitStory.footerModes
-                input(type="submit", value="Submit Story", class="action", data-bind="click: previewSubmit")
+                input(type="submit", value="Submit Comments", class="action", data-bind="click: uploadStory")
             p
 
     div#contentRightStory.footerModes

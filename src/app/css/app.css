@@ -217,11 +217,8 @@ padding-right 4px {
   height: 150px;
 }
 #storyMediaInput {
-  width: 240px;
-  height: 120px;
-  border: 1px dashed #9bb251;
-  background: url("../images/greenCross.jpg") no-repeat center;
-  cursor: pointer;
+  width: 134px;
+  height: 80px;
 }
 #uploadStoryMedia {
   width: 150px;
@@ -231,7 +228,6 @@ padding-right 4px {
 }
 .uploadList {
   position: relative;
-  left: 250px;
   bottom: 20px;
   font-size: 14px;
   width: 290px;

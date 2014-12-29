@@ -3,7 +3,6 @@
 <div id="storyInnerContainer" class="content-inner-container">
   <h1 id="storyTitle" class="source_category_title">Share information on fires</h1>
   <div id="submitBox">
-    <div id="previewDiv" style="display:none;"></div>
     <form name="login" action="/login" method="post">
       <div class="storiesInput">
         <h5 class="storyHeader">TITLE</h5>
@@ -13,7 +12,7 @@
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="padding:0;">
-          <div id="storyBasemaps" style="position:absolute; left:480px; top:255px; z-Index:999;">
+          <div id="storyBasemaps" style="position:absolute; right:835px; top:270px; z-Index:10;">
             <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Basemaps', closable:false, open:false">
               <div data-dojo-type="dijit/layout/ContentPane" style="width:255px; height:220px; overflow:auto;">
                 <div id="basemapGallery"></div>
@@ -56,7 +55,7 @@
       </div>
     </form>
     <div id="submitStory" class="footerModes">
-      <input type="submit" value="Submit Story" data-bind="click: previewSubmit" class="action"/>
+      <input type="submit" value="Submit Comments" data-bind="click: uploadStory" class="action"/>
     </div>
     <p></p>
   </div>

@@ -98,11 +98,11 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         }
 
 
-        vm.previewSubmit = function(obj, evt) {
-            require(["views/story/StoryController"], function(StoryController) {
-                StoryController.previewStorySubmission(obj, evt);
-            });
-        }
+        // vm.previewSubmit = function(obj, evt) {
+        //     require(["views/story/StoryController"], function(StoryController) {
+        //         StoryController.previewStorySubmission(obj, evt);
+        //     });
+        // }
 
         o.get = function(item) {
             return item === 'model' ? o.vm : o.vm[item]();

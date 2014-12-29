@@ -59,11 +59,12 @@ define([
     "esri/layers/GraphicsLayer",
     "esri/layers/ImageServiceParameters",
     "dijit/Dialog",
-    "utils/Helper"
+    "utils/Helper",
+    "dojo/aspect"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper) {
+    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
 
     var o = {},
         initialized = false,
@@ -90,9 +91,7 @@ define([
         }
 
         initialized = true;
-        //debugger;
 
-        //debugger;
 
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
@@ -1173,7 +1172,29 @@ define([
 
         }); //TODO: Find a way to filter out attributes w/o values from the popup
 
-        //fireStory_popupTemplate.setContent(Finder.getFireStoriesInfoWindow);
+
+        // var fireStory_popupTemplate = new InfoTemplate();
+        // fireStory_popupTemplate.setTitle("${Title}");
+        // fireStory_popupTemplate.setContent("<b style='color:black;text-align:center;'>${Title}</b><br/><br/>" +
+        //     "<b>Details: </b>${Details}<br/>" +
+        //     "<b>Video: </b>${Video}<br/><br/>" +
+        //     "<b>Name: </b>${Name}<br/>" +
+        //     "<b>Email: </b>${Email:NumberFormat}<br/>" +
+        //     "${ATTACHMENTS:attachmemtsFormatter}");
+
+        // window.attachmemtsFormatter = function(value, key, data) {
+        //     if (!value || value.length == 0) {
+        //         return;
+        //     }
+        //     var str = '';
+        //     for (var i = 0; i < value.length; i++) {
+        //         str += "<img src='" +
+        //             value[i].url +
+        //             "'/><br/>";
+        //     }
+        //     return str;
+        // }
+
 
         fireStories = new FeatureLayer(MapConfig.fireStories.url, {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -1183,6 +1204,31 @@ define([
             definitionExpression: "Publish = 'Y'",
             infoTemplate: fireStory_popupTemplate
         });
+
+        // aspect.after(o.map.infoWindow, "show", function() {
+
+        //     var selectedFeature = o.map.infoWindow.features[0];
+        //     if (selectedFeature._graphicsLayer.id !== "Fire_Stories" || selectedFeature.attributes.ATTACHMENTS) {
+        //         return;
+        //     }
+        //     fireStories.queryAttachmentInfos(selectedFeature.attributes.OBJECTID, function(infos) {
+        //         var originalContent = fireStory_popupTemplate.toJson();
+
+        //         selectedFeature.attributes.ATTACHMENTS = infos;
+        //         //o.map.infoWindow.hide();
+        //         var newSetOfFeatures = o.map.infoWindow.features;
+        //         newSetOfFeatures[0] = selectedFeature;
+        //         setTimeout(function() {
+        //             o.map.infoWindow.setFeatures(newSetOfFeatures);
+        //         }, 0);
+        //     })
+        // });
+
+        // on(o.map.infoWindow, "selection-change", function() {
+        //     debugger;
+        // });
+
+
 
         // var digitalGlobeGraphicsLayer = new GraphicsLayer({
         //     id: MapConfig.digitalGlobe.graphicsLayerId,
@@ -1268,8 +1314,8 @@ define([
                 return (url && flyr);
             });
             console.dir(layerInfos);
-            //debugger;
-            Helper.hideLoader("map-blocker");
+
+            hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
         });
         o.map.addLayers(layerlist);
