@@ -455,7 +455,7 @@ define([
             thumbnailUrl: "app/images/darkGreyThumb.jpg"
         });
         //basemaps.push(darkgray);
-        console.log(basemaps);
+        //console.log(basemaps);
 
         bg = new BasemapGallery({
             map: o.map,
@@ -1265,7 +1265,7 @@ define([
         //     visible: true
         // });
         var layerlist = [
-            landSatLayer,
+            //landSatLayer,
             treeCoverLayer,
             landCoverLayer,
             primaryForestsLayer,
@@ -1315,10 +1315,14 @@ define([
             });
             console.dir(layerInfos);
 
-            hideLoader("map-blocker");
+            Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
+
+
+
         });
         o.map.addLayers(layerlist);
+        o.map.addLayer(landSatLayer); //TODO: Add the Landsat layer back in with the others and add in some kind of error catching with its load and its checkbox toggle (if, in the LayerController, its not actually turning a layer on)
 
         // Set the default layer ordering for Overlays Layer
         overlaysLayer.on('load', LayerController.setOverlayLayerOrder);

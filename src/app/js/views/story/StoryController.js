@@ -180,7 +180,6 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var fileName = evt.currentTarget.files[0].name;
             var oldButton = evt.currentTarget;
             $(oldButton).css("opacity", "0");
-            //$(oldButton).css("margin-top", "-10px");
             if (evt) {
                 $(evt.target.nextSibling.nextSibling).append(evt.currentTarget.files[0].name);
             }
