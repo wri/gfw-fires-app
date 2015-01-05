@@ -222,7 +222,7 @@
           <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
             <div id="footprintsCheckBox" class="checkbox-container">
               <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
-              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
+              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox"></label>
             </div>
           </div>
           <table class="imageryTable font10">
@@ -235,8 +235,8 @@
             </thead>
             <tbody data-bind="foreach: digitalGlobeInView">
               <tr data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}" class="imageryRow">
-                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
-                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font10"></td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font10"></td>
                 <td data-bind="event:{click: $root.imageryZoomTo}" class="popup-link-zoom"></td>
               </tr>
             </tbody>
@@ -311,6 +311,11 @@
       <div id="basemap-gallery-button" title="Basemaps/Overlays" class="basemap-gallery-button"></div>
       <div id="share-button" title="Share" class="share-button"></div>
       <div id="print-button" title="Print" class="print-button"></div>
+      <div id="alert-button" title="Alerts" class="alert-button">&#9888;</div>
+      <div id="alert-linker" data-bind="visible: showAlertContainer()" class="share-linker modal-link"></div>
+      <div id="alert-container" data-bind="visible: showAlertContainer()" class="map-share-container">
+        <div class="alert_toolbox"></div>
+      </div>
       <div id="locator-linker" data-bind="visible: showLocatorWidgets()" class="locator-linker modal-link"></div>
       <div id="locator-widget-container" data-bind="visible: showLocatorWidgets()" class="locator-widget-container">
         <div id="locator-container-header" data-bind="text: locatorContainerHeader" class="locator-container-header"></div>

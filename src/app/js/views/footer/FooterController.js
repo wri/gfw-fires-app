@@ -90,197 +90,199 @@ define([
         require([
             "dojo/on",
             "dijit/Dialog",
-            "dojo/dom-style",
+            // "dojo/dom-style",
             "dojo/dom-construct",
-            "dijit/form/Select",
-            "dojox/validate/web",
-            "dojo/text!views/footer/emailAlertForm.html"
-            // add validation
-        ], function(on, Dialog, domStyle, domConstruct, Select, validate, html) {
+            // "dijit/form/Select",
+            // "dojox/validate/web"
+        ], function(on, Dialog, domConstruct) {
             var dialog = new Dialog({
                     title: "Sign up to receive fire alerts!",
-                    style: "width: 550px;height: auto;"
+                    style: "width: 350px;height: auto;"
                 }),
-                content = html,
-                submitHandle,
-                telInput,
-                provinceHandle,
-                districtHandle,
-                subDistrictHandle;
+                linker;
 
-
-            dialog.setContent(content);
+            dialog.setContent(MainConfig.alertsSignUpContent);
             dialog.show();
-            FooterModel.applyBindings("signUpAlertsForm");
-            telInput = $("#phoneNumberForAlerts");
-            telInput.intlTelInput({
-                validationScript: './app/libs/isValidNumber.js'
+
+            linker = on(dom.byId('map-link-from-signup'), 'click', function () {
+              EventsController.clickNavLink({
+                html: 'Map',
+                viewName: 'map',
+                domId: 'mapView',
+                selected: false
+              });
+              dialog.destroy();
+              cleanup();
             });
+
+            dialog.on('cancel', cleanup);
+
+            // telInput = $("#phoneNumberForAlerts");
+            // telInput.intlTelInput({
+            //     validationScript: './app/libs/isValidNumber.js'
+            // });
 
             function cleanup() {
                 domConstruct.destroy(dom.byId("signUpAlertsForm"));
-                telInput.intlTelInput('destroy');
-                provinceHandle.remove();
-                districtHandle.remove();
-                submitHandle.remove();
-                subDistrictHandle.remove();
+                linker.remove();
+                // telInput.intlTelInput('destroy');
             }
 
-            self.getProvinceValues().then(function(provinceArray) {
-                FooterModel.get('model').provincesAvailableForAlerts(provinceArray);
+            // self.getProvinceValues().then(function(provinceArray) {
+            //     FooterModel.get('model').provincesAvailableForAlerts(provinceArray);
 
 
-                self.getDistrictValues().then(function(districtArray) {
-                    var model = FooterModel.get('model');
-                    //                    if (districtArray) {
-                    //                        model.districtsAvailableForAlerts(districtArray);
-                    //                    }
-                    // Reset the Model, then Fill it up on change of Province/District picker
-                    model.districtsAvailableForAlerts([]);
-                    model.subDistrictsAvailableForAlerts([]);
+            //     self.getDistrictValues().then(function(districtArray) {
+            //         var model = FooterModel.get('model');
+            //         //                    if (districtArray) {
+            //         //                        model.districtsAvailableForAlerts(districtArray);
+            //         //                    }
+            //         // Reset the Model, then Fill it up on change of Province/District picker
+            //         model.districtsAvailableForAlerts([]);
+            //         model.subDistrictsAvailableForAlerts([]);
 
-                    var provincesAvailable = FooterModel.get('provincesAvailableForAlerts');
+            //         var provincesAvailable = FooterModel.get('provincesAvailableForAlerts');
 
-                    //TODO add a select all object when creating new array
-                    //TODO when creating the 2D array so they can select
-                    //TODO all. then have select all districts add all subdistrs
+            //         //TODO add a select all object when creating new array
+            //         //TODO when creating the 2D array so they can select
+            //         //TODO all. then have select all districts add all subdistrs
 
-                    var provinceDistrictMapping = new Array();
-                    var selectAll = {
-                        label: 'Select All',
-                        value: 'ALL'
-                    }
-                    arrayUtil.forEach(provincesAvailable, function(province) {
-                        provinceDistrictMapping[province.value] = new Array(selectAll);
-                    });
+            //         var provinceDistrictMapping = new Array();
+            //         var selectAll = {
+            //             label: 'Select All',
+            //             value: 'ALL'
+            //         }
+            //         arrayUtil.forEach(provincesAvailable, function(province) {
+            //             provinceDistrictMapping[province.value] = new Array(selectAll);
+            //         });
 
-                    arrayUtil.forEach(districtArray, function(district) {
-                        if (district.province) {
-                            provinceDistrictMapping[district.province].push(district);
-                        }
-                    })
+            //         arrayUtil.forEach(districtArray, function(district) {
+            //             if (district.province) {
+            //                 provinceDistrictMapping[district.province].push(district);
+            //             }
+            //         })
 
-                    provinceHandle = on(dom.byId("aoiProvincePicker"), "change", function(evt) {
-                        var value = evt.target ? evt.target.value : evt.srcElement.value;
-                        model.districtsAvailableForAlerts(provinceDistrictMapping[value]);
-                        model.subDistrictsAvailableForAlerts([]);
-                    });
+            //         provinceHandle = on(dom.byId("aoiProvincePicker"), "change", function(evt) {
+            //             var value = evt.target ? evt.target.value : evt.srcElement.value;
+            //             model.districtsAvailableForAlerts(provinceDistrictMapping[value]);
+            //             model.subDistrictsAvailableForAlerts([]);
+            //         });
 
-                    districtHandle = on(dom.byId("aoiDistrictPicker"), "change", function(evt) {
-                        //var values = evt.target ? evt.target.selectedOptions : evt.srcElement.value;
+            //         districtHandle = on(dom.byId("aoiDistrictPicker"), "change", function(evt) {
+            //             //var values = evt.target ? evt.target.selectedOptions : evt.srcElement.value;
 
-                        var values;
-                        if (evt.target) {
-                            if (evt.target.selectedOptions) {
-                                values = evt.target.selectedOptions;
-                            } else {
-                                values = evt.target.value;
-                            }
-                        } else {
-                            values = evt.srcElement.value;
-                        }
+            //             var values;
+            //             if (evt.target) {
+            //                 if (evt.target.selectedOptions) {
+            //                     values = evt.target.selectedOptions;
+            //                 } else {
+            //                     values = evt.target.value;
+            //                 }
+            //             } else {
+            //                 values = evt.srcElement.value;
+            //             }
 
-                        if (values !== "NONE") {
-                            self.getSubDistricts(values).then(function(subDistrictArray) {
-                                model.subDistrictsAvailableForAlerts(subDistrictArray);
-                            });
-                        }
-                    });
+            //             if (values !== "NONE") {
+            //                 self.getSubDistricts(values).then(function(subDistrictArray) {
+            //                     model.subDistrictsAvailableForAlerts(subDistrictArray);
+            //                 });
+            //             }
+            //         });
 
-                    subDistrictHandle = on(dom.byId("aoiSubDistrictPicker"), "change", function(evt) {
-                        var warn = false;
-                        if (evt.target.selectedOptions) {
-                            if (evt.target.selectedOptions.length > 10) {
-                                warn = true;
-                            } else {
-                                warn = false;
-                            }
-                        }
-                        if (evt.target.value == "ALL") {
-                            warn = true;
-                        }
+            //         subDistrictHandle = on(dom.byId("aoiSubDistrictPicker"), "change", function(evt) {
+            //             var warn = false;
+            //             if (evt.target.selectedOptions) {
+            //                 if (evt.target.selectedOptions.length > 10) {
+            //                     warn = true;
+            //                 } else {
+            //                     warn = false;
+            //                 }
+            //             }
+            //             if (evt.target.value == "ALL") {
+            //                 warn = true;
+            //             }
 
-                        if (warn) {
-                            model.showSubDistrictWarning(true);
-                        } else {
-                            model.showSubDistrictWarning(false);
-                        }
-                    });
-                    // Validate form on submit and then hand off to post the request
-                    submitHandle = on(dom.byId("alerts-submit-button"), "click", function() {
-                        var email = dom.byId("emailForAlerts").value,
-                            phone = dom.byId("phoneNumberForAlerts").value,
-                            formIsValid = true,
-                            selectedOptions = [];
+            //             if (warn) {
+            //                 model.showSubDistrictWarning(true);
+            //             } else {
+            //                 model.showSubDistrictWarning(false);
+            //             }
+            //         });
+            //         // Validate form on submit and then hand off to post the request
+            //         submitHandle = on(dom.byId("alerts-submit-button"), "click", function() {
+            //             var email = dom.byId("emailForAlerts").value,
+            //                 phone = dom.byId("phoneNumberForAlerts").value,
+            //                 formIsValid = true,
+            //                 selectedOptions = [];
 
-                        model.errorMessages([]);
-                        model.showErrorMessages(false);
+            //             model.errorMessages([]);
+            //             model.showErrorMessages(false);
 
-                        if (dom.byId("aoiSubDistrictPicker").value === "ALL") {
-                            arrayUtil.forEach(dom.byId("aoiSubDistrictPicker").options, function(item) {
-                                if (item.innerHTML !== "Select All") {
-                                    selectedOptions.push({
-                                        "aoi_id": parseInt(item.value),
-                                        "aoi_name": item.innerHTML
-                                    });
-                                }
-                            });
-                        } else {
-                            arrayUtil.forEach(dom.byId("aoiSubDistrictPicker").options, function(item) {
-                                if (item.selected) {
-                                    selectedOptions.push({
-                                        "aoi_id": parseInt(item.value),
-                                        "aoi_name": item.innerHTML
-                                    });
-                                }
-                            });
-                        }
+            //             if (dom.byId("aoiSubDistrictPicker").value === "ALL") {
+            //                 arrayUtil.forEach(dom.byId("aoiSubDistrictPicker").options, function(item) {
+            //                     if (item.innerHTML !== "Select All") {
+            //                         selectedOptions.push({
+            //                             "aoi_id": parseInt(item.value),
+            //                             "aoi_name": item.innerHTML
+            //                         });
+            //                     }
+            //                 });
+            //             } else {
+            //                 arrayUtil.forEach(dom.byId("aoiSubDistrictPicker").options, function(item) {
+            //                     if (item.selected) {
+            //                         selectedOptions.push({
+            //                             "aoi_id": parseInt(item.value),
+            //                             "aoi_name": item.innerHTML
+            //                         });
+            //                     }
+            //                 });
+            //             }
 
-                        if (selectedOptions.length === 0) {
-                            domStyle.set("aoiSubDistrictPicker", "border", "1px solid red");
-                            model.errorMessages.push("You need to select at least one subdistrict.");
-                            formIsValid = false;
-                        } else {
-                            domStyle.set("aoiSubDistrictPicker", "border", "");
-                        }
+            //             if (selectedOptions.length === 0) {
+            //                 domStyle.set("aoiSubDistrictPicker", "border", "1px solid red");
+            //                 model.errorMessages.push("You need to select at least one subdistrict.");
+            //                 formIsValid = false;
+            //             } else {
+            //                 domStyle.set("aoiSubDistrictPicker", "border", "");
+            //             }
 
-                        if (validate.isEmailAddress(email) || telInput.intlTelInput("isValidNumber")) {
-                            domStyle.set("phoneNumberForAlerts", "border", "");
-                            domStyle.set("emailForAlerts", "border", "");
-                        } else {
-                            formIsValid = false;
-                            domStyle.set("emailForAlerts", "border", "1px solid red");
-                            domStyle.set("phoneNumberForAlerts", "border", "1px solid red");
-                            model.errorMessages.push("You must at least provide a phone number and/or an email.");
-                        }
+            //             if (validate.isEmailAddress(email) || telInput.intlTelInput("isValidNumber")) {
+            //                 domStyle.set("phoneNumberForAlerts", "border", "");
+            //                 domStyle.set("emailForAlerts", "border", "");
+            //             } else {
+            //                 formIsValid = false;
+            //                 domStyle.set("emailForAlerts", "border", "1px solid red");
+            //                 domStyle.set("phoneNumberForAlerts", "border", "1px solid red");
+            //                 model.errorMessages.push("You must at least provide a phone number and/or an email.");
+            //             }
 
-                        if (!formIsValid) {
-                            model.showErrorMessages(true);
-                        } else {
-                            if (phone !== '') {
-                                phone = phone.replace(/[^\d]/g, '');
-                                self.postSubscribeRequest(selectedOptions, phone, 'sms').then(function(result) {
-                                    if (result) {
-                                        dialog.destroy();
-                                        cleanup();
-                                    }
-                                });
-                            }
-                            if (validate.isEmailAddress(email)) {
-                                self.postSubscribeRequest(selectedOptions, email, 'email').then(function(result) {
-                                    if (result) {
-                                        dialog.destroy();
-                                        cleanup();
-                                    }
-                                });
-                            }
-                        }
-                    });
+            //             if (!formIsValid) {
+            //                 model.showErrorMessages(true);
+            //             } else {
+            //                 if (phone !== '') {
+            //                     phone = phone.replace(/[^\d]/g, '');
+            //                     self.postSubscribeRequest(selectedOptions, phone, 'sms').then(function(result) {
+            //                         if (result) {
+            //                             dialog.destroy();
+            //                             cleanup();
+            //                         }
+            //                     });
+            //                 }
+            //                 if (validate.isEmailAddress(email)) {
+            //                     self.postSubscribeRequest(selectedOptions, email, 'email').then(function(result) {
+            //                         if (result) {
+            //                             dialog.destroy();
+            //                             cleanup();
+            //                         }
+            //                     });
+            //                 }
+            //             }
+            //         });
 
-                    dialog.on('cancel', cleanup);
+            //         dialog.on('cancel', cleanup);
 
-                });
-            });
+            //     });
+            // });
 
         });
     };

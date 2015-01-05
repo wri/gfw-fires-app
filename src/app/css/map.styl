@@ -50,7 +50,7 @@ baseRed = #e7002f
 	padding 0
 	border-radius(0)
 
-.locator-widget-button, .basemap-gallery-button, .share-button, .print-button
+.locator-widget-button, .basemap-gallery-button, .share-button, .print-button, .alert-button
 	padding 1px
 	border-radius(5px)
 	position absolute
@@ -78,7 +78,7 @@ baseRed = #e7002f
 	margin-bottom 2px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
-#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover
+#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover, .alert-button:hover
 	background-color #EEE !important
 
 .basemap-gallery-button, .HomeButton .home, .locator-widget-button
@@ -382,6 +382,14 @@ table.imageryTable thead, table.imageryTable tbody
 
 .print-button.loading
 	background url('../images/loader.gif') no-repeat center white
+	
+.alert-button
+	background-color white
+	text-align center
+	line-height 30px
+	font-size 24px
+	color #f0ab00
+	top 290px
 
 .locator-line-splitter
 	text-align center
@@ -877,6 +885,7 @@ div.report-options-section > table
 .map-view-print .basemap-gallery-button,
 .map-view-print .share-button,
 .map-view-print .print-button,
+.map-view-print .alert-button,
 .map-view-print .simpleGeocoder,
 .map-view-print .esriSimpleSlider
 	display none !important
