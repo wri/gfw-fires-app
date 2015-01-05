@@ -495,6 +495,7 @@ define([
         },
 
         showDigitalGlobeImagery: function(imageryItem) {
+
             var feature = imageryItem.feature;
             var sensorName = feature.attributes.SensorName;
             var objectId = feature.attributes.OBJECTID;

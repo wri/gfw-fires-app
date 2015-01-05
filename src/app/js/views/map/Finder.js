@@ -662,6 +662,7 @@ define([
                     handles.push(on(node, "click", function(evt) {
                         var target = evt.target ? evt.target : evt.srcElement,
                             bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+
                         //pass in either bucket or target and have an 'if' saying whether the current row has an id = to the popup that was clicked
 
                         $("#imageryWindow > table > tbody > tr").each(function() {
@@ -680,7 +681,14 @@ define([
 
                             }
                         });
-                        LayerController.showDigitalGlobeImagery(bucket);
+
+                        var propertyArray = bucket.split("_");
+                        var bucketObj = {};
+                        bucketObj.feature = {};
+                        bucketObj.feature.attributes = {};
+                        bucketObj.feature.attributes.SensorName = propertyArray[0];
+                        bucketObj.feature.attributes.OBJECTID = propertyArray[2];
+                        LayerController.showDigitalGlobeImagery(bucketObj);
                         activeFeatureIndex = index;
 
                     }));
