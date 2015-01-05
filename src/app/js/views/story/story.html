@@ -3,16 +3,17 @@
 <div id="storyInnerContainer" class="content-inner-container">
   <h1 id="storyTitle" class="source_category_title">Share information on fires</h1>
   <div id="submitBox">
-    <form name="login" action="/login" method="post">
+    <form id="storyForm" name="login" action="/login" method="post">
       <div class="storiesInput">
         <h5 class="storyHeader">TITLE</h5>
+        <h5 id="requiredTitle" class="requiredItem">Required</h5>
         <input id="storyTitleInput" data-bind="value: storyTitleData" type="text" placeholder="Illegal Logging in National Park" required="required"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="padding:0;">
-          <div id="storyBasemaps" style="position:absolute; right:835px; top:270px; z-Index:10;">
+          <div id="storyBasemaps" style="position:absolute; right:25px; top:10px; z-Index:10; font-size: 12px;">
             <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Basemaps', closable:false, open:false">
               <div data-dojo-type="dijit/layout/ContentPane" style="width:255px; height:220px; overflow:auto;">
                 <div id="basemapGallery"></div>
@@ -40,8 +41,8 @@
       <div class="storiesInput">
         <h5 class="storyHeader">MEDIA</h5>
         <div id="storyMediaInput" data-bind="foreach:inputFilesSelector">
-          <input type="file" name="attachment" data-bind="event: {change:$root.mediaChange}" class="uploadInput"/>
-          <div data-bind="click:$root.attachmentRemove, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}" class="uploadList"></div>
+          <input type="file" name="attachment" style="font-size: 11px;" data-bind="event: {change:$root.mediaChange}" class="uploadInput"/>
+          <div data-bind="click:$root.attachmentRemove, text:name, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}" class="uploadList"></div>
         </div>
       </div>
       <div class="storiesInput">
@@ -50,6 +51,8 @@
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">EMAIL</h5>
+        <h5 id="requiredEmail" class="requiredItem">Required</h5>
+        <p style="font-size:12px;">(Will not be shown on map)</p>
         <input id="storyEmailInput" data-bind="value: storyEmailData" type="email" required="required"/>
         <input type="email" name="verify_email" id="verifyEmailForStory" placeholder="Verify Email(Leave blank if your human)"/>
       </div>

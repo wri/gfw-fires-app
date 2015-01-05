@@ -3,16 +3,16 @@ div#storyInnerContainer(class="content-inner-container")
     h1#storyTitle.source_category_title Share information on fires
     div#submitBox
         //-div#previewDiv(style='display:none;')
-        form(name="login", action="/login", method="post")
+        form#storyForm(name="login", action="/login", method="post")
             div.storiesInput
                 h5.storyHeader TITLE
-                //-h5#requiredTitle.requiredItem Required
+                h5#requiredTitle.requiredItem Required
                 input(id="storyTitleInput", data-bind="value: storyTitleData", type="text", placeholder="Illegal Logging in National Park" required)
             div.storiesInput
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 #storiesMap(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'", style='padding:0;')
-                    div(id='storyBasemaps' style='position:absolute; right:835px; top:270px; z-Index:10;')
+                    div(id='storyBasemaps' style='position:absolute; right:25px; top:10px; z-Index:10; font-size: 12px;')
                       div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
                         div(data-dojo-type='dijit/layout/ContentPane', style='width:255px; height:220px; overflow:auto;')
                           #basemapGallery
@@ -32,15 +32,17 @@ div#storyInnerContainer(class="content-inner-container")
             div.storiesInput
                 h5.storyHeader MEDIA
                 div(id="storyMediaInput", data-bind="foreach:inputFilesSelector")
-                    input(type="file", name="attachment", class="uploadInput" data-bind="event: {change:$root.mediaChange}")
-                    div.uploadList(data-bind="click:$root.attachmentRemove, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}")
+                    input(type="file", name="attachment", style='font-size: 11px;' class="uploadInput", data-bind="event: {change:$root.mediaChange}")
+                    div.uploadList(data-bind="click:$root.attachmentRemove, text:name, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}")
 
             div.storiesInput
                 h5.storyHeader NAME
                 input(id="storyNameInput", data-bind="value: storyNameData", type="text")
             div.storiesInput
                 h5.storyHeader EMAIL
-                //-h5#requiredEmail.requiredItem Required
+                h5#requiredEmail.requiredItem Required
+                //-div#leftPaneToggle(data-bind="click: slidePanel")!='-'
+                p(style="font-size:12px;")!='(Will not be shown on map)'
                 input(id="storyEmailInput", data-bind="value: storyEmailData", type="email" required)
                 input(type="email",name="verify_email",id="verifyEmailForStory",placeholder='Verify Email(Leave blank if your human)')
         div#submitStory.footerModes

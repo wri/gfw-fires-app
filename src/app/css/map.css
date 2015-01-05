@@ -93,7 +93,7 @@ map.styl,
   background: #f7f7f7;
 }
 #map .esriPopupWrapper .sizer:first-child .titlePane .title {
-  display: none;
+  color: #000;
 }
 #map .esriPopupWrapper .sizer:first-child .titlePane .maximize {
   display: none;

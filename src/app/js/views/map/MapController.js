@@ -85,8 +85,11 @@ define([
         if (initialized) {
             //switch to this view
             o.map.resize();
+            console.log(view);
             EventsController.switchToView(view);
+            o.fromStories();
             o.checkBubble();
+
             return;
         }
 
@@ -110,6 +113,7 @@ define([
                 // });
                 setTimeout(function() {
                     that.checkBubble();
+                    that.fromStories();
                 }, 1000);
 
             });
@@ -276,12 +280,22 @@ define([
         o.mapExtentPausable.pause();
 
     };
+
     o.checkBubble = function() {
         console.log("checking bubble");
         if (MapConfig.digitalGlobe.navigationBool) {
             registry.byId("digital-globe-checkbox").setValue(true);
             registry.byId("fires-map-accordion").selectChild(registry.byId("imagery-panel"));
             MapConfig.digitalGlobe.navigationBool = false;
+        }
+    };
+
+    o.fromStories = function() {
+        console.log("Checking out user stories");
+        if (MapConfig.storiesBool) {
+            registry.byId("fire-stories-checkbox").setValue(true);
+            registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
+            MapConfig.storiesBool = false;
         }
     };
 
@@ -1145,13 +1159,13 @@ define([
             title: "{Title}",
             //"content": htmlContent,
             fieldInfos: [{
-                //     fieldName: "Date",
-                //     label: "Date",
-                //     format: {
-                //         dateFormat: 'shortDate'
-                //     },
-                //     visible: true
-                // }, {
+                fieldName: "Date",
+                label: "Date",
+                format: {
+                    dateFormat: 'shortDate'
+                },
+                visible: true
+            }, {
                 fieldName: "Details",
                 label: "Details",
                 visible: true
@@ -1163,10 +1177,10 @@ define([
                 fieldName: "Name",
                 label: "Name",
                 visible: true
-            }, {
-                fieldName: "Email",
-                label: "Email",
-                visible: true
+                // }, {
+                //     fieldName: "Email",
+                //     label: "Email",
+                //     visible: true
             }],
             "showAttachments": true
 

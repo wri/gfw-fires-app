@@ -33,8 +33,8 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.stopSubmissionText = "Wait! Both a Title and a valid email are required to submit your story.";
         vm.formInvalidText = "The email and/or the video url you provided is invalid.";
         vm.noMapPoint = "Please place a point on the map to represent your story!";
-        vm.submitSuccess = "Your story was successfully submitted! Check it out in the Map page under the Social Media Panel.";
-        vm.submitFailure = "An error occured during the submission.";
+        vm.submitSuccess = "Your story was successfully submitted! You will now be redirected to the map to view your submission.";
+        vm.submitFailure = "An error occured during the submission process.";
         vm.attachSuccess = "The attachment you selected was successfully added to the Story!";
         vm.attachFailure = "The attachment you selected could not be added to the Story";
 

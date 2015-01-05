@@ -173,6 +173,7 @@ padding-right 4px {
 #storiesMap {
   width: 540px !important;
   height: 300px !important;
+  position: relative;
 }
 #basemap-gallery-button2 {
   position: absolute;
@@ -217,8 +218,9 @@ padding-right 4px {
   height: 150px;
 }
 #storyMediaInput {
-  width: 134px;
-  height: 80px;
+  height: 150px;
+  width: 540px;
+  overflow: scroll;
 }
 #uploadStoryMedia {
   width: 150px;
@@ -228,7 +230,7 @@ padding-right 4px {
 }
 .uploadList {
   position: relative;
-  bottom: 20px;
+  bottom: 40px;
   font-size: 14px;
   width: 290px;
   cursor: no-drop;

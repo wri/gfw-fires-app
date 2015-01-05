@@ -12,6 +12,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var that = this;
             if (initialized) {
                 //switch to this view
+                console.log(viewObj);
                 EventsController.switchToView(viewObj);
 
                 return;
@@ -180,23 +181,21 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var fileName = evt.currentTarget.files[0].name;
             var oldButton = evt.currentTarget;
             $(oldButton).css("opacity", "0");
-            if (evt) {
-                $(evt.target.nextSibling.nextSibling).append(evt.currentTarget.files[0].name);
-            }
+
             var oldContent = StoryModel.vm.mediaListData();
 
             StoryModel.vm.inputFilesSelector.push({
-                display: true
+                display: true,
+                name: evt.currentTarget.files[0].name
             });
         };
 
         o.handleAttachmentRemove = function(obj, evt) {
-            //$(evt.target).children("img").remove();
             var indexNumber = 0;
             var attachmentDoms = $(".uploadInput");
             for (var i = 0; i < attachmentDoms.length; i++) {
                 if (attachmentDoms[i].files.length > 0) {
-                    if (evt.currentTarget.firstChild.data == attachmentDoms[i].files[0].name) {
+                    if (evt.currentTarget.firstChild.data === attachmentDoms[i].files[0].name) {
                         domConstruct.destroy(attachmentDoms[i]);
                         indexNumber = i;
                         console.log("destroyed");
@@ -205,8 +204,16 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
 
             }
             var attachmentDoms = $(".uploadInput");
+            // if (indexNumber != 0) {
+            //     StoryModel.vm.inputFilesSelector.remove(StoryModel.vm.inputFilesSelector()[indexNumber + 1]);
+            // } else {
             StoryModel.vm.inputFilesSelector.remove(StoryModel.vm.inputFilesSelector()[indexNumber]);
-            evt.target.remove();
+            //}
+            //if (attachmentDoms.length == 1) {
+            if (indexNumber == 0) {
+                evt.target.remove();
+            }
+            //}
         };
 
         /*o.previewStorySubmission = function(obj, evt) {
@@ -368,27 +375,27 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
 
             graphicToAdd.attributes = {};
 
-            // if (StoryModel.vm.storyLocationData()) {
-            //     var locationsArray = (StoryModel.vm.storyLocationData()).split(",");
-            // }
+            if (StoryModel.vm.storyLocationData()) {
+                //var locationsArray = (StoryModel.vm.storyLocationData()).split(",");
+                graphicToAdd.attributes.Location = StoryModel.vm.storyLocationData();
+            }
             var currentDate = $("#storyDateInput").datepicker("getDate");
             var days = currentDate.getDate();
             var months = currentDate.getMonth() + 1;
             var years = currentDate.getFullYear();
-            var date = months + "/" + days + "/" + years; //TODO: Add this somehow!
+            var date = months + "/" + days + "/" + years;
 
             if (StoryModel.vm.storyDetailsData()) {
-                //TODO: Create a Date Field in the Feature Service and decide on a Format, then fit that
+                graphicToAdd.attributes.Details = StoryModel.vm.storyDetailsData();
             }
             if (video) {
                 graphicToAdd.attributes.Video = video;
             }
-            if (StoryModel.vm.storyMediaData()) {
-                //TODO: Create a Video Field in the Feature Service and decide on a Format, then fit that
-            }
             if (StoryModel.vm.storyNameData()) {
                 graphicToAdd.attributes.Name = StoryModel.vm.storyNameData();
             }
+
+            graphicToAdd.attributes.Date = date;
             graphicToAdd.attributes.Title = title;
             graphicToAdd.attributes.Email = email;
             graphicToAdd.attributes.Publish = 'Y';
@@ -396,6 +403,33 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var stories = o.map.getLayer("storiesLayer");
             var success = function() {
                 alert(StoryModel.vm.submitSuccess);
+
+                StoryModel.vm.storyTitleData(null);
+                StoryModel.vm.pointGeom(null);
+                StoryModel.vm.storyLocationData(null);
+                StoryModel.vm.dateObserv(null);
+                StoryModel.vm.storyDetailsData(null);
+                StoryModel.vm.storyVideoData(null);
+                StoryModel.vm.storyMediaData(null);
+                StoryModel.vm.storyNameData(null);
+                StoryModel.vm.storyEmailData(null);
+
+                dom.byId("storyForm").reset();
+
+                var attachmentDoms = $(".uploadInput");
+                var uploadLabels = $(".uploadList");
+                for (var i = 0; i < attachmentDoms.length; i++) {
+                    if (i < (attachmentDoms.length - 1)) {
+                        domConstruct.destroy(attachmentDoms[i]);
+                        domConstruct.destroy(uploadLabels[i]);
+                    }
+                }
+
+                require(["views/map/MapConfig", "modules/EventsController"], function(MapConfig, EventsController) {
+                    MapConfig.storiesBool = true;
+                    EventsController.goToMap();
+
+                });
             }
             var failure = function() {
                 alert(StoryModel.vm.submitFailure);
