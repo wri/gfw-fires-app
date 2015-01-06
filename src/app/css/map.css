@@ -43,8 +43,7 @@ map.styl,
 .locator-widget-button,
 .basemap-gallery-button,
 .share-button,
-.print-button,
-.alert-button {
+.print-button {
   padding: 1px;
   border-radius: 5px;
   position: absolute;
@@ -78,8 +77,7 @@ map.styl,
 .share-button:hover,
 .locator-widget-button:hover,
 .basemap-gallery-button:hover,
-.print-button:hover,
-.alert-button:hover {
+.print-button:hover {
   background-color: #eee !important;
 }
 .basemap-gallery-button,
@@ -388,14 +386,6 @@ table.imageryTable tbody {
 }
 .print-button.loading {
   background: url("../images/loader.gif") no-repeat center #fff;
-}
-.alert-button {
-  background-color: #fff;
-  text-align: center;
-  line-height: 30px;
-  font-size: 24px;
-  color: #f0ab00;
-  top: 290px;
 }
 .locator-line-splitter {
   text-align: center;
@@ -901,7 +891,6 @@ div.report-options-section > table {
 .map-view-print .basemap-gallery-button,
 .map-view-print .share-button,
 .map-view-print .print-button,
-.map-view-print .alert-button,
 .map-view-print .simpleGeocoder,
 .map-view-print .esriSimpleSlider {
   display: none !important;

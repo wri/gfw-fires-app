@@ -18,8 +18,7 @@ define(["knockout", "main/Config", "dojo/dom", "modules/EventsController"],
 
 
         vm.clickNavLink = function(obj, evt) {
-            console.log(obj);
-
+            //console.log(obj);
             EventsController.clickNavLink(obj);
         };
 
