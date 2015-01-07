@@ -151,7 +151,8 @@ define([
                         value: 'ALL'
                     }
                     arrayUtil.forEach(provincesAvailable, function(province) {
-                        provinceDistrictMapping[province.value] = new Array(selectAll);
+                        //provinceDistrictMapping[province.value] = new Array(selectAll);
+                        provinceDistrictMapping[province.value] = new Array();
                     });
 
                     arrayUtil.forEach(districtArray, function(district) {
@@ -478,11 +479,11 @@ define([
                 }
                 return 0;
             });
-            results.unshift({
-                label: 'Select All',
-                value: 'ALL',
-                selected: true
-            });
+            // results.unshift({
+            //     label: 'Select All',
+            //     value: 'ALL',
+            //     selected: true
+            // });
             deferred.resolve(results);
         }, function(err) {
             deferred.resolve(false);

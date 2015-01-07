@@ -13,8 +13,8 @@ define([],
 
             validViews: ["home", "blog", "map", "about", "data", "story"],
 
-            emailSubscribeUrl: "https://gfw-fires.wri.org/subscribe",
-
+            //emailSubscribeUrl: "https://gfw-fires.wri.org/subscribe", 
+            emailSubscribeUrl: "http://54.164.126.73/", //For production
 
 
             //knockout stuff
