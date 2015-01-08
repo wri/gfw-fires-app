@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # GFW-Fires
 > Please read this before beginning development to learn how to get started and how to change some simple components of the application.
 
@@ -44,3 +45,9 @@ Run <code>gulp build</code> from your project directory.
 ## Contribution
 <p> See Git Workflow above to know how and where to commit your code.</p>
 ##### NOTE: DO NOT UNDER ANY CIRCUMSTANCES COMMIT ANY CREDENTIALS OF ANY KIND
+=======
+gfw-fires-app
+=============
+
+The Global Forest Watch Fires app
+>>>>>>> d9de94ba16ee9b66e8e84121f790a1cd3d65006f
