@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+.idea
+*.sublime-workspace
+*.sublime-project
+
+/src/app/proxy
