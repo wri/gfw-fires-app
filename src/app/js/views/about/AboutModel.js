@@ -33,7 +33,9 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
 
 
         o.applyBindings = function(domId) {
-            ko.applyBindings(vm, dom.byId(domId));
+            //console.log(ko.contextFor(dom.byId(domId)));
+            //TODO: Find out why binding the domId (aboutView) is occuring twice in a row
+            ko.applyBindings(vm, dom.byId("aboutInnerContainer"));
         }
 
 

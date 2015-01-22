@@ -74,7 +74,7 @@
                 location: URL + '/js/utils'
             }],
             aliases: [
-                ["knockout", "libs/knockout-3.1.0"],
+                ["knockout", "libs/knockout-3.2.0"],
                 // ["jqueryUI", "libs/jquery-ui.min"],
                 ["dom-style", "dojo/dom-style"],
                 ["dom-class", "dojo/dom-class"],

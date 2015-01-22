@@ -23,8 +23,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
                 dom.byId(viewId).innerHTML = html;
 
-
                 EventsController.switchToView(viewObj);
+
                 AboutModel.applyBindings(viewId);
             })
         };

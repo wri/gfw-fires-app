@@ -22,7 +22,7 @@ define([],
             //knockout stuff
 
             navigationLinks: [{
-                    "html": "Home",
+                    "html": "GFW Fires",
                     "viewName": "home",
                     "domId": "homeView",
                     "selected": true
@@ -45,7 +45,7 @@ define([],
                 //     "selected": false
                 // }
                 , {
-                    "html": "Partner Page",
+                    "html": "Learn More",
                     "viewName": "about",
                     "domId": "aboutView",
                     "selected": false
