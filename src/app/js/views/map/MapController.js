@@ -292,11 +292,11 @@ define([
 
     o.fromStories = function() {
         console.log("Checking out user stories");
-        if (MapConfig.storiesBool) {
-            registry.byId("fire-stories-checkbox").setValue(true);
-            registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
-            MapConfig.storiesBool = false;
-        }
+        // if (MapConfig.storiesBool) {
+        //     registry.byId("fire-stories-checkbox").setValue(true);
+        //     registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
+        //     MapConfig.storiesBool = false;
+        // }
     };
 
     o.updateImageryList = function() {
@@ -604,15 +604,15 @@ define([
             }
         });
 
-        on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
+        // on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
 
-            var value = registry.byId("fire-stories-checkbox").checked;
-            console.log(value);
-            LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
-            if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
-            }
-        });
+        //     var value = registry.byId("fire-stories-checkbox").checked;
+        //     console.log(value);
+        //     LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
+        //     if (value) {
+        //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
+        //     }
+        // });
 
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
