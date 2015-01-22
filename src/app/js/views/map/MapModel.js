@@ -358,6 +358,9 @@ define([
 
     vm.closeReportOptions = function() {
         vm.showReportOptions(false);
+        require(["views/map/MapController"], function(MapController) {
+            MapController.removeAnalysisFromHash();
+        });
     };
 
     vm.closeReportOptionsNOAA = function() {

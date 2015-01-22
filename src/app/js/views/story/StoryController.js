@@ -64,7 +64,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 // o.map.resize();
                 // o.map.reposition();
 
-                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.localToken, {
+                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.stagingToken, {
                     id: "storiesLayer",
                     outFields: ["*"]
                 });
