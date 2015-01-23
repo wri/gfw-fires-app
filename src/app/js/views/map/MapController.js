@@ -87,7 +87,7 @@ define([
             o.map.resize();
             console.log(view);
             EventsController.switchToView(view);
-            o.fromStories();
+            //o.fromStories();
             o.checkBubble();
 
             return;
@@ -113,7 +113,7 @@ define([
                 // });
                 setTimeout(function() {
                     that.checkBubble();
-                    that.fromStories();
+                    //that.fromStories();
                 }, 1000);
 
             });
@@ -292,11 +292,11 @@ define([
 
     o.fromStories = function() {
         console.log("Checking out user stories");
-        if (MapConfig.storiesBool) {
-            registry.byId("fire-stories-checkbox").setValue(true);
-            registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
-            MapConfig.storiesBool = false;
-        }
+        // if (MapConfig.storiesBool) {
+        //     registry.byId("fire-stories-checkbox").setValue(true);
+        //     registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
+        //     MapConfig.storiesBool = false;
+        // }
     };
 
     o.updateImageryList = function() {
@@ -427,6 +427,10 @@ define([
             $("#control-panel > div.report-link-container").show();
         }, 1000);
 
+    };
+
+    o.removeAnalysisFromHash = function() {
+        LayerController.updateLayersInHash("remove", "Get_Fires_Analysis");
     };
 
     o.addWidgets = function() {
@@ -600,13 +604,15 @@ define([
             }
         });
 
-        on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
-            var value = registry.byId("fire-stories-checkbox").checked;
-            LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
-            if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
-            }
-        });
+        // on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
+
+        //     var value = registry.byId("fire-stories-checkbox").checked;
+        //     console.log(value);
+        //     LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
+        //     if (value) {
+        //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
+        //     }
+        // });
 
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
@@ -732,11 +738,21 @@ define([
 
         on(dom.byId("report-link"), "click", function() {
             MapModel.vm.showReportOptions(true);
+
             if (MapModel.vm.reportAOIs().length < 1) {
                 ReportOptionsController.populate_select();
             }
             //var win = window.open('./app/js/views/report/report.html', 'Report', '');
             self.reportAnalyticsHelper('widget', 'report', 'The user clicked Get Fires Analysis to generate an report with the latest analysis.');
+            console.log("In hash");
+            var currentHash = HashController.getHash();
+
+            if (currentHash.lyrs.indexOf("Get_Fires_Analysis") === -1) {
+                console.log("Changing hash");
+                LayerController.updateLayersInHash('add', "lyrs", "Get_Fires_Analysis");
+            }
+            //check hash when map loads and turn this guy on
+
         });
 
 
@@ -1292,7 +1308,7 @@ define([
             forestUseLayer,
             overlaysLayer,
             tweetLayer,
-            fireStories,
+            //fireStories,
             airQualityLayer,
             tomnodSellayer,
             indonesiaLayer,
@@ -1380,6 +1396,8 @@ define([
             layerObj,
             layerIds;
 
+
+
         function useDefaults() {
             registry.byId('fires-checkbox').set('checked', true);
             LayerController.updateLayersInHash('add', MapConfig.firesLayer.id, MapConfig.firesLayer.id);
@@ -1437,6 +1455,15 @@ define([
             layerComponents = layersArray[index].split('/');
             turnOnLayers(layerComponents[0], layerComponents[1]);
         }
+        //setTimeout(function() {
+        var currentHash = HashController.getHash();
+        if (currentHash.lyrs.indexOf("Get_Fires_Analysis") > -1) {
+            console.log("Updating from hash");
+            $("#report-link").click();
+
+        }
+        //}, 500);
+
 
     };
 

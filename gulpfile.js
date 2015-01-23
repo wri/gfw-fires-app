@@ -35,13 +35,13 @@ gulp.task('minify-css', function() {
 });
 
 gulp.task('minify-images', function() {
-    return gulp.src(app_dir.src + 'app/images/**/*')
+    return gulp.src(app_dir.src + 'app/**/*.{png,jpg,gif}')
         .pipe(imagemin({
             optimizationLevel: 7,
             progressive: true,
             interlaced: true
         }))
-        .pipe(gulp.dest(app_dir.build + 'app/images'));
+        .pipe(gulp.dest(app_dir.build + 'app'));
 });
 
 gulp.task('minify-js', function() {

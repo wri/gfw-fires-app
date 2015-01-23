@@ -140,7 +140,9 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                             //domConstruct.place("");
                             setTimeout(function() {
 
-                                domConstruct.place("footerMovableWrapper", "footerShareContainer");
+                                //domConstruct.place("footerMovableWrapper", "footerShareContainer");
+                                domConstruct.place("footerView", "footerShareContainer");
+
 
                             }, 1000);
                             // EventsController.startModeAnim();
@@ -148,7 +150,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                         default:
                             //EventsController.stopModeAnim();
-                            domConstruct.place("footerMovableWrapper", data.viewId);
+                            //domConstruct.place("footerMovableWrapper", data.viewId);
+                            domConstruct.place("footerView", data.viewId);
                     }
 
                     //remove hidden stuff

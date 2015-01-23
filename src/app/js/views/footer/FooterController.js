@@ -38,6 +38,14 @@ define([
 
             that.initShareButton();
 
+            $('#footer-logos').slick({
+                infinite: true,
+                slidesToShow: 5,
+                slidesToScroll: 5,
+                speed: 500,
+                autoplay: true,
+                autoplaySpeed: 3000
+            });
         });
     };
 
