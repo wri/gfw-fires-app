@@ -1585,10 +1585,16 @@ body {
 .layout-footer .footer-logos a.dutchforeign:hover,
 .layout-footer .footer-logos a.moore,
 .layout-footer .footer-logos a.moore:hover,
+.layout-footer .footer-logos a.bnpb,
+.layout-footer .footer-logos a.bnpb:hover,
+.layout-footer .footer-logos a.redd,
+.layout-footer .footer-logos a.redd:hover,
+.layout-footer .footer-logos a.digitalglobe,
+.layout-footer .footer-logos a.digitalglobe:hover,
 .layout-footer .footer-logos a.bobolink,
 .layout-footer .footer-logos a.vizzuality-big,
 .layout-footer .footer-logos a.vizzuality-big:hover {
-  background: url("http://gfw-nav.herokuapp.com/assets/logos-sd59f31ac4c.png") no-repeat;
+  background: url("http://gfw-nav.herokuapp.com/assets/logos-s70abc8eb5f-51c3c3c95bb9a3a115eb7d08bd369dde.png") no-repeat;
 }
 .layout-footer .inner {
   position: relative;
@@ -1774,7 +1780,7 @@ body {
   width: 200px;
   height: 70px;
   margin: 0 auto;
-  background-position: 0 -1711px;
+  background-position: 0 -1749px;
 }
 @media (min-width: 850px) {
   .layout-footer .partner-box .row .wri-logo {
@@ -1875,7 +1881,7 @@ body {
 .layout-footer .footer-logos a.wri {
   height: 32px;
   width: 95px;
-  background-position: 0 -2414px;
+  background-position: 0 -2490px;
 }
 .layout-footer .footer-logos a.wri:hover {
   background-position: 0 -1075px;
@@ -1883,7 +1889,7 @@ body {
 .layout-footer .footer-logos a.google {
   height: 29px;
   width: 85px;
-  background-position: 0 -2715px;
+  background-position: 0 -2917px;
 }
 .layout-footer .footer-logos a.google:hover {
   background-position: 0 -656px;
@@ -1891,7 +1897,7 @@ body {
 .layout-footer .footer-logos a.esri {
   height: 33px;
   width: 87px;
-  background-position: 0 -2381px;
+  background-position: 0 -2457px;
 }
 .layout-footer .footer-logos a.esri:hover {
   background-position: 0 -1042px;
@@ -1899,7 +1905,7 @@ body {
 .layout-footer .footer-logos a.universitymaryland {
   height: 51px;
   width: 56px;
-  background-position: 0 -2034px;
+  background-position: 0 -2110px;
 }
 .layout-footer .footer-logos a.universitymaryland:hover {
   background-position: 0 -742px;
@@ -1907,7 +1913,7 @@ body {
 .layout-footer .footer-logos a.unep {
   height: 57px;
   width: 49px;
-  background-position: 0 -1874px;
+  background-position: 0 -1912px;
 }
 .layout-footer .footer-logos a.unep:hover {
   background-position: 0 -793px;
@@ -1915,7 +1921,7 @@ body {
 .layout-footer .footer-logos a.imazon {
   height: 24px;
   width: 79px;
-  background-position: 0 -2839px;
+  background-position: 0 -3105px;
 }
 .layout-footer .footer-logos a.imazon:hover {
   background-position: 0 -1484px;
@@ -1923,7 +1929,7 @@ body {
 .layout-footer .footer-logos a.cfgd {
   height: 40px;
   width: 84px;
-  background-position: 0 -1946px;
+  background-position: 0 -1984px;
 }
 .layout-footer .footer-logos a.cfgd:hover {
   background-position: 0 -850px;
@@ -1931,7 +1937,7 @@ body {
 .layout-footer .footer-logos a.osfac {
   height: 56px;
   width: 44px;
-  background-position: 0 -2183px;
+  background-position: 0 -2259px;
 }
 .layout-footer .footer-logos a.osfac:hover {
   background-position: 0 -890px;
@@ -1939,15 +1945,15 @@ body {
 .layout-footer .footer-logos a.gfwca {
   height: 44px;
   width: 42px;
-  background-position: 0 -2580px;
+  background-position: 0 -2782px;
 }
 .layout-footer .footer-logos a.gfwca:hover {
-  background-position: 0 -1667px;
+  background-position: 0 -1705px;
 }
 .layout-footer .footer-logos a.scanex {
   height: 20px;
   width: 110px;
-  background-position: 0 -2624px;
+  background-position: 0 -2826px;
 }
 .layout-footer .footer-logos a.scanex:hover {
   background-position: 0 -1313px;
@@ -1955,7 +1961,7 @@ body {
 .layout-footer .footer-logos a.twrus {
   height: 28px;
   width: 110px;
-  background-position: 0 -2552px;
+  background-position: 0 -2692px;
 }
 .layout-footer .footer-logos a.twrus:hover {
   background-position: 0 -1285px;
@@ -1963,15 +1969,15 @@ body {
 .layout-footer .footer-logos a.norwegian {
   height: 46px;
   width: 110px;
-  background-position: 0 -2137px;
+  background-position: 0 -2213px;
 }
 .layout-footer .footer-logos a.norwegian:hover {
-  background-position: 0 -1828px;
+  background-position: 0 -1866px;
 }
 .layout-footer .footer-logos a.usaid {
   height: 64px;
   width: 80px;
-  background-position: 0 -1566px;
+  background-position: 0 -1604px;
 }
 .layout-footer .footer-logos a.usaid:hover {
   background-position: 0 -549px;
@@ -1979,7 +1985,7 @@ body {
 .layout-footer .footer-logos a.gef {
   height: 59px;
   width: 51px;
-  background-position: 0 -2239px;
+  background-position: 0 -2315px;
 }
 .layout-footer .footer-logos a.gef:hover {
   background-position: 0 -983px;
@@ -1987,31 +1993,31 @@ body {
 .layout-footer .footer-logos a.ukaid {
   height: 47px;
   width: 43px;
-  background-position: 0 -2644px;
+  background-position: 0 -2846px;
 }
 .layout-footer .footer-logos a.ukaid:hover {
-  background-position: 0 -1781px;
+  background-position: 0 -1819px;
 }
 .layout-footer .footer-logos a.tilia {
   height: 25px;
   width: 67px;
-  background-position: 0 -3013px;
+  background-position: 0 -3341px;
 }
 .layout-footer .footer-logos a.tilia:hover {
-  background-position: 0 -2988px;
+  background-position: 0 -3316px;
 }
 .layout-footer .footer-logos a.goodall {
   height: 26px;
   width: 110px;
-  background-position: 0 -2962px;
+  background-position: 0 -3228px;
 }
 .layout-footer .footer-logos a.goodall:hover {
-  background-position: 0 -2446px;
+  background-position: 0 -2522px;
 }
 .layout-footer .footer-logos a.cartodb {
   height: 39px;
   width: 110px;
-  background-position: 0 -2298px;
+  background-position: 0 -2374px;
 }
 .layout-footer .footer-logos a.cartodb:hover {
   background-position: 0 -1162px;
@@ -2019,7 +2025,7 @@ body {
 .layout-footer .footer-logos a.vizzuality {
   height: 58px;
   width: 109px;
-  background-position: 0 -1508px;
+  background-position: 0 -1546px;
 }
 .layout-footer .footer-logos a.vizzuality:hover {
   background-position: 0 -491px;
@@ -2027,7 +2033,7 @@ body {
 .layout-footer .footer-logos a.blueraster {
   height: 48px;
   width: 110px;
-  background-position: 0 -1986px;
+  background-position: 0 -2024px;
 }
 .layout-footer .footer-logos a.blueraster:hover {
   background-position: 0 -1201px;
@@ -2043,10 +2049,10 @@ body {
 .layout-footer .footer-logos a.danida {
   height: 15px;
   width: 82px;
-  background-position: 0 -2824px;
+  background-position: 0 -3090px;
 }
 .layout-footer .footer-logos a.danida:hover {
-  background-position: 0 -1931px;
+  background-position: 0 -1969px;
 }
 .layout-footer .footer-logos a.cgiar {
   height: 43px;
@@ -2059,18 +2065,42 @@ body {
 .layout-footer .footer-logos a.dutchforeign {
   height: 80px;
   width: 106px;
-  background-position: 0 -2744px;
+  background-position: 0 -2946px;
 }
 .layout-footer .footer-logos a.dutchforeign:hover {
-  background-position: 0 -2472px;
+  background-position: 0 -2612px;
 }
 .layout-footer .footer-logos a.moore {
   height: 37px;
   width: 96px;
-  background-position: 0 -1630px;
+  background-position: 0 -1668px;
 }
 .layout-footer .footer-logos a.moore:hover {
   background-position: 0 -946px;
+}
+.layout-footer .footer-logos a.bnpb {
+  height: 64px;
+  width: 50px;
+  background-position: 0 -3026px;
+}
+.layout-footer .footer-logos a.bnpb:hover {
+  background-position: 0 -2548px;
+}
+.layout-footer .footer-logos a.redd {
+  height: 62px;
+  width: 95px;
+  background-position: 0 -3254px;
+}
+.layout-footer .footer-logos a.redd:hover {
+  background-position: 0 -2720px;
+}
+.layout-footer .footer-logos a.digitalglobe {
+  height: 38px;
+  width: 120px;
+  background-position: 0 -2072px;
+}
+.layout-footer .footer-logos a.digitalglobe:hover {
+  background-position: 0 -1508px;
 }
 .layout-footer .footer-logos a.bobolink {
   height: 53px;
@@ -2080,7 +2110,7 @@ body {
 .layout-footer .footer-logos a.vizzuality-big {
   height: 58px;
   width: 109px;
-  background-position: 0 -1508px;
+  background-position: 0 -1546px;
 }
 .layout-footer .footer-logos a.vizzuality-big:hover {
   background-position: 0 -491px;
