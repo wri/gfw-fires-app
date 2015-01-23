@@ -546,6 +546,7 @@
     margin: 0px 0px 10px 20px;
     padding: 0px 0px 0px 20px;
     background: url('../images/bullet.png') no-repeat scroll 0px 8px transparent;
+    text-align: center;
 }
 
 .source_coverage_download .source_coverage_title {
@@ -595,8 +596,37 @@ height: 80px;
 	text-align: center;
 }
 
-.static-logos-sprite, .logo_list .osfac, .logo_list .osfac:hover, .logo_list .wri, .logo_list .wri:hover, .logo_list .google, .logo_list .google:hover, .logo_list .esri, .logo_list .esri:hover, .logo_list .universitymaryland, .logo_list .universitymaryland:hover, .logo_list .unep, .logo_list .unep:hover, .logo_list .imazon, .logo_list .imazon:hover, .logo_list .centerglobaldevelopment, .logo_list .centerglobaldevelopment:hover, .logo_list .gfwca, .logo_list .gfwca:hover, .logo_list .scanex, .logo_list .scanex:hover, .logo_list .twrus, .logo_list .twrus:hover, .logo_list .norwegian, .logo_list .norwegian:hover, .logo_list .usaid, .logo_list .usaid:hover, .logo_list .gef, .logo_list .gef:hover, .logo_list .ukaid, .logo_list .ukaid:hover, .logo_list .tilafund, .logo_list .tilafund:hover, .logo_list .danida, .logo_list .danida:hover, .logo_list .dutchforeign, .logo_list .dutchforeign:hover, .logo_list .bobolink, .logo_list .simbiotica, .logo_list .simbiotica:hover, .logo_list .goodall, .logo_list .goodall:hover, .logo_list .sida, .logo_list .sida:hover {
-background: url(../images/static-logos2.png) no-repeat;
+.emailWRI {
+	border: 1px solid #97bd3d;
+	margin: 10px 0 0;
+	color: #555555 !important;
+	background: white;
+	border-color: #97bd3d;
+	text-transform: uppercase;
+	padding: 0px 35px;
+	background: #e5e5df;
+	position: relative;
+	display: inline-block;
+	z-index: 1;
+	padding: 0px 12px;
+	border-radius: 40px;
+	font-size: 14px;
+	text-decoration: none;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	font-weight: 500;
+	white-space: nowrap;
+	-webkit-transition: background 0.15s linear;
+	-moz-transition: background 0.15s linear;
+	-o-transition: background 0.15s linear;
+	transition: background 0.15s linear;
+	background-color: white;
+	width: 100px;
+}
+
+.static-logos-sprite, .logo_list .osfac, .logo_list .osfac:hover, .logo_list .wri, .logo_list .wri:hover, .logo_list .google, .logo_list .google:hover, .logo_list .esri, .logo_list .esri:hover, .logo_list .universitymaryland, .logo_list .universitymaryland:hover, .logo_list .unep, .logo_list .unep:hover, .logo_list .imazon, .logo_list .imazon:hover, .logo_list .centerglobaldevelopment, .logo_list .centerglobaldevelopment:hover, .logo_list .gfwca, .logo_list .gfwca:hover, .logo_list .scanex, .logo_list .scanex:hover, .logo_list .twrus, .logo_list .twrus:hover, .logo_list .norwegian, .logo_list .norwegian:hover, .logo_list .usaid, .logo_list .usaid:hover, .logo_list .gef, .logo_list .gef:hover, .logo_list .vizzuality, .logo_list .vizzuality:hover, .logo_list .ukaid, .logo_list .ukaid:hover, .logo_list .tilafund, .logo_list .tilafund:hover, .logo_list .bakerAndMackenzie, .logo_list .bakerAndMackenzie:hover, .logo_list .cgiar, .logo_list .cgiar:hover, .logo_list .danida, .logo_list .danida:hover, .logo_list .dutchforeign, .logo_list .dutchforeign:hover, .logo_list .bobolink, .logo_list .simbiotica, .logo_list .simbiotica:hover, .logo_list .goodall, .logo_list .goodall:hover, .logo_list .sida, .logo_list .sida:hover, .logo_list .climateLandUse, .logo_list .climateLandUse:hover, .logo_list .conservationInternational, .logo_list .conservationInternational:hover, .logo_list .earthJournalismNetwork, .logo_list .earthJournalismNetwork:hover, .logo_list .foodAgricultureOrg, .logo_list .foodAgricultureOrg:hover, .logo_list .CIAT, .logo_list .CIAT:hover, .logo_list .mongabay, .logo_list .mongabay:hover, .logo_list .IUCN, .logo_list .IUCN:hover, .logo_list .lodersCroklaan, .logo_list .lodersCroklaan:hover, .logo_list .muyissi, .logo_list .muyissi:hover, .logo_list .osinfor, .logo_list .osinfor:hover, .logo_list .planetLabs, .logo_list .planetLabs:hover, .logo_list .rainForestUK, .logo_list .rainForestUK:hover, .logo_list .reforestMexico, .logo_list .reforestMexico:hover, .logo_list .resolveCo, .logo_list .resolveCo:hover, .logo_list .rspo, .logo_list .rspo:hover, .logo_list .sarvision, .logo_list .sarvision:hover, .logo_list .cartoDB, .logo_list .cartoDB:hover, .logo_list .reddIndo, .logo_list .reddIndo:hover, .logo_list .moore, .logo_list .moore:hover, .logo_list .canada, .logo_list .canada:hover {
+background: url(../images/static-logosOld.png) no-repeat;
 }
 
 .logo_list .wri {
@@ -641,6 +671,13 @@ background-position: 0 -2400px;
 background-position: 0 -1760px;
 }
 
+.logo_list .vizzuality {
+background-position: 0 -2720px;
+}
+.logo_list .vizzuality:hover {
+background-position: 0 -2480px;
+}
+
 .logo_list .centerglobaldevelopment {
 background-position: 0 -720px;
 }
@@ -667,6 +704,12 @@ background-position: 0 -2080px;
 }
 .logo_list .scanex:hover {
 background-position: 0 -1520px;
+}
+.logo_list .canada {
+background-position: 0 -1440px;
+}
+.logo_list .canada:hover {
+background-position: 0 -1360px;
 }
 
 .logo_list .twrus {
@@ -717,6 +760,157 @@ background-position: 0 -3280px;
 .logo_list .tilafund:hover {
 background-position: 0 -3360px;
 }
+
+.logo_list .cgiar {
+background-position: 0 -3540px;
+}
+.logo_list .cgiar:hover {
+background-position: 0 -3447px;
+}
+
+.logo_list .bakerAndMackenzie {
+background-position: 0 -3905px;
+}
+.logo_list .bakerAndMackenzie:hover {
+background-position: 0 -3824px;
+}
+.logo_list .moore {
+background-position: 0 -3733px;
+}
+.logo_list .moore:hover {
+background-position: 0 -3635px;
+}
+
+.logo_list .climateLandUse {
+background-position: 0 -4063px;
+}
+.logo_list .climateLandUse:hover {
+background-position: 0 -3982px;
+}
+
+.logo_list .conservationInternational {
+background-position: 0 -4225px;
+}
+.logo_list .conservationInternational:hover {
+background-position: 0 -4144px;
+}
+
+.logo_list .earthJournalismNetwork {
+background-position: 0 -4385px;
+}
+.logo_list .earthJournalismNetwork:hover {
+background-position: 0 -4304px;
+}
+
+.logo_list .foodAgricultureOrg {
+background-position: 0 -4610px;
+}
+.logo_list .foodAgricultureOrg:hover {
+background-position: 0 -4487px;
+}
+
+.logo_list .CIAT {
+background-position: 0 -4775px;
+}
+.logo_list .CIAT:hover {
+background-position: 0 -4708px;
+}
+
+
+
+.logo_list .mongabay {
+background-position: 0 -5204px;
+}
+.logo_list .mongabay:hover {
+background-position: 0 -5137px;
+}
+
+.logo_list .IUCN {
+background-position: 0 -4909px;
+}
+.logo_list .IUCN:hover {
+background-position: 0 -4842px;
+}
+
+.logo_list .lodersCroklaan {
+background-position: 0 -5063px;
+}
+.logo_list .lodersCroklaan:hover {
+background-position: 0 -4982px;
+}
+
+
+
+
+
+.logo_list .muyissi {
+background-position: 0 -5335px;
+}
+.logo_list .muyissi:hover {
+background-position: 0 -5268px;
+}
+.logo_list .osinfor {
+background-position: 0 -5470px;
+}
+.logo_list .osinfor:hover {
+background-position: 0 -5403px;
+}
+
+.logo_list .planetLabs {
+background-position: 0 -5603px;
+}
+.logo_list .planetLabs:hover {
+background-position: 0 -5536px;
+}
+
+.logo_list .rainForestUK {
+background-position: 0 -5774px;
+}
+.logo_list .rainForestUK:hover {
+background-position: 0 -5679px;
+}
+
+.logo_list .reforestMexico {
+background-position: 0 -5946px;
+}
+.logo_list .reforestMexico:hover {
+background-position: 0 -5865px;
+}
+
+.logo_list .resolveCo {
+background-position: 0 -6089px;
+}
+.logo_list .resolveCo:hover {
+background-position: 0 -6022px;
+}
+
+.logo_list .rspo {
+background-position: 0 -6225px;
+}
+.logo_list .rspo:hover {
+background-position: 0 -6158px;
+}
+
+.logo_list .sarvision {
+background-position: 0 -6359px;
+}
+.logo_list .sarvision:hover {
+background-position: 0 -6292px;
+}
+.logo_list .cartoDB {
+background-position: 0 -6538px;
+}
+.logo_list .cartoDB:hover {
+background-position: 0 -6443px;
+}
+.logo_list .reddIndo {
+background-position: 0 -7424px;
+}
+.logo_list .reddIndo:hover {
+background-position: 0 -7311px;
+}
+
+
 
 .logo_list .dutchforeign {
 background-position: 0 -2560px;

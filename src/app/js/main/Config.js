@@ -179,7 +179,7 @@ define([],
                     "htmlContent": "foreFireAndTheirImpact",
                     "selected": false
                 }, {
-                    "name": "PARTNERS",
+                    "name": "Partners & collaborators",
                     "htmlContent": "aboutPartners",
                     "selected": false
                 }
