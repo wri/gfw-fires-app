@@ -32,7 +32,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 });
 
             });
-            o.StoryConfig = StoryConfig;
+
         };
 
 
@@ -134,8 +134,8 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 title = (dom.byId("storyTitleInput")).placeholder;
             }
 
-
             o.map.graphics.add(graphic);
+
             StoryModel.vm.pointGeom(graphic);
 
             var dojoShape = graphic.getDojoShape();
