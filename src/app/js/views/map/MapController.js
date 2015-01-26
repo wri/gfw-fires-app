@@ -292,11 +292,11 @@ define([
 
     o.fromStories = function() {
         console.log("Checking out user stories");
-        // if (MapConfig.storiesBool) {
-        //     registry.byId("fire-stories-checkbox").setValue(true);
-        //     registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
-        //     MapConfig.storiesBool = false;
-        // }
+        if (MapConfig.storiesBool) {
+            registry.byId("fire-stories-checkbox").setValue(true);
+            registry.byId("fires-map-accordion").selectChild(registry.byId("social-media-panel"));
+            MapConfig.storiesBool = false;
+        }
     };
 
     o.updateImageryList = function() {

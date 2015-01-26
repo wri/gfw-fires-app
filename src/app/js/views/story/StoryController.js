@@ -461,18 +461,18 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
         // o.formatSubmission = function() {
 
         // }
-        $("#storyMediaInput").on('dragenter', function(e) {
-            console.log("sdgf");
-            // e.stopPropagation();
-            // e.preventDefault();
-            if (event.target === this) {
-                console.log('dragenter');
-            } else {
-                console.log(event.target);
-            }
-            var par = $(this).parent();
-            $(par).css('background-color', 'orange');
-        });
+        // $("#storyMediaInput").on('dragenter', function(e) {
+        //     console.log("sdgf");
+        //     // e.stopPropagation();
+        //     // e.preventDefault();
+        //     if (event.target === this) {
+        //         console.log('dragenter');
+        //     } else {
+        //         console.log(event.target);
+        //     }
+        //     var par = $(this).parent();
+        //     $(par).css('background-color', 'orange');
+        // });
 
 
         return o;

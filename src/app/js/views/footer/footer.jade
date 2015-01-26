@@ -12,7 +12,7 @@ div.footerModesContainer(data-bind="visible: (appState().v=='home')")
                         a.action(data-bind="html:action,click:$root.footerSelect")
 
 div.footerShareContainer#footerShareContainer(data-bind="visible: (appState().v!='map')")
-    footer#footerView.layout-footer
+    footer#footerView.layout-footer(data-bind="visible: (appState().v!='map')")
         .apps-footer.mobile-hide
             .inner
               ul

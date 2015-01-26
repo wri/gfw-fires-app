@@ -221,6 +221,8 @@ padding-right 4px {
   height: 150px;
   width: 540px;
   overflow: scroll;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 #uploadStoryMedia {
   width: 150px;
@@ -819,7 +821,9 @@ body {
 .layout-header .layout-header-top nav > div > ul > li .link.current.shape-country svg {
   fill: #97bd3d;
 }
-.layout-header .layout-header-top nav > div > ul > li > a:hover.shape-fire svg,
+.layout-header .layout-header-top nav > div > ul > li > a.shape-fire svg {
+  fill: #ed1846;
+}
 .layout-header .layout-header-top nav > div > ul > li > a.current.shape-fire svg,
 .layout-header .layout-header-top nav > div > ul > li .link:hover.shape-fire svg,
 .layout-header .layout-header-top nav > div > ul > li .link.current.shape-fire svg {
@@ -1669,11 +1673,17 @@ body {
   -o-transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
   transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
-.layout-footer .apps-footer ul li a:hover.fire svg {
+.layout-footer .apps-footer ul li a.fire svg {
   fill: #ed1846;
 }
-.layout-footer .apps-footer ul li a:hover.fire h3 {
+.layout-footer .apps-footer ul li a.fire h3 {
   color: #ed1846;
+}
+.layout-footer .apps-footer ul li a:hover.fire svg {
+  fill: #97bd3d;
+}
+.layout-footer .apps-footer ul li a:hover.fire h3 {
+  color: #97bd3d;
 }
 .layout-footer .apps-footer ul li a:hover.commodities svg {
   fill: #e98300;
