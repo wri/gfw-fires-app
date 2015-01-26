@@ -1,5 +1,5 @@
-define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"],
-    function(ko, Config, dom, arrayUtil, topic) {
+define(["knockout", "main/Config", "views/story/StoryConfig", "dojo/dom", "dojo/_base/array", "dojo/topic"],
+    function(ko, Config, StoryConfig, dom, arrayUtil, topic) {
 
         var o = {};
 
@@ -10,10 +10,10 @@ define(["knockout", "main/Config", "dojo/dom", "dojo/_base/array", "dojo/topic"]
         vm.headerTitle = ko.observable(Config.headerTitle);
         vm.newStoryTitle = ko.observable(Config.newStory.title);
 
-        vm.storiesURL = "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0";
-        vm.localToken = "?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2";
-        vm.stagingToken = "?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L";
-        vm.productionToken = "?token=BvwcoIq9AJ04z_pusnxTw-awCMGU93bMurQ44KpDNwc0w0vyjsE9Gk8WZAtqkagp";
+        vm.storiesURL = StoryConfig.storiesURL;
+        vm.localToken = StoryConfig.localToken;
+        vm.stagingToken = StoryConfig.stagingToken;
+        vm.productionToken = StoryConfig.productionToken;
 
         vm.addButtonLabel = "Add Point";
         vm.removeButtonLabel = "Remove Point";

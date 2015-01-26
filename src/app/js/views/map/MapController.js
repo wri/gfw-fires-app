@@ -87,7 +87,7 @@ define([
             o.map.resize();
             console.log(view);
             EventsController.switchToView(view);
-            //o.fromStories();
+            o.fromStories();
             o.checkBubble();
 
             return;
@@ -113,7 +113,7 @@ define([
                 // });
                 setTimeout(function() {
                     that.checkBubble();
-                    //that.fromStories();
+                    that.fromStories();
                 }, 1000);
 
             });
@@ -607,7 +607,7 @@ define([
         on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
 
             var value = registry.byId("fire-stories-checkbox").checked;
-            console.log(value);
+
             LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
             if (value) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
@@ -1308,7 +1308,7 @@ define([
             forestUseLayer,
             overlaysLayer,
             tweetLayer,
-            //fireStories,
+            fireStories,
             airQualityLayer,
             tomnodSellayer,
             indonesiaLayer,
