@@ -29,8 +29,8 @@ define([
         //otherwise load the view
 
         require(["dojo/text!views/footer/footer.html", "views/footer/FooterModel"], function(html, FooterModel) {
-
-            dom.byId(viewId).innerHTML = html;
+            //debugger;
+            dom.byId(viewId).innerHTML = html + dom.byId(viewId).innerHTML;
 
             //EventsController.initShareButton();
 
@@ -38,14 +38,25 @@ define([
 
             that.initShareButton();
 
-            $('#footer-logos').slick({
-                infinite: true,
-                slidesToShow: 5,
-                slidesToScroll: 5,
-                speed: 500,
-                autoplay: true,
-                autoplaySpeed: 3000
-            });
+
+
+            var s = document.createElement('script'),
+                h = document.getElementsByTagName('body')[0];
+            s.setAttribute('src', "https://cdn.rawgit.com/simbiotica/gfw_assets/master/src/header-loader.js");
+            s.setAttribute('id', "loader-gfw");
+            s.setAttribute('data-current', ".shape-fire");
+            //s.setAttribute('async', 'true');
+
+            h.appendChild(s);
+
+            // $('#footer-logos').slick({
+            //     infinite: true,
+            //     slidesToShow: 5,
+            //     slidesToScroll: 5,
+            //     speed: 500,
+            //     autoplay: true,
+            //     autoplaySpeed: 3000
+            // });
         });
     };
 
@@ -72,14 +83,14 @@ define([
         }(document, 'script', 'facebook-jssdk'));
 
         //google
-        (function() {
-            var po = document.createElement('script');
-            po.type = 'text/javascript';
-            po.async = false;
-            po.src = 'https://apis.google.com/js/plusone.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(po, s);
-        })();
+        // (function() {
+        //     var po = document.createElement('script');
+        //     po.type = 'text/javascript';
+        //     po.async = false;
+        //     po.src = 'https://apis.google.com/js/plusone.js';
+        //     var s = document.getElementsByTagName('script')[0];
+        //     s.parentNode.insertBefore(po, s);
+        // })();
 
 
 

@@ -118,7 +118,8 @@ define(["knockout", "main/Config", "views/story/StoryConfig", "dojo/dom", "dojo/
 
 
         o.applyBindings = function(domId) {
-            ko.applyBindings(vm, dom.byId(domId));
+            //ko.applyBindings(vm, dom.byId(domId));
+            ko.applyBindings(vm, dom.byId("storyInnerContainer"));
         }
 
 

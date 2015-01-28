@@ -7,6 +7,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
         o.init = function() {
             var that = this;
+
             if (initialized) {
                 //switch to this view
                 //HashController.switchToView(viewName);
@@ -17,8 +18,9 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
             initialized = true;
             //otherwise load the view
             require(["dojo/text!views/header/header.html", "views/header/HeaderModel"], function(html, HeaderModel) {
-
-                dom.byId(viewId).innerHTML = html;
+                // debugger;
+                //dom.byId(viewId).innerHTML = html;
+                dom.byId(viewId).innerHTML += html;
 
                 HeaderModel.applyBindings(viewId);
 
@@ -35,15 +37,15 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                 });
 
                 // Load in Google Translate
-                (function(d, s) {
-                    var gt = d.createElement(s),
-                        as = d.getElementsByTagName(s)[0];
+                // (function(d, s) {
+                //     var gt = d.createElement(s),
+                //         as = d.getElementsByTagName(s)[0];
 
-                    gt.type = 'text/javascript';
-                    gt.async = true;
-                    gt.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-                    as.parentNode.insertBefore(gt, as);
-                })(document, 'script');
+                //     gt.type = 'text/javascript';
+                //     gt.async = true;
+                //     gt.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+                //     as.parentNode.insertBefore(gt, as);
+                // })(document, 'script');
 
 
 
@@ -142,16 +144,34 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                                 //domConstruct.place("footerMovableWrapper", "footerShareContainer");
                                 domConstruct.place("footerView", "footerShareContainer");
-
+                                if ($("#footerView").css("display") == "none") {
+                                    $("#footerView").show();
+                                }
 
                             }, 1000);
+
                             // EventsController.startModeAnim();
+                            break;
+
+                        case "mapView":
+
+                            setTimeout(function() {
+                                console.log("map view");
+                                $("#footerView").hide();
+                            }, 0);
+
                             break;
 
                         default:
                             //EventsController.stopModeAnim();
                             //domConstruct.place("footerMovableWrapper", data.viewId);
-                            domConstruct.place("footerView", data.viewId);
+                            setTimeout(function() {
+                                domConstruct.place("footerView", data.viewId);
+                            }, 0);
+
+                            if ($("#footerView").css("display") == "none") {
+                                $("#footerView").show();
+                            }
                     }
 
                     //remove hidden stuff
@@ -161,7 +181,6 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                     registry.byId("stackContainer").selectChild(data.viewId);
                     registry.byId("stackContainer").resize();
-
 
 
 

@@ -84,6 +84,7 @@ define([
         var that = this;
         if (initialized) {
             //switch to this view
+            console.log("already initialized");
             o.map.resize();
             console.log(view);
             EventsController.switchToView(view);
@@ -98,16 +99,21 @@ define([
 
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
+
             dom.byId(view.viewId).innerHTML = html;
             Helper.showLoader("map", "map-blocker");
 
             EventsController.switchToView(view);
+
             ready(function() { // Ensure the map loads to correct size by not loading too early
+
                 MapModel.applyBindings("map-view");
                 // Initialize addthis since it was loaded asynchronously
                 addthis.init();
                 that.addConfigurations();
+
                 that.createMap();
+
                 // that.createMap().then(function() {
                 //     that.checkBubble();
                 // });
@@ -184,6 +190,7 @@ define([
 
     o.createMap = function() {
         var self = this;
+
         // Add in dark gray basemap
         // esriConfig.defaults.map.basemaps.darkgray = {
         //     baseMapLayers: [
@@ -925,7 +932,7 @@ define([
 
                 if (target.checked) {
                     //TODO : find better way to get label
-                    var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1];
+                    var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1]; //TODO: WHY IS THIS FAILING???
                     if (labelNode.innerHTML.length > 0) {
                         var label = labelNode.innerHTML;
                         if (label.search("None") === -1) {

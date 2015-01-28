@@ -178,7 +178,7 @@ define([],
                     "htmlContent": "foreFireAndTheirImpact",
                     "selected": false
                 }, {
-                    "name": "Partners & collaborators",
+                    "name": "The GFW Partnership",
                     "htmlContent": "aboutPartners",
                     "selected": false
                 }
