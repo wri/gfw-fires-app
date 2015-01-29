@@ -1,36 +1,60 @@
+
+/* line 286 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
+
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 .clear {
   clear: both;
 }
+
+/* line 4 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 .blog-post {
   height: 250px;
   padding: 20px 20px 100px 20px;
   border-bottom: 1px solid #ddd;
 }
+
+/* line 9 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
+
+/* line 10 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-title a {
   color: #292929;
   font-size: 24px;
 }
+
+/* line 13 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-title a:hover {
   text-decoration: underline;
 }
+
+/* line 17 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors {
   display: block;
 }
+
+/* line 19 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors ul li {
   list-style: none;
   float: left;
   margin-right: 5px;
 }
+
+/* line 23 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors ul li:after {
   content: ",";
   color: #ccc;
 }
+
+/* line 26 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors ul li:last-child:after,
 #post .post-authors ul li:first-child:after,
 #post .post-authors ul li:nth-last-child(2):after,
 #post .post-authors ul li:nth-last-child(3):after {
   content: "";
 }
+
+/* line 30 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors ul li:first-child a,
 #post .post-authors ul li:last-child a,
 #post .post-authors ul li:nth-last-child(3) a {
@@ -38,12 +62,20 @@
   text-decoration: none;
   cursor: text;
 }
+
+/* line 34 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors ul li:last-child:before {
   content: "- ";
 }
+
+/* line 36 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-authors ul li a {
   color: #e7810a;
 }
+
+/* line 40 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
+
+/* line 41 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-snippet img {
   width: 20%;
   float: right;
@@ -51,10 +83,14 @@
   box-shadow: 1px 1px 10px rgba(0,0,0,0.35);
   margin-left: 50px;
 }
+
+/* line 49 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-read-more {
   float: left;
   display: inline-flex;
 }
+
+/* line 52 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-read-more a {
   color: #4d4d4d !important;
   font-weight: bold;
@@ -62,6 +98,8 @@
   display: inline;
   float: left;
 }
+
+/* line 58 : /Users/lucascotner/Documents/Projects/fires/src/app/css/blog.styl */
 #post .post-read-more .icon {
   float: right;
   display: block;

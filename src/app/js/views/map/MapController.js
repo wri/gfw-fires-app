@@ -88,7 +88,7 @@ define([
             o.map.resize();
             console.log(view);
             EventsController.switchToView(view);
-            o.fromStories();
+            //o.fromStories();
             o.checkBubble();
 
             return;
@@ -119,7 +119,7 @@ define([
                 // });
                 setTimeout(function() {
                     that.checkBubble();
-                    that.fromStories();
+                    //that.fromStories();
                 }, 1000);
 
             });
@@ -611,15 +611,15 @@ define([
             }
         });
 
-        on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
+        // on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
 
-            var value = registry.byId("fire-stories-checkbox").checked;
+        //     var value = registry.byId("fire-stories-checkbox").checked;
 
-            LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
-            if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
-            }
-        });
+        //     LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
+        //     if (value) {
+        //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
+        //     }
+        // });
 
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
@@ -1233,14 +1233,14 @@ define([
         // }
 
 
-        fireStories = new FeatureLayer(MapConfig.fireStories.url, {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            id: MapConfig.fireStories.id,
-            visible: false,
-            outFields: ["*"],
-            definitionExpression: "Publish = 'Y'",
-            infoTemplate: fireStory_popupTemplate
-        });
+        // fireStories = new FeatureLayer(MapConfig.fireStories.url, {
+        //     mode: FeatureLayer.MODE_ONDEMAND,
+        //     id: MapConfig.fireStories.id,
+        //     visible: false,
+        //     outFields: ["*"],
+        //     definitionExpression: "Publish = 'Y'",
+        //     infoTemplate: fireStory_popupTemplate
+        // });
 
         // aspect.after(o.map.infoWindow, "show", function() {
 
@@ -1315,7 +1315,7 @@ define([
             forestUseLayer,
             overlaysLayer,
             tweetLayer,
-            fireStories,
+            //fireStories,
             airQualityLayer,
             tomnodSellayer,
             indonesiaLayer,

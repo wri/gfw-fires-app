@@ -13,7 +13,7 @@ define([],
 
             //validViews: ["home", "blog", "map", "about", "data", "story"],
             //validViews: ["home", "blog", "map", "about", "data"],
-            validViews: ["home", "map", "about", "story"],
+            validViews: ["home", "map", "about"],
 
             emailSubscribeUrl: "https://gfw-fires.wri.org/subscribe", //For production
             //emailSubscribeUrl: "http://54.164.126.73/subscribe", 
@@ -57,12 +57,12 @@ define([],
                 //     "domId": "link",
                 //     "selected": false
                 // }
-                , {
-                    "html": "Story",
-                    "viewName": "story",
-                    "domId": "storyView",
-                    "selected": false
-                }
+                // , {
+                //     "html": "Story",
+                //     "viewName": "story",
+                //     "domId": "storyView",
+                //     "selected": false
+                // }
             ],
 
             headerTitle: "A partnership convened by the World Resources Institute",
@@ -99,12 +99,13 @@ define([],
                     "eventName": "goToTomnod",
                     "display": false
 
-                }, {
-                    "html": "<span>Submit a story</span>",
-                    "eventName": "goToStory",
-                    "display": false
-
                 }
+                // , {
+                //     "html": "<span>Submit a story</span>",
+                //     "eventName": "goToStory",
+                //     "display": false
+
+                // }
             ],
 
             footerModeOptions: [

@@ -1,3 +1,9 @@
+
+/* line 286 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 @font-face {
   font-family: 'fira_sans_otregular';
   src: url("../fonts/firasansot-regular-webfont.eot");
@@ -5,6 +11,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+/* line 8 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 @font-face {
   font-family: 'fira_sans_otmedium';
   src: url("../fonts/firasansot-medium-webfont.eot");
@@ -12,6 +20,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+/* line 16 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 @font-face {
   font-family: 'fira_sans_otlight';
   src: url("../fonts/firasansot-light-webfont.eot");
@@ -19,6 +29,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+/* line 23 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 html,
 body,
 .app {
@@ -28,13 +40,18 @@ body,
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* line 32 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #stackContainer {
   width: 100%;
 }
+
+/* line 35 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #homeView {
-  height: auto !important;
   background-color: #000;
 }
+
+/* line 39 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .mapView #stackContainer {
   position: absolute;
   top: 110px;
@@ -43,11 +60,16 @@ body,
   right: 0px;
   overflow: hidden;
 }
+
+/* line 48 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .homeView #stackContainer {
   max-height: 700px !important;
-  min-height: 300px;
+  height: auto;
+  min-height: 700px;
   position: relative !important;
 }
+
+/* line 54 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .blogView #stackContainer {
   position: absolute;
   top: 100px;
@@ -56,6 +78,8 @@ body,
   right: 0px;
   overflow-y: auto;
 }
+
+/* line 62 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .dataView #stackContainer {
   position: absolute;
   top: 100px;
@@ -64,6 +88,8 @@ body,
   right: 0px;
   overflow-y: auto;
 }
+
+/* line 70 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .aboutView #stackContainer {
   position: absolute;
   top: 100px;
@@ -72,6 +98,8 @@ body,
   right: 0px;
   overflow-y: auto;
 }
+
+/* line 78 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .storyView #stackContainer {
   position: absolute;
   top: 100px;
@@ -80,6 +108,8 @@ body,
   right: 0px;
   overflow-y: auto;
 }
+
+/* line 86 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #homeView,
 #blogView,
 #dataView,
@@ -87,34 +117,52 @@ body,
 #storyView {
   overflow: visible;
 }
+
+/* line 89 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .mapView #footerMovableWrapper {
   display: none;
 }
+
+/* line 92 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-header {
   height: 210px;
   background: url("../images/header_tree_background.jpg") repeat-x scroll center top transparent;
   border-bottom: 1px solid #717d80;
   box-sizing: border-box;
 }
+
+/* line 99 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-header.small {
   height: 100px;
 }
+
+/* line 102 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-header.small.mapView {
   height: 110px;
 }
+
+/* line 106 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-body {
   width: 100%;
 }
+
+/* line 109 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-footer {
   height: 470px;
   width: 100%;
 }
+
+/* line 113 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-footer.small {
   height: 180px;
 }
+
+/* line 116 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #app-footer.small.nomap {
   height: 0px;
 }
+
+/* line 120 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .errorMsg {
   position: absolute;
   top: 10px;
@@ -129,6 +177,8 @@ body,
   margin-left: -150px;
   overflow: hidden;
 }
+
+/* line 134 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .blocker {
   background-color: #ff0;
   opacity: 0.2;
@@ -139,6 +189,8 @@ body,
   z-index: 1000;
   right: 0;
 }
+
+/* line 144 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .reportOptionsHeader {
   padding-right: 4px;
   padding-bottom: 3px;
@@ -146,18 +198,26 @@ body,
   right: 0px;
   top: 0px;
 }
+
+/* line 151 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 padding-right 4px {
   padding-bottom: 3px;
 }
+
+/* line 154 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #report-options-close {
   cursor: pointer;
 }
+
+/* line 157 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyTitle {
   text-align: center;
   border-bottom: 1px solid #ccc;
   padding-bottom: 35px;
   padding-top: 25px;
 }
+
+/* line 163 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .storiesInput > input,
 .storiesInput > textarea {
   width: 90%;
@@ -167,14 +227,20 @@ padding-right 4px {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }
+
+/* line 171 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #contentRightStory.footerModes .desc {
   font-weight: 300;
 }
+
+/* line 174 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storiesMap {
   width: 540px !important;
   height: 300px !important;
   position: relative;
 }
+
+/* line 179 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #basemap-gallery-button2 {
   position: absolute;
   background-image: url("../images/basemap.png");
@@ -182,6 +248,8 @@ padding-right 4px {
   top: 250px;
   right: 860px;
 }
+
+/* line 186 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #basemapGalleryContainer {
   appearance: none;
   position: absolute;
@@ -200,6 +268,8 @@ padding-right 4px {
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
 }
+
+/* line 204 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .basemap-gallery-container-story {
   background-color: #fff;
   position: absolute;
@@ -209,14 +279,20 @@ padding-right 4px {
   height: 300px;
   top: 20px;
 }
+
+/* line 214 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyDateInput,
 #storyNameInput,
 #storyEmailInput {
   width: 45%;
 }
+
+/* line 217 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyDetailsInput {
   height: 150px;
 }
+
+/* line 220 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyMediaInput {
   height: 150px;
   width: 540px;
@@ -224,12 +300,16 @@ padding-right 4px {
   overflow-y: auto;
   overflow-x: auto;
 }
+
+/* line 235 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #uploadStoryMedia {
   width: 150px;
   height: 75px;
   opacity: 0;
   cursor: pointer;
 }
+
+/* line 241 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .uploadList {
   position: relative;
   bottom: 40px;
@@ -237,36 +317,52 @@ padding-right 4px {
   width: 290px;
   cursor: no-drop;
 }
+
+/* line 249 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #verifyEmailForStory {
   font-size: 12px;
   display: none;
 }
+
+/* line 253 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #alignWithMedia {
   position: relative;
   top: 290px;
 }
+
+/* line 257 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #alignWithEmail {
   position: relative;
   top: 325px;
 }
+
+/* line 261 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #submitBox {
   float: left;
   width: 575px;
 }
+
+/* line 265 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #submitStory > input {
   float: left;
   margin-top: 30px;
   margin-bottom: 40px;
 }
+
+/* line 270 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #contentRightStory {
   float: right;
   width: 275px;
   text-align: left;
 }
+
+/* line 275 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .storyHeader {
   color: #464052;
   margin-bottom: 5px;
 }
+
+/* line 279 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .requiredItem {
   color: #464052;
   float: right;
@@ -276,23 +372,39 @@ padding-right 4px {
   left: -35px;
   font-weight: 500;
 }
+
+/* line 288 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #requiredEmail {
   left: -295px;
 }
+
+/* line 291 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #requiredArea {
   margin-bottom: -20px;
 }
+
+/* line 294 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #addPoint {
   position: relative;
   z-index: 100;
   top: 20px;
   left: 60px;
 }
+
+/* line 300 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #contentRightStory .storyHeader {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 }
+
+/* line 304 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 /*header Stylus*/
+
+/* line 2184 : /Users/lucascotner/Documents/Projects/fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 286 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
+
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .headerTitleContainer {
   height: 40px;
   border-bottom: 1px solid #9b9b9b;
@@ -302,6 +414,8 @@ padding-right 4px {
   font-size: 12px;
   box-sizing: border-box;
 }
+
+/* line 11 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .headerTitle {
   height: 45px;
   max-width: 960px;
@@ -310,6 +424,8 @@ padding-right 4px {
   line-height: 45px;
   vertical-align: middle;
 }
+
+/* line 19 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .headerSeparator {
   position: absolute;
   display: inline-block;
@@ -318,6 +434,8 @@ padding-right 4px {
   width: 100%;
   border-bottom: 1px solid #cfcfcf;
 }
+
+/* line 27 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .navContainer {
   max-width: 960px;
   height: 55px;
@@ -325,14 +443,20 @@ padding-right 4px {
   overflow: visible;
   transition: width 1.5s ease;
 }
+
+/* line 35 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .small .navContainer {
   width: 100%;
   max-width: none;
 }
+
+/* line 39 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .headerDescContainer {
   height: 80px;
   width: 100%;
 }
+
+/* line 43 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .headerDesc {
   height: 80px;
   margin: 20px auto;
@@ -342,14 +466,20 @@ padding-right 4px {
   font-family: "Georgia", serif;
   font-size: 37px;
 }
+
+/* line 59 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .navigationLinks {
   float: right;
   color: #000;
   margin-right: 10px;
 }
+
+/* line 64 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .navList ul {
   list-style-type: none;
 }
+
+/* line 67 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .navList li {
   float: left;
   color: #000;
@@ -366,10 +496,14 @@ padding-right 4px {
   font-weight: bold;
   background-color: none;
 }
+
+/* line 83 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .navList li.selected {
   color: #fff;
   background-color: #ec1d38;
 }
+
+/* line 87 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .logo {
   background-image: url("../images/gfwFires-logo-new.png");
   background-repat: no-repeat;
@@ -381,6 +515,8 @@ padding-right 4px {
   cursor: pointer;
   z-index: 10;
 }
+
+/* line 98 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 .betaTag {
   background-color: #888;
   border-radius: 5px;
@@ -391,25 +527,39 @@ padding-right 4px {
   left: 110px;
   top: 20px;
 }
+
+/* line 2289 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
+
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
+
+/* line 4 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerModes {
   text-align: center;
   width: 100%;
   height: 100%;
 }
+
+/* line 9 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper .footerItem {
   width: 33.33%;
   float: left;
   height: 100%;
 }
+
+/* line 14 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper .footerItem .desc {
   height: 35px;
 }
+
+/* line 17 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper .receiveAlerts,
 .footerWrapper .analysisAlerts,
 .footerWrapper .submitStory {
   width: 100%;
   height: 100%;
 }
+
+/* line 21 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper .analysisAlerts .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -400px;
@@ -418,6 +568,8 @@ padding-right 4px {
   margin: 20px auto;
   width: 150px;
 }
+
+/* line 30 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper .submitStory .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -540px;
@@ -426,6 +578,8 @@ padding-right 4px {
   margin: 20px auto;
   width: 134px;
 }
+
+/* line 38 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper .receiveAlerts .icon {
   background-image: url("../images/home-icons.png");
   background-position: 0px -740px;
@@ -434,17 +588,23 @@ padding-right 4px {
   margin: 20px auto;
   width: 122px;
 }
+
+/* line 46 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerModes .title {
   font-size: 29px;
   font-family: "Georgia", serif;
   margin: 0px 0px 20px;
 }
+
+/* line 52 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerModes .desc {
   font-size: 15px;
   line-height: 1.2;
   color: #666;
   margin: 0px 0px 20px;
 }
+
+/* line 58 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerModes .action {
   text-transform: uppercase;
   background: none repeat scroll 0% 0% #9bb251;
@@ -457,15 +617,21 @@ padding-right 4px {
   color: #fff;
   text-decoration: none;
 }
+
+/* line 70 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerModesContainer {
   width: 100%;
   height: 300px;
   background-color: #222;
 }
+
+/* line 75 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerShareContainer {
   width: 100%;
   height: 350px;
 }
+
+/* line 80 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerWrapper {
   width: 100%;
   max-width: 960px;
@@ -473,6 +639,8 @@ padding-right 4px {
   color: #fff;
   height: 100%;
 }
+
+/* line 87 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableWrapper {
   width: 100%;
   height: 350px;
@@ -481,18 +649,26 @@ padding-right 4px {
   clear: both;
   bottom: 0;
 }
+
+/* line 95 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .fb-share-button {
   bottom: 3px;
   left: 10px;
 }
+
+/* line 99 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .alert-dialog-box .submit-button {
   text-align: center;
   margin: 10px 0;
 }
+
+/* line 103 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .alert-dialog-box .submit-button button {
   border-radius: 5px;
   font-size: 12px;
 }
+
+/* line 107 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes {
   height: 350px;
   max-width: 960px;
@@ -500,42 +676,62 @@ padding-right 4px {
   margin: auto;
   background-color: #464352;
 }
+
+/* line 114 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes a {
   color: #fff;
   font-size: 12px;
 }
+
+/* line 119 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .container-large {
   width: 365px;
   height: 100%;
   padding: 0px;
   float: left;
 }
+
+/* line 125 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .container-large>div {
   padding: 10px;
 }
+
+/* line 128 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .container-small {
   width: 200px;
   height: 100%;
   padding: 0px;
   float: left;
 }
+
+/* line 134 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .container-small>div {
   padding: 10px;
 }
+
+/* line 138 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .about-project {
   color: #b1afb6;
   font-size: 12px;
 }
+
+/* line 142 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .title {
   font-weight: bold;
 }
+
+/* line 145 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .wri-address {
   color: #b1afb6;
   font-size: 12px;
 }
+
+/* line 149 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .wri-address .title {
   font-weight: bold;
 }
+
+/* line 152 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .wri-address .wri-logo {
   font-weight: bold;
   background: url("../images/wri.png") no-repeat scroll 0% 0% transparent;
@@ -544,25 +740,37 @@ padding-right 4px {
   display: block;
   margin: 10px 0px;
 }
+
+/* line 162 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .share {
   color: #fff;
 }
+
+/* line 165 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .share .title {
   font-family: fira_sans_otmedium;
   font-weight: 200;
 }
+
+/* line 169 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .share-container {
   padding: 10px 20px;
   border-radius: 160px;
   background-color: #fff;
   margin: 10px 0px;
 }
+
+/* line 176 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .sign-up {
   margin: 10px 0px;
 }
+
+/* line 179 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .subscribe {
   margin: 0px 5px;
 }
+
+/* line 183 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .gfw-logo {
   background: url("../images/monochromatic_gfw.jpg") no-repeat scroll 0% 0% transparent;
   text-align: center;
@@ -571,6 +779,8 @@ padding-right 4px {
   width: 122px;
   margin: 10px;
 }
+
+/* line 191 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .footer-logo {
   background: url("../images/logos-from-gfw.png") no-repeat scroll 0% 0% transparent;
   display: inline-block;
@@ -578,19 +788,27 @@ padding-right 4px {
   margin: 0px 38px 38px 0px;
   width: 88px;
 }
+
+/* line 198 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .footer-logo.digital-globe {
   background: url("../images/dg-globe.png") no-repeat scroll 0% 0% transparent;
   background-position: 0px 0px;
   height: 28px;
 }
+
+/* line 203 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .footer-logo.esri {
   background-position: 0px -654px;
   height: 28px;
 }
+
+/* line 207 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .footer-logo.google {
   background-position: 0px -734px;
   height: 52px;
 }
+
+/* line 211 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 .footerMovableModes .footer-logo.bpredd {
   background: url("../images/bpredd.png") no-repeat scroll 0% 0% transparent;
   background-position: 0px 0px;

@@ -63,6 +63,7 @@ gulp.task('copy-access', function() {
 gulp.task('watch-stylus', function() {
     return gulp.src(app_dir.src + '**/*.styl')
         .pipe(stylus({
+            linenos: true,
             errors: true,
             pretty: true
         }))
