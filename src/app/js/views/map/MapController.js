@@ -638,6 +638,7 @@ define([
                 MapModel.vm.showReportOptionsAIR(false);
                 return;
             } else {
+                $("#airDate").datepicker("setDate", "+0m +0d");
                 o.map.getLayer(MapConfig.airQualityLayer.id).setVisibleLayers([0]);
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Air Quality layer on.');
                 MapModel.vm.showReportOptionsAIR(true);
@@ -886,10 +887,20 @@ define([
         on(dom.byId('updateAIR'), 'click', function() {
 
             var currentDate = $("#airDate").datepicker("getDate");
-            var today = moment(currentDate).format("YYYY/MM/DD");
+
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (currentDate.getTime() == today.getTime()) {
+                var layer = o.map.getLayer(MapConfig.airQualityLayer.id);
+                layer.setVisibleLayers([0]);
+                return;
+            }
+
+            var dayPicked = moment(currentDate).format("YYYY/MM/DD");
             var tomorrow = moment(currentDate).add('days', 1).format("YYYY/MM/DD");
 
-            var sqlQuery = LayerController.getTimeDefinition("dateUpdated", today, tomorrow);
+            var sqlQuery = LayerController.getTimeDefinition("dateUpdated", dayPicked, tomorrow);
 
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.airQualityLayer.id), 1, sqlQuery);
 
