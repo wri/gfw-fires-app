@@ -99,6 +99,11 @@
           <div id="logging-checkbox"></div>
           <label for="logging-checkbox" data-bind="text: loggingCheckbox"></label><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
         </div>
+        <div class="checkbox-container">
+          <div id="indicative-moratorium-checkbox"></div>
+          <label for="indicative-moratorium-checkbox" data-bind="text: indicativeMoratoriumCheckbox"></label>
+          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-instructions"></div><span data-bind="text: indicativeMoratoriumCheckboxSubLabel2" class="checkbox-sub-label"></span>
+        </div>
       </div>
       <div id="conservation-panel" class="accordion-panel">
         <div data-bind="text: transparencySliderLabel" class="transparency-slider-label"></div>
@@ -108,11 +113,6 @@
         <div class="checkbox-container">
           <div id="protected-areas-checkbox"></div>
           <label for="protected-areas-checkbox" data-bind="text: protectedAreasCheckbox"></label><span data-bind="text: conservationCheckboxSubLabelGlobal" class="checkbox-sub-label"></span>
-        </div>
-        <div class="checkbox-container">
-          <div id="indicative-moratorium-checkbox"></div>
-          <label for="indicative-moratorium-checkbox" data-bind="text: indicativeMoratoriumCheckbox"></label>
-          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-instructions"></div><span data-bind="text: indicativeMoratoriumCheckboxSubLabel2" class="checkbox-sub-label"></span>
         </div>
       </div>
       <div id="land-cover-panel" class="accordion-panel">

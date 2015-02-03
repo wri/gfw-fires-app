@@ -105,6 +105,11 @@ div#map-view(class="map-view")
 					div#logging-checkbox
 					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#indicative-moratorium-checkbox
+					label(for="indicative-moratorium-checkbox", data-bind="text: indicativeMoratoriumCheckbox")
+					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-instructions")
+					span(data-bind="text: indicativeMoratoriumCheckboxSubLabel2", class="checkbox-sub-label")
 			div#conservation-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
@@ -113,11 +118,7 @@ div#map-view(class="map-view")
 					div#protected-areas-checkbox
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
-				div(class="checkbox-container")
-					div#indicative-moratorium-checkbox
-					label(for="indicative-moratorium-checkbox", data-bind="text: indicativeMoratoriumCheckbox")
-					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-instructions")
-					span(data-bind="text: indicativeMoratoriumCheckboxSubLabel2", class="checkbox-sub-label")
+				
 			div#land-cover-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")

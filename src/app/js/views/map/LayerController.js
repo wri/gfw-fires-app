@@ -151,8 +151,8 @@ define([
         },
 
         getTimeDefinition: function(datefield, startdate, enddate) {
-            var startdatequery = datefield + " >= date '" + startdate + "'";
-            var enddatequery = datefield + " < date '" + enddate + "'";
+            var startdatequery = datefield + " >= date'" + startdate + "'";
+            var enddatequery = datefield + " < date'" + enddate + "'";
             var sql = [startdatequery, enddatequery].join(' AND ')
             console.log(sql);
             return sql;
@@ -171,7 +171,12 @@ define([
             layerdefinitions[layerId] = definition;
 
             dynamicMapService.setLayerDefinitions(layerdefinitions);
-            //dynamicMapService.setVisibleLayers([1])
+            if (dynamicMapService.id === "Air_Quality") {
+                dynamicMapService.setVisibleLayers([1]);
+                this.refreshLegend();
+            }
+
+
             //dynamicMapService.refresh();
         },
 

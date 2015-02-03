@@ -38,7 +38,6 @@ define([
     "esri/symbols/SimpleLineSymbol",
     "esri/renderers/SimpleRenderer",
     "esri/Color",
-    "esri/TimeExtent",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
@@ -64,7 +63,7 @@ define([
     "utils/Helper",
     "dojo/aspect"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color, TimeExtent,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
 
@@ -636,11 +635,12 @@ define([
         on(registry.byId("air-quality-checkbox"), "change", function(value) {
             LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
             if (!value) {
-                //MapModel.vm.showReportOptionsAIR(false);
+                MapModel.vm.showReportOptionsAIR(false);
                 return;
             } else {
+                o.map.getLayer(MapConfig.airQualityLayer.id).setVisibleLayers([0]);
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Air Quality layer on.');
-                //MapModel.vm.showReportOptionsAIR(true);
+                MapModel.vm.showReportOptionsAIR(true);
             }
 
         });
@@ -884,31 +884,14 @@ define([
         });
 
         on(dom.byId('updateAIR'), 'click', function() {
-            var date = MapModel.vm.airObserv(); //"01/14/2015"
-            var currentDate = $("#airDate").datepicker("getDate"); //Wed Jan 14 2015 00:00:00 GMT-0500 (EST)
+
+            var currentDate = $("#airDate").datepicker("getDate");
             var today = moment(currentDate).format("YYYY/MM/DD");
             var tomorrow = moment(currentDate).add('days', 1).format("YYYY/MM/DD");
 
-            // var timeExtent = new TimeExtent();
-            // timeExtent.endTime = currentDate;
-            // timeExtent.startTime = dojoDate.add(timeExtent.endTime, "day", -1);
-            // var featLayer = o.map.getLayer(MapConfig.airQualityLayer.id);
-            // featLayer.setTimeDefinition(timeExtent);
-            //dateUpdated: 1422554400000
-
             var sqlQuery = LayerController.getTimeDefinition("dateUpdated", today, tomorrow);
 
-            //var dateFormatted = date.replace(/\//g, "-");
-            // var sqlQuery = "dateUpdated = '" + dateFormatted + "'";
-            //var sqlQuery = "'dateUpdated' >= '" + today + "' AND 'dateUpdated' < '" + tomorrow + "'";
-            //var sqlQuery = "'dateUpdated' >= '" + today + "'";
-            //var sqlQuery = "'dateUpdated' = '1422612000000'";
-            //dateUpdated > date'2015/01/14' AND dateUpdated < date'2015/01/30'
-            //debugger;
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.airQualityLayer.id), 1, sqlQuery);
-
-            //LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.airQualityLayer.id), 1, sqlQuery);
-            console.log(sqlQuery);
 
         });
 
@@ -969,13 +952,13 @@ define([
 
                 if (target.checked) {
                     //TODO : find better way to get label
-                    var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1]; //TODO: WHY IS THIS FAILING???
-                    if (labelNode.innerHTML.length > 0) {
-                        var label = labelNode.innerHTML;
-                        if (label.search("None") === -1) {
-                            self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
-                        }
-                    }
+                    // var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1]; //TODO: WHY IS THIS FAILING???
+                    // if (labelNode.innerHTML.length > 0) {
+                    //     var label = labelNode.innerHTML;
+                    //     if (label.search("None") === -1) {
+                    //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    //     }
+                    // }
                 }
             });
         });

@@ -145,7 +145,8 @@ define({
         rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
         oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
         woodFiber: 28, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
-        logging: 10 // These map to the value of an input in the UI, so logging is the value of a checkbox
+        logging: 10, // These map to the value of an input in the UI, so logging is the value of a checkbox
+        indicativeMoratorium: 16
     },
 
     // burnedAreaLayers: {
@@ -159,8 +160,8 @@ define({
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Conservation',
         defaultLayers: [-1], // Show none by default
-        protectedAreas: 25, // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
-        indicativeMoratorium: 16
+        protectedAreas: 25 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
+
     },
 
     landCoverLayers: {
@@ -274,6 +275,10 @@ define({
             27: {
                 'id': 'rspo-oil-palm-checkbox',
                 'type': 'checkbox'
+            },
+            16: {
+                'id': "indicative-moratorium-checkbox",
+                'type': 'checkbox'
             }
         },
         'Burn_Scar': {
@@ -291,10 +296,6 @@ define({
         'Conservation': {
             25: {
                 'id': "protected-areas-checkbox",
-                'type': 'checkbox'
-            },
-            16: {
-                'id': "indicative-moratorium-checkbox",
                 'type': 'checkbox'
             }
         },
@@ -647,6 +648,13 @@ define({
             "props": {
                 "value": "logging"
             }
+        }, {
+            "id": "indicative-moratorium-checkbox",
+            "class": "conservation-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "indicativeMoratorium"
+            }
         },
         //CONSERVATION
         {
@@ -655,13 +663,6 @@ define({
             "type": "checkbox",
             "props": {
                 "value": "protectedAreas"
-            }
-        }, {
-            "id": "indicative-moratorium-checkbox",
-            "class": "conservation-layers-option",
-            "type": "checkbox",
-            "props": {
-                "value": "indicativeMoratorium"
             }
         },
         //LAND COVER
