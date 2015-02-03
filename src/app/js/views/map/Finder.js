@@ -196,11 +196,19 @@ define([
             var content = '';
 
             if (result) {
+                var newDate = new Date(result.attributes['ImageAquisitionDate']);
+                var months = newDate.getMonth() + 1;
+                var day = newDate.getDate();
+                var year = newDate.getFullYear();
+
+                newDate = months + "/" + day + "/" + year;
+
                 executeReturned = false;
                 // content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
                 content += " <div><h3>" + result.attributes['name'] + "</h3></div>";
                 content += "<tr><td><img src='" + qconfig.chipBucket + result.attributes['ChipLink'];
                 content += "' style='width:300px' /></tc></tr>"
+                content += "<div><strong>Image Acquisition Date:</strong> " + newDate + "</div>";
                 content += "<div><strong>Confirmation:</strong> " + result.attributes['Confirmation'] + " people</div>";
                 content += "<div><b>Crowd Rank:</b> " + result.attributes['CrowdRank'] + "%</div>";
                 content += "<a href='" + result.attributes['ImageLink'];

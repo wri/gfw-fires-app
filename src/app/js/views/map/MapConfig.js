@@ -75,7 +75,7 @@ define({
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         id: 'Tomnod',
         sel_id: 'tomnod_sel',
-        chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
+        chipBucket: "https://s3.amazonaws.com/explorationlab/",
         defaultLayers: [8],
         query: {
             fields: [{
