@@ -95,16 +95,43 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                     o.map.addLayer(storiesLayer);
 
                 });
+
+                document.getElementById('stackContainer').onscroll = function() {
+                    o.map.resize();
+                };
+
+                on(o.map, 'click', function(evt) {
+                    o.testFix(evt);
+                });
+            });
+        };
+
+        o.testFix = function(evt) {
+            require(["esri/geometry/ScreenPoint", "esri/geometry/screenUtils"], function(SP, Utils) {
+                var point = new SP(evt.layerX, evt.layerY);
+                var mapPoint = Utils.toMapPoint(o.map.extent, o.map.width, o.map.height, point);
+                window.mapPoint = mapPoint;
+                window.map = o.map;
+                //debugger;
+                o.addGraphic(mapPoint);
             });
         };
 
         o.initToolbar = function() {
             tb = new Draw(o.map);
-            tb.on("draw-end", o.addGraphic);
+            //tb.on("draw-end", o.addGraphic);
+            tb.activate("point");
 
             on(dom.byId("storiesMap"), "mouseover", function(evt) {
-                tool = "point";
-                tb.activate(tool);
+                //tool = "point";
+                //tb.activate(tool);
+                // This resize is necessary every time the tool is activated so that the tool has the correct reference location on the page and the map. 
+                // This fixed the graphic appearing above the mouse click (with an offset of the distance scrolled down the page) and the mapPoint geometry being incorrect.
+                o.map.resize();
+            });
+
+            on(dom.byId("storiesMap"), "mouseout", function(evt) {
+                o.map.resize();
             });
 
         }
@@ -112,6 +139,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
 
         o.addGraphic = function(evt) {
             o.map.graphics.clear();
+            o.map.resize();
 
             var symbol = new PictureMarkerSymbol({
                 "angle": 0,
@@ -124,22 +152,23 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 "width": 24,
                 "height": 24
             });
-            tb.deactivate();
-            o.map.enableMapNavigation();
 
-            var graphic = new Graphic(evt.geometry, symbol);
+            //var graphic = new Graphic(evt.geometry, symbol);
+            var graphic = new Graphic(evt, symbol);
+
+            o.map.graphics.add(graphic);
+            StoryModel.vm.pointGeom(graphic);
+
+            var dojoShape = graphic.getDojoShape();
+            var moveable = new dojox.gfx.Moveable(dojoShape);
+
+            //tb.deactivate();
+            o.map.enableMapNavigation();
 
             var title = StoryModel.vm.storyTitleData();
             if (!title) {
                 title = (dom.byId("storyTitleInput")).placeholder;
             }
-
-            o.map.graphics.add(graphic);
-
-            StoryModel.vm.pointGeom(graphic);
-
-            var dojoShape = graphic.getDojoShape();
-            var moveable = new dojox.gfx.Moveable(dojoShape);
 
             var moveStopToken = dojo.connect(moveable, "onMoveStop", function(mover) {
                 var tx = dojoShape.getTransform();
@@ -157,7 +186,6 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 StoryModel.vm.pointGeom(graphic);
                 console.log(StoryModel.vm.pointGeom());
             });
-
 
         };
 

@@ -159,7 +159,8 @@ define({
         url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
         id: 'Conservation',
         defaultLayers: [-1], // Show none by default
-        protectedAreas: 25 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
+        protectedAreas: 25, // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
+        indicativeMoratorium: 16
     },
 
     landCoverLayers: {
@@ -291,6 +292,10 @@ define({
             25: {
                 'id': "protected-areas-checkbox",
                 'type': 'checkbox'
+            },
+            16: {
+                'id': "indicative-moratorium-checkbox",
+                'type': 'checkbox'
             }
         },
         'Land_Cover': {
@@ -419,6 +424,7 @@ define({
         woodFiberCheckbox: "Wood fiber plantations",
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
+        indicativeMoratoriumCheckbox: "Indonesia forest moratorium area",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
         tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
         //tomnodLink: "tomnodLinkClass",
@@ -433,6 +439,11 @@ define({
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
         rspoOilPalmCheckboxSubLabel: "(May 2013, select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
+        indicativeMoratoriumCheckboxSubLabel: "The moratorium prohibits new concessions on primary forest or peatlands. <a href='http://www.wri.org/blog/2014/01/2-things-you-need-know-about-indonesias-forest-moratorium' target='_blank'>Learn More.",
+        indicativeMoratoriumCheckboxSubLabel2: "(IMM V7/V6, 2014, Indonesia)",
+
+
+
         airQuality: "Air quality",
         windDirection: "Wind direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
@@ -466,6 +477,7 @@ define({
             multiSelectInfo: 'To select more than one, hold down the control (PC) or command (Mac) key when clicking',
             selectTimeLabel: 'Select timeframe of interest:',
             selectTimeLabelWIND: 'Select a date and time:',
+            selectTimeLabelAIR: 'Select a day:',
             year: 'YYYY',
             month: 'MM',
             day: 'DD',
@@ -643,6 +655,13 @@ define({
             "type": "checkbox",
             "props": {
                 "value": "protectedAreas"
+            }
+        }, {
+            "id": "indicative-moratorium-checkbox",
+            "class": "conservation-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "indicativeMoratorium"
             }
         },
         //LAND COVER

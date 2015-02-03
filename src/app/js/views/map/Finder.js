@@ -100,16 +100,19 @@ define([
             forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id),
             conservationLayers = map.getLayer(MapConfig.conservationLayers.id),
             visLayers = [],
-            isVisLayers = forestUseLayer.visibleLayers.indexOf(10) > -1 || conservationLayers.visible || forestUseLayer.visibleLayers.indexOf(26) > -1 || forestUseLayer.visibleLayers.indexOf(27) > -1 || forestUseLayer.visibleLayers.indexOf(28) > -1 || forestUseLayer.visibleLayers.indexOf(32) > -1,
+            isVisLayers = forestUseLayer.visibleLayers.indexOf(10) > -1 || conservationLayers.visibleLayers.indexOf(25) > -1 || forestUseLayer.visibleLayers.indexOf(26) > -1 || forestUseLayer.visibleLayers.indexOf(27) > -1 || forestUseLayer.visibleLayers.indexOf(28) > -1 || forestUseLayer.visibleLayers.indexOf(32) > -1,
             visible = forestUseLayer.visible;
 
             arrayUtils.forEach(forestUseLayer.visibleLayers, function(lid) {
                 visLayers.push(lid);
             });
+            arrayUtils.forEach(conservationLayers.visibleLayers, function(lid) {
+                visLayers.push(lid);
+            });
 
-            if (conservationLayers.visible) {
-                visLayers.push(25);
-            }
+            // if (conservationLayers.visible) {
+            //     visLayers.push(25);
+            // }
 
             Array.prototype.move = function(from, to) {
                 this.splice(to, 0, this.splice(from, 1)[0]);
@@ -919,7 +922,7 @@ define([
             html += "<p>" + attr.Text + "</p>";
             html += "<p>" + attr.Date + "</p>";
             //html += "</div>"
-
+            console.log(html);
             return html;
         },
 

@@ -109,6 +109,11 @@
           <div id="protected-areas-checkbox"></div>
           <label for="protected-areas-checkbox" data-bind="text: protectedAreasCheckbox"></label><span data-bind="text: conservationCheckboxSubLabelGlobal" class="checkbox-sub-label"></span>
         </div>
+        <div class="checkbox-container">
+          <div id="indicative-moratorium-checkbox"></div>
+          <label for="indicative-moratorium-checkbox" data-bind="text: indicativeMoratoriumCheckbox"></label>
+          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-instructions"></div><span data-bind="text: indicativeMoratoriumCheckboxSubLabel2" class="checkbox-sub-label"></span>
+        </div>
       </div>
       <div id="land-cover-panel" class="accordion-panel">
         <div data-bind="text: transparencySliderLabel" class="transparency-slider-label"></div>
@@ -176,7 +181,7 @@
                   <td>
                     <div class="checkbox-container-wind inline">
                       <div id="wind00">
-                        <input type="radio" value="00" data-bind="checked: timeOfDay"/>
+                        <input type="radio" value="00" data-bind="checked: timeOfDay, disable: wind00Disable(), enable: wind00Enable()"/>
                         <label data-bind="text: '00'"></label>
                       </div>
                     </div>
@@ -207,6 +212,19 @@
         <div class="checkbox-container">
           <div id="air-quality-checkbox"></div>
           <label for="air-quality-checkbox" data-bind="text: airQuality"></label>
+          <div id="report-optionsAIR" data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar">
+            <div data-bind="text:reportText().selectTimeLabelAIR" class="font10"></div>
+            <div class="report-options-section">
+              <table class="font10">
+                <tr>
+                  <td data-bind="text: 'Date'"></td>
+                  <td>
+                    <input type="text" name="user" value="4" id="airDate" data-bind="value:airPicker()"/>
+                  </td>
+                </tr>
+              </table><span id="updateAIR" data-bind="text: getDates" class="report-link-dates"></span>
+            </div>
+          </div>
         </div>
       </div>
       <div id="imagery-panel" class="accordion-panel">
@@ -247,6 +265,10 @@
         <div class="checkbox-container">
           <div id="twitter-conversations-checkbox"></div>
           <label for="twitter-conversations-checkbox" data-bind="text: twitterConversationsCheckbox"></label>
+        </div>
+        <div id="hiddenFires" class="checkbox-container">
+          <div id="fire-stories-checkbox"></div>
+          <label for="fire-stories-checkbox" data-bind="text: fireStoriesCheckbox"></label>
         </div>
       </div>
     </div>

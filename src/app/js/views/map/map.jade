@@ -113,6 +113,11 @@ div#map-view(class="map-view")
 					div#protected-areas-checkbox
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#indicative-moratorium-checkbox
+					label(for="indicative-moratorium-checkbox", data-bind="text: indicativeMoratoriumCheckbox")
+					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-instructions")
+					span(data-bind="text: indicativeMoratoriumCheckboxSubLabel2", class="checkbox-sub-label")
 			div#land-cover-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
@@ -196,7 +201,7 @@ div#map-view(class="map-view")
 
 										div(class="checkbox-container-wind inline")
 											div#wind00
-												input(type="radio", value="00", data-bind="checked: timeOfDay")
+												input(type="radio", value="00", data-bind="checked: timeOfDay, disable: wind00Disable(), enable: wind00Enable()")
 												label(data-bind="text: '00'")
 
 										div(class="checkbox-container-wind inline")
@@ -222,6 +227,17 @@ div#map-view(class="map-view")
 				div(class='checkbox-container')
 					div#air-quality-checkbox
 					label(for="air-quality-checkbox", data-bind="text: airQuality")
+					div#report-optionsAIR(data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar")
+						div.font10(data-bind="text:reportText().selectTimeLabelAIR")
+						div.report-options-section
+							table.font10
+								tr
+									td(data-bind="text: 'Date'")
+									td
+										input(type="text", name="user" value=4, id="airDate", data-bind="value:airPicker()")
+
+							span#updateAIR(class="report-link-dates", data-bind="text: getDates")
+
 			div#imagery-panel(class='accordion-panel')
 				div(class="checkbox-container")
 					div#landsat-image-checkbox 
@@ -253,9 +269,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#twitter-conversations-checkbox
 					label(for="twitter-conversations-checkbox", data-bind="text: twitterConversationsCheckbox")
-				//- div#hiddenFires(class="checkbox-container")
-				//- 	div#fire-stories-checkbox
-				//- 	label(for="fire-stories-checkbox", data-bind="text: fireStoriesCheckbox")
+				div#hiddenFires(class="checkbox-container")
+					div#fire-stories-checkbox
+					label(for="fire-stories-checkbox", data-bind="text: fireStoriesCheckbox")
 	div#map-container(class="map-container")
 		div#map(class="map")
 			//-div#leftPaneToggle(data-bind="click: slidePanel")!='&lt;'
