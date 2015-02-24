@@ -8,6 +8,11 @@ define([
     "dojo/promise/all",
     "esri/layers/FeatureLayer",
     "esri/graphic",
+    "esri/request",
+    "esri/tasks/ImageServiceIdentifyParameters",
+    "esri/tasks/ImageServiceIdentifyTask",
+    "esri/layers/RasterFunction",
+    "esri/InfoTemplate",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
     "esri/symbols/PictureMarkerSymbol",
@@ -19,14 +24,21 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/geometry/Circle"
-], function(dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic,
-    Point, webMercatorUtils, PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask,
-    IdentifyParameters, Query, QueryTask, Circle) {
+], function(dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic, esriRequest,
+    ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, Point, webMercatorUtils, 
+    PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
     return {
         setMap: function(map) {
             _map = map;
+
+            // Set Global Formatting Functions up here as well
+            window.PopupDateFormat = function (value, key, attributes) {
+                // Date should be in ms format
+                return new Date(value);
+            };
+
         },
 
         clickNext: '',
@@ -226,6 +238,7 @@ define([
 
         selectTomnodFeatures: function(event, arg2) {
             var qconfig = MapConfig.tomnodLayer,
+                landsatCheck = dom.byId("landsat-image-checkbox"),
                 _self = this,
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
@@ -248,6 +261,7 @@ define([
                 var noaaCheck = dom.byId("noaa-fires-18");
                 var archiveCheck = dom.byId("indonesia-fires");
                 var firesCheck = dom.byId("fires-checkbox");
+
                 if ((noaaCheck.getAttribute("aria-checked") == 'true' && archiveCheck.getAttribute("aria-checked") == 'true') || (noaaCheck.getAttribute("aria-checked") == 'true' && firesCheck.getAttribute("aria-checked") == 'true')) {
                     setTimeout(function() {
                         if (!_map.infoWindow.isShowing) {
@@ -258,15 +272,15 @@ define([
                     _self.getArchiveNoaaInfoWindow(event);
                 }
 
-                // if (noaaCheck.getAttribute("aria-checked") == 'true' || archiveCheck.getAttribute("aria-checked") == 'true' || noaaCheck.getAttribute("aria-checked") == 'true' || firesCheck.getAttribute("aria-checked") == 'true') {
                 setTimeout(function() {
                     if (!_map.infoWindow.isShowing) {
                         _self.getDigitalGlobeInfoWindow(event);
                     }
                 }, 400);
-                // } else {
-                //     _self.getDigitalGlobeInfoWindow(event);
-                // }
+
+                if (landsatCheck.checked && _map.getLevel() >= 10) {
+                    _self.getLandsatInfoWindow(event);
+                }
 
                 return;
             }
@@ -299,10 +313,15 @@ define([
                     _self.getDigitalGlobeInfoWindow(event);
                     _self.getArchiveFiresInfoWindow(event);
                     _self.getArchiveNoaaInfoWindow(event);
+
+                    if (landsatCheck.checked && _map.getLevel() >= 10) {
+                        _self.getLandsatInfoWindow(event);
+                    }
+
                     return;
                 }
                 _map.infoWindow.resize(340, 500);
-                query.where += objectids.join(',') + ")"
+                query.where += objectids.join(',') + ")";
                 selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query, FeatureLayer.SELECTION_NEW);
 
                 selected_features.then(function(features) {
@@ -469,6 +488,72 @@ define([
             });
         },
 
+        getLandsatInfoWindow: function (evt) {
+
+            var landSatConfig = MapConfig.landsat8;
+                
+            // This is returning malformed JSON throwing illegal syntax error
+            var imageParams = new ImageServiceIdentifyParameters(),
+                imageTask = new ImageServiceIdentifyTask(landSatConfig.url);
+
+            imageParams.geometry = evt.mapPoint;
+            imageParams.returnCatalogItems = true;
+            imageParams.f = 'json';
+            imageParams.returnGeometry = true;
+            imageParams.renderingRule = new RasterFunction({
+                "rasterFunction":"Stretch",
+                "rasterFunctionArguments": {
+                    "StretchType":6,
+                    "DRA":true,
+                    "Gamma":[1.4,1.4,1.4],
+                    "UseGamma":true,
+                    "MinPercent":0.5,
+                    "MaxPercent":0.5
+                },
+                "outputPixelType":"U8"
+            });
+
+            imageParams.pixelSizeX = 100;
+            imageParams.pixelSizeY = 100;
+
+            imageTask.execute(imageParams, function (res) {
+                arrayUtils.forEach(res.catalogItems.features, function (feature) {
+                    feature.infoTemplate = new InfoTemplate(
+                        'Acquisition Date', 
+                        '<tr><td>${AcquisitionDate: PopupDateFormat}</td></td>'
+                    );
+                });
+                _map.infoWindow.setFeatures(res.catalogItems.features);
+                _map.infoWindow.show(evt.mapPoint);
+            }, function (err) {
+                console.dir(err);
+            });
+
+            // Manual Request Method
+            // var content = {};
+            // content.f = 'json';
+            // content.renderingRule = '{"rasterFunction":"Stretch","rasterFunctionArguments": {"StretchType":6,"DRA":true,"Gamma":[1.4,1.4,1.4],"UseGamma":true,"MinPercent":0.5,"MaxPercent":0.5},"outputPixelType":"U8"}';
+            // content.pixelSize = '{"x":' + _map.getScale() + ',"y": ' + _map.getScale() + ',"spatialReference":{"wkid":102100}}';
+            // content.geometry = JSON.stringify(evt.mapPoint);
+            // content.geometryType = 'esriGeometryPoint';
+            // content.returnCatalogItems = true;
+            // content.returnGeometry = true;
+
+            // var req = esriRequest({
+            //     url: landSatConfig.url + '/identify',
+            //     content: content,
+            //     handleAs: 'json',
+            //     callbackParamName: "callback"
+            // });
+
+            // req.then(function (res) {
+            //     console.dir(res.catalogItems.features);
+            // }, function (err) {
+            //     console.dir(err);
+            // });
+
+        },
+
         getArchiveNoaaInfoWindow: function(event) {
 
             var qconfig = MapConfig.indonesiaLayers,
@@ -600,7 +685,7 @@ define([
                     return;
                 }
             }
-            if (evt.graphic == undefined) {
+            if (evt.graphic === undefined) {
                 return;
             }
 
@@ -612,17 +697,17 @@ define([
             // esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
 
             var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
-                var deferred = new Deferred;
+                var deferred = new Deferred();
                 query.geometry = evt.graphic.geometry;
                 query.returnGeometry = false;
                 query.outFields = ['*'];
-                var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer")
+                var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer");
                 task.execute(query, function(results) {
                     deferred.resolve(results.features);
                 }, function(err) {
 
-                    deferred.resolve([])
-                })
+                    deferred.resolve([]);
+                });
                 return deferred.promise;
             })).then(function(results) {
                 var content = '';
@@ -939,7 +1024,7 @@ define([
             // html += "<td>" + attr.Name + "</td></tr>";
             //html += "<p>" + attr.Details + "</p>";
             //html += "<p>" + attr.Email + "</p>";
-            html += "</div>"
+            html += "</div>";
 
             return html;
         }

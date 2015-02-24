@@ -7,7 +7,7 @@ define({
 
     stagingProxyUrl: 'http://staging.blueraster.com/proxy/proxy.php',
     proxies: {
-        "http://rmbp/": "http://rmbp/proxy/proxy.php",
+        "http://localhost/github_work": "http://localhost/proxy/proxy.php",
         "http://localhost/~calumbutler/": "http://localhost/~calumbutler/proxy/proxy.php",
         "http://staging.blueraster.com/": "http://staging.blueraster.com/proxy/proxy.php",
         "http://shj.blueraster.com/": "http://shj.blueraster.com/proxy/proxy.ashx",

@@ -31,7 +31,6 @@ define([
         require(["dojo/text!views/footer/footer.html", "views/footer/FooterModel"], function(html, FooterModel) {
             //debugger;
             dom.byId(viewId).innerHTML = html + dom.byId(viewId).innerHTML;
-
             //EventsController.initShareButton();
 
             FooterModel.applyBindings(viewId);

@@ -1,5 +1,5 @@
-define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array", "modules/EventsController"],
-    function(hash, topic, lang, ioQuery, Config, arrayUtil, EventsController) {
+define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array", "modules/EventsController", "dojo/dom-style"],
+    function(hash, topic, lang, ioQuery, Config, arrayUtil, EventsController, domStyle) {
 
 
         var o = {};
@@ -126,7 +126,13 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var viewObj = {
                 v: newView
             };
-            console.log(newView);
+
+            if (newView === 'map') {
+                domStyle.set('app-footer', 'display', 'none');
+            } else {
+                domStyle.set('app-footer', 'display', 'block');
+            }
+
             switch (newView) {
                 case "home":
                     require(["views/home/HomeController"], function(HomeController) {

@@ -84,9 +84,7 @@ define([
         var that = this;
         if (initialized) {
             //switch to this view
-            console.log("already initialized");
             o.map.resize();
-            console.log(view);
             EventsController.switchToView(view);
             //o.fromStories();
             o.checkBubble();
@@ -99,7 +97,6 @@ define([
 
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
-
             dom.byId(view.viewId).innerHTML = html;
             Helper.showLoader("map", "map-blocker");
 
@@ -258,7 +255,9 @@ define([
                     }, 1000);
                 });
             });
+
             o.map.resize();
+
         });
 
         o.mapExtentPausable = on.pausable(o.map, "extent-change", function(e) {
@@ -1349,8 +1348,7 @@ define([
                 var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
                 var flyr = !(item.layer.id === tomnodSellayer.id);
                 return (url && flyr);
-            });
-            console.dir(layerInfos);
+            });  
 
             Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
@@ -1374,6 +1372,11 @@ define([
         firesLayer.on('error', this.layerAddError);
         //digitalGlobeLayer.on('error', this.layerAddError);
         airQualityLayer.on('error', this.layerAddError);
+
+        // Change the Land Sat layer order to be right above the basemap but below everything else
+        landSatLayer.on('load', function () {
+            o.map.reorderLayer(landSatLayer, 1);
+        });
 
     };
 
