@@ -1,5 +1,5 @@
 
-/* line 286 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 330 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 
 /* line 1 : /Users/lucascotner/Documents/Projects/fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
 
@@ -234,13 +234,31 @@ padding-right 4px {
 }
 
 /* line 174 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+.descStory {
+  font-weight: 300;
+  margin-left: 2em !important;
+  margin-bottom: -5px !important;
+}
+
+/* line 179 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+.instructions {
+  font-size: 15px;
+  line-height: 1.2;
+  color: #666;
+  margin: 0px 0px 20px;
+  font-weight: 300;
+}
+
+/* line 186 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storiesMap {
   width: 540px !important;
   height: 300px !important;
   position: relative;
+  padding: 0;
+  margin: 0;
 }
 
-/* line 179 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 193 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #basemap-gallery-button2 {
   position: absolute;
   background-image: url("../images/basemap.png");
@@ -249,7 +267,7 @@ padding-right 4px {
   right: 860px;
 }
 
-/* line 186 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 200 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #basemapGalleryContainer {
   appearance: none;
   position: absolute;
@@ -269,7 +287,7 @@ padding-right 4px {
   border-bottom-left-radius: 3px;
 }
 
-/* line 204 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 218 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .basemap-gallery-container-story {
   background-color: #fff;
   position: absolute;
@@ -280,28 +298,28 @@ padding-right 4px {
   top: 20px;
 }
 
-/* line 214 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 228 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyDateInput,
 #storyNameInput,
 #storyEmailInput {
   width: 45%;
 }
 
-/* line 217 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 231 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyDetailsInput {
   height: 150px;
 }
 
-/* line 220 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 234 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #storyMediaInput {
-  height: 150px;
+  height: 75px;
   width: 540px;
   overflow: scroll;
   overflow-y: auto;
   overflow-x: auto;
 }
 
-/* line 235 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 249 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #uploadStoryMedia {
   width: 150px;
   height: 75px;
@@ -309,7 +327,7 @@ padding-right 4px {
   cursor: pointer;
 }
 
-/* line 241 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 255 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .uploadList {
   position: relative;
   bottom: 40px;
@@ -318,51 +336,51 @@ padding-right 4px {
   cursor: no-drop;
 }
 
-/* line 249 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 263 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #verifyEmailForStory {
   font-size: 12px;
   display: none;
 }
 
-/* line 253 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 267 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #alignWithMedia {
   position: relative;
   top: 290px;
 }
 
-/* line 257 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 271 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #alignWithEmail {
   position: relative;
-  top: 325px;
+  top: 530px;
 }
 
-/* line 261 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 275 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #submitBox {
   float: left;
   width: 575px;
 }
 
-/* line 265 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 279 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #submitStory > input {
   float: left;
   margin-top: 30px;
   margin-bottom: 40px;
 }
 
-/* line 270 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 284 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #contentRightStory {
   float: right;
   width: 275px;
   text-align: left;
 }
 
-/* line 275 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 289 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .storyHeader {
   color: #464052;
   margin-bottom: 5px;
 }
 
-/* line 279 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 293 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 .requiredItem {
   color: #464052;
   float: right;
@@ -373,17 +391,22 @@ padding-right 4px {
   font-weight: 500;
 }
 
-/* line 288 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 302 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #requiredEmail {
   left: -295px;
 }
 
-/* line 291 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 305 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+#optionalName {
+  left: -295px;
+}
+
+/* line 308 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #requiredArea {
   margin-bottom: -20px;
 }
 
-/* line 294 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 311 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #addPoint {
   position: relative;
   z-index: 100;
@@ -391,16 +414,16 @@ padding-right 4px {
   left: 60px;
 }
 
-/* line 300 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 317 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 #contentRightStory .storyHeader {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 }
 
-/* line 304 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
+/* line 321 : /Users/lucascotner/Documents/Projects/fires/src/app/css/app.styl */
 /*header Stylus*/
 
-/* line 2184 : /Users/lucascotner/Documents/Projects/fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+/* line 286 : /Users/lucascotner/Documents/Projects/fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
 
 /* line 286 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 
@@ -528,7 +551,7 @@ padding-right 4px {
   top: 20px;
 }
 
-/* line 2289 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
+/* line 2184 : /Users/lucascotner/Documents/Projects/fires/src/app/css/header.styl */
 
 /* line 1 : /Users/lucascotner/Documents/Projects/fires/src/app/css/footer.styl */
 

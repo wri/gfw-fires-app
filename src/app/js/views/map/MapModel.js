@@ -44,6 +44,7 @@ define([
     vm.woodFiberCheckbox = ko.observable(MapConfig.text.woodFiberCheckbox);
     vm.loggingCheckbox = ko.observable(MapConfig.text.loggingCheckbox);
     vm.protectedAreasCheckbox = ko.observable(MapConfig.text.protectedAreasCheckbox);
+    vm.indicativeMoratoriumCheckbox = ko.observable(MapConfig.text.indicativeMoratoriumCheckbox);
     vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
     vm.tomnodCheckbox = ko.observable(MapConfig.text.tomnodCheckbox);
 
@@ -58,6 +59,9 @@ define([
     vm.rspoOilPalmCheckboxSubLabel = ko.observable(MapConfig.text.rspoOilPalmCheckboxSubLabel);
     vm.primaryForestsSubLabel = ko.observable(MapConfig.text.primaryForestsSubLabel);
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
+    vm.indicativeMoratoriumCheckboxSubLabel = ko.observable(MapConfig.text.indicativeMoratoriumCheckboxSubLabel);
+    vm.indicativeMoratoriumCheckboxSubLabel2 = ko.observable(MapConfig.text.indicativeMoratoriumCheckboxSubLabel2);
+
     vm.airQuality = ko.observable(MapConfig.text.airQuality);
     vm.digitalGlobeCheckbox = ko.observable(MapConfig.text.digitalGlobeCheckbox);
     vm.digitalGlobeFootprintsCheckbox = ko.observable(MapConfig.text.digitalGlobeFootprintsCheckbox);
@@ -88,11 +92,37 @@ define([
     vm.wind12Radio = ko.observable("12");
     vm.wind18Radio = ko.observable("18");
 
+    vm.wind00Enable = ko.observable();
     vm.wind06Enable = ko.observable();
     vm.wind12Enable = ko.observable();
     vm.wind18Enable = ko.observable();
+    vm.windDisabledDates = ["2015-01-15"];
 
+    vm.wind00Disable = function() {
+        var now = new Date();
+        var now3 = new Date();
+        var currentHours = now.getHours();
+        var nowRefined = moment(now);
+        now = nowRefined.tz('Atlantic/Cape_Verde').format('ha z');
 
+        if (now.indexOf("am") != -1) {
+            var dataUpdateTime = now.split("am");
+            dataUpdateTime = dataUpdateTime[0];
+        } else {
+            var dataUpdateTime = now.split("pm");
+            dataUpdateTime = dataUpdateTime[0];
+            dataUpdateTime = parseInt(dataUpdateTime) + 12;
+        }
+
+        if (dataUpdateTime < 0) {
+            vm.wind00Enable(false);
+            $("#wind00 > label").css("color", "grey");
+            return true;
+        } else {
+            vm.wind00Enable(true);
+            return false;
+        }
+    }
     vm.wind06Disable = function() {
         var now = new Date();
         var now3 = new Date();
@@ -225,14 +255,20 @@ define([
         var newDate = jQuery('#windDate').datepicker({
             minDate: (new Date(2014, 10 - 1, 19)),
             maxDate: "+0M +0D",
+            beforeShowDay: function(date) {
+                var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                return [vm.windDisabledDates.indexOf(string) == -1]
+            },
             onSelect: function(selectedDate) {
                 $("#wind06 > label").css("color", "black");
                 $("#wind12 > label").css("color", "black");
                 $("#wind18 > label").css("color", "black");
                 var selectedDate2 = Date.parse(selectedDate);
+
                 var today = new Date();
                 today.setHours(0, 0, 0, 0);
                 if (today.getTime() > selectedDate2) {
+                    vm.wind00Enable(true);
                     vm.wind06Enable(true);
                     vm.wind12Enable(true);
                     vm.wind18Enable(true);
@@ -242,7 +278,34 @@ define([
                     vm.wind12Disable();
                     vm.wind18Disable();
                 }
+
+                if (selectedDate == "01/14/2015") {
+                    vm.timeOfDay("00");
+                    vm.wind18Enable(false);
+                }
+                if (selectedDate == "01/16/2015") {
+                    vm.timeOfDay("18");
+                    vm.wind00Enable(false);
+                    vm.wind06Enable(false);
+                    vm.wind12Enable(false);
+                }
                 vm.windObserv(selectedDate);
+                return selectedDate;
+            }
+        });
+        var today = new Date();
+        var days = today.getDate();
+        var months = today.getMonth() + 1;
+        var years = today.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        return date;
+    }
+    vm.airPicker = function() {
+        var newDate = jQuery('#airDate').datepicker({
+            minDate: (new Date(2014, 12 - 1, 16)),
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.airObserv(selectedDate);
                 return selectedDate;
             }
         });
@@ -315,6 +378,7 @@ define([
     vm.firesObservFrom = ko.observable(date2);
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
+    vm.airObserv = ko.observable(date);
     vm.noaaObservFrom = ko.observable("10/12/2014");
     vm.noaaObservTo = ko.observable(date);
     vm.indoObservFrom = ko.observable("1/1/2013");
@@ -330,6 +394,7 @@ define([
     vm.showActiveFiresButtons = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
+    vm.showReportOptionsAIR = ko.observable(false);
     vm.showReportOptionsDigitalGlobe = ko.observable(false);
 
     vm.showReportOptionsDigitalGlobeFootprints = ko.observable(true);
@@ -373,6 +438,10 @@ define([
 
     vm.closeReportOptionsWIND = function() {
         vm.showReportOptionsWIND(false);
+    };
+
+    vm.closeReportOptionsAIR = function() {
+        vm.showReportOptionsAIR(false);
     };
 
     vm.closeReportOptionsDigitalGlobe = function() {

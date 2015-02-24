@@ -12,6 +12,7 @@ define([
     "dojo/Deferred",
     "dojo/dom-style",
     "dojo/dom-geometry",
+    "dojo/date",
     "esri/map",
     "esri/config",
     "esri/dijit/HomeButton",
@@ -61,7 +62,7 @@ define([
     "dijit/Dialog",
     "utils/Helper",
     "dojo/aspect"
-], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
+], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
@@ -86,7 +87,7 @@ define([
             //switch to this view
             o.map.resize();
             EventsController.switchToView(view);
-            //o.fromStories();
+            o.fromStories();
             o.checkBubble();
 
             return;
@@ -108,15 +109,16 @@ define([
                 // Initialize addthis since it was loaded asynchronously
                 addthis.init();
                 that.addConfigurations();
-
+                $("#footerView").hide();
                 that.createMap();
+
 
                 // that.createMap().then(function() {
                 //     that.checkBubble();
                 // });
                 setTimeout(function() {
                     that.checkBubble();
-                    //that.fromStories();
+                    that.fromStories();
                 }, 1000);
 
             });
@@ -230,7 +232,7 @@ define([
             //     basemapArray.splice(4, 1);
             // }, 1000);
 
-            //var basemapArray = registry.byId("basemap-gallery").basemaps;
+            //var basemapArray = registry.byId("basemap-gallery").air;
             //basemapArray.splice(6, 1);
 
             // Clear out default Esri Graphic at 0,0, dont know why its even there
@@ -610,15 +612,15 @@ define([
             }
         });
 
-        // on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
+        on(registry.byId("fire-stories-checkbox"), "change", function(evt) {
 
-        //     var value = registry.byId("fire-stories-checkbox").checked;
+            var value = registry.byId("fire-stories-checkbox").checked;
 
-        //     LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
-        //     if (value) {
-        //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
-        //     }
-        // });
+            LayerController.toggleLayerVisibility(MapConfig.fireStories.id, value);
+            if (value) {
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Stories layer on.');
+            }
+        });
 
         on(registry.byId("fires-checkbox"), "change", function(evt) {
             var value = registry.byId("fires-checkbox").checked;
@@ -631,9 +633,16 @@ define([
 
         on(registry.byId("air-quality-checkbox"), "change", function(value) {
             LayerController.toggleLayerVisibility(MapConfig.airQualityLayer.id, value);
-            if (value) {
+            if (!value) {
+                MapModel.vm.showReportOptionsAIR(false);
+                return;
+            } else {
+                $("#airDate").datepicker("setDate", "+0m +0d");
+                o.map.getLayer(MapConfig.airQualityLayer.id).setVisibleLayers([0]);
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Air Quality layer on.');
+                MapModel.vm.showReportOptionsAIR(true);
             }
+
         });
 
         on(registry.byId("tomnod-checkbox"), "change", function(value) {
@@ -874,6 +883,28 @@ define([
 
         });
 
+        on(dom.byId('updateAIR'), 'click', function() {
+
+            var currentDate = $("#airDate").datepicker("getDate");
+
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (currentDate.getTime() == today.getTime()) {
+                var layer = o.map.getLayer(MapConfig.airQualityLayer.id);
+                layer.setVisibleLayers([0]);
+                return;
+            }
+
+            var dayPicked = moment(currentDate).format("YYYY/MM/DD");
+            var tomorrow = moment(currentDate).add('days', 1).format("YYYY/MM/DD");
+
+            var sqlQuery = LayerController.getTimeDefinition("dateUpdated", dayPicked, tomorrow);
+
+            LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.airQualityLayer.id), 1, sqlQuery);
+
+        });
+
         on(dom.byId("embedShare"), "click", function() {
             self.showEmbedCode();
         });
@@ -931,13 +962,13 @@ define([
 
                 if (target.checked) {
                     //TODO : find better way to get label
-                    var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1]; //TODO: WHY IS THIS FAILING???
-                    if (labelNode.innerHTML.length > 0) {
-                        var label = labelNode.innerHTML;
-                        if (label.search("None") === -1) {
-                            self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
-                        }
-                    }
+                    // var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1]; //TODO: WHY IS THIS FAILING???
+                    // if (labelNode.innerHTML.length > 0) {
+                    //     var label = labelNode.innerHTML;
+                    //     if (label.search("None") === -1) {
+                    //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    //     }
+                    // }
                 }
             });
         });
@@ -950,14 +981,15 @@ define([
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
                 if (target.checked) {
+
                     //TODO : find better way to get label
-                    var labelNode = dojoQuery("#conservation-panel .dijitChecked")[0].parentNode.children[1];
-                    if (labelNode.innerHTML.length > 0) {
-                        var label = labelNode.innerHTML;
-                        if (label.search("None") === -1) {
-                            self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
-                        }
-                    }
+                    // var labelNode = dojoQuery("#conservation-panel .dijitChecked")[0].parentNode.children[1];
+                    // if (labelNode.innerHTML.length > 0) {
+                    //     var label = labelNode.innerHTML;
+                    //     if (label.search("None") === -1) {
+                    //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
+                    //     }
+                    // }
                 }
             });
         });
@@ -1166,6 +1198,7 @@ define([
 
         var tweet_infotemplate = new InfoTemplate();
         tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
+        tweet_infotemplate.setTitle(null);
 
         tweetLayer = new FeatureLayer(MapConfig.tweetLayer.url, {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -1232,14 +1265,14 @@ define([
         // }
 
 
-        // fireStories = new FeatureLayer(MapConfig.fireStories.url, {
-        //     mode: FeatureLayer.MODE_ONDEMAND,
-        //     id: MapConfig.fireStories.id,
-        //     visible: false,
-        //     outFields: ["*"],
-        //     definitionExpression: "Publish = 'Y'",
-        //     infoTemplate: fireStory_popupTemplate
-        // });
+        fireStories = new FeatureLayer(MapConfig.fireStories.url, {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            id: MapConfig.fireStories.id,
+            visible: false,
+            outFields: ["*"],
+            definitionExpression: "Publish = 'Y'",
+            infoTemplate: fireStory_popupTemplate
+        });
 
         // aspect.after(o.map.infoWindow, "show", function() {
 
@@ -1314,7 +1347,7 @@ define([
             forestUseLayer,
             overlaysLayer,
             tweetLayer,
-            //fireStories,
+            fireStories,
             airQualityLayer,
             tomnodSellayer,
             indonesiaLayer,
@@ -1370,6 +1403,8 @@ define([
         overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
+        fireStories.on('error', this.layerAddError);
+
         //digitalGlobeLayer.on('error', this.layerAddError);
         airQualityLayer.on('error', this.layerAddError);
 

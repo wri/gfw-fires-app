@@ -1,6 +1,7 @@
 define([
     "dojo/dom",
     "dojo/Deferred",
+    "dojo/topic",
     "dijit/registry",
     "modules/HashController",
     "modules/EventsController",
@@ -11,11 +12,12 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/request"
-], function(dom, Deferred, registry, HashController, EventsController, FooterModel, MapConfig, MainConfig, arrayUtil, Query, QueryTask, esriRequest) {
+], function(dom, Deferred, topic, registry, HashController, EventsController, FooterModel, MapConfig, MainConfig, arrayUtil, Query, QueryTask, esriRequest) {
 
     var o = {};
     var initialized = false;
     var viewId = "app-footer";
+    var gfwFooterLoaded = false;
 
     o.init = function() {
         var that = this;
@@ -58,6 +60,7 @@ define([
             // });
         });
     };
+
 
     o.initShareButton = function() {
         // twitter

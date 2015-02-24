@@ -144,34 +144,42 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                                 //domConstruct.place("footerMovableWrapper", "footerShareContainer");
                                 domConstruct.place("footerView", "footerShareContainer");
-                                if ($("#footerView").css("display") == "none") {
-                                    $("#footerView").show();
-                                }
+                                // if ($("#footerView").css("display") == "none") {
+                                //     $("#footerView").show();
+                                // }
 
                             }, 1000);
 
                             // EventsController.startModeAnim();
                             break;
 
-                        case "mapView":
+                            // case "mapView":
 
-                            setTimeout(function() {
-                                console.log("map view");
-                                $("#footerView").hide();
-                            }, 0);
+                            //     // setTimeout(function() {
+                            //     //     console.log("map view");
+                            //     //     $("#footerView").hide();
+                            //     // }, 0);
 
-                            break;
+                            //     break;
 
                         default:
                             //EventsController.stopModeAnim();
                             //domConstruct.place("footerMovableWrapper", data.viewId);
-                            setTimeout(function() {
-                                domConstruct.place("footerView", data.viewId);
-                            }, 0);
 
-                            if ($("#footerView").css("display") == "none") {
-                                $("#footerView").show();
+                            // Not sure if footer exists since coming from external script and being injected into our page, inject if it exists or poll if it does not
+                            function moveFooter() {
+                                if (dom.byId("footerView")) {
+                                    domConstruct.place("footerView", data.viewId);
+                                } else {
+                                    setTimeout(moveFooter, 0);
+                                }
                             }
+
+                            setTimeout(moveFooter, 0);
+
+                            // if ($("#footerView").css("display") == "none") {
+                            //     $("#footerView").show();
+                            // }
                     }
 
                     //remove hidden stuff

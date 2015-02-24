@@ -75,7 +75,7 @@ define({
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         id: 'Tomnod',
         sel_id: 'tomnod_sel',
-        chipBucket: "http://suitability-mapper.blueraster.com/gfw-fires/tomnod-thumb/",
+        chipBucket: "https://s3.amazonaws.com/explorationlab/",
         defaultLayers: [8],
         query: {
             fields: [{
@@ -145,7 +145,8 @@ define({
         rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
         oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
         woodFiber: 28, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
-        logging: 10 // These map to the value of an input in the UI, so logging is the value of a checkbox
+        logging: 10, // These map to the value of an input in the UI, so logging is the value of a checkbox
+        indicativeMoratorium: 16
     },
 
     // burnedAreaLayers: {
@@ -160,6 +161,7 @@ define({
         id: 'Conservation',
         defaultLayers: [-1], // Show none by default
         protectedAreas: 25 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
+
     },
 
     landCoverLayers: {
@@ -272,6 +274,10 @@ define({
             },
             27: {
                 'id': 'rspo-oil-palm-checkbox',
+                'type': 'checkbox'
+            },
+            16: {
+                'id': "indicative-moratorium-checkbox",
                 'type': 'checkbox'
             }
         },
@@ -419,6 +425,7 @@ define({
         woodFiberCheckbox: "Wood fiber plantations",
         loggingCheckbox: "Logging concessions",
         protectedAreasCheckbox: "Protected areas",
+        indicativeMoratoriumCheckbox: "Indonesia forest moratorium area",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
         tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
         //tomnodLink: "tomnodLinkClass",
@@ -433,6 +440,11 @@ define({
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
         rspoOilPalmCheckboxSubLabel: "(May 2013, select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
+        indicativeMoratoriumCheckboxSubLabel: "The moratorium prohibits new concessions on primary forest or peatlands. <a href='http://www.wri.org/blog/2014/01/2-things-you-need-know-about-indonesias-forest-moratorium' target='_blank'>Learn More.",
+        indicativeMoratoriumCheckboxSubLabel2: "(IMM V7/V6, 2014, Indonesia)",
+
+
+
         airQuality: "Air quality",
         windDirection: "Wind direction",
         digitalGlobeCheckbox: "Digital Globe - First Look",
@@ -466,6 +478,7 @@ define({
             multiSelectInfo: 'To select more than one, hold down the control (PC) or command (Mac) key when clicking',
             selectTimeLabel: 'Select timeframe of interest:',
             selectTimeLabelWIND: 'Select a date and time:',
+            selectTimeLabelAIR: 'Select a day:',
             year: 'YYYY',
             month: 'MM',
             day: 'DD',
@@ -634,6 +647,13 @@ define({
             "type": "checkbox",
             "props": {
                 "value": "logging"
+            }
+        }, {
+            "id": "indicative-moratorium-checkbox",
+            "class": "conservation-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "indicativeMoratorium"
             }
         },
         //CONSERVATION
