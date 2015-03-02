@@ -15,26 +15,39 @@ var app_dir = {
     root: __dirname + "/"
 };
 
-gulp.task('clean', function(cb) {
-    del(app_dir.build, cb);
+
+gulp.task('dist-delete', function(cb) {
+    console.log(">>>>>>>> deleting");
+    del([app_dir.build + '**'], cb)
 });
 
-gulp.task('minify-html', function() {
+gulp.task('dist-copy-clean', ['dist-delete'], function() {
+    console.log(">>>>>>>> cleaning up the dist folder");
+    //ignore jade, styl, and css inside the js folder
+    return gulp.src([app_dir.src + '**', '!' + app_dir.src + '**/*.jade', '!' + app_dir.src + '**/*.styl', '!' + app_dir.src + 'app/js/*.css'])
+        .pipe(gulp.dest(app_dir.build))
+});
+
+
+
+gulp.task('minify-html', ['dist-copy-clean'], function() {
+    console.log(">>>>>>>> Minifying HTML");
+    var opts = {
+        comments: true,
+        spare: true
+    };
     return gulp.src(app_dir.src + '**/*.htm*')
-        .pipe(minifyhtml({
-            comments: false,
-            spare: true
-        }))
-        .pipe(gulp.dest(app_dir.build));
+        .pipe(minifyhtml(opts))
+        .pipe(gulp.dest(app_dir.build))
 });
 
-gulp.task('minify-css', function() {
+gulp.task('minify-css', ['dist-copy-clean'], function() {
     return gulp.src(app_dir.src + '**/*.css')
         .pipe(minifycss())
         .pipe(gulp.dest(app_dir.build));
 });
 
-gulp.task('minify-images', function() {
+gulp.task('minify-images', ['dist-copy-clean'], function() {
     return gulp.src(app_dir.src + 'app/**/*.{png,jpg,gif}')
         .pipe(imagemin({
             optimizationLevel: 7,
@@ -44,7 +57,7 @@ gulp.task('minify-images', function() {
         .pipe(gulp.dest(app_dir.build + 'app'));
 });
 
-gulp.task('minify-js', function() {
+gulp.task('minify-js', ['dist-copy-clean'], function() {
     return gulp.src(app_dir.src + '**/*.js')
         .pipe(uglify())
         .pipe(gulp.dest(app_dir.build));
@@ -86,6 +99,4 @@ gulp.task('watch', function() {
     gulp.watch(app_dir.src + '**/*.jade', ['watch-jade']);
 });
 
-gulp.task('build', ['clean'], function() {
-    gulp.start('minify-html', 'minify-css', 'minify-images', 'minify-js', 'copy');
-});
+gulp.task('build', ['minify-html', 'minify-css', 'minify-images', 'minify-js']);
