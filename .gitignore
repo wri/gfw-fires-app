@@ -1,4 +1,4 @@
-node_modules
+gfw-fires/node_modules
 .DS_Store
 .idea
 *.sublime-workspace

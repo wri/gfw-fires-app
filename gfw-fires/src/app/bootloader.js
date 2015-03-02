@@ -2,9 +2,20 @@
 // ENV to dev for Development, pro for Production
 (function(win, doc) {
     'use strict';
+
+    var baseUrl;
+    /* if app files in different location, hardcode the path, USE SLASH AT END OF URL*/
+    // baseUrl = "http://shj.blueraster.com/apps-wiseguy/template-esri/src/";
+
+    var pathPrefix = baseUrl || document.location.pathname.replace(/\/[^/]+$/, "");
+    if (pathPrefix.slice(-1) !== "/") {
+        pathPrefix = pathPrefix + "/";
+    }
+
+
     var ENV = 'dev',
         version = "0.1.9",
-        src = 'http://js.arcgis.com/3.12/',
+        esriLib = 'http://js.arcgis.com/3.12/init.js',
         css = {
             'dev': [{
                 src: 'http://js.arcgis.com/3.12/esri/css/esri.css',
@@ -51,7 +62,7 @@
                 cdn: true
             }]
         },
-        URL = location.pathname.replace(/\/[^/]+$/, '') + 'app', // do not use / before app, fails in prod
+        URL = pathPrefix + 'app', // do not use / before app, fails in prod
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
@@ -146,7 +157,7 @@
     // Load Esri Dependencies
     function loadDependencies() {
         win.dojoConfig = dojoConfig;
-        loadScript(src);
+        loadScript(esriLib);
         var files = css[ENV];
         for (var i = 0, length = files.length; i < length; i++) {
             loadStyle(files[i].src, files[i].cdn);
