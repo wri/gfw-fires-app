@@ -18,7 +18,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "esri/urlUtils",
             var proxies = MapConfig.proxies;
 
             var url = document.location.href;
-            var proxyUrl = "/proxy/proxy.ashx";
+            var proxyUrl = "/proxy/proxy.php";
 
             for (var domain in proxies) {
 
