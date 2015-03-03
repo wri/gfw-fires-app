@@ -1,1 +1,2 @@
 RedirectMatch ^/$ /www/build/
+Redirect /alerts /www/build/alerts
