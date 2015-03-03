@@ -1,2 +1,0 @@
-# redirect root to build
-Redirect / /www/build/index.html
