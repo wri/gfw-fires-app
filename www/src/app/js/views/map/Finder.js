@@ -289,9 +289,9 @@ define([
                     }
                 }, 400);
 
-                if (landsatCheck.checked && _map.getLevel() >= 10) {
-                    _self.getLandsatInfoWindow(event);
-                }
+                // if (landsatCheck.checked && _map.getLevel() >= 10) {
+                //     _self.getLandsatInfoWindow(event);
+                // }
 
                 return;
             }
@@ -325,9 +325,9 @@ define([
                     _self.getArchiveFiresInfoWindow(event);
                     _self.getArchiveNoaaInfoWindow(event);
 
-                    if (landsatCheck.checked && _map.getLevel() >= 10) {
-                        _self.getLandsatInfoWindow(event);
-                    }
+                    // if (landsatCheck.checked && _map.getLevel() >= 10) {
+                    //     _self.getLandsatInfoWindow(event);
+                    // }
 
                     return;
                 }
