@@ -1,1 +1,2 @@
-DocumentRoot /www/build
+RedirectMatch ^/$ /www/build/
+Redirect /alerts /www/build/alerts
