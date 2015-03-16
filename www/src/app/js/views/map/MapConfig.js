@@ -14,7 +14,7 @@ define({
         "http://shj/": "http://shj/proxy/proxy.ashx",
         "http://wri-gfw-fires.herokuapp.com/": "http://wri-gfw-fires.herokuapp.com/proxy/proxy.php",
         "http://localhost:": "http://localhost:8080/php/proxy.php",
-        "http://fires.globalforestwatch.org": "http://www.wri.org/applications/maps/proxy/proxy.php",
+        "http://fires.globalforestwatch.org": "http://fires.globalforestwatch.org/proxy/proxy.php",
         "http://bur/": "projs/2278-wri-oil-palm.4/src/app/proxy/proxy.php"
     },
 
