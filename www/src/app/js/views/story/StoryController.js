@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", "dojo/parser"],
-    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils, parser) {
+define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", "dojo/parser", "esri/urlUtils"],
+    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils, parser, urlUtils) {
 
         var o = {};
         var initialized = false;
@@ -61,10 +61,17 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var mapLoad = o.map.on("load", function() {
                 mapLoad.remove();
                 o.initToolbar();
+
+                var rule = {
+                    proxyUrl: "/proxy/proxy.php",
+                    urlPrefix: StoryModel.vm.storiesURL
+                }
+
+                urlUtils.addProxyRule(rule);
                 // o.map.resize();
                 // o.map.reposition();
 
-                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL + StoryModel.vm.productionToken, {
+                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL, {
                     id: "storiesLayer",
                     outFields: ["*"]
                 });
