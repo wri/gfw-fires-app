@@ -95,7 +95,7 @@ define([
                 reportdates.tDay = Number(reportdateTo[1]);
 
                 var hash = o.report_data_to_hash(aoitype, reportdates, MapModel.vm.selectedAOIs);
-                var win = window.open('./app/js/views/report/report.html' + hash, 'Report', '');
+                var win = window.open('./app/js/views/report/report.html' + hash, '_blank', '');
                 win.report = true;
                 win.reportOptions = {
                     'dates': reportdates,
@@ -213,7 +213,7 @@ define([
             reportdates.tDay = Number(reportdateTo[1]);
             MapModel.vm.selectedAOIs(['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java']);
             var hash = o.report_data_to_hash(aoitype, reportdates, MapModel.vm.selectedAOIs);
-            var win = window.open('./app/js/views/report/report.html' + hash, 'Report', '');
+            var win = window.open('./app/js/views/report/report.html' + hash, '_blank', '');
             // win.report = true;
             // win.reportOptions = {
             //     'dates': reportdates,

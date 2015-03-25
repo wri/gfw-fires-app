@@ -4,9 +4,9 @@
     'use strict';
 
     var src = [
-        'http://js.arcgis.com/3.9/',
-        'http://code.jquery.com/jquery-1.11.0.min.js'
-    ],
+            'http://js.arcgis.com/3.9/',
+            'http://code.jquery.com/jquery-1.11.0.min.js'
+        ],
         css = [
             'http://js.arcgis.com/3.9/js/esri/css/esri.css',
             '../../../css/report.css'
@@ -36,7 +36,7 @@
                 location: URL + '/js/utils'
             }],
             aliases: [
-                ["knockout", "libs/knockout-3.1.0"],
+                ["knockout", "libs/knockout-3.2.0"],
                 ["dom-style", "dojo/dom-style"],
                 ["dom-class", "dojo/dom-class"],
                 ["topic", "dojo/topic"],
