@@ -1,0 +1,167 @@
+<h2 class="source_category_title">Fires</h2>
+<section class="ac-container">
+
+
+      <!-- NASA active fires-->
+      <div>
+        <input id="dataForestChange-1" name="accordion-dataForestChange" type="checkbox" />
+        <div class="source_header last">
+          <label for="dataForestChange-1" class="source_title">
+            NASA active fires
+          </label>
+          <i class="expand_arrow"></i>
+          <em class="source_description">(daily, 1km, global)</em>
+        </div>  
+        <article class="ac-auto">
+        <div class="source_body">
+           
+           <div class='source_body'>
+        <div class='source_download'>
+          <a href='https://earthdata.nasa.gov/data/near-real-time-data/firms' target='_blank' title='Download at project website'>Download at project website<i class='arrow_down'></i></a>
+        </div>
+
+        <div class='source_table'>
+          <dl class='sources_row'>
+            <dt>Function</dt>
+            <dd>Displays fire alert data for the past 7 days</dd>
+          </dl>
+          <dl class='sources_row even'>
+            <dt>Resolution/scale</dt>
+            <dd>1 × 1 kilometer</dd>
+          </dl>
+          <dl class='sources_row'>
+            <dt>Geographic coverage</dt>
+            <dd>Global</dd>
+          </dl>
+          <dl class='sources_row even'>
+            <dt>Source data</dt>
+            <dd><a href='http://modis.gsfc.nasa.gov/about/' target='_blank'>MODIS</a></dd>
+          </dl>
+          <dl class='sources_row'>
+            <dt>Frequency of updates</dt>
+            <dd>Daily</dd>
+          </dl>
+          <dl class='sources_row even'>
+            <dt>Date of content</dt>
+            <dd>Past 7 days</dd>
+          </dl>
+          <dl class='sources_row'>
+            <dt>Cautions</dt>
+            <dd>
+              <p>Not all fires are detected. There are several reasons why MODIS may not have detected a certain fire. The fire may have started and ended between satellite overpasses. The fire may have been too small or too cool to be detected in the (approximately) 1 km<sup>2</sup> pixel. Cloud cover, heavy smoke, or tree canopy may completely obscure a fire.</p>
+              <p>It is not recommended to use active fire locations to estimate burned area due to spatial and temporal sampling issues.</p>
+              <p>When zoomed out, this data layer displays some degree of inaccuracy because the data points must be collapsed to be visible on a larger scale. Zoom in for greater detail.</p>
+            </dd>
+          </dl>
+        </div>
+
+        <div class='source_summary'>
+          <h3 class='overview_title'>Overview</h3>
+
+          <p>The Fire Information for Resource Management System (FIRMS) delivers global MODIS-derived hotspots and fire locations. The active fire locations represent the center of a 1-kilometer pixel that is flagged by the MOD14/MYD14 Fire and Thermal Anomalies Algorithm as containing one or more fires within the pixel.</p>
+
+          <p>The near real-time active fire locations are processed by the <a href='https://earthdata.nasa.gov/data/near-real-time-data' target='_blank'>NASA Land and Atmosphere Near Real-Time Capability for EOS (LANCE)</a> using the standard MODIS Fire and Thermal Anomalies product (MOD14/MYD14). Data older than the past 7 days can be obtained from the <a href='https://earthdata.nasa.gov/data/near-real-time-data/firms/active-fire-data#tab-content-6' target='_blank'>Archive Download Tool</a>. The tool provides near real-time data and, as it becomes available and is replaced with the standard NASA (MCD14ML) fire product.</p>
+
+          <p>More information on active fire data is available from the <a href='https://earthdata.nasa.gov/data/near-real-time-data/firms' target='_blank'>NASA FIRMS website</a>.</p>
+
+          <p class="credits"><strong>Citation:</strong>NASA FIRMS. “NASA Fire Information for Resource Management System (FIRMS).” Accessed on [date]. <a href="earthdata.nasa.gov/data/near-real-time-data/firms" target="_blank">earthdata.nasa.gov/data/near-real-time-data/firms</a>.</p>
+
+          <p class='credits'><strong>Suggested citation for data as displayed on GFW:</strong> “NASA Active Fires.” NASA FIRMS. Accessed through Global Forest Watch on [date]. <a href='http://www.globalforestwatch.org' target='_blank'>www.globalforestwatch.org</a>.</p>
+
+          <p class='read_more hidden'><em>Learn more or download data at the <a href='https://earthdata.nasa.gov/data/near-real-time-data/firms' target='_blank'>NASA FIRMS website</a></em></p>
+        </div>
+      </div>      
+        
+          </div>
+        </article>
+      </div>
+      <div>
+        <input id="dataForestChange-2" name="accordion-dataSuitability" type="checkbox" />
+        <div class="source_header last">
+          <label for="dataForestChange-2" class="source_title">
+              BURN SCARS
+          </label>
+          <i class="expand_arrow"></i>
+          <em class="source_description"></em>
+        </div>  
+        <article class="ac-auto">
+          <div class="source_body">
+           
+           <div class='source_body'>
+
+        <div class='source_table'>
+          <dl class='sources_row'>
+            <dt>Function</dt>
+            <dd>Provides an estimate of the extent of land burned by fire</dd>
+          </dl>
+          <dl class='sources_row even'>
+            <dt>Resolution/scale</dt>
+            <dd>30 meters</dd>
+          </dl>
+          <dl class='sources_row'>
+            <dt>Geographic coverage</dt>
+            <dd>Sumatra, Indonesia</dd>
+          </dl>
+          <dl class='sources_row even'>
+            <dt>Source data</dt>
+            <dd>Landsat</dd>
+          </dl>
+          <dl class='sources_row even'>
+            <dt>Date of content</dt>
+            <dd>May 1, 2014 to present</dd>
+          </dl>
+          <dl class='sources_row'>
+            <dt>Cautions</dt>
+            <dd>
+              This data layer is provided as a beta analysis product and should be used for visual purposes only.
+            </dd>
+          </dl>
+        </div>
+
+        <div class='source_summary'>
+          <h3 class='overview_title'>Overview</h3>
+
+          <p>
+            This data layer provides the extent of burn land area, or burn scars, mapped from Landsat satellite imagery, using Google Earth Engine. This analysis was conducted by the Data Lab team (Robin Kraft, Dan Hammer, and Aaron Steele) of the World Resources Institute using Google Earth Engine. This analysis will be updated regularly as additional Landsat imagery becomes available.
+          </p>
+
+          <p>
+          This analysis was conducted as an open source project; code is available here:<br>
+          <a href="https://gist.github.com/robinkraft/077c14d35a50a8b31581" target="_blank">https://gist.github.com/robinkraft/077c14d35a50a8b31581</a>
+          </p>
+
+          <p class="credits"><strong>Credit:</strong>Elvidge, Christopher D. and Kimberly Baugh. 2014. Burn scar mapping from Landsat 8. Presentation at APAN meeting in Bandung, Indonesia. January 20.</p>
+
+          <p class='credits'><strong>URL:</strong><a href='http://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf' target='_blank'>http://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf</a>.</p>
+
+        </div>
+      </div>      
+        
+          </div>
+        </article>
+      </div>
+      <div>
+        <input id="dataForestChange-3" name="accordion-dataSuitability" type="checkbox" />
+        <div class="source_header last">
+          <label for="dataForestChange-3" class="source_title">
+              NOAA-18 FIRES - COMING SOON
+          </label>
+          <i class="expand_arrow"></i>
+          <em class="source_description"></em>
+        </div>  
+        <article class="ac-auto">
+          
+          <div class="source_body">
+          <br>
+            <span class="coming-soon">Coming Soon</span>
+          <br>
+          </div>
+          <div class="source_summary">           
+          </div>
+        </article>
+      </div>
+      
+        
+</section>
+
+

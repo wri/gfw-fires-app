@@ -1,0 +1,64 @@
+.clear
+  clear both
+// blog posting styles
+.blog-post
+  height 250px
+  padding 20px 20px 100px 20px // T R B L
+  border-bottom: 1px solid #ddd
+// main link styles
+#post
+  .post-title a
+    color #292929
+    font-size 24px
+    &:hover
+      text-decoration underline
+
+  // author - date styles
+  .post-authors
+    display block
+    ul li
+      list-style  none
+      float left
+      margin-right 5px
+      &:after
+        content ","
+        color #ccc
+      &:last-child:after, &:first-child:after, &:first-child:after, &:nth-last-child(2):after, &:nth-last-child(3):after
+        content ""
+
+
+      &:first-child a, &:last-child a, &:nth-last-child(3) a
+        color #000
+        text-decoration none
+        cursor text
+      &:last-child:before
+        content "- "
+      a
+        color #e7810a
+
+
+  .post-snippet
+      img
+        width 20%
+        float right
+        border 3px solid #ffffff
+        box-shadow 1px 1px 10px rgba(0,0,0,.35)
+        margin-left 50px
+
+
+  .post-read-more
+    float: left;
+    display: inline-flex;
+    a
+      color #4d4d4d !important
+      font-weight bold
+      text-transform capitalize
+      display inline
+      float left
+    .icon
+      float right
+      display block
+      background-image url("../images/read-more-icon.png")
+      margin-left 10px
+      width 19px
+      height 20px
