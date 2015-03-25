@@ -3,5 +3,5 @@ www/node_modules
 .idea
 *.sublime-workspace
 *.sublime-project
-
+node_modules
 /src/app/proxy
