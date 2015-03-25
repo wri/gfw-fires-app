@@ -15,8 +15,9 @@ define([],
             //validViews: ["home", "blog", "map", "about", "data"],
             validViews: ["home", "map", "about", "story"],
 
-            emailSubscribeUrl: "https://gfw-fires.wri.org/subscribe", //For production
-            //emailSubscribeUrl: "http://54.164.126.73/subscribe", 
+            //emailSubscribeUrl: "https://gfw-fires.wri.org/subscribe", //For production
+            emailSubscribeUrl: "http://54.164.126.73/subscribe", 
+	    emailSubscribeUrlPoly: "http://54.164.126.73/subscribe_by_polygon",
 
 
             //knockout stuff
@@ -191,8 +192,9 @@ define([],
                 "location": "",
                 "details": "",
                 "video": ""
-            }
+            },
 
+			alertsSignUpContent: "<p>To sign up for clearance or fire alerts, go to the <a id='map-link-from-signup' class='map-link-from-signup'><strong>Map</strong></a> and select an area to analyze. You can sign up for alerts on that area through the Subscribe button on the analysis report.</p>"
 
         };
 

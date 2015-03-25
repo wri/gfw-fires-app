@@ -1,8 +1,9 @@
 /* global define */
 define([
     "dojo/dom",
-    "dojo/dom-construct"
-], function(dom, domConstruct) {
+    "dojo/dom-construct",
+    "views/map/MapConfig"
+], function(dom, domConstruct, MapConfig) {
 
     return {
 
@@ -32,6 +33,30 @@ define([
             } else {
                 return false;
             }
+	},
+
+        /**
+        * @param {object} graphicsLayer - Esri Graphics Layer to search
+        * @param {object} fieldName - Field Name to use to find the next available id
+        * @return {number} Next Available Unique Id for the graphics in the graphics layer
+        * Field Name Based on Config File, Helper for Uploader.js and DrawTool.js
+        */ 
+        nextAvailableGraphicId: function (graphicsLayer, fieldName) {
+            var graphics = graphicsLayer.graphics,
+                length = graphics.length,
+                index = 0,
+                id = 0,
+                temp;
+
+            for(index; index < length; index += 1) {
+                if (graphics[index].geometry.type !== "point") {
+                    temp = parseInt(graphics[index].attributes[fieldName]);
+                    if (!isNaN(temp)) {
+                        id = (temp > id) ? temp : id;
+                    }
+                }
+            }
+            return id + 1;
         }
 
     };

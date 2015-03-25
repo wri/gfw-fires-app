@@ -16,6 +16,7 @@ define([
 
     // Simple Text Labels
     vm.locatorContainerHeader = ko.observable(MapConfig.text.locatorContainerHeader);
+    vm.alertToolboxHeader = ko.observable(MapConfig.text.alertToolboxHeader);
     vm.locatorSearchLabel = ko.observable(MapConfig.text.locatorSearchLabel);
     vm.dmsSearch = ko.observable(MapConfig.text.dmsSearch);
     vm.latLongSearch = ko.observable(MapConfig.text.latLongSearch);
@@ -70,6 +71,10 @@ define([
     vm.twitterConversationsCheckbox = ko.observable(MapConfig.text.twitterConversationsCheckbox);
     vm.fireStoriesCheckbox = ko.observable(MapConfig.text.fireStoriesCheckbox);
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
+    vm.alertErrorMessages = ko.observableArray([]);
+    vm.showAlertErrorMessages = ko.observable(false);
+    vm.customFeatureName = ko.observable("Drawn/Uploaded Feature");
+    vm.customFeaturesArray = ko.observableArray([]);
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
     vm.getDates = ko.observable(MapConfig.text.getDates);
     vm.windyLayerCheckbox = ko.observable(MapConfig.text.windyLayerCheckbox);
@@ -386,15 +391,18 @@ define([
 
     vm.islands = ko.observableArray([]);
     vm.provinces = ko.observableArray([]);
+    vm.uploadInstructions = ko.observableArray(MapConfig.uploadOptions.instructions);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
     vm.showReportOptions = ko.observable(false);
+    vm.showAlertContainer = ko.observable(false);
     vm.showReportOptionsNOAA = ko.observable(false);
     vm.showActiveFiresButtons = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showReportOptionsAIR = ko.observable(false);
+    vm.showUploadTools = ko.observable(false);
     vm.showReportOptionsDigitalGlobe = ko.observable(false);
 
     vm.showReportOptionsDigitalGlobeFootprints = ko.observable(true);

@@ -6,6 +6,9 @@ define([
     "dojo/query",
     "dojo/Deferred",
     "dojo/promise/all",
+    "dojo/request/xhr",
+    "dojo/dom-attr",
+    "dojo/keys",
     "esri/layers/FeatureLayer",
     "esri/graphic",
     "esri/request",
@@ -16,7 +19,9 @@ define([
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
     "esri/symbols/PictureMarkerSymbol",
+    "main/Config",
     "views/map/MapConfig",
+
     "views/map/MapModel",
     "views/map/LayerController",
     "esri/tasks/IdentifyTask",
@@ -24,9 +29,9 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/geometry/Circle"
-], function(dom, arrayUtils, on, dojoQuery, Deferred, all, FeatureLayer, Graphic, esriRequest,
-    ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, Point, webMercatorUtils, 
-    PictureSymbol, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
+], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, keys, FeatureLayer, Graphic, esriRequest,
+    ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, Point, webMercatorUtils,
+    PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
     return {
@@ -34,7 +39,7 @@ define([
             _map = map;
 
             // Set Global Formatting Functions up here as well
-            window.PopupDateFormat = function (value, key, attributes) {
+            window.PopupDateFormat = function(value, key, attributes) {
                 // Date should be in ms format
                 return new Date(value);
             };
@@ -108,95 +113,333 @@ define([
         },
 
         mapClick: function(event) {
-            var map = _map;
-            forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id),
-            conservationLayers = map.getLayer(MapConfig.conservationLayers.id),
-            visLayers = [],
-            isVisLayers = forestUseLayer.visibleLayers.indexOf(10) > -1 || conservationLayers.visibleLayers.indexOf(25) > -1 || forestUseLayer.visibleLayers.indexOf(26) > -1 || forestUseLayer.visibleLayers.indexOf(27) > -1 || forestUseLayer.visibleLayers.indexOf(28) > -1 || forestUseLayer.visibleLayers.indexOf(32) > -1,
-            visible = forestUseLayer.visible;
 
-            arrayUtils.forEach(forestUseLayer.visibleLayers, function(lid) {
-                visLayers.push(lid);
-            });
-            arrayUtils.forEach(conservationLayers.visibleLayers, function(lid) {
-                visLayers.push(lid);
-            });
+            var map = _map,
+                _self = this,
+                mapPoint = event.mapPoint;
 
-            // if (conservationLayers.visible) {
-            //     visLayers.push(25);
-            // }
+            var deferreds = [],
+                features = [];
 
-            Array.prototype.move = function(from, to) {
-                this.splice(to, 0, this.splice(from, 1)[0]);
-            };
-            visLayers.move(visLayers.indexOf(27), 0);
+            map.infoWindow.clearFeatures();
 
-            if (isVisLayers) {
+            overlaysLayer = map.getLayer(MapConfig.overlaysLayer.id);
+            if (overlaysLayer) {
+                if (overlaysLayer.visible) {
 
-                var identifyTask = new IdentifyTask(forestUseLayer.url);
+                    deferreds.push(_self.identifyOverlays(mapPoint));
+                }
+            }
 
-                identifyParams = new IdentifyParameters();
-                identifyParams.tolerance = 3;
-                identifyParams.returnGeometry = true;
-                identifyParams.layerIds = visLayers;
-                identifyParams.width = map.width;
-                identifyParams.height = map.height;
-                identifyParams.geometry = event.mapPoint;
-                identifyParams.mapExtent = map.extent;
-                identifyTask.execute(identifyParams, function(response) {
-                    var node = response[0];
-                    if (node) {
-                        content = dom.byId("close-icon") === undefined ? "<div id='closePopup' class='close-icon'></div><table id='infoWindowTable'>" : "<table id='infoWindowTable'>";
+            forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id);
+            if (forestUseLayer) {
+                if (forestUseLayer.visible) {
+                    deferreds.push(_self.identifyForestUse(mapPoint));
+                }
+            }
 
-                        if (node.layerId == 25) {
-                            content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
-                            content += "<tr><td>Local Name</td><td>" + node.feature.attributes.ORIG_NAME + "</td></tr>";
-                            content += "<tr><td>Legal Designation</td><td>" + node.feature.attributes.DESIG_ENG + "</td></tr>";
-                            content += "<tr><td>WDPA ID</td><td>" + node.feature.attributes.WDPAID + "</td></tr>";
-                        } else if (node.layerId == 27) {
-                            content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
-                            content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
-                            content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                            //content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
-                            content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
-                            content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
-                            content += "<tr><td>Certificate ID</td><td>" + node.feature.attributes.Certificat + "</td></tr>";
-                            content += "<tr><td>Certificate Issue Date</td><td>" + node.feature.attributes.Issued + "</td></tr>";
-                            content += "<tr><td>Certificate Expiry Date</td><td>" + node.feature.attributes.Expired + "</td></tr>";
-                            content += "<tr><td>Mill name</td><td>" + node.feature.attributes.Mill + "</td></tr>";
-                            content += "<tr><td>Mill location</td><td>" + node.feature.attributes.Location + "</td></tr>";
-                            content += "<tr><td>Mill capacity (t/hour)</td><td>" + node.feature.attributes.Capacity + "</td></tr>";
-                            content += "<tr><td>Certified CPO (mt)</td><td>" + node.feature.attributes.CPO + "</td></tr>";
-                            content += "<tr><td>Certified PK (mt)</td><td>" + node.feature.attributes.PK + "</td></tr>";
-                            //content += "<tr><td>Certified PKO (mt)</td><td>" + node.feature.attributes.PKO + "</td></tr>";
-                            content += "<tr><td>Estate Suppliers</td><td>" + node.feature.attributes.Estate + "</td></tr>";
-                            content += "<tr><td>Estate Area (ha)</td><td>" + node.feature.attributes.Estate_1 + "</td></tr>";
-                            content += "<tr><td>Outgrower Area (ha)</td><td>" + node.feature.attributes.Outgrowe + "</td></tr>";
-                            content += "<tr><td>Scheme Smallholder Area (ha)</td><td>" + node.feature.attributes.SH + "</td></tr>";
-                            // content += "<tr><td>NPP Area (ha)</td><td>" + node.feature.attributes.NPP_Area + "</td></tr>";
-                            //content += "<tr><td>HCV Area (ha)</td><td>" + node.feature.attributes.HCV_Area + "</td></tr>";
-                        } else {
-                            content += "<tr class='infoName'><td colspan='2'>" + node.feature.attributes.NAME + "</td></tr>";
-                            content += "<tr><td>Concession Type</td><td>" + node.feature.attributes.TYPE + "</td></tr>";
-                            content += "<tr><td>Country</td><td>" + node.feature.attributes.Country + "</td></tr>";
-                            //content += "<tr><td>Group</td><td>" + node.feature.attributes.GROUP_NAME + "</td></tr>";
-                            content += "<tr><td>Certification Status</td><td>" + node.feature.attributes.CERT_STAT + "</td></tr>";
-                            content += "<tr><td>GIS Calculated Area (ha)</td><td>" + node.feature.attributes.AREA_HA + "</td></tr>";
-                        }
-                        content += "<tr><td>Source: </td><td>" + (node.feature.attributes.Source || "N/A") + "</td></tr>";
-                        content += "</table>";
+            conservationLayers = map.getLayer(MapConfig.conservationLayers.id);
+            if (conservationLayers) {
+                if (conservationLayers.visible) {
+                    deferreds.push(_self.identifyConservation(mapPoint));
+                }
+            }
+            console.log(deferreds);
+            if (deferreds.length === 0) {
+                return;
+            }
 
-                        map.infoWindow.setContent(content);
-                        map.infoWindow.show(event.mapPoint);
-                        // on.once(dom.byId("closePopup"), "click", function() {
-                        //     map.infoWindow.hide();
-                        // });
+            all(deferreds).then(function(featureSets) {
+                arrayUtils.forEach(featureSets, function(item) {
+                    switch (item.layer) {
+                        case "Overlays_Layer":
+                            features = features.concat(_self.setOverlaysTemplates(item.features));
+                            break;
+                        case "Forest_Use":
+                            features = features.concat(_self.setForestUseTemplates(item.features));
+                            break;
+                        case "Conservation":
+                            features = features.concat(_self.setConservationTemplates(item.features));
+                            break;
+                            // case "CustomGraphics":
+                            //     // This will only contain a single feature and return a single feature
+                            //     // instead of an array of features
+                            //     features.push(self.setCustomGraphicTemplates(item.feature));
+                            //     break;
+                        default: // Do Nothing
+                            break;
                     }
-                }, function(errback) {
-                    console.dir(errback);
                 });
 
-            }
+                if (features.length > 0) {
+                    map.infoWindow.setFeatures(features);
+                    map.infoWindow.show(mapPoint);
+                }
+
+            });
+
+
+        },
+
+        identifyOverlays: function(mapPoint) {
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(MapConfig.overlaysLayer.url),
+                params = new IdentifyParameters();
+
+
+            params.tolerance = 3;
+            params.maxAllowableOffset = 100; //meters
+            params.returnGeometry = true;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = _map.getLayer(MapConfig.overlaysLayer.id).visibleLayers;
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            identifyTask.execute(params, function(features) {
+                if (features.length > 0) {
+                    deferred.resolve({
+                        layer: MapConfig.overlaysLayer.id,
+                        features: features
+                    });
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(error) {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        identifyForestUse: function(mapPoint) {
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(MapConfig.forestUseLayers.url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 3;
+            params.returnGeometry = true;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = _map.getLayer(MapConfig.forestUseLayers.id).visibleLayers;
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            identifyTask.execute(params, function(features) {
+                if (features.length > 0) {
+                    deferred.resolve({
+                        layer: MapConfig.forestUseLayers.id,
+                        features: features
+                    });
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(error) {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        identifyConservation: function(mapPoint) {
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(MapConfig.conservationLayers.url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 3;
+            params.returnGeometry = true;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = _map.getLayer(MapConfig.conservationLayers.id).visibleLayers;
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            identifyTask.execute(params, function(features) {
+                if (features.length > 0) {
+                    deferred.resolve({
+                        layer: MapConfig.conservationLayers.id,
+                        features: features
+                    });
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(error) {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        setOverlaysTemplates: function(featureObjects) {
+            var template,
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            arrayUtils.forEach(featureObjects, function(item) {
+                if (item.layerId === 1) { // Villages
+                    template = new InfoTemplate("Village: " + item.value,
+                        "<table><tr><td>Subdistrict:</td><td>" + item.feature.attributes.SUBDISTRIC + "</td></tr><tr><td>District:</td><td>" + item.feature.attributes.DISTRICT + "</td></tr><tr style='height:10px;'></tr></table>"
+                    );
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+
+                } else if (item.layerId === 2) { //Subdistricts
+                    template = new InfoTemplate("Subdistrict: " + item.value,
+                        "<table><tr><td>District:</td><td>" + item.feature.attributes.DISTRICT + "</td></tr><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr style='height:10px;'></tr></table>"
+                    );
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+
+                } else if (item.layerId === 3) { //Districts
+                    template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
+                        "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr><tr style='height:10px;'></tr></table>"
+                    );
+                    item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
+
+                } else { //Provinces
+                    template = new InfoTemplate("Province: " + item.value,
+                        "<table><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr><tr style='height:10px;'></tr></table>"
+                    );
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+
+                }
+
+                template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                item.feature.setInfoTemplate(template);
+
+                features.push(item.feature);
+            });
+            return features;
+
+        },
+        setForestUseTemplates: function(featureObjects) {
+            var template,
+                content = '',
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            arrayUtils.forEach(featureObjects, function(item) {
+                // if (item.layerId === 10) { // Logging
+
+                //     content += "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr>";
+                //     content += "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>";
+                //     content += "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>";
+                //     content += "<tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr>";
+                //     content += "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr>";
+                //     content += "</table>";
+
+
+                //     template = new InfoTemplate("<strong>" + item.value + "</strong>",
+                //         content
+                //     );
+
+                //     item.feature.attributes.ALERTS_LABEL = item.value;
+
+                // } else 
+                if (item.layerId === 27) { //RSPO
+
+
+                    content += "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr>";
+                    content += "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>";
+                    content += "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>";
+                    content += "<tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr>";
+                    content += "<tr><td>Certificate ID</td><td>" + item.feature.attributes.Certificat + "</td></tr>";
+                    content += "<tr><td>Certificate Issue Date</td><td>" + item.feature.attributes.Issued + "</td></tr>";
+                    content += "<tr><td>Certificate Expiry Date</td><td>" + item.feature.attributes.Expired + "</td></tr>";
+                    content += "<tr><td>Mill name</td><td>" + item.feature.attributes.Mill + "</td></tr>";
+                    content += "<tr><td>Mill location</td><td>" + item.feature.attributes.Location + "</td></tr>";
+                    content += "<tr><td>Mill capacity (t/hour)</td><td>" + item.feature.attributes.Capacity + "</td></tr>";
+                    content += "<tr><td>Certified CPO (mt)</td><td>" + item.feature.attributes.CPO + "</td></tr>";
+                    content += "<tr><td>Certified PK (mt)</td><td>" + item.feature.attributes.PK + "</td></tr>";
+                    content += "<tr><td>Estate Suppliers</td><td>" + item.feature.attributes.Estate + "</td></tr>";
+                    content += "<tr><td>Estate Area (ha)</td><td>" + item.feature.attributes.Estate_1 + "</td></tr>";
+                    content += "<tr><td>Outgrower Area (ha)</td><td>" + item.feature.attributes.Outgrowe + "</td></tr>";
+                    content += "<tr><td>Scheme Smallholder Area (ha)</td><td>" + item.feature.attributes.SH + "</td></tr>";
+
+                    content += "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>";
+
+                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
+                        content
+                    );
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+
+                } else if (item.layerId === 16) { //Moratorium
+                    //return;
+                    content += "<table><tr><td>Base</td><td>" + item.feature.attributes.Base + "</td></tr>";
+                    content += "<tr><td>AltMode</td><td>" + item.feature.attributes.AltMode + "</td></tr><tr style='height:10px;'></tr></table>";
+
+                    template = new InfoTemplate("<strong>" + item.feature.attributes.Name + "</strong>",
+                        content
+                    );
+
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+                } else { // Logging
+
+                    content += "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr>";
+                    content += "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>";
+                    content += "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>";
+                    content += "<tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr>";
+                    content += "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>";
+
+                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
+                        content
+                    );
+
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+
+                }
+                // else if (item.layerId === 28) { //Wood Fiber 
+                //     template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
+                //         "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
+                //     );
+                //     item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
+
+                // } else if (item.layerId === 32) { //Oil Palm
+                //     template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
+                //         "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
+                //     );
+                //     item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
+
+                // } else { //Moratorium
+                //     template = new InfoTemplate("Province: " + item.value,
+                //         "<table><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
+                //     );
+                //     item.feature.attributes.ALERTS_LABEL = item.value;
+
+                // }
+
+                template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                item.feature.setInfoTemplate(template);
+
+                features.push(item.feature);
+            });
+            return features;
+        },
+        setConservationTemplates: function(featureObjects) {
+
+            var template,
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            arrayUtils.forEach(featureObjects, function(item) {
+
+                template = new InfoTemplate("Protected Areas ",
+                    "<table><tr class='infoName'><td colspan='2'>" + item.feature.attributes.NAME + "</td></tr><tr><td>Local Name</td><td>" + item.feature.attributes.ORIG_NAME + "</td></tr><tr><td>Legal Designation</td><td>" + item.feature.attributes.DESIG_ENG + "</td></tr><tr><td>WDPA ID</td><td>" + item.feature.attributes.WDPAID + "</td></tr><tr style='height:10px;'></tr></table>"
+                );
+
+                item.feature.attributes.ALERTS_LABEL = item.value;
+
+                template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                item.feature.setInfoTemplate(template);
+                features.push(item.feature);
+            });
+
+
+            return features;
         },
 
         getTomnodInfoWindow: function(response) {
@@ -499,10 +742,10 @@ define([
             });
         },
 
-        getLandsatInfoWindow: function (evt) {
+        getLandsatInfoWindow: function(evt) {
 
             var landSatConfig = MapConfig.landsat8;
-                
+
             // This is returning malformed JSON throwing illegal syntax error
             var imageParams = new ImageServiceIdentifyParameters(),
                 imageTask = new ImageServiceIdentifyTask(landSatConfig.url);
@@ -512,31 +755,31 @@ define([
             imageParams.f = 'json';
             imageParams.returnGeometry = true;
             imageParams.renderingRule = new RasterFunction({
-                "rasterFunction":"Stretch",
+                "rasterFunction": "Stretch",
                 "rasterFunctionArguments": {
-                    "StretchType":6,
-                    "DRA":true,
-                    "Gamma":[1.4,1.4,1.4],
-                    "UseGamma":true,
-                    "MinPercent":0.5,
-                    "MaxPercent":0.5
+                    "StretchType": 6,
+                    "DRA": true,
+                    "Gamma": [1.4, 1.4, 1.4],
+                    "UseGamma": true,
+                    "MinPercent": 0.5,
+                    "MaxPercent": 0.5
                 },
-                "outputPixelType":"U8"
+                "outputPixelType": "U8"
             });
 
             imageParams.pixelSizeX = 100;
             imageParams.pixelSizeY = 100;
 
-            imageTask.execute(imageParams, function (res) {
-                arrayUtils.forEach(res.catalogItems.features, function (feature) {
+            imageTask.execute(imageParams, function(res) {
+                arrayUtils.forEach(res.catalogItems.features, function(feature) {
                     feature.infoTemplate = new InfoTemplate(
-                        'Acquisition Date', 
+                        'Acquisition Date',
                         '<tr><td>${AcquisitionDate: PopupDateFormat}</td></td>'
                     );
                 });
                 _map.infoWindow.setFeatures(res.catalogItems.features);
                 _map.infoWindow.show(evt.mapPoint);
-            }, function (err) {
+            }, function(err) {
                 console.dir(err);
             });
 
@@ -1038,6 +1281,271 @@ define([
             html += "</div>";
 
             return html;
+        },
+
+        selectUploadOrDrawnGraphics: function(evt) {
+
+            var graphic = evt.graphic,
+                uniqueIdField = MapConfig.defaultGraphicsLayerUniqueId,
+                labelField = MapConfig.defaultGraphicsLayerLabel,
+                _self = this,
+                content,
+                handle,
+                title;
+
+            // Stop the event from propogating to prevent info window from closing immediately
+            // by some other function
+            evt.stopPropagation();
+
+            title = "<strong>Drawn/Uploaded Feature</strong>";
+            content = "Name: <input id='editTitle' style='width:165px;' class='editshow' placeholder='Type a new name and hit enter'/>" + "<br/>" +
+                "<div id='deleteCustomGraphic' class='deleteGraphicLink'>Remove</div>" +
+                "<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+
+            var whereInArray = MapModel.vm.customFeaturesArray.indexOf(graphic);
+
+
+            // if (MapModel.vm.customFeaturesArray()[0].attributes.ALERTS_LABEL == "Custom Drawn Feature - 1");
+            _map.infoWindow.setTitle(MapModel.vm.customFeaturesArray()[whereInArray].attributes.ALERTS_LABEL);
+            //_map.infoWindow.setTitle(title);
+            _map.infoWindow.setContent(content);
+            _map.infoWindow.show(evt.mapPoint);
+
+            // on(dom.byId('editTitle'), "focus", function(evt) {
+            //     console.log("edit title fired");
+            //     domAttr.set(dom.byId('editPtTitle'), 'value', title);
+            // });
+            on(dom.byId('editTitle'), "keypress", function(evt) {
+
+                var key = evt.keyCode;
+                if (key === keys.ENTER) {
+
+                    var updatedFeature = MapModel.vm.customFeaturesArray()[(graphic.attributes.UNIQUE_GRAPHIC_ID - 1)];
+                    updatedFeature.attributes.ALERTS_LABEL = newtitle;
+                    var newtitle = dom.byId('editTitle').value;
+
+                    _map.infoWindow.setTitle("<strong>" + newtitle + "</strong>");
+                    graphic.attributes.ALERTS_LABEL = newtitle;
+                }
+            });
+
+            handle = on.once(dom.byId('deleteCustomGraphic'), 'click', function() {
+                LayerController.removeGraphicWithId(graphic.attributes[uniqueIdField], uniqueIdField);
+                _map.infoWindow.hide();
+            });
+
+            handleSubscribe = on.once(dom.byId('uploadCustomGraphic'), 'click', function() {
+                //LayerController.removeGraphicWithId(graphic.attributes[uniqueIdField], uniqueIdField);
+                var geom = graphic;
+
+                _self.subscribeToAlerts(geom);
+                _map.infoWindow.hide();
+            });
+
+            on.once(_map.infoWindow, "hide", function() {
+                handle.remove();
+                handleSubscribe.remove();
+            });
+
+
+        },
+
+        subscribeToAlerts: function(geom) {
+
+            var _self = this;
+            require([
+                "dojo/on",
+                "dijit/Dialog",
+                "dojo/dom-construct",
+            ], function(on, Dialog, domConstruct) {
+                var dialog = new Dialog({
+                        id: "subscribeDialogWindow",
+                        title: 'Subscribe to Alerts!',
+                        refocus: false,
+                        style: 'width: 300px;'
+                    }),
+                    linker,
+                    content = "<div class='subscription-content'>" +
+                    "<p>Enter your email below to receive fire alerts</p>" +
+                    "<div class='email-container'><input id='userEmail' type='text' placeholder='Email'/></div>" +
+                    "<p>Enter your phone number below to receive SMS alerts</p>" +
+                    "<div class='phone-container'><input id='userPhone' type='tel' placeholder='Phone Number'/></div>" +
+                    //"<span id='valid-msg' class='hide'>✓ Valid</span>" +
+                    //"<span id='error-msg' class='hide'>Invalid number</span>" +
+                    "<div class='submit-container'><button id='subscribe-now'>Subscribe</button></div>" +
+                    "<div id='form-response' class='message-container'></div>" +
+                    "</div>";
+                content += "<input type='email' name='verify_email' id='verifyEmailForAlertsInMap' placeholder='Verify Email(Leave blank if your human)'/>";
+
+                dialog.on('hide', cleanup);
+
+                dialog.setContent(content);
+                dialog.show();
+
+                // var errorMsg = $("#error-msg"),
+                //     validMsg = $("#valid-msg");
+                telInput = $("#userPhone");
+                telInput.intlTelInput({
+                    validationScript: './app/libs/isValidNumber.js'
+                    //utilsScript: "./app/libs/libphonenumber/build/utils.js"
+                });
+
+                // telInput.blur(function() {
+                //     debugger;
+                //     if ($.trim(telInput.val())) {
+                //         if (telInput.intlTelInput("isValidNumber")) {
+                //             validMsg.removeClass("hide");
+                //         } else {
+                //             telInput.addClass("error");
+                //             errorMsg.removeClass("hide");
+                //             validMsg.addClass("hide");
+                //         }
+                //     }
+                // });
+
+                function cleanup() {
+                    linker.remove();
+                    dialog.destroy();
+
+                    telInput.intlTelInput('destroy');
+                }
+
+                linker = on(dom.byId("subscribe-now"), 'click', function() {
+                    require([
+                        "dojox/validate/web", "dojo/dom-style"
+                    ], function(validate, domStyle) {
+                        honeyPotValue = dom.byId("verifyEmailForAlertsInMap").value;
+                        if (honeyPotValue !== '') {
+                            dialog.destroy();
+                            return;
+                        }
+                        emailValue = dom.byId("userEmail").value;
+                        phoneValue = dom.byId("userPhone").value;
+
+                        if (!emailValue && !phoneValue) {
+                            domStyle.set("userPhone", "border", "1px solid red");
+                            domStyle.set("userEmail", "border", "1px solid red");
+                            alert("You must enter an email or phone number");
+                            return;
+                        }
+                        if (emailValue) {
+
+                            if (!validate.isEmailAddress(emailValue)) {
+                                domStyle.set("userEmail", "border", "1px solid red");
+                                alert("You must enter a valid email address!");
+                                return;
+                            }
+                            domStyle.set("userEmail", "border", "1px solid gray");
+                            dom.byId("subscribe-now").innerHTML = "Submitting...";
+
+                            _self.postSubscribeRequest(geom, emailValue, "email", dialog);
+                        }
+
+                        if (phoneValue) {
+                            // var test = validate.isNumberFormat(phoneValue, {
+                            //     format: "+# (###) ###-####"
+                            // });
+                            //if (!test) {
+                            if (phoneValue.length < 17) {
+                                domStyle.set("userPhone", "border", "1px solid red");
+                                alert("Please reformat your phone number with the country code first! Such as: +1 (222) 333-4444");
+                                return;
+                            }
+                            domStyle.set("userPhone", "border", "1px solid gray");
+                            dom.byId("subscribe-now").innerHTML = "Submitting...";
+                            _self.postSubscribeRequest(geom, phoneValue, "sms", dialog);
+                        }
+                        //dialog.destroy();
+                    });
+                });
+            });
+        },
+
+        postSubscribeRequest: function(graphic, address, type, dialog) {
+            var _self = this;
+
+            if (type === "sms") {
+                address = address.replace(/\D/g, '');
+            }
+
+            var subscribeUrl = MainConfig.emailSubscribeUrlPoly,
+                deferred = new Deferred(),
+                params = {
+                    'features': JSON.stringify({
+                        "rings": graphic.geometry.rings,
+                        "spatialReference": graphic.geometry.spatialReference
+                    }),
+                    'msg_addr': address,
+                    'msg_type': type,
+                    'area_name': graphic.attributes.ALERTS_LABEL
+                },
+                res;
+
+            xhr(subscribeUrl, {
+                handleAs: "json",
+                method: "POST",
+                data: params
+            }).then(function(res) {
+                //dialog.destroy();
+                if (emailValue && phoneValue) {
+                    dialog.setContent("<p>You have successfully subscribed, you should start receiving Email alerts as they come in for your area of interest.</p><p>You have successfully subscribed, you should start receiving SMS alerts as they come in for your area of interest.</p>");
+                } else if (emailValue && !phoneValue) {
+                    dialog.setContent("<p>You have successfully subscribed, you should start receiving Email alerts as they come in for your area of interest.</p>");
+                } else {
+                    dialog.setContent("<p>You have successfully subscribed, you should start  receiving SMS alerts as they come in for your area of interest.</p>");
+                }
+                // if (type === "email") {
+                //     //alert("You have successfully subscribed, you should star receiving Email alerts as they come in for your area of interest.");
+                //     dialog.setContent("<p>You have successfully subscribed, you should start receiving Email alerts as they come in for your area of interest.</p>")
+                // } else {
+                //     var newContent = dialog.content;
+                //     if (!emailValue) {
+                //         dialog.setContent("<p>You have successfully subscribed, you should start SMS receiving alerts as they come in for your area of interest.</p>");
+                //     } else {
+                //         newContent = "<p>You have successfully subscribed, you should start receiving Email alerts as they come in for your area of interest.</p><p>You have successfully subscribed, you should start SMS receiving alerts as they come in for your area of interest.</p>";
+                //         dialog.setContent(newContent);
+                //     }
+                //     //alert("You have successfully subscribed, you should start SMS receiving alerts as they come in for your area of interest.");
+                // }
+                deferred.resolve(true);
+
+            }, function(err) {
+                alert("There was an error subsrcribing at this time. " + err.message);
+                dialog.destroy();
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        setupInfowindowListeners: function() {
+            var handle,
+                _self = this;
+
+            on(map.infoWindow, 'selection-change', function() {
+                setTimeout(function() {
+                    if (dom.byId('uploadCustomGraphic')) {
+                        if (handle) {
+                            handle.remove();
+                        }
+
+                        handle = on(dom.byId('uploadCustomGraphic'), 'click', function() {
+                            var index = map.infoWindow.selectedIndex;
+
+                            var feat = map.infoWindow.features[index];
+                            //feat.attributes.ALERTS_LABEL = item.value;
+                            _self.subscribeToAlerts(feat);
+                        });
+
+                    }
+                }, 0);
+            });
+
+            on(map.infoWindow, 'hide', function() {
+                if (handle) {
+                    handle.remove();
+                }
+            });
         }
 
     };

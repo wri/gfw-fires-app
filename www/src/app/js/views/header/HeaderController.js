@@ -204,7 +204,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
         //listen to key
 
-        //trigger event 
+        //trigger event
 
 
 

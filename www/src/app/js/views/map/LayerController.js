@@ -915,6 +915,28 @@ define([
 
         },
 
+	removeGraphicWithId: function(uniqueId, uniqueIdField) {
+            var graphics = _map.graphics.graphics,
+                graphicToRemove;
+
+            arrayUtils.some(graphics, function(graphic) {
+                if (graphic.attributes[uniqueIdField] === uniqueId) {
+                    graphicToRemove = graphic;
+                    return true;
+                }
+                return false;
+            });
+
+            if (graphicToRemove) {
+
+                var vmGraphic = MapModel.vm.customFeaturesArray.indexOf(graphicToRemove);
+                MapModel.vm.customFeaturesArray.remove(graphicToRemove);
+                _map.graphics.remove(graphicToRemove);
+
+
+            }
+
+        },
         updateLegend: function(layer, title) {
 
         }

@@ -50,7 +50,7 @@ baseRed = #e7002f
 	padding 0
 	border-radius(0)
 
-.locator-widget-button, .basemap-gallery-button, .share-button, .print-button
+.locator-widget-button, .basemap-gallery-button, .share-button, .print-button, .alert-button
 	padding 1px
 	border-radius(5px)
 	position absolute
@@ -78,7 +78,7 @@ baseRed = #e7002f
 	margin-bottom 2px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
-#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover
+#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover, .alert-button:hover
 	background-color #EEE !important
 
 .basemap-gallery-button, .HomeButton .home, .locator-widget-button
@@ -153,11 +153,27 @@ baseRed = #e7002f
 	background-position 0 -34px
 	top 170px
 	border-width 0
+.alert-button
+	background-image url('../images/alert_symbolA.png')
+	background-repeat no-repeat 
+	background-position -1px -35px
+	//top 170px
+	border-width 0
+	
+.alert-button:hover
+	background-position -1px -1px
 
 .basemap-linker
 	top 170px
+.alert-linker
+	top 290px
+	
+.map-alert-container	
+	width 250px
+	height auto
+	top 245px
 
-.basemap-gallery-container, .locator-widget-container, .map-share-container
+.basemap-gallery-container, .locator-widget-container, .map-share-container, .map-alert-container
 	background-color white
 	border-radius(5px)
 	position absolute
@@ -180,6 +196,36 @@ baseRed = #e7002f
 	cursor pointer
 	height 32px
 	width 32px
+.alert-tools
+	text-align center
+	margin 5px 0 10px
+
+.alert-tools-buttons
+	background-color #444
+	display inline-block
+	text-align center
+	border-radius 5px
+	font-weight bold
+	cursor pointer
+	padding 3px 0
+	margin 0 5px
+	color white
+	width 100px
+	
+.alert-tools-buttons:hover
+	background-color baseRed
+	
+.upload-tools .upload-instructions li
+	margin-left 10px
+	list-style disc
+	font-size 12px
+	
+.upload-tools
+	margin 0 10px 10px
+	
+.uploadFileLabel
+	display inline-block
+	margin-top 8px
 
 .basemap-gallery-container
 	overflow-y auto
@@ -246,6 +292,90 @@ baseRed = #e7002f
 	tr:nth-child(even) {background: #FFF}
 	tr:nth-child(odd) {background: #F0F0F0 }
 	
+#verifyEmailForAlertsInMap {
+	font-size 12px
+	display none
+}
+
+.email-container, .submit-container, .message-container, .phone-container
+	text-align center
+	margin 10px 0
+	
+ #userEmail
+	border 1px solid gray
+	border-radius 5px
+	-moz-border-radius 5px
+	-webkit-border-radius 5px
+	line-height 26px
+	padding-left 5px
+	font-size 14px
+	height 26px
+	width 240px
+	outline 0
+
+.hide
+	display none
+
+#userPhone
+	border 1px solid gray
+	border-radius 5px
+	-moz-border-radius 5px
+	-webkit-border-radius 5px
+	line-height 26px
+	padding-left 5px
+	font-size 14px
+	height 26px
+	width 240px
+	outline 0
+	padding-left: 40px;
+	
+.submit-container
+	text-align center
+	margin 10px 0
+	
+.deleteGraphicLink
+	margin-top 20px
+	cursor pointer
+	font-weight bold
+	display inline-block
+	border 1px solid white
+	background baseRed
+	color white
+	border-radius 5px
+	font-size 14px
+	padding 5px
+	
+.uploadCustomGraphic
+	position absolute !important
+	margin-top -29px
+	font-weight bold
+	cursor pointer
+	border 1px solid white
+	background baseRed
+	color white
+	border-radius 5px
+	right 10px
+	font-size 14px
+	padding 5px
+	
+.uploadCustomGraphic:hover, .deleteGraphicLink:hover
+	color black
+
+#subscribe-now
+	border 1px solid white
+	background baseRed
+	color white
+	border-radius 5px
+	padding 5px
+	font-size 16px
+	cursor pointer
+	outline 0
+	margin-top 5px
+	font-weight bold
+
+#subscribe-now:hover, #subscribe-now:active
+	background baseRed
+	color black
 
 /*.imageryTable tr
 	border-left: 1px solid transparent;*/
@@ -382,6 +512,13 @@ table.imageryTable thead, table.imageryTable tbody
 
 .print-button.loading
 	background url('../images/loader.gif') no-repeat center white
+.alert-button
+	background-color white
+	text-align center
+	line-height 30px
+	font-size 24px
+	color #f0ab00
+	top 290px
 
 .locator-line-splitter
 	text-align center
@@ -877,6 +1014,7 @@ div.report-options-section > table
 .map-view-print .basemap-gallery-button,
 .map-view-print .share-button,
 .map-view-print .print-button,
+.map-view-print .alert-button,
 .map-view-print .simpleGeocoder,
 .map-view-print .esriSimpleSlider
 	display none !important

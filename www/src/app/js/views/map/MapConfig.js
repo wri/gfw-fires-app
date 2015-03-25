@@ -37,6 +37,18 @@ define({
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/GFWFiresPrintMap/GPServer/Export%20Web%20Map',
         template: 'GFWFires'
     },
+    uploadOptions: {
+        url: "http://www.arcgis.com/sharing/rest/content/features/generate",
+        instructions: [
+            "Select a zip file(.zip) containing a shapefile(.shp,.dbf,.prj) from your local file system.",
+            "The shapefile must be in Geographic Coordinate System (WGS84).",
+            "The shapefile must be of POLYGON geometry type.",
+            "The shapefile must not exceed 1 Megabyte."
+        ]
+    },
+
+    defaultGraphicsLayerUniqueId: "UNIQUE_GRAPHIC_ID",
+    defaultGraphicsLayerLabel: "ALERTS_LABEL",
 
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
@@ -174,7 +186,10 @@ define({
 
     overlaysLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer",
-        id: "Overlays_Layer"
+        id: "Overlays_Layer",
+        infoTemplate: {
+            content: "<table><tr><td>Name:</td><td>Overlays ${OBJECTID}</td></tr></table>"
+        }
     },
 
     primaryForestsLayer: {
@@ -397,6 +412,7 @@ define({
     },
 
     text: {
+	alertToolboxHeader: "Draw/Upload for Alerts",
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",
         dmsSearch: "Degrees/Minutes/Seconds",

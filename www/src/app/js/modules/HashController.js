@@ -101,7 +101,7 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             var _currentState = lang.clone(currentState);
 
             lang.mixin(_currentState, updateState);
-            //debugger;
+
             require(["views/header/HeaderModel", "views/footer/FooterModel"], function(HeaderModel, FooterModel) {
                 FooterModel.vm.appState(_currentState);
                 HeaderModel.vm.appState(_currentState);
@@ -115,9 +115,10 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             console.log(newHashStr);
             hash(newHashStr);
             /*var
-
+    
 
             hash()*/
+
 
         };
 
@@ -136,7 +137,9 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
             switch (newView) {
                 case "home":
                     require(["views/home/HomeController"], function(HomeController) {
+
                         HomeController.init(viewObj);
+
                     });
                     break;
 

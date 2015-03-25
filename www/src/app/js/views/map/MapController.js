@@ -56,6 +56,8 @@ define([
     "views/map/DigitalGlobeTiledLayer",
     "views/map/DigitalGlobeServiceLayer",
     "views/map/BurnScarTiledLayer",
+    "views/map/Uploader",
+    "views/map/DrawTool",
     "modules/HashController",
     "esri/layers/GraphicsLayer",
     "esri/layers/ImageServiceParameters",
@@ -65,7 +67,7 @@ define([
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
+    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, Uploader, DrawTool, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
 
     var o = {},
         initialized = false,
@@ -243,9 +245,14 @@ define([
             WindyController.setMap(o.map);
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
+	    // Set the map for the upload tool so it has access to map properties
+            Uploader.setMap(o.map);
+            // Init the draw tool with the map so it can bind to and work with the map
+            DrawTool.init(map);
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
+	    Finder.setupInfowindowListeners();
 
             // Hack to get the correct extent set on load, this can be removed
             // when the hash controller workflow is corrected
@@ -522,6 +529,9 @@ define([
                 MapModel.set('showShareContainer', false);
             }
 
+	    if (MapModel.get('showAlertContainer')) {
+                MapModel.set('showAlertContainer', false);
+            }
             MapModel.set('showLocatorWidgets', !MapModel.get('showLocatorWidgets'));
         };
 
@@ -533,6 +543,10 @@ define([
 
             if (MapModel.get('showShareContainer')) {
                 MapModel.set('showShareContainer', false);
+	    }
+
+            if (MapModel.get('showAlertContainer')) {
+                MapModel.set('showAlertContainer', false);
             }
 
             MapModel.set('showBasemapGallery', !MapModel.get('showBasemapGallery'));
@@ -551,9 +565,40 @@ define([
             MapModel.set('showShareContainer', !MapModel.get('showShareContainer'));
         };
 
+	var toggleAlertsContainer = function() {
+
+            if (MapModel.get('showLocatorWidgets')) {
+                MapModel.set('showLocatorWidgets', false);
+            }
+            if (MapModel.get('showBasemapGallery')) {
+                MapModel.set('showBasemapGallery', false);
+            }
+            if (MapModel.get('showShareContainer')) {
+                MapModel.set('showShareContainer', false);
+            }
+
+            MapModel.set('showAlertContainer', !MapModel.get('showAlertContainer'));
+
+        };
+
+        var toggleUploadTools = function() {
+
+            MapModel.set('showUploadTools', !MapModel.get('showUploadTools'));
+            if (MapModel.get('showUploadTools')) {
+                $("#uploadFeatures").css("background-color", "#e7002f");
+            } else {
+                $("#uploadFeatures").css("background-color", "#444");
+            }
+            if (DrawTool.isActive()) {
+                DrawTool.deactivateToolbar();
+            }
+        };
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
         on(dom.byId("share-button"), "click", toggleShareContainer);
+	on(dom.byId("alert-button"), "click", toggleAlertsContainer);
+        on(dom.byId("uploadFeatures"), "click", toggleUploadTools);
+        on(dom.byId("uploadForm"), "change", Uploader.beginUpload.bind(Uploader));
 
         this.initTransparency();
     };
@@ -597,6 +642,11 @@ define([
             Finder.selectTomnodFeatures(evt);
         });
 
+	on(o.map.graphics, "click", function(evt) {
+            if (evt.graphic) {
+                Finder.selectUploadOrDrawnGraphics(evt);
+            }
+        });
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
             LayerController.updateFiresLayer(true);
             if (evt) {

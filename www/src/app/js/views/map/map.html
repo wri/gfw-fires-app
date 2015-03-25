@@ -229,7 +229,7 @@
       </div>
       <div id="imagery-panel" class="accordion-panel">
         <div class="checkbox-container">
-          <div id="landsat-image-checkbox"></div>
+          <div id="landsat-image-checkbox"> </div>
           <label for="landsat-image-checkbox" data-bind="text: landsatImageCheckbox"></label><span data-bind="text: landsatImageSubLabel" class="checkbox-sub-label"></span>
         </div>
         <div class="checkbox-container">
@@ -329,6 +329,30 @@
       <div id="basemap-gallery-button" title="Basemaps/Overlays" class="basemap-gallery-button"></div>
       <div id="share-button" title="Share" class="share-button"></div>
       <div id="print-button" title="Print" class="print-button"></div>
+      <div id="alert-button" title="Alerts" class="alert-button"></div>
+      <div id="alert-linker" data-bind="visible: showAlertContainer()" class="alert-linker modal-link"></div>
+      <div id="alert-container" data-bind="visible: showAlertContainer()" class="map-alert-container">
+        <div class="alert_toolbox">
+          <p data-bind="text: alertToolboxHeader" class="locator-container-header"></p>
+          <hr class="locator-line-splitter"/>
+          <div class="alert-tools">
+            <div id="drawFeatures" class="alert-tools-buttons">Draw</div>
+            <div id="uploadFeatures" class="alert-tools-buttons">Upload</div>
+          </div>
+          <div data-bind="visible: showUploadTools()" class="upload-tools">
+            <hr class="locator-line-splitter"/>
+            <ul data-bind="foreach: uploadInstructions" class="upload-instructions">
+              <li data-bind="text: $data"></li>
+            </ul>
+            <form enctype="multipart/form-data" method="post" id="uploadForm" name="uploadForm">
+              <label class="uploadFileLabel">
+                <input type="file" name="file" id="shapefileUpload"/>
+              </label>
+            </form>
+            <div id="uploadNameSelectContainer"></div>
+          </div>
+        </div>
+      </div>
       <div id="locator-linker" data-bind="visible: showLocatorWidgets()" class="locator-linker modal-link"></div>
       <div id="locator-widget-container" data-bind="visible: showLocatorWidgets()" class="locator-widget-container">
         <div id="locator-container-header" data-bind="text: locatorContainerHeader" class="locator-container-header"></div>
