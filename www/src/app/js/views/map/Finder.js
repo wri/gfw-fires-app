@@ -1488,11 +1488,11 @@ define([
             }).then(function(res) {
                 //dialog.destroy();
                 if (emailValue && phoneValue) {
-                    dialog.setContent("<p>You have successfully subscribed, you should start receiving Email alerts as they come in for your area of interest.</p><p>You have successfully subscribed, you should start receiving SMS alerts as they come in for your area of interest.</p>");
+                    dialog.setContent("<p>You have successfully subscribed. You will receive an email asking you to <strong>verify your subscription</strong>. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.</p>");
                 } else if (emailValue && !phoneValue) {
-                    dialog.setContent("<p>You have successfully subscribed, you should start receiving Email alerts as they come in for your area of interest.</p>");
+                    dialog.setContent("<p>You have successfully subscribed. You will receive an email asking you to <strong>verify your subscription</strong>. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.</p>");
                 } else {
-                    dialog.setContent("<p>You have successfully subscribed, you should start  receiving SMS alerts as they come in for your area of interest.</p>");
+                    dialog.setContent("<p>You have successfully subscribed, you should start receiving SMS alerts as they come in for your area of interest.</p>");
                 }
                 // if (type === "email") {
                 //     //alert("You have successfully subscribed, you should star receiving Email alerts as they come in for your area of interest.");
