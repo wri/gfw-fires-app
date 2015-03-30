@@ -1445,12 +1445,22 @@ define([
                             // var test = validate.isNumberFormat(phoneValue, {
                             //     format: "+# (###) ###-####"
                             // });
-                            //if (!test) {
-                            if (phoneValue.length < 17) {
-                                domStyle.set("userPhone", "border", "1px solid red");
-                                alert("Please reformat your phone number with the country code first! Such as: +1 (222) 333-4444");
-                                return;
-                            }
+
+                            // function isValidPhonenumber(value) {
+                            //     return (/^\d{8,}$/).test(value.replace(/[\s()+\-\.]|ext/gi, ''));
+
+                            // }
+                            // var bool = isValidPhonenumber(phoneValue);
+
+                            // //if (phoneValue.length < 17) {
+                            // // if (!telInput.intlTelInput("isValidNumber")) {
+                            // if (!bool) {
+
+                            //     domStyle.set("userPhone", "border", "1px solid red");
+                            //     alert("Please enter in a complete phone number");
+                            //     return;
+                            // }
+
                             domStyle.set("userPhone", "border", "1px solid gray");
                             dom.byId("subscribe-now").innerHTML = "Submitting...";
                             _self.postSubscribeRequest(geom, phoneValue, "sms", dialog);
