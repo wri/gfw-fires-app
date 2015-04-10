@@ -16,7 +16,7 @@
           <div id="fires24" data-bind="text: fires24" class="active-fires-options"></div>
           <div class="confidence-fires-container">
             <div id="confidence-fires-checkbox"></div>
-            <label for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+            <label id="confidenceFiresContainer" for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
           </div>
         </div>
         <div class="checkbox-container">
@@ -25,7 +25,7 @@
           <div id="report-optionsINDO" data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar">
             <div class="confidence-archive-container">
               <div id="confidence-archive-checkbox"></div>
-              <label for="confidence-archive-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+              <label id="confidenceArchiveContainer" for="confidence-archive-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
             </div>
             <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">
@@ -240,10 +240,10 @@
           <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
             <div id="footprintsCheckBox" class="checkbox-container">
               <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
-              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
+              <label id="digitalGlobeFootprintsCheckboxLabel" for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
             </div>
           </div>
-          <table class="imageryTable font10">
+          <table class="imageryTable font9">
             <thead>
               <tr class="imageryTopRow">
                 <th data-bind="text: 'Date'"></th>
@@ -253,8 +253,8 @@
             </thead>
             <tbody data-bind="foreach: digitalGlobeInView">
               <tr data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}" class="imageryRow">
-                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
-                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font9">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font9">										</td>
                 <td data-bind="event:{click: $root.imageryZoomTo}" class="popup-link-zoom"></td>
               </tr>
             </tbody>

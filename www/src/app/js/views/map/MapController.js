@@ -721,11 +721,11 @@ define([
 
         on(registry.byId("indonesia-fires"), "change", function(value) {
             console.log(value);
-            if (value == true) {
-                $(".confidence-fires-container").css("margin-left", "38px");
-            } else {
-                $(".confidence-fires-container").css("margin-left", "46px");
-            }
+            // if (value == true) {
+            //     $(".confidence-fires-container").css("margin-left", "38px");
+            // } else {
+            //     $(".confidence-fires-container").css("margin-left", "46px");
+            // }
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
                 MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });
@@ -1351,7 +1351,7 @@ define([
             outFields: ["*"],
             hasAttachments: true,
             definitionExpression: "Publish = 'Y'" //,
-            //infoTemplate: fireStory_popupTemplate
+            // infoTemplate: fireStory_popupTemplate
         });
 
         // aspect.after(o.map.infoWindow, "show", function() {
@@ -1640,8 +1640,13 @@ define([
                 window.print();
                 domClass.remove('print-button', 'loading');
                 domClass.remove(body, "map-view-print");
-                registry.byId("stackContainer").resize();
+
                 o.map.resize();
+                setTimeout(function() {
+
+                    registry.byId("stackContainer").resize();
+                }, 1000);
+
             }, 2000);
         });
 

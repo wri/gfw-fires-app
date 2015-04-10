@@ -197,6 +197,7 @@ define([
                 if (features.length > 0) {
 
                     map.infoWindow.setFeatures(features);
+
                     map.infoWindow.show(mapPoint);
                 }
 
@@ -687,6 +688,7 @@ define([
                 selected_features.then(function(features) {
                     _map.infoWindow.setFeatures(features);
                     _map.infoWindow.resize(340, 500);
+
                     _map.infoWindow.show(event.mapPoint);
                 });
 
@@ -1423,6 +1425,12 @@ define([
                 // template = new InfoTemplate(feats[i].feature.attributes.Title, html);
 
                 // feats[i].feature.setInfoTemplate(template);
+
+                for (attr in feats[i].feature.attributes) {
+                    if (feats[i].feature.attributes[attr] == "Null") {
+                        feats[i].feature.attributes[attr] = "";
+                    }
+                }
                 var fireStory_popupTemplate = new PopupTemplate({
                     title: "{Title}",
                     //"content": htmlContent,

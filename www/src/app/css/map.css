@@ -689,8 +689,8 @@ table.imageryTable tbody {
 }
 
 /* line 481 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
-#imageryWindow .font10 {
-  font-size: 10pt;
+#imageryWindow .font9 {
+  font-size: 9pt;
 }
 
 /* line 484 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
@@ -1065,36 +1065,44 @@ table.imageryTable tbody {
   margin: 3px auto;
   padding: 5px;
   color: #000;
+  font-size: 12px;
 }
 
-/* line 756 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 757 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+#confidenceFiresContainer,
+#digitalGlobeFootprintsCheckboxLabel,
+#confidenceArchiveContainer {
+  font-weight: normal !important;
+  font-size: 12px !important;
+}
+
+/* line 763 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .confidence-fires-container {
-  margin: 5px 46px;
+  margin: 5px 38px;
 }
 
-/* line 759 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 766 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .active-fires-options.selected-fire-option {
   background-color: #ecc53d;
   color: #fff;
-  font-weight: bold;
   color: #fff;
 }
 
-/* line 765 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 771 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .checkbox-sub-label {
   margin: 2px 7px;
   font-size: 12px;
   display: block;
 }
 
-/* line 770 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 776 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .checkbox-instructions {
   padding: 0 0 0 20px;
   font-weight: bold;
   font-size: 11px;
 }
 
-/* line 775 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 781 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .latLongHUD {
   background-color: rgba(255,255,255,0.4);
   border-radius: 5px;
@@ -1105,35 +1113,35 @@ table.imageryTable tbody {
   left: 5px;
 }
 
-/* line 784 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 790 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitAccordionContainer-dijitContentPane {
   padding: 10px;
 }
 
-/* line 787 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 793 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .accordion-panel .slider-container {
   width: 250px;
   margin: 20px;
 }
 
-/* line 791 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 797 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .slider-container .dijitSlider {
   width: 100%;
 }
 
-/* line 794 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 800 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .transparency-slider-label {
   font-size: 11px;
   padding: 0px 0px 0px 20px;
   color: #000;
 }
 
-/* line 799 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 805 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .latLongHUD div {
   padding: 2px 4px;
 }
 
-/* line 802 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 808 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .report-link-container {
   border-radius: 5px;
   background-color: #e7002f;
@@ -1142,7 +1150,7 @@ table.imageryTable tbody {
   top: 10px;
 }
 
-/* line 809 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 815 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .report-link {
   display: inline-block;
   cursor: pointer;
@@ -1155,7 +1163,7 @@ table.imageryTable tbody {
   padding-right: 0;
 }
 
-/* line 820 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 826 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #report-link {
   background: url("../images/analysis_symbol_white.png") 5% 50% no-repeat;
   text-align: right;
@@ -1163,12 +1171,12 @@ table.imageryTable tbody {
   padding: 6px;
 }
 
-/* line 827 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 833 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 div.report-options-section > table {
   margin-bottom: 5px;
 }
 
-/* line 830 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 836 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .report-link-dates {
   display: inline-block;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
@@ -1182,25 +1190,25 @@ div.report-options-section > table {
   margin: auto;
 }
 
-/* line 842 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 848 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .coming-soon-label {
   margin-left: 20px;
   font-size: 12px;
   color: #808080;
 }
 
-/* line 847 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 853 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .esriControlsBR {
   right: inherit !important;
   left: 5px;
 }
 
-/* line 851 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 857 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .esriScalebar {
   top: 55px !important;
 }
 
-/* line 855 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 861 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitSliderRemainingBarH,
 #control-panel.dijitSliderProgressBarH,
 #control-panel.dijitSliderFocused .dijitSliderProgressBarH {
@@ -1209,22 +1217,22 @@ div.report-options-section > table {
   border-width: 0px;
 }
 
-/* line 860 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 866 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .dijitSliderMoveable {
   outline: none;
 }
 
-/* line 863 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 869 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .checkbox-container {
   padding: 5px 20px;
 }
 
-/* line 866 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 872 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .checkbox-container-wind {
   padding: 2px 10px;
 }
 
-/* line 870 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 876 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitSliderImageHandleH {
   border: 4px solid #e98300;
   height: 8px;
@@ -1234,7 +1242,7 @@ div.report-options-section > table {
   border-radius: 8px;
 }
 
-/* line 879 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 885 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel label {
   display: inline;
   color: #000;
@@ -1243,7 +1251,7 @@ div.report-options-section > table {
   font-weight: 600;
 }
 
-/* line 887 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 893 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .checkbox-sub-label {
   clear: both;
   font-size: 11px;
@@ -1251,7 +1259,7 @@ div.report-options-section > table {
   font-weight: 100;
 }
 
-/* line 893 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 899 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitSliderLeftBumper,
 #control-panel .dijitSliderRightBumper,
 #control-panel .dijitSliderIncrementIconH,
@@ -1259,13 +1267,13 @@ div.report-options-section > table {
   display: none;
 }
 
-/* line 896 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 902 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitSliderProgressBarH {
   background: rgba(0,0,0,0);
   border-width: 0;
 }
 
-/* line 900 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 906 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitCheckBox,
 #basemap-gallery-container .dijitCheckBox,
 #windLayerBasemapDialog .dijitCheckBox {
@@ -1287,7 +1295,7 @@ div.report-options-section > table {
   border-bottom-left-radius: 3px;
 }
 
-/* line 919 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 925 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel .dijitCheckBoxChecked,
 #basemap-gallery-container .dijitCheckBoxChecked,
 #windLayerBasemapDialog .dijitCheckBoxChecked {
@@ -1300,7 +1308,7 @@ div.report-options-section > table {
   border-image-repeat: initial;
 }
 
-/* line 928 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 934 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel input[type="radio"] {
   background-image: url("../images/checkmark.png");
   background-position: -110px;
@@ -1311,12 +1319,12 @@ div.report-options-section > table {
   padding: 0;
 }
 
-/* line 937 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 943 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #control-panel input[type="radio"]:checked {
   background-position: -94px;
 }
 
-/* line 940 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 946 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .close-icon {
   position: absolute;
   z-index: 1;
@@ -1328,61 +1336,61 @@ div.report-options-section > table {
   cursor: pointer;
 }
 
-/* line 950 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 956 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .infoName {
   margin: 0 0 10px 0;
   border-bottom: 1px solid #fff;
   font-weight: bold;
 }
 
-/* line 955 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 961 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .imageryRow:hover {
   border: 2px solid #ff0;
   box-sizing: border-box;
 }
 
-/* line 960 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 966 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .imageryRowSelected {
   border: 2px solid #0ff;
   box-sizing: border-box;
 }
 
-/* line 964 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 970 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #infoWindowTable td {
   width: 45%;
   padding: 0 5px 0 0;
 }
 
-/* line 968 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 974 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .esriPopupWrapper {
   top: -40px;
 }
 
-/* line 971 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 977 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .popup-link,
 .custom-zoom-to {
   cursor: pointer;
 }
 
-/* line 974 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 980 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .popup-list {
   margin-bottom: 20px !important;
 }
 
-/* line 977 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 983 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .satelliteColumn {
   position: absolute;
   left: 110px;
 }
 
-/* line 981 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 987 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .custom-zoom-to {
   position: absolute;
   left: 10px;
   bottom: 0;
 }
 
-/* line 986 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 992 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .loadingWheelContainer {
   background-color: #ddd;
   position: absolute;
@@ -1395,7 +1403,7 @@ div.report-options-section > table {
   z-index: 1000;
 }
 
-/* line 997 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1003 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .loadingWheel {
   position: absolute;
   margin-left: -12px;
@@ -1404,45 +1412,45 @@ div.report-options-section > table {
   top: 50%;
 }
 
-/* line 1004 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1010 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #primary-forests-options {
   margin: 0 20px;
 }
 
-/* line 1007 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1013 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #primary-forests-options label {
   font-weight: normal;
 }
 
-/* line 1010 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1016 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #primary-forests-options .inline {
   display: inline-block;
 }
 
-/* line 1013 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1019 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #windLegendLabels {
   margin: 0 25px;
   font-size: 10px;
 }
 
-/* line 1017 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1023 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .windLegendNode {
   margin: 10px auto;
   height: 13px;
   width: 80%;
 }
 
-/* line 1022 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1028 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .rightWindLabel {
   float: right;
 }
 
-/* line 1025 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1031 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .windLayerLegendColorRamp {
   background: linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
 }
 
-/* line 1028 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1034 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #windLayerBasemapDialog,
 #digitalGlobeInstructions,
 #embedCodeShareDialog {
@@ -1451,7 +1459,7 @@ div.report-options-section > table {
   color: #464052;
 }
 
-/* line 1033 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1039 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #windLayerBasemapDialog .dijitDialogPaneActionBar,
 #digitalGlobeInstructions .dijitDialogPaneActionBar,
 #embedCodeShareDialog .dijitDialogPaneActionBar {
@@ -1459,7 +1467,7 @@ div.report-options-section > table {
   text-align: center;
 }
 
-/* line 1037 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1043 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #windLayerBasemapDialog .dijitDialogPaneActionBar button,
 #digitalGlobeInstructions .dijitDialogPaneActionBar button {
   border-radius: 5px;
@@ -1474,13 +1482,13 @@ div.report-options-section > table {
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 
-/* line 1049 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1055 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #embedCodeShareDialog .dijitDialogPaneActionBar input[type="text"] {
   height: 20px;
   width: 90%;
 }
 
-/* line 1053 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1059 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #windLayerBasemapDialog .dialogCheckbox,
 #digitalGlobeInstructions .dialogCheckbox {
   margin-top: 15px;
@@ -1488,7 +1496,7 @@ div.report-options-section > table {
   color: #777;
 }
 
-/* line 1058 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1064 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #windLayerBasemapDialog .dialogCheckbox label,
 #digitalGlobeInstructions .dialogCheckbox label {
   position: relative;
@@ -1496,29 +1504,29 @@ div.report-options-section > table {
   top: 2px;
 }
 
-/* line 1064 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1070 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print .mapView #stackContainer {
   top: 0px;
 }
 
-/* line 1067 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1073 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print #app-header {
   display: none;
 }
 
-/* line 1070 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1076 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print #control-panel {
   width: 0 !important;
 }
 
-/* line 1073 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1079 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print #map-container {
   left: 0 !important;
   max-width: 100%;
   max-height: 100%;
 }
 
-/* line 1078 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1084 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print .esriControlsBR,
 .map-view-print .legend-widget-container,
 .map-view-print .locator-widget-button,
@@ -1531,23 +1539,23 @@ div.report-options-section > table {
   display: none !important;
 }
 
-/* line 1089 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1095 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print .latLongHUD,
 .map-view-print .esriScalebar {
   top: 15px;
 }
 
-/* line 1093 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1099 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .map-view-print .latLongHUD {
   bottom: auto;
 }
 
-/* line 1099 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1105 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel {
   display: none;
 }
 
-/* line 1102 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1108 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .TimeTT {
   height: 20px;
   width: 40px;
@@ -1559,12 +1567,12 @@ div.report-options-section > table {
   display: none;
 }
 
-/* line 1112 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1118 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .esriTimeSlider {
   padding-top: 10px;
 }
 
-/* line 1115 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1121 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .timeSliderContainer {
   height: 95px;
   width: 272px;
@@ -1573,7 +1581,7 @@ div.report-options-section > table {
   margin-left: 5px;
 }
 
-/* line 1122 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1128 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .timeSliderPanel .dijitRuleLabel {
   float: left;
   width: 36px;
@@ -1590,12 +1598,12 @@ div.report-options-section > table {
   transform: rotate(-55deg);
 }
 
-/* line 1137 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1143 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .timeSliderContainer .dijitRuleLabelH {
   left: -55% !important;
 }
 
-/* line 1140 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1146 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .timeSliderPanelLabel {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -1606,7 +1614,7 @@ div.report-options-section > table {
   top: -20px;
 }
 
-/* line 1149 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1155 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel {
   -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.25);
   box-shadow: 0 0 8px rgba(0,0,0,0.25);
@@ -1620,7 +1628,7 @@ div.report-options-section > table {
   z-index: 5;
 }
 
-/* line 1161 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1167 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .esriTimeSlider .tsPlayButton {
   background: url("../images/ico-play.png") no-repeat center;
   border-right: 0px solid #d1d0d4;
@@ -1629,7 +1637,7 @@ div.report-options-section > table {
   width: 0px;
 }
 
-/* line 1168 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1174 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .esriTimeSlider .tsPauseButton {
   background: url("images/ico-pause.png") no-repeat center;
   border-right: 2px solid #d1d0d4;
@@ -1638,29 +1646,29 @@ div.report-options-section > table {
   width: 24px;
 }
 
-/* line 1175 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1181 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider {
   padding-top: 0;
 }
 
-/* line 1178 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1184 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitButton {
   margin: 0;
 }
 
-/* line 1181 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1187 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider td:first-child {
   width: 2%;
   text-align: left;
 }
 
-/* line 1185 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1191 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider td:nth-child(3) {
   width: 2%;
   text-align: right;
 }
 
-/* line 1189 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1195 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitButtonNode {
   border: 0px solid #c0c0c0;
   border-bottom: 0px solid #9b9b9b;
@@ -1668,17 +1676,17 @@ div.report-options-section > table {
   background: #fff url("") repeat-x bottom left;
 }
 
-/* line 1196 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1202 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel table td:first-child .dijitButtonNode {
   border-radius: 5px 0px 0px 5px;
 }
 
-/* line 1199 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1205 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel table td:nth-child(3) .dijitButtonNode {
   border-radius: 0px 5px 5px 0px;
 }
 
-/* line 1202 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1208 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .tsPrevButton {
   border-left: 2px solid #d1d0d4;
   border-radius: 0px 5px 5px 0px;
@@ -1687,12 +1695,12 @@ div.report-options-section > table {
   width: 24px;
 }
 
-/* line 1211 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1217 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .pauseIcon {
   background: url("images/ico-unlock.png") no-repeat center !important;
 }
 
-/* line 1214 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1220 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderBarContainerH {
   background: url("images/timeline-bg.png") repeat-x scroll center 10px rgba(0,0,0,0);
   position: relative;
@@ -1701,13 +1709,13 @@ div.report-options-section > table {
   margin: 0;
 }
 
-/* line 1222 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1228 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderRemainingBarH {
   border-color: rgba(255,255,255,0);
   background: rgba(255,255,255,0) url("") repeat-x top left;
 }
 
-/* line 1226 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1232 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderBumperH {
   border-width: 0;
   background-size: 340px;
@@ -1718,7 +1726,7 @@ div.report-options-section > table {
   margin: 0 0 4px 0;
 }
 
-/* line 1235 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1241 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderProgressBarH {
   border: 0 solid rgba(255,255,255,0);
   background: #e98300;
@@ -1726,7 +1734,7 @@ div.report-options-section > table {
   height: 10px;
 }
 
-/* line 1241 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1247 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderImageHandleH,
 #timeSliderPanel .dijitSliderFocused .dijitSliderImageHandleH {
   width: 10px;
@@ -1738,67 +1746,67 @@ div.report-options-section > table {
   z-index: 50002;
 }
 
-/* line 1250 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1256 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider .ts {
   position: relative;
   margin: 0px;
   top: -10px;
 }
 
-/* line 1258 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1264 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .tundra .dijitTooltipRight {
   padding-left: 8px false;
 }
 
-/* line 1260 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1266 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .tundra .dijitTooltipRight .dijitTooltipContainer {
   background: #222;
   border: 0px;
   color: #ccc;
 }
 
-/* line 1264 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1270 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .tundra .dijitTooltipRight .dijitTooltipConnector {
   background-image: none !important;
 }
 
-/* line 1269 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1275 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #dojox_form__RangeSliderMixin_0 {
   width: 100%;
 }
 
-/* line 1272 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1278 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .tstmp {
   vertical-align: top !important;
 }
 
-/* line 1275 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1281 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .dj_gecko #timeSliderPanel .esriTimeSlider .ts {
   position: relative;
 /*5*/
 }
 
-/* line 1279 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1285 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderRemainingBarH {
   background: #ecc53d;
   margin-bottom: 4px;
   height: 6px;
 }
 
-/* line 1284 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1290 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .tsTicks {
   height: 10px;
   z-index: 0;
   width: 99.9%; /* This prevents the ticks from sitting outside of the slider bar container */
 }
 
-/* line 1289 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1295 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 .dijitRuleMark {
   border: 1px solid #000;
   margin: -2px 0 0 0;
 }
 
-/* line 1293 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1299 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSlider,
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH {
   background: #e98300 !important;
@@ -1806,32 +1814,32 @@ div.report-options-section > table {
 /*height: 8px;*/
 }
 
-/* line 1299 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1305 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH {
   position: absolute !important;
 }
 
-/* line 1303 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1309 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSlider {
   background: rgba(233,131,0,0) !important;
   border: 0px solid #461d7c !important;
 }
 
-/* line 1309 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1315 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSliderBarContainer .dijitSliderMoveable .dijitSliderImageHandleH {
   margin-top: 3px;
 }
 
-/* line 1314 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1320 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderImageHandleH,
 .dijitContentPane {
   overflow-x: hidden;
 }
 
-/* line 1320 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1326 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
 @media print {
 
-/* line 1321 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+/* line 1327 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
   html,
   body {
     -webkit-print-color-adjust: exact;
