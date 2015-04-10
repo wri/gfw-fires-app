@@ -601,7 +601,10 @@ map.styl,
 }
 
 /* line 419 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
-#subscribeDialogWindow > div.dijitDialogTitleBar {
+#subscribeDialogWindow > div.dijitDialogTitleBar,
+#embedCodeShareDialog > div.dijitDialogTitleBar,
+#digitalGlobeInstructions > div.dijitDialogTitleBar,
+#windLayerBasemapDialog > div.dijitDialogTitleBar {
   background: #fff;
   text-align: center;
 }
