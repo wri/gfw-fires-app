@@ -103,6 +103,19 @@ define([
     vm.wind18Enable = ko.observable();
     vm.windDisabledDates = ["2015-01-15"];
 
+    vm.customFeaturesPresence = ko.observable(false);
+
+    vm.clearCustomFeatures = function() {
+
+
+
+        require(["views/map/MapController"], function(MapController) {
+            MapController.removeCustomFeatures();
+        });
+
+
+    }
+
     vm.wind00Disable = function() {
         var now = new Date();
         var now3 = new Date();
@@ -392,6 +405,7 @@ define([
     vm.islands = ko.observableArray([]);
     vm.provinces = ko.observableArray([]);
     vm.uploadInstructions = ko.observableArray(MapConfig.uploadOptions.instructions);
+    vm.drawInstructions = ko.observableArray(MapConfig.text.drawInstructions);
 
     vm.showBasemapGallery = ko.observable(false);
     vm.showShareContainer = ko.observable(false);
@@ -403,6 +417,7 @@ define([
     vm.showReportOptionsWIND = ko.observable(false);
     vm.showReportOptionsAIR = ko.observable(false);
     vm.showUploadTools = ko.observable(false);
+    vm.showDrawTools = ko.observable(false);
     vm.showReportOptionsDigitalGlobe = ko.observable(false);
 
     vm.showReportOptionsDigitalGlobeFootprints = ko.observable(true);
@@ -435,6 +450,14 @@ define([
             MapController.removeAnalysisFromHash();
         });
     };
+
+    vm.closeAlertsOptions = function() {
+
+        vm.showAlertContainer(false);
+
+    };
+
+
 
     vm.closeReportOptionsNOAA = function() {
         vm.showReportOptionsNOAA(false);

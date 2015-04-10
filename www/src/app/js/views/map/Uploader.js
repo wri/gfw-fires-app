@@ -182,6 +182,7 @@ define([
                 graphicsLayer.add(graphic);
                 MapModel.vm.customFeaturesArray().push(graphic);
             });
+            MapModel.vm.customFeaturesPresence(true);
 
             _map.setExtent(extent, true);
 

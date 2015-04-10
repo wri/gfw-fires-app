@@ -9,8 +9,9 @@ define([
     "views/map/MapModel",
     "esri/geometry/Polygon",
     "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol"
-], function(on, Color, Graphic, Helper, arrayUtils, Draw, MapConfig, MapModel, Polygon, SimpleFillSymbol, SimpleLineSymbol) {
+    "esri/symbols/SimpleLineSymbol",
+    "dojo/i18n!esri/nls/jsapi"
+], function(on, Color, Graphic, Helper, arrayUtils, Draw, MapConfig, MapModel, Polygon, SimpleFillSymbol, SimpleLineSymbol, bundle) {
     'use strict';
 
     var _map,
@@ -19,6 +20,7 @@ define([
         customFeatureSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2),
             new Color([103, 200, 255, 0.0]));
+    bundle.toolbars.draw.freehand = "1. Click and hold to draw a shape. Release to finish. 2. Click in the shape to name it and subscribe.";
 
     var DrawToolbox = {
 
@@ -29,6 +31,7 @@ define([
 
             // Connect the Event to Start the Draw Toolbar
             drawToolbar = new Draw(map);
+
             drawToolbar.on('draw-end', this.drawComplete.bind(this));
 
             on(document.getElementById('drawFeatures'), 'click', function() {
@@ -43,10 +46,12 @@ define([
 
         drawComplete: function(evt) {
             this.deactivateToolbar();
+            MapModel.set('showDrawTools', false);
             // Add Feature to Map
             if (!evt.geometry) {
                 return;
             }
+            _map.infoWindow.hide();
 
             var uniqueIdField = MapConfig.defaultGraphicsLayerUniqueId,
                 labelField = MapConfig.defaultGraphicsLayerLabel,
@@ -62,6 +67,7 @@ define([
             graphic = new Graphic(polygon, customFeatureSymbol, attributes);
             graphicsLayer.add(graphic);
             MapModel.vm.customFeaturesArray().push(graphic);
+            MapModel.vm.customFeaturesPresence(true);
 
         },
 

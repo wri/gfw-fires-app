@@ -33,6 +33,14 @@ baseRed = #e7002f
 	
 #control-panel
 	transition all 1s
+	
+#alertToolboxSubheader
+	font-size 14px
+	font-weight normal
+	
+.upload-instructions
+	margin-left 10px
+	font-size 12px
 
 .map-container
 	position absolute
@@ -44,7 +52,7 @@ baseRed = #e7002f
 	height 100%
 	width 100%
 .simpleGeocoder .esriGeocoder
-	border 2px solid rgb(170, 170, 170)
+	border 2px solid white
 
 .HomeButton .home
 	padding 0
@@ -59,6 +67,9 @@ baseRed = #e7002f
 	width 30px
 	right 20px
 	z-index 50
+	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
+	
+.simpleGeocoder, .simpleGeocoder .esriGeocoderContainer
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 #map .esriSimpleSlider
@@ -78,8 +89,11 @@ baseRed = #e7002f
 	margin-bottom 2px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
-#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover, .alert-button:hover
+#map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover
 	background-color #EEE !important
+	
+.alert-button:hover
+	background-color #b60025 !important
 
 .basemap-gallery-button, .HomeButton .home, .locator-widget-button
 	background-color #FFF
@@ -154,24 +168,27 @@ baseRed = #e7002f
 	top 170px
 	border-width 0
 .alert-button
-	background-image url('../images/alert_symbolA.png')
+	background-image url('../images/alert_symbol_white.png')
 	background-repeat no-repeat 
-	background-position -1px -35px
-	//top 170px
+	background-position 7px 6px
 	border-width 0
 	
-.alert-button:hover
-	background-position -1px -1px
+.alertsOptionsHeader
+	float right
+	padding 10px
+	cursor pointer
 
 .basemap-linker
 	top 170px
 .alert-linker
-	top 290px
+	top 50px
+	right 410px
 	
 .map-alert-container	
-	width 250px
+	width 350px !important
 	height auto
-	top 245px
+	top 55px
+	right 240px !important
 
 .basemap-gallery-container, .locator-widget-container, .map-share-container, .map-alert-container
 	background-color white
@@ -196,21 +213,25 @@ baseRed = #e7002f
 	cursor pointer
 	height 32px
 	width 32px
+	margin-left 2px
+	
 .alert-tools
 	text-align center
 	margin 5px 0 10px
+	
 
 .alert-tools-buttons
 	background-color #444
 	display inline-block
 	text-align center
 	border-radius 5px
-	font-weight bold
 	cursor pointer
 	padding 3px 0
 	margin 0 5px
 	color white
 	width 100px
+	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
+	font-size 14px
 	
 .alert-tools-buttons:hover
 	background-color baseRed
@@ -336,46 +357,70 @@ baseRed = #e7002f
 .deleteGraphicLink
 	margin-top 20px
 	cursor pointer
-	font-weight bold
 	display inline-block
-	border 1px solid white
+	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
 	background baseRed
 	color white
 	border-radius 5px
-	font-size 14px
+	font-size 12px
 	padding 5px
 	
 .uploadCustomGraphic
 	position absolute !important
-	margin-top -29px
-	font-weight bold
+	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
 	cursor pointer
-	border 1px solid white
-	background baseRed
+	border none
+	background-color baseRed
 	color white
 	border-radius 5px
 	right 10px
-	font-size 14px
+	font-size 12px
 	padding 5px
+	bottom 7px
+	padding-left 30px
+	background url('../images/alert_symbol_white.png') no-repeat baseRed 5px 3px
 	
-.uploadCustomGraphic:hover, .deleteGraphicLink:hover
-	color black
+	
+.uploadCustomGraphic:hover, .deleteGraphicLink:hover, .report-link:hover, #report-link:hover, #customGraphicSymbol:hover, #report-launch:hover
+	background-color #B60025
+	border-radius 5px
 
 #subscribe-now
-	border 1px solid white
-	background baseRed
+	border none
 	color white
 	border-radius 5px
 	padding 5px
-	font-size 16px
+	font-size 12px
 	cursor pointer
 	outline 0
 	margin-top 5px
-	font-weight bold
+	background url(../images/alert_symbol_white.png) 5% 50% no-repeat
+	background-color baseRed
+	padding-left 30px
+	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
 
 #subscribe-now:hover, #subscribe-now:active
-	background baseRed
-	color black
+	background-color #b60025
+	
+#subscribeDialogWindow
+	font-family Arial !important
+	overflow inherit !important
+	
+.intl-tel-input .country-list
+	max-height 200px !important
+	
+#subscribeDialogWindow > div.dijitDialogTitleBar
+	background white
+	text-align center
+
+.tundra .dijitDialogPaneContent
+	border-top none !important
+	
+.tundra .dijitDialog
+	border none !important
+	
+.tundra .dijitDialogCloseIcon
+	background url("../images/ico-close.png") no-repeat 4px 4px !important 
 
 /*.imageryTable tr
 	border-left: 1px solid transparent;*/
@@ -448,7 +493,7 @@ table.imageryTable thead, table.imageryTable tbody
 	z-index 6
 	font-size 12pt
 	border-radius 5px
-
+	text-align center
 
 	.font14
 		font-size 14pt
@@ -467,13 +512,14 @@ table.imageryTable thead, table.imageryTable tbody
 
 	.report-link-container
 		position relative
-		width: 115px;
+		width 138px
 		top 0px
-		left 30%
+		
 		right 0px
 		bottom 10px
-		>
-			margin-left 10px
+		align-content center
+		text-align center
+		margin auto
 
 	select[multiple=true]
 		margin 8px 8px 8px 0px
@@ -512,13 +558,21 @@ table.imageryTable thead, table.imageryTable tbody
 
 .print-button.loading
 	background url('../images/loader.gif') no-repeat center white
+	
 .alert-button
-	background-color white
+	background-color rgb(231, 0, 47)
 	text-align center
 	line-height 30px
-	font-size 24px
-	color #f0ab00
-	top 290px
+	font-size 14px
+	color white
+	top 20px
+	width 160px
+	right 335px
+	padding-left 15px
+	padding-right 0px
+	
+#report-launch > div
+	background url(../images/analysis_symbol_white.png) 5% 50% no-repeat
 
 .locator-line-splitter
 	text-align center
@@ -528,6 +582,8 @@ table.imageryTable thead, table.imageryTable tbody
 	margin 5px 0 0 5px
 	font-weight bold
 	font-size 18px
+	padding 10px
+	text-align center
 
 .map .sharing_toolbox
 	padding 20px 20px 0
@@ -752,23 +808,33 @@ table.imageryTable thead, table.imageryTable tbody
 
 .report-link
 	display inline-block
-	font-weight bold
 	cursor pointer
-	font-size 16px
+	font-size 14px
 	padding 5px
 	color white
+	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
+	border-radius 3px
+	width 132px
+	padding-right 0
+	
+#report-link
+	background url(../images/analysis_symbol_white.png) 5% 50% no-repeat
+	text-align right
+	width 140px
+	padding 6px
+	
 
 div.report-options-section > table
 	margin-bottom 5px
 
 .report-link-dates
 	display inline-block
-	font-weight bold
+	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 	cursor pointer
 	font-size 14px
 	padding 5px
 	color white
-	background-color red
+	background-color baseRed
 	border-radius 5px
 	display table
 	margin auto
@@ -799,7 +865,6 @@ div.report-options-section > table
 
 .checkbox-container-wind
 	padding: 2px 10px
-
 
 
 #control-panel .dijitSliderImageHandleH, #control-panel .dijitSliderImageHandleH
@@ -979,6 +1044,7 @@ div.report-options-section > table
 	margin 0 10px
 	color white
 	border none
+	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 #embedCodeShareDialog .dijitDialogPaneActionBar input[type="text"]
 	height 20px
@@ -993,6 +1059,7 @@ div.report-options-section > table
 	position relative
 	left 4px
 	top 2px
+	
 
 .map-view-print .mapView #stackContainer
 	top 0px

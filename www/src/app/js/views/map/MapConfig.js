@@ -40,10 +40,10 @@ define({
     uploadOptions: {
         url: "http://www.arcgis.com/sharing/rest/content/features/generate",
         instructions: [
-            "Select a zip file(.zip) containing a shapefile(.shp,.dbf,.prj) from your local file system.",
-            "The shapefile must be in Geographic Coordinate System (WGS84).",
-            "The shapefile must be of POLYGON geometry type.",
-            "The shapefile must not exceed 1 Megabyte."
+            "1. Browse to select a zip file (.zip) containing a shapefile.",
+            "2. The shapefile should be in WGS84 projection, less than 1MB, and a polygon (not point or line).",
+            "3. Your shapefile will appear on the map. Click in a shape to name it and subscribe to alerts."
+            //"The shapefile must not exceed 1 Megabyte."
         ]
     },
 
@@ -412,7 +412,12 @@ define({
     },
 
     text: {
-	alertToolboxHeader: "Draw/Upload for Alerts",
+
+        drawInstructions: [
+            "1. Click and hold to draw a shape. Release to finish.",
+            "2. Click in the shape to name it and subscribe."
+        ],
+        alertToolboxHeader: "Sign up for fire alerts <br /> <span id='alertToolboxSubheader'>You may sign up to receive fire alert emails or SMS messages when fires occur. Draw a shape on the map or upload a shapefile for your area of interest. Then click on each shape to subscribe to the area.</span>",
         locatorContainerHeader: "Locator",
         locatorSearchLabel: "Or, go to an area",
         dmsSearch: "Degrees/Minutes/Seconds",

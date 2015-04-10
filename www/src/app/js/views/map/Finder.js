@@ -16,6 +16,7 @@ define([
     "esri/tasks/ImageServiceIdentifyTask",
     "esri/layers/RasterFunction",
     "esri/InfoTemplate",
+    "esri/dijit/PopupTemplate",
     "esri/geometry/Point",
     "esri/geometry/webMercatorUtils",
     "esri/symbols/PictureMarkerSymbol",
@@ -30,7 +31,7 @@ define([
     "esri/tasks/QueryTask",
     "esri/geometry/Circle"
 ], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, keys, FeatureLayer, Graphic, esriRequest,
-    ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, Point, webMercatorUtils,
+    ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, PopupTemplate, Point, webMercatorUtils,
     PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
     var _map;
 
@@ -113,7 +114,7 @@ define([
         },
 
         mapClick: function(event) {
-
+            console.log("Map Click event!");
             var map = _map,
                 _self = this,
                 mapPoint = event.mapPoint;
@@ -144,13 +145,29 @@ define([
                     deferreds.push(_self.identifyConservation(mapPoint));
                 }
             }
+            fireStoryLayer = map.getLayer(MapConfig.fireStories.id);
+            if (fireStoryLayer) {
+                if (fireStoryLayer.visible) {
+                    deferreds.push(_self.identifyFireStories(mapPoint));
+                }
+            }
+
+            fireTweets = map.getLayer(MapConfig.tweetLayer.id);
+            if (fireTweets) {
+                if (fireTweets.visible) {
+                    deferreds.push(_self.identifyFireTweets(mapPoint));
+                }
+            }
             console.log(deferreds);
+
             if (deferreds.length === 0) {
                 return;
             }
 
             all(deferreds).then(function(featureSets) {
                 arrayUtils.forEach(featureSets, function(item) {
+
+                    console.log(item);
                     switch (item.layer) {
                         case "Overlays_Layer":
                             features = features.concat(_self.setOverlaysTemplates(item.features));
@@ -160,6 +177,12 @@ define([
                             break;
                         case "Conservation":
                             features = features.concat(_self.setConservationTemplates(item.features));
+                            break;
+                        case "Fire_Stories":
+                            features = features.concat(_self.getFireStoriesInfoWindow(item.features));
+                            break;
+                        case "Fire_Tweets":
+                            features = features.concat(_self.getFireTweetsInfoWindow(item.features));
                             break;
                             // case "CustomGraphics":
                             //     // This will only contain a single feature and return a single feature
@@ -172,6 +195,7 @@ define([
                 });
 
                 if (features.length > 0) {
+
                     map.infoWindow.setFeatures(features);
                     map.infoWindow.show(mapPoint);
                 }
@@ -273,6 +297,76 @@ define([
             return deferred.promise;
         },
 
+        identifyFireStories: function(mapPoint) {
+            var url = MapConfig.fireStories.url.split("/10");
+            url = url[0];
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 5;
+            params.returnGeometry = false;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = [10];
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+
+            identifyTask.execute(params, function(features) {
+
+                if (features.length > 0) {
+
+                    deferred.resolve({
+                        layer: "Fire_Stories",
+                        features: features
+                    });
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(error) {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        identifyFireTweets: function(mapPoint) {
+            var url = MapConfig.tweetLayer.url.split("/3");
+            url = url[0];
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 5;
+            params.returnGeometry = false;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = [3];
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+
+            identifyTask.execute(params, function(features) {
+
+                if (features.length > 0) {
+
+                    deferred.resolve({
+                        layer: "Fire_Tweets",
+                        features: features
+                    });
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(error) {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
         setOverlaysTemplates: function(featureObjects) {
             var template,
                 handleUpSubsc,
@@ -306,11 +400,16 @@ define([
 
                 }
 
-                template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                //$(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+
+                //template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
                 item.feature.setInfoTemplate(template);
 
                 features.push(item.feature);
             });
+            if ($('#uploadCustomGraphic').length == 0) {
+                $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+            }
             return features;
 
         },
@@ -411,11 +510,16 @@ define([
 
                 // }
 
-                template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                //template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
                 item.feature.setInfoTemplate(template);
 
                 features.push(item.feature);
             });
+
+            if ($('#uploadCustomGraphic').length == 0) {
+                $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+            }
+
             return features;
         },
         setConservationTemplates: function(featureObjects) {
@@ -433,11 +537,13 @@ define([
 
                 item.feature.attributes.ALERTS_LABEL = item.value;
 
-                template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                //template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
                 item.feature.setInfoTemplate(template);
                 features.push(item.feature);
             });
-
+            if ($('#uploadCustomGraphic').length == 0) {
+                $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+            }
 
             return features;
         },
@@ -697,6 +803,7 @@ define([
             if (!_map.getLayer(qconfig.id).visible || checked.checked != true) {
 
                 //IndonesiaFires
+
                 _self.mapClick(event);
                 return;
             }
@@ -829,7 +936,7 @@ define([
             }
             // If the layer is not visible, then dont show it
             if (!_map.getLayer("IndonesiaFires").visible) {
-                _self.mapClick(event);
+                //_self.mapClick(event);
                 return;
             }
 
@@ -1249,38 +1356,115 @@ define([
 
 
 
-        getFireTweetsInfoWindow: function(evt) {
+        getFireTweetsInfoWindow: function(feats) {
+
+
+            var attr, html, features = [];
             _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
-            var attr = evt.attributes;
-            var html = "<table><tr><td>";
-            html += "<td><img src='" + attr.UserProfileImage + "'/></td>";
-            html += "<td>" + attr.UserName + "</td></tr>";
-            html += "<p>" + attr.Text + "</p>";
-            html += "<p>" + attr.Date + "</p>";
+            // var attr = evt.attributes;
+            // var html = "<table><tr><td>";
+            // html += "<td><img src='" + attr.UserProfileImage + "'/></td>";
+            // html += "<td>" + attr.UserName + "</td></tr>";
+            // html += "<p>" + attr.Text + "</p>";
+            // html += "<p>" + attr.Date + "</p>";
             //html += "</div>"
-            console.log(html);
-            return html;
-        },
+            // console.log(html);
+            // if (evt._count > 0) {
+            //     debugger;
+            //     map.infoWindow.setContent(html);
+            //     map.infoWindow.show(evt.geometry);
+            // }
 
-        getFireStoriesInfoWindow: function(evt) {
-            //TODO: Add Attachments!
-            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
-            var attr = evt.attributes;
-            var html = "<table>";
+            for (var i = 0; i < feats.length; i++) {
+                attr = feats[i].feature.attributes;
+                html = "<table>";
+                for (var propertyName in attr) {
+                    if (attr[propertyName] && (propertyName == 'UserName' || propertyName == 'Text' || propertyName == 'Date' || propertyName == 'UserProfileImage')) {
+                        if (propertyName == "UserProfileImage") {
 
-            for (var propertyName in attr) {
-                if (attr[propertyName] && propertyName != 'OBJECTID') {
-                    html += "<tr><td>" + propertyName + ": " + attr[propertyName] + "</td></tr>";
+                            html += "<tr><td><img src='" + feats[i].feature.attributes.UserProfileImage + "'/></td></tr>";
+
+                        } else {
+                            html += "<tr><td>" + propertyName + ": " + attr[propertyName] + "</td></tr>";
+                        }
+
+                    }
                 }
+                html += "</div>";
+                template = new InfoTemplate(feats[i].feature.attributes.UserName, html);
+
+                feats[i].feature.setInfoTemplate(template);
+                features.push(feats[i].feature);
+
             }
 
-            // html += "<td><img src='" + attr.Title + "'/></td>";
-            // html += "<td>" + attr.Name + "</td></tr>";
-            //html += "<p>" + attr.Details + "</p>";
-            //html += "<p>" + attr.Email + "</p>";
-            html += "</div>";
 
-            return html;
+            //evt.stopPropagation();
+            return features;
+        },
+
+        getFireStoriesInfoWindow: function(feats) {
+
+            //TODO: Add Attachments!
+            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
+            var attr, html, features = [];
+            for (var i = 0; i < feats.length; i++) {
+                // attr = feats[i].feature.attributes;
+                // html = "<table>";
+                // for (var propertyName in attr) {
+
+                //     // if (attr[propertyName] != "Null" && (propertyName != 'OBJECTID' || propertyName != 'SHAPE' || propertyName != 'Publish')) {
+                //     if (attr[propertyName] != "Null" && propertyName != 'OBJECTID' && propertyName != 'SHAPE' && propertyName != 'Publish') {
+                //         html += "<tr><td>" + propertyName + ": " + attr[propertyName] + "</td></tr>";
+
+                //     }
+                // }
+                // html += "</div>";
+                // template = new InfoTemplate(feats[i].feature.attributes.Title, html);
+
+                // feats[i].feature.setInfoTemplate(template);
+                var fireStory_popupTemplate = new PopupTemplate({
+                    title: "{Title}",
+                    //"content": htmlContent,
+                    fieldInfos: [{
+                        fieldName: "Date",
+                        label: "Date",
+                        format: {
+                            dateFormat: 'shortDate'
+                        },
+                        visible: true
+                    }, {
+                        fieldName: "Details",
+                        label: "Details",
+                        visible: true
+                    }, {
+                        fieldName: "Video",
+                        label: "Video",
+                        visible: true
+                    }, {
+                        fieldName: "Name",
+                        label: "Name",
+                        visible: true
+                        // }, {
+                        //     fieldName: "Email",
+                        //     label: "Email",
+                        //     visible: true
+                    }],
+                    "showAttachments": true
+
+                });
+
+
+
+                feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
+
+                features.push(feats[i].feature);
+
+            }
+
+
+
+            return features;
         },
 
         selectUploadOrDrawnGraphics: function(evt) {
@@ -1298,9 +1482,9 @@ define([
             evt.stopPropagation();
 
             title = "<strong>Drawn/Uploaded Feature</strong>";
-            content = "Name: <input id='editTitle' style='width:165px;' class='editshow' placeholder='Type a new name and hit enter'/>" + "<br/>" +
-                "<div id='deleteCustomGraphic' class='deleteGraphicLink'>Remove</div>" +
-                "<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+            content = "Name: <input id='editTitle' style='width:165px;' class='editshow' placeholder='Type a new name & hit enter'/>" + "<br/>" +
+                "<div id='uploadCustomGraphic' class='uploadCustomGraphic'><span id='customGraphicSymbol'></span>Subscribe</div>" +
+                "<div id='deleteCustomGraphic' class='deleteGraphicLink'>&#10007 Remove</div>";
 
             var whereInArray = MapModel.vm.customFeaturesArray.indexOf(graphic);
 
@@ -1331,6 +1515,9 @@ define([
 
             handle = on.once(dom.byId('deleteCustomGraphic'), 'click', function() {
                 LayerController.removeGraphicWithId(graphic.attributes[uniqueIdField], uniqueIdField);
+                if (_map.graphics.graphics.length === 0) {
+                    MapModel.vm.customFeaturesPresence(false);
+                }
                 _map.infoWindow.hide();
             });
 
@@ -1358,6 +1545,9 @@ define([
                 "dijit/Dialog",
                 "dojo/dom-construct",
             ], function(on, Dialog, domConstruct) {
+                // $("#subscribeDialogWindow > div.dijitDialogTitleBar > span.dijitDialogCloseIcon").html("x");
+                // $(".dijitDialog .closeText").css("display", "block !important");
+                // $(".dijitDialog .closeText").css("position", "relative");
                 var dialog = new Dialog({
                         id: "subscribeDialogWindow",
                         title: 'Subscribe to Alerts!',
