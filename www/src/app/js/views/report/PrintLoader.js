@@ -9,7 +9,7 @@
         ],
         css = [
             'http://js.arcgis.com/3.9/js/esri/css/esri.css',
-            '../../../css/report.css'
+            '../../../css/report.css?v=0.6.9'
         ],
         URL = location.pathname.replace(/app\/js\/views\/report.*/, '') + 'app',
         dojoConfig = {
