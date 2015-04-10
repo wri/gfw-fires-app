@@ -16,7 +16,7 @@ div#map-view(class="map-view")
 					div#fires24(class="active-fires-options", data-bind="text: fires24")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
-						label(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
+						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
@@ -26,7 +26,7 @@ div#map-view(class="map-view")
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
 						div(class="confidence-archive-container")
 							div#confidence-archive-checkbox
-							label(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
+							label#confidenceArchiveContainer(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
 						//-div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
@@ -251,8 +251,8 @@ div#map-view(class="map-view")
 					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
 							div#footprintsCheckBox(class="checkbox-container")
 								input#digital-globe-footprints-checkbox(type="checkbox" checked)
-								label(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")								
-					table.imageryTable.font10
+								label#digitalGlobeFootprintsCheckboxLabel(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")								
+					table.imageryTable.font9
 						thead
 							tr(class="imageryTopRow")
 								th(data-bind="text: 'Date'")
@@ -261,8 +261,8 @@ div#map-view(class="map-view")
 						tbody(data-bind="foreach: digitalGlobeInView")
 							tr.imageryRow(data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}")
 								//-td.font10(data-bind="event:{click: $root.digitalGlobeToggle, mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
-								td.font10(data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}")										
-								td.font10(data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}")										
+								td.font9(data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}")										
+								td.font9(data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}")										
 								td.popup-link-zoom(data-bind="event:{click: $root.imageryZoomTo}")
 
 
@@ -329,23 +329,32 @@ div#map-view(class="map-view")
 			div#basemap-gallery-button(class="basemap-gallery-button",title="Basemaps/Overlays")
 			div#share-button(class="share-button",title="Share")
 			div#print-button(class="print-button",title="Print")
-			div#alert-button(class="alert-button",title="Alerts")
-			div#alert-linker(data-bind="visible: showAlertContainer()" class="alert-linker modal-link")
+			div#alert-button(class="alert-button",title="Sign up for alerts") Sign up for alerts
+			//-div#alert-linker(data-bind="visible: showAlertContainer()" class="alert-linker modal-link")
 			div#alert-container(data-bind="visible: showAlertContainer()" class="map-alert-container")
+				div#alerts-options-close(data-bind="click: closeAlertsOptions" class="alertsOptionsHeader") x
 				div(class="alert_toolbox")
-					p(class="locator-container-header",data-bind="text: alertToolboxHeader")
+					p(class="locator-container-header",data-bind="html: alertToolboxHeader")
 					hr(class="locator-line-splitter")
 					div(class="alert-tools")
 						div#drawFeatures.alert-tools-buttons Draw
 						div#uploadFeatures.alert-tools-buttons Upload
+						div#clearFeatures.alert-tools-buttons(data-bind="visible: customFeaturesPresence, click: clearCustomFeatures") Clear All
 					div(class="upload-tools", data-bind="visible: showUploadTools()")
 						hr(class="locator-line-splitter")
-						ul(class="upload-instructions",data-bind="foreach: uploadInstructions")
-							li(data-bind="text: $data")
+						div(class="upload-instructions",data-bind="foreach: uploadInstructions")
+							p(data-bind="text: $data")
 						form(enctype='multipart/form-data',method='post',id='uploadForm',name="uploadForm")
 							label(class='uploadFileLabel')
 								input(type='file',name='file',id='shapefileUpload')
 						div#uploadNameSelectContainer
+
+					div(class="upload-tools", data-bind="visible: showDrawTools()")
+						hr(class="locator-line-splitter")
+						div(class="upload-instructions",data-bind="foreach: drawInstructions")
+							p(data-bind="text: $data")
+						
+
 			div#locator-linker(class="locator-linker modal-link", data-bind="visible: showLocatorWidgets()")
 			div#locator-widget-container(class="locator-widget-container", data-bind="visible: showLocatorWidgets()")
 				div#locator-container-header(class="locator-container-header", data-bind="text: locatorContainerHeader")
@@ -417,5 +426,10 @@ div#map-view(class="map-view")
 			div#share-linker(data-bind="visible: showShareContainer()" class="share-linker modal-link")
 			div#share-container(data-bind="visible: showShareContainer()" class="map-share-container")
 				div(class="sharing_toolbox")
-					div(class="addthis_sharing_toolbox")
-					div#embedShare(class="embed_code_share")
+					div(class="addthis_toolbox addthis_default_style addthis_32x32_style")
+						a.addthis_button_facebook
+						a.addthis_button_twitter
+						a.addthis_button_linkedin
+						a.addthis_button_google_plusone_share
+						a.addthis_button_compact
+						div#embedShare(class="embed_code_share")

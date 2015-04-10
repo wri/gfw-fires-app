@@ -16,7 +16,7 @@
           <div id="fires24" data-bind="text: fires24" class="active-fires-options"></div>
           <div class="confidence-fires-container">
             <div id="confidence-fires-checkbox"></div>
-            <label for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+            <label id="confidenceFiresContainer" for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
           </div>
         </div>
         <div class="checkbox-container">
@@ -25,7 +25,7 @@
           <div id="report-optionsINDO" data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar">
             <div class="confidence-archive-container">
               <div id="confidence-archive-checkbox"></div>
-              <label for="confidence-archive-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+              <label id="confidenceArchiveContainer" for="confidence-archive-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
             </div>
             <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">
@@ -240,10 +240,10 @@
           <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
             <div id="footprintsCheckBox" class="checkbox-container">
               <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
-              <label for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
+              <label id="digitalGlobeFootprintsCheckboxLabel" for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
             </div>
           </div>
-          <table class="imageryTable font10">
+          <table class="imageryTable font9">
             <thead>
               <tr class="imageryTopRow">
                 <th data-bind="text: 'Date'"></th>
@@ -253,8 +253,8 @@
             </thead>
             <tbody data-bind="foreach: digitalGlobeInView">
               <tr data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}" class="imageryRow">
-                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
-                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font10">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font9">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font9">										</td>
                 <td data-bind="event:{click: $root.imageryZoomTo}" class="popup-link-zoom"></td>
               </tr>
             </tbody>
@@ -329,27 +329,34 @@
       <div id="basemap-gallery-button" title="Basemaps/Overlays" class="basemap-gallery-button"></div>
       <div id="share-button" title="Share" class="share-button"></div>
       <div id="print-button" title="Print" class="print-button"></div>
-      <div id="alert-button" title="Alerts" class="alert-button"></div>
-      <div id="alert-linker" data-bind="visible: showAlertContainer()" class="alert-linker modal-link"></div>
+      <div id="alert-button" title="Sign up for alerts" class="alert-button">Sign up for alerts</div>
       <div id="alert-container" data-bind="visible: showAlertContainer()" class="map-alert-container">
+        <div id="alerts-options-close" data-bind="click: closeAlertsOptions" class="alertsOptionsHeader">x</div>
         <div class="alert_toolbox">
-          <p data-bind="text: alertToolboxHeader" class="locator-container-header"></p>
+          <p data-bind="html: alertToolboxHeader" class="locator-container-header"></p>
           <hr class="locator-line-splitter"/>
           <div class="alert-tools">
             <div id="drawFeatures" class="alert-tools-buttons">Draw</div>
             <div id="uploadFeatures" class="alert-tools-buttons">Upload</div>
+            <div id="clearFeatures" data-bind="visible: customFeaturesPresence, click: clearCustomFeatures" class="alert-tools-buttons">Clear All</div>
           </div>
           <div data-bind="visible: showUploadTools()" class="upload-tools">
             <hr class="locator-line-splitter"/>
-            <ul data-bind="foreach: uploadInstructions" class="upload-instructions">
-              <li data-bind="text: $data"></li>
-            </ul>
+            <div data-bind="foreach: uploadInstructions" class="upload-instructions">
+              <p data-bind="text: $data"></p>
+            </div>
             <form enctype="multipart/form-data" method="post" id="uploadForm" name="uploadForm">
               <label class="uploadFileLabel">
                 <input type="file" name="file" id="shapefileUpload"/>
               </label>
             </form>
             <div id="uploadNameSelectContainer"></div>
+          </div>
+          <div data-bind="visible: showDrawTools()" class="upload-tools">
+            <hr class="locator-line-splitter"/>
+            <div data-bind="foreach: drawInstructions" class="upload-instructions">
+              <p data-bind="text: $data"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -451,8 +458,9 @@
       <div id="share-linker" data-bind="visible: showShareContainer()" class="share-linker modal-link"></div>
       <div id="share-container" data-bind="visible: showShareContainer()" class="map-share-container">
         <div class="sharing_toolbox">
-          <div class="addthis_sharing_toolbox"></div>
-          <div id="embedShare" class="embed_code_share"></div>
+          <div class="addthis_toolbox addthis_default_style addthis_32x32_style"><a class="addthis_button_facebook"></a><a class="addthis_button_twitter"></a><a class="addthis_button_linkedin"></a><a class="addthis_button_google_plusone_share"></a><a class="addthis_button_compact"></a>
+            <div id="embedShare" class="embed_code_share"></div>
+          </div>
         </div>
       </div>
     </div>

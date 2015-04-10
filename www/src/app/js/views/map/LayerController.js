@@ -915,16 +915,19 @@ define([
 
         },
 
-	removeGraphicWithId: function(uniqueId, uniqueIdField) {
+        removeGraphicWithId: function(uniqueId, uniqueIdField) {
             var graphics = _map.graphics.graphics,
                 graphicToRemove;
 
             arrayUtils.some(graphics, function(graphic) {
-                if (graphic.attributes[uniqueIdField] === uniqueId) {
-                    graphicToRemove = graphic;
-                    return true;
+                if (graphic.attributes) {
+                    if (graphic.attributes[uniqueIdField] === uniqueId) {
+                        graphicToRemove = graphic;
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+
             });
 
             if (graphicToRemove) {

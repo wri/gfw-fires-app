@@ -245,14 +245,14 @@ define([
             WindyController.setMap(o.map);
             LayerController.setMap(o.map);
             Finder.setMap(o.map);
-	    // Set the map for the upload tool so it has access to map properties
+            // Set the map for the upload tool so it has access to map properties
             Uploader.setMap(o.map);
             // Init the draw tool with the map so it can bind to and work with the map
             DrawTool.init(map);
             self.addWidgets();
             self.bindEvents();
             self.addLayers();
-	    Finder.setupInfowindowListeners();
+            Finder.setupInfowindowListeners();
 
             // Hack to get the correct extent set on load, this can be removed
             // when the hash controller workflow is corrected
@@ -529,7 +529,7 @@ define([
                 MapModel.set('showShareContainer', false);
             }
 
-	    if (MapModel.get('showAlertContainer')) {
+            if (MapModel.get('showAlertContainer')) {
                 MapModel.set('showAlertContainer', false);
             }
             MapModel.set('showLocatorWidgets', !MapModel.get('showLocatorWidgets'));
@@ -543,7 +543,7 @@ define([
 
             if (MapModel.get('showShareContainer')) {
                 MapModel.set('showShareContainer', false);
-	    }
+            }
 
             if (MapModel.get('showAlertContainer')) {
                 MapModel.set('showAlertContainer', false);
@@ -565,7 +565,7 @@ define([
             MapModel.set('showShareContainer', !MapModel.get('showShareContainer'));
         };
 
-	var toggleAlertsContainer = function() {
+        var toggleAlertsContainer = function() {
 
             if (MapModel.get('showLocatorWidgets')) {
                 MapModel.set('showLocatorWidgets', false);
@@ -582,7 +582,8 @@ define([
         };
 
         var toggleUploadTools = function() {
-
+            MapModel.set('showDrawTools', false);
+            $("#drawFeatures").css("background-color", "#444");
             MapModel.set('showUploadTools', !MapModel.get('showUploadTools'));
             if (MapModel.get('showUploadTools')) {
                 $("#uploadFeatures").css("background-color", "#e7002f");
@@ -593,12 +594,27 @@ define([
                 DrawTool.deactivateToolbar();
             }
         };
+        var toggleDrawTools = function() {
+            MapModel.set('showUploadTools', false);
+            $("#uploadFeatures").css("background-color", "#444");
+            MapModel.set('showDrawTools', !MapModel.get('showDrawTools'));
+            if (MapModel.get('showDrawTools')) {
+                $("#drawFeatures").css("background-color", "#e7002f");
+            } else {
+                $("#drawFeatures").css("background-color", "#444");
+            }
+            // if (DrawTool.isActive()) {
+            //     DrawTool.deactivateToolbar();
+            // }
+        };
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
         on(dom.byId("share-button"), "click", toggleShareContainer);
-	on(dom.byId("alert-button"), "click", toggleAlertsContainer);
+        on(dom.byId("alert-button"), "click", toggleAlertsContainer);
         on(dom.byId("uploadFeatures"), "click", toggleUploadTools);
+        on(dom.byId("drawFeatures"), "click", toggleDrawTools);
         on(dom.byId("uploadForm"), "change", Uploader.beginUpload.bind(Uploader));
+
 
         this.initTransparency();
     };
@@ -642,7 +658,7 @@ define([
             Finder.selectTomnodFeatures(evt);
         });
 
-	on(o.map.graphics, "click", function(evt) {
+        on(o.map.graphics, "click", function(evt) {
             if (evt.graphic) {
                 Finder.selectUploadOrDrawnGraphics(evt);
             }
@@ -705,11 +721,11 @@ define([
 
         on(registry.byId("indonesia-fires"), "change", function(value) {
             console.log(value);
-            if (value == true) {
-                $(".confidence-fires-container").css("margin-left", "38px");
-            } else {
-                $(".confidence-fires-container").css("margin-left", "46px");
-            }
+            // if (value == true) {
+            //     $(".confidence-fires-container").css("margin-left", "38px");
+            // } else {
+            //     $(".confidence-fires-container").css("margin-left", "46px");
+            // }
             LayerController.toggleMapServiceLayerVisibility(o.map.getLayer(MapConfig.indonesiaLayers.id),
                 MapConfig.indonesiaLayers.layerIds['indonesiaFires'], value);
         });
@@ -783,6 +799,13 @@ define([
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Subdistricts overlay layer on.');
             }
         });
+
+        // $("#uploadCustomGraphic").hover(function() {
+        //     debugger;
+        //     $("#customGraphicSymbol").css("background-color", "red");
+        // });
+
+
 
         registry.byId("villages-checkbox").on('change', function(checked) {
             LayerController.adjustOverlaysLayer();
@@ -955,6 +978,8 @@ define([
 
         });
 
+
+
         on(dom.byId("embedShare"), "click", function() {
             self.showEmbedCode();
         });
@@ -986,7 +1011,14 @@ define([
 
             on(dom.byId('close-icon'), "click", function() {
                 o.map.infoWindow.hide();
+                if ($('#uploadCustomGraphic').length > 0) {
+                    $("#uploadCustomGraphic").remove();
+                }
             });
+        });
+
+        on(o.map.infoWindow, "hide", function() {
+            o.map.infoWindow.clearFeatures();
         });
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
@@ -1080,6 +1112,7 @@ define([
                 }
             });
         });
+
 
     };
 
@@ -1246,19 +1279,19 @@ define([
             visible: false
         });
 
-        var tweet_infotemplate = new InfoTemplate();
-        tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
-        tweet_infotemplate.setTitle(null);
+        // var tweet_infotemplate = new InfoTemplate();
+        // tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
+        // tweet_infotemplate.setTitle(null);
 
         tweetLayer = new FeatureLayer(MapConfig.tweetLayer.url, {
             mode: FeatureLayer.MODE_ONDEMAND,
             id: MapConfig.tweetLayer.id,
             visible: false,
-            outFields: ["*"],
-            infoTemplate: tweet_infotemplate
+            outFields: ["*"] //,
+            //infoTemplate: tweet_infotemplate
         });
 
-        var htmlContent = Finder.getFireStoriesInfoWindow;
+        //var htmlContent = Finder.getFireStoriesInfoWindow;
 
         var fireStory_popupTemplate = new PopupTemplate({
             title: "{Title}",
@@ -1320,8 +1353,9 @@ define([
             id: MapConfig.fireStories.id,
             visible: false,
             outFields: ["*"],
-            definitionExpression: "Publish = 'Y'",
-            infoTemplate: fireStory_popupTemplate
+            hasAttachments: true,
+            definitionExpression: "Publish = 'Y'" //,
+            // infoTemplate: fireStory_popupTemplate
         });
 
         // aspect.after(o.map.infoWindow, "show", function() {
@@ -1431,7 +1465,7 @@ define([
                 var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
                 var flyr = !(item.layer.id === tomnodSellayer.id);
                 return (url && flyr);
-            });  
+            });
 
             Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
@@ -1459,7 +1493,7 @@ define([
         airQualityLayer.on('error', this.layerAddError);
 
         // Change the Land Sat layer order to be right above the basemap but below everything else
-        landSatLayer.on('load', function () {
+        landSatLayer.on('load', function() {
             o.map.reorderLayer(landSatLayer, 1);
         });
 
@@ -1469,6 +1503,13 @@ define([
         require(["modules/ErrorController"], function(ErrorController) {
             ErrorController.show(10, "Error adding Layer : <br> " + evt.target.url);
         });
+    };
+
+    o.removeCustomFeatures = function() {
+
+        o.map.graphics.clear();
+        MapModel.vm.customFeaturesArray([]);
+        MapModel.vm.customFeaturesPresence(false);
     };
 
     o.toggleFireOption = function(evt) {
@@ -1603,8 +1644,13 @@ define([
                 window.print();
                 domClass.remove('print-button', 'loading');
                 domClass.remove(body, "map-view-print");
-                registry.byId("stackContainer").resize();
+
                 o.map.resize();
+                setTimeout(function() {
+
+                    registry.byId("stackContainer").resize();
+                }, 1000);
+
             }, 2000);
         });
 
