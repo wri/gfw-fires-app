@@ -626,6 +626,16 @@ define({
             "type": "checkbox",
             "props": {}
         }, {
+            "id": "smart-archive-checkbox",
+            "class": "fires-confidence-checkbox",
+            "type": "radio",
+            "props": {}
+        }, {
+            "id": "smart-archive-checkbox2",
+            "class": "fires-confidence-checkbox",
+            "type": "radio",
+            "props": {}
+        }, {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",
             "type": "checkbox",

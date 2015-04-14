@@ -34,15 +34,19 @@ define([
     "esri/dijit/PopupTemplate",
     "esri/graphic",
     "esri/urlUtils",
+    "esri/symbols/SimpleMarkerSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
     "esri/renderers/SimpleRenderer",
+    "esri/renderers/ClassBreaksRenderer",
+    "esri/renderers/smartMapping",
     "esri/Color",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
     "views/map/LayerController",
     "views/map/WindyController",
+    "views/map/clusterfeaturelayer",
     "views/map/Finder",
     "views/report/ReportOptionsController",
     "utils/DijitFactory",
@@ -65,8 +69,8 @@ define([
     "utils/Helper",
     "dojo/aspect"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, ClassBreaksRenderer, SmartMapping, Color,
+    registry, MapConfig, MapModel, LayerController, WindyController, ClusterFeatureLayer, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, Uploader, DrawTool, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
 
     var o = {},
@@ -940,6 +944,99 @@ define([
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], newLayerDef);
         });
 
+        on(registry.byId("smart-archive-checkbox"), "click", function(value) {
+            //require(["esri/renderers/smartMapping"], function(SmartMapping) {
+            var oldFires, newFires;
+            //if (value == true) {
+            oldFires = o.map.getLayer("firesClusters");
+            oldFires.hide();
+
+            newFires = o.map.getLayer("newFires");
+            newFires.show();
+            newFires.setRenderer(o.heatMapRenderer);
+            newFires.redraw();
+            // newRenderer = SmartMapping.createHeatmapRenderer({
+            //     layer: newFires,
+            //     //field: field,
+            //     blurRadius: 5,
+            //     basemap: o.map.getBasemap()
+
+            // }).then(function(response) {
+            //     newFires.setRenderer(response.renderer);
+            //     newFires.redraw();
+
+            // });
+
+            // o.map.addLayer(newFires);
+
+
+            //TODO: give user a little dropdown that says: View heat based on: then the values are either proximity (default), confidence, or brightness. Right? Or those could be proportional size choices?
+
+            // } else {
+            //     newFires = o.map.getLayer("newFires");
+            //     newFires.hide();
+            // }
+            //});
+
+        });
+
+        on(registry.byId("smart-archive-checkbox2"), "click", function(value) {
+
+            var oldFires, newFires;
+            oldFires = o.map.getLayer("newFires");
+            oldFires.hide();
+            // $("#brightnessSelector").show();
+            // $("#confidenceSelector").show();
+
+            // $("#confidenceSelector").click(function() {
+            //     $("#brightnessSelector").removeClass("selectedConfidence");
+            //     $("#confidenceSelector").addClass("selectedConfidence");
+            //     o.sizeRenderer.attributeField = "CONFIDENCE";
+            //     newFires = o.map.getLayer("newFires");
+            //     newRenderer = SmartMapping.createSizeRenderer({
+            //         layer: newFires,
+            //         field: "CONFIDENCE",
+            //         basemap: o.map.getBasemap()
+            //     }).then(function(response) {
+            //         newFires.setRenderer(response.renderer);
+            //         newFires.redraw();
+            //         newFires.show();
+            //     });
+            // });
+            // $("#brightnessSelector").click(function() {
+
+            //     $("#confidenceSelector").removeClass("selectedConfidence");
+            //     $("#brightnessSelector").addClass("selectedConfidence");
+
+            //     newFires = o.map.getLayer("newFires");
+            //     //newFires.show();
+
+            //     newRenderer = SmartMapping.createSizeRenderer({
+            //         layer: newFires,
+            //         field: "BRIGHTNESS",
+            //         basemap: o.map.getBasemap()
+            //     }).then(function(response) {
+            //         newFires.setRenderer(response.renderer);
+            //         newFires.redraw();
+            //         newFires.show();
+            //     });
+            // });
+
+
+            newFires = o.map.getLayer("firesClusters");
+            newFires.show();
+            // newFires.show();
+
+            // newFires.setRenderer(o.sizeRenderer);
+            // newFires.redraw();
+
+
+
+        });
+
+
+
+
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
             var currentDate = $("#windDate").datepicker("getDate");
@@ -1266,6 +1363,73 @@ define([
             id: MapConfig.tomnodLayer.sel_id
         });
 
+        // esriRequest.setRequestPreCallback(function(ioArgs) {
+        //     if (ioArgs.url === "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4") {
+        //         ioArgs.content['defaultDefinitionExpression'] = "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'";
+        //     }
+        //     return ioArgs;
+        // })
+
+        var firesViz = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
+            id: "newFires",
+            visible: false,
+            outFields: "*"
+        });
+        var defaultSym = new SimpleMarkerSymbol("circle", 16,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
+            new Color([255, 255, 255, 1]));
+
+        var selectedSym = new SimpleMarkerSymbol("circle", 16,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.85]), 3),
+            new Color([255, 255, 255, 1]));
+
+        var firesVizCluster = new ClusterFeatureLayer({
+            "url": "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
+            "distance": 95,
+            "id": "firesClusters",
+            "labelColor": "#fff",
+            "resolution": o.map.extent.getWidth() / o.map.width,
+            //"singleColor": "#888",
+            "singleSymbol": defaultSym,
+            //"singleTemplate": infoTemplate,
+            "useDefaultSymbol": false,
+            "zoomOnClick": true,
+            "showSingles": true,
+            "visible": false,
+            "objectIdField": "FID",
+            outFields: ["ACQ_DATE", "CONFIDENCE"]
+        });
+        //debugger;
+
+        var cRenderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
+
+        // Red Clusters
+        var small = new SimpleMarkerSymbol("circle", 25,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([212, 116, 60, 0.5]), 15),
+            new Color([212, 116, 60, 0.75]));
+        var medium = new SimpleMarkerSymbol("circle", 50,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([178, 70, 37, 0.5]), 15),
+            new Color([178, 70, 37, 0.75]));
+        var large = new SimpleMarkerSymbol("circle", 80,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([144, 24, 13, 0.5]), 15),
+            new Color([144, 24, 13, 0.75]));
+        var xlarge = new SimpleMarkerSymbol("circle", 110,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.5]), 15),
+            new Color([102, 0, 0, 0.75]));
+
+        // Break values - can adjust easily
+        cRenderer.addBreak(2, 50, small);
+        cRenderer.addBreak(50, 250, medium);
+        cRenderer.addBreak(250, 1000, large);
+        cRenderer.addBreak(1000, 50000, xlarge);
+
+        // // Providing a ClassBreakRenderer is also optional
+        firesVizCluster.setRenderer(cRenderer);
+
+        //firesViz.setDefinitionExpression("ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'");
+
         burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
 
         firesParams = new ImageParameters();
@@ -1410,6 +1574,31 @@ define([
         var highlightRenderer = new SimpleRenderer(highlightSymbol);
         digitalGlobeGraphicsHighlight.setRenderer(highlightRenderer);
 
+        // SmartMapping.createSizeRenderer({
+        //     layer: firesViz,
+        //     field: "CONFIDENCE",
+        //     basemap: o.map.getBasemap()
+        // }).then(function(response) {
+
+        //     o.sizeRenderer = response.renderer;
+        //     console.log("ready for proportional size");
+        //     // firesViz.redraw();
+        //     // firesViz.show();
+        // });
+        SmartMapping.createHeatmapRenderer({
+            layer: firesViz,
+            //field: field,
+            blurRadius: 5,
+            basemap: o.map.getBasemap()
+
+        }).then(function(response) {
+
+            o.heatMapRenderer = response.renderer;
+            //newFires.redraw();
+
+        });
+
+
         dglyr = digitalGlobeGraphicsLayer;
 
         // TESTING LAYER
@@ -1434,6 +1623,8 @@ define([
             fireStories,
             airQualityLayer,
             tomnodSellayer,
+            firesViz,
+            firesVizCluster,
             indonesiaLayer,
             firesLayer
         ]);

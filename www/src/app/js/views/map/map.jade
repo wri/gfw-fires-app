@@ -17,6 +17,15 @@ div#map-view(class="map-view")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
 						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
+					div#SmartMappingCheckbox(class="confidence-archive-container" name='smart-radios')
+							div#smart-archive-checkbox
+							label Heat
+					div#SmartMappingCheckbox2(class="confidence-archive-container" name='smart-radios') 
+							div#smart-archive-checkbox2 Proportional
+							label Symbol
+								div#confidenceSelector.selectedConfidence Confidence
+								div#brightnessSelector Brightness
+								
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
@@ -27,6 +36,7 @@ div#map-view(class="map-view")
 						div(class="confidence-archive-container")
 							div#confidence-archive-checkbox
 							label#confidenceArchiveContainer(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
+
 						//-div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section

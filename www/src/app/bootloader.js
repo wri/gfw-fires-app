@@ -16,10 +16,10 @@
     var ENV = 'dev',
 
         version = "0.6.10",
-        esriLib = 'http://js.arcgis.com/3.12/init.js',
+        esriLib = 'http://js.arcgis.com/3.13/init.js',
         css = {
             'dev': [{
-                src: 'http://js.arcgis.com/3.12/esri/css/esri.css',
+                src: 'http://js.arcgis.com/3.13/esri/css/esri.css',
                 cdn: true
             }, {
                 src: 'app/css/app.css',
@@ -37,11 +37,11 @@
                 src: 'app/css/map.css',
                 cdn: false
             }, {
-                src: 'http://js.arcgis.com/3.12/dijit/themes/tundra/tundra.css',
+                src: 'http://js.arcgis.com/3.13/dijit/themes/tundra/tundra.css',
                 cdn: true
             }],
             'pro': [{
-                src: 'http://js.arcgis.com/3.12/esri/css/esri.css',
+                src: 'http://js.arcgis.com/3.13/esri/css/esri.css',
                 cdn: true
             }, {
                 src: 'app/css/app.css',
@@ -59,7 +59,7 @@
                 src: 'app/css/map.css',
                 cdn: false
             }, {
-                src: 'http://js.arcgis.com/3.12/dijit/themes/tundra/tundra.css',
+                src: 'http://js.arcgis.com/3.13/dijit/themes/tundra/tundra.css',
                 cdn: true
             }]
         },

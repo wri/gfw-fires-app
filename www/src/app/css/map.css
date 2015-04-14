@@ -1849,10 +1849,21 @@ div.report-options-section > table {
   overflow-x: hidden;
 }
 
-/* line 1333 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
-@media print {
+/* line 1331 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+#brightnessSelector,
+#confidenceSelector {
+  display: none;
+}
 
 /* line 1334 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+.selectedConfidence {
+  background-color: #00f;
+}
+
+/* line 1337 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
+@media print {
+
+/* line 1338 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */
   html,
   body {
     -webkit-print-color-adjust: exact;
