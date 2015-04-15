@@ -17,14 +17,17 @@ div#map-view(class="map-view")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
 						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
-					div#SmartMappingCheckbox(class="confidence-archive-container" name='smart-radios')
-							div#smart-archive-checkbox
-							label Heat
-					div#SmartMappingCheckbox2(class="confidence-archive-container" name='smart-radios') 
-							div#smart-archive-checkbox2 Proportional
-							label Symbol
-								div#confidenceSelector.selectedConfidence Confidence
-								div#brightnessSelector Brightness
+				div#SmartMappingCheckbox(class="confidence-archive-container" name='smart-radios')
+					div#smart-archive-checkbox
+					label Heat
+				div#SmartMappingCheckbox2(class="confidence-archive-container" name='smart-radios') 
+					div#smart-archive-checkbox2
+					label Cluster Layer
+						div#confidenceSelector.selectedConfidence Confidence
+						div#brightnessSelector Brightness
+				div#SmartMappingCheckbox3(class="confidence-archive-container" name='smart-radios')
+					div#smart-archive-checkbox3
+					label HexBin
 								
 				div(class="checkbox-container")
 					div#indonesia-fires
