@@ -408,6 +408,343 @@ define([
         imageBoxes.clear();
     };
 
+    o.setSmartRenderer = function(newRenderer) {
+        // var realFires = o.map.getLayer("Active_Fires");
+        // realFires.hide();
+
+        switch (newRenderer) {
+            case "Choose one":
+                o.map.graphics.clear();
+                var firesClusters, fireHeat, hexFires;
+
+                firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.hide();
+
+                hexFires = o.map.getLayer("hexFires");
+                hexFires.hide();
+
+                fireHeat = o.map.getLayer("newFires");
+                fireHeat.hide();
+                break;
+
+            case "Heat map":
+                // debugger;
+                o.map.graphics.clear();
+                var firesClusters, fireHeat, hexFires;
+
+                firesClusters = o.map.getLayer("firesClusters");
+
+                firesClusters.hide();
+                hexFires = o.map.getLayer("hexFires");
+                hexFires.hide();
+
+                fireHeat = o.map.getLayer("newFires");
+
+                fireHeat.setRenderer(o.heatMapRenderer);
+
+                fireHeat.show();
+                //do something
+                break;
+            case "Proportional symbols":
+                //do something
+                o.map.graphics.clear();
+                var fireHeat, firesClusters, hexFires;
+                fireHeat = o.map.getLayer("newFires");
+                fireHeat.hide();
+                hexFires = o.map.getLayer("hexFires");
+                hexFires.hide();
+
+                firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.show();
+                break;
+            case "Hex bin":
+                var firesClusters, newFires;
+
+                firesClusters = o.map.getLayer("firesClusters");
+
+                firesClusters.hide();
+                newFires = o.map.getLayer("newFires");
+                newFires.hide();
+
+                o.tessellationInfo = {};
+                o.tessellationInfo.origin = {};
+                o.tessellationInfo.hexagonOrientation = "NS";
+                o.tessellationInfo.hexagonRadius = 1000;
+                o.tessellationInfo.type = "hexagon";
+
+                function createQuery() {
+                    console.log("createQuery!");
+
+                    var extent = o.map.extent;
+
+                    var json = {
+                        "rings": [
+                            [
+
+                                [extent.xmin, extent.ymax],
+                                [extent.xmax, extent.ymax],
+                                [extent.xmax, extent.ymin],
+                                [extent.xmin, extent.ymin],
+                                [extent.xmin, extent.ymax]
+
+                            ]
+                        ],
+                        "spatialReference": extent.spatialReference
+                    };
+
+                    var selPolygon = new Polygon(json);
+
+                    var query = new Query();
+                    query.returnGeometry = true;
+                    query.where = "1=1";
+                    query.outSpatialReference = o.map.spatialReference;
+                    query.geometry = selPolygon;
+                    query.outFields = ["*"];
+                    return query;
+                }
+
+                var tessellationInfo, cellSymbol;
+                var radius = 50000;
+
+
+                cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                        new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
+                );
+
+
+
+                var extent = o.map.extent;
+                var halfEdgeLength = radius * 0.5;
+                var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
+                var hexagonHeight = halfHexagonHeight * 2;
+
+                o.tessellationInfo.origin.x = extent.xmin;
+                o.tessellationInfo.origin.y = extent.ymin;
+
+                var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
+                var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
+
+
+                console.log("rows: " + numRows + " cols: " + numCols + " ");
+                var startTime = (new Date().getTime());
+                var count1 = 0;
+                var count2 = 0;
+
+
+                for (var c = 0; c < numCols; c++) {
+                    for (var r = 0; r < numRows; r++) {
+                        var evenCol = c % 2;
+                        var centerX, centerY;
+
+                        if (evenCol == 0) {
+                            centerX = c * (radius + halfEdgeLength) + extent.xmin;
+                            centerY = r * hexagonHeight + extent.ymin;
+                        } else {
+                            centerX = c * (radius + halfEdgeLength) + extent.xmin;
+                            centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
+                        }
+
+                        var x1 = centerX + radius;
+                        var y1 = centerY;
+                        var x2 = centerX + halfEdgeLength;
+                        var y2 = centerY + halfHexagonHeight;
+                        var x3 = centerX - halfEdgeLength;
+                        var y3 = centerY + halfHexagonHeight;
+                        var x4 = centerX - radius;
+                        var y4 = centerY;
+                        var x5 = centerX - halfEdgeLength;
+                        var y5 = centerY - halfHexagonHeight;
+                        var x6 = centerX + halfEdgeLength;
+                        var y6 = centerY - halfHexagonHeight;
+
+                        var hexagon = new Polygon(o.map.spatialReference);
+                        hexagon.addRing([
+                            [x1, y1],
+                            [x2, y2],
+                            [x3, y3],
+                            [x4, y4],
+                            [x5, y5],
+                            [x6, y6],
+                            [x1, y1]
+                        ]);
+
+                        var center = new Point(centerX, centerY, o.map.spatialReference);
+
+                        var id = "ID-" + c + "-" + r;
+                        var attr = {
+                            "count": 0,
+                            id: id
+                        };
+
+                        var graphic = new Graphic(hexagon, cellSymbol, attr);
+
+                        //graphicsLayer.add(graphic);
+                        o.map.graphics.add(graphic);
+                    }
+                }
+
+                var endTime = (new Date().getTime());
+                console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
+
+                var fires = o.map.getLayer("hexFires");
+
+                fires.queryFeatures(createQuery(), function(results) {
+
+                    console.log("# of features: " + results.features.length);
+
+                    var startTime = (new Date().getTime());
+                    var aggregateArray = [];
+                    var col, row, point, id;
+                    var feature;
+
+                    var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
+                    var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
+                    var hexagonHeight = halfHexagonHeight * 2;
+
+                    var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
+                    //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
+                    //var needProcessAttributes = false;
+
+                    for (var i = 0; i < results.features.length; i++) {
+                        feature = results.features[i];
+                        point = feature.geometry;
+                        col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
+                        row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
+
+
+                        var center1, center2, center3;
+                        var evenCol = col % 2;
+                        if (evenCol === 0) {
+                            center1 = {
+                                x: col * colWidth + o.tessellationInfo.origin.x,
+                                y: row * hexagonHeight + o.tessellationInfo.origin.y
+                            };
+                            center2 = {
+                                x: col * colWidth + o.tessellationInfo.origin.x,
+                                y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+                            };
+                            center3 = {
+                                x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                                y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+                            };
+                        } else {
+                            center1 = {
+                                x: col * colWidth + o.tessellationInfo.origin.x,
+                                y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+                            };
+                            center2 = {
+                                x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                                y: row * hexagonHeight + o.tessellationInfo.origin.y
+                            };
+                            center3 = {
+                                x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                                y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+                            };
+                        }
+
+                        var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
+                        var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
+                        var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
+
+                        if (evenCol === 0) {
+                            if (d1 <= d2 && d1 <= d3) {
+                                id = "ID-" + col + "-" + row;
+                            } else if (d2 <= d1 && d2 <= d3) {
+                                id = "ID-" + col + "-" + (row + 1);
+                            } else {
+                                id = "ID-" + (col + 1) + "-" + row;
+                            }
+                        } else {
+                            if (d1 <= d2 && d1 <= d3) {
+                                id = "ID-" + col + "-" + row;
+                            } else if (d2 <= d1 && d2 <= d3) {
+                                id = "ID-" + (col + 1) + "-" + row;
+                            } else {
+                                id = "ID-" + (col + 1) + "-" + (row + 1);
+                            }
+                        }
+
+                        var record = undefined;
+                        for (var j = 0; j < aggregateArray.length; j++) {
+                            if (aggregateArray[j].id === id) {
+                                aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
+                                record = aggregateArray[j];
+                                break;
+                            }
+                        }
+
+                        var attrs = {};
+                        if (!record) {
+                            attrs["count"] = 1;
+
+                            record = {
+                                id: id,
+                                attributes: attrs
+                            };
+                            aggregateArray.push(record);
+                        }
+
+                    }
+
+                    //updateTessellationLayer(aggregateArray);
+                    updateTessellationLayer(aggregateArray, results.features);
+
+
+                    var endTime = (new Date().getTime());
+                    console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
+
+                    function updateTessellationLayer(aggregateArray, fires) {
+                        console.log("updateTessellationLayer!");
+                        console.log(aggregateArray.length + " features");
+                        var maxWeight = 0;
+
+                        var len = o.map.graphics.graphics.length;
+                        var graphicsArray = o.map.graphics.graphics;
+
+                        for (var k = 0; k < len; k++) {
+
+
+                            for (var kk = 0; kk < fires.length; kk++) {
+
+                                if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
+
+                                    graphicsArray[k].attributes["count"]++;
+
+                                }
+                            }
+
+
+                            maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
+
+
+
+                        }
+
+
+                        console.log("max weight: " + maxWeight);
+                        for (var l = 0; l < len; l++) {
+                            console.log("count for this hex = " + graphicsArray[l].attributes["count"]);
+
+                            var alpha = (graphicsArray[l].attributes["count"] / maxWeight) * 0.8 + 0.1;
+
+                            //var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1);
+                            //if (removeCellBoundary) {
+                            var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0, 0.0]), 0);
+                            //}
+
+                            graphicsArray[l].symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, outline, new Color([255, 0, 0, alpha]));
+                        }
+
+                        o.map.graphics.redraw();
+                        console.log("here?");
+                    }
+
+                });
+                break;
+        }
+    }
+
     o.resizeMapPanel = function(data) {
 
         if (data == true) {
@@ -945,460 +1282,46 @@ define([
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], newLayerDef);
         });
 
-        on(registry.byId("smart-archive-checkbox"), "click", function(value) {
-            o.map.graphics.clear();
-            var firesClusters, fireHeat;
-
-            firesClusters = o.map.getLayer("firesClusters");
-            firesClusters.hide();
-
-            fireHeat = o.map.getLayer("newFires");
-
-            fireHeat.setRenderer(o.heatMapRenderer);
-
-            fireHeat.show();
-
-        });
-
-        on(registry.byId("smart-archive-checkbox2"), "click", function(value) {
-            o.map.graphics.clear();
-            var fireHeat, firesClusters;
-            fireHeat = o.map.getLayer("newFires");
-            fireHeat.hide();
-            // $("#brightnessSelector").show();
-            // $("#confidenceSelector").show();
-
-            // $("#confidenceSelector").click(function() {
-            //     $("#brightnessSelector").removeClass("selectedConfidence");
-            //     $("#confidenceSelector").addClass("selectedConfidence");
-            //     o.sizeRenderer.attributeField = "CONFIDENCE";
-            //     newFires = o.map.getLayer("newFires");
-            //     newRenderer = SmartMapping.createSizeRenderer({
-            //         layer: newFires,
-            //         field: "CONFIDENCE",
-            //         basemap: o.map.getBasemap()
-            //     }).then(function(response) {
-            //         newFires.setRenderer(response.renderer);
-            //         newFires.redraw();
-            //         newFires.show();
-            //     });
-            // });
-            // $("#brightnessSelector").click(function() {
-
-            //     $("#confidenceSelector").removeClass("selectedConfidence");
-            //     $("#brightnessSelector").addClass("selectedConfidence");
-
-            //     newFires = o.map.getLayer("newFires");
-            //     //newFires.show();
-
-            //     newRenderer = SmartMapping.createSizeRenderer({
-            //         layer: newFires,
-            //         field: "BRIGHTNESS",
-            //         basemap: o.map.getBasemap()
-            //     }).then(function(response) {
-            //         newFires.setRenderer(response.renderer);
-            //         newFires.redraw();
-            //         newFires.show();
-            //     });
-            // });
 
 
-            firesClusters = o.map.getLayer("firesClusters");
-            firesClusters.show();
+        on(registry.byId("activate-smart-checkbox"), "change", function(value) {
+
+            var realFires = o.map.getLayer("Active_Fires");
+
+            if (value === true) {
+                realFires.hide();
+            } else {
+                realFires.show();
+                o.map.graphics.clear();
+                var fireHeat, firesClusters, hexFires;
+
+                fireHeat = o.map.getLayer("newFires");
+                fireHeat.hide();
+
+                firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.hide();
+
+                hexFires = o.map.getLayer("firesClusters");
+                hexFires.hide();
+
+            }
+
+
+
+            // o.map.graphics.clear();
+            // var fireHeat, firesClusters;
+            // fireHeat = o.map.getLayer("newFires");
+            // fireHeat.hide();
+
+
+            // firesClusters = o.map.getLayer("firesClusters");
+            // firesClusters.show();
             // newFires.show();
 
             // newFires.setRenderer(o.sizeRenderer);
             // newFires.redraw();
 
         });
-
-        on(registry.byId("smart-archive-checkbox3"), "click", function(value) {
-
-            o.tessellationInfo = {};
-            o.tessellationInfo.origin = {};
-            o.tessellationInfo.hexagonOrientation = "NS";
-            o.tessellationInfo.hexagonRadius = 1000;
-            o.tessellationInfo.type = "hexagon";
-
-
-
-            function createQuery() {
-                console.log("createQuery!");
-
-                var extent = o.map.extent;
-
-                var json = {
-                    "rings": [
-                        [
-
-                            [extent.xmin, extent.ymax],
-                            [extent.xmax, extent.ymax],
-                            [extent.xmax, extent.ymin],
-                            [extent.xmin, extent.ymin],
-                            [extent.xmin, extent.ymax]
-
-                        ]
-                    ],
-                    "spatialReference": extent.spatialReference
-                };
-
-                var selPolygon = new Polygon(json);
-                //o.map.graphics.add(selPolygon, cellSymbol);
-
-                var query = new Query();
-                query.returnGeometry = true;
-                query.where = "1=1";
-                query.outSpatialReference = o.map.spatialReference;
-                query.geometry = selPolygon; //TODO: just send the whole extent of the map we're looking at in as the geometry
-                query.outFields = ["*"];
-                return query;
-            }
-
-
-
-
-            var fireHeat, firesClusters, hexFires, tessellationInfo, cellSymbol;
-            var radius = 50000;
-
-
-            cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                    new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
-            );
-
-
-            firesClusters = o.map.getLayer("firesClusters");
-            firesClusters.hide();
-
-            // fireHeat = o.map.getLayer("newFires");
-            // fireHeat.hide();
-
-            var extent = o.map.extent;
-            var halfEdgeLength = radius * 0.5;
-            var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
-            var hexagonHeight = halfHexagonHeight * 2;
-
-            o.tessellationInfo.origin.x = extent.xmin;
-            o.tessellationInfo.origin.y = extent.ymin;
-
-            var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
-            var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
-
-
-            console.log("rows: " + numRows + " cols: " + numCols + " ");
-            var startTime = (new Date().getTime());
-            var count1 = 0;
-            var count2 = 0;
-
-
-            for (var c = 0; c < numCols; c++) {
-                for (var r = 0; r < numRows; r++) {
-                    var evenCol = c % 2;
-                    var centerX, centerY;
-
-                    if (evenCol == 0) {
-                        centerX = c * (radius + halfEdgeLength) + extent.xmin;
-                        centerY = r * hexagonHeight + extent.ymin;
-                    } else {
-                        centerX = c * (radius + halfEdgeLength) + extent.xmin;
-                        centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
-                    }
-
-                    var x1 = centerX + radius;
-                    var y1 = centerY;
-                    var x2 = centerX + halfEdgeLength;
-                    var y2 = centerY + halfHexagonHeight;
-                    var x3 = centerX - halfEdgeLength;
-                    var y3 = centerY + halfHexagonHeight;
-                    var x4 = centerX - radius;
-                    var y4 = centerY;
-                    var x5 = centerX - halfEdgeLength;
-                    var y5 = centerY - halfHexagonHeight;
-                    var x6 = centerX + halfEdgeLength;
-                    var y6 = centerY - halfHexagonHeight;
-
-                    var hexagon = new Polygon(o.map.spatialReference);
-                    hexagon.addRing([
-                        [x1, y1],
-                        [x2, y2],
-                        [x3, y3],
-                        [x4, y4],
-                        [x5, y5],
-                        [x6, y6],
-                        [x1, y1]
-                    ]);
-
-                    var center = new Point(centerX, centerY, o.map.spatialReference);
-                    //console.log("c=" + c + " r=" + r + " even col:"  + evenCol + " center x: " + centerX + " y: " + centerY + " " + polygon.contains(center));
-
-                    // if (!polygon.contains(center)) {
-                    //     var overlap = ringOverlapWithPolygon(polygon, hexagon);
-                    //     if (!overlap)
-                    //         continue;
-                    // }
-
-                    var id = "ID-" + c + "-" + r;
-                    var attr = {
-                        "count": 0,
-                        id: id
-                    };
-                    // var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
-                    // if (needProcessAttributes) {
-                    //     for (var k2 = 0; k2 < summaryFieldAndTypeData.length; k2++) {
-                    //         attr[summaryFieldAndTypeData[k2].fieldName] = 0;
-                    //     }
-                    // }
-                    var graphic = new Graphic(hexagon, cellSymbol, attr);
-
-                    //graphicsLayer.add(graphic);
-                    o.map.graphics.add(graphic);
-                }
-            }
-
-            var endTime = (new Date().getTime());
-            console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
-
-            var fires = o.map.getLayer("newFires");
-
-            fires.queryFeatures(createQuery(), function(results) {
-
-                console.log("# of features: " + results.features.length);
-
-                var startTime = (new Date().getTime());
-                var aggregateArray = [];
-                var col, row, point, id;
-                var feature;
-
-                var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
-                var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
-                var hexagonHeight = halfHexagonHeight * 2;
-
-                var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
-                //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
-                //var needProcessAttributes = false;
-
-                for (var i = 0; i < results.features.length; i++) {
-                    feature = results.features[i];
-                    point = feature.geometry;
-                    col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
-                    row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
-
-
-                    var center1, center2, center3;
-                    var evenCol = col % 2;
-                    if (evenCol === 0) {
-                        center1 = {
-                            x: col * colWidth + o.tessellationInfo.origin.x,
-                            y: row * hexagonHeight + o.tessellationInfo.origin.y
-                        };
-                        center2 = {
-                            x: col * colWidth + o.tessellationInfo.origin.x,
-                            y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-                        };
-                        center3 = {
-                            x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                            y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-                        };
-                    } else {
-                        center1 = {
-                            x: col * colWidth + o.tessellationInfo.origin.x,
-                            y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-                        };
-                        center2 = {
-                            x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                            y: row * hexagonHeight + o.tessellationInfo.origin.y
-                        };
-                        center3 = {
-                            x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                            y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-                        };
-                    }
-
-                    var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
-                    var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
-                    var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
-
-                    if (evenCol === 0) {
-                        if (d1 <= d2 && d1 <= d3) {
-                            id = "ID-" + col + "-" + row;
-                        } else if (d2 <= d1 && d2 <= d3) {
-                            id = "ID-" + col + "-" + (row + 1);
-                        } else {
-                            id = "ID-" + (col + 1) + "-" + row;
-                        }
-                    } else {
-                        if (d1 <= d2 && d1 <= d3) {
-                            id = "ID-" + col + "-" + row;
-                        } else if (d2 <= d1 && d2 <= d3) {
-                            id = "ID-" + (col + 1) + "-" + row;
-                        } else {
-                            id = "ID-" + (col + 1) + "-" + (row + 1);
-                        }
-                    }
-
-                    var record = undefined;
-                    for (var j = 0; j < aggregateArray.length; j++) {
-                        if (aggregateArray[j].id === id) {
-                            aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
-                            record = aggregateArray[j];
-                            break;
-                        }
-                    }
-
-                    var attrs = {};
-                    if (!record) {
-                        attrs["count"] = 1;
-                        // if (needProcessAttributes) {
-                        //     for (var ii = 0; ii < summaryFieldAndTypeData.length; ii++) {
-                        //         attrs[summaryFieldAndTypeData[ii].fieldName] = feature.attributes[summaryFieldAndTypeData[ii].fieldName];
-                        //     }
-                        // }
-                        record = {
-                            id: id,
-                            attributes: attrs
-                        };
-                        aggregateArray.push(record);
-                    }
-                    // else if (needProcessAttributes) {
-                    //     attrs = record.attributes;
-                    //     for (var kk = 0; kk < summaryFieldAndTypeData.length; kk++) {
-                    //         var value1 = attrs[summaryFieldAndTypeData[kk].fieldName];
-                    //         var value2 = feature.attributes[summaryFieldAndTypeData[kk].fieldName];
-                    //         if (summaryFieldAndTypeData[kk].summaryType === "Summary" || summaryFieldAndTypeData[kk].summaryType === "Average") {
-                    //             attrs[summaryFieldAndTypeData[kk].fieldName] = value1 + value2;
-                    //         } else if (summaryFieldAndTypeData[kk].summaryType === "Smallest") {
-                    //             if (value2 < value1) {
-                    //                 attrs[summaryFieldAndTypeData[kk].fieldName] = value2;
-                    //             }
-                    //         } else if (summaryFieldAndTypeData[kk].summaryType === "Largest") {
-                    //             if (value2 > value1) {
-                    //                 attrs[summaryFieldAndTypeData[kk].fieldName] = value2;
-                    //             }
-                    //         } else if (summaryFieldAndTypeData[kk].summaryType === "Mode") {
-                    //             attrs[summaryFieldAndTypeData[kk].fieldName] = value1 + "|" + value2;
-                    //         }
-                    //         //console.log("mode: " + summaryFieldAndTypeData[kk].summaryType + " value1:", value1, " value2: ", value2, " combined: ", attrs[summaryFieldAndTypeData[kk].fieldName])
-                    //     }
-                    // }
-                    //console.log(record);
-                }
-
-                //updateTessellationLayer(aggregateArray);
-                updateTessellationLayer(aggregateArray, results.features);
-
-
-                var endTime = (new Date().getTime());
-                console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
-
-                function updateTessellationLayer(aggregateArray, fires) {
-                    console.log("updateTessellationLayer!");
-                    console.log(aggregateArray.length + " features");
-                    var maxWeight = 0;
-
-
-                    // for (var j2 = 0; j2 < aggregateArray.length; j2++) {
-                    //     if (aggregateArray[j2].attributes["count"] > maxWeight) {
-                    //         maxWeight = aggregateArray[j2].attributes["count"];
-                    //     }
-                    // }
-                    var len = o.map.graphics.graphics.length;
-                    var graphicsArray = o.map.graphics.graphics;
-
-                    for (var k = 0; k < len; k++) {
-
-
-                        for (var kk = 0; kk < fires.length; kk++) {
-
-                            if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
-
-                                graphicsArray[k].attributes["count"]++;
-                                // if (needProcessAttributes) {
-                                //     for (var k2 = 0; k2 < summaryFieldAndTypeData.length; k2++) {
-                                //         o.map.graphics.graphics[k].attributes[summaryFieldAndTypeData[k2].fieldName] = aggregateArray[kk].attributesmaryFieldAndTypeData[k2].fieldName];
-                                //     }
-                                // }
-                                // found = true;
-                                // break;
-                            }
-                        }
-
-
-                        maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
-
-
-
-                    }
-
-
-                    console.log("max weight: " + maxWeight);
-                    for (var l = 0; l < len; l++) {
-                        console.log("count for this hex = " + graphicsArray[l].attributes["count"]);
-
-                        var alpha = (graphicsArray[l].attributes["count"] / maxWeight) * 0.8 + 0.1;
-
-                        var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1);
-                        //if (removeCellBoundary) {
-                        //var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0, 0.0]), 0.01);
-                        //}
-
-                        graphicsArray[l].symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, outline, new Color([255, 0, 0, alpha]));
-                    }
-
-                    // for (var k = 0; k < o.map.graphics.graphics.length; k++) {
-                    //     debugger;
-                    //     var found = false;
-                    //     for (var kk = 0; kk < aggregateArray.length; kk++) {
-
-                    //         if (o.map.graphics.graphics[k].attributes["id"] === aggregateArray[kk].id) {
-
-
-                    //             o.map.graphics.graphics[k].attributes["count"] = aggregateArray[kk].attributes["count"];
-
-                    //             // if (needProcessAttributes) {
-                    //             //     for (var k2 = 0; k2 < summaryFieldAndTypeData.length; k2++) {
-                    //             //         o.map.graphics.graphics[k].attributes[summaryFieldAndTypeData[k2].fieldName] = aggregateArray[kk].attributesmaryFieldAndTypeData[k2].fieldName];
-                    //             //     }
-                    //             // }
-                    //             found = true;
-                    //             break;
-                    //         }
-                    //     }
-
-                    //     console.log("count for this hex = " + o.map.graphics.graphics[k].attributes["count"]);
-                    //     var alpha = (o.map.graphics.graphics[k].attributes["count"] / maxWeight) * 0.8 + 0.1;
-                    //     var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1);
-                    //     //if (removeCellBoundary) {
-                    //     //var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0, 0.0]), 0.01);
-                    //     //}
-
-                    //     o.map.graphics.graphics[k].symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, outline, new Color([255, 0, 0, alpha]));
-
-                    // }
-
-
-
-                    //if (removeEmptyCells) {
-                    // var total = o.map.graphics.graphics.length;
-                    // for (var k3 = total - 1; k3 >= 0; k3--) {
-                    //     if (o.map.graphics.graphics[k3].attributes["count"] === 0) {
-                    //         o.map.graphics.remove(o.map.graphics.graphics[k3]);
-                    //     }
-                    //     //                else{
-                    //     //                    console.log(o.map.graphics[k3]);
-                    //     //                }
-                    // }
-                    //}
-
-                    o.map.graphics.redraw();
-                    console.log("here?");
-                }
-
-            });
-
-        });
-
-
-
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
@@ -1740,9 +1663,19 @@ define([
             visible: false,
             outFields: "*"
         });
-        var defaultSym = new SimpleMarkerSymbol("circle", 16,
-            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
-            new Color([255, 255, 255, 1]));
+        var hexFires = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
+            id: "hexFires",
+            visible: false,
+            outFields: "*"
+        });
+        // var defaultSym = new SimpleMarkerSymbol("circle", 16,
+        //     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
+        //     new Color([255, 255, 255, 1]));
+        var defaultSym = new SimpleMarkerSymbol("circle", 9,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1),
+            new Color([254, 182, 62, 1]));
 
         var selectedSym = new SimpleMarkerSymbol("circle", 16,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.85]), 3),
@@ -1769,16 +1702,16 @@ define([
         var cRenderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
 
         // Red Clusters
-        var small = new SimpleMarkerSymbol("circle", 25,
+        var small = new SimpleMarkerSymbol("circle", 10,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([212, 116, 60, 0.5]), 15),
             new Color([212, 116, 60, 0.75]));
-        var medium = new SimpleMarkerSymbol("circle", 50,
+        var medium = new SimpleMarkerSymbol("circle", 25,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([178, 70, 37, 0.5]), 15),
             new Color([178, 70, 37, 0.75]));
-        var large = new SimpleMarkerSymbol("circle", 80,
+        var large = new SimpleMarkerSymbol("circle", 35,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([144, 24, 13, 0.5]), 15),
             new Color([144, 24, 13, 0.75]));
-        var xlarge = new SimpleMarkerSymbol("circle", 110,
+        var xlarge = new SimpleMarkerSymbol("circle", 55,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.5]), 15),
             new Color([102, 0, 0, 0.75]));
 
@@ -1988,6 +1921,7 @@ define([
             tomnodSellayer,
             firesViz,
             firesVizCluster,
+            hexFires,
             indonesiaLayer,
             firesLayer
         ]);
