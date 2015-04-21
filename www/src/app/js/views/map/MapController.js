@@ -26,6 +26,7 @@ define([
     "esri/dijit/Scalebar",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/ArcGISImageServiceLayer",
+    "esri/layers/TiledMapServiceLayer",
     "esri/layers/ImageParameters",
     "esri/layers/FeatureLayer",
     "esri/geometry/webMercatorUtils",
@@ -55,6 +56,7 @@ define([
     "esri/request",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
+    "esri/tasks/RelationshipQuery",
     "esri/tasks/PrintTask",
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
@@ -70,8 +72,8 @@ define([
     "utils/Helper",
     "dojo/aspect"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, Polygon, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, ClassBreaksRenderer, SmartMapping, Color,
-    registry, MapConfig, MapModel, LayerController, WindyController, ClusterFeatureLayer, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, TiledMapServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, Polygon, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, ClassBreaksRenderer, SmartMapping, Color,
+    registry, MapConfig, MapModel, LayerController, WindyController, ClusterFeatureLayer, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, RelationshipQuery, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, Uploader, DrawTool, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
 
     var o = {},
@@ -213,6 +215,8 @@ define([
         var hashY = HashController.newState.y;
         var hashL = HashController.newState.l;
 
+
+
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
             zoom: hashL, //MapConfig.mapOptions.initalZoom,
@@ -224,6 +228,7 @@ define([
             navigationMode: "css-transforms"
         });
         window.map = o.map;
+
 
 
         o.map.on("load", function() {
@@ -440,7 +445,7 @@ define([
 
                 fireHeat = o.map.getLayer("newFires");
 
-                fireHeat.setRenderer(o.heatMapRenderer);
+                // fireHeat.setRenderer(o.heatMapRenderer);
 
                 fireHeat.show();
                 //do something
@@ -458,292 +463,306 @@ define([
                 firesClusters.show();
                 break;
             case "Hex bin":
-                var firesClusters, newFires;
+                o.setHexBinRender();
 
-                firesClusters = o.map.getLayer("firesClusters");
-
-                firesClusters.hide();
-                newFires = o.map.getLayer("newFires");
-                newFires.hide();
-
-                o.tessellationInfo = {};
-                o.tessellationInfo.origin = {};
-                o.tessellationInfo.hexagonOrientation = "NS";
-                o.tessellationInfo.hexagonRadius = 1000;
-                o.tessellationInfo.type = "hexagon";
-
-                function createQuery() {
-                    console.log("createQuery!");
-
-                    var extent = o.map.extent;
-
-                    var json = {
-                        "rings": [
-                            [
-
-                                [extent.xmin, extent.ymax],
-                                [extent.xmax, extent.ymax],
-                                [extent.xmax, extent.ymin],
-                                [extent.xmin, extent.ymin],
-                                [extent.xmin, extent.ymax]
-
-                            ]
-                        ],
-                        "spatialReference": extent.spatialReference
-                    };
-
-                    var selPolygon = new Polygon(json);
-
-                    var query = new Query();
-                    query.returnGeometry = true;
-                    query.where = "1=1";
-                    query.outSpatialReference = o.map.spatialReference;
-                    query.geometry = selPolygon;
-                    query.outFields = ["*"];
-                    return query;
-                }
-
-                var tessellationInfo, cellSymbol;
-                var radius = 50000;
-
-
-                cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                        new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
-                );
-
-
-
-                var extent = o.map.extent;
-                var halfEdgeLength = radius * 0.5;
-                var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
-                var hexagonHeight = halfHexagonHeight * 2;
-
-                o.tessellationInfo.origin.x = extent.xmin;
-                o.tessellationInfo.origin.y = extent.ymin;
-
-                var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
-                var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
-
-
-                console.log("rows: " + numRows + " cols: " + numCols + " ");
-                var startTime = (new Date().getTime());
-                var count1 = 0;
-                var count2 = 0;
-
-
-                for (var c = 0; c < numCols; c++) {
-                    for (var r = 0; r < numRows; r++) {
-                        var evenCol = c % 2;
-                        var centerX, centerY;
-
-                        if (evenCol == 0) {
-                            centerX = c * (radius + halfEdgeLength) + extent.xmin;
-                            centerY = r * hexagonHeight + extent.ymin;
-                        } else {
-                            centerX = c * (radius + halfEdgeLength) + extent.xmin;
-                            centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
-                        }
-
-                        var x1 = centerX + radius;
-                        var y1 = centerY;
-                        var x2 = centerX + halfEdgeLength;
-                        var y2 = centerY + halfHexagonHeight;
-                        var x3 = centerX - halfEdgeLength;
-                        var y3 = centerY + halfHexagonHeight;
-                        var x4 = centerX - radius;
-                        var y4 = centerY;
-                        var x5 = centerX - halfEdgeLength;
-                        var y5 = centerY - halfHexagonHeight;
-                        var x6 = centerX + halfEdgeLength;
-                        var y6 = centerY - halfHexagonHeight;
-
-                        var hexagon = new Polygon(o.map.spatialReference);
-                        hexagon.addRing([
-                            [x1, y1],
-                            [x2, y2],
-                            [x3, y3],
-                            [x4, y4],
-                            [x5, y5],
-                            [x6, y6],
-                            [x1, y1]
-                        ]);
-
-                        var center = new Point(centerX, centerY, o.map.spatialReference);
-
-                        var id = "ID-" + c + "-" + r;
-                        var attr = {
-                            "count": 0,
-                            id: id
-                        };
-
-                        var graphic = new Graphic(hexagon, cellSymbol, attr);
-
-                        //graphicsLayer.add(graphic);
-                        o.map.graphics.add(graphic);
-                    }
-                }
-
-                var endTime = (new Date().getTime());
-                console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
-
-                var fires = o.map.getLayer("hexFires");
-
-                fires.queryFeatures(createQuery(), function(results) {
-
-                    console.log("# of features: " + results.features.length);
-
-                    var startTime = (new Date().getTime());
-                    var aggregateArray = [];
-                    var col, row, point, id;
-                    var feature;
-
-                    var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
-                    var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
-                    var hexagonHeight = halfHexagonHeight * 2;
-
-                    var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
-                    //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
-                    //var needProcessAttributes = false;
-
-                    for (var i = 0; i < results.features.length; i++) {
-                        feature = results.features[i];
-                        point = feature.geometry;
-                        col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
-                        row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
-
-
-                        var center1, center2, center3;
-                        var evenCol = col % 2;
-                        if (evenCol === 0) {
-                            center1 = {
-                                x: col * colWidth + o.tessellationInfo.origin.x,
-                                y: row * hexagonHeight + o.tessellationInfo.origin.y
-                            };
-                            center2 = {
-                                x: col * colWidth + o.tessellationInfo.origin.x,
-                                y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-                            };
-                            center3 = {
-                                x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                                y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-                            };
-                        } else {
-                            center1 = {
-                                x: col * colWidth + o.tessellationInfo.origin.x,
-                                y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-                            };
-                            center2 = {
-                                x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                                y: row * hexagonHeight + o.tessellationInfo.origin.y
-                            };
-                            center3 = {
-                                x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                                y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-                            };
-                        }
-
-                        var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
-                        var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
-                        var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
-
-                        if (evenCol === 0) {
-                            if (d1 <= d2 && d1 <= d3) {
-                                id = "ID-" + col + "-" + row;
-                            } else if (d2 <= d1 && d2 <= d3) {
-                                id = "ID-" + col + "-" + (row + 1);
-                            } else {
-                                id = "ID-" + (col + 1) + "-" + row;
-                            }
-                        } else {
-                            if (d1 <= d2 && d1 <= d3) {
-                                id = "ID-" + col + "-" + row;
-                            } else if (d2 <= d1 && d2 <= d3) {
-                                id = "ID-" + (col + 1) + "-" + row;
-                            } else {
-                                id = "ID-" + (col + 1) + "-" + (row + 1);
-                            }
-                        }
-
-                        var record = undefined;
-                        for (var j = 0; j < aggregateArray.length; j++) {
-                            if (aggregateArray[j].id === id) {
-                                aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
-                                record = aggregateArray[j];
-                                break;
-                            }
-                        }
-
-                        var attrs = {};
-                        if (!record) {
-                            attrs["count"] = 1;
-
-                            record = {
-                                id: id,
-                                attributes: attrs
-                            };
-                            aggregateArray.push(record);
-                        }
-
-                    }
-
-                    //updateTessellationLayer(aggregateArray);
-                    updateTessellationLayer(aggregateArray, results.features);
-
-
-                    var endTime = (new Date().getTime());
-                    console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
-
-                    function updateTessellationLayer(aggregateArray, fires) {
-                        console.log("updateTessellationLayer!");
-                        console.log(aggregateArray.length + " features");
-                        var maxWeight = 0;
-
-                        var len = o.map.graphics.graphics.length;
-                        var graphicsArray = o.map.graphics.graphics;
-
-                        for (var k = 0; k < len; k++) {
-
-
-                            for (var kk = 0; kk < fires.length; kk++) {
-
-                                if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
-
-                                    graphicsArray[k].attributes["count"]++;
-
-                                }
-                            }
-
-
-                            maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
-
-
-
-                        }
-
-
-                        console.log("max weight: " + maxWeight);
-                        for (var l = 0; l < len; l++) {
-                            console.log("count for this hex = " + graphicsArray[l].attributes["count"]);
-
-                            var alpha = (graphicsArray[l].attributes["count"] / maxWeight) * 0.8 + 0.1;
-
-                            //var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 0.5]), 1);
-                            //if (removeCellBoundary) {
-                            var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0, 0.0]), 0);
-                            //}
-
-                            graphicsArray[l].symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, outline, new Color([255, 0, 0, alpha]));
-                        }
-
-                        o.map.graphics.redraw();
-                        console.log("here?");
-                    }
-
-                });
                 break;
         }
     }
+
+    o.setHexBinRender = function() {
+
+        var firesClusters, newFires;
+
+        firesClusters = o.map.getLayer("firesClusters");
+
+        firesClusters.hide();
+        newFires = o.map.getLayer("newFires");
+        newFires.hide();
+
+        o.tessellationInfo = {};
+        o.tessellationInfo.origin = {};
+        o.tessellationInfo.hexagonOrientation = "NS";
+        o.tessellationInfo.hexagonRadius = 1000;
+        o.tessellationInfo.type = "hexagon";
+
+        function createQuery() {
+            console.log("createQuery!");
+
+            var extent = o.map.extent;
+
+            var json = {
+                "rings": [
+                    [
+
+                        [extent.xmin, extent.ymax],
+                        [extent.xmax, extent.ymax],
+                        [extent.xmax, extent.ymin],
+                        [extent.xmin, extent.ymin],
+                        [extent.xmin, extent.ymax]
+
+                    ]
+                ],
+                "spatialReference": extent.spatialReference
+            };
+
+            var selPolygon = new Polygon(json);
+
+            var query = new Query();
+            query.returnGeometry = true;
+            query.where = "1=1";
+            query.outSpatialReference = o.map.spatialReference;
+            query.geometry = selPolygon;
+            query.outFields = ["*"];
+            return query;
+        }
+
+        var tessellationInfo, cellSymbol;
+        //TODO: calculate map width in meters and always get a radius so that no matter the extent we're viewing we always get the same # of hexagons
+        //esri/geometry/screenUtils?
+        //map.extent.getWidth() / 50000;//?
+        var radius = 50000;
+
+
+
+        cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
+        );
+
+
+
+        var extent = o.map.extent;
+        var halfEdgeLength = radius * 0.5;
+        var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
+        var hexagonHeight = halfHexagonHeight * 2;
+
+        o.tessellationInfo.origin.x = extent.xmin;
+        o.tessellationInfo.origin.y = extent.ymin;
+
+        var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
+        var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
+
+
+        console.log("rows: " + numRows + " cols: " + numCols + " ");
+        var startTime = (new Date().getTime());
+        var count1 = 0;
+        var count2 = 0;
+
+
+        for (var c = 0; c < numCols; c++) {
+            for (var r = 0; r < numRows; r++) {
+                var evenCol = c % 2;
+                var centerX, centerY;
+
+                if (evenCol == 0) {
+                    centerX = c * (radius + halfEdgeLength) + extent.xmin;
+                    centerY = r * hexagonHeight + extent.ymin;
+                } else {
+                    centerX = c * (radius + halfEdgeLength) + extent.xmin;
+                    centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
+                }
+
+                var x1 = centerX + radius;
+                var y1 = centerY;
+                var x2 = centerX + halfEdgeLength;
+                var y2 = centerY + halfHexagonHeight;
+                var x3 = centerX - halfEdgeLength;
+                var y3 = centerY + halfHexagonHeight;
+                var x4 = centerX - radius;
+                var y4 = centerY;
+                var x5 = centerX - halfEdgeLength;
+                var y5 = centerY - halfHexagonHeight;
+                var x6 = centerX + halfEdgeLength;
+                var y6 = centerY - halfHexagonHeight;
+
+                var hexagon = new Polygon(o.map.spatialReference);
+                hexagon.addRing([
+                    [x1, y1],
+                    [x2, y2],
+                    [x3, y3],
+                    [x4, y4],
+                    [x5, y5],
+                    [x6, y6],
+                    [x1, y1]
+                ]);
+
+                var center = new Point(centerX, centerY, o.map.spatialReference);
+
+                var id = "ID-" + c + "-" + r;
+                var attr = {
+                    "count": 0,
+                    id: id
+                };
+
+                var graphic = new Graphic(hexagon, cellSymbol, attr);
+
+                //graphicsLayer.add(graphic);
+                o.map.graphics.add(graphic);
+            }
+        }
+
+        var endTime = (new Date().getTime());
+        console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
+
+
+        var relatedQ = new RelationshipQuery();
+
+        var fires = o.map.getLayer("hexFires");
+        Helper.showLoader("map", "map-blocker");
+
+        fires.queryFeatures(createQuery(), function(results) {
+
+            Helper.hideLoader("map-blocker");
+            console.log("# of features: " + results.features.length);
+
+            var startTime = (new Date().getTime());
+            var aggregateArray = [];
+            var col, row, point, id;
+            var feature;
+
+            var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
+            var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
+            var hexagonHeight = halfHexagonHeight * 2;
+
+            var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
+            //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
+            //var needProcessAttributes = false;
+
+            for (var i = 0; i < results.features.length; i++) {
+                feature = results.features[i];
+                point = feature.geometry;
+                col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
+                row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
+
+
+                var center1, center2, center3;
+                var evenCol = col % 2;
+                if (evenCol === 0) {
+                    center1 = {
+                        x: col * colWidth + o.tessellationInfo.origin.x,
+                        y: row * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center2 = {
+                        x: col * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center3 = {
+                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                } else {
+                    center1 = {
+                        x: col * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center2 = {
+                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                        y: row * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center3 = {
+                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                }
+
+                var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
+                var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
+                var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
+
+                if (evenCol === 0) {
+                    if (d1 <= d2 && d1 <= d3) {
+                        id = "ID-" + col + "-" + row;
+                    } else if (d2 <= d1 && d2 <= d3) {
+                        id = "ID-" + col + "-" + (row + 1);
+                    } else {
+                        id = "ID-" + (col + 1) + "-" + row;
+                    }
+                } else {
+                    if (d1 <= d2 && d1 <= d3) {
+                        id = "ID-" + col + "-" + row;
+                    } else if (d2 <= d1 && d2 <= d3) {
+                        id = "ID-" + (col + 1) + "-" + row;
+                    } else {
+                        id = "ID-" + (col + 1) + "-" + (row + 1);
+                    }
+                }
+
+                var record = undefined;
+                for (var j = 0; j < aggregateArray.length; j++) {
+                    if (aggregateArray[j].id === id) {
+                        aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
+                        record = aggregateArray[j];
+                        break;
+                    }
+                }
+
+                var attrs = {};
+                if (!record) {
+                    attrs["count"] = 1;
+
+                    record = {
+                        id: id,
+                        attributes: attrs
+                    };
+                    aggregateArray.push(record);
+                }
+
+            }
+
+            //updateTessellationLayer(aggregateArray);
+            updateTessellationLayer(aggregateArray, results.features);
+
+
+            var endTime = (new Date().getTime());
+            console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
+
+            function updateTessellationLayer(aggregateArray, fires) {
+                console.log("updateTessellationLayer!");
+                console.log(aggregateArray.length + " features");
+                var maxWeight = 0;
+
+                var len = o.map.graphics.graphics.length;
+                var graphicsArray = o.map.graphics.graphics;
+
+                for (var k = 0; k < len; k++) {
+
+
+                    for (var kk = 0; kk < fires.length; kk++) {
+
+                        if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
+
+                            graphicsArray[k].attributes["count"]++;
+
+
+
+                        }
+                    }
+
+
+                    maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
+
+
+
+                }
+
+
+                console.log("max weight: " + maxWeight);
+                for (var l = 0; l < len; l++) {
+
+
+                    var alpha = (graphicsArray[l].attributes["count"] / maxWeight) * 0.8;
+
+                    //var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0, 0.0]), 0);
+
+                    graphicsArray[l].symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, alpha]));
+                }
+
+                o.map.graphics.redraw();
+
+            }
+
+        });
+    };
 
     o.resizeMapPanel = function(data) {
 
@@ -829,7 +848,24 @@ define([
             title: "Dark Gray Canvas",
             thumbnailUrl: "app/images/darkGreyThumb.jpg"
         });
-        //basemaps.push(darkgray);
+        var newBaseMap = new Basemap({
+            layers: [
+                new BasemapLayer({
+                    url: "http://a.tiles.mapbox.com/v4/devseed.3100ad78/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q",
+                    type: "WebTiledLayer"
+                }),
+                new BasemapLayer({
+                    url: "http://a.tiles.mapbox.com/v4/devseed.841fc333/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q",
+                    type: "WebTiledLayer"
+                })
+            ],
+            id: "newBM",
+            title: "New BM",
+            thumbnailUrl: "app/images/darkGreyThumb.jpg"
+        });
+
+        //var newBM = new TiledMapServiceLayer("http://a.tiles.mapbox.com/v4/devseed.3100ad78/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q");
+        basemaps.push(newBaseMap);
         //console.log(basemaps);
 
         bg = new BasemapGallery({
@@ -1007,6 +1043,8 @@ define([
         });
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
             LayerController.updateFiresLayer(true);
+
+            LayerController.updateOtherFiresLayers(evt);
             if (evt) {
                 self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
             }
@@ -1290,6 +1328,9 @@ define([
 
             if (value === true) {
                 realFires.hide();
+
+                //MapController.setSmartRenderer(vm.smartRendererName()
+                o.setSmartRenderer(MapModel.vm.smartRendererName());
             } else {
                 realFires.show();
                 o.map.graphics.clear();
@@ -1305,21 +1346,6 @@ define([
                 hexFires.hide();
 
             }
-
-
-
-            // o.map.graphics.clear();
-            // var fireHeat, firesClusters;
-            // fireHeat = o.map.getLayer("newFires");
-            // fireHeat.hide();
-
-
-            // firesClusters = o.map.getLayer("firesClusters");
-            // firesClusters.show();
-            // newFires.show();
-
-            // newFires.setRenderer(o.sizeRenderer);
-            // newFires.redraw();
 
         });
 
@@ -1661,6 +1687,7 @@ define([
             //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
             id: "newFires",
             visible: false,
+            // renderer: o.heatMapRenderer,
             outFields: "*"
         });
         var hexFires = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
@@ -1670,6 +1697,7 @@ define([
             visible: false,
             outFields: "*"
         });
+
         // var defaultSym = new SimpleMarkerSymbol("circle", 16,
         //     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
         //     new Color([255, 255, 255, 1]));
@@ -1697,7 +1725,17 @@ define([
             "objectIdField": "FID",
             outFields: ["ACQ_DATE", "CONFIDENCE"]
         });
-        //debugger;
+
+
+        firesVizCluster.on("update-end", function() {
+
+            firesVizCluster._clusterData = layer._clusterData.filter(function() {
+
+
+            });
+        });
+
+
 
         var cRenderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
 
@@ -1888,8 +1926,9 @@ define([
             basemap: o.map.getBasemap()
 
         }).then(function(response) {
-
-            o.heatMapRenderer = response.renderer;
+            //o.heatMapRenderer = response.renderer;
+            var fires = o.map.getLayer("newFires");
+            fires.setRenderer(response.renderer);
             //newFires.redraw();
 
         });
@@ -2007,6 +2046,16 @@ define([
         });
         domClass.add(node, "selected-fire-option");
         LayerController.updateFiresLayer();
+
+        var confidence = $("#confidence-fires-checkbox").attr("aria-checked");
+        var bool;
+        if (confidence == "true") {
+            bool = true;
+        } else {
+            bool = false;
+        }
+        console.log(bool);
+        LayerController.updateOtherFiresLayers(bool);
     };
 
     o.enableLayersFromHash = function() {

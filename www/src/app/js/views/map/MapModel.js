@@ -506,16 +506,6 @@ define([
         $("#smartHiddenMenu").addClass("hidden");
     };
 
-    vm.prepareSmart = function(data, event) {
-        debugger;
-        // console.log("MOUSE IN");
-        // if ($("#smartHiddenMenu").hasClass("hidden") === true) {
-        //     $("#smartHiddenMenu").removeClass("hidden");
-        // } else {
-        //     $("#smartHiddenMenu").addClass("hidden");
-        // }
-
-    };
 
     vm.chooseSmartDropdown = function(data, event) {
 
