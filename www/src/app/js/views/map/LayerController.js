@@ -181,6 +181,7 @@ define([
         },
 
         updateOtherFiresLayers: function(layerName) {
+
             var node = dojoQuery(".selected-fire-option")[0],
                 clusterCheckbox = dojoQuery("#activate-smart-checkbox").attr("aria-checked")[0],
                 defs = [],
@@ -192,6 +193,7 @@ define([
                 return;
             }
 
+            //Todo: Make sure the hexagons pay attention to the time stamps when its inititally turned on
             var today = new Date();
             var backdate = new Date();
 
@@ -256,16 +258,17 @@ define([
 
 
             }
-            if (layerName) {
-                debugger;
-                where += " AND CONFIDENCE >= 30";
-            }
+            // if (layerName) {
+            //     debugger;
+            //     where += " AND CONFIDENCE >= 30";
+            // }
 
 
             if (layer) {
+                var currentFires = map.getLayer(layer);
                 if (layer == "firesClusters") {
                     var realFires = map.getLayer(MapConfig.firesLayer.id);
-                    layer = map.getLayer(layer);
+
                     debugger;
 
                     // layer._clusterData = layer._clusterData.filter(function() {
@@ -274,11 +277,14 @@ define([
                     // });
                     layer._clusterGraphics();
 
-                } else if (layer == "newFires") {
+                } else {
 
-                    var realFires = map.getLayer(layer);
+
                     console.log(where);
-                    realFires.setDefinitionExpression(where);
+                    currentFires.setDefinitionExpression(where);
+                    if (layer == "hexFires") {
+                        return true;
+                    }
                 }
 
 

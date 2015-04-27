@@ -216,7 +216,6 @@ define([
         var hashL = HashController.newState.l;
 
 
-
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
             zoom: hashL, //MapConfig.mapOptions.initalZoom,
@@ -228,8 +227,6 @@ define([
             navigationMode: "css-transforms"
         });
         window.map = o.map;
-
-
 
         o.map.on("load", function() {
             //$("#firesDateFrom").datepicker("setDate", "+0m -7d");
@@ -413,13 +410,126 @@ define([
         imageBoxes.clear();
     };
 
+    o.getClassJenks = function(nbClass, data) {
+        /**
+            Function modified from geostats.js lib @ https://github.com/simogeo/geostats
+             * Credits : Doug Curl (javascript) and Daniel J Lewis (python implementation)
+             * http://www.arcgis.com/home/item.html?id=0b633ff2f40d412995b8be377211c47b
+             * http://danieljlewis.org/2010/06/07/jenks-natural-breaks-algorithm-in-python/
+             */
+
+        // if (this._nodata())
+        //     return;
+
+        var dataList = data.sort(function(a, b) {
+            return a - b;
+        });
+        // now iterate through the datalist:
+        // determine mat1 and mat2
+        // really not sure how these 2 different arrays are set - the code for
+        // each seems the same!
+        // but the effect are 2 different arrays: mat1 and mat2
+        var mat1 = []
+        for (var x = 0, xl = dataList.length + 1; x < xl; x++) {
+            var temp = []
+            for (var j = 0, jl = nbClass + 1; j < jl; j++) {
+                temp.push(0)
+            }
+            mat1.push(temp)
+        }
+
+        var mat2 = []
+        for (var i = 0, il = dataList.length + 1; i < il; i++) {
+            var temp2 = []
+            for (var c = 0, cl = nbClass + 1; c < cl; c++) {
+                temp2.push(0)
+            }
+            mat2.push(temp2)
+        }
+
+        // absolutely no idea what this does - best I can tell, it sets the 1st
+        // group in the
+        // mat1 and mat2 arrays to 1 and 0 respectively
+        for (var y = 1, yl = nbClass + 1; y < yl; y++) {
+            mat1[0][y] = 1
+            mat2[0][y] = 0
+            for (var t = 1, tl = dataList.length + 1; t < tl; t++) {
+                mat2[t][y] = Infinity
+            }
+            var v = 0.0
+        }
+
+        // and this part - I'm a little clueless on - but it works
+        // pretty sure it iterates across the entire dataset and compares each
+        // value to
+        // one another to and adjust the indices until you meet the rules:
+        // minimum deviation
+        // within a class and maximum separation between classes
+        for (var l = 2, ll = dataList.length + 1; l < ll; l++) {
+            var s1 = 0.0
+            var s2 = 0.0
+            var w = 0.0
+            for (var m = 1, ml = l + 1; m < ml; m++) {
+                var i3 = l - m + 1
+                var val = parseFloat(dataList[i3 - 1])
+                s2 += val * val
+                s1 += val
+                w += 1
+                v = s2 - (s1 * s1) / w
+                var i4 = i3 - 1
+                if (i4 != 0) {
+                    for (var p = 2, pl = nbClass + 1; p < pl; p++) {
+                        if (mat2[l][p] >= (v + mat2[i4][p - 1])) {
+                            mat1[l][p] = i3
+                            mat2[l][p] = v + mat2[i4][p - 1]
+                        }
+                    }
+                }
+            }
+            mat1[l][1] = 1
+            mat2[l][1] = v
+        }
+
+        var k = dataList.length
+        var kclass = []
+
+        // fill the kclass (classification) array with zeros:
+        for (i = 0; i <= nbClass; i++) {
+            kclass.push(0);
+        }
+
+        // this is the last number in the array:
+        kclass[nbClass] = parseFloat(dataList[dataList.length - 1])
+        // this is the first number - can set to zero, but want to set to lowest
+        // to use for legend:
+        kclass[0] = parseFloat(dataList[0])
+        var countNum = nbClass
+        while (countNum >= 2) {
+            var id = parseInt((mat1[k][countNum]) - 2)
+            kclass[countNum - 1] = dataList[id]
+            k = parseInt((mat1[k][countNum] - 1))
+            // spits out the rank and value of the break values:
+            // console.log("id="+id,"rank = " + String(mat1[k][countNum]),"val =
+            // " + String(dataList[id]))
+            // count down:
+            countNum -= 1
+        }
+        // check to see if the 0 and 1 in the array are the same - if so, set 0
+        // to 0:
+        if (kclass[0] == kclass[1]) {
+            kclass[0] = 0
+        }
+
+        return kclass;
+    }
+
     o.setSmartRenderer = function(newRenderer) {
-        // var realFires = o.map.getLayer("Active_Fires");
-        // realFires.hide();
+        var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
 
         switch (newRenderer) {
+
             case "Choose one":
-                o.map.graphics.clear();
+
                 var firesClusters, fireHeat, hexFires;
 
                 firesClusters = o.map.getLayer("firesClusters");
@@ -433,8 +543,7 @@ define([
                 break;
 
             case "Heat map":
-                // debugger;
-                o.map.graphics.clear();
+
                 var firesClusters, fireHeat, hexFires;
 
                 firesClusters = o.map.getLayer("firesClusters");
@@ -445,14 +554,11 @@ define([
 
                 fireHeat = o.map.getLayer("newFires");
 
-                // fireHeat.setRenderer(o.heatMapRenderer);
-
                 fireHeat.show();
-                //do something
+                smartMappingHexagons.clear();
                 break;
             case "Proportional symbols":
-                //do something
-                o.map.graphics.clear();
+
                 var fireHeat, firesClusters, hexFires;
                 fireHeat = o.map.getLayer("newFires");
                 fireHeat.hide();
@@ -461,8 +567,10 @@ define([
 
                 firesClusters = o.map.getLayer("firesClusters");
                 firesClusters.show();
+                smartMappingHexagons.clear();
                 break;
             case "Hex bin":
+                smartMappingHexagons.clear();
                 o.setHexBinRender();
 
                 break;
@@ -472,7 +580,7 @@ define([
     o.setHexBinRender = function() {
 
         var firesClusters, newFires;
-
+        var graphicsLayer = o.map.getLayer("smartMappingHexagons");
         firesClusters = o.map.getLayer("firesClusters");
 
         firesClusters.hide();
@@ -517,18 +625,18 @@ define([
         }
 
         var tessellationInfo, cellSymbol;
-        //TODO: calculate map width in meters and always get a radius so that no matter the extent we're viewing we always get the same # of hexagons
-        //esri/geometry/screenUtils?
-        //map.extent.getWidth() / 50000;//?
-        var radius = 50000;
 
+        var zoomLevel = o.map.getZoom();
+        console.log(zoomLevel); // max (closest is 18)
 
+        var radius = 25 * Math.pow(2, (18 - zoomLevel));
+
+        console.log("radius: " + radius);
 
         cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
                 new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
         );
-
 
 
         var extent = o.map.extent;
@@ -542,9 +650,7 @@ define([
         var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
         var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
 
-
-        console.log("rows: " + numRows + " cols: " + numCols + " ");
-        var startTime = (new Date().getTime());
+        //var startTime = (new Date().getTime());
         var count1 = 0;
         var count2 = 0;
 
@@ -594,15 +700,15 @@ define([
                     id: id
                 };
 
-                var graphic = new Graphic(hexagon, cellSymbol, attr);
+                var graphic = new Graphic(hexagon, null, attr);
 
-                //graphicsLayer.add(graphic);
-                o.map.graphics.add(graphic);
+                graphicsLayer.add(graphic);
+                //o.map.graphics.add(graphic);
             }
         }
 
-        var endTime = (new Date().getTime());
-        console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
+        // var endTime = (new Date().getTime());
+        // console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
 
 
         var relatedQ = new RelationshipQuery();
@@ -613,9 +719,9 @@ define([
         fires.queryFeatures(createQuery(), function(results) {
 
             Helper.hideLoader("map-blocker");
-            console.log("# of features: " + results.features.length);
+            // console.log("# of features: " + results.features.length);
 
-            var startTime = (new Date().getTime());
+            //var startTime = (new Date().getTime());
             var aggregateArray = [];
             var col, row, point, id;
             var feature;
@@ -713,16 +819,18 @@ define([
             updateTessellationLayer(aggregateArray, results.features);
 
 
-            var endTime = (new Date().getTime());
-            console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
+            // var endTime = (new Date().getTime());
+            // console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
 
             function updateTessellationLayer(aggregateArray, fires) {
-                console.log("updateTessellationLayer!");
+                var graphicsLayer = o.map.getLayer("smartMappingHexagons");
                 console.log(aggregateArray.length + " features");
                 var maxWeight = 0;
 
-                var len = o.map.graphics.graphics.length;
-                var graphicsArray = o.map.graphics.graphics;
+                // var len = o.map.graphics.graphics.length;
+                var len = graphicsLayer.graphics.length;
+                var graphicsArray = graphicsLayer.graphics;
+                var countsArr = [];
 
                 for (var k = 0; k < len; k++) {
 
@@ -737,6 +845,7 @@ define([
 
                         }
                     }
+                    countsArr.push(graphicsArray[k].attributes["count"]);
 
 
                     maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
@@ -744,24 +853,46 @@ define([
 
 
                 }
+                var arrOfBreaks = o.getClassJenks(10, countsArr);
 
+                var Renderer = o.getRenderer(arrOfBreaks);
 
-                console.log("max weight: " + maxWeight);
-                for (var l = 0; l < len; l++) {
+                graphicsLayer.setRenderer(Renderer);
+                graphicsLayer.redraw();
 
-
-                    var alpha = (graphicsArray[l].attributes["count"] / maxWeight) * 0.8;
-
-                    //var outline = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0, 0.0]), 0);
-
-                    graphicsArray[l].symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, alpha]));
-                }
-
-                o.map.graphics.redraw();
 
             }
 
         });
+    };
+
+    o.getRenderer = function(breaksArr) {
+        var zero = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 0]));
+        var one = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .1]));
+        var two = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .2]));
+        var three = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .3]));
+        var four = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .4]));
+        var five = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .5]));
+        var six = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .6]));
+        var seven = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .7]));
+        var eight = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .8]));
+        var nine = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .9]));
+        var ten = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 1]));
+
+        var cRenderer = new ClassBreaksRenderer(zero, "count");
+
+        cRenderer.addBreak((breaksArr[0] + 1), breaksArr[1], one);
+        cRenderer.addBreak(breaksArr[1], breaksArr[2], two);
+        cRenderer.addBreak(breaksArr[2], breaksArr[3], three);
+        cRenderer.addBreak(breaksArr[3], breaksArr[4], four);
+        cRenderer.addBreak(breaksArr[4], breaksArr[5], five);
+        cRenderer.addBreak(breaksArr[5], breaksArr[6], six);
+        cRenderer.addBreak(breaksArr[6], breaksArr[7], seven);
+        cRenderer.addBreak(breaksArr[7], breaksArr[8], eight);
+        cRenderer.addBreak(breaksArr[8], breaksArr[9], nine);
+        cRenderer.addBreak(breaksArr[9], breaksArr[10], ten);
+        return cRenderer;
+
     };
 
     o.resizeMapPanel = function(data) {
@@ -1044,7 +1175,7 @@ define([
         on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
             LayerController.updateFiresLayer(true);
 
-            LayerController.updateOtherFiresLayers(evt);
+            // LayerController.updateOtherFiresLayers(evt);
             if (evt) {
                 self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
             }
@@ -1328,12 +1459,14 @@ define([
 
             if (value === true) {
                 realFires.hide();
-
+                $("#confidence-fires-checkbox").parent().parent().hide();
                 //MapController.setSmartRenderer(vm.smartRendererName()
                 o.setSmartRenderer(MapModel.vm.smartRendererName());
             } else {
+                $("#confidence-fires-checkbox").parent().parent().show();
                 realFires.show();
-                o.map.graphics.clear();
+                var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+                smartMappingHexagons.clear();
                 var fireHeat, firesClusters, hexFires;
 
                 fireHeat = o.map.getLayer("newFires");
@@ -1905,6 +2038,10 @@ define([
             id: MapConfig.digitalGlobe.graphicsLayerHighlight,
             visible: true
         });
+        var smartMappingHexagons = new GraphicsLayer(featureCollection, {
+            id: "smartMappingHexagons",
+            visible: true
+        });
         var highlightRenderer = new SimpleRenderer(highlightSymbol);
         digitalGlobeGraphicsHighlight.setRenderer(highlightRenderer);
 
@@ -1947,7 +2084,8 @@ define([
             landCoverLayer,
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
-            digitalGlobeGraphicsHighlight
+            digitalGlobeGraphicsHighlight,
+            smartMappingHexagons
         ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
             conservationLayer,
             burnScarLayer,
@@ -2055,7 +2193,11 @@ define([
             bool = false;
         }
         console.log(bool);
-        LayerController.updateOtherFiresLayers(bool);
+        var reRun = LayerController.updateOtherFiresLayers(bool);
+        console.log("reRun: " + reRun);
+        if (reRun) {
+            o.setSmartRenderer(MapModel.vm.smartRendererName());
+        }
     };
 
     o.enableLayersFromHash = function() {
