@@ -22,8 +22,8 @@ div#map-view(class="map-view")
 						label#activateSmartContainer(for="activate-smart-checkbox", data-bind="text: activateSmartCheckbox")
 						
 						div#smartRelative
-							select#smartDropdown.sub-menu(data-bind="options: smartOptions, value:smartRendererName, event: { change: chooseSmartDropdown }")
-							span#smartDropdownArrow &#9660;
+							select#smartDropdown.sub-menu(name="smartDropdown" data-bind="options: smartOptions, value:smartRendererName, event: { change: chooseSmartDropdown }")
+							//- label#smartDropdownArrow(for='smartDropdown') &#9660;
 
 				div(class="checkbox-container")
 					div#indonesia-fires

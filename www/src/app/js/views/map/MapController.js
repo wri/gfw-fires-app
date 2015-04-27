@@ -235,14 +235,6 @@ define([
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
             //$("#hiddenFires").css("display", "none");
-            // setTimeout(function() {
-            //     (dom.byId("#galleryNode_basemap_6")
-            //     var basemapArray = registry.byId("basemap-gallery").basemaps;
-            //     basemapArray.splice(4, 1);
-            // }, 1000);
-
-            //var basemapArray = registry.byId("basemap-gallery").air;
-            //basemapArray.splice(6, 1);
 
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
@@ -268,11 +260,60 @@ define([
                 o.map.centerAt(new Point(hashX, hashY)).then(function() {
                     setTimeout(function() {
                         o.mapExtentPausable.resume();
-                    }, 1000);
+
+                        var $body = $('body'),
+                            $overlay = $('<div>', {
+                                css: {
+                                    position: 'absolute',
+                                    width: $body.outerWidth(),
+                                    height: $body.outerHeight(),
+                                    top: $body.position().top,
+                                    left: $body.position().left,
+                                    backgroundColor: 'rgba(255,255,255,0.5)',
+                                    zIndex: 75,
+                                    display: 'none'
+                                }
+                            }).appendTo($body);
+                        $overlay.show();
+                        var luke = function() {
+                            $overlay.hide();
+                        }
+                        $("#joyRideTipContent").joyride({
+                            /* Options will go here */
+                            autoStart: true,
+                            postRideCallback: luke
+                        });
+
+
+
+
+                        // $('body').fadeTo(1000, 1);
+                        // $("body").css({
+                        //     'text-shadow': '0px 0px 10px #000'
+                        // });
+                    }, 1500);
                 });
+
+                // $("#wrapper").css({'text-shadow': '0px 0px 10px #000'});
+                // $("#betaTag").click(function() {
+                //     $("body").append('<ol id="smartTour" data-joyride><li data-class="sub-menu">Content...</li></ol> ');
+                //     setTimeout(function() {
+                //         $("#smartTour").joyride({
+                //             /* Options will go here */
+                //             'autoStart': true,
+                //             'nextButton': true
+                //         });
+                //     }, 3000);
+
+
+                // });
+
+
             });
 
             o.map.resize();
+
+
 
         });
 
@@ -969,16 +1010,16 @@ define([
         home.startup();
 
         // Add Darkgray Canvas to Basemap Gallery, first create Basemap
-        darkgray = new Basemap({
-            layers: [
-                new BasemapLayer({
-                    url: MapConfig.mapOptions.darkGrayCanvas
-                })
-            ],
-            id: "darkgray",
-            title: "Dark Gray Canvas",
-            thumbnailUrl: "app/images/darkGreyThumb.jpg"
-        });
+        // darkgray = new Basemap({
+        //     layers: [
+        //         new BasemapLayer({
+        //             url: MapConfig.mapOptions.darkGrayCanvas
+        //         })
+        //     ],
+        //     id: "darkgray",
+        //     title: "Dark Gray Canvas",
+        //     thumbnailUrl: "app/images/darkGreyThumb.jpg"
+        // });
         var newBaseMap = new Basemap({
             layers: [
                 new BasemapLayer({
