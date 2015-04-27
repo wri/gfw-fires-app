@@ -218,7 +218,8 @@ define([
 
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
-            zoom: hashL, //MapConfig.mapOptions.initalZoom,
+            //zoom: hashL, //MapConfig.mapOptions.initalZoom,
+            zoom: 6,
             basemap: MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
             maxZoom: MapConfig.mapOptions.maxZoom,
@@ -230,7 +231,7 @@ define([
 
         o.map.on("load", function() {
             //$("#firesDateFrom").datepicker("setDate", "+0m -7d");
-
+            o.map.setBasemap('dark-gray');
             $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
@@ -257,57 +258,36 @@ define([
             // when the hash controller workflow is corrected
             on.once(o.map, "update-end", function() {
 
-                o.map.centerAt(new Point(hashX, hashY)).then(function() {
+                //  o.map.centerAt(new Point(hashX, hashY)).then(function() {
+                o.map.centerAt(new Point(-10.24, 9.66)).then(function() {
                     setTimeout(function() {
                         o.mapExtentPausable.resume();
 
-                        var $body = $('body'),
-                            $overlay = $('<div>', {
-                                css: {
-                                    position: 'absolute',
-                                    width: $body.outerWidth(),
-                                    height: $body.outerHeight(),
-                                    top: $body.position().top,
-                                    left: $body.position().left,
-                                    backgroundColor: 'rgba(255,255,255,0.5)',
-                                    zIndex: 75,
-                                    display: 'none'
-                                }
-                            }).appendTo($body);
-                        $overlay.show();
-                        var luke = function() {
-                            $overlay.hide();
-                        }
-                        $("#joyRideTipContent").joyride({
-                            /* Options will go here */
-                            autoStart: true,
-                            postRideCallback: luke
-                        });
-
-
-
-
-                        // $('body').fadeTo(1000, 1);
-                        // $("body").css({
-                        //     'text-shadow': '0px 0px 10px #000'
+                        // var $body = $('body'),
+                        //     $overlay = $('<div>', {
+                        //         css: {
+                        //             position: 'absolute',
+                        //             width: $body.outerWidth(),
+                        //             height: $body.outerHeight(),
+                        //             top: $body.position().top,
+                        //             left: $body.position().left,
+                        //             backgroundColor: 'rgba(255,255,255,0.5)',
+                        //             zIndex: 75,
+                        //             display: 'none'
+                        //         }
+                        //     }).appendTo($body);
+                        // $overlay.show();
+                        // var hideOverlay = function() {
+                        //         $overlay.hide();
+                        //     }
+                        // $("#joyRideTipContent").joyride({
+                        //     nextButton: false,
+                        //     autoStart: true,
+                        //     postRideCallback: hideOverlay
                         // });
-                    }, 1500);
+
+                    }, 1000);
                 });
-
-                // $("#wrapper").css({'text-shadow': '0px 0px 10px #000'});
-                // $("#betaTag").click(function() {
-                //     $("body").append('<ol id="smartTour" data-joyride><li data-class="sub-menu">Content...</li></ol> ');
-                //     setTimeout(function() {
-                //         $("#smartTour").joyride({
-                //             /* Options will go here */
-                //             'autoStart': true,
-                //             'nextButton': true
-                //         });
-                //     }, 3000);
-
-
-                // });
-
 
             });
 
@@ -336,6 +316,11 @@ define([
 
             if (dijit.byId("digital-globe-checkbox").getValue() == 'on') {
                 o.updateImageryList();
+            }
+            if (MapModel.vm.smartRendererName() == "Hex bin") {
+                var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+                smartMappingHexagons.clear();
+                o.setSmartRenderer("Hex bin");
             }
 
         });
@@ -586,28 +571,28 @@ define([
             case "Heat map":
 
                 var firesClusters, fireHeat, hexFires;
+                fireHeat = o.map.getLayer("newFires");
 
+                fireHeat.show();
                 firesClusters = o.map.getLayer("firesClusters");
 
                 firesClusters.hide();
                 hexFires = o.map.getLayer("hexFires");
                 hexFires.hide();
 
-                fireHeat = o.map.getLayer("newFires");
 
-                fireHeat.show();
                 smartMappingHexagons.clear();
                 break;
             case "Proportional symbols":
-
+                firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.show();
                 var fireHeat, firesClusters, hexFires;
                 fireHeat = o.map.getLayer("newFires");
                 fireHeat.hide();
                 hexFires = o.map.getLayer("hexFires");
                 hexFires.hide();
 
-                firesClusters = o.map.getLayer("firesClusters");
-                firesClusters.show();
+
                 smartMappingHexagons.clear();
                 break;
             case "Hex bin":
@@ -1032,8 +1017,8 @@ define([
                 })
             ],
             id: "newBM",
-            title: "New BM",
-            thumbnailUrl: "app/images/darkGreyThumb.jpg"
+            title: "WRI",
+            thumbnailUrl: "app/images/devSeed.png"
         });
 
         //var newBM = new TiledMapServiceLayer("http://a.tiles.mapbox.com/v4/devseed.3100ad78/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q");
@@ -1213,14 +1198,14 @@ define([
                 Finder.selectUploadOrDrawnGraphics(evt);
             }
         });
-        on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
-            LayerController.updateFiresLayer(true);
+        // on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
+        //     LayerController.updateFiresLayer(true);
 
-            // LayerController.updateOtherFiresLayers(evt);
-            if (evt) {
-                self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
-            }
-        });
+        //     // LayerController.updateOtherFiresLayers(evt);
+        //     if (evt) {
+        //         self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
+        //     }
+        // });
 
         on(registry.byId("twitter-conversations-checkbox"), "change", function(evt) {
             var value = registry.byId("twitter-conversations-checkbox").checked;
@@ -1246,6 +1231,19 @@ define([
             MapModel.vm.showActiveFiresButtons(value);
             if (value) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Active Fires layer on.');
+
+            } else {
+
+                MapModel.vm.smartRendererName("Choose one");
+                var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+                graphicsLayer.clear();
+                var firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.hide();
+                var newFires = o.map.getLayer("newFires");
+                newFires.hide();
+                $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#hexCircle").css("box-shadow", "0 0 0 3px #ddd");
             }
         });
 
@@ -1470,9 +1468,9 @@ define([
             var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
-            if (registry.byId('confidence-archive-checkbox').checked) {
-                sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
-            }
+            // if (registry.byId('confidence-archive-checkbox').checked) {
+            //     sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
+            // }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
@@ -1492,36 +1490,80 @@ define([
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], newLayerDef);
         });
 
+        dojoQuery(".smartRelative").forEach(function(node) {
+            on(node, "click", function() {
+                var realFires = o.map.getLayer("Active_Fires");
+                $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#hexCircle").css("box-shadow", "0 0 0 3px #ddd");
 
 
-        on(registry.byId("activate-smart-checkbox"), "change", function(value) {
+                if ((this.id == "hexCircle" && MapModel.vm.smartRendererName() == "Hex bin") || (this.id == "clusterCircle" && MapModel.vm.smartRendererName() == "Proportional symbols") || (this.id == "heatCircle" && MapModel.vm.smartRendererName() == "Heat map")) {
+                    var fireHeat = o.map.getLayer("newFires");
+                    fireHeat.hide();
 
-            var realFires = o.map.getLayer("Active_Fires");
+                    var firesClusters = o.map.getLayer("firesClusters");
+                    firesClusters.hide();
 
-            if (value === true) {
+                    var hexFires = o.map.getLayer("firesClusters");
+                    hexFires.hide();
+
+                    realFires.show();
+                    MapModel.vm.smartRendererName("Choose one");
+                    var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+                    smartMappingHexagons.clear();
+
+                    return;
+
+                }
+
+
+                if (this.id == "heatCircle") {
+                    o.setSmartRenderer("Heat map");
+                    MapModel.vm.smartRendererName("Heat map");
+                } else if (this.id == "clusterCircle") {
+                    o.setSmartRenderer("Proportional symbols");
+                    MapModel.vm.smartRendererName("Proportional symbols");
+                } else if (this.id == "hexCircle") {
+                    o.setSmartRenderer("Hex bin");
+                    MapModel.vm.smartRendererName("Hex bin");
+                } else {
+                    return;
+                }
+                $(this).css("box-shadow", "0 0 0 3px #e98300");
                 realFires.hide();
-                $("#confidence-fires-checkbox").parent().parent().hide();
-                //MapController.setSmartRenderer(vm.smartRendererName()
-                o.setSmartRenderer(MapModel.vm.smartRendererName());
-            } else {
-                $("#confidence-fires-checkbox").parent().parent().show();
-                realFires.show();
-                var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
-                smartMappingHexagons.clear();
-                var fireHeat, firesClusters, hexFires;
-
-                fireHeat = o.map.getLayer("newFires");
-                fireHeat.hide();
-
-                firesClusters = o.map.getLayer("firesClusters");
-                firesClusters.hide();
-
-                hexFires = o.map.getLayer("firesClusters");
-                hexFires.hide();
-
-            }
-
+                // MapModel.vm.smartRendererName();
+            });
         });
+
+        // on(registry.byId("activate-smart-checkbox"), "change", function(value) {
+
+        //     var realFires = o.map.getLayer("Active_Fires");
+
+        //     if (value === true) {
+        //         realFires.hide();
+        //         $("#confidence-fires-checkbox").parent().parent().hide();
+
+        //         o.setSmartRenderer(MapModel.vm.smartRendererName());
+        //     } else {
+        //         $("#confidence-fires-checkbox").parent().parent().show();
+        //         realFires.show();
+        //         var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+        //         smartMappingHexagons.clear();
+        //         var fireHeat, firesClusters, hexFires;
+
+        //         fireHeat = o.map.getLayer("newFires");
+        //         fireHeat.hide();
+
+        //         firesClusters = o.map.getLayer("firesClusters");
+        //         firesClusters.hide();
+
+        //         hexFires = o.map.getLayer("firesClusters");
+        //         hexFires.hide();
+
+        //     }
+
+        // });
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
@@ -2223,20 +2265,16 @@ define([
         dojoQuery(".selected-fire-option").forEach(function(el) {
             domClass.remove(el, "selected-fire-option");
         });
+
         domClass.add(node, "selected-fire-option");
         LayerController.updateFiresLayer();
 
-        var confidence = $("#confidence-fires-checkbox").attr("aria-checked");
-        var bool;
-        if (confidence == "true") {
-            bool = true;
-        } else {
-            bool = false;
-        }
-        console.log(bool);
-        var reRun = LayerController.updateOtherFiresLayers(bool);
-        console.log("reRun: " + reRun);
+        var reRun = LayerController.updateOtherFiresLayers();
+
+
+
         if (reRun) {
+
             o.setSmartRenderer(MapModel.vm.smartRendererName());
         }
     };

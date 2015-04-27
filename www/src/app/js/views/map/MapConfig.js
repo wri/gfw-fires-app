@@ -437,7 +437,7 @@ define({
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show high confidence fires",
-        activateSmartCheckbox: "Cluster points as:",
+        activateSmartCheckbox: "New Fire Visualizations:",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
         fires48: "Past 48 hours",

@@ -189,9 +189,9 @@ define([
                 layer;
 
 
-            if (clusterCheckbox == "false") {
-                return;
-            }
+            // if (clusterCheckbox == "false") {
+            //     return;
+            // }
 
             //Todo: Make sure the hexagons pay attention to the time stamps when its inititally turned on
             var today = new Date();
@@ -258,42 +258,50 @@ define([
 
 
             }
-            // if (layerName) {
-            //     debugger;
-            //     where += " AND CONFIDENCE >= 30";
-            // }
 
 
-            if (layer) {
-                var currentFires = map.getLayer(layer);
-                if (layer == "firesClusters") {
-                    var realFires = map.getLayer(MapConfig.firesLayer.id);
 
-                    debugger;
-
-                    // layer._clusterData = layer._clusterData.filter(function() {
+            var currentFires = map.getLayer(layer);
+            if (layer != "firesClusters") {
+                var realFires = map.getLayer(MapConfig.firesLayer.id);
 
 
-                    // });
-                    layer._clusterGraphics();
-
-                } else {
+                //     // currentFires._clusterData = layer._clusterData.filter(function() {
 
 
-                    console.log(where);
+                //     // });
+                //     //currentFires._clusterGraphics();
+
+                // } else {
+
+
+                console.log(where);
+                if (currentFires) {
                     currentFires.setDefinitionExpression(where);
-                    if (layer == "hexFires") {
-                        return true;
-                    }
+                } else {
+                    var heat = _map.getLayer("newFires");
+                    var hexagons = _map.getLayer("hexFires");
+                    heat.setDefinitionExpression(where);
+                    hexagons.setDefinitionExpression(where);
                 }
 
+                //setTimeout(function() {
+                if (layer == "hexFires") {
+
+                    return true;
+                }
+                //}, 2000);
 
             }
+
+
+
+            var hexagons = _map.getLayer("hexFires");
         },
 
         updateFiresLayer: function(updateVisibleLayers) {
             var node = dojoQuery(".selected-fire-option")[0],
-                checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
+                checkboxStatus, // = dom.byId("confidence-fires-checkbox").checked,
                 defs = [],
                 where = "",
                 visibleLayers,

@@ -25,7 +25,7 @@ baseRed = #e7002f
 .control-panel
 	background-color white
 	position absolute
-	width 320px
+	width 330px
 	bottom 0
 	left 0
 	top 0 
@@ -1083,6 +1083,27 @@ div.report-options-section > table
 	// background -webkit-linear-gradient(top, rgb(231,0,47) 0%,rgb(0,85,214) 100%)
 .joyride-close-tip
 	margin -5px
+	
+.joyride-tip-guide
+	width 200px
+	
+#heatCircle,#clusterCircle,#hexCircle
+	width 75px
+	height 75px
+	display inline-block
+	cursor pointer
+	padding 5px
+	margin 1px
+	
+#heatCircle
+	background rgb(255, 255, 255) url(../images/heatmap.png) center no-repeat
+	
+#clusterCircle
+	background rgb(255, 255, 255) url(../images/clustering.png) center no-repeat
+	
+
+#hexCircle
+	background rgb(255, 255, 255) url(../images/hexbin.png) center no-repeat
 
 .map-view-print .mapView #stackContainer
 	top 0px
@@ -1142,6 +1163,22 @@ div.report-options-section > table
 	right 15px
 	cursor pointer
 		
+#smartContainer
+	margin 0
+	margin-left 10px
+	margin-top 10px
+	
+.smartRelative
+	border-radius 50%
+	box-shadow 0 0 0 3px #ddd
+	transition box-shadow 0.3s
+	
+.smartRelative:hover
+	box-shadow 0 0 0 3px #f00 !important
+
+// .smartRelative:hover
+// 	border 1px solid red
+
 #activateSmartContainer
 	font-weight normal !important
 
