@@ -1,633 +1,1489 @@
 
+/* line 286 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+
+/* line 1 : /Users/Robert/Projects/github_work/GFW-Fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+
+/* line 2 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .dataView {
   background-color: #fff;
 }
+
+/* line 5 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .content-header {
   height: 200px;
   width: 100%;
   background: url("../images/header_block.jpg");
   margin: 40px 0 40px 0;
 }
+
+/* line 11 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .content-header h1 {
-	font-weight: normal;
-	position: relative;
-	color: white;
-	left: 30px;
-	top: 30px;
-}
-.content-header h4 {
-	font-weight: normal;
-	position: relative;
-	margin: 0 30px;
-	color: #CCC;
-	top: 20px;
+  font-weight: normal;
+  position: relative;
+  color: #fff;
+  left: 30px;
+  top: 30px;
 }
 
+/* line 18 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.content-header h4 {
+  font-weight: normal;
+  position: relative;
+  margin: 0 30px;
+  color: #ccc;
+  top: 20px;
+}
+
+/* line 26 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /* CSS Document */
+
+/* line 27 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /* header view */
 
-.contentHeaderBottomView{
-	height: 212px !important;
+/* line 29 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentHeaderBottomView {
+  height: 212px !important;
 }
 
-.contentPageHeaderView{
-	box-shadow: none !important;
-	border-bottom: 0px solid rgb(255,255,255) !important;
+/* line 33 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPageHeaderView {
+  box-shadow: none !important;
+  border-bottom: 0px solid #fff !important;
 }
 
-
+/* line 39 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /* header view end */
 
-
+/* line 42 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /*Accordion Stuff*/
 
+/* line 44 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage .ac-container {
-	margin:0 auto;
-	width:600px;
+  margin: 0 auto;
+  width: 600px;
 }
 
-.ac-container label{	
-	padding: 0px;
-	position: relative;
-	z-index: 20;
-	display: block;
-	height: 60px;
-	cursor: pointer;
-	color: #777;	
-	line-height: 33px;
-	font-size: 19px;			
-    color: #464052;
-    cursor: pointer;	
-	margin-bottom: 0px;
-}
-.ac-container label:hover{	
-	color: #98BD17;
+/* line 49 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container label {
+  padding: 0px;
+  position: relative;
+  z-index: 20;
+  display: block;
+  height: 60px;
+  cursor: pointer;
+  color: #777;
+  line-height: 33px;
+  font-size: 19px;
+  color: #464052;
+  cursor: pointer;
+  margin-bottom: 0px;
 }
 
-.ac-container input:checked + .source_header label{	
-	color: #98BD17;
+/* line 63 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container label:hover {
+  color: #98bd17;
 }
 
+/* line 67 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container input:checked + .source_header label {
+  color: #98bd17;
+}
+
+/* line 71 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .ac-container .expand_arrow {
-	margin-top:-60px;
+  margin-top: -60px;
 }
 
+/* line 75 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .ac-container .source_description {
-	margin-top:-60px;
-	margin-right: 50px;
+  margin-top: -60px;
+  margin-right: 50px;
 }
 
-.ac-container .source_summary, .source_summary, .source_body {	
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+/* line 80 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container .source_summary,
+.source_summary,
+.source_body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-
+/* line 85 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_header label {
-    font: bold 12px/60px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    text-transform: uppercase;
+  font: bold 12px/60px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
 }
 
+/* line 91 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 
-.ac-container label:hover{
-	/*background: #fff;*/
-}
-
+/* line 95 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .ac-container input:checked + label,
-.ac-container input:checked + label:hover{		
-	text-shadow: 0px 1px 1px rgba(255,255,255, 0.6);
-	box-shadow: 
-		0px 0px 0px 1px rgba(155,155,155,0.3), 
-		0px 2px 2px rgba(0,0,0,0.1);
+.ac-container input:checked + label:hover {
+  text-shadow: 0px 1px 1px rgba(255,255,255,0.6);
+  box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3), 0px 2px 2px rgba(0,0,0,0.1);
 }
+
+/* line 102 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .ac-container label:hover:after,
-.ac-container input:checked + label:hover:after{
-	content: '';
-	position: absolute;
-	width: 24px;
-	height: 24px;
-	right: 13px;
-	top: 7px;
-	/*background: transparent url(../images/arrow_down.png) no-repeat center center;	*/
+.ac-container input:checked + label:hover:after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  right: 13px;
+  top: 7px;
+/*background: transparent url(../images/arrow_down.png) no-repeat center center;	*/
 }
 
-.ac-container input:checked + .source_header .expand_arrow{	
-	background-position: 0px -76px;
+/* line 113 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container input:checked + .source_header .expand_arrow {
+  background-position: 0px -76px;
 }
 
-.ac-container input:checked + label:hover:after{
-	/*background-image: url(../images/arrow_up.png);*/
-}
-.ac-container input{
-	display: none;
-}
-.ac-container article{
-	background: rgba(255, 255, 255, 0.5);
-	margin-top: -1px;
-	overflow: hidden;
-	height: 0px;
-	position: relative;
-	z-index: 10;
+/* line 117 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+
+/* line 120 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container input {
+  display: none;
 }
 
-
-.ac-container input:checked ~ article{
-
+/* line 123 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container article {
+  background: rgba(255,255,255,0.5);
+  margin-top: -1px;
+  overflow: hidden;
+  height: 0px;
+  position: relative;
+  z-index: 10;
 }
-.ac-container input:checked ~ article.ac-auto{
-	height: auto;
+
+/* line 133 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+
+/* line 136 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.ac-container input:checked ~ article.ac-auto {
+  height: auto;
 }
 
-
-
+/* line 142 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage #accordion {
-	margin:0 auto;	
-	width:600px;
+  margin: 0 auto;
+  width: 600px;
 }
 
+/* line 147 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage ul {
-	margin:0;
-	padding:0;
-	}
+  margin: 0;
+  padding: 0;
+}
 
+/* line 152 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage ul li {
-	list-style:none;	
-	margin-bottom: 0px;
-	/*background-color:#34495e;*/
-	}
-	
+  list-style: none;
+  margin-bottom: 0px;
+/*background-color:#34495e;*/
+}
+
+/* line 158 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage ul li h2 {
-	margin:0;
-	padding:10px;
-	font-size:18px;
-	/*font-family:Arial, Helvetica, sans-serif;*/
-	color:#ecf0f1;
-	border-bottom:1px #efefef solid;
-	}	
-	
+  margin: 0;
+  padding: 10px;
+  font-size: 18px;
+/*font-family:Arial, Helvetica, sans-serif;*/
+  color: #ecf0f1;
+  border-bottom: 1px #efefef solid;
+}
+
+/* line 167 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage ul li a {
-	text-decoration:none;
-	}	
-	
+  text-decoration: none;
+}
+
+/* line 171 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage ul li .content {
-    height: 0;
-	overflow:hidden;
-	}	
-	
+  height: 0;
+  overflow: hidden;
+}
+
+/* line 176 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage ul li .content:target {
-    height:auto;
-	border-bottom:1px #efefef solid;
-	}
-	
-	
+  height: auto;
+  border-bottom: 1px #efefef solid;
+}
+
+/* line 182 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /*.contentPage ul li .content p {
 	padding:10px;
 	color:#ecf0f1;
-	}		*/		
+	}		*/
 
-	/*Accordion Stuff End*/
+/* line 187 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+/*Accordion Stuff End*/
 
-
+/* line 190 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /* from calums css */
 
-
+/* line 193 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage {
-	zoom:1;
+  zoom: 1;
 }
 
-.dataContentSize, .aboutContentSize, .methodsContentSize, .storyContentSize
-.contentPage{
-	height: 100%;
-	/*min-height: 1500px;
+/* line 197 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.dataContentSize,
+.aboutContentSize,
+.methodsContentSize,
+.storyContentSize,
+.contentPage {
+  height: 100%;
+/*min-height: 1500px;
 	height: auto !important;*/
 }
 
-.content-container{
-	margin: 0px 0px 40px 0px;
+/* line 204 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.content-container {
+  margin: 0px 0px 40px 0px;
 }
 
-.contentPage .content-inner-container{
-	width:960px;
-	margin: 0 auto;
-	padding: 0 10px;
+/* line 208 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .content-inner-container {
+  width: 960px;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 
-.contentPage .header-container{
-	margin: 60px 0 40px;
-	height: auto;
-	font-weight: 400;
-	background: url(images/header_block-8287b2677353772b13b9e784b627e9ae.jpg);
-}
-.contentPage .header-block-title h1, .contentPage .header-block-desc p{
-	color: rgb(255,255,255);
+/* line 214 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .header-container {
+  margin: 60px 0 40px;
+  height: auto;
+  font-weight: 400;
+  background: url("images/header_block-8287b2677353772b13b9e784b627e9ae.jpg");
 }
 
-.contentPage .header-block-title h1{
-	padding: 40px 50px 0 50px;
-	font-family: 'fira_sans_otlight';
-	font-size: 47px;
-	line-height: 47px;
-	font-weight: 600;
-
+/* line 220 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .header-block-title h1,
+.contentPage .header-block-desc p {
+  color: #fff;
 }
 
-.contentPage .header-block-desc p{
-	padding: 0px 50px 40px 50px;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 17px;
-	line-height: 20px;
-	font-weight: 400;
-	color:rgba(255, 255, 255, 0.7);
+/* line 224 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .header-block-title h1 {
+  padding: 40px 50px 0 50px;
+  font-family: 'fira_sans_otlight';
+  font-size: 47px;
+  line-height: 47px;
+  font-weight: 600;
 }
 
+/* line 233 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .header-block-desc p {
+  padding: 0px 50px 40px 50px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 20px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.7);
+}
+
+/* line 242 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage #headerBlockFooter {
-	border-top: 1px solid rgba(255, 255, 255, 0.15);
-	height: 98px;
-	list-style: none;
-	position: relative;
-	bottom:0px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  height: 98px;
+  list-style: none;
+  position: relative;
+  bottom: 0px;
 }
 
-.contentPage #headerBlockFooter li{
-	float:left;
-	height:100%;
-	width:33%;
-	border-left: 1px solid rgba(255, 255, 255, 0.15);
+/* line 250 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage #headerBlockFooter li {
+  float: left;
+  height: 100%;
+  width: 33%;
+  border-left: 1px solid rgba(255,255,255,0.15);
 }
 
-.contentPage #headerBlockFooter li a{
-	display: block;
-	width: 212px;
-	border: 3px solid rgba(255, 255, 255, 0.25);
-	margin: 28px auto;
-	padding-left: 20px;
-	font-size: 14px;
-	line-height: 38px;
-	font-family: 'fira_sans_otmedium';
-	color: rgba(255, 255, 255, 0.65);
-	text-transform: uppercase;
-	text-decoration: none;
-	-o-border-radius: 22px;
-	border-radius: 22px;
-	font-weight: 400;
+/* line 257 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage #headerBlockFooter li a {
+  display: block;
+  width: 212px;
+  border: 3px solid rgba(255,255,255,0.25);
+  margin: 28px auto;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 38px;
+  font-family: 'fira_sans_otmedium';
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  text-decoration: none;
+  -o-border-radius: 22px;
+  border-radius: 22px;
+  font-weight: 400;
 }
 
-.contentPage #headerBlockFooter li a:hover{
-	color:rgb(255,255,255, 1);
-	border: 3px solid rgba(255, 255, 255, .5);
-	cursor:pointer;
+/* line 274 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage #headerBlockFooter li a:hover {
+  color: #fff;
+  border: 3px solid rgba(255,255,255,0.5);
+  cursor: pointer;
 }
 
-.contentPage #headerBlockFooter li a i{
-	float: right;
-	display: block;
-	height: 38px;
-	width: 38px;
-	background: url('../images/static-icons.png') no-repeat;
-	background-position: 0 -174px;
+/* line 280 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage #headerBlockFooter li a i {
+  float: right;
+  display: block;
+  height: 38px;
+  width: 38px;
+  background: url("../images/static-icons.png") no-repeat;
+  background-position: 0 -174px;
 }
 
+/* line 289 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left {
-	float: left;
-	width: 313px;
+  float: left;
+  width: 313px;
 }
 
-.contentPage .navigation_left ul{
-	list-style: none;
-	margin:0 0;
+/* line 294 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .navigation_left ul {
+  list-style: none;
+  margin: 0 0;
 }
 
+/* line 299 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left a {
-	display: block;
-	line-height: 56px;
-	padding-left: 45px;
-	border-bottom: 1px solid rgb(204, 204, 204);
-	cursor:pointer;
-	font-size: 14px;
-	font-weight: 400;
-	font-family: "fira_sans_otmedium";
-	text-transform: uppercase;
-	text-decoration: none;
-	color: rgb(70, 64, 82);
-	background: rgb(242, 242, 243);
+  display: block;
+  line-height: 56px;
+  padding-left: 45px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "fira_sans_otmedium";
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #464052;
+  background: #f2f2f3;
 }
 
-.contentPage .navigation_left li{ 
-	margin-bottom: 0px; 
+/* line 314 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .navigation_left li {
+  margin-bottom: 0px;
 }
 
-.contentPage .navigation_left a:hover{
-	background:#e5e5e7
+/* line 318 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .navigation_left a:hover {
+  background: #e5e5e7;
 }
 
-.contentPage .navigation_left a.selected{
-	background:#fff;
-	position: relative;
-	width: 269px;
-	color: rgb(153, 153, 153);
+/* line 322 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .navigation_left a.selected {
+  background: #fff;
+  position: relative;
+  width: 269px;
+  color: #999;
 }
 
+/* line 329 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage .item-title {
-	border-bottom: 1px solid rgb(204, 204, 204);
-	line-height: 55px;
-	padding-left: 45px;
-	background: rgb(242, 242, 243);
+  border-bottom: 1px solid #ccc;
+  line-height: 55px;
+  padding-left: 45px;
+  background: #f2f2f3;
 }
 
-.contentPage .item-title i{
-	display: inline-block;
-	height: 10px;
-	width: 8px;
-	background: url('../images/static-icons.png') no-repeat;
-	background-position: 0 -222px;
+/* line 336 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage .item-title i {
+  display: inline-block;
+  height: 10px;
+  width: 8px;
+  background: url("../images/static-icons.png") no-repeat;
+  background-position: 0 -222px;
 }
 
+/* line 344 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .contentPage .content_right {
-	float: left;
-	width: 600px;
-	border-left: 1px solid rgb(204, 204, 204);
-	padding: 10px 20px 10px 20px;
-	min-height: 648px;
-	background: rgb(255, 255, 255);
+  float: left;
+  width: 600px;
+  border-left: 1px solid #ccc;
+  padding: 10px 20px 10px 20px;
+  min-height: 648px;
+  background: #fff;
 }
 
-
+/* line 354 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 /* from calums css end */
 
+/* line 357 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+/* From GFW - for Templates */
 
-	/* From GFW - for Templates */
+/* line 358 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_category_title {
-    margin-bottom: 10px;
-    font-size: 37px;
-    font-family: "fira_sans_otregular";
-    color: #464052;
+  margin-bottom: 10px;
+  font-size: 37px;
+  font-family: "fira_sans_otregular";
+  color: #464052;
 }
+
+/* line 364 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_category_description {
-    font: 13px/1.2 "Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: #999;
+  font: 13px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #999;
 }
 
+/* line 369 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_header strong {
-    font: bold 12px/60px "Helvetica Neue",Helvetica,Arial,sans-serif;
-    text-transform: uppercase;
+  font: bold 12px/60px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
 }
 
+/* line 374 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_header {
-    border-top: 1px solid #CCC;
-    color: #464052;
-    cursor: pointer;
+  border-top: 1px solid #ccc;
+  color: #464052;
+  cursor: pointer;
 }
+
+/* line 379 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_header em {
-    float: right;
-    color: #999;
-    font: italic 13px/60px "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-.static-icons-sprite, .header_block__footer a i, .header_block__footer a i.play, .caret_down, .source-item.expanded .expand_arrow, .expand_arrow, .dropdown_arrow, .arrow_down, .scroll-icon {    
-    background: url('../images/static-icons.png')  no-repeat scroll 0% 0% transparent;
+  float: right;
+  color: #999;
+  font: italic 13px/60px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+/* line 384 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.static-icons-sprite,
+.header_block__footer a i,
+.header_block__footer a i.play,
+.caret_down,
+.source-item.expanded .expand_arrow,
+.expand_arrow,
+.dropdown_arrow,
+.arrow_down,
+.scroll-icon {
+  background: url("../images/static-icons.png") no-repeat scroll 0% 0% transparent;
+}
+
+/* line 388 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .arrow_down {
-    display: inline-block;
-    height: 10px;
-    width: 8px;
-    margin-left: 15px;
-    background-position: 0px -212px;
+  display: inline-block;
+  height: 10px;
+  width: 8px;
+  margin-left: 15px;
+  background-position: 0px -212px;
 }
 
-.expand_arrow, .dropdown_arrow {
-    display: block;
-    float: right;
-    height: 60px;
-    width: 34px;
-    margin-left: 15px;
-    background-position: 0px -16px;
+/* line 396 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.expand_arrow,
+.dropdown_arrow {
+  display: block;
+  float: right;
+  height: 60px;
+  width: 34px;
+  margin-left: 15px;
+  background-position: 0px -16px;
 }
 
+/* line 407 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 
-
-.source_body, .source_coverage_header, .source_coverage {
-    /*display: none;*/
+/* line 411 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.single-source-item,
+.source_body,
+.source_coverage {
+  font-size: 15px;
+  line-height: 1.4;
+  color: #666;
 }
 
-.single-source-item, .source_body, .source_coverage {
-    font-size: 15px;
-    line-height: 1.4;
-    color: #666;
+/* line 417 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_download,
+.source_coverage_download {
+  text-align: right;
+  background: none repeat scroll 0% 0% #f0f5dc;
+  border-top: 1px solid #ccc;
 }
 
-.source_download, .source_coverage_download {
-    text-align: right;
-    background: none repeat scroll 0% 0% #F0F5DC;
-    border-top: 1px solid #CCC;
+/* line 423 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_download a,
+.source_coverage_download a {
+  display: inline-block;
+  margin: 20px;
+  padding: 0px 15px;
+  font: 14px/30px "fira_sans_otmedium";
+  text-decoration: none;
+  color: #fff !important;
+  background: none repeat scroll 0% 0% #a5b81a;
+  border-radius: 16px;
 }
 
-.source_download a, .source_coverage_download a {
-    display: inline-block;
-    margin: 20px;
-    padding: 0px 15px;
-    font: 14px/30px "fira_sans_otmedium";
-    text-decoration: none;
-    color: #FFF !important;
-    background: none repeat scroll 0% 0% #A5B81A;
-    border-radius: 16px;
-}
-
+/* line 434 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_table {
-    border-top: 1px solid #CCC;
-    margin-bottom: 30px;
+  border-top: 1px solid #ccc;
+  margin-bottom: 30px;
 }
+
+/* line 438 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .sources_row {
-    display: table;
-    width: 100%;
-    margin:0px;
+  display: table;
+  width: 100%;
+  margin: 0px;
 }
+
+/* line 443 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .sources_row.even {
-    background: none repeat scroll 0% 0% #F2F2F3;
+  background: none repeat scroll 0% 0% #f2f2f3;
 }
+
+/* line 446 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .sources_row dt {
-    display: table-cell;
-    width: 120px;
-    padding: 10px;
-    border-bottom: 1px solid #CCC;
-    font-weight: 500;
-    font-size: 11px;
-    text-transform: uppercase;
+  display: table-cell;
+  width: 120px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
 }
 
+/* line 456 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .sources_row dd {
-    display: table-cell;
-    padding: 10px 10px 10px 15px;
-    border-left: 1px solid #CCC;
-    border-bottom: 1px solid #CCC;
-    font-size: 13px;
+  display: table-cell;
+  padding: 10px 10px 10px 15px;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  font-size: 13px;
 }
 
+/* line 464 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_dropdown {
-	background: #EEE;
-	margin-bottom: 30px;
+  background: #eee;
+  margin-bottom: 30px;
 }
 
+/* line 469 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_dropdown_header .overview_title {
-	margin: 0;
-	padding: 0 10px;
-	line-height: 60px;
+  margin: 0;
+  padding: 0 10px;
+  line-height: 60px;
 }
 
-.source_dropdown_body.active, .source_dropdown_body.sinlge_active, .source_dropdown_menu.active {
-	display: block;
+/* line 475 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_dropdown_body.active,
+.source_dropdown_body.sinlge_active,
+.source_dropdown_menu.active {
+  display: block;
 }
 
+/* line 479 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_dropdown_body {
-	padding: 0 10px 10px;
+  padding: 0 10px 10px;
 }
 
-.source_dropdown_menu, .source_dropdown_body {
-	display: none;
+/* line 483 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_dropdown_menu,
+.source_dropdown_body {
+  display: none;
 }
 
+/* line 487 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_dropdown_menu ul {
-	margin-left: 10px;
-	padding-bottom: 10px;
+  margin-left: 10px;
+  padding-bottom: 10px;
 }
 
-.overview_title, .source_coverage_title {
-    margin: 30px 0px 10px;
-    font: 21px/1.1 "fira_sans_otmedium";
-    color: #463F52;
+/* line 492 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.overview_title,
+.source_coverage_title {
+  margin: 30px 0px 10px;
+  font: 21px/1.1 "fira_sans_otmedium";
+  color: #463f52;
 }
 
-.source_header.last{
-	border-bottom: 1px solid #ccc;
+/* line 498 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_header.last {
+  border-bottom: 1px solid #ccc;
 }
 
+/* line 502 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source-item.expanded .source_header {
-    color: #98BD17;
+  color: #98bd17;
 }
 
-.source-item:hover .source_header, .source-item.selected .source_header {
-    color: #98BD17;
+/* line 506 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source-item:hover .source_header,
+.source-item.selected .source_header {
+  color: #98bd17;
 }
 
-.sans-serif, html, .btn, .sources_row dt, .sources_row dd, .source_window .content, .source_window .source_description, .source_window .source_title, .source_window .source_category_title, .source_window .source_coverage_title, .footer-address {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+/* line 510 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.sans-serif,
+html,
+.btn,
+.sources_row dt,
+.sources_row dd,
+.source_window .content,
+.source_window .source_description,
+.source_window .source_title,
+.source_window .source_category_title,
+.source_window .source_coverage_title,
+.footer-address {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.source_body .hidden, .source_coverage .hidden {
-    display: none;
+/* line 514 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_body .hidden,
+.source_coverage .hidden {
+  display: none;
 }
 
-.source_body .read_more, .source_coverage .read_more {
-    padding: 10px 0px;
-    font-size: 14px;
-    text-align: center;
+/* line 518 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_body .read_more,
+.source_coverage .read_more {
+  padding: 10px 0px;
+  font-size: 14px;
+  text-align: center;
 }
 
-.single-source-item p, .source_body p, .source_coverage p {
-    margin-bottom: 10px;
+/* line 524 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.single-source-item p,
+.source_body p,
+.source_coverage p {
+  margin-bottom: 10px;
 }
 
-.single-source-item p.credits, .source_body p.credits, .source_coverage p.credits {
-    margin-bottom: 10px;
-    font-size: 12px;
-    color: #AAA;
+/* line 528 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.single-source-item p.credits,
+.source_body p.credits,
+.source_coverage p.credits {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #aaa;
 }
 
-.single-source-item p.credits strong, .source_body p.credits strong, .source_coverage p.credits strong {
-    display: block;
-    font-weight: bold;
-    color: #AAA;
+/* line 534 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.single-source-item p.credits strong,
+.source_body p.credits strong,
+.source_coverage p.credits strong {
+  display: block;
+  font-weight: bold;
+  color: #aaa;
 }
 
-.single-source-item p.credits a, .source_body p.credits a, .source_coverage p.credits a {
-    color: #AAA !important;
-    text-decoration: underline;
+/* line 540 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.single-source-item p.credits a,
+.source_body p.credits a,
+.source_coverage p.credits a {
+  color: #aaa !important;
+  text-decoration: underline;
 }
 
-.source_body .bullets li, .source_coverage .bullets li {
-    margin: 0px 0px 10px 20px;
-    padding: 0px 0px 0px 20px;
-    /*background: url('../images/bullet.png') no-repeat scroll 0px 8px transparent;*/
-    text-align: center;
+/* line 545 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.source_body .bullets li,
+.source_coverage .bullets li {
+  margin: 0px 0px 10px 20px;
+  padding: 0px 0px 0px 20px;
+/*background: url('../images/bullet.png') no-repeat scroll 0px 8px transparent;*/
+  text-align: center;
 }
 
+/* line 552 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .source_coverage_download .source_coverage_title {
-    float: left;
+  float: left;
 }
 
-.contentPage a{
-	text-decoration: none;
-	color: #A1BA42;
-}
-.logoContainer{
-	/*border: 1px solid #000;*/
-	overflow: hidden;
-	/*height: 300px;*/
-	width: 100%;
-}
-.aboutLogo{
-	float:left;
-	height:100px;
-
-	margin: 10px;
-}
-.aboutLogo img{
-	height:100%;
-	width:auto;
+/* line 556 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.contentPage a {
+  text-decoration: none;
+  color: #a1ba42;
 }
 
+/* line 560 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logoContainer {
+/*border: 1px solid #000;*/
+  overflow: hidden;
+/*height: 300px;*/
+  width: 100%;
+}
+
+/* line 566 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.aboutLogo {
+  float: left;
+  height: 100px;
+  margin: 10px;
+}
+
+/* line 572 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.aboutLogo img {
+  height: 100%;
+  width: auto;
+}
+
+/* line 577 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .logo_list {
-	margin: 30px auto 0;
-	padding: 0;
-	text-align: center;
+  margin: 30px auto 0;
+  padding: 0;
+  text-align: center;
 }
 
+/* line 583 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .logo_list li {
-	display: inline-block;
-	margin: 0 36px 38px 0;
-	padding: 0;
+  display: inline-block;
+  margin: 0 36px 38px 0;
+  width: 110px;
+  padding: 0;
 }
 
-.logo_list li a, .logo_list li span{
-display: inline-block;
-width: 110px;
-height: 80px;
+/* line 590 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list li a,
+.logo_list li span {
+  display: inline-block;
+  width: 110px;
+  height: 80px;
 }
 
+/* line 596 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .center {
-	text-align: center;
+  text-align: center;
 }
 
+/* line 600 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
 .emailWRI {
-	border: 1px solid #97bd3d;
-	margin: 10px 0 0;
-	color: #555555 !important;
-	background: white;
-	border-color: #97bd3d;
-	text-transform: uppercase;
-	padding: 0px 35px;
-	background: #e5e5df;
-	position: relative;
-	display: inline-block;
-	z-index: 1;
-	padding: 0px 12px;
-	border-radius: 40px;
-	font-size: 14px;
-	text-decoration: none;
-	height: 36px;
-	line-height: 36px;
-	text-align: center;
-	font-weight: 500;
-	white-space: nowrap;
-	-webkit-transition: background 0.15s linear;
-	-moz-transition: background 0.15s linear;
-	-o-transition: background 0.15s linear;
-	transition: background 0.15s linear;
-	background-color: white;
-	width: 100px;
-}
-.emailWRI:hover {
-background: #f2f2f2;
+  border: 1px solid #97bd3d;
+  margin: 10px 0 0;
+  color: #555 !important;
+  background: #fff;
+  border-color: #97bd3d;
+  text-transform: uppercase;
+  padding: 0px 35px;
+  background: #e5e5df;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+  padding: 0px 12px;
+  border-radius: 40px;
+  font-size: 14px;
+  text-decoration: none;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  font-weight: 500;
+  white-space: nowrap;
+  -webkit-transition: background 0.15s linear;
+  -moz-transition: background 0.15s linear;
+  -o-transition: background 0.15s linear;
+  transition: background 0.15s linear;
+  background-color: #fff;
+  width: 100px;
 }
 
+/* line 628 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.emailWRI:hover {
+  background: #f2f2f2;
+}
+
+/* line 633 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.digital-globe {
+  background: url("../images/dg_logo_grey.png") no-repeat scroll 0% 0% transparent;
+}
+
+/* line 636 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.digital-globe:hover {
+  background: url("../images/dg_logo_clr.png") no-repeat scroll 0% 0% transparent;
+}
+
+/* line 639 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .rainForestUK,
+.logo_list .rainForestUK:hover,
+.logo_list .rspo,
+.logo_list .rspo:hover,
+.logo_list .climateLandUse,
+.logo_list .climateLandUse:hover,
+.logo_list .muyissi,
+.logo_list .muyissi:hover,
+.logo_list .unepWC,
+.logo_list .unepWC:hover,
+.logo_list .woodsHole,
+.logo_list .woodsHole:hover,
+.logo_list .earthJournalismNetwork,
+.logo_list .earthJournalismNetwork:hover,
+.logo_list .unilever,
+.logo_list .unilever:hover,
+.logo_list .lodersCroklaan,
+.logo_list .lodersCroklaan:hover,
+.logo_list .osinfor,
+.logo_list .osinfor:hover,
+.logo_list .reforestMexico,
+.logo_list .reforestMexico:hover,
+.logo_list .resolveCo,
+.logo_list .resolveCo:hover,
+.logo_list .zsl,
+.logo_list .zsl:hover,
+.logo_list .osfac,
+.logo_list .osfac:hover,
+.logo_list .wri,
+.logo_list .wri:hover,
+.logo_list .google,
+.logo_list .google:hover,
+.logo_list .esri,
+.logo_list .esri:hover,
+.logo_list .universitymaryland,
+.logo_list .universitymaryland:hover,
+.logo_list .unep,
+.logo_list .unep:hover,
+.logo_list .imazon,
+.logo_list .imazon:hover,
+.logo_list .centerglobaldevelopment,
+.logo_list .centerglobaldevelopment:hover,
+.logo_list .gfwca,
+.logo_list .gfwca:hover,
+.logo_list .scanex,
+.logo_list .scanex:hover,
+.logo_list .twrus,
+.logo_list .twrus:hover,
+.logo_list .norwegian,
+.logo_list .norwegian:hover,
+.logo_list .usaid,
+.logo_list .usaid:hover,
+.logo_list .gef,
+.logo_list .gef:hover,
+.logo_list .vizzuality,
+.logo_list .vizzuality:hover,
+.logo_list .ukaid,
+.logo_list .ukaid:hover,
+.logo_list .tilafund,
+.logo_list .tilafund:hover,
+.logo_list .cgiar,
+.logo_list .cgiar:hover,
+.logo_list .danida,
+.logo_list .danida:hover,
+.logo_list .dutchforeign,
+.logo_list .dutchforeign:hover,
+.logo_list .bobolink,
+.logo_list .simbiotica,
+.logo_list .simbiotica:hover,
+.logo_list .goodall,
+.logo_list .goodall:hover,
+.logo_list .sida,
+.logo_list .sida:hover,
+.logo_list .foodAgricultureOrg,
+.logo_list .foodAgricultureOrg:hover,
+.logo_list .CIAT,
+.logo_list .CIAT:hover,
+.logo_list .cartoDB,
+.logo_list .cartoDB:hover,
+.logo_list .reddIndo,
+.logo_list .reddIndo:hover,
+.logo_list .moore,
+.logo_list .moore:hover,
+.logo_list .canada,
+.logo_list .canada:hover,
+.logo_list .bnbp,
+.logo_list .bnbp:hover,
+.blueraster,
+.blueraster:hover {
+  background: url("../images/partners-sprite.png");
+}
+
+/* line 732 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .bakerAndMackenzie,
+.logo_list .bakerAndMackenzie:hover,
+.logo_list .conservationInternational,
+.logo_list .conservationInternational:hover,
+.logo_list .IUCN,
+.logo_list .IUCN:hover,
+.logo_list .planetLabs,
+.logo_list .planetLabs:hover,
+.logo_list .sarvision,
+.logo_list .sarvision:hover {
+  background: url("../images/static-logosOld.png") no-repeat;
+}
+
+/* line 744 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .mongabay,
+.logo_list .mongabay:hover,
+.logo_list .yayasanPuter,
+.logo_list .yayasanPuter:hover {
+  background: url("../images/static-logos3.png") no-repeat;
+}
+
+/* line 751 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .bnbp {
+  background-position: 0 -5034px;
+  height: 64px;
+  width: 50px;
+}
+
+/* line 756 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .bnbp:hover {
+  background-position: 0 -4288px;
+}
+
+/* line 759 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .bakerAndMackenzie {
+  background-position: 0 -3905px;
+}
+
+/* line 762 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .bakerAndMackenzie:hover {
+  background-position: 0 -3824px;
+}
+
+/* line 765 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .blueraster {
+  background-position: 0 -3625px;
+  margin: 20px 0;
+  height: 48px;
+  width: 110px;
+}
+
+/* line 771 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .blueraster:hover {
+  background-position: 0 -2402px;
+}
+
+/* line 774 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .cartoDB {
+  background-position: 0 -4088px;
+  margin: 20px 0;
+  height: 39px;
+}
+
+/* line 779 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .cartoDB:hover {
+  background-position: 0 -2077px;
+}
+
+/* line 782 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .centerglobaldevelopment {
+  background-position: 0 -3557px;
+  margin: 20px 0;
+  height: 40px;
+  width: 84px;
+}
+
+/* line 788 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .centerglobaldevelopment:hover {
+  background-position: 0 -1433px;
+}
+
+/* line 791 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .cgiar {
+  background-position: 0 -2880px;
+  margin: 20px 0;
+  height: 43px;
+  width: 124px;
+}
+
+/* line 797 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .cgiar:hover {
+  background-position: 0 -913px;
+}
+
+/* line 800 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .climateLandUse {
+  background-position: 0 -4262px;
+  margin: 25px 0;
+  height: 26px;
+  width: 110px;
+}
+
+/* line 806 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .climateLandUse:hover {
+  background-position: 0 -1916px;
+}
+
+/* line 809 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .conservationInternational {
+  background-position: 0 -4225px;
+}
+
+/* line 812 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .conservationInternational:hover {
+  background-position: 0 -4144px;
+}
+
+/* line 815 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .earthJournalismNetwork {
+  background-position: 0 -3328px;
+  margin: 10px 0;
+  height: 64px;
+  width: 80px;
+}
+
+/* line 821 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .earthJournalismNetwork:hover {
+  background-position: 0 -2486px;
+}
+
+/* line 824 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .esri {
+  background-position: 0 -4171px;
+  margin: 25px 0;
+  height: 33px;
+  width: 87px;
+}
+
+/* line 830 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .esri:hover {
+  background-position: 0 -1851px;
+}
+
+/* line 833 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .foodAgricultureOrg {
+  background-position: 10px -5472px;
+  margin: 10px 0;
+  height: 78px;
+}
+
+/* line 838 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .foodAgricultureOrg:hover {
+  background-position: 10px -5394px;
+}
+
+/* line 841 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .canada {
+  background-position: 0 -4682px;
+  margin: 0 10px 30px 0;
+  height: 44px;
+  width: 42px;
+}
+
+/* line 847 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .canada:hover {
+  background-position: 0 -3177px;
+}
+
+/* line 850 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .google {
+  background-position: 0 -4897px;
+  margin: 30px 0;
+  height: 29px;
+  width: 85px;
+}
+
+/* line 856 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .google:hover {
+  background-position: 0 -1013px;
+}
+
+/* line 859 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .imazon {
+  background-position: 0 -5123px;
+  margin: 35px 0;
+  height: 24px;
+  width: 79px;
+}
+
+/* line 865 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .imazon:hover {
+  background-position: 0 -2923px;
+}
+
+/* line 868 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .CIAT {
+  background-position: 0 -2578px;
+  margin: 25px 0;
+  height: 50px;
+}
+
+/* line 873 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .CIAT:hover {
+  background-position: 0 -956px;
+}
+
+/* line 876 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .IUCN {
+  background-position: 0 -4909px;
+}
+
+/* line 879 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .IUCN:hover {
+  background-position: 0 -4842px;
+}
+
+/* line 882 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .lodersCroklaan {
+  background-position: 0 -5272px;
+  margin: 35px 0;
+  height: 10px;
+  width: 110px;
+}
+
+/* line 888 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .lodersCroklaan:hover {
+  background-position: 0 -5098px;
+}
+
+/* line 891 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .goodall {
+  background-position: 0 -5246px;
+  margin: 30px 0;
+  height: 26px;
+  width: 110px;
+}
+
+/* line 897 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .goodall:hover {
+  background-position: 0 -4236px;
+}
+
+/* line 900 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .mongabay {
+  background-position: 0 -7332px;
+}
+
+/* line 903 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .mongabay:hover {
+  background-position: 0 -7214px;
+}
+
+/* line 906 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .muyissi {
+  background-position: 0 -1150px;
+  height: 80px;
+  width: 80px;
+}
+
+/* line 911 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .muyissi:hover {
+  background-position: 0 -368px;
+}
+
+/* line 914 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .osinfor {
+  background-position: 0 -2635px;
+}
+
+/* line 917 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .osinfor:hover {
+  background-position: 0 -1230px;
+}
+
+/* line 920 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .osfac {
+  background-position: 0 -3973px;
+  margin: 20px 0;
+  height: 56px;
+  width: 44px;
+}
+
+/* line 926 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .osfac:hover {
+  background-position: 0 -1473px;
+}
+
+/* line 929 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .planetLabs {
+  background-position: 0 -5603px;
+}
+
+/* line 932 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .planetLabs:hover {
+  background-position: 0 -5536px;
+}
+
+/* line 935 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .rainForestUK {
+  background-position: 0 -3221px;
+  height: 37px;
+  width: 110px;
+}
+
+/* line 940 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .rainForestUK:hover {
+  background-position: 0 -2843px;
+}
+
+/* line 943 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .reddIndo {
+  background-position: 0 -5282px;
+  height: 62px;
+  width: 95px;
+}
+
+/* line 948 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .reddIndo:hover {
+  background-position: 0 -4460px;
+}
+
+/* line 951 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .reforestMexico {
+  background-position: 0 -1646px;
+  height: 66px;
+  width: 110px;
+}
+
+/* line 956 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .reforestMexico:hover {
+  background-position: 0 -1310px;
+}
+
+/* line 959 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .resolveCo {
+  background-position: 0 -4926px;
+  height: 28px;
+  width: 110px;
+}
+
+/* line 964 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .resolveCo:hover {
+  background-position: 0 -3597px;
+}
+
+/* line 967 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .rspo {
+  background-position: 0 -3940px;
+  margin: 20px 0;
+  height: 33px;
+  width: 110px;
+}
+
+/* line 973 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .rspo:hover {
+  background-position: 0 -2985px;
+}
+
+/* line 976 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .sarvision {
+  background-position: 0 -6359px;
+}
+
+/* line 979 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .sarvision:hover {
+  background-position: 0 -6292px;
+}
+
+/* line 982 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .scanex {
+  background-position: 0 -4766px;
+  margin: 30px 0;
+  height: 20px;
+  width: 110px;
+}
+
+/* line 988 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .scanex:hover {
+  background-position: 0 -2715px;
+}
+
+/* line 991 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .twrus {
+  background-position: 0 -4432px;
+  margin: 25px 0;
+  height: 28px;
+  width: 110px;
+}
+
+/* line 997 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .twrus:hover {
+  background-position: 0 -2550px;
+}
+
+/* line 1000 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .unilever {
+  background-position: 0 -1997px;
+  height: 80px;
+  width: 88px;
+}
+
+/* line 1005 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .unilever:hover {
+  background-position: 0 -1566px;
+}
+
+/* line 1008 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .unep {
+  background-position: 0 -3485px;
+  height: 57px;
+  width: 49px;
+}
+
+/* line 1013 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .unep:hover {
+  background-position: 0 -1376px;
+}
+
+/* line 1016 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .unepWC {
+  background-position: 0 -2116px;
+  height: 60px;
+  width: 110px;
+}
+
+/* line 1021 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .unepWC:hover {
+  background-position: 0 -448px;
+}
+
+/* line 1024 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .universitymaryland {
+  background-position: 0 -3711px;
+  height: 51px;
+  width: 56px;
+}
+
+/* line 1029 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .universitymaryland:hover {
+  background-position: 0 -1099px;
+}
+
+/* line 1032 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .vizzuality {
+  background-position: 0 -3018px;
+  margin: 20px 0;
+  height: 58px;
+  width: 109px;
+}
+
+/* line 1038 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .vizzuality:hover {
+  background-position: 0 -791px;
+}
+
+/* line 1041 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .woodsHole {
+  background-position: 0 -2176px;
+  margin: 10px 0;
+  height: 80px;
+  width: 87px;
+}
+
+/* line 1047 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .woodsHole:hover {
+  background-position: 0 -508px;
+}
+
+/* line 1050 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .wri {
+  background-position: 0 -4204px;
+  margin: 25px 0;
+  height: 32px;
+  width: 95px;
+}
+
+/* line 1056 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .wri:hover {
+  background-position: 0 -1884px;
+}
+
+/* line 1059 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .yayasanPuter {
+  background-position: 15px -5788px;
+}
+
+/* line 1062 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .yayasanPuter:hover {
+  background-position: 15px -5720px;
+}
+
+/* line 1065 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .zsl {
+  background-position: 0 -2329px;
+  height: 73px;
+  width: 110px;
+}
+
+/* line 1070 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .zsl:hover {
+  background-position: 0 -2256px;
+}
+
+/* line 1073 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .danida {
+  background-position: 0 -5108px;
+  margin: 25px 0;
+  height: 15px;
+  width: 82px;
+}
+
+/* line 1079 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .danida:hover {
+  background-position: 0 -3542px;
+}
+
+/* line 1082 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .gef {
+  background-position: 0 -4029px;
+  height: 59px;
+  width: 51px;
+}
+
+/* line 1087 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .gef:hover {
+  background-position: 0 -1712px;
+}
+
+/* line 1090 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .moore {
+  background-position: 0 -3140px;
+  margin: 15px 0;
+  height: 37px;
+  width: 96px;
+}
+
+/* line 1096 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .moore:hover {
+  background-position: 0 -1529px;
+}
+
+/* line 1099 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .dutchforeign {
+  background-position: 0 -4954px;
+  height: 80px;
+  width: 106px;
+}
+
+/* line 1104 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .dutchforeign:hover {
+  background-position: 0 -4352px;
+}
+
+/* line 1107 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .norwegian {
+  background-position: 0 -3814px;
+  height: 46px;
+  width: 110px;
+}
+
+/* line 1112 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .norwegian:hover {
+  background-position: 0 -3439px;
+}
+
+/* line 1115 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .sida {
+  background-position: 0 -2788px;
+  height: 55px;
+  width: 110px;
+}
+
+/* line 1120 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .sida:hover {
+  background-position: 0 -1942px;
+}
+
+/* line 1123 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .ukaid {
+  background-position: 0 -4826px;
+  height: 47px;
+  width: 43px;
+}
+
+/* line 1128 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .ukaid:hover {
+  background-position: 0 -3392px;
+}
+
+/* line 1131 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .usaid {
+  background-position: 0 -3076px;
+  height: 64px;
+  width: 80px;
+}
+
+/* line 1136 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.logo_list .usaid:hover {
+  background-position: 0 -849px;
+}
+
+/* line 1140 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+/*
 .static-logos-sprite, .logo_list .osfac, .logo_list .osfac:hover, .logo_list .wri, .logo_list .wri:hover, .logo_list .google, .logo_list .google:hover, .logo_list .esri, .logo_list .esri:hover, .logo_list .universitymaryland, .logo_list .universitymaryland:hover, .logo_list .unep, .logo_list .unep:hover, .logo_list .imazon, .logo_list .imazon:hover, .logo_list .centerglobaldevelopment, .logo_list .centerglobaldevelopment:hover, .logo_list .gfwca, .logo_list .gfwca:hover, .logo_list .scanex, .logo_list .scanex:hover, .logo_list .twrus, .logo_list .twrus:hover, .logo_list .norwegian, .logo_list .norwegian:hover, .logo_list .usaid, .logo_list .usaid:hover, .logo_list .gef, .logo_list .gef:hover, .logo_list .vizzuality, .logo_list .vizzuality:hover, .logo_list .ukaid, .logo_list .ukaid:hover, .logo_list .tilafund, .logo_list .tilafund:hover, .logo_list .bakerAndMackenzie, .logo_list .bakerAndMackenzie:hover, .logo_list .cgiar, .logo_list .cgiar:hover, .logo_list .danida, .logo_list .danida:hover, .logo_list .dutchforeign, .logo_list .dutchforeign:hover, .logo_list .bobolink, .logo_list .simbiotica, .logo_list .simbiotica:hover, .logo_list .goodall, .logo_list .goodall:hover, .logo_list .sida, .logo_list .sida:hover, .logo_list .conservationInternational, .logo_list .conservationInternational:hover, .logo_list .foodAgricultureOrg, .logo_list .foodAgricultureOrg:hover, .logo_list .CIAT, .logo_list .CIAT:hover, .logo_list .IUCN, .logo_list .IUCN:hover, .logo_list .planetLabs, .logo_list .planetLabs:hover, .logo_list .sarvision, .logo_list .sarvision:hover, .logo_list .cartoDB, .logo_list .cartoDB:hover, .logo_list .reddIndo, .logo_list .reddIndo:hover, .logo_list .moore, .logo_list .moore:hover, .logo_list .canada, .logo_list .canada:hover {
 background: url(../images/static-logosOld.png) no-repeat;
 }
@@ -1013,8 +1869,9 @@ background-position: 0 -8075px;
 }
 .logo_list .zsl:hover {
 background-position: 0 -8075px;
-}
+}*/
 
-.coming-soon{
-	padding: 20px;
+/* line 1528 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/contentPages.styl */
+.coming-soon {
+  padding: 20px;
 }

@@ -43,7 +43,7 @@ define([
 
             var s = document.createElement('script'),
                 h = document.getElementsByTagName('body')[0];
-            s.setAttribute('src', "https://cdn.rawgit.com/simbiotica/gfw_assets/bce5294264c2ecc25a9fcf46ed356116564f5c2d/src/header-loader.js");
+            s.setAttribute('src', "https://cdn.rawgit.com/simbiotica/gfw_assets/a1c6c10126d915e4198a7adf707adb266443f3e4/src/header-loader.js");
             s.setAttribute('id', "loader-gfw");
             s.setAttribute('data-current', ".shape-fire");
             //s.setAttribute('async', 'true');
