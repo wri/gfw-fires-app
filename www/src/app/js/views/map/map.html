@@ -14,9 +14,13 @@
           <div id="fires72" data-bind="text: fires72" class="active-fires-options"></div>
           <div id="fires48" data-bind="text: fires48" class="active-fires-options"></div>
           <div id="fires24" data-bind="text: fires24" class="active-fires-options"></div>
-          <div class="confidence-fires-container">
-            <div id="confidence-fires-checkbox"></div>
-            <label id="confidenceFiresContainer" for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+          <div id="smartContainer" class="confidence-fires-container">
+            <label id="activateSmartContainer" data-bind="text: activateSmartCheckbox"></label>
+            <div id="smartRelative">
+              <div id="heatCircle" class="smartRelative"></div>
+              <div id="clusterCircle" class="smartRelative"></div>
+              <div id="hexCircle" class="smartRelative"></div>
+            </div>
           </div>
         </div>
         <div class="checkbox-container">
@@ -229,7 +233,7 @@
       </div>
       <div id="imagery-panel" class="accordion-panel">
         <div class="checkbox-container">
-          <div id="landsat-image-checkbox"></div>
+          <div id="landsat-image-checkbox"> </div>
           <label for="landsat-image-checkbox" data-bind="text: landsatImageCheckbox"></label><span data-bind="text: landsatImageSubLabel" class="checkbox-sub-label"></span>
         </div>
         <div class="checkbox-container">
@@ -240,7 +244,7 @@
           <div id="report-optionsDigitalGlobe" data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar">
             <div id="footprintsCheckBox" class="checkbox-container">
               <input id="digital-globe-footprints-checkbox" type="checkbox" checked="checked"/>
-              <label id="digitalGlobeFootprintsCheckboxLabel" for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">								</label>
+              <label id="digitalGlobeFootprintsCheckboxLabel" for="digital-globe-footprints-checkbox1" data-bind="text: digitalGlobeFootprintsCheckbox">                              </label>
             </div>
           </div>
           <table class="imageryTable font9">
@@ -253,8 +257,8 @@
             </thead>
             <tbody data-bind="foreach: digitalGlobeInView">
               <tr data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}" class="imageryRow">
-                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font9">										</td>
-                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font9">										</td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}" class="font9">                                    </td>
+                <td data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}" class="font9">                                    </td>
                 <td data-bind="event:{click: $root.imageryZoomTo}" class="popup-link-zoom"></td>
               </tr>
             </tbody>

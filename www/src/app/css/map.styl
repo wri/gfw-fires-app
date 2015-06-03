@@ -34,6 +34,7 @@ baseRed = #e7002f
 #control-panel
 	transition all 1s
 	
+
 #subscribeDialogWindow
 	overflow visible
 	
@@ -1073,6 +1074,37 @@ div.report-options-section > table
 	left 4px
 	top 2px
 	
+.joyride-tip-guide .joyride-next-tip
+	background rgb(231,0,47) !important
+	border none !important
+	display block
+	width 30px
+	// background -moz-linear-gradient(top, rgb(231,0,47) 0%, rgb(0,85,214) 100%)
+	// background -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(231,0,47)), color-stop(100%,rgb(0,85,214)))
+	// background -webkit-linear-gradient(top, rgb(231,0,47) 0%,rgb(0,85,214) 100%)
+.joyride-close-tip
+	margin -5px
+	
+.joyride-tip-guide
+	width 200px
+	
+#heatCircle,#clusterCircle,#hexCircle
+	width 75px
+	height 75px
+	display inline-block
+	cursor pointer
+	padding 5px
+	margin 1px
+	
+#heatCircle
+	background rgb(255, 255, 255) url(../images/heatmap.png) center no-repeat
+	
+#clusterCircle
+	background rgb(255, 255, 255) url(../images/clustering.png) center no-repeat
+	
+
+#hexCircle
+	background rgb(255, 255, 255) url(../images/hexbin.png) center no-repeat
 
 .map-view-print .mapView #stackContainer
 	top 0px
@@ -1106,7 +1138,54 @@ div.report-options-section > table
 .map-view-print .latLongHUD
 	bottom auto
 	
+#smartHiddenMenu > li > a
+	color black !important
+	
+.sub-menu
+	border-top 1px solid black
+	
+#smartRelative
+	position relative
+	margin-top 5px
 
+#smartDropdown
+	-webkit-appearance none
+	border 1px solid #e98300
+	width 200px
+	padding 5px
+	cursor pointer
+	background rgb(255, 255, 255) url(../images/ico-carat-down.png) 96% center no-repeat !important
+	
+	
+#smartDropdownArrow
+	float right
+	position absolute
+	top 4px
+	right 15px
+	cursor pointer
+		
+#smartContainer
+	margin 0
+	margin-left 5px
+	margin-top 10px
+	text-align center
+	
+.smartRelative
+	border-radius 50%
+	box-shadow 0 0 0 3px #ddd
+	transition box-shadow 0.3s
+	
+.smartRelative:hover
+	box-shadow 0 0 0 3px #f00 !important
+
+// .smartRelative:hover
+// 	border 1px solid red
+
+#activateSmartContainer
+	margin-bottom 5px
+
+.hidden
+	display none
 // Time slider 
 
 #timeSliderPanel
@@ -1328,7 +1407,11 @@ div.report-options-section > table
 .dijitContentPane
 	overflow-x: hidden;
 
-
+#brightnessSelector, #confidenceSelector
+	display none
+	
+.selectedConfidence
+	background-color blue
 
 @media print
 	html, body

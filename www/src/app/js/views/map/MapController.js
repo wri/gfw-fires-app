@@ -26,23 +26,29 @@ define([
     "esri/dijit/Scalebar",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/layers/ArcGISImageServiceLayer",
+    "esri/layers/TiledMapServiceLayer",
     "esri/layers/ImageParameters",
     "esri/layers/FeatureLayer",
     "esri/geometry/webMercatorUtils",
     "esri/geometry/Extent",
+    "esri/geometry/Polygon",
     "esri/InfoTemplate",
     "esri/dijit/PopupTemplate",
     "esri/graphic",
     "esri/urlUtils",
+    "esri/symbols/SimpleMarkerSymbol",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
     "esri/renderers/SimpleRenderer",
+    "esri/renderers/ClassBreaksRenderer",
+    "esri/renderers/smartMapping",
     "esri/Color",
     "dijit/registry",
     "views/map/MapConfig",
     "views/map/MapModel",
     "views/map/LayerController",
     "views/map/WindyController",
+    "views/map/clusterfeaturelayer",
     "views/map/Finder",
     "views/report/ReportOptionsController",
     "utils/DijitFactory",
@@ -50,6 +56,7 @@ define([
     "esri/request",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
+    "esri/tasks/RelationshipQuery",
     "esri/tasks/PrintTask",
     "esri/tasks/PrintParameters",
     "esri/tasks/PrintTemplate",
@@ -65,8 +72,8 @@ define([
     "utils/Helper",
     "dojo/aspect"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
-    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, Color,
-    registry, MapConfig, MapModel, LayerController, WindyController, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, PrintTask, PrintParameters,
+    Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, TiledMapServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, Polygon, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, ClassBreaksRenderer, SmartMapping, Color,
+    registry, MapConfig, MapModel, LayerController, WindyController, ClusterFeatureLayer, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, RelationshipQuery, PrintTask, PrintParameters,
     PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, Uploader, DrawTool, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
 
     var o = {},
@@ -208,9 +215,11 @@ define([
         var hashY = HashController.newState.y;
         var hashL = HashController.newState.l;
 
+
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
-            zoom: hashL, //MapConfig.mapOptions.initalZoom,
+            //zoom: hashL, //MapConfig.mapOptions.initalZoom,
+            zoom: 6,
             basemap: MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
             maxZoom: MapConfig.mapOptions.maxZoom,
@@ -220,22 +229,13 @@ define([
         });
         window.map = o.map;
 
-
         o.map.on("load", function() {
             //$("#firesDateFrom").datepicker("setDate", "+0m -7d");
-
+            o.map.setBasemap('dark-gray');
             $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
             //$("#hiddenFires").css("display", "none");
-            // setTimeout(function() {
-            //     (dom.byId("#galleryNode_basemap_6")
-            //     var basemapArray = registry.byId("basemap-gallery").basemaps;
-            //     basemapArray.splice(4, 1);
-            // }, 1000);
-
-            //var basemapArray = registry.byId("basemap-gallery").air;
-            //basemapArray.splice(6, 1);
 
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
@@ -258,14 +258,42 @@ define([
             // when the hash controller workflow is corrected
             on.once(o.map, "update-end", function() {
 
-                o.map.centerAt(new Point(hashX, hashY)).then(function() {
+                //  o.map.centerAt(new Point(hashX, hashY)).then(function() {
+                o.map.centerAt(new Point(-10.24, 9.66)).then(function() {
                     setTimeout(function() {
                         o.mapExtentPausable.resume();
+
+                        // var $body = $('body'),
+                        //     $overlay = $('<div>', {
+                        //         css: {
+                        //             position: 'absolute',
+                        //             width: $body.outerWidth(),
+                        //             height: $body.outerHeight(),
+                        //             top: $body.position().top,
+                        //             left: $body.position().left,
+                        //             backgroundColor: 'rgba(255,255,255,0.5)',
+                        //             zIndex: 75,
+                        //             display: 'none'
+                        //         }
+                        //     }).appendTo($body);
+                        // $overlay.show();
+                        // var hideOverlay = function() {
+                        //         $overlay.hide();
+                        //     }
+                        // $("#joyRideTipContent").joyride({
+                        //     nextButton: false,
+                        //     autoStart: true,
+                        //     postRideCallback: hideOverlay
+                        // });
+
                     }, 1000);
                 });
+
             });
 
             o.map.resize();
+
+
 
         });
 
@@ -288,6 +316,11 @@ define([
 
             if (dijit.byId("digital-globe-checkbox").getValue() == 'on') {
                 o.updateImageryList();
+            }
+            if (MapModel.vm.smartRendererName() == "Hex bin") {
+                var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+                smartMappingHexagons.clear();
+                o.setSmartRenderer("Hex bin");
             }
 
         });
@@ -403,6 +436,491 @@ define([
         imageBoxes.clear();
     };
 
+    o.getClassJenks = function(nbClass, data) {
+        /**
+            Function modified from geostats.js lib @ https://github.com/simogeo/geostats
+             * Credits : Doug Curl (javascript) and Daniel J Lewis (python implementation)
+             * http://www.arcgis.com/home/item.html?id=0b633ff2f40d412995b8be377211c47b
+             * http://danieljlewis.org/2010/06/07/jenks-natural-breaks-algorithm-in-python/
+             */
+
+        // if (this._nodata())
+        //     return;
+
+        var dataList = data.sort(function(a, b) {
+            return a - b;
+        });
+        // now iterate through the datalist:
+        // determine mat1 and mat2
+        // really not sure how these 2 different arrays are set - the code for
+        // each seems the same!
+        // but the effect are 2 different arrays: mat1 and mat2
+        var mat1 = []
+        for (var x = 0, xl = dataList.length + 1; x < xl; x++) {
+            var temp = []
+            for (var j = 0, jl = nbClass + 1; j < jl; j++) {
+                temp.push(0)
+            }
+            mat1.push(temp)
+        }
+
+        var mat2 = []
+        for (var i = 0, il = dataList.length + 1; i < il; i++) {
+            var temp2 = []
+            for (var c = 0, cl = nbClass + 1; c < cl; c++) {
+                temp2.push(0)
+            }
+            mat2.push(temp2)
+        }
+
+        // absolutely no idea what this does - best I can tell, it sets the 1st
+        // group in the
+        // mat1 and mat2 arrays to 1 and 0 respectively
+        for (var y = 1, yl = nbClass + 1; y < yl; y++) {
+            mat1[0][y] = 1
+            mat2[0][y] = 0
+            for (var t = 1, tl = dataList.length + 1; t < tl; t++) {
+                mat2[t][y] = Infinity
+            }
+            var v = 0.0
+        }
+
+        // and this part - I'm a little clueless on - but it works
+        // pretty sure it iterates across the entire dataset and compares each
+        // value to
+        // one another to and adjust the indices until you meet the rules:
+        // minimum deviation
+        // within a class and maximum separation between classes
+        for (var l = 2, ll = dataList.length + 1; l < ll; l++) {
+            var s1 = 0.0
+            var s2 = 0.0
+            var w = 0.0
+            for (var m = 1, ml = l + 1; m < ml; m++) {
+                var i3 = l - m + 1
+                var val = parseFloat(dataList[i3 - 1])
+                s2 += val * val
+                s1 += val
+                w += 1
+                v = s2 - (s1 * s1) / w
+                var i4 = i3 - 1
+                if (i4 != 0) {
+                    for (var p = 2, pl = nbClass + 1; p < pl; p++) {
+                        if (mat2[l][p] >= (v + mat2[i4][p - 1])) {
+                            mat1[l][p] = i3
+                            mat2[l][p] = v + mat2[i4][p - 1]
+                        }
+                    }
+                }
+            }
+            mat1[l][1] = 1
+            mat2[l][1] = v
+        }
+
+        var k = dataList.length
+        var kclass = []
+
+        // fill the kclass (classification) array with zeros:
+        for (i = 0; i <= nbClass; i++) {
+            kclass.push(0);
+        }
+
+        // this is the last number in the array:
+        kclass[nbClass] = parseFloat(dataList[dataList.length - 1])
+        // this is the first number - can set to zero, but want to set to lowest
+        // to use for legend:
+        kclass[0] = parseFloat(dataList[0])
+        var countNum = nbClass
+        while (countNum >= 2) {
+            var id = parseInt((mat1[k][countNum]) - 2)
+            kclass[countNum - 1] = dataList[id]
+            k = parseInt((mat1[k][countNum] - 1))
+            // spits out the rank and value of the break values:
+            // console.log("id="+id,"rank = " + String(mat1[k][countNum]),"val =
+            // " + String(dataList[id]))
+            // count down:
+            countNum -= 1
+        }
+        // check to see if the 0 and 1 in the array are the same - if so, set 0
+        // to 0:
+        if (kclass[0] == kclass[1]) {
+            kclass[0] = 0
+        }
+
+        return kclass;
+    }
+
+    o.setSmartRenderer = function(newRenderer) {
+        var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+
+        switch (newRenderer) {
+
+            case "Choose one":
+
+                var firesClusters, fireHeat, hexFires;
+
+                firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.hide();
+
+                hexFires = o.map.getLayer("hexFires");
+                hexFires.hide();
+
+                fireHeat = o.map.getLayer("newFires");
+                fireHeat.hide();
+                break;
+
+            case "Heat map":
+
+                var firesClusters, fireHeat, hexFires;
+                fireHeat = o.map.getLayer("newFires");
+
+                fireHeat.show();
+                firesClusters = o.map.getLayer("firesClusters");
+
+                firesClusters.hide();
+                hexFires = o.map.getLayer("hexFires");
+                hexFires.hide();
+
+
+                smartMappingHexagons.clear();
+                break;
+            case "Proportional symbols":
+                firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.show();
+                var fireHeat, firesClusters, hexFires;
+                fireHeat = o.map.getLayer("newFires");
+                fireHeat.hide();
+                hexFires = o.map.getLayer("hexFires");
+                hexFires.hide();
+
+
+                smartMappingHexagons.clear();
+                break;
+            case "Hex bin":
+                smartMappingHexagons.clear();
+                o.setHexBinRender();
+
+                break;
+        }
+    }
+
+    o.setHexBinRender = function() {
+
+        var firesClusters, newFires;
+        var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+        firesClusters = o.map.getLayer("firesClusters");
+
+        firesClusters.hide();
+        newFires = o.map.getLayer("newFires");
+        newFires.hide();
+
+        o.tessellationInfo = {};
+        o.tessellationInfo.origin = {};
+        o.tessellationInfo.hexagonOrientation = "NS";
+        o.tessellationInfo.hexagonRadius = 1000;
+        o.tessellationInfo.type = "hexagon";
+
+        function createQuery() {
+            console.log("createQuery!");
+
+            var extent = o.map.extent;
+
+            var json = {
+                "rings": [
+                    [
+
+                        [extent.xmin, extent.ymax],
+                        [extent.xmax, extent.ymax],
+                        [extent.xmax, extent.ymin],
+                        [extent.xmin, extent.ymin],
+                        [extent.xmin, extent.ymax]
+
+                    ]
+                ],
+                "spatialReference": extent.spatialReference
+            };
+
+            var selPolygon = new Polygon(json);
+
+            var query = new Query();
+            query.returnGeometry = true;
+            query.where = "1=1";
+            query.outSpatialReference = o.map.spatialReference;
+            query.geometry = selPolygon;
+            query.outFields = ["*"];
+            return query;
+        }
+
+        var tessellationInfo, cellSymbol;
+
+        var zoomLevel = o.map.getZoom();
+        console.log(zoomLevel); // max (closest is 18)
+
+        var radius = 25 * Math.pow(2, (18 - zoomLevel));
+
+        console.log("radius: " + radius);
+
+        cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
+        );
+
+
+        var extent = o.map.extent;
+        var halfEdgeLength = radius * 0.5;
+        var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
+        var hexagonHeight = halfHexagonHeight * 2;
+
+        o.tessellationInfo.origin.x = extent.xmin;
+        o.tessellationInfo.origin.y = extent.ymin;
+
+        var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
+        var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
+
+        //var startTime = (new Date().getTime());
+        var count1 = 0;
+        var count2 = 0;
+
+
+        for (var c = 0; c < numCols; c++) {
+            for (var r = 0; r < numRows; r++) {
+                var evenCol = c % 2;
+                var centerX, centerY;
+
+                if (evenCol == 0) {
+                    centerX = c * (radius + halfEdgeLength) + extent.xmin;
+                    centerY = r * hexagonHeight + extent.ymin;
+                } else {
+                    centerX = c * (radius + halfEdgeLength) + extent.xmin;
+                    centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
+                }
+
+                var x1 = centerX + radius;
+                var y1 = centerY;
+                var x2 = centerX + halfEdgeLength;
+                var y2 = centerY + halfHexagonHeight;
+                var x3 = centerX - halfEdgeLength;
+                var y3 = centerY + halfHexagonHeight;
+                var x4 = centerX - radius;
+                var y4 = centerY;
+                var x5 = centerX - halfEdgeLength;
+                var y5 = centerY - halfHexagonHeight;
+                var x6 = centerX + halfEdgeLength;
+                var y6 = centerY - halfHexagonHeight;
+
+                var hexagon = new Polygon(o.map.spatialReference);
+                hexagon.addRing([
+                    [x1, y1],
+                    [x2, y2],
+                    [x3, y3],
+                    [x4, y4],
+                    [x5, y5],
+                    [x6, y6],
+                    [x1, y1]
+                ]);
+
+                var center = new Point(centerX, centerY, o.map.spatialReference);
+
+                var id = "ID-" + c + "-" + r;
+                var attr = {
+                    "count": 0,
+                    id: id
+                };
+
+                var graphic = new Graphic(hexagon, null, attr);
+
+                graphicsLayer.add(graphic);
+                //o.map.graphics.add(graphic);
+            }
+        }
+
+        // var endTime = (new Date().getTime());
+        // console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
+
+
+        var relatedQ = new RelationshipQuery();
+
+        var fires = o.map.getLayer("hexFires");
+        Helper.showLoader("map", "map-blocker");
+
+        fires.queryFeatures(createQuery(), function(results) {
+
+            Helper.hideLoader("map-blocker");
+            // console.log("# of features: " + results.features.length);
+
+            //var startTime = (new Date().getTime());
+            var aggregateArray = [];
+            var col, row, point, id;
+            var feature;
+
+            var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
+            var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
+            var hexagonHeight = halfHexagonHeight * 2;
+
+            var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
+            //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
+            //var needProcessAttributes = false;
+
+            for (var i = 0; i < results.features.length; i++) {
+                feature = results.features[i];
+                point = feature.geometry;
+                col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
+                row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
+
+
+                var center1, center2, center3;
+                var evenCol = col % 2;
+                if (evenCol === 0) {
+                    center1 = {
+                        x: col * colWidth + o.tessellationInfo.origin.x,
+                        y: row * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center2 = {
+                        x: col * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center3 = {
+                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                } else {
+                    center1 = {
+                        x: col * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center2 = {
+                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                        y: row * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                    center3 = {
+                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+                        y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+                    };
+                }
+
+                var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
+                var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
+                var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
+
+                if (evenCol === 0) {
+                    if (d1 <= d2 && d1 <= d3) {
+                        id = "ID-" + col + "-" + row;
+                    } else if (d2 <= d1 && d2 <= d3) {
+                        id = "ID-" + col + "-" + (row + 1);
+                    } else {
+                        id = "ID-" + (col + 1) + "-" + row;
+                    }
+                } else {
+                    if (d1 <= d2 && d1 <= d3) {
+                        id = "ID-" + col + "-" + row;
+                    } else if (d2 <= d1 && d2 <= d3) {
+                        id = "ID-" + (col + 1) + "-" + row;
+                    } else {
+                        id = "ID-" + (col + 1) + "-" + (row + 1);
+                    }
+                }
+
+                var record = undefined;
+                for (var j = 0; j < aggregateArray.length; j++) {
+                    if (aggregateArray[j].id === id) {
+                        aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
+                        record = aggregateArray[j];
+                        break;
+                    }
+                }
+
+                var attrs = {};
+                if (!record) {
+                    attrs["count"] = 1;
+
+                    record = {
+                        id: id,
+                        attributes: attrs
+                    };
+                    aggregateArray.push(record);
+                }
+
+            }
+
+            //updateTessellationLayer(aggregateArray);
+            updateTessellationLayer(aggregateArray, results.features);
+
+
+            // var endTime = (new Date().getTime());
+            // console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
+
+            function updateTessellationLayer(aggregateArray, fires) {
+                var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+                console.log(aggregateArray.length + " features");
+                var maxWeight = 0;
+
+                // var len = o.map.graphics.graphics.length;
+                var len = graphicsLayer.graphics.length;
+                var graphicsArray = graphicsLayer.graphics;
+                var countsArr = [];
+
+                for (var k = 0; k < len; k++) {
+
+
+                    for (var kk = 0; kk < fires.length; kk++) {
+
+                        if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
+
+                            graphicsArray[k].attributes["count"]++;
+
+
+
+                        }
+                    }
+                    countsArr.push(graphicsArray[k].attributes["count"]);
+
+
+                    maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
+
+
+
+                }
+                var arrOfBreaks = o.getClassJenks(10, countsArr);
+
+                var Renderer = o.getRenderer(arrOfBreaks);
+
+                graphicsLayer.setRenderer(Renderer);
+                graphicsLayer.redraw();
+
+
+            }
+
+        });
+    };
+
+    o.getRenderer = function(breaksArr) {
+        var zero = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 0]));
+        var one = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .1]));
+        var two = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .2]));
+        var three = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .3]));
+        var four = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .4]));
+        var five = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .5]));
+        var six = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .6]));
+        var seven = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .7]));
+        var eight = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .8]));
+        var nine = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .9]));
+        var ten = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 1]));
+
+        var cRenderer = new ClassBreaksRenderer(zero, "count");
+
+        cRenderer.addBreak((breaksArr[0] + 1), breaksArr[1], one);
+        cRenderer.addBreak(breaksArr[1], breaksArr[2], two);
+        cRenderer.addBreak(breaksArr[2], breaksArr[3], three);
+        cRenderer.addBreak(breaksArr[3], breaksArr[4], four);
+        cRenderer.addBreak(breaksArr[4], breaksArr[5], five);
+        cRenderer.addBreak(breaksArr[5], breaksArr[6], six);
+        cRenderer.addBreak(breaksArr[6], breaksArr[7], seven);
+        cRenderer.addBreak(breaksArr[7], breaksArr[8], eight);
+        cRenderer.addBreak(breaksArr[8], breaksArr[9], nine);
+        cRenderer.addBreak(breaksArr[9], breaksArr[10], ten);
+        return cRenderer;
+
+    };
+
     o.resizeMapPanel = function(data) {
 
         if (data == true) {
@@ -477,17 +995,34 @@ define([
         home.startup();
 
         // Add Darkgray Canvas to Basemap Gallery, first create Basemap
-        darkgray = new Basemap({
+        // darkgray = new Basemap({
+        //     layers: [
+        //         new BasemapLayer({
+        //             url: MapConfig.mapOptions.darkGrayCanvas
+        //         })
+        //     ],
+        //     id: "darkgray",
+        //     title: "Dark Gray Canvas",
+        //     thumbnailUrl: "app/images/darkGreyThumb.jpg"
+        // });
+        var newBaseMap = new Basemap({
             layers: [
                 new BasemapLayer({
-                    url: MapConfig.mapOptions.darkGrayCanvas
+                    url: "http://a.tiles.mapbox.com/v4/devseed.3100ad78/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q",
+                    type: "WebTiledLayer"
+                }),
+                new BasemapLayer({
+                    url: "http://a.tiles.mapbox.com/v4/devseed.841fc333/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q",
+                    type: "WebTiledLayer"
                 })
             ],
-            id: "darkgray",
-            title: "Dark Gray Canvas",
-            thumbnailUrl: "app/images/darkGreyThumb.jpg"
+            id: "newBM",
+            title: "WRI",
+            thumbnailUrl: "app/images/devSeed.png"
         });
-        //basemaps.push(darkgray);
+
+        //var newBM = new TiledMapServiceLayer("http://a.tiles.mapbox.com/v4/devseed.3100ad78/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q");
+        basemaps.push(newBaseMap);
         //console.log(basemaps);
 
         bg = new BasemapGallery({
@@ -663,12 +1198,14 @@ define([
                 Finder.selectUploadOrDrawnGraphics(evt);
             }
         });
-        on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
-            LayerController.updateFiresLayer(true);
-            if (evt) {
-                self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
-            }
-        });
+        // on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
+        //     LayerController.updateFiresLayer(true);
+
+        //     // LayerController.updateOtherFiresLayers(evt);
+        //     if (evt) {
+        //         self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
+        //     }
+        // });
 
         on(registry.byId("twitter-conversations-checkbox"), "change", function(evt) {
             var value = registry.byId("twitter-conversations-checkbox").checked;
@@ -694,6 +1231,19 @@ define([
             MapModel.vm.showActiveFiresButtons(value);
             if (value) {
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Active Fires layer on.');
+
+            } else {
+
+                MapModel.vm.smartRendererName("Choose one");
+                var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+                graphicsLayer.clear();
+                var firesClusters = o.map.getLayer("firesClusters");
+                firesClusters.hide();
+                var newFires = o.map.getLayer("newFires");
+                newFires.hide();
+                $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#hexCircle").css("box-shadow", "0 0 0 3px #ddd");
             }
         });
 
@@ -918,9 +1468,9 @@ define([
             var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
-            if (registry.byId('confidence-archive-checkbox').checked) {
-                sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
-            }
+            // if (registry.byId('confidence-archive-checkbox').checked) {
+            //     sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
+            // }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
@@ -939,6 +1489,81 @@ define([
             }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], newLayerDef);
         });
+
+        dojoQuery(".smartRelative").forEach(function(node) {
+            on(node, "click", function() {
+                var realFires = o.map.getLayer("Active_Fires");
+                $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
+                $("#hexCircle").css("box-shadow", "0 0 0 3px #ddd");
+
+
+                if ((this.id == "hexCircle" && MapModel.vm.smartRendererName() == "Hex bin") || (this.id == "clusterCircle" && MapModel.vm.smartRendererName() == "Proportional symbols") || (this.id == "heatCircle" && MapModel.vm.smartRendererName() == "Heat map")) {
+                    var fireHeat = o.map.getLayer("newFires");
+                    fireHeat.hide();
+
+                    var firesClusters = o.map.getLayer("firesClusters");
+                    firesClusters.hide();
+
+                    var hexFires = o.map.getLayer("firesClusters");
+                    hexFires.hide();
+
+                    realFires.show();
+                    MapModel.vm.smartRendererName("Choose one");
+                    var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+                    smartMappingHexagons.clear();
+
+                    return;
+
+                }
+
+
+                if (this.id == "heatCircle") {
+                    o.setSmartRenderer("Heat map");
+                    MapModel.vm.smartRendererName("Heat map");
+                } else if (this.id == "clusterCircle") {
+                    o.setSmartRenderer("Proportional symbols");
+                    MapModel.vm.smartRendererName("Proportional symbols");
+                } else if (this.id == "hexCircle") {
+                    o.setSmartRenderer("Hex bin");
+                    MapModel.vm.smartRendererName("Hex bin");
+                } else {
+                    return;
+                }
+                $(this).css("box-shadow", "0 0 0 3px #e98300");
+                realFires.hide();
+                // MapModel.vm.smartRendererName();
+            });
+        });
+
+        // on(registry.byId("activate-smart-checkbox"), "change", function(value) {
+
+        //     var realFires = o.map.getLayer("Active_Fires");
+
+        //     if (value === true) {
+        //         realFires.hide();
+        //         $("#confidence-fires-checkbox").parent().parent().hide();
+
+        //         o.setSmartRenderer(MapModel.vm.smartRendererName());
+        //     } else {
+        //         $("#confidence-fires-checkbox").parent().parent().show();
+        //         realFires.show();
+        //         var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+        //         smartMappingHexagons.clear();
+        //         var fireHeat, firesClusters, hexFires;
+
+        //         fireHeat = o.map.getLayer("newFires");
+        //         fireHeat.hide();
+
+        //         firesClusters = o.map.getLayer("firesClusters");
+        //         firesClusters.hide();
+
+        //         hexFires = o.map.getLayer("firesClusters");
+        //         hexFires.hide();
+
+        //     }
+
+        // });
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
@@ -1266,6 +1891,95 @@ define([
             id: MapConfig.tomnodLayer.sel_id
         });
 
+        // esriRequest.setRequestPreCallback(function(ioArgs) {
+        //     if (ioArgs.url === "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4") {
+        //         ioArgs.content['defaultDefinitionExpression'] = "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'";
+        //     }
+        //     return ioArgs;
+        // })
+
+        var firesViz = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
+            id: "newFires",
+            visible: false,
+            // renderer: o.heatMapRenderer,
+            outFields: "*"
+        });
+        var hexFires = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
+            id: "hexFires",
+            visible: false,
+            outFields: "*"
+        });
+
+        // var defaultSym = new SimpleMarkerSymbol("circle", 16,
+        //     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
+        //     new Color([255, 255, 255, 1]));
+        var defaultSym = new SimpleMarkerSymbol("circle", 9,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1),
+            new Color([254, 182, 62, 1]));
+
+        var selectedSym = new SimpleMarkerSymbol("circle", 16,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.85]), 3),
+            new Color([255, 255, 255, 1]));
+
+        var firesVizCluster = new ClusterFeatureLayer({
+            "url": "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
+            "distance": 95,
+            "id": "firesClusters",
+            "labelColor": "#fff",
+            "resolution": o.map.extent.getWidth() / o.map.width,
+            //"singleColor": "#888",
+            "singleSymbol": defaultSym,
+            //"singleTemplate": infoTemplate,
+            "useDefaultSymbol": false,
+            "zoomOnClick": true,
+            "showSingles": true,
+            "visible": false,
+            "objectIdField": "FID",
+            outFields: ["ACQ_DATE", "CONFIDENCE"]
+        });
+
+
+        firesVizCluster.on("update-end", function() {
+
+            firesVizCluster._clusterData = layer._clusterData.filter(function() {
+
+
+            });
+        });
+
+
+
+        var cRenderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
+
+        // Red Clusters
+        var small = new SimpleMarkerSymbol("circle", 10,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([212, 116, 60, 0.5]), 15),
+            new Color([212, 116, 60, 0.75]));
+        var medium = new SimpleMarkerSymbol("circle", 25,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([178, 70, 37, 0.5]), 15),
+            new Color([178, 70, 37, 0.75]));
+        var large = new SimpleMarkerSymbol("circle", 35,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([144, 24, 13, 0.5]), 15),
+            new Color([144, 24, 13, 0.75]));
+        var xlarge = new SimpleMarkerSymbol("circle", 55,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.5]), 15),
+            new Color([102, 0, 0, 0.75]));
+
+        // Break values - can adjust easily
+        cRenderer.addBreak(2, 50, small);
+        cRenderer.addBreak(50, 250, medium);
+        cRenderer.addBreak(250, 1000, large);
+        cRenderer.addBreak(1000, 50000, xlarge);
+
+        // // Providing a ClassBreakRenderer is also optional
+        firesVizCluster.setRenderer(cRenderer);
+
+        //firesViz.setDefinitionExpression("ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'");
+
         burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
 
         firesParams = new ImageParameters();
@@ -1407,8 +2121,38 @@ define([
             id: MapConfig.digitalGlobe.graphicsLayerHighlight,
             visible: true
         });
+        var smartMappingHexagons = new GraphicsLayer(featureCollection, {
+            id: "smartMappingHexagons",
+            visible: true
+        });
         var highlightRenderer = new SimpleRenderer(highlightSymbol);
         digitalGlobeGraphicsHighlight.setRenderer(highlightRenderer);
+
+        // SmartMapping.createSizeRenderer({
+        //     layer: firesViz,
+        //     field: "CONFIDENCE",
+        //     basemap: o.map.getBasemap()
+        // }).then(function(response) {
+
+        //     o.sizeRenderer = response.renderer;
+        //     console.log("ready for proportional size");
+        //     // firesViz.redraw();
+        //     // firesViz.show();
+        // });
+        SmartMapping.createHeatmapRenderer({
+            layer: firesViz,
+            //field: field,
+            blurRadius: 5,
+            basemap: o.map.getBasemap()
+
+        }).then(function(response) {
+            //o.heatMapRenderer = response.renderer;
+            var fires = o.map.getLayer("newFires");
+            fires.setRenderer(response.renderer);
+            //newFires.redraw();
+
+        });
+
 
         dglyr = digitalGlobeGraphicsLayer;
 
@@ -1423,7 +2167,8 @@ define([
             landCoverLayer,
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
-            digitalGlobeGraphicsHighlight
+            digitalGlobeGraphicsHighlight,
+            smartMappingHexagons
         ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
             conservationLayer,
             burnScarLayer,
@@ -1434,6 +2179,9 @@ define([
             fireStories,
             airQualityLayer,
             tomnodSellayer,
+            firesViz,
+            firesVizCluster,
+            hexFires,
             indonesiaLayer,
             firesLayer
         ]);
@@ -1517,8 +2265,18 @@ define([
         dojoQuery(".selected-fire-option").forEach(function(el) {
             domClass.remove(el, "selected-fire-option");
         });
+
         domClass.add(node, "selected-fire-option");
         LayerController.updateFiresLayer();
+
+        var reRun = LayerController.updateOtherFiresLayers();
+
+
+
+        if (reRun) {
+
+            o.setSmartRenderer(MapModel.vm.smartRendererName());
+        }
     };
 
     o.enableLayersFromHash = function() {

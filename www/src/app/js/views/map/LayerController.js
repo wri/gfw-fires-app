@@ -180,9 +180,128 @@ define([
             //dynamicMapService.refresh();
         },
 
+        updateOtherFiresLayers: function(layerName) {
+
+            var node = dojoQuery(".selected-fire-option")[0],
+                clusterCheckbox = dojoQuery("#activate-smart-checkbox").attr("aria-checked")[0],
+                defs = [],
+                where = "",
+                layer;
+
+
+            // if (clusterCheckbox == "false") {
+            //     return;
+            // }
+
+            //Todo: Make sure the hexagons pay attention to the time stamps when its inititally turned on
+            var today = new Date();
+            var backdate = new Date();
+
+            switch (node.id) {
+                case "fires72":
+                    backdate.setDate(today.getDate() - 4);
+                    today.setDate(today.getDate() - 3);
+                    break;
+                case "fires48":
+                    backdate.setDate(today.getDate() - 3);
+                    today.setDate(today.getDate() - 2);
+                    break;
+                case "fires24":
+                    backdate.setDate(today.getDate() - 2);
+                    today.setDate(today.getDate() - 1);
+                    break;
+                default:
+                    where = "1 = 1";
+                    break;
+            }
+
+            switch (MapModel.vm.smartRendererName()) {
+                case "Choose one":
+                    layer = null;
+                    break;
+
+                case "Heat map":
+                    layer = "newFires";
+
+                    break;
+                case "Proportional symbols":
+                    layer = "firesClusters";
+                    break;
+                case "Hex bin":
+                    layer = "hexFires";
+                    break;
+            }
+
+
+
+            if (arrayUtils.indexOf(["fires72", "fires48", "fires24"], node.id) > -1) {
+
+                var yyyy = backdate.getFullYear();
+
+                var mm = "00" + (backdate.getMonth() + 1).toString();
+                mm = mm.substr(mm.length - 2);
+
+                var dd = "00" + backdate.getDate().toString();
+                dd = dd.substr(dd.length - 2);
+
+                var todayDD = "00" + today.getDate().toString();
+                todayDD = todayDD.substring(todayDD.length - 2);
+
+                var hh = backdate.getHours();
+                var min = backdate.getMinutes();
+                var ss = backdate.getSeconds();
+
+                var dateString = yyyy.toString() + "-" + mm + "-" + dd + " " + hh + ":" + min + ":" + ss;
+                var todayString = yyyy.toString() + "-" + mm + "-" + todayDD + " " + hh + ":" + min + ":" + ss;
+                where += "ACQ_DATE > date '" + dateString + "'";
+
+
+
+            }
+
+
+
+            var currentFires = map.getLayer(layer);
+            if (layer != "firesClusters") {
+                var realFires = map.getLayer(MapConfig.firesLayer.id);
+
+
+                //     // currentFires._clusterData = layer._clusterData.filter(function() {
+
+
+                //     // });
+                //     //currentFires._clusterGraphics();
+
+                // } else {
+
+
+                console.log(where);
+                if (currentFires) {
+                    currentFires.setDefinitionExpression(where);
+                } else {
+                    var heat = _map.getLayer("newFires");
+                    var hexagons = _map.getLayer("hexFires");
+                    heat.setDefinitionExpression(where);
+                    hexagons.setDefinitionExpression(where);
+                }
+
+                //setTimeout(function() {
+                if (layer == "hexFires") {
+
+                    return true;
+                }
+                //}, 2000);
+
+            }
+
+
+
+            var hexagons = _map.getLayer("hexFires");
+        },
+
         updateFiresLayer: function(updateVisibleLayers) {
             var node = dojoQuery(".selected-fire-option")[0],
-                checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
+                checkboxStatus, // = dom.byId("confidence-fires-checkbox").checked,
                 defs = [],
                 where = "",
                 visibleLayers,

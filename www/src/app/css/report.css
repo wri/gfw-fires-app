@@ -1,21 +1,21 @@
 
-/* line 286 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 286 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 
-/* line 1 : /Users/Robert/Projects/github_work/GFW-Fires/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/www/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
 
-/* line 1 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 1 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 @font-face {
   font-family: "Arial MT Condensed Bold";
   src: url("../fonts/ArialMTStd-BoldCond.otf") format("opentype");
 }
 
-/* line 5 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 5 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 @font-face {
   font-family: "Arial MT Condensed Light";
   src: url("../fonts/ArialMTStd-LightCond.otf") format("opentype");
 }
 
-/* line 10 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 10 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 html,
 body {
   height: 100%;
@@ -24,25 +24,25 @@ body {
   margin: 0;
 }
 
-/* line 16 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 16 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .report-page {
   font-family: Arial, Georgia, "Helvetica Neue", Helvetica, sans-serif;
 }
 
-/* line 19 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 19 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .report-title {
   font-family: "Arial MT Condensed Bold", Arial, Georgia, sans-serif;
   margin: 30px 0 50px;
 }
 
-/* line 23 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 23 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .report-title,
 .section-title {
   text-align: center;
   font-size: 28px;
 }
 
-/* line 27 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 27 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .section-title,
 .sub-title,
 .noFiresTable {
@@ -51,20 +51,20 @@ body {
   margin: 10px 0;
 }
 
-/* line 32 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 32 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .sub-title {
   text-align: center;
   font-size: 18px;
 }
 
-/* line 36 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 36 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .sub-title2 {
   text-align: center;
   font-size: 22px;
   font-family: Arial MT Condensed;
 }
 
-/* line 41 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 41 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .map-container {
   border: 2px solid #000;
   margin: 0 auto;
@@ -72,19 +72,19 @@ body {
   width: 650px;
 }
 
-/* line 47 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 47 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .map-container.small {
   height: 500px;
 }
 
-/* line 50 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 50 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .map {
   position: relative;
   height: 100%;
   width: 100%;
 }
 
-/* line 55 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 55 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .legend-container {
   position: absolute;
   font-size: 12px;
@@ -93,14 +93,14 @@ body {
   left: 5px;
 }
 
-/* line 62 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 62 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .legend-swatch {
   border: 1px solid #000;
   height: 16px;
   width: 16px;
 }
 
-/* line 67 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 67 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .legend-swatch-round {
   border: 1px solid #fff;
   border-radius: 35px;
@@ -108,53 +108,53 @@ body {
   width: 12px;
 }
 
-/* line 73 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 73 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .hc-fire {
   background-color: #e16e20;
 }
 
-/* line 76 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 76 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .oa-fire {
   background-color: #fba730;
 }
 
-/* line 79 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 79 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .legend-label {
   padding-left: 10px;
 }
 
-/* line 82 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 82 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .legend-title {
   max-width: 160px;
 }
 
-/* line 85 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 85 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .chart-container {
   margin: 0 auto;
   height: 380px;
   width: 450px;
 }
 
-/* line 90 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 90 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .chart {
   height: 380px;
   width: 450px;
 }
 
-/* line 94 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 94 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .chart text {
   font-size: 20px !important;
   font-weight: normal !important;
 }
 
-/* line 98 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 98 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fire-line-chart {
   margin: 0 auto;
   height: 500px;
   width: 650px;
 }
 
-/* line 106 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 106 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table {
   font-family: "Arial MT Condensed Light", Arial, Georgia, sans-serif;
   border-collapse: collapse;
@@ -162,7 +162,7 @@ body {
   margin: 20px auto;
 }
 
-/* line 112 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 112 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table th {
   border-bottom: 2px solid #888;
   max-width: 230px;
@@ -171,22 +171,22 @@ body {
   color: #fff;
 }
 
-/* line 119 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 119 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table th:first-child {
   background-color: #0d6b3e;
 }
 
-/* line 122 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 122 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table th:nth-child(2) {
   background-color: #82b53c;
 }
 
-/* line 125 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 125 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table th:last-child {
   background-color: #e89927;
 }
 
-/* line 128 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 128 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table td {
   border-bottom: 2px solid #888;
   max-width: 230px;
@@ -194,29 +194,29 @@ body {
   color: #000;
 }
 
-/* line 134 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 134 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table tr > td:first-child,
 .fires-table tr > td:nth-child(2) {
   background-color: #cddfb1;
 }
 
-/* line 137 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 137 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .fires-table tr > td:last-child {
   background-color: #f8c8a9;
 }
 
-/* line 140 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 140 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .noFiresTable {
   text-align: center;
   font-size: 16px;
 }
 
-/* line 144 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 144 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 #noFiresMsg {
   color: #e7002f;
 }
 
-/* line 147 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 147 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 .loader {
   position: absolute;
   z-index: 10;
@@ -227,21 +227,21 @@ body {
   background: url("../images/loader.gif") no-repeat center;
 }
 
-/* line 156 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 156 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
 @media print {
 
-/* line 157 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 157 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
   .page-break {
     display: block;
     page-break-before: always;
   }
 
-/* line 160 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 160 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
   .no-break {
     page-break-inside: avoid !important;
   }
 
-/* line 162 : /Users/Robert/Projects/github_work/GFW-Fires/www/src/app/css/report.styl */
+/* line 162 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/report.styl */
   html,
   body {
     -webkit-print-color-adjust: exact;

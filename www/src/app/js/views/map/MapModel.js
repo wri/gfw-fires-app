@@ -35,6 +35,7 @@ define([
     vm.indonesiaSubLabel = ko.observable(MapConfig.text.indonesiaSubLabel);
     vm.firesSubLabel = ko.observable(MapConfig.text.firesSubLabel);
     vm.confidenceFiresCheckbox = ko.observable(MapConfig.text.confidenceFiresCheckbox);
+    vm.activateSmartCheckbox = ko.observable(MapConfig.text.activateSmartCheckbox);
     vm.firesWeek = ko.observable(MapConfig.text.firesWeek);
     vm.fires72 = ko.observable(MapConfig.text.fires72);
     vm.fires48 = ko.observable(MapConfig.text.fires48);
@@ -73,6 +74,7 @@ define([
     vm.transparencySliderLabel = ko.observable(MapConfig.text.transparencySliderLabel);
     vm.alertErrorMessages = ko.observableArray([]);
     vm.showAlertErrorMessages = ko.observable(false);
+    vm.smartRendererName = ko.observable("Choose one");
     vm.customFeatureName = ko.observable("Drawn/Uploaded Feature");
     vm.customFeaturesArray = ko.observableArray([]);
     vm.getReportLink = ko.observable(MapConfig.text.getReportLink);
@@ -393,6 +395,13 @@ define([
         return date;
     }
 
+    vm.smartOptions = ko.observableArray([
+        'Choose one',
+        'Heat map',
+        'Proportional symbols',
+        'Hex bin',
+    ]);
+
     vm.firesObservFrom = ko.observable(date2);
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
@@ -494,9 +503,27 @@ define([
     vm.imageryMouseOut = function(data, event) {
         console.log("MOUSE OUT");
         // return;
+        $("#smartHiddenMenu").addClass("hidden");
+    };
+
+
+    vm.chooseSmartDropdown = function(data, event) {
+
+        // if (vm.smartRendererName() == "Choose one") {
+
+        //     //here I need to also turn off data!!
+
+        //     return;
+        // }
+        var smartCheckbox = $("#activate-smart-checkbox");
+        if (smartCheckbox[0].checked == false) {
+            return;
+        }
+
         require(["views/map/MapController"], function(MapController) {
-            MapController.handleImageryOut(data, event);
+            MapController.setSmartRenderer(vm.smartRendererName());
         });
+
     };
 
     vm.imageryZoomTo = function(data, event) {

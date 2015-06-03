@@ -25,7 +25,7 @@ define({
 
     mapOptions: {
         darkGrayCanvas: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer",
-        basemap: "topo",
+        basemap: "gray",
         minZoom: 3,
         maxZoom: 18,
         initalZoom: 5,
@@ -51,7 +51,7 @@ define({
     defaultGraphicsLayerLabel: "ALERTS_LABEL",
 
     firesLayer: {
-        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer",
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_stage/MapServer/",
         id: "Active_Fires",
         highConfidence: "BRIGHTNESS >= 330 AND CONFIDENCE >= 30",
         defaultLayers: [0, 1, 2, 3],
@@ -437,6 +437,7 @@ define({
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show high confidence fires",
+        activateSmartCheckbox: "New Fire Visualizations:",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
         fires48: "Past 48 hours",
@@ -607,6 +608,11 @@ define({
             "type": "checkbox",
             "props": {}
         }, {
+            "id": "activate-smart-checkbox",
+            "class": "fires-confidence-checkbox",
+            "type": "checkbox",
+            "props": {}
+        }, {
             "id": "noaa-fires-18",
             "class": "noaa-checkbox",
             "type": "checkbox",
@@ -624,6 +630,21 @@ define({
             "id": "confidence-archive-checkbox",
             "class": "fires-confidence-checkbox",
             "type": "checkbox",
+            "props": {}
+        }, {
+            "id": "smart-archive-checkbox",
+            "class": "fires-confidence-checkbox",
+            "type": "radio",
+            "props": {}
+        }, {
+            "id": "smart-archive-checkbox2",
+            "class": "fires-confidence-checkbox",
+            "type": "radio",
+            "props": {}
+        }, {
+            "id": "smart-archive-checkbox3",
+            "class": "fires-confidence-checkbox",
+            "type": "radio",
             "props": {}
         }, {
             "id": "burned-scars-checkbox",
