@@ -1,5 +1,5 @@
-define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", "dojo/parser", "esri/urlUtils"],
-    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils, parser, urlUtils) {
+define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style", "dojox/validate/web", "dijit/registry", "modules/HashController", "modules/EventsController", "views/story/StoryModel", "views/story/StoryConfig", "dojo/_base/array", "esri/map", "esri/toolbars/edit", "esri/dijit/BasemapGallery", "esri/toolbars/draw", "esri/graphic", "esri/Color", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "dijit/layout/ContentPane", "dijit/TitlePane", "esri/layers/FeatureLayer", "esri/InfoTemplate", "esri/geometry/webMercatorUtils", "dojo/parser", "esri/urlUtils", "utils/Analytics"],
+    function(dom, domConstruct, on, dom, domStyle, validate, registry, HashController, EventsController, StoryModel, StoryConfig, arrayUtil, Map, Edit, BasemapGallery, Draw, Graphic, Color, SimpleMarkerSymbol, PictureMarkerSymbol, ContentPane, TitlePane, FeatureLayer, InfoTemplate, webMercatorUtils, parser, urlUtils, Analytics) {
 
         var o = {};
         var initialized = false;
@@ -14,7 +14,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 //switch to this view
                 console.log(viewObj);
                 EventsController.switchToView(viewObj);
-
+                Analytics.sendPageview(window.location.href, viewObj.viewName);
                 return;
             }
 
@@ -32,6 +32,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 });
 
             });
+            Analytics.sendPageview(window.location.href, viewObj.viewName);
 
         };
 
@@ -469,7 +470,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var failure = function() {
                 alert(StoryModel.vm.submitFailure);
             }
-
+            Analytics.sendEvent("Submit", "click", "User Story", "User is submitting a story via the Story Page.");
             stories.applyEdits([graphicToAdd], null, null, success, failure);
 
         };

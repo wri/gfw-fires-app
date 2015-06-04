@@ -1539,12 +1539,12 @@ div.report-options-section > table {
 #heatCircle,
 #clusterCircle,
 #hexCircle {
-  width: 75px;
-  height: 75px;
+  width: 70px;
+  height: 70px;
   display: inline-block;
   cursor: pointer;
   padding: 5px;
-  margin: 1px;
+  margin: 10px;
 }
 
 /* line 1099 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/map.styl */

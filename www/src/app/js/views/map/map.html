@@ -14,12 +14,15 @@
           <div id="fires72" data-bind="text: fires72" class="active-fires-options"></div>
           <div id="fires48" data-bind="text: fires48" class="active-fires-options"></div>
           <div id="fires24" data-bind="text: fires24" class="active-fires-options"></div>
+          <div class="confidence-fires-container">
+            <div id="confidence-fires-checkbox"></div>
+            <label id="confidenceFiresContainer" for="confidence-fires-checkbox" data-bind="text: confidenceFiresCheckbox"></label>
+          </div>
           <div id="smartContainer" class="confidence-fires-container">
             <label id="activateSmartContainer" data-bind="text: activateSmartCheckbox"></label>
             <div id="smartRelative">
-              <div id="heatCircle" class="smartRelative"></div>
-              <div id="clusterCircle" class="smartRelative"></div>
-              <div id="hexCircle" class="smartRelative"></div>
+              <div id="heatCircle" title="Heatmap" class="smartRelative"></div>
+              <div id="clusterCircle" title="Proportional Symbols" class="smartRelative"></div>
             </div>
           </div>
         </div>

@@ -1660,6 +1660,7 @@ define([
                             dom.byId("subscribe-now").innerHTML = "Submitting...";
 
                             _self.postSubscribeRequest(geom, emailValue, "email", dialog);
+                            Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via Email.");
                         }
 
                         if (phoneValue) {
@@ -1685,6 +1686,7 @@ define([
                             domStyle.set("userPhone", "border", "1px solid gray");
                             dom.byId("subscribe-now").innerHTML = "Submitting...";
                             _self.postSubscribeRequest(geom, phoneValue, "sms", dialog);
+                            Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via SMS.");
                         }
                         //dialog.destroy();
                     });

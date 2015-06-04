@@ -110,7 +110,6 @@ define([
                     self.fetchDataForWindLayer().then(createWindLayer);
                 });
             } else {
-                console.log("just promptinggg then creating");
                 this.promptAboutBasemap().then(createWindLayer);
             }
         },

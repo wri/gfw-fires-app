@@ -25,7 +25,7 @@ define({
 
     mapOptions: {
         darkGrayCanvas: "http://tiles4.arcgis.com/tiles/P3ePLMYs2RVChkJx/arcgis/rest/services/World_Dark_Gray_Base_Beta/MapServer",
-        basemap: "gray",
+        basemap: "topo",
         minZoom: 3,
         maxZoom: 18,
         initalZoom: 5,
@@ -170,10 +170,10 @@ define({
     // },
 
     conservationLayers: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/conservation/wdpa_protected_areas/MapServer',
         id: 'Conservation',
-        defaultLayers: [-1], // Show none by default
-        protectedAreas: 25 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
+        defaultLayers: [0], // Show none by default
+        protectedAreas: 0 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
 
     },
 
@@ -310,7 +310,7 @@ define({
         // },
         // 'noaa-checkbox'
         'Conservation': {
-            25: {
+            0: {
                 'id': "protected-areas-checkbox",
                 'type': 'checkbox'
             }
@@ -437,7 +437,7 @@ define({
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show high confidence fires",
-        activateSmartCheckbox: "New Fire Visualizations:",
+        activateSmartCheckbox: "View fire points as:",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
         fires48: "Past 48 hours",

@@ -70,11 +70,12 @@ define([
     "esri/layers/ImageServiceParameters",
     "dijit/Dialog",
     "utils/Helper",
-    "dojo/aspect"
+    "dojo/aspect",
+    "utils/Analytics"
 ], function(on, dom, dojoQuery, domConstruct, number, domClass, arrayUtils, Fx, all, Deferred, domStyle, domGeom, dojoDate, Map, esriConfig, HomeButton, Point, BasemapGallery, Basemap, BasemapLayer, Locator,
     Geocoder, Legend, Scalebar, ArcGISDynamicMapServiceLayer, ArcGISImageServiceLayer, TiledMapServiceLayer, ImageParameters, FeatureLayer, webMercatorUtils, Extent, Polygon, InfoTemplate, PopupTemplate, Graphic, urlUtils, SimpleMarkerSymbol, SimpleFillSymbol, SimpleLineSymbol, SimpleRenderer, ClassBreaksRenderer, SmartMapping, Color,
     registry, MapConfig, MapModel, LayerController, WindyController, ClusterFeatureLayer, Finder, ReportOptionsController, DijitFactory, EventsController, esriRequest, Query, QueryTask, RelationshipQuery, PrintTask, PrintParameters,
-    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, Uploader, DrawTool, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect) {
+    PrintTemplate, DigitalGlobeTiledLayer, DigitalGlobeServiceLayer, BurnScarTiledLayer, Uploader, DrawTool, HashController, GraphicsLayer, ImageServiceParameters, Dialog, Helper, aspect, Analytics) {
 
     var o = {},
         initialized = false,
@@ -98,7 +99,7 @@ define([
             EventsController.switchToView(view);
             o.fromStories();
             o.checkBubble();
-
+            Analytics.sendPageview(window.location.href, "map");
             return;
         }
 
@@ -132,6 +133,7 @@ define([
 
             });
         });
+        Analytics.sendPageview(window.location.href, "map");
     };
 
     o.centerChange = function() {
@@ -218,8 +220,9 @@ define([
 
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
-            //zoom: hashL, //MapConfig.mapOptions.initalZoom,
-            zoom: 6,
+            zoom: MapConfig.mapOptions.initalZoom, // hashL, //
+            //zoom: 6,
+            //center: MapConfig.mapOptions.center,
             basemap: MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
             maxZoom: MapConfig.mapOptions.maxZoom,
@@ -231,7 +234,7 @@ define([
 
         o.map.on("load", function() {
             //$("#firesDateFrom").datepicker("setDate", "+0m -7d");
-            o.map.setBasemap('dark-gray');
+            //o.map.setBasemap('dark-gray');
             $("#firesDateTo").datepicker("option", "minDate", "+0m -7d");
             $("#noaaDateFrom").datepicker("setDate", "10/22/2014");
             $("#indoDateFrom").datepicker("setDate", "1/1/2013");
@@ -240,6 +243,7 @@ define([
             // Clear out default Esri Graphic at 0,0, dont know why its even there
             o.map.graphics.clear();
             MapModel.vm.windPicker();
+
             // Resize Accordion
             registry.byId("fires-map-accordion").resize();
             WindyController.setMap(o.map);
@@ -258,10 +262,12 @@ define([
             // when the hash controller workflow is corrected
             on.once(o.map, "update-end", function() {
 
-                //  o.map.centerAt(new Point(hashX, hashY)).then(function() {
-                o.map.centerAt(new Point(-10.24, 9.66)).then(function() {
+                o.map.centerAt(new Point(hashX, hashY)).then(function() {
+                    //o.map.centerAt(new Point(-10.24, 9.66)).then(function() {
                     setTimeout(function() {
                         o.mapExtentPausable.resume();
+
+                        //todo: why is this getting set again afterwards?
 
                         // var $body = $('body'),
                         //     $overlay = $('<div>', {
@@ -430,7 +436,6 @@ define([
     };
 
     o.handleImageryOut = function(data, event) {
-
 
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.clear();
@@ -664,7 +669,6 @@ define([
                 new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
         );
 
-
         var extent = o.map.extent;
         var halfEdgeLength = radius * 0.5;
         var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
@@ -733,10 +737,6 @@ define([
             }
         }
 
-        // var endTime = (new Date().getTime());
-        // console.log("elapsed time: " + (endTime - startTime) / 1000 + " s", " count1: " + count1 + " count2: " + count2);
-
-
         var relatedQ = new RelationshipQuery();
 
         var fires = o.map.getLayer("hexFires");
@@ -747,7 +747,6 @@ define([
             Helper.hideLoader("map-blocker");
             // console.log("# of features: " + results.features.length);
 
-            //var startTime = (new Date().getTime());
             var aggregateArray = [];
             var col, row, point, id;
             var feature;
@@ -1198,14 +1197,18 @@ define([
                 Finder.selectUploadOrDrawnGraphics(evt);
             }
         });
-        // on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
-        //     LayerController.updateFiresLayer(true);
+        on(registry.byId("confidence-fires-checkbox"), "change", function(evt) {
+            LayerController.updateFiresLayer(true);
 
-        //     // LayerController.updateOtherFiresLayers(evt);
-        //     if (evt) {
-        //         self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
-        //     }
-        // });
+            var reRun = LayerController.updateOtherFiresLayers();
+
+            if (reRun) {
+                o.setSmartRenderer(MapModel.vm.smartRendererName());
+            }
+            if (evt) {
+                self.reportAnalyticsHelper('layer', 'option', 'The user toggled the Active Fires only show high confidence fires option on.');
+            }
+        });
 
         on(registry.byId("twitter-conversations-checkbox"), "change", function(evt) {
             var value = registry.byId("twitter-conversations-checkbox").checked;
@@ -1233,7 +1236,6 @@ define([
                 self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Active Fires layer on.');
 
             } else {
-
                 MapModel.vm.smartRendererName("Choose one");
                 var graphicsLayer = o.map.getLayer("smartMappingHexagons");
                 graphicsLayer.clear();
@@ -1468,9 +1470,9 @@ define([
             var reportdateTo = dateTo.replace(/\//g, "-");
 
             var sqlQuery = LayerController.getTimeDefinition("ACQ_DATE", reportdateFrom, dateTo);
-            // if (registry.byId('confidence-archive-checkbox').checked) {
-            //     sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
-            // }
+            if (registry.byId('confidence-archive-checkbox').checked) {
+                sqlQuery = [sqlQuery, MapConfig.firesLayer.highConfidence].join(' AND ');
+            }
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['indonesiaFires'], sqlQuery);
 
         });
@@ -1492,6 +1494,12 @@ define([
 
         dojoQuery(".smartRelative").forEach(function(node) {
             on(node, "click", function() {
+
+                // if (this.id === "clusterCircle" && !map.clustersPopulated) {
+                //     debugger;
+                //     map.clustersPopulated = true;
+                // }
+
                 var realFires = o.map.getLayer("Active_Fires");
                 $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
                 $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
@@ -1535,35 +1543,6 @@ define([
                 // MapModel.vm.smartRendererName();
             });
         });
-
-        // on(registry.byId("activate-smart-checkbox"), "change", function(value) {
-
-        //     var realFires = o.map.getLayer("Active_Fires");
-
-        //     if (value === true) {
-        //         realFires.hide();
-        //         $("#confidence-fires-checkbox").parent().parent().hide();
-
-        //         o.setSmartRenderer(MapModel.vm.smartRendererName());
-        //     } else {
-        //         $("#confidence-fires-checkbox").parent().parent().show();
-        //         realFires.show();
-        //         var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
-        //         smartMappingHexagons.clear();
-        //         var fireHeat, firesClusters, hexFires;
-
-        //         fireHeat = o.map.getLayer("newFires");
-        //         fireHeat.hide();
-
-        //         firesClusters = o.map.getLayer("firesClusters");
-        //         firesClusters.hide();
-
-        //         hexFires = o.map.getLayer("firesClusters");
-        //         hexFires.hide();
-
-        //     }
-
-        // });
 
         on(dom.byId('updateWIND'), 'click', function() {
             var dates = MapModel.vm.windObserv();
@@ -1891,12 +1870,6 @@ define([
             id: MapConfig.tomnodLayer.sel_id
         });
 
-        // esriRequest.setRequestPreCallback(function(ioArgs) {
-        //     if (ioArgs.url === "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4") {
-        //         ioArgs.content['defaultDefinitionExpression'] = "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'";
-        //     }
-        //     return ioArgs;
-        // })
 
         var firesViz = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -1939,17 +1912,51 @@ define([
             "showSingles": true,
             "visible": false,
             "objectIdField": "FID",
-            outFields: ["ACQ_DATE", "CONFIDENCE"]
+            outFields: ["ACQ_DATE", "CONFIDENCE", "BRIGHTNESS"]
         });
 
+        firesVizCluster.on("clusters-shown", function() {
 
-        firesVizCluster.on("update-end", function() {
+            var today = new Date();
 
-            firesVizCluster._clusterData = layer._clusterData.filter(function() {
+            if (!map.clusterDataOnce && this._clusterData.length > 0) {
+                var today = new Date();
+                var backdate72 = today.setDate(today.getDate() - 3);
+                var backdate48 = today.setDate(today.getDate() - 2);
+                var backdate24 = today.setDate(today.getDate() - 1);
 
+                map.clusterData = {};
+                map.clusterData.fullData = this._clusterData;
 
-            });
+                map.clusterData.past72 = this._clusterData.filter(function(g) {
+                    return g.attributes.ACQ_DATE < backdate72;
+                });
+                map.clusterData.past48 = this._clusterData.filter(function(g) {
+                    return g.attributes.ACQ_DATE < backdate48;
+                });
+                map.clusterData.past24 = this._clusterData.filter(function(g) {
+                    return g.attributes.ACQ_DATE < backdate24;
+                });
+
+                map.clusterData.highConfidence = this._clusterData.filter(function(g) {
+                    return g.attributes.CONFIDENCE >= 30 && g.attributes.BRIGHTNESS >= 330;
+                });
+
+                map.clusterData.highConfidencepast72 = this._clusterData.filter(function(g) {
+                    return g.attributes.ACQ_DATE < backdate72 && g.attributes.CONFIDENCE >= 30 && g.attributes.BRIGHTNESS >= 330;
+                });
+                map.clusterData.highConfidencepast48 = this._clusterData.filter(function(g) {
+                    return g.attributes.ACQ_DATE < backdate48 && g.attributes.CONFIDENCE >= 30 && g.attributes.BRIGHTNESS >= 330;
+                });
+                map.clusterData.highConfidencepast24 = this._clusterData.filter(function(g) {
+                    return g.attributes.ACQ_DATE < backdate24 && g.attributes.CONFIDENCE >= 30 && g.attributes.BRIGHTNESS >= 330;
+                });
+
+                map.clusterDataOnce = true;
+            }
+
         });
+
 
 
 
@@ -2271,10 +2278,7 @@ define([
 
         var reRun = LayerController.updateOtherFiresLayers();
 
-
-
         if (reRun) {
-
             o.setSmartRenderer(MapModel.vm.smartRendererName());
         }
     };
@@ -2481,6 +2485,8 @@ define([
         dialog.on('cancel', function() {
             cleanup();
         });
+
+        Analytics.sendPageview(window.location.href, "map");
     };
 
     return o;

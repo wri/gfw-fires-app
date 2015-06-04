@@ -1,5 +1,5 @@
-define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/about/AboutModel", "dojo/_base/array"],
-    function(dom, registry, HashController, EventsController, AboutModel, arrayUtil) {
+define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsController", "views/about/AboutModel", "dojo/_base/array", "utils/Analytics"],
+    function(dom, registry, HashController, EventsController, AboutModel, arrayUtil, Analytics) {
 
         var o = {};
         var initialized = false;
@@ -46,11 +46,14 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
             aboutmodel.leftLinks(leftLinks);
             //datamodel.leftLinks(leftLinks);
-            this.reportAnalyticsHelper('view', 'content', 'The user viewed the ' + this.toTitleCase(obj.name) + ' content on the Data page.');
+
+
+            // this.reportAnalyticsHelper('view', 'content', 'The user viewed the ' + this.toTitleCase(obj.name) + ' content on the Data page.');
 
             require(["dojo/text!views/about/templates/" + htmlToFetch + ".htm"], function(content) {
                 aboutmodel.htmlContent(content);
             });
+            Analytics.sendPageview(window.location.href, this.toTitleCase(obj.name));
 
         };
 

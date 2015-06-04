@@ -180,10 +180,12 @@ define([
             //dynamicMapService.refresh();
         },
 
-        updateOtherFiresLayers: function(layerName) {
+        updateOtherFiresLayers: function(clusterGraphics) {
 
             var node = dojoQuery(".selected-fire-option")[0],
                 clusterCheckbox = dojoQuery("#activate-smart-checkbox").attr("aria-checked")[0],
+                checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
+                clusterOption = "fullData",
                 defs = [],
                 where = "",
                 layer;
@@ -201,14 +203,17 @@ define([
                 case "fires72":
                     backdate.setDate(today.getDate() - 4);
                     today.setDate(today.getDate() - 3);
+                    clusterOption = "past72";
                     break;
                 case "fires48":
                     backdate.setDate(today.getDate() - 3);
                     today.setDate(today.getDate() - 2);
+                    clusterOption = "past48";
                     break;
                 case "fires24":
                     backdate.setDate(today.getDate() - 2);
                     today.setDate(today.getDate() - 1);
+                    clusterOption = "past24";
                     break;
                 default:
                     where = "1 = 1";
@@ -255,53 +260,66 @@ define([
                 var todayString = yyyy.toString() + "-" + mm + "-" + todayDD + " " + hh + ":" + min + ":" + ss;
                 where += "ACQ_DATE > date '" + dateString + "'";
 
+            }
+            if (checkboxStatus) {
+                if (where === "1 = 1") {
+                    where = "BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+                } else {
+                    where += " AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+                }
 
-
+                if (clusterOption != "fullData") {
+                    clusterOption = "highConfidence" + clusterOption;
+                } else {
+                    clusterOption = "highConfidence";
+                }
             }
 
 
 
             var currentFires = map.getLayer(layer);
             if (layer != "firesClusters") {
-                var realFires = map.getLayer(MapConfig.firesLayer.id);
-
 
                 //     // currentFires._clusterData = layer._clusterData.filter(function() {
-
-
                 //     // });
                 //     //currentFires._clusterGraphics();
-
                 // } else {
-
 
                 console.log(where);
                 if (currentFires) {
                     currentFires.setDefinitionExpression(where);
                 } else {
                     var heat = _map.getLayer("newFires");
-                    var hexagons = _map.getLayer("hexFires");
+                    //var hexagons = _map.getLayer("hexFires");
                     heat.setDefinitionExpression(where);
-                    hexagons.setDefinitionExpression(where);
+                    //hexagons.setDefinitionExpression(where);
                 }
 
                 //setTimeout(function() {
                 if (layer == "hexFires") {
-
                     return true;
                 }
                 //}, 2000);
 
+            } else {
+
+                console.log(clusterOption);
+                var graphicsToCluster = map.clusterData[clusterOption];
+                console.log(graphicsToCluster.length);
+
+                currentFires._clusterData = graphicsToCluster;
+                currentFires._clusterGraphics();
+                // currentFires.redraw();
+
             }
 
 
-
-            var hexagons = _map.getLayer("hexFires");
         },
 
         updateFiresLayer: function(updateVisibleLayers) {
             var node = dojoQuery(".selected-fire-option")[0],
-                checkboxStatus, // = dom.byId("confidence-fires-checkbox").checked,
+                checkboxStatus = dom.byId("confidence-fires-checkbox").checked,
+                clusterOption = "fullData",
                 defs = [],
                 where = "",
                 visibleLayers,
@@ -314,14 +332,17 @@ define([
                 case "fires72":
                     backdate.setDate(today.getDate() - 4);
                     today.setDate(today.getDate() - 3);
+                    clusterOption = "past72";
                     break;
                 case "fires48":
                     backdate.setDate(today.getDate() - 3);
                     today.setDate(today.getDate() - 2);
+                    clusterOption = "past48";
                     break;
                 case "fires24":
                     backdate.setDate(today.getDate() - 2);
                     today.setDate(today.getDate() - 1);
+                    clusterOption = "past24";
                     break;
                 default:
                     where = "1 = 1";
@@ -354,6 +375,8 @@ define([
 
             }
 
+
+
             for (var i = 0, length = MapConfig.firesLayer.defaultLayers.length; i < length; i++) {
                 defs[i] = where;
             }
@@ -378,6 +401,30 @@ define([
                 }
                 this.refreshLegend();
             }
+
+            if (checkboxStatus) {
+                if (where === "1 = 1") {
+                    where = "BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+                } else {
+                    where += " AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+                }
+
+                if (clusterOption != "fullData") {
+                    clusterOption = "highConfidence" + clusterOption;
+                } else {
+                    clusterOption = "highConfidence";
+                }
+            }
+
+            var heat = _map.getLayer("newFires");
+            heat.setDefinitionExpression(where);
+
+            var currentFires = map.getLayer("firesClusters");
+            var graphicsToCluster = map.clusterData[clusterOption];
+            console.log(graphicsToCluster.length);
+
+            currentFires._clusterData = graphicsToCluster;
+            currentFires._clusterGraphics();
         },
 
         updateAdditionalVisibleLayers: function(queryClass, configObject) {
@@ -389,7 +436,7 @@ define([
             dojoQuery("." + queryClass).forEach(function(node) {
                 if (node.checked) {
                     layerID = configObject[node.value];
-                    if (layerID) {
+                    if (layerID !== undefined) {
                         visibleLayers.push(layerID);
                     }
                 }

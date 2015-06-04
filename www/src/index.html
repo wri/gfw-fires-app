@@ -51,6 +51,21 @@
       ga('create', 'UA-48182293-1', 'auto', {'name':"C",'cookieDomain':"'fires.globalforestwatch.org']"});
       ga('C.send', 'pageview');
 
+       if (window.top !== window.self) {
+
+          var payload = {
+            'hitType': 'event',
+            'eventCategory': 'Event',
+            'eventAction': 'embed',
+            'eventLabel': 'iFrame Embed',
+            'eventValue': 'This application was viewed inside an embedded iFrame.'
+          };
+
+          ga('A.send', payload);
+          ga('B.send', payload);
+          ga('C.send', payload);
+        }
+
     </script>
     
     <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>

@@ -43,7 +43,7 @@ gulp.task('minify-html', ['dist-copy-clean'], function() {
 
 gulp.task('minify-css', ['dist-copy-clean'], function() {
     return gulp.src(app_dir.src + '**/*.css')
-        .pipe(minifycss())
+        //.pipe(minifycss())
         .pipe(gulp.dest(app_dir.build));
 });
 

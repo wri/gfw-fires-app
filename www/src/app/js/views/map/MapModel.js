@@ -277,6 +277,12 @@ define([
             maxDate: "+0M +0D",
             beforeShowDay: function(date) {
                 var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                var blackedOutDates = ["2015-03-31", "2015-04-01", "2015-04-02", "2015-04-03", "2015-04-04", "2015-04-05", "2015-04-06", "2015-04-07", "2015-04-08", "2015-04-09", "2015-04-10", "2015-04-11", "2015-04-12", "2015-04-13", "2015-04-14", "2015-04-15", "2015-04-16", "2015-05-06", "2015-05-07"];
+
+                if (blackedOutDates.indexOf(string) > -1) {
+                    return false;
+                }
+
                 return [vm.windDisabledDates.indexOf(string) == -1]
             },
             onSelect: function(selectedDate) {
@@ -309,6 +315,28 @@ define([
                     vm.wind06Enable(false);
                     vm.wind12Enable(false);
                 }
+                if (selectedDate == "03/30/2015") {
+                    vm.timeOfDay("00");
+                    vm.wind12Enable(false);
+                    vm.wind18Enable(false);
+                }
+                if (selectedDate == "04/17/2015") {
+                    vm.timeOfDay("00");
+                    vm.wind12Enable(false);
+                    vm.wind18Enable(false);
+                }
+                if (selectedDate == "05/05/2015") {
+                    vm.timeOfDay("00");
+                    vm.wind06Enable(false);
+                    vm.wind12Enable(false);
+                    vm.wind18Enable(false);
+                }
+
+                if (selectedDate == "05/08/2015") {
+                    vm.timeOfDay("12");
+                    vm.wind00Enable(false);
+                    vm.wind06Enable(false);
+                }
                 vm.windObserv(selectedDate);
                 return selectedDate;
             }
@@ -324,6 +352,12 @@ define([
         var newDate = jQuery('#airDate').datepicker({
             minDate: (new Date(2014, 12 - 1, 16)),
             maxDate: "+0M +0D",
+            beforeShowDay: function(date) {
+                var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                var blackedOutDates = ["2015-04-13", "2015-04-14", "2015-04-15", "2015-04-16", "2015-04-17", "2015-04-18", "2015-04-19", "2015-04-20", "2015-04-21", "2015-04-22", "2015-04-23", "2015-04-24", "2015-04-25", "2015-04-26", "2015-04-27", "2015-04-28", "2015-04-29", "2015-04-30", "2015-05-01", "2015-05-02", "2015-05-03", "2015-05-04", "2015-05-05", "2015-05-06", "2015-05-07", "2015-05-08", "2015-05-09", "2015-05-10", "2015-05-11", "2015-05-12", "2015-05-13", "2015-05-14", "2015-05-15", "2015-05-16", "2015-05-17", "2015-05-18", "2015-05-19", "2015-05-20", "2015-05-21", "2015-05-22", "2015-05-23", "2015-05-24", "2015-05-25", "2015-05-26", "2015-05-27", "2015-05-28", "2015-05-29", "2015-05-30", "2015-05-31", "2015-06-01", "2015-06-02"];
+
+                return [blackedOutDates.indexOf(string) == -1]
+            },
             onSelect: function(selectedDate) {
                 vm.airObserv(selectedDate);
                 return selectedDate;
@@ -345,7 +379,13 @@ define([
                 vm.noaaObservFrom(selectedDate);
                 $("#noaaDateTo").datepicker("option", "minDate", selectedDate);
                 return selectedDate;
-            }
+            } //,
+            // beforeShowDay: function(date) {
+            //     var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            //     var blackedOutDates = ["2015-04-12", "2015-04-13", "2015-04-14", "2015-04-15", "2015-04-16", "2015-04-17", "2015-04-18", "2015-04-19", "2015-04-20", "2015-04-21", "2015-04-22", "2015-04-23", "2015-04-24", "2015-04-25", "2015-04-26", "2015-04-27", "2015-04-28", "2015-04-29", "2015-04-30", "2015-05-01", "2015-05-02", "2015-05-03", "2015-05-04", "2015-05-05", "2015-05-06", "2015-05-07", "2015-05-08", "2015-05-09", "2015-05-10", "2015-05-11", "2015-05-12", "2015-05-13", "2015-05-14", "2015-05-15", "2015-05-16", "2015-05-17", "2015-05-18", "2015-05-19", "2015-05-20", "2015-05-21", "2015-05-22", "2015-05-23", "2015-05-24", "2015-05-25", "2015-05-26", "2015-05-27", "2015-05-28", "2015-05-29", "2015-05-30", "2015-05-31", "2015-06-01", "2015-06-02"];
+
+            //     return [blackedOutDates.indexOf(string) == -1]
+            // },
         });
     }
     vm.noaaPickerTo = function() {

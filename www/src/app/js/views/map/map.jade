@@ -14,9 +14,9 @@ div#map-view(class="map-view")
 					div#fires72(class="active-fires-options", data-bind="text: fires72")
 					div#fires48(class="active-fires-options", data-bind="text: fires48")
 					div#fires24(class="active-fires-options", data-bind="text: fires24")
-					//- div(class="confidence-fires-container")
-					//- 	div#confidence-fires-checkbox
-					//- 	label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
+					div(class="confidence-fires-container")
+						div#confidence-fires-checkbox
+						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
 					
 
 					div(id='smartContainer' class="confidence-fires-container")
@@ -25,11 +25,10 @@ div#map-view(class="map-view")
 						label#activateSmartContainer(data-bind="text: activateSmartCheckbox")
 						
 						div#smartRelative
-							div#heatCircle.smartRelative
-							div#clusterCircle.smartRelative
-							div#hexCircle.smartRelative
-							//- select#smartDropdown.sub-menu(name="smartDropdown" data-bind="options: smartOptions, value:smartRendererName, event: { change: chooseSmartDropdown }")
-							//- label#smartDropdownArrow(for='smartDropdown') &#9660;
+							div#heatCircle.smartRelative(title="Heatmap")
+							div#clusterCircle.smartRelative(title="Proportional Symbols")
+							//-div#hexCircle.smartRelative(title="HexBins")
+							
 
 				div(class="checkbox-container")
 					div#indonesia-fires
