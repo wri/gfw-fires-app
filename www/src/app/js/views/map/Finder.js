@@ -29,10 +29,11 @@ define([
     "esri/tasks/IdentifyParameters",
     "esri/tasks/query",
     "esri/tasks/QueryTask",
-    "esri/geometry/Circle"
+    "esri/geometry/Circle",
+    "utils/Analytics"
 ], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, keys, FeatureLayer, Graphic, esriRequest,
     ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, PopupTemplate, Point, webMercatorUtils,
-    PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle) {
+    PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle, Analytics) {
     var _map;
 
     return {
@@ -1496,8 +1497,8 @@ define([
             // by some other function
             evt.stopPropagation();
 
-            title = "<strong>Drawn/Uploaded Feature</strong>";
-            content = "Name: <input id='editTitle' style='width:165px;' class='editshow' placeholder='Type a new name & hit enter'/>" + "<br/>" +
+            title = "<strong>Custom Feature</strong>";
+            content = "Name: <input id='editTitle' style='width:165px;' class='editshow' value='Custom Feature'/>" + "<br/>" +
                 "<div id='uploadCustomGraphic' class='uploadCustomGraphic'><span id='customGraphicSymbol'></span>Subscribe</div>" +
                 "<div id='deleteCustomGraphic' class='deleteGraphicLink'>&#10007 Remove</div>";
 
@@ -1521,7 +1522,7 @@ define([
 
 
             // if (MapModel.vm.customFeaturesArray()[0].attributes.ALERTS_LABEL == "Custom Drawn Feature - 1");
-            _map.infoWindow.setTitle(MapModel.vm.customFeaturesArray()[whereInArray].attributes.ALERTS_LABEL);
+            //_map.infoWindow.setTitle(MapModel.vm.customFeaturesArray()[whereInArray].attributes.ALERTS_LABEL);
             //_map.infoWindow.setTitle(title);
             _map.infoWindow.setContent(content);
             _map.infoWindow.show(evt.mapPoint);
@@ -1530,19 +1531,19 @@ define([
             //     console.log("edit title fired");
             //     domAttr.set(dom.byId('editPtTitle'), 'value', title);
             // });
-            on(dom.byId('editTitle'), "keypress", function(evt) {
+            // on(dom.byId('editTitle'), "keypress", function(evt) {
 
-                var key = evt.keyCode;
-                if (key === keys.ENTER) {
+            //     var key = evt.keyCode;
+            //     if (key === keys.ENTER) {
 
-                    var updatedFeature = MapModel.vm.customFeaturesArray()[(graphic.attributes.UNIQUE_GRAPHIC_ID - 1)];
-                    updatedFeature.attributes.ALERTS_LABEL = newtitle;
-                    var newtitle = dom.byId('editTitle').value;
+            //         var updatedFeature = MapModel.vm.customFeaturesArray()[(graphic.attributes.UNIQUE_GRAPHIC_ID - 1)];
+            //         updatedFeature.attributes.ALERTS_LABEL = newtitle;
+            //         var newtitle = dom.byId('editTitle').value;
 
-                    _map.infoWindow.setTitle("<strong>" + newtitle + "</strong>");
-                    graphic.attributes.ALERTS_LABEL = newtitle;
-                }
-            });
+            //         _map.infoWindow.setTitle("<strong>" + newtitle + "</strong>");
+            //         graphic.attributes.ALERTS_LABEL = newtitle;
+            //     }
+            // });
 
             handle = on.once(dom.byId('deleteCustomGraphic'), 'click', function() {
                 LayerController.removeGraphicWithId(graphic.attributes[uniqueIdField], uniqueIdField);
@@ -1555,6 +1556,8 @@ define([
             handleSubscribe = on.once(dom.byId('uploadCustomGraphic'), 'click', function() {
                 //LayerController.removeGraphicWithId(graphic.attributes[uniqueIdField], uniqueIdField);
                 var geom = graphic;
+                var newtitle = dom.byId('editTitle').value;
+                graphic.attributes.ALERTS_LABEL = newtitle;
 
                 _self.subscribeToAlerts(geom);
                 _map.infoWindow.hide();
