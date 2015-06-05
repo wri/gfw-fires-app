@@ -881,6 +881,14 @@ html,
 }
 
 /* line 732 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+.open-development,
+.open-development:hover,
+.logo_list .orbital,
+.logo_list .orbital:hover {
+  background: url("../images/partners-sprite2.png");
+}
+
+/* line 738 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .bakerAndMackenzie,
 .logo_list .bakerAndMackenzie:hover,
 .logo_list .conservationInternational,
@@ -894,7 +902,7 @@ html,
   background: url("../images/static-logosOld.png") no-repeat;
 }
 
-/* line 744 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 750 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .mongabay,
 .logo_list .mongabay:hover,
 .logo_list .yayasanPuter,
@@ -902,29 +910,29 @@ html,
   background: url("../images/static-logos3.png") no-repeat;
 }
 
-/* line 751 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 757 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .bnbp {
   background-position: 0 -5034px;
   height: 64px;
   width: 50px;
 }
 
-/* line 756 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 762 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .bnbp:hover {
   background-position: 0 -4288px;
 }
 
-/* line 759 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 765 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .bakerAndMackenzie {
   background-position: 0 -3905px;
 }
 
-/* line 762 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 768 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .bakerAndMackenzie:hover {
   background-position: 0 -3824px;
 }
 
-/* line 765 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 771 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .blueraster {
   background-position: 0 -3625px;
   margin: 20px 0;
@@ -932,24 +940,24 @@ html,
   width: 110px;
 }
 
-/* line 771 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 777 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .blueraster:hover {
   background-position: 0 -2402px;
 }
 
-/* line 774 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 780 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .cartoDB {
   background-position: 0 -4088px;
   margin: 20px 0;
   height: 39px;
 }
 
-/* line 779 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 785 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .cartoDB:hover {
   background-position: 0 -2077px;
 }
 
-/* line 782 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 788 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .centerglobaldevelopment {
   background-position: 0 -3557px;
   margin: 20px 0;
@@ -957,12 +965,12 @@ html,
   width: 84px;
 }
 
-/* line 788 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 794 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .centerglobaldevelopment:hover {
   background-position: 0 -1433px;
 }
 
-/* line 791 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 797 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .cgiar {
   background-position: 0 -2880px;
   margin: 20px 0;
@@ -970,12 +978,12 @@ html,
   width: 124px;
 }
 
-/* line 797 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 803 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .cgiar:hover {
   background-position: 0 -913px;
 }
 
-/* line 800 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 806 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .climateLandUse {
   background-position: 0 -4262px;
   margin: 25px 0;
@@ -983,22 +991,22 @@ html,
   width: 110px;
 }
 
-/* line 806 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 812 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .climateLandUse:hover {
   background-position: 0 -1916px;
 }
 
-/* line 809 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 815 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .conservationInternational {
   background-position: 0 -4225px;
 }
 
-/* line 812 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 818 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .conservationInternational:hover {
   background-position: 0 -4144px;
 }
 
-/* line 815 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 821 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .earthJournalismNetwork {
   background-position: 0 -3328px;
   margin: 10px 0;
@@ -1006,12 +1014,12 @@ html,
   width: 80px;
 }
 
-/* line 821 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 827 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .earthJournalismNetwork:hover {
   background-position: 0 -2486px;
 }
 
-/* line 824 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 830 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .esri {
   background-position: 0 -4171px;
   margin: 25px 0;
@@ -1019,24 +1027,24 @@ html,
   width: 87px;
 }
 
-/* line 830 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 836 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .esri:hover {
   background-position: 0 -1851px;
 }
 
-/* line 833 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 839 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .foodAgricultureOrg {
   background-position: 10px -5472px;
   margin: 10px 0;
   height: 78px;
 }
 
-/* line 838 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 844 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .foodAgricultureOrg:hover {
   background-position: 10px -5394px;
 }
 
-/* line 841 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 847 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .canada {
   background-position: 0 -4682px;
   margin: 0 10px 30px 0;
@@ -1044,12 +1052,12 @@ html,
   width: 42px;
 }
 
-/* line 847 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 853 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .canada:hover {
   background-position: 0 -3177px;
 }
 
-/* line 850 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 856 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .google {
   background-position: 0 -4897px;
   margin: 30px 0;
@@ -1057,12 +1065,12 @@ html,
   width: 85px;
 }
 
-/* line 856 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 862 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .google:hover {
   background-position: 0 -1013px;
 }
 
-/* line 859 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 865 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .imazon {
   background-position: 0 -5123px;
   margin: 35px 0;
@@ -1070,34 +1078,34 @@ html,
   width: 79px;
 }
 
-/* line 865 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 871 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .imazon:hover {
   background-position: 0 -2923px;
 }
 
-/* line 868 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 874 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .CIAT {
   background-position: 0 -2578px;
   margin: 25px 0;
   height: 50px;
 }
 
-/* line 873 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 879 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .CIAT:hover {
   background-position: 0 -956px;
 }
 
-/* line 876 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 882 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .IUCN {
   background-position: 0 -4909px;
 }
 
-/* line 879 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 885 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .IUCN:hover {
   background-position: 0 -4842px;
 }
 
-/* line 882 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 888 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .lodersCroklaan {
   background-position: 0 -5272px;
   margin: 35px 0;
@@ -1105,12 +1113,12 @@ html,
   width: 110px;
 }
 
-/* line 888 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 894 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .lodersCroklaan:hover {
   background-position: 0 -5098px;
 }
 
-/* line 891 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 897 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .goodall {
   background-position: 0 -5246px;
   margin: 30px 0;
@@ -1118,44 +1126,68 @@ html,
   width: 110px;
 }
 
-/* line 897 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 903 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .goodall:hover {
   background-position: 0 -4236px;
 }
 
-/* line 900 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 906 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .mongabay {
   background-position: 0 -7332px;
 }
 
-/* line 903 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 909 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .mongabay:hover {
   background-position: 0 -7214px;
 }
 
-/* line 906 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 912 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+.logo_list .open-development {
+  background-position: 0 -4065px;
+  height: 70px;
+  width: 70px;
+}
+
+/* line 917 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+.logo_list .open-development:hover {
+  background-position: 0 -3698px;
+}
+
+/* line 920 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+.logo_list .orbital {
+  background-position: 0 -3247px;
+  height: 70px;
+  width: 101px;
+}
+
+/* line 925 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+.logo_list .orbital:hover {
+  background-position: 0 -2680px;
+}
+
+/* line 928 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .muyissi {
   background-position: 0 -1150px;
   height: 80px;
   width: 80px;
 }
 
-/* line 911 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 933 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .muyissi:hover {
   background-position: 0 -368px;
 }
 
-/* line 914 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 936 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .osinfor {
   background-position: 0 -2635px;
 }
 
-/* line 917 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 939 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .osinfor:hover {
   background-position: 0 -1230px;
 }
 
-/* line 920 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 942 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .osfac {
   background-position: 0 -3973px;
   margin: 20px 0;
@@ -1163,70 +1195,70 @@ html,
   width: 44px;
 }
 
-/* line 926 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 948 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .osfac:hover {
   background-position: 0 -1473px;
 }
 
-/* line 929 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 951 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .planetLabs {
   background-position: 0 -5603px;
 }
 
-/* line 932 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 954 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .planetLabs:hover {
   background-position: 0 -5536px;
 }
 
-/* line 935 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 957 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .rainForestUK {
   background-position: 0 -3221px;
   height: 37px;
   width: 110px;
 }
 
-/* line 940 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 962 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .rainForestUK:hover {
   background-position: 0 -2843px;
 }
 
-/* line 943 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 965 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .reddIndo {
   background-position: 0 -5282px;
   height: 62px;
   width: 95px;
 }
 
-/* line 948 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 970 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .reddIndo:hover {
   background-position: 0 -4460px;
 }
 
-/* line 951 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 973 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .reforestMexico {
   background-position: 0 -1646px;
   height: 66px;
   width: 110px;
 }
 
-/* line 956 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 978 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .reforestMexico:hover {
   background-position: 0 -1310px;
 }
 
-/* line 959 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 981 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .resolveCo {
   background-position: 0 -4926px;
   height: 28px;
   width: 110px;
 }
 
-/* line 964 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 986 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .resolveCo:hover {
   background-position: 0 -3597px;
 }
 
-/* line 967 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 989 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .rspo {
   background-position: 0 -3940px;
   margin: 20px 0;
@@ -1234,22 +1266,22 @@ html,
   width: 110px;
 }
 
-/* line 973 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 995 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .rspo:hover {
   background-position: 0 -2985px;
 }
 
-/* line 976 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 998 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .sarvision {
   background-position: 0 -6359px;
 }
 
-/* line 979 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1001 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .sarvision:hover {
   background-position: 0 -6292px;
 }
 
-/* line 982 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1004 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .scanex {
   background-position: 0 -4766px;
   margin: 30px 0;
@@ -1257,12 +1289,12 @@ html,
   width: 110px;
 }
 
-/* line 988 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1010 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .scanex:hover {
   background-position: 0 -2715px;
 }
 
-/* line 991 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1013 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .twrus {
   background-position: 0 -4432px;
   margin: 25px 0;
@@ -1270,60 +1302,60 @@ html,
   width: 110px;
 }
 
-/* line 997 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1019 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .twrus:hover {
   background-position: 0 -2550px;
 }
 
-/* line 1000 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1022 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .unilever {
   background-position: 0 -1997px;
   height: 80px;
   width: 88px;
 }
 
-/* line 1005 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1027 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .unilever:hover {
   background-position: 0 -1566px;
 }
 
-/* line 1008 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1030 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .unep {
   background-position: 0 -3485px;
   height: 57px;
   width: 49px;
 }
 
-/* line 1013 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1035 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .unep:hover {
   background-position: 0 -1376px;
 }
 
-/* line 1016 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1038 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .unepWC {
   background-position: 0 -2116px;
   height: 60px;
   width: 110px;
 }
 
-/* line 1021 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1043 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .unepWC:hover {
   background-position: 0 -448px;
 }
 
-/* line 1024 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1046 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .universitymaryland {
   background-position: 0 -3711px;
   height: 51px;
   width: 56px;
 }
 
-/* line 1029 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1051 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .universitymaryland:hover {
   background-position: 0 -1099px;
 }
 
-/* line 1032 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1054 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .vizzuality {
   background-position: 0 -3018px;
   margin: 20px 0;
@@ -1331,12 +1363,12 @@ html,
   width: 109px;
 }
 
-/* line 1038 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1060 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .vizzuality:hover {
   background-position: 0 -791px;
 }
 
-/* line 1041 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1063 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .woodsHole {
   background-position: 0 -2176px;
   margin: 10px 0;
@@ -1344,12 +1376,12 @@ html,
   width: 87px;
 }
 
-/* line 1047 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1069 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .woodsHole:hover {
   background-position: 0 -508px;
 }
 
-/* line 1050 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1072 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .wri {
   background-position: 0 -4204px;
   margin: 25px 0;
@@ -1357,34 +1389,34 @@ html,
   width: 95px;
 }
 
-/* line 1056 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1078 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .wri:hover {
   background-position: 0 -1884px;
 }
 
-/* line 1059 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1081 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .yayasanPuter {
   background-position: 15px -5788px;
 }
 
-/* line 1062 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1084 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .yayasanPuter:hover {
   background-position: 15px -5720px;
 }
 
-/* line 1065 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1087 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .zsl {
   background-position: 0 -2329px;
   height: 73px;
   width: 110px;
 }
 
-/* line 1070 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1092 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .zsl:hover {
   background-position: 0 -2256px;
 }
 
-/* line 1073 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1095 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .danida {
   background-position: 0 -5108px;
   margin: 25px 0;
@@ -1392,24 +1424,24 @@ html,
   width: 82px;
 }
 
-/* line 1079 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1101 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .danida:hover {
   background-position: 0 -3542px;
 }
 
-/* line 1082 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1104 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .gef {
   background-position: 0 -4029px;
   height: 59px;
   width: 51px;
 }
 
-/* line 1087 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1109 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .gef:hover {
   background-position: 0 -1712px;
 }
 
-/* line 1090 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1112 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .moore {
   background-position: 0 -3140px;
   margin: 15px 0;
@@ -1417,72 +1449,72 @@ html,
   width: 96px;
 }
 
-/* line 1096 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1118 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .moore:hover {
   background-position: 0 -1529px;
 }
 
-/* line 1099 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1121 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .dutchforeign {
   background-position: 0 -4954px;
   height: 80px;
   width: 106px;
 }
 
-/* line 1104 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1126 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .dutchforeign:hover {
   background-position: 0 -4352px;
 }
 
-/* line 1107 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1129 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .norwegian {
   background-position: 0 -3814px;
   height: 46px;
   width: 110px;
 }
 
-/* line 1112 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1134 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .norwegian:hover {
   background-position: 0 -3439px;
 }
 
-/* line 1115 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1137 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .sida {
   background-position: 0 -2788px;
   height: 55px;
   width: 110px;
 }
 
-/* line 1120 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1142 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .sida:hover {
   background-position: 0 -1942px;
 }
 
-/* line 1123 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1145 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .ukaid {
   background-position: 0 -4826px;
   height: 47px;
   width: 43px;
 }
 
-/* line 1128 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1150 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .ukaid:hover {
   background-position: 0 -3392px;
 }
 
-/* line 1131 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1153 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .usaid {
   background-position: 0 -3076px;
   height: 64px;
   width: 80px;
 }
 
-/* line 1136 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1158 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .logo_list .usaid:hover {
   background-position: 0 -849px;
 }
 
-/* line 1140 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1162 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 /*
 .static-logos-sprite, .logo_list .osfac, .logo_list .osfac:hover, .logo_list .wri, .logo_list .wri:hover, .logo_list .google, .logo_list .google:hover, .logo_list .esri, .logo_list .esri:hover, .logo_list .universitymaryland, .logo_list .universitymaryland:hover, .logo_list .unep, .logo_list .unep:hover, .logo_list .imazon, .logo_list .imazon:hover, .logo_list .centerglobaldevelopment, .logo_list .centerglobaldevelopment:hover, .logo_list .gfwca, .logo_list .gfwca:hover, .logo_list .scanex, .logo_list .scanex:hover, .logo_list .twrus, .logo_list .twrus:hover, .logo_list .norwegian, .logo_list .norwegian:hover, .logo_list .usaid, .logo_list .usaid:hover, .logo_list .gef, .logo_list .gef:hover, .logo_list .vizzuality, .logo_list .vizzuality:hover, .logo_list .ukaid, .logo_list .ukaid:hover, .logo_list .tilafund, .logo_list .tilafund:hover, .logo_list .bakerAndMackenzie, .logo_list .bakerAndMackenzie:hover, .logo_list .cgiar, .logo_list .cgiar:hover, .logo_list .danida, .logo_list .danida:hover, .logo_list .dutchforeign, .logo_list .dutchforeign:hover, .logo_list .bobolink, .logo_list .simbiotica, .logo_list .simbiotica:hover, .logo_list .goodall, .logo_list .goodall:hover, .logo_list .sida, .logo_list .sida:hover, .logo_list .conservationInternational, .logo_list .conservationInternational:hover, .logo_list .foodAgricultureOrg, .logo_list .foodAgricultureOrg:hover, .logo_list .CIAT, .logo_list .CIAT:hover, .logo_list .IUCN, .logo_list .IUCN:hover, .logo_list .planetLabs, .logo_list .planetLabs:hover, .logo_list .sarvision, .logo_list .sarvision:hover, .logo_list .cartoDB, .logo_list .cartoDB:hover, .logo_list .reddIndo, .logo_list .reddIndo:hover, .logo_list .moore, .logo_list .moore:hover, .logo_list .canada, .logo_list .canada:hover {
 background: url(../images/static-logosOld.png) no-repeat;
@@ -1871,7 +1903,7 @@ background-position: 0 -8075px;
 background-position: 0 -8075px;
 }*/
 
-/* line 1528 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1550 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
 .coming-soon {
   padding: 20px;
 }

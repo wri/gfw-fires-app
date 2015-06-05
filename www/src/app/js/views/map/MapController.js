@@ -1193,6 +1193,7 @@ define([
         });
 
         on(o.map.graphics, "click", function(evt) {
+            console.log(evt);
             if (evt.graphic) {
                 Finder.selectUploadOrDrawnGraphics(evt);
             }
@@ -1953,6 +1954,8 @@ define([
                 });
 
                 map.clusterDataOnce = true;
+
+
             }
 
         });
@@ -2202,6 +2205,35 @@ define([
         // Basemap
         // Landsat Imagery
 
+
+        // layerlist.forEach(function(layer) {
+        //     on(layer, "load", function() {
+        //         dojoQuery('#map_layers > div').forEach(function(div) {
+        //             console.log('layer div', div)
+        //             if (!div.id) {
+        //                 debugger;
+        //             }
+        //         })
+        //     });
+
+
+        // });
+
+        // on(map, "layer-add-result", function(result) {
+        //     console.log(result.layer.id);
+        //     dojoQuery('#map_layers > div').forEach(function(div) {
+        //         console.log('layer div', div)
+        //         if (!div.id) {
+        //             debugger;
+        //         }
+        //     })
+        //     //debugger;
+        // });
+
+        // $("#map_layers")
+
+
+
         // Update the Legend when all layers are added
         on.once(o.map, 'layers-add-result', function(response) {
 
@@ -2226,8 +2258,20 @@ define([
             registry.byId("legend").refresh(layerInfos);
 
 
+            // dojoQuery('#map_layers > div').forEach(function(div) {
+            //     console.log('layer div', div)
+            //     if (!div.id) {
+            //         var svgNode = dojoQuery('#map_layers > svg')[0];
+            //         var mapNode = dom.byId("map_layers");
+            //         domConstruct.place(svgNode, mapNode, "last");
+            //     }
+            // });
+
+
+
 
         });
+
         o.map.addLayers(layerlist);
         o.map.addLayer(landSatLayer); //TODO: Add the Landsat layer back in with the others and add in some kind of error catching with its load and its checkbox toggle (if, in the LayerController, its not actually turning a layer on)
 
@@ -2242,6 +2286,7 @@ define([
         overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
+        firesVizCluster.on('error', this.layerAddError);
         fireStories.on('error', this.layerAddError);
 
         //digitalGlobeLayer.on('error', this.layerAddError);
