@@ -594,7 +594,7 @@ define([
                 //     console.log("CLICK NEXT",evt);
                 // });
                 // var clickprev = on(dojo.byId('prevtomnod'),"click",function(evt){
-                //     console.log("CLICK prev",evt);
+                //     console.log("new Map prev",evt);
                 // });
             } else {
                 // _self.getActiveFiresInfoWindow(event);
@@ -1516,8 +1516,6 @@ define([
             //     }
             // }
 
-
-
             var whereInArray = MapModel.vm.customFeaturesArray.indexOf(graphic);
 
 
@@ -1525,6 +1523,7 @@ define([
             //_map.infoWindow.setTitle(MapModel.vm.customFeaturesArray()[whereInArray].attributes.ALERTS_LABEL);
             //_map.infoWindow.setTitle(title);
             _map.infoWindow.setContent(content);
+            $('#editTitle').val(graphic.attributes.ALERTS_LABEL);
             _map.infoWindow.show(evt.mapPoint);
             // debugger;
             // on(dom.byId('editTitle'), "focus", function(evt) {
@@ -1545,6 +1544,13 @@ define([
             //     }
             // });
 
+            // on.once(_map.infoWindow, "show", function() {
+
+            //     //if (newtitle) {
+            //     $('#editTitle').val(graphic.attributes.ALERTS_LABEL);
+            //     //}
+            // });
+
             handle = on.once(dom.byId('deleteCustomGraphic'), 'click', function() {
                 LayerController.removeGraphicWithId(graphic.attributes[uniqueIdField], uniqueIdField);
                 if (_map.graphics.graphics.length === 0) {
@@ -1562,8 +1568,14 @@ define([
                 _self.subscribeToAlerts(geom);
                 _map.infoWindow.hide();
             });
+            $('#editTitle').bind('input', function() {
+                var newtitle = $(this).val(); // get the current value of the input field.
+                graphic.attributes.ALERTS_LABEL = newtitle;
+            });
 
             on.once(_map.infoWindow, "hide", function() {
+
+                //graphic.attributes.ALERTS_LABEL = newtitle;
                 handle.remove();
                 handleSubscribe.remove();
             });

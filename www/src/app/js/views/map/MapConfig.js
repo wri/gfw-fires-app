@@ -51,7 +51,7 @@ define({
     defaultGraphicsLayerLabel: "ALERTS_LABEL",
 
     firesLayer: {
-        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_stage/MapServer/",
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/",
         id: "Active_Fires",
         highConfidence: "BRIGHTNESS >= 330 AND CONFIDENCE >= 30",
         defaultLayers: [0, 1, 2, 3],
