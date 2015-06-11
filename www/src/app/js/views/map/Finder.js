@@ -770,6 +770,7 @@ define([
                 var result = response[0];
 
                 if (result) {
+                    //debugger; //todo: sift out non-visible feats and make sure they're using the right acquistion date & time!
                     executeReturned = false;
                     content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
                     arrayUtils.forEach(qconfig.query.fields, function(field) {

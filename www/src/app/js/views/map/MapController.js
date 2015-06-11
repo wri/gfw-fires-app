@@ -323,11 +323,11 @@ define([
             if (dijit.byId("digital-globe-checkbox").getValue() == 'on') {
                 o.updateImageryList();
             }
-            if (MapModel.vm.smartRendererName() == "Hex bin") {
-                var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
-                smartMappingHexagons.clear();
-                o.setSmartRenderer("Hex bin");
-            }
+            // if (MapModel.vm.smartRendererName() == "Hex bin") {
+            //     var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+            //     smartMappingHexagons.clear();
+            //     o.setSmartRenderer("Hex bin");
+            // }
 
         });
 
@@ -555,23 +555,24 @@ define([
     }
 
     o.setSmartRenderer = function(newRenderer) {
-        var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+        //var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+        debugger;
 
         switch (newRenderer) {
 
-            case "Choose one":
+            // case "Choose one":
 
-                var firesClusters, fireHeat, hexFires;
+            //     var firesClusters, fireHeat, hexFires;
 
-                firesClusters = o.map.getLayer("firesClusters");
-                firesClusters.hide();
+            //     firesClusters = o.map.getLayer("firesClusters");
+            //     firesClusters.hide();
 
-                hexFires = o.map.getLayer("hexFires");
-                hexFires.hide();
+            //     hexFires = o.map.getLayer("hexFires");
+            //     hexFires.hide();
 
-                fireHeat = o.map.getLayer("newFires");
-                fireHeat.hide();
-                break;
+            //     fireHeat = o.map.getLayer("newFires");
+            //     fireHeat.hide();
+            //     break;
 
             case "Heat map":
 
@@ -582,11 +583,11 @@ define([
                 firesClusters = o.map.getLayer("firesClusters");
 
                 firesClusters.hide();
-                hexFires = o.map.getLayer("hexFires");
-                hexFires.hide();
+                // hexFires = o.map.getLayer("hexFires");
+                // hexFires.hide();
 
 
-                smartMappingHexagons.clear();
+                //smartMappingHexagons.clear();
                 break;
             case "Proportional symbols":
                 firesClusters = o.map.getLayer("firesClusters");
@@ -594,24 +595,24 @@ define([
                 var fireHeat, firesClusters, hexFires;
                 fireHeat = o.map.getLayer("newFires");
                 fireHeat.hide();
-                hexFires = o.map.getLayer("hexFires");
-                hexFires.hide();
+                // hexFires = o.map.getLayer("hexFires");
+                // hexFires.hide();
 
 
-                smartMappingHexagons.clear();
+                //smartMappingHexagons.clear();
                 break;
-            case "Hex bin":
-                smartMappingHexagons.clear();
-                o.setHexBinRender();
+                // case "Hex bin":
+                //     smartMappingHexagons.clear();
+                //     o.setHexBinRender();
 
-                break;
+                //     break;
         }
     }
 
     o.setHexBinRender = function() {
 
         var firesClusters, newFires;
-        var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+        //var graphicsLayer = o.map.getLayer("smartMappingHexagons");
         firesClusters = o.map.getLayer("firesClusters");
 
         firesClusters.hide();
@@ -1238,8 +1239,8 @@ define([
 
             } else {
                 MapModel.vm.smartRendererName("Choose one");
-                var graphicsLayer = o.map.getLayer("smartMappingHexagons");
-                graphicsLayer.clear();
+                //var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+                //graphicsLayer.clear();
                 var firesClusters = o.map.getLayer("firesClusters");
                 firesClusters.hide();
                 var newFires = o.map.getLayer("newFires");
@@ -1514,13 +1515,13 @@ define([
                     var firesClusters = o.map.getLayer("firesClusters");
                     firesClusters.hide();
 
-                    var hexFires = o.map.getLayer("firesClusters");
-                    hexFires.hide();
+                    // var hexFires = o.map.getLayer("firesClusters");
+                    // hexFires.hide();
 
                     realFires.show();
                     MapModel.vm.smartRendererName("Choose one");
-                    var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
-                    smartMappingHexagons.clear();
+                    //var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
+                    //smartMappingHexagons.clear();
 
                     return;
 
@@ -1880,13 +1881,13 @@ define([
             // renderer: o.heatMapRenderer,
             outFields: "*"
         });
-        var hexFires = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
-            mode: FeatureLayer.MODE_ONDEMAND,
-            //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
-            id: "hexFires",
-            visible: false,
-            outFields: "*"
-        });
+        // var hexFires = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+        //     mode: FeatureLayer.MODE_ONDEMAND,
+        //     //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
+        //     id: "hexFires",
+        //     visible: false,
+        //     outFields: "*"
+        // });
 
         // var defaultSym = new SimpleMarkerSymbol("circle", 16,
         //     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
@@ -1965,7 +1966,6 @@ define([
 
         var cRenderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
 
-        // Red Clusters
         var small = new SimpleMarkerSymbol("circle", 10,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([212, 116, 60, 0.5]), 15),
             new Color([212, 116, 60, 0.75]));
@@ -1987,6 +1987,7 @@ define([
 
         // // Providing a ClassBreakRenderer is also optional
         firesVizCluster.setRenderer(cRenderer);
+
 
         //firesViz.setDefinitionExpression("ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'");
 
@@ -2131,10 +2132,10 @@ define([
             id: MapConfig.digitalGlobe.graphicsLayerHighlight,
             visible: true
         });
-        var smartMappingHexagons = new GraphicsLayer(featureCollection, {
-            id: "smartMappingHexagons",
-            visible: true
-        });
+        // var smartMappingHexagons = new GraphicsLayer(featureCollection, {
+        //     id: "smartMappingHexagons",
+        //     visible: true
+        // });
         var highlightRenderer = new SimpleRenderer(highlightSymbol);
         digitalGlobeGraphicsHighlight.setRenderer(highlightRenderer);
 
@@ -2178,7 +2179,7 @@ define([
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
             digitalGlobeGraphicsHighlight,
-            smartMappingHexagons
+            //smartMappingHexagons
         ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
             conservationLayer,
             burnScarLayer,
@@ -2191,7 +2192,7 @@ define([
             tomnodSellayer,
             firesViz,
             firesVizCluster,
-            hexFires,
+            //hexFires,
             indonesiaLayer,
             firesLayer
         ]);
@@ -2249,6 +2250,10 @@ define([
                 };
             });
             layerInfos = arrayUtils.filter(layerInfos, function(item) {
+                if (item.layer.id === "firesClusters") {
+
+                    item.title = "Heat Map";
+                }
                 var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
                 var flyr = !(item.layer.id === tomnodSellayer.id);
                 return (url && flyr);
