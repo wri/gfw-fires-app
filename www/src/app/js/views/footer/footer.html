@@ -1,0 +1,17 @@
+
+<div data-bind="visible: (appState().v=='home')" class="footerModesContainer">
+  <div class="footerWrapper">
+    <div data-bind="foreach:footerModeOptions" class="footerModes">
+      <div class="footerItem">
+        <div data-bind="attr:{class:css}">
+          <div class="icon"></div>
+          <div data-bind="html:title" class="title"></div>
+          <div data-bind="html:desc" class="desc"></div>
+          <div data-bind="if: url"><a data-bind="html:action,attr: {href: url, target: target}" class="action"></a></div>
+          <div data-bind="ifnot: url"><a data-bind="html:action,click:$root.footerSelect" class="action"></a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footerShareContainer" data-bind="visible: (appState().v!='map')" class="footerShareContainer"></div>

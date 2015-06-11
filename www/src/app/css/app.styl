@@ -1,0 +1,331 @@
+@font-face
+  font-family 'fira_sans_otregular'
+  src url(../fonts/firasansot-regular-webfont.eot)
+  src url(../fonts/firasansot-regular-webfont.eot?#iefix) format("embedded-opentype"),url(../fonts/firasansot-regular-webfont.woff) format("woff"),url(../fonts/firasansot-regular-webfont.ttf) format("truetype"),url(../fonts/firasansot-regular-webfont.svg#fira_sans_otregular) format("svg")
+  font-weight normal
+  font-style normal
+
+@font-face
+  font-family 'fira_sans_otmedium'
+  src url(../fonts/firasansot-medium-webfont.eot)
+  src url(../fonts/firasansot-medium-webfont.eot?#iefix) format("embedded-opentype"),url(../fonts/firasansot-medium-webfont.woff) format("woff"),url(../fonts/firasansot-medium-webfont.ttf) format("truetype"),url(../fonts/firasansot-medium-webfont.svg#fira_sans_otmedium) format("svg")
+  font-weight normal
+  font-style normal
+
+
+@font-face
+  font-family 'fira_sans_otlight'
+  src url(../fonts/firasansot-light-webfont.eot)
+  src url(../fonts/firasansot-light-webfont.eot?#iefix) format("embedded-opentype"),url(../fonts/firasansot-light-webfont.woff) format("woff"),url(../fonts/firasansot-light-webfont.ttf) format("truetype"),url(../fonts/firasansot-light-webfont.svg#fira_sans_otmedium) format("svg")
+  font-weight normal
+  font-style normal
+
+html, body, .app
+    background-color #FFF
+    height 100%
+    width 100%
+    margin 0
+    font-family "Helvetica Neue",Helvetica,Arial,sans-serif
+
+baseRed = #e7002f
+
+#stackContainer
+  width 100%
+
+#homeView
+  // height auto !important
+  background-color #000
+
+.mapView #stackContainer  
+  position absolute
+  // top 60px
+  top 110px
+  bottom 0px
+  left 0px
+  right 0px
+  overflow  hidden
+
+.homeView #stackContainer
+  max-height 700px !important
+  height auto
+  min-height 700px
+  position relative !important
+
+.blogView #stackContainer
+  position absolute
+  top 100px
+  bottom 0px
+  left 0px
+  right 0px
+  overflow-y auto
+
+.dataView #stackContainer
+  position absolute
+  top 100px
+  bottom 0px
+  left 0px
+  right 0px
+  overflow-y auto
+
+.aboutView #stackContainer
+  position absolute
+  top 100px
+  bottom 0px
+  left 0px
+  right 0px
+  overflow-y auto
+
+.storyView #stackContainer
+  position absolute
+  top 100px
+  bottom 0px
+  left 0px
+  right 0px
+  overflow-y auto
+
+#homeView, #blogView, #dataView, #aboutView, #storyView
+  overflow visible
+
+.mapView #footerMovableWrapper
+  display none
+
+#app-header
+  height 210px
+  background url('../images/header_tree_background.jpg') repeat-x scroll center top transparent
+  border-bottom 1px solid #717D80
+  //box-shadow 0px 0px 10px rgba(0, 0, 0, 0.5)
+  box-sizing border-box
+
+#app-header.small
+  height 100px
+
+#app-header.small.mapView
+  // height 60px
+  height 110px
+  
+#app-body
+  width 100%
+
+#app-footer
+  height 470px
+  width 100%
+
+#app-footer.small
+  height 180px
+
+#app-footer.small.nomap
+  display none
+
+
+.errorMsg
+  position absolute
+  top 10px
+  border 1px solid black
+  background-color yellow
+  color red
+  z-index 1000
+  padding 5px
+  text-align center
+  width 300px
+  left 50%
+  margin-left -150px
+  overflow hidden
+
+.blocker
+  background-color yellow
+  opacity 0.2
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  z-index 1000
+  right 0
+
+.reportOptionsHeader
+    padding-right 4px
+    padding-bottom 3px
+    position absolute
+    right 0px
+    top 0px 
+  	padding-right 4px
+  	padding-bottom 3px
+
+#report-options-close
+    cursor pointer
+
+#storyTitle
+  text-align center
+  border-bottom 1px solid rgb(204, 204, 204)
+  padding-bottom 35px
+  padding-top 25px
+
+.storiesInput > input, .storiesInput > textarea
+  width 90%
+  padding 10px
+  border-radius 4px
+  border: 1px solid rgba(192, 192, 192, 1);
+  -webkit-background-clip padding-box
+  background-clip padding-box
+
+#contentRightStory.footerModes .desc
+  font-weight 300
+
+.descStory
+  font-weight 300
+  margin-left 2em !important
+  margin-bottom -5px !important
+  
+.instructions
+  font-size 15px
+  line-height 1.2
+  color #666;
+  margin 0px 0px 20px
+  font-weight 300
+
+#storiesMap
+  width 540px !important
+  height 300px !important
+  position relative
+  padding 0
+  margin 0
+
+#basemap-gallery-button2
+  position absolute
+  background-image: url("../images/basemap.png");
+  background-position: 0 -34px;
+  top 250px
+  right 860px
+  
+#basemapGalleryContainer
+  appearance none
+  position absolute
+  width 350px
+  height 200px
+  border 1px solid rgb(137, 137, 137)
+  border-image-source initial
+  border-image-slice initial
+  border-image-width initial
+  border-image-outset initial
+  border-image-repeat initial
+  box-sizing border-box
+  margin 2px 2px 0px 0px
+  border-top-left-radius 3px
+  border-top-right-radius 3px
+  border-bottom-right-radius 3px
+  border-bottom-left-radius 3px
+  
+.basemap-gallery-container-story
+  background-color white
+  border-radius(5px)
+  position absolute
+  width 300px
+  z-index 50
+  right 70px
+  height 300px
+  top 20px
+
+#storyDateInput, #storyNameInput, #storyEmailInput
+  width 45%
+
+#storyDetailsInput
+  height 150px
+
+#storyMediaInput
+  height 75px
+  width 540px
+  overflow scroll
+  overflow-y auto
+  overflow-x auto
+  //border 1px dashed #9bb251
+  //background url('../images/bkg_button_add_media.png') no-repeat center
+  //width 134px
+  //height 80px
+  //cursor pointer
+  //vertical-align middle
+  //margin 5px 10px 10px 0
+  //pointer-events none
+  
+#uploadStoryMedia
+  width 150px
+  height 75px
+  opacity 0
+  cursor pointer
+
+.uploadList
+  position relative
+  //left 250px
+  bottom 40px
+  font-size 14px
+  width 290px
+  cursor no-drop
+  
+#verifyEmailForStory
+  font-size 12px
+  display none
+
+#alignWithMedia
+  position relative
+  top 290px
+
+#alignWithEmail
+  position relative
+  top 530px
+
+#submitBox
+  float left
+  width 575px
+
+#submitStory > input
+  float left
+  margin-top 30px
+  margin-bottom 40px
+
+#contentRightStory
+  float right
+  width 275px
+  text-align left
+    
+.storyHeader
+  color #464052
+  margin-bottom 5px
+
+.requiredItem
+  color #464052
+  float right
+  position relative
+  margin-top -20px
+  margin-left -30px
+  left -35px
+  font-weight 500
+
+#requiredEmail
+  left -295px
+
+#optionalName
+  left -295px
+
+#requiredArea
+  margin-bottom -20px
+
+#addPoint
+  position relative
+  z-index 100
+  top 20px
+  left 60px
+
+#contentRightStory .storyHeader
+  border-bottom 1px solid rgb(204, 204, 204)
+  padding-bottom 5px
+
+/*header Stylus*/  
+@import "header.styl"
+
+
+@import "footer.styl"
+// @import 'footer'
+
+// @import 'home'
+
+// @import 'responsive'
+
+// @import 'map'

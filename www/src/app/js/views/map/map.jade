@@ -1,0 +1,449 @@
+link(rel='stylesheet', href='app/css/jquery-ui.min.css')
+div#map-view(class="map-view")
+	div#control-panel(class="control-panel")
+		div(class="report-link-container")
+			span#report-link(class="report-link", data-bind="text: getReportLink")
+		div#fires-map-accordion
+			div#fires-panel(class='accordion-panel')
+				div(class="checkbox-container")
+					div#fires-checkbox
+					label(for="fires-checkbox", data-bind="text: firesCheckbox")
+					span(data-bind="text: firesSubLabel", class="checkbox-sub-label")
+				div#active-fires-options(data-bind="visible: showActiveFiresButtons" class="active-fires-options-container")
+					div#firesWeek(class="active-fires-options selected-fire-option", data-bind="text: firesWeek")
+					div#fires72(class="active-fires-options", data-bind="text: fires72")
+					div#fires48(class="active-fires-options", data-bind="text: fires48")
+					div#fires24(class="active-fires-options", data-bind="text: fires24")
+					div(class="confidence-fires-container")
+						div#confidence-fires-checkbox
+						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
+					
+
+					div(id='smartContainer' class="confidence-fires-container")
+						
+						//-div#activate-smart-checkbox
+						label#activateSmartContainer(data-bind="text: activateSmartCheckbox")
+						
+						div#smartRelative
+							div#heatCircle.smartRelative(title="Heatmap")
+							div#clusterCircle.smartRelative(title="Proportional Symbols")
+							//-div#hexCircle.smartRelative(title="HexBins")
+							
+
+				div(class="checkbox-container")
+					div#indonesia-fires
+					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
+					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
+					
+
+					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
+						div(class="confidence-archive-container")
+							div#confidence-archive-checkbox
+							label#confidenceArchiveContainer(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
+
+						//-div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabel")
+						div.report-options-section
+
+
+
+							table.font10
+								
+								tr
+									td(data-bind="text: 'From'")
+									td
+										input(type="text", name="user" value=4, id="indoDateFrom", data-bind="value:indoPickerFrom()")
+
+								tr
+									td(data-bind="text: 'To'")
+									td
+										input(type="text", name="user" value=4, id="indoDateTo", data-bind="value:indoPickerTo()")
+							
+							span#updateINDO(class="report-link-dates", data-bind="text: getDates")
+
+
+				div(class="checkbox-container")
+					div#noaa-fires-18
+					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" )
+					span(data-bind="text: noaaSubLabel", class="checkbox-sub-label")
+					div#report-optionsNOAA(data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar")
+						//-div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabel")
+						div.report-options-section
+
+							table.font10
+								
+								tr
+									td(data-bind="text: 'From'")
+									td
+										input(type="text", name="user" value=4, id="noaaDateFrom", data-bind="value:noaaPickerFrom()")
+
+								tr
+									td(data-bind="text: 'To'")
+									td
+										input(type="text", name="user" value=4, id="noaaDateTo", data-bind="value:noaaPickerTo()")
+							
+							span#updateNOAA(class="report-link-dates", data-bind="text: getDates")
+
+				div(class="checkbox-container")
+					div#burned-scars-checkbox
+					label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+				div(class="checkbox-container")
+					div#tomnod-checkbox
+					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox, css: 'tomnodLink'")
+			//- div#burned-area-panel(class='accordion-panel')
+			//-     div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+			//-     div(class="slider-container")
+			//-         div#burned-area-transparency-slider
+			//-     div(class="checkbox-container")
+			//-         div#burned-scars-checkbox
+			//-         label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+			//-         span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
+			div#forest-use-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#forest-transparency-slider
+				div(class="checkbox-container")
+					div#oil-palm-checkbox
+					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
+					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#rspo-oil-palm-checkbox
+					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
+					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#wood-fiber-checkbox
+					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
+					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#logging-checkbox
+					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
+					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#indicative-moratorium-checkbox
+					label(for="indicative-moratorium-checkbox", data-bind="text: indicativeMoratoriumCheckbox")
+					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-instructions")
+					span(data-bind="text: indicativeMoratoriumCheckboxSubLabel2", class="checkbox-sub-label")
+			div#conservation-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#conservation-transparency-slider
+				div(class="checkbox-container")
+					div#protected-areas-checkbox
+					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
+					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
+				
+			div#land-cover-panel(class='accordion-panel')
+				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
+				div(class="slider-container")
+					div#land-cover-transparency-slider
+
+				div(class="checkbox-container")
+					div#no-land-cover-radio
+					label(for="no-land-cover-radio", data-bind="text: none")
+				div(class="checkbox-container")
+					div#peat-lands-radio
+					label(for="peat-lands-radio", data-bind="text: peatLandsRadio")
+					span(data-bind="text: peatLandsSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#tree-cover-density-radio
+					label(for="tree-cover-density-radio", data-bind="text: treeCoverDensityRadio")
+					span(data-bind="text: treeCoverDensitySubLabel", class="checkbox-sub-label")
+				//- div(class="checkbox-container")
+				//-     div#se-land-cover-radio
+				//-     label(for="se-land-cover-radio", data-bind="text: southeastLandCoverRadio")
+				//-     span(data-bind="text: southeastLandCoverSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#primary-forests-radio
+					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
+					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
+				div#primary-forests-options(data-bind="visible: showPrimaryForestOptions()")
+					div(class="checkbox-container inline")
+						div#pf2000-radio
+						label(for="pf2000-radio", data-bind="text: pf2000Radio")
+					div(class="checkbox-container inline")
+						div#pf2005-radio
+						label(for="pf2005-radio", data-bind="text: pf2005Radio")
+					div(style='clear: both;')
+					div(class="checkbox-container inline")
+						div#pf2010-radio
+						label(for="pf2010-radio", data-bind="text: pf2010Radio")
+					div(class="checkbox-container inline")
+						div#pf2012-radio
+						label(for="pf2012-radio", data-bind="text: pf2012Radio")
+			div#air-quality-panel(class='accordion-panel')
+				div(class='checkbox-container')
+					div#windy-layer-checkbox
+					label(for="windy-layer-checkbox", data-bind="text: windyLayerCheckbox")
+					div(data-bind="text: windySubLabelAdvice", class="checkbox-instructions")
+					div(data-bind="text: windySubLabel", class="checkbox-sub-label")
+					div.windLegendContainer(data-bind="visible: showWindLegend()")
+						div#windLegendNode(class='windLegendNode windLayerLegendColorRamp')
+						div#windLegendLabels
+							span 0 m/s
+							span.rightWindLabel > 40 m/s
+
+					div#report-optionsWIND(data-bind="visible: showReportOptionsWIND()" class="reportOptionsSidebar")
+						//-div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabelWIND")
+						div.report-options-section
+
+							table.font10
+								
+								tr
+									td(data-bind="text: 'Date'")
+									td
+										input(type="text", name="user" value=4, id="windDate", data-bind="value:windPicker()")
+							
+								tr
+									td(data-bind="text:'Time'")
+									td
+										//-div(class="checkbox-container-wind inline")
+											div#wind00-radio(value="00", data-bind="checked: timeOfDay, click: windTimeClick")
+											label(for="wind00-radio", data-bind="text: '00'")
+									
+										//-div(class="checkbox-container-wind inline")
+											div#wind06-radio(value="06", data-bind="checked: timeOfDay, click: windTimeClick")
+											label(for="wind06-radio", data-bind="text: '06'")
+									
+										//-div(class="checkbox-container-wind inline")
+											div#wind12-radio(value="12", data-bind="checked: timeOfDay, click: windTimeClick")
+											label(for="wind12-radio", data-bind="text: '12'")
+									
+										//-div(class="checkbox-container-wind inline")
+											div#wind18-radio(value="18", data-bind="checked: timeOfDay, click: windTimeClick")
+											label(for="wind18-radio", data-bind="text: '18'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind00
+												input(type="radio", value="00", data-bind="checked: timeOfDay, disable: wind00Disable(), enable: wind00Enable()")
+												label(data-bind="text: '00'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind06
+												input(type="radio", value="06", data-bind="checked: timeOfDay, disable: wind06Disable(), enable: wind06Enable()")
+												label(data-bind="text: '06'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind12
+												input(type="radio", value="12", data-bind="checked: timeOfDay, disable: wind12Disable(), enable: wind12Enable()")
+												label(data-bind="text: '12'")
+
+										div(class="checkbox-container-wind inline")
+											div#wind18
+												input(type="radio", value="18", data-bind="checked: timeOfDay, disable: wind18Disable(), enable: wind18Enable()")
+												label(data-bind="text: '18'")
+
+								
+							span#updateWIND(class="report-link-dates", data-bind="text: getDates")
+
+
+
+				div(class='checkbox-container')
+					div#air-quality-checkbox
+					label(for="air-quality-checkbox", data-bind="text: airQuality")
+					div#report-optionsAIR(data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar")
+						div.font10(data-bind="text:reportText().selectTimeLabelAIR")
+						div.report-options-section
+							table.font10
+								tr
+									td(data-bind="text: 'Date'")
+									td
+										input(type="text", name="user" value=4, id="airDate", data-bind="value:airPicker()")
+
+							span#updateAIR(class="report-link-dates", data-bind="text: getDates")
+
+			div#imagery-panel(class='accordion-panel')
+				div(class="checkbox-container")
+					div#landsat-image-checkbox 
+					label(for="landsat-image-checkbox", data-bind="text: landsatImageCheckbox")
+					span(data-bind="text: landsatImageSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container")
+					div#digital-globe-checkbox
+					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
+				div#imageryWindow(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions")
+					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
+							div#footprintsCheckBox(class="checkbox-container")
+								input#digital-globe-footprints-checkbox(type="checkbox" checked)
+								label#digitalGlobeFootprintsCheckboxLabel(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")                               
+					table.imageryTable.font9
+						thead
+							tr(class="imageryTopRow")
+								th(data-bind="text: 'Date'")
+								th(data-bind="text: 'Satellite Type'")
+								th(data-bind="text: 'Zoom'")
+						tbody(data-bind="foreach: digitalGlobeInView")
+							tr.imageryRow(data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}")
+								//-td.font10(data-bind="event:{click: $root.digitalGlobeToggle, mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
+								td.font9(data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}")                                     
+								td.font9(data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}")                                     
+								td.popup-link-zoom(data-bind="event:{click: $root.imageryZoomTo}")
+
+
+			div#social-media-panel(class='accordion-panel')
+				div(class="checkbox-container")
+					div#twitter-conversations-checkbox
+					label(for="twitter-conversations-checkbox", data-bind="text: twitterConversationsCheckbox")
+				div#hiddenFires(class="checkbox-container")
+					div#fire-stories-checkbox
+					label(for="fire-stories-checkbox", data-bind="text: fireStoriesCheckbox")
+	div#map-container(class="map-container")
+		div#map(class="map")
+			//-div#leftPaneToggle(data-bind="click: slidePanel")!='&lt;'
+			div#leftPaneToggle(data-bind="click: slidePanel")!='-'
+				
+			div#timeSliderPanel.timeSliderPanel
+				//- div#timeSliderDG
+			div#esri-geocoder-widget
+			div#report-options(data-bind="visible: showReportOptions()" class="reportOptions")
+				div#report-options-close(data-bind="click: closeReportOptions" class="reportOptionsHeader") x
+				div.font14(data-bind="text:reportText().selectAOILabel")
+				div.report-options-section
+
+					div.report-select-div
+						div#report-island-radio
+						label.report-label(for="report-island-radio" data-bind="text:reportText().islandRadio")
+						div#report-province-radio
+						label.report-label(for="report-island-radio" data-bind="text:reportText().provinceRadio")
+					div.font10.selInfo(data-bind="text:reportText().multiSelectInfo")
+					div.report-select-div
+						select(multiple="true",data-bind="options:reportAOIs,selectedOptions:selectedAOIs")
+					
+				div.font14(data-bind="text:reportText().selectTimeLabel")
+				div.report-options-section
+
+					table.font10
+								
+								tr
+									td(data-bind="text: 'From'")
+									td
+										input(type="text", name="user" value=4, id="firesDateFrom", data-bind="value:firesPickerFrom()")
+
+								tr
+									td(data-bind="text: 'To'")
+									td
+										input(type="text", name="user" value=4, id="firesDateTo", data-bind="value:firesPickerTo()")
+				div#report-launch.report-link-container
+					div.report-link Run Analysis
+			div#latLongHUD(class='latLongHUD')
+				div(class="checkbox-container")
+					span(data-bind='text: latitudeLabel')
+					span / 
+					span(data-bind='text: longitudeLabel')
+				div(class="checkbox-container")
+					span(data-bind="text: currentLatitude")
+					span , 
+					span(data-bind="text: currentLongitude")
+			div#legend-widget-container(class="legend-widget-container")
+				div#legend-widget-title(class="legend-widget-title")
+					span(data-bind="text: legend")
+				div#legend-content(class="legend-content")
+					div#legend
+			div#locator-widget-button(class="locator-widget-button", title="Locate")
+			div#basemap-gallery-button(class="basemap-gallery-button",title="Basemaps/Overlays")
+			div#share-button(class="share-button",title="Share")
+			div#print-button(class="print-button",title="Print")
+			div#alert-button(class="alert-button",title="Sign up for alerts") Sign up for alerts
+			//-div#alert-linker(data-bind="visible: showAlertContainer()" class="alert-linker modal-link")
+			div#alert-container(data-bind="visible: showAlertContainer()" class="map-alert-container")
+				div#alerts-options-close(data-bind="click: closeAlertsOptions" class="alertsOptionsHeader") x
+				div(class="alert_toolbox")
+					p(class="locator-container-header",data-bind="html: alertToolboxHeader")
+					hr(class="locator-line-splitter")
+					div(class="alert-tools")
+						div#drawFeatures.alert-tools-buttons Draw
+						div#uploadFeatures.alert-tools-buttons Upload
+						div#clearFeatures.alert-tools-buttons(data-bind="visible: customFeaturesPresence, click: clearCustomFeatures") Clear All
+					div(class="upload-tools", data-bind="visible: showUploadTools()")
+						hr(class="locator-line-splitter")
+						div(class="upload-instructions",data-bind="foreach: uploadInstructions")
+							p(data-bind="text: $data")
+						form(enctype='multipart/form-data',method='post',id='uploadForm',name="uploadForm")
+							label(class='uploadFileLabel')
+								input(type='file',name='file',id='shapefileUpload')
+						div#uploadNameSelectContainer
+
+					div(class="upload-tools", data-bind="visible: showDrawTools()")
+						hr(class="locator-line-splitter")
+						div(class="upload-instructions",data-bind="foreach: drawInstructions")
+							p(data-bind="text: $data")
+						
+
+			div#locator-linker(class="locator-linker modal-link", data-bind="visible: showLocatorWidgets()")
+			div#locator-widget-container(class="locator-widget-container", data-bind="visible: showLocatorWidgets()")
+				div#locator-container-header(class="locator-container-header", data-bind="text: locatorContainerHeader")
+				hr(class="locator-line-splitter")
+				div#location-widget(class="location-widget")
+				hr(class="locator-line-splitter")
+				div#goto-area-search(class="goto-area-search", data-bind="text: locatorSearchLabel")
+				span#clear-search-pins(class="clear-search-pins", data-bind="text: clearSearchPins, visible: showClearPinsOption()")
+				div#area-search-options-1(class="area-search-radio-container")
+					input#dms-search(type="radio", name="search-option", checked="true")
+					label(for="dms-search", data-bind="text: dmsSearch", class="search-option-label")
+				div#area-search-options-2(class="area-search-radio-container")
+					input#lat-long-search(type="radio", name="search-option")
+					label(for="lat-long-search", data-bind="text: latLongSearch", class="search-option-label")
+				div#area-search-inputs(class="area-search-inputs")
+					div#dms-inputs(class="dms-inputs-container", data-bind="visible: showDMSInputs()")
+						table
+							tr
+								td
+								td(data-bind="text: degreesLabel")
+								td(data-bind="text: minutesLabel")
+								td(data-bind="text: secondsLabel")
+							tr
+								td(data-bind="text: latitudeLabel")
+								td
+									input#degreesLatInput(type="text",class="dms-inputs")
+								td
+									input#minutesLatInput(type="text",class="dms-inputs")
+								td
+									input#secondsLatInput(type="text",class="dms-inputs")
+							tr
+								td(data-bind="text: longitudeLabel")
+								td
+									input#degreesLonInput(type="text",class="dms-inputs")
+								td
+									input#minutesLonInput(type="text",class="dms-inputs")
+								td
+									input#secondsLonInput(type="text",class="dms-inputs")
+					div#lat-long-inputs(class="lat-long-inputs-container", data-bind="visible: showLatLongInputs()")
+						table
+							tr
+								td(data-bind="text: latitudeLabel")
+								td
+									input#latitudeInput(type="text",class="lat-long-inputs")
+							tr
+								td(data-bind="text: longitudeLabel")
+								td
+									input#longitudeInput(type="text",class="lat-long-inputs")
+					div(class="search-option-button-container")
+						div#search-option-go-button(class="search-option-go-button", data-bind="text: searchOptionGoButton")
+			div#basemap-linker(class="basemap-linker modal-link", data-bind="visible: showBasemapGallery()")
+			div#basemap-gallery-container(class="basemap-gallery-container", data-bind="visible: showBasemapGallery()")
+				div(class='basemap-container-labels') Overlays
+				div(class='overlays-checkboxes')
+					div(class="checkbox-container")
+						div#provinces-checkbox
+						label(for="provinces-checkbox", data-bind="text: provincesCheckbox")
+					div(class="checkbox-container")
+						div#districts-checkbox
+						label(for="districts-checkbox", data-bind="text: districtsCheckbox")
+					div(class="checkbox-container")
+						div#subdistricts-checkbox
+						label(for="subdistricts-checkbox", data-bind="text: subDistrictsCheckbox")
+					div(class="checkbox-container")
+						div#villages-checkbox
+						label(for="villages-checkbox", data-bind="text: villagesCheckbox")
+				div(class='basemap-container-labels') Basemaps
+				div#basemap-gallery(class="basemap-gallery")
+			div#share-linker(data-bind="visible: showShareContainer()" class="share-linker modal-link")
+			div#share-container(data-bind="visible: showShareContainer()" class="map-share-container")
+				div(class="sharing_toolbox")
+					div(class="addthis_toolbox addthis_default_style addthis_32x32_style")
+						a.addthis_button_facebook
+						a.addthis_button_twitter
+						a.addthis_button_linkedin
+						a.addthis_button_google_plusone_share
+						a.addthis_button_compact
+						div#embedShare(class="embed_code_share")

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html><!-- manifest="offline.appcache"-->
+	<head>
+		<title>Global Forest Watch Fires</title>
+		<meta name="author" content="">
+    <meta name="keywords" content="GFW, Fires, Global, Forest, Watch">
+    <meta name="description" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!--     <link href='http://fonts.googleapis.com/css?family=Fira+Sans:300,400,500,400italic' rel='stylesheet' type='text/css'> -->
+    <link href='app/css/joyride-2.1.css' rel='stylesheet' type='text/css'>
+
+    <script async type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53ab205a21ddceee&async=1"></script>
+    <script type="text/javascript">
+      var addthis_share = {
+        url_transforms: {
+            shorten: {
+                twitter: 'bitly',
+                facebook: 'bitly'
+            }
+        },
+        shorteners: {
+            bitly: {}
+        }
+      }; //end addThis_share
+    </script>
+    
+    <!--[if lt IE 9]>
+      <script src="app/libs/es5-shim.min.js"></script>
+      <script src="app/libs/es5-sham.min.js"></script>
+      <script src="app/libs/html5shiv.js"></script>
+    <![endif]-->
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-35900039-4', 'auto', {'name':"A"});
+      ga('A.send', 'pageview');
+      ga('create', 'UA-1981181-14', 'auto', {'name':"B"});
+      ga('B.send', 'pageview');
+
+      ga('create', 'UA-48182293-1', 'auto', {'name':"C",'cookieDomain':"'fires.globalforestwatch.org']"});
+      ga('C.send', 'pageview');
+
+       if (window.top !== window.self) {
+
+          var payload = {
+            'hitType': 'event',
+            'eventCategory': 'Event',
+            'eventAction': 'embed',
+            'eventLabel': 'iFrame Embed',
+            'eventValue': 'This application was viewed inside an embedded iFrame.'
+          };
+
+          ga('A.send', payload);
+          ga('B.send', payload);
+          ga('C.send', payload);
+        }
+
+    </script>
+    
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="app/libs/intlTelInput.min.js"></script>
+    <script src="app/libs/terraformer-1.0.3.min.js"></script>
+    <script src="app/libs/terraformer-arcgis-parser-1.0.3.min.js"></script>
+    <script src="app/libs/jquery-ui.min.js"></script>
+    <script src="app/libs/joyride.js"></script>
+    <script src="app/libs/moment.js"></script>
+    <script src="app/libs/timezone.js"></script>
+    
+    <script async src="app/bootloader.js?v=0.6.11"></script>
+
+	</head>
+	<body class="app tundra">
+
+      <div id="fb-root"></div>
+      <div id="app-header" data-bind="css:{small:!(appState().v=='home')}" >
+
+        <div id="headerGfw"></div>
+
+      </div>
+      <div id="app-body" class="dijitHidden initialHide">
+        <div id="stackContainer" class="mainStack" data-dojo-type="dijit/layout/StackContainer" data-dojo-props="id:'stackContainer',parseOnLoad:false">
+          <div data-dojo-type="dijit/layout/ContentPane" id="homeView" data-dojo-props="region:'center',id:'homeView',parseOnLoad:false" class="contentPage"></div>
+          <div data-dojo-type="dijit/layout/ContentPane" id="mapView" data-dojo-props="region:'center',id:'mapView',parseOnLoad:false" class="contentPage"></div>
+          <div data-dojo-type="dijit/layout/ContentPane" id="blogView" data-dojo-props="region:'center',id:'blogView',parseOnLoad:false" class="contentPage"></div>
+          <div data-dojo-type="dijit/layout/ContentPane" id="dataView" data-dojo-props="region:'center',id:'dataView',parseOnLoad:false" class="contentPage"></div>
+
+          <!-- ko stopBinding: true -->
+          <div data-dojo-type="dijit/layout/ContentPane" id="aboutView" data-dojo-props="region:'center',id:'aboutView',parseOnLoad:false" class="contentPage"></div>
+          <!-- /ko -->
+          <div data-dojo-type="dijit/layout/ContentPane" id="storyView" data-dojo-props="region:'center',id:'storyView',parseOnLoad:false" class="contentPage"></div>
+        </div>
+      </div>
+
+
+      <div id="app-footer"  data-bind="css:{small:!(appState().v=='home')}">
+        <div id="footerGfw"></div>
+      </div>
+
+      <!-- Crazy Egg -->
+      <script type="text/javascript">
+        setTimeout(function(){var a=document.createElement("script");
+        var b=document.getElementsByTagName("script")[0];
+        a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0027/6897.js?"+Math.floor(new Date().getTime()/3600000);
+        a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+      </script>
+      <!-- Crazy Egg -->
+
+      <script src="http://cdn.jsdelivr.net/jquery.slick/1.3.15/slick.min.js"></script>
+
+	</body>
+</html>
