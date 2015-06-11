@@ -1,7 +1,5 @@
 www/node_modules
 .DS_Store
-.idea
 *.sublime-workspace
 *.sublime-project
-node_modules
-/src/app/proxy
+www/src/proxy
