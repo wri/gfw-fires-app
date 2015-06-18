@@ -1,5 +1,7 @@
 define([
+    "dojo/query",
     "dojo/dom",
+    "dojo/dom-class",
     "dojo/Deferred",
     "dojo/topic",
     "dijit/registry",
@@ -12,7 +14,7 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/request"
-], function(dom, Deferred, topic, registry, HashController, EventsController, FooterModel, MapConfig, MainConfig, arrayUtil, Query, QueryTask, esriRequest) {
+], function(dojoQuery, dom, domClass, Deferred, topic, registry, HashController, EventsController, FooterModel, MapConfig, MainConfig, arrayUtil, Query, QueryTask, esriRequest) {
 
     var o = {};
     var initialized = false;
@@ -44,6 +46,17 @@ define([
             s.src = 'http://www.globalforestwatch.org/gfw-assets';
             s.async = true;
             s.setAttribute('data-current', ".shape-fire");
+            // Highlight current icon on load
+            s.onload = s.onreadystatechange = function () {
+              var icon,
+                  intervalID = setInterval(function () {
+                    icon = dojoQuery('#headerGfw .shape-fire')[0];
+                    if (icon !== undefined) {
+                      domClass.add(icon, 'current');
+                      clearInterval(intervalID);
+                    }
+                  }, 50);
+            };
             h.appendChild(s);
 
         });
