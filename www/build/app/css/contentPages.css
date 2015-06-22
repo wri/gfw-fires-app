@@ -1,14 +1,14 @@
 
-/* line 286 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 286 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 
-/* line 1 : /Users/lucascotner/Documents/Projects/fires/www/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
+/* line 1 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
 
-/* line 2 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 2 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .dataView {
   background-color: #fff;
 }
 
-/* line 5 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 5 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .content-header {
   height: 200px;
   width: 100%;
@@ -16,7 +16,7 @@
   margin: 40px 0 40px 0;
 }
 
-/* line 11 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 11 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .content-header h1 {
   font-weight: normal;
   position: relative;
@@ -25,7 +25,7 @@
   top: 30px;
 }
 
-/* line 18 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 18 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .content-header h4 {
   font-weight: normal;
   position: relative;
@@ -34,36 +34,36 @@
   top: 20px;
 }
 
-/* line 26 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 26 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /* CSS Document */
 
-/* line 27 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 27 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /* header view */
 
-/* line 29 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 29 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentHeaderBottomView {
   height: 212px !important;
 }
 
-/* line 33 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 33 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPageHeaderView {
   box-shadow: none !important;
   border-bottom: 0px solid #fff !important;
 }
 
-/* line 39 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 39 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /* header view end */
 
-/* line 42 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 42 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /*Accordion Stuff*/
 
-/* line 44 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 44 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .ac-container {
   margin: 0 auto;
   width: 600px;
 }
 
-/* line 49 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 49 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container label {
   padding: 0px;
   position: relative;
@@ -79,50 +79,50 @@
   margin-bottom: 0px;
 }
 
-/* line 63 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 63 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container label:hover {
   color: #98bd17;
 }
 
-/* line 67 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 67 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container input:checked + .source_header label {
   color: #98bd17;
 }
 
-/* line 71 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 71 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container .expand_arrow {
   margin-top: -60px;
 }
 
-/* line 75 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 75 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container .source_description {
   margin-top: -60px;
   margin-right: 50px;
 }
 
-/* line 80 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 80 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container .source_summary,
 .source_summary,
 .source_body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* line 85 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 85 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_header label {
   font: bold 12px/60px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
 }
 
-/* line 91 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 91 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 
-/* line 95 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 95 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container input:checked + label,
 .ac-container input:checked + label:hover {
   text-shadow: 0px 1px 1px rgba(255,255,255,0.6);
   box-shadow: 0px 0px 0px 1px rgba(155,155,155,0.3), 0px 2px 2px rgba(0,0,0,0.1);
 }
 
-/* line 102 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 102 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container label:hover:after,
 .ac-container input:checked + label:hover:after {
   content: '';
@@ -134,19 +134,19 @@
 /*background: transparent url(../images/arrow_down.png) no-repeat center center;	*/
 }
 
-/* line 113 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 113 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container input:checked + .source_header .expand_arrow {
   background-position: 0px -76px;
 }
 
-/* line 117 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 117 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 
-/* line 120 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 120 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container input {
   display: none;
 }
 
-/* line 123 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 123 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container article {
   background: rgba(255,255,255,0.5);
   margin-top: -1px;
@@ -156,33 +156,33 @@
   z-index: 10;
 }
 
-/* line 133 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 133 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 
-/* line 136 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 136 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .ac-container input:checked ~ article.ac-auto {
   height: auto;
 }
 
-/* line 142 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 142 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage #accordion {
   margin: 0 auto;
   width: 600px;
 }
 
-/* line 147 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 147 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage ul {
   margin: 0;
   padding: 0;
 }
 
-/* line 152 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 152 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage ul li {
   list-style: none;
   margin-bottom: 0px;
 /*background-color:#34495e;*/
 }
 
-/* line 158 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 158 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage ul li h2 {
   margin: 0;
   padding: 10px;
@@ -192,41 +192,41 @@
   border-bottom: 1px #efefef solid;
 }
 
-/* line 167 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 167 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage ul li a {
   text-decoration: none;
 }
 
-/* line 171 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 171 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage ul li .content {
   height: 0;
   overflow: hidden;
 }
 
-/* line 176 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 176 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage ul li .content:target {
   height: auto;
   border-bottom: 1px #efefef solid;
 }
 
-/* line 182 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 182 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /*.contentPage ul li .content p {
 	padding:10px;
 	color:#ecf0f1;
 	}		*/
 
-/* line 187 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 187 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /*Accordion Stuff End*/
 
-/* line 190 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 190 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /* from calums css */
 
-/* line 193 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 193 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage {
   zoom: 1;
 }
 
-/* line 197 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 197 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .dataContentSize,
 .aboutContentSize,
 .methodsContentSize,
@@ -237,19 +237,19 @@
 	height: auto !important;*/
 }
 
-/* line 204 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 204 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .content-container {
   margin: 0px 0px 40px 0px;
 }
 
-/* line 208 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 208 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .content-inner-container {
   width: 960px;
   margin: 0 auto;
   padding: 0 10px;
 }
 
-/* line 214 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 214 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .header-container {
   margin: 60px 0 40px;
   height: auto;
@@ -257,13 +257,13 @@
   background: url("images/header_block-8287b2677353772b13b9e784b627e9ae.jpg");
 }
 
-/* line 220 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 220 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .header-block-title h1,
 .contentPage .header-block-desc p {
   color: #fff;
 }
 
-/* line 224 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 224 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .header-block-title h1 {
   padding: 40px 50px 0 50px;
   font-family: 'fira_sans_otlight';
@@ -272,7 +272,7 @@
   font-weight: 600;
 }
 
-/* line 233 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 233 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .header-block-desc p {
   padding: 0px 50px 40px 50px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -282,7 +282,7 @@
   color: rgba(255,255,255,0.7);
 }
 
-/* line 242 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 242 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage #headerBlockFooter {
   border-top: 1px solid rgba(255,255,255,0.15);
   height: 98px;
@@ -291,7 +291,7 @@
   bottom: 0px;
 }
 
-/* line 250 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 250 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage #headerBlockFooter li {
   float: left;
   height: 100%;
@@ -299,7 +299,7 @@
   border-left: 1px solid rgba(255,255,255,0.15);
 }
 
-/* line 257 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 257 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage #headerBlockFooter li a {
   display: block;
   width: 212px;
@@ -317,14 +317,14 @@
   font-weight: 400;
 }
 
-/* line 274 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 274 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage #headerBlockFooter li a:hover {
   color: #fff;
   border: 3px solid rgba(255,255,255,0.5);
   cursor: pointer;
 }
 
-/* line 280 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 280 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage #headerBlockFooter li a i {
   float: right;
   display: block;
@@ -334,19 +334,19 @@
   background-position: 0 -174px;
 }
 
-/* line 289 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 289 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left {
   float: left;
   width: 313px;
 }
 
-/* line 294 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 294 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left ul {
   list-style: none;
   margin: 0 0;
 }
 
-/* line 299 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 299 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left a {
   display: block;
   line-height: 56px;
@@ -362,17 +362,17 @@
   background: #f2f2f3;
 }
 
-/* line 314 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 314 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left li {
   margin-bottom: 0px;
 }
 
-/* line 318 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 318 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left a:hover {
   background: #e5e5e7;
 }
 
-/* line 322 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 322 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .navigation_left a.selected {
   background: #fff;
   position: relative;
@@ -380,7 +380,7 @@
   color: #999;
 }
 
-/* line 329 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 329 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .item-title {
   border-bottom: 1px solid #ccc;
   line-height: 55px;
@@ -388,7 +388,7 @@
   background: #f2f2f3;
 }
 
-/* line 336 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 336 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .item-title i {
   display: inline-block;
   height: 10px;
@@ -397,7 +397,7 @@
   background-position: 0 -222px;
 }
 
-/* line 344 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 344 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage .content_right {
   float: left;
   width: 600px;
@@ -407,13 +407,13 @@
   background: #fff;
 }
 
-/* line 354 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 354 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /* from calums css end */
 
-/* line 357 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 357 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /* From GFW - for Templates */
 
-/* line 358 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 358 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_category_title {
   margin-bottom: 10px;
   font-size: 37px;
@@ -421,33 +421,33 @@
   color: #464052;
 }
 
-/* line 364 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 364 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_category_description {
   font: 13px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #999;
 }
 
-/* line 369 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 369 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_header strong {
   font: bold 12px/60px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
 }
 
-/* line 374 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 374 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_header {
   border-top: 1px solid #ccc;
   color: #464052;
   cursor: pointer;
 }
 
-/* line 379 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 379 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_header em {
   float: right;
   color: #999;
   font: italic 13px/60px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* line 384 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 384 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .static-icons-sprite,
 .header_block__footer a i,
 .header_block__footer a i.play,
@@ -460,7 +460,7 @@
   background: url("../images/static-icons.png") no-repeat scroll 0% 0% transparent;
 }
 
-/* line 388 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 388 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .arrow_down {
   display: inline-block;
   height: 10px;
@@ -469,7 +469,7 @@
   background-position: 0px -212px;
 }
 
-/* line 396 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 396 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .expand_arrow,
 .dropdown_arrow {
   display: block;
@@ -480,9 +480,9 @@
   background-position: 0px -16px;
 }
 
-/* line 407 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 407 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 
-/* line 411 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 411 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .single-source-item,
 .source_body,
 .source_coverage {
@@ -491,7 +491,7 @@
   color: #666;
 }
 
-/* line 417 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 417 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_download,
 .source_coverage_download {
   text-align: right;
@@ -499,7 +499,7 @@
   border-top: 1px solid #ccc;
 }
 
-/* line 423 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 423 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_download a,
 .source_coverage_download a {
   display: inline-block;
@@ -512,25 +512,25 @@
   border-radius: 16px;
 }
 
-/* line 434 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 434 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_table {
   border-top: 1px solid #ccc;
   margin-bottom: 30px;
 }
 
-/* line 438 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 438 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .sources_row {
   display: table;
   width: 100%;
   margin: 0px;
 }
 
-/* line 443 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 443 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .sources_row.even {
   background: none repeat scroll 0% 0% #f2f2f3;
 }
 
-/* line 446 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 446 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .sources_row dt {
   display: table-cell;
   width: 120px;
@@ -541,7 +541,7 @@
   text-transform: uppercase;
 }
 
-/* line 456 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 456 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .sources_row dd {
   display: table-cell;
   padding: 10px 10px 10px 15px;
@@ -550,44 +550,44 @@
   font-size: 13px;
 }
 
-/* line 464 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 464 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_dropdown {
   background: #eee;
   margin-bottom: 30px;
 }
 
-/* line 469 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 469 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_dropdown_header .overview_title {
   margin: 0;
   padding: 0 10px;
   line-height: 60px;
 }
 
-/* line 475 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 475 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_dropdown_body.active,
 .source_dropdown_body.sinlge_active,
 .source_dropdown_menu.active {
   display: block;
 }
 
-/* line 479 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 479 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_dropdown_body {
   padding: 0 10px 10px;
 }
 
-/* line 483 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 483 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_dropdown_menu,
 .source_dropdown_body {
   display: none;
 }
 
-/* line 487 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 487 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_dropdown_menu ul {
   margin-left: 10px;
   padding-bottom: 10px;
 }
 
-/* line 492 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 492 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .overview_title,
 .source_coverage_title {
   margin: 30px 0px 10px;
@@ -595,23 +595,23 @@
   color: #463f52;
 }
 
-/* line 498 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 498 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_header.last {
   border-bottom: 1px solid #ccc;
 }
 
-/* line 502 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 502 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source-item.expanded .source_header {
   color: #98bd17;
 }
 
-/* line 506 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 506 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source-item:hover .source_header,
 .source-item.selected .source_header {
   color: #98bd17;
 }
 
-/* line 510 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 510 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .sans-serif,
 html,
 .btn,
@@ -626,13 +626,13 @@ html,
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* line 514 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 514 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_body .hidden,
 .source_coverage .hidden {
   display: none;
 }
 
-/* line 518 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 518 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_body .read_more,
 .source_coverage .read_more {
   padding: 10px 0px;
@@ -640,14 +640,14 @@ html,
   text-align: center;
 }
 
-/* line 524 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 524 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .single-source-item p,
 .source_body p,
 .source_coverage p {
   margin-bottom: 10px;
 }
 
-/* line 528 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 528 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .single-source-item p.credits,
 .source_body p.credits,
 .source_coverage p.credits {
@@ -656,7 +656,7 @@ html,
   color: #aaa;
 }
 
-/* line 534 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 534 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .single-source-item p.credits strong,
 .source_body p.credits strong,
 .source_coverage p.credits strong {
@@ -665,7 +665,7 @@ html,
   color: #aaa;
 }
 
-/* line 540 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 540 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .single-source-item p.credits a,
 .source_body p.credits a,
 .source_coverage p.credits a {
@@ -673,7 +673,7 @@ html,
   text-decoration: underline;
 }
 
-/* line 545 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 545 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_body .bullets li,
 .source_coverage .bullets li {
   margin: 0px 0px 10px 20px;
@@ -682,18 +682,18 @@ html,
   text-align: center;
 }
 
-/* line 552 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 552 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_coverage_download .source_coverage_title {
   float: left;
 }
 
-/* line 556 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 556 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .contentPage a {
   text-decoration: none;
   color: #a1ba42;
 }
 
-/* line 560 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 560 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logoContainer {
 /*border: 1px solid #000;*/
   overflow: hidden;
@@ -701,27 +701,27 @@ html,
   width: 100%;
 }
 
-/* line 566 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 566 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .aboutLogo {
   float: left;
   height: 100px;
   margin: 10px;
 }
 
-/* line 572 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 572 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .aboutLogo img {
   height: 100%;
   width: auto;
 }
 
-/* line 577 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 577 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list {
   margin: 30px auto 0;
   padding: 0;
   text-align: center;
 }
 
-/* line 583 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 583 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list li {
   display: inline-block;
   margin: 0 36px 38px 0;
@@ -729,7 +729,7 @@ html,
   padding: 0;
 }
 
-/* line 590 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 590 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list li a,
 .logo_list li span {
   display: inline-block;
@@ -737,12 +737,12 @@ html,
   height: 80px;
 }
 
-/* line 596 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 596 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .center {
   text-align: center;
 }
 
-/* line 600 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 600 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .emailWRI {
   border: 1px solid #97bd3d;
   margin: 10px 0 0;
@@ -772,22 +772,22 @@ html,
   width: 100px;
 }
 
-/* line 628 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 628 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .emailWRI:hover {
   background: #f2f2f2;
 }
 
-/* line 633 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 633 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .digital-globe {
   background: url("../images/dg_logo_grey.png") no-repeat scroll 0% 0% transparent;
 }
 
-/* line 636 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 636 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .digital-globe:hover {
   background: url("../images/dg_logo_clr.png") no-repeat scroll 0% 0% transparent;
 }
 
-/* line 639 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 639 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .rainForestUK,
 .logo_list .rainForestUK:hover,
 .logo_list .rspo,
@@ -880,7 +880,7 @@ html,
   background: url("../images/partners-sprite.png");
 }
 
-/* line 732 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 732 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .open-development,
 .open-development:hover,
 .logo_list .orbital,
@@ -888,7 +888,7 @@ html,
   background: url("../images/partners-sprite2.png");
 }
 
-/* line 738 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 738 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .bakerAndMackenzie,
 .logo_list .bakerAndMackenzie:hover,
 .logo_list .conservationInternational,
@@ -902,7 +902,7 @@ html,
   background: url("../images/static-logosOld.png") no-repeat;
 }
 
-/* line 750 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 750 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .mongabay,
 .logo_list .mongabay:hover,
 .logo_list .yayasanPuter,
@@ -910,29 +910,29 @@ html,
   background: url("../images/static-logos3.png") no-repeat;
 }
 
-/* line 757 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 757 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .bnbp {
   background-position: 0 -5034px;
   height: 64px;
   width: 50px;
 }
 
-/* line 762 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 762 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .bnbp:hover {
   background-position: 0 -4288px;
 }
 
-/* line 765 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 765 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .bakerAndMackenzie {
   background-position: 0 -3905px;
 }
 
-/* line 768 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 768 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .bakerAndMackenzie:hover {
   background-position: 0 -3824px;
 }
 
-/* line 771 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 771 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .blueraster {
   background-position: 0 -3625px;
   margin: 20px 0;
@@ -940,24 +940,24 @@ html,
   width: 110px;
 }
 
-/* line 777 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 777 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .blueraster:hover {
   background-position: 0 -2402px;
 }
 
-/* line 780 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 780 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .cartoDB {
   background-position: 0 -4088px;
   margin: 20px 0;
   height: 39px;
 }
 
-/* line 785 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 785 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .cartoDB:hover {
   background-position: 0 -2077px;
 }
 
-/* line 788 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 788 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .centerglobaldevelopment {
   background-position: 0 -3557px;
   margin: 20px 0;
@@ -965,12 +965,12 @@ html,
   width: 84px;
 }
 
-/* line 794 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 794 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .centerglobaldevelopment:hover {
   background-position: 0 -1433px;
 }
 
-/* line 797 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 797 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .cgiar {
   background-position: 0 -2880px;
   margin: 20px 0;
@@ -978,12 +978,12 @@ html,
   width: 124px;
 }
 
-/* line 803 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 803 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .cgiar:hover {
   background-position: 0 -913px;
 }
 
-/* line 806 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 806 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .climateLandUse {
   background-position: 0 -4262px;
   margin: 25px 0;
@@ -991,22 +991,22 @@ html,
   width: 110px;
 }
 
-/* line 812 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 812 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .climateLandUse:hover {
   background-position: 0 -1916px;
 }
 
-/* line 815 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 815 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .conservationInternational {
   background-position: 0 -4225px;
 }
 
-/* line 818 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 818 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .conservationInternational:hover {
   background-position: 0 -4144px;
 }
 
-/* line 821 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 821 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .earthJournalismNetwork {
   background-position: 0 -3328px;
   margin: 10px 0;
@@ -1014,12 +1014,12 @@ html,
   width: 80px;
 }
 
-/* line 827 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 827 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .earthJournalismNetwork:hover {
   background-position: 0 -2486px;
 }
 
-/* line 830 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 830 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .esri {
   background-position: 0 -4171px;
   margin: 25px 0;
@@ -1027,24 +1027,24 @@ html,
   width: 87px;
 }
 
-/* line 836 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 836 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .esri:hover {
   background-position: 0 -1851px;
 }
 
-/* line 839 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 839 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .foodAgricultureOrg {
   background-position: 10px -5472px;
   margin: 10px 0;
   height: 78px;
 }
 
-/* line 844 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 844 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .foodAgricultureOrg:hover {
   background-position: 10px -5394px;
 }
 
-/* line 847 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 847 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .canada {
   background-position: 0 -4682px;
   margin: 0 10px 30px 0;
@@ -1052,12 +1052,12 @@ html,
   width: 42px;
 }
 
-/* line 853 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 853 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .canada:hover {
   background-position: 0 -3177px;
 }
 
-/* line 856 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 856 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .google {
   background-position: 0 -4897px;
   margin: 30px 0;
@@ -1065,12 +1065,12 @@ html,
   width: 85px;
 }
 
-/* line 862 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 862 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .google:hover {
   background-position: 0 -1013px;
 }
 
-/* line 865 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 865 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .imazon {
   background-position: 0 -5123px;
   margin: 35px 0;
@@ -1078,34 +1078,34 @@ html,
   width: 79px;
 }
 
-/* line 871 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 871 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .imazon:hover {
   background-position: 0 -2923px;
 }
 
-/* line 874 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 874 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .CIAT {
   background-position: 0 -2578px;
   margin: 25px 0;
   height: 50px;
 }
 
-/* line 879 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 879 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .CIAT:hover {
   background-position: 0 -956px;
 }
 
-/* line 882 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 882 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .IUCN {
   background-position: 0 -4909px;
 }
 
-/* line 885 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 885 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .IUCN:hover {
   background-position: 0 -4842px;
 }
 
-/* line 888 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 888 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .lodersCroklaan {
   background-position: 0 -5272px;
   margin: 35px 0;
@@ -1113,12 +1113,12 @@ html,
   width: 110px;
 }
 
-/* line 894 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 894 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .lodersCroklaan:hover {
   background-position: 0 -5098px;
 }
 
-/* line 897 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 897 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .goodall {
   background-position: 0 -5246px;
   margin: 30px 0;
@@ -1126,68 +1126,68 @@ html,
   width: 110px;
 }
 
-/* line 903 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 903 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .goodall:hover {
   background-position: 0 -4236px;
 }
 
-/* line 906 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 906 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .mongabay {
   background-position: 0 -7332px;
 }
 
-/* line 909 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 909 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .mongabay:hover {
   background-position: 0 -7214px;
 }
 
-/* line 912 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 912 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .open-development {
   background-position: 0 -4065px;
   height: 70px;
   width: 70px;
 }
 
-/* line 917 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 917 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .open-development:hover {
   background-position: 0 -3698px;
 }
 
-/* line 920 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 920 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .orbital {
   background-position: 0 -3247px;
   height: 70px;
   width: 101px;
 }
 
-/* line 925 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 925 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .orbital:hover {
   background-position: 0 -2680px;
 }
 
-/* line 928 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 928 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .muyissi {
   background-position: 0 -1150px;
   height: 80px;
   width: 80px;
 }
 
-/* line 933 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 933 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .muyissi:hover {
   background-position: 0 -368px;
 }
 
-/* line 936 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 936 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .osinfor {
   background-position: 0 -2635px;
 }
 
-/* line 939 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 939 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .osinfor:hover {
   background-position: 0 -1230px;
 }
 
-/* line 942 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 942 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .osfac {
   background-position: 0 -3973px;
   margin: 20px 0;
@@ -1195,70 +1195,70 @@ html,
   width: 44px;
 }
 
-/* line 948 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 948 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .osfac:hover {
   background-position: 0 -1473px;
 }
 
-/* line 951 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 951 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .planetLabs {
   background-position: 0 -5603px;
 }
 
-/* line 954 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 954 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .planetLabs:hover {
   background-position: 0 -5536px;
 }
 
-/* line 957 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 957 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .rainForestUK {
   background-position: 0 -3221px;
   height: 37px;
   width: 110px;
 }
 
-/* line 962 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 962 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .rainForestUK:hover {
   background-position: 0 -2843px;
 }
 
-/* line 965 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 965 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .reddIndo {
   background-position: 0 -5282px;
   height: 62px;
   width: 95px;
 }
 
-/* line 970 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 970 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .reddIndo:hover {
   background-position: 0 -4460px;
 }
 
-/* line 973 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 973 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .reforestMexico {
   background-position: 0 -1646px;
   height: 66px;
   width: 110px;
 }
 
-/* line 978 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 978 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .reforestMexico:hover {
   background-position: 0 -1310px;
 }
 
-/* line 981 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 981 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .resolveCo {
   background-position: 0 -4926px;
   height: 28px;
   width: 110px;
 }
 
-/* line 986 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 986 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .resolveCo:hover {
   background-position: 0 -3597px;
 }
 
-/* line 989 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 989 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .rspo {
   background-position: 0 -3940px;
   margin: 20px 0;
@@ -1266,22 +1266,22 @@ html,
   width: 110px;
 }
 
-/* line 995 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 995 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .rspo:hover {
   background-position: 0 -2985px;
 }
 
-/* line 998 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 998 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .sarvision {
   background-position: 0 -6359px;
 }
 
-/* line 1001 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1001 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .sarvision:hover {
   background-position: 0 -6292px;
 }
 
-/* line 1004 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1004 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .scanex {
   background-position: 0 -4766px;
   margin: 30px 0;
@@ -1289,12 +1289,12 @@ html,
   width: 110px;
 }
 
-/* line 1010 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1010 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .scanex:hover {
   background-position: 0 -2715px;
 }
 
-/* line 1013 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1013 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .twrus {
   background-position: 0 -4432px;
   margin: 25px 0;
@@ -1302,60 +1302,60 @@ html,
   width: 110px;
 }
 
-/* line 1019 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1019 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .twrus:hover {
   background-position: 0 -2550px;
 }
 
-/* line 1022 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1022 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .unilever {
   background-position: 0 -1997px;
   height: 80px;
   width: 88px;
 }
 
-/* line 1027 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1027 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .unilever:hover {
   background-position: 0 -1566px;
 }
 
-/* line 1030 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1030 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .unep {
   background-position: 0 -3485px;
   height: 57px;
   width: 49px;
 }
 
-/* line 1035 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1035 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .unep:hover {
   background-position: 0 -1376px;
 }
 
-/* line 1038 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1038 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .unepWC {
   background-position: 0 -2116px;
   height: 60px;
   width: 110px;
 }
 
-/* line 1043 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1043 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .unepWC:hover {
   background-position: 0 -448px;
 }
 
-/* line 1046 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1046 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .universitymaryland {
   background-position: 0 -3711px;
   height: 51px;
   width: 56px;
 }
 
-/* line 1051 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1051 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .universitymaryland:hover {
   background-position: 0 -1099px;
 }
 
-/* line 1054 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1054 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .vizzuality {
   background-position: 0 -3018px;
   margin: 20px 0;
@@ -1363,12 +1363,12 @@ html,
   width: 109px;
 }
 
-/* line 1060 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1060 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .vizzuality:hover {
   background-position: 0 -791px;
 }
 
-/* line 1063 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1063 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .woodsHole {
   background-position: 0 -2176px;
   margin: 10px 0;
@@ -1376,12 +1376,12 @@ html,
   width: 87px;
 }
 
-/* line 1069 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1069 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .woodsHole:hover {
   background-position: 0 -508px;
 }
 
-/* line 1072 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1072 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .wri {
   background-position: 0 -4204px;
   margin: 25px 0;
@@ -1389,34 +1389,34 @@ html,
   width: 95px;
 }
 
-/* line 1078 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1078 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .wri:hover {
   background-position: 0 -1884px;
 }
 
-/* line 1081 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1081 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .yayasanPuter {
   background-position: 15px -5788px;
 }
 
-/* line 1084 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1084 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .yayasanPuter:hover {
   background-position: 15px -5720px;
 }
 
-/* line 1087 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1087 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .zsl {
   background-position: 0 -2329px;
   height: 73px;
   width: 110px;
 }
 
-/* line 1092 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1092 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .zsl:hover {
   background-position: 0 -2256px;
 }
 
-/* line 1095 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1095 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .danida {
   background-position: 0 -5108px;
   margin: 25px 0;
@@ -1424,24 +1424,24 @@ html,
   width: 82px;
 }
 
-/* line 1101 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1101 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .danida:hover {
   background-position: 0 -3542px;
 }
 
-/* line 1104 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1104 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .gef {
   background-position: 0 -4029px;
   height: 59px;
   width: 51px;
 }
 
-/* line 1109 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1109 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .gef:hover {
   background-position: 0 -1712px;
 }
 
-/* line 1112 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1112 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .moore {
   background-position: 0 -3140px;
   margin: 15px 0;
@@ -1449,72 +1449,72 @@ html,
   width: 96px;
 }
 
-/* line 1118 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1118 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .moore:hover {
   background-position: 0 -1529px;
 }
 
-/* line 1121 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1121 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .dutchforeign {
   background-position: 0 -4954px;
   height: 80px;
   width: 106px;
 }
 
-/* line 1126 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1126 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .dutchforeign:hover {
   background-position: 0 -4352px;
 }
 
-/* line 1129 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1129 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .norwegian {
   background-position: 0 -3814px;
   height: 46px;
   width: 110px;
 }
 
-/* line 1134 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1134 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .norwegian:hover {
   background-position: 0 -3439px;
 }
 
-/* line 1137 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1137 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .sida {
   background-position: 0 -2788px;
   height: 55px;
   width: 110px;
 }
 
-/* line 1142 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1142 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .sida:hover {
   background-position: 0 -1942px;
 }
 
-/* line 1145 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1145 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .ukaid {
   background-position: 0 -4826px;
   height: 47px;
   width: 43px;
 }
 
-/* line 1150 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1150 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .ukaid:hover {
   background-position: 0 -3392px;
 }
 
-/* line 1153 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1153 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .usaid {
   background-position: 0 -3076px;
   height: 64px;
   width: 80px;
 }
 
-/* line 1158 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1158 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo_list .usaid:hover {
   background-position: 0 -849px;
 }
 
-/* line 1162 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1162 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /*
 .static-logos-sprite, .logo_list .osfac, .logo_list .osfac:hover, .logo_list .wri, .logo_list .wri:hover, .logo_list .google, .logo_list .google:hover, .logo_list .esri, .logo_list .esri:hover, .logo_list .universitymaryland, .logo_list .universitymaryland:hover, .logo_list .unep, .logo_list .unep:hover, .logo_list .imazon, .logo_list .imazon:hover, .logo_list .centerglobaldevelopment, .logo_list .centerglobaldevelopment:hover, .logo_list .gfwca, .logo_list .gfwca:hover, .logo_list .scanex, .logo_list .scanex:hover, .logo_list .twrus, .logo_list .twrus:hover, .logo_list .norwegian, .logo_list .norwegian:hover, .logo_list .usaid, .logo_list .usaid:hover, .logo_list .gef, .logo_list .gef:hover, .logo_list .vizzuality, .logo_list .vizzuality:hover, .logo_list .ukaid, .logo_list .ukaid:hover, .logo_list .tilafund, .logo_list .tilafund:hover, .logo_list .bakerAndMackenzie, .logo_list .bakerAndMackenzie:hover, .logo_list .cgiar, .logo_list .cgiar:hover, .logo_list .danida, .logo_list .danida:hover, .logo_list .dutchforeign, .logo_list .dutchforeign:hover, .logo_list .bobolink, .logo_list .simbiotica, .logo_list .simbiotica:hover, .logo_list .goodall, .logo_list .goodall:hover, .logo_list .sida, .logo_list .sida:hover, .logo_list .conservationInternational, .logo_list .conservationInternational:hover, .logo_list .foodAgricultureOrg, .logo_list .foodAgricultureOrg:hover, .logo_list .CIAT, .logo_list .CIAT:hover, .logo_list .IUCN, .logo_list .IUCN:hover, .logo_list .planetLabs, .logo_list .planetLabs:hover, .logo_list .sarvision, .logo_list .sarvision:hover, .logo_list .cartoDB, .logo_list .cartoDB:hover, .logo_list .reddIndo, .logo_list .reddIndo:hover, .logo_list .moore, .logo_list .moore:hover, .logo_list .canada, .logo_list .canada:hover {
 background: url(../images/static-logosOld.png) no-repeat;
@@ -1903,7 +1903,7 @@ background-position: 0 -8075px;
 background-position: 0 -8075px;
 }*/
 
-/* line 1550 : /Users/lucascotner/Documents/Projects/fires/www/src/app/css/contentPages.styl */
+/* line 1550 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .coming-soon {
   padding: 20px;
 }
