@@ -533,17 +533,17 @@ define([
     };
 
     vm.imageryMouseOver = function(data, event) {
-        console.log("MOUSE OVER");
-        // return;
         require(["views/map/MapController"], function(MapController) {
             MapController.handleImageryOver(data, event);
         });
     };
 
     vm.imageryMouseOut = function(data, event) {
-        console.log("MOUSE OUT");
-        // return;
+
         $("#smartHiddenMenu").addClass("hidden");
+        require(["views/map/MapController"], function(MapController) {
+            MapController.handleImageryOut(data, event);
+        });
     };
 
 
