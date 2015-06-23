@@ -30,10 +30,11 @@ define([
     "esri/tasks/query",
     "esri/tasks/QueryTask",
     "esri/geometry/Circle",
-    "utils/Analytics"
+    "utils/Analytics",
+    "esri/geometry/geometryEngine"
 ], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, keys, FeatureLayer, Graphic, esriRequest,
     ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, PopupTemplate, Point, webMercatorUtils,
-    PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle, Analytics) {
+    PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle, Analytics, geometryEngine) {
     var _map;
 
     return {
@@ -1720,15 +1721,18 @@ define([
             var subscribeUrl = MainConfig.emailSubscribeUrlPoly,
                 deferred = new Deferred(),
                 params = {
-                    'features': JSON.stringify({
-                        "rings": graphic.geometry.rings,
-                        "spatialReference": graphic.geometry.spatialReference
-                    }),
                     'msg_addr': address,
                     'msg_type': type,
                     'area_name': graphic.attributes.ALERTS_LABEL
                 },
                 res;
+
+            // Simplify the geometry and then add a stringified and simpler version of it to params.features
+            var simplifiedGeometry = geometryEngine.simplify(graphic.geometry);
+            params.features = JSON.stringify({
+                "rings": simplifiedGeometry.rings,
+                "spatialReference": simplifiedGeometry.spatialReference
+            });
 
             xhr(subscribeUrl, {
                 handleAs: "json",

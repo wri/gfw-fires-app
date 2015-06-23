@@ -34,6 +34,13 @@ define([
                 return;
             }
 
+            // If the file is larger then 1MB, exit
+            if (target.files && target.files[0].size > 1048576) {
+                alert('Currently we only support files under 1MB in size. Please try a smaller shapefile.');
+                document.uploadForm.reset();
+                return;
+            }
+
             var filename = target.value.toLowerCase(),
                 self = this,
                 params,
