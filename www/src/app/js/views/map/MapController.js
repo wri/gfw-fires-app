@@ -99,7 +99,7 @@ define([
             EventsController.switchToView(view);
             o.fromStories();
             o.checkBubble();
-            Analytics.sendPageview(window.location.href, "map");
+            Analytics.sendPageview("/" + window.location.href.split('#')[1], "map");
             return;
         }
 
@@ -133,7 +133,7 @@ define([
 
             });
         });
-        Analytics.sendPageview(window.location.href, "map");
+        Analytics.sendPageview("/" + window.location.href.split('#')[1], "map");
     };
 
     o.centerChange = function() {
@@ -2536,7 +2536,7 @@ define([
             cleanup();
         });
 
-        Analytics.sendPageview(window.location.href, "map");
+        Analytics.sendPageview("/" + window.location.href.split('#')[1], "map");
     };
 
     return o;

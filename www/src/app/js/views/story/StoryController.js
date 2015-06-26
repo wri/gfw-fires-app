@@ -14,7 +14,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 //switch to this view
                 console.log(viewObj);
                 EventsController.switchToView(viewObj);
-                Analytics.sendPageview(window.location.href, viewObj.viewName);
+                Analytics.sendPageview("/" + window.location.href.split('#')[1], viewObj.viewName);
                 return;
             }
 
@@ -32,7 +32,8 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 });
 
             });
-            Analytics.sendPageview(window.location.href, viewObj.viewName);
+
+            Analytics.sendPageview("/" + window.location.href.split('#')[1], viewObj.viewName);
 
         };
 

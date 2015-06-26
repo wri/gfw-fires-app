@@ -53,7 +53,8 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
             require(["dojo/text!views/about/templates/" + htmlToFetch + ".htm"], function(content) {
                 aboutmodel.htmlContent(content);
             });
-            Analytics.sendPageview(window.location.href, this.toTitleCase(obj.name));
+
+            Analytics.sendPageview("/" + window.location.href.split('#')[1], this.toTitleCase(obj.name));
 
         };
 
