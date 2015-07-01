@@ -33,6 +33,19 @@ define({
         sliderPosition: 'top-right'
     },
 
+    basemapReverseLookup: {
+      "Dark Gray Canvas": 'dark-gray',
+      "Streets": 'streets',
+      "Imagery": 'satellite',
+      "Imagery with Labels": 'hybrid',
+      "Topographic": 'topo',
+      "Light Gray Canvas": 'gray',
+      "Oceans": 'oceans',
+      "National Geographic": 'national-geographic',
+      "Terrain with Labels": 'terrain',
+      "OpenStreetMap": 'osm'
+    },
+
     printOptions: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/GFWFiresPrintMap/GPServer/Export%20Web%20Map',
         template: 'GFWFires'

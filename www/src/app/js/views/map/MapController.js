@@ -216,14 +216,12 @@ define([
         var hashX = HashController.newState.x;
         var hashY = HashController.newState.y;
         var hashL = HashController.newState.l;
-
+        var basemap = MapConfig.basemapReverseLookup[HashController.newState.b];
 
         o.map = new Map("map", {
             center: [hashX, hashY], //MapConfig.mapOptions.center,
-            zoom: MapConfig.mapOptions.initalZoom, // hashL, //
-            //zoom: 6,
-            //center: MapConfig.mapOptions.center,
-            basemap: MapConfig.mapOptions.basemap,
+            zoom: hashL || MapConfig.mapOptions.initalZoom,
+            basemap: basemap || MapConfig.mapOptions.basemap,
             minZoom: MapConfig.mapOptions.minZoom,
             maxZoom: MapConfig.mapOptions.maxZoom,
             sliderPosition: MapConfig.mapOptions.sliderPosition,
@@ -1142,6 +1140,13 @@ define([
             //     DrawTool.deactivateToolbar();
             // }
         };
+
+        var shareBasemap = function () {
+          HashController.updateHash({ b: bg.getSelected().title });
+        };
+
+
+
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
         on(dom.byId("share-button"), "click", toggleShareContainer);
@@ -1149,7 +1154,7 @@ define([
         on(dom.byId("uploadFeatures"), "click", toggleUploadTools);
         on(dom.byId("drawFeatures"), "click", toggleDrawTools);
         on(dom.byId("uploadForm"), "change", Uploader.beginUpload.bind(Uploader));
-
+        bg.on('selection-change', shareBasemap);
 
         this.initTransparency();
     };
@@ -2451,7 +2456,7 @@ define([
         registry.byId("mapView").resize();
         o.map.resize();
         on.once(o.map, 'resize', function() {
-            // Allow Layers to redraw themselves, wind layer takes 1500ms 
+            // Allow Layers to redraw themselves, wind layer takes 1500ms
             setTimeout(function() {
                 window.print();
                 domClass.remove('print-button', 'loading');

@@ -18,14 +18,14 @@ var app_dir = {
 
 gulp.task('dist-delete', function(cb) {
     console.log(">>>>>>>> deleting");
-    del([app_dir.build + '**'], cb)
+    del([app_dir.build + '**'], cb);
 });
 
 gulp.task('dist-copy-clean', ['dist-delete'], function() {
     console.log(">>>>>>>> cleaning up the dist folder");
     //ignore jade, styl, and css inside the js folder
     return gulp.src([app_dir.src + '**', '!' + app_dir.src + '**/*.jade', '!' + app_dir.src + '**/*.styl', '!' + app_dir.src + 'app/js/*.css'])
-        .pipe(gulp.dest(app_dir.build))
+        .pipe(gulp.dest(app_dir.build));
 });
 
 
@@ -38,7 +38,7 @@ gulp.task('minify-html', ['dist-copy-clean'], function() {
     };
     return gulp.src(app_dir.src + '**/*.htm*')
         .pipe(minifyhtml(opts))
-        .pipe(gulp.dest(app_dir.build))
+        .pipe(gulp.dest(app_dir.build));
 });
 
 gulp.task('minify-css', ['dist-copy-clean'], function() {
