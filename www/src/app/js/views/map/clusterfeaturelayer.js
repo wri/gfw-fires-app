@@ -282,6 +282,7 @@ define([
 
         // Recluster when extent changes
         _reCluster: function() {
+
             // update resolution
             this._clusterResolution = this._map.extent.getWidth() / this._map.width;
             // Smarter cluster, only query when we have to
@@ -463,6 +464,9 @@ define([
         },
 
         _onError: function(err) {
+            require(["views/map/MapController"], function(MapController) {
+                MapController.removeLoaderFromClusters();
+            });
             console.warn('ReturnIds Error', err);
         },
 
@@ -470,6 +474,9 @@ define([
             var uncached = difference(results, this._objectIdCache.length, this._objectIdHash);
             this._objectIdCache = concat(this._objectIdCache, uncached);
             if (uncached && uncached.length) {
+                require(["views/map/MapController"], function(MapController) {
+                    MapController.removeLoaderFromClusters();
+                });
                 this._query.where = null;
                 this._query.geometry = null;
                 var queries = [];

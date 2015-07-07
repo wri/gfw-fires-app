@@ -117,7 +117,7 @@ define([
 
                 MapModel.applyBindings("map-view");
                 // Initialize addthis since it was loaded asynchronously
-                addthis.init();
+                //addthis.init();
                 that.addConfigurations();
                 $("#footerView").hide();
                 that.createMap();
@@ -129,6 +129,7 @@ define([
                 setTimeout(function() {
                     that.checkBubble();
                     that.fromStories();
+                    Helper.showLoader("clusterCircle", "cluster-blocker");
                 }, 1000);
 
             });
@@ -171,7 +172,9 @@ define([
         var proxies = MapConfig.proxies;
 
         var url = document.location.href;
-        var proxyUrl = "/proxy/proxy.ashx";
+        // var proxyUrl = "/proxy/proxy.ashx";
+        var proxyUrl = "/proxy/proxy.php";
+
 
 
         for (var domain in proxies) {
@@ -439,6 +442,12 @@ define([
 
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.clear();
+    };
+
+    o.removeLoaderFromClusters = function(data, event) {
+
+        $("#clusterCircle").addClass("hoverSmart");
+        Helper.hideLoader("cluster-blocker");
     };
 
     o.getClassJenks = function(nbClass, data) {
@@ -1503,11 +1512,6 @@ define([
         dojoQuery(".smartRelative").forEach(function(node) {
             on(node, "click", function() {
 
-                // if (this.id === "clusterCircle" && !map.clustersPopulated) {
-                //     debugger;
-                //     map.clustersPopulated = true;
-                // }
-
                 var realFires = o.map.getLayer("Active_Fires");
                 $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
                 $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
@@ -1924,16 +1928,6 @@ define([
             outFields: ["ACQ_DATE", "CONFIDENCE", "BRIGHTNESS"]
         });
 
-
-        // firesVizCluster.on("details-loaded", function() {
-        //     debugger;
-        // });
-        // firesVizCluster.on("cluster-click", function() {
-        //     debugger;
-        // });
-
-
-
         firesVizCluster.on("clusters-shown", function() {
 
             var today = new Date();
@@ -2020,6 +2014,10 @@ define([
             id: MapConfig.firesLayer.id,
             visible: false
         });
+
+
+
+        //firesLayer.setDPI(72);
 
         // var tweet_infotemplate = new InfoTemplate();
         // tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
@@ -2119,9 +2117,6 @@ define([
         //     })
         // });
 
-        // on(o.map.infoWindow, "selection-change", function() {
-        //     debugger;
-        // });
 
 
 

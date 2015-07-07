@@ -64,12 +64,19 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 mapLoad.remove();
                 o.initToolbar();
 
-                var rule = {
-                    proxyUrl: "/proxy/proxy.php",
-                    urlPrefix: StoryModel.vm.storiesURL
-                }
+                esriConfig.defaults.io.corsEnabledServers.push(StoryModel.vm.storiesURL);
 
-                urlUtils.addProxyRule(rule);
+                // var rule = {
+                //     proxyUrl: "/proxy/proxy.php",
+                //     urlPrefix: StoryModel.vm.storiesURL
+                // }
+
+                // var rule = {
+                //     proxyUrl: "http://lucas/gfw-fires-app/www/src/proxy/proxy.php",
+                //     urlPrefix: StoryModel.vm.storiesURL
+                // }
+
+                // urlUtils.addProxyRule(rule);
                 // o.map.resize();
                 // o.map.reposition();
 
@@ -87,6 +94,8 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 }
                 storiesLayer.on("edits-complete", function(adds, updates, deletes) {
                     //document.login[0].remove();
+
+
 
                     if (StoryModel.vm.inputFilesSelector().length > 1) {
                         var attachmentDoms = $(".uploadInput");

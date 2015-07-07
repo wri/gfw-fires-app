@@ -420,11 +420,14 @@ define([
             heat.setDefinitionExpression(where);
 
             var currentFires = map.getLayer("firesClusters");
-            var graphicsToCluster = map.clusterData[clusterOption];
-            console.log(graphicsToCluster.length);
+            if (map.clusterData) {
+                var graphicsToCluster = map.clusterData[clusterOption];
+                console.log(graphicsToCluster.length);
 
-            currentFires._clusterData = graphicsToCluster;
-            currentFires._clusterGraphics();
+                currentFires._clusterData = graphicsToCluster;
+                currentFires._clusterGraphics();
+            }
+
         },
 
         updateAdditionalVisibleLayers: function(queryClass, configObject) {
