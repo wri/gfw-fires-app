@@ -450,7 +450,7 @@ define([
 
                     item.feature.attributes.ALERTS_LABEL = item.value;
 
-                } else if (item.layerId === 28) { //Wood Fiber 
+                } else if (item.layerId === 28) { //Wood Fiber
                     template = new InfoTemplate("<strong>" + item.value + "</strong>",
                         "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
                     );
@@ -706,7 +706,7 @@ define([
             // defs needs to be (date > dateString and time > hhmm) or date > todayString
             for (var i = 0, len = MapConfig.firesLayer.defaultLayers.length; i < len; i++) {
                 defs[i] = "ACQ_DATE > date '" + dateString + "'";
-                // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" + 
+                // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" +
                 //          " OR  ACQ_DATE > date '" + todayString + "'";
             }
 
@@ -1018,12 +1018,14 @@ define([
 
             // esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
 
-            var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+            // var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+
+            var layers = all(MapConfig.digitalGlobe.imageServices.map(function (service) {
                 var deferred = new Deferred();
                 query.geometry = evt.graphic.geometry;
                 query.returnGeometry = false;
-                query.outFields = ['*'];
-                var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer");
+                query.outFields = ['AcquisitionDate', 'SensorName', 'OBJECTID', 'CenterX', 'CenterY'];
+                var task = new QueryTask(service.url);
                 task.execute(query, function(results) {
                     deferred.resolve(results.features);
                 }, function(err) {
@@ -1043,6 +1045,8 @@ define([
                         features.push(feature);
                     });
                 });
+
+                console.dir(features);
 
                 features.sort(function(left, right) {
                     return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
@@ -1158,7 +1162,7 @@ define([
             //         });
             //     }
 
-            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
             //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
             //         _map.centerAndZoom(point, 17);
             //         _map.infoWindow.show(point);
@@ -1176,7 +1180,7 @@ define([
 
             // LayerController.showDigitalGlobeImagery();
 
-            // Temporary, Remove All Code below when done and import code from 
+            // Temporary, Remove All Code below when done and import code from
             // getDigitalGlobeServiceInfoWindow function
             // if (evt.graphic.attributes.Source === 'Digital_Globe') {
             //     this.getDigitalGlobeServiceInfoWindow(evt);
@@ -1241,7 +1245,7 @@ define([
             //         });
             //     }
 
-            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
             //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
             //         _map.centerAndZoom(point, 17);
             //         _map.infoWindow.show(point);
@@ -1300,7 +1304,7 @@ define([
         //             }));
         //         });
 
-        //         handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+        //         handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
         //             _map.setExtent(foundFeatures[activeFeatureIndex].geometry.getExtent(), true);
         //         }));
 
