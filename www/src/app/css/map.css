@@ -1769,7 +1769,7 @@ div.report-options-section > table {
   height: 60px;
   right: 280px;
   left: 10px;
-  z-index: 5;
+  z-index: 50;
 }
 
 /* line 1275 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
