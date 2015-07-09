@@ -289,9 +289,11 @@ define([
             // Fist time
             if (!this._visitedExtent) {
                 this._getObjectIds(this._map.extent);
+                alert("asda");
                 // New extent
             } else if (!this._visitedExtent.contains(this._map.extent)) {
-                this._getObjectIds(this._map.extent);
+                //this._getObjectIds(this._map.extent);
+                //alert("BBBBB");
                 // Been there, but is this a pan or zoom level change?
             } else {
                 this._clusterGraphics();
@@ -445,6 +447,7 @@ define([
             // this._startGetOids = new Date().valueOf();
             // console.debug('#_getObjectIds start');
 
+
             if (this.url) {
                 var ext = extent || this._map.extent;
                 this._query.objectIds = null;
@@ -457,7 +460,16 @@ define([
                 if (!this._query.geometry && !this._query.where) {
                     this._query.where = '1=1';
                 }
-                this.queryTask.executeForIds(this._query).then(
+                this._query.geometryPrecision = 2;
+
+
+                var newQuery = lang.clone(this._query);
+                newQuery.returnGeometry = false;
+                newQuery.geometryPrecision = null;
+                newQuery.outFields = [];
+
+
+                this.queryTask.executeForIds(newQuery).then(
                     lang.hitch(this, '_onIdsReturned'), this._onError
                 );
             }

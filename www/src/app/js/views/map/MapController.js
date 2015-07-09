@@ -1855,13 +1855,13 @@ define([
         //     }));
         // });
 
-        digitalGlobeLayers = dgConf.imageServices.map(function (service) {
-          return (new ArcGISImageServiceLayer(service.url, {
-            id: service.mosaic,
-            visible: false
-          }));
+        digitalGlobeLayers = dgConf.imageServices.map(function(service) {
+            return (new ArcGISImageServiceLayer(service.url, {
+                id: service.mosaic,
+                visible: false
+            }));
         });
-        
+
         dglyrs = digitalGlobeLayers;
 
         overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
