@@ -289,11 +289,11 @@ define([
             // Fist time
             if (!this._visitedExtent) {
                 this._getObjectIds(this._map.extent);
-                alert("asda");
+
                 // New extent
             } else if (!this._visitedExtent.contains(this._map.extent)) {
                 //this._getObjectIds(this._map.extent);
-                //alert("BBBBB");
+
                 // Been there, but is this a pan or zoom level change?
             } else {
                 this._clusterGraphics();
