@@ -1370,20 +1370,6 @@ define([
             _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
             var attr, html, features = [];
             for (var i = 0; i < feats.length; i++) {
-                // attr = feats[i].feature.attributes;
-                // html = "<table>";
-                // for (var propertyName in attr) {
-
-                //     // if (attr[propertyName] != "Null" && (propertyName != 'OBJECTID' || propertyName != 'SHAPE' || propertyName != 'Publish')) {
-                //     if (attr[propertyName] != "Null" && propertyName != 'OBJECTID' && propertyName != 'SHAPE' && propertyName != 'Publish') {
-                //         html += "<tr><td>" + propertyName + ": " + attr[propertyName] + "</td></tr>";
-
-                //     }
-                // }
-                // html += "</div>";
-                // template = new InfoTemplate(feats[i].feature.attributes.Title, html);
-
-                // feats[i].feature.setInfoTemplate(template);
 
                 for (attr in feats[i].feature.attributes) {
                     if (feats[i].feature.attributes[attr] == "Null") {
@@ -1412,6 +1398,10 @@ define([
                         fieldName: "Name",
                         label: "Name",
                         visible: true
+                    }, {
+                        fieldName: "Attachments",
+                        label: "Attachments",
+                        visible: true
                         // }, {
                         //     fieldName: "Email",
                         //     label: "Email",
@@ -1422,39 +1412,58 @@ define([
                 });
 
                 var id = feats[i].feature.attributes.OBJECTID;
-
                 var layer = map.getLayer("Fire_Stories");
 
-                layer.queryAttachmentInfos("1=1", function(infos) {
-                    //debugger;
-                    map.infoWindow.setTitle(id);
-                    var el = document.createElement('img');
-                    if (!!infos[0].url) {
-                        el.setAttribute('src', infos[0].url);
-                        map.infoWindow.setContent(el);
-                        map.infoWindow.show();
-                        //map.infoWindow.show(e.screenPoint, map.getInfoWindowAnchor(e.screenPoint));
-                    }
+                (function(feature) {
 
-                });
+                    layer.queryAttachmentInfos(id, function(infos) {
+
+                        if (infos[0]) {
+                            console.log(infos);
+                            if (!!infos[0].url) {
+
+                                feature.attributes.Attachments = "<img id='forceBlock'; src='" + infos[0].url + "' />";
+
+                                if (infos.length > 1) {
+                                    for (var k = 1; k < infos.length; k++) {
+
+                                        if (!!infos[k].url) {
+                                            feature.attributes.Attachments += "<img id='forceBlock'; src='" + infos[k].url + "' />";
+                                        }
+                                    }
+                                }
+
+                                var newFeats = [];
+                                for (var j = 0; j < map.infoWindow.features.length; j++) {
+                                    if (map.infoWindow.features[j].attributes.OBJECTID === feature.attributes.OBJECTID) {
+                                        newFeats.push(feature);
+                                    } else {
+                                        newFeats.push(map.infoWindow.features[j]);
+                                    }
+                                }
+
+                                map.infoWindow.setFeatures(newFeats);
+                                var ll = $("#forceBlock")[0];
+                                var parent = ll.parentElement;
+                                var uncle = parent.previousSibling;
+
+                                $(parent).css("display", "block");
+                                $(uncle).css("display", "block");
+
+                            }
+                        }
 
 
-
-                // feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
-                // debugger;
-
-                // features.push(feats[i].feature);
+                    });
 
 
+                })(feats[i].feature);
 
-                // map.infoWindow.setFeatures(feats[i]);
-                // map.infoWindow.show();
+                feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
 
-                //debugger;
+                features.push(feats[i].feature);
 
             }
-
-
 
             return features;
         },
