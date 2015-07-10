@@ -476,8 +476,12 @@ define([
         },
 
         _onError: function(err) {
-            require(["views/map/MapController"], function(MapController) {
+            require(["views/map/MapController", "views/map/MapConfig"], function(MapController, MapConfig) {
+                err.target = {};
+                err.target.url = MapConfig.firesLayer.smartURL;
+                MapController.layerAddError(err);
                 MapController.removeLoaderFromClusters();
+                MapController.blockClusters();
             });
             console.warn('ReturnIds Error', err);
         },
@@ -486,9 +490,7 @@ define([
             var uncached = difference(results, this._objectIdCache.length, this._objectIdHash);
             this._objectIdCache = concat(this._objectIdCache, uncached);
             if (uncached && uncached.length) {
-                require(["views/map/MapController"], function(MapController) {
-                    MapController.removeLoaderFromClusters();
-                });
+
                 this._query.where = null;
                 this._query.geometry = null;
                 var queries = [];
@@ -497,14 +499,19 @@ define([
                         // Improve performance by just passing list of IDs
                         this._query.objectIds = uncached.splice(0, this._returnLimit - 1);
                         queries.push(this.queryTask.execute(this._query));
+
                     }
                     all(queries).then(lang.hitch(this, function(res) {
+                        require(["views/map/MapController"], function(MapController) {
+                            MapController.removeLoaderFromClusters();
+                        });
                         var features = arrayUtils.map(res, function(r) {
                             return r.features;
                         });
                         this._onFeaturesReturned({
                             features: merge(features)
                         });
+
                     }));
                 } else {
                     // Improve performance by just passing list of IDs

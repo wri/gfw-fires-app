@@ -65,6 +65,7 @@ define({
 
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/",
+        smartURL: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
         id: "Active_Fires",
         highConfidence: "BRIGHTNESS >= 330 AND CONFIDENCE >= 30",
         defaultLayers: [0, 1, 2, 3],
@@ -245,14 +246,25 @@ define({
             "WorldView-3": "WV03",
             "Worldview-3 SWIR": "WV03_SWIR"
         },
-        imageServices: [
-          { url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer', mosaic: 'WV01' },
-          { url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer', mosaic: 'QB01' },
-          { url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer', mosaic: 'WV02' },
-          { url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer', mosaic: 'GEO1' },
-          { url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03/ImageServer', mosaic: 'WV03' },
-          { url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
-        ],
+        imageServices: [{
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer',
+            mosaic: 'WV01'
+        }, {
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer',
+            mosaic: 'QB01'
+        }, {
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer',
+            mosaic: 'WV02'
+        }, {
+            url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer',
+            mosaic: 'GEO1'
+        }, {
+            url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03/ImageServer',
+            mosaic: 'WV03'
+        }, {
+            url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03_SWIR/ImageServer',
+            mosaic: 'WV03_SWIR'
+        }],
         navigationBool: false
     },
 
