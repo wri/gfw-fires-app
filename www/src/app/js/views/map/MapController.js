@@ -1857,11 +1857,11 @@ define([
 
         digitalGlobeLayers = dgConf.imageServices.map(function (service) {
           return (new ArcGISImageServiceLayer(service.url, {
-            id: service.mosaic,
+            id: service.id,
             visible: false
           }));
         });
-        
+
         dglyrs = digitalGlobeLayers;
 
         overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {

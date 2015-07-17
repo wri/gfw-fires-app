@@ -515,20 +515,8 @@ define([
             } else {
                 this.updateLayersInHash('remove', layerId, layerId);
 
-                // var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
-                //     var layer = _map.getLayer(i);
-                //
-                //     if (!layer.visible && visibility) {
-                //         layer.setVisibility(visibility);
-                //     }
-                //     if (!visibility) {
-                //         layer.setVisibility(visibility)
-                //     }
-                //
-                // });
-
                 MapConfig.digitalGlobe.imageServices.forEach(function (service) {
-                  var layer = _map.getLayer(service.mosaic);
+                  var layer = _map.getLayer(service.id);
 
                   if (!layer.visible && visibility) {
                     layer.setVisibility(visibility);
@@ -594,58 +582,63 @@ define([
                     query.outFields = ['OBJECTID', 'Name', 'AcquisitionDate', 'SensorName']; //, 'Date','Tiles'];
                     query.where = 'Category = 1';
                     query.returnGeometry = true;
-                    queryTask.execute(query, function(res) {
-                        // deferred.resolve(true);
 
-                        _dgGlobeFeaturesFetched = true;
-                        arrayUtils.forEach(res.features, function(feature) {
-                            feature.setSymbol(
-                                new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-                                    new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2),
-                                    new Color([0, 255, 0, 0]))
-                            );
-                            // Give the feature a layer attribute so It's easier to tell which layer a
-                            // clicked feature belongs to
-                            feature.attributes.Layer = "Digital_Globe";
+                    (function (serviceConfig) {
 
-                            dgMoment = moment(feature.attributes.AcquisitionDate);
+                      queryTask.execute(query, function(res) {
 
-                            moment_arr.push(dgMoment);
-                            feature.attributes.moment = dgMoment;
+                          _dgGlobeFeaturesFetched = true;
+                          arrayUtils.forEach(res.features, function(feature) {
+                              feature.setSymbol(
+                                  new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 2),
+                                      new Color([0, 255, 0, 0]))
+                              );
+                              // Give the feature a layer attribute so It's easier to tell which layer a
+                              // clicked feature belongs to
+                              feature.attributes.Layer = 'Digital_Globe';
+                              feature.attributes.LayerId = serviceConfig.id;
 
-                            // var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
-                            // feature.attributes.AcquisitionDate2 = feature.attributes.AcquisitionDate;
-                            // feature.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
-                            // var dateLink = "<a class='popup-link' data-bucket='" + feature.attributes.SensorName + "_id_" + feature.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
+                              dgMoment = moment(feature.attributes.AcquisitionDate);
 
-                            // var dateLink2 = "<a class='popup-link' data-bucket='" + feature.attributes.SensorName + "_id_" + feature.attributes.OBJECTID + "'>" + feature.attributes.SensorName + "</a>";
-                            // feature.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
-                            // feature.attributes.formattedDatePrefix1 = dateLink;
-                            // feature.attributes.formattedDatePrefix2 = dateLink2;
+                              moment_arr.push(dgMoment);
+                              feature.attributes.moment = dgMoment;
 
-                            dgLayer.add(feature);
-                            footprints.push(feature);
-                            extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
-                        });
+                              // var date = moment(feature.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                              // feature.attributes.AcquisitionDate2 = feature.attributes.AcquisitionDate;
+                              // feature.attributes.AcquisitionDate = date.format("YYYY/MM/DD");
+                              // var dateLink = "<a class='popup-link' data-bucket='" + feature.attributes.SensorName + "_id_" + feature.attributes.OBJECTID + "'>" + date.format("YYYY/MM/DD") + "</a>";
 
-                        if (moment_arr.length) {
-                            model.dgMoments(moment_arr.sort(function(a, b) {
-                                return a - b;
-                            }));
+                              // var dateLink2 = "<a class='popup-link' data-bucket='" + feature.attributes.SensorName + "_id_" + feature.attributes.OBJECTID + "'>" + feature.attributes.SensorName + "</a>";
+                              // feature.attributes.formattedZoomTo = "<a class='popup-link-zoom'>Zoom To</a>";
+                              // feature.attributes.formattedDatePrefix1 = dateLink;
+                              // feature.attributes.formattedDatePrefix2 = dateLink2;
 
-                        }
-                        model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
-                        qdef.resolve(true);
-                        Helper.hideLoader("map-blocker");
-                    }, function(err) {
-                        console.error(err);
-                        Helper.hideLoader("map-blocker");
-                        // deferred.resolve(false);
-                        qdef.resolve(true);
-                        return
-                    });
+                              dgLayer.add(feature);
+                              footprints.push(feature);
+                              extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
+                          });
+
+                          if (moment_arr.length) {
+                              model.dgMoments(moment_arr.sort(function(a, b) {
+                                  return a - b;
+                              }));
+
+                          }
+                          model.DigitalGlobeExtents(model.DigitalGlobeExtents().concat(footprints));
+                          qdef.resolve(true);
+                          Helper.hideLoader("map-blocker");
+                      }, function(err) {
+                          console.error(err);
+                          Helper.hideLoader("map-blocker");
+                          // deferred.resolve(false);
+                          qdef.resolve(true);
+                          return
+                      });
+
+                    })(service);
+
                     return qdef.promise;
-
 
                 });
                 all(layers).then(function() {
@@ -698,24 +691,14 @@ define([
             var feature = imageryItem.feature;
             var sensorName = feature.attributes.SensorName;
             var objectId = feature.attributes.OBJECTID;
-
-
-            //var sensor_id = bucket.split('_id_');
-            // var rasterId = sensor_id[1];
-            //var sensorType = sensor_id[0];
-
-            var layer = _map.getLayer(MapConfig.digitalGlobe.sensorTypes[sensorName]);
+            var layerId = feature.attributes.LayerId;
+            var layer = _map.getLayer(layerId);
             var mrule = new MosaicRule();
+
             mrule.method = MosaicRule.METHOD_LOCKRASTER;
 
-            // var layers = MapConfig.digitalGlobe.mosaics.map(function(i) {
-            //     var layer = _map.getLayer(i);
-            //     if (layer && layer.visible) {
-            //         layer.setVisibility(false);
-            //     }
-            // });
             MapConfig.digitalGlobe.imageServices.forEach(function (service) {
-              var layer = _map.getLayer(service.mosaic);
+              var layer = _map.getLayer(service.id);
               if (layer && layer.visible) {
                 layer.setVisibility(false);
               }

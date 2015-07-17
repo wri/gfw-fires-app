@@ -1026,12 +1026,16 @@ define([
                 query.returnGeometry = false;
                 query.outFields = ['AcquisitionDate', 'SensorName', 'OBJECTID', 'CenterX', 'CenterY'];
                 var task = new QueryTask(service.url);
-                task.execute(query, function(results) {
-                    deferred.resolve(results.features);
-                }, function(err) {
-
-                    deferred.resolve([]);
-                });
+                (function (serviceConfig) {
+                  task.execute(query, function(results) {
+                      arrayUtils.forEach(results.features, function (feature) {
+                        feature.attributes.LayerId = serviceConfig.id;
+                      });
+                      deferred.resolve(results.features);
+                  }, function(err) {
+                      deferred.resolve([]);
+                  });
+                })(service);
                 return deferred.promise;
             })).then(function(results) {
                 var content = '';
@@ -1057,7 +1061,9 @@ define([
                 arrayUtils.forEach(features, function(f) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
                     if (date >= start && date <= end) {
-                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("YYYY/MM/DD") + "  <span class='satelliteColumn' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span></a>" + "</li>";
+                        content += "<li><a class='popup-link' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " +
+                            date.format("YYYY/MM/DD") + "  <span class='satelliteColumn' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span>" +
+                            "</a></li>";
                     }
 
                 });
@@ -1072,7 +1078,8 @@ define([
                 dojoQuery(".contentPane .popup-link").forEach(function(node, index) {
                     handles.push(on(node, "click", function(evt) {
                         var target = evt.target ? evt.target : evt.srcElement,
-                            bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                            bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket"),
+                            layerId = target.getAttribute('data-layer');
 
                         //pass in either bucket or target and have an 'if' saying whether the current row has an id = to the popup that was clicked
 
@@ -1099,6 +1106,7 @@ define([
                         bucketObj.feature.attributes = {};
                         bucketObj.feature.attributes.SensorName = propertyArray[0];
                         bucketObj.feature.attributes.OBJECTID = propertyArray[2];
+                        bucketObj.feature.attributes.LayerId = layerId;
                         LayerController.showDigitalGlobeImagery(bucketObj);
                         activeFeatureIndex = index;
 
