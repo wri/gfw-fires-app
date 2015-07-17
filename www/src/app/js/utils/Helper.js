@@ -35,6 +35,25 @@ define([
             }
         },
 
+        createBlocker: function(blockedId, blockerId) {
+            if (dom.byId(blockerId)) {
+                domConstruct.destroy(blockerId);
+            }
+            if (dom.byId(blockedId)) {
+                var container = domConstruct.create("div", {
+                    'id': blockerId,
+                    'class': 'blockingWheelContainer'
+                }, blockedId, 'first');
+                var loader = domConstruct.create("img", {
+                    "class": "blockingWheel",
+                    "src": "app/images/red_X_transparent.png"
+                }, container, "first");
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         /**
          * @param {object} graphicsLayer - Esri Graphics Layer to search
          * @param {object} fieldName - Field Name to use to find the next available id

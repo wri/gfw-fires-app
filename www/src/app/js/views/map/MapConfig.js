@@ -65,6 +65,7 @@ define({
 
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/",
+        smartURL: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
         id: "Active_Fires",
         highConfidence: "BRIGHTNESS >= 330 AND CONFIDENCE >= 30",
         defaultLayers: [0, 1, 2, 3],

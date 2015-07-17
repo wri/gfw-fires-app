@@ -450,6 +450,13 @@ define([
         Helper.hideLoader("cluster-blocker");
     };
 
+    o.blockClusters = function(data, event) {
+
+        $("#clusterCircle").removeClass("hoverSmart");
+        $("#clusterCircle").css("pointer-events", "none");
+        Helper.createBlocker("clusterCircle", "cluster-denier");
+    };
+
     o.getClassJenks = function(nbClass, data) {
         /**
             Function modified from geostats.js lib @ https://github.com/simogeo/geostats
@@ -1833,27 +1840,7 @@ define([
             visible: false
         });
 
-        // var digitalGlobeParams = new ImageServiceParameters();
-        // digitalGlobeParams.format = "png8";
-
-        // digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.tileUrl, {
-        //     imageServiceParameters: digitalGlobeParams,
-        //     id: MapConfig.digitalGlobe.id,
-        //     visible: false
-        // });
-
-        //digitalGlobeLayer = new DigitalGlobeTiledLayer(MapConfig.digitalGlobe.tileUrl, MapConfig.digitalGlobe.id);
         dgConf = MapConfig.digitalGlobe;
-        // digitalGlobeLayer = new ArcGISImageServiceLayer(dgConf.imagedir + dgConf.mosaics[0] +'/ImageServer', {
-        //     id: dgConf.id,
-        //     visible: false
-        // });
-        // digitalGlobeLayers = dgConf.mosaics.map(function(i) {
-        //     return (new ArcGISImageServiceLayer(dgConf.imagedir + i + '/ImageServer', {
-        //         id: i,
-        //         visible: false
-        //     }));
-        // });
 
         digitalGlobeLayers = dgConf.imageServices.map(function (service) {
           return (new ArcGISImageServiceLayer(service.url, {
@@ -1891,7 +1878,7 @@ define([
         });
 
 
-        var firesViz = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+        var firesViz = new FeatureLayer(MapConfig.firesLayer.smartURL, {
             mode: FeatureLayer.MODE_ONDEMAND,
             //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
             id: "newFires",
@@ -1919,7 +1906,7 @@ define([
             new Color([255, 255, 255, 1]));
 
         var firesVizCluster = new ClusterFeatureLayer({
-            "url": "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
+            "url": MapConfig.firesLayer.smartURL,
             "distance": 95,
             "id": "firesClusters",
             "labelColor": "#fff",
