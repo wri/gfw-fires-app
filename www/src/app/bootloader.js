@@ -106,17 +106,17 @@
             }
         }; // End dojoConfig
 
-    var addthis_share = {
-        url_transforms: {
-            shorten: {
-                twitter: 'bitly',
-                facebook: 'bitly'
-            }
-        },
-        shorteners: {
-            bitly: {}
-        }
-    }; //end addThis_share
+    // var addthis_share = {
+    //     url_transforms: {
+    //         shorten: {
+    //             twitter: 'bitly',
+    //             facebook: 'bitly'
+    //         }
+    //     },
+    //     shorteners: {
+    //         bitly: {}
+    //     }
+    // }; //end addThis_share
 
     var loadScript = function(src, attrs) {
         var s = doc.createElement('script'),

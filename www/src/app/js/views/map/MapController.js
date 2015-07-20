@@ -117,7 +117,7 @@ define([
 
                 MapModel.applyBindings("map-view");
                 // Initialize addthis since it was loaded asynchronously
-                //addthis.init();
+                addthis.init();
                 that.addConfigurations();
                 $("#footerView").hide();
                 that.createMap();
@@ -367,6 +367,8 @@ define([
         var timeStops = dijit.byId('timeSliderDG').timeStops;
         var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
         var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
+        var uniqueId;
+
         for (var i = 0; i < imageBoxes.graphics.length; i++) {
             if (mapExtent.intersects(imageBoxes.graphics[i].geometry)) {
                 featuresImageryFootprints.push(imageBoxes.graphics[i]);
@@ -383,9 +385,11 @@ define([
                 f.attributes.formattedDatePrefix1 = dateLink;
                 f.attributes.formattedDatePrefix2 = dateLink2;
 
+                uniqueId = Helper.getDigitalGlobeUniqueId(f);
+
                 MapModel.vm.digitalGlobeInView.push({
                     feature: f,
-                    selected: (f.attributes.OBJECTID == MapModel.vm.selectedImageryID())
+                    selected: (uniqueId === MapModel.vm.selectedImageryID())
                 });
             }
 
@@ -398,18 +402,6 @@ define([
     };
 
     o.showDigitalGlobe = function(data, event) {
-
-        // var tableRows = $(event.target).parent().parent().parent()[0];
-        // $(tableRows).find('tr').each(function() {
-        //     $(this).removeClass("imageryRowSelected");
-        // });
-        // if (event.target.nodeName == "TD") {
-        //     var rowToHighlight = $(event.target).parent();
-        // } else {
-        //     var rowToHighlight = $(event.target).parent().parent();
-        // }
-        // $(rowToHighlight).addClass("imageryRowSelected");
-
         var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
         MapModel.vm.digitalGlobeInView([]);
 
@@ -421,7 +413,9 @@ define([
             }
             MapModel.vm.digitalGlobeInView.push(f);
         });
-        MapModel.vm.selectedImageryID(data.feature.attributes.OBJECTID);
+
+        var uniqueId = Helper.getDigitalGlobeUniqueId(data.feature);
+        MapModel.vm.selectedImageryID(uniqueId);
         LayerController.showDigitalGlobeImagery(data);
     };
 

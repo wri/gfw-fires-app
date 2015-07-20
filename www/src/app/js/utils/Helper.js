@@ -79,6 +79,19 @@ define([
                 }
             }
             return id + 1;
+        },
+
+        /**
+        * Generate a Unique Id for the digital globe layer
+        * @param {object} feature - Esri Feature object, needs attributes containing LayerId and OBJECTID Properties
+        * @return {string} Returns a string composite Unique Id
+        */
+        getDigitalGlobeUniqueId: function (feature) {
+          if (feature && feature.attributes && feature.attributes.OBJECTID && feature.attributes.LayerId) {
+            return feature.attributes.LayerId + '_' + feature.attributes.OBJECTID;
+          } else {
+            throw new Error('Feature passed in does not have required attributes for a Unique Id.');
+          }
         }
 
     };
