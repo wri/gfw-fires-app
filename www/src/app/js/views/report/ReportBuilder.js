@@ -225,6 +225,7 @@ define([
 
             var url = document.location.href;
             var proxyUrl = "/proxy/proxy.ashx";
+            //var proxyUrl = "/proxy/proxy.php";
 
             for (var domain in proxies) {
                 if (url.indexOf(domain) === 0) {
@@ -521,7 +522,9 @@ define([
                             break;
                         }
                     }
-                    if (sym == undefined) { console.log ("UNDEFINED", feat);}
+                    if (sym == undefined) {
+                        console.log("UNDEFINED", feat);
+                    }
 
                     renderer.addValue({
                         value: feat.attributes[boundaryConfig.UniqueValueField],
@@ -579,7 +582,7 @@ define([
                     // }
                     var item = symbols[i];
                     if (item) {
-                        var low = i < 1? breaks[i]: breaks[i] + 1;
+                        var low = i < 1 ? breaks[i] : breaks[i] + 1;
                         html += "<tr><td class='legend-swatch' style='background-color: rgb(" + item.color.r +
                             "," + item.color.g + "," + item.color.b + ");'" + "></td>";
                         html += "<td class='legend-label'>" + low + " - " + breaks[i + 1] + "</td></tr>";

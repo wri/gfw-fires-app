@@ -16,7 +16,7 @@
     var ENV = 'dev',
 
 
-        version = "0.7.1",
+        version = "0.7.6",
         esriLib = 'http://js.arcgis.com/3.13/init.js',
 
         css = {
@@ -106,17 +106,17 @@
             }
         }; // End dojoConfig
 
-    var addthis_share = {
-        url_transforms: {
-            shorten: {
-                twitter: 'bitly',
-                facebook: 'bitly'
-            }
-        },
-        shorteners: {
-            bitly: {}
-        }
-    }; //end addThis_share
+    // var addthis_share = {
+    //     url_transforms: {
+    //         shorten: {
+    //             twitter: 'bitly',
+    //             facebook: 'bitly'
+    //         }
+    //     },
+    //     shorteners: {
+    //         bitly: {}
+    //     }
+    // }; //end addThis_share
 
     var loadScript = function(src, attrs) {
         var s = doc.createElement('script'),

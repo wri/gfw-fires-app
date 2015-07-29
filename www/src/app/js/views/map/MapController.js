@@ -129,6 +129,7 @@ define([
                 setTimeout(function() {
                     that.checkBubble();
                     that.fromStories();
+                    Helper.showLoader("clusterCircle", "cluster-blocker");
                 }, 1000);
 
             });
@@ -171,7 +172,9 @@ define([
         var proxies = MapConfig.proxies;
 
         var url = document.location.href;
-        var proxyUrl = "/proxy/proxy.ashx";
+        // var proxyUrl = "/proxy/proxy.ashx";
+        var proxyUrl = "/proxy/proxy.php";
+
 
 
         for (var domain in proxies) {
@@ -188,6 +191,8 @@ define([
             urlPrefix: 'https://services.digitalglobe.com/',
             proxyUrl: proxyUrl
         });
+
+
 
         urlUtils.addProxyRule({
             urlPrefix: MapConfig.landsat8.prefix,
@@ -362,6 +367,8 @@ define([
         var timeStops = dijit.byId('timeSliderDG').timeStops;
         var start = moment(timeStops[thumbs[0]]).tz('Asia/Jakarta');
         var end = moment(timeStops[thumbs[1]]).tz('Asia/Jakarta');
+        var uniqueId;
+
         for (var i = 0; i < imageBoxes.graphics.length; i++) {
             if (mapExtent.intersects(imageBoxes.graphics[i].geometry)) {
                 featuresImageryFootprints.push(imageBoxes.graphics[i]);
@@ -378,9 +385,11 @@ define([
                 f.attributes.formattedDatePrefix1 = dateLink;
                 f.attributes.formattedDatePrefix2 = dateLink2;
 
+                uniqueId = Helper.getDigitalGlobeUniqueId(f);
+
                 MapModel.vm.digitalGlobeInView.push({
                     feature: f,
-                    selected: (f.attributes.OBJECTID == MapModel.vm.selectedImageryID())
+                    selected: (uniqueId === MapModel.vm.selectedImageryID())
                 });
             }
 
@@ -393,18 +402,6 @@ define([
     };
 
     o.showDigitalGlobe = function(data, event) {
-
-        // var tableRows = $(event.target).parent().parent().parent()[0];
-        // $(tableRows).find('tr').each(function() {
-        //     $(this).removeClass("imageryRowSelected");
-        // });
-        // if (event.target.nodeName == "TD") {
-        //     var rowToHighlight = $(event.target).parent();
-        // } else {
-        //     var rowToHighlight = $(event.target).parent().parent();
-        // }
-        // $(rowToHighlight).addClass("imageryRowSelected");
-
         var digitalGlobeInView = MapModel.vm.digitalGlobeInView();
         MapModel.vm.digitalGlobeInView([]);
 
@@ -416,7 +413,9 @@ define([
             }
             MapModel.vm.digitalGlobeInView.push(f);
         });
-        MapModel.vm.selectedImageryID(data.feature.attributes.OBJECTID);
+
+        var uniqueId = Helper.getDigitalGlobeUniqueId(data.feature);
+        MapModel.vm.selectedImageryID(uniqueId);
         LayerController.showDigitalGlobeImagery(data);
     };
 
@@ -437,6 +436,19 @@ define([
 
         var imageBoxes = o.map.getLayer("Digital_Globe_Bounding_Boxes_Highlight");
         imageBoxes.clear();
+    };
+
+    o.removeLoaderFromClusters = function(data, event) {
+
+        $("#clusterCircle").addClass("hoverSmart");
+        Helper.hideLoader("cluster-blocker");
+    };
+
+    o.blockClusters = function(data, event) {
+
+        $("#clusterCircle").removeClass("hoverSmart");
+        $("#clusterCircle").css("pointer-events", "none");
+        Helper.createBlocker("clusterCircle", "cluster-denier");
     };
 
     o.getClassJenks = function(nbClass, data) {
@@ -554,7 +566,6 @@ define([
 
     o.setSmartRenderer = function(newRenderer) {
         //var smartMappingHexagons = o.map.getLayer("smartMappingHexagons");
-        debugger;
 
         switch (newRenderer) {
 
@@ -584,7 +595,6 @@ define([
                 // hexFires = o.map.getLayer("hexFires");
                 // hexFires.hide();
 
-
                 //smartMappingHexagons.clear();
                 break;
             case "Proportional symbols":
@@ -596,7 +606,6 @@ define([
                 // hexFires = o.map.getLayer("hexFires");
                 // hexFires.hide();
 
-
                 //smartMappingHexagons.clear();
                 break;
                 // case "Hex bin":
@@ -607,317 +616,317 @@ define([
         }
     }
 
-    o.setHexBinRender = function() {
-
-        var firesClusters, newFires;
-        //var graphicsLayer = o.map.getLayer("smartMappingHexagons");
-        firesClusters = o.map.getLayer("firesClusters");
-
-        firesClusters.hide();
-        newFires = o.map.getLayer("newFires");
-        newFires.hide();
-
-        o.tessellationInfo = {};
-        o.tessellationInfo.origin = {};
-        o.tessellationInfo.hexagonOrientation = "NS";
-        o.tessellationInfo.hexagonRadius = 1000;
-        o.tessellationInfo.type = "hexagon";
-
-        function createQuery() {
-            console.log("createQuery!");
-
-            var extent = o.map.extent;
-
-            var json = {
-                "rings": [
-                    [
-
-                        [extent.xmin, extent.ymax],
-                        [extent.xmax, extent.ymax],
-                        [extent.xmax, extent.ymin],
-                        [extent.xmin, extent.ymin],
-                        [extent.xmin, extent.ymax]
-
-                    ]
-                ],
-                "spatialReference": extent.spatialReference
-            };
-
-            var selPolygon = new Polygon(json);
-
-            var query = new Query();
-            query.returnGeometry = true;
-            query.where = "1=1";
-            query.outSpatialReference = o.map.spatialReference;
-            query.geometry = selPolygon;
-            query.outFields = ["*"];
-            return query;
-        }
-
-        var tessellationInfo, cellSymbol;
-
-        var zoomLevel = o.map.getZoom();
-        console.log(zoomLevel); // max (closest is 18)
-
-        var radius = 25 * Math.pow(2, (18 - zoomLevel));
-
-        console.log("radius: " + radius);
-
-        cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-            new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-                new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
-        );
-
-        var extent = o.map.extent;
-        var halfEdgeLength = radius * 0.5;
-        var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
-        var hexagonHeight = halfHexagonHeight * 2;
-
-        o.tessellationInfo.origin.x = extent.xmin;
-        o.tessellationInfo.origin.y = extent.ymin;
-
-        var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
-        var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
-
-        //var startTime = (new Date().getTime());
-        var count1 = 0;
-        var count2 = 0;
-
-
-        for (var c = 0; c < numCols; c++) {
-            for (var r = 0; r < numRows; r++) {
-                var evenCol = c % 2;
-                var centerX, centerY;
-
-                if (evenCol == 0) {
-                    centerX = c * (radius + halfEdgeLength) + extent.xmin;
-                    centerY = r * hexagonHeight + extent.ymin;
-                } else {
-                    centerX = c * (radius + halfEdgeLength) + extent.xmin;
-                    centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
-                }
-
-                var x1 = centerX + radius;
-                var y1 = centerY;
-                var x2 = centerX + halfEdgeLength;
-                var y2 = centerY + halfHexagonHeight;
-                var x3 = centerX - halfEdgeLength;
-                var y3 = centerY + halfHexagonHeight;
-                var x4 = centerX - radius;
-                var y4 = centerY;
-                var x5 = centerX - halfEdgeLength;
-                var y5 = centerY - halfHexagonHeight;
-                var x6 = centerX + halfEdgeLength;
-                var y6 = centerY - halfHexagonHeight;
-
-                var hexagon = new Polygon(o.map.spatialReference);
-                hexagon.addRing([
-                    [x1, y1],
-                    [x2, y2],
-                    [x3, y3],
-                    [x4, y4],
-                    [x5, y5],
-                    [x6, y6],
-                    [x1, y1]
-                ]);
-
-                var center = new Point(centerX, centerY, o.map.spatialReference);
-
-                var id = "ID-" + c + "-" + r;
-                var attr = {
-                    "count": 0,
-                    id: id
-                };
-
-                var graphic = new Graphic(hexagon, null, attr);
-
-                graphicsLayer.add(graphic);
-                //o.map.graphics.add(graphic);
-            }
-        }
-
-        var relatedQ = new RelationshipQuery();
-
-        var fires = o.map.getLayer("hexFires");
-        Helper.showLoader("map", "map-blocker");
-
-        fires.queryFeatures(createQuery(), function(results) {
-
-            Helper.hideLoader("map-blocker");
-            // console.log("# of features: " + results.features.length);
-
-            var aggregateArray = [];
-            var col, row, point, id;
-            var feature;
-
-            var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
-            var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
-            var hexagonHeight = halfHexagonHeight * 2;
-
-            var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
-            //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
-            //var needProcessAttributes = false;
-
-            for (var i = 0; i < results.features.length; i++) {
-                feature = results.features[i];
-                point = feature.geometry;
-                col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
-                row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
-
-
-                var center1, center2, center3;
-                var evenCol = col % 2;
-                if (evenCol === 0) {
-                    center1 = {
-                        x: col * colWidth + o.tessellationInfo.origin.x,
-                        y: row * hexagonHeight + o.tessellationInfo.origin.y
-                    };
-                    center2 = {
-                        x: col * colWidth + o.tessellationInfo.origin.x,
-                        y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-                    };
-                    center3 = {
-                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                        y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-                    };
-                } else {
-                    center1 = {
-                        x: col * colWidth + o.tessellationInfo.origin.x,
-                        y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-                    };
-                    center2 = {
-                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                        y: row * hexagonHeight + o.tessellationInfo.origin.y
-                    };
-                    center3 = {
-                        x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-                        y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-                    };
-                }
-
-                var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
-                var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
-                var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
-
-                if (evenCol === 0) {
-                    if (d1 <= d2 && d1 <= d3) {
-                        id = "ID-" + col + "-" + row;
-                    } else if (d2 <= d1 && d2 <= d3) {
-                        id = "ID-" + col + "-" + (row + 1);
-                    } else {
-                        id = "ID-" + (col + 1) + "-" + row;
-                    }
-                } else {
-                    if (d1 <= d2 && d1 <= d3) {
-                        id = "ID-" + col + "-" + row;
-                    } else if (d2 <= d1 && d2 <= d3) {
-                        id = "ID-" + (col + 1) + "-" + row;
-                    } else {
-                        id = "ID-" + (col + 1) + "-" + (row + 1);
-                    }
-                }
-
-                var record = undefined;
-                for (var j = 0; j < aggregateArray.length; j++) {
-                    if (aggregateArray[j].id === id) {
-                        aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
-                        record = aggregateArray[j];
-                        break;
-                    }
-                }
-
-                var attrs = {};
-                if (!record) {
-                    attrs["count"] = 1;
-
-                    record = {
-                        id: id,
-                        attributes: attrs
-                    };
-                    aggregateArray.push(record);
-                }
-
-            }
-
-            //updateTessellationLayer(aggregateArray);
-            updateTessellationLayer(aggregateArray, results.features);
-
-
-            // var endTime = (new Date().getTime());
-            // console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
-
-            function updateTessellationLayer(aggregateArray, fires) {
-                var graphicsLayer = o.map.getLayer("smartMappingHexagons");
-                console.log(aggregateArray.length + " features");
-                var maxWeight = 0;
-
-                // var len = o.map.graphics.graphics.length;
-                var len = graphicsLayer.graphics.length;
-                var graphicsArray = graphicsLayer.graphics;
-                var countsArr = [];
-
-                for (var k = 0; k < len; k++) {
-
-
-                    for (var kk = 0; kk < fires.length; kk++) {
-
-                        if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
-
-                            graphicsArray[k].attributes["count"]++;
-
-
-
-                        }
-                    }
-                    countsArr.push(graphicsArray[k].attributes["count"]);
-
-
-                    maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
-
-
-
-                }
-                var arrOfBreaks = o.getClassJenks(10, countsArr);
-
-                var Renderer = o.getRenderer(arrOfBreaks);
-
-                graphicsLayer.setRenderer(Renderer);
-                graphicsLayer.redraw();
-
-
-            }
-
-        });
-    };
-
-    o.getRenderer = function(breaksArr) {
-        var zero = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 0]));
-        var one = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .1]));
-        var two = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .2]));
-        var three = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .3]));
-        var four = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .4]));
-        var five = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .5]));
-        var six = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .6]));
-        var seven = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .7]));
-        var eight = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .8]));
-        var nine = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .9]));
-        var ten = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 1]));
-
-        var cRenderer = new ClassBreaksRenderer(zero, "count");
-
-        cRenderer.addBreak((breaksArr[0] + 1), breaksArr[1], one);
-        cRenderer.addBreak(breaksArr[1], breaksArr[2], two);
-        cRenderer.addBreak(breaksArr[2], breaksArr[3], three);
-        cRenderer.addBreak(breaksArr[3], breaksArr[4], four);
-        cRenderer.addBreak(breaksArr[4], breaksArr[5], five);
-        cRenderer.addBreak(breaksArr[5], breaksArr[6], six);
-        cRenderer.addBreak(breaksArr[6], breaksArr[7], seven);
-        cRenderer.addBreak(breaksArr[7], breaksArr[8], eight);
-        cRenderer.addBreak(breaksArr[8], breaksArr[9], nine);
-        cRenderer.addBreak(breaksArr[9], breaksArr[10], ten);
-        return cRenderer;
-
-    };
+    // o.setHexBinRender = function() {
+
+    //     var firesClusters, newFires;
+    //     //var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+    //     firesClusters = o.map.getLayer("firesClusters");
+
+    //     firesClusters.hide();
+    //     newFires = o.map.getLayer("newFires");
+    //     newFires.hide();
+
+    //     o.tessellationInfo = {};
+    //     o.tessellationInfo.origin = {};
+    //     o.tessellationInfo.hexagonOrientation = "NS";
+    //     o.tessellationInfo.hexagonRadius = 1000;
+    //     o.tessellationInfo.type = "hexagon";
+
+    //     function createQuery() {
+    //         console.log("createQuery!");
+
+    //         var extent = o.map.extent;
+
+    //         var json = {
+    //             "rings": [
+    //                 [
+
+    //                     [extent.xmin, extent.ymax],
+    //                     [extent.xmax, extent.ymax],
+    //                     [extent.xmax, extent.ymin],
+    //                     [extent.xmin, extent.ymin],
+    //                     [extent.xmin, extent.ymax]
+
+    //                 ]
+    //             ],
+    //             "spatialReference": extent.spatialReference
+    //         };
+
+    //         var selPolygon = new Polygon(json);
+
+    //         var query = new Query();
+    //         query.returnGeometry = true;
+    //         query.where = "1=1";
+    //         query.outSpatialReference = o.map.spatialReference;
+    //         query.geometry = selPolygon;
+    //         query.outFields = ["*"];
+    //         return query;
+    //     }
+
+    //     var tessellationInfo, cellSymbol;
+
+    //     var zoomLevel = o.map.getZoom();
+    //     console.log(zoomLevel); // max (closest is 18)
+
+    //     var radius = 25 * Math.pow(2, (18 - zoomLevel));
+
+    //     console.log("radius: " + radius);
+
+    //     cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+    //         new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+    //             new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
+    //     );
+
+    //     var extent = o.map.extent;
+    //     var halfEdgeLength = radius * 0.5;
+    //     var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
+    //     var hexagonHeight = halfHexagonHeight * 2;
+
+    //     o.tessellationInfo.origin.x = extent.xmin;
+    //     o.tessellationInfo.origin.y = extent.ymin;
+
+    //     var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
+    //     var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
+
+    //     //var startTime = (new Date().getTime());
+    //     var count1 = 0;
+    //     var count2 = 0;
+
+
+    //     for (var c = 0; c < numCols; c++) {
+    //         for (var r = 0; r < numRows; r++) {
+    //             var evenCol = c % 2;
+    //             var centerX, centerY;
+
+    //             if (evenCol == 0) {
+    //                 centerX = c * (radius + halfEdgeLength) + extent.xmin;
+    //                 centerY = r * hexagonHeight + extent.ymin;
+    //             } else {
+    //                 centerX = c * (radius + halfEdgeLength) + extent.xmin;
+    //                 centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
+    //             }
+
+    //             var x1 = centerX + radius;
+    //             var y1 = centerY;
+    //             var x2 = centerX + halfEdgeLength;
+    //             var y2 = centerY + halfHexagonHeight;
+    //             var x3 = centerX - halfEdgeLength;
+    //             var y3 = centerY + halfHexagonHeight;
+    //             var x4 = centerX - radius;
+    //             var y4 = centerY;
+    //             var x5 = centerX - halfEdgeLength;
+    //             var y5 = centerY - halfHexagonHeight;
+    //             var x6 = centerX + halfEdgeLength;
+    //             var y6 = centerY - halfHexagonHeight;
+
+    //             var hexagon = new Polygon(o.map.spatialReference);
+    //             hexagon.addRing([
+    //                 [x1, y1],
+    //                 [x2, y2],
+    //                 [x3, y3],
+    //                 [x4, y4],
+    //                 [x5, y5],
+    //                 [x6, y6],
+    //                 [x1, y1]
+    //             ]);
+
+    //             var center = new Point(centerX, centerY, o.map.spatialReference);
+
+    //             var id = "ID-" + c + "-" + r;
+    //             var attr = {
+    //                 "count": 0,
+    //                 id: id
+    //             };
+
+    //             var graphic = new Graphic(hexagon, null, attr);
+
+    //             graphicsLayer.add(graphic);
+    //             //o.map.graphics.add(graphic);
+    //         }
+    //     }
+
+    //     var relatedQ = new RelationshipQuery();
+
+    //     var fires = o.map.getLayer("hexFires");
+    //     Helper.showLoader("map", "map-blocker");
+
+    //     fires.queryFeatures(createQuery(), function(results) {
+
+    //         Helper.hideLoader("map-blocker");
+    //         // console.log("# of features: " + results.features.length);
+
+    //         var aggregateArray = [];
+    //         var col, row, point, id;
+    //         var feature;
+
+    //         var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
+    //         var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
+    //         var hexagonHeight = halfHexagonHeight * 2;
+
+    //         var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
+    //         //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
+    //         //var needProcessAttributes = false;
+
+    //         for (var i = 0; i < results.features.length; i++) {
+    //             feature = results.features[i];
+    //             point = feature.geometry;
+    //             col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
+    //             row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
+
+
+    //             var center1, center2, center3;
+    //             var evenCol = col % 2;
+    //             if (evenCol === 0) {
+    //                 center1 = {
+    //                     x: col * colWidth + o.tessellationInfo.origin.x,
+    //                     y: row * hexagonHeight + o.tessellationInfo.origin.y
+    //                 };
+    //                 center2 = {
+    //                     x: col * colWidth + o.tessellationInfo.origin.x,
+    //                     y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+    //                 };
+    //                 center3 = {
+    //                     x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+    //                     y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+    //                 };
+    //             } else {
+    //                 center1 = {
+    //                     x: col * colWidth + o.tessellationInfo.origin.x,
+    //                     y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
+    //                 };
+    //                 center2 = {
+    //                     x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+    //                     y: row * hexagonHeight + o.tessellationInfo.origin.y
+    //                 };
+    //                 center3 = {
+    //                     x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
+    //                     y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
+    //                 };
+    //             }
+
+    //             var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
+    //             var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
+    //             var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
+
+    //             if (evenCol === 0) {
+    //                 if (d1 <= d2 && d1 <= d3) {
+    //                     id = "ID-" + col + "-" + row;
+    //                 } else if (d2 <= d1 && d2 <= d3) {
+    //                     id = "ID-" + col + "-" + (row + 1);
+    //                 } else {
+    //                     id = "ID-" + (col + 1) + "-" + row;
+    //                 }
+    //             } else {
+    //                 if (d1 <= d2 && d1 <= d3) {
+    //                     id = "ID-" + col + "-" + row;
+    //                 } else if (d2 <= d1 && d2 <= d3) {
+    //                     id = "ID-" + (col + 1) + "-" + row;
+    //                 } else {
+    //                     id = "ID-" + (col + 1) + "-" + (row + 1);
+    //                 }
+    //             }
+
+    //             var record = undefined;
+    //             for (var j = 0; j < aggregateArray.length; j++) {
+    //                 if (aggregateArray[j].id === id) {
+    //                     aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
+    //                     record = aggregateArray[j];
+    //                     break;
+    //                 }
+    //             }
+
+    //             var attrs = {};
+    //             if (!record) {
+    //                 attrs["count"] = 1;
+
+    //                 record = {
+    //                     id: id,
+    //                     attributes: attrs
+    //                 };
+    //                 aggregateArray.push(record);
+    //             }
+
+    //         }
+
+    //         //updateTessellationLayer(aggregateArray);
+    //         updateTessellationLayer(aggregateArray, results.features);
+
+
+    //         // var endTime = (new Date().getTime());
+    //         // console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
+
+    //         function updateTessellationLayer(aggregateArray, fires) {
+    //             var graphicsLayer = o.map.getLayer("smartMappingHexagons");
+    //             console.log(aggregateArray.length + " features");
+    //             var maxWeight = 0;
+
+    //             // var len = o.map.graphics.graphics.length;
+    //             var len = graphicsLayer.graphics.length;
+    //             var graphicsArray = graphicsLayer.graphics;
+    //             var countsArr = [];
+
+    //             for (var k = 0; k < len; k++) {
+
+
+    //                 for (var kk = 0; kk < fires.length; kk++) {
+
+    //                     if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
+
+    //                         graphicsArray[k].attributes["count"]++;
+
+
+
+    //                     }
+    //                 }
+    //                 countsArr.push(graphicsArray[k].attributes["count"]);
+
+
+    //                 maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
+
+
+
+    //             }
+    //             var arrOfBreaks = o.getClassJenks(10, countsArr);
+
+    //             var Renderer = o.getRenderer(arrOfBreaks);
+
+    //             graphicsLayer.setRenderer(Renderer);
+    //             graphicsLayer.redraw();
+
+
+    //         }
+
+    //     });
+    // };
+
+    // o.getRenderer = function(breaksArr) {
+    //     var zero = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 0]));
+    //     var one = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .1]));
+    //     var two = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .2]));
+    //     var three = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .3]));
+    //     var four = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .4]));
+    //     var five = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .5]));
+    //     var six = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .6]));
+    //     var seven = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .7]));
+    //     var eight = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .8]));
+    //     var nine = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .9]));
+    //     var ten = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 1]));
+
+    //     var cRenderer = new ClassBreaksRenderer(zero, "count");
+
+    //     cRenderer.addBreak((breaksArr[0] + 1), breaksArr[1], one);
+    //     cRenderer.addBreak(breaksArr[1], breaksArr[2], two);
+    //     cRenderer.addBreak(breaksArr[2], breaksArr[3], three);
+    //     cRenderer.addBreak(breaksArr[3], breaksArr[4], four);
+    //     cRenderer.addBreak(breaksArr[4], breaksArr[5], five);
+    //     cRenderer.addBreak(breaksArr[5], breaksArr[6], six);
+    //     cRenderer.addBreak(breaksArr[6], breaksArr[7], seven);
+    //     cRenderer.addBreak(breaksArr[7], breaksArr[8], eight);
+    //     cRenderer.addBreak(breaksArr[8], breaksArr[9], nine);
+    //     cRenderer.addBreak(breaksArr[9], breaksArr[10], ten);
+    //     return cRenderer;
+
+    // };
 
     o.resizeMapPanel = function(data) {
 
@@ -1504,11 +1513,6 @@ define([
         dojoQuery(".smartRelative").forEach(function(node) {
             on(node, "click", function() {
 
-                // if (this.id === "clusterCircle" && !map.clustersPopulated) {
-                //     debugger;
-                //     map.clustersPopulated = true;
-                // }
-
                 var realFires = o.map.getLayer("Active_Fires");
                 $("#heatCircle").css("box-shadow", "0 0 0 3px #ddd");
                 $("#clusterCircle").css("box-shadow", "0 0 0 3px #ddd");
@@ -1830,28 +1834,16 @@ define([
             visible: false
         });
 
-        // var digitalGlobeParams = new ImageServiceParameters();
-        // digitalGlobeParams.format = "png8";
-
-        // digitalGlobeLayer = new ArcGISImageServiceLayer(MapConfig.digitalGlobe.tileUrl, {
-        //     imageServiceParameters: digitalGlobeParams,
-        //     id: MapConfig.digitalGlobe.id,
-        //     visible: false
-        // });
-
-        //digitalGlobeLayer = new DigitalGlobeTiledLayer(MapConfig.digitalGlobe.tileUrl, MapConfig.digitalGlobe.id);
         dgConf = MapConfig.digitalGlobe;
-        // digitalGlobeLayer = new ArcGISImageServiceLayer(dgConf.imagedir + dgConf.mosaics[0] +'/ImageServer', {
-        //     id: dgConf.id,
-        //     visible: false
-        // });
-        digitalGlobeLayers = dgConf.mosaics.map(function(i) {
-            return (new ArcGISImageServiceLayer(dgConf.imagedir + i + '/ImageServer', {
-                id: i,
-                visible: false
-            }));
-        })
-        dglyrs = digitalGlobeLayers
+
+        digitalGlobeLayers = dgConf.imageServices.map(function (service) {
+          return (new ArcGISImageServiceLayer(service.url, {
+            id: service.id,
+            visible: false
+          }));
+        });
+
+        dglyrs = digitalGlobeLayers;
 
         overlaysLayer = new ArcGISDynamicMapServiceLayer(MapConfig.overlaysLayer.url, {
             id: MapConfig.overlaysLayer.id,
@@ -1880,7 +1872,7 @@ define([
         });
 
 
-        var firesViz = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
+        var firesViz = new FeatureLayer(MapConfig.firesLayer.smartURL, {
             mode: FeatureLayer.MODE_ONDEMAND,
             //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
             id: "newFires",
@@ -1908,10 +1900,11 @@ define([
             new Color([255, 255, 255, 1]));
 
         var firesVizCluster = new ClusterFeatureLayer({
-            "url": "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
+            "url": MapConfig.firesLayer.smartURL,
             "distance": 95,
             "id": "firesClusters",
             "labelColor": "#fff",
+            //"MODE_SNAPSHOT": false,
             "resolution": o.map.extent.getWidth() / o.map.width,
             //"singleColor": "#888",
             "singleSymbol": defaultSym,
@@ -2011,6 +2004,10 @@ define([
             visible: false
         });
 
+
+
+        //firesLayer.setDPI(72);
+
         // var tweet_infotemplate = new InfoTemplate();
         // tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
         // tweet_infotemplate.setTitle(null);
@@ -2109,9 +2106,6 @@ define([
         //     })
         // });
 
-        // on(o.map.infoWindow, "selection-change", function() {
-        //     debugger;
-        // });
 
 
 
@@ -2139,24 +2133,10 @@ define([
             id: MapConfig.digitalGlobe.graphicsLayerHighlight,
             visible: true
         });
-        // var smartMappingHexagons = new GraphicsLayer(featureCollection, {
-        //     id: "smartMappingHexagons",
-        //     visible: true
-        // });
+
         var highlightRenderer = new SimpleRenderer(highlightSymbol);
         digitalGlobeGraphicsHighlight.setRenderer(highlightRenderer);
 
-        // SmartMapping.createSizeRenderer({
-        //     layer: firesViz,
-        //     field: "CONFIDENCE",
-        //     basemap: o.map.getBasemap()
-        // }).then(function(response) {
-
-        //     o.sizeRenderer = response.renderer;
-        //     console.log("ready for proportional size");
-        //     // firesViz.redraw();
-        //     // firesViz.show();
-        // });
         SmartMapping.createHeatmapRenderer({
             layer: firesViz,
             //field: field,

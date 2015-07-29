@@ -99,4 +99,5 @@ gulp.task('watch', function() {
     gulp.watch(app_dir.src + '**/*.jade', ['watch-jade']);
 });
 
-gulp.task('build', ['minify-html', 'minify-css', 'minify-images', 'minify-js']);
+gulp.task('build', ['minify-html', 'minify-css', 'minify-images', 'minify-js', 'copy']);
+//gulp.task('build', ['minify-html', 'minify-css', 'minify-images', 'minify-js']);

@@ -206,9 +206,13 @@ baseRed = #e7002f
 	z-index 50
 	right 70px
 
-.basemap-gallery-container, .locator-widget-container
+.basemap-gallery-container
 	height 300px
 	top 20px
+	
+.locator-widget-container
+	top 20px
+	padding 5px
 
 .map-share-container
 	height 80px
@@ -650,16 +654,13 @@ table.imageryTable thead, table.imageryTable tbody
 
 .search-option-button-container
 	text-align center
-	position absolute
-	left 100px
-	bottom 0
+	padding 10px
 
 .search-option-go-button
 	background-color #444
 	display inline-block
 	border-radius(5px)
 	font-weight bold
-	margin 10px auto
 	cursor pointer
 	padding 3px 0
 	width 100px
@@ -1002,6 +1003,25 @@ div.report-options-section > table
 	position absolute
 	left 10px
 	bottom 0
+	
+.blockingWheelContainer
+	background-color #DDD
+	position absolute
+	z-index 5000
+	opacity .75
+	right 0
+	bottom 0
+	left 0
+	top 0
+	z-index 1000
+	
+.blockingWheel
+	position initial
+	left 50%
+	top 50%
+	height 100%
+	width 100%
+	cursor no-drop
 
 .loadingWheelContainer
 	background-color #DDD
@@ -1172,6 +1192,9 @@ div.report-options-section > table
 	top 4px
 	right 15px
 	cursor pointer
+	
+.esriPopup
+	z-index 28 !important
 		
 #smartContainer
 	margin 0
@@ -1183,9 +1206,25 @@ div.report-options-section > table
 	border-radius 50%
 	box-shadow 0 0 0 3px #ddd
 	transition box-shadow 0.3s
+	position relative
 	
-.smartRelative:hover
+#cluster-blocker
+	border-radius 50%
+	
+#heatCircle:hover
 	box-shadow 0 0 0 3px #f00 !important
+	
+.hoverSmart:hover
+	box-shadow 0 0 0 3px #f00 !important
+	
+// #clusterCircle:hover
+// 	box-shadow 0 0 0 3px #f00 !important
+	
+// #cluster-blocker:hover
+// 	box-shadow none !important
+	
+// .smartRelative:hover
+// 	box-shadow 0 0 0 3px #f00 !important
 
 // .smartRelative:hover
 // 	border 1px solid red
@@ -1257,7 +1296,7 @@ div.report-options-section > table
 	height: 60px;
 	right: 280px;
 	left: 10px;
-	z-index 5
+	z-index 50
 
 .esriTimeSlider .tsPlayButton
 	background: url(../images/ico-play.png) no-repeat center;

@@ -35,6 +35,25 @@ define([
             }
         },
 
+        createBlocker: function(blockedId, blockerId) {
+            if (dom.byId(blockerId)) {
+                domConstruct.destroy(blockerId);
+            }
+            if (dom.byId(blockedId)) {
+                var container = domConstruct.create("div", {
+                    'id': blockerId,
+                    'class': 'blockingWheelContainer'
+                }, blockedId, 'first');
+                var loader = domConstruct.create("img", {
+                    "class": "blockingWheel",
+                    "src": "app/images/red_X_transparent.png"
+                }, container, "first");
+                return true;
+            } else {
+                return false;
+            }
+        },
+
         /**
          * @param {object} graphicsLayer - Esri Graphics Layer to search
          * @param {object} fieldName - Field Name to use to find the next available id
@@ -60,6 +79,19 @@ define([
                 }
             }
             return id + 1;
+        },
+
+        /**
+        * Generate a Unique Id for the digital globe layer
+        * @param {object} feature - Esri Feature object, needs attributes containing LayerId and OBJECTID Properties
+        * @return {string} Returns a string composite Unique Id
+        */
+        getDigitalGlobeUniqueId: function (feature) {
+          if (feature && feature.attributes && feature.attributes.OBJECTID && feature.attributes.LayerId) {
+            return feature.attributes.LayerId + '_' + feature.attributes.OBJECTID;
+          } else {
+            throw new Error('Feature passed in does not have required attributes for a Unique Id.');
+          }
         }
 
     };

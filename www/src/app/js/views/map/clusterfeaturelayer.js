@@ -282,15 +282,18 @@ define([
 
         // Recluster when extent changes
         _reCluster: function() {
+
             // update resolution
             this._clusterResolution = this._map.extent.getWidth() / this._map.width;
             // Smarter cluster, only query when we have to
             // Fist time
             if (!this._visitedExtent) {
                 this._getObjectIds(this._map.extent);
+
                 // New extent
             } else if (!this._visitedExtent.contains(this._map.extent)) {
-                this._getObjectIds(this._map.extent);
+                //this._getObjectIds(this._map.extent);
+
                 // Been there, but is this a pan or zoom level change?
             } else {
                 this._clusterGraphics();
@@ -444,6 +447,7 @@ define([
             // this._startGetOids = new Date().valueOf();
             // console.debug('#_getObjectIds start');
 
+
             if (this.url) {
                 var ext = extent || this._map.extent;
                 this._query.objectIds = null;
@@ -456,13 +460,29 @@ define([
                 if (!this._query.geometry && !this._query.where) {
                     this._query.where = '1=1';
                 }
-                this.queryTask.executeForIds(this._query).then(
+                this._query.geometryPrecision = 2;
+
+
+                var newQuery = lang.clone(this._query);
+                newQuery.returnGeometry = false;
+                newQuery.geometryPrecision = null;
+                newQuery.outFields = [];
+
+
+                this.queryTask.executeForIds(newQuery).then(
                     lang.hitch(this, '_onIdsReturned'), this._onError
                 );
             }
         },
 
         _onError: function(err) {
+            require(["views/map/MapController", "views/map/MapConfig"], function(MapController, MapConfig) {
+                err.target = {};
+                err.target.url = MapConfig.firesLayer.smartURL;
+                MapController.layerAddError(err);
+                MapController.removeLoaderFromClusters();
+                MapController.blockClusters();
+            });
             console.warn('ReturnIds Error', err);
         },
 
@@ -470,6 +490,7 @@ define([
             var uncached = difference(results, this._objectIdCache.length, this._objectIdHash);
             this._objectIdCache = concat(this._objectIdCache, uncached);
             if (uncached && uncached.length) {
+
                 this._query.where = null;
                 this._query.geometry = null;
                 var queries = [];
@@ -478,14 +499,19 @@ define([
                         // Improve performance by just passing list of IDs
                         this._query.objectIds = uncached.splice(0, this._returnLimit - 1);
                         queries.push(this.queryTask.execute(this._query));
+
                     }
                     all(queries).then(lang.hitch(this, function(res) {
+                        require(["views/map/MapController"], function(MapController) {
+                            MapController.removeLoaderFromClusters();
+                        });
                         var features = arrayUtils.map(res, function(r) {
                             return r.features;
                         });
                         this._onFeaturesReturned({
                             features: merge(features)
                         });
+
                     }));
                 } else {
                     // Improve performance by just passing list of IDs

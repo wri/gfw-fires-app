@@ -65,6 +65,7 @@ define({
 
     firesLayer: {
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/",
+        smartURL: "http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4",
         id: "Active_Fires",
         highConfidence: "BRIGHTNESS >= 330 AND CONFIDENCE >= 30",
         defaultLayers: [0, 1, 2, 3],
@@ -157,6 +158,7 @@ define({
 
     fireStories: {
         //url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L",
+        //url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0",
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/10",
         localToken: "?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2",
         stagingToken: "?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L",
@@ -240,8 +242,19 @@ define({
             'QuickBird': 'QB01',
             "GeoEye-1": 'GEO1',
             "WorldView-2": "WV02",
-            "WorldView-1": "WV01"
+            "WorldView-1": "WV01",
+            "WorldView-3": "WV03",
+            "Worldview-3 SWIR": "WV03_SWIR"
         },
+        imageServices: [
+          { id:'dg-00', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer', mosaic: 'WV01' },
+          { id:'dg-01', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer', mosaic: 'QB01' },
+          { id:'dg-02', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer', mosaic: 'WV02' },
+          { id:'dg-03', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer', mosaic: 'GEO1' },
+          { id:'dg-04', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03/ImageServer', mosaic: 'WV03' },
+          { id:'dg-05', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' },
+          { id:'dg-06', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV02/ImageServer', mosaic: 'WV02' }
+        ],
         navigationBool: false
     },
 

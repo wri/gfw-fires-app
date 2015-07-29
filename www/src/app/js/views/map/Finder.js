@@ -185,6 +185,7 @@ define([
                             break;
                         case "Fire_Stories":
                             features = features.concat(_self.getFireStoriesInfoWindow(item.features));
+                            return;
                             break;
                         case "Fire_Tweets":
                             features = features.concat(_self.getFireTweetsInfoWindow(item.features));
@@ -405,12 +406,9 @@ define([
                     item.feature.attributes.ALERTS_LABEL = item.value;
 
                 }
-
                 //$(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
-
                 //template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
                 item.feature.setInfoTemplate(template);
-
                 features.push(item.feature);
             });
             if ($('#uploadCustomGraphic').length == 0) {
@@ -427,95 +425,50 @@ define([
                 features = [];
 
             arrayUtils.forEach(featureObjects, function(item) {
-                // if (item.layerId === 10) { // Logging
 
-                //     content += "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr>";
-                //     content += "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>";
-                //     content += "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>";
-                //     content += "<tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr>";
-                //     content += "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr>";
-                //     content += "</table>";
-
-
-                //     template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                //         content
-                //     );
-
-                //     item.feature.attributes.ALERTS_LABEL = item.value;
-
-                // } else 
                 if (item.layerId === 27) { //RSPO
 
-
-                    content += "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr>";
-                    content += "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>";
-                    content += "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>";
-                    content += "<tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr>";
-                    content += "<tr><td>Certificate ID</td><td>" + item.feature.attributes.Certificat + "</td></tr>";
-                    content += "<tr><td>Certificate Issue Date</td><td>" + item.feature.attributes.Issued + "</td></tr>";
-                    content += "<tr><td>Certificate Expiry Date</td><td>" + item.feature.attributes.Expired + "</td></tr>";
-                    content += "<tr><td>Mill name</td><td>" + item.feature.attributes.Mill + "</td></tr>";
-                    content += "<tr><td>Mill location</td><td>" + item.feature.attributes.Location + "</td></tr>";
-                    content += "<tr><td>Mill capacity (t/hour)</td><td>" + item.feature.attributes.Capacity + "</td></tr>";
-                    content += "<tr><td>Certified CPO (mt)</td><td>" + item.feature.attributes.CPO + "</td></tr>";
-                    content += "<tr><td>Certified PK (mt)</td><td>" + item.feature.attributes.PK + "</td></tr>";
-                    content += "<tr><td>Estate Suppliers</td><td>" + item.feature.attributes.Estate + "</td></tr>";
-                    content += "<tr><td>Estate Area (ha)</td><td>" + item.feature.attributes.Estate_1 + "</td></tr>";
-                    content += "<tr><td>Outgrower Area (ha)</td><td>" + item.feature.attributes.Outgrowe + "</td></tr>";
-                    content += "<tr><td>Scheme Smallholder Area (ha)</td><td>" + item.feature.attributes.SH + "</td></tr>";
-
-                    content += "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>";
-
                     template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                        content
+                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Certificate ID</td><td>" + item.feature.attributes.Certificat + "</td></tr><tr><td>Certificate Issue Date</td><td>" + item.feature.attributes.Issued + "</td></tr><tr><td>Certificate Expiry Date</td><td>" + item.feature.attributes.Expired + "</td></tr><tr><td>Mill name</td><td>" + item.feature.attributes.Mill + "</td></tr><tr><td>Mill location</td><td>" + item.feature.attributes.Location + "</td></tr><tr><td>Mill capacity (t/hour)</td><td>" + item.feature.attributes.Capacity + "</td></tr><tr><td>Certified CPO (mt)</td><td>" + item.feature.attributes.CPO + "</td></tr><tr><td>Certified PK (mt)</td><td>" + item.feature.attributes.PK + "</td></tr><tr><td>Estate Suppliers</td><td>" + item.feature.attributes.Estate + "</td></tr><tr><td>Estate Area (ha)</td><td>" + item.feature.attributes.Estate_1 + "</td></tr><tr><td>Outgrower Area (ha)</td><td>" + item.feature.attributes.Outgrowe + "</td></tr><tr><td>Scheme Smallholder Area (ha)</td><td>" + item.feature.attributes.SH + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
+
                     );
+
                     item.feature.attributes.ALERTS_LABEL = item.value;
 
                 } else if (item.layerId === 16) { //Moratorium
-                    //return;
-                    content += "<table><tr><td>Base</td><td>" + item.feature.attributes.Base + "</td></tr>";
-                    content += "<tr><td>AltMode</td><td>" + item.feature.attributes.AltMode + "</td></tr><tr style='height:10px;'></tr></table>";
+                    return;
+                    //     template = new InfoTemplate("Province: " + item.value,
+                    //         "<table><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
+                    //     );
+                    //     item.feature.attributes.ALERTS_LABEL = item.value;
 
-                    template = new InfoTemplate("<strong>" + item.feature.attributes.Name + "</strong>",
-                        content
+                } else if (item.layerId === 10) { // Logging
+
+                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
+                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
                     );
 
                     item.feature.attributes.ALERTS_LABEL = item.value;
-                } else { // Logging
 
-                    content += "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr>";
-                    content += "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>";
-                    content += "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>";
-                    content += "<tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr>";
-                    content += "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>";
-
+                } else if (item.layerId === 28) { //Wood Fiber
                     template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                        content
+                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
+                    );
+
+                    item.feature.attributes.ALERTS_LABEL = item.value;
+
+                } else if (item.layerId === 32) { //Oil Palm
+                    // template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
+                    //     "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
+                    // );
+                    // item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
+                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
+                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
                     );
 
                     item.feature.attributes.ALERTS_LABEL = item.value;
 
                 }
-                // else if (item.layerId === 28) { //Wood Fiber 
-                //     template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
-                //         "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
-                //     );
-                //     item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
-
-                // } else if (item.layerId === 32) { //Oil Palm
-                //     template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
-                //         "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
-                //     );
-                //     item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
-
-                // } else { //Moratorium
-                //     template = new InfoTemplate("Province: " + item.value,
-                //         "<table><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
-                //     );
-                //     item.feature.attributes.ALERTS_LABEL = item.value;
-
-                // }
-
                 //template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
                 item.feature.setInfoTemplate(template);
 
@@ -753,7 +706,7 @@ define([
             // defs needs to be (date > dateString and time > hhmm) or date > todayString
             for (var i = 0, len = MapConfig.firesLayer.defaultLayers.length; i < len; i++) {
                 defs[i] = "ACQ_DATE > date '" + dateString + "'";
-                // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" + 
+                // AND CAST(\"ACQ_TIME\" AS INTEGER) >= " + time.getHours() + "" + time.getMinutes() + ")" +
                 //          " OR  ACQ_DATE > date '" + todayString + "'";
             }
 
@@ -1065,18 +1018,24 @@ define([
 
             // esri.config.defaults.io.corsEnabledServers.push("http://175.41.139.43");
 
-            var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+            // var layers = all(MapConfig.digitalGlobe.mosaics.map(function(i) {
+
+            var layers = all(MapConfig.digitalGlobe.imageServices.map(function (service) {
                 var deferred = new Deferred();
                 query.geometry = evt.graphic.geometry;
                 query.returnGeometry = false;
-                query.outFields = ['*'];
-                var task = new QueryTask(MapConfig.digitalGlobe.imagedir + i + "/ImageServer");
-                task.execute(query, function(results) {
-                    deferred.resolve(results.features);
-                }, function(err) {
-
-                    deferred.resolve([]);
-                });
+                query.outFields = ['AcquisitionDate', 'SensorName', 'OBJECTID', 'CenterX', 'CenterY'];
+                var task = new QueryTask(service.url);
+                (function (serviceConfig) {
+                  task.execute(query, function(results) {
+                      arrayUtils.forEach(results.features, function (feature) {
+                        feature.attributes.LayerId = serviceConfig.id;
+                      });
+                      deferred.resolve(results.features);
+                  }, function(err) {
+                      deferred.resolve([]);
+                  });
+                })(service);
                 return deferred.promise;
             })).then(function(results) {
                 var content = '';
@@ -1091,6 +1050,8 @@ define([
                     });
                 });
 
+                console.dir(features);
+
                 features.sort(function(left, right) {
                     return left.attributes.AcquisitionDate == right.attributes.AcquisitionDate ? 0 : (left.attributes.AcquisitionDate > right.attributes.AcquisitionDate ? -1 : 1);
                 });
@@ -1100,7 +1061,9 @@ define([
                 arrayUtils.forEach(features, function(f) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
                     if (date >= start && date <= end) {
-                        content += "<li><a class='popup-link' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " + date.format("YYYY/MM/DD") + "  <span class='satelliteColumn' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span></a>" + "</li>";
+                        content += "<li><a class='popup-link' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " +
+                            date.format("YYYY/MM/DD") + "  <span class='satelliteColumn' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span>" +
+                            "</a></li>";
                     }
 
                 });
@@ -1115,7 +1078,8 @@ define([
                 dojoQuery(".contentPane .popup-link").forEach(function(node, index) {
                     handles.push(on(node, "click", function(evt) {
                         var target = evt.target ? evt.target : evt.srcElement,
-                            bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+                            bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket"),
+                            layerId = target.getAttribute('data-layer');
 
                         //pass in either bucket or target and have an 'if' saying whether the current row has an id = to the popup that was clicked
 
@@ -1142,6 +1106,7 @@ define([
                         bucketObj.feature.attributes = {};
                         bucketObj.feature.attributes.SensorName = propertyArray[0];
                         bucketObj.feature.attributes.OBJECTID = propertyArray[2];
+                        bucketObj.feature.attributes.LayerId = layerId;
                         LayerController.showDigitalGlobeImagery(bucketObj);
                         activeFeatureIndex = index;
 
@@ -1205,7 +1170,7 @@ define([
             //         });
             //     }
 
-            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
             //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
             //         _map.centerAndZoom(point, 17);
             //         _map.infoWindow.show(point);
@@ -1223,7 +1188,7 @@ define([
 
             // LayerController.showDigitalGlobeImagery();
 
-            // Temporary, Remove All Code below when done and import code from 
+            // Temporary, Remove All Code below when done and import code from
             // getDigitalGlobeServiceInfoWindow function
             // if (evt.graphic.attributes.Source === 'Digital_Globe') {
             //     this.getDigitalGlobeServiceInfoWindow(evt);
@@ -1288,7 +1253,7 @@ define([
             //         });
             //     }
 
-            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
             //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
             //         _map.centerAndZoom(point, 17);
             //         _map.infoWindow.show(point);
@@ -1347,7 +1312,7 @@ define([
         //             }));
         //         });
 
-        //         handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {                    
+        //         handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
         //             _map.setExtent(foundFeatures[activeFeatureIndex].geometry.getExtent(), true);
         //         }));
 
@@ -1417,20 +1382,6 @@ define([
             _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
             var attr, html, features = [];
             for (var i = 0; i < feats.length; i++) {
-                // attr = feats[i].feature.attributes;
-                // html = "<table>";
-                // for (var propertyName in attr) {
-
-                //     // if (attr[propertyName] != "Null" && (propertyName != 'OBJECTID' || propertyName != 'SHAPE' || propertyName != 'Publish')) {
-                //     if (attr[propertyName] != "Null" && propertyName != 'OBJECTID' && propertyName != 'SHAPE' && propertyName != 'Publish') {
-                //         html += "<tr><td>" + propertyName + ": " + attr[propertyName] + "</td></tr>";
-
-                //     }
-                // }
-                // html += "</div>";
-                // template = new InfoTemplate(feats[i].feature.attributes.Title, html);
-
-                // feats[i].feature.setInfoTemplate(template);
 
                 for (attr in feats[i].feature.attributes) {
                     if (feats[i].feature.attributes[attr] == "Null") {
@@ -1459,6 +1410,10 @@ define([
                         fieldName: "Name",
                         label: "Name",
                         visible: true
+                    }, {
+                        fieldName: "Attachments",
+                        label: "Attachments",
+                        visible: true
                         // }, {
                         //     fieldName: "Email",
                         //     label: "Email",
@@ -1468,15 +1423,59 @@ define([
 
                 });
 
+                var id = feats[i].feature.attributes.OBJECTID;
+                var layer = map.getLayer("Fire_Stories");
 
+                (function(feature) {
+
+                    layer.queryAttachmentInfos(id, function(infos) {
+
+                        if (infos[0]) {
+                            console.log(infos);
+                            if (!!infos[0].url) {
+
+                                feature.attributes.Attachments = "<img id='forceBlock'; src='" + infos[0].url + "' />";
+
+                                if (infos.length > 1) {
+                                    for (var k = 1; k < infos.length; k++) {
+
+                                        if (!!infos[k].url) {
+                                            feature.attributes.Attachments += "<img id='forceBlock'; src='" + infos[k].url + "' />";
+                                        }
+                                    }
+                                }
+
+                                var newFeats = [];
+                                for (var j = 0; j < map.infoWindow.features.length; j++) {
+                                    if (map.infoWindow.features[j].attributes.OBJECTID === feature.attributes.OBJECTID) {
+                                        newFeats.push(feature);
+                                    } else {
+                                        newFeats.push(map.infoWindow.features[j]);
+                                    }
+                                }
+
+                                map.infoWindow.setFeatures(newFeats);
+                                var ll = $("#forceBlock")[0];
+                                var parent = ll.parentElement;
+                                var uncle = parent.previousSibling;
+
+                                $(parent).css("display", "block");
+                                $(uncle).css("display", "block");
+
+                            }
+                        }
+
+
+                    });
+
+
+                })(feats[i].feature);
 
                 feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
 
                 features.push(feats[i].feature);
 
             }
-
-
 
             return features;
         },
@@ -1604,7 +1603,7 @@ define([
                     }),
                     linker,
                     content = "<div class='subscription-content'>" +
-                    "<p>Enter your email below to receive fire alerts</p>" +
+                    "<p>Enter your email(s) below to receive fire alerts. Multiple emails must be separated by commas.</p>" +
                     "<div class='email-container'><input id='userEmail' type='text' placeholder='Email'/></div>" +
                     "<p>Enter your phone number below to receive SMS alerts</p>" +
                     "<div class='phone-container'><input id='userPhone' type='tel' placeholder='Phone Number'/></div>" +
@@ -1668,11 +1667,38 @@ define([
                         }
                         if (emailValue) {
 
+                            if (emailValue.indexOf(',') > -1) {
+
+                                var emails = emailValue.split(",");
+                                for (var j = 0; j < emails.length; j++) {
+                                    var email = emails[j].replace(/\s/g, ''); //remove whitespaces
+
+                                    if (!validate.isEmailAddress(email)) {
+                                        domStyle.set("userEmail", "border", "1px solid red");
+                                        dom.byId("subscribe-now").innerHTML = "Subscribe";
+                                        alert("You must enter valid email addresses, separated by commas.");
+                                        return;
+                                    }
+                                    console.log(email);
+
+                                    _self.postSubscribeRequest(geom, email, "email", dialog);
+                                    Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via Email.");
+
+                                }
+
+                                domStyle.set("userEmail", "border", "1px solid gray");
+                                dom.byId("subscribe-now").innerHTML = "Submitting...";
+
+                                return;
+                            }
+
                             if (!validate.isEmailAddress(emailValue)) {
                                 domStyle.set("userEmail", "border", "1px solid red");
                                 alert("You must enter a valid email address!");
                                 return;
                             }
+
+
                             domStyle.set("userEmail", "border", "1px solid gray");
                             dom.byId("subscribe-now").innerHTML = "Submitting...";
 
