@@ -1141,8 +1141,10 @@ define([
             // }
         };
 
-        var shareBasemap = function () {
-          HashController.updateHash({ b: bg.getSelected().title });
+        var shareBasemap = function() {
+            HashController.updateHash({
+                b: bg.getSelected().title
+            });
         };
 
 
@@ -1738,7 +1740,7 @@ define([
             digitalGlobeLayers,
             landCoverParams,
             landCoverLayer,
-            airQualityLayer,
+            // airQualityLayer,
             forestUseParams,
             forestUseLayer,
             treeCoverLayer,
@@ -1856,10 +1858,10 @@ define([
             visible: false
         });
 
-        airQualityLayer = new ArcGISDynamicMapServiceLayer(MapConfig.airQualityLayer.url, {
-            id: MapConfig.airQualityLayer.id,
-            visible: false
-        });
+        // airQualityLayer = new ArcGISDynamicMapServiceLayer(MapConfig.airQualityLayer.url, {
+        //     id: MapConfig.airQualityLayer.id,
+        //     visible: false
+        // });
 
         tomnodParams = new ImageParameters();
         tomnodParams.layerIds = MapConfig.tomnodLayer.defaultLayers;
@@ -2193,7 +2195,7 @@ define([
             overlaysLayer,
             tweetLayer,
             fireStories,
-            airQualityLayer,
+            //airQualityLayer,
             tomnodSellayer,
             firesViz,
             firesVizCluster,
@@ -2300,7 +2302,7 @@ define([
         fireStories.on('error', this.layerAddError);
 
         //digitalGlobeLayer.on('error', this.layerAddError);
-        airQualityLayer.on('error', this.layerAddError);
+        //airQualityLayer.on('error', this.layerAddError);
 
         // Change the Land Sat layer order to be right above the basemap but below everything else
         landSatLayer.on('load', function() {

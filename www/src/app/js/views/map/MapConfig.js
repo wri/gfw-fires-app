@@ -34,16 +34,16 @@ define({
     },
 
     basemapReverseLookup: {
-      "Dark Gray Canvas": 'dark-gray',
-      "Streets": 'streets',
-      "Imagery": 'satellite',
-      "Imagery with Labels": 'hybrid',
-      "Topographic": 'topo',
-      "Light Gray Canvas": 'gray',
-      "Oceans": 'oceans',
-      "National Geographic": 'national-geographic',
-      "Terrain with Labels": 'terrain',
-      "OpenStreetMap": 'osm'
+        "Dark Gray Canvas": 'dark-gray',
+        "Streets": 'streets',
+        "Imagery": 'satellite',
+        "Imagery with Labels": 'hybrid',
+        "Topographic": 'topo',
+        "Light Gray Canvas": 'gray',
+        "Oceans": 'oceans',
+        "National Geographic": 'national-geographic',
+        "Terrain with Labels": 'terrain',
+        "OpenStreetMap": 'osm'
     },
 
     printOptions: {
@@ -802,7 +802,9 @@ define({
             "id": "air-quality-checkbox",
             "class": "air-quality-checkbox",
             "type": "checkbox",
-            "props": {}
+            "props": {
+                "disabled": "disabled"
+            }
         }, {
             "id": "provinces-checkbox",
             "class": "overlays-checkbox",

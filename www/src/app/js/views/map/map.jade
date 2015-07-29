@@ -241,7 +241,8 @@ div#map-view(class="map-view")
 
 				div(class='checkbox-container')
 					div#air-quality-checkbox
-					label(for="air-quality-checkbox", data-bind="text: airQuality")
+					label(for="air-quality-checkbox", data-bind="text: airQuality", class="airQualityDisable")
+					label#comingSoon (coming soon)
 					div#report-optionsAIR(data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar")
 						div.font10(data-bind="text:reportText().selectTimeLabelAIR")
 						div.report-options-section
