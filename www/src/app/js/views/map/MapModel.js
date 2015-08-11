@@ -1,10 +1,12 @@
 /* global define */
 define([
     "knockout",
+    "dijit/registry",
+    "dijit/Dialog",
     "main/Config",
     "views/map/MapConfig",
     "dojo/dom"
-], function(ko, Config, MapConfig, dom) {
+], function(ko, registry, Dialog, Config, MapConfig, dom) {
 
     var o = {};
 
@@ -109,15 +111,167 @@ define([
 
     vm.customFeaturesPresence = ko.observable(false);
 
+    vm.triggerFireLayerInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        require(["dojo/text!views/data/templates/dataFires.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+
+            var childInfo = fireInfo.find(".ac-auto");
+            
+            if (registry.byId("fireLayerInfoDialog")) {
+                registry.byId("fireLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                // title: htmlToFetch,
+                style: "width: 600px",
+                id: "fireLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+    }
+
+    vm.triggerLandUseLayerInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        require(["dojo/text!views/data/templates/dataForestUse.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+
+            var childInfo = fireInfo.find(".ac-auto");
+            
+            if (registry.byId("landUseLayerInfoDialog")) {
+                registry.byId("landUseLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                // title: htmlToFetch,
+                style: "width: 600px",
+                id: "landUseLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+    }
+
+    vm.triggerConservationLayerInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        require(["dojo/text!views/data/templates/dataConservation.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+
+            var childInfo = fireInfo.find(".ac-auto");
+            
+            if (registry.byId("conservationLayerInfoDialog")) {
+                registry.byId("conservationLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                // title: htmlToFetch,
+                style: "width: 600px",
+                id: "conservationLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+    }
+
+    vm.triggerLandCoverLayerInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        require(["dojo/text!views/data/templates/dataLandCover.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+
+            var childInfo = fireInfo.find(".ac-auto");
+            
+            if (registry.byId("landCoverLayerInfoDialog")) {
+                registry.byId("landCoverLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                // title: htmlToFetch,
+                style: "width: 600px",
+                id: "landCoverLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+    }
+
+    vm.triggerAirQualityLayerInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        require(["dojo/text!views/data/templates/dataAirQuality.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+
+            var childInfo = fireInfo.find(".ac-auto");
+            
+            if (registry.byId("airQualityLayerInfoDialog")) {
+                registry.byId("airQualityLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                // title: htmlToFetch,
+                style: "width: 600px",
+                id: "airQualityLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+    }
+
+    vm.triggerImageryLayerInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        require(["dojo/text!views/data/templates/dataImagery.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+
+            var childInfo = fireInfo.find(".ac-auto");
+            
+            if (registry.byId("imageryLayerInfoDialog")) {
+                registry.byId("imageryLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                // title: htmlToFetch,
+                style: "width: 600px",
+                id: "imageryLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+    }
+
+
     vm.clearCustomFeatures = function() {
-
-
-
         require(["views/map/MapController"], function(MapController) {
             MapController.removeCustomFeatures();
         });
-
-
     }
 
     vm.wind00Disable = function() {

@@ -8,6 +8,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#fires-checkbox
 					label(for="fires-checkbox", data-bind="text: firesCheckbox")
+					span(id='dataForestChange-1' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: firesSubLabel", class="checkbox-sub-label")
 				div#active-fires-options(data-bind="visible: showActiveFiresButtons" class="active-fires-options-container")
 					div#firesWeek(class="active-fires-options selected-fire-option", data-bind="text: firesWeek")
@@ -17,7 +20,6 @@ div#map-view(class="map-view")
 					div(class="confidence-fires-container")
 						div#confidence-fires-checkbox
 						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="text: confidenceFiresCheckbox")
-					
 
 					div(id='smartContainer' class="confidence-fires-container")
 						
@@ -28,14 +30,15 @@ div#map-view(class="map-view")
 							div#heatCircle.smartRelative(title="Heatmap")
 							div#clusterCircle.smartRelative(title="Proportional Symbols")
 							//-div#hexCircle.smartRelative(title="HexBins")
-							
-
+						
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
+					span(id='archiveFiresInfo' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+							svg.info-icon-svg
+								use(xlink:href='#shape-info')
 					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
 					
-
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
 						div(class="confidence-archive-container")
 							div#confidence-archive-checkbox
@@ -45,15 +48,11 @@ div#map-view(class="map-view")
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
 
-
-
 							table.font10
-								
 								tr
 									td(data-bind="text: 'From'")
 									td
 										input(type="text", name="user" value=4, id="indoDateFrom", data-bind="value:indoPickerFrom()")
-
 								tr
 									td(data-bind="text: 'To'")
 									td
@@ -61,23 +60,22 @@ div#map-view(class="map-view")
 							
 							span#updateINDO(class="report-link-dates", data-bind="text: getDates")
 
-
 				div(class="checkbox-container")
 					div#noaa-fires-18
-					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox" )
+					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox")
+					span(id='dataForestChange-3' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: noaaSubLabel", class="checkbox-sub-label")
 					div#report-optionsNOAA(data-bind="visible: showReportOptionsNOAA()" class="reportOptionsSidebar")
 						//-div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
-
 							table.font10
-								
 								tr
 									td(data-bind="text: 'From'")
 									td
 										input(type="text", name="user" value=4, id="noaaDateFrom", data-bind="value:noaaPickerFrom()")
-
 								tr
 									td(data-bind="text: 'To'")
 									td
@@ -88,9 +86,15 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#burned-scars-checkbox
 					label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
+					span(id='dataForestChange-2' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 				div(class="checkbox-container")
 					div#tomnod-checkbox
 					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox, css: 'tomnodLink'")
+					span(id='dataForestChange-2' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 			//- div#burned-area-panel(class='accordion-panel')
 			//-     div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 			//-     div(class="slider-container")
@@ -106,18 +110,30 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#oil-palm-checkbox
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
+					span(id='dataLandUse-3' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#rspo-oil-palm-checkbox
 					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
+					span(id='dataLandUse-5' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#wood-fiber-checkbox
 					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
+					span(id='dataLandUse-4' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#logging-checkbox
 					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
+					span(id='dataLandUse-1' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#indicative-moratorium-checkbox
@@ -131,6 +147,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#protected-areas-checkbox
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
+					span(id='dataConservation-1' class="layer-info-icon", data-bind="click: triggerConservationLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
 				
 			div#land-cover-panel(class='accordion-panel')
@@ -144,10 +163,16 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#peat-lands-radio
 					label(for="peat-lands-radio", data-bind="text: peatLandsRadio")
+					span(id='dataForestAndLandCover-3' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: peatLandsSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#tree-cover-density-radio
 					label(for="tree-cover-density-radio", data-bind="text: treeCoverDensityRadio")
+					span(id='dataForestAndLandCover-1' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: treeCoverDensitySubLabel", class="checkbox-sub-label")
 				//- div(class="checkbox-container")
 				//-     div#se-land-cover-radio
@@ -156,6 +181,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#primary-forests-radio
 					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
+					span(id='dataForestAndLandCover-8' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
 				div#primary-forests-options(data-bind="visible: showPrimaryForestOptions()")
 					div(class="checkbox-container inline")
@@ -175,6 +203,10 @@ div#map-view(class="map-view")
 				div(class='checkbox-container')
 					div#windy-layer-checkbox
 					label(for="windy-layer-checkbox", data-bind="text: windyLayerCheckbox")
+					span(id='dataSuitability-2' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
+					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
 					div(data-bind="text: windySubLabelAdvice", class="checkbox-instructions")
 					div(data-bind="text: windySubLabel", class="checkbox-sub-label")
 					div.windLegendContainer(data-bind="visible: showWindLegend()")
@@ -182,38 +214,17 @@ div#map-view(class="map-view")
 						div#windLegendLabels
 							span 0 m/s
 							span.rightWindLabel > 40 m/s
-
 					div#report-optionsWIND(data-bind="visible: showReportOptionsWIND()" class="reportOptionsSidebar")
-						//-div#report-options-closeWIND(data-bind="click: closeReportOptionsWIND" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabelWIND")
 						div.report-options-section
-
 							table.font10
-								
 								tr
 									td(data-bind="text: 'Date'")
 									td
 										input(type="text", name="user" value=4, id="windDate", data-bind="value:windPicker()")
-							
 								tr
 									td(data-bind="text:'Time'")
 									td
-										//-div(class="checkbox-container-wind inline")
-											div#wind00-radio(value="00", data-bind="checked: timeOfDay, click: windTimeClick")
-											label(for="wind00-radio", data-bind="text: '00'")
-									
-										//-div(class="checkbox-container-wind inline")
-											div#wind06-radio(value="06", data-bind="checked: timeOfDay, click: windTimeClick")
-											label(for="wind06-radio", data-bind="text: '06'")
-									
-										//-div(class="checkbox-container-wind inline")
-											div#wind12-radio(value="12", data-bind="checked: timeOfDay, click: windTimeClick")
-											label(for="wind12-radio", data-bind="text: '12'")
-									
-										//-div(class="checkbox-container-wind inline")
-											div#wind18-radio(value="18", data-bind="checked: timeOfDay, click: windTimeClick")
-											label(for="wind18-radio", data-bind="text: '18'")
-
 										div(class="checkbox-container-wind inline")
 											div#wind00
 												input(type="radio", value="00", data-bind="checked: timeOfDay, disable: wind00Disable(), enable: wind00Enable()")
@@ -234,14 +245,14 @@ div#map-view(class="map-view")
 												input(type="radio", value="18", data-bind="checked: timeOfDay, disable: wind18Disable(), enable: wind18Enable()")
 												label(data-bind="text: '18'")
 
-								
 							span#updateWIND(class="report-link-dates", data-bind="text: getDates")
-
-
 
 				div(class='checkbox-container')
 					div#air-quality-checkbox
 					label(for="air-quality-checkbox", data-bind="text: airQuality", class="airQualityDisable")
+					span(id='dataSuitability-1' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					label#comingSoon (coming soon)
 					div#report-optionsAIR(data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar")
 						div.font10(data-bind="text:reportText().selectTimeLabelAIR")
@@ -258,10 +269,16 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#landsat-image-checkbox 
 					label(for="landsat-image-checkbox", data-bind="text: landsatImageCheckbox")
+					span(id='dataPolicy-2' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					span(data-bind="text: landsatImageSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#digital-globe-checkbox
 					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
+					span(id='dataPolicy-1' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 				div#imageryWindow(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions")
 					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
 							div#footprintsCheckBox(class="checkbox-container")
