@@ -8,7 +8,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#fires-checkbox
 					label(for="fires-checkbox", data-bind="text: firesCheckbox")
-					span(id='dataForestChange-1' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					span(id='dataForestChange-1-icon' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: firesSubLabel", class="checkbox-sub-label")
@@ -34,7 +34,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
-					//- span(id='archiveFiresInfo' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					//- span(id='archiveFiresInfo-icon' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
 					//- 		svg.info-icon-svg
 					//- 			use(xlink:href='#shape-info')
 					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
@@ -63,7 +63,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#noaa-fires-18
 					label(for="noaa-fires-18", data-bind="text: noaaFiresCheckbox")
-					span(id='dataForestChange-3' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					span(id='dataForestChange-3-icon' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: noaaSubLabel", class="checkbox-sub-label")
@@ -86,13 +86,13 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#burned-scars-checkbox
 					label(for="burned-scars-checkbox", data-bind="text: burnedScarsCheckbox")
-					span(id='dataForestChange-2' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					span(id='dataForestChange-2-icon' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 				div(class="checkbox-container")
 					div#tomnod-checkbox
 					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox, css: 'tomnodLink'")
-					//- span(id='dataForestChange-2' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					//- span(id='dataForestChange-2-icon' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
 					//- 	svg.info-icon-svg
 					//- 		use(xlink:href='#shape-info')
 			//- div#burned-area-panel(class='accordion-panel')
@@ -110,28 +110,28 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#oil-palm-checkbox
 					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
-					span(id='dataLandUse-3' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+					span(id='dataLandUse-3-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#rspo-oil-palm-checkbox
 					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
-					span(id='dataLandUse-5' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+					span(id='dataLandUse-5-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#wood-fiber-checkbox
 					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
-					span(id='dataLandUse-4' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+					span(id='dataLandUse-4-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#logging-checkbox
 					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
-					span(id='dataLandUse-1' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+					span(id='dataLandUse-1-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
@@ -147,7 +147,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#protected-areas-checkbox
 					label(for="protected-areas-checkbox", data-bind="text: protectedAreasCheckbox")
-					span(id='dataConservation-1' class="layer-info-icon", data-bind="click: triggerConservationLayerInfo")
+					span(id='dataConservation-1-icon' class="layer-info-icon", data-bind="click: triggerConservationLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
@@ -163,14 +163,14 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#peat-lands-radio
 					label(for="peat-lands-radio", data-bind="text: peatLandsRadio")
-					span(id='dataForestAndLandCover-3' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
+					span(id='dataForestAndLandCover-3-icon' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: peatLandsSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#tree-cover-density-radio
 					label(for="tree-cover-density-radio", data-bind="text: treeCoverDensityRadio")
-					span(id='dataForestAndLandCover-1' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
+					span(id='dataForestAndLandCover-1-icon' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: treeCoverDensitySubLabel", class="checkbox-sub-label")
@@ -181,7 +181,7 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#primary-forests-radio
 					label(for="primary-forests-radio", data-bind="text: primaryForestsRadio")
-					span(id='dataForestAndLandCover-8' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
+					span(id='dataForestAndLandCover-8-icon' class="layer-info-icon", data-bind="click: triggerLandCoverLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
@@ -203,7 +203,7 @@ div#map-view(class="map-view")
 				div(class='checkbox-container')
 					div#windy-layer-checkbox
 					label(for="windy-layer-checkbox", data-bind="text: windyLayerCheckbox")
-					span(id='dataSuitability-2' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
+					span(id='dataSuitability-2-icon' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: primaryForestsSubLabel", class="checkbox-sub-label")
@@ -250,7 +250,7 @@ div#map-view(class="map-view")
 				div(class='checkbox-container')
 					div#air-quality-checkbox
 					label(for="air-quality-checkbox", data-bind="text: airQuality", class="airQualityDisable")
-					span(id='dataSuitability-1' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
+					span(id='dataSuitability-1-icon' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					label#comingSoon (coming soon)
@@ -269,14 +269,14 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#landsat-image-checkbox 
 					label(for="landsat-image-checkbox", data-bind="text: landsatImageCheckbox")
-					span(id='dataPolicy-2' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
+					span(id='dataPolicy-2-icon' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: landsatImageSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#digital-globe-checkbox
 					label(for="digital-globe-checkbox", data-bind="text: digitalGlobeCheckbox")
-					span(id='dataPolicy-1' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
+					span(id='dataPolicy-1-icon' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 				div#imageryWindow(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptions")

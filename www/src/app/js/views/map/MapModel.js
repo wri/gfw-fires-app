@@ -113,11 +113,8 @@ define([
 
     vm.triggerFireLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
         require(["dojo/text!views/data/templates/dataFires.htm"], function(content) {
-
-            
-
-
 
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
             if (fireInfo.length === 0) {
@@ -152,6 +149,7 @@ define([
 
     vm.triggerLandUseLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
         require(["dojo/text!views/data/templates/dataForestUse.htm"], function(content) {
 
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
@@ -189,6 +187,7 @@ define([
 
     vm.triggerConservationLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
         require(["dojo/text!views/data/templates/dataConservation.htm"], function(content) {
 
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
@@ -215,6 +214,7 @@ define([
 
     vm.triggerLandCoverLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
         require(["dojo/text!views/data/templates/dataLandCover.htm"], function(content) {
 
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
@@ -250,6 +250,7 @@ define([
 
     vm.triggerAirQualityLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
         require(["dojo/text!views/data/templates/dataAirQuality.htm"], function(content) {
 
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
@@ -283,6 +284,8 @@ define([
 
     vm.triggerImageryLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
+
         require(["dojo/text!views/data/templates/dataImagery.htm"], function(content) {
 
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
