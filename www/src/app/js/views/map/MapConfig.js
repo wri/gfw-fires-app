@@ -815,7 +815,9 @@ define({
             "id": "air-quality-checkbox",
             "class": "air-quality-checkbox",
             "type": "checkbox",
-            "props": {}
+            "props": {
+                "disabled": "disabled"
+            }
         }, {
             "id": "provinces-checkbox",
             "class": "overlays-checkbox",
