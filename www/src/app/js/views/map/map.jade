@@ -34,9 +34,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
-					span(id='archiveFiresInfo' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
-							svg.info-icon-svg
-								use(xlink:href='#shape-info')
+					//- span(id='archiveFiresInfo' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					//- 		svg.info-icon-svg
+					//- 			use(xlink:href='#shape-info')
 					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
 					
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
@@ -92,9 +92,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#tomnod-checkbox
 					label(for="tomnod-checkbox", data-bind="html: tomnodCheckbox, css: 'tomnodLink'")
-					span(id='dataForestChange-2' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
-						svg.info-icon-svg
-							use(xlink:href='#shape-info')
+					//- span(id='dataForestChange-2' class="layer-info-icon", data-bind="click: triggerFireLayerInfo")
+					//- 	svg.info-icon-svg
+					//- 		use(xlink:href='#shape-info')
 			//- div#burned-area-panel(class='accordion-panel')
 			//-     div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 			//-     div(class="slider-container")

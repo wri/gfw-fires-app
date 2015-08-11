@@ -115,9 +115,22 @@ define([
         var htmlToFetch = event.currentTarget.id;
         require(["dojo/text!views/data/templates/dataFires.htm"], function(content) {
 
+            
+
+
+
             var fireInfo = $(content).find("#" + htmlToFetch).parent();
             if (fireInfo.length === 0) {
                 return;
+            }
+
+            var title;
+            if (htmlToFetch === "dataForestChange-1") {
+                title = "NASA ACTIVE FIRES";
+            } else if (htmlToFetch === "dataForestChange-3") {
+                title = "NOAA-18 FIRES";
+            } else if (htmlToFetch === "dataForestChange-2") {
+                title = "BURN SCARS";
             }
 
             var childInfo = fireInfo.find(".ac-auto");
@@ -126,7 +139,7 @@ define([
                 registry.byId("fireLayerInfoDialog").destroy();
             }
             var dialog = new Dialog({
-                // title: htmlToFetch,
+                title: title,
                 style: "width: 600px",
                 id: "fireLayerInfoDialog",
                 content: childInfo//fireInfo
@@ -146,13 +159,24 @@ define([
                 return;
             }
 
+            var title;
+            if (htmlToFetch === "dataLandUse-1") {
+                title = "LOGGING";
+            } else if (htmlToFetch === "dataLandUse-3") {
+                title = "OIL PALM";
+            } else if (htmlToFetch === "dataLandUse-4") {
+                title = "WOOD FIBER PLANTATION";
+            } else if (htmlToFetch === "dataLandUse-5") {
+                title = "RSPO CONCESSIONS";
+            }
+
             var childInfo = fireInfo.find(".ac-auto");
             
             if (registry.byId("landUseLayerInfoDialog")) {
                 registry.byId("landUseLayerInfoDialog").destroy();
             }
             var dialog = new Dialog({
-                // title: htmlToFetch,
+                title: title,
                 style: "width: 600px",
                 id: "landUseLayerInfoDialog",
                 content: childInfo//fireInfo
@@ -178,7 +202,7 @@ define([
                 registry.byId("conservationLayerInfoDialog").destroy();
             }
             var dialog = new Dialog({
-                // title: htmlToFetch,
+                title: "PROTECTED AREAS",
                 style: "width: 600px",
                 id: "conservationLayerInfoDialog",
                 content: childInfo//fireInfo
@@ -198,13 +222,22 @@ define([
                 return;
             }
 
+            var title;
+            if (htmlToFetch === "dataForestAndLandCover-1") {
+                title = "TREE COVER DENSITY";
+            } else if (htmlToFetch === "dataForestAndLandCover-8") {
+                title = "PRIMARY FORESTS";
+            } else if (htmlToFetch === "dataForestAndLandCover-3") {
+                title = "PEAT LANDS";
+            }
+
             var childInfo = fireInfo.find(".ac-auto");
             
             if (registry.byId("landCoverLayerInfoDialog")) {
                 registry.byId("landCoverLayerInfoDialog").destroy();
             }
             var dialog = new Dialog({
-                // title: htmlToFetch,
+                title: title,
                 style: "width: 600px",
                 id: "landCoverLayerInfoDialog",
                 content: childInfo//fireInfo
@@ -224,13 +257,20 @@ define([
                 return;
             }
 
+            var title;
+            if (htmlToFetch === "dataSuitability-1") {
+                title = "AIR QUALITY";
+            } else if (htmlToFetch === "dataSuitability-2") {
+                title = "WIND DIRECTION";
+            }
+
             var childInfo = fireInfo.find(".ac-auto");
             
             if (registry.byId("airQualityLayerInfoDialog")) {
                 registry.byId("airQualityLayerInfoDialog").destroy();
             }
             var dialog = new Dialog({
-                // title: htmlToFetch,
+                title: title,
                 style: "width: 600px",
                 id: "airQualityLayerInfoDialog",
                 content: childInfo//fireInfo
@@ -250,13 +290,20 @@ define([
                 return;
             }
 
+            var title;
+            if (htmlToFetch === "dataPolicy-1") {
+                title = "DIGITAL GLOBE – FIRST LOOK IMAGERY";
+            } else if (htmlToFetch === "dataPolicy-2") {
+                title = "LANDSAT 8 PAN-SHARPENED";
+            }
+
             var childInfo = fireInfo.find(".ac-auto");
             
             if (registry.byId("imageryLayerInfoDialog")) {
                 registry.byId("imageryLayerInfoDialog").destroy();
             }
             var dialog = new Dialog({
-                // title: htmlToFetch,
+                title: title,
                 style: "width: 600px",
                 id: "imageryLayerInfoDialog",
                 content: childInfo//fireInfo
