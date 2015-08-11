@@ -13,7 +13,7 @@ define([],
 
             //validViews: ["home", "blog", "map", "about", "data", "story"],
             //validViews: ["home", "blog", "map", "about", "data"],
-            validViews: ["home", "map", "about", "story"],
+            validViews: ["home", "map", "data", "about", "story"],
 
             emailSubscribeUrl: "https://gfw-fires.wri.org/subscribe", //For production
             emailSubscribeUrlPoly: "https://gfw-fires.wri.org/subscribe_by_polygon", //For production
@@ -40,12 +40,12 @@ define([],
                 //     "domId": "blogView",
                 //     "selected": false
                 // }
-                // , {
-                //     "html": "Data",
-                //     "viewName": "data",
-                //     "domId": "dataView",
-                //     "selected": false
-                // }
+                , {
+                    "html": "Data",
+                    "viewName": "data",
+                    "domId": "dataView",
+                    "selected": false
+                }
                 , {
                     "html": "Learn More",
                     "viewName": "about",

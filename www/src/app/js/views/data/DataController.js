@@ -27,17 +27,14 @@ define(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/query", "dijit/registry",
         };
 
         o.toggleDataNavList = function(obj) {
-            console.log(obj)
             var htmlToFetch = obj.htmlContent;
             var datamodel = DataModel.getVM();
-            console.log(datamodel)
             // var vm = Model.getVM();
             var currentLanguage = "en";
             var leftLinks = datamodel.leftLinks();
             var self = this;
             datamodel.leftLinks([]);
             arrayUtil.forEach(leftLinks, function(ds) {
-                console.log(ds)
                 if (ds == obj) {
                     ds.selected = true;
                 } else {
@@ -87,7 +84,6 @@ define(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/query", "dijit/registry",
         };
 
         o.showDownloadOptions = function(evt) {
-            console.log(evt)
             var target = evt.target ? evt.target : evt.srcElement,
                 id = target.dataset ? target.dataset.slug : target.getAttribute("data-slug"),
                 titleId = target.dataset ? target.dataset.container + "Title" : target.getAttribute("data-container") + "Title";
@@ -103,7 +99,6 @@ define(["dojo/on", "dojo/dom", "dojo/dom-class", "dojo/query", "dijit/registry",
         };
 
         o.toggleSelect = function(id) {
-            
             if (domClass.contains(id + "Menu", "active")) {
                 dojoQuery(".source_dropdown .active").forEach(function(node) {
                     domClass.remove(node, "active");
