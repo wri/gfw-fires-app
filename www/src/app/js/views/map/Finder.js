@@ -424,53 +424,84 @@ define([
                 _self = this,
                 features = [];
 
-            arrayUtils.forEach(featureObjects, function(item) {
 
-                if (item.layerId === 27) { //RSPO
+            var getTemplateContent = function(item){
+                var template_content_block = [
+                                "<div>", item.feature.attributes.TYPE , "</div>",
+                                "<div>Area (ha): ", item.feature.attributes.AREA_HA , "</div>",
+                                "<div>Additional Info</div>"
+                            ];
+                 
 
-                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Certificate ID</td><td>" + item.feature.attributes.Certificat + "</td></tr><tr><td>Certificate Issue Date</td><td>" + item.feature.attributes.Issued + "</td></tr><tr><td>Certificate Expiry Date</td><td>" + item.feature.attributes.Expired + "</td></tr><tr><td>Mill name</td><td>" + item.feature.attributes.Mill + "</td></tr><tr><td>Mill location</td><td>" + item.feature.attributes.Location + "</td></tr><tr><td>Mill capacity (t/hour)</td><td>" + item.feature.attributes.Capacity + "</td></tr><tr><td>Certified CPO (mt)</td><td>" + item.feature.attributes.CPO + "</td></tr><tr><td>Certified PK (mt)</td><td>" + item.feature.attributes.PK + "</td></tr><tr><td>Estate Suppliers</td><td>" + item.feature.attributes.Estate + "</td></tr><tr><td>Estate Area (ha)</td><td>" + item.feature.attributes.Estate_1 + "</td></tr><tr><td>Outgrower Area (ha)</td><td>" + item.feature.attributes.Outgrowe + "</td></tr><tr><td>Scheme Smallholder Area (ha)</td><td>" + item.feature.attributes.SH + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
+                var tables = {
+                    16: false,
+                    10:[
+                        "<table>",
+                            "<tr><td>Country</td><td>", item.feature.attributes.Country, "</td>",
+                            "</tr><tr><td>Certification Status</td><td>", item.feature.attributes.CERT_STAT, "</td></tr>",
+                            "<tr><td>Source: </td><td>", (item.feature.attributes.Source || "N/A"), "</td></tr>",
+                            "<tr style='height:10px;'></tr>",
+                        "</table>"
+                    ],
+                    27: [ //RSPO
+                            "<table>",
+                                "<tr><td>Country</td><td>", item.feature.attributes.Country, "</td></tr>",
+                                "<tr><td>Certification Status</td><td>", item.feature.attributes.CERT_STAT, "</td>",
+                                "<tr><td>Certificate ID</td><td>", item.feature.attributes.Certificat, "</td></tr>",
+                                "<tr><td>Certificate Issue Date</td><td>", item.feature.attributes.Issued, "</td></tr>",
+                                "<tr><td>Certificate Expiry Date</td><td>", item.feature.attributes.Expired, "</td></tr>",
+                                "<tr><td>Mill name</td><td>", item.feature.attributes.Mill, "</td></tr>",
+                                "<tr><td>Mill location</td><td>", item.feature.attributes.Location, "</td></tr>",
+                                "<tr><td>Mill capacity (t/hour)</td><td>", item.feature.attributes.Capacity, "</td></tr>",
+                                "<tr><td>Certified CPO (mt)</td><td>", item.feature.attributes.CPO, "</td></tr>",
+                                "<tr><td>Certified PK (mt)</td><td>", item.feature.attributes.PK, "</td></tr>",
+                                "<tr><td>Estate Suppliers</td><td>", item.feature.attributes.Estate, "</td></tr>",
+                                "<tr><td>Estate Area (ha)</td><td>", item.feature.attributes.Estate_1, "</td></tr>",
+                                "<tr><td>Outgrower Area (ha)</td><td>", item.feature.attributes.Outgrowe, "</td></tr>",
+                                "<tr><td>Scheme Smallholder Area (ha)</td><td>", item.feature.attributes.SH, "</td></tr>",
+                                "<tr><td>Source: </td><td>", (item.feature.attributes.Source || "N/A"), "</td></tr>",
+                                "<tr style='height:10px;'></tr>",
+                            "</table>"
+                        ],
+                    28: [ //Wood fiber
+                            "<table>",
+                                "<tr><td>Country</td><td>" , item.feature.attributes.Country , "</td></tr>",
+                                "<tr><td>Certification Status</td><td>" , item.feature.attributes.CERT_STAT , "</td></tr>",
+                                "<tr><td>Source: </td><td>" , (item.feature.attributes.Source || "N/A") , "</td></tr>",
+                                "<tr style='height:10px;'></tr>",
+                            "</table>"
+                    ],
+                    32: [
+                        "<table>",
+                            "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>",
+                            "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>",
+                            "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr>",
+                            "<tr style='height:10px;'></tr>",
+                        "</table>"
+                    ]
+                };
 
-                    );
-
-                    item.feature.attributes.ALERTS_LABEL = item.value;
-
-                } else if (item.layerId === 16) { //Moratorium
-                    return;
-                    //     template = new InfoTemplate("Province: " + item.value,
-                    //         "<table><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
-                    //     );
-                    //     item.feature.attributes.ALERTS_LABEL = item.value;
-
-                } else if (item.layerId === 10) { // Logging
-
-                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
-                    );
-
-                    item.feature.attributes.ALERTS_LABEL = item.value;
-
-                } else if (item.layerId === 28) { //Wood Fiber
-                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
-                    );
-
-                    item.feature.attributes.ALERTS_LABEL = item.value;
-
-                } else if (item.layerId === 32) { //Oil Palm
-                    // template = new InfoTemplate("District: " + item.feature.attributes.DISTRICT,
-                    //     "<table><tr><td>Province:</td><td>" + item.feature.attributes.PROVINCE + "</td></tr><tr><td>Island:</td><td>" + item.feature.attributes.ISLAND + "</td></tr></table>"
-                    // );
-                    // item.feature.attributes.ALERTS_LABEL = item.feature.attributes.DISTRICT;
-                    template = new InfoTemplate("<strong>" + item.value + "</strong>",
-                        "<table><tr><td>Concession Type</td><td>" + item.feature.attributes.TYPE + "</td></tr><tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr><tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr><tr><td>GIS Calculated Area (ha)</td><td>" + item.feature.attributes.AREA_HA + "</td></tr><tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr><tr style='height:10px;'></tr></table>"
-                    );
-
-                    item.feature.attributes.ALERTS_LABEL = item.value;
-
+                var template_table = tables[item.layerId];
+                
+                if(!template_table){
+                    return false;
                 }
-                //template.content += "<br /><div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>";
+                
+                var content = template_content_block.concat(template_table).join("");
+
+                return content;
+            };
+
+            arrayUtils.forEach(featureObjects, function(item) {
+                var template_title = ["<strong>" , item.value , "</strong>"].join('');
+                var content = getTemplateContent(item);
+                if(!content){
+                    return;
+                }
+                
+                template = new InfoTemplate(template_title,content);
                 item.feature.setInfoTemplate(template);
+                item.feature.attributes.ALERTS_LABEL = item.value;
 
                 features.push(item.feature);
             });
