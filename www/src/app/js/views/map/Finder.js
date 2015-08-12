@@ -260,10 +260,26 @@ define([
 
             identifyTask.execute(params, function(features) {
                 if (features.length > 0) {
-                    deferred.resolve({
-                        layer: MapConfig.forestUseLayers.id,
-                        features: features
+                    var queries = features.map(function(feature){
+                        var qDeferred = new Deferred();
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url+'4');
+                        var query = new Query();
+                        query.geometry = feature.feature.geometry;
+                        query.where = "1=1"
+                        query.outFields = ["Date"];
+                        queryTask.execute(query).then(function(results){
+                                feature.fires = results.features;
+                                qDeferred.resolve(feature)
+                        });
+                        return qDeferred;
+                    })
+                    all(queries).then(function(qResults){
+                                deferred.resolve({
+                                    layer: MapConfig.forestUseLayers.id,
+                                    features: qResults
+                                });
                     });
+                    
                 } else {
                     deferred.resolve(false);
                 }
@@ -424,14 +440,24 @@ define([
                 _self = this,
                 features = [];
 
-
             var getTemplateContent = function(item){
+                var fireCounts = [1,2,3,7].map(function(numdays){
+                    return item.fires.filter(function(fire){
+                        return moment(fire.attributes.Date) >= moment().subtract(numdays,'hours');
+                    }).length;
+                });
+
                 var template_content_block = [
                                 "<div>", item.feature.attributes.TYPE , "</div>",
                                 "<div>Area (ha): ", item.feature.attributes.AREA_HA , "</div>",
+                                '<ul id="fireResults">Number of Fires',
+                                    '<li>Past Week ',fireCounts[3],'</li>',
+                                    '<li>Past 72 hours ',fireCounts[2],'</li>',
+                                    '<li>Past 48 hours ',fireCounts[1],'</li>',
+                                    '<li>Past 24 hours ',fireCounts[0],'</li>',
+                                '</ul>',
                                 "<div>Additional Info</div>"
                             ];
-                 
 
                 var tables = {
                     16: false,
@@ -493,12 +519,14 @@ define([
             };
 
             arrayUtils.forEach(featureObjects, function(item) {
+                
+
                 var template_title = ["<strong>" , item.value , "</strong>"].join('');
                 var content = getTemplateContent(item);
                 if(!content){
                     return;
                 }
-                
+
                 template = new InfoTemplate(template_title,content);
                 item.feature.setInfoTemplate(template);
                 item.feature.attributes.ALERTS_LABEL = item.value;
