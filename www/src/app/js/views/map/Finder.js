@@ -443,7 +443,7 @@ define([
             var getTemplateContent = function(item){
                 var fireCounts = [1,2,3,7].map(function(numdays){
                     return item.fires.filter(function(fire){
-                        return moment(fire.attributes.Date) >= moment().subtract(numdays,'hours');
+                        return moment(fire.attributes.Date) > moment().subtract(numdays,'days');
                     }).length;
                 });
 
