@@ -8,6 +8,7 @@ define([
     "dojo/promise/all",
     "dojo/request/xhr",
     "dojo/dom-attr",
+    "dojo/dom-class",
     "dojo/keys",
     "esri/layers/FeatureLayer",
     "esri/graphic",
@@ -32,10 +33,13 @@ define([
     "esri/geometry/Circle",
     "utils/Analytics",
     "esri/geometry/geometryEngine"
-], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, keys, FeatureLayer, Graphic, esriRequest,
+], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, domClass, keys, FeatureLayer, Graphic, esriRequest,
     ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, PopupTemplate, Point, webMercatorUtils,
     PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle, Analytics, geometryEngine) {
     var _map;
+
+    var titleHandlers = [];
+    var fireItemHandlers = [];
 
     return {
         setMap: function(map) {
@@ -122,6 +126,7 @@ define([
             }
             var map = _map,
                 _self = this,
+                isForestUsePop,
                 mapPoint = event.mapPoint;
 
             var deferreds = [],
@@ -178,6 +183,8 @@ define([
                             features = features.concat(_self.setOverlaysTemplates(item.features));
                             break;
                         case "Forest_Use":
+                            isForestUsePop = true;
+                            // debugger;
                             features = features.concat(_self.setForestUseTemplates(item.features));
                             break;
                         case "Conservation":
@@ -205,6 +212,11 @@ define([
                     map.infoWindow.setFeatures(features);
 
                     map.infoWindow.show(mapPoint);
+                    map.infoWindow.resize(300,300);
+
+                    if(isForestUsePop){
+                        _self.connectFirePopEvents();
+                    }
                 }
 
             });
@@ -433,81 +445,143 @@ define([
             return features;
 
         },
-        setForestUseTemplates: function(featureObjects) {
-            var template,
-                content = '',
-                handleUpSubsc,
-                _self = this,
-                features = [];
 
-            var getTemplateContent = function(item){
-                var fireCounts = [1,2,3,7].map(function(numdays){
-                    return item.fires.filter(function(fire){
-                        return moment(fire.attributes.Date) > moment().subtract(numdays,'days');
-                    }).length;
+        updateFirePopSelection: function(itemNode,updatePanel){
+            var popnodes = dojoQuery(".fire-pop-item");
+            if(popnodes.length<1){return;}
+
+            popnodes.forEach(function(popnode){
+                domClass.remove(popnode,'selected');
+            });
+            domClass.add(itemNode,'selected');
+
+            if(updatePanel){
+                var panelFireOptionNode = dom.byId(itemNode.id.split('-')[0]);
+                var mpc = require("views/map/MapController");
+                mpc.toggleFireOption({srcElement:panelFireOptionNode});
+
+            }
+        },
+
+        connectFirePopEvents: function(){
+            var _self = this;
+            var firepopnodes = dojoQuery(".fire-pop-item");
+            titleHandlers.forEach(function(handler){
+                handler.remove();
+            });
+            fireItemHandlers.forEach(function(handler){
+                handler.remove();
+            });
+            
+            titleHandlers = [dojoQuery(".titlePane > .prev")[0],dojoQuery(".titlePane > .next")[0]].map(function(node){
+                return on(node,'click',function(){
+                            _self.connectFirePopEvents();
+                        });
+            });
+            fireItemHandlers = firepopnodes.map(function(popnode){
+                if(popnode.id.split("-")[0] === MapModel.vm.currentFireTime()){
+                    domClass.add(popnode,'selected');
+                }
+                return on(popnode,'click',function(evt){
+                    var itemNode = evt.currentTarget;
+                    _self.updateFirePopSelection(itemNode,true);
                 });
+            });
+        },
 
-                var template_content_block = [
-                                "<div>", item.feature.attributes.TYPE , "</div>",
-                                "<div>Area (ha): ", item.feature.attributes.AREA_HA , "</div>",
-                                '<ul id="fireResults">Number of Fires',
-                                    '<li>Past Week ',fireCounts[3],'</li>',
-                                    '<li>Past 72 hours ',fireCounts[2],'</li>',
-                                    '<li>Past 48 hours ',fireCounts[1],'</li>',
-                                    '<li>Past 24 hours ',fireCounts[0],'</li>',
-                                '</ul>',
-                                "<div>Additional Info</div>"
-                            ];
+        getFirePopupContent: function(item) {
+                var isFires = item.fires.length > 0;
 
-                var tables = {
+                var firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
+                var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days'
+                var fire_results = isFires ? [firesDiv] : [noFiresDiv]; 
+                
+                if(isFires){
+                    var fireCounts = [1,2,3,7].map(function(numdays){
+                    return item.fires.filter(function(fire){
+                        return moment(fire.attributes.Date) > moment().subtract(numdays+1,'days');
+                        }).length;
+                    });
+
+                    fire_results = fire_results.concat([
+                                        '<div class="fire-pop-item-cont">',
+                                        '<div id="firesWeek-pop" class="fire-pop-item"><div class="fire-pop-count">',fireCounts[3],'</div><div class="fire-pop-label">Week</div></div>',
+                                        '<div id="fires72-pop" class="fire-pop-item"><div class="fire-pop-count">',fireCounts[2],'</div><div class="fire-pop-label">72 hrs</div></div>',
+                                        '<div id="fires48-pop" class="fire-pop-item"><div class="fire-pop-count">',fireCounts[1],'</div><div class="fire-pop-label">48 hrs</div></div>',
+                                        '<div id="fires24-pop" class="fire-pop-item"><div class="fire-pop-count">',fireCounts[0],'</div><div class="fire-pop-label">24 hrs</div></div>',
+                                        '</div>'
+                                ]);
+                }
+
+                fire_results.push('</div>');
+                return fire_results;
+        },
+
+        getAdditonalInfoContent: function(item){
+            var attr = item.feature.attributes;
+            var tables = {
                     16: false,
                     10:[
-                        "<table>",
-                            "<tr><td>Country</td><td>", item.feature.attributes.Country, "</td>",
-                            "</tr><tr><td>Certification Status</td><td>", item.feature.attributes.CERT_STAT, "</td></tr>",
-                            "<tr><td>Source: </td><td>", (item.feature.attributes.Source || "N/A"), "</td></tr>",
+                        "<table class='forest-use-pop'>",
+                            "<tr><td>Country</td><td>", attr.Country, "</td>",
+                            "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
+                            "<tr><td>Source: </td><td>", (attr.Source || "N/A"), "</td></tr>",
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ],
                     27: [ //RSPO
-                            "<table>",
-                                "<tr><td>Country</td><td>", item.feature.attributes.Country, "</td></tr>",
-                                "<tr><td>Certification Status</td><td>", item.feature.attributes.CERT_STAT, "</td>",
-                                "<tr><td>Certificate ID</td><td>", item.feature.attributes.Certificat, "</td></tr>",
-                                "<tr><td>Certificate Issue Date</td><td>", item.feature.attributes.Issued, "</td></tr>",
-                                "<tr><td>Certificate Expiry Date</td><td>", item.feature.attributes.Expired, "</td></tr>",
-                                "<tr><td>Mill name</td><td>", item.feature.attributes.Mill, "</td></tr>",
-                                "<tr><td>Mill location</td><td>", item.feature.attributes.Location, "</td></tr>",
-                                "<tr><td>Mill capacity (t/hour)</td><td>", item.feature.attributes.Capacity, "</td></tr>",
-                                "<tr><td>Certified CPO (mt)</td><td>", item.feature.attributes.CPO, "</td></tr>",
-                                "<tr><td>Certified PK (mt)</td><td>", item.feature.attributes.PK, "</td></tr>",
-                                "<tr><td>Estate Suppliers</td><td>", item.feature.attributes.Estate, "</td></tr>",
-                                "<tr><td>Estate Area (ha)</td><td>", item.feature.attributes.Estate_1, "</td></tr>",
-                                "<tr><td>Outgrower Area (ha)</td><td>", item.feature.attributes.Outgrowe, "</td></tr>",
-                                "<tr><td>Scheme Smallholder Area (ha)</td><td>", item.feature.attributes.SH, "</td></tr>",
-                                "<tr><td>Source: </td><td>", (item.feature.attributes.Source || "N/A"), "</td></tr>",
+                            "<table class='forest-use-pop'>",
+                                "<tr><td>Country</td><td>", attr.Country, "</td></tr>",
+                                "<tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td>",
+                                "<tr><td>Certificate ID</td><td>", attr.Certificat, "</td></tr>",
+                                "<tr><td>Certificate Issue Date</td><td>", attr.Issued, "</td></tr>",
+                                "<tr><td>Certificate Expiry Date</td><td>", attr.Expired, "</td></tr>",
+                                "<tr><td>Mill name</td><td>", attr.Mill, "</td></tr>",
+                                "<tr><td>Mill location</td><td>", attr.Location, "</td></tr>",
+                                "<tr><td>Mill capacity (t/hour)</td><td>", attr.Capacity, "</td></tr>",
+                                "<tr><td>Certified CPO (mt)</td><td>", attr.CPO, "</td></tr>",
+                                "<tr><td>Certified PK (mt)</td><td>", attr.PK, "</td></tr>",
+                                "<tr><td>Estate Suppliers</td><td>", attr.Estate, "</td></tr>",
+                                "<tr><td>Estate Area (ha)</td><td>", attr.Estate_1, "</td></tr>",
+                                "<tr><td>Outgrower Area (ha)</td><td>", attr.Outgrowe, "</td></tr>",
+                                "<tr><td>Scheme Smallholder Area (ha)</td><td>", attr.SH, "</td></tr>",
+                                "<tr><td>Source: </td><td>", (attr.Source || "N/A"), "</td></tr>",
                                 "<tr style='height:10px;'></tr>",
                             "</table>"
                         ],
                     28: [ //Wood fiber
-                            "<table>",
-                                "<tr><td>Country</td><td>" , item.feature.attributes.Country , "</td></tr>",
-                                "<tr><td>Certification Status</td><td>" , item.feature.attributes.CERT_STAT , "</td></tr>",
-                                "<tr><td>Source: </td><td>" , (item.feature.attributes.Source || "N/A") , "</td></tr>",
+                            "<table class='forest-use-pop'>",
+                                "<tr><td>Country</td><td>" , attr.Country , "</td></tr>",
+                                "<tr><td>Certification Status</td><td>" , attr.CERT_STAT , "</td></tr>",
+                                "<tr><td>Source: </td><td>" , (attr.Source || "N/A") , "</td></tr>",
                                 "<tr style='height:10px;'></tr>",
                             "</table>"
                     ],
                     32: [
-                        "<table>",
-                            "<tr><td>Country</td><td>" + item.feature.attributes.Country + "</td></tr>",
-                            "<tr><td>Certification Status</td><td>" + item.feature.attributes.CERT_STAT + "</td></tr>",
-                            "<tr><td>Source: </td><td>" + (item.feature.attributes.Source || "N/A") + "</td></tr>",
+                        "<table class='forest-use-pop'>",
+                            "<tr><td>Country</td><td>" + attr.Country + "</td></tr>",
+                            "<tr><td>Certification Status</td><td>" + attr.CERT_STAT + "</td></tr>",
+                            "<tr><td>Source: </td><td>" + (attr.Source || "N/A") + "</td></tr>",
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ]
                 };
+                return tables[item.layerId];
+        },
 
-                var template_table = tables[item.layerId];
+        getTemplateContent:function(item){
+                var fire_results = this.getFirePopupContent(item);
+
+                var template_content_block = [
+                                "<div>", item.feature.attributes.TYPE , "</div>",
+                                "<div>Area (ha): ", item.feature.attributes.AREA_HA , "</div>",
+                            ].concat(fire_results);
+
+                                
+                template_content_block.push("<div>Additional Info</div>");
+                
+
+                var template_table = this.getAdditonalInfoContent(item);
                 
                 if(!template_table){
                     return false;
@@ -516,13 +590,22 @@ define([
                 var content = template_content_block.concat(template_table).join("");
 
                 return content;
-            };
+        },
+
+        setForestUseTemplates: function(featureObjects) {
+            var template,
+                content = '',
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            
 
             arrayUtils.forEach(featureObjects, function(item) {
                 
 
                 var template_title = ["<strong>" , item.value , "</strong>"].join('');
-                var content = getTemplateContent(item);
+                var content = _self.getTemplateContent(item);
                 if(!content){
                     return;
                 }

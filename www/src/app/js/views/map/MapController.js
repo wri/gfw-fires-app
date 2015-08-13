@@ -2314,10 +2314,11 @@ define([
         LayerController.updateFiresLayer();
 
         var reRun = LayerController.updateOtherFiresLayers();
-
         if (reRun) {
             o.setSmartRenderer(MapModel.vm.smartRendererName());
         }
+        MapModel.vm.currentFireTime(node.id);
+        Finder.updateFirePopSelection(dom.byId(node.id+"-pop"));
     };
 
     o.enableLayersFromHash = function() {
