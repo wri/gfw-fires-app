@@ -251,9 +251,9 @@ define({
           { id:'dg-01', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer', mosaic: 'QB01' },
           { id:'dg-02', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer', mosaic: 'WV02' },
           { id:'dg-03', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer', mosaic: 'GEO1' },
-          { id:'dg-04', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03/ImageServer', mosaic: 'WV03' },
-          { id:'dg-05', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' },
-          { id:'dg-06', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV02/ImageServer', mosaic: 'WV02' }
+          { id:'dg-04', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03/ImageServer', mosaic: 'WV03' },
+          { id:'dg-05', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' },
+          // { id:'dg-06', url: 'http://184.72.227.235:6080/arcgis/rest/services/DG/WV02/ImageServer', mosaic: 'WV02' }
         ],
         navigationBool: false
     },
