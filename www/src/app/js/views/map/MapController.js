@@ -1206,7 +1206,7 @@ define([
         });
 
         on(o.map, "click", function(evt) {
-            Finder.selectTomnodFeatures(evt);
+            Finder.identifyInfoWindows(evt);
         });
 
         on(o.map.graphics, "click", function(evt) {

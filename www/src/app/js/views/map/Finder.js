@@ -3,6 +3,7 @@ define([
     "dojo/dom",
     "dojo/_base/array",
     "dojo/on",
+    "dojo/mouse",
     "dojo/query",
     "dojo/Deferred",
     "dojo/promise/all",
@@ -33,13 +34,14 @@ define([
     "esri/geometry/Circle",
     "utils/Analytics",
     "esri/geometry/geometryEngine"
-], function(dom, arrayUtils, on, dojoQuery, Deferred, all, xhr, domAttr, domClass, keys, FeatureLayer, Graphic, esriRequest,
+], function(dom, arrayUtils, on, mouse, dojoQuery, Deferred, all, xhr, domAttr, domClass, keys, FeatureLayer, Graphic, esriRequest,
     ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, PopupTemplate, Point, webMercatorUtils,
     PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle, Analytics, geometryEngine) {
     var _map;
 
     var titleHandlers = [];
     var fireItemHandlers = [];
+    var currentFootprints = [];
 
     return {
         setMap: function(map) {
@@ -697,6 +699,59 @@ define([
             }
         },
 
+        showInfoWindowContent: function(point,content){
+                map.infoWindow.setContent(content);
+                map.infoWindow.resize(270, 140);
+                map.infoWindow.show(point);
+        },
+
+        identifyInfoWindows: function(event){
+                var _self = this;
+                var noaaCheck = dom.byId("noaa-fires-18");
+                var archiveCheck = dom.byId("indonesia-fires");
+                var firesCheck = dom.byId("fires-checkbox");
+                var dgCheck = dom.byId("digital-globe-footprints-checkbox");
+
+                var tasks = [
+                    [_self.getActiveFiresInfoWindow(event), _self.showInfoWindowContent, firesCheck],
+                    [_self.getArchiveFiresInfoWindow(event), _self.showInfoWindowContent, archiveCheck],
+                    [_self.getArchiveNoaaInfoWindow(event), _self.showInfoWindowContent, noaaCheck],
+                    [_self.getDigitalGlobeInfoWindow(event), _self.renderDGInfoWindow, dgCheck]
+                ];
+                var identifyTasks = tasks.filter(function(task){
+                    return task[2].getAttribute("aria-checked") === 'true';
+                });
+
+                identifyTasks.forEach(function(task,i){
+                    var precendentTrue = false;
+                    var precedents = identifyTasks.slice(0,i).map(function(task){return task[0];});
+                    all(precedents).then(function(results){
+                        if(results.filter(function(result){return result}).length > 0)
+                            {  return; }
+                        else{
+                            task[0].then(function(result){
+                                if(result){
+                                    task[1](event.mapPoint, result);
+                                    dojo.byId("uploadCustomGraphic") && dojo.byId("uploadCustomGraphic").remove();
+                                }
+                            });
+                        }
+                    });
+                });
+
+                 all(identifyTasks.map(function(task){return task[0]})).then(function(results){
+                        if(results.filter(function(result){return result}).length > 0)
+                            {  return; }
+                        _self.mapClick(event);
+                });
+
+                // if (landsatCheck.checked && _map.getLevel() >= 10) {
+                //     _self.getLandsatInfoWindow(event);
+                // }
+
+                return;
+        },
+
         selectTomnodFeatures: function(event, arg2) {
             var qconfig = MapConfig.tomnodLayer,
                 landsatCheck = dom.byId("landsat-image-checkbox"),
@@ -715,36 +770,38 @@ define([
                 dateString = '',
                 defs = [];
 
-            if (!_map.getLayer(qconfig.id).visible) {
-                _self.getActiveFiresInfoWindow(event);
-                _self.getArchiveFiresInfoWindow(event);
+            var deferred = new Deferred();
 
-                var noaaCheck = dom.byId("noaa-fires-18");
-                var archiveCheck = dom.byId("indonesia-fires");
-                var firesCheck = dom.byId("fires-checkbox");
+            // if (!_map.getLayer(qconfig.id).visible) {
+            //     _self.getActiveFiresInfoWindow(event);
+            //     _self.getArchiveFiresInfoWindow(event);
 
-                if ((noaaCheck.getAttribute("aria-checked") == 'true' && archiveCheck.getAttribute("aria-checked") == 'true') || (noaaCheck.getAttribute("aria-checked") == 'true' && firesCheck.getAttribute("aria-checked") == 'true')) {
-                    setTimeout(function() {
-                        if (!_map.infoWindow.isShowing) {
-                            _self.getArchiveNoaaInfoWindow(event);
-                        }
-                    }, 800);
-                } else {
-                    _self.getArchiveNoaaInfoWindow(event);
-                }
+            //     var noaaCheck = dom.byId("noaa-fires-18");
+            //     var archiveCheck = dom.byId("indonesia-fires");
+            //     var firesCheck = dom.byId("fires-checkbox");
 
-                setTimeout(function() {
-                    if (!_map.infoWindow.isShowing) {
-                        _self.getDigitalGlobeInfoWindow(event);
-                    }
-                }, 400);
+            //     if ((noaaCheck.getAttribute("aria-checked") == 'true' && archiveCheck.getAttribute("aria-checked") == 'true') || (noaaCheck.getAttribute("aria-checked") == 'true' && firesCheck.getAttribute("aria-checked") == 'true')) {
+            //         setTimeout(function() {
+            //             if (!_map.infoWindow.isShowing) {
+            //                 _self.getArchiveNoaaInfoWindow(event);
+            //             }
+            //         }, 800);
+            //     } else {
+            //         _self.getArchiveNoaaInfoWindow(event);
+            //     }
 
-                // if (landsatCheck.checked && _map.getLevel() >= 10) {
-                //     _self.getLandsatInfoWindow(event);
-                // }
+            //     setTimeout(function() {
+            //         if (!_map.infoWindow.isShowing) {
+            //             _self.getDigitalGlobeInfoWindow(event);
+            //         }
+            //     }, 400);
 
-                return;
-            }
+            //     // if (landsatCheck.checked && _map.getLevel() >= 10) {
+            //     //     _self.getLandsatInfoWindow(event);
+            //     // }
+
+            //     return;
+            // }
 
             iparams.geometry = point;
             iparams.tolerance = 3;
@@ -767,22 +824,11 @@ define([
                     objectids.push(feature.feature.attributes.OBJECTID);
                 });
                 if (objectids.length < 1) {
-                    _map.infoWindow.setFeatures(undefined);
-
-                    _self.getActiveFiresInfoWindow(event);
-
-                    _self.getDigitalGlobeInfoWindow(event);
-                    _self.getArchiveFiresInfoWindow(event);
-                    _self.getArchiveNoaaInfoWindow(event);
-
-                    // if (landsatCheck.checked && _map.getLevel() >= 10) {
-                    //     _self.getLandsatInfoWindow(event);
-                    // }
-
-                    return;
+                    deferred.resolve(false);
                 }
                 _map.infoWindow.resize(340, 500);
                 query.where += objectids.join(',') + ")";
+                // deferred.resolve()
                 selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query, FeatureLayer.SELECTION_NEW);
 
                 selected_features.then(function(features) {
@@ -793,13 +839,114 @@ define([
                 });
 
             }, function(err) {
-                _self.mapClick(event);
+                deferred.resolve(false);
             });
+
+            return deferred
         },
 
+        // selectTomnodFeatures: function(event, arg2) {
+        //     var qconfig = MapConfig.tomnodLayer,
+        //         landsatCheck = dom.byId("landsat-image-checkbox"),
+        //         _self = this,
+        //         url = qconfig.url,
+        //         itask = new IdentifyTask(url),
+        //         iparams = new IdentifyParameters(),
+        //         qtask = new QueryTask(url),
+        //         query = new Query(),
+        //         point = event.mapPoint,
+        //         executeReturned = true,
+        //         node = dojoQuery(".selected-fire-option")[0],
+        //         time = new Date(),
+        //         today = new Date(),
+        //         todayString = '',
+        //         dateString = '',
+        //         defs = [];
 
-        getActiveFiresInfoWindow: function(event) {
-            var qconfig = MapConfig.firesLayer,
+        //     if (!_map.getLayer(qconfig.id).visible) {
+        //         _self.getActiveFiresInfoWindow(event);
+        //         _self.getArchiveFiresInfoWindow(event);
+
+        //         var noaaCheck = dom.byId("noaa-fires-18");
+        //         var archiveCheck = dom.byId("indonesia-fires");
+        //         var firesCheck = dom.byId("fires-checkbox");
+
+        //         if ((noaaCheck.getAttribute("aria-checked") == 'true' && archiveCheck.getAttribute("aria-checked") == 'true') || (noaaCheck.getAttribute("aria-checked") == 'true' && firesCheck.getAttribute("aria-checked") == 'true')) {
+        //             setTimeout(function() {
+        //                 if (!_map.infoWindow.isShowing) {
+        //                     _self.getArchiveNoaaInfoWindow(event);
+        //                 }
+        //             }, 800);
+        //         } else {
+        //             _self.getArchiveNoaaInfoWindow(event);
+        //         }
+
+        //         setTimeout(function() {
+        //             if (!_map.infoWindow.isShowing) {
+        //                 _self.getDigitalGlobeInfoWindow(event);
+        //             }
+        //         }, 400);
+
+        //         // if (landsatCheck.checked && _map.getLevel() >= 10) {
+        //         //     _self.getLandsatInfoWindow(event);
+        //         // }
+
+        //         return;
+        //     }
+
+        //     iparams.geometry = point;
+        //     iparams.tolerance = 3;
+        //     iparams.returnGeometry = false;
+        //     iparams.layerDefinitions = defs;
+        //     iparams.mapExtent = _map.extent;
+        //     iparams.layerIds = [8];
+
+        //     // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+        //     query.where = 'OBJECTID in (';
+        //     query.returnGeometry = false;
+        //     query.outFields = ['OBJECTID', 'ChipLink', 'CrowdRank', 'Confirmation', 'name', 'ImageLink'];
+        //     var objectids = [];
+
+
+        //     var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
+        //     itask.execute(iparams, function(response) {
+        //         arrayUtils.forEach(response, function(feature) {
+        //             objectids.push(feature.feature.attributes.OBJECTID);
+        //         });
+        //         if (objectids.length < 1) {
+        //             _map.infoWindow.setFeatures(undefined);
+
+        //             _self.getActiveFiresInfoWindow(event);
+
+        //             _self.getDigitalGlobeInfoWindow(event);
+        //             _self.getArchiveFiresInfoWindow(event);
+        //             _self.getArchiveNoaaInfoWindow(event);
+
+        //             // if (landsatCheck.checked && _map.getLevel() >= 10) {
+        //             //     _self.getLandsatInfoWindow(event);
+        //             // }
+
+        //             return;
+        //         }
+        //         _map.infoWindow.resize(340, 500);
+        //         query.where += objectids.join(',') + ")";
+        //         selected_features = _map.getLayer(MapConfig.tomnodLayer.sel_id).selectFeatures(query, FeatureLayer.SELECTION_NEW);
+
+        //         selected_features.then(function(features) {
+        //             _map.infoWindow.setFeatures(features);
+        //             _map.infoWindow.resize(340, 500);
+
+        //             _map.infoWindow.show(event.mapPoint);
+        //         });
+
+        //     }, function(err) {
+        //         _self.mapClick(event);
+        //     });
+        // },
+
+        getActiveFiresInfoWindow: function(event){
+                var qconfig = MapConfig.firesLayer,
                 _self = this,
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
@@ -812,13 +959,13 @@ define([
                 todayString = '',
                 dateString = '',
                 defs = [];
-
+            var deferred = new Deferred();
 
             // If the layer is not visible, then dont show it
-            if (!_map.getLayer(qconfig.id).visible) {
-                _self.mapClick(event);
-                return;
-            }
+            // if (!_map.getLayer(qconfig.id).visible) {
+            //     _self.mapClick(event);
+            //     return;
+            // }
 
             switch (node.id) {
                 case "fires72":
@@ -875,15 +1022,18 @@ define([
 
                     });
                     content += "</table>";
-                    map.infoWindow.setContent(content);
-                    map.infoWindow.resize(270, 140);
-                    map.infoWindow.show(point);
+                    deferred.resolve(content);
+                    // map.infoWindow.setContent(content);
+                    // map.infoWindow.resize(270, 140);
+                    // map.infoWindow.show(point);
                 } else {
-                    _self.mapClick(event);
+                    deferred.resolve(false);
                 }
             }, function(err) {
-                _self.mapClick(event);
+                deferred.resolve(false)
             });
+
+            return deferred;
         },
 
         getArchiveFiresInfoWindow: function(event) {
@@ -901,15 +1051,17 @@ define([
                 dateString = '',
                 defs = [];
 
+            var deferred = new Deferred();
+
             var checked = dom.byId("indonesia-fires");
             // If the layer is not visible or turned on, then dont show it
-            if (!_map.getLayer(qconfig.id).visible || checked.checked != true) {
+            // if (!_map.getLayer(qconfig.id).visible || checked.checked != true) {
 
-                //IndonesiaFires
+            //     //IndonesiaFires
 
-                _self.mapClick(event);
-                return;
-            }
+            //     _self.mapClick(event);
+            //     return;
+            // }
 
             iparams.layerDefinitions = _map.getLayer(qconfig.id).layerDefinitions;
 
@@ -927,7 +1079,6 @@ define([
             itask.execute(iparams, function(response) {
                 var map = _map;
                 var result = response[0];
-
                 if (result) {
                     if (result.layerId == 2) {
                         return;
@@ -940,20 +1091,21 @@ define([
 
                     });
                     content += "</table>";
-
-                    map.infoWindow.setContent(content);
-                    map.infoWindow.resize(270, 140);
-                    map.infoWindow.show(point);
+                    deferred.resolve(content);
+                    // map.infoWindow.setContent(content);
+                    // map.infoWindow.resize(270, 140);
+                    // map.infoWindow.show(point);
                 } else {
-                    _self.mapClick(event);
+                    deferred.resolve(false);
                 }
             }, function(err) {
-                _self.mapClick(event);
+                deferred.resolve(false);
             });
+            return deferred;
         },
 
         getLandsatInfoWindow: function(evt) {
-
+            var deferred = new Deferred();
             var landSatConfig = MapConfig.landsat8;
 
             // This is returning malformed JSON throwing illegal syntax error
@@ -981,17 +1133,23 @@ define([
             imageParams.pixelSizeY = 100;
 
             imageTask.execute(imageParams, function(res) {
+                if(res.catalogItems.features.length<1){
+                    deferred.resolve(false);
+                }
                 arrayUtils.forEach(res.catalogItems.features, function(feature) {
                     feature.infoTemplate = new InfoTemplate(
                         'Acquisition Date',
                         '<tr><td>${AcquisitionDate: PopupDateFormat}</td></td>'
                     );
                 });
-                _map.infoWindow.setFeatures(res.catalogItems.features);
-                _map.infoWindow.show(evt.mapPoint);
+                deferred.resolve(features);
+                // _map.infoWindow.setFeatures(res.catalogItems.features);
+                // _map.infoWindow.show(evt.mapPoint);
             }, function(err) {
                 console.dir(err);
+                deferred.resolve(false);
             });
+            return deferred
 
             // Manual Request Method
             // var content = {};
@@ -1032,15 +1190,17 @@ define([
                 todayString = '',
                 dateString = '',
                 defs = [];
-
+            var deferred = new Deferred();
             var otherCheck = dom.byId("noaa-fires-18");
             if (otherCheck.getAttribute("aria-checked") == 'false') {
-                return;
+                deferred.resolve(false);
+                return deferred;
             }
             // If the layer is not visible, then dont show it
             if (!_map.getLayer("IndonesiaFires").visible) {
                 //_self.mapClick(event);
-                return;
+                deferred.resolve(false);
+                return deferred;
             }
 
             iparams.geometry = point;
@@ -1072,15 +1232,18 @@ define([
                     content += "<td colspan='2'>" + dateFormatted + "</td></tr>";
                     content += "</table>";
 
-                    map.infoWindow.setContent(content);
-                    map.infoWindow.resize(170, 50);
-                    map.infoWindow.show(point);
+                    deferred.resolve(content);
+                    // map.infoWindow.setContent(content);
+                    // map.infoWindow.resize(170, 50);
+                    // map.infoWindow.show(point);
                 } else {
-                    _self.mapClick(event);
+                    deferred.resolve(false);
                 }
             }, function(err) {
-                _self.mapClick(event);
+                deferred.resolve(false);
             });
+
+            return deferred;
         },
 
         getNOAAFiresInfoWindow: function(event) {
@@ -1097,12 +1260,12 @@ define([
                 todayString = '',
                 dateString = '',
                 defs = [];
-
+            var deferred = new Deferred();
             // If the layer is not visible, then dont show it
-            if (!_map.getLayer(qconfig.id).visible) {
-                _self.mapClick(event);
-                return;
-            }
+            // if (!_map.getLayer(qconfig.id).visible) {
+            //     _self.mapClick(event);
+            //     return;
+            // }
 
             iparams.geometry = point;
             iparams.tolerance = 10;
@@ -1125,19 +1288,24 @@ define([
 
                     });
                     content += "</table>";
-                    map.infoWindow.setContent(content);
-                    // map.infoWindow.setTitle("Title");
-                    map.infoWindow.show(point);
+                    debugger;
+                    deferred.resolve(content);
+
+                    // map.infoWindow.setContent(content);
+                    // // map.infoWindow.setTitle("Title");
+                    // map.infoWindow.show(point);
                 } else {
-                    console.log("No result returned!");
-                    _self.mapClick(event);
+                    deferred.resolve(false);
                 }
             }, function(err) {
-                _self.mapClick(event);
+                deferred.resolve(false);
             });
+            return deferred;
         },
 
         getDigitalGlobeInfoWindow: function(evt) {
+
+            var mainDeferred = new Deferred();
 
             var dgConf = MapConfig.digitalGlobe,
                 dgLayer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
@@ -1146,11 +1314,13 @@ define([
 
             if (evt.graphic) {
                 if (evt.graphic.attributes.Layer !== 'Digital_Globe') {
-                    return;
+                    mainDeferred.resolve(false);
+                    return mainDeferred;
                 }
             }
             if (evt.graphic === undefined) {
-                return;
+                mainDeferred.resolve(false);
+                return mainDeferred;
             }
 
             query.geometry = evt.graphic.geometry;
@@ -1165,7 +1335,7 @@ define([
             var layers = all(MapConfig.digitalGlobe.imageServices.map(function (service) {
                 var deferred = new Deferred();
                 query.geometry = evt.graphic.geometry;
-                query.returnGeometry = false;
+                query.returnGeometry = true;
                 query.outFields = ['AcquisitionDate', 'SensorName', 'OBJECTID', 'CenterX', 'CenterY'];
                 var task = new QueryTask(service.url);
                 (function (serviceConfig) {
@@ -1199,11 +1369,12 @@ define([
                 });
 
                 content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'><li><strong>Date <span class='satelliteColumn'>Satellite</span></strong></li>";
-
-                arrayUtils.forEach(features, function(f) {
+                currentFootprints = [];
+                arrayUtils.forEach(features, function(f,i) {
                     var date = moment(f.attributes.AcquisitionDate).tz('Asia/Jakarta');
+                    currentFootprints.push(f);
                     if (date >= start && date <= end) {
-                        content += "<li><a class='popup-link' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " +
+                        content += "<li class='dg-image-item' value='" + i + "'><a class='popup-link' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'> " +
                             date.format("YYYY/MM/DD") + "  <span class='satelliteColumn' data-layer='" + f.attributes.LayerId + "' data-bucket='" + f.attributes.SensorName + "_id_" + f.attributes.OBJECTID + "'>" + f.attributes.SensorName + "</span>" +
                             "</a></li>";
                     }
@@ -1212,16 +1383,31 @@ define([
 
                 content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
 
-                _map.infoWindow.setContent(content);
-                _map.infoWindow.resize(270, 500);
-                _map.infoWindow.show(point);
+                mainDeferred.resolve(content);
+            });
+            return mainDeferred;
+                // _map.infoWindow.setContent(content);
+                // _map.infoWindow.resize(270, 500);
+                // _map.infoWindow.show(point);
+        },
 
-                activeFeatureIndex = 0;
+        renderDGInfoWindow: function(point,content){
+            _map.infoWindow.setContent(content);
+            _map.infoWindow.resize(270, 500);
+            _map.infoWindow.show(point);
+
+            var handles = [];
+            activeFeatureIndex = 0;
                 dojoQuery(".contentPane .popup-link").forEach(function(node, index) {
                     handles.push(on(node, "click", function(evt) {
                         var target = evt.target ? evt.target : evt.srcElement,
                             bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket"),
                             layerId = target.getAttribute('data-layer');
+
+                        dojoQuery(".contentPane .popup-link").forEach(function(node){
+                            domClass.remove(node.parentElement,'selected');
+                        })
+                        domClass.add(evt.currentTarget.parentElement,"selected");
 
                         //pass in either bucket or target and have an 'if' saying whether the current row has an id = to the popup that was clicked
 
@@ -1253,7 +1439,37 @@ define([
                         activeFeatureIndex = index;
 
                     }));
+
+                    handles.push(on(node,mouse.enter,function(evt){
+                            var target = evt.target ? evt.target : evt.srcElement;
+                            var bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
+
+                            dojoQuery("td > .popup-link").forEach(function(node){
+                                if(domAttr.get(node,"data-bucket") === bucket){
+                                    var select = node.parentElement.parentElement;
+                                    domClass.add(select,"hover");
+                                }
+                                else{
+                                    var select = node.parentElement.parentElement;
+                                    domClass.remove(select,"hover");
+                                }
+                            });
+                            var MapController = require("views/map/MapController");
+                            var feature = currentFootprints[index];
+                            MapController.handleImageryOver({feature:feature},evt);
+                    }));
+
+                    handles.push(on(node,mouse.leave,function(evt){
+                            var MapController = require("views/map/MapController");
+                            var feature = currentFootprints[index];
+                            MapController.handleImageryOut({feature:feature},evt);
+                            dojoQuery("td > .popup-link").forEach(function(node){
+                                    var select = node.parentElement.parentElement;
+                                    domClass.remove(select,"hover");
+                            });
+                    }));
                 });
+
 
                 handles.push(on(dom.byId("custom-zoom-to"), "click", function(evt) {
 
@@ -1269,207 +1485,24 @@ define([
                     });
                 });
 
-            });
+            // var url = MapConfig.digitalGlobe.identifyUrl,
+            //     itask = new IdentifyTask(url),
+            //     iparams = new IdentifyParameters(),
+            //     point = evt.mapPoint,
+            //     handles = [],
+            //     activeFeatureIndex;
 
-            // dgLayer.queryFeatures(query,function (res) {
-            //     var features = [],
-            //         content = "";
-
-            //     console.log("DG FP RES", res);
-
-            //     arrayUtils.forEach(res, function (item) {
-            //         features.push(item.feature);
-            //     });
-
-            //     if (features.length === 0) {
-            //         return;
-            //     }
-
-            //     content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
-
-            //     arrayUtils.forEach(features, function (f) {
-            //         content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
-            //     });
-
-            //     content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
-
-            //     _map.infoWindow.setContent(content);
-            //     _map.infoWindow.show(point);
-
-            //     if (features.length === 1) {
-            //         LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-            //         activeFeatureIndex = 0;
-            //     } else {
-            //         // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-            //         activeFeatureIndex = 0;
-            //         dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
-            //             handles.push(on(node, "click", function (evt) {
-            //                 var target = evt.target ? evt.target : evt.srcElement,
-            //                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-            //                 LayerController.showDigitalGlobeImagery(bucket);
-            //                 activeFeatureIndex = index;
-            //             }));
-            //         });
-            //     }
-
-            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
-            //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
-            //         _map.centerAndZoom(point, 17);
-            //         _map.infoWindow.show(point);
-            //     }));
-
-            //     on.once(_map.infoWindow, "hide", function () {
-            //         arrayUtils.forEach(handles, function (handle) {
-            //             handle.remove();
-            //         });
-            //     });
-
-            // }, function (err) {
-            //     console.dir(err);
-            // });
-
-            // LayerController.showDigitalGlobeImagery();
-
-            // Temporary, Remove All Code below when done and import code from
-            // getDigitalGlobeServiceInfoWindow function
-            // if (evt.graphic.attributes.Source === 'Digital_Globe') {
-            //     this.getDigitalGlobeServiceInfoWindow(evt);
-            //     return;
-            // }
-
-            var url = MapConfig.digitalGlobe.identifyUrl,
-                itask = new IdentifyTask(url),
-                iparams = new IdentifyParameters(),
-                point = evt.mapPoint,
-                handles = [],
-                activeFeatureIndex;
-
-            iparams.geometry = point;
-            iparams.tolerance = 3;
-            iparams.returnGeometry = true;
-            iparams.mapExtent = _map.extent;
-            iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-            iparams.layerIds = [0];
+            // iparams.geometry = point;
+            // iparams.tolerance = 3;
+            // iparams.returnGeometry = true;
+            // iparams.mapExtent = _map.extent;
+            // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+            // iparams.layerIds = [0];
 
             function getContent(graphic) {
                 return "<div>Date: " + graphic.attributes.Date + "</div>";
             }
-
-
-
-            // itask.execute(iparams, function (res) {
-            //     var features = [],
-            //         content = "";
-            //     arrayUtils.forEach(res, function (item) {
-            //         features.push(item.feature);
-            //     });
-
-            //     if (features.length === 0) {
-            //         return;
-            //     }
-
-            //     content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
-
-            //     arrayUtils.forEach(features, function (f) {
-            //         content += "<li><a class='popup-link' data-bucket='" + f.attributes.Tiles + "'>Date: " + f.attributes.Date + "</a></li>";
-            //     });
-
-            //     content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
-
-            //     _map.infoWindow.setContent(content);
-            //     _map.infoWindow.show(point);
-
-            //     if (features.length === 1) {
-            //         LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-            //         activeFeatureIndex = 0;
-            //     } else {
-            //         // LayerController.showDigitalGlobeImagery(features[0].attributes.Tiles);
-            //         activeFeatureIndex = 0;
-            //         dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
-            //             handles.push(on(node, "click", function (evt) {
-            //                 var target = evt.target ? evt.target : evt.srcElement,
-            //                     bucket = target.dataset ? target.dataset.bucket : target.getAttribute("data-bucket");
-            //                 LayerController.showDigitalGlobeImagery(bucket);
-            //                 activeFeatureIndex = index;
-            //             }));
-            //         });
-            //     }
-
-            //     handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
-            //         var point = new Point(features[activeFeatureIndex].attributes.CenterX, features[activeFeatureIndex].attributes.CenterY);
-            //         _map.centerAndZoom(point, 17);
-            //         _map.infoWindow.show(point);
-            //     }));
-
-            //     on.once(_map.infoWindow, "hide", function () {
-            //         arrayUtils.forEach(handles, function (handle) {
-            //             handle.remove();
-            //         });
-            //     });
-
-            // }, function (err) {
-            //     console.dir(err);
-            // });
-
         },
-
-        // getDigitalGlobeServiceInfoWindow: function (evt) {
-        //     var layer = _map.getLayer(MapConfig.digitalGlobe.graphicsLayerId),
-        //         mapPoint = evt.mapPoint,
-        //         activeFeatureIndex = 0,
-        //         query = new Query(),
-        //         foundFeatures,
-        //         handles = [],
-        //         content = "",
-        //         circle;
-
-        //     circle = new Circle({
-        //         center: mapPoint,
-        //         geodesic: true,
-        //         radius: 3,
-        //         radiusUnit: "esriMiles"
-        //     });
-
-        //     query.geometry = circle.getExtent();
-
-        //     layer.queryFeatures(query, function (res) {
-        //         if (res.features.length === 0) {
-        //             return;
-        //         }
-        //         foundFeatures = res.features;
-        //         content += "<p>Click a date below to see the imagery.</p><ul class='popup-list'>";
-        //         arrayUtils.forEach(foundFeatures, function (feature) {
-        //             content += "<li><a class='popup-link' data-id='" + feature.attributes.featureId + "'>Date: " + feature.attributes.acquisitionDate + "</a></li>";
-        //         });
-        //         content += "</ul><a class='custom-zoom-to' id='custom-zoom-to'>Zoom To</a>";
-        //         _map.infoWindow.setContent(content);
-        //         _map.infoWindow.show(mapPoint);
-
-        //         dojoQuery(".contentPane .popup-link").forEach(function (node, index) {
-        //             handles.push(on(node, "click", function (evt) {
-        //                 var target = evt.target ? evt.target : evt.srcElement,
-        //                     id = target.dataset ? target.dataset.id : target.getAttribute("data-id");
-        //                 LayerController.showDigitalGlobeService(id);
-        //                 activeFeatureIndex = index;
-        //             }));
-        //         });
-
-        //         handles.push(on(dom.byId("custom-zoom-to"), "click", function (evt) {
-        //             _map.setExtent(foundFeatures[activeFeatureIndex].geometry.getExtent(), true);
-        //         }));
-
-        //         on.once(_map.infoWindow, "hide", function () {
-        //             arrayUtils.forEach(handles, function (handle) {
-        //                 handle.remove();
-        //             });
-        //         });
-
-        //     });
-
-        // },
-
-
-
 
         getFireTweetsInfoWindow: function(feats) {
 
@@ -1485,7 +1518,6 @@ define([
             //html += "</div>"
             // console.log(html);
             // if (evt._count > 0) {
-            //     debugger;
             //     map.infoWindow.setContent(html);
             //     map.infoWindow.show(evt.geometry);
             // }
@@ -1668,7 +1700,6 @@ define([
             _map.infoWindow.setContent(content);
             $('#editTitle').val(graphic.attributes.ALERTS_LABEL);
             _map.infoWindow.show(evt.mapPoint);
-            // debugger;
             // on(dom.byId('editTitle'), "focus", function(evt) {
             //     console.log("edit title fired");
             //     domAttr.set(dom.byId('editPtTitle'), 'value', title);
