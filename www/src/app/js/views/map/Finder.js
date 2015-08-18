@@ -527,7 +527,7 @@ define([
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>", attr.Country, "</td>",
                             "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
-                            "<tr><td>Source: </td><td>", (attr.Source || "N/A"), "</td></tr>",
+                            "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ],
@@ -547,7 +547,7 @@ define([
                                 "<tr><td>Estate Area (ha)</td><td>", attr.Estate_1, "</td></tr>",
                                 "<tr><td>Outgrower Area (ha)</td><td>", attr.Outgrowe, "</td></tr>",
                                 "<tr><td>Scheme Smallholder Area (ha)</td><td>", attr.SH, "</td></tr>",
-                                "<tr><td>Source: </td><td>", (attr.Source || "N/A"), "</td></tr>",
+                                "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
                                 "<tr style='height:10px;'></tr>",
                             "</table>"
                         ],
@@ -555,7 +555,7 @@ define([
                             "<table class='forest-use-pop'>",
                                 "<tr><td>Country</td><td>" , attr.Country , "</td></tr>",
                                 "<tr><td>Certification Status</td><td>" , attr.CERT_STAT , "</td></tr>",
-                                "<tr><td>Source: </td><td>" , (attr.Source || "N/A") , "</td></tr>",
+                                "<tr><td>Source </td><td>" , (attr.Source || "N/A") , "</td></tr>",
                                 "<tr style='height:10px;'></tr>",
                             "</table>"
                     ],
@@ -563,7 +563,7 @@ define([
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>" + attr.Country + "</td></tr>",
                             "<tr><td>Certification Status</td><td>" + attr.CERT_STAT + "</td></tr>",
-                            "<tr><td>Source: </td><td>" + (attr.Source || "N/A") + "</td></tr>",
+                            "<tr><td>Source </td><td>" + (attr.Source || "N/A") + "</td></tr>",
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ]

@@ -163,7 +163,6 @@ map.styl,
 
 /* line 117 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer:first-child .titlePane {
-  height: 20px;
   background: #f7f7f7;
   padding-left: 9px;
 }
@@ -183,6 +182,7 @@ map.styl,
   color: #f7f7f7;
   font-size: 14px;
   padding-top: 1px;
+  max-width: 235px;
 }
 
 /* line 129 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
@@ -190,90 +190,92 @@ map.styl,
   color: #0d0d0d;
 }
 
-/* line 134 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 135 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer:first-child .titlePane .maximize {
   display: none;
 }
 
-/* line 136 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 137 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer:first-child .titlePane .close {
   display: none;
 }
 
-/* line 138 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 139 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer:first-child .titlePane .next {
   background: url("../images/arrow_go.png") no-repeat !important;
   margin-top: 3px;
 }
 
-/* line 141 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 142 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer:first-child .titlePane .prev {
   background: url("../images/arrow_prev.png") no-repeat;
   margin-top: 3px;
 }
 
-/* line 145 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
-
 /* line 146 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+
+/* line 147 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer h3 {
   margin-top: 0px;
   margin-bottom: 3px;
 }
 
-/* line 149 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 150 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer .contentPane {
   padding-top: 0px;
 }
 
-/* line 152 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 153 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer .actionsPane {
   padding-top: 15px;
 }
 
-/* line 154 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 155 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .esriPopupWrapper .sizer .actionList {
   padding-bottom: 8px;
   vertical-align: middle;
 }
 
-/* line 158 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 159 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 table.forest-use-pop {
-  margin: 0px auto;
   padding-top: 5px;
-}
-
-/* line 162 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
-table.forest-use-pop tr:nth-child(odd) {
-  background-color: #eee;
+  width: 100%;
 }
 
 /* line 164 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
-table.forest-use-pop tr:nth-child(odd) td {
+
+/* line 165 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+table.forest-use-pop tr td {
   padding-right: 5px;
   padding-left: 5px;
 }
 
 /* line 168 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+table.forest-use-pop tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+/* line 172 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-popup-list {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-/* line 171 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 175 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-popup-list.no-fires {
   padding-top: 5px;
   padding-bottom: 5px;
   color: #bf0000;
 }
 
-/* line 177 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 181 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-pop-item-cont {
   margin: 0 auto;
   text-align: center;
   padding-top: 5px;
 }
 
-/* line 182 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 186 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-pop-item-cont .fire-pop-item {
   cursor: pointer;
   display: inline-block;
@@ -286,30 +288,30 @@ table.forest-use-pop tr:nth-child(odd) td {
   width: 40px;
 }
 
-/* line 193 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 197 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-pop-item-cont .fire-pop-item.selected {
   background-color: #ecc53d;
   color: #fff;
 }
 
-/* line 197 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 201 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-pop-item-cont .fire-pop-item:hover {
   background-color: #faefc8;
 }
 
-/* line 200 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 204 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-pop-item-cont .fire-pop-item .fire-pop-count {
   font-size: 16px;
   FONT-WEIGHT: BOLD;
   color: #b50303;
 }
 
-/* line 206 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 210 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fire-pop-item-cont .fire-pop-item .fire-pop-label {
   font-size: 10px;
 }
 
-/* line 210 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 214 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map .HomeButton .home {
   padding: 1px;
   background-color: #fff;
@@ -318,7 +320,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   background-image: url("../images/ico-home.png");
 }
 
-/* line 219 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 223 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriSimpleSliderDecrementButton {
   padding: 1px;
   color: #f0ab00;
@@ -329,7 +331,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 
-/* line 228 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 232 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .modal-link {
   background-color: #fff;
   position: absolute;
@@ -339,7 +341,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   z-index: 49;
 }
 
-/* line 236 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 240 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .locator-widget-button {
   background-image: url("../images/locate.png");
   background-repeat: no-repeat;
@@ -347,12 +349,12 @@ table.forest-use-pop tr:nth-child(odd) td {
   top: 130px;
 }
 
-/* line 242 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 246 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .locator-linker {
   top: 130px;
 }
 
-/* line 245 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 249 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .basemap-gallery-button {
   background-image: url("../images/basemap.png");
   background-repeat: no-repeat;
@@ -361,7 +363,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   border-width: 0;
 }
 
-/* line 251 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 255 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alert-button {
   background-image: url("../images/alert_symbol_white.png");
   background-repeat: no-repeat;
@@ -369,25 +371,25 @@ table.forest-use-pop tr:nth-child(odd) td {
   border-width: 0;
 }
 
-/* line 257 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 261 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alertsOptionsHeader {
   float: right;
   padding: 10px;
   cursor: pointer;
 }
 
-/* line 262 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 266 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .basemap-linker {
   top: 170px;
 }
 
-/* line 264 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 268 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alert-linker {
   top: 50px;
   right: 410px;
 }
 
-/* line 268 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 272 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-alert-container {
   width: 350px !important;
   height: auto;
@@ -395,7 +397,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   right: 240px !important;
 }
 
-/* line 274 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 278 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .basemap-gallery-container,
 .locator-widget-container,
 .map-share-container,
@@ -408,26 +410,26 @@ table.forest-use-pop tr:nth-child(odd) td {
   right: 70px;
 }
 
-/* line 282 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 286 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .basemap-gallery-container {
   height: 300px;
   top: 20px;
 }
 
-/* line 286 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 290 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .locator-widget-container {
   top: 20px;
   padding: 5px;
 }
 
-/* line 290 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 294 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-share-container {
   height: 80px;
   width: auto;
   top: 180px;
 }
 
-/* line 295 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 299 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map .embed_code_share {
   background: url("../images/embed_icon.png") no-repeat #fff;
   display: inline-block;
@@ -437,13 +439,13 @@ table.forest-use-pop tr:nth-child(odd) td {
   margin-left: 2px;
 }
 
-/* line 303 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 307 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alert-tools {
   text-align: center;
   margin: 5px 0 10px;
 }
 
-/* line 308 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 312 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alert-tools-buttons {
   background-color: #444;
   display: inline-block;
@@ -458,35 +460,35 @@ table.forest-use-pop tr:nth-child(odd) td {
   font-size: 14px;
 }
 
-/* line 321 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 325 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alert-tools-buttons:hover {
   background-color: #e7002f;
 }
 
-/* line 324 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 328 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .upload-tools .upload-instructions li {
   margin-left: 10px;
   list-style: disc;
   font-size: 12px;
 }
 
-/* line 329 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 333 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .upload-tools {
   margin: 0 10px 10px;
 }
 
-/* line 332 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 336 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .uploadFileLabel {
   display: inline-block;
   margin-top: 8px;
 }
 
-/* line 336 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 340 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .basemap-gallery-container {
   overflow-y: auto;
 }
 
-/* line 339 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 343 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .basemap-container-labels {
   border-bottom: 1px solid #000;
   padding-bottom: 10px;
@@ -495,26 +497,26 @@ table.forest-use-pop tr:nth-child(odd) td {
   margin: 10px;
 }
 
-/* line 346 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 350 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .share-linker {
   top: 210px;
 }
 
-/* line 349 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 353 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .share-button {
   background: url("../images/share-icon.png") no-repeat #fff;
   background-position: -2px -35px;
   top: 210px;
 }
 
-/* line 354 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 358 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .popup-link-zoom {
   background: url("../images/magnifyingGlass.png") no-repeat;
   background-position: 20px 2px;
   cursor: pointer;
 }
 
-/* line 359 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 363 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #leftPaneToggle {
   z-index: 30;
   position: absolute;
@@ -531,29 +533,29 @@ table.forest-use-pop tr:nth-child(odd) td {
   line-height: 25px;
 }
 
-/* line 374 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 378 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .confidence-archive-container {
   margin-left: 13px;
   padding-bottom: 10px;
 }
 
-/* line 378 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 382 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #ui-datepicker-div {
   z-index: 35 !important;
 }
 
-/* line 381 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 385 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #footprintsCheckBox > label {
   color: #808080 !important;
 }
 
-/* line 384 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 388 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-optionsDigitalGlobe {
   margin-top: -10px;
   margin-left: 20px;
 }
 
-/* line 388 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 392 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTopRow th {
   background: #fff;
   color: #808080;
@@ -562,29 +564,29 @@ table.forest-use-pop tr:nth-child(odd) td {
   height: 30px;
 }
 
-/* line 395 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 399 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable {
   border-collapse: collapse;
   border-spacing: 0;
 }
 
-/* line 398 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 402 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable tr:nth-child(even) {
   background: #fff;
 }
 
-/* line 399 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 403 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable tr:nth-child(odd) {
   background: #f0f0f0;
 }
 
-/* line 401 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 405 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #verifyEmailForAlertsInMap {
   font-size: 12px;
   display: none;
 }
 
-/* line 406 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 410 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .email-container,
 .submit-container,
 .message-container,
@@ -593,7 +595,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   margin: 10px 0;
 }
 
-/* line 410 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 414 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #userEmail {
   border: 1px solid #808080;
   border-radius: 5px;
@@ -607,12 +609,12 @@ table.forest-use-pop tr:nth-child(odd) td {
   outline: 0;
 }
 
-/* line 422 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 426 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .hide {
   display: none;
 }
 
-/* line 425 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 429 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #userPhone {
   border: 1px solid #808080;
   border-radius: 5px;
@@ -627,13 +629,13 @@ table.forest-use-pop tr:nth-child(odd) td {
   padding-left: 40px;
 }
 
-/* line 438 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 442 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .submit-container {
   text-align: center;
   margin: 10px 0;
 }
 
-/* line 442 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 446 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .deleteGraphicLink {
   margin-top: 20px;
   cursor: pointer;
@@ -646,7 +648,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   padding: 5px;
 }
 
-/* line 453 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 457 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .uploadCustomGraphic {
   position: absolute !important;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
@@ -663,7 +665,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   background: url("../images/alert_symbol_white.png") no-repeat #e7002f 5px 3px;
 }
 
-/* line 469 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 473 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .uploadCustomGraphic:hover,
 .deleteGraphicLink:hover,
 .report-link:hover,
@@ -674,7 +676,7 @@ table.forest-use-pop tr:nth-child(odd) td {
   border-radius: 5px;
 }
 
-/* line 473 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 477 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #subscribe-now {
   border: none;
   color: #fff;
@@ -690,24 +692,24 @@ table.forest-use-pop tr:nth-child(odd) td {
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 
-/* line 487 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 491 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #subscribe-now:hover,
 #subscribe-now:active {
   background-color: #b60025;
 }
 
-/* line 490 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 494 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #subscribeDialogWindow {
   font-family: Arial !important;
   overflow: inherit !important;
 }
 
-/* line 494 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 498 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .intl-tel-input .country-list {
   max-height: 200px !important;
 }
 
-/* line 497 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 501 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #subscribeDialogWindow > div.dijitDialogTitleBar,
 #embedCodeShareDialog > div.dijitDialogTitleBar,
 #digitalGlobeInstructions > div.dijitDialogTitleBar,
@@ -716,83 +718,83 @@ table.forest-use-pop tr:nth-child(odd) td {
   text-align: center;
 }
 
-/* line 501 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 505 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tundra .dijitDialogPaneContent {
   border-top: none !important;
 }
 
-/* line 504 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 508 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tundra .dijitDialog {
   border: none !important;
 }
 
-/* line 507 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 511 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tundra .dijitDialogCloseIcon {
   background: url("../images/ico-close.png") no-repeat 4px 4px !important;
 }
 
-/* line 510 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 514 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 /*.imageryTable tr
 	border-left: 1px solid transparent;*/
 
-/* line 513 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 517 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable td {
   text-align: center;
 }
 
-/* line 516 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 520 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable td a {
   color: #000;
 }
 
-/* line 519 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 523 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable th {
   text-align: center;
 }
 
-/* line 522 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 526 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow > table > thead > tr > th:nth-child(1) {
   width: 81px;
 }
 
-/* line 525 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 529 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow > table > tbody > tr > td:nth-child(1) {
   width: 81px;
 }
 
-/* line 528 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 532 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow > table > thead > tr > th:nth-child(2) {
   width: 104px;
 }
 
-/* line 531 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 535 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow > table > tbody > tr > td:nth-child(2) {
   width: 104px;
 }
 
-/* line 534 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 538 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow > table > thead > tr > th:nth-child(3) {
   width: 77px;
 }
 
-/* line 537 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 541 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow > table > tbody > tr > td:nth-child(3) {
   width: 60px;
 }
 
-/* line 540 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 544 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryTable tr {
   height: 25px;
 }
 
-/* line 543 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 547 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 table.imageryTable thead,
 table.imageryTable tbody {
   float: left;
   width: 100%;
 }
 
-/* line 548 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 552 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow {
   width: auto;
   padding: 10px;
@@ -801,19 +803,19 @@ table.imageryTable tbody {
   font-size: 12pt;
 }
 
-/* line 562 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 566 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow .font14 {
   font-size: 14pt;
   padding-top: 3px;
   padding-bottom: 1px;
 }
 
-/* line 566 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 570 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #imageryWindow .font9 {
   font-size: 9pt;
 }
 
-/* line 569 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 573 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options {
   width: auto;
   max-width: 300px;
@@ -829,35 +831,35 @@ table.imageryTable tbody {
   text-align: center;
 }
 
-/* line 583 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 587 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options .font14 {
   font-size: 14pt;
   padding-top: 3px;
   padding-bottom: 1px;
 }
 
-/* line 587 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 591 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options .font10 {
   font-size: 10pt;
 }
 
-/* line 589 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 593 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options .selInfo {
   padding-top: 5px;
   font-style: italic;
 }
 
-/* line 593 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 597 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options .report-options-section {
   padding: 8px 15px 16px 15px;
 }
 
-/* line 595 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 599 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options .report-label {
   margin-right: 10px;
 }
 
-/* line 598 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 602 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options .report-link-container {
   position: relative;
   width: 138px;
@@ -869,7 +871,7 @@ table.imageryTable tbody {
   margin: auto;
 }
 
-/* line 609 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 613 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options select[multiple=true] {
   margin: 8px 8px 8px 0px;
   padding: 3px;
@@ -877,19 +879,19 @@ table.imageryTable tbody {
   height: 100px;
 }
 
-/* line 615 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 619 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-options input[type=radio] {
   margin: 3px;
 }
 
-/* line 618 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 622 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .reportOptionsSidebar {
   margin-top: 5px;
   padding: 5px;
   font-size: 14px;
 }
 
-/* line 623 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 627 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .reportOptionsHeader {
   position: relative;
   cursor: pointer;
@@ -898,7 +900,7 @@ table.imageryTable tbody {
   top: -5px;
 }
 
-/* line 630 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 634 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tomnodLink a {
   text-decoration: underline;
   font-size: 11px;
@@ -907,7 +909,7 @@ table.imageryTable tbody {
   font-weight: 300;
 }
 
-/* line 637 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 641 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .print-button {
   background: url("../images/print-icon.png") no-repeat #fff;
   background-position: -1px -35px;
@@ -916,12 +918,12 @@ table.imageryTable tbody {
   top: 250px;
 }
 
-/* line 644 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 648 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .print-button.loading {
   background: url("../images/loader.gif") no-repeat center #fff;
 }
 
-/* line 647 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 651 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .alert-button {
   background-color: #e7002f;
   text-align: center;
@@ -935,18 +937,18 @@ table.imageryTable tbody {
   padding-right: 0px;
 }
 
-/* line 659 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 663 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-launch > div {
   background: url("../images/analysis_symbol_white.png") 5% 50% no-repeat;
 }
 
-/* line 662 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 666 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .locator-line-splitter {
   text-align: center;
   width: 290px;
 }
 
-/* line 666 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 670 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .locator-container-header {
   margin: 5px 0 0 5px;
   font-weight: bold;
@@ -955,22 +957,22 @@ table.imageryTable tbody {
   text-align: center;
 }
 
-/* line 673 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 677 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map .sharing_toolbox {
   padding: 20px 20px 0;
 }
 
-/* line 676 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 680 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .addthis_sharing_toolbox {
   display: inline-block;
 }
 
-/* line 679 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 683 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .LocateButton {
   margin: 0 5px;
 }
 
-/* line 682 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 686 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .LocateButton span {
   display: block !important;
   text-align: center;
@@ -980,19 +982,19 @@ table.imageryTable tbody {
   color: #fff;
 }
 
-/* line 690 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 694 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .LocateButton .zoomLocateButton {
   background: #555 !important;
   height: 25px !important;
   width: 100px !important;
 }
 
-/* line 695 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 699 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .LocateButton .zoomLocateButton:hover {
   background: #e7002f !important;
 }
 
-/* line 698 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 702 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .simpleGeocoder {
   position: absolute;
   z-index: 50;
@@ -1000,34 +1002,34 @@ table.imageryTable tbody {
   top: 20px;
 }
 
-/* line 704 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 708 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .area-search-inputs {
   margin: 5px;
 }
 
-/* line 707 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 711 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .dms-inputs {
   height: 20px;
   width: 60px;
 }
 
-/* line 711 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 715 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .lat-long-inputs {
   height: 20px;
 }
 
-/* line 714 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 718 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .area-search-radio-container {
   margin: 2px 5px;
 }
 
-/* line 717 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 721 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .goto-area-search {
   display: inline-block;
   margin: 5px;
 }
 
-/* line 721 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 725 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .clear-search-pins {
   text-decoration: underline;
   cursor: pointer;
@@ -1036,13 +1038,13 @@ table.imageryTable tbody {
   color: #00f;
 }
 
-/* line 728 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 732 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .search-option-button-container {
   text-align: center;
   padding: 10px;
 }
 
-/* line 732 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 736 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .search-option-go-button {
   background-color: #444;
   display: inline-block;
@@ -1054,12 +1056,12 @@ table.imageryTable tbody {
   color: #fff;
 }
 
-/* line 742 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 746 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .search-option-go-button:hover {
   background-color: #e7002f;
 }
 
-/* line 745 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 749 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .fires-map-accordion {
   position: absolute !important;
   top: 50px;
@@ -1068,26 +1070,26 @@ table.imageryTable tbody {
   left: 0;
 }
 
-/* line 751 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 755 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitAccordionContainer {
   border-width: 0px;
   margin: 0 5px;
 }
 
-/* line 755 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 759 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .fires-map-accordion .dijitAccordionTitle {
   background: #fff url("../images/ico-carat-right.png") 96% center no-repeat;
   color: #888;
   font-weight: bold;
 }
 
-/* line 760 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 764 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .fires-map-accordion .dijitAccordionTitleSelected {
   background: #fff url("../images/ico-carat-down.png") 96% center no-repeat !important;
   color: #888;
 }
 
-/* line 765 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 769 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .legend-widget-container {
   background-color: #fff;
   border-radius: 5px 5px 0 0;
@@ -1103,7 +1105,7 @@ table.imageryTable tbody {
   border: 1px solid #bfbfbf;
 }
 
-/* line 779 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 783 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .legend-widget-title {
   box-sizing: border-box;
   background-image: url("../images/ico-carat-down.png") !important;
@@ -1117,18 +1119,18 @@ table.imageryTable tbody {
   background-position: 90% 10px !important;
 }
 
-/* line 791 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 795 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .legend-widget-title:hover {
   background-color: #fff;
   border-bottom: 1px solid #000;
 }
 
-/* line 795 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 799 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .legend-closed {
   background-image: url("../images/ico-carat-up.png") !important;
 }
 
-/* line 798 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 802 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .legend-widget-title span {
   display: inline-block;
   line-height: 30px;
@@ -1136,13 +1138,13 @@ table.imageryTable tbody {
   margin-left: 5px;
 }
 
-/* line 804 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 808 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .legend-content {
   height: 250px;
   width: 100%;
 }
 
-/* line 808 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 812 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #legend {
   overflow-y: auto;
   height: 100%;
@@ -1150,27 +1152,27 @@ table.imageryTable tbody {
   padding: 0 0 0 20px;
 }
 
-/* line 814 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 818 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #legend_msg {
   display: none !important;
 }
 
-/* line 817 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 821 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriLegendServiceLabel {
   display: none !important;
 }
 
-/* line 820 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 824 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriLegendService {
   padding-bottom: 5px !important;
 }
 
-/* line 823 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 827 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .active-fires-options-container {
   margin: 10px 0 20px;
 }
 
-/* line 826 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 830 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .active-fires-options {
   text-align: center;
   line-height: 15px;
@@ -1185,7 +1187,7 @@ table.imageryTable tbody {
   font-size: 12px;
 }
 
-/* line 839 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 843 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #confidenceFiresContainer,
 #digitalGlobeFootprintsCheckboxLabel,
 #confidenceArchiveContainer {
@@ -1193,43 +1195,43 @@ table.imageryTable tbody {
   font-size: 12px !important;
 }
 
-/* line 845 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 849 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .confidence-fires-container {
   margin: 5px 38px;
 }
 
-/* line 848 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 852 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .active-fires-options.selected-fire-option {
   background-color: #ecc53d;
   color: #fff;
   color: #fff;
 }
 
-/* line 853 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 857 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .checkbox-sub-label {
   margin: 2px 7px;
   font-size: 12px;
   display: block;
 }
 
-/* line 858 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 862 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .checkbox-instructions {
   padding: 0 0 0 20px;
   font-weight: bold;
   font-size: 11px;
 }
 
-/* line 863 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 867 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .airQualityDisable {
   text-decoration: line-through;
 }
 
-/* line 866 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 870 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #comingSoon {
   color: #f00;
 }
 
-/* line 869 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 873 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .latLongHUD {
   background-color: rgba(255,255,255,0.4);
   border-radius: 5px;
@@ -1240,35 +1242,35 @@ table.imageryTable tbody {
   left: 5px;
 }
 
-/* line 878 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 882 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitAccordionContainer-dijitContentPane {
   padding: 10px;
 }
 
-/* line 881 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 885 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .accordion-panel .slider-container {
   width: 250px;
   margin: 20px;
 }
 
-/* line 885 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 889 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .slider-container .dijitSlider {
   width: 100%;
 }
 
-/* line 888 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 892 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .transparency-slider-label {
   font-size: 11px;
   padding: 0px 0px 0px 20px;
   color: #000;
 }
 
-/* line 893 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 897 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .latLongHUD div {
   padding: 2px 4px;
 }
 
-/* line 896 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 900 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .report-link-container {
   border-radius: 5px;
   background-color: #e7002f;
@@ -1277,7 +1279,7 @@ table.imageryTable tbody {
   top: 10px;
 }
 
-/* line 903 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 907 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .report-link {
   display: inline-block;
   cursor: pointer;
@@ -1290,7 +1292,7 @@ table.imageryTable tbody {
   padding-right: 0;
 }
 
-/* line 914 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 918 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #report-link {
   background: url("../images/analysis_symbol_white.png") 5% 50% no-repeat;
   text-align: right;
@@ -1298,12 +1300,12 @@ table.imageryTable tbody {
   padding: 6px;
 }
 
-/* line 921 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 925 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 div.report-options-section > table {
   margin-bottom: 5px;
 }
 
-/* line 924 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 928 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .report-link-dates {
   display: inline-block;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
@@ -1317,25 +1319,25 @@ div.report-options-section > table {
   margin: auto;
 }
 
-/* line 936 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 940 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .coming-soon-label {
   margin-left: 20px;
   font-size: 12px;
   color: #808080;
 }
 
-/* line 941 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 945 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriControlsBR {
   right: inherit !important;
   left: 5px;
 }
 
-/* line 945 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 949 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriScalebar {
   top: 55px !important;
 }
 
-/* line 949 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 953 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitSliderRemainingBarH,
 #control-panel.dijitSliderProgressBarH,
 #control-panel.dijitSliderFocused .dijitSliderProgressBarH {
@@ -1344,22 +1346,22 @@ div.report-options-section > table {
   border-width: 0px;
 }
 
-/* line 954 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 958 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .dijitSliderMoveable {
   outline: none;
 }
 
-/* line 957 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 961 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .checkbox-container {
   padding: 5px 20px;
 }
 
-/* line 960 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 964 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .checkbox-container-wind {
   padding: 2px 10px;
 }
 
-/* line 964 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 968 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitSliderImageHandleH {
   border: 4px solid #e98300;
   height: 8px;
@@ -1369,7 +1371,7 @@ div.report-options-section > table {
   border-radius: 8px;
 }
 
-/* line 973 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 977 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel label {
   display: inline;
   color: #000;
@@ -1378,7 +1380,7 @@ div.report-options-section > table {
   font-weight: 600;
 }
 
-/* line 981 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 985 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .checkbox-sub-label {
   clear: both;
   font-size: 11px;
@@ -1386,7 +1388,7 @@ div.report-options-section > table {
   font-weight: 100;
 }
 
-/* line 987 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 991 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitSliderLeftBumper,
 #control-panel .dijitSliderRightBumper,
 #control-panel .dijitSliderIncrementIconH,
@@ -1394,13 +1396,13 @@ div.report-options-section > table {
   display: none;
 }
 
-/* line 990 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 994 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitSliderProgressBarH {
   background: rgba(0,0,0,0);
   border-width: 0;
 }
 
-/* line 994 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 998 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitCheckBox,
 #basemap-gallery-container .dijitCheckBox,
 #windLayerBasemapDialog .dijitCheckBox {
@@ -1422,7 +1424,7 @@ div.report-options-section > table {
   border-bottom-left-radius: 3px;
 }
 
-/* line 1013 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1017 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel .dijitCheckBoxChecked,
 #basemap-gallery-container .dijitCheckBoxChecked,
 #windLayerBasemapDialog .dijitCheckBoxChecked {
@@ -1435,7 +1437,7 @@ div.report-options-section > table {
   border-image-repeat: initial;
 }
 
-/* line 1022 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1026 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel input[type="radio"] {
   background-image: url("../images/checkmark.png");
   background-position: -110px;
@@ -1446,12 +1448,12 @@ div.report-options-section > table {
   padding: 0;
 }
 
-/* line 1031 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1035 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #control-panel input[type="radio"]:checked {
   background-position: -94px;
 }
 
-/* line 1034 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1038 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .close-icon {
   position: absolute;
   z-index: 1;
@@ -1463,32 +1465,38 @@ div.report-options-section > table {
   cursor: pointer;
 }
 
-/* line 1044 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1048 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .infoName {
   margin: 0 0 10px 0;
   border-bottom: 1px solid #fff;
   font-weight: bold;
 }
 
-/* line 1049 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1053 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryRow:hover {
   border: 2px solid #ff0;
   box-sizing: border-box;
 }
 
-/* line 1053 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1057 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+.imageryRow.hover {
+  border: 2px solid #ff0;
+  box-sizing: border-box;
+}
+
+/* line 1061 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .imageryRowSelected {
   border: 2px solid #0ff;
   box-sizing: border-box;
 }
 
-/* line 1057 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1065 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #infoWindowTable td {
   width: 45%;
   padding: 0 5px 0 0;
 }
 
-/* line 1061 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1069 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .layer-info-icon {
   float: right;
   display: flex;
@@ -1504,9 +1512,9 @@ div.report-options-section > table {
   cursor: pointer;
 }
 
-/* line 1078 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1086 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 
-/* line 1079 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1087 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #fireLayerInfoDialog .dijitDialogTitleBar,
 #landUseLayerInfoDialog .dijitDialogTitleBar,
 #conservationLayerInfoDialog .dijitDialogTitleBar,
@@ -1518,42 +1526,42 @@ div.report-options-section > table {
   color: #aaa;
 }
 
-/* line 1084 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1092 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #fireLayerInfoDialog .dijitDialogCloseIcon,
 .layer-info-icon:hover {
   background-color: #888;
 }
 
-/* line 1089 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1097 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriPopupWrapper {
   top: -40px;
 }
 
-/* line 1092 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1100 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .popup-link,
 .custom-zoom-to {
   cursor: pointer;
 }
 
-/* line 1095 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1103 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .popup-list {
   margin-bottom: 20px !important;
 }
 
-/* line 1098 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1106 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .satelliteColumn {
   position: absolute;
   left: 110px;
 }
 
-/* line 1102 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1110 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .custom-zoom-to {
   position: absolute;
   left: 10px;
   bottom: 0;
 }
 
-/* line 1107 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1115 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .blockingWheelContainer {
   background-color: #ddd;
   position: absolute;
@@ -1566,7 +1574,7 @@ div.report-options-section > table {
   z-index: 1000;
 }
 
-/* line 1118 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1126 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .blockingWheel {
   position: initial;
   left: 50%;
@@ -1576,7 +1584,7 @@ div.report-options-section > table {
   cursor: no-drop;
 }
 
-/* line 1126 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1134 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .loadingWheelContainer {
   background-color: #ddd;
   position: absolute;
@@ -1589,7 +1597,7 @@ div.report-options-section > table {
   z-index: 1000;
 }
 
-/* line 1137 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1145 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .loadingWheel {
   position: absolute;
   margin-left: -12px;
@@ -1598,45 +1606,45 @@ div.report-options-section > table {
   top: 50%;
 }
 
-/* line 1144 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1152 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #primary-forests-options {
   margin: 0 20px;
 }
 
-/* line 1147 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1155 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #primary-forests-options label {
   font-weight: normal;
 }
 
-/* line 1150 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1158 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #primary-forests-options .inline {
   display: inline-block;
 }
 
-/* line 1153 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1161 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #windLegendLabels {
   margin: 0 25px;
   font-size: 10px;
 }
 
-/* line 1157 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1165 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .windLegendNode {
   margin: 10px auto;
   height: 13px;
   width: 80%;
 }
 
-/* line 1162 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1170 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .rightWindLabel {
   float: right;
 }
 
-/* line 1165 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1173 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .windLayerLegendColorRamp {
   background: linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%);
 }
 
-/* line 1168 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1176 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #windLayerBasemapDialog,
 #digitalGlobeInstructions,
 #embedCodeShareDialog {
@@ -1645,7 +1653,7 @@ div.report-options-section > table {
   color: #464052;
 }
 
-/* line 1173 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1181 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #windLayerBasemapDialog .dijitDialogPaneActionBar,
 #digitalGlobeInstructions .dijitDialogPaneActionBar,
 #embedCodeShareDialog .dijitDialogPaneActionBar {
@@ -1653,7 +1661,7 @@ div.report-options-section > table {
   text-align: center;
 }
 
-/* line 1177 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1185 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #windLayerBasemapDialog .dijitDialogPaneActionBar button,
 #digitalGlobeInstructions .dijitDialogPaneActionBar button {
   border-radius: 5px;
@@ -1668,13 +1676,13 @@ div.report-options-section > table {
   box-shadow: 1px 1px 5px rgba(0,0,0,0.25);
 }
 
-/* line 1189 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1197 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #embedCodeShareDialog .dijitDialogPaneActionBar input[type="text"] {
   height: 20px;
   width: 90%;
 }
 
-/* line 1193 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1201 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #windLayerBasemapDialog .dialogCheckbox,
 #digitalGlobeInstructions .dialogCheckbox {
   margin-top: 15px;
@@ -1682,7 +1690,7 @@ div.report-options-section > table {
   color: #777;
 }
 
-/* line 1198 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1206 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #windLayerBasemapDialog .dialogCheckbox label,
 #digitalGlobeInstructions .dialogCheckbox label {
   position: relative;
@@ -1690,7 +1698,7 @@ div.report-options-section > table {
   top: 2px;
 }
 
-/* line 1203 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1211 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .joyride-tip-guide .joyride-next-tip {
   background: #e7002f !important;
   border: none !important;
@@ -1698,22 +1706,22 @@ div.report-options-section > table {
   width: 30px;
 }
 
-/* line 1211 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1219 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .joyride-close-tip {
   margin: -5px;
 }
 
-/* line 1214 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1222 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .joyride-tip-guide {
   width: 200px;
 }
 
-/* line 1217 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1225 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #map_gc {
   z-index: 5;
 }
 
-/* line 1220 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1228 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #heatCircle,
 #clusterCircle,
 #hexCircle {
@@ -1725,44 +1733,44 @@ div.report-options-section > table {
   margin: 10px;
 }
 
-/* line 1228 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1236 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #heatCircle {
   background: #fff url("../images/heatmap.png") center no-repeat;
 }
 
-/* line 1231 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1239 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #clusterCircle {
   background: #fff url("../images/clustering.png") center no-repeat;
 }
 
-/* line 1235 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1243 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #hexCircle {
   background: #fff url("../images/hexbin.png") center no-repeat;
 }
 
-/* line 1238 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1246 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print .mapView #stackContainer {
   top: 0px;
 }
 
-/* line 1241 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1249 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print #app-header {
   display: none;
 }
 
-/* line 1244 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1252 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print #control-panel {
   width: 0 !important;
 }
 
-/* line 1247 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1255 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print #map-container {
   left: 0 !important;
   max-width: 100%;
   max-height: 100%;
 }
 
-/* line 1252 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1260 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print .esriControlsBR,
 .map-view-print .legend-widget-container,
 .map-view-print .locator-widget-button,
@@ -1775,34 +1783,34 @@ div.report-options-section > table {
   display: none !important;
 }
 
-/* line 1263 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1271 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print .latLongHUD,
 .map-view-print .esriScalebar {
   top: 15px;
 }
 
-/* line 1267 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1275 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .map-view-print .latLongHUD {
   bottom: auto;
 }
 
-/* line 1270 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1278 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #smartHiddenMenu > li > a {
   color: #000 !important;
 }
 
-/* line 1273 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1281 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .sub-menu {
   border-top: 1px solid #000;
 }
 
-/* line 1276 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1284 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #smartRelative {
   position: relative;
   margin-top: 5px;
 }
 
-/* line 1280 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1288 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #smartDropdown {
   -webkit-appearance: none;
   border: 1px solid #e98300;
@@ -1812,7 +1820,7 @@ div.report-options-section > table {
   background: #fff url("../images/ico-carat-down.png") 96% center no-repeat !important;
 }
 
-/* line 1289 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1297 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #smartDropdownArrow {
   float: right;
   position: absolute;
@@ -1821,12 +1829,12 @@ div.report-options-section > table {
   cursor: pointer;
 }
 
-/* line 1296 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1304 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriPopup {
   z-index: 28 !important;
 }
 
-/* line 1299 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1307 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #smartContainer {
   margin: 0;
   margin-left: 5px;
@@ -1834,7 +1842,7 @@ div.report-options-section > table {
   text-align: center;
 }
 
-/* line 1305 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1313 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .smartRelative {
   border-radius: 50%;
   box-shadow: 0 0 0 3px #ddd;
@@ -1842,37 +1850,37 @@ div.report-options-section > table {
   position: relative;
 }
 
-/* line 1311 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1319 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #cluster-blocker {
   border-radius: 50%;
 }
 
-/* line 1314 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1322 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #heatCircle:hover {
   box-shadow: 0 0 0 3px #f00 !important;
 }
 
-/* line 1317 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1325 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .hoverSmart:hover {
   box-shadow: 0 0 0 3px #f00 !important;
 }
 
-/* line 1332 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1340 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #activateSmartContainer {
   margin-bottom: 5px;
 }
 
-/* line 1335 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1343 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .hidden {
   display: none;
 }
 
-/* line 1339 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1347 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel {
   display: none;
 }
 
-/* line 1342 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1350 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .TimeTT {
   height: 20px;
   width: 40px;
@@ -1884,12 +1892,12 @@ div.report-options-section > table {
   display: none;
 }
 
-/* line 1352 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1360 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriTimeSlider {
   padding-top: 10px;
 }
 
-/* line 1355 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1363 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .timeSliderContainer {
   height: 95px;
   width: 272px;
@@ -1898,7 +1906,7 @@ div.report-options-section > table {
   margin-left: 5px;
 }
 
-/* line 1362 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1370 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .timeSliderPanel .dijitRuleLabel {
   float: left;
   width: 36px;
@@ -1915,12 +1923,12 @@ div.report-options-section > table {
   transform: rotate(-55deg);
 }
 
-/* line 1377 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1385 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .timeSliderContainer .dijitRuleLabelH {
   left: -55% !important;
 }
 
-/* line 1380 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1388 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .timeSliderPanelLabel {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -1931,7 +1939,7 @@ div.report-options-section > table {
   top: -20px;
 }
 
-/* line 1389 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1397 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel {
   -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.25);
   box-shadow: 0 0 8px rgba(0,0,0,0.25);
@@ -1945,7 +1953,7 @@ div.report-options-section > table {
   z-index: 50;
 }
 
-/* line 1401 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1409 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriTimeSlider .tsPlayButton {
   background: url("../images/ico-play.png") no-repeat center;
   border-right: 0px solid #d1d0d4;
@@ -1954,7 +1962,7 @@ div.report-options-section > table {
   width: 0px;
 }
 
-/* line 1408 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1416 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .esriTimeSlider .tsPauseButton {
   background: url("images/ico-pause.png") no-repeat center;
   border-right: 2px solid #d1d0d4;
@@ -1963,29 +1971,29 @@ div.report-options-section > table {
   width: 24px;
 }
 
-/* line 1415 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1423 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .esriTimeSlider {
   padding-top: 0;
 }
 
-/* line 1418 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1426 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitButton {
   margin: 0;
 }
 
-/* line 1421 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1429 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .esriTimeSlider td:first-child {
   width: 2%;
   text-align: left;
 }
 
-/* line 1425 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1433 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .esriTimeSlider td:nth-child(3) {
   width: 2%;
   text-align: right;
 }
 
-/* line 1429 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1437 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitButtonNode {
   border: 0px solid #c0c0c0;
   border-bottom: 0px solid #9b9b9b;
@@ -1993,17 +2001,17 @@ div.report-options-section > table {
   background: #fff url("") repeat-x bottom left;
 }
 
-/* line 1436 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1444 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel table td:first-child .dijitButtonNode {
   border-radius: 5px 0px 0px 5px;
 }
 
-/* line 1439 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1447 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel table td:nth-child(3) .dijitButtonNode {
   border-radius: 0px 5px 5px 0px;
 }
 
-/* line 1442 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1450 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .tsPrevButton {
   border-left: 2px solid #d1d0d4;
   border-radius: 0px 5px 5px 0px;
@@ -2012,12 +2020,12 @@ div.report-options-section > table {
   width: 24px;
 }
 
-/* line 1451 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1459 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .pauseIcon {
   background: url("images/ico-unlock.png") no-repeat center !important;
 }
 
-/* line 1454 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1462 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderBarContainerH {
   background: url("images/timeline-bg.png") repeat-x scroll center 10px rgba(0,0,0,0);
   position: relative;
@@ -2026,13 +2034,13 @@ div.report-options-section > table {
   margin: 0;
 }
 
-/* line 1462 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1470 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderRemainingBarH {
   border-color: rgba(255,255,255,0);
   background: rgba(255,255,255,0) url("") repeat-x top left;
 }
 
-/* line 1466 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1474 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderBumperH {
   border-width: 0;
   background-size: 340px;
@@ -2043,7 +2051,7 @@ div.report-options-section > table {
   margin: 0 0 4px 0;
 }
 
-/* line 1475 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1483 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderProgressBarH {
   border: 0 solid rgba(255,255,255,0);
   background: #e98300;
@@ -2051,7 +2059,7 @@ div.report-options-section > table {
   height: 10px;
 }
 
-/* line 1481 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1489 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderImageHandleH,
 #timeSliderPanel .dijitSliderFocused .dijitSliderImageHandleH {
   width: 10px;
@@ -2063,67 +2071,67 @@ div.report-options-section > table {
   z-index: 50002;
 }
 
-/* line 1490 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1498 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .esriTimeSlider .ts {
   position: relative;
   margin: 0px;
   top: -10px;
 }
 
-/* line 1498 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1506 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tundra .dijitTooltipRight {
   padding-left: 8px false;
 }
 
-/* line 1500 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1508 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tundra .dijitTooltipRight .dijitTooltipContainer {
   background: #222;
   border: 0px;
   color: #ccc;
 }
 
-/* line 1504 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1512 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tundra .dijitTooltipRight .dijitTooltipConnector {
   background-image: none !important;
 }
 
-/* line 1509 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1517 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #dojox_form__RangeSliderMixin_0 {
   width: 100%;
 }
 
-/* line 1512 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1520 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .tstmp {
   vertical-align: top !important;
 }
 
-/* line 1515 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1523 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .dj_gecko #timeSliderPanel .esriTimeSlider .ts {
   position: relative;
 /*5*/
 }
 
-/* line 1519 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1527 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderRemainingBarH {
   background: #ecc53d;
   margin-bottom: 4px;
   height: 6px;
 }
 
-/* line 1524 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1532 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .tsTicks {
   height: 10px;
   z-index: 0;
   width: 99.9%; /* This prevents the ticks from sitting outside of the slider bar container */
 }
 
-/* line 1529 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1537 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .dijitRuleMark {
   border: 1px solid #000;
   margin: -2px 0 0 0;
 }
 
-/* line 1533 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1541 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dojoxRangeSlider,
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH {
   background: #e98300 !important;
@@ -2131,43 +2139,43 @@ div.report-options-section > table {
 /*height: 8px;*/
 }
 
-/* line 1539 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1547 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH {
   position: absolute !important;
 }
 
-/* line 1543 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1551 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dojoxRangeSlider {
   background: rgba(233,131,0,0) !important;
   border: 0px solid #461d7c !important;
 }
 
-/* line 1549 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1557 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dojoxRangeSliderBarContainer .dijitSliderMoveable .dijitSliderImageHandleH {
   margin-top: 3px;
 }
 
-/* line 1554 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1562 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #timeSliderPanel .dijitSliderImageHandleH,
 .dijitContentPane {
   overflow-x: hidden;
 }
 
-/* line 1558 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1566 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 #brightnessSelector,
 #confidenceSelector {
   display: none;
 }
 
-/* line 1561 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1569 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 .selectedConfidence {
   background-color: #00f;
 }
 
-/* line 1564 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1572 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
 @media print {
 
-/* line 1565 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
+/* line 1573 : c:\projs\wri-github\gfw-fires-app\www\src\app\css\map.styl */
   html,
   body {
     -webkit-print-color-adjust: exact;

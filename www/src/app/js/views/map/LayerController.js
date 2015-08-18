@@ -687,7 +687,7 @@ define([
         },
 
         showDigitalGlobeImagery: function(imageryItem) {
-
+            _map.infoWindow.hide();
             var feature = imageryItem.feature;
             var sensorName = feature.attributes.SensorName;
             var objectId = feature.attributes.OBJECTID;
