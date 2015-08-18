@@ -115,7 +115,7 @@ baseRed = #e7002f
 	// background #F7F7F7
 	
 	.titlePane
-		height 20px
+		// height 20px
 		background #F7F7F7
 		padding-left 9px
 		
@@ -131,6 +131,7 @@ baseRed = #e7002f
 			color #F7F7F7
 			font-size 14px
 			padding-top 1px
+			max-width 235px
 		.maximize
 			display none
 		.close
@@ -156,14 +157,17 @@ baseRed = #e7002f
 		vertical-align	middle
 		
 table.forest-use-pop
-	margin 0px auto
+	// margin 0px auto
 	padding-top	5px
+	width 100%
 	
-	tr:nth-child(odd)
-		background-color #eee
+	tr
 		td
-			padding-right 5px
-			padding-left 5px
+				padding-right 5px
+				padding-left 5px
+		&:nth-child(odd)
+			background-color #eee
+			
 		
 .fire-popup-list
 	padding-top 10px
