@@ -416,6 +416,8 @@ define([
 
         var uniqueId = Helper.getDigitalGlobeUniqueId(data.feature);
         MapModel.vm.selectedImageryID(uniqueId);
+        _map.infoWindow.hide();
+
         LayerController.showDigitalGlobeImagery(data);
     };
 
@@ -1206,7 +1208,7 @@ define([
         });
 
         on(o.map, "click", function(evt) {
-            Finder.selectTomnodFeatures(evt);
+            Finder.identifyInfoWindows(evt);
         });
 
         on(o.map.graphics, "click", function(evt) {
@@ -2314,10 +2316,11 @@ define([
         LayerController.updateFiresLayer();
 
         var reRun = LayerController.updateOtherFiresLayers();
-
         if (reRun) {
             o.setSmartRenderer(MapModel.vm.smartRendererName());
         }
+        MapModel.vm.currentFireTime(node.id);
+        Finder.updateFirePopSelection(dom.byId(node.id+"-pop"));
     };
 
     o.enableLayersFromHash = function() {

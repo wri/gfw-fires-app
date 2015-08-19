@@ -111,6 +111,8 @@ define([
 
     vm.customFeaturesPresence = ko.observable(false);
 
+    vm.currentFireTime = ko.observable("firesWeek");
+
     vm.triggerFireLayerInfo = function(model,event) {
         var htmlToFetch = event.currentTarget.id;
         htmlToFetch = htmlToFetch.split("-icon")[0];
