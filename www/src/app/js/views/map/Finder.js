@@ -711,22 +711,27 @@ define([
                 var archiveCheck = dom.byId("indonesia-fires");
                 var firesCheck = dom.byId("fires-checkbox");
                 var dgCheck = dom.byId("digital-globe-footprints-checkbox");
+                var tomnodCheck = dom.byId("tomnod-checkbox");
 
                 var tasks = [
                     [_self.getActiveFiresInfoWindow(event), _self.showInfoWindowContent, firesCheck],
                     [_self.getArchiveFiresInfoWindow(event), _self.showInfoWindowContent, archiveCheck],
                     [_self.getArchiveNoaaInfoWindow(event), _self.showInfoWindowContent, noaaCheck],
+                    [_self.selectTomnodFeatures(event), _self.renderTomnodInfoWindow, tomnodCheck],
+
                     [_self.getDigitalGlobeInfoWindow(event), _self.renderDGInfoWindow, dgCheck]
                 ];
+
+                //only run task if checkbox is selected
                 var identifyTasks = tasks.filter(function(task){
                     return task[2].getAttribute("aria-checked") === 'true';
                 });
 
                 identifyTasks.forEach(function(task,i){
                     var precendentTrue = false;
-                    var precedents = identifyTasks.slice(0,i).map(function(task){return task[0];});
+                    var precedents = identifyTasks.slice(0,i).map(function(task){return task[0];});//wait for tasks in front to finish
                     all(precedents).then(function(results){
-                        if(results.filter(function(result){return result}).length > 0)
+                        if(results.filter(function(result){return result}).length > 0) //if tasks before this one in array have a response, don't render infowindow
                             {  return; }
                         else{
                             task[0].then(function(result){
@@ -740,6 +745,7 @@ define([
                 });
 
                  all(identifyTasks.map(function(task){return task[0]})).then(function(results){
+                    //run the _self.mapClick function if none of the tasks have results
                         if(results.filter(function(result){return result}).length > 0)
                             {  return; }
                         _self.mapClick(event);
@@ -759,8 +765,7 @@ define([
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
-                qtask = new QueryTask(url),
-                query = new Query(),
+                
                 point = event.mapPoint,
                 executeReturned = true,
                 node = dojoQuery(".selected-fire-option")[0],
@@ -812,19 +817,39 @@ define([
 
             // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-            query.where = 'OBJECTID in (';
-            query.returnGeometry = false;
-            query.outFields = ['OBJECTID', 'ChipLink', 'CrowdRank', 'Confirmation', 'name', 'ImageLink'];
-            var objectids = [];
+            
 
 
             var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
             itask.execute(iparams, function(response) {
+                if (response.length<1){
+                    deferred.resolve(false);
+                }
+                deferred.resolve(response);
+
+            }, function(err) {
+                deferred.resolve(false);
+            });
+
+            return deferred
+        },
+
+        renderTomnodInfoWindow: function(event,response){
+                var qconfig = MapConfig.tomnodLayer;
+                var url = qconfig.url;
+                var qtask = new QueryTask(url),
+                query = new Query();
+
+                query.where = 'OBJECTID in (';
+                query.returnGeometry = false;
+                query.outFields = ['OBJECTID', 'ChipLink', 'CrowdRank', 'Confirmation', 'name', 'ImageLink'];
+                var objectids = [];
+
                 arrayUtils.forEach(response, function(feature) {
                     objectids.push(feature.feature.attributes.OBJECTID);
                 });
                 if (objectids.length < 1) {
-                    deferred.resolve(false);
+                    return;
                 }
                 _map.infoWindow.resize(340, 500);
                 query.where += objectids.join(',') + ")";
@@ -834,15 +859,8 @@ define([
                 selected_features.then(function(features) {
                     _map.infoWindow.setFeatures(features);
                     _map.infoWindow.resize(340, 500);
-
-                    _map.infoWindow.show(event.mapPoint);
+                    _map.infoWindow.show(event);
                 });
-
-            }, function(err) {
-                deferred.resolve(false);
-            });
-
-            return deferred
         },
 
         // selectTomnodFeatures: function(event, arg2) {
