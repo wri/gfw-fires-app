@@ -11,6 +11,7 @@ define(["knockout", "main/Config", "views/story/StoryConfig", "dojo/dom", "dojo/
         vm.newStoryTitle = ko.observable(Config.newStory.title);
 
         vm.storiesURL = StoryConfig.storiesURL;
+        vm.storiesURL2 = StoryConfig.storiesURL2;
         vm.localToken = StoryConfig.localToken;
         vm.stagingToken = StoryConfig.stagingToken;
         vm.productionToken = StoryConfig.productionToken;

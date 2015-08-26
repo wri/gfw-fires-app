@@ -64,7 +64,7 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 mapLoad.remove();
                 o.initToolbar();
 
-                esriConfig.defaults.io.corsEnabledServers.push(StoryModel.vm.storiesURL);
+                // esriConfig.defaults.io.corsEnabledServers.push(StoryModel.vm.storiesURL2);
 
                 // var rule = {
                 //     proxyUrl: "/proxy/proxy.php",
@@ -79,8 +79,9 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 // urlUtils.addProxyRule(rule);
                 // o.map.resize();
                 // o.map.reposition();
+                
 
-                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL, {
+                var storiesLayer = new FeatureLayer(StoryModel.vm.storiesURL2, {
                     id: "storiesLayer",
                     outFields: ["*"]
                 });
@@ -109,10 +110,10 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                     storiesLayer.refresh();
                 });
 
-                on.once(o.map, "update-end", function() {
+                // on.once(o.map, "update-end", function() {
                     o.map.addLayer(storiesLayer);
 
-                });
+                // });
 
                 document.getElementById('stackContainer').onscroll = function() {
                     o.map.resize();
