@@ -1,6 +1,12 @@
 {
   "name": "Global-Forest-Watch-Fires",
   "version": "0.1.0",
+  "scripts": {
+    "start": "gulp watch",
+    "build": "rm -rf build && gulp build",
+    "optimize": "r.js -o app.build.js",
+    "optimize:report": "r.js -o report.build.js"
+  },
   "devDependencies": {
     "gulp-gzip": "^1.1.0"
   },
