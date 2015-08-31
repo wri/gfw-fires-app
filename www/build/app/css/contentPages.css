@@ -223,7 +223,7 @@ li.dg-image-item:hover {
 
 /* line 192 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .source_description_data {
-  text-transform: lowercase;
+  text-transform: initial;
   margin-right: 50px;
 }
 
