@@ -483,7 +483,7 @@ define({
         primaryForestsRadio: "Primary forests",
         southeastLandCoverRadio: "Land Cover - Southeast Asia",
         peatLandsSubLabel: "(year 2002, Indonesia)",
-        treeCoverDensitySubLabel: "(year 2000, 30m, global)",
+        treeCoverDensitySubLabel: "(2000, Hansen/UMD/Google/USGS/NASA)",
         primaryForestsSubLabel: "(2000 - 2012, 30m, Indonesia)",
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",

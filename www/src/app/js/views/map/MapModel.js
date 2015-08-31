@@ -226,7 +226,7 @@ define([
 
             var title;
             if (htmlToFetch === "dataForestAndLandCover-1") {
-                title = "TREE COVER DENSITY";
+                title = "<label for='dataForestAndLandCover-1' class='source_title'><span class='metadataTitle'>Tree Cover Density</span><em class='source_description'>(year 2000, 30m global, Hansen/UMD/Google/USGS/NASA)</em></label>";
             } else if (htmlToFetch === "dataForestAndLandCover-8") {
                 title = "PRIMARY FORESTS";
             } else if (htmlToFetch === "dataForestAndLandCover-3") {
@@ -587,13 +587,7 @@ define([
                 vm.noaaObservFrom(selectedDate);
                 $("#noaaDateTo").datepicker("option", "minDate", selectedDate);
                 return selectedDate;
-            } //,
-            // beforeShowDay: function(date) {
-            //     var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-            //     var blackedOutDates = ["2015-04-12", "2015-04-13", "2015-04-14", "2015-04-15", "2015-04-16", "2015-04-17", "2015-04-18", "2015-04-19", "2015-04-20", "2015-04-21", "2015-04-22", "2015-04-23", "2015-04-24", "2015-04-25", "2015-04-26", "2015-04-27", "2015-04-28", "2015-04-29", "2015-04-30", "2015-05-01", "2015-05-02", "2015-05-03", "2015-05-04", "2015-05-05", "2015-05-06", "2015-05-07", "2015-05-08", "2015-05-09", "2015-05-10", "2015-05-11", "2015-05-12", "2015-05-13", "2015-05-14", "2015-05-15", "2015-05-16", "2015-05-17", "2015-05-18", "2015-05-19", "2015-05-20", "2015-05-21", "2015-05-22", "2015-05-23", "2015-05-24", "2015-05-25", "2015-05-26", "2015-05-27", "2015-05-28", "2015-05-29", "2015-05-30", "2015-05-31", "2015-06-01", "2015-06-02"];
-
-            //     return [blackedOutDates.indexOf(string) == -1]
-            // },
+            }
         });
     }
     vm.noaaPickerTo = function() {
@@ -789,17 +783,7 @@ define([
     }
 
     vm.slidePanel = function(data) {
-        // if (vm.toggleMapPane() == true) {
-        //     //$("#map_root").css("width", "+=320px");
-        //     $("#control-panel").css("width", "0px");
-        //     $(".map-container").css("left", "0px");
-        //     vm.toggleMapPane(false);
-        // } else {
-        //     //$("#map_root").css("width", "-=320px");
-        //     $("#control-panel").css("width", "320px");
-        //     $(".map-container").css("left", "320px");
-        //     vm.toggleMapPane(true);
-        // }
+
         var data2 = vm.toggleMapPane();
 
         require(["views/map/MapController"], function(MapController) {
@@ -807,19 +791,6 @@ define([
         });
 
     };
-
-    /*ko.bindingHandlers.preventBubble = {
-        init: function(element, valueAccessor) {
-            var eventName = ko.utils.unwrapObservable(valueAccessor());
-            ko.utils.registerEventHandler(element, eventName, function(event) {
-                event.cancelBubble = true;
-                if (event.stopPropagation) {
-                    event.stopPropagation();
-                }
-            });
-        }
-    };*/
-
 
     vm.selectImageryMinimize = function() {
         if ($("#imageryWindow > table").css("display") == "table") {
