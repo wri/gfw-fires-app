@@ -15,9 +15,17 @@ define(["knockout", "main/Config", "dojo/dom", "modules/HashController", "module
             EventsController.modeSelect(obj);
         };
 
+        vm.dotSelect = function(obj, evt) {
+            require(["views/home/HomeController"], function(HomeController) {
+                HomeController.handleDotClick(obj);
+            });
+        }
+
         o.applyBindings = function(domId) {
             ko.applyBindings(vm, dom.byId(domId));
         };
+
+        
 
         return o;
 

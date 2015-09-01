@@ -6,7 +6,11 @@ div.homeModeOptionsContainer
 			div.modeOptionRing
 				div.modeText(data-bind="html:html")
 
-		//div.homeModeOptionsViewerInner#homeModeOptionsViewerInner(data-bind="foreach:homeModeOptions")
-			//div.modeOption(data-bind="html:html")
+		//-div.homeModeOptionsViewerInner#homeModeOptionsViewerInner(data-bind="foreach:homeModeOptions")
+			//-div.modeOption(data-bind="html:html")
+div.homeModeDotsContainer
+	div.homeModeOuter(data-bind='foreach:homeModeOptions')
+		div.homeModeDot(data-bind='css:{activeDot:display},click:$root.dotSelect,attr:{title:tooltip}')
+
 div.homeBgContainer
 	img(src="app/images/home-bg.jpg")

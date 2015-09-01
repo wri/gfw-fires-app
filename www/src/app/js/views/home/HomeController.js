@@ -108,16 +108,16 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
                                 //console.log(nextNodeId);
 
                                 setTimeout(function() {
-
-                                    currentModeOption(nextNodeId);
-
                                     if (!stopAnimation) {
+                                        currentModeOption(nextNodeId);
                                         setTimeout(function() {
-                                            runAnimation(nextNodeId);
+                                            if (!stopAnimation) {
+                                                runAnimation(nextNodeId);
+                                            }
+
                                         }, 4000);
                                     }
-
-                                }, 500);
+                                }, 250); //Time between animations but before the next circle appears
 
 
 
@@ -216,10 +216,35 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         };
 
-        o.stopModeAnim = function(data) {
-            //stopAnimation = true;
+        o.handleDotClick = function(obj) {
+            o.stopModeAnim(obj);
 
-            console.log("stop mode animation ");
+            //o.startModeAnim(obj.id);
+        };
+
+        o.stopModeAnim = function(data) {
+            console.log(data)
+            stopAnimation = true;
+
+            if (data) {
+                //o.startModeAnim(data.id);
+
+                var currentNodeId = data.id;
+
+                var homeModeOptions = HomeModel.vm.homeModeOptions();
+                HomeModel.vm.homeModeOptions([]);
+
+                var mappedHomModeOptions = arrayUtil.map(homeModeOptions, function(hmOpt, i) {
+
+                    if (currentNodeId == i) {
+                        hmOpt.display = true;
+                    } else {
+                        hmOpt.display = false;
+                    }
+                    HomeModel.vm.homeModeOptions.push(hmOpt);
+                    return hmOpt;
+                });
+            }
         };
 
         o.getAnimStatus = function() {

@@ -75,36 +75,46 @@ define([],
             homeModeOptions: [{
                     "html": "Fires occuring in peatland <br> in the last 7 days",
                     "eventName": "goToMap",
-                    "display": false
-                },
-
-                {
-                    "html": "<span>View the latest analysis</span>",
-                    "eventName": "goToAnalysis",
-                    "display": true
-                }, {
+                    "display": false,
+                    "id": 0,
+                    "tooltip": "Latest Fires"
+                },{
+                //     "html": "<span>View the latest analysis</span>",
+                //     "eventName": "goToAnalysis",
+                //     "display": true,
+                //     "tooltip": "Explore the Map"
+                // }, {
                     "html": "<span>View the latest imagery</span>",
                     "eventName": "goToMap",
-                    "display": false
+                    "display": false,
+                    "id": 1,
+                    "tooltip": "View latest imagery"
                 }, {
                     "html": "<span>Explore the map</span>",
                     "eventName": "goToMap",
-                    "display": false
+                    "display": false,
+                    "id": 2,
+                    "tooltip": "Explore the Map"
 
                 }, {
                     "html": "<span class='more-text'>Sign up for SMS and email fire alerts</span>",
                     "eventName": "subscribeToAlerts",
-                    "display": false
+                    "display": false,
+                    "id": 3,
+                    "tooltip": "Sign up for alerts"
 
-                }, {
-                    "html": "<span class='most-text'>Tag illegal fires in Indonesia with Tomnod crowdsourcing</span>",
-                    "eventName": "goToTomnod",
-                    "display": false
+                // }, {
+                //     "html": "<span class='most-text'>Tag illegal fires in Indonesia with Tomnod crowdsourcing</span>",
+                //     "eventName": "goToTomnod",
+                //     "display": false,
+                //     "tooltip": "Explore the Map"
 
                 }, {
                     "html": "<span>Submit a story</span>",
                     "eventName": "goToStory",
-                    "display": false
+                    "display": false,
+                    "id": 4,
+                    "tooltip": "Submit a story"
 
                 }
             ],

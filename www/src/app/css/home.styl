@@ -22,6 +22,64 @@
 	margin auto
 	margin-top 50px
 	overflow visible
+	
+.homeModeDotsContainer
+	margin-top 415px
+	z-index 200
+	position absolute
+	width 300px
+	height 30px
+	align center
+	left 50%
+	margin-left -150px
+	
+.homeModeOuter
+	width 300px
+	height 30px
+	z-index 100
+	overflow-x auto
+	overflow-y hidden
+	margin auto
+	overflow visible
+	text-align center
+	
+.homeModeDot
+	height 15px
+	width 15px
+	margin-left 10px
+	margin-right 10px
+	display inline-block
+	background-color white
+	transition all 2s
+	border-radius 10px
+	cursor pointer
+	
+.homeModeDot.activeDot
+	background-color #ec1d38
+	transition all 2s
+	border 1px solid white
+	
+.homeModeDot[title]:hover&:after
+	content attr(title)
+	padding 4px 8px
+	color #ec1d38
+	position absolute
+	left 20
+	top 100%
+	z-index 20
+	white-space nowrap
+	-moz-border-radius 5px
+	-webkit-border-radius 5px
+	border-radius 5px
+	-moz-box-shadow 0px 0px 4px #222
+	-webkit-box-shadow 0px 0px 4px #222
+	box-shadow 0px 0px 4px #222
+	background-image -moz-linear-gradient(top, #eeeeee, #cccccc)
+	background-image -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc))
+	background-image -webkit-linear-gradient(top, #eeeeee, #cccccc)
+	background-image -moz-linear-gradient(top, #eeeeee, #cccccc)
+	background-image -ms-linear-gradient(top, #eeeeee, #cccccc)
+	background-image -o-linear-gradient(top, #eeeeee, #cccccc)
 
 
 /*.homeModeOptionsViewerInner
@@ -35,10 +93,8 @@
 	width 100%
 	transition display 1.5s ease
 	cursor pointer
-	
 	font-size 20px
 
-	
 .homeModeOptionsViewerOuter .modeOption
 	border-radius 175px
 	background-color #000
