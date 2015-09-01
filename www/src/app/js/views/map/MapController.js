@@ -416,7 +416,7 @@ define([
 
         var uniqueId = Helper.getDigitalGlobeUniqueId(data.feature);
         MapModel.vm.selectedImageryID(uniqueId);
-        _map.infoWindow.hide();
+        o.map.infoWindow.hide();
 
         LayerController.showDigitalGlobeImagery(data);
     };
