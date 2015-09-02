@@ -66,7 +66,7 @@
   margin-left: 10px;
   margin-right: 10px;
   display: inline-block;
-  background-color: #fff;
+  background-color: #aba8a8;
   transition: all 2s;
   border-radius: 10px;
   cursor: pointer;
@@ -76,7 +76,7 @@
 .homeModeDot.activeDot {
   background-color: #ec1d38;
   transition: all 2s;
-  border: 1px solid #fff;
+  border: 2px solid #808080;
 }
 
 /* line 62 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */

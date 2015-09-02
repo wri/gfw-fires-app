@@ -35,14 +35,82 @@
   overflow: visible;
 }
 
-/* line 27 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 26 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+.homeModeDotsContainer {
+  margin-top: 415px;
+  z-index: 200;
+  position: absolute;
+  width: 300px;
+  height: 30px;
+  align: center;
+  left: 50%;
+  margin-left: -150px;
+}
+
+/* line 36 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+.homeModeOuter {
+  width: 300px;
+  height: 30px;
+  z-index: 100;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: auto;
+  overflow: visible;
+  text-align: center;
+}
+
+/* line 46 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+.homeModeDot {
+  height: 15px;
+  width: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block;
+  background-color: #aba8a8;
+  transition: all 2s;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* line 57 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+.homeModeDot.activeDot {
+  background-color: #ec1d38;
+  transition: all 2s;
+  border: 2px solid #808080;
+}
+
+/* line 62 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+.homeModeDot[title]:hover:after {
+  content: attr(title);
+  padding: 4px 8px;
+  color: #ec1d38;
+  position: absolute;
+  left: 20;
+  top: 100%;
+  z-index: 20;
+  white-space: nowrap;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0px 0px 4px #222;
+  -webkit-box-shadow: 0px 0px 4px #222;
+  box-shadow: 0px 0px 4px #222;
+  background-image: -moz-linear-gradient(top, #eee, #ccc);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #eee), color-stop(1, #ccc));
+  background-image: -webkit-linear-gradient(top, #eee, #ccc);
+  background-image: -moz-linear-gradient(top, #eee, #ccc);
+  background-image: -ms-linear-gradient(top, #eee, #ccc);
+  background-image: -o-linear-gradient(top, #eee, #ccc);
+}
+
+/* line 85 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 /*.homeModeOptionsViewerInner
 	width 250px
 	height 250px
 	z-index 100
 	overflow hidden*/
 
-/* line 33 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 91 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeGroup {
   height: 350px;
   width: 100%;
@@ -51,7 +119,7 @@
   font-size: 20px;
 }
 
-/* line 42 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 98 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeOption {
   border-radius: 175px;
   background-color: #000;
@@ -66,7 +134,7 @@
   box-sizing: border-box;
 }
 
-/* line 58 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 114 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeOptionRing {
   border-radius: 175px;
   background: none;
@@ -81,7 +149,7 @@
   box-sizing: border-box;
 }
 
-/* line 72 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 128 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeGroup .modeText p {
   font-size: 72px;
   color: #ec1d38;
@@ -89,7 +157,7 @@
   margin-bottom: 0px;
 }
 
-/* line 78 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 134 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeGroup .modeText {
   font-family: "Georgia", serif;
   color: #ccc;
@@ -100,47 +168,47 @@
   vertical-align: middle;
 }
 
-/* line 87 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 143 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .alert-dialog-box {
   height: 430px !important;
 }
 
-/* line 90 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 146 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .many-subDistricts-warning {
   color: #f00;
 }
 
-/* line 93 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 149 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeGroup .modeText span {
   font-size: 32px;
 }
 
-/* line 96 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 152 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeGroup .modeText span.more-text {
   position: relative;
   top: -20px;
 }
 
-/* line 100 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 156 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .homeModeOptionsViewerOuter .modeGroup .modeText span.most-text {
   position: relative;
   top: -40px;
 }
 
-/* line 104 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 160 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm {
   font-family: "Arial MT Condensed Light";
   src: url("../fonts/ArialMTStd-LightCond.otf") format("opentype");
   color: #464052;
 }
 
-/* line 109 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 165 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm .select-container {
   background: url("../images/ico-carat-down.png") no-repeat 95% center transparent;
   width: 240px;
 }
 
-/* line 113 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 169 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm #aoiDistrictPicker {
   border: 1px solid #bbb;
   border-radius: 5px;
@@ -148,7 +216,7 @@
   width: 240px;
 }
 
-/* line 119 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 175 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm #aoiProvincePicker {
   background: transparent;
   -webkit-appearance: none;
@@ -160,7 +228,7 @@
   width: 240px;
 }
 
-/* line 129 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 185 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm #aoiSubDistrictPicker {
   border: 1px solid #bbb;
   border-radius: 5px;
@@ -168,7 +236,7 @@
   width: 240px;
 }
 
-/* line 135 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 191 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm input[type="email"],
 #signUpAlertsForm input[type="tel"] {
   border-radius: 5px;
@@ -177,13 +245,13 @@
   height: 30px;
 }
 
-/* line 141 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 197 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm #verifyEmailForAlerts {
   font-size: 12px;
   display: none;
 }
 
-/* line 145 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 201 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #alerts-submit-button {
   background: #e50036;
   padding: 5px 10px;
@@ -193,17 +261,17 @@
   border: none;
 }
 
-/* line 153 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 209 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm td {
   padding: 2px 6px;
 }
 
-/* line 156 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 212 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 #signUpAlertsForm .error-messages {
   color: #e50036;
 }
 
-/* line 159 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
+/* line 215 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/home.styl */
 .map-link-from-signup {
   cursor: pointer;
   color: #ec1d38;
