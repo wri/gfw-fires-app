@@ -572,6 +572,7 @@ define([
         },
 
         getTemplateContent:function(item){
+            console.log(item)
                 var fire_results = this.getFirePopupContent(item);
 
                 var template_content_block = [
@@ -635,7 +636,7 @@ define([
             arrayUtils.forEach(featureObjects, function(item) {
 
                 template = new InfoTemplate("Protected Areas ",
-                    "<table><tr class='infoName'><td colspan='2'>" + item.feature.attributes.NAME + "</td></tr><tr><td>Local Name</td><td>" + item.feature.attributes.ORIG_NAME + "</td></tr><tr><td>Legal Designation</td><td>" + item.feature.attributes.DESIG_ENG + "</td></tr><tr><td>WDPA ID</td><td>" + item.feature.attributes.WDPAID + "</td></tr><tr style='height:10px;'></tr></table>"
+                    "<table><tr class='infoName'><td colspan='2'>" + item.feature.attributes.Name + "</td></tr><tr><td>Local Name</td><td>" + item.feature.attributes["Local Name"] + "</td></tr><tr><td>Legal Designation</td><td>" + item.feature.attributes["Local Designation"] + "</td></tr><tr><td>WDPA ID</td><td>" + item.feature.attributes["WDPA ID"] + "</td></tr><tr style='height:10px;'></tr></table>"
                 );
 
                 item.feature.attributes.ALERTS_LABEL = item.value;

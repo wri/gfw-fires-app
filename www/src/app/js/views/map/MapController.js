@@ -1610,6 +1610,10 @@ define([
             LayerController.setTransparency(MapConfig.forestUseLayers.id, value);
         });
 
+        registry.byId("forest-transparency-slider").on('change', function(value) {
+            LayerController.setTransparency(MapConfig.landUseLayers.id, value);
+        });
+
         registry.byId("land-cover-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.landCoverLayers.id, value);
         });
@@ -1658,6 +1662,7 @@ define([
             on(node, "change", function(evt) {
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
                 LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
+                LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.landUseLayers);
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
 
@@ -1749,6 +1754,8 @@ define([
             // airQualityLayer,
             forestUseParams,
             forestUseLayer,
+            landUseParams,
+            landUseLayer,
             treeCoverLayer,
             overlaysLayer,
             burnScarLayer,
@@ -1812,6 +1819,17 @@ define([
         forestUseLayer = new ArcGISDynamicMapServiceLayer(MapConfig.forestUseLayers.url, {
             imageParameters: forestUseParams,
             id: MapConfig.forestUseLayers.id,
+            visible: false
+        });
+
+        landUseParams = new ImageParameters();
+        landUseParams.format = "png32";
+        landUseParams.layerIds = MapConfig.landUseLayers.defaultLayers;
+        landUseParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        landUseLayer = new ArcGISDynamicMapServiceLayer(MapConfig.landUseLayers.url, {
+            imageParameters: landUseParams,
+            id: MapConfig.landUseLayers.id,
             visible: false
         });
 
@@ -2174,6 +2192,7 @@ define([
             burnScarLayer,
             tomnodLayer,
             forestUseLayer,
+            landUseLayer,
             overlaysLayer,
             tweetLayer,
             fireStories,
@@ -2279,6 +2298,7 @@ define([
         landCoverLayer.on('error', this.layerAddError);
         overlaysLayer.on('error', this.layerAddError);
         forestUseLayer.on('error', this.layerAddError);
+        landUseLayer.on('error', this.layerAddError);
         firesLayer.on('error', this.layerAddError);
         firesVizCluster.on('error', this.layerAddError);
         fireStories.on('error', this.layerAddError);

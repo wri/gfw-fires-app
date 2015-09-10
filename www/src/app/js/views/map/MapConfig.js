@@ -166,15 +166,34 @@ define({
         id: "Fire_Stories"
     },
 
+    // forestUseLayers: {
+    //     url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+    //     id: 'Forest_Use',
+    //     defaultLayers: [-1], // Show none by default
+    //     rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+    //     oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+    //     woodFiber: 28, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
+    //     logging: 10, // These map to the value of an input in the UI, so logging is the value of a checkbox
+    //     indicativeMoratorium: 16
+    // },
+
     forestUseLayers: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
         id: 'Forest_Use',
         defaultLayers: [-1], // Show none by default
-        rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
-        oilPalm: 32, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
-        woodFiber: 28, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
-        logging: 10, // These map to the value of an input in the UI, so logging is the value of a checkbox
-        indicativeMoratorium: 16
+        rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+        indicativeMoratorium: 7
+    },
+
+    landUseLayers: {
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+        id: 'Land_Use',
+        defaultLayers: [-1], // Show none by default
+        // rspoOilPalm: 27, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+        oilPalm: 1, // These map to the value of an input in the UI, so oilPalm is the value of a checkbox
+        woodFiber: 0, // These map to the value of an input in the UI, so woodFiber is the value of a checkbox
+        logging: 3 // These map to the value of an input in the UI, so logging is the value of a checkbox
+        // indicativeMoratorium: 16
     },
 
     // burnedAreaLayers: {
@@ -185,7 +204,7 @@ define({
     // },
 
     conservationLayers: {
-        url: 'http://gis-gfw.wri.org/arcgis/rest/services/conservation/wdpa_protected_areas/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
         id: 'Conservation',
         defaultLayers: [0], // Show none by default
         protectedAreas: 0 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
@@ -193,10 +212,10 @@ define({
     },
 
     landCoverLayers: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/CommoditiesAnalyzer/moremaps2_EN/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
         id: 'Land_Cover',
-        defaultLayers: [1], // Show peatLands by default
-        peatLands: 1 // These map to the value of an input in the UI, so peatLands is the value of a checkbox
+        defaultLayers: [22], // Show peatLands by default
+        peatLands: 22 // These map to the value of an input in the UI, so peatLands is the value of a checkbox
     },
 
     overlaysLayer: {
