@@ -505,7 +505,7 @@ define({
         noaaSubLabel: "(Oct 22 to present, 1km, Southeast Asia)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
-        confidenceFiresCheckbox: "Only show high confidence fires",
+        confidenceFiresCheckbox: "Only show <span id='high-confidence-info'>high confidence fires</span>",
         activateSmartCheckbox: "View fire points as:",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",
@@ -535,7 +535,10 @@ define({
         indicativeMoratoriumCheckboxSubLabel: "The moratorium prohibits new concessions on primary forest or peatlands. <a href='http://www.wri.org/blog/2014/01/2-things-you-need-know-about-indonesias-forest-moratorium' target='_blank'>Learn More.",
         indicativeMoratoriumCheckboxSubLabel2: "(IMM V7/V6, 2014, Indonesia)",
 
-
+        firesConfidenceDialog: {
+            title: "High Confidence Fires",
+            text: "GFW employs a recommendation for detecting forest clearing fires (described in Morton and Defries, 2008), identifying fires with a Brightness value greater than or equal to 330 Kelvin and a Confidence value greater than or equal to 30% to indicate fires that have a higher confidence for being forest-clearing fires. Low confidence fires are lower intensity fires that could either be from non-forest-clearing fire activity (clearing fields or grass burning), or could be older fires that have decreased in intensity (smoldering rather than flaming fires). The use of this classification establishes a higher standard for fire detection than using all fire alerts equally."
+        },
 
         airQuality: "Air quality",
         windDirection: "Wind direction",

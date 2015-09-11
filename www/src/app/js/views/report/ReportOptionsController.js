@@ -56,7 +56,7 @@ define([
                 });
                 MapModel.vm.selectedAOIs(['Riau']);
 
-            });
+            });            
 
             on(dom.byId('report-launch'), 'click', function() {
                 if (dom.byId('report-province-radio').checked) {
@@ -96,6 +96,8 @@ define([
 
                 var hash = o.report_data_to_hash(aoitype, reportdates, MapModel.vm.selectedAOIs);
                 var win = window.open('./app/js/views/report/report.html' + hash, '_blank', '');
+
+                
                 win.report = true;
                 win.reportOptions = {
                     'dates': reportdates,

@@ -109,7 +109,7 @@ define([
         //otherwise load the view
         require(["dojo/text!views/map/map.html", "dojo/ready"], function(html, ready) {
             dom.byId(view.viewId).innerHTML = html;
-            Helper.showLoader("map", "map-blocker");
+            // Helper.showLoader("map", "map-blocker");
 
             EventsController.switchToView(view);
 
@@ -1063,6 +1063,38 @@ define([
         legend.startup();
 
         // Add Listeners for Buttons to Activate Widgets
+
+        var showFiresConfidenceInfo = function(evt) {
+            evt.preventDefault();
+            var _self = this;
+            require([
+                "dijit/Dialog",
+                "dojo/on",
+                "dojo/_base/lang"
+            ], function(Dialog, on, Lang) {
+                var content = "<p>" + MapConfig.text.firesConfidenceDialog.text + "</p>";
+
+                var dialog = new Dialog({
+                    title: MapConfig.text.firesConfidenceDialog.title.toUpperCase(),
+                    style: "height: 310px; width: 415px; font-size:16px;",
+                    draggable: false,
+                    hide: function() {
+                        dialog.destroy();
+                    }
+                });
+                dialog.setContent(content);
+                dialog.show();
+
+                $('body').on('click',function(e){
+                    if (e.target.classList.contains('dijitDialogUnderlay')) {
+                        dialog.hide();
+                        $('body').off('click');
+                    }
+                });
+
+            });
+        };
+
         var toggleLocatorWidgets = function() {
             // If basemap Gallery is Open, Close it
             if (MapModel.get('showBasemapGallery')) {
@@ -1159,7 +1191,7 @@ define([
         };
 
 
-
+        on(dom.byId("high-confidence-info"), "click", showFiresConfidenceInfo);
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
         on(dom.byId("share-button"), "click", toggleShareContainer);
@@ -2283,7 +2315,7 @@ define([
                 return (url && flyr);
             });
 
-            Helper.hideLoader("map-blocker");
+            // Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
 
 
