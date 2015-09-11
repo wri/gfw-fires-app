@@ -1645,7 +1645,12 @@ define([
         });
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
-            domClass.add(node, "forest-use-layers-option");
+            if (node.id == "rspo-oil-palm-checkbox" || node.id == "indicative-moratorium-checkbox") {
+                domClass.add(node, "forest-use-layers-option");
+            } else {
+                domClass.add(node, "land-use-layers-option");
+            }
+            
         });
 
         dojoQuery("#conservation-panel div.checkbox-container div input").forEach(function(node) {
@@ -1660,13 +1665,24 @@ define([
 
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
             on(node, "change", function(evt) {
+
+                
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
-                LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
-                LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.landUseLayers);
+                
+                
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
+                
 
-                if (target.checked) {
+                if (target.classList.contains('forest-use-layers-option')) {
+                    console.log("frest")
+                    LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
+                } else if (target.classList.contains('land-use-layers-option')) {
+                    console.log("land")
+                    LayerController.updateAdditionalVisibleLayers("land-use-layers-option", MapConfig.landUseLayers);
+                }
+
+                // if (target.checked) {
                     //TODO : find better way to get label
                     // var labelNode = dojoQuery("#fires-panel .dijitChecked")[0].parentNode.children[1]; //TODO: WHY IS THIS FAILING???
                     // if (labelNode.innerHTML.length > 0) {
@@ -1675,7 +1691,7 @@ define([
                     //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the ' + label + ' layer on');
                     //     }
                     // }
-                }
+                // }
             });
         });
 

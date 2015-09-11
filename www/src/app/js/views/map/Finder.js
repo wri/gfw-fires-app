@@ -144,10 +144,18 @@ define([
                 }
             }
 
+
             forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id);
             if (forestUseLayer) {
                 if (forestUseLayer.visible) {
                     deferreds.push(_self.identifyForestUse(mapPoint));
+                }
+            }
+
+            landUseLayer = map.getLayer(MapConfig.landUseLayers.id);
+            if (landUseLayer) {
+                if (landUseLayer.visible) {
+                    deferreds.push(_self.identifyLandUse(mapPoint));
                 }
             }
 
@@ -186,9 +194,14 @@ define([
                             break;
                         case "Forest_Use":
                             isForestUsePop = true;
-                            // debugger;
                             features = features.concat(_self.setForestUseTemplates(item.features));
                             break;
+
+                        case "Land_Use":
+                            isForestUsePop = true;
+                            features = features.concat(_self.setForestUseTemplates(item.features));
+                            break;
+
                         case "Conservation":
                             features = features.concat(_self.setConservationTemplates(item.features));
                             break;
@@ -283,13 +296,63 @@ define([
                         query.outFields = ["Date"];
                         queryTask.execute(query).then(function(results){
                                 feature.fires = results.features;
+
+                                setTimeout(function() {
+                                    qDeferred.resolve(false)
+                                }, 3000);
+                                qDeferred.resolve(feature)
+                        });
+                        return qDeferred;
+                    });
+                    all(queries).then(function(qResults){
+                                deferred.resolve({
+                                    layer: MapConfig.forestUseLayers.id,
+                                    features: qResults
+                                });
+                    });
+                    
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function(error) {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        identifyLandUse: function(mapPoint) {
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(MapConfig.landUseLayers.url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 3;
+            params.returnGeometry = true;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = _map.getLayer(MapConfig.landUseLayers.id).visibleLayers;
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            identifyTask.execute(params, function(features) {
+                if (features.length > 0) {
+                    var queries = features.map(function(feature){
+                        var qDeferred = new Deferred();
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url+'4');
+                        var query = new Query();
+                        query.geometry = feature.feature.geometry;
+                        query.where = "1=1"
+                        query.outFields = ["Date"];
+                        queryTask.execute(query).then(function(results){
+                                feature.fires = results.features;
                                 qDeferred.resolve(feature)
                         });
                         return qDeferred;
                     })
                     all(queries).then(function(qResults){
                                 deferred.resolve({
-                                    layer: MapConfig.forestUseLayers.id,
+                                    layer: MapConfig.landUseLayers.id,
                                     features: qResults
                                 });
                     });
@@ -522,8 +585,7 @@ define([
         getAdditonalInfoContent: function(item){
             var attr = item.feature.attributes;
             var tables = {
-                    16: false,
-                    10:[
+                    0:[
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>", attr.Country, "</td>",
                             "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
@@ -531,42 +593,89 @@ define([
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ],
-                    27: [ //RSPO
-                            "<table class='forest-use-pop'>",
-                                "<tr><td>Country</td><td>", attr.Country, "</td></tr>",
-                                "<tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td>",
-                                "<tr><td>Certificate ID</td><td>", attr.Certificat, "</td></tr>",
-                                "<tr><td>Certificate Issue Date</td><td>", attr.Issued, "</td></tr>",
-                                "<tr><td>Certificate Expiry Date</td><td>", attr.Expired, "</td></tr>",
-                                "<tr><td>Mill name</td><td>", attr.Mill, "</td></tr>",
-                                "<tr><td>Mill location</td><td>", attr.Location, "</td></tr>",
-                                "<tr><td>Mill capacity (t/hour)</td><td>", attr.Capacity, "</td></tr>",
-                                "<tr><td>Certified CPO (mt)</td><td>", attr.CPO, "</td></tr>",
-                                "<tr><td>Certified PK (mt)</td><td>", attr.PK, "</td></tr>",
-                                "<tr><td>Estate Suppliers</td><td>", attr.Estate, "</td></tr>",
-                                "<tr><td>Estate Area (ha)</td><td>", attr.Estate_1, "</td></tr>",
-                                "<tr><td>Outgrower Area (ha)</td><td>", attr.Outgrowe, "</td></tr>",
-                                "<tr><td>Scheme Smallholder Area (ha)</td><td>", attr.SH, "</td></tr>",
-                                "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
-                                "<tr style='height:10px;'></tr>",
-                            "</table>"
-                        ],
-                    28: [ //Wood fiber
-                            "<table class='forest-use-pop'>",
-                                "<tr><td>Country</td><td>" , attr.Country , "</td></tr>",
-                                "<tr><td>Certification Status</td><td>" , attr.CERT_STAT , "</td></tr>",
-                                "<tr><td>Source </td><td>" , (attr.Source || "N/A") , "</td></tr>",
-                                "<tr style='height:10px;'></tr>",
-                            "</table>"
-                    ],
-                    32: [
+                    1:[
                         "<table class='forest-use-pop'>",
-                            "<tr><td>Country</td><td>" + attr.Country + "</td></tr>",
-                            "<tr><td>Certification Status</td><td>" + attr.CERT_STAT + "</td></tr>",
-                            "<tr><td>Source </td><td>" + (attr.Source || "N/A") + "</td></tr>",
+                            "<tr><td>Country</td><td>", attr.Country, "</td>",
+                            "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
+                            "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
                             "<tr style='height:10px;'></tr>",
                         "</table>"
-                    ]
+                    ],
+                    3:[
+                        "<table class='forest-use-pop'>",
+                            "<tr><td>Country</td><td>", attr.Country, "</td>",
+                            "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
+                            "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
+                            "<tr style='height:10px;'></tr>",
+                        "</table>"
+                    ],
+
+                    4:[
+                        "<table class='forest-use-pop'>",
+                            "<tr><td>Country</td><td>", attr.Country, "</td></tr>",
+                            "<tr><td>Certification Status</td><td>", attr["cert_schem"], "</td>",
+                            "<tr><td>Certificate ID</td><td>", attr["certificat"], "</td></tr>",
+                            "<tr><td>Certificate Issue Date</td><td>", attr.issued, "</td></tr>",
+                            "<tr><td>Certificate Expiry Date</td><td>", attr.expired, "</td></tr>",
+                            "<tr><td>Mill name</td><td>", attr.mill, "</td></tr>",
+                            "<tr><td>Mill location</td><td>", attr.location, "</td></tr>",
+                            "<tr><td>Mill capacity (t/hour)</td><td>", attr.capacity, "</td></tr>",
+                            "<tr><td>Certified CPO (mt)</td><td>", attr.cpo, "</td></tr>",
+                            "<tr><td>Certified PK (mt)</td><td>", attr.pk, "</td></tr>",
+                            "<tr><td>Estate Suppliers</td><td>", attr.estate, "</td></tr>",
+                            "<tr><td>Estate Area (ha)</td><td>", attr.estate_1, "</td></tr>",
+                            "<tr><td>Outgrower Area (ha)</td><td>", attr.outgrower, "</td></tr>",
+                            "<tr><td>Scheme Smallholder Area (ha)</td><td>", attr.sh, "</td></tr>",
+                            "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
+                            "<tr style='height:10px;'></tr>",
+                        "</table>"
+                    ],
+                    7: false
+                    // 16: false,
+                    // 10:[
+                    //     "<table class='forest-use-pop'>",
+                    //         "<tr><td>Country</td><td>", attr.Country, "</td>",
+                    //         "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
+                    //         "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
+                    //         "<tr style='height:10px;'></tr>",
+                    //     "</table>"
+                    // ],
+                    // 27: [ //RSPO
+                    //         "<table class='forest-use-pop'>",
+                    //             "<tr><td>Country</td><td>", attr.Country, "</td></tr>",
+                    //             "<tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td>",
+                    //             "<tr><td>Certificate ID</td><td>", attr.Certificat, "</td></tr>",
+                    //             "<tr><td>Certificate Issue Date</td><td>", attr.Issued, "</td></tr>",
+                    //             "<tr><td>Certificate Expiry Date</td><td>", attr.Expired, "</td></tr>",
+                    //             "<tr><td>Mill name</td><td>", attr.Mill, "</td></tr>",
+                    //             "<tr><td>Mill location</td><td>", attr.Location, "</td></tr>",
+                    //             "<tr><td>Mill capacity (t/hour)</td><td>", attr.Capacity, "</td></tr>",
+                    //             "<tr><td>Certified CPO (mt)</td><td>", attr.CPO, "</td></tr>",
+                    //             "<tr><td>Certified PK (mt)</td><td>", attr.PK, "</td></tr>",
+                    //             "<tr><td>Estate Suppliers</td><td>", attr.Estate, "</td></tr>",
+                    //             "<tr><td>Estate Area (ha)</td><td>", attr.Estate_1, "</td></tr>",
+                    //             "<tr><td>Outgrower Area (ha)</td><td>", attr.Outgrowe, "</td></tr>",
+                    //             "<tr><td>Scheme Smallholder Area (ha)</td><td>", attr.SH, "</td></tr>",
+                    //             "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
+                    //             "<tr style='height:10px;'></tr>",
+                    //         "</table>"
+                    //     ],
+                    // 28: [ //Wood fiber
+                    //         "<table class='forest-use-pop'>",
+                    //             "<tr><td>Country</td><td>" , attr.Country , "</td></tr>",
+                    //             "<tr><td>Certification Status</td><td>" , attr.CERT_STAT , "</td></tr>",
+                    //             "<tr><td>Source </td><td>" , (attr.Source || "N/A") , "</td></tr>",
+                    //             "<tr style='height:10px;'></tr>",
+                    //         "</table>"
+                    // ],
+                    // 32: [
+                    //     "<table class='forest-use-pop'>",
+                    //         "<tr><td>Country</td><td>" + attr.Country + "</td></tr>",
+                    //         "<tr><td>Certification Status</td><td>" + attr.CERT_STAT + "</td></tr>",
+                    //         "<tr><td>Source </td><td>" + (attr.Source || "N/A") + "</td></tr>",
+                    //         "<tr style='height:10px;'></tr>",
+                    //     "</table>"
+                    // ]
                 };
                 return tables[item.layerId];
         },

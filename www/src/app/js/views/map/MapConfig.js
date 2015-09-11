@@ -178,7 +178,7 @@ define({
     // },
 
     forestUseLayers: {
-        url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
         id: 'Forest_Use',
         defaultLayers: [-1], // Show none by default
         rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
@@ -320,25 +320,49 @@ define({
             'id': "fire-stories-checkbox",
             'type': 'checkbox'
         },
+        // 'Forest_Use': {
+        //     32: {
+        //         'id': 'oil-palm-checkbox',
+        //         'type': 'checkbox'
+        //     },
+        //     28: {
+        //         'id': 'wood-fiber-checkbox',
+        //         'type': 'checkbox'
+        //     },
+        //     10: {
+        //         'id': 'logging-checkbox',
+        //         'type': 'checkbox'
+        //     },
+        //     27: {
+        //         'id': 'rspo-oil-palm-checkbox',
+        //         'type': 'checkbox'
+        //     },
+        //     16: {
+        //         'id': "indicative-moratorium-checkbox",
+        //         'type': 'checkbox'
+        //     }
+        // },
         'Forest_Use': {
-            32: {
-                'id': 'oil-palm-checkbox',
-                'type': 'checkbox'
-            },
-            28: {
-                'id': 'wood-fiber-checkbox',
-                'type': 'checkbox'
-            },
-            10: {
-                'id': 'logging-checkbox',
-                'type': 'checkbox'
-            },
-            27: {
+            4: {
                 'id': 'rspo-oil-palm-checkbox',
                 'type': 'checkbox'
             },
-            16: {
+            7: {
                 'id': "indicative-moratorium-checkbox",
+                'type': 'checkbox'
+            }
+        },
+        'Land_Use': {
+            0: {
+                'id': 'wood-fiber-checkbox',
+                'type': 'checkbox'
+            },
+            2: {
+                'id': 'oil-palm-checkbox',
+                'type': 'checkbox'
+            },
+            3: {
+                'id': "logging-checkbox",
                 'type': 'checkbox'
             }
         },
@@ -710,7 +734,7 @@ define({
         //FOREST USE
         {
             "id": "oil-palm-checkbox",
-            "class": "forest-use-layers-option",
+            "class": "land-use-layers-option",
             "type": "checkbox",
             "props": {
                 "value": "oilPalm"
@@ -724,21 +748,21 @@ define({
             }
         }, {
             "id": "wood-fiber-checkbox",
-            "class": "forest-use-layers-option",
+            "class": "land-use-layers-option",
             "type": "checkbox",
             "props": {
                 "value": "woodFiber"
             }
         }, {
             "id": "logging-checkbox",
-            "class": "forest-use-layers-option",
+            "class": "land-use-layers-option",
             "type": "checkbox",
             "props": {
                 "value": "logging"
             }
         }, {
             "id": "indicative-moratorium-checkbox",
-            "class": "conservation-layers-option",
+            "class": "forest-use-layers-option",
             "type": "checkbox",
             "props": {
                 "value": "indicativeMoratorium"

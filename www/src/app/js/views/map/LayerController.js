@@ -436,6 +436,8 @@ define([
                 valueForHash = '',
                 layerID;
 
+                
+
             dojoQuery("." + queryClass).forEach(function(node) {
                 if (node.checked) {
                     layerID = configObject[node.value];
