@@ -62,12 +62,21 @@ define([
         },
 
         refreshLegend: function() {
+            
             var legendLayer = _map.getLayer(MapConfig.landCoverLayers.id),
-                visibleLayers = legendLayer.visibleLayers,
+                visibleLayers,
                 layerDrawingOption = new esri.layers.LayerDrawingOptions(),
                 optionsArray = [],
                 numArray = [29],
                 num;
+
+            if (legendLayer) {
+                visibleLayers = legendLayer.visibleLayers;
+            } else {
+                visibleLayers = [];
+            }
+
+            
             layerDrawingOption.transparency = 0;
 
             if (_map.getLayer(MapConfig.treeCoverLayer.id).visible) {
@@ -436,7 +445,7 @@ define([
                 valueForHash = '',
                 layerID;
 
-                
+
 
             dojoQuery("." + queryClass).forEach(function(node) {
                 if (node.checked) {

@@ -1871,7 +1871,13 @@ define([
                 _map.infoWindow.hide();
             });
             $('#editTitle').bind('input', function() {
+                
                 var newtitle = $(this).val(); // get the current value of the input field.
+
+                if (newtitle.length > 50) {
+                    $('#editTitle').val(newtitle.substring(0,50))
+                    newtitle = newtitle.substring(0,50);
+                }
                 graphic.attributes.ALERTS_LABEL = newtitle;
             });
 
