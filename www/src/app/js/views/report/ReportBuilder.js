@@ -1279,34 +1279,34 @@ define([
 
         attachClickHandlers: function() {
             on(dom.byId("high-confidence-info-report"), "click", function() {
-                
-                var _self = this;
-                require([
-                    "dijit/Dialog",
-                    "dojo/on",
-                    "dojo/_base/lang"
-                ], function(Dialog, on, Lang) {
-                    var content = "<p>" + MapConfig.text.firesConfidenceDialog.text + "</p>";
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+                // var _self = this;
+                // require([
+                //     "dijit/Dialog",
+                //     "dojo/on",
+                //     "dojo/_base/lang"
+                // ], function(Dialog, on, Lang) {
+                //     var content = "<p>" + MapConfig.text.firesConfidenceDialog.text + "</p>";
 
-                    var dialog = new Dialog({
-                        title: MapConfig.text.firesConfidenceDialog.title.toUpperCase(),
-                        style: "line-height: 1.3; width: 415px; font-size:16px; background-color: white; border: 1px solid gray;",
-                        draggable: false,
-                        hide: function() {
-                            dialog.destroy();
-                        }
-                    });
-                    dialog.setContent(content);
-                    dialog.show();
+                //     var dialog = new Dialog({
+                //         title: MapConfig.text.firesConfidenceDialog.title.toUpperCase(),
+                //         style: "width: 415px; background-color: white; border: 1px solid gray;",
+                //         draggable: false,
+                //         id: 'high-confidence-info-popup',
+                //         hide: function() {
+                //             dialog.destroy();
+                //         }
+                //     });
+                //     dialog.setContent(content);
+                //     dialog.show();
 
-                    $('body').on('click',function(e){
-                        if (e.target.classList.contains('dijitDialogUnderlay')) {
-                            dialog.hide();
-                            $('body').off('click');
-                        }
-                    });
-
-                });
+                //     $('body').on('click',function(e){
+                //         if (e.target.classList.contains('dijitDialogUnderlay')) {
+                //             dialog.hide();
+                //             $('body').off('click');
+                //         }
+                //     });
+                // });
 
             });
 
