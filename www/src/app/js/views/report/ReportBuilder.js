@@ -269,7 +269,7 @@ define([
                     self.queryForSumatraFires(),
                     self.queryForMoratoriumFires(),
                     self.queryForDailyFireData(),
-                    self.attachClickHandler()
+                    self.attachClickHandlers()
                 ]).then(function(res) {
                     self.get_extent();
                     self.printReport();
@@ -1277,7 +1277,7 @@ define([
             return deferred.promise;
         },
 
-        attachClickHandler: function() {
+        attachClickHandlers: function() {
             on(dom.byId("high-confidence-info-report"), "click", function() {
                 
                 var _self = this;
@@ -1300,7 +1300,6 @@ define([
                     dialog.show();
 
                     $('body').on('click',function(e){
-                        debugger
                         if (e.target.classList.contains('dijitDialogUnderlay')) {
                             dialog.hide();
                             $('body').off('click');
@@ -1310,7 +1309,16 @@ define([
                 });
 
             });
+
+            on(dom.byId("confidence-footnote"), "click", function() {
+                
+                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+            });
         },
+
+            
+
+
 
         queryFireData: function(config, callback, errback) {
             var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.confidenceFireId),

@@ -502,7 +502,7 @@ table.forest-use-pop
 .intl-tel-input .country-list
 	max-height 200px !important
 	
-#subscribeDialogWindow > div.dijitDialogTitleBar, #embedCodeShareDialog > div.dijitDialogTitleBar, #digitalGlobeInstructions > div.dijitDialogTitleBar, #windLayerBasemapDialog > div.dijitDialogTitleBar
+#subscribeDialogWindow > div.dijitDialogTitleBar, #embedCodeShareDialog > div.dijitDialogTitleBar, #digitalGlobeInstructions > div.dijitDialogTitleBar, #windLayerBasemapDialog > div.dijitDialogTitleBar, #highConfidenceDialog > div.dijitDialogTitleBar
 	background white
 	text-align center
 
@@ -1176,13 +1176,18 @@ div.report-options-section > table
 
 .windLayerLegendColorRamp 
 	background linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%)
+	
+#highConfidenceDialog
+	padding 5px
+	//font-size:16px; color: #888; text-align: center;
+		
 
-#windLayerBasemapDialog, #digitalGlobeInstructions, #embedCodeShareDialog
+#windLayerBasemapDialog, #digitalGlobeInstructions, #embedCodeShareDialog, #highConfidenceDialog
 	font-family "Arial MT Condensed Light"
 	src url("../fonts/ArialMTStd-LightCond.otf") format("opentype")
 	color #464052
 
-#windLayerBasemapDialog .dijitDialogPaneActionBar, #digitalGlobeInstructions .dijitDialogPaneActionBar, #embedCodeShareDialog .dijitDialogPaneActionBar
+#windLayerBasemapDialog .dijitDialogPaneActionBar, #digitalGlobeInstructions .dijitDialogPaneActionBar, #embedCodeShareDialog .dijitDialogPaneActionBar, #highConfidenceDialog .dijitDialogPaneActionBar
 	margin 10px 0 0
 	text-align center
 

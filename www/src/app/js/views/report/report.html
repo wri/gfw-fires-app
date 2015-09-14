@@ -19,9 +19,7 @@
           <div id="fromDate"></div>
           <div id="toDate"></div>
           <div id="aoiList"></div>
-          <div class="sub-title2">*Analysis based on <span id="high-confidence-info-report">high confidence fires </span>
-            <only></only>
-          </div>
+          <div class="sub-title2"><span id="confidence-footnote">*</span><span>Analysis based on </span><span id="high-confidence-info-report">high confidence fires </span><span>only</span></div>
           <div id="noFiresMsg"></div>
         </div>
       </div>
@@ -118,6 +116,18 @@
           <div id="moratorium-fires-chart-container" class="chart-container">
             <div id="moratorium-fires-chart" class="chart"></div>
           </div>
+        </div>
+      </div>
+      <div id="section-eight" class="page-break">
+        <div id="disclaimer" class="no-break">
+          <p>WRI used NASA’s Active Fire Data to determine the likely location of fires on the ground. This system uses the NASA MODIS satellites that survey the entire earth every 1-2 days. The sensors on these satellites detect the heat signatures of fires within the infrared spectral band. When the satellite imagery is processed, an algorithm searches for fire-like signatures. When a fire is detected, the system indicates the 1 km2 where the fire occurred with an “alert.” The system will nearly always detect fires of 1,000 m2 in size, but under ideal conditions, can detect flaming fires as small as 50 m2. Since each satellite passes over the equator twice a day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.</p>
+          <p>The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.</p>
+          <p>WRI is employing a recommendation for detecting forest clearing fires (described in Morton and Defries, 2008), identifying fires with a Brightness value ≥330 Kelvin and a Confidence value ≥ 30% to indicate fires that have a high confidence for being forest-clearing fires. Low confidence fires are lower intensity fires that could either be from non-forest-clearing fire activity (clearing fields or grass burning), or could be older fires that have decreased in intensity (smoldering rather than flaming fires). The use of this classification establishes a higher standard for fire detection than using all fire alerts equally.</p>
+          <p>Sources:</p>
+          <p>NASA FIRMS FAQ Morton, D., R. DeFries, J. T. Randerson, L. Giglio, W. Schroeder, and G. van der Werf. 2008. Agricultural intensification increases deforestation fire activity in Amazonia. Global Change Biology 14:2262-2276.</p>
+          <p>Data Sources for Figures:</p>
+          <p>NASA Fire Information for Resource Management (FIRMS) Active Fire Data</p>
+          <p>Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)</p>
         </div>
       </div>
     </div>

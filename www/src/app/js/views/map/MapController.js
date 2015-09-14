@@ -1076,7 +1076,8 @@ define([
 
                 var dialog = new Dialog({
                     title: MapConfig.text.firesConfidenceDialog.title.toUpperCase(),
-                    style: "height: 310px; width: 415px; font-size:16px;",
+                    style: "height: 310px; width: 415px;",
+                    id: "highConfidenceDialog",
                     draggable: false,
                     hide: function() {
                         dialog.destroy();
