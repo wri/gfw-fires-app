@@ -203,7 +203,7 @@ define([
                             break;
 
                         case "Conservation":
-                            features = features.concat(_self.setConservationTemplates(item.features));
+                            features = features.concat(_self.setConservationTemplatesFull(item.features));
                             break;
                         case "Fire_Stories":
                             features = features.concat(_self.getFireStoriesInfoWindow(item.features));
@@ -381,12 +381,33 @@ define([
             params.layerIds = _map.getLayer(MapConfig.conservationLayers.id).visibleLayers;
             params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
+
             identifyTask.execute(params, function(features) {
                 if (features.length > 0) {
-                    deferred.resolve({
-                        layer: MapConfig.conservationLayers.id,
-                        features: features
+                    var queries = features.map(function(feature){
+                        var qDeferred = new Deferred();
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url+'4');
+                        var query = new Query();
+                        query.geometry = feature.feature.geometry;
+                        query.where = "1=1"
+                        query.outFields = ["Date"];
+                        queryTask.execute(query).then(function(results){
+                                feature.fires = results.features;
+
+                                setTimeout(function() {
+                                    qDeferred.resolve(false)
+                                }, 3000);
+                                qDeferred.resolve(feature)
+                        });
+                        return qDeferred;
                     });
+                    all(queries).then(function(qResults){
+                                deferred.resolve({
+                                    layer: MapConfig.conservationLayers.id,
+                                    features: qResults
+                                });
+                    });
+                    
                 } else {
                     deferred.resolve(false);
                 }
@@ -395,6 +416,7 @@ define([
             });
 
             return deferred.promise;
+
         },
 
         identifyFireStories: function(mapPoint) {
@@ -631,51 +653,26 @@ define([
                         "</table>"
                     ],
                     7: false
-                    // 16: false,
-                    // 10:[
-                    //     "<table class='forest-use-pop'>",
-                    //         "<tr><td>Country</td><td>", attr.Country, "</td>",
-                    //         "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
-                    //         "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
-                    //         "<tr style='height:10px;'></tr>",
-                    //     "</table>"
-                    // ],
-                    // 27: [ //RSPO
-                    //         "<table class='forest-use-pop'>",
-                    //             "<tr><td>Country</td><td>", attr.Country, "</td></tr>",
-                    //             "<tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td>",
-                    //             "<tr><td>Certificate ID</td><td>", attr.Certificat, "</td></tr>",
-                    //             "<tr><td>Certificate Issue Date</td><td>", attr.Issued, "</td></tr>",
-                    //             "<tr><td>Certificate Expiry Date</td><td>", attr.Expired, "</td></tr>",
-                    //             "<tr><td>Mill name</td><td>", attr.Mill, "</td></tr>",
-                    //             "<tr><td>Mill location</td><td>", attr.Location, "</td></tr>",
-                    //             "<tr><td>Mill capacity (t/hour)</td><td>", attr.Capacity, "</td></tr>",
-                    //             "<tr><td>Certified CPO (mt)</td><td>", attr.CPO, "</td></tr>",
-                    //             "<tr><td>Certified PK (mt)</td><td>", attr.PK, "</td></tr>",
-                    //             "<tr><td>Estate Suppliers</td><td>", attr.Estate, "</td></tr>",
-                    //             "<tr><td>Estate Area (ha)</td><td>", attr.Estate_1, "</td></tr>",
-                    //             "<tr><td>Outgrower Area (ha)</td><td>", attr.Outgrowe, "</td></tr>",
-                    //             "<tr><td>Scheme Smallholder Area (ha)</td><td>", attr.SH, "</td></tr>",
-                    //             "<tr><td>Source </td><td>", (attr.Source || "N/A"), "</td></tr>",
-                    //             "<tr style='height:10px;'></tr>",
-                    //         "</table>"
-                    //     ],
-                    // 28: [ //Wood fiber
-                    //         "<table class='forest-use-pop'>",
-                    //             "<tr><td>Country</td><td>" , attr.Country , "</td></tr>",
-                    //             "<tr><td>Certification Status</td><td>" , attr.CERT_STAT , "</td></tr>",
-                    //             "<tr><td>Source </td><td>" , (attr.Source || "N/A") , "</td></tr>",
-                    //             "<tr style='height:10px;'></tr>",
-                    //         "</table>"
-                    // ],
-                    // 32: [
-                    //     "<table class='forest-use-pop'>",
-                    //         "<tr><td>Country</td><td>" + attr.Country + "</td></tr>",
-                    //         "<tr><td>Certification Status</td><td>" + attr.CERT_STAT + "</td></tr>",
-                    //         "<tr><td>Source </td><td>" + (attr.Source || "N/A") + "</td></tr>",
-                    //         "<tr style='height:10px;'></tr>",
-                    //     "</table>"
-                    // ]
+
+                };
+                return tables[item.layerId];
+        },
+
+        getAdditonalInfoContentProtected: function(item){
+            
+            var attr = item.feature.attributes;
+            var tables = {
+                    0:[
+                        "<table class='conservation-use-pop'>",
+                            "<tr><td>Local Name</td><td>", attr["Local Name"], "</td>",
+                            "</tr><tr><td>Local Designation</td><td>", attr["Local Designation"], "</td></tr>",
+                            "<tr><td>WDPA ID </td><td>", (attr["WDPA ID"] || "N/A"), "</td></tr>",
+                            "<tr style='height:10px;'></tr>",
+                        "</table>"
+                    ]
+
+
+
                 };
                 return tables[item.layerId];
         },
@@ -691,9 +688,14 @@ define([
 
                                 
                 template_content_block.push("<div>Additional Info</div>");
-                
+                var template_table;
 
-                var template_table = this.getAdditonalInfoContent(item);
+                if (item.layerName === "WDPA Protected areas") {
+                    template_table = this.getAdditonalInfoContentProtected(item);
+                } else {
+                    template_table = this.getAdditonalInfoContent(item);    
+                }
+                
                 
                 if(!template_table){
                     return false;
@@ -705,6 +707,37 @@ define([
         },
 
         setForestUseTemplates: function(featureObjects) {
+            var template,
+                content = '',
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            
+
+            arrayUtils.forEach(featureObjects, function(item) {
+                
+
+                var template_title = ["<strong>" , item.value , "</strong>"].join('');
+                var content = _self.getTemplateContent(item);
+                if(!content){
+                    return;
+                }
+
+                template = new InfoTemplate(template_title,content);
+                item.feature.setInfoTemplate(template);
+                item.feature.attributes.ALERTS_LABEL = item.value;
+
+                features.push(item.feature);
+            });
+
+            if ($('#uploadCustomGraphic').length == 0) {
+                $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+            }
+
+            return features;
+        },
+        setConservationTemplatesFull: function(featureObjects) {
             var template,
                 content = '',
                 handleUpSubsc,
@@ -831,11 +864,15 @@ define([
 
                     [_self.getDigitalGlobeInfoWindow(event), _self.renderDGInfoWindow, dgCheck]
                 ];
-
+                
                 //only run task if checkbox is selected
                 var identifyTasks = tasks.filter(function(task){
+                    if (task[2].id === "fires-checkbox" && MapModel.vm.smartRendererName() === "Heat map") {
+                        return false
+                    }
                     return task[2].getAttribute("aria-checked") === 'true';
                 });
+                console.log(identifyTasks)
 
                 identifyTasks.forEach(function(task,i){
                     var precendentTrue = false;
