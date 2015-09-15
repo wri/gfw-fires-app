@@ -390,7 +390,7 @@ table.forest-use-pop tr:nth-child(odd) {
 }
 
 /* line 272 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
-#high-confidence-info {
+.high-confidence-info {
   cursor: pointer;
   color: #e7002f;
 }

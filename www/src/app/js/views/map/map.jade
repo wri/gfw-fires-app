@@ -42,7 +42,7 @@ div#map-view(class="map-view")
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
 						div(class="confidence-archive-container")
 							div#confidence-archive-checkbox
-							label#confidenceArchiveContainer(for="confidence-archive-checkbox", data-bind="text: confidenceFiresCheckbox")
+							label#confidenceArchiveContainer(for="confidence-archive-checkbox", data-bind="html: confidenceFiresCheckbox")
 
 						//-div#report-options-closeINDO(data-bind="click: closeReportOptionsINDO" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")

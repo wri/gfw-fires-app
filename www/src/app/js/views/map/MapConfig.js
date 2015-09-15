@@ -505,7 +505,7 @@ define({
         noaaSubLabel: "(Oct 22 to present, 1km, Southeast Asia)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
-        confidenceFiresCheckbox: "Only show <span id='high-confidence-info'>high confidence fires</span>",
+        confidenceFiresCheckbox: "Only show <span class='high-confidence-info'>high confidence fires</span>",
         activateSmartCheckbox: "View fire points as:",
         firesWeek: "Past Week",
         fires72: "Past 72 hours",

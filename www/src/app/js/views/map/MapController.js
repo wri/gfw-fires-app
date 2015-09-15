@@ -1192,7 +1192,10 @@ define([
         };
 
 
-        on(dom.byId("high-confidence-info"), "click", showFiresConfidenceInfo);
+        dojoQuery(".high-confidence-info").forEach(function(node) {
+            $(node).on("click", showFiresConfidenceInfo);
+
+        });
         on(dom.byId("locator-widget-button"), "click", toggleLocatorWidgets);
         on(dom.byId("basemap-gallery-button"), "click", toggleBasemapGallery);
         on(dom.byId("share-button"), "click", toggleShareContainer);
