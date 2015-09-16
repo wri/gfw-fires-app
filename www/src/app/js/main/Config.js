@@ -69,7 +69,7 @@ define([],
 
             headerTitle: "A partnership convened by the World Resources Institute",
 
-            headerDesc: "Track forest fires and haze in the ASEAN region",
+            headerDesc: "Track fires and haze in the ASEAN region",
 
 
             homeModeOptions: [{
