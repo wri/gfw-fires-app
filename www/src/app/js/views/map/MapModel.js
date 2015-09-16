@@ -168,6 +168,8 @@ define([
                 title = "WOOD FIBER PLANTATION";
             } else if (htmlToFetch === "dataLandUse-5") {
                 title = "RSPO CONCESSIONS";
+            } else if (htmlToFetch === "dataLandUse-6") {
+                title = "Indonesia Forest Moratorium";
             }
 
             var childInfo = fireInfo.find(".ac-auto");

@@ -129,7 +129,10 @@
         </div>
         <div class="checkbox-container">
           <div id="indicative-moratorium-checkbox"></div>
-          <label for="indicative-moratorium-checkbox" data-bind="text: indicativeMoratoriumCheckbox"></label>
+          <label for="indicative-moratorium-checkbox" data-bind="text: indicativeMoratoriumCheckbox"></label><span id="dataLandUse-6-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
+            <svg class="info-icon-svg">
+              <use xlink:href="#shape-info"></use>
+            </svg></span>
           <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-instructions"></div><span data-bind="text: indicativeMoratoriumCheckboxSubLabel2" class="checkbox-sub-label"></span>
         </div>
       </div>

@@ -11,4 +11,4 @@ div.footerModesContainer(data-bind="visible: (appState().v=='home')")
                     div(data-bind="ifnot: url")
                         a.action(data-bind="html:action,click:$root.footerSelect")
 
-div.footerShareContainer#footerShareContainer(data-bind="visible: (appState().v!='map')")
+div.footerShareContainer#footerShareContainer(data-bind="visible: (appState().v != 'map')")

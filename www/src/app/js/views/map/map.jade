@@ -138,6 +138,9 @@ div#map-view(class="map-view")
 				div(class="checkbox-container")
 					div#indicative-moratorium-checkbox
 					label(for="indicative-moratorium-checkbox", data-bind="text: indicativeMoratoriumCheckbox")
+					span(id='dataLandUse-6-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
 					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-instructions")
 					span(data-bind="text: indicativeMoratoriumCheckboxSubLabel2", class="checkbox-sub-label")
 			div#conservation-panel(class='accordion-panel')
