@@ -144,9 +144,9 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
 
                                 //domConstruct.place("footerMovableWrapper", "footerShareContainer");
                                 domConstruct.place("footerView", "footerShareContainer");
-                                // if ($("#footerView").css("display") == "none") {
-                                //     $("#footerView").show();
-                                // }
+                                if ($("#footerView").css("display") == "none") {
+                                    $("#footerView").show();
+                                }
 
                             }, 1000);
 
