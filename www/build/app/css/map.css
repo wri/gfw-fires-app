@@ -179,10 +179,9 @@ map.styl,
 
 /* line 127 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #map .esriPopupWrapper .sizer:first-child .titlePane .title {
-  color: #f7f7f7;
+  color: #000;
   font-size: 14px;
   padding-top: 1px;
-  max-width: 235px;
 }
 
 /* line 129 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */

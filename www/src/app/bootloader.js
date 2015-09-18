@@ -9,13 +9,13 @@
 
     var pathPrefix = baseUrl || document.location.pathname.replace(/\/[^/]+$/, "");
     if (pathPrefix.slice(-1) !== "/") {
-        pathPrefix = pathPrefix + "/";
+        pathPrefix = pathPrefix + "/"
     }
 
 
     var ENV = 'dev',
 
-        version = "0.7.23",
+        version = "0.7.25",
         esriLib = 'http://js.arcgis.com/3.13/init.js',
 
         css = {
