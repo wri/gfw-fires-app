@@ -227,7 +227,12 @@ define([
                     map.infoWindow.setFeatures(features);
 
                     map.infoWindow.show(mapPoint);
-                    map.infoWindow.resize(300,300);
+                    if (featureSets[0].layer === "Fire_Stories") {
+                        map.infoWindow.resize(550,300);
+                    } else {
+                        map.infoWindow.resize(300,300);    
+                    }
+                    
 
                     if(isForestUsePop){
                         _self.connectFirePopEvents();
@@ -420,13 +425,14 @@ define([
         },
 
         identifyFireStories: function(mapPoint) {
-            var url = MapConfig.fireStories.url.split("/10");
+            var url = MapConfig.fireStories.url.split(MapConfig.fireStories.layerId);
             url = url[0];
             var deferred = new Deferred(),
                 identifyTask = new IdentifyTask(url),
                 params = new IdentifyParameters();
 
             params.tolerance = 5;
+            params.maxAllowableOffset = 5000; //meters
             params.returnGeometry = false;
             params.width = _map.width;
             params.height = _map.height;
@@ -1453,7 +1459,7 @@ define([
 
                     });
                     content += "</table>";
-                    debugger;
+
                     deferred.resolve(content);
 
                     // map.infoWindow.setContent(content);
@@ -1719,7 +1725,7 @@ define([
 
             //TODO: Add Attachments!
             _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
-            var attr, html, features = [];
+            var attr, html = "<table style='min-width:500px;'>", features = [];
             for (var i = 0; i < feats.length; i++) {
 
                 for (attr in feats[i].feature.attributes) {
@@ -1727,48 +1733,82 @@ define([
                         feats[i].feature.attributes[attr] = "";
                     }
                 }
-                var fireStory_popupTemplate = new PopupTemplate({
-                    title: "{Title}",
-                    //"content": htmlContent,
-                    fieldInfos: [{
-                        fieldName: "Date",
-                        label: "Date",
-                        format: {
-                            dateFormat: 'shortDate'
-                        },
-                        visible: true
-                    }, {
-                        fieldName: "Details",
-                        label: "Details",
-                        visible: true
-                    }, {
-                        fieldName: "Video",
-                        label: "Video",
-                        visible: true
-                    }, {
-                        fieldName: "Name",
-                        label: "Name",
-                        visible: true
-                    }, {
-                        fieldName: "Attachments",
-                        label: "Attachments",
-                        visible: true
-                        // }, {
-                        //     fieldName: "Email",
-                        //     label: "Email",
-                        //     visible: true
-                    }],
-                    "showAttachments": true
+                attr = feats[i].feature.attributes;
 
-                });
+                html += "<tr><td>" + feats[i].feature.attributes['Name'] + "</td></tr>" +
+                // "<tr><td>" + feats[i].feature.attributes['Title'] + "</td></tr>" +
+                "<tr><td>" + feats[i].feature.attributes['Details'] + "</td></tr>" +
+                "<tr><td><a style='color:green;cursor:pointer;' href='" + feats[i].feature.attributes.Video + "'>" + feats[i].feature.attributes.Video + "</a></td></tr>" +
+                "<tr><td>Published on " + feats[i].feature.attributes['Date'] + "</td></tr></table>";
+
+
+                // for (var propertyName in attr) {
+                //     console.log(propertyName)
+                    
+
+                //     // Title,Details,Video,Name,Email,SHAPE,Publish,Date
+
+                //     if (propertyName == "Video") {
+
+                //         html += "<tr><td><a style='color:green;cursor:pointer;' href='" + feats[i].feature.attributes.Video + "'>" + feats[i].feature.attributes.Video + "</a></td></tr>";
+
+                //     } else {
+                //         html += "<tr><td>" + attr[propertyName] + "</td></tr>";
+                //     }
+
+                // }
+                // html += "</div>";
+
+                // template = new InfoTemplate(feats[i].feature.attributes.UserName, html);
+
+                var title = feats[i].feature.attributes['Title'] ? feats[i].feature.attributes['Title'] : 'User Story';
+
+                var fireStory_popupTemplate = new InfoTemplate(title, html);
+
+                // var fireStory_popupTemplate = new PopupTemplate({
+                //     title: "{Title}",
+                //     //"content": htmlContent,
+                //     // fieldInfos: [{
+                //     //     fieldName: "Date",
+                //     //     label: "Date",
+                //     //     format: {
+                //     //         dateFormat: 'shortDate'
+                //     //     },
+                //     //     visible: true
+                //     // }, {
+                //     //     fieldName: "Details",
+                //     //     label: "Details",
+                //     //     visible: true
+                //     // }, {
+                //     //     fieldName: "Video",
+                //     //     label: "Video",
+                //     //     visible: true
+                //     // }, {
+                //     //     fieldName: "Name",
+                //     //     label: "Name",
+                //     //     visible: true
+                //     // }, {
+                //     //     fieldName: "Attachments",
+                //     //     label: "Attachments",
+                //     //     visible: true
+                //     //     // }, {
+                //     //     //     fieldName: "Email",
+                //     //     //     label: "Email",
+                //     //     //     visible: true
+                //     // }],
+                //     "showAttachments": true
+
+                // });
+                // fireStory_popupTemplate.setContent()
 
                 var id = feats[i].feature.attributes.OBJECTID;
                 var layer = map.getLayer("Fire_Stories");
+                map.infoWindow.resize(550,300);
 
                 (function(feature) {
-
+                    console.log(id)
                     layer.queryAttachmentInfos(id, function(infos) {
-
+                        console.log(infos)
                         if (infos[0]) {
                             console.log(infos);
                             if (!!infos[0].url) {
@@ -1815,7 +1855,7 @@ define([
                 features.push(feats[i].feature);
 
             }
-
+            
             return features;
         },
 

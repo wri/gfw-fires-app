@@ -159,6 +159,7 @@ define({
     fireStories: {
         //url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L",
         //url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0",
+        layerId: "/10",
         url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/10",
         localToken: "?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2",
         stagingToken: "?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L",

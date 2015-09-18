@@ -1186,6 +1186,8 @@ define([
             var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.firesLayer.fire_id),
                 deferred = new Deferred(),
                 query = new Query(),
+                queryAll = new Query(),
+                queryHigh = new Query(),
                 fireDataLabels = [],
                 fireData = [],
                 self = this,
@@ -1205,11 +1207,35 @@ define([
             statdef.statisticType = "count";
             query.outStatistics = [statdef];
 
+
+            var highConfidenceDefinition = self.get_layer_definition();
+            queryAll.where = highConfidenceDefinition.split(" AND BRIGHTNESS")[0];
+            queryHigh.where = highConfidenceDefinition;
+
+
+            queryTask.executeForCount(queryAll,function(count){
+                $("#totalFireAlerts").html(count + ' ');
+                console.log("Total Fires: ", count);
+            },function(error){
+                console.log(error);
+            });
+            queryTask.executeForCount(queryHigh,function(count){
+                $("#highConfidenceFireAlerts").html(count + ' ');
+                console.log("High Confidence Fires: ", count);
+            },function(error){
+                console.log(error);
+            });
+
+
             success = function(res) {
+                var count = 0;
                 arrayUtils.forEach(res.features, function(feature) {
                     fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).tz('Asia/Jakarta').format("M/D/YYYY"));
                     fireData.push(feature.attributes.Count);
+                    count += feature.attributes.Count;
                 });
+
+                $("#totalFiresLabel").show()
 
                 $('#fire-line-chart').highcharts({
                     chart: {
