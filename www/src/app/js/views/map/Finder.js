@@ -1738,7 +1738,7 @@ define([
                 html += "<tr><td>" + feats[i].feature.attributes['Name'] + "</td></tr>" +
                 // "<tr><td>" + feats[i].feature.attributes['Title'] + "</td></tr>" +
                 "<tr><td>" + feats[i].feature.attributes['Details'] + "</td></tr>" +
-                "<tr><td><a style='color:green;cursor:pointer;' href='" + feats[i].feature.attributes.Video + "'>" + feats[i].feature.attributes.Video + "</a></td></tr>" +
+                "<tr><td><a style='color:#97bd3d;cursor:pointer;' href='" + feats[i].feature.attributes.Video + "'>" + feats[i].feature.attributes.Video + "</a></td></tr>" +
                 "<tr><td>Published on " + feats[i].feature.attributes['Date'] + "</td></tr></table>";
 
 
