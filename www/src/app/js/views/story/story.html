@@ -13,6 +13,7 @@
         <h5 class="storyHeader">AFFECTED AREAS</h5>
         <h5 id="requiredArea" class="requiredItem">Drop a pin on the map near the affected area</h5>
         <div id="storiesMap" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" style="padding:0;">
+          <div id="esri-geocoder-widget-story"></div>
           <div id="storyBasemaps" style="position:absolute; right:25px; top:10px; z-Index:10; font-size: 12px;">
             <div data-dojo-type="dijit/TitlePane" data-dojo-props="title:'Basemaps', closable:false, open:false">
               <div data-dojo-type="dijit/layout/ContentPane" style="width:255px; height:220px; overflow:auto;">
@@ -36,16 +37,17 @@
       </div>
       <div class="storiesInput">
         <h5 id="videoHeader" class="storyHeader">VIDEO</h5>
+        <p class="instructions">Add a hyperlink to a video, online news story or website.</p>
         <input id="storyVideoInput" data-bind="value: storyVideoData" type="url" placeholder="http://www.youtube.com/watch?v=ITG-0brb98I"/>
       </div>
       <div class="storiesInput">
         <h5 class="storyHeader">MEDIA</h5>
+        <p class="instructions">Add images and videos to your story.</p>
         <div id="storyMediaInput" data-bind="foreach:inputFilesSelector">
           <input type="file" name="attachment" style="font-size: 11px;" data-bind="event: {change:$root.mediaChange}" class="uploadInput"/>
           <div data-bind="click:$root.attachmentRemove, text:name, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}" class="uploadList"></div>
         </div>
       </div>
-      <p class="instructions">Add images and videos to attach them to your story.</p>
       <div class="storiesInput">
         <h5 class="storyHeader">NAME or NICKNAME</h5>
         <h5 id="optionalName" class="requiredItem">(Optional)</h5>

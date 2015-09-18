@@ -12,10 +12,12 @@ div#storyInnerContainer(class="content-inner-container")
                 h5.storyHeader AFFECTED AREAS
                 h5#requiredArea.requiredItem Drop a pin on the map near the affected area
                 #storiesMap(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'", style='padding:0;')
+                    div#esri-geocoder-widget-story
                     div(id='storyBasemaps' style='position:absolute; right:25px; top:10px; z-Index:10; font-size: 12px;')
                       div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
                         div(data-dojo-type='dijit/layout/ContentPane', style='width:255px; height:220px; overflow:auto;')
-                          #basemapGallery
+                            #basemapGallery
+
             div.storiesInput
                 h5.storyHeader LOCATION
                 input(id="storyLocationInput", data-bind="value: storyLocationData", type="text", placeholder="‘Katingan Peatland area, Indonesia’, ‘South Sumatra’")
@@ -28,13 +30,15 @@ div#storyInnerContainer(class="content-inner-container")
                 textarea(id="storyDetailsInput", data-bind="value: storyDetailsData", type="text", placeholder="‘Burning peatland’ ‘Forest cleared for plantation’ ‘Poor air quality’")
             div.storiesInput
                 h5#videoHeader.storyHeader VIDEO
+                p.instructions Add a hyperlink to a video, online news story or website.
                 input(id="storyVideoInput", data-bind="value: storyVideoData", type="url", placeholder="http://www.youtube.com/watch?v=ITG-0brb98I")
             div.storiesInput
                 h5.storyHeader MEDIA
+                p.instructions Add images and videos to your story.
                 div(id="storyMediaInput", data-bind="foreach:inputFilesSelector")
                     input(type="file", name="attachment", style='font-size: 11px;' class="uploadInput", data-bind="event: {change:$root.mediaChange}")
                     div.uploadList(data-bind="click:$root.attachmentRemove, text:name, event: {mouseenter: $root.mouseoverFile, mouseleave: $root.mouseoutFile}")
-            p.instructions Add images and videos to attach them to your story.
+            
 
             div.storiesInput
                 h5.storyHeader NAME or NICKNAME
