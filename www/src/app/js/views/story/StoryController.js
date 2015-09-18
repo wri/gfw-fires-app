@@ -53,7 +53,10 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
             var basemapGallery = new BasemapGallery({
                 showArcGISBasemaps: true,
                 map: o.map
+                
             }, "basemapGallery");
+
+
 
             basemapGallery.startup();
             dojo.connect(basemapGallery, "onError", function(msg) {
@@ -64,9 +67,18 @@ define(["dojo/dom", "dojo/dom-construct", "dojo/on", "dojo/dom", "dojo/dom-style
                 mapLoad.remove();
                 o.initToolbar();
 
+                var myGeocoder = {
+                    url: "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+                    name: "World Geocoder",
+                    placeholder: "Search for a location"
+                };
+
                 // Add Geocoder Widget
                 geocoder = new Geocoder({
-                    map: o.map
+                    map: o.map,
+                    arcgisGeocoder: myGeocoder,
+                    searchDelay: 200,
+                    autoComplete: true
                 }, "esri-geocoder-widget-story");
                 geocoder.startup();
 
