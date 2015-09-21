@@ -1904,6 +1904,7 @@ define([
             //_map.infoWindow.setTitle(title);
             _map.infoWindow.setContent(content);
             $('#editTitle').val(graphic.attributes.ALERTS_LABEL);
+            _map.infoWindow.setTitle('&nbsp;');
             _map.infoWindow.show(evt.mapPoint);
             // on(dom.byId('editTitle'), "focus", function(evt) {
             //     console.log("edit title fired");
