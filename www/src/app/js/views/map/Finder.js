@@ -230,9 +230,9 @@ define([
                     if (featureSets[0].layer === "Fire_Stories") {
                         map.infoWindow.resize(550,300);
                     } else {
-                        map.infoWindow.resize(300,300);    
+                        map.infoWindow.resize(300,300);
                     }
-                    
+
 
                     if(isForestUsePop){
                         _self.connectFirePopEvents();
@@ -315,7 +315,7 @@ define([
                                     features: qResults
                                 });
                     });
-                    
+
                 } else {
                     deferred.resolve(false);
                 }
@@ -361,7 +361,7 @@ define([
                                     features: qResults
                                 });
                     });
-                    
+
                 } else {
                     deferred.resolve(false);
                 }
@@ -412,7 +412,7 @@ define([
                                     features: qResults
                                 });
                     });
-                    
+
                 } else {
                     deferred.resolve(false);
                 }
@@ -565,7 +565,7 @@ define([
             fireItemHandlers.forEach(function(handler){
                 handler.remove();
             });
-            
+
             titleHandlers = [dojoQuery(".titlePane > .prev")[0],dojoQuery(".titlePane > .next")[0]].map(function(node){
                 return on(node,'click',function(){
                             _self.connectFirePopEvents();
@@ -587,8 +587,8 @@ define([
 
                 var firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
                 var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days'
-                var fire_results = isFires ? [firesDiv] : [noFiresDiv]; 
-                
+                var fire_results = isFires ? [firesDiv] : [noFiresDiv];
+
                 if(isFires){
                     var fireCounts = [1,2,3,7].map(function(numdays){
                     return item.fires.filter(function(fire){
@@ -665,7 +665,7 @@ define([
         },
 
         getAdditonalInfoContentProtected: function(item){
-            
+
             var attr = item.feature.attributes;
             var tables = {
                     0:[
@@ -692,21 +692,21 @@ define([
                                 "<div>Area (ha): ", item.feature.attributes.AREA_HA , "</div>",
                             ].concat(fire_results);
 
-                                
+
                 template_content_block.push("<div>Additional Info</div>");
                 var template_table;
 
                 if (item.layerName === "WDPA Protected areas") {
                     template_table = this.getAdditonalInfoContentProtected(item);
                 } else {
-                    template_table = this.getAdditonalInfoContent(item);    
+                    template_table = this.getAdditonalInfoContent(item);
                 }
-                
-                
+
+
                 if(!template_table){
                     return false;
                 }
-                
+
                 var content = template_content_block.concat(template_table).join("");
 
                 return content;
@@ -719,10 +719,10 @@ define([
                 _self = this,
                 features = [];
 
-            
+
 
             arrayUtils.forEach(featureObjects, function(item) {
-                
+
 
                 var template_title = ["<strong>" , item.value , "</strong>"].join('');
                 var content = _self.getTemplateContent(item);
@@ -750,10 +750,10 @@ define([
                 _self = this,
                 features = [];
 
-            
+
 
             arrayUtils.forEach(featureObjects, function(item) {
-                
+
 
                 var template_title = ["<strong>" , item.value , "</strong>"].join('');
                 var content = _self.getTemplateContent(item);
@@ -870,7 +870,7 @@ define([
 
                     [_self.getDigitalGlobeInfoWindow(event), _self.renderDGInfoWindow, dgCheck]
                 ];
-                
+
                 //only run task if checkbox is selected
                 var identifyTasks = tasks.filter(function(task){
                     if (task[2].id === "fires-checkbox" && MapModel.vm.smartRendererName() === "Heat map") {
@@ -918,7 +918,7 @@ define([
                 url = qconfig.url,
                 itask = new IdentifyTask(url),
                 iparams = new IdentifyParameters(),
-                
+
                 point = event.mapPoint,
                 executeReturned = true,
                 node = dojoQuery(".selected-fire-option")[0],
@@ -970,7 +970,7 @@ define([
 
             // iparams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-            
+
 
 
             var content = "<div id='prevtomnod'><</div><div id='nexttomnod'>></div>";
@@ -1744,7 +1744,7 @@ define([
 
                 // for (var propertyName in attr) {
                 //     console.log(propertyName)
-                    
+
 
                 //     // Title,Details,Video,Name,Email,SHAPE,Publish,Date
 
@@ -1855,7 +1855,7 @@ define([
                 features.push(feats[i].feature);
 
             }
-            
+
             return features;
         },
 
@@ -1949,7 +1949,7 @@ define([
                 _map.infoWindow.hide();
             });
             $('#editTitle').bind('input', function() {
-                
+
                 var newtitle = $(this).val(); // get the current value of the input field.
 
                 if (newtitle.length > 50) {
@@ -2034,8 +2034,8 @@ define([
 
                 linker = on(dom.byId("subscribe-now"), 'click', function() {
                     require([
-                        "dojox/validate/web", "dojo/dom-style"
-                    ], function(validate, domStyle) {
+                        "dojox/validate/web", "dojo/dom-style", "views/map/MapController"
+                    ], function(validate, domStyle, MapController) {
                         honeyPotValue = dom.byId("verifyEmailForAlertsInMap").value;
                         if (honeyPotValue !== '') {
                             dialog.destroy();
@@ -2067,7 +2067,9 @@ define([
                                     console.log(email);
 
                                     _self.postSubscribeRequest(geom, email, "email", dialog);
-                                    Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via Email.");
+                                    // Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via Email.");
+                                    MapController.reportAnalyticsHelper("Subscribe", "click",  "The user is subscribing to Fire Alerts via Email.");
+
 
                                 }
 
@@ -2088,7 +2090,8 @@ define([
                             dom.byId("subscribe-now").innerHTML = "Submitting...";
 
                             _self.postSubscribeRequest(geom, emailValue, "email", dialog);
-                            Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via Email.");
+                            // Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via Email.");
+                            MapController.reportAnalyticsHelper("Subscribe", "click",  "The user is subscribing to Fire Alerts via Email.");
                         }
 
                         if (phoneValue) {
@@ -2114,7 +2117,8 @@ define([
                             domStyle.set("userPhone", "border", "1px solid gray");
                             dom.byId("subscribe-now").innerHTML = "Submitting...";
                             _self.postSubscribeRequest(geom, phoneValue, "sms", dialog);
-                            Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via SMS.");
+                            // Analytics.sendEvent("Subscribe", "click", "Fire Alerts", "User is subscribing to Fire Alerts via SMS.");
+                            MapController.reportAnalyticsHelper("Subscribe", "click",  "The user is subscribing to Fire Alerts via SMS.");
                         }
                         //dialog.destroy();
                     });
