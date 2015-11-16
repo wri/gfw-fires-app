@@ -46,25 +46,25 @@
 	width:600px;
 }
 
-.ac-container label{	
+.ac-container label{
 	padding: 0px;
 	position: relative;
 	z-index: 20;
 	display: block;
 	height: 60px;
 	cursor: pointer;
-	color: #777;	
+	color: #777;
 	line-height: 33px;
-	font-size: 19px;			
+	font-size: 19px;
     color: #464052;
-    cursor: pointer;	
+    cursor: pointer;
 	margin-bottom: 0px;
 }
-.ac-container label:hover{	
+.ac-container label:hover{
 	color: #98BD17;
 }
 
-.ac-container input:checked + .source_header label{	
+.ac-container input:checked + .source_header label{
 	color: #98BD17;
 }
 
@@ -77,7 +77,7 @@
 	margin-right: 50px;
 }
 
-.ac-container .source_summary, .source_summary, .source_body {	
+.ac-container .source_summary, .source_summary, .source_body {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -93,10 +93,10 @@
 }
 
 .ac-container input:checked + label,
-.ac-container input:checked + label:hover{		
+.ac-container input:checked + label:hover{
 	text-shadow: 0px 1px 1px rgba(255,255,255, 0.6);
-	box-shadow: 
-		0px 0px 0px 1px rgba(155,155,155,0.3), 
+	box-shadow:
+		0px 0px 0px 1px rgba(155,155,155,0.3),
 		0px 2px 2px rgba(0,0,0,0.1);
 }
 .ac-container label:hover:after,
@@ -110,7 +110,7 @@
 	/*background: transparent url(../images/arrow_down.png) no-repeat center center;	*/
 }
 
-.ac-container input:checked + .source_header .expand_arrow{	
+.ac-container input:checked + .source_header .expand_arrow{
 	background-position: 0px -76px;
 }
 
@@ -140,7 +140,7 @@
 
 
 .contentPage #accordion {
-	margin:0 auto;	
+	margin:0 auto;
 	width:600px;
 }
 
@@ -150,11 +150,11 @@
 	}
 
 .contentPage ul li {
-	list-style:none;	
+	list-style:none;
 	margin-bottom: 0px;
 	/*background-color:#34495e;*/
 	}
-	
+
 .contentPage ul li h2 {
 	margin:0;
 	padding:10px;
@@ -162,8 +162,8 @@
 	/*font-family:Arial, Helvetica, sans-serif;*/
 	color:#ecf0f1;
 	border-bottom:1px #efefef solid;
-	}	
-	
+	}
+
 li.dg-image-item.selected {
     border: solid 1px #0ff;
     max-width: 190px;
@@ -178,30 +178,30 @@ li.dg-image-item:hover {
 .contentPage ul li a {
 	text-decoration:none;
 	color: #97bd3d;
-	}	
-	
+	}
+
 .contentPage ul li .content {
     height: 0;
 	overflow:hidden;
-	}	
-	
+	}
+
 .contentPage ul li .content:target {
     height:auto;
 	border-bottom:1px #efefef solid;
 	}
-	
+
 .source_description_data
 	text-transform initial
 	margin-right 50px
-  
+
 .metadataTitleData
   // display block
-	
-	
+
+
 /*.contentPage ul li .content p {
 	padding:10px;
 	color:#ecf0f1;
-	}		*/		
+	}		*/
 
 	/*Accordion Stuff End*/
 
@@ -330,8 +330,8 @@ li.dg-image-item:hover {
 	background: rgb(242, 242, 243);
 }
 
-.contentPage .navigation_left li{ 
-	margin-bottom: 0px; 
+.contentPage .navigation_left li{
+	margin-bottom: 0px;
 }
 
 .contentPage .navigation_left a:hover{
@@ -400,7 +400,7 @@ li.dg-image-item:hover {
     color: #999;
     font: italic 13px/60px "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
-.static-icons-sprite, .header_block__footer a i, .header_block__footer a i.play, .caret_down, .source-item.expanded .expand_arrow, .expand_arrow, .dropdown_arrow, .arrow_down, .scroll-icon {    
+.static-icons-sprite, .header_block__footer a i, .header_block__footer a i.play, .caret_down, .source-item.expanded .expand_arrow, .expand_arrow, .dropdown_arrow, .arrow_down, .scroll-icon {
     background: url('../images/static-icons.png')  no-repeat scroll 0% 0% transparent;
 }
 
@@ -624,7 +624,7 @@ height: 80px;
 #storyBasemaps
 	max-width 150px
 	// width 200px
-		
+
 #basemapGallery
 	width 150px
 
@@ -724,12 +724,12 @@ background: #f2f2f2;
 /** CSS Copied From GFW **/
 /*
 	NOTE: TODO:
-	
-	Anytime GFW updates their logos, we have to copy theirs since we dont have access to source images 
+
+	Anytime GFW updates their logos, we have to copy theirs since we dont have access to source images
 	only their sprite sheets.  Their css uses logo-ul which works on their site but on ours collides with
 	their footer breaking everything.  A way around it is to change logo-ul to logo-list in here and in the
 	html that you will copy.  This is the least painful process we have at the moment.
-	
+
 	Also, they use logo-list in their css as well but do the targeting on logo-ul, if they start doing there
 	targeting on logo-list we will need a new class name for our logo list
 */
@@ -851,6 +851,36 @@ background: #f2f2f2;
 	/** This needs to point to the new gfwSpriteSheet.png **/
 	background: url(../images/gfwSpriteSheetUpdated.png) no-repeat;
 }
+
+.logo-list a.genf, .logo-list a.genf:hover, .logo-list a.icf-gob, .logo-list a.icf-gob:hover, .logo-list a.moises, .logo-list a.moises:hover, .logo-list a.urthe, .logo-list a.urthe:hover {
+	/** This needs to point to the new gfwSpriteSheet.png **/
+	background: url(../images/gfwSpriteSheet_v3.png) no-repeat;
+}
+.logo-list a.genf {
+    height: 31px;
+    width: 110px;
+    background-position: 0 -4854px;;
+}
+.logo-list a.genf:hover { background-position: 0 -3293px }
+.logo-list a.icf-gob {
+    height: 26px;
+    width: 110px;
+    background-position: 0 -6339px;
+}
+.logo-list a.icf-gob:hover { background-position: 0 -5825px }
+.logo-list a.moises {
+    height: 44px;
+    width: 110px;
+    background-position: 0 -3352px;
+}
+.logo-list a.moises:hover { background-position: 0 -2317px }
+.logo-list a.urthe {
+    height: 23px;
+    width: 110px;
+    background-position: 0 -6267px;
+}
+.logo-list a.urthe:hover { background-position: 0 -4391px }
+
 
 .logo-list a.bobo {
     height: 53px;

@@ -818,15 +818,24 @@ define([
 
                 executeReturned = false;
                 // content += "<tr class='infoName'><td colspan='3'>Active Fires</td><td colspan='2'></td></tr>";
-                content += " <div><h3>" + result.attributes['name'] + "</h3></div>";
+                // content += " <div><h3>" + result.attributes['name'] + "</h3></div>";
                 content += "<tr><td><img src='" + qconfig.chipBucket + result.attributes['ChipLink'];
                 content += "' style='width:300px' /></tc></tr>"
                 content += "<div><strong>Image Acquisition Date:</strong> " + newDate + "</div>";
-                content += "<div><strong>Confirmation:</strong> " + result.attributes['Confirmation'] + " people</div>";
+                if (result.attributes['Confirmation'] !== 1) {
+                  content += "<div><strong>Confirmation:</strong> " + result.attributes['Confirmation'] + " people</div>";
+                } else {
+                  content += "<div><strong>Confirmation:</strong> " + result.attributes['Confirmation'] + " person</div>";
+                }
                 content += "<div><b>Crowd Rank:</b> " + result.attributes['CrowdRank'] + "%</div>";
-                content += "<a href='" + result.attributes['ImageLink'];
-                content += "' target='_blank'>See this point on ";
-                content += "<img style='height:20px;width:100px;' src='app/images/tomnod_logo.png'></div>";
+
+                // content += "<a href='https://s3.amazonaws.com/explorationlab/" + result.attributes['ChipURL'];
+                // content += "' target='_blank'>See this point on ";
+                // content += "<img style='height:20px;width:100px;' src='app/images/tomnod_logo.png'></div>";
+
+                // content += "<a href='" + result.attributes['ImageLink'];
+                // content += "' target='_blank'>See this point on ";
+                // content += "<img style='height:20px;width:100px;' src='app/images/tomnod_logo.png'></div>";
                 return content;
 
 
