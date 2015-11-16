@@ -1,5 +1,20 @@
 www/node_modules
 .DS_Store
+.idea
 *.sublime-workspace
 *.sublime-project
 www/src/proxy
+
+# Ignore the build and dist directories
+build
+dist
+
+
+# Ignore these, just do it
+node_modules
+npm-debug.log
+.DS_Store
+
+# Ignore any generated content to prevent conflicts when multiple people develop
+*.html
+*.css

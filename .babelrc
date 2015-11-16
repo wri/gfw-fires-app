@@ -1,0 +1,16 @@
+{
+  "env": {
+    "test": {
+      "plugins": []
+    },
+    "development": {
+      "plugins": ["transform-es2015-modules-amd"]
+    }
+  },
+  "presets": ["react", "es2015", "stage-0"],
+  "sourceMaps": false,
+  "ignore": [
+    "build",
+    "node_modules"
+  ]
+}

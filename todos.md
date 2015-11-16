@@ -10,11 +10,12 @@ Fires TODOS:
 	- get rid of partials/templates, each static page should inherit from one template
 	- use index.html and folders, pages shouldn't end in extensions
 	- create inlt18 folders with english & indonesian config texts
-- build processing
-	- have master locals file that renders pages with appropriate locals
-	- update dependencies to bower
-	- update to es6?
-	- eslint
+√ build processing
+	√ have master locals file that renders pages with appropriate locals
+	√ update dependencies to bower
+	√ update to es6?
+	√ eslint
+	√ gulp
 - SEO
 	- should handle on the template level and take locals to configure per page
 	- render site as /en/ and /id/ language versions
