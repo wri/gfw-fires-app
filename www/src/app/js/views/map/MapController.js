@@ -1017,11 +1017,11 @@ define([
         var newBaseMap = new Basemap({
             layers: [
                 new BasemapLayer({
-                    url: "http://a.tiles.mapbox.com/v4/devseed.3100ad78/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q",
+                    url: "https://api.tiles.mapbox.com/v4/wri.c974eefc/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg",
                     type: "WebTiledLayer"
                 }),
                 new BasemapLayer({
-                    url: "http://a.tiles.mapbox.com/v4/devseed.841fc333/{level}/{col}/{row}.png?access_token=pk.eyJ1IjoiZGV2c2VlZCIsImEiOiJnUi1mbkVvIn0.018aLhX0Mb0tdtaT2QNe2Q",
+                    url: "https://api.tiles.mapbox.com/v4/wri.acf5a04e/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg",
                     type: "WebTiledLayer"
                 })
             ],
@@ -1686,7 +1686,7 @@ define([
             } else {
                 domClass.add(node, "land-use-layers-option");
             }
-            
+
         });
 
         dojoQuery("#conservation-panel div.checkbox-container div input").forEach(function(node) {
@@ -1702,13 +1702,13 @@ define([
         dojoQuery("#forest-use-panel div.checkbox-container div input").forEach(function(node) {
             on(node, "change", function(evt) {
 
-                
+
                 //Params are, class to Query to find which layers are checked on or off, and config object for the layer
-                
-                
+
+
                 // Try to parse out some arguments, and use them for Analytics
                 var target = evt.target ? evt.target : evt.srcElement;
-                
+
 
                 if (target.classList.contains('forest-use-layers-option')) {
                     console.log("frest")
