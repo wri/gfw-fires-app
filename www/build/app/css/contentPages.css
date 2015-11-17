@@ -897,12 +897,12 @@ html,
 /* line 725 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /*
 	NOTE: TODO:
-	
-	Anytime GFW updates their logos, we have to copy theirs since we dont have access to source images 
+
+	Anytime GFW updates their logos, we have to copy theirs since we dont have access to source images
 	only their sprite sheets.  Their css uses logo-ul which works on their site but on ours collides with
 	their footer breaking everything.  A way around it is to change logo-ul to logo-list in here and in the
 	html that you will copy.  This is the least painful process we have at the moment.
-	
+
 	Also, they use logo-list in their css as well but do the targeting on logo-ul, if they start doing there
 	targeting on logo-list we will need a new class name for our logo list
 */
@@ -1036,42 +1036,103 @@ html,
 }
 
 /* line 855 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.genf,
+.logo-list a.genf:hover,
+.logo-list a.icf-gob,
+.logo-list a.icf-gob:hover,
+.logo-list a.moises,
+.logo-list a.moises:hover,
+.logo-list a.urthe,
+.logo-list a.urthe:hover {
+/** This needs to point to the new gfwSpriteSheet.png **/
+  background: url("../images/gfwSpriteSheet_v3.png") no-repeat;
+}
+
+/* line 859 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.genf {
+  height: 31px;
+  width: 110px;
+  background-position: 0 -4854px;
+}
+
+/* line 864 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.genf:hover {
+  background-position: 0 -3293px;
+}
+
+/* line 865 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.icf-gob {
+  height: 26px;
+  width: 110px;
+  background-position: 0 -6339px;
+}
+
+/* line 870 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.icf-gob:hover {
+  background-position: 0 -5825px;
+}
+
+/* line 871 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.moises {
+  height: 44px;
+  width: 110px;
+  background-position: 0 -3352px;
+}
+
+/* line 876 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.moises:hover {
+  background-position: 0 -2317px;
+}
+
+/* line 877 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.urthe {
+  height: 23px;
+  width: 110px;
+  background-position: 0 -6267px;
+}
+
+/* line 882 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+.logo-list a.urthe:hover {
+  background-position: 0 -4391px;
+}
+
+/* line 885 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bobo {
   height: 53px;
   width: 105px;
   background-position: 0 -3438px;
 }
 
-/* line 860 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 890 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bobo:hover {
   background-position: 0 -3438px;
 }
 
-/* line 862 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 892 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.neth {
   height: 80px;
   width: 106px;
   background-position: 0 -5986px;
 }
 
-/* line 867 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 897 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.neth:hover {
   background-position: 0 -5384px;
 }
 
-/* line 869 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 899 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.tilia {
   height: 25px;
   width: 67px;
   background-position: 0 -6401px;
 }
 
-/* line 874 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 904 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.tilia:hover {
   background-position: 0 -6376px;
 }
 
-/* line 879 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 909 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.raisg {
   margin-top: 10px;
   height: 75px;
@@ -1079,658 +1140,658 @@ html,
   background-position: 10px -2674px;
 }
 
-/* line 885 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 915 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.raisg:hover {
   background-position: 10px -627px;
 }
 
-/* line 887 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 917 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.wri {
   height: 32px;
   width: 95px;
   background-position: 0 -5066px;
 }
 
-/* line 892 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 922 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.wri:hover {
   background-position: 0 -2300px;
 }
 
-/* line 893 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 923 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.google {
   height: 29px;
   width: 85px;
   background-position: 0 -5779px;
 }
 
-/* line 898 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 928 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.google:hover {
   background-position: 0 -1251px;
 }
 
-/* line 899 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 929 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.esri {
   height: 33px;
   width: 87px;
   background-position: 0 -5033px;
 }
 
-/* line 904 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 934 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.esri:hover {
   background-position: 0 -2267px;
 }
 
-/* line 905 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 935 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.universitymaryland {
   height: 51px;
   width: 56px;
   background-position: 0 -4573px;
 }
 
-/* line 910 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 940 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.universitymaryland:hover {
   background-position: 0 -1400px;
 }
 
-/* line 911 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 941 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.unep {
   height: 57px;
   width: 49px;
   background-position: 0 -4277px;
 }
 
-/* line 916 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 946 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.unep:hover {
   background-position: 0 -1740px;
 }
 
-/* line 917 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 947 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.imazon {
   height: 24px;
   width: 79px;
   background-position: 0 -6005px;
 }
 
-/* line 922 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 952 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.imazon:hover {
   background-position: 0 -3545px;
 }
 
-/* line 923 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 953 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cfgd {
   height: 40px;
   width: 84px;
   background-position: 0 -4349px;
 }
 
-/* line 928 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 958 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cfgd:hover {
   background-position: 0 -1797px;
 }
 
-/* line 929 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 959 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.osfac {
   height: 56px;
   width: 44px;
   background-position: 0 -4835px;
 }
 
-/* line 934 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 964 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.osfac:hover {
   background-position: 0 -1837px;
 }
 
-/* line 935 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 965 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.gfwca {
   height: 44px;
   width: 42px;
   background-position: 0 -5564px;
 }
 
-/* line 940 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 970 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.gfwca:hover {
   background-position: 0 -3899px;
 }
 
-/* line 941 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 971 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.scanex {
   height: 20px;
   width: 110px;
   background-position: 0 -5648px;
 }
 
-/* line 946 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 976 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.scanex:hover {
   background-position: 0 -3268px;
 }
 
-/* line 947 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 977 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.twrus {
   height: 28px;
   width: 110px;
   background-position: 0 -5314px;
 }
 
-/* line 952 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 982 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.twrus:hover {
   background-position: 0 -3103px;
 }
 
-/* line 953 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 983 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.norwegian {
   height: 46px;
   width: 110px;
   background-position: 0 -4676px;
 }
 
-/* line 958 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 988 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.norwegian:hover {
   background-position: 0 -4231px;
 }
 
-/* line 959 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 989 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.usaid {
   height: 64px;
   width: 80px;
   background-position: 0 -3768px;
 }
 
-/* line 964 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 994 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.usaid:hover {
   background-position: 0 -1067px;
 }
 
-/* line 965 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 995 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.gef {
   height: 59px;
   width: 51px;
   background-position: 0 -4891px;
 }
 
-/* line 970 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1000 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.gef:hover {
   background-position: 0 -2076px;
 }
 
-/* line 971 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1001 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ukaid {
   height: 47px;
   width: 43px;
   background-position: 0 -5708px;
 }
 
-/* line 976 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1006 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ukaid:hover {
   background-position: 0 -4184px;
 }
 
-/* line 983 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1013 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.goodall {
   height: 26px;
   width: 110px;
   background-position: 0 -6128px;
 }
 
-/* line 988 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1018 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.goodall:hover {
   background-position: 0 -5098px;
 }
 
-/* line 989 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1019 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cartodb {
   height: 39px;
   width: 110px;
   background-position: 0 -4950px;
 }
 
-/* line 994 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1024 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cartodb:hover {
   background-position: 0 -2560px;
 }
 
-/* line 995 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1025 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.vizzuality {
   height: 58px;
   width: 109px;
   background-position: 0 -3710px;
 }
 
-/* line 1000 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1030 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.vizzuality:hover {
   background-position: 0 -1009px;
 }
 
-/* line 1001 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1031 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.blueraster {
   height: 48px;
   width: 110px;
   background-position: 0 -4487px;
 }
 
-/* line 1006 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1036 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.blueraster:hover {
   background-position: 0 -2885px;
 }
 
-/* line 1007 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1037 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.sida {
   height: 55px;
   width: 110px;
   background-position: 0 -3410px;
 }
 
-/* line 1012 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1042 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.sida:hover {
   background-position: 0 -2425px;
 }
 
-/* line 1013 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1043 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.danida {
   height: 15px;
   width: 82px;
   background-position: 0 -5990px;
 }
 
-/* line 1018 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1048 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.danida:hover {
   background-position: 0 -4334px;
 }
 
-/* line 1019 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1049 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cgiar {
   height: 43px;
   width: 124px;
   background-position: 0 -3502px;
 }
 
-/* line 1024 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1054 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cgiar:hover {
   background-position: 0 -1151px;
 }
 
-/* line 1025 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1055 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.dutchforeign {
   height: 80px;
   width: 106px;
   background-position: 0 -5836px;
 }
 
-/* line 1030 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1060 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.dutchforeign:hover {
   background-position: 0 -5234px;
 }
 
-/* line 1031 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1061 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.moore {
   height: 37px;
   width: 96px;
   background-position: 0 -3862px;
 }
 
-/* line 1036 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1066 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.moore:hover {
   background-position: 0 -1893px;
 }
 
-/* line 1037 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1067 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bnpb {
   height: 64px;
   width: 50px;
   background-position: 0 -5916px;
 }
 
-/* line 1042 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1072 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bnpb:hover {
   background-position: 0 -5170px;
 }
 
-/* line 1043 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1073 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.redd {
   height: 62px;
   width: 95px;
   background-position: 0 -6164px;
 }
 
-/* line 1048 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1078 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.redd:hover {
   background-position: 0 -5342px;
 }
 
-/* line 1049 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1079 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.digitalglobe {
   height: 38px;
   width: 120px;
   background-position: 0 -4535px;
 }
 
-/* line 1054 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1084 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.digitalglobe:hover {
   background-position: 0 -3639px;
 }
 
-/* line 1055 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1085 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ciat {
   height: 57px;
   width: 120px;
   background-position: 0 -3131px;
 }
 
-/* line 1060 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1090 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ciat:hover {
   background-position: 0 -1194px;
 }
 
-/* line 1061 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1091 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ejn {
   height: 64px;
   width: 80px;
   background-position: 0 -4120px;
 }
 
-/* line 1066 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1096 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ejn:hover {
   background-position: 0 -3039px;
 }
 
-/* line 1067 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1097 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ioi {
   height: 10px;
   width: 110px;
   background-position: 0 -6154px;
 }
 
-/* line 1072 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1102 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ioi:hover {
   background-position: 0 -5980px;
 }
 
-/* line 1073 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1103 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.osinfor {
   height: 80px;
   width: 86px;
   background-position: 0 -3188px;
 }
 
-/* line 1078 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1108 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.osinfor:hover {
   background-position: 0 -1531px;
 }
 
-/* line 1079 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1109 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.resolve {
   height: 28px;
   width: 110px;
   background-position: 0 -5808px;
 }
 
-/* line 1084 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1114 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.resolve:hover {
   background-position: 0 -4389px;
 }
 
-/* line 1085 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1115 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.rfuk {
   height: 37px;
   width: 110px;
   background-position: 0 -3943px;
 }
 
-/* line 1090 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1120 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.rfuk:hover {
   background-position: 0 -3465px;
 }
 
-/* line 1091 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1121 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.rm {
   height: 66px;
   width: 110px;
   background-position: 0 -2010px;
 }
 
-/* line 1096 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1126 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.rm:hover {
   background-position: 0 -1611px;
 }
 
-/* line 1097 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1127 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.unilever {
   height: 80px;
   width: 88px;
   background-position: 0 -2480px;
 }
 
-/* line 1102 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1132 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.unilever:hover {
   background-position: 0 -1930px;
 }
 
-/* line 1103 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1133 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.zsl {
   height: 73px;
   width: 110px;
   background-position: 0 -2812px;
 }
 
-/* line 1108 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1138 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.zsl:hover {
   background-position: 0 -2739px;
 }
 
-/* line 1109 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1139 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.clua {
   height: 26px;
   width: 110px;
   background-position: 0 -5144px;
 }
 
-/* line 1114 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1144 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.clua:hover {
   background-position: 0 -2399px;
 }
 
-/* line 1115 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1145 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.mongabay {
   height: 40px;
   width: 110px;
   background-position: 0 -5404px;
 }
 
-/* line 1120 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1150 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.mongabay:hover {
   background-position: 0 -5668px;
 }
 
-/* line 1121 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1151 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.muyissi {
   height: 80px;
   width: 80px;
   background-position: 0 -1451px;
 }
 
-/* line 1126 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1156 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.muyissi:hover {
   background-position: 0 -368px;
 }
 
-/* line 1127 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1157 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.rspo {
   height: 33px;
   width: 110px;
   background-position: 0 -4802px;
 }
 
-/* line 1132 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1162 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.rspo:hover {
   background-position: 0 -3677px;
 }
 
-/* line 1133 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1163 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.unepwcmc {
   height: 60px;
   width: 110px;
   background-position: 0 -2599px;
 }
 
-/* line 1138 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1168 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.unepwcmc:hover {
   background-position: 0 -515px;
 }
 
-/* line 1139 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1169 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.whrc {
   height: 80px;
   width: 87px;
   background-position: 0 -2659px;
 }
 
-/* line 1144 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1174 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.whrc:hover {
   background-position: 0 -627px;
 }
 
-/* line 1145 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1175 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ewmi {
   height: 40px;
   width: 126px;
   background-position: 0 -5608px;
 }
 
-/* line 1150 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1180 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ewmi:hover {
   background-position: 0 -5524px;
 }
 
-/* line 1151 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1181 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.opendevcam {
   height: 70px;
   width: 70px;
   background-position: 0 -4417px;
 }
 
-/* line 1156 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1186 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.opendevcam:hover {
   background-position: 0 -4050px;
 }
 
-/* line 1157 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1187 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.inab {
   height: 80px;
   width: 106px;
   background-position: 0 -2135px;
 }
 
-/* line 1162 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1192 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.inab:hover {
   background-position: 0 -231px;
 }
 
-/* line 1163 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1193 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.orbital {
   height: 70px;
   width: 101px;
   background-position: 0 -3569px;
 }
 
-/* line 1168 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1198 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.orbital:hover {
   background-position: 0 -2933px;
 }
 
-/* line 1169 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1199 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bei {
   height: 63px;
   width: 130px;
   background-position: 0 -1677px;
 }
 
-/* line 1174 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1204 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bei:hover {
   background-position: 0 -1280px;
 }
 
-/* line 1175 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1205 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cambridge {
   height: 52px;
   width: 130px;
   background-position: 0 -2215px;
 }
 
-/* line 1180 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1210 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.cambridge:hover {
   background-position: 0 -575px;
 }
 
-/* line 1181 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1211 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.afc {
   height: 69px;
   width: 80px;
   background-position: 0 -3341px;
 }
 
-/* line 1186 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1216 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.afc:hover {
   background-position: 0 -836px;
 }
 
-/* line 1187 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1217 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.airbus {
   height: 30px;
   width: 130px;
   background-position: 0 -3832px;
 }
 
-/* line 1192 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1222 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.airbus:hover {
   background-position: 0 -806px;
 }
 
-/* line 1193 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1223 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ministiere {
   height: 67px;
   width: 70px;
   background-position: 0 -2332px;
 }
 
-/* line 1198 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1228 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.ministiere:hover {
   background-position: 0 -448px;
 }
 
-/* line 1199 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1229 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.zeroextinction {
   height: 20px;
   width: 120px;
   background-position: 0 -5124px;
 }
 
-/* line 1204 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1234 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.zeroextinction:hover {
   background-position: 0 -1131px;
 }
 
-/* line 1205 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1235 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.bobolink {
   height: 53px;
   width: 105px;
   background-position: 0 -3288px;
 }
 
-/* line 1210 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1240 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.vizzuality-big {
   height: 58px;
   width: 109px;
   background-position: 0 -3710px;
 }
 
-/* line 1215 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1245 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .logo-list a.vizzuality-big:hover {
   background-position: 0 -1009px;
 }
 
-/* line 1216 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1246 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 /** CSS Copied From GFW **/
 
-/* line 1218 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
+/* line 1248 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/contentPages.styl */
 .coming-soon {
   padding: 20px;
 }
