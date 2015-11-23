@@ -4,6 +4,7 @@ www/node_modules
 *.sublime-workspace
 *.sublime-project
 www/src/proxy
+*.swp
 
 # Ignore the build and dist directories
 build
