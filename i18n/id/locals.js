@@ -12,7 +12,22 @@
       ]
     },
     home: {
-      title: 'Indonesian Global Forest Watch Fires'
+      title: 'Indonesian Global Forest Watch Fires',
+      alerts: {
+        title: 'Menerima Api Alerts (google translate)',
+        description: 'Mendaftar untuk menerima email pemberitahuan atau SMS api di bidang yang Anda minati. (google translate)',
+        button: 'DAFTAR SEKARANG (google translate)'
+      },
+      analyze: {
+        title: 'Analyze Forest Fires',
+        description: 'View the latest data on fire locaions and air quality and do your own analysis.',
+        button: 'START ANALYZING'
+      },
+      social: {
+        title: 'Join the Conversation',
+        description: 'Tweet, tweet, tweet!',
+        button: 'TWEET NOW'
+      }
     }
   }
 }));

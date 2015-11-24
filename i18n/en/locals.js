@@ -12,7 +12,22 @@
       ]
     },
     home: {
-      title: 'GFW Fires'
+      title: 'Global Forest Watch Fires',
+      alerts: {
+        title: 'Receive Fire Alerts',
+        description: 'Sign up to receive email or SMS fire alerts in your area of interest.',
+        button: 'SIGN UP NOW'
+      },
+      analyze: {
+        title: 'Analyze Forest Fires',
+        description: 'View the latest data on fire locaions and air quality and do your own analysis.',
+        button: 'START ANALYZING'
+      },
+      social: {
+        title: 'Join the Conversation',
+        description: 'Tweet, tweet, tweet!',
+        button: 'TWEET NOW'
+      }
     }
   }
 }));
