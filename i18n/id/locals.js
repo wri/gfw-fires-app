@@ -12,7 +12,9 @@
       ]
     },
     home: {
-      title: 'Indonesian Global Forest Watch Fires',
+      meta: {
+        title: 'Indonesian Global Forest Watch Fires',
+      },
       alerts: {
         title: 'Menerima Api Alerts (google translate)',
         description: 'Mendaftar untuk menerima email pemberitahuan atau SMS api di bidang yang Anda minati. (google translate)',
@@ -28,6 +30,15 @@
         description: 'Tweet, tweet, tweet!',
         button: 'TWEET NOW'
       }
+    },
+    map: {
+    },
+    data: {
+    },
+    about: {
+    },
+    story: {
+      title: 'Share information on fires'
     }
   }
 }));

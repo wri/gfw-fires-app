@@ -12,15 +12,25 @@
       ]
     },
     home: {
-      title: 'Global Forest Watch Fires',
+      meta: {
+        title: 'Global Forest Watch Fires',
+      },
       alerts: {
         title: 'Receive Fire Alerts',
         description: 'Sign up to receive email or SMS fire alerts in your area of interest.',
-        button: 'SIGN UP NOW'
+        button: 'SIGN UP NOW',
+        modal: {
+          title: 'Sign up to receive fire alerts!',
+          content: [
+            'To sign up for clearance or fire alerts, go to the',
+            'Map',
+            'and select an area to analyze. You can sign up for alerts on that area through the Subscribe button on the analysis report.'
+          ]
+        }
       },
       analyze: {
         title: 'Analyze Forest Fires',
-        description: 'View the latest data on fire locaions and air quality and do your own analysis.',
+        description: 'View the latest data on fire locations and air quality and do your own analysis.',
         button: 'START ANALYZING'
       },
       social: {
@@ -28,6 +38,18 @@
         description: 'Tweet, tweet, tweet!',
         button: 'TWEET NOW'
       }
+    },
+    map: {
+    },
+    data: {
+    },
+    about: {
+    },
+    story: {
+      meta: {
+        title: 'Submit a Story | Global Forest Watch'
+      },
+      title: 'Share information on fires'
     }
   }
 }));

@@ -1,25 +1,50 @@
 extends ../_layout.jade
 
 block head
-  title #{home.title}
+  title #{home.meta.title}
+  link(rel='stylesheet' href='css/home.css')
 
 block content
   +navigation(global.pages, 'home')
 
-  div.box TODO: carousel
+  section
+    div.box TODO: carousel
 
-  div.box
-    div #{home.alerts.title}
-    div #{home.alerts.description}
-    div: button #{home.alerts.button}
+  div.action-menu
 
-  div.box
-    div #{home.analyze.title}
-    div #{home.analyze.description}
-    div: a(href='/#{language}/map'): button #{home.analyze.button}
+    section
 
-  div.box
-    div #{home.social.title}
-    div #{home.social.description}
-    div: a(target='_blank' href='https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd'): button #{home.social.button}
+      div.action-menu__item
+        div #{home.alerts.title}
+        div #{home.alerts.description}
+        div: button#alerts.button--green #{home.alerts.button}
 
+      div.action-menu__item
+        div #{home.analyze.title}
+        div #{home.analyze.description}
+        div: a(href='/#{language}/map'): button.button--green #{home.analyze.button}
+
+      div.action-menu__item
+        div #{home.social.title}
+        div #{home.social.description}
+        div: a(target='_blank' href='https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd'): button.button--green #{home.social.button}
+
+  div#modal-container.modal-container.box(style='display:none;')
+    div.modal-background
+    article.modal-shadow
+      div#close-icon.close-icon.pointer(title='close') x
+      div.modal-content.custom-scroll
+        div
+          div #{home.alerts.modal.title}
+          div
+           | #{home.alerts.modal.content[0].trim() + ' '}
+           a(href='/#{language}/map') #{home.alerts.modal.content[1].trim()}
+           | #{' ' + home.alerts.modal.content[2].trim()}
+
+  script.
+    document.getElementById('alerts').onclick = function() {
+      document.getElementById('modal-container').style.display = 'block';
+    };
+    document.getElementById('close-icon').onclick = function() {
+      document.getElementById('modal-container').style.display = 'none';
+    };

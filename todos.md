@@ -24,6 +24,9 @@ Fires TODOS:
 	√ render site as /en/ and /id/ language versions
 		- get translations for text strings
 - styling
-	- add normalize
+	√ add normalize
 	- mobile friendly design
+		√ responsive grid (jeet)
+		√ media queries (rupture)
+		- ui tabs for data & story pages
 	- update control panel to gfw water design, combining layer controls & legend

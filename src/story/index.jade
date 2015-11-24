@@ -1,6 +1,9 @@
 extends ../_layout.jade
 
+block head
+  title #{story.meta.title}
+
 block content
   +navigation(global.pages, 'story')
 
-  div.box TODO: form
+  section #{story.title}

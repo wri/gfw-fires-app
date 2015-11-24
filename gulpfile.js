@@ -3,8 +3,10 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var mergeStream = require('merge-stream');
 var imagemin = require('gulp-imagemin');
+var rupture = require('rupture');
 var stylus = require('gulp-stylus');
 var jade = require('gulp-jade');
+var jeet = require('jeet');
 var gulp = require('gulp');
 
 var config = {
@@ -14,7 +16,8 @@ var config = {
       locals: require('./i18n/en/locals.js').locals
     }, {
       language: 'id',
-      locals: require('./i18n/id/locals.js').locals
+      // locals: require('./i18n/id/locals.js').locals
+      locals: require('./i18n/en/locals.js').locals
     }
   ],
   jade: {
@@ -23,7 +26,6 @@ var config = {
     build: 'build',
     dist: 'dist'
   },
-
   imagemin: {
     src: 'src/**/*.{png,jpg,gif,svg}',
     build: 'build',
@@ -31,9 +33,9 @@ var config = {
   },
   stylus: {
     watch: 'src/**/*.styl',
-    src: ['src/css/base.styl', 'src/css/home.styl'],
-    build: 'build/css',
-    dist: 'dist/css'
+    src: ['src/**/*.styl', '!**/_*.styl'],
+    build: 'build',
+    dist: 'dist'
   },
   server: {
     files: ['build/**/*.html', 'build/**/*.js', 'build/**/*.css'],
@@ -86,7 +88,7 @@ gulp.task('stylus-build', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.stylus.src)
-        .pipe(stylus({ linenos: true }))
+        .pipe(stylus({ 'include css': true, use: [ jeet(), rupture() ], linenos: true }))
         .pipe(autoprefixer())
         .pipe(gulp.dest(config.stylus.build + '/' + locale.language))
     );
@@ -99,7 +101,7 @@ gulp.task('stylus-dist', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.stylus.src)
-        .pipe(stylus({ compress: true }))
+        .pipe(stylus({ 'include css': true, use: [ jeet(), rupture() ], compress: true }))
         .pipe(autoprefixer())
         .pipe(gulp.dest(config.stylus.dist + '/' + locale.language))
     );

@@ -1,0 +1,14 @@
+// NOTE: need explicit path because this is compiled as jade filter script, not stylus gulp task
+@require '../../node_modules/jeet/stylus/jeet/index'
+@require '../../node_modules/rupture/rupture/index'
+
+@require '_grid'
+
+.box
+  display inline-block
+  border 1px solid black
+  margin 5px
+  padding 5px
+
+  +below(700px)
+    border 3px solid orange

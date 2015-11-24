@@ -1,7 +1,7 @@
 {
   "name": "gfw-fires-app",
   "version": "2.0.0-alpha",
-  "description": "> Please read this before beginning development to learn how to get started and how to change some simple components of the application.",
+  "description": "Please view README.md before beginning development",
   "main": "index.js",
   "scripts": {
     "start": "gulp build & gulp serve",
@@ -41,10 +41,14 @@
     "eslint-plugin-react": "^3.8.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
+    "gulp-filter": "^3.0.1",
     "gulp-imagemin": "^2.4.0",
     "gulp-jade": "^1.1.0",
     "gulp-minify-inline": "^0.1.1",
     "gulp-stylus": "^2.1.0",
-    "merge-stream": "^1.0.0"
+    "jeet": "^6.1.2",
+    "jstransformer-stylus": "^1.0.0",
+    "merge-stream": "^1.0.0",
+    "rupture": "^0.6.1"
   }
 }
