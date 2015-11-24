@@ -1,21 +1,31 @@
 var minifyInline = require('gulp-minify-inline');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
+var mergeStream = require('merge-stream');
 var imagemin = require('gulp-imagemin');
 var stylus = require('gulp-stylus');
-var locals = require('./locals');
 var jade = require('gulp-jade');
 var gulp = require('gulp');
 
 var config = {
-  imagemin: {
-    src: 'src/**/*.{png,jpg,gif,svg}',
+  i18n: [
+    {
+      language: 'en',
+      locals: require('./i18n/en/locals.js').locals
+    }, {
+      language: 'id',
+      locals: require('./i18n/id/locals.js').locals
+    }
+  ],
+  jade: {
+    watch: ['src/**/*.jade'],
+    src: ['src/**/index.jade', '!**/_*.jade'],
     build: 'build',
     dist: 'dist'
   },
-  jade: {
-    watch: ['src/**/*.jade'],
-    src: ['src/**/*.jade'],
+
+  imagemin: {
+    src: 'src/**/*.{png,jpg,gif,svg}',
     build: 'build',
     dist: 'dist'
   },
@@ -31,71 +41,117 @@ var config = {
     baseDir: 'build'
   },
   copy: {
-    jquery: { src: 'build/vendor/jquery/dist/jquery.min.js', dest: 'dist/vendor/jquery/dist/'},
-    rjs: { src: 'build/vendor/requirejs/require.js', dest: 'dist/vendor/requirejs/'}
+    src: 'vendor/**/*.{js,css,map}',
+    build: 'build',
+    dist: 'dist'
   }
 };
-
-gulp.task('stylus-watch', function () {
-  gulp.watch(config.stylus.watch, ['stylus-build']);
-});
-
-gulp.task('stylus-build', function () {
-  return gulp.src(config.stylus.src)
-    .pipe(stylus({ linenos: true }))
-    .pipe(autoprefixer())
-    .pipe(gulp.dest(config.stylus.build));
-});
-
-gulp.task('stylus-dist', function () {
-  return gulp.src(config.stylus.src)
-    .pipe(stylus({ compress: true }))
-    .pipe(autoprefixer())
-    .pipe(gulp.dest(config.stylus.dist));
-});
 
 gulp.task('jade-watch', function () {
   gulp.watch(config.jade.watch, ['jade-build']);
 });
 
 gulp.task('jade-build', function () {
-  return gulp.src(config.jade.src)
-    .pipe(jade({ pretty: true, locals: locals }))
-    .pipe(gulp.dest(config.jade.build));
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.jade.src)
+        .pipe(jade({ pretty: true, locals: locale.locals }))
+        .pipe(minifyInline())
+        .pipe(gulp.dest(config.jade.build + '/' + locale.language))
+    );
+  });
+  return stream;
 });
 
 gulp.task('jade-dist', function () {
-  return gulp.src(config.jade.src)
-    .pipe(jade({ locals: locals }))
-    .pipe(minifyInline())
-    .pipe(gulp.dest(config.jade.dist));
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.jade.src)
+        .pipe(jade({ locals: locale.locals }))
+        .pipe(minifyInline())
+        .pipe(gulp.dest(config.jade.dist + '/' + locale.language))
+    );
+  });
+  return stream;
+});
+
+gulp.task('stylus-watch', function () {
+  gulp.watch(config.stylus.watch, ['stylus-build']);
+});
+
+gulp.task('stylus-build', function () {
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.stylus.src)
+        .pipe(stylus({ linenos: true }))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest(config.stylus.build + '/' + locale.language))
+    );
+  });
+  return stream;
+});
+
+gulp.task('stylus-dist', function () {
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.stylus.src)
+        .pipe(stylus({ compress: true }))
+        .pipe(autoprefixer())
+        .pipe(gulp.dest(config.stylus.dist + '/' + locale.language))
+    );
+  });
+  return stream;
 });
 
 gulp.task('imagemin-build', function () {
-  return gulp.src(config.imagemin.src)
-    .pipe(imagemin({ optimizationLevel: 1 }))
-    .pipe(gulp.dest(config.imagemin.build));
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.imagemin.src)
+        .pipe(imagemin({ optimizationLevel: 1 }))
+        .pipe(gulp.dest(config.imagemin.build + '/' + locale.language))
+    );
+  });
+  return stream;
 });
 
 gulp.task('imagemin-dist', function () {
-  return gulp.src(config.imagemin.src)
-    .pipe(imagemin({
-      optimizationLevel: 5,
-      progressive: true
-    }))
-    .pipe(gulp.dest(config.imagemin.dist));
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.imagemin.src)
+        .pipe(imagemin({ optimizationLevel: 5, progressive: true }))
+        .pipe(gulp.dest(config.imagemin.dist + '/' + locale.language))
+    );
+  });
+  return stream;
 });
 
-gulp.task('copy-assets', ['babel-polyfill'], function () {
-  gulp.src(config.copy.jquery.src)
-    .pipe(gulp.dest(config.copy.jquery.dest));
-  gulp.src(config.copy.rjs.src)
-    .pipe(gulp.dest(config.copy.rjs.dest));
-  gulp.src(config.copy.ion.src)
-    .pipe(gulp.dest(config.copy.ion.dest));
-  gulp.src(config.copy.polyfill.src)
-    .pipe(gulp.dest(config.copy.polyfill.dest));
-});
+gulp.task('copy-build-vendor', function () {
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.copy.src)
+        .pipe(gulp.dest(config.copy.build + '/' + locale.language + '/vendor'))
+    );
+  });
+  return stream;
+})
+
+gulp.task('copy-dist-vendor', function () {
+  var stream = mergeStream();
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.copy.src)
+        .pipe(gulp.dest(config.copy.dist + '/' + locale.language + '/vendor'))
+    );
+  });
+  return stream;
+})
 
 gulp.task('browser-sync', function () {
   browserSync({
@@ -111,5 +167,5 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('serve', ['browser-sync']);
-gulp.task('start', ['stylus-build', 'stylus-watch', 'jade-build', 'jade-watch', 'imagemin-build']);
-gulp.task('dist', ['stylus-dist', 'jade-dist', 'imagemin-dist', 'copy-assets']);
+gulp.task('build', ['stylus-build', 'stylus-watch', 'jade-build', 'jade-watch', 'imagemin-build', 'copy-build-vendor']);
+gulp.task('dist', ['stylus-dist', 'jade-dist', 'imagemin-dist', 'copy-dist-vendor']);

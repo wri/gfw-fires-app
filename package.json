@@ -4,10 +4,10 @@
   "description": "> Please read this before beginning development to learn how to get started and how to change some simple components of the application.",
   "main": "index.js",
   "scripts": {
-    "start": "npm run babel -- -w & gulp start & gulp serve",
+    "start": "gulp build & gulp serve",
     "test": "eslint src/**/*.js;",
     "babel": "babel src --out-dir build",
-    "postinstall": "bower install;",
+    "postinstall": "bower install",
     "jade": "gulp jade-build"
   },
   "repository": {
@@ -44,6 +44,7 @@
     "gulp-imagemin": "^2.4.0",
     "gulp-jade": "^1.1.0",
     "gulp-minify-inline": "^0.1.1",
-    "gulp-stylus": "^2.1.0"
+    "gulp-stylus": "^2.1.0",
+    "merge-stream": "^1.0.0"
   }
 }

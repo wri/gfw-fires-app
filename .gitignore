@@ -6,10 +6,10 @@ www/node_modules
 www/src/proxy
 *.swp
 
-# Ignore the build and dist directories
+# Ignore build, dist, and vendor directories
 build
 dist
-
+vendor
 
 # Ignore these, just do it
 node_modules

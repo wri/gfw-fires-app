@@ -1,0 +1,14 @@
+include html/_mixins.jade
+doctype.html
+html
+  head
+    // replace title with intl config string
+    block head
+    include html/_meta.jade
+    include html/_gfwAssetsHead.jade
+  body
+    include html/_gfwAssetsBody.jade
+    include html/_ie9.html
+    #headerGfw
+    block content
+    #footerGfw
