@@ -52,7 +52,7 @@ define([
     vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
     vm.tomnodCheckbox = ko.observable(MapConfig.text.tomnodCheckbox);
 
-    vm.disableAirQuality = true;
+    // vm.disableAirQuality = true;
 
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
@@ -133,7 +133,7 @@ define([
             }
 
             var childInfo = fireInfo.find(".ac-auto");
-            
+
             if (registry.byId("fireLayerInfoDialog")) {
                 registry.byId("fireLayerInfoDialog").destroy();
             }
@@ -173,7 +173,7 @@ define([
             }
 
             var childInfo = fireInfo.find(".ac-auto");
-            
+
             if (registry.byId("landUseLayerInfoDialog")) {
                 registry.byId("landUseLayerInfoDialog").destroy();
             }
@@ -200,7 +200,7 @@ define([
             }
 
             var childInfo = fireInfo.find(".ac-auto");
-            
+
             if (registry.byId("conservationLayerInfoDialog")) {
                 registry.byId("conservationLayerInfoDialog").destroy();
             }
@@ -236,7 +236,7 @@ define([
             }
 
             var childInfo = fireInfo.find(".ac-auto");
-            
+
             if (registry.byId("landCoverLayerInfoDialog")) {
                 registry.byId("landCoverLayerInfoDialog").destroy();
             }
@@ -270,7 +270,7 @@ define([
             }
 
             var childInfo = fireInfo.find(".ac-auto");
-            
+
             if (registry.byId("airQualityLayerInfoDialog")) {
                 registry.byId("airQualityLayerInfoDialog").destroy();
             }
@@ -305,7 +305,7 @@ define([
             }
 
             var childInfo = fireInfo.find(".ac-auto");
-            
+
             if (registry.byId("imageryLayerInfoDialog")) {
                 registry.byId("imageryLayerInfoDialog").destroy();
             }

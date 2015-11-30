@@ -285,7 +285,7 @@ define({
     },
 
     airQualityLayer: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality/MapServer',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
         id: 'Air_Quality'
     },
 
@@ -863,7 +863,7 @@ define({
             "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {
-                "disabled": "disabled"
+                // "disabled": "disabled"
             }
         }, {
             "id": "provinces-checkbox",

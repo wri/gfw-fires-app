@@ -257,11 +257,10 @@
         </div>
         <div class="checkbox-container">
           <div id="air-quality-checkbox"></div>
-          <label for="air-quality-checkbox" data-bind="text: airQuality" class="airQualityDisable"></label><span id="dataSuitability-1-icon" data-bind="click: triggerAirQualityLayerInfo" class="layer-info-icon">
+          <label for="air-quality-checkbox" data-bind="text: airQuality"></label><span id="dataSuitability-1-icon" data-bind="click: triggerAirQualityLayerInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
             </svg></span>
-          <label id="comingSoon">(coming soon)</label>
           <div id="report-optionsAIR" data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar">
             <div data-bind="text:reportText().selectTimeLabelAIR" class="font10"></div>
             <div class="report-options-section">
