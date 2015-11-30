@@ -5,6 +5,9 @@ block head
   link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
   link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
   style .footerGfw {display: none !important}
+  style
+    :stylus
+      @require 'css/_base'
   script(src='../vendor/jquery/dist/jquery.min.js')
   script.
     var base = location.pathname.replace(/\/[^/]+$/, '');

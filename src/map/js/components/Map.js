@@ -35,6 +35,8 @@ export default class Map extends React.Component {
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
         <ControlPanel />
+        <EsriSearch loaded={this.state.loaded} />
+        <AnalysisTools />
       </div>
     );
   }

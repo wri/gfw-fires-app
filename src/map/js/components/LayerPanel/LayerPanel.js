@@ -33,6 +33,28 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label={layerPanelText.watershedRisk}>
           {layersConfig.map(this.checkboxMap('watershedRisk'), this)}
         </LayerGroup>
+
+        <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Forest Use'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Social Media'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
       </div>
     );
   }
