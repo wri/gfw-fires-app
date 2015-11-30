@@ -3,6 +3,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var mergeStream = require('merge-stream');
 var imagemin = require('gulp-imagemin');
+var cached = require('gulp-cached');
 var stylus = require('gulp-stylus');
 var babel = require('gulp-babel');
 var rupture = require('rupture');
@@ -132,6 +133,7 @@ gulp.task('babel-build', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.babel.src)
+        .pipe(cached('babel-' + locale.language))
         .pipe(babel())
         .pipe(gulp.dest(config.babel.build + '/' + locale.language))
     );
