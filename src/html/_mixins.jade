@@ -1,4 +1,9 @@
 mixin navigation(pages, activePage)
+  div(style='text-align: right;')
+    a(href='/en/home') English
+    span=' | '
+    a(href='/id/home') Bahasa Indonesia
+
   div
     for page in pages
       if page.name === activePage

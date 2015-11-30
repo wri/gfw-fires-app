@@ -22,15 +22,15 @@ div#map-view(class="map-view")
 						label#confidenceFiresContainer(for="confidence-fires-checkbox", data-bind="html: confidenceFiresCheckbox")
 
 					div(id='smartContainer' class="confidence-fires-container")
-						
+
 						//-div#activate-smart-checkbox
 						label#activateSmartContainer(data-bind="text: activateSmartCheckbox")
-						
+
 						div#smartRelative
 							div#heatCircle.smartRelative(title="Heatmap")
 							div#clusterCircle.smartRelative(title="Proportional Symbols")
 							//-div#hexCircle.smartRelative(title="HexBins")
-						
+
 				div(class="checkbox-container")
 					div#indonesia-fires
 					label(for="indonesia-fires", data-bind="text: indonesiaFiresCheckbox" )
@@ -38,7 +38,7 @@ div#map-view(class="map-view")
 					//- 		svg.info-icon-svg
 					//- 			use(xlink:href='#shape-info')
 					span(data-bind="text: indonesiaSubLabel", class="checkbox-sub-label")
-					
+
 					div#report-optionsINDO(data-bind="visible: showReportOptionsINDO()" class="reportOptionsSidebar")
 						div(class="confidence-archive-container")
 							div#confidence-archive-checkbox
@@ -57,7 +57,7 @@ div#map-view(class="map-view")
 									td(data-bind="text: 'To'")
 									td
 										input(type="text", name="user" value=4, id="indoDateTo", data-bind="value:indoPickerTo()")
-							
+
 							span#updateINDO(class="report-link-dates", data-bind="text: getDates")
 
 				div(class="checkbox-container")
@@ -80,7 +80,7 @@ div#map-view(class="map-view")
 									td(data-bind="text: 'To'")
 									td
 										input(type="text", name="user" value=4, id="noaaDateTo", data-bind="value:noaaPickerTo()")
-							
+
 							span#updateNOAA(class="report-link-dates", data-bind="text: getDates")
 
 				div(class="checkbox-container")
@@ -154,7 +154,7 @@ div#map-view(class="map-view")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
 					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
-				
+
 			div#land-cover-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
@@ -270,7 +270,7 @@ div#map-view(class="map-view")
 
 			div#imagery-panel(class='accordion-panel')
 				div(class="checkbox-container")
-					div#landsat-image-checkbox 
+					div#landsat-image-checkbox
 					label(for="landsat-image-checkbox", data-bind="text: landsatImageCheckbox")
 					span(id='dataPolicy-2-icon' class="layer-info-icon", data-bind="click: triggerImageryLayerInfo")
 						svg.info-icon-svg
@@ -286,7 +286,7 @@ div#map-view(class="map-view")
 					div#report-optionsDigitalGlobe(data-bind="visible: showReportOptionsDigitalGlobe()" class="reportOptionsSidebar")
 							div#footprintsCheckBox(class="checkbox-container")
 								input#digital-globe-footprints-checkbox(type="checkbox" checked)
-								label#digitalGlobeFootprintsCheckboxLabel(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")                               
+								label#digitalGlobeFootprintsCheckboxLabel(for="digital-globe-footprints-checkbox1", data-bind="text: digitalGlobeFootprintsCheckbox")
 					table.imageryTable.font9
 						thead
 							tr(class="imageryTopRow")
@@ -296,8 +296,8 @@ div#map-view(class="map-view")
 						tbody(data-bind="foreach: digitalGlobeInView")
 							tr.imageryRow(data-bind="css: {imageryRowSelected:selected}, event:{mouseenter: $root.imageryMouseOver, mouseleave: $root.imageryMouseOut}")
 								//-td.font10(data-bind="event:{click: $root.digitalGlobeToggle, mouseover: $root.imageryMouseOver, mouseout: $root.imageryMouseOut}")
-								td.font9(data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}")                                     
-								td.font9(data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}")                                     
+								td.font9(data-bind="html: feature.attributes.formattedDatePrefix1,event:{click: $root.digitalGlobeToggle}")
+								td.font9(data-bind="html: feature.attributes.formattedDatePrefix2,event:{click: $root.digitalGlobeToggle}")
 								td.popup-link-zoom(data-bind="event:{click: $root.imageryZoomTo}")
 
 
@@ -312,7 +312,7 @@ div#map-view(class="map-view")
 		div#map(class="map")
 			//-div#leftPaneToggle(data-bind="click: slidePanel")!='&lt;'
 			div#leftPaneToggle(data-bind="click: slidePanel")!='-'
-				
+
 			div#timeSliderPanel.timeSliderPanel
 				//- div#timeSliderDG
 			div#esri-geocoder-widget
@@ -329,12 +329,12 @@ div#map-view(class="map-view")
 					div.font10.selInfo(data-bind="text:reportText().multiSelectInfo")
 					div.report-select-div
 						select(multiple="true",data-bind="options:reportAOIs,selectedOptions:selectedAOIs")
-					
+
 				div.font14(data-bind="text:reportText().selectTimeLabel")
 				div.report-options-section
 
 					table.font10
-								
+
 								tr
 									td(data-bind="text: 'From'")
 									td
@@ -349,11 +349,11 @@ div#map-view(class="map-view")
 			div#latLongHUD(class='latLongHUD')
 				div(class="checkbox-container")
 					span(data-bind='text: latitudeLabel')
-					span / 
+					span /
 					span(data-bind='text: longitudeLabel')
 				div(class="checkbox-container")
 					span(data-bind="text: currentLatitude")
-					span , 
+					span ,
 					span(data-bind="text: currentLongitude")
 			div#legend-widget-container(class="legend-widget-container")
 				div#legend-widget-title(class="legend-widget-title")
@@ -388,7 +388,7 @@ div#map-view(class="map-view")
 						hr(class="locator-line-splitter")
 						div(class="upload-instructions",data-bind="foreach: drawInstructions")
 							p(data-bind="text: $data")
-						
+
 
 			div#locator-linker(class="locator-linker modal-link", data-bind="visible: showLocatorWidgets()")
 			div#locator-widget-container(class="locator-widget-container", data-bind="visible: showLocatorWidgets()")

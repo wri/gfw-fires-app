@@ -1,0 +1,67 @@
+// Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
+.control-panel
+  background white
+  bottom 20px
+  right 20px
+  width 76px
+  & ul
+    border-bottom 1px solid $lightGray
+    flex-wrap wrap
+    display flex
+    padding 0
+    margin 0
+  & li
+    border-right 1px solid $lightGray
+    border-top 1px solid $lightGray
+    box-sizing border-box
+    display flex
+    height 38px
+    width 38px
+  & li:nth-child(odd)
+    border-left 1px solid $lightGray
+  & li:active
+    background $lightGrayHighlight
+  & li:hover
+    background $lightGrayHighlight
+
+.panel-icon
+  fill $darkGray
+  display block
+  margin auto
+  height 25px
+  width 25px
+
+.basemap-switcher
+  transition all 0.3s ease-in-out
+  border 1px solid $lightGray
+  justify-content center
+  box-sizing border-box
+  position absolute
+  background white
+  visibility hidden
+  display flex
+  height 100%
+  width 250px
+  right 86px
+  opacity 0
+  top 0
+  &.open
+    visibility visible
+    opacity 1
+
+.basemap-item
+  text-align center
+  width 110px
+  margin 5px
+
+.basemap-label
+  font-size 13px
+
+.basemap-thumbnail
+  height 80px
+  &.active
+    border 2px solid $gfwBlue
+  &.wri-basemap
+    background url('images/wri-basemap.png') no-repeat center
+  &.imagery-basemap
+    background url('images/imagery-basemap.jpg') no-repeat center

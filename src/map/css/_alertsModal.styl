@@ -1,0 +1,28 @@
+.alerts-modal
+  width 300px
+  
+  input
+    width 100%  
+    transition .25s border, .25s background-color
+
+  input.invalid
+    border 1px solid #E03029
+    background-color #EFDADA
+
+  &__button
+    &, &--blue
+      border none
+      padding 10px 10px
+      transition .25s opacity
+
+      &[disabled]
+        opacity .5
+    
+    &--blue
+      color #FFF
+      border-radius 35px
+      background-color $gfwBlue
+
+  &__error-label
+    color #E03029 
+

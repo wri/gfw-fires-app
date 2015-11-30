@@ -1,0 +1,209 @@
+// Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
+.search-tools
+  background white
+  display flex
+  height 40px
+  width 320px
+  right 20px
+  z-index 6
+  top 20px
+  & .arcgisSearch
+    margin auto auto 0
+    & .searchBtn
+    & .searchInput
+      outline none
+    & .searchGroup .searchInput
+      font-size 12px
+      width 200px
+    & .searchBtn
+      padding 6px
+
+.analysis-tools
+  max-height calc(100% - 215px)
+  flex-direction column
+  overflow hidden
+  display flex
+  width 320px
+  right 20px
+  top 60px
+  & .no-shrink
+    flex-shrink 0
+  & .tab-container
+    overflow-y auto
+  & > div
+    background white
+    width 100%
+
+.analysis-tools .tabs .gfw-btn
+.analysis-footer > div
+  font-size 14px
+  width 50%
+
+.analysis-footer
+  & svg
+    fill $darkGray
+    margin 0 5px
+    height 20px
+    width 20px
+  & > div
+    border-top 1px solid $lightGrayBorder
+    transition background 0.25s linear
+    justify-content center
+    text-align center
+    line-height 20px
+    padding 7px 10px
+    color $darkGray
+    &:first-child
+      border-right 1px solid $lightGrayBorder
+  & .analysis-action-label
+    line-height 22px
+    &:hover
+      background darken(white, 10%)
+
+.analysis-tools .tabs .gfw-btn
+  //$lightGrayBorder is slightly ligher then $lightGray, making it better fit for unactive tab
+  transition color 0.35s ease-in-out
+  color $darkGray
+  &.active
+    color $gfwBlue
+
+.tab-indicator
+  transition all 0.35s ease-in-out
+  background $gfwBlue
+  height 5px
+  width 50%
+
+.analyze-header
+  justify-content center
+  align-items center
+  color $gfwBlue
+  display flex
+  height 40px
+  & svg
+    margin-right 10px
+    height 20px
+    width 20px
+    fill $gfwBlue
+
+.lat-lng-tool
+  & .lat-lng-form
+    justify-content center
+    margin 10px 0
+  & input
+    border 1px solid $lightGrayBorder
+    padding 5px 10px
+    font-size 13px
+    margin 0 5px
+    outline none
+    width 90px
+
+.lat-lng-btn
+  margin 0 5px
+
+.add-point-btn
+  margin 20px auto 10px
+  width 120px
+  &.active
+    background darken($gfwBlue, 25%)
+
+.custom-analysis-spacer
+  margin 5px 0
+
+.lat-lng-instructions
+  font-size 14px
+
+.analysis-placeholder
+  text-align center
+  background white
+  font-size 16px
+  padding 30px
+  margin 0
+
+.loss-footnote
+  justify-content center
+  align-items center
+  font-size 11px
+  & .loss-footnote-label
+    padding-right 3px
+
+.loss-link
+  & select
+    -webkit-appearance none
+    position absolute
+    height 100%
+    width 100%
+    opacity 0
+    left 0
+    top 0
+  & .loss-timeline-spacer
+    padding 0 3px
+
+.canopy-link
+  & .canopy-text
+    padding 0 3px
+  & .canopy-density-label:before
+    content ' > '
+  & .canopy-density-label:after
+    content '% '
+
+.custom-analysis-link
+  justify-content center
+  margin 5px 0 10px
+  font-size 12px
+  & .custom-analysis-link-label
+    padding-right 3px
+
+.full-report-button
+  margin 5px auto 10px
+  width 180px
+
+.watershed-summary
+  justify-content center
+  align-items center
+  margin 5px 0
+  & .watershed-summary-label
+    padding-right 34px
+    font-size 13px
+    & .info-icon
+      top 3px
+
+.feature-title
+.custom-area-title
+  padding 0 10px
+  margin 5px 0
+
+.feature-title
+  padding-top 3px
+
+.watershed-chart
+  margin 0 10px
+  height 150px
+  width 300px
+  padding 0
+
+.custom-area-title
+  & input
+    -webkit-appearance none
+    padding-left 30px
+    font-size 16px
+    outline none
+    border none
+  & .custom-area-title-edit
+    position absolute
+    height 18px
+    left 15px
+    top 1px
+    & svg
+      fill $gfwBlue
+      height 18px
+      width 18px
+
+/* IE10+ CSS styles go here */
+// @media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
+//   .analysis-tools
+//     box-shadow none
+//     bottom 155px
+//     & > div
+//       box-shadow 0px 4px 0px #fff, 0px 0px 0px #fff, 2px 2px 2px rgba(0,0,0,0.1), 2px 2px 2px rgba(0,0,0,0.15)
+//     & div:last-of-type
+//       box-shadow 2px 2px 2px rgba(0,0,0,0.25)

@@ -4,6 +4,7 @@ html
   head
     include html/_meta.jade
     include html/_gfwAssetsHead.jade
+    link(rel='stylesheet' href='../css/site.css')
     style
       :stylus
         @require '../css/_base'
@@ -11,10 +12,6 @@ html
   body
     include html/_gfwAssetsBody.jade
     include html/_ie9.html
-    #headerGfw
-    div(style='text-align: right;')
-      a(href='/en/home') English
-      span=' | '
-      a(href='/id/home') Bahasa Indonesia
+    div#headerGfw.headerGfw
     block content
-    #footerGfw
+    div#footerGfw.footerGfw

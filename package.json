@@ -6,7 +6,6 @@
   "scripts": {
     "start": "gulp build & gulp serve",
     "test": "eslint src/**/*.js;",
-    "babel": "babel src --out-dir build",
     "postinstall": "bower install",
     "jade": "gulp jade-build"
   },
@@ -41,11 +40,13 @@
     "eslint-plugin-react": "^3.8.0",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.1",
     "gulp-filter": "^3.0.1",
     "gulp-imagemin": "^2.4.0",
     "gulp-jade": "^1.1.0",
     "gulp-minify-inline": "^0.1.1",
     "gulp-stylus": "^2.1.0",
+    "gulp-umd": "^0.2.0",
     "jeet": "^6.1.2",
     "jstransformer-stylus": "^1.0.0",
     "merge-stream": "^1.0.0",

@@ -2,6 +2,11 @@
 (function (name, root, factory) { function isObject(x) { return typeof x === "object"; } if (isObject(root.module) && isObject(root.module.exports)) { root.module.exports = factory(); } else if (isObject(root.exports)) { root.exports[name] = factory(); } else if (isObject(root.define) && root.define.amd) { root.define(name, [], factory); } else if (isObject(root.modulejs)) { root.modulejs.define(name, factory); } else if (isObject(root.YUI)) { root.YUI.add(name, function (Y) { Y[name] = factory(); }); } else { root[name] = factory(); } }("locals", this, function () {
   return {
     language: 'en',
+    meta: {
+      version: 2.0,
+      // TODO: make version dynamic off npm package version
+      esriVersion: 3.14
+    },
     global: {
       pages: [
         {name: 'home', label: 'GFW FIRES', href: '/en/home'},

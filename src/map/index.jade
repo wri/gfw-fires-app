@@ -1,6 +1,42 @@
 extends ../_layout.jade
 
-block content
-  +navigation(global.pages, 'map')
+block head
+  link(rel='stylesheet', href='css/map.css?#{meta.version}')
+  link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
+  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
+  style .footerGfw {display: none !important}
+  script(src='../vendor/jquery/dist/jquery.min.js')
+  script.
+    var base = location.pathname.replace(/\/[^/]+$/, '');
+    var dojoConfig = {
+      parseOnLoad: false,
+      async: true,
+      cacheBust: '#{version}',
+      packages: [
+        { name: 'js', location: base + 'js' },
+        { name: 'utils', location: base + '/js/utils' },
+        { name: 'stores', location: base + '/js/stores' },
+        { name: 'helpers', location: base + '/js/helpers' },
+        { name: 'actions', location: base + '/js/actions' },
+        { name: 'components', location: base + '/js/components' },
+        { name: 'vendor', location: base + '../vendor' }
+      ],
+      aliases: [
+        //- ['jquery', 'vendor/jquery/dist/jquery.min.js'],
+        //- ['slick', '//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js'],
+        //- ['gfw-assets', 'http://www.globalforestwatch.org/gfw-assets'],
+        ['alt', 'vendor/alt/dist/alt.min'],
+        ['react', 'vendor/react/react.min'],
+        ['react-dom', 'vendor/react/react-dom.min'],
+        ['lodash', 'vendor/lodash/lodash.min'],
+        ['babel-polyfill', 'vendor/babel-polyfill/browser-polyfill'],
+        ['formsy-react', 'vendor/formsy-react/release/formsy-react']
+      ],
+      deps: ['dojo/domReady!'],
+      callback: function () {require(['js/main']);}
+    };
 
-  div.box TODO: map
+block content
+  include html/_svgAssets.jade
+  div#root.layout-content
+  script(src='http://js.arcgis.com/#{meta.esriVersion}/init.js', async)

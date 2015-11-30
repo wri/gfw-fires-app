@@ -1,0 +1,195 @@
+@require 'config'
+
+#headerGfw
+  height 0
+
+.home-slider-container
+  height 230px
+
+.home-nav
+  transform translate(-50%, 0)
+  position absolute
+  z-index 5000
+  bottom 50px
+  left 50%
+  & a
+    text-decoration none
+  & h2
+    padding 10px 20px 10px 50px
+    text-transform uppercase
+    border-radius 50px
+    background white
+    font-weight 300
+    margin 0
+  & .gfw-btn
+    margin-left 10px
+    line-height 40px
+    font-weight 500
+    height 38px
+
+.home-slider
+  position relative
+  padding 0
+  margin 0
+  top 0
+  & .inner
+    margin 0 auto
+    height 100%
+    width 100%
+  & .attribution-link
+    display none
+  & aside
+    background rgba(255, 255, 255, 0.75)
+    padding 15px 50px 15px 15px
+    position absolute
+    display block
+    width 100%
+    bottom 0
+    left 0
+    & h2, h3
+      text-transform uppercase
+      margin 0
+    & h2
+      display inline-block
+      font-weight 400
+      line-height 35px
+      font-size 35px
+    & h3
+      font-weight 300
+      line-height 15px
+      font-size 15px
+  & .slide-link
+    text-transform uppercase
+    text-decoration none
+    background $darkGray
+    display inline-block
+    position absolute
+    font-size 30px
+    color white
+    height 100%
+    width 44px
+    right 0
+    top 0
+    &:hover
+      background $gfwBlue
+    & .mobile-show
+      transform translate(-50%, -50%)
+      position absolute
+      left 50%
+      top 50%
+  & .slide
+    background-position center
+    background-size cover
+    height 230px
+    width 100%
+    & > a
+      color inherit
+      outline none
+    &.slide1
+      background-image url('images/slide-gfwwater.png')
+    &.slide2
+      background-image url('images/slide-philadelphia-skyline.jpg')
+    &.slide3
+      background-image url('images/slide-spring.jpg')
+    &.slide4
+      background-image url('images/slide-aqueduct.png')
+  & .slick-dots
+    position absolute
+    list-style none
+    right 20px
+    padding 0
+    margin 0
+    top 20px
+    & li
+      display inline-block
+      padding 5px 10px
+      &.slick-active button
+        transform scale(2)
+        opacity 1
+    & button
+      transition all 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+      box-shadow 0px 1px 2px rgba(0,0,0,0.25)
+      text-indent -10000px
+      border-radius 50%
+      background white
+      cursor pointer
+      outline none
+      border none
+      opacity 0.8
+      height 8px
+      width 8px
+      padding 0
+      &:hover
+        transform scale(2)
+        opacity 1
+
+.gfw-water-logo
+  background url('images/GFW_Water_logo.png') no-repeat center
+  background-size 90px
+  position absolute
+  height 90px
+  width 90px
+  z-index 5
+  left 20px
+  top 0
+  &:after
+    background url('images/beta.png')
+    position absolute
+    display block
+    bottom -5px
+    height 18px
+    width 30px
+    right -5px
+    content ''
+
+@media (min-width: 1400px)
+  .home-slider .inner
+    max-width 1200px
+    width 75%
+
+@media (min-width: 850px)
+  #headerGfw
+    height 34px
+  .home-slider .inner
+    max-width 1024px
+    width 95%
+    & .attribution-link
+      background rgba(200, 200, 200, 0.9)
+      position absolute
+      padding 5px 10px
+      font-size 12px
+      bottom 0
+      left 0
+    & aside
+      transform translate(0, -50%)
+      background none
+      bottom auto
+      width auto
+      padding 0
+      top 50%
+      & h2
+        background rgba(255, 255, 255, 0.75)
+        padding 10px 5px 6px
+        line-height 61px
+        font-size 61px
+      & h3
+        background rgba(255, 255, 255, 0.75)
+        padding 10px 5px 5px
+        line-height 31px
+        font-size 31px
+    & .slide-link
+      position relative
+      padding 8px 30px
+      font-size 17px
+      height auto
+      width auto
+      right auto
+      top auto
+  .home-slider-container
+    min-height 620px
+  .home-slider
+    & .slide
+      height 620px
+    & .slick-dots
+      bottom 20px
+      top auto

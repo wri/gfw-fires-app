@@ -1,0 +1,13 @@
+for font in $fonts
+  .{font[0]}
+    font-family font[1]
+
+for color in $colors
+  .text-{color[0]}
+    color color[1]
+
+  .back-{color[0]}
+    background-color color[1]
+
+.pointer
+  cursor pointer

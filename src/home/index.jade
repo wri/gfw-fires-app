@@ -15,18 +15,21 @@ block content
     section
 
       div.action-menu__item
-        div #{home.alerts.title}
-        div #{home.alerts.description}
+        div.action-menu__item__icon--alerts
+        div.action-menu__item__title #{home.alerts.title}
+        div.action-menu__item__description #{home.alerts.description}
         div: button#alerts.button--green #{home.alerts.button}
 
       div.action-menu__item
-        div #{home.analyze.title}
-        div #{home.analyze.description}
+        div.action-menu__item__icon--analysis
+        div.action-menu__item__title #{home.analyze.title}
+        div.action-menu__item__description #{home.analyze.description}
         div: a(href='/#{language}/map'): button.button--green #{home.analyze.button}
 
       div.action-menu__item
-        div #{home.social.title}
-        div #{home.social.description}
+        div.action-menu__item__icon--social
+        div.action-menu__item__title #{home.social.title}
+        div.action-menu__item__description #{home.social.description}
         div: a(target='_blank' href='https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd'): button.button--green #{home.social.button}
 
   div#modal-container.modal-container.box(style='display:none;')
