@@ -89,6 +89,70 @@ export const config = {
     //  opacity: 0.8
     //},
     {
+      id: KEYS.oilPalm,
+      order: 7,
+      type: 'dynamic',
+      label: 'Oil palm concessions',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      layerIds: [1]
+    },
+    {
+      id: KEYS.rspoOilPalm,
+      order: 7,
+      type: 'dynamic',
+      label: 'RSPO oil palm concessions',
+      sublabel: '(May 2013, select countries)',
+      group: 'forestUse',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      layerIds: [4]
+    },
+    //forestUseLayers: {
+    //    url: '',
+    //    id: 'Forest_Use',
+    //    defaultLayers: [-1], // Show none by default
+    //    rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+    //    indicativeMoratorium: 7
+    //},
+    {
+      id: KEYS.woodFiber,
+      order: 7,
+      type: 'dynamic',
+      label: 'Wood fiber plantations',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      layerIds: [0]
+    },
+    {
+      id: KEYS.loggingConcessions,
+      order: 7,
+      type: 'dynamic',
+      label: 'Logging concessions',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      layerIds: [3]
+    },
+    {
+      id: KEYS.forestMoratorium,
+      order: 7,
+      type: 'dynamic',
+      label: 'Indonesia forest moratorium area',
+      // TODO: hookup instructions below
+      // instruction: 'The moratorium prohibits new concessions on primary forest or peatlands. Learn More.'
+      sublabel: '(IMM v7/v6 , 2014, Indonesia)',
+      group: 'forestUse',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      layerIds: [7]
+    },
+    {
       id: KEYS.protectedAreas,
       order: 5,
       type: 'dynamic',
@@ -98,6 +162,38 @@ export const config = {
       className: 'tree-cover',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       layerIds: [0]
+    },
+    {
+      id: KEYS.peatlands,
+      order: 7,
+      type: 'dynamic',
+      label: 'Peatlands',
+      sublabel: '(year 2002, Indonesia)',
+      group: 'landCover',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      layerIds: [22]
+    },
+    {
+      id: KEYS.treeCoverDensity,
+      order: 7,
+      type: 'image',
+      label: 'Tree cover density',
+      sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
+      group: 'landCover',
+      className: 'tree-cover',
+      url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
+    },
+    {
+      id: KEYS.primaryForests,
+      order: 7,
+      type: 'dynamic',
+      label: 'Primary Forests',
+      sublabel: '(2000 - 2012, 30m, Indonesia)',
+      group: 'landCover',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
+      layerIds: [3]
     },
     {
       id: KEYS.landsat8,
@@ -219,7 +315,7 @@ export const config = {
       searchWatershedPlaceholder: 'Search by watershed',
       sourceName: 'Watersheds',
       searchWidgetId: 'esri-search-widget',
-      analyzeButton: 'Analyze Watershed',
+      analyzeButton: 'Analyze Fires',
       watershedTabId: 'currentWatershed', // Can be anything as long as its different from analysisTabId
       watershedTabLabel: 'Current Watershed',
       watershedTabPlaceholder: 'To analyze, use the search bar to find your watershed or click on your watershed via the map.',

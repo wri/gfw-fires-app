@@ -1,12 +1,13 @@
 mixin navigation(pages, activePage)
-  div(style='text-align: right;')
-    a(href='/en/home') English
-    span=' | '
-    a(href='/id/home') Bahasa Indonesia
+  section
+    div(style='text-align: right;')
+      a(href='/en/home') English
+      span=' | '
+      a(href='/id/home') Bahasa Indonesia
 
-  div
-    for page in pages
-      if page.name === activePage
-        span(style='margin: 0px 5px'): strong: a(href=page.href) #{page.label}
-      else
-        span(style='margin: 0px 5px'): a(href=page.href) #{page.label}
+    div
+      for page in pages
+        if page.name === activePage
+          span(style='margin: 0px 5px'): strong: a(href=page.href) #{page.label}
+        else
+          span(style='margin: 0px 5px'): a(href=page.href) #{page.label}

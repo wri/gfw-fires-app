@@ -12,11 +12,65 @@ block content
   div.back-pebble
     section
       div.content-header
-        h1 #{data.title}
+        h1#title #{data.title}
         p #{data.description}
 
   section
-    ul
-      li DATA
-      li FIRES
-      li FOREST USE
+    div.content-container
+      div.content-aside
+        div.content-menu
+          ul
+            li#title-link Data Sources
+          ul#menu
+            li Fires
+            li Forest Use
+            li Conservation
+            li Land Cover
+            li Air Quality
+            li Imagery
+
+      div.content-body
+        div#one.content-subpage.active
+          h2 #{data.content.fires[0]}
+
+        div#two.content-subpage
+          h2 #{data.content.forest[0]}
+
+        div#three.content-subpage
+          h2 #{data.content.conservation[0]}
+
+        div#four.content-subpage
+          h2 #{data.content.conservation[0]}
+
+        div#five.content-subpage
+          h2 #{data.content.conservation[0]}
+
+        div#six.content-subpage
+          h2 #{data.content.conservation[0]}
+
+  script.
+    var links = [
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six'
+    ];
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      [].forEach.call(document.getElementById('menu').children, function(item, index) {
+        item.onclick = function () {
+          links.forEach(function(link) {
+            document.getElementById(link).className = document.getElementById(link).className.replace('active', '');
+          });
+          var element = document.getElementById(links[index])
+          element.className = element.className + ' active'
+          //-element.scrollIntoView();
+        };
+      });
+
+      document.getElementById('title-link').onclick = function() {
+        document.getElementById('title').scrollIntoView();
+      };
+    });

@@ -2,8 +2,30 @@ extends ../_layout.jade
 
 block head
   title #{story.meta.title}
+  style
+    :stylus
+      @require 'css/_base'
 
 block content
   +navigation(global.pages, 'story')
 
-  section #{story.title}
+  section
+    h1.text-center #{story.title}
+
+  section
+    div.story-form
+      div Title
+      input(type='text')
+
+    div.story-details
+      h5 #{story.details[0]}
+      p #{story.details[1]}
+
+      h5 #{story.details[2]}
+      p #{story.details[3]}
+      p #{story.details[4]}
+      ul
+        li #{story.details[5]}
+        li #{story.details[6]}
+        li #{story.details[7]}
+        li #{story.details[8]}

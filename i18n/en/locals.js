@@ -51,7 +51,18 @@
         title: 'Data | Global Forest Watch Fires'
       },
       title: 'Data Sources',
-      description: 'Global Forest Watch hosts a wealth of data relating to forests. Some data have been developed by WRI or by GFW partner organizations. Other data are in the public domain and have been developed by governments, NGOs, and companies. The data vary in accuracy, resolution, frequency of update, and geographic coverage. The summaries below include links to further information such as methods and technical documents. Full download of the data sets is available for most sources.'
+      description: 'Global Forest Watch hosts a wealth of data relating to forests. Some data have been developed by WRI or by GFW partner organizations. Other data are in the public domain and have been developed by governments, NGOs, and companies. The data vary in accuracy, resolution, frequency of update, and geographic coverage. The summaries below include links to further information such as methods and technical documents. Full download of the data sets is available for most sources.',
+      content: {
+        fires: [
+          'Fires'
+        ],
+        forest: [
+          'Forest Use'
+        ],
+        conservation: [
+          'Conservation'
+        ]
+      }
     },
     about: {
       meta: {
@@ -86,7 +97,20 @@
       meta: {
         title: 'Submit a Story | Global Forest Watch'
       },
-      title: 'Share information on fires'
+      title: 'Share information on fires',
+      labels: {},
+      details: [
+        'WHY SHARE COMMENTS?',
+        'Your participation can greatly improve understanding of what is happening with illegal land fires in Southeast Asia.',
+        'HOW YOUR STORIES WILL BE USED',
+        'Your story will be immediately displayed on the GFW Fires map and will be visible to all visitors to the site. WRI is not responsible for how this information is used by these visitors, and it reserves the right to remove stories that are inappropriate or not related to forest issues.',
+        'You can submit a story by sharing text, images, videos, or web links showing how land fires are impacting people and forests in Indonesia. Submit a story to:',
+        'Confirm or refute remotely sensed data',
+        'Report illegal activities',
+        'Call attention to a threat or conflict in your area',
+        'Tell a fire response success story',
+        'Share your local expertise'
+      ]
     }
   }
 }));

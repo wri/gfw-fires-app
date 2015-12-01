@@ -28,19 +28,19 @@ export default class LayerPanel extends React.Component {
     return (
       <div className='layer-panel map-component custom-scroll shadow'>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Forest Use'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('forestUse'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
           {layersConfig.map(this.checkboxMap('conservation'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('landCover'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('airQuality'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
           {layersConfig.map(this.checkboxMap('imagery'), this)}

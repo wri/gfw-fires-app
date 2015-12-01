@@ -1,0 +1,14 @@
+@require '../../../node_modules/jeet/stylus/jeet/index'
+@require '../../../node_modules/rupture/rupture/index'
+@require '../../css/_variables'
+
+.story-form
+  column(2/3, gutter: $gutter)
+
+.story-details
+  column(1/3, gutter: $gutter)
+
+.story-form
+.story-details
+  +below($mqMobile)
+    stack()

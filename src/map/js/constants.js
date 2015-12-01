@@ -27,8 +27,19 @@ const KEYS = {
   customAnalysis: 'customAnalysis',
 
   //
+  oilPalm: 'oilPalm',
+  rspoOilPalm: 'rspoOilPalm',
+  woodFiber: 'woodFiber',
+  loggingConcessions: 'loggingConcessions',
+  forestMoratorium: 'forestMoratorium',
   protectedAreas: 'protectedAreas',
-  landsat8: 'landsat8'
+  peatlands: 'peatlands',
+  treeCoverDensity: 'treeCoverDensity',
+  primaryForests: 'primaryForests',
+  landsat8: 'landsat8',
+  digitalGlobae: 'digitalGlobe',
+  twitter: 'twitter',
+  fireStories: 'fireStories'
 };
 
 export { KEYS as default };
