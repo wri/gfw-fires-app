@@ -99,6 +99,44 @@
       },
       title: 'Share information on fires',
       labels: {},
+      form: {
+        title: [
+          'TITLE',
+          'Required',
+          'Large fire burning on peat lands'
+        ],
+        affectedAreas: [
+          'AFFECTED AREAS',
+          'Drop a pin on the map near the affected area'
+        ],
+        location: [
+          'LOCATION',
+          '‘Katingan Peatland area, Indonesia’, ‘South Sumatra’'
+        ],
+        date: 'DATE',
+        details: [
+          'DETAILS',
+          '‘Burning peatland’ ‘Forest cleared for plantation’ ‘Poor air quality’'
+        ],
+        video: [
+          'VIDEO',
+          'Add a hyperlink to a video, online news story or website.',
+        ],
+        media: [
+          'MEDIA',
+          'Add images and videos to your story.'
+        ],
+        name: [
+          'NAME or NICKNAME',
+          '(Optional)'
+        ],
+        email: [
+          'EMAIL',
+          'Required',
+          '(Will not be shown on map)'
+        ],
+        submit: 'SUBMIT COMMENTS'
+      },
       details: [
         'WHY SHARE COMMENTS?',
         'Your participation can greatly improve understanding of what is happening with illegal land fires in Southeast Asia.',

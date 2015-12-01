@@ -14,8 +14,59 @@ block content
 
   section
     div.story-form
-      div Title
+      div #{story.form.title[0]}
+      div #{story.form.title[1]}
+      div: input(type='text' placeholder='#{story.form.title[2]}')
+
+      br
+      br
+      div #{story.form.affectedAreas[0]}
+      div #{story.form.affectedAreas[1]}
+      div.box TODO: map
+
+      br
+      br
+      div #{story.form.location[0]}
+      div: input(type='text' placeholder='#{story.form.location[1]}')
+
+      br
+      br
+      div #{story.form.date}
+      div.box TODO: date picker
+
+      br
+      br
+      div #{story.form.details[0]}
+      textarea(placeholder='#{story.form.details[1]}')
+
+      br
+      br
+      div #{story.form.video[0]}
+      div #{story.form.video[1]}
+      input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
+
+      br
+      br
+      div #{story.form.media[0]}
+      div #{story.form.media[1]}
+      input(type='file')
+
+      br
+      br
+      div #{story.form.name[0]}
+      div #{story.form.name[1]}
       input(type='text')
+
+      br
+      br
+      div #{story.form.email[0]}
+      div #{story.form.email[1]}
+      div #{story.form.email[2]}
+      input(type='text')
+
+      br
+      br
+      div: button #{story.form.submit}
 
     div.story-details
       h5 #{story.details[0]}
