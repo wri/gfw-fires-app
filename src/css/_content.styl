@@ -1,0 +1,28 @@
+@require '_variables'
+@require '../../node_modules/rupture/rupture/index'
+
+.content-header
+  margin 2em 0em
+  color #FFF
+
+.content-container
+  display flex
+  flex-direction row
+
+  +below($mqMobile)
+    flex-direction column
+
+.content-aside
+  padding 1em
+
+.content-menu
+  width 270px
+
+.content-body
+  padding 1em
+
+.content-subpage
+  display none
+
+  &.active
+    display block

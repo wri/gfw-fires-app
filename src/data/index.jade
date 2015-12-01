@@ -1,8 +1,22 @@
 extends ../_layout.jade
 
+block head
+  title #{data.meta.title}
+  style
+    :stylus
+      @require '../css/_content'
+
 block content
   +navigation(global.pages, 'data')
 
-  div.box TODO: description
+  div.back-pebble
+    section
+      div.content-header
+        h1 #{data.title}
+        p #{data.description}
 
-  div.box TODO: navigation tab ui
+  section
+    ul
+      li DATA
+      li FIRES
+      li FOREST USE

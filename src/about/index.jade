@@ -1,8 +1,72 @@
 extends ../_layout.jade
 
+block head
+  title #{about.meta.title}
+  style
+    :stylus
+      @require '../css/_content'
+
 block content
   +navigation(global.pages, 'about')
 
-  div.box TODO: about description
+  div#title.back-pebble
+    section
+      div.content-header
+        h1 #{about.title}
+        p #{about.description}
 
-  div.box TODO: interactive tab panel ui
+  section
+    div.content-container
+      div.content-aside
+        div.content-menu
+          ul
+            li#title-link LEARN MORE
+          ul#menu
+            li ABOUT GFW FIRES
+            li FOREST FIRES AND THEIR IMPACT
+            li THE GFW PARTNERSHIP
+
+      div.content-body
+        div#one.content-subpage.active
+          h2 #{about.content.about[0]}
+          p #{about.content.about[1]}
+          p #{about.content.about[2]}
+          p #{about.content.about[3]}
+          p #{about.content.about[4]}
+          p #{about.content.about[5]}
+
+        div#two.content-subpage
+          h2 #{about.content.fires[0]}
+          p #{about.content.fires[1]}
+          p
+            | #{about.content.fires[2].trim() + ' '}
+            a(target='_blank' href='http://www.epa.gov/sciencematters/august2011/wildfire.htm') #{about.content.fires[3].trim()}
+            | #{' ' + about.content.fires[4].trim()}
+          p #{about.content.fires[5]}
+          a(target='_blank' href='app/docs/Infographic WRI Forest v1.0.pdf') #{about.content.fires[6]}
+
+        div#three.content-subpage
+          h2 #{about.content.partnership[0]}
+  script.
+    var links = [
+      'one',
+      'two',
+      'three'
+    ];
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+      [].forEach.call(document.getElementById('menu').children, function(item, index) {
+        item.onclick = function () {
+          links.forEach(function(link) {
+            document.getElementById(link).className = document.getElementById(link).className.replace('active', '');
+          });
+          var element = document.getElementById(links[index])
+          element.className = element.className + ' active'
+          //-element.scrollIntoView();
+        };
+      });
+
+      document.getElementById('title-link').onclick = function() {
+        document.getElementById('title').scrollIntoView();
+      };
+    });

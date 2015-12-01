@@ -21,6 +21,8 @@
 ## Development
 <p>TODO</p>
 
+### Project requirements
+- IE10+
 ### Architecture overview
 ### Npm scripts
 ### Build Process
