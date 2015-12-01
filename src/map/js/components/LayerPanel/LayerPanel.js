@@ -34,7 +34,7 @@ export default class LayerPanel extends React.Component {
           {layersConfig.map(this.checkboxMap('watershed'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('conservation'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
           {layersConfig.map(this.checkboxMap('watershed'), this)}
@@ -43,7 +43,7 @@ export default class LayerPanel extends React.Component {
           {layersConfig.map(this.checkboxMap('watershed'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('imagery'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Social Media'>
           {layersConfig.map(this.checkboxMap('watershed'), this)}

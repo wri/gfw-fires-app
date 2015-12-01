@@ -88,6 +88,27 @@ export const config = {
     //  outputRange: [1],
     //  opacity: 0.8
     //},
+    {
+      id: KEYS.protectedAreas,
+      order: 5,
+      type: 'dynamic',
+      label: 'Protected areas',
+      sublabel: '(varies, global)',
+      group: 'conservation',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      layerIds: [0]
+    },
+    {
+      id: KEYS.landsat8,
+      order: 4,
+      type: 'image',
+      label: 'Latest Landsat 8 Imagery',
+      sublabel: '(latest image, 30m, global)',
+      group: 'imagery',
+      className: 'tree-cover',
+      url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
+    }
   ],
 
   symbol: {

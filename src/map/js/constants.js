@@ -24,7 +24,11 @@ const KEYS = {
   watershed: 'watersheds',
   rivers: 'rivers',
   watershedAnalysis: 'watershedAnalysis',
-  customAnalysis: 'customAnalysis'
+  customAnalysis: 'customAnalysis',
+
+  //
+  protectedAreas: 'protectedAreas',
+  landsat8: 'landsat8'
 };
 
 export { KEYS as default };
