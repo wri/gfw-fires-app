@@ -1624,11 +1624,8 @@ define([
                 return;
             }
 
-            // var dayPicked = moment(currentDate).format("YYYY/MM/DD");
-            // var tomorrow = moment(currentDate).add('days', 1).format("YYYY/MM/DD");
-            console.log(currentDate)
             var dayPicked = moment(currentDate).format("MM/DD/YYYY");
-            var tomorrow = moment(currentDate).add('days', 1).format("MM/DD/YYYY");
+
 
             var start = dayPicked.split('/');
             start[0] = parseInt(start[0]);
@@ -1636,15 +1633,8 @@ define([
 
             dayPicked = start.join('/');
 
-            var end = tomorrow.split('/');
-            end[0] = parseInt(end[0]);
-            end[1] = parseInt(end[1]);
+            var sqlQuery = "Date LIKE '" + dayPicked + "%'";
 
-            tomorrow = end.join('/');
-
-            var sqlQuery = "Date >= '" + dayPicked + "' AND Date < '" + tomorrow + "'";
-            // var sqlQuery = LayerController.getTimeDefinition("Date", dayPicked, tomorrow);
-            console.log(sqlQuery);
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.airQualityLayer.id), 1, sqlQuery);
 
         });
