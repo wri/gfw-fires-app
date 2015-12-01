@@ -31,8 +31,8 @@ class MapActions {
       deferred.resolve();
     });
     // Add a custom web tiled layer as a basemap
-    let customBasemap = new WebTiledLayer(mapconfig.customBasemap.url, mapconfig.customBasemap.options);
-    app.map.addLayers([customBasemap]);
+    //let customBasemap = new WebTiledLayer(mapconfig.customBasemap.url, mapconfig.customBasemap.options);
+    //app.map.addLayers([customBasemap]);
     return deferred;
   }
 

@@ -51,7 +51,7 @@ let configureApp = () => {
 let initializeApp = () => {
   app.debug('main >>> initializeApp');
   ReactDOM.render(<Map />, document.getElementById('root'));
-  //ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
+  ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
   //ReactDOM.render(<ShareModal />, document.getElementById('share-modal'));
   //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
   //ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
@@ -60,30 +60,3 @@ let initializeApp = () => {
 configureApp();
 initializeApp();
 lazyloadAssets();
-
-
-// let test = () => {
-//   let params = {
-//     'SnapDistance': '5000',
-//     'SnapDistanceUnits': 'Meters',
-//     'DataSourceResolution': '90m',
-//     'Generalize': 'True',
-//     'f': 'json',
-//     'InputPoints': '{"geometryType":"esriGeometryPoint","features":[{"geometry":{"x":11058950.018714607,"y":192244.0469047035,"spatialReference":{"wkid":102100,"latestWkid":3857}}}],"sr":{"wkid":102100,"latestWkid":3857}}'
-//   };
-//
-//   let geoprocessor = new GeoProcessor('http://utility.arcgis.com/usrsvcs/appservices/epPvpBkwsBSgIYCd/rest/services/Tools/Hydrology/GPServer/Watershed');
-//   geoprocessor.setOutputSpatialReference(new SR(102100));
-//   geoprocessor.submitJob(params, results => {
-//     console.log(results);
-//     geoprocessor.getResultData(results.jobId, 'WatershedArea', data => {
-//       console.log('getResultData');
-//       console.log(data);
-//     });
-//   }, status => {
-//     console.log(status);
-//   });
-//
-// };
-
-// test();

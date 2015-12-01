@@ -18,6 +18,7 @@ export const config = {
       showAttribution: false,
       center: [-51, 17],
       fadeOnZoom: true,
+      basemap: 'topo',
       slider: false,
       logo: false,
       zoom: 3
@@ -63,175 +64,30 @@ export const config = {
   * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
   */
   layers: [
-    {
-      id: KEYS.wetlands,
-      order: 6,
-      type: 'dynamic',
-      label: 'Wetlands',
-      group: 'watershed',
-      className: 'wetlands',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer',
-      layerIds: [2]
-    },
-    {
-      id: KEYS.treeCover,
-      order: 5,
-      type: 'image',
-      label: 'Tree cover',
-      sublabel: '(year 2000, 30m global, Hansen/UMD/Google/USGS/NASA)',
-      group: 'watershed',
-      className: 'tree-cover',
-      url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
-      colormap: [[1, 174, 203, 107]],
-      inputRange: [30, 101],
-      outputRange: [1],
-      opacity: 0.8
-    },
-    {
-      id: KEYS.landCover,
-      order: 3,
-      type: 'dynamic',
-      label: 'Land cover',
-      group: 'watershed',
-      className: 'land-cover',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer',
-      layerIds: [6]
-    },
-    {
-      id: KEYS.majorDams,
-      order: 10,
-      type: 'dynamic',
-      label: 'Major dams',
-      group: 'watershed',
-      className: 'dams',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/infrastructure/MapServer',
-      layerIds: [0]
-    },
-    {
-      id: KEYS.waterIntake,
-      order: 11,
-      type: 'dynamic',
-      label: 'Urban water intake',
-      group: 'watershed',
-      className: 'intake',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer',
-      layerIds: [0]
-    },
-    // {
-    //   id: KEYS.treeCoverChange,
-    //   label: 'Tree cover change',
-    //   group: 'watershedRisk',
-    //   kids: ['loss', 'gain'],
-    //   isGroupLabel: true
-    // },
-    {
-      id: KEYS.loss,
-      order: 7,
-      type: 'image',
-      label: 'Tree cover loss',
-      group: 'watershedRisk',
-      className: 'loss',
-      visible: true,
-      sublabel: '(annual, 30m, global, Hansen/UMD/Google/USGS/NASA)',
-      url: 'http://50.18.182.188:6080/arcgis/rest/services/ForestCover_lossyear/ImageServer',
-      colormap: [[1, 219, 101, 152]],
-      inputRange: [1, 15],
-      outputRange: [1]
-    },
-    {
-      id: KEYS.gain,
-      order: 8,
-      type: 'tiled',
-      label: 'Tree cover gain',
-      group: 'watershedRisk',
-      className: 'gain',
-      visible: true,
-      sublabel: '(12 years, 30m, global, Hansen/UMD/Google/USGS/NASA)',
-      url: 'http://50.18.182.188:6080/arcgis/rest/services/ForestGain_2000_2012_map/MapServer'
-    },
-    {
-      id: KEYS.historicLoss,
-      order: 4,
-      type: 'dynamic',
-      label: 'Potential forest',
-      group: 'watershedRisk',
-      className: 'historic-loss',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
-      layerIds: [6]
-    },
-    // {
-    //   id: KEYS.fires,
-    //   label: 'Fires',
-    //   group: 'watershedRisk',
-    //   kids: ['active-fires', 'burn-scars'],
-    //   isGroupLabel: true
-    // },
-    {
-      id: KEYS.activeFires,
-      order: 9,
-      type: 'dynamic',
-      label: 'Active fires',
-      group: 'watershedRisk',
-      className: 'active-fires',
-      sublabel: '(daily, 1km, global, NASA)',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
-      layerIds: [0, 1, 2, 3]
-    },
-    {
-      id: KEYS.burnScars,
-      order: 12,
-      type: 'dynamic',
-      label: 'Burn scars (coming soon)',
-      group: 'watershedRisk',
-      className: 'burn-scars',
-      disabled: true
-    },
-    {
-      id: KEYS.sediment,
-      order: 2,
-      type: 'dynamic',
-      label: 'Sedimentation',
-      group: 'watershedRisk',
-      className: 'sediment',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer',
-      layerIds: [4]
-    },
-    {
-      id: KEYS.waterStress,
-      type: 'dynamic',
-      order: 1,
-      label: 'Baseline water stress',
-      group: 'watershedRisk',
-      className: 'water-stress',
-      url: 'http://gis.wri.org/arcgis/rest/services/Aqueduct/aqueduct_global_2014/MapServer',
-      layerIds: [1],
-      opacity: 0.80
-    },
-    // These layers are not in the UI and should be the top most layers
-    {
-      id: KEYS.watershed,
-      order: 13,
-      type: 'feature',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer/1',
-      visible: true
-    },
-    {
-      id: KEYS.rivers,
-      order: 14,
-      type: 'tiled',
-      url: 'http://hydrology.esri.com/arcgis/rest/services/WorldHydroReferenceOverlay/MapServer',
-      visible: true
-    },
-    {
-      id: KEYS.watershedAnalysis,
-      type: 'graphic',
-      visible: true
-    },
-    {
-      id: KEYS.customAnalysis,
-      type: 'graphic',
-      visible: true
-    }
+    //{
+    //  id: KEYS.wetlands,
+    //  order: 6,
+    //  type: 'dynamic',
+    //  label: 'Wetlands',
+    //  group: 'watershed',
+    //  className: 'wetlands',
+    //  url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer',
+    //  layerIds: [2]
+    //},
+    //{
+    //  id: KEYS.treeCover,
+    //  order: 5,
+    //  type: 'image',
+    //  label: 'Tree cover',
+    //  sublabel: '(year 2000, 30m global, Hansen/UMD/Google/USGS/NASA)',
+    //  group: 'watershed',
+    //  className: 'tree-cover',
+    //  url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
+    //  colormap: [[1, 174, 203, 107]],
+    //  inputRange: [30, 101],
+    //  outputRange: [1],
+    //  opacity: 0.8
+    //},
   ],
 
   symbol: {
