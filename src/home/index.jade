@@ -5,32 +5,75 @@ block head
   link(rel='stylesheet' href='css/home.css')
 
 block content
-  +navigation(global.pages, 'home')
+  +navigation(global.pages, 'home', true)
 
-  section
-    div.box TODO: carousel
+  div.relative.home-slider-container(style='display: none')
+    div.gfw-water-logo
+    //-nav.mobile-hide.home-nav
+    //-  h2.shadow Explore the Map!
+    //-    div.inline-block
+    //-      a(href='./map.html', title='EXPLORE THE MAP', alt='Explore the Map')
+    //-        div.gfw-btn.blue.pointer click here!
+    ul.home-slider
+      li.slide1.slide.pointer
+        a(href='./map.html')
+          div.inner.relative
+            aside
+              h2 explore
+              h3 explore the interactive map
+              div.slide-link
+                span.mobile-hide more info
+                span.mobile-show +
+      li.slide2.slide.pointer(title='Photo By: Philadelphiaift.org')
+        a(href='http://www.wri.org/our-work/project/natural-infrastructure-water/blog')
+          div.inner.relative
+            aside
+              h2 blogs & news
+              h3 Read recent blogs and news about natural infrastructure
+              div.slide-link
+                span.mobile-hide more info
+                span.mobile-show +
+      li.slide3.slide.pointer(title='Photo By: Steve Dunleavy - North Kohala Stream, Big Island, Hawaii')
+        div.attribution-link
+          span Photo By: #[a.gfw-link(href='https://www.flickr.com/photos/stevedunleavy/5885138296/in/photolist-9Y3SzE-8x6Umu-7TvQ2L-iEVzum-91SB4n-fuo6N9-7gY6FG-7TjVDu-rGbFdE-pmuFpw-gnqcCj-enr7pG-m9ZoCi-hA4hoZ-z7UtVq-iEShgC-rYDiKQ-r3g3Pz-5CLJaP-7kgUf7-bFYVma-o3tmZo-cHpQvd-r5cpkg-8yyhWE-6bREJ9-m89Dsx-dbniUZ-q4CsXu-9KQmju-9KzvAN-6uTYRJ-dvEsLa-m6QyD4-d4pab5-6FYhUW-eJfYke-arDLBV-dHaaUb-oLffPu-owdjDL-9SRkU2-6uTZho-doENPM-aHgjE2-xBekek-7RbS5n-iERX1z-ygutLj-i27ZYe') Steve Dunleavy]
+          |  licensed under #[a.gfw-link(href='https://creativecommons.org/licenses/by-nc-nd/2.0/') CC BY-NC-ND 2.0]
+        a(href='http://www.wri.org/our-work/project/natural-infrastructure-water')
+          div.inner.relative
+            aside
+              h2 visit our project page
+              h3 Learn about natural infrastructure for water
+              div.slide-link
+                span.mobile-hide more info
+                span.mobile-show +
+      li.slide4.slide.pointer
+        a(href='http://www.wri.org/applications/maps/aqueduct-atlas/')
+          div.inner.relative
+            aside
+              h2 aqueduct
+              h3 Check out Aqueduct's global water risk mapping tool
+              div.slide-link
+                span.mobile-hide more info
+                span.mobile-show +
 
   div.action-menu
-
     section
-
       div.action-menu__item
         div.action-menu__item__icon--alerts
         div.action-menu__item__title #{home.alerts.title}
         div.action-menu__item__description #{home.alerts.description}
-        div: button#alerts.button--green #{home.alerts.button}
+        //-div: button#alerts.button--green #{home.alerts.button}
 
       div.action-menu__item
         div.action-menu__item__icon--analysis
         div.action-menu__item__title #{home.analyze.title}
         div.action-menu__item__description #{home.analyze.description}
-        div: a(href='/#{language}/map'): button.button--green #{home.analyze.button}
+        //-div: a(href='/#{language}/map'): button.button--green #{home.analyze.button}
 
       div.action-menu__item
         div.action-menu__item__icon--social
         div.action-menu__item__title #{home.social.title}
         div.action-menu__item__description #{home.social.description}
-        div: a(target='_blank' href='https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd'): button.button--green #{home.social.button}
+        //-div: a(target='_blank' href='https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd'): button.button--green #{home.social.button}
 
   div#modal-container.modal-container.box(style='display:none;')
     div.modal-background
@@ -51,3 +94,12 @@ block content
     document.getElementById('close-icon').onclick = function() {
       document.getElementById('modal-container').style.display = 'none';
     };
+    $('.home-slider').slick({
+      lazyLoad: 'ondemand',
+      pauseOnHover: false,
+      autoplaySpeed: 4500,
+      autoplay: true,
+      arrows: false,
+      fade: true,
+      dots: true
+    });

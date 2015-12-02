@@ -1,13 +1,6 @@
-mixin navigation(pages, activePage)
-  section
-    div(style='text-align: right;')
-      a(href='/en/home') English
-      span=' | '
-      a(href='/id/home') Bahasa Indonesia
-
-    div
-      for page in pages
-        if page.name === activePage
-          span(style='margin: 0px 5px'): strong: a(href=page.href) #{page.label}
-        else
-          span(style='margin: 0px 5px'): a(href=page.href) #{page.label}
+mixin navigation(pages, activePage, absolute)
+  div(class=(absolute !== undefined && absolute === true ? 'navigation-container absolute' : 'navigation-container'))
+    section
+      div.navigation
+        for page in pages
+          a.navigation--link(href=page.href class=(page.name === activePage ? 'active' : '')) #{page.label}
