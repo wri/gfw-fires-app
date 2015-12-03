@@ -1,0 +1,66 @@
+.action-menu
+  @extend .back-charcoal
+
+.action-menu__item
+  span(1/3)
+  position relative
+  color $white
+  text-align center
+  box-sizing border-box
+  border-right 1px solid $smoke
+  cursor pointer
+
+  &:last-of-type
+    border-right 0px solid transparent
+    border-bottom 0px solid transparent
+
+  +below($mqMobile)
+    border-right 0px solid transparent
+    border-bottom 1px solid $smoke
+    stack()
+
+  &__icon
+    &--alerts
+    &--analysis
+    &--social
+      background-image url('../../images/home-icons.png')
+      background-repeat no-repeat
+      height 85px
+      margin 20px auto
+
+    &--alerts
+      background-position 0px -740px
+      width 122px
+
+    &--analysis
+      background-position 0px -400px
+      width 150px
+
+    &--social
+      background-position 0px -540px
+      width 134px
+
+  &__title
+    font-size 1.5em
+    margin-bottom 1em
+
+  &__description
+    position absolute
+    top 0
+    //bottom 0
+    left 0
+    //right 0
+    height 100%
+    width 100%
+    opacity 0
+    background-color $charcoal
+    display flex
+    justify-content center
+    align-items center
+    padding 1em
+    transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
+    box-sizing border-box
+    padding 1em 25%
+
+    &:hover
+      opacity 1

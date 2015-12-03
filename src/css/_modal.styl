@@ -1,0 +1,65 @@
+//- General modal styling
+.modal-wrapper
+  position absolute
+  bottom 0
+  right 0
+  left 0
+  top 0
+
+.modal-container
+  //position absolute
+  position fixed
+  z-index 1000
+  //height 100%
+  //width 100%
+  top 0
+  bottom 0
+  left 0
+  right 0
+
+.modal-background
+  background-color rgba(0, 0, 0, 0.35)
+  height 100%
+  width 100%
+
+.modal
+  transform translate(-50%, -50%)
+  background-color white
+  position fixed
+  height auto
+  left 50%
+  top 50%
+  & a
+    word-break break-word
+    word-wrap break-word
+  & .close-icon
+    position absolute
+    height 40px
+    width 40px
+    right 0
+    top 0
+    & svg
+      transform translate(-50%, -50%)
+      position absolute
+      height 50%
+      width 50%
+      left 50%
+      top 50%
+
+.modal-title
+  padding 10px 20px 0
+  text-align center
+  font-size 21px
+
+.modal-content
+  padding 20px 30px 20px 20px
+  overflow-x hidden
+  max-height 450px
+  overflow-y auto
+  color $darkGray
+  height 100%
+
+.no-info-available
+  text-align center
+  line-height 40px
+  height 40px
