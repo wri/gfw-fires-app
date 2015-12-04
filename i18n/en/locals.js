@@ -16,12 +16,20 @@
         {name: 'story', label: 'STORY', href: '/en/story'}
       ]
     },
+    navigation: {
+      languageLabel: 'Language',
+      languages: [
+        ['/en/home', 'English'],
+        ['/id/home', 'Bahasa Indonesia']
+      ]
+    },
     home: {
       meta: {
         title: 'Global Forest Watch Fires',
       },
-      explore: 'EXPLORE THE MAP!',
-      click: 'CLICK HERE!',
+      explore: 'EXPLORE NOW!',
+      exploreAlt: 'Explore Now',
+      view: 'VIEW MAP!',
       slider: {
         moreInfo: 'MORE INFO'
       },

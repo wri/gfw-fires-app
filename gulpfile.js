@@ -19,8 +19,8 @@ var config = {
       locals: require('./i18n/en/locals.js').locals
     }, {
       language: 'id',
-      // locals: require('./i18n/id/locals.js').locals
-      locals: require('./i18n/en/locals.js').locals
+      locals: require('./i18n/id/locals.js').locals
+      //locals: require('./i18n/en/locals.js').locals
     }
   ],
   jade: {

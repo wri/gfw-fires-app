@@ -18,12 +18,24 @@ for color in $colors
 .absolute
   position absolute
 
+.relative
+  position relative
+
+.inline-block
+  display inline-block
+
+.shadow
+  box-shadow 2px 2px 2px rgba(0,0,0,0.25)
+
+.no-overflow
+  overflow hidden
+
 .mobile-hide
-  +below($mqMobile)
+  +below($mq-mobile)
     display none
 
 .mobile-show
   display none
 
-  +below($mqMobile)
+  +below($mq-mobile)
     display block

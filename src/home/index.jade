@@ -7,12 +7,12 @@ block head
 block content
   +navigation(global.pages, 'home', true)
 
-  div.home-slider-container
-    //-nav.mobile-hide.home-nav
-    //-  h2.shadow Explore the Map!
-    //-    div.inline-block
-    //-      a(href='./map.html', title='EXPLORE THE MAP', alt='Explore the Map')
-    //-        div.gfw-btn.blue.pointer click here!
+  div.home-slider-container.relative
+    nav.mobile-hide.home-nav
+      h2.shadow #{home.explore}
+        div.inline-block
+          a(href='../map', title=home.exploreAlt, alt=home.exploreAlt)
+            button.button--round.text-white.back-gfw-red #{home.view}
 
     section.slider-section
       ul.home-slider
@@ -80,29 +80,21 @@ block content
           div.action-menu__item__title #{home.social.title}
           div.action-menu__item__description #{home.social.description}
 
-  div#modal-container.modal-wrapper(style='display: none;')
+  div#alerts-modal.alerts-modal.modal-wrapper
     div.modal-container
       div.modal-background
       article.modal.shadow
-        div#close-icon.close-icon.pointer(title='close') x
+        div#close-icon.close-icon.pointer(title='close')
+          svg: use(xlink:href="#shape-close")
+        div.modal-title #{home.alerts.modal.title}
         div.modal-content.custom-scroll
           div
-            div #{home.alerts.modal.title}
-            div
+            p
              | #{home.alerts.modal.content[0].trim() + ' '}
-             a(href='/#{language}/map') #{home.alerts.modal.content[1].trim()}
+             a.text-gfw-red(href='/#{language}/map') #{home.alerts.modal.content[1].trim()}
              | #{' ' + home.alerts.modal.content[2].trim()}
 
   script.
-    document.getElementById('alerts1').onclick = function() {
-      document.getElementById('modal-container').style.display = 'block';
-    };
-    document.getElementById('alerts2').onclick = function() {
-      document.getElementById('modal-container').style.display = 'block';
-    };
-    document.getElementById('close-icon').onclick = function() {
-      document.getElementById('modal-container').style.display = 'none';
-    };
     $('.home-slider').slick({
       lazyLoad: 'ondemand',
       pauseOnHover: false,
@@ -112,3 +104,11 @@ block content
       fade: true,
       dots: true
     });
+    window.addEventListener('load', function () {
+      document.getElementById('alerts1').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
+      document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
+      document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
+      document.getElementById('navigation--language').onchange = function (event) { console.debug(event.target.value); window.location.href = event.target.value; };
+      document.getElementById('mobile-navigation-icon').onclick = function () { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); };
+      document.getElementById('mobile-navigation--language').onchange = function (event) { console.debug(event.target.value); window.location.href = event.target.value; };
+    })

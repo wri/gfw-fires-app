@@ -1,5 +1,5 @@
 .slider-section
-  +below($mqMobile)
+  +below($mq-mobile)
     padding 0px
 
 .home-slider-container
@@ -11,13 +11,19 @@
 .home-nav
   transform translate(-50%, 0)
   position absolute
-  z-index 5000
+  z-index $z-body
   bottom 50px
   left 50%
+
+  & button
+    padding .25em .75em
+    margin-left .5em
+
   & a
     text-decoration none
   & h2
-    padding 10px 20px 10px 50px
+    //padding 10px 20px 10px 50px
+    padding .5em 1em
     border-radius 50px
     background white
     font-weight 300
@@ -65,8 +71,7 @@
 
   & .slide-link
     text-decoration none
-    //background $darkGray
-    background darkgray
+    background $dark-gray
     display inline-block
     position absolute
     font-size 30px
