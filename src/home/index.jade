@@ -1,13 +1,15 @@
 extends ../_layout.jade
 
-block head
+block append head-meta
   title #{home.meta.title}
+
+block append head-styles
   link(rel='stylesheet' href='css/home.css')
 
 block content
   +navigation(global.pages, 'home', true)
 
-  div.home-slider-container.relative
+  div.home-slider-container.relative(style='overflow:hidden')
     nav.mobile-hide.home-nav
       h2.shadow #{home.explore}
         div.inline-block
@@ -108,7 +110,4 @@ block content
       document.getElementById('alerts1').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
       document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
       document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
-      document.getElementById('navigation--language').onchange = function (event) { console.debug(event.target.value); window.location.href = event.target.value; };
-      document.getElementById('mobile-navigation-icon').onclick = function () { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); };
-      document.getElementById('mobile-navigation--language').onchange = function (event) { console.debug(event.target.value); window.location.href = event.target.value; };
-    })
+    });

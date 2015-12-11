@@ -6,9 +6,20 @@
   width 280px
   left 20px
   top 110px
+
   /* IE10+ CSS styles go here */
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
     max-height 65%
+
+  +below($mq-mobile)
+    position fixed
+    width auto
+    top 20px
+    bottom 80px
+    left 20px
+    right 20px
+    z-index 500
+    max-height initial
 
 .layer-category
   margin 10px

@@ -4,12 +4,21 @@
   bottom 20px
   right 20px
   width 76px
+
+  +below($mq-mobile)
+    bottom 10px
+    right initial
+    left 20px
+    width auto
+
   & ul
     border-bottom 1px solid $lightGray
     flex-wrap wrap
     display flex
     padding 0
     margin 0
+    +below($mq-mobile)
+      border-left 1px solid $lightGray
   & li
     border-right 1px solid $lightGray
     border-top 1px solid $lightGray
@@ -18,7 +27,8 @@
     height 38px
     width 38px
   & li:nth-child(odd)
-    border-left 1px solid $lightGray
+    +above($mq-mobile)
+      border-left 1px solid $lightGray
   & li:active
     background $lightGrayHighlight
   & li:hover
@@ -48,6 +58,12 @@
   &.open
     visibility visible
     opacity 1
+
+  +below($mq-mobile)
+    top initial
+    bottom 40px
+    left 0
+    height auto
 
 .basemap-item
   text-align center

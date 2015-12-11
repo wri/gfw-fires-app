@@ -1,8 +1,13 @@
 @require 'jeet'
+@require 'rupture'
 @require '../../css/_variables'
 @require '_action-menu'
 @require '_slider'
 
 .alerts-modal
   .modal
-    max-width 350px
+    max-width 375px
+
+    +below($mq-mobile)
+      max-width initial
+      width calc(100% - 2em)

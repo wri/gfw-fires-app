@@ -1,18 +1,27 @@
 extends ../_layout.jade
 
-block head
+block append head-meta
   title #{story.meta.title}
+
+block append head-styles
   style
     :stylus
       @require 'css/_critical'
+      input
+      textarea
+        min-width 100%
+        padding .5em
+        border 1px solid grey
+        border 1px solid #666
+        border-radius 5px
 
 block content
   +navigation(global.pages, 'story')
 
   section
-    h1.text-center #{story.title}
+    h1.text-center.font-normal #{story.title}
 
-  section
+  section.form-section
     div.story-form
       div #{story.form.title[0]}
       div #{story.form.title[1]}

@@ -11,8 +11,8 @@ mixin navigation(pages, activePage, absolute)
           a.navigation--link(href=page.href class=(page.name === activePage ? 'active' : ''))
             li #{page.label}
 
-  svg#mobile-navigation-icon.mobile-navigation-icon.pointer.mobile-show
-    use(xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shape-hamburger" class="")
+  svg#mobile-navigation-icon.mobile-navigation-icon.pointer.mobile-show(height=25 width=25)
+    use(xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-h-menu" class="")
   nav#mobile-navigation.mobile-navigation-container.mobile-show
     div.mobile-navigation
       p

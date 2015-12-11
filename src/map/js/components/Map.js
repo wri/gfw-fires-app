@@ -33,6 +33,7 @@ export default class Map extends React.Component {
   render () {
     return (
       <div id={mapConfig.id} className={'map'}>
+        <div id='mobile-underlay' className='mobile-underlay' ></div>
         <LayerPanel loaded={this.state.loaded} />
         <ControlPanel />
         <EsriSearch loaded={this.state.loaded} />

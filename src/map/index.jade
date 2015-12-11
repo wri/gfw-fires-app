@@ -1,13 +1,15 @@
 extends ../_layout.jade
 
-block head
+block append head-styles
   link(rel='stylesheet', href='css/map.css?#{meta.version}')
   link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
   link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
-  style .footerGfw {display: none !important}
   style
     :stylus
       @require 'css/_base'
+      @require 'css/_critical'
+
+block append head-scripts
   script(src='../vendor/jquery/dist/jquery.min.js')
   script.
     var base = location.pathname.replace(/\/[^/]+$/, '');
@@ -37,6 +39,7 @@ block head
     };
 
 block content
+  +navigation(global.pages, 'map', true)
   include html/_svgAssets.jade
   div#root.layout-content
   div#layer-modal.modal-wrapper.hidden

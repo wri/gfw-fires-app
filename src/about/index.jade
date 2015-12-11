@@ -1,7 +1,9 @@
 extends ../_layout.jade
 
-block head
+block append head-meta
   title #{about.meta.title}
+
+block append head-styles
   style
     :stylus
       @require '../css/_critical-content'
