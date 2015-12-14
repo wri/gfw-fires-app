@@ -18,7 +18,10 @@
 <p>Make sure you are in the project folder you just cloned down and run <pre><code>npm install</code></pre></p>
 
 ### NOTE: For Mac users
-<p>Installing node and any dependencies via ```npm``` may require you to run the commands with ```sudo```.
+<p>Installing node and any dependencies via ```npm``` may require you to run the commands with ```sudo```.</p>
+
+### NOTE: For Apache users
+<p>Warning: If you run this project over an Apache server, it is possible that your server configurations will clash with the project's <strong>.htaccess</strong> file.  If this project is not visible on your web server or you cannot view it in the browser, comment out your <strong>.htaccess</strong> file, <strong> but make sure your edits are not tracked in git</strong>.  Just run <code>git update-index --assume-unchanged .htaccess</code> in the root directory to ensure that any changes you make to the <strong>.htaccess</strong> file will not affect production.</p>
 
 ### Next Steps
 <p>Now that you have all your dependencies installed.  You can start developing.  We are using a task runner to process .styl files.  The task runner has some preconfigured tasks for you to use.
