@@ -10,6 +10,7 @@ class AnalysisStore {
     this.activeCustomArea = null;
     this.activeTab = analysisPanelText.watershedTabId;
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
+    this.analysisToolsVisible = (window.matchMedia('only screen and (max-width: 850px)').matches === true ? false : true);
 
     this.bindListeners({
       clearCustomArea: analysisActions.clearCustomArea,
@@ -18,7 +19,8 @@ class AnalysisStore {
       analyzeCustomArea: analysisActions.analyzeCustomArea,
       setCustomAreaName: analysisActions.setCustomAreaName,
       clearActiveWatershed: analysisActions.clearActiveWatershed,
-      analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed
+      analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed,
+      toggleAnalysisToolsVisiblity: analysisActions.toggleAnalysisToolsVisiblity
     });
   }
 
@@ -50,6 +52,10 @@ class AnalysisStore {
 
   toggleDrawToolbar (status) {
     this.toolbarActive = status;
+  }
+
+  toggleAnalysisToolsVisiblity () {
+    this.analysisToolsVisible = !this.analysisToolsVisible;
   }
 
 }

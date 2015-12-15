@@ -38,9 +38,11 @@ export default class AnalysisTools extends React.Component {
     let customTabActive = this.state.activeTab === text.customTabId;
     let watershedTabActive = this.state.activeTab === text.watershedTabId;
     let showOptions = (this.state.activeWatershed && watershedTabActive) || (this.state.activeCustomArea && customTabActive);
+    let className = 'analysis-tools map-component shadow'
+    if (this.state.analysisToolsVisible === false) { className += ' hidden'; };
 
     return (
-      <div className='analysis-tools map-component shadow'>
+      <div className={className}>
         <div className='analyze-header no-shrink'>
           <svg dangerouslySetInnerHTML={{ __html: analysisSvg }}/>
           <span>{text.analyzeButton}</span>

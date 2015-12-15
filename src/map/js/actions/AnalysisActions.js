@@ -46,6 +46,10 @@ class AnalysisActions {
     this.dispatch(status);
   }
 
+  toggleAnalysisToolsVisiblity () {
+    this.dispatch();
+  }
+
 }
 
 export const analysisActions = alt.createActions(AnalysisActions);

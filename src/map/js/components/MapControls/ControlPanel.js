@@ -10,13 +10,14 @@ let zoomInSvg = '<use xlink:href="#icon-plus" />';
 let zoomOutSvg = '<use xlink:href="#icon-minus" />';
 let shareSvg = '<use xlink:href="#icon-share" />';
 let resetSvg = '<use xlink:href="#icon-reset" />';
+let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 let basemapSvg = '<use xlink:href="#icon-basemap" />';
 let locateSvg = '<use xlink:href="#icon-locate" />';
 
 export default class ControlPanel extends React.Component {
 
   constructor (props) {
-    super(props);
+   super(props);
 
     mapStore.listen(this.storeUpdated.bind(this));
     let defaultState = mapStore.getState();
@@ -47,8 +48,8 @@ export default class ControlPanel extends React.Component {
           <li className='share-map pointer' title='Share' onClick={this.share}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
           </li>
-          <li className='reset-map pointer' title='Reset' onClick={this.reset}>
-            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: resetSvg }}/>
+          <li className='search-map pointer' title='Reset' onClick={this.reset}>
+            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
           </li>
           <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleBasemapGallery.bind(this)}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: basemapSvg }}/>

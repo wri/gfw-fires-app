@@ -16,6 +16,7 @@ class MapStore {
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
+    this.layerPanelVisible = (window.matchMedia('only screen and (max-width: 850px)').matches === true ? false : true);
 
     this.bindListeners({
       setBasemap: mapActions.setBasemap,
@@ -24,7 +25,8 @@ class MapStore {
       changeFiresTimeline: layerActions.changeFiresTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       changeLossToTimeline: layerActions.changeLossToTimeline,
-      changeLossFromTimeline: layerActions.changeLossFromTimeline
+      changeLossFromTimeline: layerActions.changeLossFromTimeline,
+      toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
   }
 
@@ -70,6 +72,10 @@ class MapStore {
 
   updateCanopyDensity (newDensity) {
     this.canopyDensity = newDensity;
+  }
+
+  toggleLayerPanelVisibility () {
+    this.layerPanelVisible = !this.layerPanelVisible;
   }
 
 }

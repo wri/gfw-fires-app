@@ -1,15 +1,16 @@
 // Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
 .control-panel
-  background white
+  background #FFF
   bottom 20px
   right 20px
   width 76px
 
   +below($mq-mobile)
     bottom 10px
-    right initial
-    left 20px
-    width auto
+    right 1em
+    width 48px
+    bottom 70px
+    background rgba(255, 255, 255, .5)
 
   & ul
     border-bottom 1px solid $lightGray
@@ -26,6 +27,9 @@
     display flex
     height 38px
     width 38px
+    +below($mq-mobile)
+      height 48px
+      width 48px
   & li:nth-child(odd)
     +above($mq-mobile)
       border-left 1px solid $lightGray
@@ -40,6 +44,10 @@
   margin auto
   height 25px
   width 25px
+
+  .search-map &
+    height 17px
+    width 17px
 
 .basemap-switcher
   transition all 0.3s ease-in-out
@@ -61,8 +69,9 @@
 
   +below($mq-mobile)
     top initial
-    bottom 40px
-    left 0
+    bottom 0px
+    right 100%
+    margin-right 15px
     height auto
 
 .basemap-item

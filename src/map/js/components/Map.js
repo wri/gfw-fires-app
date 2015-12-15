@@ -1,4 +1,6 @@
 import AnalysisTools from 'components/AnalysisPanel/AnalysisTools';
+import MobileUnderlay from 'components/Mobile/MobileUnderlay';
+import MobileControls from 'components/Mobile/MobileControls';
 import EsriSearch from 'components/AnalysisPanel/EsriSearch';
 import ControlPanel from 'components/MapControls/ControlPanel';
 import LayerPanel from 'components/LayerPanel/LayerPanel';
@@ -30,14 +32,16 @@ export default class Map extends React.Component {
     });
   }
 
+
   render () {
     return (
       <div id={mapConfig.id} className={'map'}>
-        <div id='mobile-underlay' className='mobile-underlay' ></div>
         <LayerPanel loaded={this.state.loaded} />
-        <ControlPanel />
         <EsriSearch loaded={this.state.loaded} />
         <AnalysisTools />
+        <ControlPanel />
+        <MobileUnderlay />
+        <MobileControls />
       </div>
     );
   }

@@ -30,6 +30,10 @@ class LayerActions {
     this.dispatch(selectedIndex);
   }
 
+  toggleLayerPanelVisibility () {
+    this.dispatch();
+  }
+
 }
 
 export const layerActions = alt.createActions(LayerActions);

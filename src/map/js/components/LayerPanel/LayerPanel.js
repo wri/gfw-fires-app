@@ -25,8 +25,11 @@ export default class LayerPanel extends React.Component {
   }
 
   render() {
+    let className = 'layer-panel map-component custom-scroll shadow';
+    if (this.state.layerPanelVisible === false) { className += ' hidden'; };
+
     return (
-      <div className='layer-panel map-component custom-scroll shadow'>
+      <div className={className}>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>

@@ -3,7 +3,7 @@
 
   +below($mq-mobile)
     min-height initial
-    display none
+    display none !important
 
 .footerGfw
   min-height 491px
@@ -102,6 +102,7 @@
   transition $transition
   box-sizing border-box
   padding .5em
+  box-shadow $box-shadow
 
   &.active
     background-color $gfw-red
@@ -142,8 +143,23 @@
   position relative
   z-index $z-logo
 
-.gfw-fires-logo
+.gfw-fires-logo-wrapper
+  display inline-block
   position absolute
+
+  &:after
+    content url(../images/beta.png)
+    position absolute
+    bottom -10px
+    right -5px
+
+.gfw-fires-logo
+  transition $transition
+
+  +below($mq-mobile)
+    height 60px
+    width 60px
+
 
 .gfw-fires-logo-beta
   position absolute
