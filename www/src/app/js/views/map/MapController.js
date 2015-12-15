@@ -1345,12 +1345,12 @@ define([
                 MapConfig.indonesiaLayers.layerIds['noaa18'], value);
         });
 
-        on(registry.byId("burned-scars-checkbox"), "change", function(value) {
-            LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
-            if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');
-            }
-        });
+        // on(registry.byId("burned-scars-checkbox"), "change", function(value) {
+        //     LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
+        //     if (value) {
+        //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');
+        //     }
+        // });
 
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
