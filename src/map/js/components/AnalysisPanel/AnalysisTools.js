@@ -39,7 +39,7 @@ export default class AnalysisTools extends React.Component {
     let watershedTabActive = this.state.activeTab === text.watershedTabId;
     let showOptions = (this.state.activeWatershed && watershedTabActive) || (this.state.activeCustomArea && customTabActive);
     let className = 'analysis-tools map-component shadow'
-    if (this.state.analysisToolsVisible === false) { className += ' hidden'; };
+    if (app.mobile === true && this.state.analysisToolsVisible === false) { className += ' hidden'; };
 
     return (
       <div className={className}>

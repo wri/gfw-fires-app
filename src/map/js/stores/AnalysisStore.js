@@ -10,7 +10,8 @@ class AnalysisStore {
     this.activeCustomArea = null;
     this.activeTab = analysisPanelText.watershedTabId;
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
-    this.analysisToolsVisible = (window.matchMedia('only screen and (max-width: 850px)').matches === true ? false : true);
+    this.analysisToolsVisible = app.mobile === false;
+    this.esriSearchVisible = app.mobile === false;
 
     this.bindListeners({
       clearCustomArea: analysisActions.clearCustomArea,

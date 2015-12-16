@@ -23,7 +23,7 @@ export default class Map extends React.Component {
 
   render () {
     let className = 'mobile-underlay mobile-show';
-    if (window.matchMedia('only screen and (max-width: 850px)').matches === true) {
+    if (app.mobile === true) {
       if (this.state.mapStore.layerPanelVisible === false && this.state.analysisStore.analysisToolsVisible === false) {
         className += ' hidden';
       };

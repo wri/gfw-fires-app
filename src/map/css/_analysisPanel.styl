@@ -1,35 +1,45 @@
 // Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
 .search-tools
-  display flex
-  height 40px
   width 320px
   right 20px
   z-index 6
-  bottom 40%
+  bottom 35%
   left 0px
   right 0px
   margin 0 auto
 
-  & .arcgisSearch
-    margin auto auto 0
-    & .searchBtn
-    & .searchInput
-      outline none
-    & .searchGroup .searchInput
-      font-size 12px
-      border 1px solid #ccc
-      padding-right 20px
-    & .searchBtn
-      display none
-      padding 6px
-    & .searchClear
-      right 3px
+  +below($mq-mobile)
+    width auto
+    top 20px
+    bottom initial
+    left 20px
+    right 1em
+
+  & .search-tab
+    background-color #FFF
+    border 5px solid #FFF
+    font-size .75em
+    margin 0px 3px
+    display inline-block
+
+    &:nth-child(1)
+      margin-left 0px
 
   & .search-input
+    outline none
+    border none
     box-sizing border-box
     height 100%
     width 100%
     padding 10px
+
+  & .search-results
+    max-height 225px
+    overflow auto
+
+    & button
+      width 100%
+      text-align left
 
 .analysis-tools
   max-height calc(100% - 215px)
@@ -38,13 +48,13 @@
   display flex
   width 320px
   right 20px
-  top 150px
+  top 110px
   +below($mq-mobile)
     top initial
     bottom 70px
     left 20px
     right 1em
-    z-index 300
+    z-index 800 //$z-modal
     width auto
   & .no-shrink
     flex-shrink 0

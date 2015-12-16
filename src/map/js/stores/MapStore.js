@@ -16,7 +16,7 @@ class MapStore {
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
-    this.layerPanelVisible = (window.matchMedia('only screen and (max-width: 850px)').matches === true ? false : true);
+    this.layerPanelVisible = app.mobile === false;
 
     this.bindListeners({
       setBasemap: mapActions.setBasemap,

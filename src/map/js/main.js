@@ -17,6 +17,7 @@ if (!babelPolyfill) { console.log('Missing Babel Polyfill.  May experience some 
 // Set up globals
 window.app = {
   debugEnabled: true,
+  mobile: (window.matchMedia === undefined ? false : window.matchMedia('only screen and (max-width: 850px)').matches),
   debug: function (message) {
     if (this.debugEnabled) {
       var print = typeof message === 'string' ? console.log : console.dir;
