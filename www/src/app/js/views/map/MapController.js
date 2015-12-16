@@ -1815,6 +1815,7 @@ define([
             landUseParams,
             landUseLayer,
             treeCoverLayer,
+            fireRiskLayer,
             overlaysLayer,
             burnScarLayer,
             tomnodLayer,
@@ -1893,6 +1894,11 @@ define([
 
         treeCoverLayer = new ArcGISImageServiceLayer(MapConfig.treeCoverLayer.url, {
             id: MapConfig.treeCoverLayer.id,
+            visible: false
+        });
+
+        fireRiskLayer = new ArcGISImageServiceLayer(MapConfig.fireRiskLayer.url, {
+            id: MapConfig.fireRiskLayer.id,
             visible: false
         });
 
@@ -2240,6 +2246,7 @@ define([
         var layerlist = [
             //landSatLayer,
             treeCoverLayer,
+            fireRiskLayer
             landCoverLayer,
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
@@ -2351,6 +2358,7 @@ define([
         burnScarLayer.on('error', this.layerAddError);
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
+        fireRiskLayer.on('error', this.layerAddError);
         primaryForestsLayer.on('error', this.layerAddError);
         conservationLayer.on('error', this.layerAddError);
         landCoverLayer.on('error', this.layerAddError);

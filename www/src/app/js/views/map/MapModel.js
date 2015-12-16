@@ -52,7 +52,7 @@ define([
     vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
     vm.tomnodCheckbox = ko.observable(MapConfig.text.tomnodCheckbox);
 
-    // vm.disableAirQuality = true;
+    vm.disableAirQuality = true;
 
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
