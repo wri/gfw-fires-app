@@ -43,7 +43,7 @@ define([
 
             var s = document.createElement('script'),
                 h = document.getElementsByTagName('head')[0];
-            s.src = 'http://www.globalforestwatch.org/gfw-assets';
+            s.src = 'https://cdn.rawgit.com/simbiotica/gfw_assets/ce0f8ab8893f30aa99160536a9cc212e5bd5753b/src/header-loader.js';
             s.async = true;
             s.setAttribute('data-current', ".shape-fire");
             // Highlight current icon on load
