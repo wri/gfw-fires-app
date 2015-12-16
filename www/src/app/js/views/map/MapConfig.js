@@ -238,6 +238,11 @@ define({
         id: "Tree_Cover_Density"
     },
 
+    fireRiskLayer: {
+        url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer",
+        id: "Fire_Risk"
+    },
+
     burnScarLayer: {
         url: "https://earthbuilder.googleapis.com/06900458292272798243-05939008152464994523-4/maptile/maps?authToken=Cggrqs_EJmdATxCF_b-iBQ==",
         id: "Burn_Scar"
@@ -285,7 +290,7 @@ define({
     },
 
     airQualityLayer: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality/MapServer',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
         id: 'Air_Quality'
     },
 
@@ -504,6 +509,8 @@ define({
         firesSubLabel: "(past 7 days, 1km, global)",
         noaaFiresCheckbox: "NOAA-18 fires",
         noaaSubLabel: "(Oct 22 to present, 1km, Southeast Asia)",
+        fireRiskCheckbox: "Fire risk",
+        riskSubLabel: "(layer starts at 4/2/15)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show <span class='high-confidence-info'>high confidence fires</span>",
@@ -688,6 +695,13 @@ define({
         }, {
             "id": "noaa-fires-18",
             "class": "noaa-checkbox",
+            "type": "checkbox",
+            "props": {
+                // "disabled": "disabled"
+            }
+        }, {
+            "id": "fire-risk",
+            "class": "risk-checkbox",
             "type": "checkbox",
             "props": {
                 // "disabled": "disabled"

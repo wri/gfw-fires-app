@@ -1345,12 +1345,12 @@ define([
                 MapConfig.indonesiaLayers.layerIds['noaa18'], value);
         });
 
-        on(registry.byId("burned-scars-checkbox"), "change", function(value) {
-            LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
-            if (value) {
-                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');
-            }
-        });
+        // on(registry.byId("burned-scars-checkbox"), "change", function(value) {
+        //     LayerController.toggleLayerVisibility(MapConfig.burnScarLayer.id, value);
+        //     if (value) {
+        //         self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Burn Scars layer on.');
+        //     }
+        // });
 
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
@@ -1624,10 +1624,16 @@ define([
                 return;
             }
 
-            var dayPicked = moment(currentDate).format("YYYY/MM/DD");
-            var tomorrow = moment(currentDate).add('days', 1).format("YYYY/MM/DD");
+            var dayPicked = moment(currentDate).format("MM/DD/YYYY");
 
-            var sqlQuery = LayerController.getTimeDefinition("dateUpdated", dayPicked, tomorrow);
+
+            var start = dayPicked.split('/');
+            start[0] = parseInt(start[0]);
+            start[1] = parseInt(start[1]);
+
+            dayPicked = start.join('/');
+
+            var sqlQuery = "Date LIKE '" + dayPicked + "%'";
 
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.airQualityLayer.id), 1, sqlQuery);
 
@@ -1803,12 +1809,13 @@ define([
             digitalGlobeLayers,
             landCoverParams,
             landCoverLayer,
-            // airQualityLayer,
+            airQualityLayer,
             forestUseParams,
             forestUseLayer,
             landUseParams,
             landUseLayer,
             treeCoverLayer,
+            fireRiskLayer,
             overlaysLayer,
             burnScarLayer,
             tomnodLayer,
@@ -1890,6 +1897,11 @@ define([
             visible: false
         });
 
+        fireRiskLayer = new ArcGISImageServiceLayer(MapConfig.fireRiskLayer.url, {
+            id: MapConfig.fireRiskLayer.id,
+            visible: false
+        });
+
         primaryForestsParams = new ImageParameters();
         primaryForestsParams.format = "png32";
         primaryForestsParams.layerIds = MapConfig.primaryForestsLayer.defaultLayers;
@@ -1922,10 +1934,10 @@ define([
             visible: false
         });
 
-        // airQualityLayer = new ArcGISDynamicMapServiceLayer(MapConfig.airQualityLayer.url, {
-        //     id: MapConfig.airQualityLayer.id,
-        //     visible: false
-        // });
+        airQualityLayer = new ArcGISDynamicMapServiceLayer(MapConfig.airQualityLayer.url, {
+            id: MapConfig.airQualityLayer.id,
+            visible: false
+        });
 
         tomnodParams = new ImageParameters();
         tomnodParams.layerIds = MapConfig.tomnodLayer.defaultLayers;
@@ -2234,6 +2246,7 @@ define([
         var layerlist = [
             //landSatLayer,
             treeCoverLayer,
+            fireRiskLayer
             landCoverLayer,
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
@@ -2248,7 +2261,7 @@ define([
             overlaysLayer,
             tweetLayer,
             fireStories,
-            //airQualityLayer,
+            airQualityLayer,
             tomnodSellayer,
             firesViz,
             firesVizCluster,
@@ -2345,6 +2358,7 @@ define([
         burnScarLayer.on('error', this.layerAddError);
         landSatLayer.on('error', this.layerAddError);
         treeCoverLayer.on('error', this.layerAddError);
+        fireRiskLayer.on('error', this.layerAddError);
         primaryForestsLayer.on('error', this.layerAddError);
         conservationLayer.on('error', this.layerAddError);
         landCoverLayer.on('error', this.layerAddError);
@@ -2356,7 +2370,7 @@ define([
         fireStories.on('error', this.layerAddError);
 
         //digitalGlobeLayer.on('error', this.layerAddError);
-        //airQualityLayer.on('error', this.layerAddError);
+        airQualityLayer.on('error', this.layerAddError);
 
         // Change the Land Sat layer order to be right above the basemap but below everything else
         landSatLayer.on('load', function() {

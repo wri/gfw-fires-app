@@ -3,3 +3,4 @@ www/node_modules
 *.sublime-workspace
 *.sublime-project
 www/src/proxy
+.htaccess

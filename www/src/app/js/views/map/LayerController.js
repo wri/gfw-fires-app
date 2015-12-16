@@ -62,7 +62,7 @@ define([
         },
 
         refreshLegend: function() {
-            
+
             var legendLayer = _map.getLayer(MapConfig.landCoverLayers.id),
                 visibleLayers,
                 layerDrawingOption = new esri.layers.LayerDrawingOptions(),
@@ -76,7 +76,7 @@ define([
                 visibleLayers = [];
             }
 
-            
+
             layerDrawingOption.transparency = 0;
 
             if (_map.getLayer(MapConfig.treeCoverLayer.id).visible) {
@@ -178,8 +178,10 @@ define([
             // layerdefinitions[0] = definition;
             // layerdefinitions[1] = definition;
             layerdefinitions[layerId] = definition;
+            console.log(layerdefinitions)
 
             dynamicMapService.setLayerDefinitions(layerdefinitions);
+
             if (dynamicMapService.id === "Air_Quality") {
                 dynamicMapService.setVisibleLayers([1]);
                 this.refreshLegend();
