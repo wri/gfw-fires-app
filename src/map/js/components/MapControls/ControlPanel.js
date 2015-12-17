@@ -1,5 +1,6 @@
 import {prepareStateForUrl} from 'helpers/ShareHelper';
 import {modalActions} from 'actions/ModalActions';
+import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
 import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
@@ -48,7 +49,7 @@ export default class ControlPanel extends React.Component {
           <li className='share-map pointer' title='Share' onClick={this.share}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
           </li>
-          <li className='search-map pointer' title='Reset' onClick={this.reset}>
+          <li className='search-map pointer' title='Reset' onClick={this.toggleSearch}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
           </li>
           <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleBasemapGallery.bind(this)}>
@@ -98,6 +99,10 @@ export default class ControlPanel extends React.Component {
 
   locateMe () {
     mapActions.zoomToUserLocation();
+  }
+
+  toggleSearch () {
+    analysisActions.toggleEsriSearchVisibility();
   }
 
 }

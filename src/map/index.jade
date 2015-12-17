@@ -36,7 +36,20 @@ block append head-scripts
         ['formsy-react', 'vendor/formsy-react/release/formsy-react']
       ],
       deps: ['dojo/domReady!'],
-      callback: function () {require(['js/main']);}
+      callback: function () {
+        // Set up globals
+        window.app = {
+          debugEnabled: true,
+          mobile: function () {return (window.matchMedia === undefined ? false : window.matchMedia('only screen and (max-width: 850px)').matches)},
+          debug: function (message) {
+            if (this.debugEnabled) {
+              var print = typeof message === 'string' ? console.log : console.dir;
+              print.apply(console, [message]);
+            }
+          }
+        };
+        require(['js/main']);
+      }
     };
 
 block content

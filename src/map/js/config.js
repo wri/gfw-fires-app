@@ -310,41 +310,17 @@ export const config = {
       }
     },
     analysisPanel: {
-      searchAllPlaceholder: 'Search by river, watershed, or city',
-      searchEsriPlaceholder: 'Search by city',
-      searchWatershedPlaceholder: 'Search by watershed',
-      sourceName: 'Watersheds',
+      searchPlaceholder: 'Search for a location',
       searchWidgetId: 'esri-search-widget',
       analyzeButton: 'Analyze Fires',
-      watershedTabId: 'currentWatershed', // Can be anything as long as its different from analysisTabId
-      watershedTabLabel: 'Current Watershed',
-      watershedTabPlaceholder: 'To analyze, use the search bar to find your watershed or click on your watershed via the map.',
-      customTabId: 'customWatershed',
-      customTabLabel: 'Custom Area',
-      clearAnalysisButton: 'Clear Analysis',
-      getAlertsButton: 'Get Alerts',
-      pointType: 'point',
-      lossFootnote: '* Tree cover loss ',
-      customAnalysisText: 'To further refine your results go to ',
-      customAnalysisLink: 'Custom Area',
-      fullReportButton: 'Full Report',
-      watershedSummeryInfo: 'Watershed Risk Summary',
-      addPointButton: 'Add point',
-      latLngInstructions: 'Enter latitude & longitude',
-      latLngGoButton: 'Go',
-      latPlaceholder: 'Lat',
-      lonPlaceholder: 'Lon',
-      invalidLatLng: 'You did not provide a valid latitude(-90 to 90) or longitude(-180 to 180). Please try again.',
-      customAreaNamePlaceholder: 'Custom Area',
-      chartLookup: {
-        0: 'No Risk',
-        1: 'Low Risk',
-        2: 'Low - Medium Risk',
-        3: 'Medium Risk',
-        4: 'Medium - High Risk',
-        5: 'Extreme Risk'
-      },
-      getWatershedTitle: feature => (feature.attributes && feature.attributes.maj_name) || 'No Name'
+
+      areaTabId: 'areaTab',
+      areaTabLabel: 'Area',
+      areaIslands: ['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java'],
+
+      timeframeTabId: 'timeframeTab',
+      timeframeLabel: 'Timefame'
+
     },
     controlPanel: {
       wriBasemap: 'WRI',

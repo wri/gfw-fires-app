@@ -26,7 +26,7 @@ export default class LayerPanel extends React.Component {
 
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
-    if (app.mobile === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
+    if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
 
     return (
       <div className={className}>

@@ -16,19 +16,10 @@ let generateSearchWidget = (component) => {
     autoNavigate: true,
     enableHighlight: false,
     showInfoWindowOnSelect: false,
-    allPlaceholder: analysisPanelText.searchAllPlaceholder,
     enableSourcesMenu: false
   }, analysisPanelText.searchWidgetId);
 
   searchWidget.startup();
-
-  searchWidget.on('select-result', evt => {
-    console.debug('select-result', evt);
-  });
-
-  searchWidget.on('select-results', evt => {
-    console.debug('select-results', evt);
-  });
 
   searchWidget.on('suggest-results', evt => {
     component.setState({ suggestResults: searchWidget.suggestResults === null ? [] : searchWidget.suggestResults[0].map((r) => r.text) });
@@ -78,11 +69,13 @@ export default class EsriSearch extends React.Component {
   suggestionSearch(evt) {
     this.state.searchWidget.search(evt.target.textContent);
     this.setState({ suggestResults: [] });
+    analysisActions.toggleEsriSearchVisibility();
   }
 
   render() {
     let className = 'search-tools map-component';
-    if (app.mobile === true && this.state.esriSearchVisible === false) { className += ' hidden'; };
+    if (this.state.esriSearchVisible === false) { className += ' hidden'; };
+
     return (
       <div className={className}>
         <div>
@@ -91,7 +84,7 @@ export default class EsriSearch extends React.Component {
           <button className='search-tab' onClick={() => this.setState({ visibleTab: 2 })}>Decimal degrees</button>
         </div>
         <div className={this.state.visibleTab === 0 ? '' : 'hidden'}>
-          <input className='search-input' type='text' placeholder='Search for a location' value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.enter.bind(this)} />
+          <input className='search-input' type='text' placeholder={analysisPanelText.searchPlaceholder}  value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.enter.bind(this)} autoFocus/>
           <div className='search-results'>
             {this.state.suggestResults.map((r, i) => (
               <div><button onClick={this.suggestionSearch.bind(this)}>{r}</button></div>

@@ -8,10 +8,10 @@ class AnalysisStore {
     this.toolbarActive = false;
     this.activeWatershed = null;
     this.activeCustomArea = null;
-    this.activeTab = analysisPanelText.watershedTabId;
+    this.activeTab = analysisPanelText.areaTabId;
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
-    this.analysisToolsVisible = app.mobile === false;
-    this.esriSearchVisible = app.mobile === false;
+    this.esriSearchVisible = false;
+    this.analysisToolsVisible = app.mobile() === false;
 
     this.bindListeners({
       clearCustomArea: analysisActions.clearCustomArea,
@@ -21,7 +21,8 @@ class AnalysisStore {
       setCustomAreaName: analysisActions.setCustomAreaName,
       clearActiveWatershed: analysisActions.clearActiveWatershed,
       analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed,
-      toggleAnalysisToolsVisiblity: analysisActions.toggleAnalysisToolsVisiblity
+      toggleAnalysisToolsVisiblity: analysisActions.toggleAnalysisToolsVisiblity,
+      toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility
     });
   }
 
@@ -57,6 +58,10 @@ class AnalysisStore {
 
   toggleAnalysisToolsVisiblity () {
     this.analysisToolsVisible = !this.analysisToolsVisible;
+  }
+
+  toggleEsriSearchVisibility () {
+    this.esriSearchVisible = !this.esriSearchVisible;
   }
 
 }

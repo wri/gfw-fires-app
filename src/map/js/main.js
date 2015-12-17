@@ -14,18 +14,6 @@ import React from 'react';
 
 if (!babelPolyfill) { console.log('Missing Babel Polyfill.  May experience some weirdness in IE < 9.'); }
 
-// Set up globals
-window.app = {
-  debugEnabled: true,
-  mobile: (window.matchMedia === undefined ? false : window.matchMedia('only screen and (max-width: 850px)').matches),
-  debug: function (message) {
-    if (this.debugEnabled) {
-      var print = typeof message === 'string' ? console.log : console.dir;
-      print.apply(console, [message]);
-    }
-  }
-};
-
 // Shim for rAF with timeout for callback
 window.requestAnimationFrame = (function () {
   return window.requestAnimationFrame ||

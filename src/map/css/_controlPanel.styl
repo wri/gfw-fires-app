@@ -35,8 +35,12 @@
       border-left 1px solid $lightGray
   & li:active
     background $lightGrayHighlight
+    +below($mq-mobile)
+      background #FFF
   & li:hover
     background $lightGrayHighlight
+    +below($mq-mobile)
+      background #FFF
 
 .panel-icon
   fill $darkGray

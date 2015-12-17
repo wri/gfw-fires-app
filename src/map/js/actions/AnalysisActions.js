@@ -50,6 +50,10 @@ class AnalysisActions {
     this.dispatch();
   }
 
+  toggleEsriSearchVisibility () {
+    this.dispatch();
+  }
+
 }
 
 export const analysisActions = alt.createActions(AnalysisActions);
