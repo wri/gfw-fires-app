@@ -372,10 +372,15 @@ define({
                 'type': 'checkbox'
             }
         },
+        'Fire_Risk': {
+            'id': "fire-risk-checkbox",
+            'type': 'checkbox'
+        },
         'Burn_Scar': {
             'id': "burned-scars-checkbox",
             'type': 'checkbox'
         },
+
         'Tomnod': {
             'id': "tomnod-checkbox",
             'type': 'checkbox'
@@ -505,12 +510,12 @@ define({
         searchOptionGoButton: "GO",
         clearSearchPins: "Clear Pins",
         legend: "Legend",
-        firesCheckbox: "NASA active fires",
-        firesSubLabel: "(past 7 days, 1km, global)",
+        firesCheckbox: "Active fires",
+        firesSubLabel: "(last 7 days, 1km, global, NASA)",
         noaaFiresCheckbox: "NOAA-18 fires",
-        noaaSubLabel: "(Oct 22 to present, 1km, Southeast Asia)",
+        noaaSubLabel: "(daily, 1.1km, Meteorological Service Singapore)",
         fireRiskCheckbox: "Fire risk",
-        riskSubLabel: "(layer starts at 4/2/15)",
+        riskSubLabel: "(layer starts at 4/3/15)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show <span class='high-confidence-info'>high confidence fires</span>",
@@ -523,19 +528,22 @@ define({
         oilPalmCheckbox: "Oil palm concessions",
         rspoOilPalmCheckbox: "RSPO oil palm concessions",
         woodFiberCheckbox: "Wood fiber plantations",
-        loggingCheckbox: "Logging concessions",
+        loggingCheckbox: "Managed forests",
+        loggingCheckboxSubLabel: "(Indonesia)",
         protectedAreasCheckbox: "Protected areas",
+        protectedAreasCheckboxSubLabel: "(WDPA)",
         indicativeMoratoriumCheckbox: "Indonesia forest moratorium area",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
-        tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
+        // tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
+        tomnodCheckbox: "Crowdsourced fires<br> <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Indonesia, Tomnod)</a>",
         //tomnodLink: "tomnodLinkClass",
         peatLandsRadio: "Peatlands",
-        treeCoverDensityRadio: "Tree cover density",
+        treeCoverDensityRadio: "Tree cover",
         primaryForestsRadio: "Primary forests",
         southeastLandCoverRadio: "Land Cover - Southeast Asia",
-        peatLandsSubLabel: "(year 2002, Indonesia)",
-        treeCoverDensitySubLabel: "(2000, Hansen/UMD/Google/USGS/NASA)",
-        primaryForestsSubLabel: "(2000 - 2012, 30m, Indonesia)",
+        peatLandsSubLabel: "(SE Asia)",
+        treeCoverDensitySubLabel: "(2000, 30m, Hansen/UMD/Google/USGS/NASA)",
+        primaryForestsSubLabel: "(2000, 30m, Indonesia)",
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
         forestUseCheckboxSubLabelSelect: "(varies, select countries)",
         rspoOilPalmCheckboxSubLabel: "(May 2013, select countries)",
@@ -550,12 +558,13 @@ define({
 
         airQuality: "Air quality",
         windDirection: "Wind direction",
-        digitalGlobeCheckbox: "Digital Globe - First Look",
+        digitalGlobeCheckbox: "Digital Globe",
         digitalGlobeFootprintsCheckbox: "Display footprints",
         digitalGlobeWindowText: "Digital Globe - First Look Imagery",
-        landsatImageCheckbox: "Latest Landsat 8 imagery",
+        firesRiskText: "Select a day to view",
+        landsatImageCheckbox: "Latest Landsat 8",
         landsatImageSubLabel: "(latest image, 30m, global)",
-        twitterConversationsCheckbox: "Twitter conversations",
+        twitterConversationsCheckbox: "Twitter",
         fireStoriesCheckbox: "Fire Stories",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
@@ -619,7 +628,7 @@ define({
             }, {
                 "id": "forest-use-panel",
                 "props": {
-                    "title": "Forest Use"
+                    "title": "Land Use"
                 }
             }, {
                 "id": "conservation-panel",
@@ -644,7 +653,7 @@ define({
             }, {
                 "id": "social-media-panel",
                 "props": {
-                    "title": "Social Media"
+                    "title": "Stories"
                 }
             }]
         },
@@ -733,6 +742,13 @@ define({
             "class": "fires-confidence-checkbox",
             "type": "radio",
             "props": {}
+        }, {
+            "id": "fire-risk-checkbox",
+            "class": "fire-risk-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "fireRisk"
+            }
         }, {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",

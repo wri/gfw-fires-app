@@ -1352,6 +1352,8 @@ define([
         //     }
         // });
 
+
+
         on(registry.byId("landsat-image-checkbox"), "change", function(evt) {
             var value = registry.byId("landsat-image-checkbox").checked;
             LayerController.toggleLayerVisibility(MapConfig.landsat8.id, value);
@@ -1451,6 +1453,16 @@ define([
 
         });
 
+        on(registry.byId("fire-risk-checkbox"), "change", function(value) {
+            LayerController.toggleLayerVisibility(MapConfig.fireRiskLayer.id, value);
+            if (value) {
+                MapModel.vm.showReportOptionsRisk(true);
+                self.reportAnalyticsHelper('layer', 'toggle', 'The user toggled the Fire Risk layer on.');
+            } else {
+                MapModel.vm.showReportOptionsRisk(false);
+            }
+        });
+
 
         on(dom.byId("noaa-fires-18"), "click", function() {
             if (this.getAttribute("aria-checked") == "false") {
@@ -1510,6 +1522,57 @@ define([
             var sqlQuery = LayerController.getTimeDefinition("Date", reportdateFrom, reportdateTo);
 
             LayerController.updateDynamicMapServiceLayerDefinition(o.map.getLayer(MapConfig.indonesiaLayers.id), MapConfig.indonesiaLayers.layerIds['noaa18'], sqlQuery);
+        });
+
+        on(dom.byId('updateRisk'), 'click', function() {
+            var date = MapModel.vm.fireRiskObserv();
+
+            var currentDate = $("#fireRiskDate").datepicker("getDate");
+
+            date = moment(currentDate).tz('Asia/Jakarta').format("M/D/YYYY");
+
+            var year = currentDate.getFullYear();
+            var janOne = new Date(year + ' 01 01');
+            var origDate = moment(janOne).tz('Asia/Jakarta').format("M/D/YYYY");
+
+
+            function parseDate(str) {
+                var mdy = str.split('/');
+                return new Date(mdy[2], mdy[0]-1, mdy[1]);
+            }
+
+            function daydiff(first, second) {
+                return Math.round((second-first)/(1000*60*60*24));
+            }
+
+            function isLeapYear(year) {
+                if((year & 3) != 0) {
+                    return false;
+                }
+                return ((year % 100) != 0 || (year % 400) == 0);
+            };
+
+            var julian = daydiff(parseDate(origDate), parseDate(date));
+            var month = currentDate.getMonth();
+            if (month > 1 && isLeapYear(year)) {
+              julian++;
+            }
+
+            if (julian.toString().length === 1) {
+              julian = "00" + julian.toString();
+            } else if (julian.toString().length === 2) {
+              julian = "0" + julian.toString();
+            } else {
+              julian = julian.toString();
+            }
+            console.log(julian);
+
+            var defQuery = year.toString() + julian + "_IDN_FireRisk";
+
+            console.log("Name = '" + defQuery + "'");
+            var riskLayer = o.map.getLayer(MapConfig.fireRiskLayer.id);
+            riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
+
         });
 
         on(dom.byId('updateINDO'), 'click', function() {
@@ -2246,11 +2309,11 @@ define([
         var layerlist = [
             //landSatLayer,
             treeCoverLayer,
-            fireRiskLayer
+            fireRiskLayer,
             landCoverLayer,
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
-            digitalGlobeGraphicsHighlight,
+            digitalGlobeGraphicsHighlight
             //smartMappingHexagons
         ].concat(digitalGlobeLayers).concat([ //add all dg image layers here
             conservationLayer,
