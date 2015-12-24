@@ -1,4 +1,6 @@
 import TabControls from 'components/AnalysisPanel/TabControls';
+import AnalysisTimeframe from 'components/AnalysisPanel/AnalysisTimeframe';
+import AnalysisArea from 'components/AnalysisPanel/AnalysisArea';
 import {analysisActions} from 'actions/AnalysisActions';
 import {analysisPanelText as text} from 'js/config';
 import {analysisStore} from 'stores/AnalysisStore';
@@ -13,6 +15,7 @@ export default class AnalysisTools extends React.Component {
 
   constructor (props) {
     super(props);
+    analysisActions.setAreas();
     analysisStore.listen(this.storeUpdated.bind(this));
     let defaultState = analysisStore.getState();
     this.state = defaultState;
@@ -43,13 +46,13 @@ export default class AnalysisTools extends React.Component {
           <svg dangerouslySetInnerHTML={{ __html: analysisSvg }}/>
           <span>{text.analyzeButton}</span>
         </div>
-
         <TabControls activeTab={this.state.activeTab} />
         <div className='tab-container custom-scroll'>
-          TODO: query for provinces and island for analysisStore, reference www/src/app/js/views/report/ReportOptionsController.js
+          <AnalysisTimeframe {...this.state} />
+          <AnalysisArea {...this.state} />
         </div>
-        <div className={`no-shrink analysis-footer flex`}>
-          <button>Run Analysis</button>
+        <div className='no-shrink analysis-footer text-center'>
+          <button className='gfw-btn blue'>Run Analysis</button>
         </div>
       </div>
     );

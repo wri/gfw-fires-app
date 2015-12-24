@@ -9,11 +9,21 @@ for color in $colors
   .back-{color[0]}
     background-color color[1]
 
+.fill
+  &, &__wide
+    width 100%
+
+  &, &__long
+    height 100%
+
 .pointer
   cursor pointer
 
 .text-center
   text-align center
+
+.text-right
+  text-align right
 
 .absolute
   position absolute
@@ -51,3 +61,12 @@ for color in $colors
 
 .hidden
   display none
+
+.padding
+  padding 10px
+
+.flex
+  display flex
+
+.flex-justify-around
+  justify-content space-around

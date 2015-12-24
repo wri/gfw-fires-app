@@ -43,7 +43,10 @@ export const config = {
   defaults: {
     canopyDensity: 30,
     lossFromSelectIndex: 0,
-    activeBasemap: KEYS.wriBasemap
+    activeBasemap: KEYS.wriBasemap,
+    corsEnabledServers: [
+      'gis-potico.wri.org'
+    ]
   },
 
   /**
@@ -64,30 +67,6 @@ export const config = {
   * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
   */
   layers: [
-    //{
-    //  id: KEYS.wetlands,
-    //  order: 6,
-    //  type: 'dynamic',
-    //  label: 'Wetlands',
-    //  group: 'watershed',
-    //  className: 'wetlands',
-    //  url: 'http://gis-gfw.wri.org/arcgis/rest/services/hydrology/MapServer',
-    //  layerIds: [2]
-    //},
-    //{
-    //  id: KEYS.treeCover,
-    //  order: 5,
-    //  type: 'image',
-    //  label: 'Tree cover',
-    //  sublabel: '(year 2000, 30m global, Hansen/UMD/Google/USGS/NASA)',
-    //  group: 'watershed',
-    //  className: 'tree-cover',
-    //  url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
-    //  colormap: [[1, 174, 203, 107]],
-    //  inputRange: [30, 101],
-    //  outputRange: [1],
-    //  opacity: 0.8
-    //},
     {
       id: KEYS.oilPalm,
       order: 7,
@@ -248,16 +227,16 @@ export const config = {
   },
 
   analysis: {
-    upstream: {
-      url: 'http://utility.arcgis.com/usrsvcs/appservices/epPvpBkwsBSgIYCd/rest/services/Tools/Hydrology/GPServer/Watershed',
-      params: {
-        f: 'json',
-        Generalize: true,
-        SnapDistance: 5000,
-        SnapDistanceUnits: 'Meters'
+    searchZoomDefault: 10,
+    requests: {
+      islands: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ISLAND',
+        callback: 'callback'
       },
-      outputSR: 102100,
-      jobId: 'WatershedArea'
+      provinces: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
+        callback: 'callback'
+      }
     }
   },
 
@@ -313,14 +292,11 @@ export const config = {
       searchPlaceholder: 'Search for a location',
       searchWidgetId: 'esri-search-widget',
       analyzeButton: 'Analyze Fires',
-
       areaTabId: 'areaTab',
       areaTabLabel: 'Area',
       areaIslands: ['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java'],
-
       timeframeTabId: 'timeframeTab',
       timeframeLabel: 'Timefame'
-
     },
     controlPanel: {
       wriBasemap: 'WRI',

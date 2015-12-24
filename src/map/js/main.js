@@ -4,8 +4,9 @@ import ShareModal from 'components/Modals/ShareModal';
 //import AlertsModal from 'components/Modals/AlertsModal';
 import CanopyModal from 'components/Modals/CanopyModal';
 import {loadCSS, loadJS} from 'utils/loaders';
-import {assetUrls} from 'js/config';
+import {assetUrls, defaults} from 'js/config';
 import Map from 'components/Map';
+import esriConfig from 'esri/config';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
@@ -35,6 +36,7 @@ let lazyloadAssets = () => {
 
 let configureApp = () => {
   app.debug('main >>> configureApp');
+  defaults.corsEnabledServers.forEach((server) => {esriConfig.defaults.io.corsEnabledServers.push(server)});
 };
 
 let initializeApp = () => {

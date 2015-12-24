@@ -12,6 +12,9 @@ class AnalysisStore {
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
+    this.areaIslandsActive = false;
+    this.islands = [];
+    this.provinces = [];
 
     this.bindListeners({
       clearCustomArea: analysisActions.clearCustomArea,
@@ -22,7 +25,9 @@ class AnalysisStore {
       clearActiveWatershed: analysisActions.clearActiveWatershed,
       analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed,
       toggleAnalysisToolsVisiblity: analysisActions.toggleAnalysisToolsVisiblity,
-      toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility
+      toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility,
+      setAreas: analysisActions.setAreas,
+      toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive
     });
   }
 
@@ -62,6 +67,15 @@ class AnalysisStore {
 
   toggleEsriSearchVisibility () {
     this.esriSearchVisible = !this.esriSearchVisible;
+  }
+
+  setAreas (areas) {
+    this.islands = areas.islands;
+    this.provinces = areas.provinces;
+  }
+
+  toggleAreaIslandsActive() {
+    this.areaIslandsActive = !this.areaIslandsActive;
   }
 
 }

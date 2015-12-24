@@ -1,6 +1,8 @@
 import GraphicsHelper from 'helpers/GraphicsHelper';
-import {analysisPanelText} from 'js/config';
+import {analysisConfig, analysisPanelText} from 'js/config';
+import esriRequest from 'esri/request';
 import registry from 'dijit/registry';
+import all from 'dojo/promise/all';
 import alt from 'js/alt';
 
 class AnalysisActions {
@@ -52,6 +54,23 @@ class AnalysisActions {
 
   toggleEsriSearchVisibility () {
     this.dispatch();
+  }
+
+  toggleAreaIslandsActive () {
+    app.debug('AnalysisActions >>> toggleAreaIslandsActive');
+    this.dispatch();
+  }
+
+  setAreas () {
+    all({
+      islands: esriRequest(analysisConfig.requests.islands),
+      provinces: esriRequest(analysisConfig.requests.provinces)
+    }).then((responses) => {
+      this.dispatch({
+        islands: responses.islands.features.map((f) => f.attributes.ISLAND),
+        provinces: responses.provinces.features.map((f) => f.attributes.PROVINCE)
+      });
+    });
   }
 
 }

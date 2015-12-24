@@ -18,6 +18,9 @@ body
 a
   color $gfwBlue
 
+button
+  border none
+
 .hidden
   display none !important
 
@@ -88,12 +91,13 @@ a
   top 0
 
 .gfw-btn
-  transition background 0.15s linear
+  transition background 0.15s linear, opacity .15s linear
   border-radius 35px
   text-align center
   line-height 36px
   padding 0 15px
   height 36px
+  opacity 1
   &.sml
     line-height 24px
     font-size 10px
@@ -109,6 +113,8 @@ a
     color $darkGray
     &:hover
       background darken(white, 10%)
+  &[disabled]
+    opacity .25
 
 @media (min-width: 850px)
   .mobile-hide

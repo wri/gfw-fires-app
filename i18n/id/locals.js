@@ -11,7 +11,7 @@
       pages: [
         {name: 'home', label: 'GFW FIRES', href: '/en/home'},
         {name: 'map', label: 'MAP', href: '/en/map'},
-        {name: 'data', label: 'DATA', href: '/en/data'},
+        //{name: 'data', label: 'DATA', href: '/en/data'},
         {name: 'about', label: 'LEARN MORE', href: '/en/about'},
         {name: 'story', label: 'STORY', href: '/en/story'}
       ]

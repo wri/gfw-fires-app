@@ -8,6 +8,7 @@
     "react": "~0.14.2",
     "normalize.css": "~3.0.3",
     "babel-polyfill": "~0.0.1",
-    "react-motion": "~0.3.1"
+    "react-motion": "~0.3.1",
+    "kalendae": "~0.4.1"
   }
 }

@@ -102,6 +102,10 @@ class MapActions {
     }
   }
 
+  centerAndZoomLatLng (lat, lng, zoomLevel) {
+    app.map.centerAndZoom(new Point(lng, lat), zoomLevel);
+  }
+
   reset () {
     app.debug('MapActions >>> reset');
     // Reset the Store, this will also reset layers, layer definitions, and all React components

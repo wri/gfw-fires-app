@@ -3,7 +3,7 @@
   width 320px
   right 20px
   z-index 6
-  bottom 35%
+  top 60%
   left 0px
   right 0px
   margin 0 auto
@@ -17,23 +17,51 @@
     right 1em
     z-index 800 // $z-modal
 
+  & .search-submit-button
+    color #FFF
+    border-radius 0
+
   & .search-tab
     background-color #FFF
-    border 5px solid #FFF
+    border none
+    border-bottom 5px solid #FFF
     font-size .75em
     margin 0 3px
-    padding 0
+    padding 5px 5px 0px 5px
     display inline-block
+    transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
+    outline none
+
+    &.active
+    &:active
+      color #e7002f // $gfw-red
+      border-color #e7002f // $gfw-red
+
+    &:active
+    &:hover
+    &:focus
+      color #e7002f // $gfw-red
 
     &:nth-child(1)
-      margin-left 0px
+      margin-left 0
+
+    &:nth-child(3)
+      margin-right 0
+
+  & .search-magnifier
+    height 17px
+    width 17px
+    fill #555
+
+  & .search-input-container
+    display flex
+    flex-direction row
 
   & .search-input
     outline none
     border none
     box-sizing border-box
     height 100%
-    width 100%
     padding 10px
 
   & .search-results
@@ -41,13 +69,31 @@
     max-height 225px
     overflow auto
     position absolute
+    background-color rgba(255, 255, 255, .8)
 
     & button
       width 100%
       text-align left
-      background-color rgba(255, 255, 255, .8)
+      background none
       border none
       border-bottom 1px solid #CCC
+
+  & .search-coordinates
+    display flex
+    width 100%
+    justify-content space-between
+    align-items center
+
+    & input
+      width 3em
+      padding-right 0
+
+    & div:nth-child(3) input
+      width 5em
+
+
+    & select
+      margin-right 10px
 
 .analysis-tools
   max-height calc(100% - 215px)
@@ -78,6 +124,8 @@
   width 50%
 
 .analysis-footer
+  padding 10px
+
   & svg
     fill $darkGray
     margin 0 5px
