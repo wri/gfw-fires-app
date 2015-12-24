@@ -15,7 +15,3 @@ vendor
 node_modules
 npm-debug.log
 .DS_Store
-
-# Ignore any generated content to prevent conflicts when multiple people develop
-*.html
-*.css
