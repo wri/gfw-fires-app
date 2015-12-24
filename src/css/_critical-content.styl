@@ -41,6 +41,20 @@ h3
     border-top 1px solid #e5e5df
     border-left 1px solid #e5e5df
 
+    &.selected
+      background #fff
+      box-shadow 2px 0 0 0px #FFF
+
+    &.selected:after
+      content ""
+      position absolute
+      display block
+      bottom 0%
+      left 0px
+      width 100%
+      height 4px
+      background rgba(151,189,61,0.5)
+
 .content-menu
   width 270px
 
