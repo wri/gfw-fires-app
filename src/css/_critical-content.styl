@@ -29,7 +29,7 @@ h3
 .content-aside
   padding 1em 0 1em 1em
 
-  ul li
+  li
     text-align center
     color #555555
     background #f7f7f7
@@ -41,11 +41,11 @@ h3
     border-top 1px solid #e5e5df
     border-left 1px solid #e5e5df
 
-    &.selected
+    &.active
       background #fff
       box-shadow 2px 0 0 0px #FFF
 
-    &.selected:after
+    &.active:after
       content ""
       position absolute
       display block
@@ -55,13 +55,26 @@ h3
       height 4px
       background rgba(151,189,61,0.5)
 
+    +below($mq-mobile)
+      border-right 1px solid #e5e5df
+      box-shadow none
+
+  li:last-child
+    border-bottom 1px solid #e5e5df
+
 .content-menu
   width 270px
+
+  +below($mq-mobile)
+    width 100%
 
 .content-body
   padding 2em 2em 1em 2em
   border-left 1px solid #e5e5df
   color #555555
+
+  +below($mq-mobile)
+    border-left none
 
   h2
     padding 0
