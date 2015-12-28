@@ -55,15 +55,15 @@ block content
     ];
     var menuItems = [].slice.call(document.querySelectorAll('#menu li'));
 
-    document.addEventListener("DOMContentLoaded", function(event) {
+    document.addEventListener('DOMContentLoaded', function(event) {
       menuItems.forEach(function(item, index) {
         item.onclick = function () {
 
           menuItems.forEach(function(item){
-            item.classList.remove("active");
+            item.classList.remove('active');
           });
 
-          this.classList.add("active");
+          this.classList.add('active');
 
           links.forEach(function(link) {
             document.getElementById(link).className = document.getElementById(link).className.replace('active', '');
