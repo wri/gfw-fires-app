@@ -21,12 +21,10 @@ block content
     div.content-container
       div.content-aside
         div.content-menu
-          ul
-            li#title-link LEARN MORE
           ul#menu
-            li ABOUT GFW FIRES
-            li FOREST FIRES AND THEIR IMPACT
-            li THE GFW PARTNERSHIP
+            li.pointer.active ABOUT GFW FIRES
+            li.pointer FOREST FIRES AND THEIR IMPACT
+            li.pointer THE GFW PARTNERSHIP
 
       div.content-body
         div#one.content-subpage.active
@@ -55,10 +53,18 @@ block content
       'two',
       'three'
     ];
+    var menuItems = [].slice.call(document.querySelectorAll('#menu li'));
 
-    document.addEventListener("DOMContentLoaded", function(event) {
-      [].forEach.call(document.getElementById('menu').children, function(item, index) {
+    document.addEventListener('DOMContentLoaded', function(event) {
+      menuItems.forEach(function(item, index) {
         item.onclick = function () {
+
+          menuItems.forEach(function(item){
+            item.classList.remove('active');
+          });
+
+          this.classList.add('active');
+
           links.forEach(function(link) {
             document.getElementById(link).className = document.getElementById(link).className.replace('active', '');
           });
@@ -67,8 +73,4 @@ block content
           //-element.scrollIntoView();
         };
       });
-
-      document.getElementById('title-link').onclick = function() {
-        document.getElementById('title').scrollIntoView();
-      };
     });
