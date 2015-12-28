@@ -2,17 +2,20 @@
 @require '../../node_modules/rupture/rupture/index'
 
 h2
-  font-size 47px
+  font-size 3em
   font-weight 300
   margin 0
-  padding 0 0 15px
-  line-height 47px
+  padding 0.5em 0 0.2em
+  line-height 1em
+
+  +below($mq-mobile)
+    padding: 0.8em 0 .2em;
 
 h3
-  font-size 19px
+  font-size 1.2em
   font-weight 300
   margin 0
-  padding 0 0 10px
+  padding 0 0 0.7em
   line-height 1.25em
 
 .content-header
@@ -35,9 +38,9 @@ h3
     background #f7f7f7
     position relative
     font-weight 500
-    font-size 14px
-    padding 21px 10px
-    line-height 1.25
+    font-size 0.9em
+    padding 1.3em 0.7em
+    line-height 1.2em
     border-top 1px solid #e5e5df
     border-left 1px solid #e5e5df
 
@@ -78,12 +81,12 @@ h3
 
   h2
     padding 0
-    font-size 35px
+    font-size 2.2em
 
   p
-    font-size 14px
-    line-height 1.5
-    padding 10px 0 0
+    font-size 0.9em
+    line-height 1.6em
+    padding 0.7em 0 0
     margin 0
 
 .content-subpage
