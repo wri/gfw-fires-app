@@ -289,14 +289,17 @@ export const config = {
       }
     },
     analysisPanel: {
-      searchPlaceholder: 'Search for a location',
       searchWidgetId: 'esri-search-widget',
-      analyzeButton: 'Analyze Fires',
-      areaTabId: 'areaTab',
-      areaTabLabel: 'Area',
-      areaIslands: ['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java'],
-      timeframeTabId: 'timeframeTab',
-      timeframeLabel: 'Timefame'
+      subscriptionTabId: 'areaTab',
+      analysisTabId: 'timeframeTab',
+      // TODO: separate below text out of config for simple locale swapping
+      searchPlaceholder: 'Search for a location',
+      analysisButtonLabel: 'Run Analysis',
+      analysisAreaHeader: 'Select area of interest:',
+      analysisTimeframeHeader: 'Select timeframe of interest:',
+      analysisTabLabel: 'Analyze Fires',
+      subscriptionTabLabel: 'Subscribe',
+      subscriptionButtonLabel: 'Get Alerts'
     },
     controlPanel: {
       wriBasemap: 'WRI',

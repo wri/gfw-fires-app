@@ -2,19 +2,28 @@ import {analysisPanelText} from 'js/config';
 import {analysisActions} from 'actions/AnalysisActions';
 import React from 'react';
 
-export default class AnalysisArea extends React.Component {
+export default class AnalysisTab extends React.Component {
 
   constructor (props) {
     super(props);
   }
 
+  componentDidMount () {
+    let calendar = new window.Kalendae(this.refs.date, {
+      mode: 'range'
+    })
+    calendar.subscribe('change', function (date) {
+      console.debug(date);
+    });
+  }
+
   render () {
     let className = 'text-center';
-    if (this.props.activeTab === analysisPanelText.timeframeTabId) { className += ' hidden'; };
+    if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; };
 
     return (
       <div className={className}>
-        <p>Select area of interest:</p>
+        <p>{analysisPanelText.analysisAreaHeader}</p>
         <div className='flex flex-justify-around'>
           <label>
             <input onChange={analysisActions.toggleAreaIslandsActive} checked={this.props.areaIslandsActive} type='radio' />
@@ -36,6 +45,11 @@ export default class AnalysisArea extends React.Component {
               <option value={p}>{p}</option>
             ))}
           </select>
+        </div>
+        <p>{analysisPanelText.analysisTimeframeHeader}</p>
+        <div ref='date'></div>
+        <div className='no-shrink analysis-footer text-center'>
+          <button className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>
       </div>
     );

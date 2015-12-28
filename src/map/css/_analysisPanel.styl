@@ -146,6 +146,20 @@
     &:hover
       background darken(white, 10%)
 
+.analysis-tools
+  .tabs
+    padding-top 10px
+
+    svg
+      margin-right 10px
+      height 20px
+      width 20px
+      fill #555
+      vertical-align middle
+
+    .active svg
+      fill $gfwBlue
+
 .analysis-tools .tabs .gfw-btn
   //$lightGrayBorder is slightly ligher then $lightGray, making it better fit for unactive tab
   transition color 0.35s ease-in-out
@@ -165,6 +179,7 @@
   color $gfwBlue
   display flex
   height 40px
+
   & svg
     margin-right 10px
     height 20px

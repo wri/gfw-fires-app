@@ -8,7 +8,7 @@ class AnalysisStore {
     this.toolbarActive = false;
     this.activeWatershed = null;
     this.activeCustomArea = null;
-    this.activeTab = analysisPanelText.areaTabId;
+    this.activeTab = analysisPanelText.analysisTabId;
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
