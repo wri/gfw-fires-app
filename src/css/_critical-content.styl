@@ -44,12 +44,15 @@ h3
     border-top 1px solid #e5e5df
     border-left 1px solid #e5e5df
 
+    &:last-child
+      border-bottom 1px solid #e5e5df
+
     &.active
       background #fff
       box-shadow 2px 0 0 0px #FFF
 
     &.active:after
-      content ""
+      content ''
       position absolute
       display block
       bottom 0%
@@ -61,9 +64,6 @@ h3
     +below($mq-mobile)
       border-right 1px solid #e5e5df
       box-shadow none
-
-  li:last-child
-    border-bottom 1px solid #e5e5df
 
 .content-menu
   width 270px
