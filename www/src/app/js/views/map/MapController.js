@@ -1525,53 +1525,8 @@ define([
         });
 
         on(dom.byId('updateRisk'), 'click', function() {
-            var date = MapModel.vm.fireRiskObserv();
+            self.setFireRiskDefinition();
 
-            var currentDate = $("#fireRiskDate").datepicker("getDate");
-
-            date = moment(currentDate).tz('Asia/Jakarta').format("M/D/YYYY");
-
-            var year = currentDate.getFullYear();
-            var janOne = new Date(year + ' 01 01');
-            var origDate = moment(janOne).tz('Asia/Jakarta').format("M/D/YYYY");
-
-
-            function parseDate(str) {
-                var mdy = str.split('/');
-                return new Date(mdy[2], mdy[0]-1, mdy[1]);
-            }
-
-            function daydiff(first, second) {
-                return Math.round((second-first)/(1000*60*60*24));
-            }
-
-            function isLeapYear(year) {
-                if((year & 3) != 0) {
-                    return false;
-                }
-                return ((year % 100) != 0 || (year % 400) == 0);
-            };
-
-            var julian = daydiff(parseDate(origDate), parseDate(date));
-            var month = currentDate.getMonth();
-            if (month > 1 && isLeapYear(year)) {
-              julian++;
-            }
-
-            if (julian.toString().length === 1) {
-              julian = "00" + julian.toString();
-            } else if (julian.toString().length === 2) {
-              julian = "0" + julian.toString();
-            } else {
-              julian = julian.toString();
-            }
-            console.log(julian);
-
-            var defQuery = year.toString() + julian + "_IDN_FireRisk";
-
-            console.log("Name = '" + defQuery + "'");
-            var riskLayer = o.map.getLayer(MapConfig.fireRiskLayer.id);
-            riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
 
         });
 
@@ -1964,6 +1919,9 @@ define([
             id: MapConfig.fireRiskLayer.id,
             visible: false
         });
+
+
+
 
         primaryForestsParams = new ImageParameters();
         primaryForestsParams.format = "png32";
@@ -2378,7 +2336,9 @@ define([
             // All layers are turned off onload, by default Fires and Land Cover will be turned on from hash
             // Unless hash values are different
 
+            self.setFireRiskDefinition();
             self.enableLayersFromHash();
+
 
             var layerInfos = arrayUtils.map(response.layers, function(item) {
                 return {
@@ -2470,6 +2430,55 @@ define([
         }
         MapModel.vm.currentFireTime(node.id);
         Finder.updateFirePopSelection(dom.byId(node.id+"-pop"));
+    };
+
+    o.setFireRiskDefinition = function() {
+
+      var date = MapModel.vm.fireRiskObserv();
+      var currentDate = $("#fireRiskDate").datepicker("getDate");
+
+      date = moment(currentDate).tz('Asia/Jakarta').format("M/D/YYYY");
+
+      var year = currentDate.getFullYear();
+      var janOne = new Date(year + ' 01 01');
+      var origDate = moment(janOne).tz('Asia/Jakarta').format("M/D/YYYY");
+
+
+      function parseDate(str) {
+          var mdy = str.split('/');
+          return new Date(mdy[2], mdy[0]-1, mdy[1]);
+      }
+
+      function daydiff(first, second) {
+          return Math.round((second-first)/(1000*60*60*24));
+      }
+
+      function isLeapYear(year) {
+          if((year & 3) != 0) {
+              return false;
+          }
+          return ((year % 100) != 0 || (year % 400) == 0);
+      };
+
+      var julian = daydiff(parseDate(origDate), parseDate(date));
+      var month = currentDate.getMonth();
+      if (month > 1 && isLeapYear(year)) {
+        julian++;
+      }
+
+      if (julian.toString().length === 1) {
+        julian = "00" + julian.toString();
+      } else if (julian.toString().length === 2) {
+        julian = "0" + julian.toString();
+      } else {
+        julian = julian.toString();
+      }
+      console.log(julian);
+      var defQuery = year.toString() + julian + "_IDN_FireRisk";
+
+      console.log("Name = '" + defQuery + "'");
+      var riskLayer = o.map.getLayer(MapConfig.fireRiskLayer.id);
+      riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
     };
 
     o.enableLayersFromHash = function() {

@@ -648,7 +648,7 @@ define([
     }
     vm.fireRiskDate = function() {
         var newDate = jQuery('#fireRiskDate').datepicker({
-            date: (new Date()),
+            date: (new Date(2015, 12 - 1, 16)),
             minDate: (new Date(2015, 4 - 1, 3)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
@@ -657,7 +657,7 @@ define([
 
             }
         });
-        var today = new Date();
+        var today = new Date(2015, 12 - 1, 16);
         var days = today.getDate();
         var months = today.getMonth() + 1;
         var years = today.getFullYear();
@@ -705,7 +705,7 @@ define([
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
     vm.airObserv = ko.observable(date);
-    vm.fireRiskObserv = ko.observable(date);
+    vm.fireRiskObserv = ko.observable("12/16/2015");
     vm.noaaObservFrom = ko.observable("10/12/2014");
     vm.noaaObservTo = ko.observable(date);
     vm.indoObservFrom = ko.observable("1/1/2013");

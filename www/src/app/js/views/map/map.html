@@ -87,7 +87,8 @@
           <label for="fire-risk-checkbox" data-bind="text: fireRiskCheckbox"></label><span id="fireRisk-1-icon" data-bind="click: triggerFireRiskInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
-            </svg></span><span data-bind="text: riskSubLabel" class="checkbox-sub-label"></span>
+            </svg></span>
+          <div id="fireRiskLegend">Legend goes here!</div><span data-bind="text: riskSubLabel" class="checkbox-sub-label"></span>
           <div id="report-optionsNOAA" data-bind="visible: showReportOptionsRisk()" class="reportOptionsSidebar">
             <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">
@@ -122,21 +123,21 @@
         <div id="plantationsHeader" class="checkbox-container">
           <div>Tree plantations</div>
         </div>
-        <div class="checkbox-container">
+        <div class="checkbox-container indented">
           <div id="oil-palm-checkbox"></div>
           <label for="oil-palm-checkbox" data-bind="text: oilPalmCheckbox"></label><span id="dataLandUse-3-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
             </svg></span><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
         </div>
-        <div class="checkbox-container">
+        <div class="checkbox-container indented">
           <div id="rspo-oil-palm-checkbox"></div>
           <label for="rspo-oil-palm-checkbox" data-bind="text: rspoOilPalmCheckbox"></label><span id="dataLandUse-5-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
             </svg></span><span data-bind="text: rspoOilPalmCheckboxSubLabel" class="checkbox-sub-label"></span>
         </div>
-        <div class="checkbox-container">
+        <div class="checkbox-container indented">
           <div id="wood-fiber-checkbox"></div>
           <label for="wood-fiber-checkbox" data-bind="text: woodFiberCheckbox"></label><span id="dataLandUse-4-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
@@ -149,7 +150,7 @@
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
             </svg></span>
-          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-instructions"></div><span data-bind="text: indicativeMoratoriumCheckboxSubLabel2" class="checkbox-sub-label"></span>
+          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-sub-label"></div>
         </div>
       </div>
       <div id="conservation-panel" class="accordion-panel">
