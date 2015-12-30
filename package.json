@@ -44,6 +44,7 @@
     "gulp-babel": "^6.1.1",
     "gulp-cached": "^1.1.0",
     "gulp-filter": "^3.0.1",
+    "gulp-html-autoprefixer": "0.0.1",
     "gulp-imagemin": "^2.4.0",
     "gulp-jade": "^1.1.0",
     "gulp-minify-inline": "^0.1.1",

@@ -1,3 +1,4 @@
+var htmlAutoprefixer = require('gulp-html-autoprefixer');
 var minifyInline = require('gulp-minify-inline');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
@@ -74,6 +75,7 @@ gulp.task('jade-build', function () {
     stream.add(
       gulp.src(config.jade.src)
         .pipe(jade({ pretty: true, locals: locale.locals }))
+        .pipe(htmlAutoprefixer())
         .pipe(minifyInline())
         .pipe(gulp.dest(config.jade.build + '/' + locale.language))
     );
@@ -87,6 +89,7 @@ gulp.task('jade-dist', function () {
     stream.add(
       gulp.src(config.jade.src)
         .pipe(jade({ locals: locale.locals }))
+        .pipe(htmlAutoprefixer())
         .pipe(minifyInline())
         .pipe(gulp.dest(config.jade.dist + '/' + locale.language))
     );

@@ -1,11 +1,11 @@
 import React from 'react';
 
-export function createSvg (svgId) {
+export function createSvgById (svgId) {
   let __html = `<use xlink:href='#${svgId}' />`;
   return <svg dangerouslySetInnerHTML={{ __html }}></svg>
 }
 
-export function AlertsSvg () { return createSvg('icon-alerts'); };
-export function AnalysisSvg () { return createSvg('icon-analysis'); };
-export function BasemapSvg () { return createSvg('icon-basemap'); };
-export function CalendarSvg () { return createSvg('icon-calendar'); };
+export const AlertsSvg = () => createSvgById('icon-alerts');
+export const AnalysisSvg = () => createSvgById('icon-analysis');
+export const BasemapSvg = () => createSvgById('icon-basemap');
+export const CalendarSvg = () => createSvgById('icon-calendar');

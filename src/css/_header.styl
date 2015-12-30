@@ -86,7 +86,7 @@
     height 100px
     left 0px
     right 0px
-    background-color $pebble
+    background-color $white
 
   &.open
     transform translateY(0)
@@ -112,8 +112,11 @@
 
 .mobile-navigation
   text-align left
-  padding 1em 1em 3em 1em
-  background-color $pebble
+  padding 0em 0em 3em 0em
+  background-color $white
+
+  & p
+    margin 1em
 
   & label
   & select
@@ -121,26 +124,25 @@
 
   & label
     margin-right .5em
-    color rgba(255, 255, 255, 0.8)
 
   &--link
     padding 1em 1em
-    margin-bottom 1em
-    background-color rgba(255, 255, 255, 0.8)
-    border-left 5px solid transparent
+    background-color $concrete
+    border-top 1px solid darken($concrete, 30%)
     color #555555
+    //box-shadow $box-shadow
+    text-align center
+    transition $transition
 
     &.active
     &:hover
     &:active
     &:focus
-      border-left 5px solid $gfw-red
+      color $gfw-red
 
-    &:hover
-    &:active
-    &:focus
-      background-color white
-      box-shadow 0px 1px 3px rgba(0,0,0,0.25)
+    a:last-child &
+      border-bottom 1px solid darken($concrete, 30%)
+      margin-bottom 1em
 
 .logo-container
   position relative
