@@ -2,11 +2,40 @@
 @require '../../../node_modules/rupture/rupture/index'
 @require '../../css/_variables'
 
+.header-container
+  border-bottom 1px solid darken($concrete, 5%)
+
 .story-form
   column(2/3, gutter: $gutter)
+  padding 1em
+  padding-right: 1.25em
+  border-right 1px solid darken($concrete, 5%)
+  box-sizing border-box
+
+  +below($mq-mobile)
+    border-right none
+
 
 .story-details
   column(1/3, gutter: $gutter)
+  padding-top 1em
+  box-sizing border-box
+
+  +below($mq-mobile)
+    padding 1em 1.25em 1em 1em
+
+  h5
+    font-weight 500
+    font-size 0.9em
+    border-bottom 1px solid darken($concrete, 5%)
+    padding 0.6em 0 0.6em
+    margin 0
+
+  p
+    font-size 0.85em
+    color $smoke
+    margin-top 0.8em
+    line-height 1.5em
 
 .story-form
 .story-details
@@ -15,3 +44,42 @@
 
 .form-section
   max-width 960px
+
+.story-form
+  font-size 0.9em
+
+  .submit-button
+    color $white
+    background $gfw-red
+    border-radius 25px
+    padding 0px 30px
+    height 36px
+    line-height 36px
+    border none
+    font-size 1em
+    font-weight 500
+    transition background 0.15s linear
+
+    &:hover
+      background darken($gfw-red, 15%)
+
+input
+textarea
+  min-width: 100%;
+  border 1px solid #ccc
+  border-radius 3px
+  margin 0
+  font-size 14px
+  padding 0.4em 0.6em
+
+textarea
+  height 12em
+
+.required
+.optional
+  float right
+
+.desciption
+  margin 0
+  color $dark-gray
+  font-size 0.9em
