@@ -2246,7 +2246,7 @@ define([
         var layerlist = [
             //landSatLayer,
             treeCoverLayer,
-            fireRiskLayer
+            fireRiskLayer,
             landCoverLayer,
             primaryForestsLayer,
             digitalGlobeGraphicsLayer,
