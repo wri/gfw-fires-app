@@ -4,7 +4,7 @@ define({
     //storiesUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L",
     //storiesURL: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0",
     storiesURL: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/10",
-    storiesURL2: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=ixVMrAo7-I5Ndk4EuKHmJLn4LlKbQu0Axq6CosD5V4V54D9OVpTiwQW8D6_qbR34",
+    storiesURL2: "http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=TjEeQfPMtR-0kjqzTqIZ7e6qK8SNwhcHxV6sXvw-p6uNvupx-ITuv3k93nV7Qbz3swdLmykwEXzJJAiPf-_mR6qDHrs6XPwD9VGNn-XHt9g.",
     localToken: "?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2",
     stagingToken: "?token=VxQtCpXFzeqeopOOLVgG5dfpUHE7pEkcrJTO6nCCtrG5IL3houSHy4WQiFaY4c8L",
     productionToken: "?token=TjEeQfPMtR-0kjqzTqIZ7d281tEYoGKTeJSuGt7S0OpzUIcX_VkyGdVV92RNXlHwx38Z9evgW7KHyTXacpq2Sg..",
