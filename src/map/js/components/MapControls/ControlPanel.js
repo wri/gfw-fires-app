@@ -52,21 +52,25 @@ export default class ControlPanel extends React.Component {
           <li className='search-map pointer' title='Reset' onClick={this.toggleSearch}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
           </li>
-          <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleBasemapGallery.bind(this)}>
-            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: basemapSvg }}/>
-          </li>
+          <div className='mobile-hide'>
+            <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleBasemapGallery.bind(this)}>
+              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: basemapSvg }}/>
+            </li>
+          </div>
           <li className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
           </li>
         </ul>
-        <div className={'basemap-switcher shadow' + (this.state.basemapGalleryOpen ? ' open' : '')}>
-          <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
-            <div className={'basemap-thumbnail wri-basemap' + (this.state.activeBasemap === KEYS.wriBasemap ? ' active' : '')} />
-            <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
-          </div>
-          <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
-            <div className={'basemap-thumbnail imagery-basemap' + (this.state.activeBasemap === KEYS.imageryBasemap ? ' active' : '')} />
-            <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
+        <div className='mobile-hide'>
+          <div className={`basemap-switcher shadow ${this.state.basemapGalleryOpen ? 'open' : ''}`}>
+            <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
+              <div className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
+              <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
+            </div>
+            <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
+              <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
+              <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
+            </div>
           </div>
         </div>
       </div>

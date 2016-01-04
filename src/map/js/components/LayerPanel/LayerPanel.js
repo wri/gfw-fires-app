@@ -51,6 +51,18 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Social Media'>
           {layersConfig.map(this.checkboxMap('watershed'), this)}
         </LayerGroup>
+
+        <div className='mobile-show'>
+          <div className='layer-category'>
+            <div className='layer-category-label pointer'>
+              Basemaps
+            </div>
+            <div>
+              basemaps ui
+            </div>
+          </div>
+        </div>
+
       </div>
     );
   }
