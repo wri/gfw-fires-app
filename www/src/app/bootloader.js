@@ -15,7 +15,7 @@
 
     var ENV = 'dev',
 
-        version = "0.7.33",
+        version = "0.7.35",
         esriLib = 'http://js.arcgis.com/3.13/init.js',
 
         css = {
