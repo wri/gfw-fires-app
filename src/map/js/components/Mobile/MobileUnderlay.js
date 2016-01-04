@@ -25,7 +25,7 @@ export default class Map extends React.Component {
   closeMobileControls () {
     if (mapStore.getState().layerPanelVisible === true) { layerActions.toggleLayerPanelVisibility(); };
     if (analysisStore.getState().esriSearchVisible === true) { analysisActions.toggleEsriSearchVisibility(); };
-    if (analysisStore.getState().analysisToolsVisible === true) { analysisActions.toggleAnalysisToolsVisiblity(); };
+    if (analysisStore.getState().analysisToolsVisible === true) { analysisActions.toggleAnalysisToolsVisibility(); };
   }
 
   render () {

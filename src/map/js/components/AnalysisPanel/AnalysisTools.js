@@ -13,7 +13,7 @@ export default class AnalysisTools extends React.Component {
 
   constructor (props) {
     super(props);
-    analysisActions.setAreas();
+    analysisActions.initAreas();
     analysisStore.listen(this.storeUpdated.bind(this));
     let defaultState = analysisStore.getState();
     this.state = defaultState;
@@ -40,8 +40,10 @@ export default class AnalysisTools extends React.Component {
 
     return (
       <div className={className}>
-        <TabControls activeTab={this.state.activeTab} />
-        <div className='tab-container custom-scroll'>
+        {app.mobile() === true ? undefined :
+          <TabControls {...this.state} />
+        }
+        <div className={`tab-container custom-scroll ${app.mobile() === false && this.state.analysisToolsExpanded === false ? 'hidden' : '' }`}>
           <AnalysisTab {...this.state} />
           <SubscriptionTab {...this.state} />
         </div>

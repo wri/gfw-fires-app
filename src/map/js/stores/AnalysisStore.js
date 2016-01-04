@@ -5,6 +5,7 @@ import alt from 'js/alt';
 class AnalysisStore {
 
   constructor () {
+    // TODO: review state for unused properties
     this.toolbarActive = false;
     this.activeWatershed = null;
     this.activeCustomArea = null;
@@ -12,6 +13,7 @@ class AnalysisStore {
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
+    this.analysisToolsExpanded = true;
     this.areaIslandsActive = false;
     this.islands = [];
     this.provinces = [];
@@ -24,9 +26,10 @@ class AnalysisStore {
       setCustomAreaName: analysisActions.setCustomAreaName,
       clearActiveWatershed: analysisActions.clearActiveWatershed,
       analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed,
-      toggleAnalysisToolsVisiblity: analysisActions.toggleAnalysisToolsVisiblity,
+      toggleAnalysisToolsVisibility: analysisActions.toggleAnalysisToolsVisibility,
+      toggleAnalysisToolsExpanded: analysisActions.toggleAnalysisToolsExpanded,
       toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility,
-      setAreas: analysisActions.setAreas,
+      initAreas: analysisActions.initAreas,
       toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive
     });
   }
@@ -61,15 +64,19 @@ class AnalysisStore {
     this.toolbarActive = status;
   }
 
-  toggleAnalysisToolsVisiblity () {
+  toggleAnalysisToolsVisibility () {
     this.analysisToolsVisible = !this.analysisToolsVisible;
+  }
+
+  toggleAnalysisToolsExpanded () {
+    this.analysisToolsExpanded = !this.analysisToolsExpanded;
   }
 
   toggleEsriSearchVisibility () {
     this.esriSearchVisible = !this.esriSearchVisible;
   }
 
-  setAreas (areas) {
+  initAreas (areas) {
     this.islands = areas.islands;
     this.provinces = areas.provinces;
   }

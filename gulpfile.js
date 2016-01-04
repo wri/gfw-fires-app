@@ -20,8 +20,9 @@ var config = {
       locals: require('./i18n/en/locals.js').locals
     }, {
       language: 'id',
-      locals: require('./i18n/id/locals.js').locals
-      //locals: require('./i18n/en/locals.js').locals
+      // NOTE: use english locals while developing without translations
+      // locals: require('./i18n/id/locals.js').locals
+      locals: require('./i18n/en/locals.js').locals
     }
   ],
   jade: {

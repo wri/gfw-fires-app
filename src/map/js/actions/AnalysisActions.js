@@ -48,7 +48,11 @@ class AnalysisActions {
     this.dispatch(status);
   }
 
-  toggleAnalysisToolsVisiblity () {
+  toggleAnalysisToolsVisibility () {
+    this.dispatch();
+  }
+
+  toggleAnalysisToolsExpanded () {
     this.dispatch();
   }
 
@@ -57,11 +61,10 @@ class AnalysisActions {
   }
 
   toggleAreaIslandsActive () {
-    app.debug('AnalysisActions >>> toggleAreaIslandsActive');
     this.dispatch();
   }
 
-  setAreas () {
+  initAreas () {
     all({
       islands: esriRequest(analysisConfig.requests.islands),
       provinces: esriRequest(analysisConfig.requests.provinces)
