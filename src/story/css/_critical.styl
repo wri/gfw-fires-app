@@ -2,6 +2,9 @@
 @require '../../../node_modules/rupture/rupture/index'
 @require '../../css/_variables'
 
+nav
+  border-bottom 1px solid darken($concrete, 5%)
+
 .header-container
   border-bottom 1px solid darken($concrete, 5%)
 
@@ -14,7 +17,6 @@
 
   +below($mq-mobile)
     border-right none
-
 
 .story-details
   column(1/3, gutter: $gutter)
@@ -37,6 +39,15 @@
     margin-top 0.8em
     line-height 1.5em
 
+  ul
+    list-style-type disc
+    margin-left 20px
+
+  li
+    color $smoke
+    font-size .85em
+    line-height 1.5em
+
 .story-form
 .story-details
   +below($mq-mobile)
@@ -48,20 +59,31 @@
 .story-form
   font-size 0.9em
 
-  .submit-button
-    color $white
-    background $gfw-red
-    border-radius 25px
-    padding 0px 30px
-    height 36px
-    line-height 36px
-    border none
-    font-size 1em
-    font-weight 500
-    transition background 0.15s linear
+.field
+  &, &-required
+    margin-bottom 1.2em
 
-    &:hover
-      background darken($gfw-red, 15%)
+  &-required
+    color $red-alert
+
+    input[type="text"]
+    input[type="email"]
+      border 1px solid $red-alert
+
+.submit-button
+  color $white
+  background $gfw-red
+  border-radius 25px
+  padding 0px 30px
+  height 36px
+  line-height 36px
+  border none
+  font-size 1em
+  font-weight 500
+  transition background 0.15s linear
+
+  &:hover
+    background darken($gfw-red, 15%)
 
 input
 textarea
@@ -79,7 +101,7 @@ textarea
 .optional
   float right
 
-.desciption
+.description
   margin 0
   color $dark-gray
   font-size 0.9em

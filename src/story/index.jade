@@ -20,58 +20,49 @@ block content
 
   section.form-section
     div.story-form
-      div.title-container
-        lable #{story.form.title[0]}
+      div#story-title-container.field
+        label #{story.form.title[0]}
         span.required #{story.form.title[1]}
         div: input(type='text' placeholder='#{story.form.title[2]}')
 
-      br
-      div.affected-areas-container
+      div#story-affected-areas-container.field
         label #{story.form.affectedAreas[0]}
-        p.desciption #{story.form.affectedAreas[1]}
+        p.description #{story.form.affectedAreas[1]}
         div TODO: map
 
-      br
-      div.location-container
+      div#story-location-container.field
         label #{story.form.location[0]}
         div: input(type='text' placeholder='#{story.form.location[1]}')
 
-      br
-      div.date-container
+      div#story-date-container.field
         label #{story.form.date}
         input(type="text" placeholder="2/16/2012" class="auto-kal" data-kal="direction: 'today-past'")
 
-      br
-      div.details-container
+      div#story-details-container.field
         label #{story.form.details[0]}
         textarea(placeholder='#{story.form.details[1]}')
 
-      br
-      div.video-container
+      div#story-video-container.field
         label #{story.form.video[0]}
-        p.desciption #{story.form.video[1]}
+        p.description #{story.form.video[1]}
         input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
 
-      br
-      div.media-container
+      div#story-media-container.field
         label #{story.form.media[0]}
-        p.desciption #{story.form.media[1]}
+        p.description #{story.form.media[1]}
         input(type='file')
 
-      br
-      div.name-container
+      div#story-name-container.field
         label #{story.form.name[0]}
         span.optional #{story.form.name[1]}
         input(type='text')
 
-      br
-      div.email-container
+      div#story-email-container.field
         label #{story.form.email[0]}
         span.required #{story.form.email[1]}
-        p.desciption #{story.form.email[2]}
+        p.description #{story.form.email[2]}
         input(type='text')
 
-      br
       div: button.submit-button #{story.form.submit}
 
     div.story-details
@@ -81,8 +72,12 @@ block content
       h5 #{story.details[2]}
       p #{story.details[3]}
       p #{story.details[4]}
+      p #{story.details[5]}
       ul
-        li #{story.details[5]}
         li #{story.details[6]}
         li #{story.details[7]}
         li #{story.details[8]}
+        li #{story.details[9]}
+
+  script.
+
