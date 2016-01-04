@@ -4,78 +4,66 @@ block append head-meta
   title #{story.meta.title}
 
 block append head-styles
+  link(rel='stylesheet', href='../vendor/kalendae/build/kalendae.css')
   style
     :stylus
       @require 'css/_critical'
-      input
-      textarea
-        min-width 100%
-        padding .5em
-        border 1px solid grey
-        border 1px solid #666
-        border-radius 5px
+
+block append head-scripts
+  script(src='../vendor/kalendae/build/kalendae.standalone.js', async)
 
 block content
   +navigation(global.pages, 'story')
 
-  section
+  section.header-container
     h1.text-center.font-normal #{story.title}
 
   section.form-section
     div.story-form
-      div #{story.form.title[0]}
-      div #{story.form.title[1]}
-      div: input(type='text' placeholder='#{story.form.title[2]}')
+      div#story-title-container.field
+        label #{story.form.title[0]}
+        span.required #{story.form.title[1]}
+        div: input(type='text' placeholder='#{story.form.title[2]}')
 
-      br
-      br
-      div #{story.form.affectedAreas[0]}
-      div #{story.form.affectedAreas[1]}
-      div TODO: map
+      div#story-affected-areas-container.field
+        label #{story.form.affectedAreas[0]}
+        p.description #{story.form.affectedAreas[1]}
+        div TODO: map
 
-      br
-      br
-      div #{story.form.location[0]}
-      div: input(type='text' placeholder='#{story.form.location[1]}')
+      div#story-location-container.field
+        label #{story.form.location[0]}
+        div: input(type='text' placeholder='#{story.form.location[1]}')
 
-      br
-      br
-      div #{story.form.date}
-      div TODO: date picker
+      div#story-date-container.field
+        label #{story.form.date}
+        input(type="text" placeholder="2/16/2012" class="auto-kal" data-kal="direction: 'today-past'")
 
-      br
-      br
-      div #{story.form.details[0]}
-      textarea(placeholder='#{story.form.details[1]}')
+      div#story-details-container.field
+        label #{story.form.details[0]}
+        textarea(placeholder='#{story.form.details[1]}')
 
-      br
-      br
-      div #{story.form.video[0]}
-      div #{story.form.video[1]}
-      input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
+      div#story-video-container.field
+        label #{story.form.video[0]}
+        p.description #{story.form.video[1]}
+        input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
 
-      br
-      br
-      div #{story.form.media[0]}
-      div #{story.form.media[1]}
-      input(type='file')
+      div#story-media-container.field
+        label #{story.form.media[0]}
+        p.description #{story.form.media[1]}
+        input(type='file')
 
-      br
-      br
-      div #{story.form.name[0]}
-      div #{story.form.name[1]}
-      input(type='text')
+      div#story-name-container.field
+        label #{story.form.name[0]}
+        span.optional #{story.form.name[1]}
+        input(type='text')
 
-      br
-      br
-      div #{story.form.email[0]}
-      div #{story.form.email[1]}
-      div #{story.form.email[2]}
-      input(type='text')
+      div#story-email-container.field
+        label #{story.form.email[0]}
+        span.required #{story.form.email[1]}
+        p.description #{story.form.email[2]}
+        input(type='text')
 
-      br
-      br
-      div: button #{story.form.submit}
+      div: button.submit-button #{story.form.submit}
 
     div.story-details
       h5 #{story.details[0]}
@@ -84,8 +72,12 @@ block content
       h5 #{story.details[2]}
       p #{story.details[3]}
       p #{story.details[4]}
+      p #{story.details[5]}
       ul
-        li #{story.details[5]}
         li #{story.details[6]}
         li #{story.details[7]}
         li #{story.details[8]}
+        li #{story.details[9]}
+
+  script.
+

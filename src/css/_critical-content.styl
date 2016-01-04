@@ -20,7 +20,7 @@ h3
 
 .content-header
   margin 2em 0em
-  color #FFF
+  color $white
 
 .content-container
   display flex
@@ -34,22 +34,22 @@ h3
 
   li
     text-align center
-    color #555555
+    color $dark-gray
     background #f7f7f7
     position relative
     font-weight 500
     font-size 0.9em
     padding 1.3em 0.7em
     line-height 1.2em
-    border-top 1px solid #e5e5df
-    border-left 1px solid #e5e5df
+    border-top 1px solid darken($concrete, 5%)
+    border-left 1px solid darken($concrete, 5%)
 
     &:last-child
-      border-bottom 1px solid #e5e5df
+      border-bottom 1px solid darken($concrete, 5%)
 
     &.active
       background #fff
-      box-shadow 2px 0 0 0px #FFF
+      box-shadow 2px 0 0 0px $white
 
     &.active:after
       content ''
@@ -59,10 +59,10 @@ h3
       left 0px
       width 100%
       height 4px
-      background rgba(151,189,61,0.5)
+      background $gfw-red
 
     +below($mq-mobile)
-      border-right 1px solid #e5e5df
+      border-right 1px solid darken($concrete, 5%)
       box-shadow none
 
 .content-menu
@@ -73,8 +73,8 @@ h3
 
 .content-body
   padding 2em 2em 1em 2em
-  border-left 1px solid #e5e5df
-  color #555555
+  border-left 1px solid darken($concrete, 5%)
+  color $dark-gray
 
   +below($mq-mobile)
     border-left none
