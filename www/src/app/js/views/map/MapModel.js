@@ -647,8 +647,13 @@ define([
         return date;
     }
     vm.fireRiskDate = function() {
+        var today = new Date();
+
+        var yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+
         var newDate = jQuery('#fireRiskDate').datepicker({
-            date: (new Date(2015, 12 - 1, 16)),
+            date: (yesterday),
             minDate: (new Date(2015, 4 - 1, 3)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
@@ -657,11 +662,12 @@ define([
 
             }
         });
-        var today = new Date(2015, 12 - 1, 16);
-        var days = today.getDate();
-        var months = today.getMonth() + 1;
-        var years = today.getFullYear();
+
+        var days = yesterday.getDate();
+        var months = yesterday.getMonth() + 1;
+        var years = yesterday.getFullYear();
         var date = months + "/" + days + "/" + years;
+        console.log(date)
         return date;
     }
     vm.indoPickerFrom = function() {

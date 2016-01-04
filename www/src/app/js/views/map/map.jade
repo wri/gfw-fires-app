@@ -89,9 +89,27 @@ div#map-view(class="map-view")
 					span(id='fireRisk-1-icon' class="layer-info-icon", data-bind="click: triggerFireRiskInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
-					div(id='fireRiskLegend') Legend goes here!
 					span(data-bind="text: riskSubLabel", class="checkbox-sub-label")
-					div#report-optionsNOAA(data-bind="visible: showReportOptionsRisk()" class="reportOptionsSidebar")
+					div#report-optionsRisk(data-bind="visible: showReportOptionsRisk()" class="reportOptionsSidebar")
+						div.fireRiskLegendDataColors
+						div(id='fireRiskLegend')
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Very High Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataHighest
+							div.fireRiskLegendRow
+								span.fireRiskLegendData High Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataHigh
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Moderate Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataMedium
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Low Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataLow 
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Very Low Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataLowest
+						
+								
 						//-div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
 						div.font10(data-bind="text:reportText().selectTimeLabel")
 						div.report-options-section
