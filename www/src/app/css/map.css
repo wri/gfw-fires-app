@@ -620,7 +620,7 @@ table.forest-use-pop tr:nth-child(odd) {
   background-image: url("../images/firesRiskLegend.png");
   display: inline-block;
   height: 100px;
-  width: 50px;
+  width: 20px;
   background-size: 23px;
 }
 

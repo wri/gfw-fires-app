@@ -140,15 +140,15 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "dojo/_base/arra
                     switch (data.viewId) {
                         case "homeView":
                             //domConstruct.place("");
-                            setTimeout(function() {
-
-                                //domConstruct.place("footerMovableWrapper", "footerShareContainer");
-                                domConstruct.place("footerView", "footerShareContainer");
-                                if ($("#footerView").css("display") == "none") {
-                                    $("#footerView").show();
-                                }
-
-                            }, 1000);
+                            // setTimeout(function() {
+                            //
+                            //     //domConstruct.place("footerMovableWrapper", "footerShareContainer");
+                            //     domConstruct.place("footerView", "footerShareContainer");
+                            //     if ($("#footerView").css("display") == "none") {
+                            //         $("#footerView").show();
+                            //     }
+                            //
+                            // }, 1000);
 
                             // EventsController.startModeAnim();
                             break;
