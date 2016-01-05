@@ -8,6 +8,7 @@
     "optimize:report": "r.js -o report.build.js"
   },
   "devDependencies": {
+    "eslint": "^1.10.3",
     "gulp-gzip": "^1.1.0"
   },
   "dependencies": {
