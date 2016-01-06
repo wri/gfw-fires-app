@@ -93,6 +93,7 @@ textarea
   margin 0
   font-size 14px
   padding 0.4em 0.6em
+  box-sizing border-box
 
 textarea
   height 12em
@@ -105,3 +106,104 @@ textarea
   margin 0
   color $dark-gray
   font-size 0.9em
+
+#map
+  height 300px
+
+  .dijitTitlePane
+    background #fff
+    padding 1px 0
+    border 1px solid darken($concrete, 5%)
+    box-shadow 1px 1px 5px rgba(0,0,0,.25)
+
+  .dijitTitlePaneTitle
+    padding 0 6px
+
+  .dijitTitlePaneTitleOpen
+    display flex
+    padding-bottom 1px
+    margin-bottom 3px
+    border-bottom 1px solid darken($concrete, 5%)
+
+    &:before
+      content "▲"
+
+  .dijitTitlePaneTitleClosed
+    &:before
+      content "▼"
+
+  .dijitTitlePaneTitleOpen
+  .dijitTitlePaneTitleClosed
+    &:before
+      font-size 10px
+      color $gfw-red
+      top 6px
+      position absolute
+      cursor pointer
+
+  #map_zoom_slider
+    top 10px
+    left 10px
+    border-radius 0
+    border none
+    box-shadow 1px 1px 5px rgba(0,0,0,0.25)
+    border 1px solid darken($concrete, 5%)
+
+  #map_zoom_slider .esriSimpleSliderIncrementButton
+    border-bottom 1px solid darken($concrete, 5%)
+
+  #map_zoom_slider .esriSimpleSliderIncrementButton
+  #map_zoom_slider .esriSimpleSliderDecrementButton
+    width 24px
+    height 24px
+    font-size 18px
+    color $gfw-red
+    line-height: 22px;
+
+  .dijitArrowNodeInner
+    display none
+
+  .dijitTitlePaneTextNode
+    margin-left 15px
+
+  .esriBasemapGalleryLabelContainer
+    font-size 0.8em
+    line-height 1.3em
+
+#map-container
+  position relative
+
+  #search
+    display block
+    position absolute
+    z-index 1
+    top 10px
+    left 46px
+    box-shadow 1px 1px 5px rgba(0,0,0,0.25)
+
+  .searchInput
+    padding 2px 24px 2px 6px
+    width: 150px;
+
+  .searchInput
+  .searchBtn
+    border-radius 0
+    z-index 2
+    position relative
+    border 1px solid darken($concrete, 5%)
+
+  .searchIcon
+    color $gfw-red
+    font-size 14px
+
+  .arcgisSearch .searchClear
+  .arcgisSearch .searchClose
+  .arcgisSearch .searchSpinner
+    height 22px
+
+  .arcgisSearch .searchClose
+    line-height 22px
+    width 22px
+
+  .arcgisSearch .searchBtn
+    padding 2px 6px
