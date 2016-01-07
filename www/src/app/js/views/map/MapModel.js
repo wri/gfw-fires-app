@@ -56,7 +56,7 @@ define([
     vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
     vm.tomnodCheckbox = ko.observable(MapConfig.text.tomnodCheckbox);
 
-    vm.disableAirQuality = true;
+    // vm.disableAirQuality = true;
 
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
@@ -654,7 +654,7 @@ define([
 
         var newDate = jQuery('#fireRiskDate').datepicker({
             date: (yesterday),
-            minDate: (new Date(2015, 4 - 1, 3)),
+            minDate: (new Date(2015, 4 - 1, 2)),
             maxDate: "+0M +0D",
             onSelect: function(selectedDate) {
                 vm.fireRiskObserv(selectedDate);

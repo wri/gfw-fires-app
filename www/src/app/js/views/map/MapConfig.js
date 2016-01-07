@@ -515,7 +515,7 @@ define({
         noaaFiresCheckbox: "NOAA-18 fires",
         noaaSubLabel: "(daily, 1.1km, Meteorological Service Singapore)",
         fireRiskCheckbox: "Fire risk",
-        riskSubLabel: "(layer starts at 4/3/15)",
+        riskSubLabel: "(layer starts at 4/2/15)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
         indonesiaSubLabel: "(Jan. 1 2013 to present, 1km, Indonesia)",
         confidenceFiresCheckbox: "Only show <span class='high-confidence-info'>high confidence fires</span>",
@@ -894,7 +894,7 @@ define({
             "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {
-                "disabled": "disabled"
+                // "disabled": "disabled"
             }
         }, {
             "id": "provinces-checkbox",
