@@ -27,7 +27,7 @@ export const config = {
       url: 'https://api.tiles.mapbox.com/v4/wri.c974eefc/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg',
       options: {
         id: KEYS.wriBasemap,
-        visible: true
+        visible: false
       }
     },
     geometryServiceUrl: 'http://gis-gfw.wri.org/arcgis/rest/services/Utilities/Geometry/GeometryServer'
@@ -43,7 +43,7 @@ export const config = {
   defaults: {
     canopyDensity: 30,
     lossFromSelectIndex: 0,
-    activeBasemap: KEYS.wriBasemap,
+    activeBasemap: KEYS.topoBasemap,
     corsEnabledServers: [
       'gis-potico.wri.org'
     ]
@@ -302,6 +302,8 @@ export const config = {
       subscriptionButtonLabel: 'Get Alerts'
     },
     controlPanel: {
+      darkGrayBasemap: 'Dark Gray',
+      topoBasemap: 'Topo',
       wriBasemap: 'WRI',
       imageryBasemap: 'Imagery'
     },

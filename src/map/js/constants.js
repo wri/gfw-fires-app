@@ -4,7 +4,8 @@
 const KEYS = {
   wriBasemap: 'wri-basemap',
   imageryBasemap: 'satellite',
-  wriBasemapLabel: 'wri-basemap-label',
+  topoBasemap: 'topo',
+  darkGrayBasemap: 'dark-gray',
   //- Layers and Layer Categories
   fires: 'fires',
   treeCoverChange: 'tcc',

@@ -1,18 +1,8 @@
 .headerGfw
-  min-height 34px
+  background-color #EEE
 
   +below($mq-mobile)
-    min-height initial
     display none !important
-
-  & > *
-    display none !important
-
-.footerGfw
-  min-height 491px
-
-  +below($mq-mobile)
-    min-height initial
 
 .navigation-container
   background-color rgba(255, 255, 255, 0.8)
@@ -112,11 +102,12 @@
 
 .mobile-navigation
   text-align left
-  padding 0em 0em 3em 0em
+  padding 0
   background-color $white
 
   & p
-    margin 1em
+    margin 0
+    padding 1em
 
   & label
   & select

@@ -4,6 +4,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var mergeStream = require('merge-stream');
 var imagemin = require('gulp-imagemin');
+var notifier = require('node-notifier');
 var cached = require('gulp-cached');
 var stylus = require('gulp-stylus');
 var babel = require('gulp-babel');
@@ -12,6 +13,20 @@ var jade = require('gulp-jade');
 var umd = require('gulp-umd');
 var jeet = require('jeet');
 var gulp = require('gulp');
+
+var plumber = function () {
+  return require('gulp-plumber')({
+    errorHandler: function (error) {
+      notifier.notify({
+        title: 'Gulp Error',
+        message: error.message,
+        sound: true
+      })
+      console.log(error)
+      this.emit('end')
+    }
+  })
+}
 
 var config = {
   i18n: [
@@ -75,6 +90,7 @@ gulp.task('jade-build', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.jade.src)
+        .pipe(plumber())
         .pipe(jade({ pretty: true, locals: locale.locals }))
         .pipe(htmlAutoprefixer())
         .pipe(minifyInline())
@@ -107,6 +123,7 @@ gulp.task('stylus-build', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.stylus.src)
+        .pipe(plumber())
         .pipe(stylus({ 'include css': true, use: [ jeet(), rupture() ], linenos: true }))
         .pipe(autoprefixer())
         .pipe(gulp.dest(config.stylus.build + '/' + locale.language))
@@ -137,6 +154,7 @@ gulp.task('babel-build', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.babel.src)
+        .pipe(plumber())
         .pipe(cached('babel-' + locale.language))
         .pipe(babel())
         .pipe(gulp.dest(config.babel.build + '/' + locale.language))

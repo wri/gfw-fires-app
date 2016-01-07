@@ -8,7 +8,8 @@
     "dist": "gulp dist",
     "test": "eslint src/**/*.js;",
     "postinstall": "bower install",
-    "jade": "gulp jade-build"
+    "jade": "gulp jade-watch",
+    "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'"
   },
   "repository": {
     "type": "git",
@@ -48,11 +49,13 @@
     "gulp-imagemin": "^2.4.0",
     "gulp-jade": "^1.1.0",
     "gulp-minify-inline": "^0.1.1",
+    "gulp-plumber": "^1.0.1",
     "gulp-stylus": "^2.1.0",
     "gulp-umd": "^0.2.0",
     "jeet": "^6.1.2",
     "jstransformer-stylus": "^1.0.0",
     "merge-stream": "^1.0.0",
+    "node-notifier": "^4.4.0",
     "react": "^0.14.3",
     "rupture": "^0.6.1"
   }

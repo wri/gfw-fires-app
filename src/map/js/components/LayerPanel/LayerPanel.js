@@ -7,8 +7,9 @@ import FiresControls from 'components/LayerPanel/FiresControls';
 import LossControls from 'components/LayerPanel/LossControls';
 import LayerGroup from 'components/LayerPanel/LayerGroup';
 import DamsLegend from 'components/LayerPanel/DamsLegend';
-import {layersConfig, layerPanelText} from 'js/config';
+import {layersConfig, layerPanelText, controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
+import {mapActions} from 'actions/MapActions';
 import KEYS from 'js/constants';
 import React from 'react';
 
@@ -24,47 +25,8 @@ export default class LayerPanel extends React.Component {
     this.setState(mapStore.getState());
   }
 
-  render() {
-    let className = 'layer-panel map-component custom-scroll shadow';
-    if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
-
-    return (
-      <div className={className}>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
-          {layersConfig.map(this.checkboxMap('fires'), this)}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Forest Use'>
-          {layersConfig.map(this.checkboxMap('forestUse'), this)}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
-          {layersConfig.map(this.checkboxMap('conservation'), this)}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
-          {layersConfig.map(this.checkboxMap('landCover'), this)}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
-          {layersConfig.map(this.checkboxMap('airQuality'), this)}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
-          {layersConfig.map(this.checkboxMap('imagery'), this)}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Social Media'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
-        </LayerGroup>
-
-        <div className='mobile-show'>
-          <div className='layer-category'>
-            <div className='layer-category-label pointer'>
-              Basemaps
-            </div>
-            <div>
-              basemaps ui
-            </div>
-          </div>
-        </div>
-
-      </div>
-    );
+  clickedBasemap (id) {
+    mapActions.setBasemap(id);
   }
 
   checkboxMap (group) {
@@ -109,6 +71,66 @@ export default class LayerPanel extends React.Component {
       </LayerCheckbox>;
 
     };
+  }
+
+  render() {
+    let className = 'layer-panel map-component custom-scroll shadow';
+    if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
+
+    return (
+      <div className={className}>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
+          {layersConfig.map(this.checkboxMap('fires'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Forest Use'>
+          {layersConfig.map(this.checkboxMap('forestUse'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
+          {layersConfig.map(this.checkboxMap('conservation'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
+          {layersConfig.map(this.checkboxMap('landCover'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
+          {layersConfig.map(this.checkboxMap('airQuality'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
+          {layersConfig.map(this.checkboxMap('imagery'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Social Media'>
+          {layersConfig.map(this.checkboxMap('watershed'), this)}
+        </LayerGroup>
+
+        <div className='mobile-show'>
+          <div className='layer-category'>
+            <div className='layer-category-label pointer'>
+              Basemaps
+            </div>
+            <div>
+              <div className='flex padding'>
+                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
+                  <div className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
+                  <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>
+                </div>
+                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
+                  <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap ===  KEYS.topoBasemap ? 'active' : ''}`} />
+                  <div className='basemap-label'>{controlPanelText.topoBasemap}</div>
+                </div>
+                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
+                  <div className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
+                  <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
+                </div>
+                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
+                  <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
+                  <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    );
   }
 
 }
