@@ -1,5 +1,5 @@
 
-/* line 347 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 358 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 
 /* line 1 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
 
@@ -69,47 +69,47 @@ body,
   position: relative !important;
 }
 
-/* line 54 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 55 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .blogView #stackContainer {
-  position: absolute;
-  top: 100px;
+  position: relative;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow-y: auto;
 }
 
-/* line 62 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 65 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .dataView #stackContainer {
-  position: absolute;
-  top: 100px;
+  position: relative;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow-y: auto;
 }
 
-/* line 70 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 75 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .aboutView #stackContainer {
-  position: absolute;
-  top: 100px;
+  position: relative;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow-y: auto;
 }
 
-/* line 78 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 85 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .storyView #stackContainer {
-  position: absolute;
-  top: 100px;
+  position: relative;
+  top: 0px;
   bottom: 0px;
   left: 0px;
   right: 0px;
   overflow-y: auto;
 }
 
-/* line 86 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 95 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #esri-geocoder-widget-story {
   position: absolute;
   top: 10px;
@@ -117,7 +117,7 @@ body,
   width: 230px;
 }
 
-/* line 92 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 101 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #homeView,
 #blogView,
 #dataView,
@@ -126,12 +126,12 @@ body,
   overflow: visible;
 }
 
-/* line 95 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 104 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .mapView #footerMovableWrapper {
   display: none;
 }
 
-/* line 98 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 107 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-header {
   height: 210px;
   background: url("../images/header_tree_background.jpg") repeat-x scroll center top transparent;
@@ -139,38 +139,38 @@ body,
   box-sizing: border-box;
 }
 
-/* line 105 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 114 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-header.small {
   height: 100px;
 }
 
-/* line 108 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 117 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-header.small.mapView {
   height: 110px;
 }
 
-/* line 112 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 121 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-body {
   width: 100%;
 }
 
-/* line 115 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 124 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-footer {
   height: 470px;
   width: 100%;
 }
 
-/* line 119 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 128 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-footer.small {
   height: 180px;
 }
 
-/* line 122 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 131 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #app-footer.small.nomap {
   display: none;
 }
 
-/* line 126 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 135 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .errorMsg {
   position: absolute;
   top: 10px;
@@ -186,7 +186,7 @@ body,
   overflow: hidden;
 }
 
-/* line 140 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 149 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .blocker {
   background-color: #ff0;
   opacity: 0.2;
@@ -198,7 +198,7 @@ body,
   right: 0;
 }
 
-/* line 150 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 159 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .reportOptionsHeader {
   padding-right: 4px;
   padding-bottom: 3px;
@@ -207,17 +207,17 @@ body,
   top: 0px;
 }
 
-/* line 156 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 165 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 padding-right 4px {
   padding-bottom: 3px;
 }
 
-/* line 159 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 168 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #report-options-close {
   cursor: pointer;
 }
 
-/* line 162 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 171 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .source_description {
   display: block;
   font-size: 13px;
@@ -226,14 +226,14 @@ padding-right 4px {
   margin-top: 5px;
 }
 
-/* line 169 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 178 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .metadataTitle {
   display: block;
   font-size: 16px;
   text-transform: uppercase;
 }
 
-/* line 174 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 183 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #storyTitle {
   text-align: center;
   border-bottom: 1px solid #ccc;
@@ -241,7 +241,7 @@ padding-right 4px {
   padding-top: 25px;
 }
 
-/* line 180 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 189 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .storiesInput > input,
 .storiesInput > textarea {
   width: 90%;
@@ -252,19 +252,19 @@ padding-right 4px {
   background-clip: padding-box;
 }
 
-/* line 188 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 197 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #contentRightStory.footerModes .desc {
   font-weight: 300;
 }
 
-/* line 191 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 200 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .descStory {
   font-weight: 300;
   margin-left: 2em !important;
   margin-bottom: -5px !important;
 }
 
-/* line 196 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 205 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .instructions {
   font-size: 15px;
   line-height: 1.2;
@@ -273,7 +273,7 @@ padding-right 4px {
   font-weight: 300;
 }
 
-/* line 203 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 212 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #storiesMap {
   width: 540px !important;
   height: 300px !important;
@@ -282,7 +282,7 @@ padding-right 4px {
   margin: 0;
 }
 
-/* line 210 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 219 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #basemap-gallery-button2 {
   position: absolute;
   background-image: url("../images/basemap.png");
@@ -291,7 +291,7 @@ padding-right 4px {
   right: 860px;
 }
 
-/* line 217 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 226 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #basemapGalleryContainer {
   appearance: none;
   position: absolute;
@@ -311,7 +311,7 @@ padding-right 4px {
   border-bottom-left-radius: 3px;
 }
 
-/* line 235 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 244 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .basemap-gallery-container-story {
   background-color: #fff;
   position: absolute;
@@ -322,19 +322,19 @@ padding-right 4px {
   top: 20px;
 }
 
-/* line 245 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 254 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #storyDateInput,
 #storyNameInput,
 #storyEmailInput {
   width: 45%;
 }
 
-/* line 248 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 257 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #storyDetailsInput {
   height: 150px;
 }
 
-/* line 251 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 260 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #storyMediaInput {
   height: 75px;
   width: 540px;
@@ -343,7 +343,7 @@ padding-right 4px {
   overflow-x: auto;
 }
 
-/* line 266 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 275 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #uploadStoryMedia {
   width: 150px;
   height: 75px;
@@ -351,7 +351,7 @@ padding-right 4px {
   cursor: pointer;
 }
 
-/* line 272 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 281 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .uploadList {
   position: relative;
   bottom: 40px;
@@ -360,51 +360,51 @@ padding-right 4px {
   cursor: no-drop;
 }
 
-/* line 280 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 289 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #verifyEmailForStory {
   font-size: 12px;
   display: none;
 }
 
-/* line 284 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 293 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #alignWithMedia {
   position: relative;
   top: 290px;
 }
 
-/* line 288 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 297 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #alignWithEmail {
   position: relative;
   top: 530px;
 }
 
-/* line 292 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 301 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #submitBox {
   float: left;
   width: 575px;
 }
 
-/* line 296 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 305 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #submitStory > input {
   float: left;
   margin-top: 30px;
   margin-bottom: 40px;
 }
 
-/* line 301 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 310 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #contentRightStory {
   float: right;
   width: 275px;
   text-align: left;
 }
 
-/* line 306 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 315 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .storyHeader {
   color: #464052;
   margin-bottom: 5px;
 }
 
-/* line 310 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 319 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 .requiredItem {
   color: #464052;
   float: right;
@@ -415,22 +415,22 @@ padding-right 4px {
   font-weight: 500;
 }
 
-/* line 319 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 328 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #requiredEmail {
   left: -295px;
 }
 
-/* line 322 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 331 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #optionalName {
   left: -295px;
 }
 
-/* line 325 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 334 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #requiredArea {
   margin-bottom: -20px;
 }
 
-/* line 328 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 337 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #addPoint {
   position: relative;
   z-index: 100;
@@ -438,13 +438,13 @@ padding-right 4px {
   left: 60px;
 }
 
-/* line 334 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 343 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 #contentRightStory .storyHeader {
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 }
 
-/* line 338 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
+/* line 347 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/app.styl */
 /*header Stylus*/
 
 /* line 286 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/node_modules/gulp-stylus/node_modules/stylus/lib/functions/index.styl */
@@ -675,7 +675,6 @@ padding-right 4px {
 /* line 75 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/footer.styl */
 .footerShareContainer {
   width: 100%;
-  height: 350px;
 }
 
 /* line 80 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/footer.styl */
