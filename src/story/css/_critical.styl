@@ -5,6 +5,11 @@
 nav
   border-bottom 1px solid darken($concrete, 5%)
 
+h1
+  +below($mq-mobile-small)
+    margin 0.67em 1.55em
+    line-height 1.5em
+
 .header-container
   border-bottom 1px solid darken($concrete, 5%)
 
@@ -12,11 +17,15 @@ nav
   column(2/3, gutter: $gutter)
   padding 1em
   padding-right: 1.25em
+  margin-right 2% !important
   border-right 1px solid darken($concrete, 5%)
   box-sizing border-box
 
   +below($mq-mobile)
     border-right none
+
+  +below($mq-mobile-small)
+    padding 1em 0
 
 .story-details
   column(1/3, gutter: $gutter)
@@ -207,3 +216,12 @@ textarea
 
   .arcgisSearch .searchBtn
     padding 2px 6px
+
+  #basemap-container
+    position absolute
+    right 10px
+    top 10px
+    z-Index 2
+
+    +below($mq-mobile-small)
+      display none
