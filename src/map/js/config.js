@@ -68,6 +68,17 @@ export const config = {
   */
   layers: [
     {
+      id: KEYS.loggingConcessions,
+      order: 7,
+      type: 'dynamic',
+      label: 'Logging concessions',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'tree-cover',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      layerIds: [3]
+    },
+    {
       id: KEYS.oilPalm,
       order: 7,
       type: 'dynamic',
@@ -106,17 +117,6 @@ export const config = {
       className: 'tree-cover',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       layerIds: [0]
-    },
-    {
-      id: KEYS.loggingConcessions,
-      order: 7,
-      type: 'dynamic',
-      label: 'Logging concessions',
-      sublabel: '(varies, select countries)',
-      group: 'forestUse',
-      className: 'tree-cover',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
-      layerIds: [3]
     },
     {
       id: KEYS.forestMoratorium,

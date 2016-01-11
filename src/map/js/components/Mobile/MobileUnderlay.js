@@ -33,7 +33,8 @@ export default class Map extends React.Component {
     if (app.mobile() === true) {
       if (this.state.mapStore.layerPanelVisible === false &&
           this.state.analysisStore.esriSearchVisible === false &&
-          this.state.analysisStore.analysisToolsVisible === false) {
+          this.state.analysisStore.analysisToolsVisible === false &&
+          this.state.analysisStore.timelineVisible === false) {
         className += ' hidden';
       };
     };

@@ -7,43 +7,84 @@ import {AlertsSvg, AnalysisSvg, BasemapSvg, CalendarSvg} from 'utils/svgs';
 import React from 'react';
 
 export default class Map extends React.Component {
+
   constructor (props) {
     super(props);
-    this.state = {};
+    this.toggleLayers = this.toggleLayers.bind(this)
+    this.toggleAnalysis = this.toggleAnalysis.bind(this)
+    this.toggleSubscription = this.toggleSubscription.bind(this)
+    this.toggleTimeline = this.toggleTimeline.bind(this)
+  }
+
+  hidePanels () {
+    if (mapStore.getState().layerPanelVisible === true) {
+      layerActions.toggleLayerPanelVisibility();
+    }
+    if (analysisStore.getState().analysisToolsVisible === true) {
+      analysisActions.toggleAnalysisToolsVisibility();
+    }
+    if (analysisStore.getState().timelineVisible === true) {
+      analysisActions.toggleTimelineVisibility();
+    }
   }
 
   toggleAnalysis () {
-    // set analysis active
-    // if hidden show
-    analysisActions.setAnalysisType.bind(this, text.subscriptionTabId)
-    // analysisActions.toggleAnalysisToolsVisibility();
+    if (analysisStore.getState().analysisToolsVisible === true
+      && analysisStore.getState().activeTab === analysisPanelText.analysisTabId) {
+      this.hidePanels();
+    } else {
+      this.hidePanels();
+      analysisActions.setAnalysisType(analysisPanelText.analysisTabId);
+      analysisActions.toggleAnalysisToolsVisibility();
+    }
   }
 
   toggleSubscription () {
-    // set subscription active
-    analysisActions.setAnalysisType.bind(this, text.subscriptionTabId)
-    // if hidden show
-    // analysisActions.toggleAnalysisToolsVisibility();
+    if (analysisStore.getState().analysisToolsVisible === true
+      && analysisStore.getState().activeTab === analysisPanelText.subscriptionTabId) {
+      this.hidePanels();
+    } else {
+      this.hidePanels();
+      analysisActions.setAnalysisType(analysisPanelText.subscriptionTabId);
+      analysisActions.toggleAnalysisToolsVisibility();
+    }
   }
 
+  toggleLayers () {
+    if (mapStore.getState().layerPanelVisible === true) {
+      this.hidePanels();
+    } else {
+      this.hidePanels();
+      layerActions.toggleLayerPanelVisibility();
+    }
+  }
+
+  toggleTimeline () {
+    if (analysisStore.getState().timelineVisible === true) {
+      this.hidePanels();
+    } else {
+      this.hidePanels();
+      analysisActions.toggleTimelineVisibility();
+    }
+  }
 
   render () {
     return (
       <div id='mobile-controls' className='mobile-controls mobile-show'>
-        <button onClick={layerActions.toggleLayerPanelVisibility}>
+        <button onClick={this.toggleLayers}>
           <BasemapSvg />
           Layers
         </button>
-        <button onClick={analysisActions.toggleAnalysisToolsVisibility}>
+        <button onClick={this.toggleAnalysis}>
           <AnalysisSvg />
           Analyze Fires
         </button>
-        <button>
-          <AlertsSvg />
+        <button onClick={this.toggleSubscription}>
+          <AlertsSvg/>
           Subscribe
         </button>
-        <button>
-          <CalendarSvg />
+        <button onClick={this.toggleTimeline}>
+          <CalendarSvg/>
           Timeline
         </button>
       </div>

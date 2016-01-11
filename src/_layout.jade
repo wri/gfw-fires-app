@@ -23,7 +23,9 @@ html
     include html/_ie9.html
     include html/_svgAssets.jade
 
-    div#headerGfw.headerGfw
+    div.headerGfw-wrapper
+      div#headerGfw.headerGfw
+
     section.logo-container
       div.gfw-fires-logo-wrapper
         img.gfw-fires-logo(height=90 width=90 src='../images/gfwFires-logo-new.png')
@@ -36,7 +38,7 @@ html
       script.
         // language and mobile navigation functionality
         window.addEventListener('load', function () {
-          document.getElementById('navigation--language').onchange = function (event) { console.debug(event.target.value); window.location.href = event.target.value; };
-          document.getElementById('mobile-navigation--language').onchange = function (event) { console.debug(event.target.value); window.location.href = event.target.value; };
+          document.getElementById('navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
+          document.getElementById('mobile-navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
           document.getElementById('mobile-navigation-icon').onclick = function (event) { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); document.getElementById('mobile-navigation-icon').classList.toggle('active'); };
         });

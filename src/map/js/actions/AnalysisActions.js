@@ -60,6 +60,10 @@ class AnalysisActions {
     this.dispatch();
   }
 
+  toggleTimelineVisibility () {
+    this.dispatch();
+  }
+
   toggleAreaIslandsActive () {
     this.dispatch();
   }

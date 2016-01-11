@@ -75,6 +75,7 @@ export default class LayerPanel extends React.Component {
 
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
+    let landUseLayers = layersConfig.map(this.checkboxMap('forestUse'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
 
     return (
@@ -82,8 +83,15 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Forest Use'>
-          {layersConfig.map(this.checkboxMap('forestUse'), this)}
+        <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
+          {landUseLayers[0]}
+          Tree Plantations
+          <div className='layer-panel-indent'>
+            {landUseLayers[1]}
+            {landUseLayers[2]}
+            {landUseLayers[3]}
+          </div>
+          {landUseLayers[4]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
           {layersConfig.map(this.checkboxMap('conservation'), this)}
@@ -97,7 +105,7 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
           {layersConfig.map(this.checkboxMap('imagery'), this)}
         </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Social Media'>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Stories'>
           {layersConfig.map(this.checkboxMap('watershed'), this)}
         </LayerGroup>
 
@@ -107,7 +115,7 @@ export default class LayerPanel extends React.Component {
               Basemaps
             </div>
             <div>
-              <div className='flex padding'>
+              <div className='flex flex-wrap flex-justify-between padding'>
                 <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
                   <div className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
                   <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>

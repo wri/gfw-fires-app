@@ -14,6 +14,7 @@ class AnalysisStore {
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
     this.analysisToolsExpanded = true;
+    this.timelineVisible = false;
     this.areaIslandsActive = false;
     this.islands = [];
     this.provinces = [];
@@ -29,6 +30,7 @@ class AnalysisStore {
       toggleAnalysisToolsVisibility: analysisActions.toggleAnalysisToolsVisibility,
       toggleAnalysisToolsExpanded: analysisActions.toggleAnalysisToolsExpanded,
       toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility,
+      toggleTimelineVisibility: analysisActions.toggleTimelineVisibility,
       initAreas: analysisActions.initAreas,
       toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive
     });
@@ -74,6 +76,10 @@ class AnalysisStore {
 
   toggleEsriSearchVisibility () {
     this.esriSearchVisible = !this.esriSearchVisible;
+  }
+
+  toggleTimelineVisibility () {
+    this.timelineVisible = !this.timelineVisible;
   }
 
   initAreas (areas) {

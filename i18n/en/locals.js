@@ -19,8 +19,8 @@
     navigation: {
       languageLabel: 'Language',
       languages: [
-        ['/en/home', 'English'],
-        ['/id/home', 'Bahasa Indonesia']
+        ['/en/', 'English'],
+        ['/id/', 'Bahasa Indonesia']
       ]
     },
     home: {

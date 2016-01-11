@@ -4,6 +4,7 @@ import MobileControls from 'components/Mobile/MobileControls';
 import EsriSearch from 'components/AnalysisPanel/EsriSearch';
 import ControlPanel from 'components/MapControls/ControlPanel';
 import LayerPanel from 'components/LayerPanel/LayerPanel';
+import Timeline from 'components/Timeline/Timeline';
 import {applyStateFromUrl} from 'helpers/ShareHelper';
 import {mapActions} from 'actions/MapActions';
 import {getUrlParams} from 'utils/params';
@@ -39,6 +40,7 @@ export default class Map extends React.Component {
         <EsriSearch loaded={this.state.loaded} />
         <AnalysisTools />
         <ControlPanel />
+        <Timeline />
         <MobileUnderlay />
         <MobileControls />
       </div>
