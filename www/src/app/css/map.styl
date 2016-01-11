@@ -1,11 +1,11 @@
-map.styl 
+map.styl
 
 //Temp Css
 
 .disabled
 	color rgb(190,190,190)
 
-#control-panel .dijitCheckBox.dijitDisabled 
+#control-panel .dijitCheckBox.dijitDisabled
 	background-color rgb(190, 190, 190)
 
 // General Functions
@@ -13,7 +13,7 @@ border-radius()
 	border-radius arguments
 
 border-radius-top()
-	border-radius arguments arguments 0 0 
+	border-radius arguments arguments 0 0
 
 baseRed = #e7002f
 
@@ -28,23 +28,23 @@ baseRed = #e7002f
 	width 320px
 	bottom 0
 	left 0
-	top 0 
+	top 0
 	z-index 5 //to show logo
-	
+
 #control-panel
 	transition all 1s
-	
+
 
 #subscribeDialogWindow
 	overflow visible
-	
+
 .country-list
 	max-height 200px !important
 
 #alertToolboxSubheader
 	font-size 14px
 	font-weight normal
-	
+
 .upload-instructions
 	margin-left 10px
 	font-size 12px
@@ -56,7 +56,7 @@ baseRed = #e7002f
 	bottom 0
 	right 0
 	top 0
-.map 
+.map
 	height 100%
 	width 100%
 .simpleGeocoder .esriGeocoder
@@ -73,33 +73,36 @@ baseRed = #e7002f
 	cursor pointer
 	height 30px
 	width 30px
-	right 20px
+	right 60px
 	z-index 50
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
-	
+
 .simpleGeocoder, .simpleGeocoder .esriGeocoderContainer
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 #map .esriSimpleSlider
 	border 0
 	background rgba(255,255,255,0)
-	
-#map .esriSimpleSliderTL
-	right 20px
-	left auto
+	right 60px !important
+	top 60px !important
+
+.esriSimpleSliderTL
+	right 60px !important
+	top 60px !important
+
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton
 	border-bottom 0
 	padding 1px
 	color rgb(240, 171, 0)
 	background rgb(255, 255, 255)
 	border-top-left-radius 5px
-	border-top-right-radius 5px	
+	border-top-right-radius 5px
 	margin-bottom 2px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
 #map .esriSimpleSliderVertical .esriSimpleSliderIncrementButton:hover, .HomeButton .home:hover, .share-button:hover, .locator-widget-button:hover, .basemap-gallery-button:hover, .print-button:hover
 	background-color #EEE !important
-	
+
 .alert-button:hover
 	background-color #b60025 !important
 
@@ -113,20 +116,20 @@ baseRed = #e7002f
 	// height: 1px !important
 	// padding-bottom 4px
 	// background #F7F7F7
-	
+
 	.titlePane
 		// height 20px
 		background #F7F7F7
 		padding-left 9px
-		
+
 		.titleButton.next
 			right 26px
 		.titleButton.prev
 			right 44px
-			
+
 		.title
 			//display none
-			strong 
+			strong
 					color lighten(black,5)
 			color black
 			font-size 14px
@@ -139,8 +142,8 @@ baseRed = #e7002f
 		.next
 			background url(../images/arrow_go.png) no-repeat !important
 			margin-top 3px
-		.prev	
-			background url(../images/arrow_prev.png) no-repeat 
+		.prev
+			background url(../images/arrow_prev.png) no-repeat
 			margin-top 3px
 
 #map .esriPopupWrapper .sizer
@@ -149,26 +152,26 @@ baseRed = #e7002f
 		margin-bottom 3px
 	.contentPane
 		padding-top 0px
-		
+
 	.actionsPane
 		padding-top 15px
 	.actionList
 		padding-bottom 8px
 		vertical-align	middle
-		
+
 table.forest-use-pop
 	// margin 0px auto
 	padding-top	5px
 	width 100%
-	
+
 	tr
 		td
 				padding-right 5px
 				padding-left 5px
 		&:nth-child(odd)
 			background-color #eee
-			
-		
+
+
 .fire-popup-list
 	padding-top 10px
 	padding-bottom 10px
@@ -176,14 +179,14 @@ table.forest-use-pop
 		padding-top 5px
 		padding-bottom 5px
 		color #BF0000
-		
-		
-.fire-pop-item-cont 
+
+
+.fire-pop-item-cont
 	margin 0 auto
 	text-align center
 	padding-top	5px
 
-	.fire-pop-item 
+	.fire-pop-item
 		cursor pointer
 		display inline-block
 		margin 0px auto
@@ -194,20 +197,20 @@ table.forest-use-pop
 		height 35px
 		width 40px
 
-		&.selected 
+		&.selected
 			background-color rgb(236, 197, 61)
 			color white
-			
+
 		&:hover
 			background-color lighten(rgb(236, 197, 61),30)
-			
-		.fire-pop-count 
+
+		.fire-pop-count
 			font-size 16px
 			FONT-WEIGHT BOLD
 			color #B50303
 
 
-		.fire-pop-label 
+		.fire-pop-label
 			font-size: 10px;
 
 
@@ -217,7 +220,7 @@ table.forest-use-pop
 	border-radius 0
 	-webkit-border-radius 0
 	background-image url(../images/ico-home.png)
-	
+
 
 
 .esriSimpleSliderDecrementButton
@@ -229,51 +232,51 @@ table.forest-use-pop
 	margin-bottom 1px
 	box-shadow 1px 1px 5px rgba(0, 0, 0, 0.25)
 
-.modal-link 
+.modal-link
 	background-color white
 	position absolute
-	height 30px
+	height 32px
 	width 30px
-	right 45px
+	right 85px
 	z-index 49
 
 .locator-widget-button
 	background-image url('../images/locate.png')
-	background-repeat no-repeat 
+	background-repeat no-repeat
 	background-position 0 -34px
-	top 130px
+	top 170px
 
 .locator-linker
-	top 130px
+	top 170px
 
 .basemap-gallery-button
 	background-image url('../images/basemap.png')
-	background-repeat no-repeat 
+	background-repeat no-repeat
 	background-position 0 -34px
-	top 170px
+	top 210px
 	border-width 0
 .alert-button
 	background-image url('../images/alert_symbol_white.png')
-	background-repeat no-repeat 
+	background-repeat no-repeat
 	background-position 7px 6px
 	border-width 0
-	
+
 .alertsOptionsHeader
 	float right
 	padding 10px
 	cursor pointer
 
 .basemap-linker
-	top 170px
+	top 210px
 .alert-linker
 	top 50px
 	right 410px
-	
+
 .high-confidence-info
 	cursor pointer
 	color #e7002f
-	
-.map-alert-container	
+
+.map-alert-container
 	width 350px !important
 	height auto
 	top 55px
@@ -285,20 +288,20 @@ table.forest-use-pop
 	position absolute
 	width 300px
 	z-index 50
-	right 70px
+	right 110px
 
 .basemap-gallery-container
 	height 300px
 	top 20px
-	
+
 .locator-widget-container
 	top 20px
 	padding 5px
 
 .map-share-container
-	height 80px
+	height 75px
 	width auto
-	top 180px
+	top 190px
 
 .map .embed_code_share
 	background url('../images/embed_icon.png') no-repeat white
@@ -307,11 +310,11 @@ table.forest-use-pop
 	height 32px
 	width 32px
 	margin-left 2px
-	
+
 .alert-tools
 	text-align center
 	margin 5px 0 10px
-	
+
 
 .alert-tools-buttons
 	background-color #444
@@ -325,18 +328,18 @@ table.forest-use-pop
 	width 100px
 	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
 	font-size 14px
-	
+
 .alert-tools-buttons:hover
 	background-color baseRed
-	
+
 .upload-tools .upload-instructions li
 	margin-left 10px
 	list-style disc
 	font-size 12px
-	
+
 .upload-tools
 	margin 0 10px 10px
-	
+
 .uploadFileLabel
 	display inline-block
 	margin-top 8px
@@ -358,12 +361,12 @@ table.forest-use-pop
 	background url('../images/share-icon.png') no-repeat white
 	background-position -2px -35px
 	top 210px
-	
+
 .popup-link-zoom
 	background url('../images/magnifyingGlass.png') no-repeat
 	background-position 20px 2px
 	cursor pointer
-	
+
 #leftPaneToggle
 	z-index 30
 	position absolute
@@ -378,7 +381,7 @@ table.forest-use-pop
 	cursor pointer
 	text-align center
 	line-height 25px
-	
+
 .confidence-archive-container
 	margin-left 13px
 	padding-bottom 10px
@@ -392,7 +395,7 @@ table.forest-use-pop
 #report-optionsDigitalGlobe
 	margin-top -10px
 	margin-left 20px
-	
+
 .imageryTopRow th
 	background white
 	color gray
@@ -400,12 +403,12 @@ table.forest-use-pop
 	border-bottom 1px solid #000
 	height 30px
 
-.imageryTable 
+.imageryTable
 	border-collapse collapse
 	border-spacing 0
 	tr:nth-child(even) {background: #FFF}
 	tr:nth-child(odd) {background: #F0F0F0 }
-	
+
 #verifyEmailForAlertsInMap {
 	font-size 12px
 	display none
@@ -414,7 +417,7 @@ table.forest-use-pop
 .email-container, .submit-container, .message-container, .phone-container
 	text-align center
 	margin 10px 0
-	
+
  #userEmail
 	border 1px solid gray
 	border-radius 5px
@@ -442,11 +445,11 @@ table.forest-use-pop
 	width 240px
 	outline 0
 	padding-left: 40px;
-	
+
 .submit-container
 	text-align center
 	margin 10px 0
-	
+
 .deleteGraphicLink
 	margin-top 20px
 	cursor pointer
@@ -457,7 +460,7 @@ table.forest-use-pop
 	border-radius 5px
 	font-size 12px
 	padding 5px
-	
+
 .uploadCustomGraphic
 	position absolute !important
 	box-shadow 1px 1px 5px rgba(0,0,0,0.25)
@@ -472,8 +475,8 @@ table.forest-use-pop
 	bottom 7px
 	padding-left 30px
 	background url('../images/alert_symbol_white.png') no-repeat baseRed 5px 3px
-	
-	
+
+
 .uploadCustomGraphic:hover, .deleteGraphicLink:hover, .report-link:hover, #report-link:hover, #customGraphicSymbol:hover, #report-launch:hover
 	background-color #B60025
 	border-radius 5px
@@ -494,30 +497,30 @@ table.forest-use-pop
 
 #subscribe-now:hover, #subscribe-now:active
 	background-color #b60025
-	
+
 #subscribeDialogWindow
 	font-family Arial !important
 	overflow inherit !important
-	
+
 .intl-tel-input .country-list
 	max-height 200px !important
-	
+
 #subscribeDialogWindow > div.dijitDialogTitleBar, #embedCodeShareDialog > div.dijitDialogTitleBar, #digitalGlobeInstructions > div.dijitDialogTitleBar, #windLayerBasemapDialog > div.dijitDialogTitleBar, #highConfidenceDialog > div.dijitDialogTitleBar
 	background white
 	text-align center
 
 .tundra .dijitDialogPaneContent
 	border-top none !important
-	
+
 .tundra .dijitDialog
 	border none !important
-	
+
 .tundra .dijitDialogCloseIcon
-	background url("../images/ico-close.png") no-repeat 4px 4px !important 
+	background url("../images/ico-close.png") no-repeat 4px 4px !important
 
 /*.imageryTable tr
 	border-left: 1px solid transparent;*/
-	
+
 .imageryTable td
 	text-align center
 
@@ -529,29 +532,29 @@ table.forest-use-pop
 
 #imageryWindow > table > thead > tr > th:nth-child(1)
 	width 81px
-	
+
 #imageryWindow > table > tbody > tr > td:nth-child(1)
 	width 81px
-	
+
 #imageryWindow > table > thead > tr > th:nth-child(2)
 	width 104px
 
 #imageryWindow > table > tbody > tr > td:nth-child(2)
 	width 104px
-	
+
 #imageryWindow > table > thead > tr > th:nth-child(3)
 	width 77px
-	
+
 #imageryWindow > table > tbody > tr > td:nth-child(3)
 	width 60px
-	
+
 .imageryTable tr
 	height 25px
-	
+
 table.imageryTable thead, table.imageryTable tbody
 	float left
 	width 100%
- 
+
 
 #imageryWindow
 	width auto
@@ -566,7 +569,7 @@ table.imageryTable thead, table.imageryTable tbody
 	z-index 6
 	font-size 12pt
 	//border 2px solid black
-	
+
 	.font14
 		font-size 14pt
 		padding-top 3px
@@ -607,7 +610,7 @@ table.imageryTable thead, table.imageryTable tbody
 		position relative
 		width 138px
 		top 0px
-		
+
 		right 0px
 		bottom 10px
 		align-content center
@@ -651,7 +654,7 @@ table.imageryTable thead, table.imageryTable tbody
 
 .print-button.loading
 	background url('../images/loader.gif') no-repeat center white
-	
+
 .alert-button
 	background-color rgb(231, 0, 47)
 	text-align center
@@ -660,10 +663,10 @@ table.imageryTable thead, table.imageryTable tbody
 	color white
 	top 20px
 	width 160px
-	right 335px
+	right 320px
 	padding-left 15px
 	padding-right 0px
-	
+
 #report-launch > div
 	background url(../images/analysis_symbol_white.png) 5% 50% no-repeat
 
@@ -706,7 +709,7 @@ table.imageryTable thead, table.imageryTable tbody
 .simpleGeocoder
 	position absolute
 	z-index 50
-	right 80px
+	right 63px
 	top 20px
 
 .area-search-inputs
@@ -749,7 +752,7 @@ table.imageryTable thead, table.imageryTable tbody
 
 .search-option-go-button:hover
 	background-color baseRed
-	
+
 .fires-map-accordion
 	position absolute !important
 	top 50px
@@ -770,7 +773,7 @@ table.imageryTable thead, table.imageryTable tbody
 	color rgb(136, 136, 136)
 
 
-.legend-widget-container 
+.legend-widget-container
 	background-color white
 	border-radius-top(5px)
 	position absolute
@@ -802,12 +805,12 @@ table.imageryTable thead, table.imageryTable tbody
 
 .legend-closed
 	background-image url(../images/ico-carat-up.png) !important
-	
+
 .legend-widget-title span
 	display inline-block
 	line-height 30px
 	font-weight bold
-	margin-left 5px	
+	margin-left 5px
 
 .legend-content
 	height 250px
@@ -830,7 +833,7 @@ table.imageryTable thead, table.imageryTable tbody
 
 .active-fires-options-container
 	margin 10px 0 20px
-	
+
 .active-fires-options
 	text-align center
 	line-height 15px
@@ -847,7 +850,7 @@ table.imageryTable thead, table.imageryTable tbody
 #confidenceFiresContainer, #digitalGlobeFootprintsCheckboxLabel, #confidenceArchiveContainer
 	font-weight normal !important
 	font-size 12px !important
-	
+
 
 
 .confidence-fires-container
@@ -867,7 +870,7 @@ table.imageryTable thead, table.imageryTable tbody
 	padding 0 0 0 20px
 	font-weight bold
 	font-size 11px
-	
+
 .airQualityDisable
 	text-decoration line-through
 
@@ -918,13 +921,13 @@ table.imageryTable thead, table.imageryTable tbody
 	border-radius 3px
 	width 132px
 	padding-right 0
-	
+
 #report-link
 	background url(../images/analysis_symbol_white.png) 5% 50% no-repeat
 	text-align right
 	width 140px
 	padding 6px
-	
+
 
 div.report-options-section > table
 	margin-bottom 5px
@@ -1053,15 +1056,15 @@ div.report-options-section > table
 	margin 0 0 10px 0
 	border-bottom 1px solid rgb(255, 255, 255)
 	font-weight bold
-	
+
 .imageryRow:hover
 	border 2px solid yellow
 	box-sizing border-box
-	
+
 .imageryRow.hover
 	border 2px solid yellow
 	box-sizing border-box
-	
+
 .imageryRowSelected
 	border 2px solid #00FFFF
 	box-sizing border-box
@@ -1083,18 +1086,18 @@ div.report-options-section > table
 	padding 4px
 	padding-left 5px
 	cursor pointer
-	
+
 // #fireLayerInfoDialog
 // 	border 1px solid #7eabcd !important
-	
+
 #fireLayerInfoDialog, #landUseLayerInfoDialog, #conservationLayerInfoDialog, #landCoverLayerInfoDialog, #airQualityLayerInfoDialog, #imageryLayerInfoDialog
 	.dijitDialogTitleBar
 		background none !important
 		padding 10px 6px 3px 7px !important
 		color #aaa
-	
+
 #fireLayerInfoDialog .dijitDialogCloseIcon
-	
+
 .layer-info-icon:hover
 	background-color #888
 
@@ -1115,7 +1118,7 @@ div.report-options-section > table
 	position absolute
 	left 10px
 	bottom 0
-	
+
 .blockingWheelContainer
 	background-color #DDD
 	position absolute
@@ -1126,7 +1129,7 @@ div.report-options-section > table
 	left 0
 	top 0
 	z-index 1000
-	
+
 .blockingWheel
 	position initial
 	left 50%
@@ -1174,13 +1177,13 @@ div.report-options-section > table
 .rightWindLabel
 	float right
 
-.windLayerLegendColorRamp 
+.windLayerLegendColorRamp
 	background linear-gradient(to right, rgba(0,255,255,.5) 0%,rgba(255,30,219,.5) 100%)
-	
+
 #highConfidenceDialog
 	padding 5px
 	//font-size:16px; color: #888; text-align: center;
-		
+
 
 #windLayerBasemapDialog, #digitalGlobeInstructions, #embedCodeShareDialog, #highConfidenceDialog
 	font-family "Arial MT Condensed Light"
@@ -1216,7 +1219,7 @@ div.report-options-section > table
 	position relative
 	left 4px
 	top 2px
-	
+
 .joyride-tip-guide .joyride-next-tip
 	background rgb(231,0,47) !important
 	border none !important
@@ -1227,13 +1230,13 @@ div.report-options-section > table
 	// background -webkit-linear-gradient(top, rgb(231,0,47) 0%,rgb(0,85,214) 100%)
 .joyride-close-tip
 	margin -5px
-	
+
 .joyride-tip-guide
 	width 200px
-	
+
 #map_gc
 	z-index 5
-	
+
 #heatCircle,#clusterCircle,#hexCircle
 	width 70px
 	height 70px
@@ -1241,20 +1244,20 @@ div.report-options-section > table
 	cursor pointer
 	padding 5px
 	margin 10px
-	
+
 #heatCircle
 	background rgb(255, 255, 255) url(../images/heatmap.png) center no-repeat
-	
+
 #clusterCircle
 	background rgb(255, 255, 255) url(../images/clustering.png) center no-repeat
-	
+
 
 #hexCircle
 	background rgb(255, 255, 255) url(../images/hexbin.png) center no-repeat
 
 .map-view-print .mapView #stackContainer
 	top 0px
-	
+
 .map-view-print #app-header
 	display none
 
@@ -1266,7 +1269,7 @@ div.report-options-section > table
 	max-width 100%
 	max-height 100%
 
-.map-view-print .esriControlsBR, 
+.map-view-print .esriControlsBR,
 .map-view-print .legend-widget-container,
 .map-view-print .locator-widget-button,
 .map-view-print .basemap-gallery-button,
@@ -1283,13 +1286,13 @@ div.report-options-section > table
 
 .map-view-print .latLongHUD
 	bottom auto
-	
+
 #smartHiddenMenu > li > a
 	color black !important
-	
+
 .sub-menu
 	border-top 1px solid black
-	
+
 #smartRelative
 	position relative
 	margin-top 5px
@@ -1301,45 +1304,45 @@ div.report-options-section > table
 	padding 5px
 	cursor pointer
 	background rgb(255, 255, 255) url(../images/ico-carat-down.png) 96% center no-repeat !important
-	
-	
+
+
 #smartDropdownArrow
 	float right
 	position absolute
 	top 4px
 	right 15px
 	cursor pointer
-	
+
 .esriPopup
 	z-index 28 !important
-		
+
 #smartContainer
 	margin 0
 	margin-left 5px
 	margin-top 10px
 	text-align center
-	
+
 .smartRelative
 	border-radius 50%
 	box-shadow 0 0 0 3px #ddd
 	transition box-shadow 0.3s
 	position relative
-	
+
 #cluster-blocker
 	border-radius 50%
-	
+
 #heatCircle:hover
 	box-shadow 0 0 0 3px #f00 !important
-	
+
 .hoverSmart:hover
 	box-shadow 0 0 0 3px #f00 !important
-	
+
 // #clusterCircle:hover
 // 	box-shadow 0 0 0 3px #f00 !important
-	
+
 // #cluster-blocker:hover
 // 	box-shadow none !important
-	
+
 // .smartRelative:hover
 // 	box-shadow 0 0 0 3px #f00 !important
 
@@ -1351,7 +1354,7 @@ div.report-options-section > table
 
 .hidden
 	display none
-// Time slider 
+// Time slider
 
 #timeSliderPanel
 	display:none;
@@ -1368,15 +1371,15 @@ div.report-options-section > table
 
 .esriTimeSlider
 	padding-top 10px
-	
-.timeSliderContainer 
+
+.timeSliderContainer
 	height 95px
 	width 272px
 	overflow hidden
 	position relative
 	margin-left 5px
 
-.timeSliderPanel .dijitRuleLabel 
+.timeSliderPanel .dijitRuleLabel
 	 float left
 	 width 36px
 	 font-size 11px
@@ -1391,10 +1394,10 @@ div.report-options-section > table
 	 -o-transform rotate(-55deg)
 	 transform rotate(-55deg)
 
-.timeSliderContainer .dijitRuleLabelH 
+.timeSliderContainer .dijitRuleLabelH
 	 left -55% !important
 
-.timeSliderPanelLabel 
+.timeSliderPanelLabel
 	 border-top-right-radius 5px
 	 border-top-left-radius 5px
 	 background-color #FFF
@@ -1422,7 +1425,7 @@ div.report-options-section > table
 	height: 60px;
 	width: 0px;
 
-.esriTimeSlider .tsPauseButton 
+.esriTimeSlider .tsPauseButton
 	background: url(images/ico-pause.png) no-repeat center;
 	border-right: 2px solid rgb(209, 208, 212);
 	display: block;
@@ -1447,8 +1450,8 @@ div.report-options-section > table
 	 border: 0px solid rgb(192, 192, 192);
 	 border-bottom: 0px solid rgb(155, 155, 155);
 
-	 padding: 0px; 
-	 background: rgb(255, 255, 255) url("") repeat-x bottom left; 
+	 padding: 0px;
+	 background: rgb(255, 255, 255) url("") repeat-x bottom left;
 
 #timeSliderPanel table td:first-child .dijitButtonNode
 		 border-radius: 5px 0px 0px 5px;
@@ -1465,7 +1468,7 @@ div.report-options-section > table
 	height: 60px;
 	width: 24px;
 
-#timeSliderPanel .pauseIcon 
+#timeSliderPanel .pauseIcon
 	background: url(images/ico-unlock.png) no-repeat center !important;
 
 #timeSliderPanel .dijitSliderBarContainerH
@@ -1476,11 +1479,11 @@ div.report-options-section > table
 	margin: 0;
 
 
-#timeSliderPanel .dijitSliderRemainingBarH 
+#timeSliderPanel .dijitSliderRemainingBarH
 	border-color: rgba(255, 255, 255, 0);
 	background: rgba(255, 255, 255, 0) url("") repeat-x top left;
 
-#timeSliderPanel .dijitSliderBumperH 
+#timeSliderPanel .dijitSliderBumperH
 	border-width: 0;
 	background-size: 340px;
 	z-index: 500;
@@ -1489,7 +1492,7 @@ div.report-options-section > table
 	width: 100%;
 	margin: 0 0 4px 0;
 
-#timeSliderPanel .dijitSliderProgressBarH 
+#timeSliderPanel .dijitSliderProgressBarH
 	border: 0 solid rgba(255, 255, 255, 0);
 	background: rgb(233, 131, 0);
 	position: absolute !important;
@@ -1504,7 +1507,7 @@ div.report-options-section > table
 	margin: 3px 0 0 0px;
 	z-index: 50002;
 
-#timeSliderPanel .esriTimeSlider .ts 
+#timeSliderPanel .esriTimeSlider .ts
 	position: relative;
 	margin: 0px;
 	top: -10px;
@@ -1512,48 +1515,48 @@ div.report-options-section > table
 	// margin: 0 0 15px 0;
 
 // ToolTip
-.tundra .dijitTooltipRight 
+.tundra .dijitTooltipRight
 	padding-left 8px !imprtant
 	.dijitTooltipContainer
 		background #222
-		border 0px 
+		border 0px
 		color #CCC
 	.dijitTooltipConnector
 		background-image none !important
-		
-	
-	
+
+
+
 #dojox_form__RangeSliderMixin_0
 	width: 100%;
-	
+
 .tstmp
 	vertical-align: top !important;
 
-.dj_gecko #timeSliderPanel .esriTimeSlider .ts 
+.dj_gecko #timeSliderPanel .esriTimeSlider .ts
 	position: relative;
 	/*5*/
 
-#timeSliderPanel .dijitSliderRemainingBarH 
+#timeSliderPanel .dijitSliderRemainingBarH
 	background: #ecc53d;
 	margin-bottom: 4px;
 	height: 6px;
 
-#timeSliderPanel .tsTicks 
+#timeSliderPanel .tsTicks
 	height: 10px;
 	z-index: 0;
 	width: 99.9%; /* This prevents the ticks from sitting outside of the slider bar container */
 
-.dijitRuleMark 
+.dijitRuleMark
 	border: 1px solid rgb(0,0,0);
 	margin: -2px 0 0 0;
 
-#timeSliderPanel .dojoxRangeSlider, #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH 
+#timeSliderPanel .dojoxRangeSlider, #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH
 	background: rgb(233, 131, 0) !important;
 	border: 0 solid rgb(70, 29, 124) !important;
 	/*height: 8px;*/
 
 
-#timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH 
+#timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH
 	position: absolute !important;
 
 
@@ -1568,13 +1571,13 @@ div.report-options-section > table
 
 
 
-#timeSliderPanel .dijitSliderImageHandleH 
+#timeSliderPanel .dijitSliderImageHandleH
 .dijitContentPane
 	overflow-x: hidden;
 
 #brightnessSelector, #confidenceSelector
 	display none
-	
+
 .selectedConfidence
 	background-color blue
 
