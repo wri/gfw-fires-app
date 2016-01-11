@@ -23,56 +23,57 @@ block content
 
   section.form-section
     div.story-form
-      div#story-title-container.field
-        label #{story.form.title[0]}
-        span.required #{story.form.title[1]}
-        div: input(type='text' placeholder='#{story.form.title[2]}')
+      form#story-form(novalidate)
+        div#story-title-container.field
+          label#story-title-label #{story.form.title[0]}
+          span.required #{story.form.title[1]}
+          div: input(id='story-title-input' type='text' required='true' placeholder='#{story.form.title[2]}')
 
-      div#story-affected-areas-container.field
-        label #{story.form.affectedAreas[0]}
-        p.description #{story.form.affectedAreas[1]}
-        div#map-container
-          div#search
-          div#map
-            div(style="position:absolute; right:10px; top:10px; z-Index:999;")
-              div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
-                div(data-dojo-type='dijit/layout/ContentPane', style='width:250px; height:220px; overflow:auto;')
-                  div#basemapGallery
+        div#story-affected-areas-container.field
+          label#story-affected-areas-label #{story.form.affectedAreas[0]}
+          p.description #{story.form.affectedAreas[1]}
+          div#map-container
+            div#search
+            div#map
+              div#basemap-container(style="position:absolute; right:10px; top:10px; z-Index:999;")
+                div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
+                  div(data-dojo-type='dijit/layout/ContentPane', style='width:250px; height:220px; overflow:auto;')
+                    div#basemapGallery
 
-      div#story-location-container.field
-        label #{story.form.location[0]}
-        div: input(type='text' placeholder='#{story.form.location[1]}')
+        div#story-location-container.field
+          label #{story.form.location[0]}
+          div: input(id='story-location-input' type='text' placeholder='#{story.form.location[1]}')
 
-      div#story-date-container.field
-        label #{story.form.date}
-        input(type="text" placeholder="2/16/2012" class="auto-kal" data-kal="direction: 'today-past'")
+        div#story-date-container.field
+          label #{story.form.date}
+          input(id='story-date-input' type="text" placeholder="2/16/2012" class="auto-kal" data-kal="direction: 'today-past'")
 
-      div#story-details-container.field
-        label #{story.form.details[0]}
-        textarea(placeholder='#{story.form.details[1]}')
+        div#story-details-container.field
+          label #{story.form.details[0]}
+          textarea(id='story-details-textarea' placeholder='#{story.form.details[1]}')
 
-      div#story-video-container.field
-        label #{story.form.video[0]}
-        p.description #{story.form.video[1]}
-        input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
+        div#story-video-container.field
+          label #{story.form.video[0]}
+          p.description #{story.form.video[1]}
+          input(id='story-video-input' type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
 
-      div#story-media-container.field
-        label #{story.form.media[0]}
-        p.description #{story.form.media[1]}
-        input(type='file')
+        div#story-media-container.field
+          label #{story.form.media[0]}
+          p.description #{story.form.media[1]}
+          input(id='story-media-input' type='file')
 
-      div#story-name-container.field
-        label #{story.form.name[0]}
-        span.optional #{story.form.name[1]}
-        input(type='text')
+        div#story-name-container.field
+          label #{story.form.name[0]}
+          span.optional #{story.form.name[1]}
+          input(id='story-name-input' type='text')
 
-      div#story-email-container.field
-        label #{story.form.email[0]}
-        span.required #{story.form.email[1]}
-        p.description #{story.form.email[2]}
-        input(type='text')
+        div#story-email-container.field
+          label#story-email-label #{story.form.email[0]}
+          span.required #{story.form.email[1]}
+          p.description #{story.form.email[2]}
+          input(id='story-email-input' type='email' required='true')
 
-      div: button.submit-button #{story.form.submit}
+      div: button#submit-button.submit-button #{story.form.submit}
 
     div.story-details
       h5 #{story.details[0]}
@@ -89,7 +90,7 @@ block content
         li #{story.details[9]}
 
   script.
-    var base = location.pathname.replace(/\/[^/]+$/, ''); ////////////
+    var base = location.pathname.replace(/\/[^/]+$/, ''); /////////////+++--
     var dojoConfig = {
       parseOnLoad: false,
       async: true,
@@ -103,40 +104,64 @@ block content
           "esri/toolbars/draw",
           "esri/graphic",
           "esri/symbols/PictureMarkerSymbol",
+          "dijit/form/Form",
+          "dijit/form/ValidationTextBox",
+          "dojox/validate",
+          "dojox/validate/web",
+          "dijit/focus",
+          "dojo/dom",
           'dojo/domReady!'
-        ], function (Map, BasemapGallery, parser, Search, Draw, Graphic, PictureMarkerSymbol ) {
+        ], function (Map, BasemapGallery, parser, Search, Draw, Graphic, PictureMarkerSymbol, Form, ValidationTextBox, validate, validateWeb, focusUtil, dom) {
 
           parser.parse();
 
+          var map;
+          var basemapGallery;
+          var search;
+          var graphic;
           var toolbar;
+          var symbol;
+          var storyTitle;
+          var storyAffectedArea;
+          var storyLocation;
+          var storyDate;
+          var storyDetails;
+          var stroyVideo;
+          var storyMedia;
+          var storyName;
+          var storyEmail;
+          var storyTitleValid;
+          var storyEmailValid;
+          var storyAffectedAreaValid;
 
-          var map = new Map('map', {
+          map = new Map('map', {
             basemap: 'satellite',
+            showAttribution: false,
             center: [-77.45, 37.75],
             zoom: 4
           });
 
-          var basemapGallery = new BasemapGallery({
+          basemapGallery = new BasemapGallery({
             showArcGISBasemaps: true,
             map: map
           }, 'basemapGallery');
           basemapGallery.startup();
 
-          var search = new Search({
+          search = new Search({
             showInfoWindowOnSelect: false,
             map: map
           }, 'search');
           search.startup();
 
-          map.on('load', function(){
+          map.on('load', function () {
             toolbar = new Draw(map);
             toolbar.on("draw-end", addToMap);
             toolbar.activate(Draw.POINT);
           });
 
           function addToMap(evt) {
-            if (evt.geometry){
-              var symbol = new PictureMarkerSymbol({
+            if (evt.geometry) {
+              symbol = new PictureMarkerSymbol({
                 "angle": 0,
                 "xoffset": 0,
                 "yoffset": 10,
@@ -148,12 +173,77 @@ block content
                 "height": 24
               });
 
-              var graphic = new Graphic(evt.geometry, symbol);
+              storyAffectedArea = new Graphic(evt.geometry, symbol, {});
+              console.log(storyAffectedArea);
               map.graphics.clear();
-              map.graphics.add(graphic);
+              map.graphics.add(storyAffectedArea);
+
+              dojo.removeClass('story-affected-areas-label', 'field-required');
             }
           }
 
+          dojo.connect(dojo.byId("submit-button"), "onclick", function (event) {
+
+            storyTitle = dojo.byId('story-title-input').value;
+            storyLocation = dojo.byId('story-location-input').value;
+            storyDate = dojo.byId('story-date-input').value;
+            storyDetails = dojo.byId('story-details-textarea').value;
+            storyVideo = dojo.byId('story-video-input').value;
+            storyMedia = dojo.byId('story-media-input').value;
+            storyName = dojo.byId('story-title-input').value;
+            storyEmail = dojo.byId('story-email-input').value;
+
+            storyTitleValid = storyTitle !== '';
+            storyAffectedAreaValid = storyAffectedArea !== undefined;
+            storyEmailValid = storyEmail !== '';
+
+            if (storyTitleValid) {
+              dojo.removeClass('story-title-label', 'field-required');
+            } else {
+              dojo.addClass('story-title-label', 'field-required');
+              focusUtil.focus(dom.byId('story-title-input'));
+            }
+
+            if (storyAffectedAreaValid) {
+              dojo.removeClass('story-affected-areas-label', 'field-required');
+            } else {
+              dojo.addClass('story-affected-areas-label', 'field-required');
+            }
+
+            if (storyEmailValid) {
+              if (validateWeb.isEmailAddress(storyEmail) !== true){
+                focusUtil.focus(dom.byId('story-email-input'));
+              } else {
+                dojo.removeClass('story-email-label', 'field-required');
+              }
+            } else {
+              dojo.addClass('story-email-label', 'field-required');
+            }
+
+            //TODO: set focus if necessary
+
+            console.log(storyTitleValid);
+            console.log(storyAffectedAreaValid);
+            console.log(storyEmailValid);
+
+            if (storyTitleValid &&
+                storyEmailValid &&
+                storyAffectedAreaValid) {
+
+              storyAffectedArea.attributes.Title = storyTitle;
+              storyAffectedArea.attributes.Location  = storyLocation;
+              storyAffectedArea.attributes.Date = storyDate;
+              storyAffectedArea.attributes.Details = storyDetails;
+              storyAffectedArea.attributes.Video = storyVideo;
+              storyAffectedArea.attributes.Name = storyName;
+              storyAffectedArea.attributes.Email = storyEmail;
+              storyAffectedArea.attributes.Publish = 'Y';
+
+              console.log(storyAffectedArea);
+
+            }
+
+          });
         });
       }
     };
