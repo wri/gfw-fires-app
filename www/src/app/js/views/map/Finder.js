@@ -206,8 +206,9 @@ define([
                             features = features.concat(_self.setConservationTemplatesFull(item.features));
                             break;
                         case "Fire_Stories":
-                            features = features.concat(_self.getFireStoriesInfoWindow(item.features));
-                            return;
+                            _self.getFireStoriesInfoWindow(item.features);
+                            features = [];
+                            // map.infoWindow.hide();
                             break;
                         case "Fire_Tweets":
                             features = features.concat(_self.getFireTweetsInfoWindow(item.features));
@@ -223,7 +224,7 @@ define([
                 });
 
                 if (features.length > 0) {
-
+                  debugger
                     map.infoWindow.setFeatures(features);
 
                     map.infoWindow.show(mapPoint);
@@ -1731,9 +1732,11 @@ define([
         },
 
         getFireStoriesInfoWindow: function(feats) {
-
+            $('#storyClose').click(function(){
+              $('#storyInfoWindow').hide();
+            });
             //TODO: Add Attachments!
-            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
+            // _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
             var attr, html = "<table style='min-width:500px;'>", features = [];
             for (var i = 0; i < feats.length; i++) {
 
@@ -1812,54 +1815,58 @@ define([
 
                 var id = feats[i].feature.attributes.OBJECTID;
                 var layer = map.getLayer("Fire_Stories");
-                map.infoWindow.resize(550,300);
+                // map.infoWindow.resize(550,300);
 
                 (function(feature) {
-                    console.log(id)
+                    console.log(id);
                     layer.queryAttachmentInfos(id, function(infos) {
-                        console.log(infos)
-                        if (infos[0]) {
-                            console.log(infos);
-                            if (!!infos[0].url) {
+                        console.log(infos);
+                        if (infos[0] && !!infos[0].url) {
 
-                                feature.attributes.Attachments = "<img id='forceBlock'; src='" + infos[0].url + "' />";
+                            feature.attributes.Attachments = "<img id='forceBlock'; src='" + infos[0].url + "' />";
 
-                                if (infos.length > 1) {
-                                    for (var k = 1; k < infos.length; k++) {
-
-                                        if (!!infos[k].url) {
-                                            feature.attributes.Attachments += "<img id='forceBlock'; src='" + infos[k].url + "' />";
-                                        }
+                            if (infos.length > 1) {
+                                for (var k = 1; k < infos.length; k++) {
+                                    if (!!infos[k].url) {
+                                        feature.attributes.Attachments += "<img id='forceBlock'; src='" + infos[k].url + "' />";
                                     }
                                 }
-
-                                var newFeats = [];
-                                for (var j = 0; j < map.infoWindow.features.length; j++) {
-                                    if (map.infoWindow.features[j].attributes.OBJECTID === feature.attributes.OBJECTID) {
-                                        newFeats.push(feature);
-                                    } else {
-                                        newFeats.push(map.infoWindow.features[j]);
-                                    }
-                                }
-
-                                map.infoWindow.setFeatures(newFeats);
-                                var ll = $("#forceBlock")[0];
-                                var parent = ll.parentElement;
-                                var uncle = parent.previousSibling;
-
-                                $(parent).css("display", "block");
-                                $(uncle).css("display", "block");
-
                             }
-                        }
 
+                            var newFeats = [];
+                            for (var j = 0; j < map.infoWindow.features.length; j++) {
+                                if (map.infoWindow.features[j].attributes.OBJECTID === feature.attributes.OBJECTID) {
+                                    newFeats.push(feature);
+                                } else {
+                                    newFeats.push(map.infoWindow.features[j]);
+                                }
+                            }
+
+                            map.infoWindow.setFeatures(newFeats);
+
+                            // var ll = $("#forceBlock")[0];
+                            // var parent = ll.parentElement;
+                            // var uncle = parent.previousSibling;
+                            //
+                            // $(parent).css("display", "block");
+                            // $(uncle).css("display", "block");
+
+                        } else {
+                          // debugger
+                        }
 
                     });
 
-
                 })(feats[i].feature);
+                // debugger
+                var result = "<p>" + fireStory_popupTemplate.content + "</p>";
+                result = result.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+                result += "</p>";
+                $('#storyTitle').html(fireStory_popupTemplate.title);
+                $('#storyBody').html(result);
+                $('#storyInfoWindow').show();
 
-                feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
+                // feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
 
                 features.push(feats[i].feature);
 
@@ -1872,7 +1879,6 @@ define([
             if ($('#uploadCustomGraphic').length > 0) {
                 $("#uploadCustomGraphic").remove();
             }
-
 
             var graphic = evt.graphic,
                 uniqueIdField = MapConfig.defaultGraphicsLayerUniqueId,
