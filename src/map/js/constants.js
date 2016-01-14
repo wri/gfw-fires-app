@@ -28,17 +28,25 @@ const KEYS = {
   customAnalysis: 'customAnalysis',
 
   //
+  activeFires: 'activeFires',
+  archiveFires: 'archiveFires',
+  noaa18Fires: 'noaa18Fires',
+  fireRisk: 'fireRisk',
+  crowdsourcedFires: 'crowdsourcedFires',
+  loggingConcessions: 'loggingConcessions',
   oilPalm: 'oilPalm',
   rspoOilPalm: 'rspoOilPalm',
   woodFiber: 'woodFiber',
-  loggingConcessions: 'loggingConcessions',
   forestMoratorium: 'forestMoratorium',
   protectedAreas: 'protectedAreas',
   peatlands: 'peatlands',
   treeCoverDensity: 'treeCoverDensity',
   primaryForests: 'primaryForests',
+  windDirection: 'windDirection',
+  airQuality: 'airQuality',
   landsat8: 'landsat8',
-  digitalGlobae: 'digitalGlobe',
+  windDirection: 'windDirection',
+  digitalGlobe: 'digitalGlobe',
   twitter: 'twitter',
   fireStories: 'fireStories'
 };

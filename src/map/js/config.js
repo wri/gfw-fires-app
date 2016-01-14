@@ -68,21 +68,36 @@ export const config = {
   */
   layers: [
     {
-      id: KEYS.loggingConcessions,
-      order: 7,
+      id: KEYS.activeFires,
+      order: 1,
+      type: 'feature',
+      label: 'Active Fires',
+      group: 'fires',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4'
+    },
+    // TODO: archive fires
+    // TODO: noaa-18 fires
+    // TODO: fire risk
+    // TODO: crowdsourced fires
+    {
+      id: KEYS.forestMoratorium,
+      order: 1,
       type: 'dynamic',
-      label: 'Logging concessions',
-      sublabel: '(varies, select countries)',
+      label: 'Forest Moratorium',
+      // TODO: hookup instructions below
+      // instruction: 'The moratorium prohibits new concessions on primary forest or peatlands. Learn More.'
+      sublabel: '(Indonesia)',
       group: 'forestUse',
       className: 'tree-cover',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
-      layerIds: [3]
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      layerIds: [7]
     },
     {
       id: KEYS.oilPalm,
-      order: 7,
+      order: 1,
       type: 'dynamic',
-      label: 'Oil palm concessions',
+      label: 'Oil palm',
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'tree-cover',
@@ -91,27 +106,20 @@ export const config = {
     },
     {
       id: KEYS.rspoOilPalm,
-      order: 7,
+      order: 1,
       type: 'dynamic',
-      label: 'RSPO oil palm concessions',
+      label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
       group: 'forestUse',
       className: 'tree-cover',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       layerIds: [4]
     },
-    //forestUseLayers: {
-    //    url: '',
-    //    id: 'Forest_Use',
-    //    defaultLayers: [-1], // Show none by default
-    //    rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
-    //    indicativeMoratorium: 7
-    //},
     {
       id: KEYS.woodFiber,
-      order: 7,
+      order: 1,
       type: 'dynamic',
-      label: 'Wood fiber plantations',
+      label: 'Wood fiber',
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'tree-cover',
@@ -119,21 +127,19 @@ export const config = {
       layerIds: [0]
     },
     {
-      id: KEYS.forestMoratorium,
-      order: 7,
+      id: KEYS.loggingConcessions,
+      order: 1,
       type: 'dynamic',
-      label: 'Indonesia forest moratorium area',
-      // TODO: hookup instructions below
-      // instruction: 'The moratorium prohibits new concessions on primary forest or peatlands. Learn More.'
-      sublabel: '(IMM v7/v6 , 2014, Indonesia)',
+      label: 'Managed forests',
+      sublabel: '(Indonesia)',
       group: 'forestUse',
       className: 'tree-cover',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
-      layerIds: [7]
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      layerIds: [3]
     },
     {
       id: KEYS.protectedAreas,
-      order: 5,
+      order: 1,
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
@@ -144,7 +150,7 @@ export const config = {
     },
     {
       id: KEYS.peatlands,
-      order: 7,
+      order: 1,
       type: 'dynamic',
       label: 'Peatlands',
       sublabel: '(year 2002, Indonesia)',
@@ -155,7 +161,7 @@ export const config = {
     },
     {
       id: KEYS.treeCoverDensity,
-      order: 7,
+      order: 1,
       type: 'image',
       label: 'Tree cover density',
       sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
@@ -165,7 +171,7 @@ export const config = {
     },
     {
       id: KEYS.primaryForests,
-      order: 7,
+      order: 1,
       type: 'dynamic',
       label: 'Primary Forests',
       sublabel: '(2000 - 2012, 30m, Indonesia)',
@@ -174,15 +180,44 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
       layerIds: [3]
     },
+    // TODO: wind direction
+    {
+      id: KEYS.airQuality,
+      order: 1,
+      type: 'feature',
+      label: 'Air Quality',
+      group: 'airQuality',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer/0'
+    },
     {
       id: KEYS.landsat8,
-      order: 4,
+      order: 1,
       type: 'image',
       label: 'Latest Landsat 8 Imagery',
       sublabel: '(latest image, 30m, global)',
       group: 'imagery',
       className: 'tree-cover',
       url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
+    },
+    // TODO: digital globe
+    {
+      id: KEYS.fireStories,
+      order: 1,
+      type: 'feature',
+      label: 'Fire Stories',
+      group: 'stories',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/10',
+    },
+    {
+      id: KEYS.twitter,
+      order: 1,
+      type: 'feature',
+      label: 'Twitter',
+      group: 'stories',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/3',
     }
   ],
 

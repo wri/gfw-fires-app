@@ -17,7 +17,7 @@ export default class Timeline extends React.Component {
     var className = `timeline shadow back-white ${this.state.timelineVisible === false ? 'hidden' : ''}`
     return (
       <div className={className}>
-        Timeline
+        TODO: timeline
       </div>
     )
   }

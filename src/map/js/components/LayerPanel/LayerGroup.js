@@ -16,7 +16,7 @@ let getCount = (activeLayers, children) => {
       ++count;
     }
   });
-  return count;
+  return `${count.toString()}/${children.filter((c) => c !== null).length}`;
 };
 
 export default class LayerGroup extends React.Component {

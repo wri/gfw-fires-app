@@ -75,7 +75,7 @@ export default class LayerPanel extends React.Component {
 
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
-    let landUseLayers = layersConfig.map(this.checkboxMap('forestUse'), this);
+    let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
 
     return (
@@ -85,13 +85,13 @@ export default class LayerPanel extends React.Component {
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
           {landUseLayers[0]}
-          Tree Plantations
+          Concessions
           <div className='layer-panel-indent'>
             {landUseLayers[1]}
             {landUseLayers[2]}
             {landUseLayers[3]}
+            {landUseLayers[4]}
           </div>
-          {landUseLayers[4]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
           {layersConfig.map(this.checkboxMap('conservation'), this)}
@@ -106,7 +106,7 @@ export default class LayerPanel extends React.Component {
           {layersConfig.map(this.checkboxMap('imagery'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Stories'>
-          {layersConfig.map(this.checkboxMap('watershed'), this)}
+          {layersConfig.map(this.checkboxMap('stories'), this)}
         </LayerGroup>
 
         <div className='mobile-show'>
