@@ -39,3 +39,14 @@ Please read this before beginning development to learn how to get started and ho
 <p>TODO</p>
 
 ##### NOTE: DO NOT UNDER ANY CIRCUMSTANCES COMMIT ANY CREDENTIALS OF ANY KIND
+
+#### TODO
+- layers
+- meta api infowindows
+- analysis submit functionality
+- timeline
+- search widget functionality
+- transparency dropdowns
+- print
+- update to esri js 3.15
+- fixed land use counter
