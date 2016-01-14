@@ -22,7 +22,7 @@ var plumber = function () {
         message: error.message,
         sound: true
       })
-      console.log(error)
+      console.log(error.message)
       this.emit('end')
     }
   })
