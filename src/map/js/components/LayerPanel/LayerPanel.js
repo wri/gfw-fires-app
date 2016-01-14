@@ -66,17 +66,18 @@ export default class LayerPanel extends React.Component {
           childComponent = null;
       }
 
-      return <LayerCheckbox key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
-        {childComponent}
-      </LayerCheckbox>;
-
+      return (
+        <LayerCheckbox key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
+          {childComponent}
+        </LayerCheckbox>
+      );
     };
   }
 
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
     let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
-    if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; };
+    if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
 
     return (
       <div className={className}>
@@ -85,7 +86,7 @@ export default class LayerPanel extends React.Component {
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
           {landUseLayers[0]}
-          Concessions
+          {layerPanelText.concessions}
           <div className='layer-panel-indent'>
             {landUseLayers[1]}
             {landUseLayers[2]}
@@ -121,7 +122,7 @@ export default class LayerPanel extends React.Component {
                   <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>
                 </div>
                 <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
-                  <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap ===  KEYS.topoBasemap ? 'active' : ''}`} />
+                  <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} />
                   <div className='basemap-label'>{controlPanelText.topoBasemap}</div>
                 </div>
                 <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>

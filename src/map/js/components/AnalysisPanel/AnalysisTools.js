@@ -4,10 +4,7 @@ import SubscriptionTab from 'components/AnalysisPanel/SubscriptionTab';
 import {analysisActions} from 'actions/AnalysisActions';
 import {analysisPanelText as text} from 'js/config';
 import {analysisStore} from 'stores/AnalysisStore';
-import {modalActions} from 'actions/ModalActions';
 import React from 'react';
-
-let removeSvg = '<use xlink:href="#icon-remove" />';
 
 export default class AnalysisTools extends React.Component {
 
@@ -33,10 +30,8 @@ export default class AnalysisTools extends React.Component {
   }
 
   render () {
-    let customTabActive = this.state.activeTab === text.subscriptionTabId;
-    let watershedTabActive = this.state.activeTab === text.analysisTabId;
-    let className = 'analysis-tools map-component shadow'
-    if (app.mobile() === true && this.state.analysisToolsVisible === false) { className += ' hidden'; };
+    let className = 'analysis-tools map-component shadow';
+    if (app.mobile() === true && this.state.analysisToolsVisible === false) { className += ' hidden'; }
 
     return (
       <div className={className}>

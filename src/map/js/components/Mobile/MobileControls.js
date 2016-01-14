@@ -1,5 +1,5 @@
-import {layerActions} from 'actions/LayerActions'
-import {analysisActions} from 'actions/AnalysisActions'
+import {layerActions} from 'actions/LayerActions';
+import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import {analysisStore} from 'stores/AnalysisStore';
 import {analysisPanelText} from 'js/config';
@@ -10,10 +10,10 @@ export default class Map extends React.Component {
 
   constructor (props) {
     super(props);
-    this.toggleLayers = this.toggleLayers.bind(this)
-    this.toggleAnalysis = this.toggleAnalysis.bind(this)
-    this.toggleSubscription = this.toggleSubscription.bind(this)
-    this.toggleTimeline = this.toggleTimeline.bind(this)
+    this.toggleLayers = this.toggleLayers.bind(this);
+    this.toggleAnalysis = this.toggleAnalysis.bind(this);
+    this.toggleSubscription = this.toggleSubscription.bind(this);
+    this.toggleTimeline = this.toggleTimeline.bind(this);
   }
 
   hidePanels () {

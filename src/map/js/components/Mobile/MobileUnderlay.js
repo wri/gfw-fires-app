@@ -23,9 +23,9 @@ export default class Map extends React.Component {
   }
 
   closeMobileControls () {
-    if (mapStore.getState().layerPanelVisible === true) { layerActions.toggleLayerPanelVisibility(); };
-    if (analysisStore.getState().esriSearchVisible === true) { analysisActions.toggleEsriSearchVisibility(); };
-    if (analysisStore.getState().analysisToolsVisible === true) { analysisActions.toggleAnalysisToolsVisibility(); };
+    if (mapStore.getState().layerPanelVisible === true) { layerActions.toggleLayerPanelVisibility(); }
+    if (analysisStore.getState().esriSearchVisible === true) { analysisActions.toggleEsriSearchVisibility(); }
+    if (analysisStore.getState().analysisToolsVisible === true) { analysisActions.toggleAnalysisToolsVisibility(); }
   }
 
   render () {
@@ -36,8 +36,8 @@ export default class Map extends React.Component {
           this.state.analysisStore.analysisToolsVisible === false &&
           this.state.analysisStore.timelineVisible === false) {
         className += ' hidden';
-      };
-    };
+      }
+    }
 
     return (
       <div id='mobile-underlay' className={className} onClick={this.closeMobileControls}></div>

@@ -11,7 +11,7 @@ export default class AnalysisTab extends React.Component {
   componentDidMount () {
     let calendar = new window.Kalendae(this.refs.date, {
       mode: 'range'
-    })
+    });
     calendar.subscribe('change', function (date) {
       console.debug(date);
     });
@@ -19,7 +19,7 @@ export default class AnalysisTab extends React.Component {
 
   render () {
     let className = 'text-center';
-    if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; };
+    if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
 
     return (
       <div className={className}>
@@ -35,7 +35,7 @@ export default class AnalysisTab extends React.Component {
           </label>
         </div>
         <div className='padding'>
-          <select className={`fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`}  multiple onChange={this.change} disabled={this.props.islands.length === 0}>
+          <select className={`fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`} multiple onChange={this.change} disabled={this.props.islands.length === 0}>
             {this.props.islands.map((i) => (
               <option value={i}>{i}</option>
             ))}

@@ -10,7 +10,6 @@ import React from 'react';
 let zoomInSvg = '<use xlink:href="#icon-plus" />';
 let zoomOutSvg = '<use xlink:href="#icon-minus" />';
 let shareSvg = '<use xlink:href="#icon-share" />';
-let resetSvg = '<use xlink:href="#icon-reset" />';
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 let basemapSvg = '<use xlink:href="#icon-basemap" />';
 let locateSvg = '<use xlink:href="#icon-locate" />';

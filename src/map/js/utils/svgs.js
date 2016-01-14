@@ -2,7 +2,7 @@ import React from 'react';
 
 export function createSvgById (svgId) {
   let __html = `<use xlink:href='#${svgId}' />`;
-  return <svg dangerouslySetInnerHTML={{ __html }}></svg>
+  return <svg dangerouslySetInnerHTML={{ __html }}></svg>;
 }
 
 export const AlertsSvg = () => createSvgById('icon-alerts');

@@ -34,4 +34,4 @@ export default class TabControls extends React.Component {
     );
   }
 
-};
+}

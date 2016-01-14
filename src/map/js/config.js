@@ -2,14 +2,6 @@ import KEYS from 'js/constants';
 
 export const config = {
 
-  assets: {
-    ionCSS: 'vendor/ion.rangeslider/css/ion.rangeSlider.css',
-    ionSkinCSS: 'vendor/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
-    highcharts: 'http://code.highcharts.com/highcharts.js',
-    highchartsMore: 'http://code.highcharts.com/highcharts-more.js',
-    rangeSlider: 'vendor/ion.rangeslider/js/ion.rangeSlider.min.js'
-  },
-
   map: {
     id: 'map',
     options: {
@@ -167,7 +159,7 @@ export const config = {
       sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
       group: 'landCover',
       className: 'tree-cover',
-      url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
+      url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer'
     },
     {
       id: KEYS.primaryForests,
@@ -198,7 +190,7 @@ export const config = {
       sublabel: '(latest image, 30m, global)',
       group: 'imagery',
       className: 'tree-cover',
-      url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
+      url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer'
     },
     // TODO: digital globe
     {
@@ -208,7 +200,7 @@ export const config = {
       label: 'Fire Stories',
       group: 'stories',
       className: 'tree-cover',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/10',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/10'
     },
     {
       id: KEYS.twitter,
@@ -217,7 +209,7 @@ export const config = {
       label: 'Twitter',
       group: 'stories',
       className: 'tree-cover',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/3',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/3'
     }
   ],
 
@@ -284,8 +276,7 @@ export const config = {
       featureNotFound: 'We could not find a feature available at this point. Please try again.'
     },
     layerPanel: {
-      watershed: 'Know your watershed',
-      watershedRisk: 'Identify Watershed Risks',
+      concessions: 'Concessions',
       waterStressLegend: {
         min: 'Low',
         max: 'High',
@@ -622,7 +613,6 @@ export const layerPanelText = config.text.layerPanel;
 export const analysisPanelText = config.text.analysisPanel;
 export const controlPanelText = config.text.controlPanel;
 export const modalText = config.text.modals;
-export const assetUrls = config.assets;
 export const defaults = config.defaults;
 export const layersConfig = config.layers;
 export const errors = config.text.errors;

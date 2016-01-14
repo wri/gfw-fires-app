@@ -1,13 +1,8 @@
 import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
-import AnalysisHelper from 'helpers/AnalysisHelper';
-import GraphicsHelper from 'helpers/GraphicsHelper';
 import {analysisStore} from 'stores/AnalysisStore';
 import {analysisConfig, analysisPanelText} from 'js/config';
 import Search from 'esri/dijit/Search';
-import Symbols from 'helpers/Symbols';
-import Request from 'utils/request';
-import KEYS from 'js/constants';
 import React from 'react';
 
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
@@ -23,7 +18,7 @@ let generateSearchWidget = (component) => {
 
   searchWidget.startup();
 
-  searchWidget.on('suggest-results', evt => {
+  searchWidget.on('suggest-results', () => {
     component.setState({ suggestResults: searchWidget.suggestResults === null ? [] : searchWidget.suggestResults[0].map((r) => r.text) });
   });
 
@@ -46,7 +41,7 @@ export default class EsriSearch extends React.Component {
       searchWidget: null,
       suggestResults: [],
       esriSearchVisible: analysisStore.getState().esriSearchVisible
-    }
+    };
     analysisStore.listen(this.storeUpdated.bind(this));
   }
 
@@ -72,11 +67,11 @@ export default class EsriSearch extends React.Component {
     if (evt.key === 'Enter' && this.state.value.length > 0) {
       this.state.searchWidget.search(this.state.value);
       analysisActions.toggleEsriSearchVisibility();
-    };
+    }
   }
 
   keyDown (evt) {
-    if (evt.key === 'Enter' && this.state.value.length > 0) { this.enter(evt) };
+    if (evt.key === 'Enter' && this.state.value.length > 0) { this.enter(evt); }
   }
 
   suggestionSearch (evt) {
@@ -94,7 +89,7 @@ export default class EsriSearch extends React.Component {
   decimalDegreeSearch () {
     let values = [this.refs.decimalDegreeLat.value, this.refs.decimalDegreeLng.value].map(parseFloat);
     let [lat, lng] = values;
-    if (values.map(isNaN).indexOf(true) > -1) { throw Error('Invalid input(s)'); };
+    if (values.map(isNaN).indexOf(true) > -1) { throw Error('Invalid input(s)'); }
     mapActions.centerAndZoomLatLng(lat, lng, analysisConfig.searchZoomDefault);
     analysisActions.toggleEsriSearchVisibility();
   }
@@ -103,9 +98,9 @@ export default class EsriSearch extends React.Component {
     let className = 'search-tools map-component';
     // NOTE: main search input is mounted & unmounted as visible to take advantage of keyboard autoFocus
     let searchInput = this.state.esriSearchVisible === false ? undefined : (
-      <input className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder}  value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown.bind(this)} autoFocus/>
+      <input className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown.bind(this)} autoFocus/>
     );
-    if (this.state.esriSearchVisible === false) { className += ' hidden'; };
+    if (this.state.esriSearchVisible === false) { className += ' hidden'; }
 
     return (
       <div className={className}>

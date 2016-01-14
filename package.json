@@ -6,10 +6,9 @@
   "scripts": {
     "start": "gulp build & gulp serve",
     "dist": "gulp dist",
-    "test": "eslint src/**/*.js;",
-    "postinstall": "bower install",
-    "jade": "gulp jade-watch",
-    "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'"
+    "install": "bower install",
+    "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'",
+    "test": "eslint src/**/*.js;"
   },
   "repository": {
     "type": "git",

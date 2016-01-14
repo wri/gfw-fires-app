@@ -14,11 +14,13 @@ class GeoHelper {
   }
 
   getSpatialReference () {
-    return this.spatialReference = this.spatialReference || new SpatialReference(102100);
+    this.spatialReference = this.spatialReference || new SpatialReference(102100);
+    return this.spatialReference;
   }
 
   getGeometryService () {
-    return this.geometryService = this.geometryService || new GeometryService(mapConfig.geometryServiceUrl);
+    this.geometryService = this.geometryService || new GeometryService(mapConfig.geometryServiceUrl);
+    return this.geometryService;
   }
 
   union (polygons) {

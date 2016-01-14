@@ -14,12 +14,12 @@ export default class Timeline extends React.Component {
   }
 
   render () {
-    var className = `timeline shadow back-white ${this.state.timelineVisible === false ? 'hidden' : ''}`
+    var className = `timeline shadow back-white ${this.state.timelineVisible === false ? 'hidden' : ''}`;
     return (
       <div className={className}>
         TODO: timeline
       </div>
-    )
+    );
   }
 
 }

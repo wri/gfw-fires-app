@@ -1,22 +1,12 @@
-# GFW-Fires
-> Please read this before beginning development to learn how to get started and how to change some simple components of the application.
+GFW-Fires
+---
+Please read this before beginning development to learn how to get started and how to change some simple components of the application.
 
-
-
-## Getting Started
-
-<p>This project has a few dependencies you will need installed to get started.</p>
-
-### Installing node.js if you do not have it already.
-<p>View the <a href='http://nodejs.org/'>node.js</a> homepage and install.</p>
-
-### Clone the Repo
-<p>If you haven't already done so, clone the repo.</p>
-
-### Install dependencies
-<p>TODO</p>
-
-
+## Quickstart
+- install [node.js](http://nodejs.org/)
+- clone this repo `git@github.com:wri/gfw-fires-app.git`
+- cd into repo folder `> cd gfw-fires-app`
+- install dependencies `> npm install`, bower dependencies will automatically install
 
 ## Development
 <p>TODO</p>
@@ -27,7 +17,6 @@
 ### Npm scripts
 ### Build Process
 
-
 ## Configurations
 
 ### Language
@@ -36,8 +25,6 @@
 ### Environment Variables
 <p>TODO</p>
 
-
-
 ## Git Workflow
 
 #### Main Development
@@ -45,8 +32,8 @@
 <p>Anything sizeable should be a focused (affecting only relevant files to avoid conflicts) and well named feature branch that is properly merged back and deleted upon completion.</p>
 
 #### Continuous Integration off Master
-<p>Production for this application is a Heroku LAMP dynamo that is configured to watch for changes to the master branch. Upon merging develop into master or pushing to master, it will build the latest version of the app and re-host automatically.<p>
-<p>This automatic update will take a moment because build/dist artifacts are not committed, the dynamo is configured to install node dependencies, install bower dependencies, and compile the app dist for hosting.<p>
+<p>Production for this application is a Heroku LAMP dynamo that is configured to watch for changes to the master branch. Upon merging develop into master or pushing to master, it will build the latest version of the app and re-host automatically.</p>
+<p>This automatic update will take a moment because build/dist artifacts are not committed, the dynamo is configured to install node dependencies, install bower dependencies, and compile the app dist for hosting.</p>
 
 #### Versioning
 <p>TODO</p>

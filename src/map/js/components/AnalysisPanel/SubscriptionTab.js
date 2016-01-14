@@ -9,7 +9,7 @@ export default class SubscriptionTab extends React.Component {
 
   render () {
     let className = 'text-center';
-    if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; };
+    if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
 
     return (
       <div className={className}>
