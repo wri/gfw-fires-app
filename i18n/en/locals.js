@@ -108,9 +108,16 @@
           'Help combat forest fires by participating with the GFW Fires system, signing up to receive Fire Alerts in Indonesia, or sharing your story on our blog.',
           'INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT'
         ],
-        partnership: [
-          'The GFW Partnership'
-        ]
+        partnership: {
+          header_title: 'The GFW Partnership',
+          founding_partners_title: 'Founding Partners',
+          partners_collaborators_title: 'Partners & Collaborators',
+          funders_title: 'Funders',
+          current_funders_title: 'Current Funders',
+          past_funders_title: 'Past Funders',
+          data_providers_title: 'Data Providers',
+          website_designed_title: 'Website Designed by'
+        }
       }
     },
     story: {
