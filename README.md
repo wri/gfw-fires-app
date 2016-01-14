@@ -50,3 +50,4 @@ Please read this before beginning development to learn how to get started and ho
 - print
 - update to esri js 3.15
 - fixed land use counter
+- integrated versioning
