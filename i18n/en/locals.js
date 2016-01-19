@@ -3,15 +3,12 @@
   return {
     language: 'en',
     meta: {
-      version: 2.0,
-      // TODO: make version dynamic off npm package version
       esriVersion: 3.15
     },
     global: {
       pages: [
         {name: 'home', label: 'GFW FIRES', href: '../home'},
         {name: 'map', label: 'MAP', href: '../map'},
-        //{name: 'data', label: 'DATA', href: '/en/data'},
         {name: 'about', label: 'LEARN MORE', href: '../about'},
         {name: 'story', label: 'STORY', href: '../story'}
       ]

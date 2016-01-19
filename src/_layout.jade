@@ -42,3 +42,6 @@ html
           document.getElementById('mobile-navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
           document.getElementById('mobile-navigation-icon').onclick = function (event) { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); document.getElementById('mobile-navigation-icon').classList.toggle('active'); };
         });
+
+        // embedded version
+        window.version = '#{meta.esriVersion}'

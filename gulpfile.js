@@ -3,6 +3,7 @@ var minifyInline = require('gulp-minify-inline');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var mergeStream = require('merge-stream');
+var version = require('./package.json').version;
 var imagemin = require('gulp-imagemin');
 var notifier = require('node-notifier');
 var cached = require('gulp-cached');
@@ -10,7 +11,6 @@ var stylus = require('gulp-stylus');
 var babel = require('gulp-babel');
 var rupture = require('rupture');
 var jade = require('gulp-jade');
-var umd = require('gulp-umd');
 var jeet = require('jeet');
 var gulp = require('gulp');
 
@@ -21,12 +21,12 @@ var plumber = function () {
         title: 'Gulp Error',
         message: error.message,
         sound: true
-      })
-      console.log(error.message)
-      this.emit('end')
+      });
+      console.log(error.message);
+      this.emit('end');
     }
-  })
-}
+  });
+};
 
 var config = {
   i18n: [
@@ -66,8 +66,8 @@ var config = {
   polyfill: {
     src: 'vendor/babel-polyfill/browser-polyfill.js',
     base: 'vendor',
-    build:  'build',
-    dist:  'dist'
+    build: 'build',
+    dist: 'dist'
   },
   server: {
     files: ['build/**/*.html', 'build/**/*.js', 'build/**/*.css'],
@@ -80,6 +80,10 @@ var config = {
     dist: 'dist'
   }
 };
+
+config.i18n.forEach(function (language) {
+  language.locals.meta.version = version;
+});
 
 gulp.task('jade-watch', function () {
   gulp.watch(config.jade.watch, ['jade-build']);

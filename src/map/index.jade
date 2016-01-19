@@ -18,7 +18,7 @@ block append head-scripts
     var dojoConfig = {
       parseOnLoad: false,
       async: true,
-      cacheBust: '#{version}',
+      cacheBust: 'v=#{meta.version}',
       packages: [
         { name: 'js', location: base + 'js' },
         { name: 'utils', location: base + 'js/utils' },
@@ -41,6 +41,7 @@ block append head-scripts
       callback: function () {
         // Set up globals
         window.app = {
+          version: '#{meta.version}',
           debugEnabled: true,
           mobile: function () {return (window.matchMedia === undefined ? false : window.matchMedia('only screen and (max-width: 850px)').matches)},
           debug: function (message) {
