@@ -116,11 +116,13 @@ textarea
   color $dark-gray
   font-size 0.9em
 
-#map
+.map
   height 300px
+  display block
+  background $map-background
 
   .dijitTitlePane
-    background #fff
+    background $white
     padding 1px 0
     border 1px solid darken($concrete, 5%)
     box-shadow 1px 1px 5px rgba(0,0,0,.25)
@@ -150,7 +152,7 @@ textarea
       position absolute
       cursor pointer
 
-  #map_zoom_slider
+  .esriSimpleSlider
     top 10px
     left 10px
     border-radius 0
@@ -158,11 +160,11 @@ textarea
     box-shadow 1px 1px 5px rgba(0,0,0,0.25)
     border 1px solid darken($concrete, 5%)
 
-  #map_zoom_slider .esriSimpleSliderIncrementButton
+  .esriSimpleSlider .esriSimpleSliderIncrementButton
     border-bottom 1px solid darken($concrete, 5%)
 
-  #map_zoom_slider .esriSimpleSliderIncrementButton
-  #map_zoom_slider .esriSimpleSliderDecrementButton
+  .esriSimpleSlider .esriSimpleSliderIncrementButton
+  .esriSimpleSlider .esriSimpleSliderDecrementButton
     width 24px
     height 24px
     font-size 18px
@@ -179,49 +181,50 @@ textarea
     font-size 0.8em
     line-height 1.3em
 
-#map-container
-  position relative
-
-  #search
-    display block
-    position absolute
-    z-index 1
-    top 10px
-    left 46px
-    box-shadow 1px 1px 5px rgba(0,0,0,0.25)
-
-  .searchInput
-    padding 2px 24px 2px 6px
-    width: 150px;
-
-  .searchInput
-  .searchBtn
-    border-radius 0
-    z-index 2
+.story-form
+  .map-container
     position relative
-    border 1px solid darken($concrete, 5%)
 
-  .searchIcon
-    color $gfw-red
-    font-size 14px
+    .arcgisSearch
+      display block
+      position absolute
+      z-index 1
+      top 10px
+      left 46px
+      box-shadow 1px 1px 5px rgba(0,0,0,0.25)
 
-  .arcgisSearch .searchClear
-  .arcgisSearch .searchClose
-  .arcgisSearch .searchSpinner
-    height 22px
+    .searchInput
+      padding 2px 24px 2px 6px
+      width: 150px;
 
-  .arcgisSearch .searchClose
-    line-height 22px
-    width 22px
+    .searchInput
+    .searchBtn
+      border-radius 0
+      z-index 2
+      position relative
+      border 1px solid darken($concrete, 5%)
 
-  .arcgisSearch .searchBtn
-    padding 2px 6px
+    .searchIcon
+      color $gfw-red
+      font-size 14px
 
-  #basemap-container
-    position absolute
-    right 10px
-    top 10px
-    z-Index 2
+    .arcgisSearch .searchClear
+    .arcgisSearch .searchClose
+    .arcgisSearch .searchSpinner
+      height 22px
 
-    +below($mq-mobile-small)
-      display none
+    .arcgisSearch .searchClose
+      line-height 22px
+      width 22px
+
+    .arcgisSearch .searchBtn
+      padding 2px 6px
+
+    .basemap-container
+      position absolute
+      right 10px
+      top 10px
+      z-Index 2
+
+      +below($mq-mobile-small)
+        display none
