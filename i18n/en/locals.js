@@ -5,7 +5,7 @@
     meta: {
       version: 2.0,
       // TODO: make version dynamic off npm package version
-      esriVersion: 3.14
+      esriVersion: 3.15
     },
     global: {
       pages: [
