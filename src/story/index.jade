@@ -4,6 +4,8 @@ block append head-meta
   title #{story.meta.title}
 
 block append head-styles
+  link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
+  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
   link(rel='stylesheet', href='../vendor/kalendae/build/kalendae.css')
   style
     :stylus
@@ -11,6 +13,21 @@ block append head-styles
 
 block append head-scripts
   script(src='../vendor/kalendae/build/kalendae.standalone.js', async)
+  script.
+    var base = location.pathname.replace(/\/[^/]+$/, '');
+    var dojoConfig = {
+      parseOnLoad: false,
+      async: true,
+      cacheBust: 'version',
+      packages: [
+        { name: 'js', location: base + 'js' }
+      ],
+      deps: [
+        'js/story',
+        'dojo/domReady!'
+      ],
+      callback: function (story) {}
+    };
 
 block content
   +navigation(global.pages, 'story')
@@ -20,50 +37,57 @@ block content
 
   section.form-section
     div.story-form
-      div#story-title-container.field
-        label #{story.form.title[0]}
-        span.required #{story.form.title[1]}
-        div: input(type='text' placeholder='#{story.form.title[2]}')
+      form#story-form(novalidate)
+        div#story-title-container.field
+          label#story-title-label #{story.form.title[0]}
+          span.required #{story.form.title[1]}
+          div: input#story-title-input(type='text' required='true' placeholder='#{story.form.title[2]}')
 
-      div#story-affected-areas-container.field
-        label #{story.form.affectedAreas[0]}
-        p.description #{story.form.affectedAreas[1]}
-        div TODO: map
+        div#story-affected-areas-container.field
+          label#story-affected-areas-label #{story.form.affectedAreas[0]}
+          p.description #{story.form.affectedAreas[1]}
+          div#map-container.map-container
+            div#search.search-container
+            div#map
+              div#basemap-container.basemap-container(style="position:absolute; right:10px; top:10px; z-Index:999;")
+                div(data-dojo-type='dijit/TitlePane', data-dojo-props="title:'Basemaps', closable:false, open:false")
+                  div(data-dojo-type='dijit/layout/ContentPane', style='width:250px; height:220px; overflow:auto;')
+                    div#basemapGallery
 
-      div#story-location-container.field
-        label #{story.form.location[0]}
-        div: input(type='text' placeholder='#{story.form.location[1]}')
+        div#story-location-container.field
+          label #{story.form.location[0]}
+          div: input#story-location-input(type='text' placeholder='#{story.form.location[1]}')
 
-      div#story-date-container.field
-        label #{story.form.date}
-        input(type="text" placeholder="2/16/2012" class="auto-kal" data-kal="direction: 'today-past'")
+        div#story-date-container.field
+          label #{story.form.date}
+          input#story-date-input.auto-kal(type="text" placeholder="2/16/2012" data-kal="direction: 'today-past'")
 
-      div#story-details-container.field
-        label #{story.form.details[0]}
-        textarea(placeholder='#{story.form.details[1]}')
+        div#story-details-container.field
+          label #{story.form.details[0]}
+          textarea#story-details-textarea(placeholder='#{story.form.details[1]}')
 
-      div#story-video-container.field
-        label #{story.form.video[0]}
-        p.description #{story.form.video[1]}
-        input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
+        div#story-video-container.field
+          label #{story.form.video[0]}
+          p.description #{story.form.video[1]}
+          input#story-video-input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
 
-      div#story-media-container.field
-        label #{story.form.media[0]}
-        p.description #{story.form.media[1]}
-        input(type='file')
+        div#story-media-container.field
+          label #{story.form.media[0]}
+          p.description #{story.form.media[1]}
+          input#story-media-input(type='file')
 
-      div#story-name-container.field
-        label #{story.form.name[0]}
-        span.optional #{story.form.name[1]}
-        input(type='text')
+        div#story-name-container.field
+          label #{story.form.name[0]}
+          span.optional #{story.form.name[1]}
+          input#story-name-input(type='text')
 
-      div#story-email-container.field
-        label #{story.form.email[0]}
-        span.required #{story.form.email[1]}
-        p.description #{story.form.email[2]}
-        input(type='text')
+        div#story-email-container.field
+          label#story-email-label #{story.form.email[0]}
+          span.required #{story.form.email[1]}
+          p.description #{story.form.email[2]}
+          input#story-email-input(type='email' required='true')
 
-      div: button.submit-button #{story.form.submit}
+      div: button#submit-button.submit-button #{story.form.submit}
 
     div.story-details
       h5 #{story.details[0]}
@@ -79,5 +103,4 @@ block content
         li #{story.details[8]}
         li #{story.details[9]}
 
-  script.
-
+  script(src = 'http://js.arcgis.com/#{meta.esriVersion}/init.js')

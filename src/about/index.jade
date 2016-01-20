@@ -6,7 +6,8 @@ block append head-meta
 block append head-styles
   style
     :stylus
-      @require '../css/_critical-content'
+      @require 'css/_critical'
+  link(rel='stylesheet', href='css/logos.css')
 
 block content
   +navigation(global.pages, 'about')
@@ -14,8 +15,8 @@ block content
   div#title.back-pebble
     section
       div.content-header
-        h2 #{about.title}
-        h3 #{about.description}
+        h1.page-title #{about.title}
+        h2.page-description #{about.description}
 
   section
     div.content-container
@@ -28,7 +29,7 @@ block content
 
       div.content-body
         div#one.content-subpage.active
-          h2 #{about.content.about[0]}
+          h3 #{about.content.about[0]}
           p #{about.content.about[1]}
           p #{about.content.about[2]}
           p #{about.content.about[3]}
@@ -36,18 +37,161 @@ block content
           p #{about.content.about[5]}
 
         div#two.content-subpage
-          h2 #{about.content.fires[0]}
+          h3 #{about.content.fires[0]}
           p #{about.content.fires[1]}
           p
             | #{about.content.fires[2].trim() + ' '}
             a(target='_blank' href='http://www.epa.gov/sciencematters/august2011/wildfire.htm') #{about.content.fires[3].trim()}
             | #{' ' + about.content.fires[4].trim()}
           p #{about.content.fires[5]}
-          a(target='_blank' href='app/docs/Infographic WRI Forest v1.0.pdf') #{about.content.fires[6]}
+          a(class='indonesian-forest-fires-pdf pdf-doc' target='_blank' href='docs/Infographic-WRI-Forest-v1.0.pdf') #{about.content.fires[6]}
+          a(target='_blank' href='docs/Infographic-WRI-Forest-v1.0.pdf')
+            img(src="../images/Infographic-WRI-Forest-v1.0_Page_1.png" alt="INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT - page 1" title="INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT - page 1" width="95%")
+          a(target='_blank' href='docs/Infographic-WRI-Forest-v1.0.pdf')
+            img(src="../images/Infographic-WRI-Forest-v1.0_Page_2.png" alt="INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT - page 2" title="INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT - page 2" width="95%")
 
-        div#three.content-subpage
-          h2 #{about.content.partnership[0]}
-  script.
+        div#three.content-subpage.gfw-partnership
+          h3.partnership-header-title #{about.content.partnership.header_title}
+          h4.founding-partners-title #{about.content.partnership.founding_partners_title}
+          ul.logo-list
+            li: a(target='_blank' tille='Bobolink' href='http://www.google.com' class='bobolink')
+            li: a(target='_blank' title='Blue Raster' href='http://www.blueraster.com' class='blueraster')
+            li: a(target='_blank' title='CartoDB' href='http://www.cartodb.com' class='cartodb')
+            li: a(target='_blank' title='Center Global Development' href='http://www.cgdev.org/' class='cfgd')
+            li: a(target='_blank' title='DANIDA' href='http://um.dk/en/danida-en/' class='danida')
+            li: a(target='_blank' title='ESRI' href='http://www.esri.com/gfw' class='esri')
+            li: a(target='_blank' title='gef' href='http://www.thegef.org/gef/' class='gef')
+            li: a(target='_blank' title='Global Forest Watch Canada' href='http://globalforestwatch.ca/' class='gfwca')
+            li: a(target='_blank' title='Google Earth Engine' href='http://earthengine.google.org/' class='google')
+            li: a(target='_blank' title='Imazon' href='http://www.imazon.org.br/pagina-inicial-en?set_language=en&amp;cl=en' class='imazon')
+            li: a(target='_blank' title='Dutch - Ministry of Foreign Affairs' href='http://www.government.nl/ministries/bz' class='dutchforeign')
+            li: a(target='_blank' title='Norway`s International Climate and Forest Initiative (NICFI)' href='https://www.regjeringen.no/en/topics/climate-and-environment/climate/klima--og-skogprosjektet/id2000712/' class='norwegian')
+            li: a(target='_blank' title='OSFAC' href='http://osfac.net/index.php?lang=en' class='osfac')
+            li: a(target='_blank' title='Side' href='http://www.sida.se/english/' class='sida')
+            li: a(target='_blank' title='Scanex' href='http://www.scanex.ru/en/' class='scanex')
+            li: a(target='_blank' title='The Jane Goodall Institute' href='http://www.janegoodall.org/' class='goodall')
+            li: a(target='_blank' title='The Tilia Fund' href='http://tiliafund.org/' class='tilia')
+            li: a(target='_blank' title='Transparent World' href='http://www.transparentworld.ru/ru' class='twrus')
+            li: a(target='_blank' title='UNEP' href='http://www.unep.org/' class='unep')
+            li: a(target='_blank' title='University of Maryland' href='http://www.geog.umd.edu/' class='universitymaryland')
+            li: a(target='_blank' title='UKaid' href='https://www.gov.uk/government/organisations/department-for-international-development' class='ukaid')
+            li: a(target='_blank' title='USAID' href='http://www.usaid.gov/' class='usaid')
+            li: a(target='_blank' title='Vizzuality' href='http://www.vizzuality.com' class='vizzuality')
+            li: a(target='_blank' title='World Resorces Institute' href='http://www.wri.org' class='wri')
+
+          h4.partners-collaborators-title #{about.content.partnership.partners_collaborators_title}
+          ul.logo-list
+            li: a(target="_blank" title="Agence française de développement international" href="http://www.afd.fr/home" class="afc")
+            li: a(target="_blank" title="Airbus" href="http://airbusdefenceandspace.com/" class="airbus")
+            li: a(target="_blank" title="Badan Nasional Penanggulangan Bencana" href="http://bnpb.go.id/" class="bnpb")
+            li: a(target="_blank" title="Banking Environment Initiative" href="http://www.cisl.cam.ac.uk/banking" class="bei")
+            li: a(target="_blank" title="Cambridge Institute for Sustainability Leadership" href="http://www.cisl.cam.ac.uk/" class="cambridge")
+            li: a(target="_blank" title="CGIAR" href="http://foreststreesagroforestry.org/" class="cgiar")
+            li: a(target="_blank" title="CIAT" href="http://ciat.cgiar.org/" class="ciat")
+            li: a(target="_blank" title="Climate and Land Use Alliance" href="http://www.climateandlandusealliance.org/" class="clua")
+            li: a(target="_blank" title="Digital Globe" href="https://www.digitalglobe.com/" class="digitalglobe")
+            li: a(target="_blank" title="Earth Journalism" href="http://earthjournalism.net/" class="ejn")
+            li: a(target="_blank" title="East-West Management Institute" href="http://www.ewmi.org" class="ewmi")
+            li: a(target="_blank" title="Generation Foundation" href="https://www.genfound.org/" class="genfound")
+            li: a(target="_blank" title="Instituto de Conservación y Desarrollo Forestal, Áreas Protegidas y Vida Silvestre" href="http://www.icf.gob.hn/" class="icf")
+            li: a(target="_blank" title="Instituto Nacional de Bosques" href="http://www.inab.gob.gt/" class="inab")
+            li: a(target="_blank" title="IOI Loders Croklaan" href="http://europe.croklaan.com/taking-responsibility" class="ioi")
+            li: a(target="_blank" title="Le Ministère des Forêts et de la Faune" href="http://www.minfof.cm/" class="ministiere")
+            li: a(target="_blank" title="Moises Bertoni" href="http://www.mbertoni.org.py/v1/en" class="moises-bertoni")
+            li: a(target="_blank" title="Mongabay" href="http://www.mongabay.com/" class="mongabay")
+            li: a(target="_blank" title="ONG Muyissi" href="http://www.ongmuyissi.org/" class="muyissi")
+            li: a(target="_blank" title="Open Development Cambodia (ODC)" href="http://www.opendevelopmentcambodia.net/" class="opendevcam")
+            li: a(target="_blank" title="Orbital Insight" href="http://orbitalinsight.com/" class="orbital")
+            li: a(target="_blank" title="OSINFOR" href="http://www.osinfor.gob.pe/portal/index.php" class="osinfor")
+            li: a(target="_blank" title="Rain Forest Foundation" href="http://www.rainforestfoundationuk.org/" class="rfuk")
+            li: a(target="_blank" title="RAISG | RED AMAZÓNICA DE INFORMACIÓN SOCIOAMBIENTAL GEORREFERENCIADA" href="http://raisg.socioambiental.org/" class="raisg")
+            li: a(target="_blank" title="REDD Indonesia" href="http://www.redd-indonesia.org/" class="redd")
+            li: a(target="_blank" title="Reforestamos Mexico" href="http://www.reforestamosmexico.org/" class="rm")
+            li: a(target="_blank" title="Resolve" href="http://www.resolv.org/site-BiodiversityWildlifeSolutions/" class="resolve")
+            li: a(target="_blank" title="RSPO" href="http://www.rspo.org/" class="rspo")
+            li: a(target="_blank" title="UNEP-WCMC" href="http://www.unep-wcmc.org/" class="unepwcmc")
+            li: a(target="_blank" title="Unilever" href="http://www.unilever.com/" class="unilever")
+            li: a(target="_blank" title="Urthecast" href="https://www.urthecast.com/" class="urthecast")
+            li: a(target="_blank" title="Woods Hole Research Center" href="http://www.whrc.org/" class="whrc")
+            li: a(target="_blank" title="ZSL" href="http://www.zsl.org/" class="zsl")
+
+          ul.partners-list.text-list
+            li: a(target="_blank" href="http://www.bakermckenzie.com/") Baker &amp; McKenzie
+            li: a(target="_blank" href="http://www.fao.org/home/en/") Food and Agriculture Organization of the United Nations
+            li: a(target="_blank" href="http://www.iucn.org/") International Union for Conservation of Nature
+            li: a(target="_blank" href="https://www.planet.com/") Planet Labs
+            li: a(target="_blank" href="http://www.sarvision.nl/") SarVision
+            li: a(target="_blank" href="http://www.puter.or.id") Yayasan Puter Indonesia
+
+          h4.funders-title #{about.content.partnership.funders_title}
+          h5.current-funders-title #{about.content.partnership.current_funders_title}
+
+          ul.logo-list
+            li: a(target="_blank" href="http://um.dk/en/danida-en/" class="danida")
+            li: a(target="_blank" href="http://www.thegef.org/gef/" class="gef")
+            li: a(target="_blank" href="http://www.moore.org/" class="moore")
+            li: a(target="_blank" href="https://www.regjeringen.no/en/topics/climate-and-environment/climate/klima--og-skogprosjektet/id2000712/" class="norwegian")
+            li: a(target="_blank" href="https://www.gov.uk/government/organisations/department-for-international-development" class="ukaid")
+            li: a(target="_blank" href="http://www.usaid.gov/" class="usaid")
+
+          h5.past-funders-title #{about.content.partnership.past_funders_title}
+
+          ul.past-funders-list.text-list
+            li Bobolink Foundation
+            li: a(target="_blank" href="http://www.ifc.org/wps/wcm/connect/regprojects_ext_content/ifc_external_corporate_site/bacp/projects/projsummary_wri") International Finance Corporation
+            li
+              a(target="_blank" href="http://www.jnj.com/")!='Johnson &amp; Johnson '
+              span (funded GFW Commodities)
+            li: a(target="_blank" href="https://www.government.nl/ministries/ministry-of-foreign-affairs") Ministry of Foreign Affairs of the Netherlands
+            li
+              a(target="_blank" href="http://lander.versoco.com/")!='NewPage '
+              span (funded GFW Commodities)
+            li: a(target="_blank" href="http://www.rainforest-alliance.org/") Rainforest Alliance
+            li: a(target="_blank" href="http://www.sida.se/english/") Swedish International Development Cooperation Agency
+            li: a(target="_blank" href="http://tiliafund.org/") The Tilia Fund
+            li: a(target="_blank" href="http://www.unep.org/") United Nations Environment Programme
+            li: a(target="_blank" href="http://foundation.walmart.com/") Walmart Foundation (funded GFW Commodities)
+
+          h4.data-providers-title #{about.content.partnership.data_providers_title}
+
+          ul.text-list
+            li Alliance for Zero Extinction
+            li BirdLife International
+            li CGIAR
+            li Conservation International
+            li Digital Globe
+            li Food and Agriculture Organization of the United Nations
+            li Global Witness
+            li Google
+            li Greenpeace
+            li Imazon
+            li International Center for Tropical Agriculture (CIAT)
+            li International Union for Conservation of Nature (IUCN)
+            li Mongabay
+            li NASA Ames Research Center
+            li NASA Fire Information for Resource Management System
+            li NASA Jet Propulsion Laboratory
+            li Organismo de Supervisión de los Recursos Forestales y de Fauna Silvestre (OSINFOR)
+            li SarVision
+            li Tierra Minada
+            li Transparent World
+            li UNEP World Conservation Monitoring Centre
+            li University of Maryland
+            li U.S. Geological Survey
+            li Winrock International
+            li Woods Hole Research Center
+            li World Resources Institute
+            li Yayasan Puter Indonesia
+
+          h4.website-designed-title #{about.content.partnership.website_designed_title}
+          ul.logo-list
+            li: a.blueraster(target="_blank" href="http://www.blueraster.com")
+
+          div.center
+            p We welcome others to join the growing GFW partnership.
+            a.btn.gray.medium(target="_blank" href="mailto:mailto:gfw@wri.org")| Email us
+
+  script. //
     var links = [
       'one',
       'two',
@@ -55,17 +199,17 @@ block content
     ];
     var menuItems = [].slice.call(document.querySelectorAll('#menu li'));
 
-    document.addEventListener('DOMContentLoaded', function(event) {
-      menuItems.forEach(function(item, index) {
+    document.addEventListener('DOMContentLoaded', function (event) {
+      menuItems.forEach(function (item, index) {
         item.onclick = function () {
 
-          menuItems.forEach(function(item){
+          menuItems.forEach(function (item) {
             item.classList.remove('active');
           });
 
           this.classList.add('active');
 
-          links.forEach(function(link) {
+          links.forEach(function (link) {
             document.getElementById(link).className = document.getElementById(link).className.replace('active', '');
           });
           var element = document.getElementById(links[index])

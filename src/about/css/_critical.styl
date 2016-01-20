@@ -1,21 +1,21 @@
-@require '_variables'
-@require '../../node_modules/rupture/rupture/index'
+@require '../../../node_modules/rupture/rupture/index'
+@require '../../css/_variables'
 
-h2
+.page-title
   font-size 3em
   font-weight 300
   margin 0
-  padding 0.5em 0 0.2em
+  padding .5em 0 .2em
   line-height 1em
 
   +below($mq-mobile)
-    padding: 0.8em 0 .2em;
+    padding: .8em 0 .2em;
 
-h3
+.page-description
   font-size 1.2em
   font-weight 300
   margin 0
-  padding 0 0 0.7em
+  padding 0 0 .7em
   line-height 1.25em
 
 .content-header
@@ -25,6 +25,17 @@ h3
 .content-container
   display flex
   flex-direction row
+
+  a
+    color $gfw-red
+
+  a[href$=".pdf"].pdf-doc:before
+    content "\00a0"
+    background-image url(../images/pdf-icon.svg)
+    background-size contain
+    background-repeat no-repeat
+    width 28px
+    display inline-block
 
   +below($mq-mobile)
     flex-direction column
@@ -38,8 +49,8 @@ h3
     background #f7f7f7
     position relative
     font-weight 500
-    font-size 0.9em
-    padding 1.3em 0.7em
+    font-size .9em
+    padding 1.3em .7em
     line-height 1.2em
     border-top 1px solid darken($concrete, 5%)
     border-left 1px solid darken($concrete, 5%)
@@ -72,6 +83,7 @@ h3
     width 100%
 
 .content-body
+  flex-grow: 1;
   padding 2em 2em 1em 2em
   border-left 1px solid darken($concrete, 5%)
   color $dark-gray
@@ -79,14 +91,30 @@ h3
   +below($mq-mobile)
     border-left none
 
-  h2
-    padding 0
+  h3
     font-size 2.2em
+    font-weight 300
+    margin 0
+    padding 0 0 .5em
+    line-height 1.25em
+
+  h4
+    font-size 1.3em
+    font-weight 500
+    margin  0
+    line-height 1.25em
+    text-align center
+
+  h5
+    font-size 1em
+    text-align center
+    font-weight 500
+    margin .5em 0
 
   p
-    font-size 0.9em
+    font-size .9em
     line-height 1.6em
-    padding 0.7em 0 0
+    padding .7em 0
     margin 0
 
 .content-subpage
@@ -94,3 +122,26 @@ h3
 
   &.active
     display block
+
+.gfw-partnership
+  .logo-list
+    padding-bottom 2em
+
+  .text-list
+    li
+      text-align center
+      font-size .9em
+      line-height 1.6em
+
+.indonesian-forest-fires-pdf
+  padding .7em 0 1em
+  display block
+
+h3.partnership-header-title
+  text-align center
+
+.center
+  text-align center
+
+.text-list
+  padding 1em 0 1.5em
