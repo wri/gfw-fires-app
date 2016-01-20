@@ -31,6 +31,34 @@ const tabs = [
   'Decimal Degrees'
 ];
 
+// REFERENCE: http://stackoverflow.com/a/5971628
+function dms2Deg(s) {
+  // Determine if south latitude or west longitude
+  var sw = /[sw]/i.test(s);
+
+  // Determine sign based on sw (south or west is -ve)
+  var f = sw ? -1 : 1;
+
+  // Get into numeric parts
+  var bits = s.match(/[\d.]+/g);
+
+  var result = 0;
+
+  // Convert to decimal degrees
+  for (var i = 0, iLen = bits.length; i < iLen; i++) {
+
+    // String conversion to number is done by division
+    // To be explicit (not necessary), use
+    //   result += Number(bits[i])/f
+    result += bits[i] / f;
+
+    // Divide degrees by +/- 1, min by +/- 60, sec by +/-3600
+    f *= 60;
+  }
+
+  return result;
+}
+
 export default class EsriSearch extends React.Component {
 
   constructor(props) {
@@ -42,7 +70,10 @@ export default class EsriSearch extends React.Component {
       suggestResults: [],
       esriSearchVisible: analysisStore.getState().esriSearchVisible
     };
-    analysisStore.listen(this.storeUpdated.bind(this));
+    analysisStore.listen(this.onUpdate.bind(this));
+    this.keyDown = this.keyDown.bind(this);
+    this.suggestionSearch = this.suggestionSearch.bind(this);
+    this.suggestionKeyDown = this.suggestionKeyDown.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,7 +82,7 @@ export default class EsriSearch extends React.Component {
     }
   }
 
-  storeUpdated () {
+  onUpdate () {
     this.setState({ esriSearchVisible: analysisStore.getState().esriSearchVisible });
   }
 
@@ -72,6 +103,19 @@ export default class EsriSearch extends React.Component {
 
   keyDown (evt) {
     if (evt.key === 'Enter' && this.state.value.length > 0) { this.enter(evt); }
+    if (evt.key === 'ArrowDown' && this.state.suggestResults.length > 0) {
+      this.refs.searchResults.childNodes[0].querySelector('button').focus();
+    }
+  }
+
+  suggestionKeyDown (evt) {
+    if (['ArrowUp', 'ArrowDown'].indexOf(evt.key) > -1 && this.state.value.length > 0) {
+      let arrowUp = evt.key === 'ArrowUp';
+      let suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
+      let nextSibling = this.refs.searchResults.childNodes[ suggestionIndex + ( arrowUp === true ? -1 : 1 ) ];
+      if (suggestionIndex === 0 && arrowUp === true) { this.refs.searchInput.focus(); return; }
+      if (nextSibling !== undefined) { nextSibling.querySelector('button').focus(); }
+    }
   }
 
   suggestionSearch (evt) {
@@ -83,7 +127,13 @@ export default class EsriSearch extends React.Component {
   }
 
   coordinateSearch () {
-    console.debug('TODO: coordinateSearch');
+    let dmsA = Array.apply({}, this.refs.coordinatesA.querySelectorAll('input')).map((i) => i.value).map((v) => parseInt(v)).map(Math.abs);
+    let directionA = this.refs.directionA.value;
+    let dmsB = Array.apply({}, this.refs.coordinatesB.querySelectorAll('input')).map((i) => i.value).map((v) => parseInt(v)).map(Math.abs);
+    let directionB = this.refs.directionB.value;
+    let lat = dms2Deg(`${directionA} ${dmsA[0]} ${dmsA[1]}' ${dmsA[2]}"`);
+    let lng = dms2Deg(`${directionB} ${dmsB[0]} ${dmsB[1]}' ${dmsB[2]}"`);
+    mapActions.centerAndZoomLatLng(lat, lng, analysisConfig.searchZoomDefault);
   }
 
   decimalDegreeSearch () {
@@ -96,9 +146,9 @@ export default class EsriSearch extends React.Component {
 
   render() {
     let className = 'search-tools map-component';
-    // NOTE: main search input is mounted & unmounted as visible to take advantage of keyboard autoFocus
+    // NOTE: searchInput is mounted & unmounted visible to take advantage of keyboard autoFocus
     let searchInput = this.state.esriSearchVisible === false ? undefined : (
-      <input className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown.bind(this)} autoFocus/>
+      <input ref='searchInput' className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown} autoFocus/>
     );
     if (this.state.esriSearchVisible === false) { className += ' hidden'; }
 
@@ -113,30 +163,30 @@ export default class EsriSearch extends React.Component {
           <div className='search-input-container'>
             {searchInput}
             <button className='padding back-white'>
-              <svg className='search-magnifier' dangerouslySetInnerHTML={{ __html: magnifierSvg }} />
+              <svg className='search-magnifier vertical-middle' dangerouslySetInnerHTML={{ __html: magnifierSvg }} />
             </button>
           </div>
-          <div className='search-results custom-scroll'>
+          <div ref='searchResults' className='search-results custom-scroll'>
             {this.state.suggestResults.map((r, i) => (
-              <div><button data-suggestion-index={i} onClick={this.suggestionSearch.bind(this)}>{r}</button></div>
+              <div><button data-suggestion-index={i} onClick={this.suggestionSearch} onKeyDown={this.suggestionKeyDown}>{r}</button></div>
             ), this)}
           </div>
         </div>
         <div className={this.state.visibleTab === 1 ? '' : 'hidden'}>
           <div ref='coordinatesA' className='search-coordinates back-white'>
-            <div className='inline-block'><input className='search-input' type='number' placeholder='____'/>º</div>
-            <div className='inline-block'><input className='search-input' type='number' placeholder='____'/>{"'"}</div>
-            <div className='inline-block'><input className='search-input' type='number' placeholder='____'/>{'"'}</div>
-            <select>
+            <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />º</div>
+            <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />{"'"}</div>
+            <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />{'"'}</div>
+            <select ref='directionA'>
               <option>N</option>
               <option>S</option>
             </select>
           </div>
           <div ref='coordinatesB'className='search-coordinates back-white'>
-            <div><input className='search-input' type='number' placeholder='____'/>º</div>
-            <div><input className='search-input' type='number' placeholder='____'/>{"'"}</div>
-            <div><input className='search-input' type='number' placeholder='____'/>{'"'}</div>
-            <select>
+            <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />º</div>
+            <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />{"'"}</div>
+            <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />{'"'}</div>
+            <select ref='directionB'>
               <option>W</option>
               <option>E</option>
             </select>
@@ -146,8 +196,8 @@ export default class EsriSearch extends React.Component {
           </div>
         </div>
         <div className={this.state.visibleTab === 2 ? '' : 'hidden'}>
-          <input ref='decimalDegreeLat' className='search-input fill__wide' type='number' placeholder='Lat' />
-          <input ref='decimalDegreeLng' className='search-input fill__wide' type='number' placeholder='Long' />
+          <input ref='decimalDegreeLat' className='search-input fill__wide' type='number' placeholder='Latitude' />
+          <input ref='decimalDegreeLng' className='search-input fill__wide' type='number' placeholder='Longitude' />
           <div className='text-right'>
             <button className='search-submit-button gfw-btn blue' onClick={this.decimalDegreeSearch.bind(this)}>Search</button>
           </div>
