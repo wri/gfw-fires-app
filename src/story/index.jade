@@ -23,11 +23,10 @@ block append head-scripts
         { name: 'js', location: base + 'js' }
       ],
       deps: [
-        //-'js/story',
+        'js/story',
         'dojo/domReady!'
       ],
-      //-callback: function (story) {
-      callback: function () {
+      callback: function (story) {
         console.log('begin app')
       }
     }
