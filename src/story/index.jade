@@ -13,7 +13,24 @@ block append head-styles
 
 block append head-scripts
   script(src='../vendor/kalendae/build/kalendae.standalone.js', async)
-
+  script.
+    var base = location.pathname.replace(/\/[^/]+$/, '');
+    var dojoConfig = {
+      parseOnLoad: false,
+      async: true,
+      cacheBust: 'version',
+      packages: [
+        { name: 'js', location: base + 'js' }
+      ],
+      deps: [
+        //-'js/story',
+        'dojo/domReady!'
+      ],
+      //-callback: function (story) {
+      callback: function () {
+        console.log('begin app')
+      }
+    }
 
 block content
   +navigation(global.pages, 'story')
@@ -90,4 +107,3 @@ block content
         li #{story.details[9]}
 
   script(src = 'http://js.arcgis.com/#{meta.esriVersion}/init.js')
-  script(src = './js/story.js')
