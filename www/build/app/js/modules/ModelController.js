@@ -1,1 +1,0 @@
-define([],function(){var n={};return n.init=function(){},n});

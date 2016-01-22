@@ -72,7 +72,7 @@ var config = {
   server: {
     files: ['build/**/*.html', 'build/**/*.js', 'build/**/*.css'],
     port: process.env.PORT || 3000,
-    baseDir: 'build'
+    server: ['build', 'www']
   },
   copy: {
     src: 'vendor/**/*.{js,css,map}',
@@ -249,7 +249,7 @@ gulp.task('polyfill-dist', function() {
 
 gulp.task('browser-sync', function () {
   browserSync({
-    server: config.server.baseDir,
+    server: config.server.server,
     files: config.server.files,
     port: config.server.port,
     reloadOnRestart: false,

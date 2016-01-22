@@ -41,6 +41,10 @@ TODO
 ##### NOTE: DO NOT UNDER ANY CIRCUMSTANCES COMMIT ANY CREDENTIALS OF ANY KIND
 
 #### TODO
+- fix inconsistent carousel loading (Slick not a function)
+- percentage in peatland fires on home carousel
+- update media query variables from mobile mobile-small to tablet and mobile
+- sourcemaps for styl & js
 - layers
 - meta api infowindows
 - analysis submit functionality
