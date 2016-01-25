@@ -4,9 +4,11 @@ Please read this before beginning development to learn how to get started and ho
 
 ## Quickstart
 - install [node.js](http://nodejs.org/)
-- clone this repo `git@github.com:wri/gfw-fires-app.git`
+- clone this repo `git clone git@github.com:wri/gfw-fires-app.git`
 - cd into repo folder `> cd gfw-fires-app`
 - install dependencies `> npm install`, bower dependencies will automatically install
+- start serving and build `> npm run start`
+- visit `localhost:3000/en/home`
 
 ## Development
 TODO
@@ -42,16 +44,23 @@ TODO
 
 #### TODO
 - fix inconsistent carousel loading (Slick not a function)
-- percentage in peatland fires on home carousel
-- update media query variables from mobile mobile-small to tablet and mobile
-- sourcemaps for styl & js
 - layers
 - meta api infowindows
-- analysis submit functionality
 - timeline
-- search widget functionality
 - transparency dropdowns
 - print
 - fix land use counter
-- integrated versioning
-- cleanout reference www and set code up as heroku-deployable
+- honeypots - analysis, subscription, story submit
+- google analytics events
+- set code up as heroku-deployable
+
+- albert todos:
+  - percentage in peatland fires on home carousel
+  - update media query variables from mobile mobile-small to tablet and mobile
+  - sourcemaps for styl & js
+  - analysis submit functionality
+
+- completed:
+  - search widget functionality
+  - integrated versioning
+  - cleanout reference www
