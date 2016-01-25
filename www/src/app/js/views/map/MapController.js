@@ -2402,12 +2402,6 @@ define([
 
     };
 
-    o.layerAddError = function(evt) {
-        require(["modules/ErrorController"], function(ErrorController) {
-            ErrorController.show(10, "Error adding Layer : <br> " + evt.target.url);
-        });
-    };
-
     o.removeCustomFeatures = function() {
 
         o.map.graphics.clear();

@@ -406,7 +406,7 @@ table.forest-use-pop
 	padding-left 5px
 
 .fireRiskLegendData
-	margin-top 8px
+	margin-top 7px
 	display inline-block
 	min-height 15px
 	min-width 15px
@@ -433,11 +433,21 @@ table.forest-use-pop
 
 .fireRiskLegendDataColors
 	margin-left 23px
-	background-image url(../images/firesRiskLegend.png)
 	display inline-block
-	height 100px
+	height 120px
 	width 20px
+
+#fireRiskLegendDataColors
+	background-image url(../images/firesRiskLegend.png)
+	height 100px
 	background-size 23px
+	border 1px solid gray
+
+#fireRiskLegendDataColorsBottom
+	height 15px
+	margin-top 6px
+	background-size 20px
+	border 1px solid gray
 
 .imageryTopRow th
 	background white
@@ -1574,13 +1584,21 @@ div.report-options-section > table
 	position absolute
 	left calc(50% - 350px)
 	top calc(50% - 250px)
-	height 500px
+	// height 500px
 	width 700px
 	background white
 	z-index 100
+	font-family "Helvetica Neue", Helvetica, Arial, sans-serif
 
-// #storyBody tr
-
+#storyBody
+	padding 10px
+	padding-top 0px
+	font-size 15px
+	max-height 250px
+	border 1px solid #ccc
+	overflow-y scroll
+	padding-bottom 0px
+	margin 10px
 
 #storyClose
 	position absolute

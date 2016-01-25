@@ -43,14 +43,23 @@ define([
 
             var s = document.createElement('script'),
                 h = document.getElementsByTagName('head')[0];
-
+            // s.src = 'https://cdn.rawgit.com/simbiotica/gfw_assets/ce0f8ab8893f30aa99160536a9cc212e5bd5753b/src/header-loader.js';
+            // s.async = true;
+            // s.setAttribute('data-current', ".shape-fire");
+            // // Highlight current icon on load
+            // s.onload = s.onreadystatechange = function () {
+            //   var icon,
+            //       intervalID = setInterval(function () {
+            //         icon = dojoQuery('#headerGfw .shape-fire')[0];
+            //         if (icon !== undefined) {
+            //           domClass.add(icon, 'current');
+            //           clearInterval(intervalID);
+            //         }
+            //       }, 50);
+            // };
 
             // latest
-            // s.src = 'http://globalforestwatch.org/gfw-assets';
-
-            //test
-            s.src = 'https://cdn.rawgit.com/simbiotica/gfw_assets/3862c199249e4acc7407c4c9ba615d0a20025a61/js/build/production.js';
-
+            s.src = 'http://globalforestwatch.org/gfw-assets';
             s.async = true;
             s.setAttribute('id', "loader-gfw"); // this is very important
             s.setAttribute('data-current', ".shape-fires"); // fire"s" the "s" is necessary

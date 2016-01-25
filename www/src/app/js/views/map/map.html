@@ -89,7 +89,10 @@
               <use xlink:href="#shape-info"></use>
             </svg></span><span data-bind="text: riskSubLabel" class="checkbox-sub-label"></span>
           <div id="report-optionsRisk" data-bind="visible: showReportOptionsRisk()" class="reportOptionsSidebar">
-            <div class="fireRiskLegendDataColors"></div>
+            <div class="fireRiskLegendDataColors">
+              <div id="fireRiskLegendDataColors"></div>
+              <div id="fireRiskLegendDataColorsBottom"></div>
+            </div>
             <div id="fireRiskLegend">
               <div class="fireRiskLegendRow"><span class="fireRiskLegendData">Very High Risk</span>
               </div>
@@ -101,6 +104,7 @@
               </div>
               <div class="fireRiskLegendRow"><span class="fireRiskLegendData">Very Low Risk</span>
               </div>
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">No Data</span></div>
             </div>
             <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
             <div class="report-options-section">
