@@ -68,6 +68,33 @@ export const config = {
       className: 'tree-cover',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4'
     },
+    {
+      id: KEYS.archiveFires,
+      order: 1,
+      type: 'feature',
+      label: 'Archive fires for Indonesia',
+      group: 'fires',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0'
+    },
+    {
+      id: KEYS.noaa18Fires,
+      order: 1,
+      type: 'feature',
+      label: 'NOAA-18 Fires',
+      group: 'fires',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/9'
+    },
+    {
+      id: KEYS.burnScars,
+      order: 1,
+      type: 'feature',
+      label: 'Active fires and burn scars',
+      group: 'fires',
+      className: 'tree-cover',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/8'
+    },
     // TODO: archive fires
     // TODO: noaa-18 fires
     // TODO: fire risk
