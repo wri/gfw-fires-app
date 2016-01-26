@@ -53,6 +53,7 @@ TODO
 - honeypots - analysis, subscription, story submit
 - google analytics events
 - set code up as heroku-deployable
+- .htaccess redirects (/ -> /en/home, /en/ -> /en/home)
 
 - albert todos:
   - percentage in peatland fires on home carousel
