@@ -117,7 +117,7 @@ define([
 
                 MapModel.applyBindings("map-view");
                 // Initialize addthis since it was loaded asynchronously
-                addthis.init();
+                // addthis.init();
                 that.addConfigurations();
                 $("#footerView").hide();
                 that.createMap();
