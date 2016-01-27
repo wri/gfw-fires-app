@@ -52,10 +52,11 @@ TODO
 - fix land use counter
 - honeypots - analysis, subscription, story submit
 - google analytics events
-- set code up as heroku-deployable
 - .htaccess redirects (/ -> /en/home, /en/ -> /en/home)
+- verify and delete unused remote branches (KarlaRenschler-patch-1, Lucas, popup-enhance)
 
 - albert todos:
+  - set code up as heroku-deployable
   - percentage in peatland fires on home carousel
   - update media query variables from mobile mobile-small to tablet and mobile
   - sourcemaps for styl & js
