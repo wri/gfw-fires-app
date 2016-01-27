@@ -32,7 +32,7 @@ block content
             div.inner.relative
               aside
                 h2 #{home.slides[1][0]}
-                h3 #{home.slides[1][1]}
+                h3#percentage-header #{home.slides[1][1]}
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
@@ -111,3 +111,60 @@ block content
       document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
       document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
     });
+
+    // NOTE: priorDate is 8 weeks in the past to approximate to a week but also cover other time zones where 7 days prior might not be the whole week
+    var today = new Date();
+    var priorDate = new Date();
+    priorDate.setDate(today.getDate() - 8);
+
+    var yyyy = priorDate.getFullYear();
+    var mm = '00' + (priorDate.getMonth() + 1).toString();
+    mm = mm.substr(mm.length - 2);
+    var dd = '00' + priorDate.getDate().toString();
+    dd = dd.substr(dd.length - 2);
+    var dateStr = yyyy.toString() + '-' + mm + '-' + dd;
+
+    // REFERENCE: https://plainjs.com/javascript/ajax/making-cors-ajax-get-requests-54/
+    function getCORS(url, success) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = success;
+        xhr.send();
+        return xhr;
+    }
+
+    var queryStringBase = [
+      ['spatialRel', 'esriSpatialRelIntersects'],
+      ['returnIdsOnly', 'true'],
+      ['returnCountOnly', 'true'],
+      ['returnGeometry', 'false'],
+      ['outFields', '*'],
+      ['f', 'json']
+    ]
+
+    var peatQueryString = queryStringBase.concat([
+      ['where', 'peat = 1 AND ACQ_DATE > date \'{} 12:00:00\''.replace('{}', dateStr)],
+    ]).map(function (c) { return c.join('='); }).join('&');
+
+    var totalQueryString = queryStringBase.concat([
+      ['where', 'ACQ_DATE > date \'{} 12:00:00\''.replace('{}', dateStr)],
+    ]).map(function (c) { return c.join('='); }).join('&');
+
+    var queryUrl = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0/query?';
+    var peatQuery = encodeURI(queryUrl + peatQueryString);
+    var totalQuery = encodeURI(queryUrl + totalQueryString);
+
+    var process = function () {
+      if (peatResponse === undefined || totalResponse === undefined) { return; }
+      var peatCount = JSON.parse(peatResponse).count;
+      var totalCount = JSON.parse(totalResponse).count;
+      var percentage = Math.round( ( peatCount / totalCount ) * 100 );
+      percentage = '<span class="text-gfw-red">{}% </span> '.replace('{}', percentage);
+      var header = document.getElementById('percentage-header');
+      header.innerHTML = percentage + header.innerHTML;
+    };
+    var peatResponse;
+    var totalResponse;
+
+    getCORS(queryUrl + peatQueryString, function (request) { peatResponse = request.currentTarget.response || request.target.responseText; process(); });
+    getCORS(queryUrl + totalQueryString, function (request) { totalResponse = request.currentTarget.response || request.target.responseText; process(); });
