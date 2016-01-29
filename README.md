@@ -54,15 +54,17 @@ TODO
 - google analytics events
 - .htaccess redirects (/ -> /en/home, /en/ -> /en/home)
 - verify and delete unused remote branches (KarlaRenschler-patch-1, Lucas, popup-enhance)
+- set code up as heroku-deployable
+- update media query variables from mobile mobile-small to tablet and mobile (bojan knows about this)
+- analysis submit functionality
 
-- albert todos:
-  - set code up as heroku-deployable
-  - percentage in peatland fires on home carousel
-  - update media query variables from mobile mobile-small to tablet and mobile
-  - sourcemaps for styl & js
-  - analysis submit functionality
+- indonesian translation plan:
+  - use node and transifex to translate i18n/en/locals.js strings and save them to i18n/id/locals.js
+  - to keep things simple, it's recommended to make this a manual script that is only run on version update deployments when text has been added
 
 - completed:
   - search widget functionality
   - integrated versioning
   - cleanout reference www
+  - percentage in peatland fires on home carousel
+  - sourcemaps for styl & js
