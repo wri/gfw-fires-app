@@ -175,7 +175,7 @@ define([
             var dialog = new Dialog({
                 title: title,
                 style: "width: 600px",
-                id: "fireRiskInfoDialog",
+                id: "fireLayerInfoDialog",
                 content: childInfo//fireInfo
             });
 
@@ -300,7 +300,7 @@ define([
 
             var title;
             if (htmlToFetch === "dataSuitability-1") {
-                title = "AIR QUALITY";
+                title = "Southeast Asia air quality";
             } else if (htmlToFetch === "dataSuitability-2") {
                 title = "WIND DIRECTION";
             }

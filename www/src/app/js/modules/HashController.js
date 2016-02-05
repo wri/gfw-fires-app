@@ -1,7 +1,6 @@
 define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Config", "dojo/_base/array", "modules/EventsController", "dojo/dom-style"],
     function(hash, topic, lang, ioQuery, Config, arrayUtil, EventsController, domStyle) {
 
-
         var o = {};
         var currentState = {};
         o.newState = {};
@@ -40,8 +39,6 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 }
             }
 
-
-
             topic.subscribe("/dojo/hashchange", function(changedHash) {
                 // Handle the hash change
                 //alert(changedHash);
@@ -50,7 +47,6 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 var oldAppState = currentState;
 
                 that.handleHashChange(newAppState, oldAppState);
-
 
             });
 
@@ -61,8 +57,6 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 HeaderController.init();
                 FooterController.init();
             });
-
-
 
         };
 
@@ -89,7 +83,6 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
 
         };
 
-
         o.updateHash = function(updateState) {
 
             var that = this;
@@ -106,22 +99,14 @@ define(["dojo/hash", "dojo/topic", "dojo/_base/lang", "dojo/io-query", "main/Con
                 FooterModel.vm.appState(_currentState);
                 HeaderModel.vm.appState(_currentState);
 
-
             });
 
             var newHashStr = ioQuery.objectToQuery(_currentState);
 
-
-            console.log(newHashStr);
+            console.log('newHashStr',newHashStr);
             hash(newHashStr);
-            /*var
-    
-
-            hash()*/
-
 
         };
-
 
         o.changeView = function(newView, oldView) {
             var viewObj = {

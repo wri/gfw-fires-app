@@ -170,12 +170,9 @@ define([
     o.addConfigurations = function() {
 
         var proxies = MapConfig.proxies;
-
         var url = document.location.href;
         // var proxyUrl = "/proxy/proxy.ashx";
         var proxyUrl = "/proxy/proxy.php";
-
-
 
         for (var domain in proxies) {
 
@@ -183,7 +180,6 @@ define([
                 proxyUrl = proxies[domain];
 
                 esriConfig.defaults.io.proxyUrl = proxies[domain];
-
             }
         }
         // Rule to Test Digital Globe Fires Url
@@ -192,12 +188,10 @@ define([
             proxyUrl: proxyUrl
         });
 
-
-
-        urlUtils.addProxyRule({
-            urlPrefix: MapConfig.landsat8.prefix,
-            proxyUrl: proxyUrl
-        });
+        // urlUtils.addProxyRule({
+        //     urlPrefix: MapConfig.landsat8.prefix,
+        //     proxyUrl: proxyUrl
+        // });
 
         esriConfig.defaults.io.corsEnabledServers.push(MapConfig.windData.domain);
 
