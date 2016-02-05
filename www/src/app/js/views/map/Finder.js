@@ -1845,9 +1845,12 @@ define([
 
                 })(feats[i].feature);
                 console.log("inn")
+                // debugger
+                console.log("<p>" + fireStory_popupTemplate.content + "</p>")
                 var result = "<p>" + fireStory_popupTemplate.content + "</p>";
-                result = result.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
-                result += "</p>";
+                result = fireStory_popupTemplate.content.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+                // result += "</p>";
+                console.log(result)
                 $('#storyInfoTitle').html(fireStory_popupTemplate.title);
                 $('#storyInfoBody').html(result);
                 $('#storyInfoWindow').show();
