@@ -1289,25 +1289,55 @@ div.report-options-section > table
 	background-size 20px
 	border 1px solid gray
 
+#storyInfoTitle
+	color #767676
+	text-align left
+	font-size 15px
+	padding-left 10px
+	text-transform uppercase
+
 #storyInfoWindow
 	position absolute
 	left calc(50% - 350px)
 	top calc(50% - 250px)
-	// height 500px
-	width 700px
+	width 650px
 	background white
 	z-index 100
 	font-family "Helvetica Neue", Helvetica, Arial, sans-serif
 
-#storyBody
-	padding 10px
-	padding-top 0px
+#storyInfoBody
+	color #767676
 	font-size 15px
 	max-height 250px
-	border 1px solid #ccc
 	overflow-y scroll
-	padding-bottom 0px
-	margin 10px
+	padding 10px
+
+#storyInfoBody:before {
+	content: "";
+	top 47px;
+	left: 0;
+	position: absolute;
+	width: 642px;
+	height: 20px;
+	background-image: -webkit-linear-gradient(top, #fff, rgba(255,255,255,0));
+	background-image: -moz-linear-gradient(top, #fff, rgba(255,255,255,0));
+	background-image: -o-linear-gradient(top, #fff, rgba(255,255,255,0));
+	background-image: -ms-linear-gradient(top, #fff, rgba(255,255,255,0));
+	background-image: linear-gradient(top, #ffffff,rgba(255,255,255,0));
+}
+
+.custom-scroll::-webkit-scrollbar {
+	height: 8px;
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 0;
+}
+
+#storyInfoBody a
+	color #4099D0 !important
 
 #storyClose
 	position absolute

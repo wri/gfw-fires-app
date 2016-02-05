@@ -1839,29 +1839,18 @@ define([
 
                             map.infoWindow.setFeatures(newFeats);
 
-                            // var ll = $("#forceBlock")[0];
-                            // var parent = ll.parentElement;
-                            // var uncle = parent.previousSibling;
-                            //
-                            // $(parent).css("display", "block");
-                            // $(uncle).css("display", "block");
-
-                        } else {
-                          // debugger
                         }
 
                     });
 
                 })(feats[i].feature);
-                // debugger
+                console.log("inn")
                 var result = "<p>" + fireStory_popupTemplate.content + "</p>";
                 result = result.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
                 result += "</p>";
-                $('#storyTitle').html(fireStory_popupTemplate.title);
-                $('#storyBody').html(result);
+                $('#storyInfoTitle').html(fireStory_popupTemplate.title);
+                $('#storyInfoBody').html(result);
                 $('#storyInfoWindow').show();
-
-                // feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
 
                 features.push(feats[i].feature);
 
