@@ -1838,21 +1838,6 @@ div.report-options-section > table {
   padding-top: 0px;
 }
 
-/* line 1317 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
-#storyInfoBody:before {
-  content: "";
-  top: 35px;
-  left: 0;
-  position: absolute;
-  width: 642px;
-  height: 20px;
-  background-image: -webkit-linear-gradient(top, #fff, rgba(255,255,255,0));
-  background-image: -moz-linear-gradient(top, #fff, rgba(255,255,255,0));
-  background-image: -o-linear-gradient(top, #fff, rgba(255,255,255,0));
-  background-image: -ms-linear-gradient(top, #fff, rgba(255,255,255,0));
-  background-image: linear-gradient(top, #fff, rgba(255,255,255,0));
-}
-
 /* line 1331 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .custom-scroll::-webkit-scrollbar {
   height: 8px;
