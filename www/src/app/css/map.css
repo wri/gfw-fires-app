@@ -433,7 +433,7 @@ table.forest-use-pop tr:nth-child(odd) {
 .map-share-container {
   height: 75px;
   width: auto;
-  top: 190px;
+  top: 230px;
 }
 
 /* line 306 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
@@ -506,14 +506,14 @@ table.forest-use-pop tr:nth-child(odd) {
 
 /* line 357 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .share-linker {
-  top: 210px;
+  top: 250px;
 }
 
 /* line 360 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .share-button {
   background: url("../images/share-icon.png") no-repeat #fff;
   background-position: -2px -35px;
-  top: 210px;
+  top: 250px;
 }
 
 /* line 365 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
@@ -923,7 +923,7 @@ table.imageryTable tbody {
   background-position: -1px -35px;
   text-align: center;
   line-height: 30px;
-  top: 250px;
+  top: 290px;
 }
 
 /* line 655 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
