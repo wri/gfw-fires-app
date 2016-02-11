@@ -14,6 +14,7 @@ define({
         "http://shj/": "http://shj/proxy/proxy.ashx",
         "http://wri-gfw-fires.herokuapp.com/": "http://wri-gfw-fires.herokuapp.com/proxy/proxy.php",
         "http://localhost:": "http://localhost:8080/php/proxy.php",
+        "http://lucas/": "./proxy/proxy.php",
         "http://fires.globalforestwatch.org": "http://fires.globalforestwatch.org/proxy/proxy.php",
         "http://bur/": "projs/2278-wri-oil-palm.4/src/app/proxy/proxy.php"
     },
@@ -182,8 +183,16 @@ define({
         url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
         id: 'Forest_Use',
         defaultLayers: [-1], // Show none by default
-        rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+        // rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
         indicativeMoratorium: 7
+    },
+
+    forestUseRSPO: {
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+        id: 'Forest_Use_RSPO',
+        defaultLayers: [0], // Show 4 by default
+        rspoOilPalm: 0 // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+
     },
 
     landUseLayers: {
@@ -205,7 +214,7 @@ define({
     // },
 
     conservationLayers: {
-        url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
         id: 'Conservation',
         defaultLayers: [0], // Show none by default
         protectedAreas: 0 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
@@ -234,7 +243,7 @@ define({
     },
 
     treeCoverLayer: {
-        url: "http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer",
+        url: "http://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer",
         id: "Tree_Cover_Density"
     },
 
