@@ -117,7 +117,7 @@ define([
 
                 MapModel.applyBindings("map-view");
                 // Initialize addthis since it was loaded asynchronously
-                addthis.init();
+                // addthis.init();
                 that.addConfigurations();
                 $("#footerView").hide();
                 that.createMap();
@@ -138,8 +138,6 @@ define([
     };
 
     o.centerChange = function() {
-        //alert("center change");
-        //alert(o.map);
         //compare current center and change if different
         if (!o.map) {
             return; //map not initialized yet
@@ -152,8 +150,6 @@ define([
         var newState = HashController.newState;
         var centerChangeByUrl = ((parseFloat(newState.x) != x) || (parseFloat(newState.y) != y) || (parseInt(newState.l) != l));
 
-        //alert(centerChangeByUrl + " " + newState.y + " " + newState.x);
-
         if (centerChangeByUrl) {
             o.mapExtentPausable.pause();
             on.once(o.map, "extent-change", function() {
@@ -162,8 +158,6 @@ define([
             var ptWM = webMercatorUtils.geographicToWebMercator(new Point(parseFloat(newState.x), parseFloat(newState.y)));
             o.map.centerAndZoom(ptWM, parseInt(newState.l));
         }
-
-
 
     };
 
@@ -177,6 +171,7 @@ define([
         for (var domain in proxies) {
 
             if (url.indexOf(domain) === 0) {
+              console.log(domain)
                 proxyUrl = proxies[domain];
 
                 esriConfig.defaults.io.proxyUrl = proxies[domain];
@@ -186,6 +181,11 @@ define([
         urlUtils.addProxyRule({
             urlPrefix: 'https://services.digitalglobe.com/',
             proxyUrl: proxyUrl
+        });
+
+        urlUtils.addProxyRule({
+            urlPrefix: 'http://gis-gfw.wri.org',
+            proxyUrl: './proxy/proxy.php'//proxyUrl
         });
 
         // urlUtils.addProxyRule({
@@ -565,20 +565,6 @@ define([
 
         switch (newRenderer) {
 
-            // case "Choose one":
-
-            //     var firesClusters, fireHeat, hexFires;
-
-            //     firesClusters = o.map.getLayer("firesClusters");
-            //     firesClusters.hide();
-
-            //     hexFires = o.map.getLayer("hexFires");
-            //     hexFires.hide();
-
-            //     fireHeat = o.map.getLayer("newFires");
-            //     fireHeat.hide();
-            //     break;
-
             case "Heat map":
 
                 var firesClusters, fireHeat, hexFires;
@@ -604,325 +590,9 @@ define([
 
                 //smartMappingHexagons.clear();
                 break;
-                // case "Hex bin":
-                //     smartMappingHexagons.clear();
-                //     o.setHexBinRender();
 
-                //     break;
         }
     }
-
-    // o.setHexBinRender = function() {
-
-    //     var firesClusters, newFires;
-    //     //var graphicsLayer = o.map.getLayer("smartMappingHexagons");
-    //     firesClusters = o.map.getLayer("firesClusters");
-
-    //     firesClusters.hide();
-    //     newFires = o.map.getLayer("newFires");
-    //     newFires.hide();
-
-    //     o.tessellationInfo = {};
-    //     o.tessellationInfo.origin = {};
-    //     o.tessellationInfo.hexagonOrientation = "NS";
-    //     o.tessellationInfo.hexagonRadius = 1000;
-    //     o.tessellationInfo.type = "hexagon";
-
-    //     function createQuery() {
-    //         console.log("createQuery!");
-
-    //         var extent = o.map.extent;
-
-    //         var json = {
-    //             "rings": [
-    //                 [
-
-    //                     [extent.xmin, extent.ymax],
-    //                     [extent.xmax, extent.ymax],
-    //                     [extent.xmax, extent.ymin],
-    //                     [extent.xmin, extent.ymin],
-    //                     [extent.xmin, extent.ymax]
-
-    //                 ]
-    //             ],
-    //             "spatialReference": extent.spatialReference
-    //         };
-
-    //         var selPolygon = new Polygon(json);
-
-    //         var query = new Query();
-    //         query.returnGeometry = true;
-    //         query.where = "1=1";
-    //         query.outSpatialReference = o.map.spatialReference;
-    //         query.geometry = selPolygon;
-    //         query.outFields = ["*"];
-    //         return query;
-    //     }
-
-    //     var tessellationInfo, cellSymbol;
-
-    //     var zoomLevel = o.map.getZoom();
-    //     console.log(zoomLevel); // max (closest is 18)
-
-    //     var radius = 25 * Math.pow(2, (18 - zoomLevel));
-
-    //     console.log("radius: " + radius);
-
-    //     cellSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-    //         new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-    //             new Color([255, 0, 0, 0.75]), 1), new Color([255, 255, 0, 0.0])
-    //     );
-
-    //     var extent = o.map.extent;
-    //     var halfEdgeLength = radius * 0.5;
-    //     var halfHexagonHeight = radius * Math.cos(Math.PI * (30.0 / 180));
-    //     var hexagonHeight = halfHexagonHeight * 2;
-
-    //     o.tessellationInfo.origin.x = extent.xmin;
-    //     o.tessellationInfo.origin.y = extent.ymin;
-
-    //     var numRows = parseInt((extent.ymax - extent.ymin) / hexagonHeight + 0.5) + 1;
-    //     var numCols = parseInt((extent.xmax - extent.xmin) / (radius + halfEdgeLength) + 0.5) + 1;
-
-    //     //var startTime = (new Date().getTime());
-    //     var count1 = 0;
-    //     var count2 = 0;
-
-
-    //     for (var c = 0; c < numCols; c++) {
-    //         for (var r = 0; r < numRows; r++) {
-    //             var evenCol = c % 2;
-    //             var centerX, centerY;
-
-    //             if (evenCol == 0) {
-    //                 centerX = c * (radius + halfEdgeLength) + extent.xmin;
-    //                 centerY = r * hexagonHeight + extent.ymin;
-    //             } else {
-    //                 centerX = c * (radius + halfEdgeLength) + extent.xmin;
-    //                 centerY = r * hexagonHeight + halfHexagonHeight + extent.ymin;
-    //             }
-
-    //             var x1 = centerX + radius;
-    //             var y1 = centerY;
-    //             var x2 = centerX + halfEdgeLength;
-    //             var y2 = centerY + halfHexagonHeight;
-    //             var x3 = centerX - halfEdgeLength;
-    //             var y3 = centerY + halfHexagonHeight;
-    //             var x4 = centerX - radius;
-    //             var y4 = centerY;
-    //             var x5 = centerX - halfEdgeLength;
-    //             var y5 = centerY - halfHexagonHeight;
-    //             var x6 = centerX + halfEdgeLength;
-    //             var y6 = centerY - halfHexagonHeight;
-
-    //             var hexagon = new Polygon(o.map.spatialReference);
-    //             hexagon.addRing([
-    //                 [x1, y1],
-    //                 [x2, y2],
-    //                 [x3, y3],
-    //                 [x4, y4],
-    //                 [x5, y5],
-    //                 [x6, y6],
-    //                 [x1, y1]
-    //             ]);
-
-    //             var center = new Point(centerX, centerY, o.map.spatialReference);
-
-    //             var id = "ID-" + c + "-" + r;
-    //             var attr = {
-    //                 "count": 0,
-    //                 id: id
-    //             };
-
-    //             var graphic = new Graphic(hexagon, null, attr);
-
-    //             graphicsLayer.add(graphic);
-    //             //o.map.graphics.add(graphic);
-    //         }
-    //     }
-
-    //     var relatedQ = new RelationshipQuery();
-
-    //     var fires = o.map.getLayer("hexFires");
-    //     Helper.showLoader("map", "map-blocker");
-
-    //     fires.queryFeatures(createQuery(), function(results) {
-
-    //         Helper.hideLoader("map-blocker");
-    //         // console.log("# of features: " + results.features.length);
-
-    //         var aggregateArray = [];
-    //         var col, row, point, id;
-    //         var feature;
-
-    //         var halfEdgeLength = o.tessellationInfo.hexagonRadius * 0.5;
-    //         var halfHexagonHeight = o.tessellationInfo.hexagonRadius * Math.cos(Math.PI * (30.0 / 180));
-    //         var hexagonHeight = halfHexagonHeight * 2;
-
-    //         var colWidth = o.tessellationInfo.hexagonRadius + halfEdgeLength;
-    //         //var needProcessAttributes = (summaryFieldAndTypeData && summaryFieldAndTypeData.length > 0);
-    //         //var needProcessAttributes = false;
-
-    //         for (var i = 0; i < results.features.length; i++) {
-    //             feature = results.features[i];
-    //             point = feature.geometry;
-    //             col = parseInt((point.x - o.tessellationInfo.origin.x) / colWidth);
-    //             row = parseInt((point.y - o.tessellationInfo.origin.y) / hexagonHeight);
-
-
-    //             var center1, center2, center3;
-    //             var evenCol = col % 2;
-    //             if (evenCol === 0) {
-    //                 center1 = {
-    //                     x: col * colWidth + o.tessellationInfo.origin.x,
-    //                     y: row * hexagonHeight + o.tessellationInfo.origin.y
-    //                 };
-    //                 center2 = {
-    //                     x: col * colWidth + o.tessellationInfo.origin.x,
-    //                     y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-    //                 };
-    //                 center3 = {
-    //                     x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-    //                     y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-    //                 };
-    //             } else {
-    //                 center1 = {
-    //                     x: col * colWidth + o.tessellationInfo.origin.x,
-    //                     y: (row + 0.5) * hexagonHeight + o.tessellationInfo.origin.y
-    //                 };
-    //                 center2 = {
-    //                     x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-    //                     y: row * hexagonHeight + o.tessellationInfo.origin.y
-    //                 };
-    //                 center3 = {
-    //                     x: (col + 1) * colWidth + o.tessellationInfo.origin.x,
-    //                     y: (row + 1) * hexagonHeight + o.tessellationInfo.origin.y
-    //                 };
-    //             }
-
-    //             var d1 = (point.x - center1.x) * (point.x - center1.x) + (point.y - center1.y) * (point.y - center1.y);
-    //             var d2 = (point.x - center2.x) * (point.x - center2.x) + (point.y - center2.y) * (point.y - center2.y);
-    //             var d3 = (point.x - center3.x) * (point.x - center3.x) + (point.y - center3.y) * (point.y - center3.y);
-
-    //             if (evenCol === 0) {
-    //                 if (d1 <= d2 && d1 <= d3) {
-    //                     id = "ID-" + col + "-" + row;
-    //                 } else if (d2 <= d1 && d2 <= d3) {
-    //                     id = "ID-" + col + "-" + (row + 1);
-    //                 } else {
-    //                     id = "ID-" + (col + 1) + "-" + row;
-    //                 }
-    //             } else {
-    //                 if (d1 <= d2 && d1 <= d3) {
-    //                     id = "ID-" + col + "-" + row;
-    //                 } else if (d2 <= d1 && d2 <= d3) {
-    //                     id = "ID-" + (col + 1) + "-" + row;
-    //                 } else {
-    //                     id = "ID-" + (col + 1) + "-" + (row + 1);
-    //                 }
-    //             }
-
-    //             var record = undefined;
-    //             for (var j = 0; j < aggregateArray.length; j++) {
-    //                 if (aggregateArray[j].id === id) {
-    //                     aggregateArray[j].attributes["count"] = aggregateArray[j].attributes["count"] + 1;
-    //                     record = aggregateArray[j];
-    //                     break;
-    //                 }
-    //             }
-
-    //             var attrs = {};
-    //             if (!record) {
-    //                 attrs["count"] = 1;
-
-    //                 record = {
-    //                     id: id,
-    //                     attributes: attrs
-    //                 };
-    //                 aggregateArray.push(record);
-    //             }
-
-    //         }
-
-    //         //updateTessellationLayer(aggregateArray);
-    //         updateTessellationLayer(aggregateArray, results.features);
-
-
-    //         // var endTime = (new Date().getTime());
-    //         // console.log("# of grids: " + aggregateArray.length + " elapsed time: " + (endTime - startTime) / 1000 + " s");
-
-    //         function updateTessellationLayer(aggregateArray, fires) {
-    //             var graphicsLayer = o.map.getLayer("smartMappingHexagons");
-    //             console.log(aggregateArray.length + " features");
-    //             var maxWeight = 0;
-
-    //             // var len = o.map.graphics.graphics.length;
-    //             var len = graphicsLayer.graphics.length;
-    //             var graphicsArray = graphicsLayer.graphics;
-    //             var countsArr = [];
-
-    //             for (var k = 0; k < len; k++) {
-
-
-    //                 for (var kk = 0; kk < fires.length; kk++) {
-
-    //                     if (graphicsArray[k].geometry.contains(fires[kk].geometry)) {
-
-    //                         graphicsArray[k].attributes["count"]++;
-
-
-
-    //                     }
-    //                 }
-    //                 countsArr.push(graphicsArray[k].attributes["count"]);
-
-
-    //                 maxWeight = maxWeight > graphicsArray[k].attributes["count"] ? maxWeight : graphicsArray[k].attributes["count"];
-
-
-
-    //             }
-    //             var arrOfBreaks = o.getClassJenks(10, countsArr);
-
-    //             var Renderer = o.getRenderer(arrOfBreaks);
-
-    //             graphicsLayer.setRenderer(Renderer);
-    //             graphicsLayer.redraw();
-
-
-    //         }
-
-    //     });
-    // };
-
-    // o.getRenderer = function(breaksArr) {
-    //     var zero = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 0]));
-    //     var one = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .1]));
-    //     var two = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .2]));
-    //     var three = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .3]));
-    //     var four = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .4]));
-    //     var five = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .5]));
-    //     var six = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .6]));
-    //     var seven = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .7]));
-    //     var eight = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .8]));
-    //     var nine = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, .9]));
-    //     var ten = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255, 0, 0, 1]));
-
-    //     var cRenderer = new ClassBreaksRenderer(zero, "count");
-
-    //     cRenderer.addBreak((breaksArr[0] + 1), breaksArr[1], one);
-    //     cRenderer.addBreak(breaksArr[1], breaksArr[2], two);
-    //     cRenderer.addBreak(breaksArr[2], breaksArr[3], three);
-    //     cRenderer.addBreak(breaksArr[3], breaksArr[4], four);
-    //     cRenderer.addBreak(breaksArr[4], breaksArr[5], five);
-    //     cRenderer.addBreak(breaksArr[5], breaksArr[6], six);
-    //     cRenderer.addBreak(breaksArr[6], breaksArr[7], seven);
-    //     cRenderer.addBreak(breaksArr[7], breaksArr[8], eight);
-    //     cRenderer.addBreak(breaksArr[8], breaksArr[9], nine);
-    //     cRenderer.addBreak(breaksArr[9], breaksArr[10], ten);
-    //     return cRenderer;
-
-    // };
 
     o.resizeMapPanel = function(data) {
 
@@ -1588,7 +1258,6 @@ define([
 
                 }
 
-
                 if (this.id == "heatCircle") {
                     o.setSmartRenderer("Heat map");
                     MapModel.vm.smartRendererName("Heat map");
@@ -1665,6 +1334,10 @@ define([
         });
 
         registry.byId("forest-transparency-slider").on('change', function(value) {
+            LayerController.setTransparency(MapConfig.forestUseRSPO.id, value);
+        });
+
+        registry.byId("forest-transparency-slider").on('change', function(value) {
             LayerController.setTransparency(MapConfig.landUseLayers.id, value);
         });
 
@@ -1731,9 +1404,11 @@ define([
                 if (target.classList.contains('forest-use-layers-option')) {
                     console.log("frest")
                     LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseLayers);
+                    LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseRSPO);
                 } else if (target.classList.contains('land-use-layers-option')) {
                     console.log("land")
                     LayerController.updateAdditionalVisibleLayers("land-use-layers-option", MapConfig.landUseLayers);
+                    LayerController.updateAdditionalVisibleLayers("forest-use-layers-option", MapConfig.forestUseRSPO);
                 }
 
                 // if (target.checked) {
@@ -1814,8 +1489,6 @@ define([
 
         var conservationParams,
             conservationLayer,
-            // burendAreaParams,
-            // burnedScarLayer,
             primaryForestsParams,
             primaryForestsLayer,
             digitalGlobeLayers,
@@ -1824,6 +1497,8 @@ define([
             airQualityLayer,
             forestUseParams,
             forestUseLayer,
+            forestUseRSPOParams,
+            forestUseRSPO,
             landUseParams,
             landUseLayer,
             treeCoverLayer,
@@ -1831,6 +1506,7 @@ define([
             overlaysLayer,
             burnScarLayer,
             tomnodLayer,
+            tomnodParams,
             landSatLayer,
             firesParams,
             indonesiaLayers,
@@ -1848,17 +1524,6 @@ define([
             id: MapConfig.conservationLayers.id,
             visible: false
         });
-
-        // burendAreaParams = new ImageParameters();
-        // burendAreaParams.format = "png32";
-        // burendAreaParams.layerIds = MapConfig.burnedAreaLayers.defaultLayers;
-        // burendAreaParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
-
-        // burnedScarLayer = new ArcGISDynamicMapServiceLayer(MapConfig.burnedAreaLayers.url, {
-        //     imageParameters: burendAreaParams,
-        //     id: MapConfig.burnedAreaLayers.id,
-        //     visible: false
-        // });
 
         indonesiaParams = new ImageParameters();
         indonesiaParams.format = "png32";
@@ -1893,6 +1558,17 @@ define([
             visible: false
         });
 
+        forestUseRSPOParams = new ImageParameters();
+        forestUseRSPOParams.format = "png32";
+        forestUseRSPOParams.layerIds = MapConfig.forestUseRSPO.defaultLayers;
+        forestUseRSPOParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+        forestUseRSPO = new ArcGISDynamicMapServiceLayer(MapConfig.forestUseRSPO.url, {
+            imageParameters: forestUseRSPOParams,
+            id: MapConfig.forestUseRSPO.id,
+            visible: false
+        });
+
         landUseParams = new ImageParameters();
         landUseParams.format = "png32";
         landUseParams.layerIds = MapConfig.landUseLayers.defaultLayers;
@@ -1913,9 +1589,6 @@ define([
             id: MapConfig.fireRiskLayer.id,
             visible: false
         });
-
-
-
 
         primaryForestsParams = new ImageParameters();
         primaryForestsParams.format = "png32";
@@ -1970,7 +1643,6 @@ define([
             id: MapConfig.tomnodLayer.sel_id
         });
 
-
         var firesViz = new FeatureLayer(MapConfig.firesLayer.smartURL, {
             mode: FeatureLayer.MODE_ONDEMAND,
             //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
@@ -1979,17 +1651,7 @@ define([
             // renderer: o.heatMapRenderer,
             outFields: "*"
         });
-        // var hexFires = new FeatureLayer("http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer/4", {
-        //     mode: FeatureLayer.MODE_ONDEMAND,
-        //     //defaultDefinitionExpression: "ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'",
-        //     id: "hexFires",
-        //     visible: false,
-        //     outFields: "*"
-        // });
 
-        // var defaultSym = new SimpleMarkerSymbol("circle", 16,
-        //     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([102, 0, 0, 0.55]), 3),
-        //     new Color([255, 255, 255, 1]));
         var defaultSym = new SimpleMarkerSymbol("circle", 9,
             new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1),
             new Color([254, 182, 62, 1]));
@@ -2055,13 +1717,9 @@ define([
 
                 map.clusterDataOnce = true;
 
-
             }
 
         });
-
-
-
 
         var cRenderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
 
@@ -2087,9 +1745,6 @@ define([
         // // Providing a ClassBreakRenderer is also optional
         firesVizCluster.setRenderer(cRenderer);
 
-
-        //firesViz.setDefinitionExpression("ACQ_DATE > date'04-12-2015 00:00:00' AND ACQ_DATE < date'04-12-2015 06:00:00'");
-
         burnScarLayer = new BurnScarTiledLayer(MapConfig.burnScarLayer.url, MapConfig.burnScarLayer.id);
 
         firesParams = new ImageParameters();
@@ -2102,14 +1757,6 @@ define([
             id: MapConfig.firesLayer.id,
             visible: false
         });
-
-
-
-        //firesLayer.setDPI(72);
-
-        // var tweet_infotemplate = new InfoTemplate();
-        // tweet_infotemplate.setContent(Finder.getFireTweetsInfoWindow);
-        // tweet_infotemplate.setTitle(null);
 
         tweetLayer = new FeatureLayer(MapConfig.tweetLayer.url, {
             mode: FeatureLayer.MODE_ONDEMAND,
@@ -2150,30 +1797,7 @@ define([
             }],
             "showAttachments": true
 
-        }); //TODO: Find a way to filter out attributes w/o values from the popup
-
-
-        // var fireStory_popupTemplate = new InfoTemplate();
-        // fireStory_popupTemplate.setTitle("${Title}");
-        // fireStory_popupTemplate.setContent("<b style='color:black;text-align:center;'>${Title}</b><br/><br/>" +
-        //     "<b>Details: </b>${Details}<br/>" +
-        //     "<b>Video: </b>${Video}<br/><br/>" +
-        //     "<b>Name: </b>${Name}<br/>" +
-        //     "<b>Email: </b>${Email:NumberFormat}<br/>" +
-        //     "${ATTACHMENTS:attachmemtsFormatter}");
-
-        // window.attachmemtsFormatter = function(value, key, data) {
-        //     if (!value || value.length == 0) {
-        //         return;
-        //     }
-        //     var str = '';
-        //     for (var i = 0; i < value.length; i++) {
-        //         str += "<img src='" +
-        //             value[i].url +
-        //             "'/><br/>";
-        //     }
-        //     return str;
-        // }
+        }); //TODO: Find a way to filter out attributes w/o values from the popu
 
 
         fireStories = new FeatureLayer(MapConfig.fireStories.url, {
@@ -2185,34 +1809,6 @@ define([
             definitionExpression: "Publish = 'Y'" //,
             // infoTemplate: fireStory_popupTemplate
         });
-
-        // aspect.after(o.map.infoWindow, "show", function() {
-
-        //     var selectedFeature = o.map.infoWindow.features[0];
-        //     if (selectedFeature._graphicsLayer.id !== "Fire_Stories" || selectedFeature.attributes.ATTACHMENTS) {
-        //         return;
-        //     }
-        //     fireStories.queryAttachmentInfos(selectedFeature.attributes.OBJECTID, function(infos) {
-        //         var originalContent = fireStory_popupTemplate.toJson();
-
-        //         selectedFeature.attributes.ATTACHMENTS = infos;
-        //         //o.map.infoWindow.hide();
-        //         var newSetOfFeatures = o.map.infoWindow.features;
-        //         newSetOfFeatures[0] = selectedFeature;
-        //         setTimeout(function() {
-        //             o.map.infoWindow.setFeatures(newSetOfFeatures);
-        //         }, 0);
-        //     })
-        // });
-
-
-
-
-        // var digitalGlobeGraphicsLayer = new GraphicsLayer({
-        //     id: MapConfig.digitalGlobe.graphicsLayerId,
-        //     //infoTemplate: digitalGlobeInfoTemplate,
-        //     visible: false
-        // });
 
         var featureCollection = {
             layerDefinition: {
@@ -2272,6 +1868,7 @@ define([
             burnScarLayer,
             tomnodLayer,
             forestUseLayer,
+            forestUseRSPO,
             landUseLayer,
             overlaysLayer,
             tweetLayer,
@@ -2293,35 +1890,6 @@ define([
         // Landcover
         // Basemap
         // Landsat Imagery
-
-
-        // layerlist.forEach(function(layer) {
-        //     on(layer, "load", function() {
-        //         dojoQuery('#map_layers > div').forEach(function(div) {
-        //             console.log('layer div', div)
-        //             if (!div.id) {
-        //                 debugger;
-        //             }
-        //         })
-        //     });
-
-
-        // });
-
-        // on(map, "layer-add-result", function(result) {
-        //     console.log(result.layer.id);
-        //     dojoQuery('#map_layers > div').forEach(function(div) {
-        //         console.log('layer div', div)
-        //         if (!div.id) {
-        //             debugger;
-        //         }
-        //     })
-        //     //debugger;
-        // });
-
-        // $("#map_layers")
-
-
 
         // Update the Legend when all layers are added
         on.once(o.map, 'layers-add-result', function(response) {
@@ -2352,19 +1920,6 @@ define([
             // Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
 
-
-            // dojoQuery('#map_layers > div').forEach(function(div) {
-            //     console.log('layer div', div)
-            //     if (!div.id) {
-            //         var svgNode = dojoQuery('#map_layers > svg')[0];
-            //         var mapNode = dom.byId("map_layers");
-            //         domConstruct.place(svgNode, mapNode, "last");
-            //     }
-            // });
-
-
-
-
         });
 
         o.map.addLayers(layerlist);
@@ -2372,22 +1927,23 @@ define([
 
         // Set the default layer ordering for Overlays Layer
         overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
-        burnScarLayer.on('error', this.layerAddError);
-        landSatLayer.on('error', this.layerAddError);
-        treeCoverLayer.on('error', this.layerAddError);
-        fireRiskLayer.on('error', this.layerAddError);
-        primaryForestsLayer.on('error', this.layerAddError);
-        conservationLayer.on('error', this.layerAddError);
-        landCoverLayer.on('error', this.layerAddError);
-        overlaysLayer.on('error', this.layerAddError);
-        forestUseLayer.on('error', this.layerAddError);
-        landUseLayer.on('error', this.layerAddError);
-        firesLayer.on('error', this.layerAddError);
-        firesVizCluster.on('error', this.layerAddError);
-        fireStories.on('error', this.layerAddError);
-
-        //digitalGlobeLayer.on('error', this.layerAddError);
-        airQualityLayer.on('error', this.layerAddError);
+        // burnScarLayer.on('error', this.layerAddError);
+        // landSatLayer.on('error', this.layerAddError);
+        // treeCoverLayer.on('error', this.layerAddError);
+        // fireRiskLayer.on('error', this.layerAddError);
+        // primaryForestsLayer.on('error', this.layerAddError);
+        // conservationLayer.on('error', this.layerAddError);
+        // landCoverLayer.on('error', this.layerAddError);
+        // overlaysLayer.on('error', this.layerAddError);
+        // forestUseLayer.on('error', this.layerAddError);
+        // forestUseRSPO.on('error', this.layerAddError);
+        // landUseLayer.on('error', this.layerAddError);
+        // firesLayer.on('error', this.layerAddError);
+        // firesVizCluster.on('error', this.layerAddError);
+        // fireStories.on('error', this.layerAddError);
+        //
+        // //digitalGlobeLayer.on('error', this.layerAddError);
+        // airQualityLayer.on('error', this.layerAddError);
 
         // Change the Land Sat layer order to be right above the basemap but below everything else
         landSatLayer.on('load', function() {

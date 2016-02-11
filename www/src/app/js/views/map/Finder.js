@@ -149,6 +149,13 @@ define([
                 }
             }
 
+            var forestUseRSPO = map.getLayer(MapConfig.forestUseRSPO.id);
+            if (forestUseRSPO) {
+                if (forestUseRSPO.visible) {
+                    deferreds.push(_self.identifyRSPO(mapPoint));
+                }
+            }
+
             var landUseLayer = map.getLayer(MapConfig.landUseLayers.id);
             if (landUseLayer) {
                 if (landUseLayer.visible) {
@@ -192,6 +199,10 @@ define([
                         case 'Forest_Use':
                             isForestUsePop = true;
                             features = features.concat(_self.setForestUseTemplates(item.features));
+                            break;
+                        case 'Forest_Use_RSPO':
+                            isForestUsePop = true;
+                            features = features.concat(_self.setRSPOTemplates(item.features));
                             break;
 
                         case 'Land_Use':
@@ -310,6 +321,56 @@ define([
                     all(queries).then(function(qResults){
                                 deferred.resolve({
                                     layer: MapConfig.forestUseLayers.id,
+                                    features: qResults
+                                });
+                    });
+
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function() {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        identifyRSPO: function(mapPoint) {
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(MapConfig.forestUseRSPO.url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 3;
+            params.returnGeometry = true;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = _map.getLayer(MapConfig.forestUseRSPO.id).visibleLayers;
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            identifyTask.execute(params, function(features) {
+                if (features.length > 0) {
+                    var queries = features.map(function(feature){
+                        var qDeferred = new Deferred();
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url + '4');
+                        var query = new Query();
+                        query.geometry = feature.feature.geometry;
+                        query.where = '1=1';
+                        query.outFields = ['Date'];
+                        queryTask.execute(query).then(function(results){
+                                feature.fires = results.features;
+
+                                setTimeout(function() {
+                                    qDeferred.resolve(false);
+                                }, 3000);
+                                qDeferred.resolve(feature);
+                        });
+                        return qDeferred;
+                    });
+                    all(queries).then(function(qResults){
+                                deferred.resolve({
+                                    layer: MapConfig.forestUseRSPO.id,
                                     features: qResults
                                 });
                     });
@@ -715,10 +776,35 @@ define([
                 _self = this,
                 features = [];
 
-
-
             arrayUtils.forEach(featureObjects, function(item) {
 
+                var template_title = ["<strong>" , item.value , "</strong>"].join('');
+                var content = _self.getTemplateContent(item);
+                if(!content){
+                    return;
+                }
+
+                template = new InfoTemplate(template_title,content);
+                item.feature.setInfoTemplate(template);
+                item.feature.attributes.ALERTS_LABEL = item.value;
+
+                features.push(item.feature);
+            });
+
+            if ($('#uploadCustomGraphic').length == 0) {
+                $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+            }
+
+            return features;
+        },
+        setRSPOTemplates: function(featureObjects) {
+            var template,
+                content = '',
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            arrayUtils.forEach(featureObjects, function(item) {
 
                 var template_title = ["<strong>" , item.value , "</strong>"].join('');
                 var content = _self.getTemplateContent(item);
