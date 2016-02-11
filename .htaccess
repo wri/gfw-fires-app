@@ -1,3 +1,3 @@
-#RewriteEngine on
-#RewriteCond %{REQUEST_URI} !www/build/
-#RewriteRule (.*) /www/build/$1 [L]
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !www/build/
+RewriteRule (.*) /www/build/$1 [L]
