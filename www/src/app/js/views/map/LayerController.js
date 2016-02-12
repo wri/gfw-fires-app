@@ -97,7 +97,7 @@ define([
                 legendLayer.setLayerDrawingOptions(optionsArray);
             }
 
-            registry.byId("legend").refresh();
+            // registry.byId("legend").refresh();
         },
 
         setTransparency: function(layerId, value) {

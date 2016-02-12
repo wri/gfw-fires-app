@@ -721,7 +721,7 @@ define([
         // Add a Legend Widget
         legend = new Legend({
             map: o.map,
-            layerInfos: [],
+            // layerInfos: [],
             autoUpdate: true
         }, "legend");
         legend.startup();
@@ -1639,6 +1639,7 @@ define([
         var tomnodSellayer = new FeatureLayer(MapConfig.tomnodLayer.url + "/" + MapConfig.tomnodLayer.defaultLayers[0], {
             mode: FeatureLayer.MODE_SELECTION,
             infoTemplate: tomnodInfoTemplate,
+            visible: false,
             outFields: ["*"],
             id: MapConfig.tomnodLayer.sel_id
         });
@@ -1914,11 +1915,12 @@ define([
                 }
                 var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
                 var flyr = !(item.layer.id === tomnodSellayer.id);
+
                 return (url && flyr);
             });
 
             // Helper.hideLoader("map-blocker");
-            registry.byId("legend").refresh(layerInfos);
+            // registry.byId("legend").refresh(layerInfos);
 
         });
 
@@ -2096,15 +2098,13 @@ define([
             layerComponents = layersArray[index].split('/');
             turnOnLayers(layerComponents[0], layerComponents[1]);
         }
-        //setTimeout(function() {
+
         var currentHash = HashController.getHash();
         if (currentHash.lyrs.indexOf("Get_Fires_Analysis") > -1) {
             console.log("Updating from hash");
             $("#report-link").click();
 
         }
-        //}, 500);
-
 
     };
 
