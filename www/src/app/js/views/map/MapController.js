@@ -1911,9 +1911,6 @@ define([
             layerInfos = arrayUtils.filter(layerInfos, function(item) {
 
                 var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
-                if (item.layer.id === "Tree_Cover_Density") {
-                  url = true;
-                }
 
                 var tomnodLayerId = item.layer.id !== tomnodSellayer.id;
                 var fireRiskLayerId = item.layer.id !== fireRiskLayer.id;
@@ -1921,7 +1918,6 @@ define([
                 return (url && tomnodLayerId && fireRiskLayerId);
             });
 
-            // Helper.hideLoader("map-blocker");
             registry.byId("legend").refresh(layerInfos);
 
         });
@@ -1931,23 +1927,6 @@ define([
 
         // Set the default layer ordering for Overlays Layer
         overlaysLayer.on('load', LayerController.setOverlayLayerOrder);
-        // burnScarLayer.on('error', this.layerAddError);
-        // landSatLayer.on('error', this.layerAddError);
-        // treeCoverLayer.on('error', this.layerAddError);
-        // fireRiskLayer.on('error', this.layerAddError);
-        // primaryForestsLayer.on('error', this.layerAddError);
-        // conservationLayer.on('error', this.layerAddError);
-        // landCoverLayer.on('error', this.layerAddError);
-        // overlaysLayer.on('error', this.layerAddError);
-        // forestUseLayer.on('error', this.layerAddError);
-        // forestUseRSPO.on('error', this.layerAddError);
-        // landUseLayer.on('error', this.layerAddError);
-        // firesLayer.on('error', this.layerAddError);
-        // firesVizCluster.on('error', this.layerAddError);
-        // fireStories.on('error', this.layerAddError);
-        //
-        // //digitalGlobeLayer.on('error', this.layerAddError);
-        // airQualityLayer.on('error', this.layerAddError);
 
         // Change the Land Sat layer order to be right above the basemap but below everything else
         landSatLayer.on('load', function() {
@@ -2161,41 +2140,6 @@ define([
             }, 2000);
         });
 
-        // var printTask = new PrintTask(MapConfig.printOptions.url),
-        //     template = new PrintTemplate(),
-        //     params = new PrintParameters(),
-        //     popupBlockerMsg = 'You need to disable your pop-up blocker to see the printed map.',
-        //     success,
-        //     fail;
-
-        // // Configure Print Template
-        // template.format = "png32";
-        // template.layout = MapConfig.printOptions.template;
-        // template.showAttribution = false;
-        // template.preserveScale = false;
-
-        // params.map = o.map;
-        // params.template = template;
-
-        // success = function(res) {
-        //     var redirect = window.open(res.url, '_blank');
-        //     domClass.remove('print-button', 'loading');
-        //     domClass.remove("map-container", "map-container-print");
-        //     if (redirect === null || typeof(redirect) === undefined || redirect === undefined) {
-        //         alert(popupBlockerMsg);
-        //     }
-        // };
-
-        // fail = function(err) {
-        //     domClass.remove('print-button', 'loading');
-        //     domClass.remove("map-container", "map-container-print");
-        //     console.error(err);
-        // };
-
-        // // Change Background image of Print Button to be the loading wheel, TEMP, toggle html
-        // domClass.add('print-button', 'loading');
-
-        // printTask.execute(params, success, fail);
     };
 
     o.reportAnalyticsHelper = function(eventType, action, label) {
