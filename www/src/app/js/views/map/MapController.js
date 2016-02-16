@@ -171,7 +171,6 @@ define([
         for (var domain in proxies) {
 
             if (url.indexOf(domain) === 0) {
-              console.log(domain)
                 proxyUrl = proxies[domain];
 
                 esriConfig.defaults.io.proxyUrl = proxies[domain];
@@ -721,7 +720,7 @@ define([
         // Add a Legend Widget
         legend = new Legend({
             map: o.map,
-            // layerInfos: [],
+            layerInfos: [],
             autoUpdate: true
         }, "legend");
         legend.startup();
@@ -1147,16 +1146,18 @@ define([
 
         on(dom.byId("indonesia-fires"), "click", function() {
             if (this.getAttribute("aria-checked") == "false") {
-                var otherCheck = dom.byId("noaa-fires-18");
-                if (otherCheck.getAttribute("aria-checked") == 'false') {
-                    o.map.getLayer("IndonesiaFires").visible = false;
-                    console.log("Should disable pop-ups");
-                }
+                // var otherCheck = dom.byId("noaa-fires-18");
+                // if (otherCheck.getAttribute("aria-checked") == 'false') {
+                //     o.map.getLayer("IndonesiaFires").visible = false;
+                //     console.log("Should disable pop-ups");
+                // }
                 MapModel.vm.showReportOptionsINDO(false);
-                return;
+                // return;
+            } else {
+              MapModel.vm.showReportOptionsINDO(true);
+              ReportOptionsController.populate_select();
             }
-            MapModel.vm.showReportOptionsINDO(true);
-            ReportOptionsController.populate_select();
+
         });
 
         on(dom.byId("windy-layer-checkbox"), "click", function() {
@@ -1902,25 +1903,26 @@ define([
             self.setFireRiskDefinition();
             self.enableLayersFromHash();
 
-
             var layerInfos = arrayUtils.map(response.layers, function(item) {
                 return {
                     layer: item.layer
                 };
             });
             layerInfos = arrayUtils.filter(layerInfos, function(item) {
-                if (item.layer.id === "firesClusters") {
 
-                    item.title = "Heat Map";
-                }
                 var url = !item.layer.url ? false : item.layer.url.search('ImageServer') < 0;
-                var flyr = !(item.layer.id === tomnodSellayer.id);
+                if (item.layer.id === "Tree_Cover_Density") {
+                  url = true;
+                }
 
-                return (url && flyr);
+                var tomnodLayerId = item.layer.id !== tomnodSellayer.id;
+                var fireRiskLayerId = item.layer.id !== fireRiskLayer.id;
+
+                return (url && tomnodLayerId && fireRiskLayerId);
             });
 
             // Helper.hideLoader("map-blocker");
-            // registry.byId("legend").refresh(layerInfos);
+            registry.byId("legend").refresh(layerInfos);
 
         });
 
