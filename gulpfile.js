@@ -11,6 +11,7 @@ var stylus = require('gulp-stylus');
 var babel = require('gulp-babel');
 var rupture = require('rupture');
 var jade = require('gulp-jade');
+var copy = require('gulp-copy');
 var jeet = require('jeet');
 var gulp = require('gulp');
 
@@ -73,6 +74,11 @@ var config = {
     files: ['build/**/*.html', 'build/**/*.js', 'build/**/*.css'],
     port: process.env.PORT || 3000,
     server: ['build', 'www']
+  },
+  copyExtras: {
+    src: 'src/**/*.{php,config,sqlite}',
+    build: 'build',
+    dist: 'dist'
   },
   copy: {
     src: 'vendor/**/*.{js,css,map}',
@@ -225,6 +231,28 @@ gulp.task('copy-dist-vendor', function () {
   return stream;
 });
 
+gulp.task('copy-build-php', function () {
+  var stream = mergeStream();
+
+  stream.add(
+    gulp.src(config.copyExtras.src)
+      .pipe(gulp.dest(config.copyExtras.build + '/' + 'en'))
+      .pipe(gulp.dest(config.copyExtras.build + '/' + 'id'))
+  );
+
+  return stream;
+});
+
+gulp.task('copy-dist-php', function () {
+  var stream = mergeStream();
+  stream.add(
+    gulp.src(config.copyExtras.src)
+    .pipe(gulp.dest(config.copyExtras.build + '/' + 'en'))
+    .pipe(gulp.dest(config.copyExtras.build + '/' + 'id'))
+  );
+  return stream;
+});
+
 gulp.task('polyfill-build', function() {
   var stream = mergeStream();
   config.i18n.forEach(function(locale) {
@@ -261,5 +289,5 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('serve', ['browser-sync']);
-gulp.task('build', ['stylus-build', 'stylus-watch', 'babel-build', 'babel-watch', 'jade-build', 'jade-watch', 'imagemin-build', 'copy-build-vendor']);
-gulp.task('dist', ['stylus-dist', 'babel-dist', 'jade-dist', 'imagemin-dist', 'copy-dist-vendor']);
+gulp.task('build', ['stylus-build', 'stylus-watch', 'babel-build', 'babel-watch', 'jade-build', 'jade-watch', 'imagemin-build', 'copy-build-vendor', 'copy-build-php']);
+gulp.task('dist', ['stylus-dist', 'babel-dist', 'jade-dist', 'imagemin-dist', 'copy-dist-vendor', 'copy-dist-php']);
