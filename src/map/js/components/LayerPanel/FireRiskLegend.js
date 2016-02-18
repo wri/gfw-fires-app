@@ -23,7 +23,7 @@ export default class FireRiskLegend extends React.Component {
 
   render() {
     return (
-      <div className='legend-container'>
+      <div className={`legend-container ${this.props.domClass}`}>
         {this.state.legendInfos.length === 0 ? <div className='legend-unavailable'>No Legend</div> :
           <div className='fire-risk-legend'>
             {this.state.legendInfos.map(this.itemMapper, this)}
