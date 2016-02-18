@@ -1,10 +1,4 @@
 //- General modal styling
-.modal-wrapper
-  position absolute
-  bottom 0
-  right 0
-  left 0
-  top 0
 
 .modal-container
   position absolute
@@ -19,193 +13,137 @@
   height 100%
   width 100%
 
-.modal
+.modal-window
   transform translate(-50%, -50%)
   background-color white
   position fixed
   height auto
   left 50%
   top 50%
-  & a
-    word-break break-word
-    word-wrap break-word
-  & .close-icon
-    position absolute
-    height 40px
-    width 40px
-    right 0
-    top 0
-    & svg
-      transform translate(-50%, -50%)
-      position absolute
-      height 50%
-      width 50%
-      left 50%
-      top 50%
+  width 500px
+  min-height 100px
+  -webkit-transform translate(-50%, -60%)
+  -moz-transform translate(-50%, -60%)
+  -ms-transform translate(-50%, -60%)
+  -o-transform translate(-50%, -60%)
+  transform translate(-50%, -60%)
+  transition all 0s cubic-bezier(0.445, 0.05, 0.55, 0.95)
+  background white
+  border none
+  box-shadow 0px 1px 2px rgba(0,0,0,0.25)
 
-.modal-title
-  padding 10px 20px 0
-  text-align center
-  font-size 21px
+.modal-window:before, .modal-window:after
+  content ""
+  position absolute
+  height 20px
+  width calc(100% - 8px)
+  left 0
 
-.modal-content
-  padding 20px 30px 20px 20px
-  overflow-x hidden
-  max-height 450px
-  overflow-y auto
-  color $darkGray
-  height 100%
+.modal-window a
+  word-break break-word
+  word-wrap break-word
+  text-decoration none
 
-.no-info-available
-  text-align center
-  line-height 40px
-  height 40px
+.modal-window:before
+  top 0
+  background-image -webkit-linear-gradient(to-top, #fff, rgba(255,255,255,0))
+  background-image -moz-linear-gradient(to-top, #fff, rgba(255,255,255,0))
+  background-image -o-linear-gradient(to-top, #fff, rgba(255,255,255,0))
+  background-image -ms-linear-gradient(to-top, #fff, rgba(255,255,255,0))
+  background-image linear-gradient(to-top, #ffffff,rgba(255,255,255,0))
 
-//- Share Modal
-#share-modal
-  & .modal-content
-    width 300px
-  & .share-instructions
-    padding-bottom 10px
-    font-size 13px
-  & .share-items
-    justify-content space-around
-    display flex
-    & svg
-      transform translate(-50%, -50%)
-      position absolute
-      height 20px
-      width 20px
-      fill white
-      left 50%
-      top 50%
-
-.share-card
-  transition all 0.1s ease-in-out
-  position relative
+.close-icon
+  position absolute
   height 40px
   width 40px
+  right 0
+  top 0
 
-.googleplus-modal
-  background $googleRed
-  &:hover
-    background darken($googleRed, 25%)
+.modal .close-icon svg
+  transform translate(-50%, -50%)
+  position absolute
+  height 50%
+  width 50%
+  left 50%
+  top 50%
 
-.facebook-modal
-  background $facebookBlue
-  &:hover
-    background darken($facebookBlue, 25%)
-
-.twitter-modal
-  background $twitterBlue
-  &:hover
-    background darken($twitterBlue, 25%)
-
-.share-input
-  margin-bottom 15px
+.modal-close
+  display block
+  position absolute
+  top 0px
+  right 0px
+  width 40px
   height 40px
-  & input
-    border 1px solid $lightGrayBorder
-    text-align center
-    font-size 13px
-    height 100%
-    width 70%
-  & button
-    text-transform uppercase
-    -webkit-appearance none
-    text-align center
-    line-height 38px
-    border-radius 0
-    font-weight 500
-    font-size 14px
-    outline none
-    height 100%
-    width 30%
-    padding 0
+  z-index 20
 
-//- Canopy Modal specific styling
-#canopy-modal
-  & .modal-content
-    width 340px
-  & .irs-line-left
-  & .irs-line-right
-  & .irs-line-mid
-    background white
-  & .irs-grid-pol[style="left: 100%"]
-  & .irs-grid-pol.small
-  & .irs-slider.to
-  & .irs-to
-    display none
-  & .irs-bar
-    background $gfwBlue
-    border-radius 5px
-    height 7px
-  & .irs-grid-pol
-    border-radius 50%
-    height 2px
-    width 2px
-    top -12px
-  & .irs-slider
-    cursor col-resize
 
-.trees
-  margin 30px 10px 10px
-  height 60px
-  width 280px
+// .modal-title
+//   padding 10px 20px 0
+//   font-size 21px
 
-.tree-icon
-  background url('images/tree.png') no-repeat center
-  margin-top 19px
-  height 41px
-  float left
-  width 25px
+.modal-wrapper
+  overflow-x hidden
+  overflow-y auto
+  height 100%
+  max-height 450px
+  // width 100%
+  box-sizing border-box
+  left 0
+  top 0
+  padding 20px
 
-.forest-icon
-  background url('images/forest.png') no-repeat center
-  float right
-  height 60px
-  width 91px
+.modal-content
+  height auto
+  width 100%
+  outline none
+  font-size 15px
+  color #555555
 
-.slider-container
-  margin 5px 10px
-  width 280px
+.has-footer
+  border-bottom 66px solid transparent
+
 
 //- Layer modal specific styling
-.layer-modal-content
-  width 500px
+// .modal-content
+//   width 100%
 
-.source-header
-  margin-bottom 5px
-
-.source-title
+.modal-title
   text-transform uppercase
   line-height 16px
   font-weight 500
   font-size 16px
   display block
+  margin 0
+  padding 0
 
-.source-description
-  font-style inherit
-  color $lightGray
-  line-height 1.1
+.modal-subtitle
+  display block
+  margin-top 5px
   font-size 13px
-  margin 5px 0
+  line-height 1.2
+  color #999
+  font-weight inherit
 
-.source-table
-  border-top 1px solid $lightGrayBorder
+.modal-table
+  border-collapse collapse
+  font-size 11px
+  margin 20px 0
+  width 100%
+  border none
+  border-top 1px solid #e5e5df
 
 .source-row
-  border-bottom 1px solid $lightGrayBorder
   display table
   width 100%
   margin 0
-  &:nth-child(even)
-    background #F2F2F3
+
+.source-row:nth-child(even)
+  background #F2F2F3
 
 .source-row dt
 .source-row dd
   display table-cell
-  padding 10px
+  // padding 10px
 
 .source-row dt
   text-transform uppercase
@@ -214,38 +152,164 @@
   width 120px
 
 .source-row dd
-  border-left 1px solid $lightGrayBorder
+  border-left 1px solid #ccc
   padding-left 15px
   font-size 13px
 
-.source-summary
+.modal-overview
   font-size 13px
-  & p
-    margin 10px 0
 
-.source-credits
-  color $lightGray
+.modal-overview p
+  margin 10px 0
+
+.modal-credits
+  color #AAA
   font-size 12px
-  & strong
-    font-weight 500
-    display block
-    color #333
+
+.modal-credits strong
+  font-weight 500
+  display block
+  color #333
+
+.modal-credits h3
+  font-size 12px
+  font-weight 500
+  color #333
+
+.modal-footer
+  position absolute
+  bottom 0
+  left 0
+  width 100%
+  background white
+  z-index 2
+  padding 15px 0
+  border-top 1px solid #e5e5df
+
+.modal-footer:before, .modal-footer:after
+  content " "
+  display table
+  visibility hidden
+  font-size 0
+  height 0
+
+.modal-footer .btn.green
+  color white
+  background #97bd3d
+
+.modal-footer .btn.green:hover
+  background #789631
+
+.modal-footer .btn
+  background #e5e5df
+  position relative
+  display inline-block
+  z-index 1
+  padding 0px 12px
+  border-radius 40px
+  font-size 14px
+  text-decoration none
+  height 36px
+  line-height 36px
+  text-align center
+  font-weight 500
+  white-space nowrap
+  -webkit-transition background 0.15s linear
+  -moz-transition background 0.15s linear
+  -o-transition background 0.15s linear
+  transition background 0.15s linear
+  -webkit-appearance none
+  border 1px solid transparent
+  outline none
+  box-shadow none
+  cursor pointer
+  font-family "Fira Sans"
+
+.m-btncontainer.is-center
+  -webkit-box-pack center
+  -moz-box-pack center
+  -ms-flex-pack center
+  -webkit-justify-content center
+  justify-content center
+
+.m-btncontainer
+  display flex
+  display -webkit-flex
+  align-items center
+  -webkit-align-items center
+  text-transform uppercase
 
 .read-more
   text-align center
   padding 10px 0 0
   font-size 13px
   margin 0
-  & a
-    text-decoration none
-    font-style normal
+
+.read-more a
+  text-decoration none
+  font-style normal
 
 .layer-colors
   list-style none
   font-size 13px
   padding 0
   margin 0
-  & .circle:before
-    margin 0 4px 0 -1px
-    content '\25CF'
-    font-size 16px
+
+.layer-colors .circle:before
+  margin 0 4px 0 -1px
+  content '\25CF'
+  font-size 16px
+
+.modal-content .modal-table .source-row dd
+  display table-cell
+  // padding 10px 10px 10px 15px
+  padding-right 10px
+  border-left 1px solid #e5e5df
+  border-bottom 1px solid #e5e5df
+  font-size 13px
+
+.modal-content .modal-table .source-row dt
+  display table-cell
+  width 120px
+  border-bottom 1px solid #e5e5df
+  background none
+  padding 10px
+  font-weight 500
+  font-size 11px
+  text-transform uppercase
+
+.modal-table .source-row dd p:last-child
+  margin-bottom 0
+
+.modal-table .source-row dd p
+  margin-bottom 10px
+
+.modal-content p
+  line-height 1.25
+
+.scroll-dark
+  -webkit-overflow-scrolling touch
+
+.scroll-dark::-webkit-scrollbar
+  width 8px
+  height 8px
+
+.scroll-dark::-webkit-scrollbar
+  width 8px
+  height 8px
+
+.scroll-dark::-webkit-scrollbar-thumb
+  border-radius 0px
+  background rgba(85,85,85,0.8)
+
+.scroll-dark::-webkit-scrollbar-track
+  border-radius 0px
+  background #fafafa
+
+.custom-scroll::-webkit-scrollbar
+  height 8px
+  width 8px
+
+.custom-scroll::-webkit-scrollbar-thumb
+  background #888
+  border-radius 0
