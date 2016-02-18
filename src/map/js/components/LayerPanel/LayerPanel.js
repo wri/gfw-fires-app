@@ -5,6 +5,7 @@ import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import LossControls from 'components/LayerPanel/LossControls';
+import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import LayerGroup from 'components/LayerPanel/LayerGroup';
 import DamsLegend from 'components/LayerPanel/DamsLegend';
 import {layersConfig, layerPanelText, controlPanelText} from 'js/config';
@@ -56,11 +57,14 @@ export default class LayerPanel extends React.Component {
         case KEYS.loss:
           childComponent = <LossControls loaded={this.props.loaded} {...this.state} />;
           break;
-        case KEYS.treeCover:
+        case KEYS.treeCoverDensity:
           childComponent = <DensityDisplay {...this.state} />;
           break;
-        case KEYS.landCover:
+        case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
+          break;
+        case KEYS.fireRisk:
+          childComponent = <RiskCalendar url={layer.url} layerIds={layer.layerIds} />;
           break;
         default:
           childComponent = null;

@@ -1,75 +1,114 @@
-import {analysisActions} from 'actions/AnalysisActions';
-import {layerPanelText, layersConfig} from 'js/config';
-import GraphicsHelper from 'helpers/GraphicsHelper';
-import {analysisStore} from 'stores/AnalysisStore';
+import {layerPanelText, layersConfig, calendarText} from 'js/config';
 import rasterFuncs from 'utils/rasterFunctions';
-import Symbols from 'helpers/Symbols';
 import Request from 'utils/request';
 import utils from 'utils/AppUtils';
+import all from 'dojo/promise/all';
+import InfoTemplate from 'esri/InfoTemplate';
 import KEYS from 'js/constants';
 
 let LayersHelper = {
 
-  connectLayerEvents: () => {
+  connectLayerEvents () {
     app.debug('LayersHelper >>> connectLayerEvents');
     // Enable Mouse Events for al graphics layers
     app.map.graphics.enableMouseEvents();
-    // Get the watershed layer and add mouse events to it
-    let watershedLayer = app.map.getLayer(KEYS.watershed);
-    if (watershedLayer) {
-      watershedLayer.on('mouse-over', LayersHelper.watershedHoverOn);
-      watershedLayer.on('mouse-out', LayersHelper.watershedHoverOff);
-      watershedLayer.on('click', LayersHelper.watershedClicked);
-      //- Testing to see if this stops the request cancelled errors in the console
-      watershedLayer.on('zoom-start', () => { watershedLayer.setVisibility(false); });
-      watershedLayer.on('zoom-end', () => { watershedLayer.setVisibility(true); });
-    }
+    // Set up Click Listener to Perform Identify
+    app.map.on('click', this.performIdentify.bind(this));
+    this.updateFireRisk(calendarText.startDate);
+
   },
 
-  watershedClicked: evt => {
-    app.debug('LayerHelper >>> watershedClicked');
-    //- Don't do anything if the drawtoolbar is active
-    let {activeWatershed, toolbarActive} = analysisStore.getState();
-    let graphic = evt.graphic;
-    if (graphic && !toolbarActive) {
-      //- If we currently have a feature in analysis, clear the analyis, then run the query
-      if (activeWatershed) { analysisActions.clearActiveWatershed(); }
-      let objectid = graphic.attributes.objectid;
-      Request.getWatershedById(objectid).then(featureJSON => {
-        //- Convert JSON to feature
-        let feature = GraphicsHelper.makePolygon(featureJSON);
-        //- Start the analysis process
-        analysisActions.analyzeCurrentWatershed(feature);
-        app.map.setExtent(feature.geometry.getExtent(), true);
-      }, err => {
-        console.log(err);
+  performIdentify (evt) {
+    app.debug('LayerHelper >>> performIdentify');
+
+    let mapPoint = evt.mapPoint,
+      deferreds = [],
+      features = [],
+      layer;
+
+    app.map.infoWindow.clearFeatures();
+
+    layer = app.map.getLayer(KEYS.activeFires);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyActive(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.archiveFires);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyArchive(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.noaa18Fires);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyNoaa(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.burnScars);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyBurn(mapPoint));
+      }
+    }
+
+    if (deferreds.length === 0) {
+      return;
+    }
+
+    all(deferreds).then(function(featureSets) {
+
+      featureSets.forEach(item => {
+        switch (item.layer) {
+          case KEYS.activeFires:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
+            break;
+          case KEYS.archiveFires:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.archiveFires));
+            break;
+          case KEYS.noaa18Fires:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.noaa18Fires));
+            break;
+          case KEYS.burnScars:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.burnScars));
+            break;
+          default: // Do Nothing
+            break;
+        }
       });
-    }
+
+      if (features.length > 0) {
+        app.map.infoWindow.setFeatures(features);
+        app.map.infoWindow.show(mapPoint);
+      }
+
+    }.bind(this));
+
   },
 
-  watershedHoverOn: evt => {
-    // app.debug('LayersHelper >>> watershedHoverOn');
-    let graphic = evt.graphic;
-    if (graphic) {
-      graphic.setSymbol(Symbols.getWatershedHoverSymbol());
-    }
+  setActiveTemplates: function(featureObjects, keyword) {
+    let template,
+      features = [];
+    featureObjects.forEach(item => {
+      let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
+      template = new InfoTemplate(item.layerName, config.infoTemplate.content);
+      item.feature.setInfoTemplate(template);
+      features.push(item.feature);
+    });
+    return features;
   },
 
-  watershedHoverOff: evt => {
-    // app.debug('LayersHelper >>> watershedHoverOff');
-    let graphic = evt.graphic;
-    if (graphic) {
-      graphic.setSymbol(Symbols.getWatershedDefaultSymbol());
-    }
-  },
-
-  showLayer: layerId => {
+  showLayer (layerId) {
     app.debug(`LayersHelper >>> showLayer - ${layerId}`);
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.show(); }
   },
 
-  hideLayer: layerId => {
+  hideLayer (layerId) {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
@@ -79,7 +118,7 @@ let LayersHelper = {
   * @param {number} optionIndex - Index of the selected option in the UI, see js/config
   * @param {boolean} dontRefresh - Whether or not to not fetch a new image
   */
-  updateFiresLayerDefinitions: (optionIndex, dontRefresh) => {
+  updateFiresLayerDefinitions (optionIndex, dontRefresh) {
     app.debug('LayersHelper >>> updateFiresLayerDefinitions');
     let value = layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
     let queryString = utils.generateFiresQuery(value);
@@ -92,7 +131,7 @@ let LayersHelper = {
     }
   },
 
-  updateLossLayerDefinitions: (fromIndex, toIndex) => {
+  updateLossLayerDefinitions (fromIndex, toIndex) {
     app.debug('LayersHelper >>> updateLossLayerDefinitions');
     let fromValue = layerPanelText.lossOptions[fromIndex].value;
     let toValue = layerPanelText.lossOptions[toIndex].value;
@@ -106,15 +145,67 @@ let LayersHelper = {
     }
   },
 
-  updateTreeCoverDefinitions: (densityValue) => {
+  updateTreeCoverDefinitions (densityValue) {
     app.debug('LayersHelper >>> updateTreeCoverDefinitions');
-    let layerConfig = utils.getObject(layersConfig, 'id', KEYS.treeCover);
+    let layerConfig = utils.getObject(layersConfig, 'id', KEYS.treeCoverDensity);
+
     let rasterFunction = rasterFuncs.getColormapRemap(layerConfig.colormap, [densityValue, layerConfig.inputRange[1]], layerConfig.outputRange);
     let layer = app.map.getLayer(KEYS.treeCover);
 
     if (layer) {
       layer.setRenderingRule(rasterFunction);
     }
+  },
+
+  updateFireRisk (dayValue) {
+    app.debug('LayersHelper >>> updateFireRisk');
+
+    let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
+    let otherDate = new Date(dayValue);
+    let month = otherDate.getMonth();
+    let year = otherDate.getFullYear();
+    let janOne = new Date(year + ' 01 01');
+    let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
+
+
+    let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
+
+    if (month > 1 && this.isLeapYear(year)) {
+      julian++;
+    }
+
+    if (julian.toString().length === 1) {
+      julian = '00' + julian.toString();
+    } else if (julian.toString().length === 2) {
+      julian = '0' + julian.toString();
+    } else {
+      julian = julian.toString();
+    }
+
+    let defQuery = year.toString() + julian + '_IDN_FireRisk';
+
+    console.log("Name = '" + defQuery + "'");
+    let riskLayer = app.map.getLayer(KEYS.fireRisk);
+
+    if (riskLayer) {
+      riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
+    }
+  },
+
+  parseDate (str) {
+    let mdy = str.split('/');
+    return new Date(mdy[2], mdy[0] - 1, mdy[1]);
+  },
+
+  daydiff (first, second) {
+    return Math.round((second - first) / (1000 * 60 * 60 * 24)) + 1;
+  },
+
+  isLeapYear (year) {
+    if((year & 3) !== 0) {
+        return false;
+    }
+    return ((year % 100) !== 0 || (year % 400) === 0);
   }
 
 };
