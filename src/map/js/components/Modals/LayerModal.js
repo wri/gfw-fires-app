@@ -21,45 +21,81 @@ export default class Modal extends React.Component {
   }
 
   render () {
-    let layerInfo = this.state.layerInfo;
+    let layerInfo = [];
+    for (let layer in this.state.layerInfo) {
+      layerInfo.push(this.state.layerInfo[layer]);
+    }
+    console.log(this.state.layerInfo)
     return (
-      <ModalWrapper>
-        {!layerInfo.title ? <div className='no-info-available'>{modalText.noInfo}</div> :
-          <div className='layer-modal-content'>
-            <div className='source-header'>
-              <strong className='source-title'>{layerInfo.title}</strong>
-              <em className='source-description'>{layerInfo.subtitle}</em>
-            </div>
-            <div className='source-body'>
-              <div className='source-table'>
-                {layerInfo.table.map(this.tableMap)}
-              </div>
-              <div className='source-summary'>
-                {layerInfo.overview.map(this.summaryMap)}
-              </div>
-              {!layerInfo.customContent ? null :
-                layerInfo.customContent.map(this.htmlContentMap)
-              }
-              {!layerInfo.citation ? null :
-                <div className='source-credits'>
-                  {layerInfo.citation.map(this.paragraphMap)}
+            <ModalWrapper>
+            {!this.state.layerInfo.title ? <div className='no-info-available'>No information available</div> :
+            <div className='modal-content'>
+              <div className='modal-source'>
+                <h2 className='modal-title'>{this.state.layerInfo.title}</h2>
+                <h3 className='modal-subtitle'>{this.state.layerInfo.subtitle}</h3>
+                <div className='modal-table'>
+                  {!this.state.layerInfo.function ? null :
+                    this.tableMap(this.state.layerInfo.function, 'function')
+                  }
+                  {
+                    !this.state.layerInfo.resolution ? null :
+                    this.tableMap(this.state.layerInfo.resolution, 'RESOLUTION/SCALE')
+                  }
+                  {
+                    !this.state.layerInfo.geographic_coverage ? null :
+                    this.tableMap(this.state.layerInfo.geographic_coverage, 'GEOGRAPHIC COVERAGE')
+                  }
+                  {
+                    !this.state.layerInfo.source ? null :
+                    this.tableMap(this.state.layerInfo.source, 'source data')
+                  }
+                  {
+                    !this.state.layerInfo.frequency_of_updates ? null :
+                    this.tableMap(this.state.layerInfo.frequency_of_updates, 'FREQUENCY OF UPDATES')
+                  }
+                  {
+                    !this.state.layerInfo.date_of_content ? null :
+                    this.tableMap(this.state.layerInfo.date_of_content, 'DATE OF CONTENT')
+                  }
+                  {
+                    !this.state.layerInfo.cautions ? null :
+                    this.tableMap(this.state.layerInfo.cautions, 'cautions')
+                  }
+                  {
+                    !this.state.layerInfo.other ? null :
+                    this.tableMap(this.state.layerInfo.other, 'other')
+                  }
+                  {
+                    !this.state.layerInfo.license ? null :
+                    this.tableMap(this.state.layerInfo.license, 'license')
+                  }
                 </div>
-              }
-              {!layerInfo.moreContent ? null :
-                layerInfo.moreContent.map(this.htmlContentMap)
-              }
+                <div className='modal-overview'>
+                  <h3>Overview</h3>
+                  {
+                    !this.state.layerInfo.overview ? null :
+                    this.summaryMap(this.state.layerInfo.overview)
+                  }
+                </div>
+                <div className='modal-credits'>
+                  <h3>Citation</h3>
+                  {
+                    !this.state.layerInfo.citation ? null :
+                    this.summaryMap(this.state.layerInfo.citation)
+                  }
+                </div>
+              </div>
             </div>
-          </div>
-        }
-      </ModalWrapper>
-    );
+          }
+        </ModalWrapper>
+     );
   }
 
-  tableMap (item) {
+  tableMap (item, label) {
     return (
       <dl className='source-row'>
-        <dt>{item.label}</dt>
-        <dd dangerouslySetInnerHTML={{ __html: item.html }}></dd>
+        <dt>{label}</dt>
+        <dd dangerouslySetInnerHTML={{ __html: item }}></dd>
       </dl>
     );
   }

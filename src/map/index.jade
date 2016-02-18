@@ -14,7 +14,7 @@ block append head-scripts
   script(src='../vendor/jquery/dist/jquery.min.js')
   script(src='../vendor/kalendae/build/kalendae.standalone.js', async)
   script.
-    var base = location.pathname.replace(/\/[^/]+$/, '');
+    var base = location.pathname.replace(/\/[^/]+$/, '/');
     var dojoConfig = {
       parseOnLoad: false,
       async: true,
@@ -59,5 +59,6 @@ block content
   +navigation(global.pages, 'map', true)
   include html/_svgAssets.jade
   div#root.layout-content
-  div#layer-modal.modal-wrapper.hidden
+  div#layer-modal.modal.hidden
+  div#canopy-modal.modal-wrapper.hidden
   script(src='http://js.arcgis.com/#{meta.esriVersion}/init.js', async)

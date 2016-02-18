@@ -29,14 +29,19 @@ export default class ModalWrapper extends React.Component {
     return (
       <div className='modal-container'>
         <div className='modal-background' onClick={::this.close} />
-        <article className='modal shadow'>
-          <div title='close' className='close-icon pointer' onClick={::this.close} >
+        <div className='modal-window'>
+          <div title='close' className='modal-close close-icon pointer' onClick={this.close}>
             <svg dangerouslySetInnerHTML={{ __html: closeSvg }}/>
           </div>
-            <div className='modal-content custom-scroll'>
-              {this.props.children}
+          <div className='modal-wrapper custom-scroll has-footer'>
+            {this.props.children}
+            <div className='modal-footer'>
+              <div className="m-btncontainer is-center">
+                <a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
+              </div>
             </div>
-        </article>
+          </div>
+        </div>
       </div>
     );
   }

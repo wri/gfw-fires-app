@@ -1,4 +1,6 @@
-import {layerInformation} from 'js/config';
+import {metadataUrl, metadataIds} from 'js/config';
+import esriRequest from 'esri/request';
+import urlUtils from 'esri/urlUtils';
 import domClass from 'dojo/dom-class';
 import alt from 'js/alt';
 
@@ -6,12 +8,26 @@ class ModalActions {
 
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
-    let emptyObj = {};
-    let layerInfo = layerInformation[layerId] || emptyObj;
-    this.dispatch(layerInfo);
-    if (layerInfo !== emptyObj) {
+
+    urlUtils.addProxyRule({
+      urlPrefix: 'http://54.88.79.102',
+      proxyUrl: './php/proxy.php'
+    });
+
+    esriRequest({
+      url: metadataUrl + metadataIds[layerId],
+      handleAs: 'json',
+      callbackParamName: 'callback'
+    }, {
+      usePost: true
+    }).then(res => {
+      this.dispatch(res);
       domClass.remove('layer-modal', 'hidden');
-    }
+    }, err => {
+      this.dispatch({});
+      domClass.remove('layer-modal', 'hidden');
+      console.error(err);
+    });
   }
 
   showShareModal (params) {
