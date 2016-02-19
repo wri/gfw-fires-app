@@ -1,22 +1,13 @@
-// import {layerPanelText, layersConfig, calendarText} from 'js/config';
-// import rasterFuncs from 'utils/rasterFunctions';
-import Request from 'utils/request';
 import Windy from 'utils/windy';
-// import utils from 'utils/AppUtils';
-// import all from 'dojo/promise/all';
-// import KEYS from 'js/constants';
 import {modalActions} from 'actions/ModalActions';
 import Deferred from 'dojo/Deferred';
 import domStyle from 'dojo/dom-style';
-// import declare from 'dojo/_base/declare';
 import connect from 'dojo/_base/connect';
 import arrayUtils from 'dojo/_base/array';
 import domConstruct from 'dojo/dom-construct';
 import esriLang from 'esri/lang';
 import esriRequest from 'esri/request';
 import domUtils from 'esri/domUtils';
-// import SpatialReference from 'esri/SpatialReference';
-// import Point from 'esri/geometry/Point';
 import Layer from 'esri/layers/layer';
 
 let WIND_CONFIG = {
@@ -187,7 +178,6 @@ let WindHelper = {
 
   fetchDataForWindLayer: function(optionalURL) {
 
-    // Helper.showLoader(WIND_CONFIG.mapLoaderContainer, WIND_CONFIG.mapLoaderId);
     if (optionalURL) {
       WIND_CONFIG.dataUrl = optionalURL;
     }
@@ -204,11 +194,9 @@ let WindHelper = {
     req.then(function(res) {
       _data = res;
       deferred.resolve(true);
-      // Helper.hideLoader(WIND_CONFIG.mapLoaderId);
     }, function(err) {
       console.error(err);
       deferred.resolve(false);
-      // Helper.hideLoader(WIND_CONFIG.mapLoaderId);
     });
 
     return deferred.promise;

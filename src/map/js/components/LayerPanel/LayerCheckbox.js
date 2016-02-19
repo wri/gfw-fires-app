@@ -1,6 +1,7 @@
 import {layerActions} from 'actions/LayerActions';
 import {modalActions} from 'actions/ModalActions';
 import LayersHelper from 'helpers/LayersHelper';
+import KEYS from 'js/constants';
 import React from 'react';
 
 // Info Icon Markup for innerHTML
@@ -10,6 +11,10 @@ export default class LayerCheckbox extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps.checked !== this.props.checked) {
+      if (this.props.layer.id === KEYS.windDirection) {
+        LayersHelper.toggleWind(this.props.checked);
+        return;
+      }
       if (this.props.checked) {
         LayersHelper.showLayer(this.props.layer.id);
       } else {

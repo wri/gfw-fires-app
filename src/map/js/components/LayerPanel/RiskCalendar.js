@@ -24,13 +24,17 @@ export default class RiskCalendar extends React.Component {
 			mode: 'single',
 			selected: currentDate
 		});
+    if (this.props.domId === 'fireRiskCalendar') {
+      calendar.subscribe('change', this.changeRiskDay);
+    } else if (this.props.domId === 'windDirectionCalendar') {
+      calendar.subscribe('change', this.changeWindDay);
+    }
 
-    calendar.subscribe('change', this.changeRiskDay);
   }
 
   render () {
     //<FireRiskLegend />
-
+    // debugger
     return <div className={`timeline-container ${this.props.domClass}`}>
       <div id={this.props.domId}></div>
       <FireRiskLegend domClass={this.props.childDomClass} />
@@ -39,5 +43,9 @@ export default class RiskCalendar extends React.Component {
 
   changeRiskDay() {
     LayersHelper.updateFireRisk(this.getSelected());
+  }
+
+  changeWindDay() {
+    LayersHelper.updateWindDate(this.getSelected());
   }
 }

@@ -50,6 +50,7 @@ class MapActions {
     app.map.on('layers-add-result', result => {
       let addedLayers = result.layers;
       // Check for Errors
+      debugger
       var layerErrors = addedLayers.filter(layer => layer.error);
       if (layerErrors.length > 0) { console.error(layerErrors); }
       // Connect events to the layers that need them

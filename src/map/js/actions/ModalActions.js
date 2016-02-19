@@ -9,9 +9,10 @@ class ModalActions {
 
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
+    console.log(metadataIds[layerId])
 
     urlUtils.addProxyRule({
-      urlPrefix: 'http://54.88.79.102',
+      urlPrefix: 'http://api.globalforestwatch.org',
       proxyUrl: './php/proxy.php'
     });
 
@@ -39,6 +40,24 @@ class ModalActions {
     domClass.remove('share-modal', 'hidden');
   }
 
+  showGlobeStartModal () { //todo: Dont, if the basemap is already dark-gray!!
+    app.debug('ModalActions >>> showGlobeStartModal');
+    domClass.remove('share-modal', 'hidden');
+  }
+
+  showGlobeEndModal (params) {
+    app.debug('ModalActions >>> showShareModal');
+    //TODO: Generate a url from bitly that includes Map Store state, this way we can share params
+    let url = document.location.href.split('?')[0];
+    this.dispatch(`${url}?${params}`);
+    domClass.remove('share-modal', 'hidden');
+  }
+
+  showAlertsModal () {
+    app.debug('ModalActions >>> showAlertsModal');
+    domClass.remove('alerts-modal', 'hidden');
+  }
+
   showBasemapModal () { //todo: Dont, if the basemap is already dark-gray!!
     app.debug('ModalActions >>> showBasemapModal');
     let currentCookie = cookie('windBasemapDecision');
@@ -49,11 +68,6 @@ class ModalActions {
         this.dispatch('dark-gray');
       }
     }
-  }
-
-  showAlertsModal () {
-    app.debug('ModalActions >>> showAlertsModal');
-    domClass.remove('alerts-modal', 'hidden');
   }
 
   showCanopyModal () {

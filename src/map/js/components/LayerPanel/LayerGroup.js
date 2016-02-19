@@ -16,7 +16,8 @@ let getCount = (activeLayers, children) => {
       ++count;
     }
   });
-  return `${count.toString()}/${children.filter((c) => c !== null).length}`;
+
+  return `${count.toString()}/${children.filter((c) => (c !== null && c.key)).length}`;
 };
 
 export default class LayerGroup extends React.Component {
@@ -28,6 +29,7 @@ export default class LayerGroup extends React.Component {
 
   render() {
     let styles = { display: this.state.open ? 'block' : 'none' };
+
     return (
       <div className='layer-category'>
         <div className='layer-category-label pointer' onClick={this.toggle.bind(this)}>

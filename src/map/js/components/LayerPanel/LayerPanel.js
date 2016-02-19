@@ -6,6 +6,7 @@ import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import LossControls from 'components/LayerPanel/LossControls';
 import RiskCalendar from 'components/LayerPanel/RiskCalendar';
+import ImageryComponent from 'components/LayerPanel/ImageryComponent';
 import LayerGroup from 'components/LayerPanel/LayerGroup';
 import DamsLegend from 'components/LayerPanel/DamsLegend';
 import {layersConfig, layerPanelText, controlPanelText} from 'js/config';
@@ -64,7 +65,13 @@ export default class LayerPanel extends React.Component {
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
         case KEYS.fireRisk:
-          childComponent = <RiskCalendar url={layer.url} layerIds={layer.layerIds} />;
+          childComponent = <RiskCalendar domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
+          break;
+        case KEYS.windDirection:
+          childComponent = <RiskCalendar domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
+          break;
+        case KEYS.digitalGlobe:
+          childComponent = <ImageryComponent domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
           break;
         default:
           childComponent = null;
@@ -91,12 +98,10 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
           {landUseLayers[0]}
           {layerPanelText.concessions}
-          <div className='layer-panel-indent'>
-            {landUseLayers[1]}
-            {landUseLayers[2]}
-            {landUseLayers[3]}
-            {landUseLayers[4]}
-          </div>
+          {landUseLayers[1]}
+          {landUseLayers[2]}
+          {landUseLayers[3]}
+          {landUseLayers[4]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
           {layersConfig.map(this.checkboxMap('conservation'), this)}
