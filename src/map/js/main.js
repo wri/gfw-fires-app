@@ -1,6 +1,7 @@
 import babelPolyfill from 'babel-polyfill';
 import LayerModal from 'components/Modals/LayerModal';
 import CanopyModal from 'components/Modals/CanopyModal';
+import BasemapModal from 'components/Modals/BasemapModal';
 //import AlertsModal from 'components/Modals/AlertsModal';
 import {defaults} from 'js/config';
 import Map from 'components/Map';
@@ -30,6 +31,7 @@ let initializeApp = () => {
   ReactDOM.render(<Map />, document.getElementById('root'));
   ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
   ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
+  ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
   //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
 };
 

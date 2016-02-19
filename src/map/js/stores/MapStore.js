@@ -19,7 +19,7 @@ class MapStore {
     this.layerPanelVisible = app.mobile === false;
 
     this.bindListeners({
-      setBasemap: mapActions.setBasemap,
+      setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       changeFiresTimeline: layerActions.changeFiresTimeline,
@@ -51,7 +51,10 @@ class MapStore {
   }
 
   setBasemap (basemap) {
-    this.activeBasemap = basemap;
+    console.log(basemap)
+    if (basemap !== this.activeBasemap) {
+      this.activeBasemap = basemap;
+    }
   }
 
   showLayerInfo (layerInfo) {

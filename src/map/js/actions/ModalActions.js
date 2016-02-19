@@ -1,5 +1,6 @@
 import {metadataUrl, metadataIds} from 'js/config';
 import esriRequest from 'esri/request';
+import cookie from 'dojo/cookie';
 import urlUtils from 'esri/urlUtils';
 import domClass from 'dojo/dom-class';
 import alt from 'js/alt';
@@ -36,6 +37,18 @@ class ModalActions {
     let url = document.location.href.split('?')[0];
     this.dispatch(`${url}?${params}`);
     domClass.remove('share-modal', 'hidden');
+  }
+
+  showBasemapModal () { //todo: Dont, if the basemap is already dark-gray!!
+    app.debug('ModalActions >>> showBasemapModal');
+    let currentCookie = cookie('windBasemapDecision');
+    if (currentCookie === undefined) {
+      domClass.remove('basemap-modal', 'hidden');
+    } else {
+      if (currentCookie === "true") { //change basemap
+        this.dispatch('dark-gray');
+      }
+    }
   }
 
   showAlertsModal () {

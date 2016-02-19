@@ -2,27 +2,26 @@
 // import rasterFuncs from 'utils/rasterFunctions';
 import Request from 'utils/request';
 import Windy from 'utils/windy';
-import utils from 'utils/AppUtils';
-import all from 'dojo/promise/all';
-import InfoTemplate from 'esri/InfoTemplate';
-import KEYS from 'js/constants';
+// import utils from 'utils/AppUtils';
+// import all from 'dojo/promise/all';
+// import KEYS from 'js/constants';
+import {modalActions} from 'actions/ModalActions';
 import Deferred from 'dojo/Deferred';
 import domStyle from 'dojo/dom-style';
-import declare from 'dojo/_base/declare';
+// import declare from 'dojo/_base/declare';
 import connect from 'dojo/_base/connect';
 import arrayUtils from 'dojo/_base/array';
 import domConstruct from 'dojo/dom-construct';
-import number from 'dojo/number';
 import esriLang from 'esri/lang';
 import esriRequest from 'esri/request';
-import adomUtilsll from 'esri/domUtils';
-import SpatialReference from 'esri/SpatialReference';
-import Point from 'esri/geometry/Point';
+import domUtils from 'esri/domUtils';
+// import SpatialReference from 'esri/SpatialReference';
+// import Point from 'esri/geometry/Point';
 import Layer from 'esri/layers/layer';
 
 let WIND_CONFIG = {
   dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
-  id: "Wind_Direction",
+  id: 'Wind_Direction',
   opacity: 0.85,
   mapLoaderId: 'map_loader',
   mapLoaderContainer: 'map-container'
@@ -47,20 +46,20 @@ export default class RasterLayer extends Layer {
     _setMap (map, container) {
       this._map = map;
 
-      let element = this._element = domConstruct.create("canvas", {
-        id: "canvas",
-        width: map.width + "px",
-        height: map.height + "px",
-        style: "position: absolute; left: 0px; top: 0px;"
+      let element = this._element = domConstruct.create('canvas', {
+        id: 'canvas',
+        width: map.width + 'px',
+        height: map.height + 'px',
+        style: 'position: absolute; left: 0px; top: 0px;'
       }, container);
 
       if (esriLang.isDefined(this.opacity)) {
-        domStyle.set(element, "opacity", this.opacity);
+        domStyle.set(element, 'opacity', this.opacity);
       }
 
-      this._context = element.getContext("2d");
+      this._context = element.getContext('2d');
       if (!this._context) {
-        console.error("This browser does not support <canvas> elements.");
+        console.error('This browser does not support <canvas> elements.');
       }
 
       this._mapWidth = map.width;
@@ -103,12 +102,12 @@ export default class RasterLayer extends Layer {
     }
 
     _panHandler (extent, delta) {
-      domStyle.set(this._element, { left: delta.x + "px", top: delta.y + "px" });
+      domStyle.set(this._element, { left: delta.x + 'px', top: delta.y + 'px' });
     }
 
     _extentChangeHandler (extent, delta, levelChange, lod) {
       if (!levelChange) {
-        domStyle.set(this._element, { left: "0px", top: "0px" });
+        domStyle.set(this._element, { left: '0px', top: '0px' });
         this.clear();
       }
     }
@@ -128,8 +127,7 @@ let WindHelper = {
   activateWindLayer: function(updatedURL) {
 
     if (updatedURL) {
-      // TODO: If we're calling the INITIAL data fetch WITH an updatedURL parameter, we need to then also add the promptAboutBasemap.then() statement per 5 lines down.
-      this.promptAboutBasemap();
+      this.promptAboutBasemap(); //why wait until this finishes before we fetch data and turn it on?
 
       this.fetchDataForWindLayer(updatedURL).then(function() {
         this.createWindLayer();
@@ -168,12 +166,11 @@ let WindHelper = {
     });
 
     this.redraw();
-    this.toggleLegend(true);
 
   },
 
   promptAboutBasemap () {
-    console.log("Change the basemap!!")
+    modalActions.showBasemapModal();
   },
 
   deactivateWindLayer: function() {
@@ -186,7 +183,6 @@ let WindHelper = {
         _handles[i].remove();
       }
     }
-    this.toggleLegend(false);
   },
 
   fetchDataForWindLayer: function(optionalURL) {
@@ -206,7 +202,6 @@ let WindHelper = {
       });
 
     req.then(function(res) {
-      console.log('data', res)
       _data = res;
       deferred.resolve(true);
       // Helper.hideLoader(WIND_CONFIG.mapLoaderId);
@@ -220,8 +215,7 @@ let WindHelper = {
   },
 
   redraw: function() {
-
-    if (_raster) {
+    if (_raster && _raster._element) {
 
       _raster._element.height = app.map.height;
       _raster._element.width = app.map.width;
@@ -231,32 +225,26 @@ let WindHelper = {
       var extent = app.map.geographicExtent;
 
       setTimeout(function() {
-        _windy.start(
-          [
-            [0, 0],
-            [app.map.width, app.map.height]
-          ],
-          app.map.width,
-          app.map.height, [
-            [extent.xmin, extent.ymin],
-            [extent.xmax, extent.ymax]
-          ]
-        );
+        if (_windy) {
+          _windy.start(
+            [
+              [0, 0],
+              [app.map.width, app.map.height]
+            ],
+            app.map.width,
+            app.map.height, [
+              [extent.xmin, extent.ymin],
+              [extent.xmax, extent.ymax]
+            ]
+          );
+        }
       }, 500);
     }
 
   },
 
-  toggleLegend: function(show) {
-    if (show) {
-      console.log("hide legenddd")
-    } else {
-      console.log("showwww legenddd")
-    }
-  },
-
   supportsCanvas: function() {
-    return !!document.createElement("canvas").getContext;
+    return !!document.createElement('canvas').getContext;
   }
 
 };

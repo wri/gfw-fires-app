@@ -5,6 +5,7 @@ import layerFactory from 'helpers/LayerFactory';
 import LayersHelper from 'helpers/LayersHelper';
 import Point from 'esri/geometry/Point';
 import Symbols from 'helpers/Symbols';
+import WindHelper from 'helpers/WindHelper';
 import Deferred from 'dojo/Deferred';
 import Graphic from 'esri/graphic';
 import KEYS from 'js/constants';
@@ -43,6 +44,8 @@ class MapActions {
     //- return an arcgis layer for each config object
     let layers = layersConfig.filter(layer => layer && (layer.url || layer.type === 'graphic')).sort((a, b) => a.order - b.order).map(layerFactory);
     app.map.addLayers(layers);
+
+    // WindHelper.activateWindLayer(); //todo: add this to the LayersHelper >>> showLayer - windDirection layer! and hide layer!
     // If there is an error with a particular layer, handle that here
     app.map.on('layers-add-result', result => {
       let addedLayers = result.layers;
@@ -74,6 +77,7 @@ class MapActions {
   }
 
   setBasemap (basemap) {
+    app.debug('MapActions >>> setBasemap');
     this.dispatch(basemap);
   }
 
