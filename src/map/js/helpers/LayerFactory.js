@@ -25,13 +25,26 @@ export default (layer) => {
       options.id = layer.id;
       options.visible = layer.visible || false;
       esriLayer = new TiledLayer(layer.url, options);
-    break;
+      break;
     case 'image':
       options.id = layer.id;
       options.visible = layer.visible || false;
       options.opacity = layer.opacity || 1;
+      options.maxScale = layer.maxScale || null;
+      options.minScale = layer.minScale || null;
       esriLayer = new ImageLayer(layer.url, options);
-    break;
+      break;
+    case 'wind':
+      break;
+    // case 'globe':
+    //   options.id = layer.id;
+    //   options.visible = layer.visible || false;
+    //   options.opacity = layer.opacity || 1;
+    //   // esriLayer = options.services.map((service) => (
+    //
+    //
+    //   esriLayer = [new ImageLayer(layer.url, options)];
+    //   break;
     case 'dynamic':
       // Create some image parameters
       let imageParameters = new ImageParameters();
@@ -44,17 +57,17 @@ export default (layer) => {
       options.opacity = layer.opacity || 1.0;
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
-    break;
+      break;
     case 'feature':
       options.id = layer.id;
       options.visible = layer.visible || false;
-      esriLayer = new FeatureLayer(layer.url, options);
-    break;
+      esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
+      break;
     case 'graphic':
       options.id = layer.id;
       options.visible = layer.visible || false;
       esriLayer = new GraphicsLayer(options);
-    break;
+      break;
     default:
       throw new Error(errors.incorrectLayerConfig(layer.type));
   }

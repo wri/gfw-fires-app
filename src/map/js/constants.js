@@ -27,6 +27,11 @@ const KEYS = {
   landsat8: 'landsat8',
   windDirection: 'windDirection',
   digitalGlobe: 'digitalGlobe',
+  digitalGlobe0: 'digitalGlobe0',
+  digitalGlobe1: 'digitalGlobe1',
+  digitalGlobe2: 'digitalGlobe2',
+  digitalGlobe3: 'digitalGlobe3',
+  digitalGlobe4: 'digitalGlobe4',
   twitter: 'twitter',
   fireStories: 'fireStories'
 };

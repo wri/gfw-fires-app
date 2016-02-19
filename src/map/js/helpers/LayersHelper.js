@@ -4,6 +4,7 @@ import Request from 'utils/request';
 import utils from 'utils/AppUtils';
 import all from 'dojo/promise/all';
 import InfoTemplate from 'esri/InfoTemplate';
+import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
 
 let LayersHelper = {
@@ -11,6 +12,7 @@ let LayersHelper = {
   connectLayerEvents () {
     app.debug('LayersHelper >>> connectLayerEvents');
     // Enable Mouse Events for al graphics layers
+    console.log("oooooouuuuuuuuuuuu")
     app.map.graphics.enableMouseEvents();
     // Set up Click Listener to Perform Identify
     app.map.on('click', this.performIdentify.bind(this));
@@ -104,14 +106,32 @@ let LayersHelper = {
 
   showLayer (layerId) {
     app.debug(`LayersHelper >>> showLayer - ${layerId}`);
+    let config = utils.getObject(layersConfig, 'id', KEYS[layerId]);
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.show(); }
+    let subLayers = config.subLayers;
+    if (subLayers && subLayers.length > 0) {
+      subLayers.forEach(subLayer => {
+        let sub = app.map.getLayer(subLayer);
+        if (sub) { sub.show(); }
+      });
+    }
   },
 
   hideLayer (layerId) {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
+  },
+
+  toggleWind(checked) {
+    app.debug(`LayersHelper >>> toggleWind - ${checked}`);
+    if (checked) {
+      WindHelper.activateWindLayer();
+    } else {
+      WindHelper.deactivateWindLayer();
+    }
+
   },
 
   /**
@@ -190,6 +210,22 @@ let LayersHelper = {
     if (riskLayer) {
       riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
     }
+  },
+
+  updateWindDate (dayValue) {
+    console.log(dayValue);
+
+    let dateArray = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
+
+    // let time = MapModel.vm.timeOfDay();
+
+    let reportdates = dateArray.split('/');
+    let datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
+    console.log(datesFormatted);
+    let updatedURL = 'http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' + datesFormatted + '00' + '.1-0.gz.json';
+    WindHelper.deactivateWindLayer();
+    WindHelper.activateWindLayer(updatedURL);
+
   },
 
   parseDate (str) {

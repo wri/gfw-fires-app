@@ -270,7 +270,7 @@ export const config = {
       group: 'airQuality',
       className: 'wind-direction',
       url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
-      metadataId: 'wind_layer',
+      metadataId: 'wind_direction',
       calendar: {
         startDate: new Date('10/19/2014'),
         currentDate: new Date(),
@@ -301,16 +301,67 @@ export const config = {
       url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
       metadataId: 'firms_active_fires'
     },
-    // {
-    //   id: KEYS.digitalGlobe,
-    //   order: 1,
-    //   type: 'globe',
-    //   label: 'Digital Globe - First Look',
-    //   group: 'imagery',
-    //   className: 'tree-cover',
-    //   url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer'
-    // metadataId: 'firms_active_fires',
-    // },
+    {
+      id: KEYS.digitalGlobe,
+      order: 1,
+      subLayers: [KEYS.digitalGlobe0, KEYS.digitalGlobe1, KEYS.digitalGlobe2, KEYS.digitalGlobe3, KEYS.digitalGlobe4],
+      type: 'image',
+      label: 'Digital Globe - First Look',
+      mosaic: 'WV01',
+      group: 'imagery',
+      'minScale': 0,
+      'maxScale': 10000,
+      className: 'digital-globe',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer',
+      metadataId: 'digital_globe',
+      calendar: {
+        startDate: new Date('10/19/2015'),
+        currentDate: new Date(),
+        domId: 'imageryCalendar',
+        domClass: 'imagery-settings',
+        childDomClass: 'imagery-subsettings'
+      }
+    },
+    {
+      id: KEYS.digitalGlobe0,
+      type: 'image',
+      mosaic: 'QB01',
+      'minScale': 0,
+      'maxScale': 10000, //zoom level 6 is highest visible
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer'
+    },
+    {
+      id: KEYS.digitalGlobe1,
+      type: 'image',
+      mosaic: 'WV02',
+      'minScale': 0,
+      'maxScale': 10000,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer'
+    },
+    {
+      id: KEYS.digitalGlobe2,
+      type: 'image',
+      mosaic: 'GEO1',
+      'minScale': 0,
+      'maxScale': 10000,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer'
+    },
+    {
+      id: KEYS.digitalGlobe3,
+      type: 'image',
+      mosaic: 'WV03',
+      'minScale': 0,
+      'maxScale': 10000,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03/ImageServer'
+    },
+    {
+      id: KEYS.digitalGlobe4,
+      type: 'image',
+      mosaic: 'WV03_SWIR',
+      'minScale': 0,
+      'maxScale': 10000,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer'
+    },
     // TODO: digital globe
     {
       id: KEYS.fireStories,
@@ -518,6 +569,7 @@ export const config = {
       'protectedAreas': 'wdpa_protected_areas',
       'conservation-biodiversity-hotspots': 'biodiversity_hotspots',
       'suitability-soy-layer': 'tree_cover_loss',
+      'windDirection': 'wind_direction',
       'suitability-custom-suitability-mapper': 'tree_cover_loss',
       'suitability-wri-standard-suitability': 'tree_cover_loss',
       'suitability-conservation-areas': 'idn_conservation_areas',
@@ -530,7 +582,7 @@ export const config = {
       'suitability-soil-type': 'idn_soil_type'
 
     },
-    metadataUrl: 'http://54.88.79.102/gfw-sync/metadata/' //todo switch this to proper server
+    metadataUrl: 'http://api.globalforestwatch.org/metadata/' //todo switch this to proper server
   }
 
 };
