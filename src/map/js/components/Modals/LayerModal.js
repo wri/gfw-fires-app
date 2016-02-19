@@ -1,9 +1,8 @@
 import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalStore} from 'stores/ModalStore';
-import {modalText} from 'js/config';
 import React from 'react';
 
-export default class Modal extends React.Component {
+export default class LayerModal extends React.Component {
 
   constructor(props) {
     super(props);
@@ -25,7 +24,6 @@ export default class Modal extends React.Component {
     for (let layer in this.state.layerInfo) {
       layerInfo.push(this.state.layerInfo[layer]);
     }
-    console.log(this.state.layerInfo)
     return (
             <ModalWrapper>
             {!this.state.layerInfo.title ? <div className='no-info-available'>No information available</div> :

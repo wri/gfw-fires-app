@@ -6,6 +6,7 @@
   "scripts": {
     "start": "gulp build & gulp serve",
     "dist": "gulp dist",
+    "build": "gulp build",
     "install": "bower install",
     "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'",
     "test": "eslint src/**/*.js;"
