@@ -269,7 +269,7 @@ export const config = {
       sublabel: '(2000, 30m, Indonesia, Daily, NOAA)',
       group: 'airQuality',
       className: 'wind-direction',
-      url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
+      // url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
       metadataId: 'wind_direction',
       calendar: {
         startDate: new Date('10/19/2014'),
@@ -302,9 +302,25 @@ export const config = {
       metadataId: 'firms_active_fires'
     },
     {
+      id: KEYS.boundingBoxes,
+      order: 1,
+      type: 'graphic',
+      label: 'Bounding boxes',
+      // group: 'imagery',
+      className: 'digital-globe'
+    },
+    {
       id: KEYS.digitalGlobe,
       order: 1,
       subLayers: [KEYS.digitalGlobe0, KEYS.digitalGlobe1, KEYS.digitalGlobe2, KEYS.digitalGlobe3, KEYS.digitalGlobe4],
+      imageServices: [
+        { id: 'dg-00', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer', mosaic: 'WV01' },
+        { id: 'dg-01', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer', mosaic: 'QB01' },
+        { id: 'dg-02', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer', mosaic: 'WV02' },
+        { id: 'dg-03', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer', mosaic: 'GEO1' },
+        { id: 'dg-04', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03/ImageServer', mosaic: 'WV03' },
+        { id: 'dg-05', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
+      ],
       type: 'image',
       label: 'Digital Globe - First Look',
       mosaic: 'WV01',
@@ -362,7 +378,6 @@ export const config = {
       'maxScale': 10000,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer'
     },
-    // TODO: digital globe
     {
       id: KEYS.fireStories,
       order: 1,
@@ -389,7 +404,7 @@ export const config = {
 
   symbol: {
     gfwBlue: [64, 153, 206],
-    upstreamSymbol: [255, 0, 0],
+    bbSymbol: [255, 0, 0],
     svgPath: 'M16,3.5c-4.142,0-7.5,3.358-7.5,7.5c0,4.143,7.5,18.121,7.5,18.121S23.5,15.143,23.5,11C23.5,6.858,20.143,3.5,16,3.5z M16,14.584c-1.979,0-3.584-1.604-3.584-3.584S14.021,7.416,16,7.416S19.584,9.021,19.584,11S17.979,14.584,16,14.584z',
     pointUrl: 'http://js.arcgis.com/3.14/esri/dijit/Search/images/search-pointer.png'
   },

@@ -6,32 +6,20 @@ import {symbolConfig} from 'js/config';
 import KEYS from 'js/constants';
 import Color from 'esri/Color';
 
-let watershedHoverSymbol,
-    watershedDefaultSymbol,
+let watershedDefaultSymbol,
     svgMarkerSymbol,
-    upstreamSymbol,
+    bbSymbol,
     pointSymbol;
 
 const Symbols = {
-
-  getWatershedHoverSymbol: () => {
-    if (watershedHoverSymbol) { return watershedHoverSymbol; }
-    watershedHoverSymbol = new SimpleFillSymbol(
+  getBBSymbol: () => {
+    if (bbSymbol) { return bbSymbol; }
+    bbSymbol = new SimpleFillSymbol(
       SimpleFillSymbol.STYLE_SOLID,
-      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(symbolConfig.gfwBlue), 2),
-      new Color([210, 210, 210, 0.25])
+      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(symbolConfig.bbSymbol), 2),
+      new Color([0, 255, 0, 0])
     );
-    return watershedHoverSymbol;
-  },
-
-  getUpstreamSymbol: () => {
-    if (upstreamSymbol) { return upstreamSymbol; }
-    upstreamSymbol = new SimpleFillSymbol(
-      SimpleFillSymbol.STYLE_SOLID,
-      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color(symbolConfig.upstreamSymbol), 2),
-      new Color([210, 210, 210, 0.25])
-    );
-    return upstreamSymbol;
+    return bbSymbol;
   },
 
   getWatershedDefaultSymbol: () => {

@@ -32,6 +32,7 @@ const KEYS = {
   digitalGlobe2: 'digitalGlobe2',
   digitalGlobe3: 'digitalGlobe3',
   digitalGlobe4: 'digitalGlobe4',
+  boundingBoxes: 'boundingBoxes',
   twitter: 'twitter',
   fireStories: 'fireStories'
 };
