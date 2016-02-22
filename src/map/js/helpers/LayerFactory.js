@@ -16,7 +16,7 @@ import {errors} from 'js/config';
 *   - FeatureLayer
 */
 export default (layer) => {
-  if ((!layer.url && layer.type !== 'graphic') || !layer.type) { throw new Error(errors.missingLayerConfig); }
+  if ((!layer.url && (layer.type !== 'graphic' && layer.type !== 'feature')) || !layer.type) { throw new Error(errors.missingLayerConfig); }
 
   let esriLayer, options = {};
 
@@ -61,7 +61,15 @@ export default (layer) => {
     case 'feature':
       options.id = layer.id;
       options.visible = layer.visible || false;
-      esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
+      if (layer.url) {
+        esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
+      } else {
+        let featureCollection = {
+          layerDefinition: layer.layerDefinition,
+          featureSet: null
+        };
+        esriLayer = new FeatureLayer(featureCollection, options);
+      }
       break;
     case 'graphic':
       options.id = layer.id;

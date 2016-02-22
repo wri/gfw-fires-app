@@ -3,6 +3,10 @@ import rasterFuncs from 'utils/rasterFunctions';
 import Request from 'utils/request';
 import utils from 'utils/AppUtils';
 import all from 'dojo/promise/all';
+import dojoQuery from 'dojo/query';
+import domClass from 'dojo/dom-class';
+import MosaicRule from 'esri/layers/MosaicRule';
+import on from 'dojo/on';
 import InfoTemplate from 'esri/InfoTemplate';
 import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
@@ -61,7 +65,7 @@ let LayersHelper = {
     if (layer) {
       if (layer.visible) {
         if (evt.graphic) {
-          deferreds.push(Request.identifyDigitalGlobe(evt.graphic));
+          deferreds.push(Request.identifyDigitalGlobe(evt.graphic, mapPoint));
         }
       }
     }
@@ -86,6 +90,9 @@ let LayersHelper = {
           case KEYS.burnScars:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.burnScars));
             break;
+          case KEYS.boundingBoxes:
+            features = features.concat(this.setDigitalGlobeTemplates(item.features));
+            break;
           default: // Do Nothing
             break;
         }
@@ -94,10 +101,66 @@ let LayersHelper = {
       if (features.length > 0) {
         app.map.infoWindow.setFeatures(features);
         app.map.infoWindow.show(mapPoint);
+        let handles = [];
+        let self = this;
+
+        dojoQuery('.contentPane .imagery-data').forEach((rowData) => {
+
+          handles.push(on(rowData, 'click', function(clickEvt) {
+            let target = clickEvt.target ? clickEvt.target : clickEvt.srcElement,
+                bucket = target.dataset ? target.dataset.bucket : target.getAttribute('data-bucket'),
+                layerId = target.getAttribute('data-layer'),
+                objId = target.getAttribute('data-id');
+
+            dojoQuery('.contentPane .imagery-data').forEach(function(innerNode){
+                domClass.remove(innerNode.parentElement, 'selected');
+            });
+
+            domClass.add(clickEvt.currentTarget.parentElement, 'selected');
+
+            let propertyArray = bucket.split('_');
+            let bucketObj = {};
+            bucketObj.feature = {};
+            bucketObj.feature.attributes = {};
+            bucketObj.feature.attributes.SensorName = propertyArray[0];
+
+            bucketObj.feature.attributes.OBJECTID = objId;
+            bucketObj.feature.attributes.LayerId = layerId;
+            self.showDigitalGlobeImagery(bucketObj);
+
+          }));
+
+        });
+
       }
 
     }.bind(this));
 
+  },
+
+  showDigitalGlobeImagery: function(imageryItem) {
+    let feature = imageryItem.feature;
+    let objectId = feature.attributes.OBJECTID;
+    let layerId = feature.attributes.LayerId;
+    let layer = app.map.getLayer(layerId);
+    let mrule = new MosaicRule();
+    console.log(feature)
+    mrule.method = MosaicRule.METHOD_LOCKRASTER;
+    let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
+
+    config.imageServices.forEach(function (service) {
+      let mapLayer = app.map.getLayer(service.id);
+      if (mapLayer) {
+        mapLayer.hide();
+      }
+    });
+    console.log(layer)
+    if (layer) {
+      console.log(objectId)
+      mrule.lockRasterIds = [objectId];
+      layer.setMosaicRule(mrule);
+      layer.show();
+    }
   },
 
   setActiveTemplates: function(featureObjects, keyword) {
@@ -110,6 +173,21 @@ let LayersHelper = {
       features.push(item.feature);
     });
     return features;
+  },
+
+  setDigitalGlobeTemplates: function(features) {
+    let template;
+
+    let htmlContent = '<table>';
+    features.forEach(feature => {
+      let date = window.Kalendae.moment(feature.attributes.AcquisitionDate).format('M/D/YYYY');
+      htmlContent += '<tr class="imagery-row"><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data left">' + date + ' </td><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data right">' + feature.attributes.SensorName + '</td></tr>';
+    });
+    htmlContent += '</table>';
+    template = new InfoTemplate('Digital Globe Imagery', htmlContent);
+    features[0].setInfoTemplate(template);
+    // return features;
+    return [features[0]];
   },
 
   showLayer (layerId) {

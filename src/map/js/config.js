@@ -304,8 +304,32 @@ export const config = {
     {
       id: KEYS.boundingBoxes,
       order: 1,
-      type: 'graphic',
+      type: 'feature',
       label: 'Bounding boxes',
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+          '<tr><td>Image Aquisition Date: </td><td>${AcquisitionDate}</td></tr>'
+      },
+      layerDefinition: {
+        'geometryType': 'esriGeometryPolygon',
+         'fields': [{
+           'name': 'OBJECTID',
+           'type': 'esriFieldTypeOID',
+           'alias': 'OBJECTID'
+         }, {
+           'name': 'Name',
+           'type': 'esriFieldTypeString',
+           'alias': 'Name'
+         }, {
+           'name': 'AcquisitionDate',
+           'type': 'esriFieldTypeDate',
+           'alias': 'Acquisition Date'
+         }, {
+           'name': 'SensorName',
+           'type': 'esriFieldTypeString',
+           'alias': 'Sensor Name'
+         }]
+      },
       // group: 'imagery',
       className: 'digital-globe'
     },

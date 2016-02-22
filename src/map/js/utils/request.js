@@ -10,6 +10,7 @@ import IdentifyParameters from 'esri/tasks/IdentifyParameters';
 import Query from 'esri/tasks/query';
 import Deferred from 'dojo/Deferred';
 import utils from 'utils/AppUtils';
+import FeatureLayer from 'esri/layers/FeatureLayer';
 import KEYS from 'js/constants';
 
 const request = {
@@ -253,39 +254,21 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
-  identifyDigitalGlobe: mapPoint => {
-    debugger //mapPint.feature or graphic.layer then layer.queryFeatures
+  identifyDigitalGlobe: (graphic, mapPoint) => {
+    let featureExtent = graphic.geometry.getExtent();
+    let overlaps = [];
 
-    
-    let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.burnScars);
-    let identifyTask = new IdentifyTask(config.url);
-    let params = new IdentifyParameters();
-
-    params.tolerance = 3;
-    params.returnGeometry = true;
-    params.width = app.map.width;
-    params.height = app.map.height;
-    params.geometry = mapPoint;
-    params.mapExtent = app.map.extent;
-    params.layerIds = config.layerIds;
-    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-
-    identifyTask.execute(params, function(features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.burnScars,
-          features: features
-        });
-      } else {
-        deferred.resolve(false);
+    for (let i = 0; i < graphic._layer.graphics.length; i++) {
+      let tempExtent = graphic._layer.graphics[i].geometry.getExtent();
+      if (featureExtent.intersects(tempExtent)) {
+        overlaps.push(graphic._layer.graphics[i]);
       }
-    }, function(error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    }
 
-    return deferred.promise;
+    return {
+      layer: KEYS.boundingBoxes,
+      features: overlaps
+    };
   }
 
 };
