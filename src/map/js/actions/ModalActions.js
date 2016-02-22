@@ -58,7 +58,7 @@ class ModalActions {
     domClass.remove('alerts-modal', 'hidden');
   }
 
-  showBasemapModal () { //todo: Dont, if the basemap is already dark-gray!!
+  showBasemapModal () {
     app.debug('ModalActions >>> showBasemapModal');
     let currentCookie = cookie('windBasemapDecision');
     if (currentCookie === undefined) {

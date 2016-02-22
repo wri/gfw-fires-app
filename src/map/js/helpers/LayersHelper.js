@@ -12,7 +12,6 @@ let LayersHelper = {
   connectLayerEvents () {
     app.debug('LayersHelper >>> connectLayerEvents');
     // Enable Mouse Events for al graphics layers
-    console.log("oooooouuuuuuuuuuuu")
     app.map.graphics.enableMouseEvents();
     // Set up Click Listener to Perform Identify
     app.map.on('click', this.performIdentify.bind(this));
@@ -55,6 +54,15 @@ let LayersHelper = {
     if (layer) {
       if (layer.visible) {
         deferreds.push(Request.identifyBurn(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.boundingBoxes);
+    if (layer) {
+      if (layer.visible) {
+        if (evt.graphic) {
+          deferreds.push(Request.identifyDigitalGlobe(evt.graphic));
+        }
       }
     }
 
@@ -106,20 +114,27 @@ let LayersHelper = {
 
   showLayer (layerId) {
     app.debug(`LayersHelper >>> showLayer - ${layerId}`);
-    let config = utils.getObject(layersConfig, 'id', KEYS[layerId]);
+    if (layerId === KEYS.digitalGlobe) {
+      Request.getBoundingBoxes();
+      return;
+    }
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.show(); }
-    let subLayers = config.subLayers;
-    if (subLayers && subLayers.length > 0) {
-      subLayers.forEach(subLayer => {
-        let sub = app.map.getLayer(subLayer);
-        if (sub) { sub.show(); }
-      });
-    }
   },
 
   hideLayer (layerId) {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
+    if (layerId === KEYS.digitalGlobe) {
+      let config = utils.getObject(layersConfig, 'id', KEYS[layerId]);
+      let bb = app.map.getLayer(KEYS.boundingBoxes);
+      if (bb) { bb.hide(); }
+      let subLayers = config.subLayers;
+      subLayers.forEach(subLayer => {
+        let sub = app.map.getLayer(subLayer);
+        if (sub) { sub.hide(); }
+      });
+      return;
+    }
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
   },
@@ -187,7 +202,6 @@ let LayersHelper = {
     let janOne = new Date(year + ' 01 01');
     let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
-
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
     if (month > 1 && this.isLeapYear(year)) {
@@ -217,15 +231,12 @@ let LayersHelper = {
 
     let dateArray = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
-    // let time = MapModel.vm.timeOfDay();
-
     let reportdates = dateArray.split('/');
     let datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
     console.log(datesFormatted);
     let updatedURL = 'http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' + datesFormatted + '00' + '.1-0.gz.json';
     WindHelper.deactivateWindLayer();
     WindHelper.activateWindLayer(updatedURL);
-
   },
 
   parseDate (str) {

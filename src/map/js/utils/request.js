@@ -1,8 +1,8 @@
 import {analysisConfig, layersConfig, errors} from 'js/config';
 import SpatialReference from 'esri/SpatialReference';
-import GraphicsHelper from 'helpers/GraphicsHelper';
-import GeoProcessor from 'esri/tasks/Geoprocessor';
-import FeatureSet from 'esri/tasks/FeatureSet';
+import webMercatorUtils from 'esri/geometry/webMercatorUtils';
+import all from 'dojo/promise/all';
+import Symbols from 'helpers/Symbols';
 import QueryTask from 'esri/tasks/QueryTask';
 import esriRequest from 'esri/request';
 import IdentifyTask from 'esri/tasks/IdentifyTask';
@@ -42,6 +42,69 @@ const request = {
     return deferred;
   },
 
+  getBoundingBoxes: () => {
+    app.debug('Request >>> getBoundingBoxes');
+    let deferred = new Deferred();
+    let dgBoxes = app.map.getLayer(KEYS.boundingBoxes);
+    let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
+    let dgMoment = '';
+    let extents = {};
+    let moment_arr = [];
+
+    // if (app.alreadyHaveBBs) { //todo
+    //   deferred.resolve();
+    // };
+
+    let layers = config.imageServices.map(function (service) {
+      let queryTask = new QueryTask(service.url);
+      let qdef = new Deferred();
+      let query = new Query();
+      let footprints = [];
+
+      query.outFields = ['OBJECTID', 'Name', 'AcquisitionDate', 'SensorName']; //, 'Date','Tiles'];
+      query.where = 'Category = 1';
+      query.returnGeometry = true;
+
+      (function (serviceConfig) {
+        queryTask.execute(query, function(res) {
+
+          // app.alreadyHaveBBs = true; //todo
+          res.features.forEach(feature => {
+            feature.setSymbol(Symbols.getBBSymbol());
+
+            feature.attributes.Layer = 'Digital_Globe';
+            feature.attributes.LayerId = serviceConfig.id;
+
+            dgMoment = window.Kalendae.moment(feature.attributes.AcquisitionDate);
+
+            moment_arr.push(dgMoment);
+            feature.attributes.moment = dgMoment;
+
+            dgBoxes.add(feature);
+            footprints.push(feature);
+            extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
+
+          });
+          qdef.resolve(true);
+          dgBoxes.show();
+          }, function(err) {
+            console.error(err);
+            qdef.resolve(true);
+            return;
+          });
+
+      })(service);
+
+      return qdef.promise;
+
+    });
+    all(layers).then(function() {
+      deferred.resolve(true);
+    });
+
+    return deferred.promise;
+  },
+
   /**
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
@@ -63,16 +126,15 @@ const request = {
 
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
-        console.log(features)
         deferred.resolve({
           layer: KEYS.activeFires,
           features: features
         });
       } else {
-        console.log("nahh")
         deferred.resolve(false);
       }
     }, function(error) {
+      console.log(error);
       deferred.resolve(false);
     });
 
@@ -108,6 +170,7 @@ const request = {
         deferred.resolve(false);
       }
     }, function(error) {
+      console.log(error);
       deferred.resolve(false);
     });
 
@@ -143,6 +206,7 @@ const request = {
         deferred.resolve(false);
       }
     }, function(error) {
+      console.log(error);
       deferred.resolve(false);
     });
 
@@ -178,11 +242,51 @@ const request = {
         deferred.resolve(false);
       }
     }, function(error) {
+      console.log(error);
       deferred.resolve(false);
     });
 
     return deferred.promise;
   },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyDigitalGlobe: mapPoint => {
+    debugger //mapPint.feature or graphic.layer then layer.queryFeatures
+
+    
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.burnScars);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.burnScars,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  }
 
 };
 
