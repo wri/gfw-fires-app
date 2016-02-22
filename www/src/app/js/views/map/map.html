@@ -83,6 +83,43 @@
           </div>
         </div>
         <div class="checkbox-container">
+          <div id="fire-risk-checkbox"></div>
+          <label for="fire-risk-checkbox" data-bind="text: fireRiskCheckbox"></label><span id="fireRisk-1-icon" data-bind="click: triggerFireRiskInfo" class="layer-info-icon">
+            <svg class="info-icon-svg">
+              <use xlink:href="#shape-info"></use>
+            </svg></span><span data-bind="text: riskSubLabel" class="checkbox-sub-label"></span>
+          <div id="report-optionsRisk" data-bind="visible: showReportOptionsRisk()" class="reportOptionsSidebar">
+            <div class="fireRiskLegendDataColors">
+              <div id="fireRiskLegendDataColors"></div>
+              <div id="fireRiskLegendDataColorsBottom"></div>
+            </div>
+            <div id="fireRiskLegend">
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">Very High Risk</span>
+              </div>
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">High Risk</span>
+              </div>
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">Moderate Risk</span>
+              </div>
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">Low Risk</span>
+              </div>
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">Very Low Risk</span>
+              </div>
+              <div class="fireRiskLegendRow"><span class="fireRiskLegendData">No Data</span></div>
+            </div>
+            <div data-bind="text:reportText().selectTimeLabel" class="font10"></div>
+            <div class="report-options-section">
+              <table class="font10">
+                <tr>
+                  <td data-bind="text: 'Day'"></td>
+                  <td>
+                    <input type="text" name="user" value="4" id="fireRiskDate" data-bind="value:fireRiskDate()"/>
+                  </td>
+                </tr>
+              </table><span id="updateRisk" data-bind="text: getDates" class="report-link-dates"></span>
+            </div>
+          </div>
+        </div>
+        <div class="checkbox-container">
           <div id="tomnod-checkbox"></div>
           <label for="tomnod-checkbox" data-bind="html: tomnodCheckbox, css: 'tomnodLink'"></label>
         </div>
@@ -90,35 +127,7 @@
       <div id="forest-use-panel" class="accordion-panel">
         <div data-bind="text: transparencySliderLabel" class="transparency-slider-label"></div>
         <div class="slider-container">
-          <div id="forest-transparency-slider"></div>
-        </div>
-        <div class="checkbox-container">
-          <div id="oil-palm-checkbox"></div>
-          <label for="oil-palm-checkbox" data-bind="text: oilPalmCheckbox"></label><span id="dataLandUse-3-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
-            <svg class="info-icon-svg">
-              <use xlink:href="#shape-info"></use>
-            </svg></span><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
-        </div>
-        <div class="checkbox-container">
-          <div id="rspo-oil-palm-checkbox"></div>
-          <label for="rspo-oil-palm-checkbox" data-bind="text: rspoOilPalmCheckbox"></label><span id="dataLandUse-5-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
-            <svg class="info-icon-svg">
-              <use xlink:href="#shape-info"></use>
-            </svg></span><span data-bind="text: rspoOilPalmCheckboxSubLabel" class="checkbox-sub-label"></span>
-        </div>
-        <div class="checkbox-container">
-          <div id="wood-fiber-checkbox"></div>
-          <label for="wood-fiber-checkbox" data-bind="text: woodFiberCheckbox"></label><span id="dataLandUse-4-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
-            <svg class="info-icon-svg">
-              <use xlink:href="#shape-info"></use>
-            </svg></span><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
-        </div>
-        <div class="checkbox-container">
-          <div id="logging-checkbox"></div>
-          <label for="logging-checkbox" data-bind="text: loggingCheckbox"></label><span id="dataLandUse-1-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
-            <svg class="info-icon-svg">
-              <use xlink:href="#shape-info"></use>
-            </svg></span><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
+          <div id="forest-transparency-slider"></div><span data-bind="text: loggingCheckboxSubLabel" class="checkbox-sub-label"></span>
         </div>
         <div class="checkbox-container">
           <div id="indicative-moratorium-checkbox"></div>
@@ -126,7 +135,38 @@
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
             </svg></span>
-          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-instructions"></div><span data-bind="text: indicativeMoratoriumCheckboxSubLabel2" class="checkbox-sub-label"></span>
+          <div data-bind="html: indicativeMoratoriumCheckboxSubLabel" class="checkbox-sub-label"></div>
+        </div>
+        <div id="plantationsHeader" class="checkbox-container">
+          <div>Concessions</div>
+        </div>
+        <div class="checkbox-container indented">
+          <div id="oil-palm-checkbox"></div>
+          <label for="oil-palm-checkbox" data-bind="text: oilPalmCheckbox"></label><span id="dataLandUse-3-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
+            <svg class="info-icon-svg">
+              <use xlink:href="#shape-info"></use>
+            </svg></span><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
+        </div>
+        <div class="checkbox-container indented">
+          <div id="rspo-oil-palm-checkbox"></div>
+          <label for="rspo-oil-palm-checkbox" data-bind="text: rspoOilPalmCheckbox"></label><span id="dataLandUse-5-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
+            <svg class="info-icon-svg">
+              <use xlink:href="#shape-info"></use>
+            </svg></span><span data-bind="text: rspoOilPalmCheckboxSubLabel" class="checkbox-sub-label"></span>
+        </div>
+        <div class="checkbox-container indented">
+          <div id="wood-fiber-checkbox"></div>
+          <label for="wood-fiber-checkbox" data-bind="text: woodFiberCheckbox"></label><span id="dataLandUse-4-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
+            <svg class="info-icon-svg">
+              <use xlink:href="#shape-info"></use>
+            </svg></span><span data-bind="text: forestUseCheckboxSubLabelSelect" class="checkbox-sub-label"></span>
+        </div>
+        <div class="checkbox-container indented">
+          <div id="logging-checkbox"></div>
+          <label for="logging-checkbox" data-bind="text: loggingCheckbox"></label><span id="dataLandUse-1-icon" data-bind="click: triggerLandUseLayerInfo" class="layer-info-icon">
+            <svg class="info-icon-svg">
+              <use xlink:href="#shape-info"></use>
+            </svg></span><span data-bind="text: loggingCheckboxSubLabel" class="checkbox-sub-label"></span>
         </div>
       </div>
       <div id="conservation-panel" class="accordion-panel">
@@ -139,7 +179,7 @@
           <label for="protected-areas-checkbox" data-bind="text: protectedAreasCheckbox"></label><span id="dataConservation-1-icon" data-bind="click: triggerConservationLayerInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
-            </svg></span><span data-bind="text: conservationCheckboxSubLabelGlobal" class="checkbox-sub-label"></span>
+            </svg></span><span data-bind="text: protectedAreasCheckboxSubLabel" class="checkbox-sub-label"></span>
         </div>
       </div>
       <div id="land-cover-panel" class="accordion-panel">
@@ -250,11 +290,10 @@
         </div>
         <div class="checkbox-container">
           <div id="air-quality-checkbox"></div>
-          <label for="air-quality-checkbox" data-bind="text: airQuality" class="airQualityDisable"></label><span id="dataSuitability-1-icon" data-bind="click: triggerAirQualityLayerInfo" class="layer-info-icon">
+          <label for="air-quality-checkbox" data-bind="text: airQuality"></label><span id="dataSuitability-1-icon" data-bind="click: triggerAirQualityLayerInfo" class="layer-info-icon">
             <svg class="info-icon-svg">
               <use xlink:href="#shape-info"></use>
             </svg></span>
-          <label id="comingSoon">(coming soon)</label>
           <div id="report-optionsAIR" data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar">
             <div data-bind="text:reportText().selectTimeLabelAIR" class="font10"></div>
             <div class="report-options-section">
@@ -512,6 +551,10 @@
           </div>
         </div>
       </div>
+    </div>
+    <div id="storyInfoWindow" class="hidden"><span id="storyClose">X</span>
+      <p id="storyInfoTitle"></p>
+      <div id="storyInfoBody" class="custom-scroll"></div>
     </div>
   </div>
 </div>

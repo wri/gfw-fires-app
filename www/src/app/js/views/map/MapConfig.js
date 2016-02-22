@@ -14,6 +14,7 @@ define({
         "http://shj/": "http://shj/proxy/proxy.ashx",
         "http://wri-gfw-fires.herokuapp.com/": "http://wri-gfw-fires.herokuapp.com/proxy/proxy.php",
         "http://localhost:": "http://localhost:8080/php/proxy.php",
+        "http://lucas/": "./proxy/proxy.php",
         "http://fires.globalforestwatch.org": "http://fires.globalforestwatch.org/proxy/proxy.php",
         "http://bur/": "projs/2278-wri-oil-palm.4/src/app/proxy/proxy.php"
     },
@@ -182,8 +183,16 @@ define({
         url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
         id: 'Forest_Use',
         defaultLayers: [-1], // Show none by default
-        rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+        // rspoOilPalm: 4, // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
         indicativeMoratorium: 7
+    },
+
+    forestUseRSPO: {
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+        id: 'Forest_Use_RSPO',
+        defaultLayers: [0], // Show 4 by default
+        rspoOilPalm: 0 // These map to the value of an input in the UI, so rspoOilPalm is the value of a checkbox
+
     },
 
     landUseLayers: {
@@ -205,7 +214,7 @@ define({
     // },
 
     conservationLayers: {
-        url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+        url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
         id: 'Conservation',
         defaultLayers: [0], // Show none by default
         protectedAreas: 0 // These map to the value of an input in the UI, so protectedAreas is the value of a checkbox
@@ -234,7 +243,7 @@ define({
     },
 
     treeCoverLayer: {
-        url: "http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer",
+        url: "http://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer",
         id: "Tree_Cover_Density"
     },
 
@@ -372,10 +381,15 @@ define({
                 'type': 'checkbox'
             }
         },
+        'Fire_Risk': {
+            'id': "fire-risk-checkbox",
+            'type': 'checkbox'
+        },
         'Burn_Scar': {
             'id': "burned-scars-checkbox",
             'type': 'checkbox'
         },
+
         'Tomnod': {
             'id': "tomnod-checkbox",
             'type': 'checkbox'
@@ -505,10 +519,10 @@ define({
         searchOptionGoButton: "GO",
         clearSearchPins: "Clear Pins",
         legend: "Legend",
-        firesCheckbox: "NASA active fires",
-        firesSubLabel: "(past 7 days, 1km, global)",
+        firesCheckbox: "Active fires",
+        firesSubLabel: "(last 7 days, 1km, global, NASA)",
         noaaFiresCheckbox: "NOAA-18 fires",
-        noaaSubLabel: "(Oct 22 to present, 1km, Southeast Asia)",
+        noaaSubLabel: "(daily, 1.1km, Meteorological Service Singapore)",
         fireRiskCheckbox: "Fire risk",
         riskSubLabel: "(layer starts at 4/2/15)",
         indonesiaFiresCheckbox: "Archive of NASA active fires for Indonesia",
@@ -520,28 +534,32 @@ define({
         fires48: "Past 48 hours",
         fires24: "Past 24 hours",
         none: "None",
-        oilPalmCheckbox: "Oil palm concessions",
-        rspoOilPalmCheckbox: "RSPO oil palm concessions",
-        woodFiberCheckbox: "Wood fiber plantations",
-        loggingCheckbox: "Logging concessions",
+        oilPalmCheckbox: "Oil palm",
+        rspoOilPalmCheckbox: "RSPO oil palm",
+        woodFiberCheckbox: "Wood fiber",
+        loggingCheckbox: "Managed forests",
+        loggingCheckboxSubLabel: "(select countries)",
         protectedAreasCheckbox: "Protected areas",
-        indicativeMoratoriumCheckbox: "Indonesia forest moratorium area",
+        protectedAreasCheckboxSubLabel: "(WDPA)",
+        indicativeMoratoriumCheckbox: "Forest moratorium",
         burnedScarsCheckbox: "Burn scars mapped by Google Earth Engine",
-        tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
+        // tomnodCheckbox: "Active fires and burn scars <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Crowdsourced from Tomnod)</a>",
+        tomnodCheckbox: "Crowdsourced fires<br> <a href='http://www.tomnod.com/campaign/indonesiafires012014' target='_blank'>(Indonesia, Tomnod)</a>",
         //tomnodLink: "tomnodLinkClass",
         peatLandsRadio: "Peatlands",
-        treeCoverDensityRadio: "Tree cover density",
+        treeCoverDensityRadio: "Tree cover",
         primaryForestsRadio: "Primary forests",
         southeastLandCoverRadio: "Land Cover - Southeast Asia",
-        peatLandsSubLabel: "(year 2002, Indonesia)",
-        treeCoverDensitySubLabel: "(2000, Hansen/UMD/Google/USGS/NASA)",
-        primaryForestsSubLabel: "(2000 - 2012, 30m, Indonesia)",
+        peatLandsSubLabel: "(SE Asia)",
+        treeCoverDensitySubLabel: "(2000, 30m, Hansen/UMD/Google/USGS/NASA)",
+        primaryForestsSubLabel: "(2000, 30m, Indonesia)",
         southeastLandCoverSubLabel: "(year 2005, Indonesia, Malaysia, Papua New Guinea)",
-        forestUseCheckboxSubLabelSelect: "(varies, select countries)",
-        rspoOilPalmCheckboxSubLabel: "(May 2013, select countries)",
+        forestUseCheckboxSubLabelSelect: "(select countries)",
+        rspoOilPalmCheckboxSubLabel: "(select countries)",
         conservationCheckboxSubLabelGlobal: "(varies, global)",
-        indicativeMoratoriumCheckboxSubLabel: "The moratorium prohibits new concessions on primary forest or peatlands. <a href='http://www.wri.org/blog/2014/01/2-things-you-need-know-about-indonesias-forest-moratorium' target='_blank'>Learn More.",
-        indicativeMoratoriumCheckboxSubLabel2: "(IMM V7/V6, 2014, Indonesia)",
+        indicativeMoratoriumCheckboxSubLabel: '(Indonesia)',
+        // indicativeMoratoriumCheckboxSubLabel: "The moratorium prohibits new concessions on primary forest or peatlands. <a href='http://www.wri.org/blog/2014/01/2-things-you-need-know-about-indonesias-forest-moratorium' target='_blank'>Learn More.",
+        // indicativeMoratoriumCheckboxSubLabel2: "(IMM V7/V6, 2014, Indonesia)",
 
         firesConfidenceDialog: {
             title: "High Confidence Fires",
@@ -550,12 +568,13 @@ define({
 
         airQuality: "Air quality",
         windDirection: "Wind direction",
-        digitalGlobeCheckbox: "Digital Globe - First Look",
+        digitalGlobeCheckbox: "Digital Globe",
         digitalGlobeFootprintsCheckbox: "Display footprints",
         digitalGlobeWindowText: "Digital Globe - First Look Imagery",
-        landsatImageCheckbox: "Latest Landsat 8 imagery",
+        firesRiskText: "Select a day to view",
+        landsatImageCheckbox: "Latest Landsat 8",
         landsatImageSubLabel: "(latest image, 30m, global)",
-        twitterConversationsCheckbox: "Twitter conversations",
+        twitterConversationsCheckbox: "Twitter",
         fireStoriesCheckbox: "Fire Stories",
         transparencySliderLabel: "Adjust Layer Transparency:",
         getReportLink: "Get Fires Analysis",
@@ -619,7 +638,7 @@ define({
             }, {
                 "id": "forest-use-panel",
                 "props": {
-                    "title": "Forest Use"
+                    "title": "Land Use"
                 }
             }, {
                 "id": "conservation-panel",
@@ -644,7 +663,7 @@ define({
             }, {
                 "id": "social-media-panel",
                 "props": {
-                    "title": "Social Media"
+                    "title": "Stories"
                 }
             }]
         },
@@ -733,6 +752,13 @@ define({
             "class": "fires-confidence-checkbox",
             "type": "radio",
             "props": {}
+        }, {
+            "id": "fire-risk-checkbox",
+            "class": "fire-risk-layers-option",
+            "type": "checkbox",
+            "props": {
+                "value": "fireRisk"
+            }
         }, {
             "id": "burned-scars-checkbox",
             "class": "burned-area-layers-option",
@@ -877,7 +903,7 @@ define({
             "class": "air-quality-checkbox",
             "type": "checkbox",
             "props": {
-                "disabled": "disabled"
+                // "disabled": "disabled"
             }
         }, {
             "id": "provinces-checkbox",

@@ -33,6 +33,10 @@ define([
     vm.firesCheckbox = ko.observable(MapConfig.text.firesCheckbox);
     vm.noaaFiresCheckbox = ko.observable(MapConfig.text.noaaFiresCheckbox);
     vm.noaaSubLabel = ko.observable(MapConfig.text.noaaSubLabel);
+
+    vm.fireRiskCheckbox = ko.observable(MapConfig.text.fireRiskCheckbox);
+    vm.riskSubLabel = ko.observable(MapConfig.text.riskSubLabel);
+
     vm.indonesiaFiresCheckbox = ko.observable(MapConfig.text.indonesiaFiresCheckbox);
     vm.indonesiaSubLabel = ko.observable(MapConfig.text.indonesiaSubLabel);
     vm.firesSubLabel = ko.observable(MapConfig.text.firesSubLabel);
@@ -52,7 +56,7 @@ define([
     vm.burnedScarsCheckbox = ko.observable(MapConfig.text.burnedScarsCheckbox);
     vm.tomnodCheckbox = ko.observable(MapConfig.text.tomnodCheckbox);
 
-    vm.disableAirQuality = true;
+    // vm.disableAirQuality = true;
 
     vm.peatLandsRadio = ko.observable(MapConfig.text.peatLandsRadio);
     vm.treeCoverDensityRadio = ko.observable(MapConfig.text.treeCoverDensityRadio);
@@ -62,6 +66,8 @@ define([
     vm.treeCoverDensitySubLabel = ko.observable(MapConfig.text.treeCoverDensitySubLabel);
     vm.southeastLandCoverSubLabel = ko.observable(MapConfig.text.southeastLandCoverSubLabel);
     vm.forestUseCheckboxSubLabelSelect = ko.observable(MapConfig.text.forestUseCheckboxSubLabelSelect);
+    vm.loggingCheckboxSubLabel = ko.observable(MapConfig.text.loggingCheckboxSubLabel);
+    vm.protectedAreasCheckboxSubLabel = ko.observable(MapConfig.text.protectedAreasCheckboxSubLabel);
     vm.rspoOilPalmCheckboxSubLabel = ko.observable(MapConfig.text.rspoOilPalmCheckboxSubLabel);
     vm.primaryForestsSubLabel = ko.observable(MapConfig.text.primaryForestsSubLabel);
     vm.conservationCheckboxSubLabelGlobal = ko.observable(MapConfig.text.conservationCheckboxSubLabelGlobal);
@@ -147,6 +153,36 @@ define([
             dialog.show();
 
         });
+    }
+
+    vm.triggerFireRiskInfo = function(model,event) {
+        var htmlToFetch = event.currentTarget.id;
+        htmlToFetch = htmlToFetch.split("-icon")[0];
+
+        require(["dojo/text!views/data/templates/dataFires.htm"], function(content) {
+
+            var fireInfo = $(content).find("#" + htmlToFetch).parent();
+            if (fireInfo.length === 0) {
+                return;
+            }
+            var title = "Fire Risk Layer"
+
+            var childInfo = fireInfo.find(".ac-auto");
+
+            if (registry.byId("fireLayerInfoDialog")) {
+                registry.byId("fireLayerInfoDialog").destroy();
+            }
+            var dialog = new Dialog({
+                title: title,
+                style: "width: 600px",
+                id: "fireLayerInfoDialog",
+                content: childInfo//fireInfo
+            });
+
+            dialog.show();
+
+        });
+
     }
 
     vm.triggerLandUseLayerInfo = function(model,event) {
@@ -264,7 +300,7 @@ define([
 
             var title;
             if (htmlToFetch === "dataSuitability-1") {
-                title = "AIR QUALITY";
+                title = "Southeast Asia air quality";
             } else if (htmlToFetch === "dataSuitability-2") {
                 title = "WIND DIRECTION";
             }
@@ -431,6 +467,7 @@ define([
     vm.selectedAOIs = ko.observableArray([]);
     vm.reportText = ko.observable(MapConfig.text.reportOptions);
     vm.reportTextImagery = ko.observable(MapConfig.text.digitalGlobeWindowText);
+    vm.reportTextRisk = ko.observable(MapConfig.text.firesRiskText);
 
     var today = new Date();
     var days = today.getDate();
@@ -609,6 +646,30 @@ define([
         var date = months + "/" + days + "/" + years;
         return date;
     }
+    vm.fireRiskDate = function() {
+        var today = new Date();
+
+        var yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+
+        var newDate = jQuery('#fireRiskDate').datepicker({
+            date: (yesterday),
+            minDate: (new Date(2015, 4 - 1, 2)),
+            maxDate: "+0M +0D",
+            onSelect: function(selectedDate) {
+                vm.fireRiskObserv(selectedDate);
+                return selectedDate;
+
+            }
+        });
+
+        var days = yesterday.getDate();
+        var months = yesterday.getMonth() + 1;
+        var years = yesterday.getFullYear();
+        var date = months + "/" + days + "/" + years;
+        console.log(date)
+        return date;
+    }
     vm.indoPickerFrom = function() {
         var newDate = jQuery('#indoDateFrom').datepicker({
             minDate: (new Date(2013, 1 - 1, 1)),
@@ -650,6 +711,7 @@ define([
     vm.firesObservTo = ko.observable(date);
     vm.windObserv = ko.observable(date);
     vm.airObserv = ko.observable(date);
+    vm.fireRiskObserv = ko.observable("12/16/2015");
     vm.noaaObservFrom = ko.observable("10/12/2014");
     vm.noaaObservTo = ko.observable(date);
     vm.indoObservFrom = ko.observable("1/1/2013");
@@ -665,6 +727,7 @@ define([
     vm.showReportOptions = ko.observable(false);
     vm.showAlertContainer = ko.observable(false);
     vm.showReportOptionsNOAA = ko.observable(false);
+    vm.showReportOptionsRisk = ko.observable(false);
     vm.showActiveFiresButtons = ko.observable(false);
     vm.showReportOptionsINDO = ko.observable(false);
     vm.showReportOptionsWIND = ko.observable(false);
@@ -714,6 +777,10 @@ define([
 
     vm.closeReportOptionsNOAA = function() {
         vm.showReportOptionsNOAA(false);
+    };
+
+    vm.closeReportOptionsRisk = function() {
+        vm.showReportOptionsRisk(false);
     };
 
     vm.closeReportOptionsINDO = function() {

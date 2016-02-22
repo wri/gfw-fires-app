@@ -433,7 +433,7 @@ table.forest-use-pop tr:nth-child(odd) {
 .map-share-container {
   height: 75px;
   width: auto;
-  top: 190px;
+  top: 230px;
 }
 
 /* line 306 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
@@ -506,14 +506,14 @@ table.forest-use-pop tr:nth-child(odd) {
 
 /* line 357 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .share-linker {
-  top: 210px;
+  top: 250px;
 }
 
 /* line 360 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .share-button {
   background: url("../images/share-icon.png") no-repeat #fff;
   background-position: -2px -35px;
-  top: 210px;
+  top: 250px;
 }
 
 /* line 365 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
@@ -923,7 +923,7 @@ table.imageryTable tbody {
   background-position: -1px -35px;
   text-align: center;
   line-height: 30px;
-  top: 250px;
+  top: 290px;
 }
 
 /* line 655 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
@@ -1737,6 +1737,132 @@ div.report-options-section > table {
 }
 
 /* line 1240 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#fireRiskLegend {
+  width: 90px;
+  font-size: 12px;
+  margin-bottom: 10px;
+  display: inline-block;
+  padding-left: 5px;
+}
+
+/* line 1247 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendData {
+  margin-top: 7px;
+  display: inline-block;
+  min-height: 15px;
+  min-width: 15px;
+}
+
+/* line 1253 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendDataHighest {
+  background: #b53092;
+  float: right;
+}
+
+/* line 1257 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendDataHigh {
+  background: #e80030;
+  float: right;
+}
+
+/* line 1261 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendDataMedium {
+  background: #f70;
+  float: right;
+}
+
+/* line 1265 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendDataLow {
+  background: #f5fe00;
+  float: right;
+}
+
+/* line 1269 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendDataLowest {
+  background: #004ca8;
+  float: right;
+}
+
+/* line 1273 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.fireRiskLegendDataColors {
+  margin-left: 23px;
+  display: inline-block;
+  height: 120px;
+  width: 20px;
+}
+
+/* line 1279 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#fireRiskLegendDataColors {
+  background-image: url("../images/firesRiskLegend.png");
+  height: 100px;
+  background-size: 23px;
+}
+
+/* line 1285 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#fireRiskLegendDataColorsBottom {
+  height: 15px;
+  margin-top: 6px;
+  background-size: 20px;
+  border: 1px solid #808080;
+}
+
+/* line 1291 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#storyInfoTitle {
+  color: #767676;
+  text-align: left;
+  font-size: 15px;
+  padding-left: 10px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+/* line 1299 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#storyInfoWindow {
+  position: absolute;
+  left: calc(50% - 350px);
+  top: calc(50% - 250px);
+  width: 650px;
+  background: #fff;
+  z-index: 100;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* line 1308 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#storyInfoBody {
+  color: #767676;
+  font-size: 15px;
+  max-height: 250px;
+  overflow-y: scroll;
+  padding: 10px;
+  padding-top: 0px;
+}
+
+/* line 1330 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.custom-scroll::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+/* line 1335 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 0;
+}
+
+/* line 1340 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#storyInfoBody a {
+  color: #4099d0 !important;
+}
+
+/* line 1343 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+#storyClose {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+}
+
+/* line 1349 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #heatCircle,
 #clusterCircle,
 #hexCircle {
@@ -1748,44 +1874,44 @@ div.report-options-section > table {
   margin: 10px;
 }
 
-/* line 1248 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1357 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #heatCircle {
   background: #fff url("../images/heatmap.png") center no-repeat;
 }
 
-/* line 1251 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1360 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #clusterCircle {
   background: #fff url("../images/clustering.png") center no-repeat;
 }
 
-/* line 1255 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1364 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #hexCircle {
   background: #fff url("../images/hexbin.png") center no-repeat;
 }
 
-/* line 1258 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1367 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print .mapView #stackContainer {
   top: 0px;
 }
 
-/* line 1261 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1370 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print #app-header {
   display: none;
 }
 
-/* line 1264 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1373 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print #control-panel {
   width: 0 !important;
 }
 
-/* line 1267 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1376 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print #map-container {
   left: 0 !important;
   max-width: 100%;
   max-height: 100%;
 }
 
-/* line 1272 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1381 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print .esriControlsBR,
 .map-view-print .legend-widget-container,
 .map-view-print .locator-widget-button,
@@ -1798,34 +1924,34 @@ div.report-options-section > table {
   display: none !important;
 }
 
-/* line 1283 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1392 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print .latLongHUD,
 .map-view-print .esriScalebar {
   top: 15px;
 }
 
-/* line 1287 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1396 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .map-view-print .latLongHUD {
   bottom: auto;
 }
 
-/* line 1290 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1399 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #smartHiddenMenu > li > a {
   color: #000 !important;
 }
 
-/* line 1293 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1402 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .sub-menu {
   border-top: 1px solid #000;
 }
 
-/* line 1296 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1405 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #smartRelative {
   position: relative;
   margin-top: 5px;
 }
 
-/* line 1300 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1409 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #smartDropdown {
   -webkit-appearance: none;
   border: 1px solid #e98300;
@@ -1835,7 +1961,7 @@ div.report-options-section > table {
   background: #fff url("../images/ico-carat-down.png") 96% center no-repeat !important;
 }
 
-/* line 1309 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1418 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #smartDropdownArrow {
   float: right;
   position: absolute;
@@ -1844,12 +1970,12 @@ div.report-options-section > table {
   cursor: pointer;
 }
 
-/* line 1316 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1425 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .esriPopup {
   z-index: 28 !important;
 }
 
-/* line 1319 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1428 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #smartContainer {
   margin: 0;
   margin-left: 5px;
@@ -1857,7 +1983,7 @@ div.report-options-section > table {
   text-align: center;
 }
 
-/* line 1325 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1434 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .smartRelative {
   border-radius: 50%;
   box-shadow: 0 0 0 3px #ddd;
@@ -1865,37 +1991,37 @@ div.report-options-section > table {
   position: relative;
 }
 
-/* line 1331 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1440 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #cluster-blocker {
   border-radius: 50%;
 }
 
-/* line 1334 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1443 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #heatCircle:hover {
   box-shadow: 0 0 0 3px #f00 !important;
 }
 
-/* line 1337 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1446 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .hoverSmart:hover {
   box-shadow: 0 0 0 3px #f00 !important;
 }
 
-/* line 1352 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1461 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #activateSmartContainer {
   margin-bottom: 5px;
 }
 
-/* line 1355 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1464 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .hidden {
   display: none;
 }
 
-/* line 1359 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1468 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel {
   display: none;
 }
 
-/* line 1362 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1471 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .TimeTT {
   height: 20px;
   width: 40px;
@@ -1907,12 +2033,12 @@ div.report-options-section > table {
   display: none;
 }
 
-/* line 1372 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1481 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .esriTimeSlider {
   padding-top: 10px;
 }
 
-/* line 1375 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1484 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .timeSliderContainer {
   height: 95px;
   width: 272px;
@@ -1921,7 +2047,7 @@ div.report-options-section > table {
   margin-left: 5px;
 }
 
-/* line 1382 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1491 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .timeSliderPanel .dijitRuleLabel {
   float: left;
   width: 36px;
@@ -1938,12 +2064,12 @@ div.report-options-section > table {
   transform: rotate(-55deg);
 }
 
-/* line 1397 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1506 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .timeSliderContainer .dijitRuleLabelH {
   left: -55% !important;
 }
 
-/* line 1400 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1509 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .timeSliderPanelLabel {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -1954,7 +2080,7 @@ div.report-options-section > table {
   top: -20px;
 }
 
-/* line 1409 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1518 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel {
   -webkit-box-shadow: 0 0 8px rgba(0,0,0,0.25);
   box-shadow: 0 0 8px rgba(0,0,0,0.25);
@@ -1968,7 +2094,7 @@ div.report-options-section > table {
   z-index: 50;
 }
 
-/* line 1421 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1530 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .esriTimeSlider .tsPlayButton {
   background: url("../images/ico-play.png") no-repeat center;
   border-right: 0px solid #d1d0d4;
@@ -1977,7 +2103,7 @@ div.report-options-section > table {
   width: 0px;
 }
 
-/* line 1428 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1537 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .esriTimeSlider .tsPauseButton {
   background: url("images/ico-pause.png") no-repeat center;
   border-right: 2px solid #d1d0d4;
@@ -1986,29 +2112,29 @@ div.report-options-section > table {
   width: 24px;
 }
 
-/* line 1435 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1544 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider {
   padding-top: 0;
 }
 
-/* line 1438 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1547 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitButton {
   margin: 0;
 }
 
-/* line 1441 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1550 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider td:first-child {
   width: 2%;
   text-align: left;
 }
 
-/* line 1445 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1554 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider td:nth-child(3) {
   width: 2%;
   text-align: right;
 }
 
-/* line 1449 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1558 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitButtonNode {
   border: 0px solid #c0c0c0;
   border-bottom: 0px solid #9b9b9b;
@@ -2016,17 +2142,17 @@ div.report-options-section > table {
   background: #fff url("") repeat-x bottom left;
 }
 
-/* line 1456 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1565 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel table td:first-child .dijitButtonNode {
   border-radius: 5px 0px 0px 5px;
 }
 
-/* line 1459 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1568 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel table td:nth-child(3) .dijitButtonNode {
   border-radius: 0px 5px 5px 0px;
 }
 
-/* line 1462 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1571 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .tsPrevButton {
   border-left: 2px solid #d1d0d4;
   border-radius: 0px 5px 5px 0px;
@@ -2035,12 +2161,12 @@ div.report-options-section > table {
   width: 24px;
 }
 
-/* line 1471 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1580 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .pauseIcon {
   background: url("images/ico-unlock.png") no-repeat center !important;
 }
 
-/* line 1474 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1583 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderBarContainerH {
   background: url("images/timeline-bg.png") repeat-x scroll center 10px rgba(0,0,0,0);
   position: relative;
@@ -2049,13 +2175,13 @@ div.report-options-section > table {
   margin: 0;
 }
 
-/* line 1482 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1591 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderRemainingBarH {
   border-color: rgba(255,255,255,0);
   background: rgba(255,255,255,0) url("") repeat-x top left;
 }
 
-/* line 1486 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1595 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderBumperH {
   border-width: 0;
   background-size: 340px;
@@ -2066,7 +2192,7 @@ div.report-options-section > table {
   margin: 0 0 4px 0;
 }
 
-/* line 1495 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1604 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderProgressBarH {
   border: 0 solid rgba(255,255,255,0);
   background: #e98300;
@@ -2074,7 +2200,7 @@ div.report-options-section > table {
   height: 10px;
 }
 
-/* line 1501 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1610 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderImageHandleH,
 #timeSliderPanel .dijitSliderFocused .dijitSliderImageHandleH {
   width: 10px;
@@ -2086,67 +2212,67 @@ div.report-options-section > table {
   z-index: 50002;
 }
 
-/* line 1510 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1619 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .esriTimeSlider .ts {
   position: relative;
   margin: 0px;
   top: -10px;
 }
 
-/* line 1518 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1627 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .tundra .dijitTooltipRight {
   padding-left: 8px false;
 }
 
-/* line 1520 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1629 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .tundra .dijitTooltipRight .dijitTooltipContainer {
   background: #222;
   border: 0px;
   color: #ccc;
 }
 
-/* line 1524 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1633 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .tundra .dijitTooltipRight .dijitTooltipConnector {
   background-image: none !important;
 }
 
-/* line 1529 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1638 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #dojox_form__RangeSliderMixin_0 {
   width: 100%;
 }
 
-/* line 1532 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1641 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .tstmp {
   vertical-align: top !important;
 }
 
-/* line 1535 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1644 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .dj_gecko #timeSliderPanel .esriTimeSlider .ts {
   position: relative;
 /*5*/
 }
 
-/* line 1539 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1648 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderRemainingBarH {
   background: #ecc53d;
   margin-bottom: 4px;
   height: 6px;
 }
 
-/* line 1544 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1653 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .tsTicks {
   height: 10px;
   z-index: 0;
   width: 99.9%; /* This prevents the ticks from sitting outside of the slider bar container */
 }
 
-/* line 1549 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1658 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .dijitRuleMark {
   border: 1px solid #000;
   margin: -2px 0 0 0;
 }
 
-/* line 1553 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1662 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSlider,
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH {
   background: #e98300 !important;
@@ -2154,43 +2280,43 @@ div.report-options-section > table {
 /*height: 8px;*/
 }
 
-/* line 1559 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1668 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSlider .dijitSliderProgressBarH {
   position: absolute !important;
 }
 
-/* line 1563 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1672 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSlider {
   background: rgba(233,131,0,0) !important;
   border: 0px solid #461d7c !important;
 }
 
-/* line 1569 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1678 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dojoxRangeSliderBarContainer .dijitSliderMoveable .dijitSliderImageHandleH {
   margin-top: 3px;
 }
 
-/* line 1574 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1683 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #timeSliderPanel .dijitSliderImageHandleH,
 .dijitContentPane {
   overflow-x: hidden;
 }
 
-/* line 1578 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1687 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 #brightnessSelector,
 #confidenceSelector {
   display: none;
 }
 
-/* line 1581 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1690 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 .selectedConfidence {
   background-color: #00f;
 }
 
-/* line 1584 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1693 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
 @media print {
 
-/* line 1585 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
+/* line 1694 : /Users/lucascotner/Documents/Projects/gfw-fires-app/www/src/app/css/map.styl */
   html,
   body {
     -webkit-print-color-adjust: exact;

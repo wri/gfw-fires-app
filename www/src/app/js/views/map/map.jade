@@ -82,6 +82,48 @@ div#map-view(class="map-view")
 										input(type="text", name="user" value=4, id="noaaDateTo", data-bind="value:noaaPickerTo()")
 							
 							span#updateNOAA(class="report-link-dates", data-bind="text: getDates")
+							
+				div(class="checkbox-container")
+					div#fire-risk-checkbox
+					label(for="fire-risk-checkbox", data-bind="text: fireRiskCheckbox")
+					span(id='fireRisk-1-icon' class="layer-info-icon", data-bind="click: triggerFireRiskInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
+					span(data-bind="text: riskSubLabel", class="checkbox-sub-label")
+					div#report-optionsRisk(data-bind="visible: showReportOptionsRisk()" class="reportOptionsSidebar")
+						div.fireRiskLegendDataColors
+							div#fireRiskLegendDataColors
+							div#fireRiskLegendDataColorsBottom
+						div(id='fireRiskLegend')
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Very High Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataHighest
+							div.fireRiskLegendRow
+								span.fireRiskLegendData High Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataHigh
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Moderate Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataMedium
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Low Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataLow 
+							div.fireRiskLegendRow
+								span.fireRiskLegendData Very Low Risk
+								//- span.fireRiskLegendData.fireRiskLegendDataLowest
+							div.fireRiskLegendRow
+								span.fireRiskLegendData No Data
+							
+						
+								
+						//-div#report-options-closeNOAA(data-bind="click: closeReportOptionsNOAA" class="reportOptionsHeader") x
+						div.font10(data-bind="text:reportText().selectTimeLabel")
+						div.report-options-section
+							table.font10
+								tr
+									td(data-bind="text: 'Day'")
+									td
+										input(type="text", name="user" value=4, id="fireRiskDate", data-bind="value:fireRiskDate()")
+							span#updateRisk(class="report-link-dates", data-bind="text: getDates")
 
 				//- div(class="checkbox-container")
 				//- 	div#burned-scars-checkbox
@@ -107,42 +149,44 @@ div#map-view(class="map-view")
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
 					div#forest-transparency-slider
-				div(class="checkbox-container")
-					div#oil-palm-checkbox
-					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
-					span(id='dataLandUse-3-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
-						svg.info-icon-svg
-							use(xlink:href='#shape-info')
-					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
-				div(class="checkbox-container")
-					div#rspo-oil-palm-checkbox
-					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
-					span(id='dataLandUse-5-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
-						svg.info-icon-svg
-							use(xlink:href='#shape-info')
-					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
-				div(class="checkbox-container")
-					div#wood-fiber-checkbox
-					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
-					span(id='dataLandUse-4-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
-						svg.info-icon-svg
-							use(xlink:href='#shape-info')
-					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
-				div(class="checkbox-container")
-					div#logging-checkbox
-					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
-					span(id='dataLandUse-1-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
-						svg.info-icon-svg
-							use(xlink:href='#shape-info')
-					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+					span(data-bind="text: loggingCheckboxSubLabel", class="checkbox-sub-label")
 				div(class="checkbox-container")
 					div#indicative-moratorium-checkbox
 					label(for="indicative-moratorium-checkbox", data-bind="text: indicativeMoratoriumCheckbox")
 					span(id='dataLandUse-6-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
-					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-instructions")
-					span(data-bind="text: indicativeMoratoriumCheckboxSubLabel2", class="checkbox-sub-label")
+					div(data-bind="html: indicativeMoratoriumCheckboxSubLabel", class="checkbox-sub-label")
+				div(id='plantationsHeader' class="checkbox-container")
+					div Concessions
+				div(class="checkbox-container indented")
+					div#oil-palm-checkbox
+					label(for="oil-palm-checkbox", data-bind="text: oilPalmCheckbox")
+					span(id='dataLandUse-3-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
+					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container indented")
+					div#rspo-oil-palm-checkbox
+					label(for="rspo-oil-palm-checkbox", data-bind="text: rspoOilPalmCheckbox")
+					span(id='dataLandUse-5-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
+					span(data-bind="text: rspoOilPalmCheckboxSubLabel", class="checkbox-sub-label")
+				div(class="checkbox-container indented")
+					div#wood-fiber-checkbox
+					label(for="wood-fiber-checkbox", data-bind="text: woodFiberCheckbox")
+					span(id='dataLandUse-4-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
+					span(data-bind="text: forestUseCheckboxSubLabelSelect", class="checkbox-sub-label")
+				div(class="checkbox-container indented")
+					div#logging-checkbox
+					label(for="logging-checkbox", data-bind="text: loggingCheckbox")
+					span(id='dataLandUse-1-icon' class="layer-info-icon", data-bind="click: triggerLandUseLayerInfo")
+						svg.info-icon-svg
+							use(xlink:href='#shape-info')
+					span(data-bind="text: loggingCheckboxSubLabel", class="checkbox-sub-label")
 			div#conservation-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
 				div(class="slider-container")
@@ -153,7 +197,7 @@ div#map-view(class="map-view")
 					span(id='dataConservation-1-icon' class="layer-info-icon", data-bind="click: triggerConservationLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
-					span(data-bind="text: conservationCheckboxSubLabelGlobal", class="checkbox-sub-label")
+					span(data-bind="text: protectedAreasCheckboxSubLabel", class="checkbox-sub-label")
 				
 			div#land-cover-panel(class='accordion-panel')
 				div(class="transparency-slider-label", data-bind="text: transparencySliderLabel")
@@ -252,11 +296,11 @@ div#map-view(class="map-view")
 
 				div(class='checkbox-container')
 					div#air-quality-checkbox
-					label(for="air-quality-checkbox", data-bind="text: airQuality", class="airQualityDisable")
+					label(for="air-quality-checkbox", data-bind="text: airQuality")
 					span(id='dataSuitability-1-icon' class="layer-info-icon", data-bind="click: triggerAirQualityLayerInfo")
 						svg.info-icon-svg
 							use(xlink:href='#shape-info')
-					label#comingSoon (coming soon)
+					//- label#comingSoon (coming soon)
 					div#report-optionsAIR(data-bind="visible: showReportOptionsAIR()" class="reportOptionsSidebar")
 						div.font10(data-bind="text:reportText().selectTimeLabelAIR")
 						div.report-options-section
@@ -468,3 +512,7 @@ div#map-view(class="map-view")
 						a.addthis_button_google_plusone_share
 						a.addthis_button_compact
 						div#embedShare(class="embed_code_share")
+		div#storyInfoWindow.hidden
+			span#storyClose X
+			p#storyInfoTitle
+			div#storyInfoBody.custom-scroll

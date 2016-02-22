@@ -301,7 +301,7 @@ table.forest-use-pop
 .map-share-container
 	height 75px
 	width auto
-	top 190px
+	top 230px
 
 .map .embed_code_share
 	background url('../images/embed_icon.png') no-repeat white
@@ -355,12 +355,12 @@ table.forest-use-pop
 	margin 10px
 
 .share-linker
-	top 210px
+	top 250px
 
 .share-button
 	background url('../images/share-icon.png') no-repeat white
 	background-position -2px -35px
-	top 210px
+	top 250px
 
 .popup-link-zoom
 	background url('../images/magnifyingGlass.png') no-repeat
@@ -650,7 +650,7 @@ table.imageryTable thead, table.imageryTable tbody
 	background-position -1px -35px
 	text-align center
 	line-height 30px
-	top 250px
+	top 290px
 
 .print-button.loading
 	background url('../images/loader.gif') no-repeat center white
@@ -1236,6 +1236,115 @@ div.report-options-section > table
 
 #map_gc
 	z-index 5
+
+#fireRiskLegend
+	width 90px
+	font-size 12px
+	margin-bottom 10px
+	display inline-block
+	padding-left 5px
+
+.fireRiskLegendData
+	margin-top 7px
+	display inline-block
+	min-height 15px
+	min-width 15px
+
+.fireRiskLegendDataHighest
+	background #B53092
+	float right
+
+.fireRiskLegendDataHigh
+	background #E80030
+	float right
+
+.fireRiskLegendDataMedium
+	background #FF7700
+	float right
+
+.fireRiskLegendDataLow
+	background #F5FE00
+	float right
+
+.fireRiskLegendDataLowest
+	background #004CA8
+	float right
+
+.fireRiskLegendDataColors
+	margin-left 23px
+	display inline-block
+	height 120px
+	width 20px
+
+#fireRiskLegendDataColors
+	background-image url(../images/firesRiskLegend.png)
+	height 100px
+	background-size 23px
+	// border 1px solid gray
+
+#fireRiskLegendDataColorsBottom
+	height 15px
+	margin-top 6px
+	background-size 20px
+	border 1px solid gray
+
+#storyInfoTitle
+	color #767676
+	text-align left
+	font-size 15px
+	padding-left 10px
+	text-transform uppercase
+	margin-bottom 5px
+
+#storyInfoWindow
+	position absolute
+	left calc(50% - 350px)
+	top calc(50% - 250px)
+	width 650px
+	background white
+	z-index 100
+	font-family "Helvetica Neue", Helvetica, Arial, sans-serif
+
+#storyInfoBody
+	color #767676
+	font-size 15px
+	max-height 250px
+	overflow-y scroll
+	padding 10px
+	padding-top 0px
+
+// #storyInfoBody:before {
+// 	content: "";
+// 	top 35px;
+// 	left: 0;
+// 	position: absolute;
+// 	width: 642px;
+// 	height: 20px;
+// 	background-image: -webkit-linear-gradient(top, #fff, rgba(255,255,255,0));
+// 	background-image: -moz-linear-gradient(top, #fff, rgba(255,255,255,0));
+// 	background-image: -o-linear-gradient(top, #fff, rgba(255,255,255,0));
+// 	background-image: -ms-linear-gradient(top, #fff, rgba(255,255,255,0));
+// 	background-image: linear-gradient(top, #ffffff,rgba(255,255,255,0));
+// }
+
+.custom-scroll::-webkit-scrollbar {
+	height: 8px;
+  width: 8px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 0;
+}
+
+#storyInfoBody a
+	color #4099D0 !important
+
+#storyClose
+	position absolute
+	right 5px
+	top 5px
+	cursor pointer
 
 #heatCircle,#clusterCircle,#hexCircle
 	width 70px

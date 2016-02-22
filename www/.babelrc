@@ -1,0 +1,9 @@
+{
+  "stage": 0,
+  "sourceMaps": false,
+  "ignore": [
+    "dist",
+    "build",
+    "node_modules"
+  ]
+}

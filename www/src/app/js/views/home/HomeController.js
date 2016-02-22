@@ -155,7 +155,7 @@ define(["dojo/dom", "dijit/registry", "modules/HashController", "modules/EventsC
 
         o.getPeats = function() {
 
-            require(["modules/Loader", "modules/ErrorController", "dojo/promise/all"], function(Loader, ErrorController, all) {
+            require(["modules/Loader", "dojo/promise/all"], function(Loader, all) {
 
                 var today = new Date();
                 var sevendaysback = new Date();

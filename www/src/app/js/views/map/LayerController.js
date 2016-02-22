@@ -67,7 +67,7 @@ define([
                 visibleLayers,
                 layerDrawingOption = new esri.layers.LayerDrawingOptions(),
                 optionsArray = [],
-                numArray = [29],
+                numArray = [29], //todo: get the correct
                 num;
 
             if (legendLayer) {
@@ -75,7 +75,6 @@ define([
             } else {
                 visibleLayers = [];
             }
-
 
             layerDrawingOption.transparency = 0;
 
@@ -96,8 +95,12 @@ define([
                 legendLayer.setVisibleLayers(visibleLayers);
                 legendLayer.setLayerDrawingOptions(optionsArray);
             }
+            //
+            var infos = registry.byId("legend").layerInfos;
+            if (infos.length > 0) {
+                registry.byId("legend").refresh(infos);
+            }
 
-            registry.byId("legend").refresh();
         },
 
         setTransparency: function(layerId, value) {
@@ -157,6 +160,7 @@ define([
                 });
             }
             dynamicMapService.setVisibleLayers(updatedvis);
+            this.refreshLegend();
         },
 
         getTimeDefinition: function(datefield, startdate, enddate) {

@@ -1,24 +1,19 @@
 /* global define, alert */
 define([
 
-    "esri/config",
-    "main/Config"
+    'esri/config',
+    'main/Config'
     // Call Necessary Layout Widgets Here
 
 ], function(esriConfig, MainConfig) {
-
-    var map;
 
     var o = {};
 
 
     o.init = function() {
 
-
-
-
         //enable cors servers
-        esriConfig.defaults.io.corsEnabledServers.push("www.wri.org");
+        esriConfig.defaults.io.corsEnabledServers.push('www.wri.org');
         esriConfig.defaults.io.corsEnabledServers.push(MainConfig.emailSubscribeUrl);
 
         //https://developers.arcgis.com/javascript/jssamples/mapconfig_smoothpan.html
@@ -35,9 +30,9 @@ define([
         // setup proxy url
 
 
-        require(["modules/ErrorController", "modules/HashController", "dojo/parser",
-                "dijit/layout/StackContainer",
-                "dijit/layout/ContentPane"
+        require(['modules/ErrorController', 'modules/HashController', 'dojo/parser',
+                'dijit/layout/StackContainer',
+                'dijit/layout/ContentPane'
             ],
 
             function(ErrorController, HashController, parser) {

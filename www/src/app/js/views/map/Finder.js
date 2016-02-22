@@ -1,39 +1,38 @@
 /* global define, alert */
 define([
-    "dojo/dom",
-    "dojo/_base/array",
-    "dojo/on",
-    "dojo/mouse",
-    "dojo/query",
-    "dojo/Deferred",
-    "dojo/promise/all",
-    "dojo/request/xhr",
-    "dojo/dom-attr",
-    "dojo/dom-class",
-    "dojo/keys",
-    "esri/layers/FeatureLayer",
-    "esri/graphic",
-    "esri/request",
-    "esri/tasks/ImageServiceIdentifyParameters",
-    "esri/tasks/ImageServiceIdentifyTask",
-    "esri/layers/RasterFunction",
-    "esri/InfoTemplate",
-    "esri/dijit/PopupTemplate",
-    "esri/geometry/Point",
-    "esri/geometry/webMercatorUtils",
-    "esri/symbols/PictureMarkerSymbol",
-    "main/Config",
-    "views/map/MapConfig",
-
-    "views/map/MapModel",
-    "views/map/LayerController",
-    "esri/tasks/IdentifyTask",
-    "esri/tasks/IdentifyParameters",
-    "esri/tasks/query",
-    "esri/tasks/QueryTask",
-    "esri/geometry/Circle",
-    "utils/Analytics",
-    "esri/geometry/geometryEngine"
+    'dojo/dom',
+    'dojo/_base/array',
+    'dojo/on',
+    'dojo/mouse',
+    'dojo/query',
+    'dojo/Deferred',
+    'dojo/promise/all',
+    'dojo/request/xhr',
+    'dojo/dom-attr',
+    'dojo/dom-class',
+    'dojo/keys',
+    'esri/layers/FeatureLayer',
+    'esri/graphic',
+    'esri/request',
+    'esri/tasks/ImageServiceIdentifyParameters',
+    'esri/tasks/ImageServiceIdentifyTask',
+    'esri/layers/RasterFunction',
+    'esri/InfoTemplate',
+    'esri/dijit/PopupTemplate',
+    'esri/geometry/Point',
+    'esri/geometry/webMercatorUtils',
+    'esri/symbols/PictureMarkerSymbol',
+    'main/Config',
+    'views/map/MapConfig',
+    'views/map/MapModel',
+    'views/map/LayerController',
+    'esri/tasks/IdentifyTask',
+    'esri/tasks/IdentifyParameters',
+    'esri/tasks/query',
+    'esri/tasks/QueryTask',
+    'esri/geometry/Circle',
+    'utils/Analytics',
+    'esri/geometry/geometryEngine'
 ], function(dom, arrayUtils, on, mouse, dojoQuery, Deferred, all, xhr, domAttr, domClass, keys, FeatureLayer, Graphic, esriRequest,
     ImageServiceIdentifyParameters, ImageServiceIdentifyTask, RasterFunction, InfoTemplate, PopupTemplate, Point, webMercatorUtils,
     PictureSymbol, MainConfig, MapConfig, MapModel, LayerController, IdentifyTask, IdentifyParameters, Query, QueryTask, Circle, Analytics, geometryEngine) {
@@ -60,7 +59,7 @@ define([
             var values = {},
                 latitude, longitude,
                 invalidValue = false,
-                invalidMessage = "You did not enter a valid value.  Please check that your location values are all filled in and nubmers only.",
+                invalidMessage = 'You did not enter a valid value.  Please check that your location values are all filled in and nubmers only.',
                 symbol = new PictureSymbol('app/images/RedStickpin.png', 32, 32),
                 attributes = {},
                 point,
@@ -122,9 +121,9 @@ define([
         },
 
         mapClick: function(event) {
-            console.log("Map Click event!");
+            console.log('Map Click event!');
             if ($('#uploadCustomGraphic').length > 0) {
-                $("#uploadCustomGraphic").remove();
+                $('#uploadCustomGraphic').remove();
             }
             var map = _map,
                 _self = this,
@@ -136,43 +135,48 @@ define([
 
             map.infoWindow.clearFeatures();
 
-            overlaysLayer = map.getLayer(MapConfig.overlaysLayer.id);
+            var overlaysLayer = map.getLayer(MapConfig.overlaysLayer.id);
             if (overlaysLayer) {
                 if (overlaysLayer.visible) {
-
                     deferreds.push(_self.identifyOverlays(mapPoint));
                 }
             }
 
-
-            forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id);
+            var forestUseLayer = map.getLayer(MapConfig.forestUseLayers.id);
             if (forestUseLayer) {
                 if (forestUseLayer.visible) {
                     deferreds.push(_self.identifyForestUse(mapPoint));
                 }
             }
 
-            landUseLayer = map.getLayer(MapConfig.landUseLayers.id);
+            var forestUseRSPO = map.getLayer(MapConfig.forestUseRSPO.id);
+            if (forestUseRSPO) {
+                if (forestUseRSPO.visible) {
+                    deferreds.push(_self.identifyRSPO(mapPoint));
+                }
+            }
+
+            var landUseLayer = map.getLayer(MapConfig.landUseLayers.id);
             if (landUseLayer) {
                 if (landUseLayer.visible) {
                     deferreds.push(_self.identifyLandUse(mapPoint));
                 }
             }
 
-            conservationLayers = map.getLayer(MapConfig.conservationLayers.id);
+            var conservationLayers = map.getLayer(MapConfig.conservationLayers.id);
             if (conservationLayers) {
                 if (conservationLayers.visible) {
                     deferreds.push(_self.identifyConservation(mapPoint));
                 }
             }
-            fireStoryLayer = map.getLayer(MapConfig.fireStories.id);
+            var fireStoryLayer = map.getLayer(MapConfig.fireStories.id);
             if (fireStoryLayer) {
                 if (fireStoryLayer.visible) {
                     deferreds.push(_self.identifyFireStories(mapPoint));
                 }
             }
 
-            fireTweets = map.getLayer(MapConfig.tweetLayer.id);
+            var fireTweets = map.getLayer(MapConfig.tweetLayer.id);
             if (fireTweets) {
                 if (fireTweets.visible) {
                     deferreds.push(_self.identifyFireTweets(mapPoint));
@@ -189,27 +193,32 @@ define([
 
                     console.log(item);
                     switch (item.layer) {
-                        case "Overlays_Layer":
+                        case 'Overlays_Layer':
                             features = features.concat(_self.setOverlaysTemplates(item.features));
                             break;
-                        case "Forest_Use":
+                        case 'Forest_Use':
+                            isForestUsePop = true;
+                            features = features.concat(_self.setForestUseTemplates(item.features));
+                            break;
+                        case 'Forest_Use_RSPO':
+                            isForestUsePop = true;
+                            features = features.concat(_self.setRSPOTemplates(item.features));
+                            break;
+
+                        case 'Land_Use':
                             isForestUsePop = true;
                             features = features.concat(_self.setForestUseTemplates(item.features));
                             break;
 
-                        case "Land_Use":
-                            isForestUsePop = true;
-                            features = features.concat(_self.setForestUseTemplates(item.features));
-                            break;
-
-                        case "Conservation":
+                        case 'Conservation':
                             features = features.concat(_self.setConservationTemplatesFull(item.features));
                             break;
-                        case "Fire_Stories":
-                            features = features.concat(_self.getFireStoriesInfoWindow(item.features));
-                            return;
+                        case 'Fire_Stories':
+                            _self.getFireStoriesInfoWindow(item.features);
+                            features = [];
+                            // map.infoWindow.hide();
                             break;
-                        case "Fire_Tweets":
+                        case 'Fire_Tweets':
                             features = features.concat(_self.getFireTweetsInfoWindow(item.features));
                             break;
                             // case "CustomGraphics":
@@ -227,7 +236,7 @@ define([
                     map.infoWindow.setFeatures(features);
 
                     map.infoWindow.show(mapPoint);
-                    if (featureSets[0].layer === "Fire_Stories") {
+                    if (featureSets[0].layer === 'Fire_Stories') {
                         map.infoWindow.resize(550,300);
                     } else {
                         map.infoWindow.resize(300,300);
@@ -269,7 +278,7 @@ define([
                 } else {
                     deferred.resolve(false);
                 }
-            }, function(error) {
+            }, function() {
                 deferred.resolve(false);
             });
 
@@ -294,18 +303,18 @@ define([
                 if (features.length > 0) {
                     var queries = features.map(function(feature){
                         var qDeferred = new Deferred();
-                        var queryTask = new QueryTask(MapConfig.firesLayer.url+'4');
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url + '4');
                         var query = new Query();
                         query.geometry = feature.feature.geometry;
-                        query.where = "1=1"
-                        query.outFields = ["Date"];
+                        query.where = '1=1';
+                        query.outFields = ['Date'];
                         queryTask.execute(query).then(function(results){
                                 feature.fires = results.features;
 
                                 setTimeout(function() {
-                                    qDeferred.resolve(false)
+                                    qDeferred.resolve(false);
                                 }, 3000);
-                                qDeferred.resolve(feature)
+                                qDeferred.resolve(feature);
                         });
                         return qDeferred;
                     });
@@ -319,7 +328,57 @@ define([
                 } else {
                     deferred.resolve(false);
                 }
-            }, function(error) {
+            }, function() {
+                deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        identifyRSPO: function(mapPoint) {
+            var deferred = new Deferred(),
+                identifyTask = new IdentifyTask(MapConfig.forestUseRSPO.url),
+                params = new IdentifyParameters();
+
+            params.tolerance = 3;
+            params.returnGeometry = true;
+            params.width = _map.width;
+            params.height = _map.height;
+            params.geometry = mapPoint;
+            params.mapExtent = _map.extent;
+            params.layerIds = _map.getLayer(MapConfig.forestUseRSPO.id).visibleLayers;
+            params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+            identifyTask.execute(params, function(features) {
+                if (features.length > 0) {
+                    var queries = features.map(function(feature){
+                        var qDeferred = new Deferred();
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url + '4');
+                        var query = new Query();
+                        query.geometry = feature.feature.geometry;
+                        query.where = '1=1';
+                        query.outFields = ['Date'];
+                        queryTask.execute(query).then(function(results){
+                                feature.fires = results.features;
+
+                                setTimeout(function() {
+                                    qDeferred.resolve(false);
+                                }, 3000);
+                                qDeferred.resolve(feature);
+                        });
+                        return qDeferred;
+                    });
+                    all(queries).then(function(qResults){
+                                deferred.resolve({
+                                    layer: MapConfig.forestUseRSPO.id,
+                                    features: qResults
+                                });
+                    });
+
+                } else {
+                    deferred.resolve(false);
+                }
+            }, function() {
                 deferred.resolve(false);
             });
 
@@ -344,17 +403,17 @@ define([
                 if (features.length > 0) {
                     var queries = features.map(function(feature){
                         var qDeferred = new Deferred();
-                        var queryTask = new QueryTask(MapConfig.firesLayer.url+'4');
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url + '4');
                         var query = new Query();
                         query.geometry = feature.feature.geometry;
-                        query.where = "1=1"
-                        query.outFields = ["Date"];
+                        query.where = '1=1';
+                        query.outFields = ['Date'];
                         queryTask.execute(query).then(function(results){
                                 feature.fires = results.features;
-                                qDeferred.resolve(feature)
+                                qDeferred.resolve(feature);
                         });
                         return qDeferred;
-                    })
+                    });
                     all(queries).then(function(qResults){
                                 deferred.resolve({
                                     layer: MapConfig.landUseLayers.id,
@@ -365,7 +424,7 @@ define([
                 } else {
                     deferred.resolve(false);
                 }
-            }, function(error) {
+            }, function() {
                 deferred.resolve(false);
             });
 
@@ -391,18 +450,18 @@ define([
                 if (features.length > 0) {
                     var queries = features.map(function(feature){
                         var qDeferred = new Deferred();
-                        var queryTask = new QueryTask(MapConfig.firesLayer.url+'4');
+                        var queryTask = new QueryTask(MapConfig.firesLayer.url + '4');
                         var query = new Query();
                         query.geometry = feature.feature.geometry;
-                        query.where = "1=1"
-                        query.outFields = ["Date"];
+                        query.where = '1=1';
+                        query.outFields = ['Date'];
                         queryTask.execute(query).then(function(results){
                                 feature.fires = results.features;
 
                                 setTimeout(function() {
-                                    qDeferred.resolve(false)
+                                    qDeferred.resolve(false);
                                 }, 3000);
-                                qDeferred.resolve(feature)
+                                qDeferred.resolve(feature);
                         });
                         return qDeferred;
                     });
@@ -416,7 +475,7 @@ define([
                 } else {
                     deferred.resolve(false);
                 }
-            }, function(error) {
+            }, function() {
                 deferred.resolve(false);
             });
 
@@ -447,13 +506,13 @@ define([
                 if (features.length > 0) {
 
                     deferred.resolve({
-                        layer: "Fire_Stories",
+                        layer: 'Fire_Stories',
                         features: features
                     });
                 } else {
                     deferred.resolve(false);
                 }
-            }, function(error) {
+            }, function() {
                 deferred.resolve(false);
             });
 
@@ -461,7 +520,7 @@ define([
         },
 
         identifyFireTweets: function(mapPoint) {
-            var url = MapConfig.tweetLayer.url.split("/3");
+            var url = MapConfig.tweetLayer.url.split('/3');
             url = url[0];
             var deferred = new Deferred(),
                 identifyTask = new IdentifyTask(url),
@@ -482,13 +541,13 @@ define([
                 if (features.length > 0) {
 
                     deferred.resolve({
-                        layer: "Fire_Tweets",
+                        layer: 'Fire_Tweets',
                         features: features
                     });
                 } else {
                     deferred.resolve(false);
                 }
-            }, function(error) {
+            }, function() {
                 deferred.resolve(false);
             });
 
@@ -497,8 +556,6 @@ define([
 
         setOverlaysTemplates: function(featureObjects) {
             var template,
-                handleUpSubsc,
-                _self = this,
                 features = [];
 
             arrayUtils.forEach(featureObjects, function(item) {
@@ -532,33 +589,33 @@ define([
                 item.feature.setInfoTemplate(template);
                 features.push(item.feature);
             });
-            if ($('#uploadCustomGraphic').length == 0) {
+            if ($('#uploadCustomGraphic').length === 0) {
                 $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
             }
             return features;
 
         },
 
-        updateFirePopSelection: function(itemNode,updatePanel){
-            var popnodes = dojoQuery(".fire-pop-item");
-            if(popnodes.length<1){return;}
+        updateFirePopSelection: function(itemNode, updatePanel){
+            var popnodes = dojoQuery('.fire-pop-item');
+            if(popnodes.length < 1){return;}
 
             popnodes.forEach(function(popnode){
-                domClass.remove(popnode,'selected');
+                domClass.remove(popnode, 'selected');
             });
-            domClass.add(itemNode,'selected');
+            domClass.add(itemNode, 'selected');
 
             if(updatePanel){
                 var panelFireOptionNode = dom.byId(itemNode.id.split('-')[0]);
-                var mpc = require("views/map/MapController");
-                mpc.toggleFireOption({srcElement:panelFireOptionNode});
+                var mpc = require('views/map/MapController');
+                mpc.toggleFireOption({srcElement: panelFireOptionNode});
 
             }
         },
 
         connectFirePopEvents: function(){
             var _self = this;
-            var firepopnodes = dojoQuery(".fire-pop-item");
+            var firepopnodes = dojoQuery('.fire-pop-item');
             titleHandlers.forEach(function(handler){
                 handler.remove();
             });
@@ -566,18 +623,18 @@ define([
                 handler.remove();
             });
 
-            titleHandlers = [dojoQuery(".titlePane > .prev")[0],dojoQuery(".titlePane > .next")[0]].map(function(node){
-                return on(node,'click',function(){
+            titleHandlers = [dojoQuery('.titlePane > .prev')[0],dojoQuery('.titlePane > .next')[0]].map(function(node){
+                return on(node, 'click', function(){
                             _self.connectFirePopEvents();
                         });
             });
             fireItemHandlers = firepopnodes.map(function(popnode){
-                if(popnode.id.split("-")[0] === MapModel.vm.currentFireTime()){
-                    domClass.add(popnode,'selected');
+                if(popnode.id.split('-')[0] === MapModel.vm.currentFireTime()){
+                    domClass.add(popnode, 'selected');
                 }
-                return on(popnode,'click',function(evt){
+                return on(popnode, 'click', function(evt){
                     var itemNode = evt.currentTarget;
-                    _self.updateFirePopSelection(itemNode,true);
+                    _self.updateFirePopSelection(itemNode, true);
                 });
             });
         },
@@ -586,13 +643,13 @@ define([
                 var isFires = item.fires.length > 0;
 
                 var firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
-                var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days'
+                var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
                 var fire_results = isFires ? [firesDiv] : [noFiresDiv];
 
                 if(isFires){
-                    var fireCounts = [1,2,3,7].map(function(numdays){
+                    var fireCounts = [1, 2, 3, 7].map(function(numdays){
                     return item.fires.filter(function(fire){
-                        return moment(fire.attributes.Date) > moment().subtract(numdays+1,'days');
+                        return moment(fire.attributes.Date) > moment().subtract(numdays + 1, 'days');
                         }).length;
                     });
 
@@ -613,7 +670,7 @@ define([
         getAdditonalInfoContent: function(item){
             var attr = item.feature.attributes;
             var tables = {
-                    0:[
+                    0: [
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>", attr.Country, "</td>",
                             "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
@@ -621,7 +678,7 @@ define([
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ],
-                    1:[
+                    1: [
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>", attr.Country, "</td>",
                             "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
@@ -629,7 +686,7 @@ define([
                             "<tr style='height:10px;'></tr>",
                         "</table>"
                     ],
-                    3:[
+                    3: [
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>", attr.Country, "</td>",
                             "</tr><tr><td>Certification Status</td><td>", attr.CERT_STAT, "</td></tr>",
@@ -638,7 +695,7 @@ define([
                         "</table>"
                     ],
 
-                    4:[
+                    4: [
                         "<table class='forest-use-pop'>",
                             "<tr><td>Country</td><td>", attr.Country, "</td></tr>",
                             "<tr><td>Certification Status</td><td>", attr["cert_schem"], "</td>",
@@ -719,10 +776,35 @@ define([
                 _self = this,
                 features = [];
 
-
-
             arrayUtils.forEach(featureObjects, function(item) {
 
+                var template_title = ["<strong>" , item.value , "</strong>"].join('');
+                var content = _self.getTemplateContent(item);
+                if(!content){
+                    return;
+                }
+
+                template = new InfoTemplate(template_title,content);
+                item.feature.setInfoTemplate(template);
+                item.feature.attributes.ALERTS_LABEL = item.value;
+
+                features.push(item.feature);
+            });
+
+            if ($('#uploadCustomGraphic').length == 0) {
+                $(".sizer > .actionsPane").append("<div id='uploadCustomGraphic' class='uploadCustomGraphic'>Subscribe</div>");
+            }
+
+            return features;
+        },
+        setRSPOTemplates: function(featureObjects) {
+            var template,
+                content = '',
+                handleUpSubsc,
+                _self = this,
+                features = [];
+
+            arrayUtils.forEach(featureObjects, function(item) {
 
                 var template_title = ["<strong>" , item.value , "</strong>"].join('');
                 var content = _self.getTemplateContent(item);
@@ -1731,9 +1813,11 @@ define([
         },
 
         getFireStoriesInfoWindow: function(feats) {
-
+            $('#storyClose').click(function(){
+              $('#storyInfoWindow').hide();
+            });
             //TODO: Add Attachments!
-            _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
+            // _map.infoWindow.anchor = "ANCHOR_UPPERRIGHT";
             var attr, html = "<table style='min-width:500px;'>", features = [];
             for (var i = 0; i < feats.length; i++) {
 
@@ -1812,54 +1896,50 @@ define([
 
                 var id = feats[i].feature.attributes.OBJECTID;
                 var layer = map.getLayer("Fire_Stories");
-                map.infoWindow.resize(550,300);
+                // map.infoWindow.resize(550,300);
 
                 (function(feature) {
-                    console.log(id)
+                    console.log(id);
                     layer.queryAttachmentInfos(id, function(infos) {
-                        console.log(infos)
-                        if (infos[0]) {
-                            console.log(infos);
-                            if (!!infos[0].url) {
+                        console.log(infos);
+                        if (infos[0] && !!infos[0].url) {
 
-                                feature.attributes.Attachments = "<img id='forceBlock'; src='" + infos[0].url + "' />";
+                            feature.attributes.Attachments = "<img id='forceBlock'; src='" + infos[0].url + "' />";
 
-                                if (infos.length > 1) {
-                                    for (var k = 1; k < infos.length; k++) {
-
-                                        if (!!infos[k].url) {
-                                            feature.attributes.Attachments += "<img id='forceBlock'; src='" + infos[k].url + "' />";
-                                        }
+                            if (infos.length > 1) {
+                                for (var k = 1; k < infos.length; k++) {
+                                    if (!!infos[k].url) {
+                                        feature.attributes.Attachments += "<img id='forceBlock'; src='" + infos[k].url + "' />";
                                     }
                                 }
-
-                                var newFeats = [];
-                                for (var j = 0; j < map.infoWindow.features.length; j++) {
-                                    if (map.infoWindow.features[j].attributes.OBJECTID === feature.attributes.OBJECTID) {
-                                        newFeats.push(feature);
-                                    } else {
-                                        newFeats.push(map.infoWindow.features[j]);
-                                    }
-                                }
-
-                                map.infoWindow.setFeatures(newFeats);
-                                var ll = $("#forceBlock")[0];
-                                var parent = ll.parentElement;
-                                var uncle = parent.previousSibling;
-
-                                $(parent).css("display", "block");
-                                $(uncle).css("display", "block");
-
                             }
-                        }
 
+                            var newFeats = [];
+                            for (var j = 0; j < map.infoWindow.features.length; j++) {
+                                if (map.infoWindow.features[j].attributes.OBJECTID === feature.attributes.OBJECTID) {
+                                    newFeats.push(feature);
+                                } else {
+                                    newFeats.push(map.infoWindow.features[j]);
+                                }
+                            }
+
+                            map.infoWindow.setFeatures(newFeats);
+
+                        }
 
                     });
 
-
                 })(feats[i].feature);
-
-                feats[i].feature.setInfoTemplate(fireStory_popupTemplate);
+                console.log("inn")
+                // debugger
+                console.log("<p>" + fireStory_popupTemplate.content + "</p>")
+                var result = "<p>" + fireStory_popupTemplate.content + "</p>";
+                result = fireStory_popupTemplate.content.replace(/\r\n\r\n/g, "</p><p>").replace(/\n\n/g, "</p><p>");
+                // result += "</p>";
+                console.log(result)
+                $('#storyInfoTitle').html(fireStory_popupTemplate.title);
+                $('#storyInfoBody').html(result);
+                $('#storyInfoWindow').show();
 
                 features.push(feats[i].feature);
 
@@ -1872,7 +1952,6 @@ define([
             if ($('#uploadCustomGraphic').length > 0) {
                 $("#uploadCustomGraphic").remove();
             }
-
 
             var graphic = evt.graphic,
                 uniqueIdField = MapConfig.defaultGraphicsLayerUniqueId,
