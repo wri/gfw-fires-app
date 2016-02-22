@@ -5,6 +5,7 @@ import utils from 'utils/AppUtils';
 import all from 'dojo/promise/all';
 import dojoQuery from 'dojo/query';
 import domClass from 'dojo/dom-class';
+import {layerActions} from 'actions/LayerActions';
 import MosaicRule from 'esri/layers/MosaicRule';
 import on from 'dojo/on';
 import InfoTemplate from 'esri/InfoTemplate';
@@ -144,7 +145,6 @@ let LayersHelper = {
     let layerId = feature.attributes.LayerId;
     let layer = app.map.getLayer(layerId);
     let mrule = new MosaicRule();
-    console.log(feature)
     mrule.method = MosaicRule.METHOD_LOCKRASTER;
     let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
 
@@ -154,9 +154,8 @@ let LayersHelper = {
         mapLayer.hide();
       }
     });
-    console.log(layer)
+
     if (layer) {
-      console.log(objectId)
       mrule.lockRasterIds = [objectId];
       layer.setMosaicRule(mrule);
       layer.show();
@@ -193,6 +192,7 @@ let LayersHelper = {
   showLayer (layerId) {
     app.debug(`LayersHelper >>> showLayer - ${layerId}`);
     if (layerId === KEYS.digitalGlobe) {
+      layerActions.showFootprints();
       Request.getBoundingBoxes();
       return;
     }
@@ -203,7 +203,7 @@ let LayersHelper = {
   hideLayer (layerId) {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
     if (layerId === KEYS.digitalGlobe) {
-      let config = utils.getObject(layersConfig, 'id', KEYS[layerId]);
+      let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
       let bb = app.map.getLayer(KEYS.boundingBoxes);
       if (bb) { bb.hide(); }
       let subLayers = config.subLayers;

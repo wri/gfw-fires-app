@@ -42,15 +42,21 @@ body
     right -5px
     content ''
 
-.aqueduct-logo
-  background url('http://www.wri.org/sites/default/files/styles/large/public/logo.png') no-repeat center
-  background-size auto 65px
-  position absolute
-  height 50px
-  width 250px
-  left 125px
-  z-index 5
-  top 20px
+.imagery-row
+  color black
+  &.selected
+    color red
+
+.imagery-data
+  cursor pointer
+  width 40%
+  padding 3px
+  &.right
+    margin-left 10px
+//   color black
+//   font-size 14px
+//   &.selected
+//     color red
 
 // Require any Map Content
 @require '_modal'

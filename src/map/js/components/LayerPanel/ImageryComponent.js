@@ -12,7 +12,7 @@ export default class ImageryComponent extends React.Component {
     this.state = {
       startVisible: false,
       endVisible: false
-    }
+    };
   }
 
   componentDidMount() {
@@ -47,6 +47,7 @@ export default class ImageryComponent extends React.Component {
   }
 
   render () {
+
     // todo: should I turn these calendars into Modals??
     return <div className={`timeline-container ${this.props.domClass}`}>
       <ImagerySettings />

@@ -1,45 +1,46 @@
 import LayersHelper from 'helpers/LayersHelper';
-// import FireRiskLegend from 'components/LayerPanel/FireRiskLegend';
+import {mapStore} from 'stores/MapStore';
+import {layerActions} from 'actions/LayerActions';
+import KEYS from 'js/constants';
 import React from 'react';
 
 
 export default class ImagerySettings extends React.Component {
 
-  componentDidMount() {
-    // let startDate = window.Kalendae.moment(this.props.startDate);
-    // let currentDate = window.Kalendae.moment(this.props.currentDate);
-    // let today = window.Kalendae.moment();
-    //
-    // let calendar = new window.Kalendae(this.props.domId, {
-		// 	months: 1,
-    //   blackout: function (date) {
-    //     return (date < startDate) || (date > today);
-    //   },
-		// 	mode: 'single',
-		// 	selected: currentDate
-		// });
-    //
-    // calendar.subscribe('change', this.changeImageryDay);
+  constructor (props) {
+    super(props);
+    mapStore.listen(this.storeUpdated.bind(this));
+    this.state = mapStore.getState();
+  }
 
+  storeUpdated () {
+    this.setState(mapStore.getState());
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.footprintsVisible !== this.state.footprintsVisible) {
+      console.log('footprintsVisible', this.state.footprintsVisible)
+      if (this.state.footprintsVisible) {
+        LayersHelper.showLayer(KEYS.boundingBoxes);
+      } else {
+        LayersHelper.hideLayer(KEYS.boundingBoxes);
+      }
+    }
   }
 
   render () {
-    //<FireRiskLegend />
+    console.log(this.state)
     return <div className={'timeline-container'}>
       <p>Advanced Settings</p>
+      <input onChange={this.toggleFootprints.bind(this)} checked={this.state.footprintsVisible} type='checkbox'>Display Footprints</input>
     </div>;
   }
 
-  changeImageryDay() {
-    // LayersHelper.updateImagery(this.getSelected());
-  }
-
-  changeStart() {
-    //showCalendarStart
-  }
-
-  changeStart() {
-    //showCalendarEnd
+  toggleFootprints(evt) {
+    // this.setState({
+    //   checked: evt.target.checked
+    // });
+    layerActions.toggleFootprintsVisibility();
   }
 
 }

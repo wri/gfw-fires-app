@@ -34,6 +34,14 @@ class LayerActions {
     this.dispatch();
   }
 
+  toggleFootprintsVisibility () {
+    this.dispatch();
+  }
+
+  showFootprints () {
+    this.dispatch();
+  }
+
 }
 
 export const layerActions = alt.createActions(LayerActions);

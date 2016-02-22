@@ -71,7 +71,7 @@ export default class LayerPanel extends React.Component {
           childComponent = <RiskCalendar domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
           break;
         case KEYS.digitalGlobe:
-          childComponent = <ImageryComponent domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
+          childComponent = <ImageryComponent {...this.state} domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
           break;
         default:
           childComponent = null;

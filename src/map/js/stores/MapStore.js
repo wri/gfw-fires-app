@@ -13,6 +13,7 @@ class MapStore {
     this.activeLayers = layersConfig.filter(l => l.visible && l.group).map(l => l.id);
     this.canopyDensity = defaults.canopyDensity;
     this.lossFromSelectIndex = defaults.lossFromSelectIndex;
+    this.footprintsVisible = true;
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
@@ -24,6 +25,8 @@ class MapStore {
       removeActiveLayer: layerActions.removeActiveLayer,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
+      showFootprints: layerActions.showFootprints,
+      toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
       changeLossToTimeline: layerActions.changeLossToTimeline,
       changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
@@ -51,7 +54,6 @@ class MapStore {
   }
 
   setBasemap (basemap) {
-    console.log(basemap)
     if (basemap !== this.activeBasemap) {
       this.activeBasemap = basemap;
     }
@@ -75,6 +77,14 @@ class MapStore {
 
   updateCanopyDensity (newDensity) {
     this.canopyDensity = newDensity;
+  }
+
+  toggleFootprintsVisibility () {
+    this.footprintsVisible = !this.footprintsVisible;
+  }
+
+  showFootprints () {
+    this.footprintsVisible = true;
   }
 
   toggleLayerPanelVisibility () {

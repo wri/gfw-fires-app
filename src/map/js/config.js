@@ -35,6 +35,7 @@ export const config = {
   defaults: {
     canopyDensity: 30,
     lossFromSelectIndex: 0,
+    showImageryFootprints: true,
     activeBasemap: KEYS.topoBasemap,
     corsEnabledServers: [
       'gis-potico.wri.org'
