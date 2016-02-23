@@ -74,6 +74,11 @@ class MapActions {
     }
   }
 
+  setDate (date) {
+    app.debug('MapActions >>> setDate');
+    this.dispatch(date);
+  }
+
   setBasemap (basemap) {
     app.debug('MapActions >>> setBasemap');
     this.dispatch(basemap);

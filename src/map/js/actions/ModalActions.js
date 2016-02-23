@@ -42,15 +42,13 @@ class ModalActions {
 
   showGlobeStartModal () { //todo: Dont, if the basemap is already dark-gray!!
     app.debug('ModalActions >>> showGlobeStartModal');
-    domClass.remove('share-modal', 'hidden');
+    domClass.remove('globe-start-modal', 'hidden');
   }
 
-  showGlobeEndModal (params) {
-    app.debug('ModalActions >>> showShareModal');
-    //TODO: Generate a url from bitly that includes Map Store state, this way we can share params
-    let url = document.location.href.split('?')[0];
-    this.dispatch(`${url}?${params}`);
-    domClass.remove('share-modal', 'hidden');
+  showGlobeModal (active) {
+    app.debug('ModalActions >>> showGlobeEndModal');
+    domClass.remove('globe-end-modal', 'hidden');
+    this.dispatch(active);
   }
 
   showAlertsModal () {
