@@ -1,6 +1,8 @@
 import TabControls from 'components/AnalysisPanel/TabControls';
 import AnalysisTab from 'components/AnalysisPanel/AnalysisTab';
 import SubscriptionTab from 'components/AnalysisPanel/SubscriptionTab';
+import ImageryTab from 'components/AnalysisPanel/ImageryTab';
+import BasemapTab from 'components/AnalysisPanel/BasemapTab';
 import {analysisActions} from 'actions/AnalysisActions';
 import {analysisPanelText as text} from 'js/config';
 import {analysisStore} from 'stores/AnalysisStore';
@@ -41,6 +43,8 @@ export default class AnalysisTools extends React.Component {
         <div className={`tab-container custom-scroll ${app.mobile() === false && this.state.analysisToolsExpanded === false ? 'hidden' : '' }`}>
           <AnalysisTab {...this.state} />
           <SubscriptionTab {...this.state} />
+          <ImageryTab {...this.state} />
+          <BasemapTab {...this.state} />
         </div>
       </div>
     );

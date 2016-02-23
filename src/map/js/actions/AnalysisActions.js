@@ -56,6 +56,14 @@ class AnalysisActions {
     this.dispatch();
   }
 
+  toggleImageryToolsExpanded () {
+    this.dispatch();
+  }
+
+  toggleBasemapToolsExpanded () {
+    this.dispatch();
+  }
+
   toggleEsriSearchVisibility () {
     this.dispatch();
   }

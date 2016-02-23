@@ -349,7 +349,7 @@ export const config = {
       type: 'image',
       label: 'Digital Globe - First Look',
       mosaic: 'WV01',
-      group: 'imagery',
+      // group: 'imagery',
       'minScale': 0,
       'maxScale': 10000,
       className: 'digital-globe',
@@ -532,6 +532,8 @@ export const config = {
       searchWidgetId: 'esri-search-widget',
       subscriptionTabId: 'areaTab',
       analysisTabId: 'timeframeTab',
+      imageryTabId: 'imageryTab',
+      basemapTabId: 'basemapTab',
       // TODO: separate below text out of config for simple locale swapping
       searchPlaceholder: 'Search for a location',
       analysisButtonLabel: 'Run Analysis',
@@ -539,7 +541,11 @@ export const config = {
       analysisTimeframeHeader: 'Select timeframe of interest:',
       analysisTabLabel: 'Analyze Fires',
       subscriptionTabLabel: 'Subscribe',
-      subscriptionButtonLabel: 'Get Alerts'
+      subscriptionButtonLabel: 'Get Alerts',
+      imageryTabLabel: 'View Imagery',
+      imageryArea: 'Imagery',
+      basemapTabLabel: 'View Basemaps',
+      basemapArea: 'Basemaps'
     },
     controlPanel: {
       darkGrayBasemap: 'Dark Gray',

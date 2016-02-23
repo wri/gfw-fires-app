@@ -14,6 +14,8 @@ class AnalysisStore {
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
     this.analysisToolsExpanded = true;
+    this.imageryToolsExpanded = false;
+    this.basemapToolsExpanded = false;
     this.timelineVisible = false;
     this.areaIslandsActive = false;
     this.islands = [];
@@ -29,6 +31,8 @@ class AnalysisStore {
       analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed,
       toggleAnalysisToolsVisibility: analysisActions.toggleAnalysisToolsVisibility,
       toggleAnalysisToolsExpanded: analysisActions.toggleAnalysisToolsExpanded,
+      toggleImageryToolsExpanded: analysisActions.toggleImageryToolsExpanded,
+      toggleBasemapToolsExpanded: analysisActions.toggleBasemapToolsExpanded,
       toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility,
       toggleTimelineVisibility: analysisActions.toggleTimelineVisibility,
       initAreas: analysisActions.initAreas,
@@ -72,6 +76,14 @@ class AnalysisStore {
 
   toggleAnalysisToolsExpanded () {
     this.analysisToolsExpanded = !this.analysisToolsExpanded;
+  }
+
+  toggleImageryToolsExpanded () {
+    this.imageryToolsExpanded = !this.imageryToolsExpanded;
+  }
+
+  toggleBasemapToolsExpanded () {
+    this.basemapToolsExpanded = !this.basemapToolsExpanded;
   }
 
   toggleEsriSearchVisibility () {
