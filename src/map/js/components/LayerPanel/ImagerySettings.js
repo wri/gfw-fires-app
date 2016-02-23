@@ -19,7 +19,6 @@ export default class ImagerySettings extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.footprintsVisible !== this.state.footprintsVisible) {
-      console.log('footprintsVisible', this.state.footprintsVisible)
       if (this.state.footprintsVisible) {
         LayersHelper.showLayer(KEYS.boundingBoxes);
       } else {
@@ -29,14 +28,13 @@ export default class ImagerySettings extends React.Component {
   }
 
   render () {
-    console.log(this.state)
-    return <div className={'timeline-container'}>
-      <p>Advanced Settings</p>
-      <input onChange={this.toggleFootprints.bind(this)} checked={this.state.footprintsVisible} type='checkbox'>Display Footprints</input>
+    return <div className={`layer-checkbox relative ${this.state.footprintsVisible ? ' active' : ''}`} >
+      <span onClick={this.toggleFootprints.bind(this)} className='toggle-switch pointer'><span/></span>
+      <span onClick={this.toggleFootprints.bind(this)} className='layer-checkbox-label pointer'>Display Footprints</span>
     </div>;
   }
 
-  toggleFootprints(evt) {
+  toggleFootprints() {
     // this.setState({
     //   checked: evt.target.checked
     // });

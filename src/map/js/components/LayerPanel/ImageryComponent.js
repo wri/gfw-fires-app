@@ -48,7 +48,7 @@ export default class ImageryComponent extends React.Component {
 
   render () {
 
-    // todo: should I turn these calendars into Modals??
+    // todo: should I turn these calendars into Modals?? probably ):
     return <div className={`timeline-container ${this.props.domClass}`}>
       <ImagerySettings />
       <div id='imagery-date-ranges'>
@@ -62,11 +62,11 @@ export default class ImageryComponent extends React.Component {
   }
 
   changeImageryStart() {
-    // LayersHelper.updateImageryStart(this.getSelected());
+    LayersHelper.updateImageryStart(this.getSelected());
   }
 
   changeImageryEnd() {
-    // LayersHelper.updateImageryEnd(this.getSelected());
+    LayersHelper.updateImageryEnd(this.getSelected());
   }
 
   changeStart() {

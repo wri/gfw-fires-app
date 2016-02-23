@@ -39,7 +39,7 @@ export default class LayerCheckbox extends React.Component {
           <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
         </span>
         {!this.props.children ? null :
-          <div className={`layer-content-container ${this.props.checked ? '' : 'hidden'}`}>
+          <div className={`layer-content-container ${this.props.checked || this.props.childrenVisible ? '' : 'hidden'}`}>
             {this.props.children}
           </div>
         }
