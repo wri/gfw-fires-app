@@ -17,6 +17,18 @@ const utils = {
     return `ACQ_DATE > date '${dateString}'`;
   },
 
+  generateImageryQuery: queryString => {
+    // The service only has data for the last week, so if filter is 7 days, just set to 1 = 1
+    console.log(queryString);
+    debugger
+
+    let date = new Date();
+    // Set the date to filterValue amount of days before today
+    date.setDate(date.getDate() - filterValue);
+    let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return `ACQ_DATE > date '${dateString}'`;
+  },
+
   /**
   * Retrieve the object from a given array based on id and value
   * @param {array} - items - Array to search

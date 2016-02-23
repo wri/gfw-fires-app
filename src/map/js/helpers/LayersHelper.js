@@ -227,6 +227,14 @@ let LayersHelper = {
 
   },
 
+  updateImageryStart(date) {
+    app.debug(`LayersHelper >>> updateImageryStart - ${date}`);
+  },
+
+  updateImageryEnd(date) {
+    app.debug(`LayersHelper >>> updateImageryEnd - ${date}`);
+  },
+
   /**
   * @param {number} optionIndex - Index of the selected option in the UI, see js/config
   * @param {boolean} dontRefresh - Whether or not to not fetch a new image
@@ -242,6 +250,19 @@ let LayersHelper = {
       firesLayer.visibleLayers.forEach(val => { defs[val] = queryString; });
       firesLayer.setLayerDefinitions(defs, dontRefresh);
     }
+  },
+
+  /**
+  * @param {number} optionIndex - Index of the selected option in the UI, see js/config
+  * @param {boolean} dontRefresh - Whether or not to not fetch a new image
+  */
+  updateDigitalGlobeLayerDefinitions (clauseArray) {
+    app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
+    let queryString = utils.generateImageryQuery(clauseArray);
+    let dgGraphics = app.map.getLayer(KEYS.boundingBoxes);
+
+    dgGraphics.setDefinitionExpression(queryString);
+
   },
 
   updateLossLayerDefinitions (fromIndex, toIndex) {
