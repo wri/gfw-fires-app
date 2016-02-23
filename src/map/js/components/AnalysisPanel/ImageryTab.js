@@ -30,7 +30,7 @@ export default class ImageryTab extends React.Component {
   }
 
   render () {
-    let className = 'text-center';
+    let className = 'imagery-tab';
     if (this.props.activeTab !== analysisPanelText.imageryTabId) { className += ' hidden'; }
     let activeLayers = this.state.activeLayers;
     let dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
@@ -38,7 +38,7 @@ export default class ImageryTab extends React.Component {
 
     return (
       <div className={className}>
-        <p>{analysisPanelText.imageryArea}</p>
+        <h3>{analysisPanelText.imageryArea}</h3>
         <LayerCheckbox key={dgLayer.id} childrenVisible={true} layer={dgLayer} checked={activeLayers.indexOf(dgLayer.id) > -1}>
           <ImageryComponent {...this.state} domId={dgLayer.calendar.domId} domClass={dgLayer.calendar.domClass} childDomClass={dgLayer.calendar.childDomClass} startDate={dgLayer.calendar.startDate} currentDate={dgLayer.calendar.currentDate} />
         </LayerCheckbox>

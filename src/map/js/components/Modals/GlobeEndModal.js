@@ -1,39 +1,57 @@
-import ModalWrapper from 'components/Modals/ModalWrapper';
-import {modalStore} from 'stores/ModalStore';
+import CalendarWrapper from 'components/Modals/CalendarWrapper';
+import {mapStore} from 'stores/MapStore';
 import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
-import cookie from 'dojo/cookie';
-import {modalText} from 'js/config';
 import React from 'react';
 
 export default class GlobeEndModal extends React.Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
-
-    // modalStore.listen(this.storeUpdated.bind(this));
-    // let defaultState = modalStore.getState();
-
+    mapStore.listen(this.storeUpdated.bind(this));
+    this.state = mapStore.getState();
   }
 
   storeUpdated () {
-    let currentState = modalStore.getState();
-    // this.setState({ layerInfo: currentState.modalLayerInfo });
+    this.setState(mapStore.getState());
+  }
+
+  componentDidMount() {
+    console.log(this.state);
+    let startDate;
+    if (this.state.date) {
+      startDate = window.Kalendae.moment(this.state.date);
+    } else {
+      startDate = window.Kalendae.moment();
+    }
+
+    let calendarStart = new window.Kalendae(this.props.domId, {
+			months: 1,
+			mode: 'single',
+			selected: startDate
+		});
+
+    calendarStart.subscribe('change', this.changeImagery.bind(this));
+
   }
 
   render () {
     return (
-        <ModalWrapper>
-        <div className={`modal-content ${this.props.domClass}`}>
-          <div id={this.props.domId}>hayyy</div>
-        </div>;
-        </ModalWrapper>
+        <CalendarWrapper>
+          <div className={`modal-content ${this.props.domClass}`}>
+            <div id={this.props.domId}></div>
+          </div>
+        </CalendarWrapper>
      );
   }
 
-
   close () {
     modalActions.hideModal(React.findDOMNode(this).parentElement);
+  }
+
+  changeImagery(date) {
+    this.close();
+    mapActions.setDate(date);
   }
 
 }
