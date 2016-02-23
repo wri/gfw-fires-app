@@ -2,6 +2,8 @@ import {layerPanelText, defaults, layersConfig} from 'js/config';
 import {layerActions} from 'actions/LayerActions';
 import {modalActions} from 'actions/ModalActions';
 import {mapActions} from 'actions/MapActions';
+import LayersHelper from 'helpers/LayersHelper';
+import DateHelper from 'helpers/DateHelper';
 import alt from 'js/alt';
 
 class MapStore {
@@ -14,6 +16,10 @@ class MapStore {
     this.canopyDensity = defaults.canopyDensity;
     this.lossFromSelectIndex = defaults.lossFromSelectIndex;
     this.footprintsVisible = true;
+    this.date = this.getDate(defaults.todaysDate);
+    this.dgStartDate = this.getDate(defaults.dgStartDate);
+    this.dgEndDate = this.getDate(defaults.todaysDate);
+    this.activeDG = undefined;
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
@@ -21,6 +27,8 @@ class MapStore {
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
+      setDate: mapActions.setDate,
+      setGlobe: modalActions.showGlobeModal,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       changeFiresTimeline: layerActions.changeFiresTimeline,
@@ -31,6 +39,31 @@ class MapStore {
       changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
+  }
+
+  setGlobe (globe) {
+    console.log(globe);
+    this.activeDG = globe;
+  }
+
+  getDate (date) {
+    let fullDate = DateHelper.getDate(date);
+    console.log(fullDate);
+
+    return window.Kalendae.moment(date).format('M/D/YYYY');
+  }
+
+  setDate (date) {
+    let fullDate = DateHelper.getDate(date);
+    console.log(fullDate);
+    if (this.activeDG === 'start') {
+      this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
+    } else if (this.activeDG === 'end') {
+      this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
+    }
+    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgEndDate, this.dgStartDate]);
+    // this.date = window.Kalendae.moment(date).format('M/D/YYYY');
+    //todo:set the actual date
   }
 
   addActiveLayer (layerId) {

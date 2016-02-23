@@ -37,6 +37,8 @@ export const config = {
     lossFromSelectIndex: 0,
     showImageryFootprints: true,
     activeBasemap: KEYS.topoBasemap,
+    todaysDate: new window.Kalendae.moment(),
+    dgStartDate: new window.Kalendae.moment('10/19/2015'),
     corsEnabledServers: [
       'gis-potico.wri.org'
     ]
