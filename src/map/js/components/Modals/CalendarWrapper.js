@@ -1,4 +1,5 @@
 import {modalActions} from 'actions/ModalActions';
+import {mapActions} from 'actions/MapActions';
 import {modalStore} from 'stores/ModalStore';
 import React from 'react';
 
@@ -8,6 +9,7 @@ export default class CalendarWrapper extends React.Component {
 
   close () {
     modalActions.hideModal(React.findDOMNode(this).parentElement);
+    mapActions.setCalendar('');
   }
 
   render() {

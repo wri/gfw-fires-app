@@ -1,7 +1,7 @@
-import LayersHelper from 'helpers/LayersHelper';
+// import LayersHelper from 'helpers/LayersHelper';
 import ImagerySettings from 'components/LayerPanel/ImagerySettings';
 import {mapStore} from 'stores/MapStore';
-// import {mapActions} from 'actions/MapActions';
+import {mapActions} from 'actions/MapActions';
 import DateHelper from 'helpers/DateHelper';
 import {modalActions} from 'actions/ModalActions';
 import React from 'react';
@@ -41,7 +41,7 @@ export default class ImageryComponent extends React.Component {
 
     let startDate = window.Kalendae.moment(this.state.dgStartDate);
     let endDate = window.Kalendae.moment(this.state.dgEndDate);
-
+    console.log(this.state.calendarVisible)
     //<div id={this.props.domId} className={this.state.startVisible ? '' : 'hidden'}></div>
     // <div id={`${this.props.domId}-end`} className={this.state.endVisible ? '' : 'hidden'}></div>
     // todo: should I turn these calendars into Modals?? probably ):
@@ -49,9 +49,9 @@ export default class ImageryComponent extends React.Component {
       <ImagerySettings />
       <div id='imagery-date-ranges'>
         <span className='imagery-calendar-label'>ACQUIRED DATE MINIMUM</span>
-        <button className='gfw-btn white pointer' onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
+        <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'imageryMin' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
         <span className='imagery-calendar-label'>ACQUIRED DATE MAXIMUM</span>
-        <button className='gfw-btn white pointer' onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'imageryMax' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
       </div>
 
     </div>;
@@ -67,10 +67,13 @@ export default class ImageryComponent extends React.Component {
 
   changeStart() {
     modalActions.showGlobeModal('start');
+    mapActions.setCalendar('imageryMin');
+
   }
 
   changeEnd() {
     modalActions.showGlobeModal('end');
+    mapActions.setCalendar('imageryMax');
   }
 
 }
