@@ -113,6 +113,10 @@ class MapActions {
     app.map.centerAndZoom(new Point(lng, lat), zoomLevel);
   }
 
+  setCalendar (footprints) {
+    this.dispatch(footprints);
+  }
+
   reset () {
     app.debug('MapActions >>> reset');
     // Reset the Store, this will also reset layers, layer definitions, and all React components

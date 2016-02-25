@@ -22,6 +22,14 @@ class LayerActions {
     this.dispatch(selectedIndex);
   }
 
+  getFootprints () {
+    this.dispatch();
+  }
+
+  setFootprints (footprints) {
+    this.dispatch(footprints);
+  }
+
   changeLossFromTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
   }
