@@ -17,16 +17,17 @@ const utils = {
     return `ACQ_DATE > date '${dateString}'`;
   },
 
-  generateImageryQuery: queryString => {
+  generateImageryQuery: queryStringArray => {
     // The service only has data for the last week, so if filter is 7 days, just set to 1 = 1
-    console.log(queryString);
-    debugger
+    console.log(queryStringArray);
+    // debugger
+    let startDate = queryStringArray[0];
+    let endDate = queryStringArray[1];
 
-    let date = new Date();
-    // Set the date to filterValue amount of days before today
-    date.setDate(date.getDate() - filterValue);
-    let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return `ACQ_DATE > date '${dateString}'`;
+    return "AcquisitionDate > '" + startDate + "' AND AcquisitionDate <= '" + endDate + "'";
+
+    // let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    // return `AcquisitionDate > date '${dateString}'`;
   },
 
   /**
