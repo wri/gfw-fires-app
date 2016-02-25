@@ -193,8 +193,25 @@ let LayersHelper = {
     app.debug(`LayersHelper >>> showLayer - ${layerId}`);
     if (layerId === KEYS.digitalGlobe) {
       layerActions.showFootprints();
-      Request.getBoundingBoxes();
-      return;
+      let footprints = layerActions.getFootprints();
+      if (footprints) {
+        return;
+      } else {
+        // debugger
+        Request.getBoundingBoxes().then(item => { //todo: here we are losing our footprints array again somehow, so should, when we run the query
+          // again to get them back, should we respect the timeExtent in the imagery panel. And if so, how?
+          if (item === true) {
+            let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
+            let tempGraphics = [];
+            for (var t = 0; t < footprintsLayer.graphics.length; t++) {
+              tempGraphics.push(footprintsLayer.graphics[t]);
+            }
+            layerActions.setFootprints(tempGraphics);
+          }
+        });
+        return;
+      }
+
     }
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.show(); }
@@ -258,10 +275,30 @@ let LayersHelper = {
   */
   updateDigitalGlobeLayerDefinitions (clauseArray) {
     app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
-    let queryString = utils.generateImageryQuery(clauseArray);
-    let dgGraphics = app.map.getLayer(KEYS.boundingBoxes);
+    // let queryString = utils.generateImageryQuery(clauseArray);
 
-    dgGraphics.setDefinitionExpression(queryString);
+    let dgGraphics = clauseArray[2];
+    console.log(dgGraphics.length);
+    let startDate = new Date(clauseArray[0]);
+    let endDate = new Date(clauseArray[1]);
+
+    let newGraphics = [];
+    let ids = [];
+
+    for (let i = 0; i < dgGraphics.length; i++) {
+      let tempDate = new Date(dgGraphics[i].attributes.AcquisitionDate);
+      if (startDate < tempDate && tempDate < endDate && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
+        newGraphics.push(dgGraphics[i]);
+        ids.push(dgGraphics[i].attributes.OBJECTID);
+      }
+    }
+    let dgGraphicsLayer = app.map.getLayer(KEYS.boundingBoxes);
+
+    dgGraphicsLayer.clear();
+    dgGraphicsLayer.graphics = newGraphics;
+
+    console.log(dgGraphicsLayer.graphics.length);
+    dgGraphicsLayer.redraw();
 
   },
 

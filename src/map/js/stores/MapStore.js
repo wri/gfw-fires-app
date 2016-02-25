@@ -16,6 +16,7 @@ class MapStore {
     this.canopyDensity = defaults.canopyDensity;
     this.lossFromSelectIndex = defaults.lossFromSelectIndex;
     this.footprintsVisible = true;
+    this.footprints = undefined;
     this.date = this.getDate(defaults.todaysDate);
     this.dgStartDate = this.getDate(defaults.dgStartDate);
     this.dgEndDate = this.getDate(defaults.todaysDate);
@@ -29,8 +30,11 @@ class MapStore {
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
       setDate: mapActions.setDate,
       setGlobe: modalActions.showGlobeModal,
+      setCalendar: mapActions.setCalendar,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
+      getFootprints: layerActions.getFootprints,
+      setFootprints: layerActions.setFootprints,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
@@ -41,15 +45,26 @@ class MapStore {
     });
   }
 
+  getFootprints () {
+    return this.footprints;//todo: something we're doing here is duplicating the footprints, presumably because we are adding something
+    //graphics from this.footprints and some from the request itself? Or maybe just multiple run-throughs of this.footprints!
+  }
+
+  setCalendar (calendar) {
+    this.calendarVisible = calendar;
+  }
+
+  setFootprints (footprints) {
+    this.footprints = footprints;
+  }
+
   setGlobe (globe) {
-    console.log(globe);
     this.activeDG = globe;
   }
 
   getDate (date) {
-    let fullDate = DateHelper.getDate(date);
-    console.log(fullDate);
-
+    // let fullDate = DateHelper.getDate(date);
+    // console.log(fullDate);
     return window.Kalendae.moment(date).format('M/D/YYYY');
   }
 
@@ -61,9 +76,8 @@ class MapStore {
     } else if (this.activeDG === 'end') {
       this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
     }
-    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgEndDate, this.dgStartDate]);
-    // this.date = window.Kalendae.moment(date).format('M/D/YYYY');
-    //todo:set the actual date
+
+    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
   }
 
   addActiveLayer (layerId) {
