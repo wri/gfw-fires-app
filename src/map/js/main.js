@@ -2,8 +2,7 @@ import babelPolyfill from 'babel-polyfill';
 import LayerModal from 'components/Modals/LayerModal';
 import CanopyModal from 'components/Modals/CanopyModal';
 import BasemapModal from 'components/Modals/BasemapModal';
-import GlobeStartModal from 'components/Modals/GlobeStartModal';
-import GlobeEndModal from 'components/Modals/GlobeEndModal';
+import CalendarModal from 'components/Modals/CalendarModal';
 //import AlertsModal from 'components/Modals/AlertsModal';
 import {defaults} from 'js/config';
 import Map from 'components/Map';
@@ -34,8 +33,7 @@ let initializeApp = () => {
   ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
   ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
   ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
-  ReactDOM.render(<GlobeStartModal domId='globeStartCalendar' domClass='start-class'/>, document.getElementById('globe-start-modal'));
-  ReactDOM.render(<GlobeEndModal domId='globeEndCalendar' domClass='end-class'/>, document.getElementById('globe-end-modal'));
+  ReactDOM.render(<CalendarModal domId='calendarModal' domClass='end-class'/>, document.getElementById('calendar-modal'));
   //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
 };
 

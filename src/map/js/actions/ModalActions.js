@@ -40,11 +40,6 @@ class ModalActions {
     domClass.remove('share-modal', 'hidden');
   }
 
-  showGlobeStartModal () { //todo: Dont, if the basemap is already dark-gray!!
-    app.debug('ModalActions >>> showGlobeStartModal');
-    domClass.remove('globe-start-modal', 'hidden');
-  }
-
   showGlobeModal (active) {
     app.debug('ModalActions >>> showGlobeEndModal');
     domClass.remove('globe-end-modal', 'hidden');
@@ -62,7 +57,7 @@ class ModalActions {
     if (currentCookie === undefined) {
       domClass.remove('basemap-modal', 'hidden');
     } else {
-      if (currentCookie === "true") { //change basemap
+      if (currentCookie === 'true') { //change basemap
         this.dispatch('dark-gray');
       }
     }
