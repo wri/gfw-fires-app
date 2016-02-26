@@ -33,7 +33,7 @@ let initializeApp = () => {
   ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
   ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
   ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
-  ReactDOM.render(<CalendarModal domId='calendarModal' domClass='end-class'/>, document.getElementById('calendar-modal'));
+  ReactDOM.render(<CalendarModal calendars={defaults.calendars}/>, document.getElementById('calendar-modal'));
   //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
 };
 

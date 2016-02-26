@@ -42,6 +42,32 @@ export const config = {
     analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       'gis-potico.wri.org'
+    ],
+    calendars: [
+      {
+        date: new window.Kalendae.moment('10/19/2015'),
+        method: 'changeImageryStart',
+        domId: 'imageryStart',
+        domClass: 'imagery-start'
+      },
+      {
+        date: new window.Kalendae.moment(),
+        method: 'changeImageryEnd',
+        domId: 'imageryEnd',
+        domClass: 'imagery-end'
+      },
+      {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeAnalysisStart',
+        domId: 'analysisStart',
+        domClass: 'analysis-start'
+      },
+      {
+        date: new window.Kalendae.moment(),
+        method: 'changeAnalysisEnd',
+        domId: 'analysisEnd',
+        domClass: 'analysis-end'
+      }
     ]
   },
 
