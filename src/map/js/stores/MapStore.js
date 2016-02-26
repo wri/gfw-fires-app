@@ -33,7 +33,6 @@ class MapStore {
       setCalendar: mapActions.setCalendar,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
-      getFootprints: layerActions.getFootprints,
       setFootprints: layerActions.setFootprints,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
@@ -43,11 +42,6 @@ class MapStore {
       changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
-  }
-
-  getFootprints () {
-    return this.footprints;//todo: something we're doing here is duplicating the footprints, presumably because we are adding something
-    //graphics from this.footprints and some from the request itself? Or maybe just multiple run-throughs of this.footprints!
   }
 
   setCalendar (calendar) {

@@ -1,5 +1,6 @@
 import {layerActions} from 'actions/LayerActions';
 import {modalActions} from 'actions/ModalActions';
+import {mapStore} from 'stores/MapStore';
 import LayersHelper from 'helpers/LayersHelper';
 import KEYS from 'js/constants';
 import React from 'react';
@@ -9,14 +10,28 @@ let useSvg = '<use xlink:href="#shape-info" />';
 
 export default class LayerCheckbox extends React.Component {
 
+  constructor (props) {
+    super(props);
+    mapStore.listen(this.storeUpdated.bind(this));
+    this.state = mapStore.getState();
+  }
+
+  storeUpdated () {
+    this.setState(mapStore.getState());
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.checked !== this.props.checked) {
       if (this.props.layer.id === KEYS.windDirection) {
         LayersHelper.toggleWind(this.props.checked);
         return;
       }
+
       if (this.props.checked) {
-        LayersHelper.showLayer(this.props.layer.id);
+        let layerObj = {};
+        layerObj.layerId = this.props.layer.id;
+        layerObj.footprints = this.state.footprints;
+        LayersHelper.showLayer(layerObj);
       } else {
         LayersHelper.hideLayer(this.props.layer.id);
       }

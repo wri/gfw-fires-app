@@ -41,9 +41,6 @@ export default class ImageryComponent extends React.Component {
 
     let startDate = window.Kalendae.moment(this.state.dgStartDate);
     let endDate = window.Kalendae.moment(this.state.dgEndDate);
-    console.log(this.state.calendarVisible)
-    //<div id={this.props.domId} className={this.state.startVisible ? '' : 'hidden'}></div>
-    // <div id={`${this.props.domId}-end`} className={this.state.endVisible ? '' : 'hidden'}></div>
     // todo: should I turn these calendars into Modals?? probably ):
     return <div className={`timeline-container ${this.props.domClass}`}>
       <ImagerySettings />

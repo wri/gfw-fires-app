@@ -9,6 +9,7 @@ import {layerActions} from 'actions/LayerActions';
 import MosaicRule from 'esri/layers/MosaicRule';
 import on from 'dojo/on';
 import InfoTemplate from 'esri/InfoTemplate';
+import Graphic from 'esri/graphic';
 import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
 
@@ -189,17 +190,17 @@ let LayersHelper = {
     return [features[0]];
   },
 
-  showLayer (layerId) {
-    app.debug(`LayersHelper >>> showLayer - ${layerId}`);
-    if (layerId === KEYS.digitalGlobe) {
+  showLayer (layerObj) {
+    app.debug(`LayersHelper >>> showLayer - ${layerObj.layerId}`);
+    if (layerObj.layerId === KEYS.digitalGlobe) {
       layerActions.showFootprints();
-      let footprints = layerActions.getFootprints();
+      let footprints = layerObj.footprints;
       if (footprints) {
+        let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
+        footprintsLayer.show();
         return;
       } else {
-        // debugger
-        Request.getBoundingBoxes().then(item => { //todo: here we are losing our footprints array again somehow, so should, when we run the query
-          // again to get them back, should we respect the timeExtent in the imagery panel. And if so, how?
+        Request.getBoundingBoxes().then(item => {
           if (item === true) {
             let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
             let tempGraphics = [];
@@ -213,7 +214,7 @@ let LayersHelper = {
       }
 
     }
-    let layer = app.map.getLayer(layerId);
+    let layer = app.map.getLayer(layerObj.layerId);
     if (layer) { layer.show(); }
   },
 
@@ -288,7 +289,9 @@ let LayersHelper = {
     for (let i = 0; i < dgGraphics.length; i++) {
       let tempDate = new Date(dgGraphics[i].attributes.AcquisitionDate);
       if (startDate < tempDate && tempDate < endDate && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
+        // let newGraphic = new Graphic(dgGraphics[i].geometry, dgGraphics[i].symbol, dgGraphics[i].attributes);
         newGraphics.push(dgGraphics[i]);
+        // newGraphics.push(newGraphic);
         ids.push(dgGraphics[i].attributes.OBJECTID);
       }
     }
