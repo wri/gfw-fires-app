@@ -4,7 +4,7 @@ import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
 import React from 'react';
 
-export default class GlobeEndModal extends React.Component {
+export default class CalendarModal extends React.Component {
 
   constructor (props) {
     super(props);
