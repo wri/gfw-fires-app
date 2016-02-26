@@ -1,5 +1,6 @@
 import {analysisPanelText} from 'js/config';
 import {analysisActions} from 'actions/AnalysisActions';
+import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
 
 export default class AnalysisTab extends React.Component {
@@ -20,7 +21,7 @@ export default class AnalysisTab extends React.Component {
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
-
+    //<div ref='date'></div>
     return (
       <div className={className}>
         <p>{analysisPanelText.analysisAreaHeader}</p>
@@ -47,7 +48,7 @@ export default class AnalysisTab extends React.Component {
           </select>
         </div>
         <p>{analysisPanelText.analysisTimeframeHeader}</p>
-        <div ref='date'></div>
+        <AnalysisComponent {...this.state} domId={analysisPanelText.analysisCalendar.domId} startDate={analysisPanelText.analysisCalendar.startDate} currentDate={analysisPanelText.analysisCalendar.currentDate} />
         <div className='no-shrink analysis-footer text-center'>
           <button className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>

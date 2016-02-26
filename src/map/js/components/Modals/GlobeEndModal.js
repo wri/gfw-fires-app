@@ -30,6 +30,7 @@ export default class GlobeEndModal extends React.Component {
 			mode: 'single',
 			selected: startDate
 		});
+    debugger
 
     calendarStart.subscribe('change', this.changeImagery.bind(this));
 

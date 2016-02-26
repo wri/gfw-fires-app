@@ -20,6 +20,8 @@ class MapStore {
     this.date = this.getDate(defaults.todaysDate);
     this.dgStartDate = this.getDate(defaults.dgStartDate);
     this.dgEndDate = this.getDate(defaults.todaysDate);
+    this.analysisStartDate = this.getDate(defaults.analysisStartDate);
+    this.analysisEndDate = this.getDate(defaults.todaysDate);
     this.activeDG = undefined;
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;

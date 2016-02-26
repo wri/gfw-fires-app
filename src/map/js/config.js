@@ -39,6 +39,7 @@ export const config = {
     activeBasemap: KEYS.topoBasemap,
     todaysDate: new window.Kalendae.moment(),
     dgStartDate: new window.Kalendae.moment('10/19/2015'),
+    analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       'gis-potico.wri.org'
     ]
@@ -534,6 +535,13 @@ export const config = {
       searchWidgetId: 'esri-search-widget',
       subscriptionTabId: 'areaTab',
       analysisTabId: 'timeframeTab',
+      analysisCalendar: {
+        startDate: '4/2/2018',
+        currentDate: new Date('4/2/2019'),
+        domId: 'analysisCalendar',
+        domClass: 'analysisLegend',
+        childDomClass: 'analysis-child'
+      },
       imageryTabId: 'imageryTab',
       basemapTabId: 'basemapTab',
       // TODO: separate below text out of config for simple locale swapping
