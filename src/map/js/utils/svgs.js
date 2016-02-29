@@ -7,6 +7,7 @@ export function createSvgById (svgId) {
 
 export const AlertsSvg = () => createSvgById('icon-alerts');
 export const AnalysisSvg = () => createSvgById('icon-analysis');
+export const DrawSvg = () => createSvgById('icon-analysis-draw');
 export const ImagerySvg = () => createSvgById('icon-imagery');
 export const BasemapSvg = () => createSvgById('icon-basemap');
 export const CalendarSvg = () => createSvgById('icon-calendar');

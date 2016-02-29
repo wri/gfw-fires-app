@@ -107,6 +107,21 @@ const request = {
   },
 
   /**
+  * @param {string} url - Portal URL for the generate features service
+  * @param {object} content - payload for the request
+  * @param {DOM} form - form containing an input with files attached to it
+  * @return {promise}
+  */
+  upload (url, content, form) {
+    return esriRequest({
+      url: url,
+      form: form,
+      content: content,
+      handleAs: 'json'
+    });
+  },
+
+  /**
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
