@@ -47,7 +47,7 @@ export default class AnalysisTab extends React.Component {
           </select>
         </div>
         <p>{analysisPanelText.analysisTimeframeHeader}</p>
-        <AnalysisComponent {...this.state} domId={analysisPanelText.analysisCalendar.domId} startDate={analysisPanelText.analysisCalendar.startDate} currentDate={analysisPanelText.analysisCalendar.currentDate} domClass={analysisPanelText.analysisCalendar.domClass} />
+        <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
         <div className='no-shrink analysis-footer text-center'>
           <button onClick={this.beginAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>

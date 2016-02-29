@@ -385,11 +385,13 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer',
       metadataId: 'digital_globe',
       calendar: {
-        startDate: new Date('10/19/2015'),
-        currentDate: new Date(),
-        domId: 'imageryCalendar',
+        // startDate: new Date('10/19/2015'),
+        // currentDate: new Date(),
+        // domId: 'imageryCalendar',
         domClass: 'imagery-settings',
-        childDomClass: 'imagery-subsettings'
+        childDomClass: 'imagery-subsettings',
+        minLabel: 'START DATE',
+        maxLabel: 'END DATE'
       }
     },
     {
@@ -562,11 +564,13 @@ export const config = {
       subscriptionTabId: 'areaTab',
       analysisTabId: 'timeframeTab',
       analysisCalendar: {
-        startDate: '4/2/2018',
-        currentDate: new Date('4/2/2019'),
-        domId: 'analysisCalendar',
+        // startDate: '4/2/2018',
+        // currentDate: new Date('4/2/2019'),
+        // domId: 'analysisCalendar',
         domClass: 'analysisLegend',
-        childDomClass: 'analysis-child'
+        childDomClass: 'analysis-child',
+        minLabel: 'ACQUIRED DATE MINIMUM',
+        maxLabel: 'ACQUIRED DATE MAXIMUM'
       },
       imageryTabId: 'imageryTab',
       basemapTabId: 'basemapTab',

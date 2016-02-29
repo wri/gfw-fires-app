@@ -35,12 +35,11 @@ export default class ImageryTab extends React.Component {
     let activeLayers = this.state.activeLayers;
     let dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
 
-
     return (
       <div className={className}>
         <h3>{analysisPanelText.imageryArea}</h3>
         <LayerCheckbox key={dgLayer.id} childrenVisible={true} layer={dgLayer} checked={activeLayers.indexOf(dgLayer.id) > -1}>
-          <ImageryComponent {...this.state} domId={dgLayer.calendar.domId} domClass={dgLayer.calendar.domClass} childDomClass={dgLayer.calendar.childDomClass} startDate={dgLayer.calendar.startDate} currentDate={dgLayer.calendar.currentDate} />
+          <ImageryComponent {...this.state} options={dgLayer.calendar} />
         </LayerCheckbox>
       </div>
     );

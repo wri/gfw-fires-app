@@ -5,7 +5,6 @@ import DateHelper from 'helpers/DateHelper';
 import {modalActions} from 'actions/ModalActions';
 import React from 'react';
 
-
 export default class AnalysisComponent extends React.Component {
 
   constructor (props) {
@@ -21,24 +20,23 @@ export default class AnalysisComponent extends React.Component {
   render () {
     let startDate = window.Kalendae.moment(this.state.analysisStartDate);
     let endDate = window.Kalendae.moment(this.state.analysisEndDate);
-    // debugger
-    return <div className={`timeline-container ${this.props.domClass}`}>
+
+    return <div className={`timeline-container ${this.props.options.domClass}`}>
       <div id='analysis-date-ranges'>
-        <span className='imagery-calendar-label'>START DATE</span>
+        <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
         <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'analysisStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
-        <span className='imagery-calendar-label'>END DATE</span>
+        <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
         <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'analysisEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
       </div>
-
     </div>;
   }
 
-  changeStart() {
+  changeStart () {
     modalActions.showCalendarModal('start');
     mapActions.setCalendar('analysisStart');
   }
 
-  changeEnd() {
+  changeEnd () {
     modalActions.showCalendarModal('end');
     mapActions.setCalendar('analysisEnd');
   }
