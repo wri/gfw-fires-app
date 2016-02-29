@@ -66,6 +66,26 @@ export default class ControlPanel extends React.Component {
   toggleSearch () {
     analysisActions.toggleEsriSearchVisibility();
   }
+  // <div className='mobile-hide'>
+  //   <div className={`basemap-switcher shadow ${this.state.basemapGalleryOpen ? 'open' : ''}`}>
+  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
+  //       <div className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
+  //       <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>
+  //     </div>
+  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
+  //       <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} />
+  //       <div className='basemap-label'>{controlPanelText.topoBasemap}</div>
+  //     </div>
+  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
+  //       <div className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
+  //       <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
+  //     </div>
+  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
+  //       <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
+  //       <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
+  //     </div>
+  //   </div>
+  // </div>
 
   render() {
     return (
@@ -92,26 +112,7 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
           </li>
         </ul>
-        <div className='mobile-hide'>
-          <div className={`basemap-switcher shadow ${this.state.basemapGalleryOpen ? 'open' : ''}`}>
-            <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
-              <div className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
-              <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>
-            </div>
-            <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
-              <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} />
-              <div className='basemap-label'>{controlPanelText.topoBasemap}</div>
-            </div>
-            <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
-              <div className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
-              <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
-            </div>
-            <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
-              <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
-              <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
-            </div>
-          </div>
-        </div>
+
       </div>
     );
   }
