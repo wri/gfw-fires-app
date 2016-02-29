@@ -40,9 +40,9 @@ class ModalActions {
     domClass.remove('share-modal', 'hidden');
   }
 
-  showGlobeModal (active) {
-    app.debug('ModalActions >>> showGlobeEndModal');
-    domClass.remove('globe-end-modal', 'hidden');
+  showCalendarModal (active) {
+    app.debug('ModalActions >>> showCalendarModal');
+    domClass.remove('calendar-modal', 'hidden');
     this.dispatch(active);
   }
 

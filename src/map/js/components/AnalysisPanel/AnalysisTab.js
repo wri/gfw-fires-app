@@ -21,7 +21,6 @@ export default class AnalysisTab extends React.Component {
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
-    //<div ref='date'></div>
     return (
       <div className={className}>
         <p>{analysisPanelText.analysisAreaHeader}</p>
@@ -48,12 +47,17 @@ export default class AnalysisTab extends React.Component {
           </select>
         </div>
         <p>{analysisPanelText.analysisTimeframeHeader}</p>
-        <AnalysisComponent {...this.state} domId={analysisPanelText.analysisCalendar.domId} startDate={analysisPanelText.analysisCalendar.startDate} currentDate={analysisPanelText.analysisCalendar.currentDate} />
+        <AnalysisComponent {...this.state} domId={analysisPanelText.analysisCalendar.domId} startDate={analysisPanelText.analysisCalendar.startDate} currentDate={analysisPanelText.analysisCalendar.currentDate} domClass={analysisPanelText.analysisCalendar.domClass} />
         <div className='no-shrink analysis-footer text-center'>
-          <button className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
+          <button onClick={this.beginAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>
       </div>
     );
+  }
+
+  beginAnalysis (props) {
+    app.debug('AnalysisTab >>> beginAnalysis');
+    console.log(this.state);
   }
 
 }

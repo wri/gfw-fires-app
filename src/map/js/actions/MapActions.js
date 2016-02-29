@@ -74,8 +74,13 @@ class MapActions {
     }
   }
 
-  setDate (date) {
-    app.debug('MapActions >>> setDate');
+  setDGDate (date) {
+    app.debug('MapActions >>> setDGDate');
+    this.dispatch(date);
+  }
+
+  setAnalysisDate (date) {
+    app.debug('MapActions >>> setDGDate');
     this.dispatch(date);
   }
 

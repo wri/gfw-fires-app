@@ -54,8 +54,8 @@ export default class CalendarModal extends React.Component {
 		 );
 	}
 
-	itemMapper (item, index) {
-		return <div className={`modal-content ${item.domClass}`}>
+	itemMapper (item) {
+		return <div className={`modal-content ${item.domClass}${this.state.calendarVisible === item.domId ? '' : ' hidden'}`}>
 			<div id={item.domId}></div>
 		</div>;
 	}
@@ -64,25 +64,25 @@ export default class CalendarModal extends React.Component {
 		modalActions.hideModal(React.findDOMNode(this).parentElement);
 	}
 
-  changeImageryStart(date) {
-    console.log('changeImageryStart');
+	changeImageryStart(date) {
+		console.log('changeImageryStart');
 		this.close();
-		// mapActions.setDate(date);
+		mapActions.setDGDate(date);
 	}
-  changeImageryEnd(date) {
-    console.log('changeImageryEnd');
+	changeImageryEnd(date) {
+		console.log('changeImageryEnd');
 		this.close();
-		mapActions.setDate(date);
+		mapActions.setDGDate(date);
 	}
-  changeAnalysisStart(date) {
-    console.log('changeAnalysisStart');
+	changeAnalysisStart(date) {
+		console.log('changeAnalysisStart');
 		this.close();
-		mapActions.setDate(date);
+		mapActions.setAnalysisDate(date);
 	}
-  changeAnalysisEnd(date) {
-    console.log('changeAnalysisEnd');
+	changeAnalysisEnd(date) {
+		console.log('changeAnalysisEnd');
 		this.close();
-		mapActions.setDate(date);
+		mapActions.setAnalysisDate(date);
 	}
 
 }

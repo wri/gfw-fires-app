@@ -30,8 +30,9 @@ class MapStore {
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
-      setDate: mapActions.setDate,
-      setGlobe: modalActions.showGlobeModal,
+      setDGDate: mapActions.setDGDate,
+      setAnalysisDate: mapActions.setAnalysisDate,
+      setGlobe: modalActions.showCalendarModal,
       setCalendar: mapActions.setCalendar,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
@@ -64,7 +65,7 @@ class MapStore {
     return window.Kalendae.moment(date).format('M/D/YYYY');
   }
 
-  setDate (date) {
+  setDGDate (date) {
     let fullDate = DateHelper.getDate(date);
     console.log(fullDate);
     if (this.activeDG === 'start') {
@@ -74,6 +75,18 @@ class MapStore {
     }
 
     LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
+  }
+
+  setAnalysisDate (date) {
+    let fullDate = DateHelper.getDate(date);
+    console.log(fullDate);
+    // if (this.activeDG === 'start') {
+    //   this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
+    // } else if (this.activeDG === 'end') {
+    //   this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
+    // }
+    debugger
+    // LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
   }
 
   addActiveLayer (layerId) {
