@@ -1,17 +1,16 @@
 import {analysisPanelText} from 'js/config';
 import {DrawSvg} from 'utils/svgs';
-// import scaleUtils from 'esri/geometry/scaleUtils';
+import scaleUtils from 'esri/geometry/scaleUtils';
 import geometryUtils from 'utils/geometryUtils';
-// import graphicsUtils from 'esri/graphicsUtils';
+import graphicsUtils from 'esri/graphicsUtils';
 import mapActions from 'actions/MapActions';
+import {modalActions} from 'actions/ModalActions';
 // import keys from 'constants/StringKeys';
 import {uploadConfig} from 'js/config';
-// import Loader from 'components/Loader';
+import Loader from 'components/Loader';
 import Draw from 'esri/toolbars/draw';
 import request from 'utils/request';
-// import text from 'js/languages';
 import React, {
-  Component,
   PropTypes
 } from 'react';
 
@@ -29,7 +28,6 @@ let toolbar;
 export default class SubscriptionTab extends React.Component {
 
   static contextTypes = {
-    language: PropTypes.string.isRequired,
     map: PropTypes.object.isRequired
   };
 
@@ -81,7 +79,6 @@ leave = (evt) => {
 
 drop = (evt) => {
   evt.preventDefault();
-  const {map} = this.context;
   const file = evt.dataTransfer &&
                evt.dataTransfer.files &&
                evt.dataTransfer.files[0];
@@ -97,11 +94,11 @@ drop = (evt) => {
   });
 
   //- If the analysis modal is visible, hide it
-  mapActions.toggleAnalysisModal({ visible: false });
+  // mapActions.toggleAnalysisModal({ visible: false });
 
-  const extent = scaleUtils.getExtentForScale(map, 40000);
+  const extent = scaleUtils.getExtentForScale(app.map, 40000);
   const type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
-  const params = uploadConfig.shapefileParams(file.name, map.spatialReference, extent.getWidth(), map.width);
+  const params = uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
   const content = uploadConfig.shapefileContent(JSON.stringify(params), type);
 
   // the upload input needs to have the file associated to it
@@ -113,9 +110,9 @@ drop = (evt) => {
     if (response.featureCollection) {
       const graphics = geometryUtils.generatePolygonsFromUpload(response.featureCollection);
       const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
-      map.setExtent(graphicsExtent, true);
+      app.map.setExtent(graphicsExtent, true);
       graphics.forEach((graphic) => {
-        map.graphics.add(graphic);
+        app.map.graphics.add(graphic);
       });
     } else {
       console.error('No feature collection present in the file');
@@ -128,39 +125,21 @@ drop = (evt) => {
 };
 
   render () {
-    let className = 'text-center';
+    let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
 
-
-    const {language} = this.context;
-
-    // <div id={analysisPanelText.subscriptionTabId} className={className}>
-    //   <div className='no-shrink analysis-footer text-center'>
-        // <p>{analysisPanelText.subscriptionInstructionsOne}
-        //   <span className='subscribe-link' onClick={this.signUp}>{analysisPanelText.subscriptionInstructionsTwo}</span>
-        // </p>
-    //     <div id='drag1' draggable={true} onDragStart={this.drag}></div>
-    //     <div id='div1' ondrop={this.drop} onDragOver={this.allowDrop}></div>
-    //     <button onClick={this.startDrawing} className='gfw-btn blue'>{analysisPanelText.subscriptionButtonLabel}</button>
-    //     <p className='drop-shapefile'>{analysisPanelText.subscriptionShapefile}</p>
-    //     <p>{analysisPanelText.subscriptionClick}</p>
-    //   </div>
-    // </div>
-
     return (
-      <div className='analysis-instructions__draw'>
+      <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}
           <span className='subscribe-link' onClick={this.signUp}>{analysisPanelText.subscriptionInstructionsTwo}</span>
+          {analysisPanelText.subscriptionInstructionsThree}
         </p>
         <div className='analysis-instructions__draw-icon-container'>
-
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
         </div>
-        <div
-          className={`fa-button gold analysis-instructions__draw-button ${this.state.drawButtonActive ? 'active' : ''}`}
-          onClick={this.draw}>
-          Drawwww
-        </div>
+
+        <button onClick={this.draw} className={`gfw-btn blue ${this.state.drawButtonActive ? 'active' : ''}`}>{analysisPanelText.subscriptionButtonLabel}</button>
+
         <form
           className={`analysis-instructions__upload-container ${this.state.dndActive ? 'active' : ''}`}
           encType='multipart/form-data'
@@ -171,21 +150,25 @@ drop = (evt) => {
           name='upload'
           ref='upload'
           >
-          <div>Loader here</div>
+          <Loader active={this.state.isUploading} />
           <span className='analysis-instructions__upload'>
-            Uploaaaad
+            {analysisPanelText.subscriptionShapefile}
           </span>
+
+
           <input type='file' name='file' ref='fileInput' />
           <input type='hidden' name='publishParameters' value='{}' />
 					<input type='hidden' name='filetype' value='shapefile' />
 					<input type='hidden' name='f' value='json' />
         </form>
+        <p>{analysisPanelText.subscriptionClick}</p>
       </div>
     );
   }
 
   signUp () {
     console.log('sign upp');
+    modalActions.showSubscribeModal();
   }
 
   startDrawing () {

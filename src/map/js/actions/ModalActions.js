@@ -50,6 +50,11 @@ class ModalActions {
     domClass.remove('alerts-modal', 'hidden');
   }
 
+  showSubscribeModal () {
+    app.debug('ModalActions >>> showAlertsModal');
+    domClass.remove('subscription-modal', 'hidden');
+  }
+
   showBasemapModal () {
     app.debug('ModalActions >>> showBasemapModal');
     let currentCookie = cookie('windBasemapDecision');

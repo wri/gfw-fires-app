@@ -71,6 +71,31 @@ export const config = {
     ]
   },
 
+  upload: {
+    portal: 'http://www.arcgis.com/sharing/rest/content/features/generate',
+    shapefileParams: (name, spatialReference, extentWidth, mapWidth) => {
+      return {
+        'name': name,
+        'generalize': true,
+        'targetSr': spatialReference,
+        'maxRecordCount': 1000,
+        'reducePrecision': true,
+        'numberOfDigitsAfterDecimal': 0,
+        'enforceInputFileSizeLimit': true,
+        'enforceOutputJsonSizeLimit': true,
+        'maxAllowableOffset': extentWidth / mapWidth
+      };
+    },
+    shapefileContent: (params, filetype) => {
+      return {
+        'publishParameters': params,
+        'callback.html': 'textarea',
+        'filetype': filetype,
+        'f': 'json'
+      };
+    }
+  },
+
   assetUrls: {
     ionCSS: 'vendor/ion.rangeslider/css/ion.rangeSlider.css',
     ionSkinCSS: 'vendor/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
@@ -582,7 +607,9 @@ export const config = {
       analysisTabLabel: 'Analyze Fires',
       subscriptionTabLabel: 'Subscribe',
       subscriptionButtonLabel: 'START DRAWING',
-      subscriptionInstructions: 'Sign up to receive <a href="www.google.com">fire alert emails or SMS messages when fires occur.',
+      subscriptionInstructionsOne: 'Sign up to receive ',
+      subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
+      subscriptionInstructionsThree: ' when fires occur',
       subscriptionShapefile: 'Or drop a custom shapefile here',
       subscriptionClick: 'Click on each shape to subscribe to the area.',
       imageryTabLabel: 'View Imagery',
@@ -615,6 +642,14 @@ export const config = {
       canopy: {
         title: 'Adjust the minimum canopy density for tree cover  and tree cover loss',
         slider: [0, 10, 15, 20, 25, 30, 50, 75, 100]
+      },
+      subscription: {
+        title: 'Subscribe to alerts!',
+        emailInstructions: 'Enter your email(s) below to receive fire alerts. Multiple emails must be separated by commas.',
+        emailPlaceholder: 'Email',
+        phoneInstructions: 'Enter your phone number below to receive SMS alerts',
+        phonePlaceholder: 'Phone number',
+        subscribePlaceholder: 'Subscribe'
       },
       share: {
         title: 'Share this view',
@@ -920,6 +955,7 @@ export const analysisPanelText = config.text.analysisPanel;
 export const controlPanelText = config.text.controlPanel;
 export const modalText = config.text.modals;
 export const defaults = config.defaults;
+export const uploadConfig = config.upload;
 export const layersConfig = config.layers;
 export const assetUrls = config.assetUrls;
 export const errors = config.text.errors;
