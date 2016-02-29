@@ -28,6 +28,12 @@ let LayersHelper = {
   performIdentify (evt) {
     app.debug('LayerHelper >>> performIdentify');
 
+    if (evt.graphic) {
+      app.debug('LayerHelper >>> setupCustomPopup');
+      debugger
+      return;
+    }
+
     let mapPoint = evt.mapPoint,
       deferreds = [],
       features = [],
