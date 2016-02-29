@@ -9,7 +9,6 @@ class ModalActions {
 
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
-    console.log(metadataIds[layerId])
 
     urlUtils.addProxyRule({
       urlPrefix: 'http://api.globalforestwatch.org',

@@ -7,12 +7,6 @@ import alt from 'js/alt';
 
 class AnalysisActions {
 
-  analyzeCurrentWatershed (feature) {
-    app.debug('AnalysisActions >>> analyzeCurrentWatershed');
-    GraphicsHelper.addActiveWatershed(feature);
-    this.dispatch(feature);
-  }
-
   analyzeCustomArea (feature) {
     app.debug('AnalysisActions >>> analyzeCustomArea');
     GraphicsHelper.addCustomPoint(feature);

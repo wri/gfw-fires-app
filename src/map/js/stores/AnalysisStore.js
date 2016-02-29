@@ -28,7 +28,6 @@ class AnalysisStore {
       analyzeCustomArea: analysisActions.analyzeCustomArea,
       setCustomAreaName: analysisActions.setCustomAreaName,
       clearActiveWatershed: analysisActions.clearActiveWatershed,
-      analyzeCurrentWatershed: analysisActions.analyzeCurrentWatershed,
       toggleAnalysisToolsVisibility: analysisActions.toggleAnalysisToolsVisibility,
       toggleAnalysisToolsExpanded: analysisActions.toggleAnalysisToolsExpanded,
       toggleImageryToolsExpanded: analysisActions.toggleImageryToolsExpanded,
@@ -48,10 +47,6 @@ class AnalysisStore {
   clearCustomArea () {
     this.toolbarActive = false;
     this.activeCustomArea = null;
-  }
-
-  analyzeCurrentWatershed (feature) {
-    this.activeWatershed = feature;
   }
 
   analyzeCustomArea (feature) {

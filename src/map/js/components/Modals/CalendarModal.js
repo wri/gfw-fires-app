@@ -17,22 +17,6 @@ export default class CalendarModal extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.state);
-		// let startDate;
-		// if (this.state.date) {
-		//   startDate = window.Kalendae.moment(this.state.date);
-		// } else {
-		//   startDate = window.Kalendae.moment();
-		// }
-		//
-		// let calendarStart = new window.Kalendae(this.props.domId, {
-		// 	months: 1,
-		// 	mode: 'single',
-		// 	selected: startDate
-		// });
-
-		//
-		// calendarStart.subscribe('change', this.changeImagery.bind(this));
 
 		this.props.calendars.forEach(calendar => {
 			let calendar_obj = new window.Kalendae(calendar.domId, {
@@ -51,7 +35,7 @@ export default class CalendarModal extends React.Component {
 				<CalendarWrapper>
 					{this.props.calendars.map(this.itemMapper, this)}
 				</CalendarWrapper>
-		 );
+		);
 	}
 
 	itemMapper (item) {
@@ -65,24 +49,33 @@ export default class CalendarModal extends React.Component {
 	}
 
 	changeImageryStart(date) {
-		console.log('changeImageryStart');
 		this.close();
-		mapActions.setDGDate(date);
+    mapActions.setDGDate({
+      date: date,
+      dest: 'dgStartDate'
+    });
 	}
 	changeImageryEnd(date) {
-		console.log('changeImageryEnd');
 		this.close();
-		mapActions.setDGDate(date);
+		// mapActions.setDGDate(date);
+    mapActions.setDGDate({
+      date: date,
+      dest: 'dgEndDate'
+    });
 	}
 	changeAnalysisStart(date) {
-		console.log('changeAnalysisStart');
 		this.close();
-		mapActions.setAnalysisDate(date);
+		mapActions.setAnalysisDate({
+      date: date,
+      dest: 'analysisStartDate'
+    });
 	}
 	changeAnalysisEnd(date) {
-		console.log('changeAnalysisEnd');
 		this.close();
-		mapActions.setAnalysisDate(date);
+    mapActions.setAnalysisDate({
+      date: date,
+      dest: 'analysisEndDate'
+    });
 	}
 
 }

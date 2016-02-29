@@ -65,27 +65,33 @@ class MapStore {
     return window.Kalendae.moment(date).format('M/D/YYYY');
   }
 
-  setDGDate (date) {
-    let fullDate = DateHelper.getDate(date);
-    console.log(fullDate);
-    if (this.activeDG === 'start') {
-      this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
-    } else if (this.activeDG === 'end') {
-      this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
-    }
+  setDGDate (dateObj) {
+    this.calendarVisible = '';
 
-    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
-  }
-
-  setAnalysisDate (date) {
-    let fullDate = DateHelper.getDate(date);
-    console.log(fullDate);
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    //
     // if (this.activeDG === 'start') {
     //   this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
     // } else if (this.activeDG === 'end') {
     //   this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
     // }
-    debugger
+
+    if (!this.footprints) {
+      return;
+    }
+
+    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
+  }
+
+  setAnalysisDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    // if (this.activeDG === 'start') {
+    //   this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
+    // } else if (this.activeDG === 'end') {
+    //   this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
+    // }
     // LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
   }
 
