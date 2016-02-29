@@ -1,9 +1,7 @@
-import {analysisActions} from 'actions/AnalysisActions';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
-import {layersConfig, layerPanelText, analysisPanelText} from 'js/config';
-import {AlertsSvg, AnalysisSvg, ImagerySvg} from 'utils/svgs';
-import {mapActions} from 'actions/MapActions';
+import {layersConfig, analysisPanelText} from 'js/config';
+// import {AlertsSvg, AnalysisSvg, ImagerySvg} from 'utils/svgs';
 import {mapStore} from 'stores/MapStore';
 import KEYS from 'js/constants';
 import React from 'react';
@@ -18,15 +16,6 @@ export default class ImageryTab extends React.Component {
 
   storeUpdated () {
     this.setState(mapStore.getState());
-  }
-
-  componentDidMount () {
-    // let calendar = new window.Kalendae(this.refs.date, {
-    //   mode: 'range'
-    // });
-    // calendar.subscribe('change', function (date) {
-    //   console.debug(date);
-    // });
   }
 
   render () {

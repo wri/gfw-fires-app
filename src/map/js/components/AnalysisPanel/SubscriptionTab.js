@@ -1,5 +1,6 @@
 import {analysisPanelText} from 'js/config';
 import React from 'react';
+// import {AlertsSvg, AnalysisSvg, ImagerySvg} from 'utils/svgs';
 
 export default class SubscriptionTab extends React.Component {
 
@@ -13,9 +14,12 @@ export default class SubscriptionTab extends React.Component {
 
     return (
       <div className={className}>
-        TODO: subscription ui
         <div className='no-shrink analysis-footer text-center'>
+          <p>{analysisPanelText.subscriptionInstructions}</p>
+          <div>Image goes here</div>
           <button className='gfw-btn blue'>{analysisPanelText.subscriptionButtonLabel}</button>
+          <p className='drop-shapefile'>{analysisPanelText.subscriptionShapefile}</p>
+          <p>{analysisPanelText.subscriptionClick}</p>
         </div>
       </div>
     );

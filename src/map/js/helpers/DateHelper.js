@@ -68,13 +68,13 @@ class DateHelper {
         month = 'September';
         break;
       case 9:
-        month = 'November';
+        month = 'October';
         break;
       case 10:
-        month = 'December';
+        month = 'November';
         break;
       case 11:
-        month = 'Saturday';
+        month = 'December';
         break;
     }
     return month;
