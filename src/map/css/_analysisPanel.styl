@@ -144,8 +144,6 @@
 
 .analysis-tools
   .tabs
-    padding-top 10px
-
     svg
       height 20px
       width 20px
@@ -158,12 +156,14 @@
 .analysis-tools .tabs .gfw-btn
   //$lightGrayBorder is slightly ligher then $lightGray, making it better fit for unactive tab
   // transition color 0.35s ease-in-out
-  background-color gray
+  background-color #EEEEEE
   color $darkGray
+  border-radius 0
   &.active
     color $gfwBlue
     background-color white
-
+  &:hover
+    background-color white
 // .tab-indicator
 //   transition all 0.35s ease-in-out
 //   background $gfwBlue
