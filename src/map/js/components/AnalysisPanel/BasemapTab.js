@@ -31,14 +31,16 @@ export default class BasemapTab extends React.Component {
     }
   }
 
-  showInfo () {
-    console.log(arguments)
-  }
+  childClicked = (evt) => {
+    evt.stopPropagation();
+    let id = evt.currentTarget.getAttribute('data-id');
+    modalActions.showLayerInfo(id);
+  };
 
-  clickedBasemap (id) {
+  clickedBasemap = (evt) => {
+    let id = evt.currentTarget.getAttribute('data-basemap');
     mapActions.setBasemap(id);
-  }
-
+  };
 
   render () {
     let className = 'text-center';
@@ -48,31 +50,31 @@ export default class BasemapTab extends React.Component {
       <div className={className}>
         <div>
           <div className='shadow open'>
-            <div className={`basemap-item ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
+            <div data-basemap={KEYS.darkGrayBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
               <span className='basemap-label'>{controlPanelText.darkGrayBasemap}</span>
-              <span className='info-icon pointer' onClick={this.showInfo.bind(this)}>
+              <span onClick={this.childClicked} data-id={KEYS.darkGrayBasemap} className='info-icon pointer'>
                 <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
               </span>
             </div>
-            <div className={`basemap-item ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
+            <div data-basemap={KEYS.topoBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} />
               <span className='basemap-label'>{controlPanelText.topoBasemap}</span>
-              <span className='info-icon pointer' onClick={this.showInfo.bind(this)}>
+              <span onClick={this.childClicked} data-id={KEYS.topoBasemap} className='info-icon pointer'>
                 <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
               </span>
             </div>
-            <div className={`basemap-item ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
+            <div data-basemap={KEYS.wriBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
               <span className='basemap-label'>{controlPanelText.wriBasemap}</span>
-              <span className='info-icon pointer' onClick={this.showInfo.bind(this)}>
+              <span onClick={this.childClicked} data-id={KEYS.wriBasemap} className='info-icon pointer'>
                 <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
               </span>
             </div>
-            <div className={`basemap-item ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
+            <div data-basemap={KEYS.imageryBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
               <span className='basemap-label'>{controlPanelText.imageryBasemap}</span>
-              <span className='info-icon pointer' onClick={this.showInfo.bind(this)}>
+              <span onClick={this.childClicked} data-id={KEYS.imageryBasemap} className='info-icon pointer'>
                 <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
               </span>
             </div>
