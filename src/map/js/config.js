@@ -73,6 +73,11 @@ export const config = {
 
   upload: {
     portal: 'http://www.arcgis.com/sharing/rest/content/features/generate',
+    infoTemplate: {
+      content: '<table><tr><td>Name: </td><td>${featureName}</td></tr></table>' +
+        '<button>Subscribe</button>' +
+        '<button>Remove</button>'
+    },
     shapefileParams: (name, spatialReference, extentWidth, mapWidth) => {
       return {
         'name': name,

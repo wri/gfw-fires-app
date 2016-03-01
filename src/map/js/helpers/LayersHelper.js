@@ -1,4 +1,4 @@
-import {layerPanelText, layersConfig, calendarText} from 'js/config';
+import {layerPanelText, layersConfig, calendarText, uploadConfig} from 'js/config';
 import rasterFuncs from 'utils/rasterFunctions';
 import Request from 'utils/request';
 import utils from 'utils/AppUtils';
@@ -6,6 +6,7 @@ import all from 'dojo/promise/all';
 import dojoQuery from 'dojo/query';
 import domClass from 'dojo/dom-class';
 import {layerActions} from 'actions/LayerActions';
+import {modalActions} from 'actions/ModalActions';
 import MosaicRule from 'esri/layers/MosaicRule';
 import on from 'dojo/on';
 import InfoTemplate from 'esri/InfoTemplate';
@@ -28,18 +29,23 @@ let LayersHelper = {
   performIdentify (evt) {
     app.debug('LayerHelper >>> performIdentify');
 
-    if (evt.graphic) {
-      app.debug('LayerHelper >>> setupCustomPopup');
-      debugger
-      return;
-    }
-
     let mapPoint = evt.mapPoint,
       deferreds = [],
       features = [],
       layer;
 
     app.map.infoWindow.clearFeatures();
+
+    if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
+      // this.setCustomFeaturesTemplates(evt.graphic);
+      // app.map.infoWindow.setFeatures([evt.graphic]);
+      // app.map.infoWindow.show(mapPoint);
+      modalActions.showSubscribeModal();
+
+      // on(rowData, 'click', function(clickEvt) {
+
+      return;
+    }
 
     layer = app.map.getLayer(KEYS.activeFires);
     if (layer) {
@@ -194,6 +200,13 @@ let LayersHelper = {
     features[0].setInfoTemplate(template);
     // return features;
     return [features[0]];
+  },
+
+  setCustomFeaturesTemplates: function(feature) {
+    let template = new InfoTemplate('Custom', uploadConfig.infoTemplate.content);
+    feature.setInfoTemplate(template);
+
+    return feature;
   },
 
   showLayer (layerObj) {
