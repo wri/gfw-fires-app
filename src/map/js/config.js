@@ -543,6 +543,7 @@ export const config = {
   },
 
   text: {
+    layerInformation: {},
     errors: {
       missingLayerConfig: 'You provided a layer config containing a url but not a type, please specify the layer type in the layer config.',
       incorrectLayerConfig: type => `You provided an invalid type, the application is not configured for type: ${type}. Please use the correct type or implement it in the LayerFactory.`,
@@ -708,7 +709,11 @@ export const config = {
       'suitability-soil-drainage': 'idn_soil_drainage',
       'suitability-soil-idn_soil_depth': 'idn_soil_depth',
       'suitability-soil-acidity': 'idn_soil_acidity',
-      'suitability-soil-type': 'idn_soil_type'
+      'suitability-soil-type': 'idn_soil_type',
+      'dark-gray': 'dark-gray',
+      'topo': 'topo',
+      'wri-basemap': 'wri-basemap',
+      'satellite': 'satellite'
 
     },
     metadataUrl: 'http://api.globalforestwatch.org/metadata/' //todo switch this to proper server
@@ -800,32 +805,6 @@ export const config = {
 //   ],
 //   moreContent: [
 //     '<p class="read-more"><em><a href="http://www.wri.org/our-work/project/aqueduct" target="_blank">Click to learn more about the Aqueduct Project</a></em></p>'
-//   ]
-// };
-//
-// config.text.layerInformation[KEYS.majorDams] = {
-//   title: 'Major Dams',
-//   table: [
-//     {label: 'Function', html: 'Identifies dam locations for the world’s 50 major river basins.'},
-//     {label: 'Resolution/Scale', html: 'Varies by country'},
-//     {label: 'Geographic Coverage', html: 'This data set is not global. The data is confined to the world’s 50 major river basins.'},
-//     {label: 'Source Data', html: 'Dams data are compiled from various sources, including: the <a href="http://atlas.gwsp.org/index.php?option=com_content&amp;task=view&amp;id=207&amp;Itemid=68">Global Reservoir and Dam (GRanD) Database</a>, the <a href="http://waterandfood.org/">Consultative Group on International Agricultural Research (CGIAR) Challenge Program on Water and Food - Mekong</a> (for Mekong basin dams only), the <a href="http://geo.usace.army.mil/pgis/f?p=397:101:32175502090367::NO:::">United States National Inventory of Dams (NID)</a>, other government dam inventories, and original data collection by International Rivers.'},
-//     {label: 'Frequency of Updates', html: 'As new data becomes available'},
-//     {label: 'Date of Content', html: '2014'},
-//     {label: 'Cautions', html: 'Data results are biased towards public available data, so gaps may exist.'}
-//   ],
-//   overview: [
-//     'The <a href="http://www.v-c-s.org">State of the World\'s Rivers</a> is an interactive web database that illustrates data on ecological health in the world’s 50 major river basins. Indicators of ecosystem health are grouped into the categories of river fragmentation, biodiversity, and water quality. The database was created and published by International Rivers in 2014.',
-//     'The Dam Hotspots data contains over 5,000 dam locations determined by latitude and longitude coordinates. These locations were confined to the world’s 50 major river basins. The data set comes from multiple sources, and was corrected for location errors by International Rivers. The “project status”—a moving target—was determined by acquiring official government data, as well as through primary research from Berkeley and five International Rivers’ regional offices.'
-//   ],
-//   customContent: [
-//     '<div class="layer-details layer-details-dam_hotspots"><ul class="layer-colors"><li><i class="circle" style="color:#F78300;"></i>Operational: Already existing dams.</li><li><i class="circle" style="color:#D5CB12;"></i>Under construction: Dams which are currently being constructed.</li><li><i class="circle" style="color:#1F78B4;"></i>Planned: Dams whose studies or licensing have been completed, but construction has yet to begin.</li><li><i class="circle" style="color:#85AB63;"></i>Inventoried: Dams whose potential site has been selected, but neither studies nor licensing have occurred.</li><li><i class="circle" style="color:#E31A1C;"></i>Suspended: Dams which have been temporarily or permanently suspended, deactivated, cancelled, or revoked.</li><li><i class="circle" style="color:#746969;"></i>Unknown: No data are currently available.</li></ul></div>'
-//   ],
-//   citation: [
-//     '<strong>Citation:</strong>International Rivers, The State of the World’s Rivers, August 2014 available at <a href="http://tryse.net/googleearth/irivers-dev3/">http://tryse.net/googleearth/irivers-dev3/</a>.'
-//   ],
-//   moreContent: [
-//     '<p class="read-more"><em><a href="http://data.globalforestwatch.org/datasets/537361e2df59486e898cd4e024af57ea_0" class="download-mobile-link" target="_blank">Learn more or download data.</a></em></p>'
 //   ]
 // };
 //
@@ -954,6 +933,78 @@ export const config = {
 //   ]
 // };
 
+config.text.layerInformation[KEYS.darkGrayBasemap] = {
+  title: 'Dark Gray Canvas',
+  table: [
+    {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
+    {label: 'Resolution/Scale', html: '30 meters'},
+    {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
+    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Date of Content', html: 'May 1, 2014 - present'},
+    {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
+  ],
+  overview: [
+    'This web map draws attention to your thematic content by providing a dark, neutral background with minimal colors, labels, and features.'
+  ],
+  citation: [
+    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+  ]
+};
+
+config.text.layerInformation[KEYS.topoBasemap] = {
+  title: 'Topographic',
+  table: [
+    {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
+    {label: 'Resolution/Scale', html: '30 meters'},
+    {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
+    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Date of Content', html: 'May 1, 2014 - present'},
+    {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
+  ],
+  overview: [
+    'Topographic map which includes boundaries, cities, water features, physiographic features, parks, landmarks, transportation, and buildings.'
+  ],
+  citation: [
+    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+  ]
+};
+
+config.text.layerInformation[KEYS.wriBasemap] = {
+  title: 'World Resources Institute',
+  // table: [
+  //   {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
+  //   {label: 'Resolution/Scale', html: '30 meters'},
+  //   {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
+  //   {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+  //   {label: 'Date of Content', html: 'May 1, 2014 - present'},
+  //   {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
+  // ],
+  overview: [
+    'Satellite and high-resolution aerial imagery for the world with political boundaries and place names. You can turn on transportation including street names.'
+  ],
+  citation: [
+    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+  ]
+};
+
+config.text.layerInformation[KEYS.imageryBasemap] = {
+  title: 'World Imagery',
+  table: [
+    {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
+    {label: 'Resolution/Scale', html: '30 meters'},
+    {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
+    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Date of Content', html: 'May 1, 2014 - present'},
+    {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
+  ],
+  overview: [
+    'Satellite and high-resolution aerial imagery for the world with political boundaries and place names. You can turn on transportation including street names.'
+  ],
+  citation: [
+    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+  ]
+};
+
 // Exports
 export const layerPanelText = config.text.layerPanel;
 export const analysisPanelText = config.text.analysisPanel;
@@ -970,3 +1021,4 @@ export const analysisConfig = config.analysis;
 export const metadataIds = config.text.metadataIds;
 export const metadataUrl = config.text.metadataUrl;
 export const alertsModalConfig = config.alertsModal;
+export const layerInformation = config.text.layerInformation;

@@ -25,7 +25,9 @@ class ModalActions {
       this.dispatch(res);
       domClass.remove('layer-modal', 'hidden');
     }, err => {
-      this.dispatch({});
+      // this.dispatch({});
+      // console.log(layerId)
+      this.dispatch(layerId);
       domClass.remove('layer-modal', 'hidden');
       console.error(err);
     });
