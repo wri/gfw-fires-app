@@ -49,6 +49,8 @@ export default class SubscriptionTab extends React.Component {
         toolbar.deactivate();
         this.setState({ drawButtonActive: false });
         let graphic = geometryUtils.generateDrawnPolygon(evt.geometry);
+        graphic.attributes.Layer = 'custom';
+        graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
         app.map.graphics.add(graphic);
       });
     }
@@ -112,6 +114,8 @@ drop = (evt) => {
       const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
       app.map.setExtent(graphicsExtent, true);
       graphics.forEach((graphic) => {
+        graphic.attributes.Layer = 'custom';
+        graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
         app.map.graphics.add(graphic);
       });
     } else {
