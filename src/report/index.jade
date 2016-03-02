@@ -1,0 +1,124 @@
+doctype html
+html(lang="en")
+	head
+		script(src='PrintLoader.js')
+		script(src='../vendor/moment.js')
+		//- script(src='../../../libs/timezone.js') //todo
+		meta(name="author", content="")
+		meta(name="keywords", content="GFW, Fires, Global, Forest, Watch")
+		meta(name="description", content="")
+		meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
+		meta(name="apple-mobile-web-app-capable", content="yes")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+	body
+		div#report(class='report-page')
+			div(class='report-title') GFW Fires ANALYSES
+				div#subtitles
+					div#fromDate
+					div#toDate
+					div#aoiList
+					div.sub-title2 
+						span#confidence-footnote *
+						span Analysis based on&nbsp;
+						span#high-confidence-info-report high confidence fires&nbsp;
+						span only
+						//- span#confidence-footnote *
+						//- span 
+						//- 	| Analysis based on  
+						//- span#high-confidence-info-report 
+						//- 	| high confidence fires  
+						//- span
+						//- 	| only
+					div#totalFiresLabel.sub-title2 
+						span#confidence-count During this time period, there were&nbsp;
+						span#totalFireAlerts XX&nbsp;
+						span fire alerts, of which&nbsp;
+						span#highConfidenceFireAlerts XX&nbsp;
+						span were high confidence.
+					div#noFiresMsg
+			div#section-one
+			div(class='section-title') Figure 1: DISTRIBUTION OF FIRE ALERTS
+			div(class='map-container')
+				div#simple-fires-map(class='map')
+					div#firesmapload.loader
+					div#fires-legend-container(class='legend-container')
+						//- div(class='legend-title') Active Fires
+						div#fires-legend
+							table
+								tr
+									td(class='legend-swatch-round hc-fire')
+									td(class='legend-label') High Confidence Fires
+								//- tr
+								//- 	td(class='legend-swatch-round oa-fire')
+								//- 	td(class='legend-label') Other Active Fires	
+			div#section-two(class='page-break')
+				div(class='section-title') Figure 2a: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div(class='map-container small')
+					div#district-fires-map(class='map')
+						div#distmapload.loader
+
+						div#legend-container(class='legend-container')
+							div(class='legend-title') Fire Alerts by Districts
+							div#legend
+				div(class='section-title') Figure 2b: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div#district-fires-table
+			div#section-three(class='page-break')
+				div(class='section-title') Figure 3a: SUBDISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div(class='map-container small')
+					div#subdistrict-fires-map(class='map')
+						div#subdistmapload.loader
+
+						div(class='legend-container')
+							div(class='legend-title') Fire Alerts by SubDistricts
+							div#SubDistrict-legend
+				div(class='section-title') Figure 3b: SUBDISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
+				div#subdistrict-fires-table
+			div#section-four(class='page-break')
+				div(class='section-title') Figure 4: FIRE ALERT COUNT JAN 1, 2013 - PRESENT
+				div#fire-alert-count-sumatra
+					div#fire-line-chart(class='fire-line-chart')
+			div#section-five(class='page-break')
+				div(class='section-title') Figure 5: COMPANY CONCESSIONS WITH FIRE ALERTS
+				div(class='no-break')
+					div(class='sub-title') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+					div#pulpwood-fires-table
+				div(class='no-break')
+					div(class='sub-title') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+					div#palmoil-fires-table
+				div(class='no-break')
+					div(class='sub-title') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+					div#logging-fires-table
+			div#section-seven(class='page-break')
+
+				div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
+				div(class='sub-title')
+				div(class='no-break')
+					div#rspo-cert-table
+			div#section-six
+				div(class='section-title no-break') Figure 7: FIRE ALERTS BY LAND USE AREA
+					div#land-use-fires-chart-container(class='chart-container')
+						div#land-use-fires-chart(class='chart small-legend-text')
+				div(class='section-title no-break') Figure 8: FIRE ALERTS IN PROTECTED AREAS
+					div#protected-areas-fires-chart-container(class='chart-container')
+						div#protected-areas-fires-chart(class='chart small-legend-text')
+				div(class='section-title') Figure 9: PORTION OF FIRES OCCURRING ON PEATLAND
+					div#peat-fires-chart-container(class='chart-container')
+						div#peat-fires-chart(class='chart')
+				div(class='section-title page-break') Figure 10: PORTION OF FIRES OCCURRING IN AN INDICATIVE MORATORIUM AREA
+					div#moratorium-fires-chart-container(class='chart-container')
+						div#moratorium-fires-chart(class='chart')
+
+			div#section-eight(class='page-break')
+
+				//- div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
+				//- div(class='sub-title')
+				div(id='disclaimer' class='no-break')
+					p WRI used NASA’s Active Fire Data to determine the likely location of fires on the ground. This system uses the NASA MODIS satellites that survey the entire earth every 1-2 days. The sensors on these satellites detect the heat signatures of fires within the infrared spectral band. When the satellite imagery is processed, an algorithm searches for fire-like signatures. When a fire is detected, the system indicates the 1 km2 where the fire occurred with an “alert.” The system will nearly always detect fires of 1,000 m2 in size, but under ideal conditions, can detect flaming fires as small as 50 m2. Since each satellite passes over the equator twice a day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
+					p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
+					p WRI is employing a recommendation for detecting forest clearing fires (described in Morton and Defries, 2008), identifying fires with a Brightness value ≥330 Kelvin and a Confidence value ≥ 30% to indicate fires that have a high confidence for being forest-clearing fires. Low confidence fires are lower intensity fires that could either be from non-forest-clearing fire activity (clearing fields or grass burning), or could be older fires that have decreased in intensity (smoldering rather than flaming fires). The use of this classification establishes a higher standard for fire detection than using all fire alerts equally.
+					p Sources:
+					p NASA FIRMS FAQ Morton, D., R. DeFries, J. T. Randerson, L. Giglio, W. Schroeder, and G. van der Werf. 2008. Agricultural intensification increases deforestation fire activity in Amazonia. Global Change Biology 14:2262-2276.
+					p Data Sources for Figures:
+					p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
+					p Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)
