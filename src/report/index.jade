@@ -1,8 +1,12 @@
 doctype html
 html(lang="en")
 	head
-		script(src='PrintLoader.js')
-		script(src='../vendor/moment.js')
+		script(src='//code.jquery.com/jquery-1.11.0.min.js')
+		script(src='//code.highcharts.com/highcharts.js')
+		script(src='//code.highcharts.com/modules/exporting.js')
+		script(src='../vendor/moment/moment.js')
+		script(src='../vendor/moment-timezone/moment-timezone.js')
+		
 		//- script(src='../../../libs/timezone.js') //todo
 		meta(name="author", content="")
 		meta(name="keywords", content="GFW, Fires, Global, Forest, Watch")
@@ -11,6 +15,9 @@ html(lang="en")
 		meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
 		meta(name="apple-mobile-web-app-capable", content="yes")
 		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+			
+		link(rel="stylesheet", href="//js.arcgis.com/3.15/esri/css/esri.css")
+		link(rel="stylesheet", href="css/report.css")
 	body
 		div#report(class='report-page')
 			div(class='report-title') GFW Fires ANALYSES
@@ -122,3 +129,29 @@ html(lang="en")
 					p Data Sources for Figures:
 					p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
 					p Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)
+
+		script.
+			var base = location.pathname.replace(/\/[^/]+$/, '/');
+			var dojoConfig = {
+					parseOnLoad: false,
+					isDebug: false,
+					textPluginHeaders: {
+							"X-Requested-With": null
+					},
+					async: true,
+					packages: [{
+							name: 'vendor',
+							location: base + '../vendor'
+					}, {
+							name: 'js',
+							location: base + '/js'
+					}],
+					deps: [
+							'js/ReportBuilder',
+							'dojo/domReady!'
+					],
+					callback: function(ReportBuilder) {
+						ReportBuilder.init();
+					}
+			};
+		script(src='http://js.arcgis.com/3.15/init.js', async)

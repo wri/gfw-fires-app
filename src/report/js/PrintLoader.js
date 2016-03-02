@@ -11,7 +11,7 @@
             'http://js.arcgis.com/3.15/js/esri/css/esri.css',
             '../css/report.css'
         ],
-        URL = location.pathname.replace(/app\/js\/views\/report.*/, '') + 'app',
+        base = location.pathname.replace(/\/[^/]+$/, '/'),
         dojoConfig = {
             parseOnLoad: false,
             isDebug: false,
@@ -21,19 +21,19 @@
             async: true,
             packages: [{
                 name: 'libs',
-                location: URL + '/libs'
+                location: base + '/libs'
             }, {
                 name: 'main',
-                location: URL + '/js/main'
+                location: base + '/js/main'
             }, {
                 name: 'modules',
-                location: URL + '/js/modules'
+                location: base + '/js/modules'
             }, {
                 name: 'views',
-                location: URL + '/js/views'
+                location: base + '/js/views'
             }, {
                 name: 'utils',
-                location: URL + '/js/utils'
+                location: base + '/js/utils'
             }],
             aliases: [
                 // ["knockout", "libs/knockout-3.2.0"],
