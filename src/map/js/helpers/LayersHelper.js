@@ -169,11 +169,9 @@ let LayersHelper = {
             features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreas));
             break;
           case KEYS.fireStories:
-
             features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
             break;
           case KEYS.twitter:
-          
             features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
             break;
           case KEYS.boundingBoxes:
@@ -352,17 +350,37 @@ let LayersHelper = {
     app.debug('LayersHelper >>> updateFiresLayerDefinitions');
     let value = layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
     let queryString = utils.generateFiresQuery(value);
+
     let firesLayer = app.map.getLayer(KEYS.activeFires);
-    let defs = [];
+    let defs;
+    if (!firesLayer) {
+      defs = [];
+    } else {
+      defs = firesLayer.layerDefinitions;
+    }
 
     if (firesLayer) {
-      firesLayer.visibleLayers.forEach(val => { defs[val] = queryString; });
+      firesLayer.visibleLayers.forEach(val => {
+        let currentString = defs[val];
+        if (currentString) {
+          if (currentString.indexOf('CONFIDENCE >= 30') > -1) {
+            let string = currentString.split('>= 30')[0];
+            defs[val] = string + '>= 30 AND ' + queryString;
+          } else {
+            defs[val] = queryString;
+          }
+        } else {
+          defs[val] = queryString;
+        }
+
+      });
+
       firesLayer.setLayerDefinitions(defs, dontRefresh);
     }
   },
 
   toggleConfidence (checked) {
-    app.debug('LayersHelper >>> updateFiresLayerDefinitions');
+    app.debug('LayersHelper >>> toggleConfidence');
 
     let firesLayer = app.map.getLayer(KEYS.activeFires);
     let defs = firesLayer.layerDefinitions;
@@ -370,20 +388,23 @@ let LayersHelper = {
     if (firesLayer) {
 
       firesLayer.visibleLayers.forEach(val => {
-
         let currentString = defs[val];
         if (currentString) {
-
           if (currentString.indexOf('ACQ_DATE') > -1) {
-            let string = currentString.split('ACQ_DATE')[1];
-            debugger
+            if (checked) {
+              defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
+            } else {
+              let string = currentString.split('ACQ_DATE')[1];
+              defs[val] = 'ACQ_DATE' + string;
+            }
           } else {
             defs[val] = '1=1';
           }
         } else {
-          defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';//todo: set high Confidence here
+          defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
         }
       });
+      console.log(defs[0])
       firesLayer.setLayerDefinitions(defs);
     }
   },
