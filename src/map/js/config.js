@@ -133,7 +133,7 @@ export const config = {
       type: 'feature',
       label: 'Active Fires',
       group: 'fires',
-      layerIds: [4],
+      layerIds: [0, 1, 2, 3],
       className: 'active-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
@@ -151,6 +151,9 @@ export const config = {
       group: 'fires',
       layerIds: [0],
       className: 'archive-fires',
+      //["ACQ_DATE >= date'1-2-2013' AND ACQ_DATE < date'2/25/2016'"]
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(7, 'd').format('M/D/YYYY') + "'",
+      //todo: set inital time def query of latest month
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
@@ -420,8 +423,8 @@ export const config = {
         // domId: 'imageryCalendar',
         domClass: 'imagery-settings',
         childDomClass: 'imagery-subsettings',
-        minLabel: 'START DATE',
-        maxLabel: 'END DATE'
+        minLabel: 'ACQUIRED DATE MINIMUM',
+        maxLabel: 'ACQUIRED DATE MAXIMUM' //todo: switch these: line ~600
       }
     },
     {
@@ -600,8 +603,8 @@ export const config = {
         // domId: 'analysisCalendar',
         domClass: 'analysisLegend',
         childDomClass: 'analysis-child',
-        minLabel: 'ACQUIRED DATE MINIMUM',
-        maxLabel: 'ACQUIRED DATE MAXIMUM'
+        minLabel: 'START DATE',
+        maxLabel: 'END DATE'
       },
       imageryTabId: 'imageryTab',
       basemapTabId: 'basemapTab',
@@ -653,8 +656,12 @@ export const config = {
         title: 'Subscribe to alerts!',
         emailInstructions: 'Enter your email(s) below to receive fire alerts. Multiple emails must be separated by commas.',
         emailPlaceholder: 'Email',
+        verifyInput: 'verifyInput',
         phoneInstructions: 'Enter your phone number below to receive SMS alerts',
         phonePlaceholder: 'Phone number',
+        warningTextEmail: 'You must enter a valid email address!',
+        warningTextPhone: 'You must enter a valid phone number!',
+        successMessage: 'You have successfully subscribed. You will receive an email asking you to verify your subscription. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.',
         subscribePlaceholder: 'Subscribe'
       },
       share: {
