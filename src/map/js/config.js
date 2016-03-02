@@ -151,8 +151,7 @@ export const config = {
       group: 'fires',
       layerIds: [0],
       className: 'archive-fires',
-      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(7, 'd').format('M/D/YYYY') + "'",
-      //todo: set inital time def query of latest month
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
@@ -179,7 +178,7 @@ export const config = {
     {
       id: KEYS.burnScars,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'Active fires and burn scars',
       group: 'fires',
       layerIds: [8],
@@ -566,10 +565,11 @@ export const config = {
         max: 'Extreme'
       },
       firesOptions: [
-        {label: 'Past Week', value: 7},
-        {label: 'Past 72 hours', value: 3},
+
+        {label: 'Past 24 hours', value: 1},
         {label: 'Past 48 hours', value: 2},
-        {label: 'Past 24 hours', value: 1}
+        {label: 'Past 72 hours', value: 3},
+        {label: 'Past Week', value: 7}
       ],
       lossOptions: [
         {label: '2001', value: 1},

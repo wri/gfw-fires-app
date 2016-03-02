@@ -131,7 +131,7 @@ const request = {
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
 
-    params.tolerance = 300;
+    params.tolerance = 3;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -167,6 +167,10 @@ const request = {
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
 
+    let layer = app.map.getLayer(KEYS.archiveFires);
+    let layerDefinitions = [];
+    layerDefinitions[0] = layer.getDefinitionExpression();
+
     params.tolerance = 3;
     params.returnGeometry = true;
     params.width = app.map.width;
@@ -174,6 +178,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {

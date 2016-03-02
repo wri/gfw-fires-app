@@ -22,12 +22,19 @@ export default class FiresControls extends React.Component {
 
   render () {
     let activeItem = firesOptions[this.props.firesSelectIndex];
-    return <div className='timeline-container relative fires'>
-      <select className='pointer' value={activeItem.value} onChange={this.changeFiresTimeline}>
-        {firesOptions.map(this.optionsMap, this)}
-      </select>
-      <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
+    return <div>
+      <div className='timeline-container relative fires'>
+        <select className='pointer' value={activeItem.value} onChange={this.changeFiresTimeline}>
+          {firesOptions.map(this.optionsMap, this)}
+        </select>
+        <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
+      </div>
+      <input onChange={this.toggleConfidence} type='checkbox' /><span>Condifence box</span>
     </div>;
+  }
+
+  toggleConfidence (evt) {
+    LayersHelper.toggleConfidence(evt.target.checked);
   }
 
   optionsMap (item, index) {

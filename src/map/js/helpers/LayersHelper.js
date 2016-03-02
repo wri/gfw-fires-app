@@ -40,9 +40,9 @@ let LayersHelper = {
       // this.setCustomFeaturesTemplates(evt.graphic);
       // app.map.infoWindow.setFeatures([evt.graphic]);
       // app.map.infoWindow.show(mapPoint);
-      modalActions.showSubscribeModal(evt.graphic);
 
       // on(rowData, 'click', function(clickEvt) {
+      modalActions.showSubscribeModal(evt.graphic);
 
       return;
     }
@@ -286,6 +286,33 @@ let LayersHelper = {
     if (firesLayer) {
       firesLayer.visibleLayers.forEach(val => { defs[val] = queryString; });
       firesLayer.setLayerDefinitions(defs, dontRefresh);
+    }
+  },
+
+  toggleConfidence (checked) {
+    app.debug('LayersHelper >>> updateFiresLayerDefinitions');
+
+    let firesLayer = app.map.getLayer(KEYS.activeFires);
+    let defs = firesLayer.layerDefinitions;
+
+    if (firesLayer) {
+
+      firesLayer.visibleLayers.forEach(val => {
+
+        let currentString = defs[val];
+        if (currentString) {
+
+          if (currentString.indexOf('ACQ_DATE') > -1) {
+            let string = currentString.split('ACQ_DATE')[1];
+            debugger
+          } else {
+            defs[val] = '1=1';
+          }
+        } else {
+          defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';//todo: set high Confidence here
+        }
+      });
+      firesLayer.setLayerDefinitions(defs);
     }
   },
 
