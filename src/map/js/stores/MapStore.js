@@ -22,7 +22,9 @@ class MapStore {
     this.dgEndDate = this.getDate(defaults.todaysDate);
     this.analysisStartDate = this.getDate(defaults.analysisStartDate);
     this.analysisEndDate = this.getDate(defaults.todaysDate);
+    this.panelsHidden = false;
     this.activeDG = undefined;
+    this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
@@ -33,10 +35,12 @@ class MapStore {
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
       setGlobe: modalActions.showCalendarModal,
+      setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
+      togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
@@ -49,6 +53,14 @@ class MapStore {
 
   setCalendar (calendar) {
     this.calendarVisible = calendar;
+  }
+
+  togglePanels () {
+    this.panelsHidden = !this.panelsHidden;
+  }
+
+  setCurrentCustomGraphic (graphic) {
+    this.currentCustomGraphic = graphic;
   }
 
   setFootprints (footprints) {

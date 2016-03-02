@@ -40,7 +40,7 @@ let LayersHelper = {
       // this.setCustomFeaturesTemplates(evt.graphic);
       // app.map.infoWindow.setFeatures([evt.graphic]);
       // app.map.infoWindow.show(mapPoint);
-      modalActions.showSubscribeModal();
+      modalActions.showSubscribeModal(evt.graphic);
 
       // on(rowData, 'click', function(clickEvt) {
 

@@ -22,16 +22,21 @@ export default class ControlPanel extends React.Component {
     mapStore.listen(this.storeUpdated.bind(this));
     let defaultState = mapStore.getState();
     this.state = {
-      basemapGalleryOpen: false,
+      pannelsHidden: false,
       activeBasemap: defaultState.activeBasemap
     };
   }
 
   storeUpdated () {
     let newState = mapStore.getState();
-    if (newState.activeBasemap !== this.state.activeBasemap) {
-      this.setState({ activeBasemap: newState.activeBasemap });
-      mapActions.changeBasemap(newState.activeBasemap);
+    if (newState.pannelsHidden !== this.state.pannelsHidden) {
+      //todo: figure out how this is triggering when they are both false
+      console.log(newState.pannelsHidden)
+      console.log(this.state.pannelsHidden)
+      console.log('would hide panels..')
+      // debugger
+      // this.setState({ pannelsHidden: newState.pannelsHidden });
+      // mapActions.togglePanels(newState.pannelsHidden);
     }
   }
 
@@ -51,8 +56,12 @@ export default class ControlPanel extends React.Component {
     mapActions.reset();
   }
 
-  toggleBasemapGallery () {
-    this.setState({ basemapGalleryOpen: !this.state.basemapGalleryOpen });
+  // toggleBasemapGallery () {
+  //   this.setState({ basemapGalleryOpen: !this.state.basemapGalleryOpen });
+  // }
+
+  togglePanels () {
+    this.setState({ panelsHidden: !this.state.panelsHidden });
   }
 
   clickedBasemap (id) {
@@ -104,7 +113,7 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
           </li>
           <div className='mobile-hide'>
-            <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleBasemapGallery.bind(this)}>
+            <li className='basemap-layers pointer' title='Basemaps' onClick={this.togglePanels.bind(this)}>
               <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: basemapSvg }}/>
             </li>
           </div>

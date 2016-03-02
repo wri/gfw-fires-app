@@ -79,6 +79,11 @@ class MapActions {
     this.dispatch(date);
   }
 
+  togglePanels () {
+    app.debug('MapActions >>> togglePanels');
+    this.dispatch();
+  }
+
   setAnalysisDate (date) {
     app.debug('MapActions >>> setDGDate');
     this.dispatch(date);
