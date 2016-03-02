@@ -75,6 +75,55 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.oilPalm);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyOilPalm(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.rspoOilPalm);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyRSPOOilPalm(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.woodFiber);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyWoodFiber(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.loggingConcessions);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyLoggingConcessions(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.protectedAreas);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyProtectedAreas(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.fireStories);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyFireStories(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.twitter);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyTwitter(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.boundingBoxes);
     if (layer) {
       if (layer.visible) {
@@ -103,6 +152,29 @@ let LayersHelper = {
             break;
           case KEYS.burnScars:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.burnScars));
+            break;
+          case KEYS.oilPalm:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.oilPalm));
+            break;
+          case KEYS.rspoOilPalm:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.rspoOilPalm));
+            break;
+          case KEYS.woodFiber:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.woodFiber));
+            break;
+          case KEYS.loggingConcessions:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.loggingConcessions));
+            break;
+          case KEYS.protectedAreas:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreas));
+            break;
+          case KEYS.fireStories:
+
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
+            break;
+          case KEYS.twitter:
+          
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
             break;
           case KEYS.boundingBoxes:
             features = features.concat(this.setDigitalGlobeTemplates(item.features));

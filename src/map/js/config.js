@@ -233,7 +233,14 @@ export const config = {
       className: 'oil-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [1]
+      layerIds: [1],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.rspoOilPalm,
@@ -245,7 +252,14 @@ export const config = {
       className: 'rspo-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [4]
+      layerIds: [4],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.woodFiber,
@@ -257,7 +271,14 @@ export const config = {
       className: 'wood-fiber',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [0]
+      layerIds: [0],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.loggingConcessions,
@@ -269,7 +290,14 @@ export const config = {
       className: 'logging-concessions',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [3]
+      layerIds: [3],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.protectedAreas,
@@ -281,7 +309,14 @@ export const config = {
       className: 'tree-cover',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [0]
+      layerIds: [0],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS_AREA}</td></tr>' +
+        '<tr><td>Local Name: </td><td>${Local Name}</td></tr>' +
+        '<tr><td>Local Designation: </td><td>${Local Designation}</td></tr>' +
+        '<tr><td>WDPA_PID: </td><td>${WDPA_PID}</td></tr>'
+      }
     },
     {
       id: KEYS.peatlands,
@@ -474,7 +509,13 @@ export const config = {
       layerIds: [10],
       className: 'tree-cover',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td>Title: </td><td>${Title}</td></tr>' +
+        '<tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>Details: </td><td>${Details}</td></tr>' +
+        '<tr><td>Date: </td><td>${Date}</td></tr>'
+      }
     },
     {
       id: KEYS.twitter,
@@ -485,7 +526,12 @@ export const config = {
       layerIds: [3],
       className: 'tree-cover',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td>Text: </td><td>${Text}</td></tr>' +
+        '<tr><td>UserName: </td><td>${UserName}</td></tr>' +
+        '<tr><td>Date: </td><td>${Date}</td></tr>'
+      }
     }
   ],
 

@@ -161,6 +161,258 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
+  identifyOilPalm: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.oilPalm);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.oilPalm,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyRSPOOilPalm: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.rspoOilPalm);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.rspoOilPalm,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyWoodFiber: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.woodFiber);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.woodFiber,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyLoggingConcessions: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.loggingConcessions);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.loggingConcessions,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyProtectedAreas: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreas);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.protectedAreas,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyFireStories: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.fireStories);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.fireStories,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyTwitter: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.twitter);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+
+    params.tolerance = 3;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.twitter,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
   identifyArchive: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.archiveFires);
