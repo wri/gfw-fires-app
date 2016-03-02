@@ -61,8 +61,8 @@ export default (layer) => {
     case 'feature':
       options.id = layer.id;
       options.visible = layer.visible || false;
-      options.defaultDefinitionExpression = layer.defaultDefinitionExpression || '1=1';
-      console.log(options.defaultDefinitionExpression)
+      options.definitionExpression = layer.defaultDefinitionExpression || '1=1';
+      console.log(options.definitionExpression)
       if (layer.url) {
         esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
       } else {

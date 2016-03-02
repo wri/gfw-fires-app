@@ -130,7 +130,7 @@ export const config = {
     {
       id: KEYS.activeFires,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'Active Fires',
       group: 'fires',
       layerIds: [0, 1, 2, 3],
@@ -151,7 +151,6 @@ export const config = {
       group: 'fires',
       layerIds: [0],
       className: 'archive-fires',
-      //["ACQ_DATE >= date'1-2-2013' AND ACQ_DATE < date'2/25/2016'"]
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(7, 'd').format('M/D/YYYY') + "'",
       //todo: set inital time def query of latest month
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
@@ -165,7 +164,7 @@ export const config = {
     {
       id: KEYS.noaa18Fires,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'NOAA-18 Fires',
       group: 'fires',
       layerIds: [9],
