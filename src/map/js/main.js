@@ -4,6 +4,7 @@ import CanopyModal from 'components/Modals/CanopyModal';
 import BasemapModal from 'components/Modals/BasemapModal';
 import CalendarModal from 'components/Modals/CalendarModal';
 import SubscriptionModal from 'components/Modals/SubscriptionModal';
+import FiresModal from 'components/Modals/FiresModal';
 //import AlertsModal from 'components/Modals/AlertsModal';
 import {defaults} from 'js/config';
 import Map from 'components/Map';
@@ -36,6 +37,7 @@ let initializeApp = () => {
   ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
   ReactDOM.render(<CalendarModal calendars={defaults.calendars}/>, document.getElementById('calendar-modal'));
   ReactDOM.render(<SubscriptionModal />, document.getElementById('subscription-modal'));
+  ReactDOM.render(<FiresModal />, document.getElementById('fires-modal'));
   //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
 };
 
