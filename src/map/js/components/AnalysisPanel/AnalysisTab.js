@@ -10,7 +10,8 @@ export default class AnalysisTab extends React.Component {
   constructor (props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
-    this.state = mapStore.getState();
+    // this.state = mapStore.getState();
+    this.state = { localErrors: false, ...mapStore.getState() };
   }
 
   storeUpdated () {
@@ -76,6 +77,7 @@ export default class AnalysisTab extends React.Component {
         </div>
         <p>{analysisPanelText.analysisTimeframeHeader}</p>
         <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
+        <div id='analysisWarning' className={`analysis-warning ${this.state.localErrors === false ? 'hidden' : ''}`}>Please select an island or province</div>
         <div className='no-shrink analysis-footer text-center'>
           <button onClick={this.beginAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>
@@ -88,6 +90,25 @@ export default class AnalysisTab extends React.Component {
     let provinces;
     let aoiType;
 
+    if (this.props.areaIslandsActive) {
+      provinces = $('#islands').chosen().val();
+      aoiType = 'ISLAND';
+    } else {
+      provinces = $('#provinces').chosen().val();
+      aoiType = 'PROVINCE';
+    }
+
+    if (!provinces) {
+      console.log('none')
+      this.setState({
+        localErrors: true
+      });
+      return;
+    } else {
+      this.setState({
+        localErrors: false
+      });
+    }
 
     let reportdateFrom = this.state.analysisStartDate.split('/');
     let reportdateTo = this.state.analysisEndDate.split('/');
@@ -100,17 +121,6 @@ export default class AnalysisTab extends React.Component {
     reportdates.tYear = Number(reportdateTo[2]);
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
-
-    // window.open with the proper url and proper hash
-    // report/#aoitype=ISLAND&dates=fYear-2016!fMonth-2!fDay-24!tYear-2016!tMonth-3!tDay-2&aois=Java!Kalimantan!Lesser Sunda
-
-    if (this.props.areaIslandsActive) {
-      provinces = $('#islands').chosen().val();
-      aoiType = 'ISLAND';
-    } else {
-      provinces = $('#provinces').chosen().val();
-      aoiType = 'PROVINCE';
-    }
 
     let hash = this.reportDataToHash(aoiType, reportdates, provinces);
     let win = window.open('../report/index.html' + hash, '_blank', '');
