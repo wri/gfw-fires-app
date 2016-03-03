@@ -28,11 +28,11 @@ define([
     "esri/graphicsUtils",
     "esri/tasks/Date",
     "esri/request",
-    "js/config"
-    // "libs/geostats"
+    "js/config",
+    "vendor/geostats/lib/geostats.min"
 ], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig) {
+    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, geostats) {
 
     var PRINT_CONFIG = {
         zoom: 4,
@@ -267,7 +267,6 @@ define([
                 self.queryForDailyFireData(),
                 self.attachClickHandlers()
             ]).then(function(res) {
-              alert('Hey Ohh');
                 self.get_extent();
                 self.printReport();
             });
@@ -1226,7 +1225,7 @@ define([
             success = function(res) {
                 var count = 0;
                 arrayUtils.forEach(res.features, function(feature) {
-                  fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).tz('Asia/Jakarta').format("M/D/YYYY"));
+                  fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).utcOffset('Asia/Jakarta').format("M/D/YYYY"));
                   fireData.push(feature.attributes.Count);
                   count += feature.attributes.Count;
                 });
