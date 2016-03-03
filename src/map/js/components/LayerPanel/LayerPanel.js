@@ -4,6 +4,7 @@ import SedimentLegend from 'components/LayerPanel/SedimentLegend';
 import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
+import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import LossControls from 'components/LayerPanel/LossControls';
 import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
@@ -54,6 +55,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.activeFires:
           childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
+          break;
+        case KEYS.archiveFires:
+          childComponent = <ArchiveControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.loss:
           childComponent = <LossControls loaded={this.props.loaded} {...this.state} />;
