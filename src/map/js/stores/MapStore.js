@@ -22,6 +22,8 @@ class MapStore {
     this.dgEndDate = this.getDate(defaults.todaysDate);
     this.analysisStartDate = this.getDate(defaults.analysisStartDate);
     this.analysisEndDate = this.getDate(defaults.todaysDate);
+    this.archiveStartDate = this.getDate(defaults.archiveStartDate);
+    this.archiveEndDate = this.getDate(defaults.analysisStartDate);
     this.panelsHidden = false;
     this.activeDG = undefined;
     this.currentCustomGraphic = undefined;
@@ -34,6 +36,7 @@ class MapStore {
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
+      setArchiveDate: mapActions.setArchiveDate,
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
@@ -52,6 +55,7 @@ class MapStore {
   }
 
   setCalendar (calendar) {
+    console.log(calendar)
     this.calendarVisible = calendar;
   }
 
@@ -99,11 +103,15 @@ class MapStore {
     this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-    // if (this.activeDG === 'start') {
-    //   this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
-    // } else if (this.activeDG === 'end') {
-    //   this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
-    // }
+
+    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
+  }
+
+  setArchiveDate (dateObj) {
+    // this.calendarVisible = '';
+    //
+    // this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    //
     // LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
   }
 
