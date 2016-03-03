@@ -103,16 +103,14 @@ class MapStore {
     this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-
-    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
   }
 
   setArchiveDate (dateObj) {
-    // this.calendarVisible = '';
-    //
-    // this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-    //
-    // LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
   }
 
   addActiveLayer (layerId) {

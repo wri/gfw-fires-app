@@ -409,6 +409,8 @@ let LayersHelper = {
     }
   },
 
+  //todo update docs
+
   toggleArchiveConfidence (checked) {
     app.debug('LayersHelper >>> toggleArchiveConfidence');
 
@@ -428,6 +430,33 @@ let LayersHelper = {
       console.log(defQuery)
       archiveLayer.setDefinitionExpression(defQuery);
     }
+  },
+
+  //todo update docs
+
+  updateArchiveDates (clauseArray) {
+    app.debug('LayersHelper >>> updateArchiveDates');
+    // let startDate = new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY');
+    // let endDate = new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY');
+    let archiveLayer = app.map.getLayer(KEYS.archiveFires);
+
+    if (archiveLayer) {
+      let defQuery;
+      let currentString = archiveLayer.getDefinitionExpression();
+
+      if (currentString.indexOf(' AND BRIGHTNESS') > -1) {
+        let string = "ACQ_DATE < date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+        defQuery = string + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
+      } else {
+        let string = "ACQ_DATE < date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+        defQuery = string;
+      }
+
+      console.log(defQuery)
+
+      archiveLayer.setDefinitionExpression(defQuery);
+    }
+
   },
 
   /**
