@@ -39,6 +39,7 @@ export const config = {
     activeBasemap: KEYS.topoBasemap,
     todaysDate: new window.Kalendae.moment(),
     dgStartDate: new window.Kalendae.moment('10/19/2015'),
+    archiveStartDate: new window.Kalendae.moment('01/01/2013'),
     analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       'gis-potico.wri.org'
@@ -67,6 +68,18 @@ export const config = {
         method: 'changeAnalysisEnd',
         domId: 'analysisEnd',
         domClass: 'analysis-end'
+      },
+      {
+        date: new window.Kalendae.moment('01/01/2013'),
+        method: 'changeArchiveStart',
+        domId: 'archiveStart',
+        domClass: 'archive-start'
+      },
+      {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeArchiveEnd',
+        domId: 'archiveEnd',
+        domClass: 'archive-end'
       }
     ]
   },
@@ -158,6 +171,15 @@ export const config = {
         content: '<table><tr><td>Brightness: </td><td>${BRIGHTNESS}</td></tr>' +
           '<tr><td>Confidence: </td><td>${CONFIDENCE}</td></tr>' +
           '<tr><td>Province: </td><td>${PROVINCE}</td></tr>'
+      },
+      calendar: {
+        // startDate: new Date('10/19/2015'),
+        // currentDate: new Date(),
+        // domId: 'imageryCalendar',
+        domClass: 'archive-settings',
+        childDomClass: 'archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     },
     {

@@ -409,6 +409,27 @@ let LayersHelper = {
     }
   },
 
+  toggleArchiveConfidence (checked) {
+    app.debug('LayersHelper >>> toggleArchiveConfidence');
+
+    let archiveLayer = app.map.getLayer(KEYS.archiveFires);
+
+    if (archiveLayer) {
+      let defQuery;
+      let currentString = archiveLayer.getDefinitionExpression();
+
+      if (checked) {
+        defQuery = currentString + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
+      } else {
+        let string = currentString.split(' AND BRIGHTNESS')[0];
+        defQuery = string;
+      }
+
+      console.log(defQuery)
+      archiveLayer.setDefinitionExpression(defQuery);
+    }
+  },
+
   /**
   * @param {number} optionIndex - Index of the selected option in the UI, see js/config
   * @param {boolean} dontRefresh - Whether or not to not fetch a new image

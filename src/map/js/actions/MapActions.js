@@ -79,14 +79,19 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setAnalysisDate (date) {
+    app.debug('MapActions >>> setAnalysisDate');
+    this.dispatch(date);
+  }
+
+  setArchiveDate (date) {
+    app.debug('MapActions >>> setArchiveDate');
+    this.dispatch(date);
+  }
+
   togglePanels () {
     app.debug('MapActions >>> togglePanels');
     this.dispatch();
-  }
-
-  setAnalysisDate (date) {
-    app.debug('MapActions >>> setDGDate');
-    this.dispatch(date);
   }
 
   setBasemap (basemap) {
