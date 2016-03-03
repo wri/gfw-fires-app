@@ -151,8 +151,7 @@ export const config = {
       group: 'fires',
       layerIds: [0],
       className: 'archive-fires',
-      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(7, 'd').format('M/D/YYYY') + "'",
-      //todo: set inital time def query of latest month
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
@@ -179,7 +178,7 @@ export const config = {
     {
       id: KEYS.burnScars,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'Active fires and burn scars',
       group: 'fires',
       layerIds: [8],
@@ -234,7 +233,14 @@ export const config = {
       className: 'oil-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [1]
+      layerIds: [1],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.rspoOilPalm,
@@ -246,7 +252,14 @@ export const config = {
       className: 'rspo-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [4]
+      layerIds: [4],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.woodFiber,
@@ -258,7 +271,14 @@ export const config = {
       className: 'wood-fiber',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [0]
+      layerIds: [0],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.loggingConcessions,
@@ -270,7 +290,14 @@ export const config = {
       className: 'logging-concessions',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [3]
+      layerIds: [3],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td>Country: </td><td>${Country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
+        '<tr><td>Source: </td><td>${Source}</td></tr>'
+      }
     },
     {
       id: KEYS.protectedAreas,
@@ -282,7 +309,14 @@ export const config = {
       className: 'tree-cover',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [0]
+      layerIds: [0],
+      infoTemplate: {
+        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS_AREA}</td></tr>' +
+        '<tr><td>Local Name: </td><td>${Local Name}</td></tr>' +
+        '<tr><td>Local Designation: </td><td>${Local Designation}</td></tr>' +
+        '<tr><td>WDPA_PID: </td><td>${WDPA_PID}</td></tr>'
+      }
     },
     {
       id: KEYS.peatlands,
@@ -475,7 +509,13 @@ export const config = {
       layerIds: [10],
       className: 'tree-cover',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td>Title: </td><td>${Title}</td></tr>' +
+        '<tr><td>Name: </td><td>${Name}</td></tr>' +
+        '<tr><td>Details: </td><td>${Details}</td></tr>' +
+        '<tr><td>Date: </td><td>${Date}</td></tr>'
+      }
     },
     {
       id: KEYS.twitter,
@@ -486,7 +526,12 @@ export const config = {
       layerIds: [3],
       className: 'tree-cover',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td>Text: </td><td>${Text}</td></tr>' +
+        '<tr><td>UserName: </td><td>${UserName}</td></tr>' +
+        '<tr><td>Date: </td><td>${Date}</td></tr>'
+      }
     }
   ],
 
@@ -530,6 +575,10 @@ export const config = {
     }
   },
 
+  firesModal: {
+    info: 'GFW employs a recommendation for detecting forest clearing fires (described in Morton and Defries, 2008), identifying fires with a Brightness value greater than or equal to 330 Kelvin and a Confidence value greater than or equal to 30% to indicate fires that have a higher confidence for being forest-clearing fires. Low confidence fires are lower intensity fires that could either be from non-forest-clearing fire activity (clearing fields or grass burning), or could be older fires that have decreased in intensity (smoldering rather than flaming fires). The use of this classification establishes a higher standard for fire detection than using all fire alerts equally.'
+  },
+
   analysis: {
     searchZoomDefault: 10,
     requests: {
@@ -566,10 +615,11 @@ export const config = {
         max: 'Extreme'
       },
       firesOptions: [
-        {label: 'Past Week', value: 7},
-        {label: 'Past 72 hours', value: 3},
+
+        {label: 'Past 24 hours', value: 1},
         {label: 'Past 48 hours', value: 2},
-        {label: 'Past 24 hours', value: 1}
+        {label: 'Past 72 hours', value: 3},
+        {label: 'Past Week', value: 7}
       ],
       lossOptions: [
         {label: '2001', value: 1},
@@ -1027,4 +1077,5 @@ export const analysisConfig = config.analysis;
 export const metadataIds = config.text.metadataIds;
 export const metadataUrl = config.text.metadataUrl;
 export const alertsModalConfig = config.alertsModal;
+export const fireModalConfig = config.firesModal;
 export const layerInformation = config.text.layerInformation;

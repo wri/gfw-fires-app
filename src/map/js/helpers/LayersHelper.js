@@ -40,9 +40,9 @@ let LayersHelper = {
       // this.setCustomFeaturesTemplates(evt.graphic);
       // app.map.infoWindow.setFeatures([evt.graphic]);
       // app.map.infoWindow.show(mapPoint);
-      modalActions.showSubscribeModal(evt.graphic);
 
       // on(rowData, 'click', function(clickEvt) {
+      modalActions.showSubscribeModal(evt.graphic);
 
       return;
     }
@@ -75,6 +75,55 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.oilPalm);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyOilPalm(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.rspoOilPalm);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyRSPOOilPalm(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.woodFiber);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyWoodFiber(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.loggingConcessions);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyLoggingConcessions(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.protectedAreas);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyProtectedAreas(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.fireStories);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyFireStories(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.twitter);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyTwitter(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.boundingBoxes);
     if (layer) {
       if (layer.visible) {
@@ -103,6 +152,27 @@ let LayersHelper = {
             break;
           case KEYS.burnScars:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.burnScars));
+            break;
+          case KEYS.oilPalm:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.oilPalm));
+            break;
+          case KEYS.rspoOilPalm:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.rspoOilPalm));
+            break;
+          case KEYS.woodFiber:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.woodFiber));
+            break;
+          case KEYS.loggingConcessions:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.loggingConcessions));
+            break;
+          case KEYS.protectedAreas:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreas));
+            break;
+          case KEYS.fireStories:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
+            break;
+          case KEYS.twitter:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
             break;
           case KEYS.boundingBoxes:
             features = features.concat(this.setDigitalGlobeTemplates(item.features));
@@ -280,12 +350,62 @@ let LayersHelper = {
     app.debug('LayersHelper >>> updateFiresLayerDefinitions');
     let value = layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
     let queryString = utils.generateFiresQuery(value);
+
     let firesLayer = app.map.getLayer(KEYS.activeFires);
-    let defs = [];
+    let defs;
+    if (!firesLayer) {
+      defs = [];
+    } else {
+      defs = firesLayer.layerDefinitions;
+    }
 
     if (firesLayer) {
-      firesLayer.visibleLayers.forEach(val => { defs[val] = queryString; });
+      firesLayer.visibleLayers.forEach(val => {
+        let currentString = defs[val];
+        if (currentString) {
+          if (currentString.indexOf('CONFIDENCE >= 30') > -1) {
+            let string = currentString.split('>= 30')[0];
+            defs[val] = string + '>= 30 AND ' + queryString;
+          } else {
+            defs[val] = queryString;
+          }
+        } else {
+          defs[val] = queryString;
+        }
+
+      });
+
       firesLayer.setLayerDefinitions(defs, dontRefresh);
+    }
+  },
+
+  toggleConfidence (checked) {
+    app.debug('LayersHelper >>> toggleConfidence');
+
+    let firesLayer = app.map.getLayer(KEYS.activeFires);
+    let defs = firesLayer.layerDefinitions;
+
+    if (firesLayer) {
+
+      firesLayer.visibleLayers.forEach(val => {
+        let currentString = defs[val];
+        if (currentString) {
+          if (currentString.indexOf('ACQ_DATE') > -1) {
+            if (checked) {
+              defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
+            } else {
+              let string = currentString.split('ACQ_DATE')[1];
+              defs[val] = 'ACQ_DATE' + string;
+            }
+          } else {
+            defs[val] = '1=1';
+          }
+        } else {
+          defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
+        }
+      });
+      console.log(defs[0])
+      firesLayer.setLayerDefinitions(defs);
     }
   },
 

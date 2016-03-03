@@ -52,6 +52,11 @@ class ModalActions {
     domClass.remove('alerts-modal', 'hidden');
   }
 
+  showFiresModal () {
+    app.debug('ModalActions >>> showFiresModal');
+    domClass.remove('fires-modal', 'hidden');
+  }
+
   showSubscribeModal (graphic) {
     app.debug('ModalActions >>> showAlertsModal');
     this.dispatch(graphic);
