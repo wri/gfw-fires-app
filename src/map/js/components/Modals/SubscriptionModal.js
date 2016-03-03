@@ -87,7 +87,9 @@ export default class SubscriptionModal extends React.Component {
         phoneErrors: false,
         isUploading: true
       });
-      //todo: submit the request, and on success or failure, hide the loader
+
+      
+      // todo: submit the request, and on success or failure, hide the loader
     }
   };
 

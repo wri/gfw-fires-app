@@ -1,5 +1,6 @@
 import {analysisPanelText} from 'js/config';
 import {analysisActions} from 'actions/AnalysisActions';
+import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
 import Chosen from 'chosen';
@@ -8,10 +9,12 @@ export default class AnalysisTab extends React.Component {
 
   constructor (props) {
     super(props);
-    this.state = {
-      activeIslands: [],
-      activeProvinces: []
-    };
+    mapStore.listen(this.storeUpdated.bind(this));
+    this.state = mapStore.getState();
+  }
+
+  storeUpdated () {
+    this.setState(mapStore.getState());
   }
 
   componentDidMount () {
@@ -40,7 +43,6 @@ export default class AnalysisTab extends React.Component {
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
-
     return (
       <div className={className}>
         <p>{analysisPanelText.analysisAreaHeader}</p>
@@ -81,9 +83,66 @@ export default class AnalysisTab extends React.Component {
     );
   }
 
-  beginAnalysis (props) {
+  beginAnalysis () {
     app.debug('AnalysisTab >>> beginAnalysis');
-    console.log(this.state);
+    let provinces;
+    let aoiType;
+
+
+    let reportdateFrom = this.state.analysisStartDate.split('/');
+    let reportdateTo = this.state.analysisEndDate.split('/');
+
+    let reportdates = {};
+
+    reportdates.fYear = Number(reportdateFrom[2]);
+    reportdates.fMonth = Number(reportdateFrom[0]);
+    reportdates.fDay = Number(reportdateFrom[1]);
+    reportdates.tYear = Number(reportdateTo[2]);
+    reportdates.tMonth = Number(reportdateTo[0]);
+    reportdates.tDay = Number(reportdateTo[1]);
+
+    // window.open with the proper url and proper hash
+    // report/#aoitype=ISLAND&dates=fYear-2016!fMonth-2!fDay-24!tYear-2016!tMonth-3!tDay-2&aois=Java!Kalimantan!Lesser Sunda
+
+    if (this.props.areaIslandsActive) {
+      provinces = $('#islands').chosen().val();
+      aoiType = 'ISLAND';
+    } else {
+      provinces = $('#provinces').chosen().val();
+      aoiType = 'PROVINCE';
+    }
+
+    let hash = this.reportDataToHash(aoiType, reportdates, provinces);
+    let win = window.open('../report/index.html' + hash, '_blank', '');
+
+    win.report = true;
+    win.reportOptions = {
+      'dates': reportdates,
+      'aois': provinces,
+      'aoitype': aoiType
+    };
+  }
+
+  reportDataToHash (aoitype, dates, aois) {
+    let hash = '#',
+      dateargs = [],
+      datestring,
+      aoistring;
+
+
+    for (let val in dates) {
+      if (dates.hasOwnProperty(val)) {
+        dateargs.push([val, dates[val]].join('-'));
+      }
+    }
+
+    datestring = 'dates=' + dateargs.join('!');
+
+    aoistring = 'aois=' + aois.join('!');
+
+    hash += ['aoitype=' + aoitype, datestring, aoistring].join('&');
+
+    return hash;
   }
 
 }
