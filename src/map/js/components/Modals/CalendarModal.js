@@ -77,5 +77,19 @@ export default class CalendarModal extends React.Component {
       dest: 'analysisEndDate'
     });
 	}
+	changeArchiveStart(date) {
+		this.close();
+    mapActions.setArchiveDate({
+      date: date,
+      dest: 'archiveStartDate'
+    });
+	}
+	changeArchiveEnd(date) {
+		this.close();
+    mapActions.setArchiveDate({
+      date: date,
+      dest: 'archiveEndDate'
+    });
+	}
 
 }
