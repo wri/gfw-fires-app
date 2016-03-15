@@ -26,6 +26,14 @@ let LayersHelper = {
 
   },
 
+  removeCustomFeature (feature) {
+    // debugger
+    // app.map.graphics.graphics.forEach(graphic => {
+    //   debugger
+    // });
+    app.map.graphics.remove(feature);
+  },
+
   performIdentify (evt) {
     app.debug('LayerHelper >>> performIdentify');
 

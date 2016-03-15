@@ -763,7 +763,8 @@ export const config = {
         warningTextEmail: 'You must enter a valid email address!',
         warningTextPhone: 'You must enter a valid phone number!',
         successMessage: 'You have successfully subscribed. You will receive an email asking you to verify your subscription. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.',
-        subscribePlaceholder: 'Subscribe'
+        subscribePlaceholder: 'Subscribe',
+        deletePlaceholder: 'Delete Feature'
       },
       share: {
         title: 'Share this view',

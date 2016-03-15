@@ -2,6 +2,7 @@ import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalText} from 'js/config';
 import dom from 'dojo/dom';
 import {mapStore} from 'stores/MapStore';
+import {modalActions} from 'actions/ModalActions';
 import Loader from 'components/Loader';
 // import {loadJS} from 'utils/loaders';
 import React from 'react';
@@ -88,11 +89,19 @@ export default class SubscriptionModal extends React.Component {
         isUploading: true
       });
 
-      
+
       // todo: submit the request, and on success or failure, hide the loader
     }
   };
 
+  deleteFeature = () => {
+    this.close();
+    modalActions.removeCustomFeature(this.state.currentCustomGraphic);
+  };
+
+  close () {
+		modalActions.hideModal(React.findDOMNode(this).parentElement);
+	}
 
   render() {
 
@@ -110,7 +119,8 @@ export default class SubscriptionModal extends React.Component {
         <input className='hidden' id={modalText.subscription.verifyInput} />
 
         <div className='subscribe-container'>
-          <button className='subscribe-submit btn green' onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
+          <button className='subscribe-submit left btn green' onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button>
+          <button className='subscribe-submit right btn green' onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
         </div>
         <Loader active={this.state.isUploading} />
         <div className={`submit-success ${this.state.success ? '' : 'hidden'}`}>{modalText.subscription.successMessage}</div>

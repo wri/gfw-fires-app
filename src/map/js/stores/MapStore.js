@@ -48,6 +48,7 @@ class MapStore {
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
+      removeCustomFeature: modalActions.removeCustomFeature,
       togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
@@ -154,6 +155,10 @@ class MapStore {
       layers.splice(index, 1);
       this.activeLayers = layers;
     }
+  }
+
+  removeCustomFeature (graphic) {
+    LayersHelper.removeCustomFeature(graphic);
   }
 
   setBasemap (basemap) {

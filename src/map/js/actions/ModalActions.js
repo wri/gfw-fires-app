@@ -90,6 +90,11 @@ class ModalActions {
     this.dispatch(newDensity);
   }
 
+  removeCustomFeature (graphic) {
+    app.debug('ModalActions >>> removeCustomFeature');
+    this.dispatch(graphic);
+  }
+
 }
 
 export const modalActions = alt.createActions(ModalActions);
