@@ -32,21 +32,25 @@ export default class TabControls extends React.Component {
       <div className='no-shrink tabs'>
         <div className={`gfw-btn pointer inline-block ${this.props.analysisToolsExpanded !== false && this.props.activeTab === text.analysisTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.analysisTabId)}>
+          <span className="tooltipmap">ANALYZE FIRES</span>
           <AnalysisSvg />
 
         </div>
         <div className={`gfw-btn pointer inline-block ${this.props.analysisToolsExpanded !== false && this.props.activeTab === text.subscriptionTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.subscriptionTabId)}>
+          <span className="tooltipmap">SUBSCRIBE TO ALERTS</span>
           <AlertsSvg />
 
         </div>
         <div className={`gfw-btn pointer inline-block ${this.props.imageryToolsExpanded !== false && this.props.activeTab === text.imageryTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.imageryTabId)}>
+          <span className="tooltipmap">VIEW HIGH-RES IMAGERY</span>
           <ImagerySvg />
 
         </div>
         <div className={`gfw-btn pointer inline-block ${this.props.basemapToolsExpanded !== false && this.props.activeTab === text.basemapTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.basemapTabId)}>
+          <span className="tooltipmap">CHANGE BASE MAP</span>
           <BasemapSvg />
 
         </div>
