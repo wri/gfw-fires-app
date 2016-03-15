@@ -360,7 +360,7 @@ export const config = {
       sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
       group: 'landCover',
       className: 'tree-cover',
-      url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
+      url: 'http://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer',
       metadataId: 'firms_active_fires',
       colormap: [[50, 14, 204, 14]],
       inputRange: [30, 101],
@@ -529,7 +529,7 @@ export const config = {
       label: 'Fire Stories',
       group: 'stories',
       layerIds: [10],
-      className: 'tree-cover',
+      className: 'fire-stories',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
@@ -546,7 +546,7 @@ export const config = {
       label: 'Twitter',
       group: 'stories',
       layerIds: [3],
-      className: 'tree-cover',
+      className: 'twitter',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
@@ -701,7 +701,8 @@ export const config = {
       darkGrayBasemap: 'Dark Gray',
       topoBasemap: 'Topo',
       wriBasemap: 'WRI',
-      imageryBasemap: 'Imagery'
+      imageryBasemap: 'Imagery',
+      landsat8: 'Landsat'
     },
     modals: {
       noInfo: 'No Information Available',
