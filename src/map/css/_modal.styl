@@ -1,4 +1,7 @@
 //- General modal styling
+@require '../../vendor/ion.rangeslider/css/ion.rangeSlider.css'
+@require '/rangeSliderBase'
+@require '/rangeSlider'
 
 .modal-container
   position absolute
@@ -159,6 +162,30 @@
   height 40px
   z-index 20
 
+#canopy-modal
+  .trees
+    margin 20px 0
+    height 60px
+    width 100%
+    padding-left 80px
+    padding-right 40px
+  .tree-cover-slider-label
+    font-size 22px
+  .tree-icon
+    background url('images/tree.png') no-repeat
+    margin 25px 0 0 15px
+    height 41px
+    width 25px
+    float left
+  .forest-icon
+    background url('images/forest.png') no-repeat
+    margin-right 15px
+    float right
+    height 60px
+    width 91px
+  .slider-container
+    margin 10px auto
+    width 250px
 
 // .modal-title
 //   padding 10px 20px 0
