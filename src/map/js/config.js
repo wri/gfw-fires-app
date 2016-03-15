@@ -272,7 +272,7 @@ export const config = {
       sublabel: '(May 2013, select countries)',
       group: 'forestUse',
       className: 'rspo-palm',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [4],
       infoTemplate: {
@@ -329,7 +329,7 @@ export const config = {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'tree-cover',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
@@ -362,9 +362,9 @@ export const config = {
       className: 'tree-cover',
       url: 'http://50.18.182.188:6080/arcgis/rest/services/TreeCover2000/ImageServer',
       metadataId: 'firms_active_fires',
-      colormap: [[1, 174, 203, 107]],
+      colormap: [[50, 14, 204, 14]],
       inputRange: [30, 101],
-      outputRange: [1],
+      outputRange: [50],
       opacity: 0.8
     },
     {
@@ -886,7 +886,7 @@ export const config = {
 //   ]
 // };
 //
-// config.text.layerInformation[KEYS.treeCover] = {
+// config.text.layerInformation[KEYS.treeCoverDensity] = {
 //   title: 'Tree Cover',
 //   subtitle: '(year 2000, 30m global, Hansen/UMD/Google/USGS/NASA)',
 //   table: [

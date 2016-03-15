@@ -15,7 +15,7 @@ export default class CanopyModal extends React.Component {
   componentDidMount() {
     loadJS(assetUrls.rangeSlider).then(() => {
       $('#tree-cover-slider').ionRangeSlider({
-        type: 'double',
+        type: 'single',
         values: modalText.canopy.slider,
         hide_min_max: true,
         grid_snap: true,
