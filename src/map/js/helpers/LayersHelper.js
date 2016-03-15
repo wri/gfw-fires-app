@@ -510,10 +510,11 @@ let LayersHelper = {
 
   updateTreeCoverDefinitions (densityValue) {
     app.debug('LayersHelper >>> updateTreeCoverDefinitions');
+
     let layerConfig = utils.getObject(layersConfig, 'id', KEYS.treeCoverDensity);
 
     let rasterFunction = rasterFuncs.getColormapRemap(layerConfig.colormap, [densityValue, layerConfig.inputRange[1]], layerConfig.outputRange);
-    let layer = app.map.getLayer(KEYS.treeCover);
+    let layer = app.map.getLayer(KEYS.treeCoverDensity);
 
     if (layer) {
       layer.setRenderingRule(rasterFunction);
