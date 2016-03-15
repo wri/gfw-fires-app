@@ -459,6 +459,18 @@ let LayersHelper = {
 
   },
 
+  updateNoaaDates (clauseArray) {
+    app.debug('LayersHelper >>> updateNoaaDates');
+    let noaaLayer = app.map.getLayer(KEYS.noaa18Fires);
+
+    if (noaaLayer) {
+      let defQuery = "Date < date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+
+      noaaLayer.setDefinitionExpression(defQuery);
+    }
+
+  },
+
   /**
   * @param {number} optionIndex - Index of the selected option in the UI, see js/config
   * @param {boolean} dontRefresh - Whether or not to not fetch a new image

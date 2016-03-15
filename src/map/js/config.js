@@ -40,6 +40,7 @@ export const config = {
     todaysDate: new window.Kalendae.moment(),
     dgStartDate: new window.Kalendae.moment('10/19/2015'),
     archiveStartDate: new window.Kalendae.moment('01/01/2013'),
+    noaaStartDate: new window.Kalendae.moment('10/22/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       'gis-potico.wri.org'
@@ -80,6 +81,24 @@ export const config = {
         method: 'changeArchiveEnd',
         domId: 'archiveEnd',
         domClass: 'archive-end'
+      },
+      {
+        date: new window.Kalendae.moment('10/22/2014'),
+        method: 'changeNoaaStart',
+        domId: 'noaaStart',
+        domClass: 'noaa-start'
+      },
+      {
+        date: new window.Kalendae.moment(),
+        method: 'changeNoaaEnd',
+        domId: 'noaaEnd',
+        domClass: 'noaa-end'
+      },
+      {
+        date: new window.Kalendae.moment(),
+        method: 'changeMaster',
+        domId: 'masterDay',
+        domClass: 'master-day'
       }
     ]
   },
@@ -185,16 +204,26 @@ export const config = {
     {
       id: KEYS.noaa18Fires,
       order: 1,
-      type: 'dynamic',
+      type: 'feature',
       label: 'NOAA-18 Fires',
       group: 'fires',
       layerIds: [9],
       className: 'noaa-fires',
+      defaultDefinitionExpression: "Date < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td>Date: </td><td>${Date}</td></tr>' +
           '<tr><td>SNo: </td><td>${SNo}</td></tr>'
+      },
+      calendar: {
+        // startDate: new Date('10/19/2015'),
+        // currentDate: new Date(),
+        // domId: 'imageryCalendar',
+        domClass: 'noaa-settings',
+        childDomClass: 'noaa-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     },
     {
