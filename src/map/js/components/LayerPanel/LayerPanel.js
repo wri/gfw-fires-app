@@ -5,6 +5,7 @@ import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
+import NoaaControls from 'components/LayerPanel/NoaaControls';
 import LossControls from 'components/LayerPanel/LossControls';
 import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
@@ -58,6 +59,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.archiveFires:
           childComponent = <ArchiveControls options={layer.calendar} loaded={this.props.loaded} />;
+          break;
+        case KEYS.noaa18Fires:
+          childComponent = <NoaaControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.loss:
           childComponent = <LossControls loaded={this.props.loaded} {...this.state} />;

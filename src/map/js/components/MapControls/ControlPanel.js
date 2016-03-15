@@ -12,6 +12,7 @@ let zoomOutSvg = '<use xlink:href="#icon-minus" />';
 let shareSvg = '<use xlink:href="#icon-share" />';
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 let basemapSvg = '<use xlink:href="#icon-basemap" />';
+let timelineSvg = '<use xlink:href="#icon-timeline" />';
 let locateSvg = '<use xlink:href="#icon-locate" />';
 
 export default class ControlPanel extends React.Component {
@@ -19,7 +20,7 @@ export default class ControlPanel extends React.Component {
   constructor (props) {
    super(props);
 
-    mapStore.listen(this.storeUpdated.bind(this));
+    // mapStore.listen(this.storeUpdated.bind(this));
     let defaultState = mapStore.getState();
     this.state = {
       pannelsHidden: false,
@@ -60,6 +61,11 @@ export default class ControlPanel extends React.Component {
   //   this.setState({ basemapGalleryOpen: !this.state.basemapGalleryOpen });
   // }
 
+  toggleMasterCalendar () {
+    modalActions.showCalendarModal('start');
+    mapActions.setCalendar('masterDay');
+  }
+
   togglePanels () {
     this.setState({ panelsHidden: !this.state.panelsHidden });
   }
@@ -75,26 +81,9 @@ export default class ControlPanel extends React.Component {
   toggleSearch () {
     analysisActions.toggleEsriSearchVisibility();
   }
-  // <div className='mobile-hide'>
-  //   <div className={`basemap-switcher shadow ${this.state.basemapGalleryOpen ? 'open' : ''}`}>
-  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
-  //       <div className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
-  //       <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>
-  //     </div>
-  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
-  //       <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} />
-  //       <div className='basemap-label'>{controlPanelText.topoBasemap}</div>
-  //     </div>
-  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
-  //       <div className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
-  //       <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
-  //     </div>
-  //     <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
-  //       <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
-  //       <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
-  //     </div>
-  //   </div>
-  // </div>
+  // <li className='basemap-layers pointer' title='Basemaps' onClick={this.togglePanels.bind(this)}>
+  //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
+  // </li>
 
   render() {
     return (
@@ -113,8 +102,8 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
           </li>
           <div className='mobile-hide'>
-            <li className='basemap-layers pointer' title='Basemaps' onClick={this.togglePanels.bind(this)}>
-              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: basemapSvg }}/>
+            <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleMasterCalendar.bind(this)}>
+              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
             </li>
           </div>
           <li className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>

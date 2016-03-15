@@ -36,7 +36,6 @@ export default class ArchiveControls extends React.Component {
 
     let startDate = window.Kalendae.moment(this.state.archiveStartDate);
     let endDate = window.Kalendae.moment(this.state.archiveEndDate);
-    console.log(this.props)
 
     return <div>
       <input onChange={this.toggleConfidence} type='checkbox' /><span className='fires-confidence-wrapper'>Only show <span className='fires-confidence' onClick={this.showFiresModal}>high confidence fires</span></span>

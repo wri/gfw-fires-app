@@ -89,6 +89,16 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setNoaaDate (date) {
+    app.debug('MapActions >>> setNoaaDate');
+    this.dispatch(date);
+  }
+
+  setMasterDate (date) {
+    app.debug('MapActions >>> setMasterDate');
+    this.dispatch(date);
+  }
+
   togglePanels () {
     app.debug('MapActions >>> togglePanels');
     this.dispatch();

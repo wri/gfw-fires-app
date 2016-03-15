@@ -91,5 +91,26 @@ export default class CalendarModal extends React.Component {
       dest: 'archiveEndDate'
     });
 	}
+	changeNoaaStart(date) {
+		this.close();
+    mapActions.setNoaaDate({
+      date: date,
+      dest: 'noaaStartDate'
+    });
+	}
+	changeNoaaEnd(date) {
+		this.close();
+    mapActions.setNoaaDate({
+      date: date,
+      dest: 'noaaEndDate'
+    });
+	}
+	changeMaster(date) {
+		this.close();
+    mapActions.setMasterDate({
+      date: date,
+      dest: 'masterDate'
+    });
+	}
 
 }

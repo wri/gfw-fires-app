@@ -24,6 +24,9 @@ class MapStore {
     this.analysisEndDate = this.getDate(defaults.todaysDate);
     this.archiveStartDate = this.getDate(defaults.archiveStartDate);
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
+    this.noaaStartDate = this.getDate(defaults.analysisStartDate);
+    this.noaaEndDate = this.getDate(defaults.todaysDate);
+    this.masterDate = this.getDate(defaults.todaysDate);
     this.panelsHidden = false;
     this.activeDG = undefined;
     this.currentCustomGraphic = undefined;
@@ -37,6 +40,8 @@ class MapStore {
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
       setArchiveDate: mapActions.setArchiveDate,
+      setNoaaDate: mapActions.setNoaaDate,
+      setMasterDate: mapActions.setMasterDate,
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
@@ -55,7 +60,7 @@ class MapStore {
   }
 
   setCalendar (calendar) {
-    console.log(calendar)
+    console.log(calendar);
     this.calendarVisible = calendar;
   }
 
@@ -111,6 +116,24 @@ class MapStore {
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
 
     LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+  }
+
+  setNoaaDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
+  }
+
+  setMasterDate (dateObj) {
+    this.calendarVisible = '';
+
+    debugger //todo: set up All of the calendars to listen to this!
+
+    // this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    //
+    // LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
   }
 
   addActiveLayer (layerId) {
