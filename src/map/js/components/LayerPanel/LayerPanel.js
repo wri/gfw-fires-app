@@ -94,6 +94,10 @@ export default class LayerPanel extends React.Component {
     let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
 
+
+    // <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
+    //   {layersConfig.map(this.checkboxMap('imagery'), this)}
+    // </LayerGroup>
     return (
       <div className={className}>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
@@ -116,9 +120,7 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
           {layersConfig.map(this.checkboxMap('airQuality'), this)}
         </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
-          {layersConfig.map(this.checkboxMap('imagery'), this)}
-        </LayerGroup>
+
         <LayerGroup activeLayers={this.state.activeLayers} label='Stories'>
           {layersConfig.map(this.checkboxMap('stories'), this)}
         </LayerGroup>
