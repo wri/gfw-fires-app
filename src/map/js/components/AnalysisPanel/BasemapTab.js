@@ -39,7 +39,12 @@ export default class BasemapTab extends React.Component {
 
   clickedBasemap = (evt) => {
     let id = evt.currentTarget.getAttribute('data-basemap');
-    mapActions.setBasemap(id);
+    if (id === KEYS.landsat8) {
+      mapActions.changeBasemap(id);
+      mapActions.setBasemap(id);
+    } else {
+      mapActions.setBasemap(id);
+    }
   };
 
   render () {
@@ -75,6 +80,13 @@ export default class BasemapTab extends React.Component {
               <span className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
               <span className='basemap-label'>{controlPanelText.imageryBasemap}</span>
               <span onClick={this.childClicked} data-id={KEYS.imageryBasemap} className='info-icon pointer'>
+                <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
+              </span>
+            </div>
+            <div data-basemap={KEYS.landsat8} className={`basemap-item ${this.state.activeBasemap === KEYS.landsat8 ? 'active' : ''}`} onClick={this.clickedBasemap}>
+              <span className={`basemap-thumbnail landsat-basemap ${this.state.activeBasemap === KEYS.landsat8 ? 'active' : ''}`} />
+              <span className='basemap-label'>{controlPanelText.landsat8}</span>
+              <span onClick={this.childClicked} data-id={KEYS.landsat8} className='info-icon pointer'>
                 <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
               </span>
             </div>

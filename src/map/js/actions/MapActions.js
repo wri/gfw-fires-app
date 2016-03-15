@@ -100,10 +100,12 @@ class MapActions {
   }
 
   changeBasemap (basemap) {
-    app.debug(`MapActions >>> setBasemap - ${basemap}`);
-    let layer, labelLayer, baseLayer;
+    app.debug(`MapActions >>> changeBasemap - ${basemap}`);
+    let layer, labelLayer, baseLayer, landsatLayer;
     // Basemap can only be one of two options, wri or satellite
     if (basemap === KEYS.wriBasemap) {
+      landsatLayer = app.map.getLayer(KEYS.landsat8);
+      if (landsatLayer) { landsatLayer.hide(); }
       layer = app.map.getLayer(basemap);
       labelLayer = app.map.getLayer(KEYS.wriBasemapLabel);
       if (layer) { layer.show(); }
@@ -114,7 +116,12 @@ class MapActions {
         baseLayer = app.map.getLayer(app.map.layerIds[0]);
         app.map.removeLayer(baseLayer);
       }
+    } else if (basemap === KEYS.landsat8) {
+      layer = app.map.getLayer(basemap);
+      if (layer) { layer.show(); }
     } else {
+      landsatLayer = app.map.getLayer(KEYS.landsat8);
+      if (landsatLayer) { landsatLayer.hide(); }
       // Hide the wri basemap and show the satellite basemap, KEYS.wriBasemap
       app.map.setBasemap(basemap);
       layer = app.map.getLayer(KEYS.wriBasemap);
