@@ -26,6 +26,8 @@ class MapStore {
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
+    this.riskDate = this.getDate(defaults.riskTempEnd); //todo: are we still getting data for this? -should this be hardcoded to some past date?
+    this.windDate = this.getDate(defaults.windStartDate);
     this.masterDate = this.getDate(defaults.todaysDate);
     this.panelsHidden = false;
     this.activeDG = undefined;
@@ -41,6 +43,7 @@ class MapStore {
       setAnalysisDate: mapActions.setAnalysisDate,
       setArchiveDate: mapActions.setArchiveDate,
       setNoaaDate: mapActions.setNoaaDate,
+      setRiskDate: mapActions.setRiskDate,
       setMasterDate: mapActions.setMasterDate,
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
@@ -125,6 +128,14 @@ class MapStore {
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
 
     LayersHelper.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
+  }
+
+  setRiskDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateFireRisk(this.riskDate);
   }
 
   setMasterDate (dateObj) {

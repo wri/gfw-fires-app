@@ -22,6 +22,8 @@ export default class CalendarModal extends React.Component {
 			let calendar_obj = new window.Kalendae(calendar.domId, {
 				months: 1,
 				mode: 'single',
+				// direction: 'past',
+				// directionScrolling: true, //todo: something about this!
 				selected: calendar.date
 			});
 
@@ -103,6 +105,13 @@ export default class CalendarModal extends React.Component {
     mapActions.setNoaaDate({
       date: date,
       dest: 'noaaEndDate'
+    });
+	}
+	changeRisk(date) {
+		this.close();
+    mapActions.setRiskDate({
+      date: date,
+      dest: 'riskDate'
     });
 	}
 	changeMaster(date) {

@@ -6,6 +6,7 @@ import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
+import RiskControls from 'components/LayerPanel/RiskControls';
 import LossControls from 'components/LayerPanel/LossControls';
 import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
@@ -73,7 +74,8 @@ export default class LayerPanel extends React.Component {
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
         case KEYS.fireRisk:
-          childComponent = <RiskCalendar domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
+          // childComponent = <RiskCalendar domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
+          childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.windDirection:
           childComponent = <RiskCalendar domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;

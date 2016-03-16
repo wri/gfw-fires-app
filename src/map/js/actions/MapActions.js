@@ -94,6 +94,11 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setRiskDate (date) {
+    app.debug('MapActions >>> setRiskDate');
+    this.dispatch(date);
+  }
+
   setMasterDate (date) {
     app.debug('MapActions >>> setMasterDate');
     this.dispatch(date);

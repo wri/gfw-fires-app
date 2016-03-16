@@ -38,9 +38,13 @@ export const config = {
     showImageryFootprints: true,
     activeBasemap: KEYS.topoBasemap,
     todaysDate: new window.Kalendae.moment(),
+    yesterday: new window.Kalendae.moment().subtract(1, 'd'),
     dgStartDate: new window.Kalendae.moment('10/19/2015'),
     archiveStartDate: new window.Kalendae.moment('01/01/2013'),
     noaaStartDate: new window.Kalendae.moment('10/22/2014'),
+    riskStartDate: new window.Kalendae.moment('04/02/2015'),
+    riskTempEnd: new window.Kalendae.moment('02/17/2016'),
+    windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       'gis-potico.wri.org'
@@ -93,6 +97,24 @@ export const config = {
         method: 'changeNoaaEnd',
         domId: 'noaaEnd',
         domClass: 'noaa-end'
+      },
+      // {
+      //   date: new window.Kalendae.moment('04/02/2015'),
+      //   method: 'changeRiskStart',
+      //   domId: 'riskStart',
+      //   domClass: 'risk-start'
+      // },
+      {
+        date: new window.Kalendae.moment('02/17/2016'),
+        method: 'changeRisk',
+        domId: 'risk',
+        domClass: 'risk'
+      },
+      {
+        date: new window.Kalendae.moment('10/19/2014'),
+        method: 'changeWind',
+        domId: 'wind',
+        domClass: 'wind'
       },
       {
         date: new window.Kalendae.moment(),
@@ -180,6 +202,7 @@ export const config = {
       order: 1,
       type: 'feature',
       label: 'Archive fires for Indonesia',
+      sublabel: '(layer starts at 01/01/13)',
       group: 'fires',
       layerIds: [0],
       className: 'archive-fires',
@@ -206,6 +229,7 @@ export const config = {
       order: 1,
       type: 'feature',
       label: 'NOAA-18 Fires',
+      sublabel: '(layer starts at 10/22/14)',
       group: 'fires',
       layerIds: [9],
       className: 'noaa-fires',
@@ -252,11 +276,9 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
       metadataId: 'fire_risk',
       calendar: {
-        startDate: '4/2/2015',
-        currentDate: new Date('4/2/2015'),
-        domId: 'fireRiskCalendar',
-        domClass: 'fireRiskLegend',
-        childDomClass: 'fire-risk'
+        domClass: 'risk-settings',
+        childDomClass: 'risk-subsettings',
+        label: 'Select a date'
       }
     },
     // TODO: crowdsourced fires
