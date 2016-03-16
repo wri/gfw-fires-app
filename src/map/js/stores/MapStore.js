@@ -4,6 +4,7 @@ import {modalActions} from 'actions/ModalActions';
 import {mapActions} from 'actions/MapActions';
 import LayersHelper from 'helpers/LayersHelper';
 import DateHelper from 'helpers/DateHelper';
+import KEYS from 'js/constants';
 import alt from 'js/alt';
 
 class MapStore {
@@ -26,6 +27,7 @@ class MapStore {
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
+    this.riskStartDate = this.getDate(defaults.riskStartDate);
     this.riskDate = this.getDate(defaults.riskTempEnd); //todo: are we still getting data for this? -should this be hardcoded to some past date?
     this.windDate = this.getDate(defaults.windStartDate);
     this.masterDate = this.getDate(defaults.todaysDate);
@@ -86,8 +88,6 @@ class MapStore {
   }
 
   getDate (date) {
-    // let fullDate = DateHelper.getDate(date);
-    // console.log(fullDate);
     return window.Kalendae.moment(date).format('M/D/YYYY');
   }
 
@@ -95,12 +95,6 @@ class MapStore {
     this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-    //
-    // if (this.activeDG === 'start') {
-    //   this.dgStartDate = window.Kalendae.moment(date).format('M/D/YYYY');
-    // } else if (this.activeDG === 'end') {
-    //   this.dgEndDate = window.Kalendae.moment(date).format('M/D/YYYY');
-    // }
 
     if (!this.footprints) {
       return;
@@ -149,11 +143,63 @@ class MapStore {
   setMasterDate (dateObj) {
     this.calendarVisible = '';
     //active, archive, noaa, fire risk, wind, air quality, maybe DG imagery
-    debugger //todo: set up All of the calendars to listen to this!
+    // debugger //todo: set up All of the calendars to listen to this!
+
+    let masterDate = window.Kalendae.moment(dateObj.date);
+
+    let archiveStart = window.Kalendae.moment(defaults.archiveStartDate);
+    let archiveEnd = window.Kalendae.moment(defaults.archiveEndDate);
+    let dgStart = window.Kalendae.moment(defaults.dgStartDate);
+    let noaaStart = window.Kalendae.moment(defaults.noaaStartDate);
+    let riskStart = window.Kalendae.moment(defaults.riskStartDate);
+    let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
+    let windStart = window.Kalendae.moment(defaults.windStartDate);
+
+    let today = window.Kalendae.moment(this.date);
+
+    if (masterDate.isAfter(today)) { //todo
+      this.removeActiveLayer(KEYS.archiveFires);
+      this.removeActiveLayer(KEYS.activeFires);
+    } else if (masterDate.isBefore(archiveStart)) { //todo: both of these are actually outside any of these
+      this.removeActiveLayer(KEYS.archiveFires);
+      this.removeActiveLayer(KEYS.activeFires);
+    } else if (masterDate.isAfter(archiveEnd)) {
+      this.addActiveLayer(KEYS.activeFires);
+      this.removeActiveLayer(KEYS.archiveFires);
+    } else {
+      this.addActiveLayer(KEYS.archiveFires);
+      this.removeActiveLayer(KEYS.activeFires);
+    }
+
+    if (masterDate.isBefore(noaaStart)) {
+      this.removeActiveLayer(KEYS.noaa18Fires);
+    } else {
+      this.addActiveLayer(KEYS.noaa18Fires);
+    }
+
+    if (masterDate.isBefore(riskStart)) {
+      this.removeActiveLayer(KEYS.fireRisk);
+    } else if (masterDate.isAfter(riskEnd)) {
+      this.removeActiveLayer(KEYS.fireRisk);
+    } else {
+      this.addActiveLayer(KEYS.fireRisk);
+    }
+
+    if (masterDate.isBefore(windStart)) {
+      this.removeActiveLayer(KEYS.windDirection);
+    } else {
+      this.addActiveLayer(KEYS.windDirection);
+    }
+
+    if (masterDate.isBefore(dgStart)) {
+      this.removeActiveLayer(KEYS.digitalGlobe);
+    } else {
+      this.addActiveLayer(KEYS.digitalGlobe);
+    }
+
 
     // this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-    //
-    // LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+
   }
 
   addActiveLayer (layerId) {

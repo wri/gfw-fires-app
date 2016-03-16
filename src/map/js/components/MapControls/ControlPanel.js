@@ -4,7 +4,6 @@ import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
 import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
-import KEYS from 'js/constants';
 import React from 'react';
 
 let zoomInSvg = '<use xlink:href="#icon-plus" />';
