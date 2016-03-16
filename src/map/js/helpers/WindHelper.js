@@ -118,8 +118,6 @@ let WindHelper = {
   activateWindLayer: function(updatedURL) {
 
     if (updatedURL) {
-      this.promptAboutBasemap(); //why wait until this finishes before we fetch data and turn it on?
-
       this.fetchDataForWindLayer(updatedURL).then(function() {
         this.createWindLayer();
       }.bind(this));
@@ -161,7 +159,10 @@ let WindHelper = {
   },
 
   promptAboutBasemap () {
-    modalActions.showBasemapModal();
+    let currentBM = app.map.getBasemap();
+    if (currentBM !== 'dark-gray') {
+      modalActions.showBasemapModal();
+    }
   },
 
   deactivateWindLayer: function() {
