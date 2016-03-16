@@ -44,6 +44,7 @@ export const config = {
     noaaStartDate: new window.Kalendae.moment('10/22/2014'),
     riskStartDate: new window.Kalendae.moment('04/02/2015'),
     riskTempEnd: new window.Kalendae.moment('02/17/2016'),
+    airQStartDate: new window.Kalendae.moment('09/25/2015'),
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
@@ -109,6 +110,12 @@ export const config = {
         method: 'changeWind',
         domId: 'wind',
         domClass: 'wind'
+      },
+      {
+        date: new window.Kalendae.moment('09/25/2015'),
+        method: 'changeAirQ',
+        domId: 'airQ',
+        domClass: 'airQ'
       },
       {
         date: new window.Kalendae.moment(),
@@ -235,9 +242,6 @@ export const config = {
           '<tr><td>SNo: </td><td>${SNo}</td></tr>'
       },
       calendar: {
-        // startDate: new Date('10/19/2015'),
-        // currentDate: new Date(),
-        // domId: 'imageryCalendar',
         domClass: 'noaa-settings',
         childDomClass: 'noaa-subsettings',
         minLabel: 'From',
@@ -435,8 +439,6 @@ export const config = {
       // url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
       metadataId: 'wind_direction',
       calendar: {
-        startDate: new Date('10/19/2014'),
-        currentDate: new Date(),
         domId: 'windDirectionCalendar',
         domClass: 'windDirectionLegend',
         childDomClass: 'wind-direction'
@@ -445,13 +447,17 @@ export const config = {
     {
       id: KEYS.airQuality,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'Air Quality',
       group: 'airQuality',
       className: 'air-quality',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [0]
+      calendar: {
+        domId: 'airQCalendar',
+        domClass: 'air-quality'
+      },
+      layerIds: [1]
     },
     {
       id: KEYS.landsat8,

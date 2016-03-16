@@ -101,6 +101,11 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setAirQDate (date) {
+    app.debug('MapActions >>> setAirQDate');
+    this.dispatch(date);
+  }
+
   setWindDate (date) {
     app.debug('MapActions >>> setWindDate');
     this.dispatch(date);

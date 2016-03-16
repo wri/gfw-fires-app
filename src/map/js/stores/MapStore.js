@@ -29,6 +29,7 @@ class MapStore {
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);
     this.riskDate = this.getDate(defaults.riskTempEnd); //todo: are we still getting data for this? -should this be hardcoded to some past date?
+    this.airQDate = this.getDate(defaults.airQStartDate);
     this.windDate = this.getDate(defaults.windStartDate);
     this.masterDate = this.getDate(defaults.todaysDate);
     this.panelsHidden = false;
@@ -46,6 +47,7 @@ class MapStore {
       setArchiveDate: mapActions.setArchiveDate,
       setNoaaDate: mapActions.setNoaaDate,
       setRiskDate: mapActions.setRiskDate,
+      setAirQDate: mapActions.setAirQDate,
       setWindDate: mapActions.setWindDate,
       setMasterDate: mapActions.setMasterDate,
       setGlobe: modalActions.showCalendarModal,
@@ -133,6 +135,15 @@ class MapStore {
     LayersHelper.updateFireRisk(this.riskDate);
   }
 
+  setAirQDate (dateObj) {
+    this.calendarVisible = '';
+    console.log(dateObj)
+    console.log(this[dateObj.date])
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    console.log(this[dateObj.dest])
+    LayersHelper.updateAirQDate(this.airQDate);
+  }
+
   setWindDate (dateObj) {
     this.calendarVisible = '';
 
@@ -154,6 +165,7 @@ class MapStore {
     let riskStart = window.Kalendae.moment(defaults.riskStartDate);
     let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
     let windStart = window.Kalendae.moment(defaults.windStartDate);
+    let airQStart = window.Kalendae.moment(defaults.airQStartDate);
 
     let today = window.Kalendae.moment(this.date);
 

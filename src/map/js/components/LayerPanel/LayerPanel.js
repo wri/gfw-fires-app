@@ -8,6 +8,7 @@ import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
 import RiskControls from 'components/LayerPanel/RiskControls';
 import LossControls from 'components/LayerPanel/LossControls';
+import AirControls from 'components/LayerPanel/AirControls';
 import WindControls from 'components/LayerPanel/WindControls';
 // import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
@@ -76,6 +77,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.fireRisk:
           childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
+          break;
+        case KEYS.airQuality:
+          childComponent = <AirControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.windDirection:
           childComponent = <WindControls options={layer.calendar} loaded={this.props.loaded} />;

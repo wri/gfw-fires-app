@@ -24,6 +24,7 @@ let LayersHelper = {
     app.map.on('click', this.performIdentify.bind(this));
 
     this.updateFireRisk(defaults.riskTempEnd); //defaults.riskStartDate
+    //todo:updateAirQuality?!
 
   },
 
@@ -570,6 +571,23 @@ let LayersHelper = {
     if (riskLayer) {
       riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
     }
+  },
+
+  updateAirQDate (dayValue) {
+
+    let layer = app.map.getLayer(KEYS.airQuality);
+    let date = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
+
+    let reportdates = date.split('/');
+    reportdates[0] = parseInt(reportdates[0]);
+    reportdates[1] = parseInt(reportdates[1]);
+
+    date = reportdates.join('/');
+
+    let layerDefs = [];
+    layerDefs[1] = "Date LIKE '" + date + "%'";
+
+    layer.setLayerDefinitions(layerDefs);
   },
 
   updateWindDate (dayValue) {
