@@ -23,7 +23,7 @@ export default class RiskControls extends React.Component {
     return <div>
       <div id='risk-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.label}</span>
-        <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'riskStart' ? ' current' : ''}`} onClick={this.changeRisk.bind(this)}>{DateHelper.getDate(date)}</button>
+        <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'risk' ? ' current' : ''}`} onClick={this.changeRisk.bind(this)}>{DateHelper.getDate(date)}</button>
       </div>
     </div>;
   }
