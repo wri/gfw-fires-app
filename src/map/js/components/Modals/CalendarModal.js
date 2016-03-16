@@ -114,6 +114,13 @@ export default class CalendarModal extends React.Component {
       dest: 'riskDate'
     });
 	}
+	changeWind(date) {
+		this.close();
+    mapActions.setWindDate({
+      date: date,
+      dest: 'windDate'
+    });
+	}
 	changeMaster(date) {
 		this.close();
     mapActions.setMasterDate({

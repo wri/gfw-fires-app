@@ -98,12 +98,6 @@ export const config = {
         domId: 'noaaEnd',
         domClass: 'noaa-end'
       },
-      // {
-      //   date: new window.Kalendae.moment('04/02/2015'),
-      //   method: 'changeRiskStart',
-      //   domId: 'riskStart',
-      //   domClass: 'risk-start'
-      // },
       {
         date: new window.Kalendae.moment('02/17/2016'),
         method: 'changeRisk',

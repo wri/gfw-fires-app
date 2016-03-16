@@ -26,7 +26,7 @@ export default class ModalWrapper extends React.Component {
   }
 
   render() {
-    console.log(this.state) //hide footer with proper child
+   //todo: hide footer with proper child
 
     return (
       <div className='modal-container'>

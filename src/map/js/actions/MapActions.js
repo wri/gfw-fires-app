@@ -52,6 +52,8 @@ class MapActions {
       if (layerErrors.length > 0) { console.error(layerErrors); }
       // Connect events to the layers that need them
       LayersHelper.connectLayerEvents();
+
+      //self.enableLayersFromHash();
     });
   }
 

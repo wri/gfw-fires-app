@@ -138,6 +138,14 @@ class MapStore {
     LayersHelper.updateFireRisk(this.riskDate);
   }
 
+  setWindDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateFireRisk(this.riskDate);
+  }
+
   setMasterDate (dateObj) {
     this.calendarVisible = '';
 
