@@ -137,10 +137,9 @@ class MapStore {
 
   setAirQDate (dateObj) {
     this.calendarVisible = '';
-    console.log(dateObj)
-    console.log(this[dateObj.date])
+
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-    console.log(this[dateObj.dest])
+
     LayersHelper.updateAirQDate(this.airQDate);
   }
 
@@ -154,9 +153,9 @@ class MapStore {
   setMasterDate (dateObj) {
     this.calendarVisible = '';
     //active, archive, noaa, fire risk, wind, air quality, maybe DG imagery
-    // debugger //todo: set up All of the calendars to listen to this!
 
     let masterDate = window.Kalendae.moment(dateObj.date);
+    let masterFormatted = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
 
     let archiveStart = window.Kalendae.moment(defaults.archiveStartDate);
     let archiveEnd = window.Kalendae.moment(defaults.archiveEndDate);
@@ -195,6 +194,13 @@ class MapStore {
       this.removeActiveLayer(KEYS.fireRisk);
     } else {
       this.addActiveLayer(KEYS.fireRisk);
+    }
+
+    if (masterDate.isBefore(airQStart)) {
+      this.removeActiveLayer(KEYS.airQuality);
+    } else {
+      this.addActiveLayer(KEYS.airQuality);
+      // LayersHelper.updateAirQDate(masterFormatted);
     }
 
     if (masterDate.isBefore(windStart)) {

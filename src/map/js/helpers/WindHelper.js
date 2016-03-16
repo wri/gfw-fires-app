@@ -161,7 +161,7 @@ let WindHelper = {
   promptAboutBasemap () {
     let currentBM = app.map.getBasemap();
     if (currentBM !== 'dark-gray') {
-      modalActions.showBasemapModal();
+      modalActions.showBasemapModal.defer();
     }
   },
 
