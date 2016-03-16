@@ -1,4 +1,4 @@
-import {layerPanelText, layersConfig, calendarText, uploadConfig} from 'js/config';
+import {layerPanelText, layersConfig, defaults, uploadConfig} from 'js/config';
 import rasterFuncs from 'utils/rasterFunctions';
 import Request from 'utils/request';
 import utils from 'utils/AppUtils';
@@ -22,15 +22,12 @@ let LayersHelper = {
     app.map.graphics.enableMouseEvents();
     // Set up Click Listener to Perform Identify
     app.map.on('click', this.performIdentify.bind(this));
-    this.updateFireRisk(calendarText.startDate);
+
+    this.updateFireRisk(defaults.riskTempEnd); //defaults.riskStartDate
 
   },
 
   removeCustomFeature (feature) {
-    // debugger
-    // app.map.graphics.graphics.forEach(graphic => {
-    //   debugger
-    // });
     app.map.graphics.remove(feature);
   },
 
