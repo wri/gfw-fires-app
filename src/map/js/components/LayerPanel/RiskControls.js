@@ -1,6 +1,7 @@
 import {modalActions} from 'actions/ModalActions';
 import {mapStore} from 'stores/MapStore';
 import {mapActions} from 'actions/MapActions';
+import FireRiskLegend from 'components/LayerPanel/FireRiskLegend';
 import DateHelper from 'helpers/DateHelper';
 import React from 'react';
 
@@ -24,6 +25,7 @@ export default class RiskControls extends React.Component {
       <div id='risk-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.label}</span>
         <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'risk' ? ' current' : ''}`} onClick={this.changeRisk.bind(this)}>{DateHelper.getDate(date)}</button>
+        <FireRiskLegend domClass={this.props.childDomClass} />
       </div>
     </div>;
   }

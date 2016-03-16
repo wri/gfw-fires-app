@@ -44,6 +44,7 @@ class MapStore {
       setArchiveDate: mapActions.setArchiveDate,
       setNoaaDate: mapActions.setNoaaDate,
       setRiskDate: mapActions.setRiskDate,
+      setWindDate: mapActions.setWindDate,
       setMasterDate: mapActions.setMasterDate,
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
@@ -142,13 +143,12 @@ class MapStore {
     this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-
-    LayersHelper.updateFireRisk(this.riskDate);
+    LayersHelper.updateWindDate(this.windDate);
   }
 
   setMasterDate (dateObj) {
     this.calendarVisible = '';
-
+    //active, archive, noaa, fire risk, wind, air quality, maybe DG imagery
     debugger //todo: set up All of the calendars to listen to this!
 
     // this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
