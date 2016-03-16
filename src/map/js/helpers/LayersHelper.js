@@ -288,7 +288,7 @@ let LayersHelper = {
   showLayer (layerObj) {
     app.debug(`LayersHelper >>> showLayer - ${layerObj.layerId}`);
     if (layerObj.layerId === KEYS.digitalGlobe) {
-      layerActions.showFootprints();
+      layerActions.showFootprints.defer();
       let footprints = layerObj.footprints;
       if (footprints) {
         let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
@@ -424,7 +424,7 @@ let LayersHelper = {
 
     if (archiveLayer) {
       let defQuery;
-      let currentString = archiveLayer.getDefinitionExpression();
+      let currentString = archiveLayer.layerDefinitions[0];
 
       if (checked) {
         defQuery = currentString + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
@@ -433,8 +433,11 @@ let LayersHelper = {
         defQuery = string;
       }
 
-      console.log(defQuery)
-      archiveLayer.setDefinitionExpression(defQuery);
+      console.log(defQuery);
+      let layerDefs = [];
+      layerDefs[0] = defQuery;
+
+      archiveLayer.setLayerDefinitions(layerDefs);
     }
   },
 
@@ -448,7 +451,8 @@ let LayersHelper = {
 
     if (archiveLayer) {
       let defQuery;
-      let currentString = archiveLayer.getDefinitionExpression();
+
+      let currentString = archiveLayer.layerDefinitions[0];
 
       if (currentString.indexOf(' AND BRIGHTNESS') > -1) {
         let string = "ACQ_DATE < date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
@@ -458,9 +462,11 @@ let LayersHelper = {
         defQuery = string;
       }
 
-      console.log(defQuery)
+      console.log(defQuery);
+      let layerDefs = [];
+      layerDefs[0] = defQuery;
 
-      archiveLayer.setDefinitionExpression(defQuery);
+      archiveLayer.setLayerDefinitions(layerDefs);
     }
 
   },
@@ -471,8 +477,12 @@ let LayersHelper = {
 
     if (noaaLayer) {
       let defQuery = "Date < date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      let layerDefs = [];
+      layerDefs[9] = defQuery;
 
-      noaaLayer.setDefinitionExpression(defQuery);
+      noaaLayer.setLayerDefinitions(layerDefs);
+
+      // noaaLayer.setDefinitionExpression(defQuery);
     }
 
   },

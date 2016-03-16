@@ -51,6 +51,11 @@ export default (layer) => {
       imageParameters.layerOption = ImageParameters.LAYER_OPTION_SHOW;
       imageParameters.layerIds = layer.layerIds;
       imageParameters.format = 'png32';
+      if (layer.defaultDefinitionExpression) {
+        let layerDefs = [];
+        layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
+        imageParameters.layerDefinitions = layerDefs;
+      }
       // Populate the options and then add the layer
       options.id = layer.id;
       options.visible = layer.visible || false;

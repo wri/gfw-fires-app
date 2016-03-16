@@ -201,7 +201,7 @@ export const config = {
     {
       id: KEYS.archiveFires,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
       group: 'fires',
@@ -228,7 +228,7 @@ export const config = {
     {
       id: KEYS.noaa18Fires,
       order: 1,
-      type: 'feature',
+      type: 'dynamic',
       label: 'NOAA-18 Fires',
       sublabel: '(layer starts at 10/22/14)',
       group: 'fires',
@@ -449,6 +449,7 @@ export const config = {
       order: 1,
       type: 'dynamic',
       label: 'Air Quality',
+      sublabel: '(layer starts at 9/25/15)',
       group: 'airQuality',
       className: 'air-quality',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
