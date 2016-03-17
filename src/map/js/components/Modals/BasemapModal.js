@@ -31,7 +31,7 @@ export default class BasemapModal extends React.Component {
               <h3 className='modal-subtitle'>Would you like to change basemaps?</h3>
 
               <div className='modal-overview'>
-                <p>This layer is best visualized with the Dark Gray Canvas basemap. Would you like to switch to it now.</p>
+                <p>The wind layer is best visualized with the Dark Gray Canvas basemap. Would you like to switch to it now.</p>
                 <button className='gfw-btn white pointer' onClick={this.switchBasemap.bind(this)}>Yes</button>
                 <button className='gfw-btn white pointer' onClick={this.keepBasemap.bind(this)}>No</button>
                 <div id='basemap-checkbox-container'>

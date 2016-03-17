@@ -180,12 +180,18 @@ class MapStore {
     } else {
       this.addActiveLayer(KEYS.archiveFires);
       this.removeActiveLayer(KEYS.activeFires);
+      this.archiveStartDate = masterFormatted;
+      this.archiveEndDate = masterFormatted;
+      LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
     }
 
     if (masterDate.isBefore(noaaStart)) {
       this.removeActiveLayer(KEYS.noaa18Fires);
     } else {
       this.addActiveLayer(KEYS.noaa18Fires);
+      this.noaaStartDate = masterFormatted;
+      this.noaaEndDate = masterFormatted;
+      LayersHelper.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
     }
 
     if (masterDate.isBefore(riskStart)) {
@@ -194,29 +200,31 @@ class MapStore {
       this.removeActiveLayer(KEYS.fireRisk);
     } else {
       this.addActiveLayer(KEYS.fireRisk);
+      this.riskDate = masterFormatted;
+      LayersHelper.updateFireRisk(this.riskDate);
     }
 
     if (masterDate.isBefore(airQStart)) {
       this.removeActiveLayer(KEYS.airQuality);
     } else {
       this.addActiveLayer(KEYS.airQuality);
-      // LayersHelper.updateAirQDate(masterFormatted);
+      this.airQDate = masterFormatted;
+      LayersHelper.updateAirQDate(this.airQDate);
     }
 
     if (masterDate.isBefore(windStart)) {
       this.removeActiveLayer(KEYS.windDirection);
     } else {
       this.addActiveLayer(KEYS.windDirection);
+      this.windDate = masterFormatted;
+      // LayersHelper.updateWindDate(this.windDate);
     }
 
-    if (masterDate.isBefore(dgStart)) {
-      this.removeActiveLayer(KEYS.digitalGlobe);
-    } else {
-      this.addActiveLayer(KEYS.digitalGlobe);
-    }
-
-
-    // this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    // if (masterDate.isBefore(dgStart)) {
+    //   this.removeActiveLayer(KEYS.digitalGlobe);
+    // } else {
+    //   this.addActiveLayer(KEYS.digitalGlobe);
+    // }
 
   }
 
