@@ -130,6 +130,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.activeFires);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -138,6 +141,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -166,6 +170,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalm);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.oilPalm);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -174,6 +181,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -202,6 +210,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.rspoOilPalm);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.rspoOilPalm);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -210,6 +221,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -238,6 +250,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.woodFiber);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.woodFiber);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -246,6 +261,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -274,6 +290,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.loggingConcessions);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.loggingConcessions);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -282,6 +301,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -310,6 +330,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreas);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.protectedAreas);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -318,6 +341,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -418,10 +442,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.archiveFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
-
     let layer = app.map.getLayer(KEYS.archiveFires);
     let layerDefinitions = [];
-    layerDefinitions[0] = layer.getDefinitionExpression();
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -459,6 +482,9 @@ const request = {
     let config = utils.getObject(layersConfig, 'id', KEYS.noaa18Fires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.noaa18Fires);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 3;
     params.returnGeometry = true;
@@ -467,6 +493,7 @@ const request = {
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
@@ -526,7 +553,7 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
-  identifyDigitalGlobe: (graphic, mapPoint) => {
+  identifyDigitalGlobe: (graphic) => {
     let featureExtent = graphic.geometry.getExtent();
     let overlaps = [];
 
