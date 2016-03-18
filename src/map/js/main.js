@@ -37,6 +37,7 @@ let configureApp = () => {
     urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
     proxyUrl: './php/proxy.php'
   });
+
 };
 
 let initializeApp = () => {
