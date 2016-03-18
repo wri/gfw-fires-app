@@ -27,7 +27,7 @@ class ModalActions {
     }, err => {
       // this.dispatch({});
       // console.log(layerId)
-      this.dispatch(layerId);
+      this.dispatch(layerId); //todo: show config's template based on this layerId
       domClass.remove('layer-modal', 'hidden');
       console.error(err);
     });

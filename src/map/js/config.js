@@ -323,7 +323,7 @@ export const config = {
       className: 'rspo-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'firms_active_fires',
-      layerIds: [4],
+      layerIds: [0],
       infoTemplate: {
         content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
         '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +

@@ -9,6 +9,7 @@ import FiresModal from 'components/Modals/FiresModal';
 import {defaults} from 'js/config';
 import Map from 'components/Map';
 import esriConfig from 'esri/config';
+import urlUtils from 'esri/urlUtils';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
@@ -27,6 +28,15 @@ window.requestAnimationFrame = (function () {
 let configureApp = () => {
   app.debug('main >>> configureApp');
   defaults.corsEnabledServers.forEach((server) => { esriConfig.defaults.io.corsEnabledServers.push(server); });
+  // esriConfig.defaults.io.proxyUrl = './php/proxy.php';
+  urlUtils.addProxyRule({
+    urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+    proxyUrl: './php/proxy.php'
+  });
+  urlUtils.addProxyRule({
+    urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+    proxyUrl: './php/proxy.php'
+  });
 };
 
 let initializeApp = () => {
