@@ -42,6 +42,9 @@ export default class CalendarModal extends React.Component {
 
 	itemMapper (item) {
 		return <div className={`modal-content ${item.domClass}${this.state.calendarVisible === item.domId ? '' : ' hidden'}`}>
+			{item.domId === 'masterDay' ?
+				<div className='master-calendar'>Master instructions</div> : null
+			}
 			<div id={item.domId}></div>
 		</div>;
 	}
