@@ -377,7 +377,7 @@ export const config = {
       label: 'Protected areas',
       sublabel: '(varies, global)',
       group: 'conservation',
-      className: 'tree-cover',
+      className: 'protected-areas',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [0],
@@ -396,7 +396,7 @@ export const config = {
       label: 'Peatlands',
       sublabel: '(year 2002, Indonesia)',
       group: 'landCover',
-      className: 'tree-cover',
+      className: 'peatlands',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [22]
