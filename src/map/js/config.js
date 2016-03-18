@@ -41,6 +41,7 @@ export const config = {
     yesterday: new window.Kalendae.moment().subtract(1, 'd'),
     dgStartDate: new window.Kalendae.moment('10/19/2015'),
     archiveStartDate: new window.Kalendae.moment('01/01/2013'),
+    archiveInitialDate: new window.Kalendae.moment().subtract(14, 'd'),
     noaaStartDate: new window.Kalendae.moment('10/22/2014'),
     riskStartDate: new window.Kalendae.moment('04/02/2015'),
     riskTempEnd: new window.Kalendae.moment('02/17/2016'),
@@ -52,74 +53,98 @@ export const config = {
     ],
     calendars: [
       {
-        date: new window.Kalendae.moment('10/19/2015'),
+        date: new window.Kalendae.moment(), //('10/19/2015'),
         method: 'changeImageryStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('10/19/2015'),
         domId: 'imageryStart',
         domClass: 'imagery-start'
       },
       {
         date: new window.Kalendae.moment(),
         method: 'changeImageryEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('10/19/2015'),
         domId: 'imageryEnd',
         domClass: 'imagery-end'
       },
       {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeAnalysisStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'analysisStart',
         domClass: 'analysis-start'
       },
       {
         date: new window.Kalendae.moment(),
         method: 'changeAnalysisEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'analysisEnd',
         domClass: 'analysis-end'
       },
       {
-        date: new window.Kalendae.moment('01/01/2013'),
+        date: new window.Kalendae.moment().subtract(14, 'd'), //'01/01/2013'),
         method: 'changeArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'archiveStart',
         domClass: 'archive-start'
       },
       {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'archiveEnd',
         domClass: 'archive-end'
       },
       {
-        date: new window.Kalendae.moment('10/22/2014'),
+        date: new window.Kalendae.moment(), //('10/22/2014'),
         method: 'changeNoaaStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('10/22/2014'),
         domId: 'noaaStart',
         domClass: 'noaa-start'
       },
       {
         date: new window.Kalendae.moment(),
         method: 'changeNoaaEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('10/22/2014'),
         domId: 'noaaEnd',
         domClass: 'noaa-end'
       },
       {
         date: new window.Kalendae.moment('02/17/2016'),
         method: 'changeRisk',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('04/02/2015'),
         domId: 'risk',
         domClass: 'risk'
       },
       {
-        date: new window.Kalendae.moment('10/19/2014'),
+        date: new window.Kalendae.moment(), //'10/19/2014'),
         method: 'changeWind',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('10/19/2014'),
         domId: 'wind',
         domClass: 'wind'
       },
       {
-        date: new window.Kalendae.moment('09/25/2015'),
+        date: new window.Kalendae.moment(), //'09/25/2015'),
         method: 'changeAirQ',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('09/25/2015'),
         domId: 'airQ',
         domClass: 'airQ'
       },
       {
         date: new window.Kalendae.moment(),
         method: 'changeMaster',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'masterDay',
         domClass: 'master-day'
       }
@@ -325,11 +350,11 @@ export const config = {
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
-        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td>Country: </td><td>${Country}</td></tr>' +
-        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
-        '<tr><td>Source: </td><td>${Source}</td></tr>'
+        content: '<table><tr><td>Name: </td><td>${name}</td></tr>' +
+        '<tr><td>GIS Calculated Area (ha): </td><td>${area_ha}</td></tr>' +
+        '<tr><td>Country: </td><td>${country}</td></tr>' +
+        '<tr><td>Certification Status	: </td><td>${certificat}</td></tr>' +
+        '<tr><td>Source: </td><td>${source}</td></tr>'
       }
     },
     {

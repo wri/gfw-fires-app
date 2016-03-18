@@ -22,7 +22,14 @@ export default class CalendarModal extends React.Component {
 			let calendar_obj = new window.Kalendae(calendar.domId, {
 				months: 1,
 				mode: 'single',
-				// direction: 'past',
+				direction: calendar.direction,
+				blackout: function (date) {
+					if (date.yearDay() > calendar.startDate.yearDay()) {
+						return false;
+					} else {
+						return true;
+					}
+				},
 				// directionScrolling: true, //todo: something about this!
 				selected: calendar.date
 			});
@@ -31,6 +38,8 @@ export default class CalendarModal extends React.Component {
 		});
 
 	}
+
+
 
 	render () {
 		return (

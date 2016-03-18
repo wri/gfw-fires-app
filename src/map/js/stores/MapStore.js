@@ -23,14 +23,14 @@ class MapStore {
     this.dgEndDate = this.getDate(defaults.todaysDate);
     this.analysisStartDate = this.getDate(defaults.analysisStartDate);
     this.analysisEndDate = this.getDate(defaults.todaysDate);
-    this.archiveStartDate = this.getDate(defaults.archiveStartDate);
+    this.archiveStartDate = this.getDate(defaults.archiveInitialDate);
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);
     this.riskDate = this.getDate(defaults.riskTempEnd); //todo: are we still getting data for this? -should this be hardcoded to some past date?
-    this.airQDate = this.getDate(defaults.airQStartDate);
-    this.windDate = this.getDate(defaults.windStartDate);
+    this.airQDate = this.getDate(defaults.todaysDate); //airQStartDate);
+    this.windDate = this.getDate(defaults.todaysDate); //windStartDate);
     this.masterDate = this.getDate(defaults.todaysDate);
     this.panelsHidden = false;
     this.activeDG = undefined;
@@ -159,7 +159,6 @@ class MapStore {
 
     let archiveStart = window.Kalendae.moment(defaults.archiveStartDate);
     let archiveEnd = window.Kalendae.moment(defaults.archiveEndDate);
-    let dgStart = window.Kalendae.moment(defaults.dgStartDate);
     let noaaStart = window.Kalendae.moment(defaults.noaaStartDate);
     let riskStart = window.Kalendae.moment(defaults.riskStartDate);
     let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
@@ -217,14 +216,7 @@ class MapStore {
     } else {
       this.addActiveLayer(KEYS.windDirection);
       this.windDate = masterFormatted;
-      // LayersHelper.updateWindDate(this.windDate);
     }
-
-    // if (masterDate.isBefore(dgStart)) {
-    //   this.removeActiveLayer(KEYS.digitalGlobe);
-    // } else {
-    //   this.addActiveLayer(KEYS.digitalGlobe);
-    // }
 
   }
 
