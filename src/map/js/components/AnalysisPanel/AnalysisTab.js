@@ -61,7 +61,7 @@ export default class AnalysisTab extends React.Component {
         {this.props.islands.length > 0 ?
           <select multiple id='islands' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`} onChange={this.change} disabled={this.props.islands.length === 0}>
             {this.props.islands.map((i) => (
-              <option value={i}>{i}</option>
+              <option selected='true' value={i}>{i}</option>
             ))}
           </select>
           : null
@@ -69,7 +69,7 @@ export default class AnalysisTab extends React.Component {
         {this.props.islands.length > 0 ?
           <select multiple id='provinces' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === false ? '' : 'hidden'}`} onChange={this.change}>
             {this.props.provinces.map((p) => (
-              <option value={p}>{p}</option>
+              <option selected='true' value={p}>{p}</option>
             ))}
           </select>
           : null
