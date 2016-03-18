@@ -3,12 +3,12 @@
 /**
  * PHP Proxy Client
  *
- * Version 1.1 beta
+ * Version 1.1.1-beta
  * See https://github.com/Esri/resource-proxy for more information.
  *
  */
 
-$version = "1.1 Beta";
+$version = "1.1.1-beta";
 
 error_reporting(0);
 
@@ -151,6 +151,13 @@ class Proxy {
     public $sessionUrl;
 
     /**
+     * Holds the host url we're redirecting to
+     *
+     * @var string
+     */
+
+    public $hostRedirect='';
+    /**
      * Allowed application urls array is just an array of urls
      *
      * @var array
@@ -202,7 +209,7 @@ class Proxy {
      * Holds headers sent by the client
      *
      * @var array
-    */
+     */
 
     public $clientRequestHeaders;
 
@@ -236,7 +243,7 @@ class Proxy {
 
         $this->checkForPing();
 
-        if ($this->proxyConfig['mustmatch'] != null && $this->proxyConfig['mustmatch'] == true || $this->proxyConfig['mustmatch'] == "true") {
+        if (isset($this->proxyConfig['mustmatch']) && $this->proxyConfig['mustmatch'] === true || $this->proxyConfig['mustmatch'] === "true") {
 
             if($this->isAllowedApplication() == false){
 
@@ -245,6 +252,14 @@ class Proxy {
             }
 
             $this->verifyConfiguration();
+
+            if(isset($this->hostRedirect)) {
+
+                $this->proxyUrlWithData = $this->redirect($this->proxyUrlWithData, $this->sessionUrl, $this->hostRedirect);
+
+                $this->proxyUrl = $this->redirect($this->proxyUrl, $this->sessionUrl, $this->hostRedirect);
+
+            }
 
             if ($this->meter->underMeterCap()) {
 
@@ -256,7 +271,7 @@ class Proxy {
 
             }
 
-        } else if($this->proxyConfig['mustmatch'] != null && $this->proxyConfig['mustmatch'] == false) {
+        } else if(isset($this->proxyConfig['mustmatch']) && $this->proxyConfig['mustmatch'] === false || $this->proxyConfig['mustmatch'] === "false") {
 
             $this->runProxy();
 
@@ -265,6 +280,13 @@ class Proxy {
             $this->configurationParameterError();
 
         }
+
+    }
+
+    public function redirect($sourceUrl, $sessionUrl, $targetUrl)
+    {
+
+        return $targetUrl . substr($sourceUrl, strlen($sessionUrl));
 
     }
 
@@ -348,10 +370,10 @@ class Proxy {
         header('Content-Type: application/json');
 
         $configError = array(
-                "error" => array("code" => 412,
-                        "details" => array("Detected malformed 'mustMatch' property in the configuration file. The server does not meet one of the preconditions that the requester put on the request."),
-                        "message" => "Proxy failed due to configuration error."
-                ));
+            "error" => array("code" => 412,
+                "details" => array("Detected malformed 'mustMatch' property in the configuration file. The server does not meet one of the preconditions that the requester put on the request."),
+                "message" => "Proxy failed due to configuration error."
+            ));
 
         echo json_encode($configError);
 
@@ -368,10 +390,10 @@ class Proxy {
         header('Content-Type: application/json');
 
         $exceededError = array(
-                "error" => array("code" => 402,
+            "error" => array("code" => 402,
                 "details" => array("This is a metered resource, number of requests have exceeded the rate limit interval."),
                 "message" => "Unable to proxy request for requested resource."
-        ));
+            ));
 
         echo json_encode($exceededError);
 
@@ -388,10 +410,10 @@ class Proxy {
         header('Content-Type: application/json');
 
         $configError = array(
-                "error" => array("code" => 403,
-                        "details" => array("Proxy has not been set up for this URL. Make sure there is a serverUrl in the configuration file that matches: " . $this->proxyUrl),
-                        "message" => "Proxy has not been set up for this URL."
-                ));
+            "error" => array("code" => 403,
+                "details" => array("Proxy has not been set up for this URL. Make sure there is a serverUrl in the configuration file that matches: " . $this->proxyUrl),
+                "message" => "Proxy has not been set up for this URL."
+            ));
 
         echo json_encode($configError);
 
@@ -401,15 +423,15 @@ class Proxy {
     public function allowedApplicationError()
     {
 
-        header('Status: 402', true, 402);
+        header('Status: 403', true, 403);
 
         header('Content-Type: application/json');
 
         $allowedApplicationError = array(
-                "error" => array("code" => 402,
+            "error" => array("code" => 403,
                 "details" => array("This is a protected resource.  Application access is restricted."),
                 "message" => "Application access is restricted.  Unable to proxy request."
-        ));
+            ));
 
         echo json_encode($allowedApplicationError);
 
@@ -433,12 +455,12 @@ class Proxy {
 
             $curl_version = curl_version();
             $pngMsg = array(
-                        "Proxy Version"      => $GLOBALS['version'],
-                        // "PHP Version"        => phpversion(),
-                        // "Curl Version"       => $curl_version[version],
-                        "Configuration File" => "OK", // or it would have failed in XmlParser()
-                        "Log File"           => "OK"  // or it would have failed in configurationParameterError()
-                    );
+                "Proxy Version"      => $GLOBALS['version'],
+                // "PHP Version"        => phpversion(),
+                // "Curl Version"       => $curl_version[version],
+                "Configuration File" => "OK", // or it would have failed in XmlParser()
+                "Log File"           => "OK"  // or it would have failed in configurationParameterError()
+            );
 
             echo json_encode($pngMsg);
             exit();
@@ -455,10 +477,10 @@ class Proxy {
         header('Content-Type: application/json');
 
         $configError = array(
-                "error" => array("code" => 400,
-                    "details" => array("$message"),
-                    "message" => "$message"
-                ));
+            "error" => array("code" => 400,
+                "details" => array("$message"),
+                "message" => "$message"
+            ));
 
         echo json_encode($configError);
 
@@ -476,12 +498,16 @@ class Proxy {
 
         foreach ($header_array as $key => $value) {
 
-            if(is_string($key)){
+            if(is_string($key) && (strtolower($key) != "accept-ranges")){
 
                 $header = sprintf("%s: %s", $key, $value);
 
                 $this->headers[] = $header;
 
+                // $key === 0 means this is HTTP status code, which doesn't have a key
+            } elseif($key === 0)
+            {
+                $this->headers[] = $value;
             }
 
         }
@@ -502,6 +528,14 @@ class Proxy {
         $key = '';
 
         foreach(explode("\n", $raw_headers) as $i => $h) {
+
+            //PHP and cURL will return all headers, need to filter out the redirect headers. http://php.net/manual/en/function.curl-setopt.php#103232
+            if ($h == "\r"){
+
+                $headers = array();
+
+                continue;
+            }
 
             $h = explode(':', $h, 2);
 
@@ -588,7 +622,6 @@ class Proxy {
 
         exit();
     }
-
 
     public function setupClassProperties()
     {
@@ -716,15 +749,11 @@ class Proxy {
 
             //check with listed serverurl regardless if mustMatch is true or false
             foreach ($this->serverUrls as $key => $value) {
-
                 $serverUrl = $value['serverurl'][0];
                 $serverUrl['url'] = $this->sanitizeUrl($serverUrl['url']); //Do all the URL cleanups and checks at once
+                $serverUrl['matchall'] = strtolower((string) $serverUrl['matchall']);
 
-                if(is_string($serverUrl['matchall'])){
-                    $serverUrl['matchAll'] = strtolower($serverUrl['matchall']);
-                }
-
-                if ($serverUrl['matchall'] == true || $serverUrl['matchall'] === "true") {
+                if ( $serverUrl['matchall'] === "true") {
 
                     $urlStartsWith = $this->startsWith($this->proxyUrl, $serverUrl['url']);
 
@@ -734,13 +763,13 @@ class Proxy {
 
                         $this->sessionUrl = $serverUrl['url'];
 
-                        $canProcess = true;
+                        $this->hostRedirect = $serverUrl['hostredirect'];
 
-                        return $canProcess;
+                        $canProcess = true;
 
                     }
 
-                } else if ($serverUrl['matchall'] == false || $serverUrl['matchall'] === "false"){
+                } else {
 
                     $isEqual = $this->equals($this->proxyUrl, $serverUrl['url']);
 
@@ -750,11 +779,11 @@ class Proxy {
 
                         $this->sessionUrl = $serverUrl['url'];
 
+                        $this->hostRedirect = $serverUrl['hostredirect'];
+
                         $canProcess = true;
 
-                        return $canProcess;
                     }
-
                 }
             }
 
@@ -781,14 +810,14 @@ class Proxy {
     public function useSessionToken()
     {
 
-        $sessonKey = 'token_for_' . $this->sessionUrl;
+        $sessionKey = 'token_for_' . $this->sessionUrl;
 
-        $sessonKey = sprintf("'%s'", $sessonKey);
+        $sessionKey = sprintf("'%s'", $sessionKey);
 
-        if(isset($_SESSION[$sessonKey])) //Try to get token from session
+        if(isset($_SESSION[$sessionKey])) //Try to get token from session
         {
 
-            $token = $_SESSION[$sessonKey];
+            $token = $_SESSION[$sessionKey];
 
             $this->appendToken($token);
 
@@ -796,14 +825,38 @@ class Proxy {
 
             $this->proxyLog->log("Using session token");
 
+            return true;
+
         }
+
+        return false;
+    }
+
+    public function hasTokeninRequest()
+    {
+        if(strpos($this->proxyUrlWithData, "?token=") || strpos($this->proxyUrlWithData, "&token=") || strpos($this->proxyData, "?token=") || strpos($this->proxyData,"&token=" ))
+        {
+            return true;
+        }
+        return false;
     }
 
     public function runProxy()
     {
+        //If 1) token is NOT stored in the session and 2) token is NOT provided along the request, we need to request it up-front.
+        if(!$this->useSessionToken() && !$this->hasTokeninRequest())
+        {
+            $token = $this->getNewTokenIfCredentialsAreSpecified();
 
-        $this->useSessionToken();
+            if(!empty($token) || isset($token))
+            {
+                $this->addTokenToSession($token);
 
+                $this->appendToken($token);
+            }
+        }
+
+        //send the first request
         if($this->proxyMethod == "FILES"){
 
             $this->proxyFiles();
@@ -819,8 +872,10 @@ class Proxy {
 
         }
 
+        //Check the response to see if any error occurs
         $isUnauthorized = $this->isUnauthorized();
 
+        //If error occurs, try to request with a new token
         if($isUnauthorized === true) {
 
             if($this->attemptsCount < $this->allowedAttempts) {
@@ -831,7 +886,7 @@ class Proxy {
 
                 $token = $this->getNewTokenIfCredentialsAreSpecified();
 
-                if(!empty($token) || $token != null) {
+                if(!empty($token) || isset($token)) {
 
                     $this->addTokenToSession($token);
 
@@ -842,11 +897,11 @@ class Proxy {
 
                     $this->proxyLog->log("Removing session value");
 
-                    $sessonKey = 'token_for_' . $this->sessionUrl;
+                    $sessionKey = 'token_for_' . $this->sessionUrl;
 
-                    $sessonKey = sprintf("'%s'", $sessonKey);
+                    $sessionKey = sprintf("'%s'", $sessionKey);
 
-                    unset($_SESSION[$sessonKey]);  //Remove token from session
+                    unset($_SESSION[$sessionKey]);  //Remove token from session
                 }
 
                 $this->runProxy();
@@ -865,32 +920,28 @@ class Proxy {
 
         $isUnauthorized = false;
 
-        $jsonData = json_decode($this->proxyBody);
-
-        if (strpos($this->proxyBody,'"code":499') !== false) {
+        if (strpos($this->proxyBody,'"code":499') !== false || strpos($this->proxyBody,'"code": 499') !== false ) {
 
             $isUnauthorized = true;
 
-        }
-
-        if (strpos($this->proxyBody,'"code":498') !== false) {
+        } elseif (strpos($this->proxyBody,'"code":498') !== false || strpos($this->proxyBody,'"code": 498') !== false) {
 
             $isUnauthorized = true;
 
-        }
-
-        if (strpos($this->proxyBody,'"code":403') !== false) {
+        } elseif (strpos($this->proxyBody,'"code":403') !== false || strpos($this->proxyBody,'"code": 403') !== false) {
 
             $isUnauthorized = true;
 
-        }
-
-        $errorCode = $jsonData->{'error'}->{'code'};
-
-        if($errorCode == 499 || $errorCode == 498 || $errorCode == 403)
+        } else
         {
-            $isUnauthorized = true;
+            $jsonData = json_decode($this->proxyBody);
 
+            $errorCode = $jsonData->{'error'}->{'code'};
+
+            if ($errorCode == 499 || $errorCode == 498 || $errorCode == 403)
+            {
+                $isUnauthorized = true;
+            }
         }
 
         if($isUnauthorized){
@@ -930,8 +981,14 @@ class Proxy {
 
             }else{
 
-                $this->proxyUrlWithData = $this->proxyUrlWithData . "&token=" . $token;
+                //check if the original proxyUrlWithData is with query string or not
+                if(!is_null(parse_url($this->proxyUrlWithData, PHP_URL_QUERY)))
 
+                    $this->proxyUrlWithData = $this->proxyUrlWithData . "&token=" . $token;
+
+                else
+
+                    $this->proxyUrlWithData = $this->proxyUrlWithData . "?token=" . $token;
             }
 
         }
@@ -960,7 +1017,7 @@ class Proxy {
         // see full of cURL error codes at http://curl.haxx.se/libcurl/c/libcurl-errors.html
 
         $message = "cURL error (" . curl_errno($this->ch) . "): "
-                . curl_error($this->ch) . ".";
+            . curl_error($this->ch) . ".";
 
         $this->proxyLog->log($message);
 
@@ -969,10 +1026,10 @@ class Proxy {
         header('Content-Type: application/json');
 
         $configError = array(
-                "error" => array("code" => 502,
-                        "details" => array($message),
-                        "message" => "Proxy failed due to curl error."
-                ));
+            "error" => array("code" => 502,
+                "details" => array($message),
+                "message" => "Proxy failed due to curl error."
+            ));
 
         echo json_encode($configError);
 
@@ -983,9 +1040,15 @@ class Proxy {
         exit();
     }
 
-    public function proxyGet() {
+    public function proxyGet($url) {
 
         $this->response = null;
+
+        //If $url is not set, use the $this->proxyUrlWithData as the $url
+        if(empty($url) || is_null($url))
+        {
+            $url = $this->proxyUrlWithData;
+        }
 
         try {
 
@@ -995,7 +1058,7 @@ class Proxy {
 
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
-            curl_setopt($this->ch, CURLOPT_URL, $this->proxyUrlWithData);
+            curl_setopt($this->ch, CURLOPT_URL, $url);
 
             $this->response = curl_exec($this->ch);
 
@@ -1036,7 +1099,7 @@ class Proxy {
 
         $this->proxyBody = null;
 
-        if(empty($url) || $url == null || empty($params) || $url == $params){ //If no $url or $params passed, default to class property values
+        if(empty($url) || is_null($url) || empty($params) || $url === $params){ //If no $url or $params passed, default to class property values
 
             $url = $this->proxyUrl;
 
@@ -1167,10 +1230,10 @@ class Proxy {
 
     }
 
-    function startsWith($requested, $needed)
+    function startsWith($haystack, $needle)
     {
 
-        return stripos($requested, $needed) === 0;
+        return stripos($haystack, $needle) === 0;
 
     }
 
@@ -1221,9 +1284,9 @@ class Proxy {
         $exchangeUri = substr($this->resource['oauth2endpoint'],0,$pos) . "/generateToken";
 
         $this->proxyPost($exchangeUri, array(
-                'token' => $portalToken,
-                'serverURL' => $this->resource['url'],
-                'f' => 'json'
+            'token' => $portalToken,
+            'serverURL' => $this->resource['url'],
+            'f' => 'json'
         ));
 
         $tokenResponse = json_decode($this->proxyBody, true);
@@ -1265,24 +1328,24 @@ class Proxy {
     }
 
 
-     public function addTokenToSession($token) {
+    public function addTokenToSession($token) {
 
-        $sessonKey = 'token_for_' . $this->sessionUrl;
+        $sessionKey = 'token_for_' . $this->sessionUrl;
 
-        $sessonKey = sprintf("'%s'", $sessonKey);
+        $sessionKey = sprintf("'%s'", $sessionKey);
 
         try {
 
             $this->proxyLog->log('Adding token to session');
 
-            $_SESSION[$sessonKey] = $token;
+            $_SESSION[$sessionKey] = $token;
 
         }catch(Exception $e){
 
             $this->proxyLog->log("Error setting session: " . $e);
         }
 
-     }
+    }
 
 
     public function doUserPasswordLogin() {
@@ -1292,12 +1355,12 @@ class Proxy {
         $tokenServiceUri = $this->getTokenEndpoint();
 
         $this->proxyPost($tokenServiceUri, array (
-                'request' => 'getToken',
-                'f' => 'json',
-                'referer' => $this->referer,
-                'expiration' => 60,
-                'username' => getenv($this->resource['username']),
-                'password' => getenv($this->resource['password'])
+            'request' => 'getToken',
+            'f' => 'json',
+            'referer' => $this->referer,
+            'expiration' => 60,
+            'username' => $this->resource['username'],//getenv($this->resource['username'])
+            'password' => $this->resource['password']
         ));
 
         $tokenResponse = json_decode($this->proxyBody, true);
@@ -1326,7 +1389,8 @@ class Proxy {
             $infoUrl = $this->resource['url'] . "/arcgis/rest/info";
         }
 
-        $this->proxyPost($infoUrl,array('f' => 'json'));
+        //Request /rest/info via GET request
+        $this->proxyGet($infoUrl .= "?f=json");
 
         $infoResponse = json_decode($this->proxyBody, true);
 
@@ -1338,7 +1402,18 @@ class Proxy {
 
         }else{
 
-            $this->proxyLog->log("Unable to get token endpoint");
+            //If no tokenServicesUrl, try to find owningSystemUrl as token endpoint
+            if(!empty($infoResponse['owningSystemUrl']))
+            {
+                $tokenServiceUri = $infoResponse['owningSystemUrl'] . "/sharing/generateToken";
+
+                $this->proxyLog->log("Federated service: got token endpoint from owningSystemUrl");
+            }
+            else
+            {
+                $this->proxyLog->log("Unable to get token endpoint");
+            }
+
         }
 
         return $tokenServiceUri;
@@ -1358,10 +1433,10 @@ class Proxy {
         $this->proxyLog->log("Resource using OAuth");
 
         $this->proxyPost($this->resource['oauth2endpoint'] . "token", array(
-                'client_id' => $this->resource['clientid'],
-                'client_secret' => $this->resource['clientsecret'],
-                'grant_type' => 'client_credentials',
-                'f' => 'json'
+            'client_id' => $this->resource['clientid'],
+            'client_secret' => $this->resource['clientsecret'],
+            'grant_type' => 'client_credentials',
+            'f' => 'json'
         ));
 
         $tokenResponse = json_decode($this->proxyBody, true);
@@ -1376,11 +1451,131 @@ class Proxy {
         return $token;
     }
 
+    public function checkWildcardSubDomain($allowedRefererDomain, $refererDomain)
+    {
+        $allowedRefererArray = explode(".", $allowedRefererDomain);
+
+        $refererArray = explode(".", $refererDomain);
+
+        if(count($allowedRefererArray) !== count($refererArray))
+        {
+            return false;
+        }
+
+        $index = count($allowedRefererArray) - 1;
+
+        while($index >=0)
+        {
+            if($allowedRefererArray[$index] === $refererArray[$index])
+            {
+                $index = $index - 1;
+
+            }else{
+
+                if($allowedRefererArray[$index] === "*")
+                {
+                    $index = $index - 1;
+
+                    continue;
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function protocolMatch($allowedRefererProtocol, $refererProtocol)
+    {
+        return strcmp($allowedRefererProtocol, $refererProtocol) === 0;
+    }
+
+    public function domainMatch($allowedRefererDomain, $refererDomain)
+    {
+        if(strcmp($allowedRefererDomain, $refererDomain) === 0)
+        {
+            return true;
+        }
+
+        //try if the allowed referer contains wildcard for subdomain
+        if(strpos($allowedRefererDomain, "*") !== false)
+        {
+            if($this->checkWildcardSubDomain($allowedRefererDomain, $refererDomain))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function pathMatch($allowedRefererPath, $refererPath)
+    {
+        if(strcmp($allowedRefererPath, $refererPath) === 0)
+        {
+            return true;
+        }
+        if($this->endsWith($allowedRefererPath, "*"))
+        {
+            $allowedRefererPathShort = rtrim($allowedRefererPath, "*");
+
+            if($this->startsWith($refererPath, $allowedRefererPathShort))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function endsWith($haystack, $needle) {
+        // search forward starting from end minus needle length characters
+        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+    }
+
+    public function checkAllowedReferer(){
+
+        foreach($this->proxyConfig['allowedreferers'] as $allowedReferer)
+        {
+            //Trim the whitespaces
+            $allowedReferer = trim($allowedReferer);
+
+            $refererArray = parse_url($this->referer);
+
+            $allowedRefererArray = null;
+
+            //TODO: add implementation
+            if($this->startsWith($allowedReferer, "https://") || $this->startsWith($allowedReferer, "http://"))
+            {
+                $allowedRefererArray = parse_url($allowedReferer);
+
+            } else {
+
+                $protocol = $refererArray['scheme'];
+
+                if($this->startsWith($allowedReferer, "//"))
+                {
+                    $allowedRefererArray = parse_url($protocol . ":" . $allowedReferer);
+
+                } else {
+
+                    $allowedRefererArray = parse_url($protocol . "://" . $allowedReferer);
+                }
+            }
+            if ($this->protocolMatch($allowedRefererArray['scheme'], $refererArray['scheme']) &&
+                $this->domainMatch($allowedRefererArray['host'], $refererArray['host']) &&
+                $this->pathMatch($allowedRefererArray['path'], $refererArray['path'])){
+
+                return true; //return true if match
+            }
+
+        }
+        return false;
+    }
+
 
     public function isAllowedApplication()
     {
 
-        if(in_array("*",$this->proxyConfig['allowedreferers'])){
+        //if allowedReferer = "" or "*" (if allowedReferer does not exist, it will be "")
+        if(in_array("*",$this->proxyConfig['allowedreferers']) || in_array("",$this->proxyConfig['allowedreferers'])){
 
             $this->referer = $_SERVER['SERVER_NAME']; //This is to enable browser testing when * is used
 
@@ -1396,14 +1591,15 @@ class Proxy {
 
         $isAllowedApplication = false;
 
-        if (in_array($this->referer, $this->proxyConfig['allowedreferers'])) {
+        if ($this->checkAllowedReferer()) {
 
             $isAllowedApplication = true;
 
         }else{
 
-            $this->proxyLog->log("Attempt made to use this proxy from " . $this->referer . " and " . $_SERVER['REMOTE_ADDR']);
+            $message = "Attempt made to use this proxy from " . $this->referer . " and " . $_SERVER['REMOTE_ADDR'];
 
+            $this->proxyLog->log($message);
         }
 
         return $isAllowedApplication;
@@ -1434,7 +1630,7 @@ class ProxyLog {
 
     public function __construct($configuration = null) {
 
-        if($configuration != null){
+        if(isset($configuration)){
 
             $this->proxyConfig = $configuration->proxyConfig;
 
@@ -1452,8 +1648,8 @@ class ProxyLog {
 
     }
 
-     private function addLogLevel()
-     {
+    private function addLogLevel()
+    {
 
         if(empty($this->proxyConfig['logfile'])) {
 
@@ -1468,7 +1664,7 @@ class ProxyLog {
 
         }
 
-     }
+    }
 
 
     public function write($m)
@@ -1503,10 +1699,10 @@ class ProxyLog {
                     header('Content-Type: application/json');
 
                     $configError = array(
-                            "error" => array("code" => 412,
-                                    "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
-                                    "message" => "Proxy failed due to configuration error."
-                            ));
+                        "error" => array("code" => 412,
+                            "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
+                            "message" => "Proxy failed due to configuration error."
+                        ));
 
                     echo json_encode($configError);
 
@@ -1528,10 +1724,10 @@ class ProxyLog {
             header('Content-Type: application/json');
 
             $configError = array(
-                    "error" => array("code" => 412,
-                            "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
-                            "message" => "Proxy failed due to configuration error."
-                    ));
+                "error" => array("code" => 412,
+                    "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
+                    "message" => "Proxy failed due to configuration error."
+                ));
 
             echo json_encode($configError);
 
@@ -1566,10 +1762,10 @@ class ProxyLog {
                         header('Content-Type: application/json');
 
                         $configError = array(
-                                "error" => array("code" => 412,
-                                        "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
-                                        "message" => "Proxy failed due to configuration error."
-                                ));
+                            "error" => array("code" => 412,
+                                "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
+                                "message" => "Proxy failed due to configuration error."
+                            ));
 
                         echo json_encode($configError);
 
@@ -1586,10 +1782,10 @@ class ProxyLog {
                     header('Content-Type: application/json');
 
                     $configError = array(
-                            "error" => array("code" => 412,
-                                    "details" => array("Could not write to log file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
-                                    "message" => "Proxy failed due to configuration error."
-                            ));
+                        "error" => array("code" => 412,
+                            "details" => array("Could not write to log file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
+                            "message" => "Proxy failed due to configuration error."
+                        ));
 
                     echo json_encode($configError);
 
@@ -1603,10 +1799,10 @@ class ProxyLog {
                 header('Content-Type: application/json');
 
                 $configError = array(
-                        "error" => array("code" => 412,
-                                "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
-                                "message" => "Proxy failed due to configuration error."
-                        ));
+                    "error" => array("code" => 412,
+                        "details" => array("Detected malformed 'logFile' in the configuration file.  Make sure this app has write permissions to log file specified in the configuration file.  The server does not meet one of the preconditions that the requester put on the request."),
+                        "message" => "Proxy failed due to configuration error."
+                    ));
 
                 echo json_encode($configError);
 
@@ -1618,9 +1814,11 @@ class ProxyLog {
 
     }
 
-
     public function log($message)
     {
+        global $proxyDataValid;
+
+        $message = $proxyDataValid->replaceCRLF($message, "__");
 
         if ($this->proxyConfig['loglevel'] == 0) {
 
@@ -1653,6 +1851,18 @@ class ProxyLog {
 
     }
 
+}
+
+class DataValidUtil
+{
+    public function replaceCRLF($lineString, $replaceString)
+    {
+        $filteredString = str_replace("\n", $replaceString, $lineString);
+
+        $filteredString = str_replace("\r", $replaceString, $filteredString);
+
+        return $filteredString;
+    }
 }
 
 class RateMeter
@@ -1799,7 +2009,7 @@ class RateMeter
 
     public function getConnection()
     {
-        if($this->con != null)
+        if(isset($this->con))
         {
             return $this->con;
 
@@ -1812,10 +2022,10 @@ class RateMeter
             header('Content-Type: application/json');
 
             $serverError = array(
-                    "error" => array("code" => 500,
-                            "details" => array("Cannot make a Sqlite database connection.  Check to see if it exists.  If it does, consider backing up and then deleting sqlite database."),
-                            "message" => "Proxy failed could not connect to sqlite database."
-                    ));
+                "error" => array("code" => 500,
+                    "details" => array("Cannot make a Sqlite database connection.  Check to see if it exists.  If it does, consider backing up and then deleting sqlite database."),
+                    "message" => "Proxy failed could not connect to sqlite database."
+                ));
 
             echo json_encode($serverError);
 
@@ -1854,7 +2064,7 @@ class RateMeter
 
             chmod($this->dbname,0777);
 
-            if($db != null)
+            if(isset($db))
             {
                 $db->beginTransaction();
 
@@ -2199,7 +2409,7 @@ class RateMeter
 
         $this->updateClicks(1, $clickCount); //Updating the click table so we know when to clean up (aka after 10,000 requests)
 
-        if ($lastRequest != null || count($lastRequest) > 0) {
+        if (isset($lastRequest) || count($lastRequest) > 0) {
 
             $count = $lastRequest['count'];
 
@@ -2262,7 +2472,7 @@ class RateMeter
     {
 
 
-        if($firstTime == null)
+        if(is_null($firstTime))
         {
             $this->proxyLog->log("No time value was returned from 'ips' table in Sqlite database!");
 
@@ -2271,10 +2481,10 @@ class RateMeter
             header('Content-Type: application/json');
 
             $serverError = array(
-                    "error" => array("code" => 500,
-                            "details" => array("No time value was returned from 'ips' table in Sqlite database.  Consider backing up and then deleting sqlite database."),
-                            "message" => "Proxy failed due to missing value in database."
-                    ));
+                "error" => array("code" => 500,
+                    "details" => array("No time value was returned from 'ips' table in Sqlite database.  Consider backing up and then deleting sqlite database."),
+                    "message" => "Proxy failed due to missing value in database."
+                ));
 
             echo json_encode($serverError);
 
@@ -2282,7 +2492,7 @@ class RateMeter
 
         }
 
-        if($secondTime == null)
+        if(is_null($secondTime))
         {
             $secondTime = microtime(true);
         }
@@ -2327,10 +2537,10 @@ class RateMeter
         header('Content-Type: application/json');
 
         $dbError = array(
-                "error" => array("code" => 500,
-                        "details" => array("A database error occurred.  Consider backing up and then deleting sqlite database."),
-                        "message" => "Proxy failed due to database error."
-                ));
+            "error" => array("code" => 500,
+                "details" => array("A database error occurred.  Consider backing up and then deleting sqlite database."),
+                "message" => "Proxy failed due to database error."
+            ));
 
         return json_encode($dbError);
     }
@@ -2550,15 +2760,15 @@ class XmlParser
             $message = "Proxy error: problem reading proxy configuration file.";
             // This is before we have the log location, so we cannot log to logfile
 
-            header('Status: 403', true, 403);  // 403 Forbidden - The server understood the request, but is refusing to fulfill it. For example, if a directory or file is unreadable due to file permissions.
+            header('Status: 402', true, 402);  // 402 Forbidden - The server understood the request, but is refusing to fulfill it. For example, if a directory or file is unreadable due to file permissions.
 
             header('Content-Type: application/json');
 
             $configError = array(
-                    "error" => array("code" => 403,
-                        "details" => array("$message"),
-                        "message" => "$message"
-                    ));
+                "error" => array("code" => 402,
+                    "details" => array("$message"),
+                    "message" => "$message"
+                ));
 
             die(json_encode($configError));
         }
@@ -2581,8 +2791,8 @@ class XmlParser
         if(!$this->xmlString)
         {
             die(sprintf("Config XML error: %s at line %d",
-                    xml_error_string(xml_get_error_code($this->parser)),
-                    xml_get_current_line_number($this->parser))); //This is before we have the log location
+                xml_error_string(xml_get_error_code($this->parser)),
+                xml_get_current_line_number($this->parser))); //This is before we have the log location
         }
 
         xml_parser_free($this->parser);
@@ -2623,6 +2833,7 @@ class XmlParser
 
 }
 
+$proxyDataValid = new DataValidUtil();
 
 $proxyConfig = new ProxyConfig();
 
