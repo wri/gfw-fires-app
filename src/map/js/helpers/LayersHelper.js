@@ -284,7 +284,7 @@ let LayersHelper = {
       let fire_results = '', subscribe = '';
       if (keyword === KEYS.woodFiber || keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.rspoOilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.protectedAreas) {
         fire_results = this.getFirePopupContent(item);
-        subscribe = '</table><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn green" id="subscribeViaFeature">Subscribe</button>';
+        subscribe = '</table><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button>';
       }
       // template_content_block = config.infoTemplate.content + template_content_block;
       let content = fire_results + config.infoTemplate.content + subscribe;
@@ -318,6 +318,15 @@ let LayersHelper = {
     feature.setInfoTemplate(template);
 
     return feature;
+  },
+
+  changeOpacity (parameters) {
+    console.log(parameters)
+    let layer = app.map.getLayer(parameters.layerId);
+    if ( layer ) {
+      // TODO:  check that value is >= 0 and <= 1.
+      layer.setOpacity(parameters.value);
+    }
   },
 
   showLayer (layerObj) {

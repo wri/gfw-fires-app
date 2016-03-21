@@ -10,6 +10,7 @@ import RiskControls from 'components/LayerPanel/RiskControls';
 import LossControls from 'components/LayerPanel/LossControls';
 import AirControls from 'components/LayerPanel/AirControls';
 import WindControls from 'components/LayerPanel/WindControls';
+import LayerTransparency from 'components/LayerPanel/LayerTransparency';
 // import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
 import LayerGroup from 'components/LayerPanel/LayerGroup';
@@ -102,6 +103,8 @@ export default class LayerPanel extends React.Component {
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
     let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
+    let conservationLayers = layersConfig.filter((l) => l.group === 'conservation').map(this.checkboxMap('conservation'), this);
+    let landCoverLayers = layersConfig.filter((l) => l.group === 'landCover').map(this.checkboxMap('landCover'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
 
 
@@ -114,6 +117,7 @@ export default class LayerPanel extends React.Component {
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
+          <LayerTransparency layers={landUseLayers}></LayerTransparency>
           {landUseLayers[0]}
           {layerPanelText.concessions}
           {landUseLayers[1]}
@@ -122,9 +126,11 @@ export default class LayerPanel extends React.Component {
           {landUseLayers[4]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
+          <LayerTransparency layers={conservationLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('conservation'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
+          <LayerTransparency layers={landCoverLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('landCover'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
