@@ -5,15 +5,15 @@ block append head-styles
   link(rel='icon', href='./css/images/favicon.png')
   link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
   link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
-  link(rel='stylesheet', href='../vendor/kalendae/build/kalendae.css')
+  link(rel='stylesheet', href='../vendors/kalendae/build/kalendae.css')
   style
     :stylus
       @require 'css/_base'
       @require 'css/_critical'
 
 block append head-scripts
-  script(src='../vendor/jquery/dist/jquery.min.js')
-  script(src='../vendor/kalendae/build/kalendae.standalone.js', async)
+  script(src='../vendors/jquery/dist/jquery.min.js')
+  script(src='../vendors/kalendae/build/kalendae.standalone.js', async)
   script.
     var base = location.pathname.replace(/\/[^/]+$/, '/');
     var dojoConfig = {
@@ -27,17 +27,17 @@ block append head-scripts
         { name: 'helpers', location: base + 'js/helpers' },
         { name: 'actions', location: base + 'js/actions' },
         { name: 'components', location: base + 'js/components' },
-        { name: 'vendor', location: base + '../vendor' }
+        { name: 'vendors', location: base + '../vendors' }
       ],
       aliases: [
-        ['alt', 'vendor/alt/dist/alt.min'],
-        ['react', 'vendor/react/react.min'],
-        ['react-dom', 'vendor/react/react-dom.min'],
-        ['react-motion', 'vendor/react-motion/build/react-motion'],
-        ['lodash', 'vendor/lodash/lodash.min'],
-        ['babel-polyfill', 'vendor/babel-polyfill/browser-polyfill'],
-        ['formsy-react', 'vendor/formsy-react/release/formsy-react'],
-        ['chosen', 'vendor/chosen/chosen.jquery']
+        ['alt', 'vendors/alt/dist/alt.min'],
+        ['react', 'vendors/react/react.min'],
+        ['react-dom', 'vendors/react/react-dom.min'],
+        ['react-motion', 'vendors/react-motion/build/react-motion'],
+        ['lodash', 'vendors/lodash/lodash.min'],
+        ['babel-polyfill', 'vendors/babel-polyfill/browser-polyfill'],
+        ['formsy-react', 'vendors/formsy-react/release/formsy-react'],
+        ['chosen', 'vendors/chosen/chosen.jquery']
       ],
       deps: ['dojo/domReady!'],
       callback: function () {
