@@ -2,7 +2,6 @@ import {prepareStateForUrl} from 'helpers/ShareHelper';
 import {modalActions} from 'actions/ModalActions';
 import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
-import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
 import React from 'react';
 
@@ -10,9 +9,9 @@ let zoomInSvg = '<use xlink:href="#icon-plus" />';
 let zoomOutSvg = '<use xlink:href="#icon-minus" />';
 let shareSvg = '<use xlink:href="#icon-share" />';
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
-let basemapSvg = '<use xlink:href="#icon-basemap" />';
+// let basemapSvg = '<use xlink:href="#icon-basemap" />';
 let timelineSvg = '<use xlink:href="#icon-timeline" />';
-let locateSvg = '<use xlink:href="#icon-locate" />';
+let printSvg = '<use xlink:href="#icon-print" />';
 
 export default class ControlPanel extends React.Component {
 
@@ -56,10 +55,6 @@ export default class ControlPanel extends React.Component {
     mapActions.reset();
   }
 
-  // toggleBasemapGallery () {
-  //   this.setState({ basemapGalleryOpen: !this.state.basemapGalleryOpen });
-  // }
-
   toggleMasterCalendar () {
     modalActions.showCalendarModal('start');
     mapActions.setCalendar('masterDay');
@@ -73,8 +68,8 @@ export default class ControlPanel extends React.Component {
     mapActions.setBasemap(id);
   }
 
-  locateMe () {
-    mapActions.zoomToUserLocation();
+  print () {
+    // mapActions.zoomToUserLocation();
   }
 
   toggleSearch () {
@@ -82,6 +77,10 @@ export default class ControlPanel extends React.Component {
   }
   // <li className='basemap-layers pointer' title='Basemaps' onClick={this.togglePanels.bind(this)}>
   //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
+  // </li>
+
+  // <li className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>
+  //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
   // </li>
 
   render() {
@@ -105,8 +104,8 @@ export default class ControlPanel extends React.Component {
               <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
             </li>
           </div>
-          <li className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>
-            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
+          <li className='print pointer' title='Print' onClick={this.print}>
+            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: printSvg }}/>
           </li>
         </ul>
 

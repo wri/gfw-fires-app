@@ -6,6 +6,7 @@ import Search from 'esri/dijit/Search';
 import React from 'react';
 
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
+let locateSvg = '<use xlink:href="#icon-locate" />';
 let generateSearchWidget = (component) => {
 
   let searchWidget = new Search({
@@ -144,6 +145,10 @@ export default class EsriSearch extends React.Component {
     analysisActions.toggleEsriSearchVisibility();
   }
 
+  locateMe () {
+    mapActions.zoomToUserLocation();
+  }
+
   render() {
     let className = 'search-tools map-component';
     // NOTE: searchInput is mounted & unmounted visible to take advantage of keyboard autoFocus
@@ -165,6 +170,9 @@ export default class EsriSearch extends React.Component {
             <button className='padding back-white'>
               <svg className='search-magnifier vertical-middle' dangerouslySetInnerHTML={{ __html: magnifierSvg }} />
             </button>
+            <div className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>
+              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
+            </div>
           </div>
           <div ref='searchResults' className='search-results custom-scroll'>
             {this.state.suggestResults.map((r, i) => (
