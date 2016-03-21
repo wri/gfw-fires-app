@@ -297,5 +297,6 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('serve', ['browser-sync']);
+// gulp.task('dist', ['stylus-build', 'babel-build', 'jade-build', 'imagemin-build', 'copy-build-vendor', 'copy-build-php']);
 gulp.task('build', ['stylus-build', 'stylus-watch', 'babel-build', 'babel-watch', 'jade-build', 'jade-watch', 'imagemin-build', 'copy-build-vendor', 'copy-build-php']);
-gulp.task('dist', ['stylus-dist', 'babel-dist', 'jade-dist', 'imagemin-dist', 'copy-dist-vendor', 'copy-dist-php']);
+gulp.task('dist', ['stylus-dist', 'babel-dist', 'jade-dist', 'copy-dist-vendor', 'copy-dist-php']);

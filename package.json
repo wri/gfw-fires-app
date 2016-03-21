@@ -6,10 +6,10 @@
   "scripts": {
     "start": "gulp build & gulp serve",
     "dist": "gulp dist",
-    "dist-www": "gulp build; cp -r build/* www;",
+    "dist-www": "npm run dist; cp -r dist/* www;",
     "build": "gulp build; gulp notify",
     "install": "bower install",
-    "postinstall": "npm run dist-www; fi",
+    "postinstall": "npm run dist-www;",
     "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'",
     "test": "eslint src/**/*.js;"
   },
