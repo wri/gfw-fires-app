@@ -65,8 +65,8 @@ var config = {
     dist: 'dist'
   },
   polyfill: {
-    src: 'vendor/babel-polyfill/browser-polyfill.js',
-    base: 'vendor',
+    src: 'vendors/babel-polyfill/browser-polyfill.js',
+    base: 'vendors',
     build: 'build',
     dist: 'dist'
   },
@@ -81,7 +81,7 @@ var config = {
     dist: 'dist'
   },
   copy: {
-    src: 'vendor/**/*.{js,css,map}',
+    src: 'vendors/**/*.{js,css,map}',
     build: 'build',
     dist: 'dist'
   }
@@ -93,6 +93,14 @@ config.i18n.forEach(function (language) {
 
 gulp.task('jade-watch', function () {
   gulp.watch(config.jade.watch, ['jade-build']);
+});
+
+gulp.task('notify', function () {
+  notifier.notify({
+    title: 'LLL done',
+    message: 'ddd',
+    sound: true
+  });
 });
 
 gulp.task('jade-build', function () {
@@ -214,7 +222,7 @@ gulp.task('copy-build-vendor', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.copy.src)
-        .pipe(gulp.dest(config.copy.build + '/' + locale.language + '/vendor'))
+        .pipe(gulp.dest(config.copy.build + '/' + locale.language + '/vendors'))
     );
   });
   return stream;
@@ -225,7 +233,7 @@ gulp.task('copy-dist-vendor', function () {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.copy.src)
-        .pipe(gulp.dest(config.copy.dist + '/' + locale.language + '/vendor'))
+        .pipe(gulp.dest(config.copy.dist + '/' + locale.language + '/vendors'))
     );
   });
   return stream;
@@ -258,7 +266,7 @@ gulp.task('polyfill-build', function() {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.polyfill.src, { base: config.polyfill.base })
-        .pipe(gulp.dest(config.polyfill.build + '/' + locale.language + '/vendor'))
+        .pipe(gulp.dest(config.polyfill.build + '/' + locale.language + '/vendors'))
     );
   });
   return stream;
@@ -269,7 +277,7 @@ gulp.task('polyfill-dist', function() {
   config.i18n.forEach(function(locale) {
     stream.add(
       gulp.src(config.polyfill.src, { base: config.polyfill.base })
-        .pipe(gulp.dest(config.polyfill.dist + '/' + locale.language + '/vendor'))
+        .pipe(gulp.dest(config.polyfill.dist + '/' + locale.language + '/vendors'))
     );
   });
   return stream;
