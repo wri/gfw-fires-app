@@ -13,11 +13,12 @@ class AnalysisStore {
     this.customAreaName = analysisPanelText.customAreaNamePlaceholder;
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
+    this.customizeOpen = false;
     this.analysisToolsExpanded = true;
     this.imageryToolsExpanded = false;
     this.basemapToolsExpanded = false;
     this.timelineVisible = false;
-    this.areaIslandsActive = false;
+    this.areaIslandsActive = true;
     this.islands = [];
     this.provinces = [];
 
@@ -25,11 +26,13 @@ class AnalysisStore {
       clearCustomArea: analysisActions.clearCustomArea,
       setAnalysisType: analysisActions.setAnalysisType,
       toggleDrawToolbar: analysisActions.toggleDrawToolbar,
+      toggleCustomize: analysisActions.toggleCustomize,
       analyzeCustomArea: analysisActions.analyzeCustomArea,
       setCustomAreaName: analysisActions.setCustomAreaName,
       clearActiveWatershed: analysisActions.clearActiveWatershed,
       toggleAnalysisToolsVisibility: analysisActions.toggleAnalysisToolsVisibility,
       toggleAnalysisToolsExpanded: analysisActions.toggleAnalysisToolsExpanded,
+      toggleSubscribeToolsExpanded: analysisActions.toggleSubscribeToolsExpanded,
       toggleImageryToolsExpanded: analysisActions.toggleImageryToolsExpanded,
       toggleBasemapToolsExpanded: analysisActions.toggleBasemapToolsExpanded,
       toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility,
@@ -65,12 +68,20 @@ class AnalysisStore {
     this.toolbarActive = status;
   }
 
+  toggleCustomize () {
+    this.customizeOpen = !this.customizeOpen;
+  }
+
   toggleAnalysisToolsVisibility () {
     this.analysisToolsVisible = !this.analysisToolsVisible;
   }
 
   toggleAnalysisToolsExpanded () {
     this.analysisToolsExpanded = !this.analysisToolsExpanded;
+  }
+
+  toggleSubscribeToolsExpanded () {
+    this.subscribeToolsExpanded = !this.subscribeToolsExpanded;
   }
 
   toggleImageryToolsExpanded () {

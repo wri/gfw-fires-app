@@ -42,11 +42,19 @@ class AnalysisActions {
     this.dispatch(status);
   }
 
+  toggleCustomize () {
+    this.dispatch();
+  }
+
   toggleAnalysisToolsVisibility () {
     this.dispatch();
   }
 
   toggleAnalysisToolsExpanded () {
+    this.dispatch();
+  }
+
+  toggleSubscribeToolsExpanded () {
     this.dispatch();
   }
 

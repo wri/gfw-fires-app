@@ -29,16 +29,25 @@ export default class AnalysisTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-
-    if (prevProps.provinces.length === 0 && this.props.provinces.length > 0) {
-      $('#provinces').chosen();
-    } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-      $('#islands').chosen('destroy');
-      $('#provinces').chosen();
+    if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
+      $('#islands').chosen();
     } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
       $('#provinces').chosen('destroy');
       $('#islands').chosen();
+    } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
+      $('#islands').chosen('destroy');
+      $('#provinces').chosen();
+    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
+      $('#islands').chosen('destroy');
+      $('#islands').chosen();
+    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
+      $('#provinces').chosen('destroy');
+      $('#provinces').chosen();
     }
+  }
+
+  toggleCustomize () {
+    analysisActions.toggleCustomize();
   }
 
   render () {
@@ -46,38 +55,45 @@ export default class AnalysisTab extends React.Component {
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
     return (
       <div className={className}>
+        <h4>{analysisPanelText.analysisAreaTitle}</h4>
         <p>{analysisPanelText.analysisAreaHeader}</p>
-        <div className='flex flex-justify-around'>
-          <label>
-            <input onChange={analysisActions.toggleAreaIslandsActive} checked={this.props.areaIslandsActive} type='radio' />
-            {' By Island(s)'}
-          </label>
-          <label>
-            <input onChange={analysisActions.toggleAreaIslandsActive} checked={!this.props.areaIslandsActive} type='radio' />
-            {' By Province(s)'}
-          </label>
+        <p className='customize-report-label' onClick={this.toggleCustomize}>{analysisPanelText.analysisCustomize}
+          <span className='analysis-toggle'>{this.props.customizeOpen ? ' ▼' : ' ►'}</span>
+        </p>
+        <div className={`customize-options ${this.props.customizeOpen === true ? '' : 'hidden'}`}>
+          <p>{analysisPanelText.analysisChoose}</p>
+          <div className='flex flex-justify-around'>
+            <label>
+              <input onChange={analysisActions.toggleAreaIslandsActive} checked={this.props.areaIslandsActive} type='radio' />
+              {' By Island(s)'}
+            </label>
+            <label>
+              <input onChange={analysisActions.toggleAreaIslandsActive} checked={!this.props.areaIslandsActive} type='radio' />
+              {' By Province(s)'}
+            </label>
+          </div>
+          <div className='padding'>
+          {this.props.islands.length > 0 ?
+            <select multiple id='islands' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`} onChange={this.change} disabled={this.props.islands.length === 0}>
+              {this.props.islands.map((i) => (
+                <option selected='true' value={i}>{i}</option>
+              ))}
+            </select>
+            : null
+          }
+          {this.props.islands.length > 0 ?
+            <select multiple id='provinces' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === false ? '' : 'hidden'}`} onChange={this.change}>
+              {this.props.provinces.map((p) => (
+                <option selected='true' value={p}>{p}</option>
+              ))}
+            </select>
+            : null
+          }
+          </div>
+          <p>{analysisPanelText.analysisTimeframeHeader}</p>
+          <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
+          <div id='analysisWarning' className={`analysis-warning ${this.state.localErrors === false ? 'hidden' : ''}`}>Please select an island or province</div>
         </div>
-        <div className='padding'>
-        {this.props.islands.length > 0 ?
-          <select multiple id='islands' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`} onChange={this.change} disabled={this.props.islands.length === 0}>
-            {this.props.islands.map((i) => (
-              <option selected='true' value={i}>{i}</option>
-            ))}
-          </select>
-          : null
-        }
-        {this.props.islands.length > 0 ?
-          <select multiple id='provinces' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === false ? '' : 'hidden'}`} onChange={this.change}>
-            {this.props.provinces.map((p) => (
-              <option selected='true' value={p}>{p}</option>
-            ))}
-          </select>
-          : null
-        }
-        </div>
-        <p>{analysisPanelText.analysisTimeframeHeader}</p>
-        <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
-        <div id='analysisWarning' className={`analysis-warning ${this.state.localErrors === false ? 'hidden' : ''}`}>Please select an island or province</div>
         <div className='no-shrink analysis-footer text-center'>
           <button onClick={this.beginAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>
@@ -99,7 +115,6 @@ export default class AnalysisTab extends React.Component {
     }
 
     if (!provinces) {
-      console.log('none')
       this.setState({
         localErrors: true
       });
