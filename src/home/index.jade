@@ -83,19 +83,21 @@ block content
           div.action-menu__item__title #{home.social.title}
           div.action-menu__item__description #{home.social.description}
 
-  div#alerts-modal.alerts-modal.modal-wrapper
+  div#alerts-modal.modal.hidden
     div.modal-container
       div.modal-background
-      article.modal.shadow
-        div#close-icon.close-icon.pointer(title='close')
+      div.modal-window
+        div#close-icon.modal-close.close-icon.pointer(title='close')
           svg: use(xlink:href="#icon-close")
-        div.modal-title #{home.alerts.modal.title}
-        div.modal-content.custom-scroll
-          div
-            p
-             | #{home.alerts.modal.content[0].trim() + ' '}
-             a.text-gfw-red(href='/#{language}/map') #{home.alerts.modal.content[1].trim()}
-             | #{' ' + home.alerts.modal.content[2].trim()}
+        div.modal-wrapper.custom-scroll
+          div.modal-content
+            div.modal-source
+            div.modal-title #{home.alerts.modal.title}
+            div
+              p
+               | #{home.alerts.modal.content[0].trim() + ' '}
+               a.text-gfw-red(href='/#{language}/map') #{home.alerts.modal.content[1].trim()}
+               | #{' ' + home.alerts.modal.content[2].trim()}
 
   script.
     $('.home-slider').slick({
@@ -108,9 +110,9 @@ block content
       dots: true
     });
     window.addEventListener('load', function () {
-      document.getElementById('alerts1').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
-      document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
-      document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('open'); };
+      document.getElementById('alerts1').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
+      document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
+      document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
     });
 
     // NOTE: priorDate is 8 weeks in the past to approximate to a week but also cover other time zones where 7 days prior might not be the whole week

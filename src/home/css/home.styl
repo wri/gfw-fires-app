@@ -4,13 +4,19 @@
 @require '_action-menu'
 @require '_slider'
 
-#alerts-modal
-  display none
+// #alerts-modal
+//   position absolute
+//   height 100%
+//   width 100%
 
-.alerts-modal
+#alerts-modal
   .modal
     max-width 375px
 
     +below($mq-mobile)
       max-width initial
       width calc(100% - 2em)
+
+
+  // .modal-background
+  //   background-color transparent
