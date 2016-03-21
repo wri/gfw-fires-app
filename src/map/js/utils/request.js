@@ -43,6 +43,27 @@ const request = {
     return deferred;
   },
 
+  getFeatureGeometry: (url, objectId) => {
+    app.debug('Request >>> getLegendInfos');
+    let qDeferred = new Deferred();
+
+    let queryTask = new QueryTask(url);
+    let query = new Query();
+    query.where = 'OBJECTID = ' + objectId;
+    query.returnGeometry = true;
+    query.outFields = ['name'];
+    queryTask.execute(query).then(function(results){
+
+      qDeferred.resolve(results);
+    }, function(err) {
+      console.error(err);
+      qDeferred.resolve(false);
+      return;
+    });
+    return qDeferred.promise;
+
+  },
+
   getBoundingBoxes: () => {
     app.debug('Request >>> getBoundingBoxes');
     let deferred = new Deferred();
@@ -168,6 +189,7 @@ const request = {
   identifyOilPalm: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalm);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.oilPalm);
@@ -186,10 +208,33 @@ const request = {
 
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.oilPalm,
-          features: features
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
         });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.oilPalm,
+            features: qResults
+          });
+        });
+        // deferred.resolve({
+        //   layer: KEYS.oilPalm,
+        //   features: features
+        // });
       } else {
         deferred.resolve(false);
       }
@@ -208,6 +253,7 @@ const request = {
   identifyRSPOOilPalm: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.rspoOilPalm);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.rspoOilPalm);
@@ -226,10 +272,33 @@ const request = {
 
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.rspoOilPalm,
-          features: features
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
         });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.rspoOilPalm,
+            features: qResults
+          });
+        });
+        // deferred.resolve({
+        //   layer: KEYS.rspoOilPalm,
+        //   features: features
+        // });
       } else {
         deferred.resolve(false);
       }
@@ -248,6 +317,7 @@ const request = {
   identifyWoodFiber: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.woodFiber);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.woodFiber);
@@ -266,10 +336,33 @@ const request = {
 
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.woodFiber,
-          features: features
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
         });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.woodFiber,
+            features: qResults
+          });
+        });
+        // deferred.resolve({
+        //   layer: KEYS.woodFiber,
+        //   features: features
+        // });
       } else {
         deferred.resolve(false);
       }
@@ -288,6 +381,7 @@ const request = {
   identifyLoggingConcessions: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.loggingConcessions);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.loggingConcessions);
@@ -306,10 +400,33 @@ const request = {
 
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.loggingConcessions,
-          features: features
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
         });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.loggingConcessions,
+            features: qResults
+          });
+        });
+        // deferred.resolve({
+        //   layer: KEYS.loggingConcessions,
+        //   features: features
+        // });
       } else {
         deferred.resolve(false);
       }
@@ -328,6 +445,7 @@ const request = {
   identifyProtectedAreas: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreas);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.protectedAreas);
@@ -346,10 +464,33 @@ const request = {
 
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.protectedAreas,
-          features: features
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
         });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.protectedAreas,
+            features: qResults
+          });
+        });
+        // deferred.resolve({
+        //   layer: KEYS.protectedAreas,
+        //   features: features
+        // });
       } else {
         deferred.resolve(false);
       }

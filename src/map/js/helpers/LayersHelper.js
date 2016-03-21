@@ -192,7 +192,30 @@ let LayersHelper = {
         app.map.infoWindow.setFeatures(features);
         app.map.infoWindow.show(mapPoint);
         let handles = [];
+        let subscribeHandles = [];
         let self = this;
+
+
+
+        dojoQuery('.contentPane .layer-subscribe').forEach((rowData) => {
+
+          subscribeHandles.push(on(rowData, 'click', function(clickEvt) {
+            let target = clickEvt.target ? clickEvt.target : clickEvt.srcElement,
+                url = target.getAttribute('data-url'),
+                objId = target.getAttribute('data-id');
+
+                Request.getFeatureGeometry(url, objId).then(item => {
+                  item.features[0].attributes.Layer = 'prebuilt';
+                  item.features[0].attributes.featureName = item.features[0].attributes.name;
+                  // if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
+
+                    modalActions.showSubscribeModal(item.features[0]);
+
+                  // }
+                });
+          }));
+
+        });
 
         dojoQuery('.contentPane .imagery-data').forEach((rowData) => {
 
@@ -252,11 +275,23 @@ let LayersHelper = {
   },
 
   setActiveTemplates: function(featureObjects, keyword) {
+    app.debug('LayersHelper >>> setActiveTemplates');
     let template,
       features = [];
+
     featureObjects.forEach(item => {
       let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
-      template = new InfoTemplate(item.layerName, config.infoTemplate.content);
+      let fire_results = '', subscribe = '';
+      if (keyword === KEYS.woodFiber || keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.rspoOilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.protectedAreas) {
+        fire_results = this.getFirePopupContent(item);
+        subscribe = '</table><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn green" id="subscribeViaFeature">Subscribe</button>';
+      }
+      // template_content_block = config.infoTemplate.content + template_content_block;
+      let content = fire_results + config.infoTemplate.content + subscribe;
+
+
+      // template = new InfoTemplate(item.layerName, template_content_block);
+      template = new InfoTemplate(item.layerName, content);
       item.feature.setInfoTemplate(template);
       features.push(item.feature);
     });
@@ -299,7 +334,7 @@ let LayersHelper = {
           if (item === true) {
             let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
             let tempGraphics = [];
-            for (var t = 0; t < footprintsLayer.graphics.length; t++) {
+            for (let t = 0; t < footprintsLayer.graphics.length; t++) {
               tempGraphics.push(footprintsLayer.graphics[t]);
             }
             layerActions.setFootprints(tempGraphics);
@@ -338,6 +373,33 @@ let LayersHelper = {
       WindHelper.deactivateWindLayer();
     }
 
+  },
+
+  getFirePopupContent(item) {
+    app.debug('LayersHelper >>> getFirePopupContent');
+    let isFires = item.fires.length > 0;
+
+    let firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
+    let noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
+    let fire_results = isFires ? [firesDiv] : [noFiresDiv];
+
+    if(isFires){
+      let fireCounts = [1, 2, 3, 7].map(function(numdays){
+      return item.fires.filter(function(fire){
+        return window.Kalendae.moment(fire.attributes.Date) > window.Kalendae.moment().subtract(numdays + 1, 'days');
+        }).length;
+      });
+
+      fire_results += '<div class="fire-pop-item-cont">' +
+        '<div id="firesWeek-pop" class="fire-pop-item"><div class="fire-pop-count">' + fireCounts[3] + '</div><div class="fire-pop-label">Week</div></div>' +
+        '<div id="fires72-pop" class="fire-pop-item"><div class="fire-pop-count">' + fireCounts[2] + '</div><div class="fire-pop-label">72 hrs</div></div>' +
+        '<div id="fires48-pop" class="fire-pop-item"><div class="fire-pop-count">' + fireCounts[1] + '</div><div class="fire-pop-label">48 hrs</div></div>' +
+        '<div id="fires24-pop" class="fire-pop-item"><div class="fire-pop-count">' + fireCounts[0] + '</div><div class="fire-pop-label">24 hrs</div></div>' +
+        '</div>';
+    }
+
+    fire_results += '</div>';
+    return fire_results;
   },
 
   updateImageryStart(date) {
