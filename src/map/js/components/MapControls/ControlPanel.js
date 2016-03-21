@@ -1,6 +1,7 @@
 import {prepareStateForUrl} from 'helpers/ShareHelper';
 import {modalActions} from 'actions/ModalActions';
 import {analysisActions} from 'actions/AnalysisActions';
+import {controlPanelText} from 'js/config';
 import {mapActions} from 'actions/MapActions';
 import {mapStore} from 'stores/MapStore';
 import React from 'react';
@@ -79,9 +80,7 @@ export default class ControlPanel extends React.Component {
   //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
   // </li>
 
-  // <li className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>
-  //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
-  // </li>
+  // <div className='mobile-hide'> //surrounding certain li elements?
 
   render() {
     return (
@@ -89,23 +88,27 @@ export default class ControlPanel extends React.Component {
         <ul>
           <li className='zoom-in pointer' title='Zoom In' onClick={this.zoomIn}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomInSvg }}/>
+            <span className='tooltipmap top left'>{controlPanelText.zoomInHover}</span>
           </li>
           <li className='zoom-out pointer' title='Zoom Out' onClick={this.zoomOut}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomOutSvg }}/>
+            <span className='tooltipmap top right'>{controlPanelText.zoomOutHover}</span>
           </li>
           <li className='share-map pointer' title='Share' onClick={this.share}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
+            <span className='tooltipmap middle left'>{controlPanelText.shareHover}</span>
           </li>
           <li className='search-map pointer' title='Reset' onClick={this.toggleSearch}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
+            <span className='tooltipmap middle right'>{controlPanelText.searchHover}</span>
           </li>
-          <div className='mobile-hide'>
-            <li className='basemap-layers pointer' title='Basemaps' onClick={this.toggleMasterCalendar.bind(this)}>
-              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
-            </li>
-          </div>
+          <li className='timeline-sync pointer' title='Time sync' onClick={this.toggleMasterCalendar.bind(this)}>
+            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
+            <span className='tooltipmap low left'>{controlPanelText.timeHover}</span>
+          </li>
           <li className='print pointer' title='Print' onClick={this.print}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: printSvg }}/>
+            <span className='tooltipmap low right'>{controlPanelText.printHover}</span>
           </li>
         </ul>
 
