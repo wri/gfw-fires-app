@@ -8,7 +8,7 @@ export default class TabControls extends React.Component {
   click (tabId) {
    analysisActions.setAnalysisType(tabId);
     if (this.props.activeTab === tabId) { analysisActions.toggleAnalysisToolsExpanded(); }
-    else if (this.props.analysisToolsExpanded === false) { analysisActions.toggleAnalysisToolsExpanded(); }
+    else if (this.props.subscribeToolsExpanded === false) { analysisActions.toggleSubscribeToolsExpanded(); }
     else if (this.props.imageryToolsExpanded === false) { analysisActions.toggleImageryToolsExpanded(); }
     else if (this.props.basemapToolsExpanded === false) { analysisActions.toggleBasemapToolsExpanded(); }
   }
@@ -28,29 +28,28 @@ export default class TabControls extends React.Component {
     };
 
     return (
-      //todo: {text.analysisTabLabel} and its two brothers will now be shown IN the open tab only
       <div className='no-shrink tabs'>
         <div className={`gfw-btn pointer inline-block ${this.props.analysisToolsExpanded !== false && this.props.activeTab === text.analysisTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.analysisTabId)}>
-          <span className="tooltipmap">ANALYZE FIRES</span>
+          <span className="tooltipmap">{text.analysisTabLabel}</span>
           <AnalysisSvg />
 
         </div>
-        <div className={`gfw-btn pointer inline-block ${this.props.analysisToolsExpanded !== false && this.props.activeTab === text.subscriptionTabId ? 'active' : ''}`}
+        <div className={`gfw-btn pointer inline-block ${this.props.subscribeToolsExpanded !== false && this.props.activeTab === text.subscriptionTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.subscriptionTabId)}>
-          <span className="tooltipmap">SUBSCRIBE TO ALERTS</span>
+          <span className="tooltipmap">{text.subscriptionTabLabel}</span>
           <AlertsSvg />
 
         </div>
         <div className={`gfw-btn pointer inline-block ${this.props.imageryToolsExpanded !== false && this.props.activeTab === text.imageryTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.imageryTabId)}>
-          <span className="tooltipmap">VIEW HIGH-RES IMAGERY</span>
+          <span className="tooltipmap">{text.imageryTabLabel}</span>
           <ImagerySvg />
 
         </div>
         <div className={`gfw-btn pointer inline-block ${this.props.basemapToolsExpanded !== false && this.props.activeTab === text.basemapTabId ? 'active' : ''}`}
           onClick={this.click.bind(this, text.basemapTabId)}>
-          <span className="tooltipmap">CHANGE BASE MAP</span>
+          <span className="tooltipmap">{text.basemapTabLabel}</span>
           <BasemapSvg />
 
         </div>

@@ -157,6 +157,9 @@ export default class EsriSearch extends React.Component {
     );
     if (this.state.esriSearchVisible === false) { className += ' hidden'; }
 
+
+    // <input ref='decimalDegreeLat' className='search-input fill__wide' type='number' placeholder='Latitude' />
+    // <input ref='decimalDegreeLng' className='search-input fill__wide' type='number' placeholder='Longitude' />
     return (
       <div className={className}>
         <div>
@@ -199,16 +202,19 @@ export default class EsriSearch extends React.Component {
               <option>E</option>
             </select>
           </div>
-          <div className='text-right'>
-            <button className='search-submit-button gfw-btn blue' onClick={this.coordinateSearch.bind(this)}>Search</button>
+          <div id='coordinateSearch' className='search-button text-right'>
+            <button className='search-submit-button gfw-btn green' onClick={this.coordinateSearch.bind(this)}>Search</button>
           </div>
         </div>
-        <div className={this.state.visibleTab === 2 ? '' : 'hidden'}>
-          <input ref='decimalDegreeLat' className='search-input fill__wide' type='number' placeholder='Latitude' />
-          <input ref='decimalDegreeLng' className='search-input fill__wide' type='number' placeholder='Longitude' />
-          <div className='text-right'>
-            <button className='search-submit-button gfw-btn blue' onClick={this.decimalDegreeSearch.bind(this)}>Search</button>
+        <div className={`search-box degrees ${this.state.visibleTab === 2 ? '' : 'hidden'}`}>
+          <div className='deg-box'>
+            <span>Lat:</span><input ref='decimalDegreeLat' type='number' className='deg-input' id='deg-lat' name='deg-lat' type='text' />
           </div>
+          <div className='deg-box'>
+            <span>Long:</span><input ref='decimalDegreeLng' type='number' className='deg-input' id='deg-lng' name='deg-lng' type='text' />
+          </div>
+          <button className='search-submit-button gfw-btn green' onClick={this.decimalDegreeSearch.bind(this)}>Search</button>
+
         </div>
         <div className='hidden'>
           <div id={analysisPanelText.searchWidgetId} />

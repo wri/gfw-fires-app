@@ -1,9 +1,9 @@
 // Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
 .search-tools
-  width 320px
+  width 500px
   right 20px
   z-index 6
-  top 60%
+  top 300px
   left 0px
   right 0px
   margin 0 auto
@@ -17,30 +17,30 @@
     right 1em
     z-index 800 // $z-modal
 
-  & .search-submit-button
-    color #FFF
-    border-radius 0
+  // & .search-submit-button
+  //   color #FFF
+  //   border-radius 0
 
   & .search-tab
-    background-color #FFF
+    color white
+    background-color #c9c9c9
     border none
-    border-bottom 5px solid #FFF
     font-size .75em
-    margin 0 3px
-    padding 5px 5px 0px 5px
+    margin-left 3px
+    padding 5px 15px 2px 15px
     display inline-block
     transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
     outline none
 
     &.active
     &:active
-      color #e7002f // $gfw-red
-      border-color #e7002f // $gfw-red
+      color #c9c9c9
+      background-color white
 
-    &:active
-    &:hover
-    &:focus
-      color #e7002f // $gfw-red
+    // &:active
+    // &:hover
+    // &:focus
+    //   color #e7002f // $gfw-red
 
     &:nth-child(1)
       margin-left 0
@@ -80,7 +80,8 @@
 
   & .search-coordinates
     display flex
-    width 100%
+    // width 100%
+    width calc(100% - 100px)
     justify-content space-between
     align-items center
 
@@ -90,6 +91,100 @@
 
     & select
       margin-right 10px
+      background #555
+      color white
+      width 60px
+      height 30px
+
+  & .search-button
+    float right
+    position absolute
+    right -80px
+    width 80px
+    top 25px
+
+.search-box.degrees
+  background white
+  display flex
+  display -webkit-flex
+  -webkit-box-pack justify
+  -moz-box-pack justify
+  -ms-flex-pack justify
+  -webkit-justify-content space-between
+  justify-content space-between
+  align-items center
+  -webkit-align-items center
+  padding 0 10px
+
+.deg-box
+  display flex
+  display -webkit-flex
+  -webkit-box-pack justify
+  -moz-box-pack justify
+  -ms-flex-pack justify
+  -webkit-justify-content space-between
+  justify-content space-between
+  align-items center
+  -webkit-align-items center
+
+.deg-box span
+  width auto
+
+.deg-box input.deg-input
+  max-width 120px
+  text-align left
+  margin 13px 0 9px 5px
+  padding 0
+  text-align left
+  outline 0
+  border none
+  border-bottom 1px solid #555555
+  font-size 18px
+  border-radius 0
+  font-family inherit
+
+.deg-box .gfw-btn
+  background #e5e5df
+  position relative
+  display inline-block
+  z-index 1
+  padding 0px 12px
+  border-radius 40px
+  font-size 14px
+  text-decoration none
+  height 36px
+  line-height 36px
+  text-align center
+  font-weight 500
+  white-space nowrap
+  -webkit-transition background 0.15s linear
+  -moz-transition background 0.15s linear
+  -o-transition background 0.15s linear
+  transition background 0.15s linear
+
+.search-submit-button.gfw-btn.green:hover
+  background #789631
+  text-decoration none !important
+
+.search-submit-button.gfw-btn.green
+  color white
+  background #97bd3d
+
+.deg-box
+  button
+    width auto
+    margin 0 0 0 10px
+
+#coordinateSearch
+  position absolute
+  right 0px
+  top 26px
+  background white
+  height 90px
+  padding-top 25px
+  width 100px
+  button
+    margin-right 15px
 
 .analysis-tools
   max-height calc(100% - 215px)
@@ -110,9 +205,17 @@
     flex-shrink 0
   & .tab-container
     overflow-y auto
+    p
+      text-align left
+      padding-left 40px
+      padding-right 40px
+      font-size 14px
   & > div
     background white
     width 100%
+
+.analysis-toggle
+  cursor pointer
 
 .analysis-tools .tabs .gfw-btn
 .analysis-footer > div
@@ -261,14 +364,19 @@
 .imagery-tab, #areaTab
   padding 20px
 
-.imagery-calendar-label
+.imagery-calendar-label, .customize-report-label
   display block
-  font-size 11px
+  font-size 11px !important
   color #999
   text-transform uppercase
   padding 7px 0
   position relative
   text-align left
+  font-size 11px
+
+.customize-report-label
+  cursor pointer
+  padding-left 20px !important
 
 #imagery-date-ranges button, #analysis-date-ranges button, #areaTab button
   width 100%
