@@ -58,6 +58,51 @@ body
 //   &.selected
 //     color red
 
+.fire-popup-list
+  padding-top 10px
+	padding-bottom 10px
+  &.no-fires
+    padding-top 5px
+    padding-bottom 5px
+    color #BF0000
+
+.fire-popup-list.no-fires
+  padding-top 5px
+  padding-bottom 5px
+  color #BF0000
+
+.fire-pop-item-cont
+	margin 0 auto
+	text-align center
+	padding-top	5px
+
+	.fire-pop-item
+		cursor pointer
+		display inline-block
+		margin 0px auto
+		text-align center
+		margin 4px
+		border rgb(233, 131, 0) 2px solid
+		padding 3px
+		height 40px
+		width 45px
+
+		&.selected
+			background-color rgb(236, 197, 61)
+			color white
+
+		&:hover
+			background-color lighten(rgb(236, 197, 61),30)
+
+		.fire-pop-count
+			font-size 16px
+			FONT-WEIGHT BOLD
+			color #B50303
+
+
+		.fire-pop-label
+			font-size 10px
+
 // Require any Map Content
 @require '_modal'
 @require '_loader'
