@@ -104,7 +104,6 @@ export default class SubscriptionModal extends React.Component {
 	}
 
   render() {
-
     return (
       <ModalWrapper>
         <div className='canopy-modal-title'>{modalText.subscription.title}</div>
@@ -119,8 +118,10 @@ export default class SubscriptionModal extends React.Component {
         <input className='hidden' id={modalText.subscription.verifyInput} />
 
         <div className='subscribe-container'>
-          <button className='subscribe-submit left btn green' onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button>
-          <button className='subscribe-submit right btn green' onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
+          {this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ?
+            <button className='subscribe-submit left btn green' onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button> : null
+          }
+          <button className={`subscribe-submit btn green ${this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''}`} onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
         </div>
         <Loader active={this.state.isUploading} />
         <div className={`submit-success ${this.state.success ? '' : 'hidden'}`}>{modalText.subscription.successMessage}</div>

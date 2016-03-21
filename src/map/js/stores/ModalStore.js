@@ -16,7 +16,6 @@ class ModalStore {
 
   showLayerInfo (layerInfo) {
     if (typeof layerInfo === 'string') {
-      console.log(layerInfo)
       layerInfo = layerInformation[layerInfo] ? layerInformation[layerInfo] : {};
     }
 
