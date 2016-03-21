@@ -782,7 +782,15 @@ export const config = {
       topoBasemap: 'Topo',
       wriBasemap: 'WRI',
       imageryBasemap: 'Imagery',
-      landsat8: 'Landsat'
+      landsat8: 'Landsat',
+      zoomInHover: 'ZOOM IN',
+      zoomOutHover: 'ZOOM OUT',
+      shareHover: 'SHARE',
+      searchHover: 'SEARCH',
+      timeHover: 'TIME SYNC',
+      printHover: 'PRINT',
+      timeInstructions: 'Sync time enabled layers to any past date:',
+      timeWarning: 'No time enabled data available prior to January 1, 2013'
     },
     modals: {
       noInfo: 'No Information Available',

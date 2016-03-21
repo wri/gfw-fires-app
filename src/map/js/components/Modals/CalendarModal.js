@@ -2,6 +2,7 @@ import CalendarWrapper from 'components/Modals/CalendarWrapper';
 import {mapStore} from 'stores/MapStore';
 import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
+import {controlPanelText} from 'js/config';
 import React from 'react';
 
 export default class CalendarModal extends React.Component {
@@ -17,7 +18,6 @@ export default class CalendarModal extends React.Component {
 	}
 
 	componentDidMount() {
-
 		this.props.calendars.forEach(calendar => {
 			let calendar_obj = new window.Kalendae(calendar.domId, {
 				months: 1,
@@ -30,7 +30,6 @@ export default class CalendarModal extends React.Component {
 						return true;
 					}
 				},
-				// directionScrolling: true, //todo: something about this!
 				selected: calendar.date
 			});
 
@@ -52,7 +51,7 @@ export default class CalendarModal extends React.Component {
 	itemMapper (item) {
 		return <div className={`modal-content ${item.domClass}${this.state.calendarVisible === item.domId ? '' : ' hidden'}`}>
 			{item.domId === 'masterDay' ?
-				<div className='master-calendar'>Master instructions</div> : null
+				<div className='master-calendar'>{controlPanelText.timeInstructions}</div> : null
 			}
 			<div id={item.domId}></div>
 		</div>;
