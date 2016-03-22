@@ -84,14 +84,14 @@ define(['exports', 'helpers/LayersHelper', 'react'], function (exports, _LayersH
         return _react2.default.createElement(
           'div',
           { className: 'layer-transparency' },
-          _react2.default.createElement('input', { type: 'range', min: '0', max: '1', step: '0.01',
-            value: this.state.opacity,
-            onChange: this.changeOpacity.bind(this) }),
           _react2.default.createElement(
             'div',
             null,
             'Transparency'
-          )
+          ),
+          _react2.default.createElement('input', { type: 'range', min: '0', max: '1', step: '0.01',
+            value: this.state.opacity,
+            onChange: this.changeOpacity.bind(this) })
         );
       }
     }, {

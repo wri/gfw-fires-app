@@ -74,6 +74,10 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     center: [-77.45, 37.75],
     zoom: 4
   });
+  console.log(_dom2.default.byId('story-date-input'));
+  var ll = _dom2.default.byId('story-date-input');
+  ll.select(new Date());
+  // debugger
 
   // var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
   // var storiesLayer = new FeatureLayer(urlToken, {});
@@ -137,7 +141,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
 
     storyTitle = _dom2.default.byId('story-title-input').value;
     storyLocation = _dom2.default.byId('story-location-input').value;
-    storyDate = _dom2.default.byId('story-date-input').value;
+    storyDate = _dom2.default.byId('story-date-input').value || '';
     storyDetails = _dom2.default.byId('story-details-textarea').value;
     storyVideo = _dom2.default.byId('story-video-input').value;
     //storyMedia = dom.byId('story-media-input').value;
