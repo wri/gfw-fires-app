@@ -195,7 +195,7 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
 
           return _react2.default.createElement(
             _LayerCheckbox2.default,
-            { key: layer.id, layer: layer, checked: activeLayers.indexOf(layer.id) > -1 },
+            { disabled: layer.disabled, key: layer.id, layer: layer, checked: activeLayers.indexOf(layer.id) > -1 },
             childComponent
           );
         };

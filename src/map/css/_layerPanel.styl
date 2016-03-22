@@ -57,10 +57,26 @@
 .layer-panel-indent
   padding-left 20px
 
+#windLegendNode
+  margin 10px auto
+  height 13px
+  width 80%
+
+.windLayerLegendColorRamp
+  background linear-gradient(to right, rgba(0,255,255,0.5) 0%, rgba(255,30,219,0.5) 100%)
+
+#windLegendLabels
+  margin 0 25px
+  font-size 10px
+
+.rightWindLabel
+  float right
+
 //- Legends
 .water-stress-legend
 .major-dams-legend
 .land-cover-legend
+.air-quality-legend
 .sediment-legend
   justify-content center
   flex-wrap wrap
@@ -80,6 +96,7 @@
 
 .major-dams-legend
 .land-cover-legend
+.air-quality-legend
   & .legend-row
     align-items center
     margin 1px 0
@@ -90,6 +107,18 @@
     width 80%
   & .img
     width 20%
+
+.air-quality-legend
+  & .legend-row
+    height 25px
+    img
+      height 15px
+      width 15px
+
+  & .legend-label
+    padding 0 1px
+    margin-left 10px
+    line-height 15px
 
 .canopy-label
 .canopy-button

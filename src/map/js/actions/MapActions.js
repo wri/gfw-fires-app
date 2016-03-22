@@ -41,7 +41,7 @@ class MapActions {
     //- Remove layers from config that have no url unless they are of type graphic(which have no url)
     //- sort by order from the layer config
     //- return an arcgis layer for each config object
-    let layers = layersConfig.filter(layer => layer && (layer.url || layer.type === 'graphic' || layer.type === 'feature')).sort((a, b) => a.order - b.order).map(layerFactory);
+    let layers = layersConfig.filter(layer => layer && !layer.disabled && (layer.url || layer.type === 'graphic' || layer.type === 'feature')).sort((a, b) => a.order - b.order).map(layerFactory);
     app.map.addLayers(layers);
 
     // If there is an error with a particular layer, handle that here

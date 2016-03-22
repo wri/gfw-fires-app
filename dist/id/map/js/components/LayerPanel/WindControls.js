@@ -90,6 +90,21 @@ define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapAction
         return _react2.default.createElement(
           'div',
           null,
+          _react2.default.createElement('div', { id: 'windLegendNode', className: 'windLegendNode windLayerLegendColorRamp' }),
+          _react2.default.createElement(
+            'div',
+            { id: 'windLegendLabels' },
+            _react2.default.createElement(
+              'span',
+              null,
+              '0 m/s'
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'rightWindLabel' },
+              '40 m/s'
+            )
+          ),
           _react2.default.createElement(
             'div',
             { id: 'wind-date-ranges' },

@@ -117,6 +117,11 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
         return _react2.default.createElement(
           'div',
           { className: 'layer-checkbox relative ' + layer.className + (this.props.checked ? ' active' : '') + (layer.disabled ? ' disabled' : '') },
+          !layer.disabled ? null : _react2.default.createElement(
+            'span',
+            { className: 'tooltipmap middle right' },
+            'Coming Soon!'
+          ),
           _react2.default.createElement(
             'span',
             { onClick: this.toggleLayer.bind(this), className: 'toggle-switch pointer' },

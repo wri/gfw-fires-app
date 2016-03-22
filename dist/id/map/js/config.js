@@ -282,6 +282,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(layer starts at 4/2/15)',
       group: 'fires',
       className: 'fire-risk',
+      disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
       metadataId: 'fire_risk',
       calendar: {

@@ -1,9 +1,15 @@
-define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'react'], function (exports, _ModalActions, _MapStore, _MapActions, _DateHelper, _react) {
+define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapActions', 'utils/AppUtils', 'js/config', 'js/constants', 'components/LayerPanel/AirQualityLegend', 'helpers/DateHelper', 'react'], function (exports, _ModalActions, _MapStore, _MapActions, _AppUtils, _config, _constants, _AirQualityLegend, _DateHelper, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+  var _AppUtils2 = _interopRequireDefault(_AppUtils);
+
+  var _constants2 = _interopRequireDefault(_constants);
+
+  var _AirQualityLegend2 = _interopRequireDefault(_AirQualityLegend);
 
   var _DateHelper2 = _interopRequireDefault(_DateHelper);
 
@@ -86,10 +92,12 @@ define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapAction
       value: function render() {
 
         var date = window.Kalendae.moment(this.state.airQDate);
+        var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.airQuality);
 
         return _react2.default.createElement(
           'div',
           null,
+          _react2.default.createElement(_AirQualityLegend2.default, { url: config.url, layerIds: config.layerIds }),
           _react2.default.createElement(
             'div',
             { id: 'air-date-ranges' },

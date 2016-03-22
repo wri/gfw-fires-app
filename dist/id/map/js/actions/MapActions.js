@@ -89,7 +89,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'esri/layers/WebTiled
         //- sort by order from the layer config
         //- return an arcgis layer for each config object
         var layers = _config.layersConfig.filter(function (layer) {
-          return layer && (layer.url || layer.type === 'graphic' || layer.type === 'feature');
+          return layer && !layer.disabled && (layer.url || layer.type === 'graphic' || layer.type === 'feature');
         }).sort(function (a, b) {
           return a.order - b.order;
         }).map(_LayerFactory2.default);
