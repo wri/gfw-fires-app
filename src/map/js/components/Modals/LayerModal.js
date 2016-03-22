@@ -25,7 +25,7 @@ export default class LayerModal extends React.Component {
       layerInfo.push(this.state.layerInfo[layer]);
     }
     return (
-            <ModalWrapper>
+            <ModalWrapper downloadData={this.state.layerInfo.download_data}>
             {!this.state.layerInfo.title ? <div className='no-info-available'>No information available</div> :
             <div className='modal-content'>
               <div className='modal-source'>

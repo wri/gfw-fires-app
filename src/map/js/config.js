@@ -921,6 +921,7 @@ config.text.layerInformation[KEYS.treeCoverDensity] = {
 config.text.layerInformation[KEYS.activeFires] = {
   title: 'Firms Active Fires',
   subtitle: '(daily, 1km, global, NASA)',
+  download_data: 'http://www.google.com',
   table: [
     {label: 'Function', html: 'Displays fire alert data for the past 7 days'},
     {label: 'Resolution/Scale', html: '1 × 1 kilometer'},
