@@ -29,7 +29,7 @@ define([
     "esri/tasks/Date",
     "esri/request",
     "js/config",
-    "vendor/geostats/lib/geostats.min"
+    "vendors/geostats/lib/geostats.min"
 ], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, geostats) {
