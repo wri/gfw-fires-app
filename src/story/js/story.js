@@ -11,8 +11,6 @@ import focusUtil from 'dijit/focus';
 import dom from 'dojo/dom';
 import domClass from 'dojo/dom-class';
 import on from 'dojo/on';
-import declare from 'dojo/_base/declare';
-import IdentityManagerBase from 'esri/IdentityManagerBase';
 import urlUtils from 'esri/urlUtils';
 // import esriConfig from 'esri/config';
 
@@ -21,8 +19,6 @@ parser.parse();
 var map;
 var basemapGallery;
 var search;
-var success;
-var failure;
 var toolbar;
 var symbol;
 var storyTitle;
@@ -73,15 +69,6 @@ search = new Search({
   map: map
 }, 'search');
 search.startup();
-
-failure = function(err) {
-  console.log(err);
-  alert('Upload failed!');
-};
-
-success = function() {
-  alert('Upload successful!');
-};
 
 function addToMap(evt) {
   if (evt.geometry) {
@@ -170,9 +157,11 @@ on(dom.byId('submit-button'), 'click', function () {
 
     storiesLayer.applyEdits([storyAffectedArea], null, null, function(msg) {
       console.log(msg);
+      domClass.remove('success-modal', 'hidden');
     }, function(err) {
       console.log('err');
       console.log(err);
+      domClass.remove('failure-modal', 'hidden');
     });
   }
 });

@@ -45,6 +45,19 @@ block content
               p Your story was successfully submitted! You will now be redirected to the map.
               div
                  a.text-gfw-red(href='../map') OK
+                 
+  div#failure-modal.modal.hidden
+    div.modal-container
+      div#modal-background.modal-background
+      div.modal-window
+        div.modal-wrapper.custom-scroll
+          div.modal-content
+            div.modal-source
+            div.modal-title Submit failure
+            div
+              p There was an error during submission! Please try again at a later time.
+              div
+                a#closeModal.text-gfw-red OK
 
   section.header-container
     h1.text-center.font-normal #{story.title}
@@ -118,4 +131,9 @@ block content
         li #{story.details[9]}
 
   script(src = 'http://js.arcgis.com/#{meta.esriVersion}/init.js')
+  
+  script.
+    window.addEventListener('load', function () {
+      document.getElementById('closeModal').onclick = function () { document.getElementById('failure-modal').classList.toggle('hidden'); };
+    });
   

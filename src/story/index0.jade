@@ -1,0 +1,174 @@
+extends ../_layout.jade
+
+block append head-meta
+  title #{home.meta.title}
+
+block append head-styles
+  link(rel='stylesheet' href='css/home.css')
+  link(rel='icon', href='../css/images/favicon.png')
+
+block content
+  +navigation(global.pages, 'home', true)
+
+  div.home-slider-container.relative(style='overflow:hidden')
+    nav.mobile-hide.home-nav
+      h2.shadow #{home.explore}
+        div.inline-block
+          a(href='../map', title=home.exploreAlt, alt=home.exploreAlt)
+            button.button--round.text-white.back-gfw-red #{home.view}
+
+    section.slider-section
+      ul.home-slider
+        li.slide.pointer
+          a(href='../map')
+            div.inner.relative
+              aside
+                h2 #{home.slides[0][0]}
+                h3 #{home.slides[0][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
+        li.slide.pointer
+          a(href='../map')
+            div.inner.relative
+              aside
+                h2 #{home.slides[1][0]}
+                h3#percentage-header #{home.slides[1][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
+        li.slide.pointer
+          a(href='../map')
+            div.inner.relative
+              aside
+                h2 #{home.slides[2][0]}
+                h3 #{home.slides[2][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
+        li#alerts1.slide.pointer
+          div.inner.relative
+            aside
+              h2 #{home.slides[3][0]}
+              h3 #{home.slides[3][1]}
+              div.slide-link
+                span.mobile-hide #{home.slider.moreInfo}
+                span.mobile-show +
+        li.slide.pointer
+          a(href='../story')
+            div.inner.relative
+              aside
+                h2 #{home.slides[4][0]}
+                h3 #{home.slides[4][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
+
+  div.action-menu
+    section
+      div#alerts2.action-menu__item
+        div.action-menu__item__icon--alerts
+        div.action-menu__item__title #{home.alerts.title}
+        div.action-menu__item__description #{home.alerts.description}
+
+      div.action-menu__item
+        //- a(href='/#{language}/map')
+        a(href='/report/index.html#aoitype=ISLAND&dates=fYear-2016!fMonth-3!fDay-14!tYear-2016!tMonth-3!tDay-21&aois=Sulawesi!Maluku!Lesser Sunda!Java!Papua!Kalimantan!Sumatra')
+          div.action-menu__item__icon--analysis
+          div.action-menu__item__title #{home.analyze.title}
+          div.action-menu__item__description #{home.analyze.description}
+
+      div.action-menu__item
+        a(target='_blank' href='https://twitter.com/search?q=MelawanAsap%20OR%20Indonesiafires&src=typd')
+          div.action-menu__item__icon--social
+          div.action-menu__item__title #{home.social.title}
+          div.action-menu__item__description #{home.social.description}
+
+  div#alerts-modal.modal.hidden
+    div.modal-container
+      div.modal-background
+      div.modal-window
+        div#close-icon.modal-close.close-icon.pointer(title='close')
+          svg: use(xlink:href="#icon-close")
+        div.modal-wrapper.custom-scroll
+          div.modal-content
+            div.modal-source
+            div.modal-title #{home.alerts.modal.title}
+            div
+              p
+               | #{home.alerts.modal.content[0].trim() + ' '}
+               a.text-gfw-red(href='../map') #{home.alerts.modal.content[1].trim()}
+               | #{' ' + home.alerts.modal.content[2].trim()}
+
+  script.
+    $('.home-slider').slick({
+      lazyLoad: 'ondemand',
+      pauseOnHover: false,
+      autoplaySpeed: 4500,
+      autoplay: true,
+      arrows: false,
+      fade: true,
+      dots: true
+    });
+    window.addEventListener('load', function () {
+      document.getElementById('alerts1').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
+      document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
+      document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
+    });
+
+    // NOTE: priorDate is 8 weeks in the past to approximate to a week but also cover other time zones where 7 days prior might not be the whole week
+    var today = new Date();
+    var priorDate = new Date();
+    priorDate.setDate(today.getDate() - 8);
+
+    var yyyy = priorDate.getFullYear();
+    var mm = '00' + (priorDate.getMonth() + 1).toString();
+    mm = mm.substr(mm.length - 2);
+    var dd = '00' + priorDate.getDate().toString();
+    dd = dd.substr(dd.length - 2);
+    var dateStr = yyyy.toString() + '-' + mm + '-' + dd;
+
+    // REFERENCE: https://plainjs.com/javascript/ajax/making-cors-ajax-get-requests-54/
+    function getCORS(url, success) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = success;
+        xhr.send();
+        return xhr;
+    }
+
+    var queryStringBase = [
+      ['spatialRel', 'esriSpatialRelIntersects'],
+      ['returnIdsOnly', 'true'],
+      ['returnCountOnly', 'true'],
+      ['returnGeometry', 'false'],
+      ['outFields', '*'],
+      ['f', 'json']
+    ]
+
+    var peatQueryString = queryStringBase.concat([
+      ['where', 'peat = 1 AND ACQ_DATE > date \'{} 12:00:00\''.replace('{}', dateStr)],
+    ]).map(function (c) { return c.join('='); }).join('&');
+
+    var totalQueryString = queryStringBase.concat([
+      ['where', 'ACQ_DATE > date \'{} 12:00:00\''.replace('{}', dateStr)],
+    ]).map(function (c) { return c.join('='); }).join('&');
+
+    var queryUrl = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0/query?';
+    var peatQuery = encodeURI(queryUrl + peatQueryString);
+    var totalQuery = encodeURI(queryUrl + totalQueryString);
+
+    var process = function () {
+      if (peatResponse === undefined || totalResponse === undefined) { return; }
+      var peatCount = JSON.parse(peatResponse).count;
+      var totalCount = JSON.parse(totalResponse).count;
+      var percentage = Math.round( ( peatCount / totalCount ) * 100 );
+      percentage = '<span class="text-gfw-red">{}% </span> '.replace('{}', percentage);
+      var header = document.getElementById('percentage-header');
+      header.innerHTML = percentage + header.innerHTML;
+    };
+    var peatResponse;
+    var totalResponse;
+
+    getCORS(queryUrl + peatQueryString, function (request) { peatResponse = request.currentTarget.response || request.target.responseText; process(); });
+    getCORS(queryUrl + totalQueryString, function (request) { totalResponse = request.currentTarget.response || request.target.responseText; process(); });

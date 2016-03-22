@@ -1,4 +1,4 @@
-define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Search', 'esri/toolbars/draw', 'esri/graphic', 'esri/layers/FeatureLayer', 'esri/symbols/PictureMarkerSymbol', 'dojox/validate/web', 'dijit/focus', 'dojo/dom', 'dojo/dom-class', 'dojo/on', 'dojo/_base/declare', 'esri/IdentityManagerBase', 'esri/urlUtils'], function (_map, _BasemapGallery, _parser, _Search, _draw, _graphic, _FeatureLayer, _PictureMarkerSymbol, _web, _focus, _dom, _domClass, _on, _declare, _IdentityManagerBase, _urlUtils) {
+define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Search', 'esri/toolbars/draw', 'esri/graphic', 'esri/layers/FeatureLayer', 'esri/symbols/PictureMarkerSymbol', 'dojox/validate/web', 'dijit/focus', 'dojo/dom', 'dojo/dom-class', 'dojo/on', 'esri/urlUtils'], function (_map, _BasemapGallery, _parser, _Search, _draw, _graphic, _FeatureLayer, _PictureMarkerSymbol, _web, _focus, _dom, _domClass, _on, _urlUtils) {
   'use strict';
 
   var _map2 = _interopRequireDefault(_map);
@@ -27,10 +27,6 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
 
   var _on2 = _interopRequireDefault(_on);
 
-  var _declare2 = _interopRequireDefault(_declare);
-
-  var _IdentityManagerBase2 = _interopRequireDefault(_IdentityManagerBase);
-
   var _urlUtils2 = _interopRequireDefault(_urlUtils);
 
   function _interopRequireDefault(obj) {
@@ -46,8 +42,6 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   var map;
   var basemapGallery;
   var search;
-  var success;
-  var failure;
   var toolbar;
   var symbol;
   var storyTitle;
@@ -96,15 +90,6 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     map: map
   }, 'search');
   search.startup();
-
-  failure = function failure(err) {
-    console.log(err);
-    alert('Upload failed!');
-  };
-
-  success = function success() {
-    alert('Upload successful!');
-  };
 
   function addToMap(evt) {
     if (evt.geometry) {
@@ -191,9 +176,11 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
 
       storiesLayer.applyEdits([storyAffectedArea], null, null, function (msg) {
         console.log(msg);
+        _domClass2.default.remove('success-modal', 'hidden');
       }, function (err) {
         console.log('err');
         console.log(err);
+        _domClass2.default.remove('failure-modal', 'hidden');
       });
     }
   });
