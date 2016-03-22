@@ -15,10 +15,10 @@ export default class LayerTransparency extends React.Component {
     //<div className={`layer-transparency ${this.props.visible ? '' : 'hidden'}`}>
     return (
       <div className='layer-transparency'>
+        <div>Transparency</div>
         <input type='range' min='0' max='1' step='0.01'
           value={this.state.opacity}
           onChange={this.changeOpacity.bind(this)} />
-        <div>Transparency</div>
       </div>
     );
   }
