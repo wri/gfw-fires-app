@@ -8,7 +8,7 @@ www/src/proxy
 
 # Ignore build, dist, and vendor directories
 build
-dist
+
 vendor
 
 # Ignore these, just do it
