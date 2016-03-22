@@ -63,24 +63,10 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   var storyEmailValid;
   var storyAffectedAreaValid;
 
-  // esriConfig.defaults.io.corsEnabledServers.push('gis-potico.wri.org');
-
   _urlUtils2.default.addProxyRule({
     urlPrefix: 'http://gis-potico.wri.org',
     proxyUrl: '/map/php/proxy.php'
   });
-
-  // var identityManager;
-  // identityManager = new declare(IdentityManagerBase, {
-  //   constructor: function () {
-  //     window.esri.id = this;
-  //   }
-  // })();
-  // identityManager.registerToken({
-  //   server: '//gis-potico.wri.org',
-  //   token: 'zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2',
-  //   ssl: false
-  // });
 
   map = new _map2.default('map', {
     basemap: 'satellite',
@@ -198,8 +184,6 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       storyAffectedArea.attributes.Name = storyName;
       storyAffectedArea.attributes.Email = storyEmail;
       storyAffectedArea.attributes.Publish = 'Y';
-      storyAffectedArea.attributes.OBJECTID = 24009;
-      console.log(storyAffectedArea);
 
       storiesLayer.applyEdits([storyAffectedArea], null, null, function (msg) {
         console.log(msg);
@@ -207,8 +191,6 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
         console.log('err');
         console.log(err);
       });
-
-      // storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
     }
   });
 });
