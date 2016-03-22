@@ -119,9 +119,9 @@ export default class SubscriptionModal extends React.Component {
 
         <div className='subscribe-container'>
           {this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ?
-            <button className='subscribe-submit left btn green' onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button> : null
+            <button className='subscribe-submit left btn red' onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button> : null
           }
-          <button className={`subscribe-submit btn green ${this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''}`} onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
+          <button className={`subscribe-submit btn red ${this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''}`} onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
         </div>
         <Loader active={this.state.isUploading} />
         <div className={`submit-success ${this.state.success ? '' : 'hidden'}`}>{modalText.subscription.successMessage}</div>
