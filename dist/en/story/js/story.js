@@ -93,7 +93,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   // var storiesLayer = new FeatureLayer(urlToken, {});
   var storiesLayer = new _FeatureLayer2.default('http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
 
-  map.addLayer(storiesLayer);
+  // map.addLayer(storiesLayer);
 
   basemapGallery = new _BasemapGallery2.default({
     showArcGISBasemaps: true,
@@ -130,10 +130,10 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       });
 
       storyAffectedArea = new _graphic2.default(evt.geometry, symbol, {});
-      storiesLayer.clear();
-      storiesLayer.add(storyAffectedArea);
-      // map.graphics.clear();
-      // map.graphics.add(storyAffectedArea);
+      // storiesLayer.clear();
+      // storiesLayer.add(storyAffectedArea);
+      map.graphics.clear();
+      map.graphics.add(storyAffectedArea);
 
       _domClass2.default.remove('story-affected-areas-label', 'field-required');
     }
