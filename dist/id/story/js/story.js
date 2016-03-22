@@ -107,7 +107,8 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   }, 'search');
   search.startup();
 
-  failure = function failure() {
+  failure = function failure(err) {
+    console.log(err);
     alert('Upload failed!');
   };
 
@@ -196,6 +197,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       storyAffectedArea.attributes.Name = storyName;
       storyAffectedArea.attributes.Email = storyEmail;
       storyAffectedArea.attributes.Publish = 'Y';
+      console.log(storyAffectedArea);
 
       storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
     }
