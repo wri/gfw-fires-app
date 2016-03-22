@@ -1255,7 +1255,7 @@ class Proxy {
     public function isUserLogin()
     {
 
-        if (isset(getenv($this->resource['username'])) && isset(getenv($this->resource['password']))) {
+        if (isset($this->resource['username']) && isset($this->resource['password'])) {
 
             return true;
         }
