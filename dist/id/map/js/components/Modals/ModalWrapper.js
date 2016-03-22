@@ -95,9 +95,9 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
       value: function render() {
         //todo: hide footer with proper child
         //<a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
-        //  if (this.props.downloadData) {
-        //    debugger
-        //  }
+        if (this.props.downloadData) {
+          console.log(this.props.downloadData);
+        }
 
         return _react2.default.createElement(
           'div',
@@ -115,7 +115,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
               'div',
               { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] && !this.props.downloadData ? '' : 'has-footer') },
               this.props.children,
-              this.props.children && this.props.children[0] ? null : _react2.default.createElement(
+              this.props.children && this.props.children[0] && !this.props.downloadData ? null : _react2.default.createElement(
                 'div',
                 { className: 'modal-footer' },
                 _react2.default.createElement(

@@ -28,9 +28,9 @@ export default class ModalWrapper extends React.Component {
   render() {
    //todo: hide footer with proper child
    //<a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
-  //  if (this.props.downloadData) {
-  //    debugger
-  //  }
+   if (this.props.downloadData) {
+     console.log(this.props.downloadData)
+   }
 
     return (
       <div className='modal-container'>
@@ -41,7 +41,7 @@ export default class ModalWrapper extends React.Component {
           </div>
           <div className={`modal-wrapper custom-scroll ${this.props.children && this.props.children[0] && !this.props.downloadData ? '' : 'has-footer'}`}>
             {this.props.children}
-            {this.props.children && this.props.children[0] ? null :
+            {this.props.children && this.props.children[0] && !this.props.downloadData ? null :
               <div className='modal-footer'>
                 <div className="m-btncontainer is-center">
                   <a href={this.props.downloadData} target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
