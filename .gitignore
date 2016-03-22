@@ -7,7 +7,9 @@ www/src/proxy
 *.swp
 
 # Ignore build, dist, and vendor directories
-build
+!dist/en/vendors/kalendae/build
+
+!dist/*
 
 vendor
 

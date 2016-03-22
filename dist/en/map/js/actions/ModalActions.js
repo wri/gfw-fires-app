@@ -60,7 +60,7 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
 
         _urlUtils2.default.addProxyRule({
           urlPrefix: 'http://api.globalforestwatch.org',
-          proxyUrl: './map/php/proxy.php'
+          proxyUrl: './php/proxy.php'
         });
 
         (0, _request2.default)({

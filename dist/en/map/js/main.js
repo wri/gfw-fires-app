@@ -50,14 +50,14 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     _config.defaults.corsEnabledServers.forEach(function (server) {
       _config3.default.defaults.io.corsEnabledServers.push(server);
     });
-    // esriConfig.defaults.io.proxyUrl = './php/proxy.php';
+
     _urlUtils2.default.addProxyRule({
       urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
-      proxyUrl: './map/php/proxy.php'
+      proxyUrl: './php/proxy.php'
     });
     _urlUtils2.default.addProxyRule({
       urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
-      proxyUrl: './map/php/proxy.php'
+      proxyUrl: './php/proxy.php'
     });
   };
 

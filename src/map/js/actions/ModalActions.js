@@ -12,7 +12,7 @@ class ModalActions {
 
     urlUtils.addProxyRule({
       urlPrefix: 'http://api.globalforestwatch.org',
-      proxyUrl: './map/php/proxy.php'
+      proxyUrl: './php/proxy.php'
     });
 
     esriRequest({

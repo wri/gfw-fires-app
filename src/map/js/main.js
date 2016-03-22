@@ -28,14 +28,14 @@ window.requestAnimationFrame = (function () {
 let configureApp = () => {
   app.debug('main >>> configureApp');
   defaults.corsEnabledServers.forEach((server) => { esriConfig.defaults.io.corsEnabledServers.push(server); });
-  // esriConfig.defaults.io.proxyUrl = './php/proxy.php';
+
   urlUtils.addProxyRule({
     urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
-    proxyUrl: './map/php/proxy.php'
+    proxyUrl: './php/proxy.php'
   });
   urlUtils.addProxyRule({
     urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
-    proxyUrl: './map/php/proxy.php'
+    proxyUrl: './php/proxy.php'
   });
 
 };
