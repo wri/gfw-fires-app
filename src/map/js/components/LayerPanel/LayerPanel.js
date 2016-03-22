@@ -111,6 +111,8 @@ export default class LayerPanel extends React.Component {
     // <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
     //   {layersConfig.map(this.checkboxMap('imagery'), this)}
     // </LayerGroup>
+
+    //{layersConfig.map(this.checkboxMap('landCover'), this)}
     return (
       <div className={className}>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
@@ -127,11 +129,13 @@ export default class LayerPanel extends React.Component {
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
           <LayerTransparency layers={conservationLayers}></LayerTransparency>
-          {layersConfig.map(this.checkboxMap('conservation'), this)}
+          {conservationLayers[0]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land Cover'>
           <LayerTransparency layers={landCoverLayers}></LayerTransparency>
-          {layersConfig.map(this.checkboxMap('landCover'), this)}
+          {landCoverLayers[0]}
+          {landCoverLayers[1]}
+          {landCoverLayers[2]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
           {layersConfig.map(this.checkboxMap('airQuality'), this)}

@@ -94,7 +94,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'react
         }
         return _react2.default.createElement(
           _ModalWrapper2.default,
-          null,
+          { downloadData: this.state.layerInfo.download_data },
           !this.state.layerInfo.title ? _react2.default.createElement(
             'div',
             { className: 'no-info-available' },

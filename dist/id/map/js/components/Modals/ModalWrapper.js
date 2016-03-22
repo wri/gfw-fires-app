@@ -94,9 +94,10 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
       key: 'render',
       value: function render() {
         //todo: hide footer with proper child
-        if (this.props.children && this.props.children[0]) {
-          console.log(this.props.children[0]);
-        }
+        //<a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
+        //  if (this.props.downloadData) {
+        //    debugger
+        //  }
 
         return _react2.default.createElement(
           'div',
@@ -112,7 +113,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
             ),
             _react2.default.createElement(
               'div',
-              { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] ? '' : 'has-footer') },
+              { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] && !this.props.downloadData ? '' : 'has-footer') },
               this.props.children,
               this.props.children && this.props.children[0] ? null : _react2.default.createElement(
                 'div',
@@ -122,7 +123,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
                   { className: 'm-btncontainer is-center' },
                   _react2.default.createElement(
                     'a',
-                    { href: 'http://earthenginepartners.appspot.com/science-2013-global-forest', target: '_blank', className: 'btn green uppercase download-mobile-link' },
+                    { href: this.props.downloadData, target: '_blank', className: 'btn green uppercase download-mobile-link' },
                     'Learn more or download data'
                   )
                 )

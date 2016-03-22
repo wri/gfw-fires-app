@@ -220,6 +220,8 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
         // <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
         //   {layersConfig.map(this.checkboxMap('imagery'), this)}
         // </LayerGroup>
+
+        //{layersConfig.map(this.checkboxMap('landCover'), this)}
         return _react2.default.createElement(
           'div',
           { className: className },
@@ -243,13 +245,15 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Conservation' },
             _react2.default.createElement(_LayerTransparency2.default, { layers: conservationLayers }),
-            _config.layersConfig.map(this.checkboxMap('conservation'), this)
+            conservationLayers[0]
           ),
           _react2.default.createElement(
             _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Land Cover' },
             _react2.default.createElement(_LayerTransparency2.default, { layers: landCoverLayers }),
-            _config.layersConfig.map(this.checkboxMap('landCover'), this)
+            landCoverLayers[0],
+            landCoverLayers[1],
+            landCoverLayers[2]
           ),
           _react2.default.createElement(
             _LayerGroup2.default,
