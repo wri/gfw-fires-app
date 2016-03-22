@@ -1,4 +1,4 @@
-define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Search', 'esri/toolbars/draw', 'esri/graphic', 'esri/symbols/PictureMarkerSymbol', 'dojox/validate/web', 'dijit/focus', 'dojo/dom', 'dojo/dom-class', 'dojo/on', 'dojo/_base/declare', 'esri/IdentityManagerBase', 'esri/config'], function (_map, _BasemapGallery, _parser, _Search, _draw, _graphic, _PictureMarkerSymbol, _web, _focus, _dom, _domClass, _on, _declare, _IdentityManagerBase, _config) {
+define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Search', 'esri/toolbars/draw', 'esri/graphic', 'esri/layers/FeatureLayer', 'esri/symbols/PictureMarkerSymbol', 'dojox/validate/web', 'dijit/focus', 'dojo/dom', 'dojo/dom-class', 'dojo/on', 'dojo/_base/declare', 'esri/IdentityManagerBase', 'esri/urlUtils'], function (_map, _BasemapGallery, _parser, _Search, _draw, _graphic, _FeatureLayer, _PictureMarkerSymbol, _web, _focus, _dom, _domClass, _on, _declare, _IdentityManagerBase, _urlUtils) {
   'use strict';
 
   var _map2 = _interopRequireDefault(_map);
@@ -12,6 +12,8 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   var _draw2 = _interopRequireDefault(_draw);
 
   var _graphic2 = _interopRequireDefault(_graphic);
+
+  var _FeatureLayer2 = _interopRequireDefault(_FeatureLayer);
 
   var _PictureMarkerSymbol2 = _interopRequireDefault(_PictureMarkerSymbol);
 
@@ -29,7 +31,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
 
   var _IdentityManagerBase2 = _interopRequireDefault(_IdentityManagerBase);
 
-  var _config2 = _interopRequireDefault(_config);
+  var _urlUtils2 = _interopRequireDefault(_urlUtils);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -37,11 +39,15 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     };
   }
 
+  // import esriConfig from 'esri/config';
+
   _parser2.default.parse();
 
   var map;
   var basemapGallery;
   var search;
+  var success;
+  var failure;
   var toolbar;
   var symbol;
   var storyTitle;
@@ -57,7 +63,12 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   var storyEmailValid;
   var storyAffectedAreaValid;
 
-  _config2.default.defaults.io.corsEnabledServers.push('gis-potico.wri.org');
+  // esriConfig.defaults.io.corsEnabledServers.push('gis-potico.wri.org');
+
+  _urlUtils2.default.addProxyRule({
+    urlPrefix: 'http://gis-potico.wri.org',
+    proxyUrl: '/map/php/proxy.php'
+  });
 
   var identityManager;
   identityManager = new _declare2.default(_IdentityManagerBase2.default, {
@@ -78,10 +89,11 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     zoom: 4
   });
 
-  //var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
-  //storiesLayer = new FeatureLayer(urlToken, {});
+  // var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
+  // var storiesLayer = new FeatureLayer(urlToken, {});
+  var storiesLayer = new _FeatureLayer2.default('http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
 
-  //map.addLayer(storiesLayer);
+  map.addLayer(storiesLayer);
 
   basemapGallery = new _BasemapGallery2.default({
     showArcGISBasemaps: true,
@@ -94,6 +106,14 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     map: map
   }, 'search');
   search.startup();
+
+  failure = function failure() {
+    alert('Upload failed!');
+  };
+
+  success = function success() {
+    alert('Upload successful!');
+  };
 
   function addToMap(evt) {
     if (evt.geometry) {
@@ -110,8 +130,10 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       });
 
       storyAffectedArea = new _graphic2.default(evt.geometry, symbol, {});
-      map.graphics.clear();
-      map.graphics.add(storyAffectedArea);
+      storiesLayer.clear();
+      storiesLayer.add(storyAffectedArea);
+      // map.graphics.clear();
+      // map.graphics.add(storyAffectedArea);
 
       _domClass2.default.remove('story-affected-areas-label', 'field-required');
     }
@@ -174,6 +196,8 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       storyAffectedArea.attributes.Name = storyName;
       storyAffectedArea.attributes.Email = storyEmail;
       storyAffectedArea.attributes.Publish = 'Y';
+
+      storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
     }
   });
 });

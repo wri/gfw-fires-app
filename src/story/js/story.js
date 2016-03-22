@@ -4,6 +4,7 @@ import parser from 'dojo/parser';
 import Search from 'esri/dijit/Search';
 import Draw from 'esri/toolbars/draw';
 import Graphic from 'esri/graphic';
+import FeatureLayer from 'esri/layers/FeatureLayer';
 import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import validateWeb from 'dojox/validate/web';
 import focusUtil from 'dijit/focus';
@@ -12,13 +13,16 @@ import domClass from 'dojo/dom-class';
 import on from 'dojo/on';
 import declare from 'dojo/_base/declare';
 import IdentityManagerBase from 'esri/IdentityManagerBase';
-import esriConfig from 'esri/config';
+import urlUtils from 'esri/urlUtils';
+// import esriConfig from 'esri/config';
 
 parser.parse();
 
 var map;
 var basemapGallery;
 var search;
+var success;
+var failure;
 var toolbar;
 var symbol;
 var storyTitle;
@@ -34,7 +38,12 @@ var storyTitleValid;
 var storyEmailValid;
 var storyAffectedAreaValid;
 
-esriConfig.defaults.io.corsEnabledServers.push('gis-potico.wri.org');
+// esriConfig.defaults.io.corsEnabledServers.push('gis-potico.wri.org');
+
+urlUtils.addProxyRule({
+  urlPrefix: 'http://gis-potico.wri.org',
+  proxyUrl: '/map/php/proxy.php'
+});
 
 var identityManager;
 identityManager = new declare(IdentityManagerBase, {
@@ -55,10 +64,11 @@ map = new Map('map', {
   zoom: 4
 });
 
-//var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
-//storiesLayer = new FeatureLayer(urlToken, {});
+// var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
+// var storiesLayer = new FeatureLayer(urlToken, {});
+var storiesLayer = new FeatureLayer('http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
 
-//map.addLayer(storiesLayer);
+map.addLayer(storiesLayer);
 
 basemapGallery = new BasemapGallery({
   showArcGISBasemaps: true,
@@ -71,6 +81,14 @@ search = new Search({
   map: map
 }, 'search');
 search.startup();
+
+failure = function() {
+  alert('Upload failed!');
+};
+
+success = function() {
+  alert('Upload successful!');
+};
 
 function addToMap(evt) {
   if (evt.geometry) {
@@ -87,8 +105,10 @@ function addToMap(evt) {
     });
 
     storyAffectedArea = new Graphic(evt.geometry, symbol, {});
-    map.graphics.clear();
-    map.graphics.add(storyAffectedArea);
+    storiesLayer.clear();
+    storiesLayer.add(storyAffectedArea);
+    // map.graphics.clear();
+    // map.graphics.add(storyAffectedArea);
 
     domClass.remove('story-affected-areas-label', 'field-required');
   }
@@ -153,5 +173,7 @@ on(dom.byId('submit-button'), 'click', function () {
     storyAffectedArea.attributes.Name = storyName;
     storyAffectedArea.attributes.Email = storyEmail;
     storyAffectedArea.attributes.Publish = 'Y';
+
+    storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
   }
 });
