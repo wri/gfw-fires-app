@@ -1,7 +1,8 @@
 {
   "require" : {
     "silex/silex": "~1.1",
-    "monolog/monolog": "~1.7"
+    "monolog/monolog": "~1.7",
+    "ext-pdo_sqlite": "*"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
