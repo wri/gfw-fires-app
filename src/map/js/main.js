@@ -31,11 +31,11 @@ let configureApp = () => {
   // esriConfig.defaults.io.proxyUrl = './php/proxy.php';
   urlUtils.addProxyRule({
     urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
-    proxyUrl: './php/proxy.php'
+    proxyUrl: './map/php/proxy.php'
   });
   urlUtils.addProxyRule({
     urlPrefix: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
-    proxyUrl: './php/proxy.php'
+    proxyUrl: './map/php/proxy.php'
   });
 
 };

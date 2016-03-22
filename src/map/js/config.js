@@ -182,11 +182,11 @@ export const config = {
   },
 
   assetUrls: {
-    ionCSS: 'vendor/ion.rangeslider/css/ion.rangeSlider.css',
-    ionSkinCSS: 'vendor/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
+    ionCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.css',
+    ionSkinCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
     highcharts: 'http://code.highcharts.com/highcharts.js',
     highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
-    rangeSlider: '../vendor/ion.rangeslider/js/ion.rangeSlider.min.js'
+    rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js'
   },
 
   /**

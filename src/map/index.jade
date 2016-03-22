@@ -1,8 +1,8 @@
 extends ../_layout.jade
 
 block append head-styles
-  link(rel='stylesheet', href='css/map.css?#{meta.version}')
-  link(rel='icon', href='./css/images/favicon.png')
+  link(rel='stylesheet', href='/map/css/map.css?#{meta.version}')
+  link(rel='icon', href='/css/images/favicon.png')
   link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
   link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
   link(rel='stylesheet', href='../vendors/kalendae/build/kalendae.css')
@@ -15,7 +15,7 @@ block append head-scripts
   script(src='../vendors/jquery/dist/jquery.min.js')
   script(src='../vendors/kalendae/build/kalendae.standalone.js', async)
   script.
-    var base = location.pathname.replace(/\/[^/]+$/, '/');
+    var base = location.pathname.replace(/\/[^/]+$/, '/map/');
     var dojoConfig = {
       parseOnLoad: false,
       async: true,
