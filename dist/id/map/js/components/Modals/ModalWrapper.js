@@ -113,9 +113,9 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
             ),
             _react2.default.createElement(
               'div',
-              { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] && !this.props.downloadData ? '' : 'has-footer') },
+              { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] || !this.props.downloadData ? '' : 'has-footer') },
               this.props.children,
-              this.props.children && this.props.children[0] && !this.props.downloadData ? null : _react2.default.createElement(
+              this.props.children && this.props.children[0] || !this.props.downloadData ? null : _react2.default.createElement(
                 'div',
                 { className: 'modal-footer' },
                 _react2.default.createElement(
