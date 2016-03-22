@@ -49,6 +49,12 @@ map = new Map('map', {
   center: [-77.45, 37.75],
   zoom: 4
 });
+console.log(dom.byId('story-date-input'))
+var ll =dom.byId('story-date-input');
+ll.select(new Date)
+// debugger
+
+
 
 // var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
 // var storiesLayer = new FeatureLayer(urlToken, {});
@@ -112,7 +118,7 @@ on(dom.byId('submit-button'), 'click', function () {
 
   storyTitle = dom.byId('story-title-input').value;
   storyLocation = dom.byId('story-location-input').value;
-  storyDate = dom.byId('story-date-input').value;
+  storyDate = dom.byId('story-date-input').value || '';
   storyDetails = dom.byId('story-details-textarea').value;
   storyVideo = dom.byId('story-video-input').value;
   //storyMedia = dom.byId('story-media-input').value;

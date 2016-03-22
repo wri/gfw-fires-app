@@ -32,6 +32,19 @@ block append head-scripts
 
 block content
   +navigation(global.pages, 'story')
+  
+  div#success-modal.modal.hidden
+    div.modal-container
+      div#modal-background.modal-background
+      div.modal-window
+        div.modal-wrapper.custom-scroll
+          div.modal-content
+            div.modal-source
+            div.modal-title Submit successful
+            div
+              p Your story was successfully submitted! You will now be redirected to the map.
+              div
+                 a.text-gfw-red(href='../map') OK
 
   section.header-container
     h1.text-center.font-normal #{story.title}
@@ -61,7 +74,7 @@ block content
 
         div#story-date-container.field
           label #{story.form.date}
-          input#story-date-input.auto-kal(type="text" placeholder="2/16/2012" data-kal="direction: 'today-past'")
+          input#story-date-input.auto-kal(type="text" placeholder="2/16/2012" data-kal="direction: 'today-past', selected: '2/16/2012'")
 
         div#story-details-container.field
           label #{story.form.details[0]}
@@ -105,3 +118,4 @@ block content
         li #{story.details[9]}
 
   script(src = 'http://js.arcgis.com/#{meta.esriVersion}/init.js')
+  

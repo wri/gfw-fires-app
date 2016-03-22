@@ -5,6 +5,14 @@
 nav
   border-bottom 1px solid darken($concrete, 5%)
 
+#success-modal
+  .modal
+    max-width 375px
+
+    +below($mq-mobile)
+      max-width initial
+      width calc(100% - 2em)
+
 h1
   +below($mq-mobile-small)
     margin 0.67em 1.55em
