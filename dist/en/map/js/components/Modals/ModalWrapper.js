@@ -94,8 +94,8 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
       key: 'render',
       value: function render() {
         //todo: hide footer with proper child
-        if (this.props.children && this.props.children[0] && this.props.children[0].props.id === 'canopy') {
-          //  debugger
+        if (this.props.children && this.props.children[0]) {
+          console.log(this.props.children[0]);
         }
 
         return _react2.default.createElement(
@@ -112,9 +112,9 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
             ),
             _react2.default.createElement(
               'div',
-              { className: 'modal-wrapper custom-scroll has-footer' },
+              { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] ? '' : 'has-footer') },
               this.props.children,
-              this.props.children && this.props.children[0] && this.props.children[0].props.id === 'canopy' ? null : _react2.default.createElement(
+              this.props.children && this.props.children[0] ? null : _react2.default.createElement(
                 'div',
                 { className: 'modal-footer' },
                 _react2.default.createElement(

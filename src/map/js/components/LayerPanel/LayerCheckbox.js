@@ -44,8 +44,6 @@ export default class LayerCheckbox extends React.Component {
 
   render() {
     let layer = this.props.layer;
-    console.log(layer)
-
     return (
       <div className={`layer-checkbox relative ${layer.className}${this.props.checked ? ' active' : ''}${layer.disabled ? ' disabled' : ''}`} >
         <span onClick={this.toggleLayer.bind(this)} className='toggle-switch pointer'><span/></span>

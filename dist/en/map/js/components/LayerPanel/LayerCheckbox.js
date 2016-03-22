@@ -114,8 +114,6 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
       key: 'render',
       value: function render() {
         var layer = this.props.layer;
-        console.log(layer);
-
         return _react2.default.createElement(
           'div',
           { className: 'layer-checkbox relative ' + layer.className + (this.props.checked ? ' active' : '') + (layer.disabled ? ' disabled' : '') },

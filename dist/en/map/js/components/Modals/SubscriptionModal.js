@@ -212,12 +212,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             { className: 'subscribe-container' },
             this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? _react2.default.createElement(
               'button',
-              { className: 'subscribe-submit left btn green', onClick: this.deleteFeature.bind(this) },
+              { className: 'subscribe-submit left btn red', onClick: this.deleteFeature.bind(this) },
               _config.modalText.subscription.deletePlaceholder
             ) : null,
             _react2.default.createElement(
               'button',
-              { className: 'subscribe-submit btn green ' + (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''), onClick: this.subscribe.bind(this) },
+              { className: 'subscribe-submit btn red ' + (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''), onClick: this.subscribe.bind(this) },
               _config.modalText.subscription.subscribePlaceholder
             )
           ),
