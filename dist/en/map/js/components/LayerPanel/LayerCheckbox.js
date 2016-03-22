@@ -119,7 +119,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
           { className: 'layer-checkbox relative ' + layer.className + (this.props.checked ? ' active' : '') + (layer.disabled ? ' disabled' : '') },
           !layer.disabled ? null : _react2.default.createElement(
             'span',
-            { className: 'tooltipmap middle right' },
+            { className: 'tooltipmap fire' },
             'Coming Soon!'
           ),
           _react2.default.createElement(
