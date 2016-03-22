@@ -45,17 +45,17 @@ urlUtils.addProxyRule({
   proxyUrl: '/map/php/proxy.php'
 });
 
-var identityManager;
-identityManager = new declare(IdentityManagerBase, {
-  constructor: function () {
-    window.esri.id = this;
-  }
-})();
-identityManager.registerToken({
-  server: '//gis-potico.wri.org',
-  token: 'zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2',
-  ssl: false
-});
+// var identityManager;
+// identityManager = new declare(IdentityManagerBase, {
+//   constructor: function () {
+//     window.esri.id = this;
+//   }
+// })();
+// identityManager.registerToken({
+//   server: '//gis-potico.wri.org',
+//   token: 'zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2',
+//   ssl: false
+// });
 
 map = new Map('map', {
   basemap: 'satellite',
@@ -82,7 +82,8 @@ search = new Search({
 }, 'search');
 search.startup();
 
-failure = function() {
+failure = function(err) {
+  console.log(err);
   alert('Upload failed!');
 };
 
@@ -107,6 +108,7 @@ function addToMap(evt) {
     storyAffectedArea = new Graphic(evt.geometry, symbol, {});
     storiesLayer.clear();
     storiesLayer.add(storyAffectedArea);
+    console.log(storiesLayer);
     // map.graphics.clear();
     // map.graphics.add(storyAffectedArea);
 
@@ -173,7 +175,16 @@ on(dom.byId('submit-button'), 'click', function () {
     storyAffectedArea.attributes.Name = storyName;
     storyAffectedArea.attributes.Email = storyEmail;
     storyAffectedArea.attributes.Publish = 'Y';
+    storyAffectedArea.attributes.OBJECTID = 24009;
+    console.log(storyAffectedArea)
 
-    storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
+    storiesLayer.applyEdits([storyAffectedArea], null, null, function(msg) {
+      console.log(msg);
+    }, function(err) {
+      console.log('err');
+      console.log(err);
+    });
+
+    // storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
   }
 });

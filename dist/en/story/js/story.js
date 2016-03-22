@@ -70,17 +70,17 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     proxyUrl: '/map/php/proxy.php'
   });
 
-  var identityManager;
-  identityManager = new _declare2.default(_IdentityManagerBase2.default, {
-    constructor: function constructor() {
-      window.esri.id = this;
-    }
-  })();
-  identityManager.registerToken({
-    server: '//gis-potico.wri.org',
-    token: 'zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2',
-    ssl: false
-  });
+  // var identityManager;
+  // identityManager = new declare(IdentityManagerBase, {
+  //   constructor: function () {
+  //     window.esri.id = this;
+  //   }
+  // })();
+  // identityManager.registerToken({
+  //   server: '//gis-potico.wri.org',
+  //   token: 'zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2',
+  //   ssl: false
+  // });
 
   map = new _map2.default('map', {
     basemap: 'satellite',
@@ -93,7 +93,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   // var storiesLayer = new FeatureLayer(urlToken, {});
   var storiesLayer = new _FeatureLayer2.default('http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
 
-  // map.addLayer(storiesLayer);
+  map.addLayer(storiesLayer);
 
   basemapGallery = new _BasemapGallery2.default({
     showArcGISBasemaps: true,
@@ -131,10 +131,11 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       });
 
       storyAffectedArea = new _graphic2.default(evt.geometry, symbol, {});
-      // storiesLayer.clear();
-      // storiesLayer.add(storyAffectedArea);
-      map.graphics.clear();
-      map.graphics.add(storyAffectedArea);
+      storiesLayer.clear();
+      storiesLayer.add(storyAffectedArea);
+      console.log(storiesLayer);
+      // map.graphics.clear();
+      // map.graphics.add(storyAffectedArea);
 
       _domClass2.default.remove('story-affected-areas-label', 'field-required');
     }
@@ -197,9 +198,17 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       storyAffectedArea.attributes.Name = storyName;
       storyAffectedArea.attributes.Email = storyEmail;
       storyAffectedArea.attributes.Publish = 'Y';
+      storyAffectedArea.attributes.OBJECTID = 24009;
       console.log(storyAffectedArea);
 
-      storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
+      storiesLayer.applyEdits([storyAffectedArea], null, null, function (msg) {
+        console.log(msg);
+      }, function (err) {
+        console.log('err');
+        console.log(err);
+      });
+
+      // storiesLayer.applyEdits([storyAffectedArea], null, null, success, failure);
     }
   });
 });
