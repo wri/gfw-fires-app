@@ -114,6 +114,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
       key: 'render',
       value: function render() {
         var layer = this.props.layer;
+        console.log(layer);
 
         return _react2.default.createElement(
           'div',
@@ -133,7 +134,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
             { className: 'layer-checkbox-sublabel' },
             layer.sublabel
           ),
-          _react2.default.createElement(
+          !layer.metadataId ? null : _react2.default.createElement(
             'span',
             { className: 'info-icon pointer', onClick: this.showInfo.bind(this) },
             _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })

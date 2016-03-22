@@ -234,7 +234,7 @@ export const config = {
       className: 'archive-fires',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires',
+      // metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td>Brightness: </td><td>${BRIGHTNESS}</td></tr>' +
           '<tr><td>Confidence: </td><td>${CONFIDENCE}</td></tr>' +
@@ -282,7 +282,7 @@ export const config = {
       layerIds: [8],
       className: 'burn-scars',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires',
+      // metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td>Chip Link: </td><td>${ChipLink}</td></tr>' +
           '<tr><td>Image Aquisition Date: </td><td>${ImageAquisitionDate}</td></tr>'
