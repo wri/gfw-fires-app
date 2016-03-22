@@ -21,6 +21,8 @@ export default class WindControls extends React.Component {
     let date = window.Kalendae.moment(this.state.windDate);
 
     return <div>
+      <div id="windLegendNode" className="windLegendNode windLayerLegendColorRamp"></div>
+      <div id="windLegendLabels"><span>0 m/s</span><span className="rightWindLabel">40 m/s</span></div>
       <div id='wind-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.label}</span>
         <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'wind' ? ' current' : ''}`} onClick={this.changeWind.bind(this)}>{DateHelper.getDate(date)}</button>

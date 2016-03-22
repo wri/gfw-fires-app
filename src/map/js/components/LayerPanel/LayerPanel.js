@@ -93,7 +93,7 @@ export default class LayerPanel extends React.Component {
       }
 
       return (
-        <LayerCheckbox key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
+        <LayerCheckbox disabled={layer.disabled} key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
           {childComponent}
         </LayerCheckbox>
       );
