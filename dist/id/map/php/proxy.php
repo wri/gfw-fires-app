@@ -1255,7 +1255,7 @@ class Proxy {
     public function isUserLogin()
     {
 
-        if (isset($this->resource['username']) && isset($this->resource['password'])) {
+        if (isset(getenv($this->resource['username'])) && isset(getenv($this->resource['password']))) {
 
             return true;
         }
@@ -1359,8 +1359,8 @@ class Proxy {
             'f' => 'json',
             'referer' => $this->referer,
             'expiration' => 60,
-            'username' => $this->resource['username'],//getenv($this->resource['username'])
-            'password' => $this->resource['password']
+            'username' => getenv($this->resource['username']),//getenv($this->resource['username'])
+            'password' => getenv($this->resource['password'])
         ));
 
         $tokenResponse = json_decode($this->proxyBody, true);
