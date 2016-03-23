@@ -503,3 +503,73 @@
 .master-calendar
   margin-bottom 10px
   margin-top 5px
+
+#share-modal
+  .modal-window
+    width 300px
+
+.share-modal-title
+  text-align center
+  font-size 22px
+  font-weight 300
+
+.share-modal-title:before, .share-modal-title:after
+  content " "
+  display table
+  visibility hidden
+  font-size 0
+  height:0
+
+.share-input
+  input
+    width 170px
+    height 36px
+    font-size 13px
+    text-align center
+    padding 0px 10px
+    border 1px solid #e5e5df
+
+  button
+    width 90px
+    float right
+    height 36px
+    border-radius 0
+
+
+.share-instructions
+  text-align center
+  font-size 13px
+
+.share-items
+  padding 50px 0 0
+  ul
+    display flex
+    display -webkit-flex
+    -webkit-box-pack justify
+    -moz-box-pack justify
+    -ms-flex-pack justify
+    -webkit-justify-content space-between
+    justify-content space-between
+    li.googleplus-modal
+        background #DA4735
+    li.twitter-modal
+        background #598DCA
+    li.facebook-modal
+        background #3A589B
+
+.share-card
+  height 44px
+  width 44px
+  display inline-block
+  svg
+    fill white
+    position relative
+    top 12px
+    left 13px
+    width 20px
+    height 20px
+    // -webkit-transform translate(-50%, -50%)
+    // -moz-transform translate(-50%, -50%)
+    // -ms-transform translate(-50%, -50%)
+    // -o-transform translate(-50%, -50%)
+    // transform translate(-50%, -50%)

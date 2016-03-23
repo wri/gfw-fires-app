@@ -64,22 +64,25 @@ export default class ShareModal extends React.Component {
   render () {
     return (
       <ModalWrapper>
-        <div className='modal-title'>{modalText.share.title}</div>
+        <div className='share-modal-title'>{modalText.share.title}</div>
         <div className='share-instructions'>{modalText.share.linkInstructions}</div>
         <div className='share-input'>
           <input ref='shareInput' type='text' readOnly value={this.state.bitlyUrl} onClick={this.handleFocus} />
           <button className='gfw-btn white pointer' onClick={this.copyShare.bind(this)}>{this.state.copyText}</button>
         </div>
         <div className='share-items'>
-          <div title='Google Plus' className='share-card googleplus-modal pointer' onClick={this.shareGoogle.bind(this)}>
-            <svg dangerouslySetInnerHTML={{ __html: googleSvg }}/>
-          </div>
-          <div title='Twitter' className='share-card twitter-modal pointer' onClick={this.shareTwitter.bind(this)}>
-            <svg dangerouslySetInnerHTML={{ __html: twitterSvg }}/>
-          </div>
-          <div title='Facebook' className='share-card facebook-modal pointer' onClick={this.shareFacebook.bind(this)}>
-            <svg dangerouslySetInnerHTML={{ __html: facebookSvg }}/>
-          </div>
+          <ul>
+            <li title='Google Plus' className='share-card googleplus-modal pointer' onClick={this.shareGoogle.bind(this)}>
+              <svg dangerouslySetInnerHTML={{ __html: googleSvg }}/>
+            </li>
+            <li title='Twitter' className='share-card twitter-modal pointer' onClick={this.shareTwitter.bind(this)}>
+              <svg dangerouslySetInnerHTML={{ __html: twitterSvg }}/>
+            </li>
+            <li title='Facebook' className='share-card facebook-modal pointer' onClick={this.shareFacebook.bind(this)}>
+              <svg dangerouslySetInnerHTML={{ __html: facebookSvg }}/>
+            </li>
+          </ul>
+
         </div>
       </ModalWrapper>
     );
