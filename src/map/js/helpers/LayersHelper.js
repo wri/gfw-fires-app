@@ -40,7 +40,9 @@ let LayersHelper = {
       features = [],
       layer;
 
+    app.map.infoWindow.hide();
     app.map.infoWindow.clearFeatures();
+    app.map.infoWindow.resize(270);
 
     if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
       // this.setCustomFeaturesTemplates(evt.graphic);
@@ -189,6 +191,12 @@ let LayersHelper = {
       });
 
       if (features.length > 0) {
+
+        if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
+          console.log('poj')
+          app.map.infoWindow.resize(500);
+        }
+        //esize(width, height)
         app.map.infoWindow.setFeatures(features);
         app.map.infoWindow.show(mapPoint);
         let handles = [];
