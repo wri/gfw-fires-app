@@ -59,7 +59,8 @@ define([
             // };
 
             // latest
-            s.src = 'http://globalforestwatch.org/gfw-assets';
+            // s.src = 'http://globalforestwatch.org/gfw-assets';
+            s.src = 'https://cdn.rawgit.com/simbiotica/gfw_assets/c821fe8f7c5dc545d78be491074621/js/build/production.js';
             s.async = true;
             s.setAttribute('id', "loader-gfw"); // this is very important
             s.setAttribute('data-current', ".shape-fires"); // fire"s" the "s" is necessary
