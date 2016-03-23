@@ -218,9 +218,9 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td>Brightness: </td><td>${BRIGHTNESS}</td></tr>' +
-          '<tr><td>Confidence: </td><td>${CONFIDENCE}</td></tr>' +
-          '<tr><td>Fire ID: </td><td>${fireID}</td></tr>'
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">Fire ID: </td><td class="field-value">${fireID}</td></tr>'
       }
     },
     {
@@ -236,9 +236,9 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       // metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td>Brightness: </td><td>${BRIGHTNESS}</td></tr>' +
-          '<tr><td>Confidence: </td><td>${CONFIDENCE}</td></tr>' +
-          '<tr><td>Province: </td><td>${PROVINCE}</td></tr>'
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
       },
       calendar: {
         // startDate: new Date('10/19/2015'),
@@ -263,8 +263,8 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td>Date: </td><td>${Date}</td></tr>' +
-          '<tr><td>SNo: </td><td>${SNo}</td></tr>'
+        content: '<table><tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>' +
+          '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'
       },
       calendar: {
         domClass: 'noaa-settings',
@@ -284,8 +284,9 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       // metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td>Chip Link: </td><td>${ChipLink}</td></tr>' +
-          '<tr><td>Image Aquisition Date: </td><td>${ImageAquisitionDate}</td></tr>'
+        content: '<table><span class="name-field">${type_}</span></tr>' +
+          '<tr><td>CrowdRank: </td><td class="field-value">${CrowdRank}</td></tr>' +
+          '<tr><td>Image Date: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
       }
     },
     {
@@ -332,11 +333,11 @@ export const config = {
       metadataId: 'firms_active_fires',
       layerIds: [1],
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
-        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td>Country: </td><td>${Country}</td></tr>' +
-        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
-        '<tr><td>Source: </td><td>${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' +
+        '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
       }
     },
     {
@@ -351,11 +352,11 @@ export const config = {
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${name}</td></tr>' +
-        '<tr><td>GIS Calculated Area (ha): </td><td>${area_ha}</td></tr>' +
-        '<tr><td>Country: </td><td>${country}</td></tr>' +
-        '<tr><td>Certification Status	: </td><td>${certificat}</td></tr>' +
-        '<tr><td>Source: </td><td>${source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' +
+        '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' +
+        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' +
+        '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
       }
     },
     {
@@ -370,11 +371,11 @@ export const config = {
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
-        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td>Country: </td><td>${Country}</td></tr>' +
-        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
-        '<tr><td>Source: </td><td>${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' +
+        '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
       }
     },
     {
@@ -389,11 +390,11 @@ export const config = {
       metadataId: 'firms_active_fires',
       layerIds: [3],
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
-        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td>Country: </td><td>${Country}</td></tr>' +
-        '<tr><td>Certification Status	: </td><td>${Certification Status}</td></tr>' +
-        '<tr><td>Source: </td><td>${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' +
+        '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
       }
     },
     {
@@ -408,11 +409,11 @@ export const config = {
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
-        '<tr><td>GIS Calculated Area (ha): </td><td>${GIS_AREA}</td></tr>' +
-        '<tr><td>Local Name: </td><td>${Local Name}</td></tr>' +
-        '<tr><td>Local Designation: </td><td>${Local Designation}</td></tr>' +
-        '<tr><td>WDPA_PID: </td><td>${WDPA_PID}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
+        '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
+        '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
+        '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
       }
     },
     {
@@ -503,8 +504,8 @@ export const config = {
       type: 'feature',
       label: 'Bounding boxes',
       infoTemplate: {
-        content: '<table><tr><td>Name: </td><td>${Name}</td></tr>' +
-          '<tr><td>Image Aquisition Date: </td><td>${AcquisitionDate}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+          '<tr><td class="field-name">Image Aquisition Date: </td><td class="field-value">${AcquisitionDate}</td></tr>'
       },
       layerDefinition: {
         'geometryType': 'esriGeometryPolygon',
@@ -611,10 +612,10 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td>Title: </td><td>${Title}</td></tr>' +
-        '<tr><td>Name: </td><td>${Name}</td></tr>' +
-        '<tr><td>Details: </td><td>${Details}</td></tr>' +
-        '<tr><td>Date: </td><td>${Date}</td></tr>'
+        content: '<table><span class="name-field">${Title}</span></tr>' +
+        '<tr><td class="field-name">Name: </td><td class="field-value">${Name}</td></tr>' +
+        '<tr><td class="field-name">Details: </td><td class="field-value">${Details}</td></tr>' +
+        '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
       }
     },
     {
@@ -628,9 +629,9 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td>Text: </td><td>${Text}</td></tr>' +
-        '<tr><td>UserName: </td><td>${UserName}</td></tr>' +
-        '<tr><td>Date: </td><td>${Date}</td></tr>'
+        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${Text}</td></tr>' +
+        '<tr><td class="field-name">UserName: </td><td class="field-value">${UserName}</td></tr>' +
+        '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
       }
     }
   ],

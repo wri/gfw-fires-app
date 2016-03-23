@@ -214,6 +214,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             app.map.infoWindow.show(mapPoint);
             var handles = [];
             var subscribeHandles = [];
+            var closeHandles = [];
             var self = _this;
 
             (0, _query2.default)('.contentPane .layer-subscribe').forEach(function (rowData) {
@@ -232,6 +233,12 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
                   // }
                 });
+              }));
+            });
+
+            (0, _query2.default)('.infoWindow-close').forEach(function (rowData) {
+              closeHandles.push((0, _on2.default)(rowData, 'click', function () {
+                app.map.infoWindow.hide();
               }));
             });
 
@@ -300,14 +307,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default[keyword]);
         var fire_results = '',
             subscribe = '';
-        if (keyword === _constants2.default.woodFiber || keyword === _constants2.default.woodFiber || keyword === _constants2.default.oilPalm || keyword === _constants2.default.rspoOilPalm || keyword === _constants2.default.loggingConcessions || keyword === _constants2.default.protectedAreas) {
+        if (keyword === _constants2.default.woodFiber || keyword === _constants2.default.oilPalm || keyword === _constants2.default.rspoOilPalm || keyword === _constants2.default.loggingConcessions || keyword === _constants2.default.protectedAreas) {
           fire_results = _this2.getFirePopupContent(item);
-          subscribe = '</table><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button>';
+          subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+        } else {
+          subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         }
-        // template_content_block = config.infoTemplate.content + template_content_block;
+
         var content = fire_results + config.infoTemplate.content + subscribe;
 
-        // template = new InfoTemplate(item.layerName, template_content_block);
         template = new _InfoTemplate2.default(item.layerName, content);
         item.feature.setInfoTemplate(template);
         features.push(item.feature);

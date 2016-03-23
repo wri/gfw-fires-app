@@ -15,6 +15,60 @@ body
 #footerGfw
   display none
 
+.titlePane .title
+  display none
+
+
+.infoWindow-close.close-icon
+  z-index 500
+  padding-right 5px
+  padding-top 5px
+  height 30px
+  width 30px
+  cursor pointer
+
+
+.esriPopup .actionsPane
+  display none
+
+.esriPopup .contentPane
+  font-family "Fira Sans" , Helvetica
+  width 100%
+  .name-field
+    font-weight 300
+    font-size 21px
+    // line-height 3
+    padding 0 0 10px
+  table
+    width 100%
+    text-align left
+  .field-name
+    color #555555
+    font-size 13px
+    font-weight 500
+    width 40%
+    float left
+    line-height 1.25
+    min-height 1px
+    clear both
+    padding 8px 5px 0 0
+  .field-value
+    color #555555
+    font-size 13px
+    width 60%
+    float left
+    line-height 1.25
+    min-height 1px
+    padding 8px 0 0
+  .layer-subscribe-container
+    border-top 1px solid #e5e5df
+    text-align center
+    .layer-subscribe
+      margin-top 10px
+      margin-bottom 5px
+      float none
+
+
 .map
   height 100%
   width 100%
@@ -59,7 +113,6 @@ body
 //     color red
 
 .fire-popup-list
-  padding-top 10px
 	padding-bottom 10px
   &.no-fires
     padding-top 5px
@@ -99,9 +152,13 @@ body
 			FONT-WEIGHT BOLD
 			color #B50303
 
-
 		.fire-pop-label
 			font-size 10px
+      margin-top -5px
+
+  .fire-pop-label
+    font-size 10px
+    margin-top -5px
 
 // Require any Map Content
 @require '_modal'
