@@ -114,12 +114,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
                 ),
                 _react2.default.createElement(
                   'button',
-                  { className: 'gfw-btn white pointer', onClick: this.switchBasemap.bind(this) },
+                  { className: 'gfw-btn white basemap-button pointer', onClick: this.switchBasemap.bind(this) },
                   'Yes'
                 ),
                 _react2.default.createElement(
                   'button',
-                  { className: 'gfw-btn white pointer', onClick: this.keepBasemap.bind(this) },
+                  { className: 'gfw-btn white basemap-button pointer', onClick: this.keepBasemap.bind(this) },
                   'No'
                 ),
                 _react2.default.createElement(

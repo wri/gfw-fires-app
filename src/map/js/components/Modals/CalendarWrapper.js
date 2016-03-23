@@ -16,7 +16,7 @@ export default class CalendarWrapper extends React.Component {
     return (
       <div className='modal-container'>
         <div className='calendar-background' onClick={::this.close} />
-        <div className='calendar-window'>
+        <div className={`calendar-window ${app.mobile() === true ? 'narrow' : ''}`}>
           <div title='close' className='modal-close close-icon pointer' onClick={::this.close}>
             <svg dangerouslySetInnerHTML={{ __html: closeSvg }}/>
           </div>

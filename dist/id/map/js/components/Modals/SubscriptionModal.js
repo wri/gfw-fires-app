@@ -183,13 +183,13 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             { className: 'canopy-modal-title' },
             _config.modalText.subscription.title
           ),
-          this.state.currentCustomGraphic ? _react2.default.createElement('input', { value: this.state.customFeatName !== undefined ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName, onChange: this.updateName }) : null,
+          this.state.currentCustomGraphic ? _react2.default.createElement('input', { className: 'longer', value: this.state.customFeatName !== undefined ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName, onChange: this.updateName }) : null,
           _react2.default.createElement(
             'p',
             null,
             _config.modalText.subscription.emailInstructions
           ),
-          _react2.default.createElement('input', { value: this.state.email, placeholder: _config.modalText.subscription.emailPlaceholder, onChange: this.updateEmail }),
+          _react2.default.createElement('input', { className: 'longer', value: this.state.email, placeholder: _config.modalText.subscription.emailPlaceholder, onChange: this.updateEmail }),
           _react2.default.createElement(
             'div',
             { className: 'submit-warning ' + (this.state.emailErrors ? '' : 'hidden') },
@@ -200,7 +200,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             null,
             _config.modalText.subscription.phoneInstructions
           ),
-          _react2.default.createElement('input', { value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
+          _react2.default.createElement('input', { className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
           _react2.default.createElement(
             'div',
             { className: 'submit-warning ' + (this.state.phoneErrors ? '' : 'hidden') },
@@ -212,12 +212,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             { className: 'subscribe-container' },
             this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? _react2.default.createElement(
               'button',
-              { className: 'subscribe-submit left btn red', onClick: this.deleteFeature.bind(this) },
+              { className: 'subscribe-submit left btn red ' + (app.mobile() === true ? 'narrow' : ''), onClick: this.deleteFeature.bind(this) },
               _config.modalText.subscription.deletePlaceholder
             ) : null,
             _react2.default.createElement(
               'button',
-              { className: 'subscribe-submit btn red ' + (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''), onClick: this.subscribe.bind(this) },
+              { className: 'subscribe-submit btn red ' + (app.mobile() === true ? 'narrow' : '') + (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? ' right' : ''), onClick: this.subscribe.bind(this) },
               _config.modalText.subscription.subscribePlaceholder
             )
           ),

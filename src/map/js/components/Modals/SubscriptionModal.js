@@ -107,21 +107,21 @@ export default class SubscriptionModal extends React.Component {
     return (
       <ModalWrapper>
         <div className='canopy-modal-title'>{modalText.subscription.title}</div>
-        {this.state.currentCustomGraphic ? <input value={this.state.customFeatName !== undefined ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName} onChange={this.updateName} /> : null}
+        {this.state.currentCustomGraphic ? <input className='longer' value={this.state.customFeatName !== undefined ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName} onChange={this.updateName} /> : null}
 
         <p>{modalText.subscription.emailInstructions}</p>
-        <input value={this.state.email} placeholder={modalText.subscription.emailPlaceholder} onChange={this.updateEmail}></input>
+        <input className='longer' value={this.state.email} placeholder={modalText.subscription.emailPlaceholder} onChange={this.updateEmail}></input>
         <div className={`submit-warning ${this.state.emailErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextEmail}</div>
         <p>{modalText.subscription.phoneInstructions}</p>
-        <input value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
+        <input className='longer' value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
         <div className={`submit-warning ${this.state.phoneErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextPhone}</div>
         <input className='hidden' id={modalText.subscription.verifyInput} />
 
         <div className='subscribe-container'>
           {this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ?
-            <button className='subscribe-submit left btn red' onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button> : null
+            <button className={`subscribe-submit left btn red ${app.mobile() === true ? 'narrow' : ''}`} onClick={this.deleteFeature.bind(this)}>{modalText.subscription.deletePlaceholder}</button> : null
           }
-          <button className={`subscribe-submit btn red ${this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? 'right' : ''}`} onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
+          <button className={`subscribe-submit btn red ${app.mobile() === true ? 'narrow' : ''}${this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? ' right' : ''}`} onClick={this.subscribe.bind(this)}>{modalText.subscription.subscribePlaceholder}</button>
         </div>
         <Loader active={this.state.isUploading} />
         <div className={`submit-success ${this.state.success ? '' : 'hidden'}`}>{modalText.subscription.successMessage}</div>

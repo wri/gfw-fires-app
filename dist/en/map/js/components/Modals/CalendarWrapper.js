@@ -87,7 +87,7 @@ define(['exports', 'actions/ModalActions', 'actions/MapActions', 'stores/ModalSt
           _react2.default.createElement('div', { className: 'calendar-background', onClick: this.close.bind(this) }),
           _react2.default.createElement(
             'div',
-            { className: 'calendar-window' },
+            { className: 'calendar-window ' + (app.mobile() === true ? 'narrow' : '') },
             _react2.default.createElement(
               'div',
               { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close.bind(this) },
