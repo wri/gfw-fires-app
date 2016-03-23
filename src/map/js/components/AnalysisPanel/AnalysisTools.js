@@ -34,6 +34,7 @@ export default class AnalysisTools extends React.Component {
   render () {
     let className = 'analysis-tools map-component shadow';
     if (app.mobile() === true && this.state.analysisToolsVisible === false) { className += ' hidden'; }
+    if (app.mobile() === true) { className += ' isMobileTools'; }
 
     return (
       <div className={className}>

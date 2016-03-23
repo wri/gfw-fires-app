@@ -3,7 +3,7 @@ import {DrawSvg} from 'utils/svgs';
 import scaleUtils from 'esri/geometry/scaleUtils';
 import geometryUtils from 'utils/geometryUtils';
 import graphicsUtils from 'esri/graphicsUtils';
-import mapActions from 'actions/MapActions';
+import {analysisActions} from 'actions/AnalysisActions';
 import {modalActions} from 'actions/ModalActions';
 // import keys from 'constants/StringKeys';
 import {uploadConfig} from 'js/config';
@@ -60,6 +60,7 @@ export default class SubscriptionTab extends React.Component {
   toolbar.activate(Draw.FREEHAND_POLYGON);
   this.setState({ drawButtonActive: true });
   //- If the analysis modal is visible, hide it
+  analysisActions.toggleAnalysisToolsVisibility();
   // mapActions.toggleAnalysisModal({ visible: false });
 };
 
@@ -142,7 +143,7 @@ drop = (evt) => {
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
         </div>
 
-        <button onClick={this.draw} className={`gfw-btn blue ${this.state.drawButtonActive ? 'active' : ''}`}>{analysisPanelText.subscriptionButtonLabel}</button>
+        <button onClick={this.draw} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>{analysisPanelText.subscriptionButtonLabel}</button>
 
         <form
           className={`analysis-instructions__upload-container ${this.state.dndActive ? 'active' : ''}`}
