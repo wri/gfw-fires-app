@@ -333,7 +333,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
               searchInput,
               _react2.default.createElement(
                 'button',
-                { className: 'padding back-white' },
+                { className: 'border-right padding back-white' },
                 _react2.default.createElement('svg', { className: 'search-magnifier vertical-middle', dangerouslySetInnerHTML: { __html: magnifierSvg } })
               ),
               _react2.default.createElement(

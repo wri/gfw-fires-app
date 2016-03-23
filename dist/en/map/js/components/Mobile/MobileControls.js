@@ -73,6 +73,8 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
       _this.toggleAnalysis = _this.toggleAnalysis.bind(_this);
       _this.toggleSubscription = _this.toggleSubscription.bind(_this);
       _this.toggleTimeline = _this.toggleTimeline.bind(_this);
+      _this.toggleImagery = _this.toggleImagery.bind(_this);
+      _this.toggleBasemaps = _this.toggleBasemaps.bind(_this);
       return _this;
     }
 
@@ -132,8 +134,38 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
         }
       }
     }, {
+      key: 'toggleImagery',
+      value: function toggleImagery() {
+        if (_AnalysisStore.analysisStore.getState().analysisToolsVisible === true && _AnalysisStore.analysisStore.getState().activeTab === _config.analysisPanelText.imageryTabId) {
+          this.hidePanels();
+        } else {
+          this.hidePanels();
+          _AnalysisActions.analysisActions.setAnalysisType(_config.analysisPanelText.imageryTabId);
+          _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
+        }
+      }
+    }, {
+      key: 'toggleBasemaps',
+      value: function toggleBasemaps() {
+        if (_AnalysisStore.analysisStore.getState().analysisToolsVisible === true && _AnalysisStore.analysisStore.getState().activeTab === _config.analysisPanelText.basemapTabId) {
+          this.hidePanels();
+        } else {
+          this.hidePanels();
+          _AnalysisActions.analysisActions.setAnalysisType(_config.analysisPanelText.basemapTabId);
+          _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
+        }
+      }
+    }, {
       key: 'render',
       value: function render() {
+        // <button onClick={this.toggleAnalysis}>
+        //   <AnalysisSvg />
+        //   Analyze Fires
+        // </button>
+        // <button onClick={this.toggleTimeline}>
+        //   <CalendarSvg/>
+        //   Timeline
+        // </button>
         return _react2.default.createElement(
           'div',
           { id: 'mobile-controls', className: 'mobile-controls mobile-show' },
@@ -141,25 +173,25 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
             'button',
             { onClick: this.toggleLayers },
             _react2.default.createElement(_svgs.BasemapSvg, null),
-            'Layers'
-          ),
-          _react2.default.createElement(
-            'button',
-            { onClick: this.toggleAnalysis },
-            _react2.default.createElement(_svgs.AnalysisSvg, null),
-            'Analyze Fires'
+            'LAYERS'
           ),
           _react2.default.createElement(
             'button',
             { onClick: this.toggleSubscription },
             _react2.default.createElement(_svgs.AlertsSvg, null),
-            'Subscribe'
+            'ALERTS'
           ),
           _react2.default.createElement(
             'button',
-            { onClick: this.toggleTimeline },
-            _react2.default.createElement(_svgs.CalendarSvg, null),
-            'Timeline'
+            { onClick: this.toggleImagery },
+            _react2.default.createElement(_svgs.ImagerySvg, null),
+            'IMAGERY'
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: this.toggleBasemaps },
+            _react2.default.createElement(_svgs.BasemapSvg, null),
+            'BASEMAPS'
           )
         );
       }

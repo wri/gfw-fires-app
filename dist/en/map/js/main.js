@@ -1,4 +1,4 @@
-define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'js/config', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _config, _Map, _config2, _urlUtils, _reactDom, _react) {
+define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _Map, _config2, _urlUtils, _reactDom, _react) {
   'use strict';
 
   var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
@@ -14,6 +14,8 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   var _SubscriptionModal2 = _interopRequireDefault(_SubscriptionModal);
 
   var _FiresModal2 = _interopRequireDefault(_FiresModal);
+
+  var _ShareModal2 = _interopRequireDefault(_ShareModal);
 
   var _Map2 = _interopRequireDefault(_Map);
 
@@ -70,6 +72,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById('calendar-modal'));
     _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
     _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById('fires-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById('share-modal'));
     //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
   };
 

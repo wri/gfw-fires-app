@@ -54,6 +54,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.analysisToolsExpanded = true;
       this.imageryToolsExpanded = false;
       this.basemapToolsExpanded = false;
+      this.subscribeToolsExpanded = false;
       this.timelineVisible = false;
       this.areaIslandsActive = true;
       this.islands = [];

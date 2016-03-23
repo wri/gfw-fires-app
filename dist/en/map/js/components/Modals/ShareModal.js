@@ -140,7 +140,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
           null,
           _react2.default.createElement(
             'div',
-            { className: 'modal-title' },
+            { className: 'share-modal-title' },
             _config.modalText.share.title
           ),
           _react2.default.createElement(
@@ -162,19 +162,23 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
             'div',
             { className: 'share-items' },
             _react2.default.createElement(
-              'div',
-              { title: 'Google Plus', className: 'share-card googleplus-modal pointer', onClick: this.shareGoogle.bind(this) },
-              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: googleSvg } })
-            ),
-            _react2.default.createElement(
-              'div',
-              { title: 'Twitter', className: 'share-card twitter-modal pointer', onClick: this.shareTwitter.bind(this) },
-              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: twitterSvg } })
-            ),
-            _react2.default.createElement(
-              'div',
-              { title: 'Facebook', className: 'share-card facebook-modal pointer', onClick: this.shareFacebook.bind(this) },
-              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: facebookSvg } })
+              'ul',
+              null,
+              _react2.default.createElement(
+                'li',
+                { title: 'Google Plus', className: 'share-card googleplus-modal pointer', onClick: this.shareGoogle.bind(this) },
+                _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: googleSvg } })
+              ),
+              _react2.default.createElement(
+                'li',
+                { title: 'Twitter', className: 'share-card twitter-modal pointer', onClick: this.shareTwitter.bind(this) },
+                _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: twitterSvg } })
+              ),
+              _react2.default.createElement(
+                'li',
+                { title: 'Facebook', className: 'share-card facebook-modal pointer', onClick: this.shareFacebook.bind(this) },
+                _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: facebookSvg } })
+              )
             )
           )
         );

@@ -66,6 +66,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
   var shareSvg = '<use xlink:href="#icon-share" />';
   var magnifierSvg = '<use xlink:href="#icon-magnifier" />';
   // let basemapSvg = '<use xlink:href="#icon-basemap" />';
+  var locateSvg = '<use xlink:href="#icon-locate" />';
   var timelineSvg = '<use xlink:href="#icon-timeline" />';
   var printSvg = '<use xlink:href="#icon-print" />';
 
@@ -142,6 +143,11 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
         // mapActions.zoomToUserLocation();
       }
     }, {
+      key: 'locateMe',
+      value: function locateMe() {
+        _MapActions.mapActions.zoomToUserLocation();
+      }
+    }, {
       key: 'toggleSearch',
       value: function toggleSearch() {
         _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
@@ -185,9 +191,13 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
                 _config.controlPanelText.shareHover
               )
             ),
-            _react2.default.createElement(
+            app.mobile() === true ? _react2.default.createElement(
               'li',
-              { className: 'search-map pointer', title: 'Reset', onClick: this.toggleSearch },
+              { className: 'locate-me mobs pointer', title: 'Locate Me', onClick: this.locateMe },
+              _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: locateSvg } })
+            ) : _react2.default.createElement(
+              'li',
+              { className: 'search-map pointer', title: 'Search', onClick: this.toggleSearch },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: magnifierSvg } }),
               _react2.default.createElement(
                 'span',
