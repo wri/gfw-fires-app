@@ -1,7 +1,7 @@
 extends ../_layout.jade
 
 block append head-styles
-  link(rel='stylesheet', href='/map/css/map.css?#{meta.version}')
+  link(rel='stylesheet', href='./css/map.css?#{meta.version}')
   //todo: above link for build /map/css/map.css vs local ./css/map.css
   link(rel='icon', href='/css/images/favicon.png')
   link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
@@ -67,6 +67,7 @@ block content
   div#basemap-modal.modal.hidden
   div#calendar-modal.modal.hidden
   div#subscription-modal.modal.hidden
+  div#share-modal.modal.hidden
   div#fires-modal.modal.hidden
   div#master-modal.modal.hidden
   script(src='http://js.arcgis.com/#{meta.esriVersion}/init.js', async)
