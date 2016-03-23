@@ -209,7 +209,7 @@ export const config = {
   layers: [
     {
       id: KEYS.activeFires,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Active Fires',
       group: 'fires',
@@ -225,7 +225,7 @@ export const config = {
     },
     {
       id: KEYS.archiveFires,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
@@ -252,7 +252,7 @@ export const config = {
     },
     {
       id: KEYS.noaa18Fires,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'NOAA-18 Fires',
       sublabel: '(layer starts at 10/22/14)',
@@ -275,7 +275,7 @@ export const config = {
     },
     {
       id: KEYS.burnScars,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Active fires and burn scars',
       group: 'fires',
@@ -291,7 +291,7 @@ export const config = {
     },
     {
       id: KEYS.fireRisk,
-      order: 1,
+      order: 6,
       type: 'image',
       label: 'Fire risk',
       sublabel: '(layer starts at 4/2/15)',
@@ -309,7 +309,7 @@ export const config = {
     // TODO: crowdsourced fires
     {
       id: KEYS.forestMoratorium,
-      order: 1,
+      order: 8,
       type: 'dynamic',
       label: 'Forest Moratorium',
       // TODO: hookup instructions below
@@ -323,7 +323,7 @@ export const config = {
     },
     {
       id: KEYS.oilPalm,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'Oil palm',
       sublabel: '(varies, select countries)',
@@ -342,7 +342,7 @@ export const config = {
     },
     {
       id: KEYS.rspoOilPalm,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
@@ -361,7 +361,7 @@ export const config = {
     },
     {
       id: KEYS.woodFiber,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'Wood fiber',
       sublabel: '(varies, select countries)',
@@ -380,7 +380,7 @@ export const config = {
     },
     {
       id: KEYS.loggingConcessions,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'Managed forests',
       sublabel: '(Indonesia)',
@@ -399,7 +399,7 @@ export const config = {
     },
     {
       id: KEYS.protectedAreas,
-      order: 1,
+      order: 7,
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
@@ -418,7 +418,7 @@ export const config = {
     },
     {
       id: KEYS.peatlands,
-      order: 1,
+      order: 5,
       type: 'dynamic',
       label: 'Peatlands',
       sublabel: '(year 2002, Indonesia)',
@@ -430,7 +430,7 @@ export const config = {
     },
     {
       id: KEYS.treeCoverDensity,
-      order: 1,
+      order: 2,
       type: 'image',
       label: 'Tree cover density',
       sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
@@ -445,7 +445,7 @@ export const config = {
     },
     {
       id: KEYS.primaryForests,
-      order: 1,
+      order: 4,
       type: 'dynamic',
       label: 'Primary Forests',
       sublabel: '(2000 - 2012, 30m, Indonesia)',
@@ -457,7 +457,7 @@ export const config = {
     },
     {
       id: KEYS.windDirection,
-      order: 1,
+      order: 10,
       type: 'wind',
       label: 'Wind direction',
       sublabel: '(2000, 30m, Indonesia, Daily, NOAA)',
@@ -473,7 +473,7 @@ export const config = {
     },
     {
       id: KEYS.airQuality,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Air Quality',
       sublabel: '(layer starts at 9/25/15)',
@@ -603,7 +603,7 @@ export const config = {
     },
     {
       id: KEYS.fireStories,
-      order: 1,
+      order: 10,
       type: 'feature',
       label: 'Fire Stories',
       group: 'stories',
@@ -620,7 +620,7 @@ export const config = {
     },
     {
       id: KEYS.twitter,
-      order: 1,
+      order: 10,
       type: 'feature',
       label: 'Twitter',
       group: 'stories',

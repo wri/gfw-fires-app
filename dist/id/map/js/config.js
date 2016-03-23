@@ -205,7 +205,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     */
     layers: [{
       id: _constants2.default.activeFires,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Active Fires',
       group: 'fires',
@@ -218,7 +218,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.archiveFires,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
@@ -242,7 +242,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.noaa18Fires,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'NOAA-18 Fires',
       sublabel: '(layer starts at 10/22/14)',
@@ -263,7 +263,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.burnScars,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Active fires and burn scars',
       group: 'fires',
@@ -276,7 +276,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.fireRisk,
-      order: 1,
+      order: 6,
       type: 'image',
       label: 'Fire risk',
       sublabel: '(layer starts at 4/2/15)',
@@ -294,7 +294,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     // TODO: crowdsourced fires
     {
       id: _constants2.default.forestMoratorium,
-      order: 1,
+      order: 8,
       type: 'dynamic',
       label: 'Forest Moratorium',
       // TODO: hookup instructions below
@@ -307,7 +307,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [7]
     }, {
       id: _constants2.default.oilPalm,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'Oil palm',
       sublabel: '(varies, select countries)',
@@ -321,7 +321,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.rspoOilPalm,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
@@ -335,7 +335,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.woodFiber,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'Wood fiber',
       sublabel: '(varies, select countries)',
@@ -349,7 +349,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.loggingConcessions,
-      order: 1,
+      order: 9,
       type: 'dynamic',
       label: 'Managed forests',
       sublabel: '(Indonesia)',
@@ -363,7 +363,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.protectedAreas,
-      order: 1,
+      order: 7,
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
@@ -377,7 +377,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.peatlands,
-      order: 1,
+      order: 5,
       type: 'dynamic',
       label: 'Peatlands',
       sublabel: '(year 2002, Indonesia)',
@@ -388,7 +388,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [22]
     }, {
       id: _constants2.default.treeCoverDensity,
-      order: 1,
+      order: 2,
       type: 'image',
       label: 'Tree cover density',
       sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
@@ -402,7 +402,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       opacity: 0.8
     }, {
       id: _constants2.default.primaryForests,
-      order: 1,
+      order: 4,
       type: 'dynamic',
       label: 'Primary Forests',
       sublabel: '(2000 - 2012, 30m, Indonesia)',
@@ -413,7 +413,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [3]
     }, {
       id: _constants2.default.windDirection,
-      order: 1,
+      order: 10,
       type: 'wind',
       label: 'Wind direction',
       sublabel: '(2000, 30m, Indonesia, Daily, NOAA)',
@@ -428,7 +428,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.airQuality,
-      order: 1,
+      order: 10,
       type: 'dynamic',
       label: 'Air Quality',
       sublabel: '(layer starts at 9/25/15)',
@@ -541,7 +541,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer'
     }, {
       id: _constants2.default.fireStories,
-      order: 1,
+      order: 10,
       type: 'feature',
       label: 'Fire Stories',
       group: 'stories',
@@ -554,7 +554,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.twitter,
-      order: 1,
+      order: 10,
       type: 'feature',
       label: 'Twitter',
       group: 'stories',
