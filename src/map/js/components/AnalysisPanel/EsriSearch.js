@@ -170,7 +170,7 @@ export default class EsriSearch extends React.Component {
         <div className={this.state.visibleTab === 0 ? '' : 'hidden'}>
           <div className='search-input-container'>
             {searchInput}
-            <button className='padding back-white'>
+            <button className='border-right padding back-white'>
               <svg className='search-magnifier vertical-middle' dangerouslySetInnerHTML={{ __html: magnifierSvg }} />
             </button>
             <div className='locate-me pointer' title='Locate Me' onClick={this.locateMe}>
