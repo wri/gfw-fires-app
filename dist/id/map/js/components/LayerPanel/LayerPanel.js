@@ -284,41 +284,41 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                   { className: 'flex flex-wrap flex-justify-between padding' },
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.darkGrayBasemap) },
+                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.darkGrayBasemap) },
                     _react2.default.createElement('div', { className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : '') }),
                     _react2.default.createElement(
                       'div',
-                      { className: 'basemap-label' },
+                      { className: 'basemap-label narrow' },
                       _config.controlPanelText.darkGrayBasemap
                     )
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.topoBasemap) },
+                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.topoBasemap) },
                     _react2.default.createElement('div', { className: 'basemap-thumbnail topo-basemap ' + (this.state.activeBasemap === _constants2.default.topoBasemap ? 'active' : '') }),
                     _react2.default.createElement(
                       'div',
-                      { className: 'basemap-label' },
+                      { className: 'basemap-label narrow' },
                       _config.controlPanelText.topoBasemap
                     )
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.wriBasemap) },
+                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.wriBasemap) },
                     _react2.default.createElement('div', { className: 'basemap-thumbnail wri-basemap ' + (this.state.activeBasemap === _constants2.default.wriBasemap ? 'active' : '') }),
                     _react2.default.createElement(
                       'div',
-                      { className: 'basemap-label' },
+                      { className: 'basemap-label narrow' },
                       _config.controlPanelText.wriBasemap
                     )
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.imageryBasemap) },
+                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.imageryBasemap) },
                     _react2.default.createElement('div', { className: 'basemap-thumbnail imagery-basemap ' + (this.state.activeBasemap === _constants2.default.imageryBasemap ? 'active' : '') }),
                     _react2.default.createElement(
                       'div',
-                      { className: 'basemap-label' },
+                      { className: 'basemap-label narrow' },
                       _config.controlPanelText.imageryBasemap
                     )
                   )

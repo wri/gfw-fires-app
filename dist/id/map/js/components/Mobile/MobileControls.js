@@ -158,13 +158,14 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
     }, {
       key: 'render',
       value: function render() {
-        // <button onClick={this.toggleAnalysis}>
-        //   <AnalysisSvg />
-        //   Analyze Fires
-        // </button>
+
         // <button onClick={this.toggleTimeline}>
         //   <CalendarSvg/>
         //   Timeline
+        // </button>
+        // <button onClick={this.toggleBasemaps}>
+        //   <BasemapSvg />
+        //   BASEMAPS
         // </button>
         return _react2.default.createElement(
           'div',
@@ -177,6 +178,12 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
           ),
           _react2.default.createElement(
             'button',
+            { onClick: this.toggleAnalysis },
+            _react2.default.createElement(_svgs.AnalysisSvg, null),
+            'ANALYZE'
+          ),
+          _react2.default.createElement(
+            'button',
             { onClick: this.toggleSubscription },
             _react2.default.createElement(_svgs.AlertsSvg, null),
             'ALERTS'
@@ -186,12 +193,6 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
             { onClick: this.toggleImagery },
             _react2.default.createElement(_svgs.ImagerySvg, null),
             'IMAGERY'
-          ),
-          _react2.default.createElement(
-            'button',
-            { onClick: this.toggleBasemaps },
-            _react2.default.createElement(_svgs.BasemapSvg, null),
-            'BASEMAPS'
           )
         );
       }

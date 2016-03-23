@@ -214,7 +214,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Fire ID: </td><td class="field-value">${fireID}</td></tr>'
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }, {
       id: _constants2.default.archiveFires,
@@ -550,7 +550,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-name">Name: </td><td class="field-value">${Name}</td></tr>' + '<tr><td class="field-name">Details: </td><td class="field-value">${Details}</td></tr>' + '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
+        content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-name thin">Details: </td><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-name thin">Date: </td><td class="field-value wide">${Date}</td></tr>'
       }
     }, {
       id: _constants2.default.twitter,
@@ -674,7 +674,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         basemapTabId: 'basemapTab',
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
-        analysisButtonLabel: 'Generate Report',
+        analysisButtonLabel: 'GENERATE REPORT',
         analysisAreaTitle: 'Fire Report',
         analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
         analysisTimeframeHeader: 'Select timeframe of interest:',
@@ -738,8 +738,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           warningTextEmail: 'You must enter a valid email address!',
           warningTextPhone: 'You must enter a valid phone number!',
           successMessage: 'You have successfully subscribed. You will receive an email asking you to verify your subscription. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.',
-          subscribePlaceholder: 'Subscribe',
-          deletePlaceholder: 'Delete Feature'
+          subscribePlaceholder: 'SUBSCRIBE',
+          deletePlaceholder: 'DELETE FEATURE'
         },
         share: {
           title: 'Share this view',

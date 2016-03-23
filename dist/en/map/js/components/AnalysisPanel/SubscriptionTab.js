@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils/geometryUtils', 'esri/graphicsUtils', 'actions/MapActions', 'actions/ModalActions', 'components/Loader', 'esri/toolbars/draw', 'utils/request', 'react'], function (exports, _config, _svgs, _scaleUtils, _geometryUtils, _graphicsUtils, _MapActions, _ModalActions, _Loader, _draw, _request, _react) {
+define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils/geometryUtils', 'esri/graphicsUtils', 'actions/AnalysisActions', 'actions/ModalActions', 'components/Loader', 'esri/toolbars/draw', 'utils/request', 'react'], function (exports, _config, _svgs, _scaleUtils, _geometryUtils, _graphicsUtils, _AnalysisActions, _ModalActions, _Loader, _draw, _request, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -10,8 +10,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
   var _geometryUtils2 = _interopRequireDefault(_geometryUtils);
 
   var _graphicsUtils2 = _interopRequireDefault(_graphicsUtils);
-
-  var _MapActions2 = _interopRequireDefault(_MapActions);
 
   var _Loader2 = _interopRequireDefault(_Loader);
 
@@ -98,6 +96,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         toolbar.activate(_draw2.default.FREEHAND_POLYGON);
         _this.setState({ drawButtonActive: true });
         //- If the analysis modal is visible, hide it
+        _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
         // mapActions.toggleAnalysisModal({ visible: false });
       };
 
@@ -218,7 +217,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
           ),
           _react2.default.createElement(
             'button',
-            { onClick: this.draw, className: 'gfw-btn blue ' + (this.state.drawButtonActive ? 'active' : '') },
+            { onClick: this.draw, className: 'gfw-btn blue subscription-draw ' + (this.state.drawButtonActive ? 'active' : '') },
             _config.analysisPanelText.subscriptionButtonLabel
           ),
           _react2.default.createElement(

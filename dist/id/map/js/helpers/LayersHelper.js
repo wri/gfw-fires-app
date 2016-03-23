@@ -58,7 +58,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           features = [],
           layer = void 0;
 
+      app.map.infoWindow.hide();
       app.map.infoWindow.clearFeatures();
+      app.map.infoWindow.resize(270);
 
       if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
         // this.setCustomFeaturesTemplates(evt.graphic);
@@ -210,6 +212,12 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         if (features.length > 0) {
           (function () {
+
+            if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
+              console.log('poj');
+              app.map.infoWindow.resize(500);
+            }
+            //esize(width, height)
             app.map.infoWindow.setFeatures(features);
             app.map.infoWindow.show(mapPoint);
             var handles = [];

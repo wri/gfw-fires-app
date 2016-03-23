@@ -108,6 +108,9 @@ define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisP
         if (app.mobile() === true && this.state.analysisToolsVisible === false) {
           className += ' hidden';
         }
+        if (app.mobile() === true) {
+          className += ' isMobileTools';
+        }
 
         return _react2.default.createElement(
           'div',
