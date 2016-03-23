@@ -11,6 +11,7 @@ let zoomOutSvg = '<use xlink:href="#icon-minus" />';
 let shareSvg = '<use xlink:href="#icon-share" />';
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 // let basemapSvg = '<use xlink:href="#icon-basemap" />';
+let locateSvg = '<use xlink:href="#icon-locate" />';
 let timelineSvg = '<use xlink:href="#icon-timeline" />';
 let printSvg = '<use xlink:href="#icon-print" />';
 
@@ -73,6 +74,10 @@ export default class ControlPanel extends React.Component {
     // mapActions.zoomToUserLocation();
   }
 
+  locateMe () {
+    mapActions.zoomToUserLocation();
+  }
+
   toggleSearch () {
     analysisActions.toggleEsriSearchVisibility();
   }
@@ -81,6 +86,10 @@ export default class ControlPanel extends React.Component {
   // </li>
 
   // <div className='mobile-hide'> //surrounding certain li elements?
+
+  // if (app.mobile() === true && this.state.analysisToolsVisible === false) {
+  //   className += ' hidden';
+  // }
 
   render() {
     return (
@@ -98,10 +107,13 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
             <span className='tooltipmap middle left'>{controlPanelText.shareHover}</span>
           </li>
-          <li className='search-map pointer' title='Reset' onClick={this.toggleSearch}>
-            <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
-            <span className='tooltipmap middle right'>{controlPanelText.searchHover}</span>
-          </li>
+           {app.mobile() === true ? <li className='locate-me mobs pointer' title='Locate Me' onClick={this.locateMe}>
+             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
+           </li> : <li className='search-map pointer' title='Search' onClick={this.toggleSearch}>
+             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
+             <span className='tooltipmap middle right'>{controlPanelText.searchHover}</span>
+           </li>
+           }
           <li className='timeline-sync pointer' title='Time sync' onClick={this.toggleMasterCalendar.bind(this)}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
             <span className='tooltipmap low left'>{controlPanelText.timeHover}</span>
