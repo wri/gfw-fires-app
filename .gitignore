@@ -5,7 +5,6 @@ www/node_modules
 *.sublime-project
 www/src/proxy
 *.swp
-www
 
 # Ignore build, dist, and vendor directories
 !dist/en/vendors/kalendae/build

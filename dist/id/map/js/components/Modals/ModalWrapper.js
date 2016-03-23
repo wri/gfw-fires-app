@@ -105,7 +105,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
           _react2.default.createElement('div', { className: 'modal-background', onClick: this.close.bind(this) }),
           _react2.default.createElement(
             'div',
-            { className: 'modal-window' },
+            { className: 'modal-window ' + (app.mobile() === true ? 'narrow' : '') },
             _react2.default.createElement(
               'div',
               { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close.bind(this) },
