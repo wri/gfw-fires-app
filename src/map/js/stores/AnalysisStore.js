@@ -17,6 +17,7 @@ class AnalysisStore {
     this.analysisToolsExpanded = true;
     this.imageryToolsExpanded = false;
     this.basemapToolsExpanded = false;
+    this.subscribeToolsExpanded = false;
     this.timelineVisible = false;
     this.areaIslandsActive = true;
     this.islands = [];

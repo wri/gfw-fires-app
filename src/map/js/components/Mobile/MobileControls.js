@@ -3,7 +3,7 @@ import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import {analysisStore} from 'stores/AnalysisStore';
 import {analysisPanelText} from 'js/config';
-import {AlertsSvg, AnalysisSvg, BasemapSvg, CalendarSvg} from 'utils/svgs';
+import {AlertsSvg, AnalysisSvg, BasemapSvg, CalendarSvg, ImagerySvg} from 'utils/svgs';
 import React from 'react';
 
 export default class Map extends React.Component {
@@ -14,6 +14,8 @@ export default class Map extends React.Component {
     this.toggleAnalysis = this.toggleAnalysis.bind(this);
     this.toggleSubscription = this.toggleSubscription.bind(this);
     this.toggleTimeline = this.toggleTimeline.bind(this);
+    this.toggleImagery = this.toggleImagery.bind(this);
+    this.toggleBasemaps = this.toggleBasemaps.bind(this);
   }
 
   hidePanels () {
@@ -68,24 +70,63 @@ export default class Map extends React.Component {
     }
   }
 
+  toggleImagery () {
+    if (analysisStore.getState().analysisToolsVisible === true
+      && analysisStore.getState().activeTab === analysisPanelText.imageryTabId) {
+      this.hidePanels();
+    } else {
+      this.hidePanels();
+      analysisActions.setAnalysisType(analysisPanelText.imageryTabId);
+      analysisActions.toggleAnalysisToolsVisibility();
+    }
+  }
+
+  // toggleImagery () {
+  //   if (analysisStore.getState().imageryToolsExpanded === true) {
+  //     this.hidePanels();
+  //   } else {
+  //     this.hidePanels();
+  //     analysisActions.toggleImageryToolsExpanded();
+  //   }
+  // }
+
+  toggleBasemaps () {
+    if (analysisStore.getState().analysisToolsVisible === true
+      && analysisStore.getState().activeTab === analysisPanelText.basemapTabId) {
+      this.hidePanels();
+    } else {
+      this.hidePanels();
+      analysisActions.setAnalysisType(analysisPanelText.basemapTabId);
+      analysisActions.toggleAnalysisToolsVisibility();
+    }
+  }
+
   render () {
+    // <button onClick={this.toggleAnalysis}>
+    //   <AnalysisSvg />
+    //   Analyze Fires
+    // </button>
+    // <button onClick={this.toggleTimeline}>
+    //   <CalendarSvg/>
+    //   Timeline
+    // </button>
     return (
       <div id='mobile-controls' className='mobile-controls mobile-show'>
         <button onClick={this.toggleLayers}>
           <BasemapSvg />
-          Layers
-        </button>
-        <button onClick={this.toggleAnalysis}>
-          <AnalysisSvg />
-          Analyze Fires
+          LAYERS
         </button>
         <button onClick={this.toggleSubscription}>
           <AlertsSvg/>
-          Subscribe
+          ALERTS
         </button>
-        <button onClick={this.toggleTimeline}>
-          <CalendarSvg/>
-          Timeline
+        <button onClick={this.toggleImagery}>
+          <ImagerySvg/>
+          IMAGERY
+        </button>
+        <button onClick={this.toggleBasemaps}>
+          <BasemapSvg />
+          BASEMAPS
         </button>
       </div>
     );

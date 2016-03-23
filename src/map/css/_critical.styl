@@ -20,15 +20,17 @@ body
 .mobile-controls
   position fixed
   bottom 0
-  left 20px
-  right 80px
-  background-color rgba(255, 255, 255, .70)
+  // left 20px
+  // right 80px
+  right 48px
+  width calc(100% - 48px)
+  background-color rgba(255, 255, 255, 1)
   z-index $z-modal
   box-shadow $box-shadow
 
   & button
     width 25%
-    background-color transparent
+    background-color white
     border none
     border 1px solid #aaa
     height 3em
