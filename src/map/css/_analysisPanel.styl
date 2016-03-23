@@ -194,6 +194,8 @@
   width 320px
   right 40px
   top 110px
+  &.isMobileTools
+    max-height calc(100% - 125px)
   +below($mq-mobile)
     top initial
     bottom 70px
@@ -224,6 +226,9 @@
 
 .analysis-footer
   padding 10px
+
+.analysis-footer button
+  font-size 14px
 
   & svg
     fill $darkGray
@@ -384,6 +389,9 @@
 #imagery-date-ranges button, #analysis-date-ranges button, #areaTab button
   width 100%
 
+#imagery-date-ranges button, #analysis-date-ranges button
+  font-size 14px
+
 .drop-shapefile
   border 1px dashed gray
 
@@ -391,6 +399,8 @@
   color #e7002f
   cursor pointer
 
+.subscription-draw
+  font-size 14px
 
 .feature-title
 .custom-area-title

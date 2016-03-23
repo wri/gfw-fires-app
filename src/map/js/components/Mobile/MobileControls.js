@@ -102,19 +102,24 @@ export default class Map extends React.Component {
   }
 
   render () {
-    // <button onClick={this.toggleAnalysis}>
-    //   <AnalysisSvg />
-    //   Analyze Fires
-    // </button>
+
     // <button onClick={this.toggleTimeline}>
     //   <CalendarSvg/>
     //   Timeline
+    // </button>
+    // <button onClick={this.toggleBasemaps}>
+    //   <BasemapSvg />
+    //   BASEMAPS
     // </button>
     return (
       <div id='mobile-controls' className='mobile-controls mobile-show'>
         <button onClick={this.toggleLayers}>
           <BasemapSvg />
           LAYERS
+        </button>
+        <button onClick={this.toggleAnalysis}>
+          <AnalysisSvg />
+          ANALYZE
         </button>
         <button onClick={this.toggleSubscription}>
           <AlertsSvg/>
@@ -123,10 +128,6 @@ export default class Map extends React.Component {
         <button onClick={this.toggleImagery}>
           <ImagerySvg/>
           IMAGERY
-        </button>
-        <button onClick={this.toggleBasemaps}>
-          <BasemapSvg />
-          BASEMAPS
         </button>
       </div>
     );

@@ -152,21 +152,21 @@ export default class LayerPanel extends React.Component {
             </div>
             <div>
               <div className='flex flex-wrap flex-justify-between padding'>
-                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
+                <div className='basemap-item narrow pointer' onClick={this.clickedBasemap.bind(this, KEYS.darkGrayBasemap)}>
                   <div className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
-                  <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>
+                  <div className='basemap-label narrow'>{controlPanelText.darkGrayBasemap}</div>
                 </div>
-                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
+                <div className='basemap-item narrow pointer' onClick={this.clickedBasemap.bind(this, KEYS.topoBasemap)}>
                   <div className={`basemap-thumbnail topo-basemap ${this.state.activeBasemap === KEYS.topoBasemap ? 'active' : ''}`} />
-                  <div className='basemap-label'>{controlPanelText.topoBasemap}</div>
+                  <div className='basemap-label narrow'>{controlPanelText.topoBasemap}</div>
                 </div>
-                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
+                <div className='basemap-item narrow pointer' onClick={this.clickedBasemap.bind(this, KEYS.wriBasemap)}>
                   <div className={`basemap-thumbnail wri-basemap ${this.state.activeBasemap === KEYS.wriBasemap ? 'active' : ''}`} />
-                  <div className='basemap-label'>{controlPanelText.wriBasemap}</div>
+                  <div className='basemap-label narrow'>{controlPanelText.wriBasemap}</div>
                 </div>
-                <div className='basemap-item pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
+                <div className='basemap-item narrow pointer' onClick={this.clickedBasemap.bind(this, KEYS.imageryBasemap)}>
                   <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
-                  <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
+                  <div className='basemap-label narrow'>{controlPanelText.imageryBasemap}</div>
                 </div>
               </div>
             </div>
