@@ -422,7 +422,7 @@ export const config = {
     {
       id: KEYS.protectedAreas,
       order: 7,
-      type: 'image',
+      type: 'tiled',
       label: 'Protected areas',
       sublabel: '(varies, global)',
       group: 'conservation',
