@@ -444,11 +444,11 @@ const request = {
   */
   identifyProtectedAreas: mapPoint => {
     let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreas);
+    let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreasHelper);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
-    let layer = app.map.getLayer(KEYS.protectedAreas);
+    let layer = app.map.getLayer(KEYS.protectedAreasHelper);
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
@@ -483,7 +483,7 @@ const request = {
         });
         all(queries).then(function(qResults){
           deferred.resolve({
-            layer: KEYS.protectedAreas,
+            layer: KEYS.protectedAreasHelper,
             features: qResults
           });
         });

@@ -422,10 +422,29 @@ export const config = {
     {
       id: KEYS.protectedAreas,
       order: 7,
-      type: 'dynamic',
+      type: 'image',
       label: 'Protected areas',
       sublabel: '(varies, global)',
       group: 'conservation',
+      className: 'protected-areas',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      metadataId: 'firms_active_fires'//,
+      // layerIds: [0],
+      // infoTemplate: {
+      //   content: '<table><span class="name-field">${Name}</span></tr>' +
+      //   '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
+      //   '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
+      //   '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
+      //   '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
+      // }
+    },
+    {
+      id: KEYS.protectedAreasHelper,
+      order: 7,
+      type: 'dynamic',
+      label: 'Protected areas',
+      sublabel: '(varies, global)',
+      // group: 'conservation',
       className: 'protected-areas',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
@@ -892,6 +911,7 @@ export const config = {
       'land-use-gfw-mill-points': 'rspo_mills',
       'forestMoratorium': 'idn_forest_moratorium',
       'protectedAreas': 'wdpa_protected_areas',
+      'protectedAreasHelper': 'wdpa_protected_areas',
       'conservation-biodiversity-hotspots': 'biodiversity_hotspots',
       'suitability-soy-layer': 'tree_cover_loss',
       'windDirection': 'wind_direction',

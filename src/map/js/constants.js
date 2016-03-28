@@ -21,6 +21,7 @@ const KEYS = {
   woodFiber: 'woodFiber',
   forestMoratorium: 'forestMoratorium',
   protectedAreas: 'protectedAreas',
+  protectedAreasHelper: 'protectedAreasHelper',
   peatlands: 'peatlands',
   treeCoverDensity: 'treeCoverDensity',
   primaryForests: 'primaryForests',

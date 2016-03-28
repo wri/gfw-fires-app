@@ -32,6 +32,32 @@ let LayersHelper = {
     app.map.graphics.remove(feature);
   },
 
+
+  checkZoomDependentLayers: function() {
+
+    let level = 6,
+      mainLayer = app.map.getLayer(KEYS.protectedAreas),
+      helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
+
+    if (mainLayer === undefined || helperLayer === undefined) {
+      // Error Loading Layers and they do not work
+      return;
+    }
+
+    if (!mainLayer.visible && !helperLayer.visible) {
+      return;
+    }
+
+    if (app.map.getLevel() > level) {
+      helperLayer.show();
+      mainLayer.hide();
+    } else {
+      helperLayer.hide();
+      mainLayer.show();
+    }
+
+  },
+
   performIdentify (evt) {
     app.debug('LayerHelper >>> performIdentify');
 
@@ -112,11 +138,13 @@ let LayersHelper = {
     }
 
     layer = app.map.getLayer(KEYS.protectedAreas);
-    if (layer) {
-      if (layer.visible) {
+    let helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
+    if (layer && helperLayer) {
+      if (layer.visible || helperLayer.visible) {
         deferreds.push(Request.identifyProtectedAreas(mapPoint));
       }
     }
+
 
     layer = app.map.getLayer(KEYS.fireStories);
     if (layer) {
