@@ -24,7 +24,7 @@ export default class CalendarModal extends React.Component {
 				mode: 'single',
 				direction: calendar.direction,
 				blackout: function (date) {
-					if (date.yearDay() > calendar.startDate.yearDay()) {
+					if (date.yearDay() >= calendar.startDate.yearDay()) {
 						return false;
 					} else {
 						return true;
