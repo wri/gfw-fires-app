@@ -86,7 +86,7 @@ block content
 
   div#alerts-modal.modal.hidden
     div.modal-container
-      div.modal-background
+      div#modal-background.modal-background
       div.modal-window
         div#close-icon.modal-close.close-icon.pointer(title='close')
           svg: use(xlink:href="#icon-close")
@@ -113,6 +113,7 @@ block content
     window.addEventListener('load', function () {
       document.getElementById('alerts1').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
       document.getElementById('alerts2').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
+      document.getElementById('modal-background').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
       document.getElementById('close-icon').onclick = function () { document.getElementById('alerts-modal').classList.toggle('hidden'); };
     });
 
