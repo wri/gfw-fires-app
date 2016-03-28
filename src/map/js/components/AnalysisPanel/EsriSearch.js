@@ -158,8 +158,6 @@ export default class EsriSearch extends React.Component {
     if (this.state.esriSearchVisible === false) { className += ' hidden'; }
 
 
-    // <input ref='decimalDegreeLat' className='search-input fill__wide' type='number' placeholder='Latitude' />
-    // <input ref='decimalDegreeLng' className='search-input fill__wide' type='number' placeholder='Longitude' />
     return (
       <div className={className}>
         <div>
@@ -193,7 +191,7 @@ export default class EsriSearch extends React.Component {
               <option>S</option>
             </select>
           </div>
-          <div ref='coordinatesB'className='search-coordinates back-white'>
+          <div ref='coordinatesB' className='search-coordinates back-white'>
             <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />º</div>
             <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />{"'"}</div>
             <div><input className='search-input' type='number' min='0' step='1' placeholder='00' />{'"'}</div>
@@ -202,16 +200,16 @@ export default class EsriSearch extends React.Component {
               <option>E</option>
             </select>
           </div>
-          <div id='coordinateSearch' className='search-button text-right'>
+          <div id='coordinateSearch'>
             <button className='search-submit-button gfw-btn green' onClick={this.coordinateSearch.bind(this)}>Search</button>
           </div>
         </div>
         <div className={`search-box degrees ${this.state.visibleTab === 2 ? '' : 'hidden'}`}>
           <div className='deg-box'>
-            <span>Lat:</span><input ref='decimalDegreeLat' type='number' className='deg-input' id='deg-lat' name='deg-lat' type='text' />
+            <span>Lat:</span><input ref='decimalDegreeLat' type='number' className='deg-input' id='deg-lat' name='deg-lat' />
           </div>
           <div className='deg-box'>
-            <span>Long:</span><input ref='decimalDegreeLng' type='number' className='deg-input' id='deg-lng' name='deg-lng' type='text' />
+            <span>Long:</span><input ref='decimalDegreeLng' type='number' className='deg-input' id='deg-lng' name='deg-lng' />
           </div>
           <button className='search-submit-button gfw-btn green' onClick={this.decimalDegreeSearch.bind(this)}>Search</button>
 

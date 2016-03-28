@@ -27,6 +27,7 @@
     border none
     font-size .75em
     margin-left 3px
+    height 26px
     padding 5px 15px 2px 15px
     display inline-block
     transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
@@ -79,11 +80,14 @@
       border-bottom 1px solid #CCC
 
   & .search-coordinates
-    display flex
+    display inline-block
     // width 100%
     width calc(100% - 100px)
     justify-content space-between
     align-items center
+    div
+      display inline-block
+      width 25%
 
     & input
       width 3em
@@ -178,10 +182,13 @@
 #coordinateSearch
   position absolute
   right 0px
-  top 26px
+  // top 26px
+  // top 0
+  bottom 0
   background white
-  height 90px
+  height calc(100% - 26px)
   padding-top 25px
+  float right
   width 100px
   button
     margin-right 15px
