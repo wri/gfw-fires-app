@@ -39,6 +39,7 @@ let LayersHelper = {
 
 
   checkZoomDependentLayers: function() {
+    app.debug('LayerHelper >>> checkZoomDependentLayers');
 
     let level = 6,
       mainLayer = app.map.getLayer(KEYS.protectedAreas),
@@ -52,11 +53,15 @@ let LayersHelper = {
     if (!mainLayer.visible && !helperLayer.visible) {
       return;
     }
+    console.log(mainLayer)
+    console.log(helperLayer)
 
     if (app.map.getLevel() > level) {
+      console.log('helperLayer')
       helperLayer.show();
       mainLayer.hide();
     } else {
+      console.log('mainLayer')
       helperLayer.hide();
       mainLayer.show();
     }

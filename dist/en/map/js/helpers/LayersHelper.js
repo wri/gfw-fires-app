@@ -58,6 +58,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
 
     checkZoomDependentLayers: function checkZoomDependentLayers() {
+      app.debug('LayerHelper >>> checkZoomDependentLayers');
 
       var level = 6,
           mainLayer = app.map.getLayer(_constants2.default.protectedAreas),
@@ -71,11 +72,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (!mainLayer.visible && !helperLayer.visible) {
         return;
       }
+      console.log(mainLayer);
+      console.log(helperLayer);
 
       if (app.map.getLevel() > level) {
+        console.log('helperLayer');
         helperLayer.show();
         mainLayer.hide();
       } else {
+        console.log('mainLayer');
         helperLayer.hide();
         mainLayer.show();
       }
