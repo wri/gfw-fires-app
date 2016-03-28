@@ -211,7 +211,7 @@ export const config = {
       id: KEYS.activeFires,
       order: 10,
       type: 'dynamic',
-      label: 'Active Fires',
+      label: 'MODIS active Fires',
       group: 'fires',
       layerIds: [0, 1, 2, 3],
       className: 'active-fires',
