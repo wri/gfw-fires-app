@@ -14,8 +14,8 @@ let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 let locateSvg = '<use xlink:href="#icon-locate" />';
 let timelineSvg = '<use xlink:href="#icon-timeline" />';
 let printSvg = '<use xlink:href="#icon-print" />';
-let showSvg = '<use xlink:href="#icon-print" />';
-let refreshSvg = '<use xlink:href="#icon-print" />';
+let showSvg = '<use xlink:href="#icon-controlstoggle__on" />';
+let refreshSvg = '<use xlink:href="#icon-reset" />';
 
 export default class ControlPanel extends React.Component {
 
@@ -127,11 +127,11 @@ export default class ControlPanel extends React.Component {
            }
            {app.mobile() === true ? null : <li className='show-hide pointer' title='Show/Hide' onClick={this.toggleShow}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: showSvg }}/>
-             <span className='tooltipmap low right'>{controlPanelText.showHideHover}</span>
+             <span className='tooltipmap low-mid left'>{controlPanelText.showHideHover}</span>
            </li> }
            {app.mobile() === true ? null : <li className='refresh pointer' title='Print' onClick={this.refresh}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: refreshSvg }}/>
-             <span className='tooltipmap low right'>{controlPanelText.refreshHover}</span>
+             <span className='tooltipmap low-mid right'>{controlPanelText.refreshHover}</span>
            </li> }
           <li className='timeline-sync pointer' title='Time sync' onClick={this.toggleMasterCalendar.bind(this)}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
