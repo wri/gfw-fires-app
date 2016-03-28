@@ -56,7 +56,7 @@ export const config = {
         date: new window.Kalendae.moment(), //('10/19/2015'),
         method: 'changeImageryStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('10/19/2015'),
+        startDate: new window.Kalendae.moment('07/12/2008'), //'10/19/2015'),
         domId: 'imageryStart',
         domClass: 'imagery-start'
       },
@@ -64,7 +64,7 @@ export const config = {
         date: new window.Kalendae.moment(),
         method: 'changeImageryEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('10/19/2015'),
+        startDate: new window.Kalendae.moment('07/12/2008'), //'10/19/2015'),
         domId: 'imageryEnd',
         domClass: 'imagery-end'
       },
@@ -422,7 +422,7 @@ export const config = {
     {
       id: KEYS.protectedAreas,
       order: 7,
-      type: 'image',
+      type: 'tiled',
       label: 'Protected areas',
       sublabel: '(varies, global)',
       group: 'conservation',
@@ -829,6 +829,8 @@ export const config = {
       zoomOutHover: 'ZOOM OUT',
       shareHover: 'SHARE',
       searchHover: 'SEARCH',
+      showHideHover: 'SHOW/HIDE',
+      refreshHover: 'REFRESH APP',
       timeHover: 'TIME SYNC',
       printHover: 'PRINT',
       timeInstructions: 'Sync time enabled layers to any past date:',

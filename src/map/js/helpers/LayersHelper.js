@@ -642,7 +642,7 @@ let LayersHelper = {
 
     for (let i = 0; i < dgGraphics.length; i++) {
       let tempDate = new Date(dgGraphics[i].attributes.AcquisitionDate);
-      if (startDate < tempDate && tempDate < endDate && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
+      if (startDate < tempDate && tempDate < endDate) {//} && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
         // let newGraphic = new Graphic(dgGraphics[i].geometry, dgGraphics[i].symbol, dgGraphics[i].attributes);
         newGraphics.push(dgGraphics[i]);
         // newGraphics.push(newGraphic);
