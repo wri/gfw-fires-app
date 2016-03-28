@@ -378,6 +378,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.protectedAreas,
       order: 7,
       type: 'tiled',
+      visible: 'true',
       label: 'Protected areas',
       sublabel: '(varies, global)',
       group: 'conservation',
