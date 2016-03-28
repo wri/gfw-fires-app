@@ -14,6 +14,8 @@ let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 let locateSvg = '<use xlink:href="#icon-locate" />';
 let timelineSvg = '<use xlink:href="#icon-timeline" />';
 let printSvg = '<use xlink:href="#icon-print" />';
+let showSvg = '<use xlink:href="#icon-print" />';
+let refreshSvg = '<use xlink:href="#icon-print" />';
 
 export default class ControlPanel extends React.Component {
 
@@ -22,10 +24,10 @@ export default class ControlPanel extends React.Component {
 
     // mapStore.listen(this.storeUpdated.bind(this));
     let defaultState = mapStore.getState();
-    this.state = {
-      pannelsHidden: false,
-      activeBasemap: defaultState.activeBasemap
-    };
+    // this.state = {
+    //   pannelsHidden: false,
+    //   activeBasemap: defaultState.activeBasemap
+    // };
   }
 
   storeUpdated () {
@@ -62,9 +64,9 @@ export default class ControlPanel extends React.Component {
     mapActions.setCalendar('masterDay');
   }
 
-  togglePanels () {
-    this.setState({ panelsHidden: !this.state.panelsHidden });
-  }
+  // togglePanels () {
+  //   this.setState({ panelsHidden: !this.state.panelsHidden });
+  // }
 
   clickedBasemap (id) {
     mapActions.setBasemap(id);
@@ -72,6 +74,15 @@ export default class ControlPanel extends React.Component {
 
   print () {
     window.print();
+  }
+
+  toggleShow () {
+    mapActions.togglePanels();
+    analysisActions.toggleAnalysisToolsVisibility();
+  }
+
+  refresh () {
+    mapActions.reset();
   }
 
   locateMe () {
@@ -114,14 +125,22 @@ export default class ControlPanel extends React.Component {
              <span className='tooltipmap middle right'>{controlPanelText.searchHover}</span>
            </li>
            }
+           {app.mobile() === true ? null : <li className='show-hide pointer' title='Show/Hide' onClick={this.toggleShow}>
+             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: showSvg }}/>
+             <span className='tooltipmap low right'>{controlPanelText.showHideHover}</span>
+           </li> }
+           {app.mobile() === true ? null : <li className='refresh pointer' title='Print' onClick={this.refresh}>
+             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: refreshSvg }}/>
+             <span className='tooltipmap low right'>{controlPanelText.refreshHover}</span>
+           </li> }
           <li className='timeline-sync pointer' title='Time sync' onClick={this.toggleMasterCalendar.bind(this)}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
             <span className='tooltipmap low left'>{controlPanelText.timeHover}</span>
           </li>
-          <li className='print pointer' title='Print' onClick={this.print}>
+          {app.mobile() === true ? null : <li className='print pointer' title='Print' onClick={this.print}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: printSvg }}/>
             <span className='tooltipmap low right'>{controlPanelText.printHover}</span>
-          </li>
+          </li> }
         </ul>
 
       </div>

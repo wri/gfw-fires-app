@@ -24,7 +24,6 @@ export default class ImageryTab extends React.Component {
     let activeLayers = this.state.activeLayers;
     let dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
 
-    //todo: indent footprints subcehckbox
     return (
       <div className={className}>
         <h3>{analysisPanelText.imageryArea}</h3>

@@ -2,6 +2,7 @@ import {layerPanelText, defaults, layersConfig} from 'js/config';
 import {layerActions} from 'actions/LayerActions';
 import {modalActions} from 'actions/ModalActions';
 import {mapActions} from 'actions/MapActions';
+import {analysisActions} from 'actions/AnalysisActions';
 import LayersHelper from 'helpers/LayersHelper';
 import DateHelper from 'helpers/DateHelper';
 import KEYS from 'js/constants';
@@ -54,6 +55,7 @@ class MapStore {
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
+      clearCustomGraphics: analysisActions.clearCustomGraphics,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
@@ -68,6 +70,10 @@ class MapStore {
       changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
+  }
+
+  clearCustomGraphics () {
+    this.map.graphics.clear();
   }
 
   setCalendar (calendar) {

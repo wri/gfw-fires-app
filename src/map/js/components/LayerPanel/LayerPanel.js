@@ -110,11 +110,7 @@ export default class LayerPanel extends React.Component {
     let conservationLayers = layersConfig.filter((l) => l.group === 'conservation').map(this.checkboxMap('conservation'), this);
     let landCoverLayers = layersConfig.filter((l) => l.group === 'landCover').map(this.checkboxMap('landCover'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
-
-
-    // <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
-    //   {layersConfig.map(this.checkboxMap('imagery'), this)}
-    // </LayerGroup>
+    if (this.state.panelsHidden === true && className.indexOf('hidden') === -1) { className += ' hidden'; }
 
     //{layersConfig.map(this.checkboxMap('landCover'), this)}
     return (

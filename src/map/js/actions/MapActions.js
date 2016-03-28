@@ -174,8 +174,7 @@ class MapActions {
     var slider = $('#tree-cover-slider').data('ionRangeSlider');
     if (slider) { slider.reset(); }
     //- Reset Esris Search Dijit and clear any graphics
-    analysisActions.clearCustomArea();
-    analysisActions.clearActiveWatershed();
+    analysisActions.clearCustomGraphics();
     //- Reset the Map to its original zoom and location
     app.map.centerAndZoom(mapConfig.options.center, mapConfig.options.zoom);
   }

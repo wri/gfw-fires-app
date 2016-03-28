@@ -21,11 +21,13 @@ class AnalysisActions {
     registry.byId(analysisPanelText.searchWidgetId).clear();
   }
 
-  clearCustomArea () {
-    app.debug('AnalysisActions >>> clearCustomArea');
+  clearCustomGraphics () {
+    app.debug('AnalysisActions >>> clearCustomGraphics');
     this.dispatch();
     //- Clear Highlight Polygons
-    GraphicsHelper.clearCustomAreas();
+    // GraphicsHelper.clearCustomAreas();
+
+    //todo: manually reset sliders --reset function?
     registry.byId(analysisPanelText.searchWidgetId).clear();
   }
 

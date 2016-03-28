@@ -24,7 +24,7 @@ class AnalysisStore {
     this.provinces = [];
 
     this.bindListeners({
-      clearCustomArea: analysisActions.clearCustomArea,
+      clearCustomGraphics: analysisActions.clearCustomGraphics,
       setAnalysisType: analysisActions.setAnalysisType,
       toggleDrawToolbar: analysisActions.toggleDrawToolbar,
       toggleCustomize: analysisActions.toggleCustomize,
@@ -48,9 +48,8 @@ class AnalysisStore {
     this.activeWatershed = null;
   }
 
-  clearCustomArea () {
-    this.toolbarActive = false;
-    this.activeCustomArea = null;
+  clearCustomGraphics () {
+    this.dispatch();
   }
 
   analyzeCustomArea (feature) {
