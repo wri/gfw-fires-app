@@ -37,6 +37,7 @@ class MapStore {
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
+    this.viiirsSelectIndex = layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.layerPanelVisible = app.mobile === false;
 
@@ -59,6 +60,7 @@ class MapStore {
       removeCustomFeature: modalActions.removeCustomFeature,
       togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
+      changeViirsTimeline: layerActions.changeViirsTimeline,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
       toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
@@ -256,6 +258,14 @@ class MapStore {
 
   changeFiresTimeline (activeIndex) {
     this.firesSelectIndex = activeIndex;
+  }
+
+  changeViirsTimeline (activeIndex) {
+    this.viiirsSelectIndex = activeIndex;
+  }
+
+  changeViirsTimeline (activeIndex) {
+    this.viiirsSelectIndex = activeIndex;
   }
 
   changeLossFromTimeline (activeIndex) {

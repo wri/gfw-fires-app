@@ -71,7 +71,7 @@ export default class ControlPanel extends React.Component {
   }
 
   print () {
-    // mapActions.zoomToUserLocation();
+    window.print();
   }
 
   locateMe () {

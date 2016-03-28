@@ -22,6 +22,10 @@ class LayerActions {
     this.dispatch(selectedIndex);
   }
 
+  changeViirsTimeline (selectedIndex) {
+    this.dispatch(selectedIndex);
+  }
+
   setFootprints (footprints) {
     this.dispatch(footprints);
   }

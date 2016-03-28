@@ -4,6 +4,7 @@ import SedimentLegend from 'components/LayerPanel/SedimentLegend';
 import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
+import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
 import RiskControls from 'components/LayerPanel/RiskControls';
@@ -60,6 +61,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.activeFires:
           childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
+          break;
+        case KEYS.viirsFires:
+          childComponent = <ViirsControls loaded={this.props.loaded} {...this.state} />;
           break;
         case KEYS.archiveFires:
           childComponent = <ArchiveControls options={layer.calendar} loaded={this.props.loaded} />;

@@ -471,6 +471,17 @@ let LayersHelper = {
     }
   },
 
+  updateViirsDefinitions (optionIndex) {
+    app.debug('LayersHelper >>> updateViirsDefinitions');
+
+    let viirsFires = app.map.getLayer(KEYS.viirsFires);
+
+    if (viirsFires) {
+      viirsFires.setVisibleLayers([optionIndex]);
+    }
+
+  },
+
   toggleConfidence (checked) {
     app.debug('LayersHelper >>> toggleConfidence');
 

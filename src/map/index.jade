@@ -1,7 +1,7 @@
 extends ../_layout.jade
 
 block append head-styles
-  link(rel='stylesheet', href='/map/css/map.css?#{meta.version}')
+  link(rel='stylesheet', href='./css/map.css?#{meta.version}')
   //todo: above link for build /map/css/map.css vs local ./css/map.css
   link(rel='icon', href='/css/images/favicon.png')
   link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
@@ -59,6 +59,8 @@ block append head-scripts
     };
 
 block content
+  //- style(type='text/css', media='print').
+  //-   @page { size: landscape; }
   +navigation(global.pages, 'map', true)
   include html/_svgAssets.jade
   div#root.layout-content

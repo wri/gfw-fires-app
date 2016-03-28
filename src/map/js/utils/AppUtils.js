@@ -17,6 +17,18 @@ const utils = {
     return `ACQ_DATE > date '${dateString}'`;
   },
 
+  generateViirsQuery: filterValue => {
+    if (filterValue >= 7) {
+      return '1 = 1';
+    }
+
+    let date = new Date();
+
+    date.setDate(date.getDate() - filterValue);
+    let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return `date > date '${dateString}'`;
+  },
+
   generateImageryQuery: queryStringArray => {
     // The service only has data for the last week, so if filter is 7 days, just set to 1 = 1
     console.log(queryStringArray);

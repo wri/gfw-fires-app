@@ -227,6 +227,25 @@ export const config = {
       }
     },
     {
+      id: KEYS.viirsFires,
+      order: 10,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires',
+      layerIds: [3],
+      className: 'viirs-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
       id: KEYS.archiveFires,
       order: 10,
       type: 'dynamic',
