@@ -55,9 +55,6 @@ class MapActions {
 
       //self.enableLayersFromHash();
     });
-
-    // Set up zoom listener for Protected Areas Layer *and now Gain Layer
-    app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers());
   }
 
   zoomToUserLocation () {

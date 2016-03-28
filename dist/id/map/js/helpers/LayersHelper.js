@@ -43,6 +43,11 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.map.graphics.enableMouseEvents();
       // Set up Click Listener to Perform Identify
       app.map.on('click', this.performIdentify.bind(this));
+      // app.map.on('zoom-end', function () {
+      //   console.log('oo');
+      // });
+
+      app.map.on('zoom-end', this.checkZoomDependentLayers.bind(this)); //should this be routed through actions?
 
       this.updateFireRisk(_config.defaults.riskTempEnd); //defaults.riskStartDate
       //todo:updateAirQuality?!
