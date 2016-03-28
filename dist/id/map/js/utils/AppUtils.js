@@ -1,5 +1,5 @@
-define(["exports"], function (exports) {
-  "use strict";
+define(['exports'], function (exports) {
+  'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -19,8 +19,20 @@ define(["exports"], function (exports) {
       var date = new Date();
       // Set the date to filterValue amount of days before today
       date.setDate(date.getDate() - filterValue);
-      var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
-      return "ACQ_DATE > date '" + dateString + "'";
+      var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+      return 'ACQ_DATE > date \'' + dateString + '\'';
+    },
+
+    generateViirsQuery: function generateViirsQuery(filterValue) {
+      if (filterValue >= 7) {
+        return '1 = 1';
+      }
+
+      var date = new Date();
+
+      date.setDate(date.getDate() - filterValue);
+      var dateString = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+      return 'date > date \'' + dateString + '\'';
     },
 
     generateImageryQuery: function generateImageryQuery(queryStringArray) {

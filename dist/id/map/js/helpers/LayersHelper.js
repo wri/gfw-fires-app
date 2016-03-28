@@ -50,6 +50,32 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     removeCustomFeature: function removeCustomFeature(feature) {
       app.map.graphics.remove(feature);
     },
+
+
+    checkZoomDependentLayers: function checkZoomDependentLayers() {
+
+      var level = 6,
+          mainLayer = app.map.getLayer(_constants2.default.protectedAreas),
+          helperLayer = app.map.getLayer(_constants2.default.protectedAreasHelper);
+
+      if (mainLayer === undefined || helperLayer === undefined) {
+        // Error Loading Layers and they do not work
+        return;
+      }
+
+      if (!mainLayer.visible && !helperLayer.visible) {
+        return;
+      }
+
+      if (app.map.getLevel() > level) {
+        helperLayer.show();
+        mainLayer.hide();
+      } else {
+        helperLayer.hide();
+        mainLayer.show();
+      }
+    },
+
     performIdentify: function performIdentify(evt) {
       app.debug('LayerHelper >>> performIdentify');
 
@@ -130,8 +156,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
 
       layer = app.map.getLayer(_constants2.default.protectedAreas);
-      if (layer) {
-        if (layer.visible) {
+      var helperLayer = app.map.getLayer(_constants2.default.protectedAreasHelper);
+      if (layer && helperLayer) {
+        if (layer.visible || helperLayer.visible) {
           deferreds.push(_request2.default.identifyProtectedAreas(mapPoint));
         }
       }
@@ -475,6 +502,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         });
 
         firesLayer.setLayerDefinitions(defs, dontRefresh);
+      }
+    },
+    updateViirsDefinitions: function updateViirsDefinitions(optionIndex) {
+      app.debug('LayersHelper >>> updateViirsDefinitions');
+
+      var viirsFires = app.map.getLayer(_constants2.default.viirsFires);
+
+      if (viirsFires) {
+        viirsFires.setVisibleLayers([optionIndex]);
       }
     },
     toggleConfidence: function toggleConfidence(checked) {

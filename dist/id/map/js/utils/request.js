@@ -464,11 +464,11 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     */
     identifyProtectedAreas: function identifyProtectedAreas(mapPoint) {
       var deferred = new _Deferred2.default();
-      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.protectedAreas);
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.protectedAreasHelper);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
-      var layer = app.map.getLayer(_constants2.default.protectedAreas);
+      var layer = app.map.getLayer(_constants2.default.protectedAreasHelper);
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
@@ -503,7 +503,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           });
           (0, _all2.default)(queries).then(function (qResults) {
             deferred.resolve({
-              layer: _constants2.default.protectedAreas,
+              layer: _constants2.default.protectedAreasHelper,
               features: qResults
             });
           });

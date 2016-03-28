@@ -67,6 +67,11 @@ define(['exports', 'js/alt'], function (exports, _alt) {
         this.dispatch(selectedIndex);
       }
     }, {
+      key: 'changeViirsTimeline',
+      value: function changeViirsTimeline(selectedIndex) {
+        this.dispatch(selectedIndex);
+      }
+    }, {
       key: 'setFootprints',
       value: function setFootprints(footprints) {
         this.dispatch(footprints);

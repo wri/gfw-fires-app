@@ -140,7 +140,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
     }, {
       key: 'print',
       value: function print() {
-        // mapActions.zoomToUserLocation();
+        window.print();
       }
     }, {
       key: 'locateMe',

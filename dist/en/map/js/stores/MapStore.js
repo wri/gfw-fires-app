@@ -79,6 +79,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.currentCustomGraphic = undefined;
       this.activeBasemap = _config.defaults.activeBasemap;
       this.firesSelectIndex = _config.layerPanelText.firesOptions.length - 1;
+      this.viiirsSelectIndex = _config.layerPanelText.firesOptions.length - 1;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
       this.layerPanelVisible = app.mobile === false;
 
@@ -101,6 +102,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         removeCustomFeature: _ModalActions.modalActions.removeCustomFeature,
         togglePanels: _MapActions.mapActions.togglePanels,
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
+        changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
         showFootprints: _LayerActions.layerActions.showFootprints,
         toggleFootprintsVisibility: _LayerActions.layerActions.toggleFootprintsVisibility,
@@ -320,6 +322,16 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(activeIndex) {
         this.firesSelectIndex = activeIndex;
+      }
+    }, {
+      key: 'changeViirsTimeline',
+      value: function changeViirsTimeline(activeIndex) {
+        this.viiirsSelectIndex = activeIndex;
+      }
+    }, {
+      key: 'changeViirsTimeline',
+      value: function changeViirsTimeline(activeIndex) {
+        this.viiirsSelectIndex = activeIndex;
       }
     }, {
       key: 'changeLossFromTimeline',

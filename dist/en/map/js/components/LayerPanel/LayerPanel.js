@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerPanel/LandCoverLegend', 'components/LayerPanel/SedimentLegend', 'components/LayerPanel/DensityDisplay', 'components/LayerPanel/LayerCheckbox', 'components/LayerPanel/FiresControls', 'components/LayerPanel/ArchiveControls', 'components/LayerPanel/NoaaControls', 'components/LayerPanel/RiskControls', 'components/LayerPanel/LossControls', 'components/LayerPanel/AirControls', 'components/LayerPanel/WindControls', 'components/LayerPanel/LayerTransparency', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerGroup', 'components/LayerPanel/DamsLegend', 'js/config', 'stores/MapStore', 'actions/MapActions', 'js/constants', 'react'], function (exports, _WaterStressLegend, _LandCoverLegend, _SedimentLegend, _DensityDisplay, _LayerCheckbox, _FiresControls, _ArchiveControls, _NoaaControls, _RiskControls, _LossControls, _AirControls, _WindControls, _LayerTransparency, _ImageryComponent, _LayerGroup, _DamsLegend, _config, _MapStore, _MapActions, _constants, _react) {
+define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerPanel/LandCoverLegend', 'components/LayerPanel/SedimentLegend', 'components/LayerPanel/DensityDisplay', 'components/LayerPanel/LayerCheckbox', 'components/LayerPanel/FiresControls', 'components/LayerPanel/ViirsControls', 'components/LayerPanel/ArchiveControls', 'components/LayerPanel/NoaaControls', 'components/LayerPanel/RiskControls', 'components/LayerPanel/LossControls', 'components/LayerPanel/AirControls', 'components/LayerPanel/WindControls', 'components/LayerPanel/LayerTransparency', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerGroup', 'components/LayerPanel/DamsLegend', 'js/config', 'stores/MapStore', 'actions/MapActions', 'js/constants', 'react'], function (exports, _WaterStressLegend, _LandCoverLegend, _SedimentLegend, _DensityDisplay, _LayerCheckbox, _FiresControls, _ViirsControls, _ArchiveControls, _NoaaControls, _RiskControls, _LossControls, _AirControls, _WindControls, _LayerTransparency, _ImageryComponent, _LayerGroup, _DamsLegend, _config, _MapStore, _MapActions, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -16,6 +16,8 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
   var _LayerCheckbox2 = _interopRequireDefault(_LayerCheckbox);
 
   var _FiresControls2 = _interopRequireDefault(_FiresControls);
+
+  var _ViirsControls2 = _interopRequireDefault(_ViirsControls);
 
   var _ArchiveControls2 = _interopRequireDefault(_ArchiveControls);
 
@@ -161,6 +163,9 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
               break;
             case _constants2.default.activeFires:
               childComponent = _react2.default.createElement(_FiresControls2.default, _extends({ loaded: _this2.props.loaded }, _this2.state));
+              break;
+            case _constants2.default.viirsFires:
+              childComponent = _react2.default.createElement(_ViirsControls2.default, _extends({ loaded: _this2.props.loaded }, _this2.state));
               break;
             case _constants2.default.archiveFires:
               childComponent = _react2.default.createElement(_ArchiveControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });

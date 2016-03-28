@@ -110,6 +110,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'esri/layers/WebTiled
 
           //self.enableLayersFromHash();
         });
+
+        // Set up zoom listener for Protected Areas Layer *and now Gain Layer
+        app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers());
       }
     }, {
       key: 'zoomToUserLocation',

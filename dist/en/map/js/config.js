@@ -207,11 +207,24 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.activeFires,
       order: 10,
       type: 'dynamic',
-      label: 'Active Fires',
+      label: 'MODIS active Fires',
       group: 'fires',
       layerIds: [0, 1, 2, 3],
       className: 'active-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.viirsFires,
+      order: 10,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires',
+      layerIds: [3],
+      className: 'viirs-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -364,10 +377,28 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     }, {
       id: _constants2.default.protectedAreas,
       order: 7,
-      type: 'dynamic',
+      type: 'image',
       label: 'Protected areas',
       sublabel: '(varies, global)',
       group: 'conservation',
+      className: 'protected-areas',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      metadataId: 'firms_active_fires' //,
+      // layerIds: [0],
+      // infoTemplate: {
+      //   content: '<table><span class="name-field">${Name}</span></tr>' +
+      //   '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
+      //   '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
+      //   '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
+      //   '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
+      // }
+    }, {
+      id: _constants2.default.protectedAreasHelper,
+      order: 7,
+      type: 'dynamic',
+      label: 'Protected areas',
+      sublabel: '(varies, global)',
+      // group: 'conservation',
       className: 'protected-areas',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
@@ -791,6 +822,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'land-use-gfw-mill-points': 'rspo_mills',
         'forestMoratorium': 'idn_forest_moratorium',
         'protectedAreas': 'wdpa_protected_areas',
+        'protectedAreasHelper': 'wdpa_protected_areas',
         'conservation-biodiversity-hotspots': 'biodiversity_hotspots',
         'suitability-soy-layer': 'tree_cover_loss',
         'windDirection': 'wind_direction',

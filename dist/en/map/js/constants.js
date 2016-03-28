@@ -15,6 +15,7 @@ define(['exports'], function (exports) {
 
     //- Layers and Layer Categories
     activeFires: 'activeFires',
+    viirsFires: 'viirsFires',
     archiveFires: 'archiveFires',
     noaa18Fires: 'noaa18Fires',
     burnScars: 'burnScars',
@@ -26,6 +27,7 @@ define(['exports'], function (exports) {
     woodFiber: 'woodFiber',
     forestMoratorium: 'forestMoratorium',
     protectedAreas: 'protectedAreas',
+    protectedAreasHelper: 'protectedAreasHelper',
     peatlands: 'peatlands',
     treeCoverDensity: 'treeCoverDensity',
     primaryForests: 'primaryForests',
