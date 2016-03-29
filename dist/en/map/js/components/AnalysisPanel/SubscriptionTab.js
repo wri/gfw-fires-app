@@ -211,6 +211,11 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
             _config.analysisPanelText.subscriptionInstructionsThree
           ),
           _react2.default.createElement(
+            'p',
+            null,
+            _config.analysisPanelText.subscriptionClick
+          ),
+          _react2.default.createElement(
             'div',
             { className: 'analysis-instructions__draw-icon-container' },
             _react2.default.createElement('svg', { className: 'analysis-instructions__draw-icon', dangerouslySetInnerHTML: { __html: drawSvg } })
@@ -242,11 +247,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
             _react2.default.createElement('input', { type: 'hidden', name: 'publishParameters', value: '{}' }),
             _react2.default.createElement('input', { type: 'hidden', name: 'filetype', value: 'shapefile' }),
             _react2.default.createElement('input', { type: 'hidden', name: 'f', value: 'json' })
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            _config.analysisPanelText.subscriptionClick
           )
         );
       }

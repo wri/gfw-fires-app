@@ -175,7 +175,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -216,7 +216,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -280,7 +280,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -344,7 +344,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -408,7 +408,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -472,7 +472,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -532,7 +532,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -568,7 +568,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -607,7 +607,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -647,7 +647,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
@@ -684,7 +684,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
 
-      params.tolerance = 3;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;

@@ -199,11 +199,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
                 _config.controlPanelText.shareHover
               )
             ),
-            app.mobile() === true ? _react2.default.createElement(
-              'li',
-              { className: 'locate-me mobs pointer', title: 'Locate Me', onClick: this.locateMe },
-              _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: locateSvg } })
-            ) : _react2.default.createElement(
+            _react2.default.createElement(
               'li',
               { className: 'search-map pointer', title: 'Search', onClick: this.toggleSearch },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: magnifierSvg } }),
