@@ -631,7 +631,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       for (var i = 0; i < dgGraphics.length; i++) {
         var tempDate = new Date(dgGraphics[i].attributes.AcquisitionDate);
-        if (startDate < tempDate && tempDate < endDate && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
+        if (startDate < tempDate && tempDate < endDate) {
+          //} && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
           // let newGraphic = new Graphic(dgGraphics[i].geometry, dgGraphics[i].symbol, dgGraphics[i].attributes);
           newGraphics.push(dgGraphics[i]);
           // newGraphics.push(newGraphic);

@@ -69,6 +69,8 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
   var locateSvg = '<use xlink:href="#icon-locate" />';
   var timelineSvg = '<use xlink:href="#icon-timeline" />';
   var printSvg = '<use xlink:href="#icon-print" />';
+  var showSvg = '<use xlink:href="#icon-controlstoggle__on" />';
+  var refreshSvg = '<use xlink:href="#icon-reset" />';
 
   var ControlPanel = function (_React$Component) {
     _inherits(ControlPanel, _React$Component);
@@ -80,10 +82,10 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
 
       // mapStore.listen(this.storeUpdated.bind(this));
       var defaultState = _MapStore.mapStore.getState();
-      _this.state = {
-        pannelsHidden: false,
-        activeBasemap: defaultState.activeBasemap
-      };
+      // this.state = {
+      //   pannelsHidden: false,
+      //   activeBasemap: defaultState.activeBasemap
+      // };
       return _this;
     }
 
@@ -128,11 +130,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
         _MapActions.mapActions.setCalendar('masterDay');
       }
     }, {
-      key: 'togglePanels',
-      value: function togglePanels() {
-        this.setState({ panelsHidden: !this.state.panelsHidden });
-      }
-    }, {
       key: 'clickedBasemap',
       value: function clickedBasemap(id) {
         _MapActions.mapActions.setBasemap(id);
@@ -141,6 +138,17 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
       key: 'print',
       value: function print() {
         window.print();
+      }
+    }, {
+      key: 'toggleShow',
+      value: function toggleShow() {
+        _MapActions.mapActions.togglePanels();
+        _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
+      }
+    }, {
+      key: 'refresh',
+      value: function refresh() {
+        _MapActions.mapActions.reset();
       }
     }, {
       key: 'locateMe',
@@ -205,6 +213,26 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
                 _config.controlPanelText.searchHover
               )
             ),
+            app.mobile() === true ? null : _react2.default.createElement(
+              'li',
+              { className: 'show-hide pointer', title: 'Show/Hide', onClick: this.toggleShow },
+              _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: showSvg } }),
+              _react2.default.createElement(
+                'span',
+                { className: 'tooltipmap low-mid left' },
+                _config.controlPanelText.showHideHover
+              )
+            ),
+            app.mobile() === true ? null : _react2.default.createElement(
+              'li',
+              { className: 'refresh pointer', title: 'Print', onClick: this.refresh },
+              _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: refreshSvg } }),
+              _react2.default.createElement(
+                'span',
+                { className: 'tooltipmap low-mid right' },
+                _config.controlPanelText.refreshHover
+              )
+            ),
             _react2.default.createElement(
               'li',
               { className: 'timeline-sync pointer', title: 'Time sync', onClick: this.toggleMasterCalendar.bind(this) },
@@ -215,7 +243,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
                 _config.controlPanelText.timeHover
               )
             ),
-            _react2.default.createElement(
+            app.mobile() === true ? null : _react2.default.createElement(
               'li',
               { className: 'print pointer', title: 'Print', onClick: this.print },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: printSvg } }),

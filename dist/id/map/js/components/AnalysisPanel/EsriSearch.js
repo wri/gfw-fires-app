@@ -15,21 +15,6 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
     };
   }
 
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-
-    return obj;
-  }
-
   var _slicedToArray = function () {
     function sliceIterator(arr, i) {
       var _arr = [];
@@ -306,8 +291,6 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
           className += ' hidden';
         }
 
-        // <input ref='decimalDegreeLat' className='search-input fill__wide' type='number' placeholder='Latitude' />
-        // <input ref='decimalDegreeLng' className='search-input fill__wide' type='number' placeholder='Longitude' />
         return _react2.default.createElement(
           'div',
           { className: className },
@@ -435,7 +418,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
             ),
             _react2.default.createElement(
               'div',
-              { id: 'coordinateSearch', className: 'search-button text-right' },
+              { id: 'coordinateSearch' },
               _react2.default.createElement(
                 'button',
                 { className: 'search-submit-button gfw-btn green', onClick: this.coordinateSearch.bind(this) },
@@ -454,7 +437,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
                 null,
                 'Lat:'
               ),
-              _react2.default.createElement('input', _defineProperty({ ref: 'decimalDegreeLat', type: 'number', className: 'deg-input', id: 'deg-lat', name: 'deg-lat' }, 'type', 'text'))
+              _react2.default.createElement('input', { ref: 'decimalDegreeLat', type: 'number', className: 'deg-input', id: 'deg-lat', name: 'deg-lat' })
             ),
             _react2.default.createElement(
               'div',
@@ -464,7 +447,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
                 null,
                 'Long:'
               ),
-              _react2.default.createElement('input', _defineProperty({ ref: 'decimalDegreeLng', type: 'number', className: 'deg-input', id: 'deg-lng', name: 'deg-lng' }, 'type', 'text'))
+              _react2.default.createElement('input', { ref: 'decimalDegreeLng', type: 'number', className: 'deg-input', id: 'deg-lng', name: 'deg-lng' })
             ),
             _react2.default.createElement(
               'button',

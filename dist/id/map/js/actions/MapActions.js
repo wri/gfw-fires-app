@@ -265,8 +265,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'esri/layers/WebTiled
           slider.reset();
         }
         //- Reset Esris Search Dijit and clear any graphics
-        _AnalysisActions.analysisActions.clearCustomArea();
-        _AnalysisActions.analysisActions.clearActiveWatershed();
+        _AnalysisActions.analysisActions.clearCustomGraphics();
         //- Reset the Map to its original zoom and location
         app.map.centerAndZoom(_config.mapConfig.options.center, _config.mapConfig.options.zoom);
       }

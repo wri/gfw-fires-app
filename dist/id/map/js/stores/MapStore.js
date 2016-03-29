@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'helpers/LayersHelper', 'helpers/DateHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _LayersHelper, _DateHelper, _constants, _alt) {
+define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'actions/AnalysisActions', 'helpers/LayersHelper', 'helpers/DateHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _AnalysisActions, _LayersHelper, _DateHelper, _constants, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -96,6 +96,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         setGlobe: _ModalActions.modalActions.showCalendarModal,
         setCurrentCustomGraphic: _ModalActions.modalActions.showSubscribeModal,
         setCalendar: _MapActions.mapActions.setCalendar,
+        clearCustomGraphics: _AnalysisActions.analysisActions.clearCustomGraphics,
         addActiveLayer: _LayerActions.layerActions.addActiveLayer,
         removeActiveLayer: _LayerActions.layerActions.removeActiveLayer,
         setFootprints: _LayerActions.layerActions.setFootprints,
@@ -113,6 +114,11 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }
 
     _createClass(MapStore, [{
+      key: 'clearCustomGraphics',
+      value: function clearCustomGraphics() {
+        this.map.graphics.clear();
+      }
+    }, {
       key: 'setCalendar',
       value: function setCalendar(calendar) {
         console.log(calendar);

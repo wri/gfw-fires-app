@@ -105,7 +105,7 @@ define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisP
       key: 'render',
       value: function render() {
         var className = 'analysis-tools map-component shadow';
-        if (app.mobile() === true && this.state.analysisToolsVisible === false) {
+        if (this.state.analysisToolsVisible === false) {
           className += ' hidden';
         }
         if (app.mobile() === true) {

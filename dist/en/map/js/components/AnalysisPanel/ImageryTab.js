@@ -111,7 +111,6 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'components/LayerPa
           return l.id === _constants2.default.digitalGlobe;
         })[0];
 
-        //todo: indent footprints subcehckbox
         return _react2.default.createElement(
           'div',
           { className: className },

@@ -61,7 +61,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.provinces = [];
 
       this.bindListeners({
-        clearCustomArea: _AnalysisActions.analysisActions.clearCustomArea,
+        clearCustomGraphics: _AnalysisActions.analysisActions.clearCustomGraphics,
         setAnalysisType: _AnalysisActions.analysisActions.setAnalysisType,
         toggleDrawToolbar: _AnalysisActions.analysisActions.toggleDrawToolbar,
         toggleCustomize: _AnalysisActions.analysisActions.toggleCustomize,
@@ -87,10 +87,9 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
         this.activeWatershed = null;
       }
     }, {
-      key: 'clearCustomArea',
-      value: function clearCustomArea() {
-        this.toolbarActive = false;
-        this.activeCustomArea = null;
+      key: 'clearCustomGraphics',
+      value: function clearCustomGraphics() {
+        this.dispatch();
       }
     }, {
       key: 'analyzeCustomArea',

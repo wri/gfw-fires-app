@@ -68,12 +68,14 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dijit
         _registry2.default.byId(_config.analysisPanelText.searchWidgetId).clear();
       }
     }, {
-      key: 'clearCustomArea',
-      value: function clearCustomArea() {
-        app.debug('AnalysisActions >>> clearCustomArea');
+      key: 'clearCustomGraphics',
+      value: function clearCustomGraphics() {
+        app.debug('AnalysisActions >>> clearCustomGraphics');
         this.dispatch();
         //- Clear Highlight Polygons
-        _GraphicsHelper2.default.clearCustomAreas();
+        // GraphicsHelper.clearCustomAreas();
+
+        //todo: manually reset sliders --reset function?
         _registry2.default.byId(_config.analysisPanelText.searchWidgetId).clear();
       }
     }, {

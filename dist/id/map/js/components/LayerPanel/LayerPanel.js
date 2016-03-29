@@ -221,10 +221,9 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
         if (app.mobile() === true && this.state.layerPanelVisible === false) {
           className += ' hidden';
         }
-
-        // <LayerGroup activeLayers={this.state.activeLayers} label='Imagery'>
-        //   {layersConfig.map(this.checkboxMap('imagery'), this)}
-        // </LayerGroup>
+        if (this.state.panelsHidden === true && className.indexOf('hidden') === -1) {
+          className += ' hidden';
+        }
 
         //{layersConfig.map(this.checkboxMap('landCover'), this)}
         return _react2.default.createElement(

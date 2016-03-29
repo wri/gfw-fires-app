@@ -92,7 +92,7 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 						mode: 'single',
 						direction: calendar.direction,
 						blackout: function blackout(date) {
-							if (date.yearDay() > calendar.startDate.yearDay()) {
+							if (date.yearDay() >= calendar.startDate.yearDay()) {
 								return false;
 							} else {
 								return true;
