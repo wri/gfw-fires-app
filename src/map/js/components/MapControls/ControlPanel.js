@@ -102,6 +102,10 @@ export default class ControlPanel extends React.Component {
   //   className += ' hidden';
   // }
 
+  // <li className='locate-me mobs pointer' title='Locate Me' onClick={this.locateMe}>
+  //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
+  // </li>
+
   render() {
     return (
       <div className='control-panel map-component shadow'>
@@ -118,13 +122,10 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
             <span className='tooltipmap middle left'>{controlPanelText.shareHover}</span>
           </li>
-           {app.mobile() === true ? <li className='locate-me mobs pointer' title='Locate Me' onClick={this.locateMe}>
-             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
-           </li> : <li className='search-map pointer' title='Search' onClick={this.toggleSearch}>
+           <li className='search-map pointer' title='Search' onClick={this.toggleSearch}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
              <span className='tooltipmap middle right'>{controlPanelText.searchHover}</span>
            </li>
-           }
            {app.mobile() === true ? null : <li className='show-hide pointer' title='Show/Hide' onClick={this.toggleShow}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: showSvg }}/>
              <span className='tooltipmap low-mid left'>{controlPanelText.showHideHover}</span>
