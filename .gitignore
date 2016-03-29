@@ -12,7 +12,7 @@ www/src/proxy
 !dist/*
 
 vendor
-build/*
+build
 
 # Ignore these, just do it
 node_modules
