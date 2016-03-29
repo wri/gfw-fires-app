@@ -139,6 +139,7 @@ drop = (evt) => {
           <span className='subscribe-link' onClick={this.signUp}>{analysisPanelText.subscriptionInstructionsTwo}</span>
           {analysisPanelText.subscriptionInstructionsThree}
         </p>
+        <p>{analysisPanelText.subscriptionClick}</p>
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
         </div>
@@ -166,7 +167,6 @@ drop = (evt) => {
 					<input type='hidden' name='filetype' value='shapefile' />
 					<input type='hidden' name='f' value='json' />
         </form>
-        <p>{analysisPanelText.subscriptionClick}</p>
       </div>
     );
   }

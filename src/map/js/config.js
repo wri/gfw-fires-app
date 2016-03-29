@@ -8,12 +8,12 @@ export const config = {
       navigationMode: 'css-transforms',
       force3DTransforms: true,
       showAttribution: false,
-      center: [-51, 17],
+      center: [115, 0],
       fadeOnZoom: true,
       basemap: 'topo',
       slider: false,
       logo: false,
-      zoom: 3
+      zoom: 5
     },
     customBasemap: {
       url: 'https://api.tiles.mapbox.com/v4/wri.c974eefc/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg',
@@ -811,9 +811,9 @@ export const config = {
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',
       subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
-      subscriptionInstructionsThree: ' when fires occur',
+      subscriptionInstructionsThree: ' when fires occur.',
       subscriptionShapefile: 'Or drop a custom shapefile here',
-      subscriptionClick: 'Click on each shape to subscribe to the area.',
+      subscriptionClick: 'Click on drawn or uploaded shapes on the map to subscribe to the area.',
       imageryTabLabel: 'VIEW HIGH-RES IMAGERY',
       imageryArea: 'Imagery',
       basemapTabLabel: 'CHANGE BASE MAP',

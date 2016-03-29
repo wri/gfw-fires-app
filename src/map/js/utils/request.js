@@ -155,7 +155,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -196,7 +196,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -260,7 +260,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -324,7 +324,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -388,7 +388,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -452,7 +452,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -512,7 +512,7 @@ const request = {
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -548,7 +548,7 @@ const request = {
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -587,7 +587,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -627,7 +627,7 @@ const request = {
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
@@ -664,7 +664,7 @@ const request = {
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
 
-    params.tolerance = 3;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
