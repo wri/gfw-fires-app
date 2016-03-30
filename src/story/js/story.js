@@ -45,11 +45,15 @@ map = new Map('map', {
   center: [-77.45, 37.75],
   zoom: 4
 });
-console.log(dom.byId('story-date-input'))
-var ll =dom.byId('story-date-input');
-ll.select(new Date)
-// debugger
 
+let date = new window.Kalendae.moment().format('M/D/YYYY');
+
+let options = {
+  selected: date,
+  direction: 'today-past'
+};
+
+$('#story-date-input').kalendae(options);
 
 
 // var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';

@@ -87,7 +87,7 @@ block content
 
         div#story-date-container.field
           label #{story.form.date}
-          input#story-date-input.auto-kal(type="text" placeholder="2/16/2012" data-kal="direction: 'today-past', selected: '2/16/2012'")
+          input#story-date-input
 
         div#story-details-container.field
           label #{story.form.details[0]}
@@ -133,7 +133,7 @@ block content
   script(src = 'http://js.arcgis.com/#{meta.esriVersion}/init.js')
   
   script.
-    window.addEventListener('load', function () {
-      document.getElementById('closeModal').onclick = function () { document.getElementById('failure-modal').classList.toggle('hidden'); };
+    $(document).ready(function () {
+      document.getElementById('closeModal').onclick = function () { document.getElementById('failure-modal').classList.toggle('hidden'); };      
     });
   

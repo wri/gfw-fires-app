@@ -123,7 +123,7 @@ define([
             loaderId: 'subdistmapload'
         },
         adminQuery: {
-            outFields: ['NAME_2', 'NAME_1', 'fire_count'],
+            outFields: ['DISTRICT', 'PROVINCE', 'fire_count'],
             tableId: "district-fires-table",
             headerField: ['DISTRICT', 'PROVINCE'],
             UniqueValueField: 'DISTRICT',
