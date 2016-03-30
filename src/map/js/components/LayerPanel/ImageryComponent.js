@@ -23,6 +23,8 @@ export default class ImageryComponent extends React.Component {
     let startDate = window.Kalendae.moment(this.state.dgStartDate);
     let endDate = window.Kalendae.moment(this.state.dgEndDate);
 
+    //<div className={`customize-options ${this.props.customizeOpen === true ? '' : 'hidden'}`}> --> on timeline container!
+
     return <div className={`timeline-container ${this.props.options.domClass}`}>
       <ImagerySettings />
       <div id='imagery-date-ranges'>

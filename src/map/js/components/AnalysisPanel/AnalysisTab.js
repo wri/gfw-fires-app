@@ -58,6 +58,8 @@ export default class AnalysisTab extends React.Component {
     }
   }
 
+
+
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }

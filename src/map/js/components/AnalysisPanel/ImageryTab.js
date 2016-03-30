@@ -27,7 +27,7 @@ export default class ImageryTab extends React.Component {
     return (
       <div className={className}>
         <h3>{analysisPanelText.imageryArea}</h3>
-        <LayerCheckbox key={dgLayer.id} childrenVisible={true} layer={dgLayer} checked={activeLayers.indexOf(dgLayer.id) > -1}>
+        <LayerCheckbox key={dgLayer.id} childrenVisible={this.props.imageryOpen} layer={dgLayer} checked={activeLayers.indexOf(dgLayer.id) > -1}>
           <ImageryComponent {...this.state} options={dgLayer.calendar} />
         </LayerCheckbox>
       </div>
