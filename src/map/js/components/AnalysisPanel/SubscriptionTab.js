@@ -48,6 +48,7 @@ export default class SubscriptionTab extends React.Component {
       toolbar.on('draw-end', (evt) => {
         toolbar.deactivate();
         this.setState({ drawButtonActive: false });
+        analysisActions.toggleAnalysisToolsVisibility();
         let graphic = geometryUtils.generateDrawnPolygon(evt.geometry);
         graphic.attributes.Layer = 'custom';
         graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
