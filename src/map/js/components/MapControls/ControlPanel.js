@@ -92,7 +92,7 @@ export default class ControlPanel extends React.Component {
   toggleSearch () {
     analysisActions.toggleEsriSearchVisibility();
   }
-  // <li className='basemap-layers pointer' title='Basemaps' onClick={this.togglePanels.bind(this)}>
+  // <li className='basemap-layers pointer' onClick={this.togglePanels.bind(this)}>
   //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
   // </li>
 
@@ -102,7 +102,7 @@ export default class ControlPanel extends React.Component {
   //   className += ' hidden';
   // }
 
-  // <li className='locate-me mobs pointer' title='Locate Me' onClick={this.locateMe}>
+  // <li className='locate-me mobs pointer' onClick={this.locateMe}>
   //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
   // </li>
 
@@ -110,35 +110,35 @@ export default class ControlPanel extends React.Component {
     return (
       <div className='control-panel map-component shadow'>
         <ul>
-          <li className='zoom-in pointer' title='Zoom In' onClick={this.zoomIn}>
+          <li className='zoom-in pointer' onClick={this.zoomIn}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomInSvg }}/>
             <span className='tooltipmap top left'>{controlPanelText.zoomInHover}</span>
           </li>
-          <li className='zoom-out pointer' title='Zoom Out' onClick={this.zoomOut}>
+          <li className='zoom-out pointer' onClick={this.zoomOut}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomOutSvg }}/>
             <span className='tooltipmap top right'>{controlPanelText.zoomOutHover}</span>
           </li>
-          <li className='share-map pointer' title='Share' onClick={this.share}>
+          <li className='share-map pointer' onClick={this.share}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
             <span className='tooltipmap middle left'>{controlPanelText.shareHover}</span>
           </li>
-           <li className='search-map pointer' title='Search' onClick={this.toggleSearch}>
+           <li className='search-map pointer' onClick={this.toggleSearch}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: magnifierSvg }}/>
              <span className='tooltipmap middle right'>{controlPanelText.searchHover}</span>
            </li>
-           {app.mobile() === true ? null : <li className='show-hide pointer' title='Show/Hide' onClick={this.toggleShow}>
+           {app.mobile() === true ? null : <li className='show-hide pointer' onClick={this.toggleShow}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: showSvg }}/>
              <span className='tooltipmap low-mid left'>{controlPanelText.showHideHover}</span>
            </li> }
-           {app.mobile() === true ? null : <li className='refresh pointer' title='Print' onClick={this.refresh}>
+           {app.mobile() === true ? null : <li className='refresh pointer' onClick={this.refresh}>
              <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: refreshSvg }}/>
              <span className='tooltipmap low-mid right'>{controlPanelText.refreshHover}</span>
            </li> }
-          <li className='timeline-sync pointer' title='Time sync' onClick={this.toggleMasterCalendar.bind(this)}>
+          <li className='timeline-sync pointer' onClick={this.toggleMasterCalendar.bind(this)}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
             <span className='tooltipmap low left'>{controlPanelText.timeHover}</span>
           </li>
-          {app.mobile() === true ? null : <li className='print pointer' title='Print' onClick={this.print}>
+          {app.mobile() === true ? null : <li className='print pointer' onClick={this.print}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: printSvg }}/>
             <span className='tooltipmap low right'>{controlPanelText.printHover}</span>
           </li> }
