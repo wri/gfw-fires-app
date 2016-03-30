@@ -521,6 +521,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         viirsFires.setVisibleLayers([optionIndex]);
       }
     },
+    updateForestDefinitions: function updateForestDefinitions(optionIndex) {
+      app.debug('LayersHelper >>> updateForestDefinitions');
+
+      var primaryForests = app.map.getLayer(_constants2.default.primaryForests);
+
+      if (primaryForests) {
+        primaryForests.setVisibleLayers([optionIndex]);
+      }
+    },
     toggleConfidence: function toggleConfidence(checked) {
       app.debug('LayersHelper >>> toggleConfidence');
 

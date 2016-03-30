@@ -72,6 +72,11 @@ define(['exports', 'js/alt'], function (exports, _alt) {
         this.dispatch(selectedIndex);
       }
     }, {
+      key: 'changeForestTimeline',
+      value: function changeForestTimeline(selectedIndex) {
+        this.dispatch(selectedIndex);
+      }
+    }, {
       key: 'setFootprints',
       value: function setFootprints(footprints) {
         this.dispatch(footprints);

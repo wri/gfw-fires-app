@@ -474,7 +474,7 @@ export const config = {
       order: 2,
       type: 'image',
       label: 'Tree cover density',
-      sublabel: '(2002, Hansen/UMD/Google/USGS/NASA)',
+      sublabel: '(2000, Hansen/UMD/Google/USGS/NASA)',
       group: 'landCover',
       className: 'tree-cover',
       url: 'http://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer',
