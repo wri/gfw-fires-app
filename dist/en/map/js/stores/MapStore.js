@@ -221,8 +221,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         var archiveStart = window.Kalendae.moment(_config.defaults.archiveStartDate);
         var archiveEnd = window.Kalendae.moment(_config.defaults.archiveEndDate);
         var noaaStart = window.Kalendae.moment(_config.defaults.noaaStartDate);
-        var riskStart = window.Kalendae.moment(_config.defaults.riskStartDate);
-        var riskEnd = window.Kalendae.moment(_config.defaults.riskTempEnd);
+        // let riskStart = window.Kalendae.moment(defaults.riskStartDate);
+        // let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
         var windStart = window.Kalendae.moment(_config.defaults.windStartDate);
         var airQStart = window.Kalendae.moment(_config.defaults.airQStartDate);
 
@@ -232,16 +232,20 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           //todo
           this.removeActiveLayer(_constants2.default.archiveFires);
           this.removeActiveLayer(_constants2.default.activeFires);
+          this.removeActiveLayer(_constants2.default.viirsFires);
         } else if (masterDate.isBefore(archiveStart)) {
           //todo: both of these are actually outside any of these
           this.removeActiveLayer(_constants2.default.archiveFires);
           this.removeActiveLayer(_constants2.default.activeFires);
+          this.removeActiveLayer(_constants2.default.viirsFires);
         } else if (masterDate.isAfter(archiveEnd)) {
           this.addActiveLayer(_constants2.default.activeFires);
+          this.addActiveLayer(_constants2.default.viirsFires);
           this.removeActiveLayer(_constants2.default.archiveFires);
         } else {
           this.addActiveLayer(_constants2.default.archiveFires);
           this.removeActiveLayer(_constants2.default.activeFires);
+          this.removeActiveLayer(_constants2.default.viirsFires);
           this.archiveStartDate = masterFormatted;
           this.archiveEndDate = masterFormatted;
           _LayersHelper2.default.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
@@ -256,15 +260,15 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           _LayersHelper2.default.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
         }
 
-        if (masterDate.isBefore(riskStart)) {
-          this.removeActiveLayer(_constants2.default.fireRisk);
-        } else if (masterDate.isAfter(riskEnd)) {
-          this.removeActiveLayer(_constants2.default.fireRisk);
-        } else {
-          this.addActiveLayer(_constants2.default.fireRisk);
-          this.riskDate = masterFormatted;
-          _LayersHelper2.default.updateFireRisk(this.riskDate);
-        }
+        // if (masterDate.isBefore(riskStart)) {
+        //   this.removeActiveLayer(KEYS.fireRisk);
+        // } else if (masterDate.isAfter(riskEnd)) {
+        //   this.removeActiveLayer(KEYS.fireRisk);
+        // } else {
+        //   this.addActiveLayer(KEYS.fireRisk);
+        //   this.riskDate = masterFormatted;
+        //   LayersHelper.updateFireRisk(this.riskDate);
+        // }
 
         if (masterDate.isBefore(airQStart)) {
           this.removeActiveLayer(_constants2.default.airQuality);

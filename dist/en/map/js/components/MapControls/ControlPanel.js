@@ -171,7 +171,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             null,
             _react2.default.createElement(
               'li',
-              { className: 'zoom-in pointer', title: 'Zoom In', onClick: this.zoomIn },
+              { className: 'zoom-in pointer', onClick: this.zoomIn },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: zoomInSvg } }),
               _react2.default.createElement(
                 'span',
@@ -181,7 +181,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             _react2.default.createElement(
               'li',
-              { className: 'zoom-out pointer', title: 'Zoom Out', onClick: this.zoomOut },
+              { className: 'zoom-out pointer', onClick: this.zoomOut },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: zoomOutSvg } }),
               _react2.default.createElement(
                 'span',
@@ -191,7 +191,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             _react2.default.createElement(
               'li',
-              { className: 'share-map pointer', title: 'Share', onClick: this.share },
+              { className: 'share-map pointer', onClick: this.share },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: shareSvg } }),
               _react2.default.createElement(
                 'span',
@@ -201,7 +201,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             _react2.default.createElement(
               'li',
-              { className: 'search-map pointer', title: 'Search', onClick: this.toggleSearch },
+              { className: 'search-map pointer', onClick: this.toggleSearch },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: magnifierSvg } }),
               _react2.default.createElement(
                 'span',
@@ -211,7 +211,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             app.mobile() === true ? null : _react2.default.createElement(
               'li',
-              { className: 'show-hide pointer', title: 'Show/Hide', onClick: this.toggleShow },
+              { className: 'show-hide pointer', onClick: this.toggleShow },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: showSvg } }),
               _react2.default.createElement(
                 'span',
@@ -221,7 +221,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             app.mobile() === true ? null : _react2.default.createElement(
               'li',
-              { className: 'refresh pointer', title: 'Print', onClick: this.refresh },
+              { className: 'refresh pointer', onClick: this.refresh },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: refreshSvg } }),
               _react2.default.createElement(
                 'span',
@@ -231,7 +231,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             _react2.default.createElement(
               'li',
-              { className: 'timeline-sync pointer', title: 'Time sync', onClick: this.toggleMasterCalendar.bind(this) },
+              { className: 'timeline-sync pointer', onClick: this.toggleMasterCalendar.bind(this) },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: timelineSvg } }),
               _react2.default.createElement(
                 'span',
@@ -241,7 +241,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             app.mobile() === true ? null : _react2.default.createElement(
               'li',
-              { className: 'print pointer', title: 'Print', onClick: this.print },
+              { className: 'print pointer', onClick: this.print },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: printSvg } }),
               _react2.default.createElement(
                 'span',
