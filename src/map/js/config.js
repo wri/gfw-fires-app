@@ -427,7 +427,7 @@ export const config = {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires'//,
       // layerIds: [0],
       // infoTemplate: {
@@ -766,6 +766,12 @@ export const config = {
         {label: 'Past 72 hours', value: 3},
         {label: 'Past Week', value: 7}
       ],
+      forestOptions: [
+        {label: '2000', value: 0},
+        {label: '2005', value: 1},
+        {label: '2010', value: 2},
+        {label: '2012', value: 3}
+      ],
       lossOptions: [
         {label: '2001', value: 1},
         {label: '2002', value: 2},
@@ -805,6 +811,7 @@ export const config = {
       // TODO: separate below text out of config for simple locale swapping
       searchPlaceholder: 'Search for a location',
       analysisButtonLabel: 'GENERATE REPORT',
+      analysisButtonClear: 'CLEAR ALL',
       analysisAreaTitle: 'Fire Report',
       analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
       analysisTimeframeHeader: 'Select timeframe of interest:',
@@ -816,7 +823,7 @@ export const config = {
       subscriptionInstructionsOne: 'Sign up to receive ',
       subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
       subscriptionInstructionsThree: ' when fires occur.',
-      subscriptionShapefile: 'Or drop a custom shapefile here',
+      subscriptionShapefile: 'Or drop a zipped shapefile here',
       subscriptionClick: 'Click on drawn or uploaded shapes on the map to subscribe to the area.',
       imageryTabLabel: 'VIEW HIGH-RES IMAGERY',
       imageryArea: 'Imagery',

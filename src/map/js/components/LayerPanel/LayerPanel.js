@@ -4,6 +4,7 @@ import SedimentLegend from 'components/LayerPanel/SedimentLegend';
 import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
+import ForestControls from 'components/LayerPanel/ForestControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
@@ -76,6 +77,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.treeCoverDensity:
           childComponent = <DensityDisplay {...this.state} />;
+          break;
+        case KEYS.primaryForests:
+          childComponent = <ForestControls loaded={this.props.loaded} {...this.state} />;
           break;
         case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;

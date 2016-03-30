@@ -518,6 +518,17 @@ let LayersHelper = {
 
   },
 
+  updateForestDefinitions (optionIndex) {
+    app.debug('LayersHelper >>> updateForestDefinitions');
+
+    let primaryForests = app.map.getLayer(KEYS.primaryForests);
+
+    if (primaryForests) {
+      primaryForests.setVisibleLayers([optionIndex]);
+    }
+
+  },
+
   toggleConfidence (checked) {
     app.debug('LayersHelper >>> toggleConfidence');
 
