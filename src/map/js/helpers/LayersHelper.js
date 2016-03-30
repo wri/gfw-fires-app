@@ -211,8 +211,8 @@ let LayersHelper = {
           case KEYS.loggingConcessions:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.loggingConcessions));
             break;
-          case KEYS.protectedAreas:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreas));
+          case KEYS.protectedAreasHelper:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreasHelper));
             break;
           case KEYS.fireStories:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
@@ -333,7 +333,7 @@ let LayersHelper = {
     featureObjects.forEach(item => {
       let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
       let fire_results = '', subscribe = '';
-      if (keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.rspoOilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.protectedAreas) {
+      if (keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.rspoOilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.protectedAreasHelper) {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else {
