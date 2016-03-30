@@ -96,7 +96,7 @@ define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper'
             _react2.default.createElement(
               'span',
               { className: 'imagery-calendar-label' },
-              this.props.options.minLabel
+              this.props.options.minLabelPlus
             ),
             _react2.default.createElement(
               'button',

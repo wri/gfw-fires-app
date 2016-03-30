@@ -703,6 +703,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           domClass: 'analysisLegend',
           childDomClass: 'analysis-child',
           minLabel: 'START DATE',
+          minLabelPlus: 'START DATE: Available from 1 January 2013',
           maxLabel: 'END DATE'
         },
         imageryTabId: 'imageryTab',
@@ -713,7 +714,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         analysisButtonClear: 'CLEAR ALL',
         analysisAreaTitle: 'Fire Report',
         analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
-        analysisTimeframeHeader: 'Select timeframe of interest:',
+        analysisTimeframeHeader: 'Select any time frame of interest:',
         analysisTabLabel: 'Fire Report',
         analysisCustomize: 'CUSTOMIZE REPORT',
         analysisChoose: 'Choose your own custom time period and geographic area.',
@@ -789,7 +790,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
             return 'https://plus.google.com/share?url=' + url;
           },
           twitterUrl: function twitterUrl(url) {
-            return 'https://twitter.com/share?url=' + url + '&via=gfw-water';
+            return 'https://twitter.com/share?url=' + url + '&via=gfw-fires';
           },
           facebookUrl: function facebookUrl(url) {
             return 'https://www.facebook.com/sharer.php?u=' + url;

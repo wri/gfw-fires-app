@@ -1,5 +1,5 @@
 // NOTE: umd wrapper taken from https://www.npmjs.com/package/fid-umd
-(function (name, root, factory) { function isObject(x) { return typeof x === "object"; } if (isObject(root.module) && isObject(root.module.exports)) { root.module.exports = factory(); } else if (isObject(root.exports)) { root.exports[name] = factory(); } else if (isObject(root.define) && root.define.amd) { root.define(name, [], factory); } else if (isObject(root.modulejs)) { root.modulejs.define(name, factory); } else if (isObject(root.YUI)) { root.YUI.add(name, function (Y) { Y[name] = factory(); }); } else { root[name] = factory(); } }("locals", this, function () {
+(function (name, root, factory) { function isObject(x) { return typeof x === 'object'; } if (isObject(root.module) && isObject(root.module.exports)) { root.module.exports = factory(); } else if (isObject(root.exports)) { root.exports[name] = factory(); } else if (isObject(root.define) && root.define.amd) { root.define(name, [], factory); } else if (isObject(root.modulejs)) { root.modulejs.define(name, factory); } else if (isObject(root.YUI)) { root.YUI.add(name, function (Y) { Y[name] = factory(); }); } else { root[name] = factory(); } }("locals", this, function () {
   return {
     language: 'en',
     meta: {
@@ -10,7 +10,7 @@
         {name: 'home', label: 'GFW FIRES', href: '../home'},
         {name: 'map', label: 'MAP', href: '../map'},
         {name: 'about', label: 'LEARN MORE', href: '../about'},
-        {name: 'story', label: 'STORY', href: '../story'}
+        {name: 'story', label: 'SHARE STORIES', href: '../story'}
       ]
     },
     navigation: {
@@ -22,7 +22,7 @@
     },
     home: {
       meta: {
-        title: 'Global Forest Watch Fires',
+        title: 'Global Forest Watch Fires'
       },
       explore: 'EXPLORE NOW!',
       exploreAlt: 'Explore Now',
@@ -144,7 +144,7 @@
         ],
         video: [
           'VIDEO',
-          'Add a hyperlink to a video, online news story or website.',
+          'Add a hyperlink to a video, online news story or website.'
         ],
         media: [
           'MEDIA',
@@ -175,5 +175,5 @@
         'Share your local expertise'
       ]
     }
-  }
+  };
 }));

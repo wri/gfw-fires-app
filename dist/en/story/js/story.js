@@ -68,10 +68,15 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
     center: [-77.45, 37.75],
     zoom: 4
   });
-  console.log(_dom2.default.byId('story-date-input'));
-  var ll = _dom2.default.byId('story-date-input');
-  ll.select(new Date());
-  // debugger
+
+  var date = new window.Kalendae.moment().format('M/D/YYYY');
+
+  var options = {
+    selected: date,
+    direction: 'today-past'
+  };
+
+  $('#story-date-input').kalendae(options);
 
   // var urlToken = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0?token=zUZRyzIlgOwnnBIAdoE5CrgOjZZqr8N3kBjMlJ6ifDM7Qm1qXHmiJ6axkFWndUs2';
   // var storiesLayer = new FeatureLayer(urlToken, {});
