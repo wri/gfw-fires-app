@@ -14,6 +14,7 @@ class AnalysisStore {
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
     this.customizeOpen = false;
+    this.imageryOpen = false;
     this.analysisToolsExpanded = true;
     this.imageryToolsExpanded = false;
     this.basemapToolsExpanded = false;
@@ -24,10 +25,10 @@ class AnalysisStore {
     this.provinces = [];
 
     this.bindListeners({
-      clearCustomGraphics: analysisActions.clearCustomGraphics,
       setAnalysisType: analysisActions.setAnalysisType,
       toggleDrawToolbar: analysisActions.toggleDrawToolbar,
       toggleCustomize: analysisActions.toggleCustomize,
+      toggleImageryOptions: analysisActions.toggleImageryOptions,
       analyzeCustomArea: analysisActions.analyzeCustomArea,
       setCustomAreaName: analysisActions.setCustomAreaName,
       clearActiveWatershed: analysisActions.clearActiveWatershed,
@@ -48,10 +49,6 @@ class AnalysisStore {
     this.activeWatershed = null;
   }
 
-  clearCustomGraphics () {
-    this.dispatch();
-  }
-
   analyzeCustomArea (feature) {
     this.activeCustomArea = feature;
   }
@@ -70,6 +67,10 @@ class AnalysisStore {
 
   toggleCustomize () {
     this.customizeOpen = !this.customizeOpen;
+  }
+
+  toggleImageryOptions () {
+    this.imageryOpen = !this.imageryOpen;
   }
 
   toggleAnalysisToolsVisibility () {

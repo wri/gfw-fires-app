@@ -55,7 +55,6 @@ class MapStore {
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
-      clearCustomGraphics: analysisActions.clearCustomGraphics,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
@@ -70,10 +69,6 @@ class MapStore {
       changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
-  }
-
-  clearCustomGraphics () {
-    this.map.graphics.clear();
   }
 
   setCalendar (calendar) {

@@ -21,16 +21,6 @@ class AnalysisActions {
     registry.byId(analysisPanelText.searchWidgetId).clear();
   }
 
-  clearCustomGraphics () {
-    app.debug('AnalysisActions >>> clearCustomGraphics');
-    this.dispatch();
-    //- Clear Highlight Polygons
-    // GraphicsHelper.clearCustomAreas();
-
-    //todo: manually reset sliders --reset function?
-    registry.byId(analysisPanelText.searchWidgetId).clear();
-  }
-
   setCustomAreaName (newName) {
     app.debug('AnalysisActions >>> setCustomAreaName');
     this.dispatch(newName);
@@ -45,6 +35,10 @@ class AnalysisActions {
   }
 
   toggleCustomize () {
+    this.dispatch();
+  }
+
+  toggleImageryOptions () {
     this.dispatch();
   }
 

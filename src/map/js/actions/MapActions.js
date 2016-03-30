@@ -1,5 +1,5 @@
 import {layersConfig, errors, mapConfig} from 'js/config';
-import {analysisActions} from 'actions/AnalysisActions';
+// import {analysisActions} from 'actions/AnalysisActions';
 import WebTiledLayer from 'esri/layers/WebTiledLayer';
 import layerFactory from 'helpers/LayerFactory';
 import LayersHelper from 'helpers/LayersHelper';
@@ -174,7 +174,7 @@ class MapActions {
     var slider = $('#tree-cover-slider').data('ionRangeSlider');
     if (slider) { slider.reset(); }
     //- Reset Esris Search Dijit and clear any graphics
-    analysisActions.clearCustomGraphics();
+    app.map.graphics.clear();
     //- Reset the Map to its original zoom and location
     app.map.centerAndZoom(mapConfig.options.center, mapConfig.options.zoom);
   }
