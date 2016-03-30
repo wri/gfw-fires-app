@@ -50,6 +50,14 @@ export default class AnalysisTab extends React.Component {
     analysisActions.toggleCustomize();
   }
 
+  clearAll () {
+    if (this.props.areaIslandsActive === true) {
+      $('#islands').val('').trigger('chosen:updated');
+    } else {
+      $('#provinces').val('').trigger('chosen:updated');
+    }
+  }
+
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
@@ -90,6 +98,7 @@ export default class AnalysisTab extends React.Component {
             : null
           }
           </div>
+          <button onClick={this.clearAll.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
           <p>{analysisPanelText.analysisTimeframeHeader}</p>
           <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
           <div id='analysisWarning' className={`analysis-warning ${this.state.localErrors === false ? 'hidden' : ''}`}>Please select an island or province</div>
