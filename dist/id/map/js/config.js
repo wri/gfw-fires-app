@@ -580,8 +580,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'fire-stories',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
-      infoTemplate: {
-        content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-name thin">Details: </td><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-name thin">Date: </td><td class="field-value wide">${Date}</td></tr>'
+      infoTemplate: app.mobile() === true ? {
+        content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
+      } : {
+        content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
       }
     }, {
       id: _constants2.default.twitter,

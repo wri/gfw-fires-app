@@ -29,8 +29,10 @@ body
 
 .fire-stories-popup
   font-size 15px
+  &.mobile
+    font-size 13px
 
-.esriPopup .esriPopupWrapper
+// .esriPopup .esriPopupWrapper
 
 .esriPopup .actionsPane
   display none
@@ -42,7 +44,7 @@ body
     font-weight 300
     font-size 21px
     // line-height 3
-    padding 0 0 10px
+    // padding 0 10px 10px
   table
     width 100%
     text-align left
@@ -67,7 +69,9 @@ body
     min-height 1px
     padding 8px 0 0
     &.wide
-      width 80%
+      padding-left 10px
+      padding-right 10px
+      width 100%
   .layer-subscribe-container
     border-top 1px solid #e5e5df
     text-align center
@@ -79,6 +83,8 @@ body
 table.fire-stories-popup .field-name, table.fire-stories-popup .field-value
   font-size 18px !important
 
+table.fire-stories-popup.mobile .field-name, table.fire-stories-popup.mobile .field-value
+  font-size 14px !important
 
 .map
   height 100%
@@ -186,6 +192,17 @@ table.fire-stories-popup .field-name, table.fire-stories-popup .field-value
   .layout-content
     top 34px
 
-//@media (max-width: 850px)
-//  .layout-content
-//    bottom 56px
+@media (max-width: 650px)
+ .esriPopup
+   position fixed !important
+   top 75px !important
+   left 30px !important
+   .esriPopupWrapper
+     left 0 !important
+     bottom 0 !important
+     top 0 !important
+     right 0 !important
+   .contentPane
+     max-height 425px !important
+   .pointer
+     display none !important

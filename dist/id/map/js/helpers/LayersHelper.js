@@ -249,9 +249,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         if (features.length > 0) {
           (function () {
-
             if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
-              app.map.infoWindow.resize(500);
+              app.map.infoWindow.resize(650);
             }
             //resize(width, height)
             app.map.infoWindow.setFeatures(features);
