@@ -121,7 +121,7 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'components/LayerPa
           ),
           _react2.default.createElement(
             _LayerCheckbox2.default,
-            { key: dgLayer.id, childrenVisible: true, layer: dgLayer, checked: activeLayers.indexOf(dgLayer.id) > -1 },
+            { key: dgLayer.id, childrenVisible: this.props.imageryOpen, layer: dgLayer, checked: activeLayers.indexOf(dgLayer.id) > -1 },
             _react2.default.createElement(_ImageryComponent2.default, _extends({}, this.state, { options: dgLayer.calendar }))
           )
         );

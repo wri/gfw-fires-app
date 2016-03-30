@@ -148,7 +148,7 @@ drop = (evt) => {
         <button onClick={this.draw} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>{analysisPanelText.subscriptionButtonLabel}</button>
 
         <form
-          className={`analysis-instructions__upload-container ${this.state.dndActive ? 'active' : ''}`}
+          className={`analysis-instructions__upload-container ${app.mobile() ? 'hidden ' : ''}${this.state.dndActive ? 'active' : ''}`}
           encType='multipart/form-data'
           onDragEnter={this.enter}
           onDragLeave={this.leave}
@@ -161,7 +161,6 @@ drop = (evt) => {
           <span className='analysis-instructions__upload'>
             {analysisPanelText.subscriptionShapefile}
           </span>
-
 
           <input type='file' name='file' ref='fileInput' />
           <input type='hidden' name='publishParameters' value='{}' />

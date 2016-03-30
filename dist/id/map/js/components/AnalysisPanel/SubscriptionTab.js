@@ -181,6 +181,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
           toolbar.on('draw-end', function (evt) {
             toolbar.deactivate();
             _this2.setState({ drawButtonActive: false });
+            _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
             var graphic = _geometryUtils2.default.generateDrawnPolygon(evt.geometry);
             graphic.attributes.Layer = 'custom';
             graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
@@ -228,7 +229,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
           _react2.default.createElement(
             'form',
             {
-              className: 'analysis-instructions__upload-container ' + (this.state.dndActive ? 'active' : ''),
+              className: 'analysis-instructions__upload-container ' + (app.mobile() ? 'hidden ' : '') + (this.state.dndActive ? 'active' : ''),
               encType: 'multipart/form-data',
               onDragEnter: this.enter,
               onDragLeave: this.leave,

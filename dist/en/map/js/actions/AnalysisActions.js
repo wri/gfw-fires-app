@@ -68,17 +68,6 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dijit
         _registry2.default.byId(_config.analysisPanelText.searchWidgetId).clear();
       }
     }, {
-      key: 'clearCustomGraphics',
-      value: function clearCustomGraphics() {
-        app.debug('AnalysisActions >>> clearCustomGraphics');
-        this.dispatch();
-        //- Clear Highlight Polygons
-        // GraphicsHelper.clearCustomAreas();
-
-        //todo: manually reset sliders --reset function?
-        _registry2.default.byId(_config.analysisPanelText.searchWidgetId).clear();
-      }
-    }, {
       key: 'setCustomAreaName',
       value: function setCustomAreaName(newName) {
         app.debug('AnalysisActions >>> setCustomAreaName');
@@ -97,6 +86,11 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dijit
     }, {
       key: 'toggleCustomize',
       value: function toggleCustomize() {
+        this.dispatch();
+      }
+    }, {
+      key: 'toggleImageryOptions',
+      value: function toggleImageryOptions() {
         this.dispatch();
       }
     }, {

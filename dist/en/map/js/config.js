@@ -382,7 +382,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires' //,
       // layerIds: [0],
       // infoTemplate: {
@@ -708,6 +708,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
         analysisButtonLabel: 'GENERATE REPORT',
+        analysisButtonClear: 'CLEAR ALL',
         analysisAreaTitle: 'Fire Report',
         analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
         analysisTimeframeHeader: 'Select timeframe of interest:',
@@ -719,7 +720,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         subscriptionInstructionsOne: 'Sign up to receive ',
         subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
         subscriptionInstructionsThree: ' when fires occur.',
-        subscriptionShapefile: 'Or drop a custom shapefile here',
+        subscriptionShapefile: 'Or drop a zipped shapefile here',
         subscriptionClick: 'Click on drawn or uploaded shapes on the map to subscribe to the area.',
         imageryTabLabel: 'VIEW HIGH-RES IMAGERY',
         imageryArea: 'Imagery',

@@ -133,6 +133,15 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         _AnalysisActions.analysisActions.toggleCustomize();
       }
     }, {
+      key: 'clearAll',
+      value: function clearAll() {
+        if (this.props.areaIslandsActive === true) {
+          $('#islands').val('').trigger('chosen:updated');
+        } else {
+          $('#provinces').val('').trigger('chosen:updated');
+        }
+      }
+    }, {
       key: 'render',
       value: function render() {
         var className = 'text-center';
@@ -211,6 +220,11 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
                   );
                 })
               ) : null
+            ),
+            _react2.default.createElement(
+              'button',
+              { onClick: this.clearAll.bind(this), className: 'gfw-btn blue' },
+              _config.analysisPanelText.analysisButtonClear
             ),
             _react2.default.createElement(
               'p',

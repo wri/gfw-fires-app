@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/AnalysisActions', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'helpers/LayersHelper', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt'], function (exports, _config, _AnalysisActions, _WebTiledLayer, _LayerFactory, _LayersHelper, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt) {
+define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'helpers/LayersHelper', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt'], function (exports, _config, _WebTiledLayer, _LayerFactory, _LayersHelper, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -265,7 +265,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'esri/layers/WebTiled
           slider.reset();
         }
         //- Reset Esris Search Dijit and clear any graphics
-        _AnalysisActions.analysisActions.clearCustomGraphics();
+        app.map.graphics.clear();
         //- Reset the Map to its original zoom and location
         app.map.centerAndZoom(_config.mapConfig.options.center, _config.mapConfig.options.zoom);
       }

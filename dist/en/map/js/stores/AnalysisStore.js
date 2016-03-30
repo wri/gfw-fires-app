@@ -51,6 +51,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.esriSearchVisible = false;
       this.analysisToolsVisible = app.mobile() === false;
       this.customizeOpen = false;
+      this.imageryOpen = false;
       this.analysisToolsExpanded = true;
       this.imageryToolsExpanded = false;
       this.basemapToolsExpanded = false;
@@ -61,10 +62,10 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.provinces = [];
 
       this.bindListeners({
-        clearCustomGraphics: _AnalysisActions.analysisActions.clearCustomGraphics,
         setAnalysisType: _AnalysisActions.analysisActions.setAnalysisType,
         toggleDrawToolbar: _AnalysisActions.analysisActions.toggleDrawToolbar,
         toggleCustomize: _AnalysisActions.analysisActions.toggleCustomize,
+        toggleImageryOptions: _AnalysisActions.analysisActions.toggleImageryOptions,
         analyzeCustomArea: _AnalysisActions.analysisActions.analyzeCustomArea,
         setCustomAreaName: _AnalysisActions.analysisActions.setCustomAreaName,
         clearActiveWatershed: _AnalysisActions.analysisActions.clearActiveWatershed,
@@ -85,11 +86,6 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       value: function clearActiveWatershed() {
         this.toolbarActive = false;
         this.activeWatershed = null;
-      }
-    }, {
-      key: 'clearCustomGraphics',
-      value: function clearCustomGraphics() {
-        this.dispatch();
       }
     }, {
       key: 'analyzeCustomArea',
@@ -115,6 +111,11 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       key: 'toggleCustomize',
       value: function toggleCustomize() {
         this.customizeOpen = !this.customizeOpen;
+      }
+    }, {
+      key: 'toggleImageryOptions',
+      value: function toggleImageryOptions() {
+        this.imageryOpen = !this.imageryOpen;
       }
     }, {
       key: 'toggleAnalysisToolsVisibility',

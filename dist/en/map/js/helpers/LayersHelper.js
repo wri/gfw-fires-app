@@ -357,7 +357,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         }
 
-        var content = fire_results + config.infoTemplate.content + subscribe;
+        var content = '<div>' + fire_results + config.infoTemplate.content + subscribe + '</div>';
 
         template = new _InfoTemplate2.default(item.layerName, content);
         item.feature.setInfoTemplate(template);

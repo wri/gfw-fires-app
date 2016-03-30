@@ -90,6 +90,8 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', '
         var startDate = window.Kalendae.moment(this.state.dgStartDate);
         var endDate = window.Kalendae.moment(this.state.dgEndDate);
 
+        //<div className={`customize-options ${this.props.customizeOpen === true ? '' : 'hidden'}`}> --> on timeline container!
+
         return _react2.default.createElement(
           'div',
           { className: 'timeline-container ' + this.props.options.domClass },
