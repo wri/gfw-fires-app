@@ -805,6 +805,7 @@ export const config = {
         domClass: 'analysisLegend',
         childDomClass: 'analysis-child',
         minLabel: 'START DATE',
+        minLabelPlus: 'START DATE: Available from 1 January 2013',
         maxLabel: 'END DATE'
       },
       imageryTabId: 'imageryTab',
@@ -815,7 +816,7 @@ export const config = {
       analysisButtonClear: 'CLEAR ALL',
       analysisAreaTitle: 'Fire Report',
       analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
-      analysisTimeframeHeader: 'Select timeframe of interest:',
+      analysisTimeframeHeader: 'Select any time frame of interest:',
       analysisTabLabel: 'Fire Report',
       analysisCustomize: 'CUSTOMIZE REPORT',
       analysisChoose: 'Choose your own custom time period and geographic area.',
@@ -888,7 +889,7 @@ export const config = {
         copyButton: 'Copy',
         copiedButton: 'Copied',
         googleUrl: url => `https://plus.google.com/share?url=${url}`,
-        twitterUrl: url => `https://twitter.com/share?url=${url}&via=gfw-water`,
+        twitterUrl: url => `https://twitter.com/share?url=${url}&via=gfw-fires`,
         facebookUrl: url => `https://www.facebook.com/sharer.php?u=${url}`
       }
     },
