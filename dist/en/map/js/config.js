@@ -401,7 +401,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, global)',
       // group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
@@ -412,7 +412,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 5,
       type: 'dynamic',
       label: 'Peatlands',
-      sublabel: '(year 2002, Indonesia)',
+      sublabel: '(year 2000, Indonesia)',
       group: 'landCover',
       className: 'peatlands',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
