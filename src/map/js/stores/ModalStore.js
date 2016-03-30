@@ -7,10 +7,13 @@ class ModalStore {
   constructor () {
     this.bitlyUrl = '';
     this.modalLayerInfo = {};
+    this.shareBy = 'embed';
 
     this.bindListeners({
       showLayerInfo: modalActions.showLayerInfo,
-      updateBitlyUrl: modalActions.showShareModal
+      updateBitlyUrl: modalActions.showShareModal,
+      switchEmbed: modalActions.switchEmbed,
+      switchLink: modalActions.switchLink
     });
   }
 
@@ -24,6 +27,14 @@ class ModalStore {
 
   updateBitlyUrl (bitlyUrl) {
     this.bitlyUrl = bitlyUrl;
+  }
+
+  switchEmbed () {
+    this.shareBy = 'embed';
+  }
+
+  switchLink () {
+    this.shareBy = 'link';
   }
 
 }

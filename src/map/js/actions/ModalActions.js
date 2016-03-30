@@ -57,6 +57,16 @@ class ModalActions {
     domClass.remove('fires-modal', 'hidden');
   }
 
+  switchEmbed () {
+    app.debug('ModalActions >>> switchEmbed');
+    this.dispatch();
+  }
+
+  switchLink () {
+    app.debug('ModalActions >>> switchLink');
+    this.dispatch();
+  }
+
   showSubscribeModal (graphic) {
     app.debug('ModalActions >>> showAlertsModal');
     this.dispatch(graphic);

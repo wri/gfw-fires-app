@@ -1,6 +1,7 @@
 import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalStore} from 'stores/ModalStore';
 import {modalText} from 'js/config';
+import {modalActions} from 'actions/ModalActions';
 import utils from 'utils/AppUtils';
 import React from 'react';
 
@@ -19,7 +20,8 @@ export default class ShareModal extends React.Component {
     let defaultState = modalStore.getState();
     this.state = {
       bitlyUrl: defaultState.bitlyUrl,
-      copyText: modalText.share.copyButton
+      copyText: modalText.share.copyButton,
+      shareBy: defaultState.shareBy
     };
   }
 
@@ -27,12 +29,18 @@ export default class ShareModal extends React.Component {
     let newState = modalStore.getState();
     this.setState({
       bitlyUrl: newState.bitlyUrl,
-      copyText: modalText.share.copyButton
+      copyText: modalText.share.copyButton,
+      shareBy: newState.shareBy
     });
   }
 
   copyShare () {
-    let element = this.refs.shareInput;
+    let element;
+    if (this.state.shareBy === 'embed') {
+      element = this.refs.shareInputEmbed;
+    } else {
+      element = this.refs.shareInputLink;
+    }
     if (utils.copySelectionFrom(element)) {
       this.setState({ copyText: modalText.share.copiedButton });
     } else {
@@ -61,14 +69,30 @@ export default class ShareModal extends React.Component {
     }, 0);
   }
 
+  switchEmbed () {
+    modalActions.switchEmbed(); //todo: make a bitly
+  }
+
+  switchLink () {
+    modalActions.switchLink();
+  }
+
   render () {
+    let prefix = '<iframe width="600" height="600" frameborder="0" src="';
+    let suffix = '"></iframe>';
+    let iframeURL = prefix + this.state.bitlyUrl + suffix;
     return (
       <ModalWrapper>
         <div className='share-modal-title'>{modalText.share.title}</div>
         <div className='share-instructions'>{modalText.share.linkInstructions}</div>
         <div className='share-input'>
-          <input ref='shareInput' type='text' readOnly value={this.state.bitlyUrl} onClick={this.handleFocus} />
+          <input className={`${this.state.shareBy === 'link' ? 'hidden' : ''}`} ref='shareInputEmbed' type='text' readOnly value={iframeURL} onClick={this.handleFocus} />
+          <input className={`${this.state.shareBy === 'embed' ? 'hidden' : ''}`} ref='shareInputLink' type='text' readOnly value={this.state.bitlyUrl} onClick={this.handleFocus} />
           <button className='gfw-btn white pointer' onClick={this.copyShare.bind(this)}>{this.state.copyText}</button>
+        </div>
+        <div className='share-options'>
+          <button className={`gfw-btn white basemap-button pointer ${this.state.shareBy === 'embed' ? 'active' : ''}`} onClick={this.switchEmbed.bind(this)}>EMBED</button>
+          <button className={`gfw-btn white basemap-button pointer ${this.state.shareBy === 'link' ? 'active' : ''}`} onClick={this.switchLink.bind(this)}>LINK</button>
         </div>
         <div className='share-items'>
           <ul>
