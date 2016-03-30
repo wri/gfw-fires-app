@@ -109,6 +109,18 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
         _domClass2.default.remove('fires-modal', 'hidden');
       }
     }, {
+      key: 'switchEmbed',
+      value: function switchEmbed() {
+        app.debug('ModalActions >>> switchEmbed');
+        this.dispatch();
+      }
+    }, {
+      key: 'switchLink',
+      value: function switchLink() {
+        app.debug('ModalActions >>> switchLink');
+        this.dispatch();
+      }
+    }, {
       key: 'showSubscribeModal',
       value: function showSubscribeModal(graphic) {
         app.debug('ModalActions >>> showAlertsModal');

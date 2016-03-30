@@ -44,10 +44,13 @@ define(['exports', 'actions/ModalActions', 'js/config', 'js/alt'], function (exp
 
       this.bitlyUrl = '';
       this.modalLayerInfo = {};
+      this.shareBy = 'embed';
 
       this.bindListeners({
         showLayerInfo: _ModalActions.modalActions.showLayerInfo,
-        updateBitlyUrl: _ModalActions.modalActions.showShareModal
+        updateBitlyUrl: _ModalActions.modalActions.showShareModal,
+        switchEmbed: _ModalActions.modalActions.switchEmbed,
+        switchLink: _ModalActions.modalActions.switchLink
       });
     }
 
@@ -64,6 +67,16 @@ define(['exports', 'actions/ModalActions', 'js/config', 'js/alt'], function (exp
       key: 'updateBitlyUrl',
       value: function updateBitlyUrl(bitlyUrl) {
         this.bitlyUrl = bitlyUrl;
+      }
+    }, {
+      key: 'switchEmbed',
+      value: function switchEmbed() {
+        this.shareBy = 'embed';
+      }
+    }, {
+      key: 'switchLink',
+      value: function switchLink() {
+        this.shareBy = 'link';
       }
     }]);
 

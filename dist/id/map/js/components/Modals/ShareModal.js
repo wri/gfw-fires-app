@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/config', 'utils/AppUtils', 'react'], function (exports, _ModalWrapper, _ModalStore, _config, _AppUtils, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/config', 'actions/ModalActions', 'utils/AppUtils', 'react'], function (exports, _ModalWrapper, _ModalStore, _config, _ModalActions, _AppUtils, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -83,7 +83,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
       var defaultState = _ModalStore.modalStore.getState();
       _this.state = {
         bitlyUrl: defaultState.bitlyUrl,
-        copyText: _config.modalText.share.copyButton
+        copyText: _config.modalText.share.copyButton,
+        shareBy: defaultState.shareBy
       };
       return _this;
     }
@@ -94,13 +95,19 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
         var newState = _ModalStore.modalStore.getState();
         this.setState({
           bitlyUrl: newState.bitlyUrl,
-          copyText: _config.modalText.share.copyButton
+          copyText: _config.modalText.share.copyButton,
+          shareBy: newState.shareBy
         });
       }
     }, {
       key: 'copyShare',
       value: function copyShare() {
-        var element = this.refs.shareInput;
+        var element = void 0;
+        if (this.state.shareBy === 'embed') {
+          element = this.refs.shareInputEmbed;
+        } else {
+          element = this.refs.shareInputLink;
+        }
         if (_AppUtils2.default.copySelectionFrom(element)) {
           this.setState({ copyText: _config.modalText.share.copiedButton });
         } else {
@@ -133,8 +140,21 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
         }, 0);
       }
     }, {
+      key: 'switchEmbed',
+      value: function switchEmbed() {
+        _ModalActions.modalActions.switchEmbed(); //todo: make a bitly
+      }
+    }, {
+      key: 'switchLink',
+      value: function switchLink() {
+        _ModalActions.modalActions.switchLink();
+      }
+    }, {
       key: 'render',
       value: function render() {
+        var prefix = '<iframe width="600" height="600" frameborder="0" src="';
+        var suffix = '"></iframe>';
+        var iframeURL = prefix + this.state.bitlyUrl + suffix;
         return _react2.default.createElement(
           _ModalWrapper2.default,
           null,
@@ -151,11 +171,26 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
           _react2.default.createElement(
             'div',
             { className: 'share-input' },
-            _react2.default.createElement('input', { ref: 'shareInput', type: 'text', readOnly: true, value: this.state.bitlyUrl, onClick: this.handleFocus }),
+            _react2.default.createElement('input', { className: '' + (this.state.shareBy === 'link' ? 'hidden' : ''), ref: 'shareInputEmbed', type: 'text', readOnly: true, value: iframeURL, onClick: this.handleFocus }),
+            _react2.default.createElement('input', { className: '' + (this.state.shareBy === 'embed' ? 'hidden' : ''), ref: 'shareInputLink', type: 'text', readOnly: true, value: this.state.bitlyUrl, onClick: this.handleFocus }),
             _react2.default.createElement(
               'button',
               { className: 'gfw-btn white pointer', onClick: this.copyShare.bind(this) },
               this.state.copyText
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'share-options' },
+            _react2.default.createElement(
+              'button',
+              { className: 'gfw-btn white basemap-button pointer ' + (this.state.shareBy === 'embed' ? 'active' : ''), onClick: this.switchEmbed.bind(this) },
+              'EMBED'
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'gfw-btn white basemap-button pointer ' + (this.state.shareBy === 'link' ? 'active' : ''), onClick: this.switchLink.bind(this) },
+              'LINK'
             )
           ),
           _react2.default.createElement(
