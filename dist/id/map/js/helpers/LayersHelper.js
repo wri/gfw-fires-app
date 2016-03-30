@@ -251,10 +251,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           (function () {
 
             if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
-              console.log('poj');
               app.map.infoWindow.resize(500);
             }
-            //esize(width, height)
+            //resize(width, height)
             app.map.infoWindow.setFeatures(features);
             app.map.infoWindow.show(mapPoint);
             var handles = [];

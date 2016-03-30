@@ -13,7 +13,7 @@ export const config = {
       basemap: 'topo',
       slider: false,
       logo: false,
-      zoom: 5
+      zoom: app.mobile() === true ? 4 : 5
     },
     customBasemap: {
       url: 'https://api.tiles.mapbox.com/v4/wri.c974eefc/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg',
