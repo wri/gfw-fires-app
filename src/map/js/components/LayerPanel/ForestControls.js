@@ -1,6 +1,9 @@
 import {layerActions} from 'actions/LayerActions';
 import LayersHelper from 'helpers/LayersHelper';
-import {layerPanelText} from 'js/config';
+import {layerPanelText, layersConfig} from 'js/config';
+import KEYS from 'js/constants';
+import utils from 'utils/AppUtils';
+import ForestryLegend from 'components/LayerPanel/ForestryLegend';
 import React from 'react';
 
 let forestOptions = layerPanelText.forestOptions;
@@ -21,8 +24,10 @@ export default class ForestControls extends React.Component {
   }
 
   render () {
+    let config = utils.getObject(layersConfig, 'id', KEYS.primaryForests);
     let activeItem = forestOptions[this.props.forestSelectIndex];
     return <div>
+    <ForestryLegend url={config.url} layerIds={config.layerIds} />
       <div className='timeline-container relative forest'>
         <select className='pointer' value={activeItem.value} onChange={this.changeForestTimeline}>
           {forestOptions.map(this.optionsMap, this)}
