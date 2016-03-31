@@ -7,12 +7,10 @@ www/src/proxy
 *.swp
 
 # Ignore build, dist, and vendor directories
-!dist/en/vendors/kalendae/build
-
 !dist/*
-
-vendor
 build
+vendors
+www/*
 
 # Ignore these, just do it
 node_modules

@@ -32,12 +32,7 @@ var plumber = function () {
 var config = {
   i18n: [
     {
-      language: 'en',
-      locals: require('./i18n/en/locals.js').locals
-    }, {
-      language: 'id',
-      // NOTE: use english locals while developing without translations
-      // locals: require('./i18n/id/locals.js').locals
+      language: '/',
       locals: require('./i18n/en/locals.js').locals
     }
   ],
@@ -95,13 +90,6 @@ gulp.task('jade-watch', function () {
   gulp.watch(config.jade.watch, ['jade-build']);
 });
 
-gulp.task('notify', function () {
-  notifier.notify({
-    title: 'LLL done',
-    message: 'ddd',
-    sound: true
-  });
-});
 
 gulp.task('jade-build', function () {
   var stream = mergeStream();
@@ -157,7 +145,7 @@ gulp.task('stylus-dist', function () {
       gulp.src(config.stylus.src)
         .pipe(stylus({ 'include css': true, use: [ jeet(), rupture() ], compress: true }))
         .pipe(autoprefixer())
-        .pipe(gulp.dest(config.stylus.dist + '/' + locale.language))
+        .pipe(gulp.dest(config.stylus.dist + locale.language))
     );
   });
   return stream;
@@ -187,7 +175,7 @@ gulp.task('babel-dist', function () {
     stream.add(
       gulp.src(config.babel.src)
         .pipe(babel())
-        .pipe(gulp.dest(config.babel.dist + '/' + locale.language))
+        .pipe(gulp.dest(config.babel.dist + locale.language))
     );
   });
   return stream;
@@ -241,23 +229,24 @@ gulp.task('copy-dist-vendor', function () {
 
 gulp.task('copy-build-php', function () {
   var stream = mergeStream();
-
+config.i18n.forEach(function(locale) {
   stream.add(
     gulp.src(config.copyExtras.src)
-      .pipe(gulp.dest(config.copyExtras.build + '/' + 'en'))
-      .pipe(gulp.dest(config.copyExtras.build + '/' + 'id'))
+      .pipe(gulp.dest(config.copyExtras.build + locale.language))
   );
+});
 
   return stream;
 });
 
 gulp.task('copy-dist-php', function () {
   var stream = mergeStream();
-  stream.add(
-    gulp.src(config.copyExtras.src)
-    .pipe(gulp.dest(config.copyExtras.dist + '/' + 'en'))
-    .pipe(gulp.dest(config.copyExtras.dist + '/' + 'id'))
-  );
+  config.i18n.forEach(function(locale) {
+    stream.add(
+      gulp.src(config.copyExtras.src)
+      .pipe(gulp.dest(config.copyExtras.dist + locale.language))
+    );
+  });
   return stream;
 });
 
@@ -297,6 +286,7 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('serve', ['browser-sync']);
-// gulp.task('dist', ['stylus-build', 'babel-build', 'jade-build', 'imagemin-build', 'copy-build-vendor', 'copy-build-php']);
-gulp.task('build', ['stylus-build', 'stylus-watch', 'babel-build', 'babel-watch', 'jade-build', 'jade-watch', 'imagemin-build', 'copy-build-vendor', 'copy-build-php']);
-gulp.task('dist', ['stylus-dist', 'babel-dist', 'jade-dist', 'imagemin-dist', 'copy-dist-vendor', 'copy-dist-php']);
+gulp.task('watch', ['stylus-watch', 'babel-watch','jade-watch']);
+gulp.task('build', ['stylus-build','babel-build','jade-build','imagemin-build','copy-build-vendor','copy-build-php']);
+
+gulp.task('dist', ['stylus-dist','babel-dist','jade-dist','imagemin-dist','copy-dist-vendor','copy-dist-php']);
