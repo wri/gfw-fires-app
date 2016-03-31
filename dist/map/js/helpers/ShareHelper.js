@@ -38,7 +38,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
   }
 
   var ShareHelper = {
-    prepareStateForUrl: function prepareStateForUrl() {
+    prepareStateForUrl: function prepareStateForUrl(basemap) {
       app.debug('ShareHelper >>> prepareStateForUrl');
       // let {activeLayers, activeBasemap} = mapStore.getState();
       // let {activeLayers, activeBasemap} = configObj;
@@ -46,6 +46,9 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
 
       var activeLayers = app && app.activeLayers ? app.activeLayers : [];
       var activeBasemap = app.map.getBasemap();
+      if (basemap) {
+        activeBasemap = basemap;
+      }
 
       var shareParams = {};
 
@@ -78,7 +81,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var y = state.y;
       var z = state.z;
 
-      if (!activeLayers || !activeBasemap) {
+      if (!activeBasemap) {
         var initialState = void 0,
             hasHash = void 0;
 
@@ -123,14 +126,12 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
         app.map.centerAndZoom([x, y], z);
       }
     },
-    handleHashChange: function handleHashChange() {
+    handleHashChange: function handleHashChange(basemap) {
       app.debug('ShareHelper >>> handleHashChange');
-
-      var url = this.prepareStateForUrl();
+      var url = this.prepareStateForUrl(basemap);
       console.log(url);
-      // if (url.indexOf('activeLayers' > -1)) {
+
       (0, _hash2.default)(url);
-      // }
     }
   };
   // import {mapStore} from 'stores/MapStore';

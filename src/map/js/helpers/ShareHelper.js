@@ -10,7 +10,7 @@ import hash from 'dojo/hash';
 
 const ShareHelper = {
 
-  prepareStateForUrl () {
+  prepareStateForUrl (basemap) {
     app.debug('ShareHelper >>> prepareStateForUrl');
     // let {activeLayers, activeBasemap} = mapStore.getState();
     // let {activeLayers, activeBasemap} = configObj;
@@ -18,6 +18,9 @@ const ShareHelper = {
 
     let activeLayers = app && app.activeLayers ? app.activeLayers : [];
     let activeBasemap = app.map.getBasemap();
+    if (basemap) {
+      activeBasemap = basemap;
+    }
 
     let shareParams = {};
 
@@ -51,7 +54,7 @@ const ShareHelper = {
     let y = state.y;
     let z = state.z;
 
-    if (!activeLayers || !activeBasemap) {
+    if (!activeBasemap) {
       let initialState, hasHash;
 
       let url = window.location.href;
@@ -97,14 +100,12 @@ const ShareHelper = {
     }
   },
 
-  handleHashChange () {
+  handleHashChange (basemap) {
     app.debug('ShareHelper >>> handleHashChange');
+    let url = this.prepareStateForUrl(basemap);
+    console.log(url);
 
-    let url = this.prepareStateForUrl();
-    console.log(url)
-    // if (url.indexOf('activeLayers' > -1)) {
-      hash(url);
-    // }
+    hash(url);
   }
 
 };

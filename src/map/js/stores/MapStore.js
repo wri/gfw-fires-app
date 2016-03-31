@@ -81,7 +81,7 @@ class MapStore {
     // Set up Click Listener to Perform Identify
     app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
 
-    app.map.on('extent-change', function(){
+    app.map.on('extent-change, basemap-change', function(){
       ShareHelper.handleHashChange();
     });
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper)); //should this be routed through actions?
@@ -275,6 +275,9 @@ class MapStore {
   setBasemap (basemap) {
     if (basemap !== this.activeBasemap) {
       this.activeBasemap = basemap;
+      if (basemap === KEYS.wriBasemap) {
+        ShareHelper.handleHashChange(basemap);
+      }
     }
   }
 

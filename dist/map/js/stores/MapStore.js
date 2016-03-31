@@ -125,7 +125,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         // Set up Click Listener to Perform Identify
         app.map.on('click', _LayersHelper2.default.performIdentify.bind(_LayersHelper2.default));
 
-        app.map.on('extent-change', function () {
+        app.map.on('extent-change, basemap-change', function () {
           _ShareHelper2.default.handleHashChange();
         });
         app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default)); //should this be routed through actions?
@@ -337,6 +337,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       value: function setBasemap(basemap) {
         if (basemap !== this.activeBasemap) {
           this.activeBasemap = basemap;
+          if (basemap === _constants2.default.wriBasemap) {
+            _ShareHelper2.default.handleHashChange(basemap);
+          }
         }
       }
     }, {
