@@ -7,6 +7,8 @@ import KEYS from 'js/constants';
 const ShareHelper = {
 
   applyStateFromUrl (state) {
+    app.debug('ShareHelper >>> applyStateFromUrl');
+
     let {activeLayers, activeBasemap, x, y, z} = state;
 
     if (activeLayers) {
@@ -15,15 +17,11 @@ const ShareHelper = {
         layerActions.addActiveLayer(id);
       });
 
-      // Loss is on by default, we need to turn it off if not present in the shared state
-      if (layerIds.indexOf(KEYS.loss) === -1) {
-        layerActions.removeActiveLayer(KEYS.loss);
+      // activeFires is on by default, we need to turn it off if not present in the shared state
+      if (layerIds.indexOf(KEYS.activeFires) === -1) {
+        layerActions.removeActiveLayer(KEYS.activeFires);
       }
 
-      // Gain is on by default, we need to turn it off if not present in the shared state
-      if (layerIds.indexOf(KEYS.gain) === -1) {
-        layerActions.removeActiveLayer(KEYS.gain);
-      }
     }
 
     if (activeBasemap) {
@@ -37,6 +35,7 @@ const ShareHelper = {
   },
 
   prepareStateForUrl () {
+    app.debug('ShareHelper >>> prepareStateForUrl');
     let {activeLayers, activeBasemap} = mapStore.getState();
     let shareObject = {};
 
@@ -45,9 +44,9 @@ const ShareHelper = {
     }
 
     //- If the active basemap is not equal to the default, include it
-    if (activeBasemap !== KEYS.wriBasemap) {
+    // if (activeBasemap !== KEYS.wriBasemap) {
       shareObject.activeBasemap = activeBasemap;
-    }
+    // }
 
     //- Set X, Y, and Zoom
     let centerPoint = app.map.extent.getCenter();
