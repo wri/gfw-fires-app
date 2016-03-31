@@ -5,6 +5,8 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
     value: true
   });
 
+  var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
+
   var _react2 = _interopRequireDefault(_react);
 
   function _interopRequireDefault(obj) {
@@ -116,7 +118,10 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
     }, {
       key: 'share',
       value: function share() {
-        _ModalActions.modalActions.showShareModal((0, _ShareHelper.prepareStateForUrl)());
+        var state = _MapStore.mapStore.getState();
+        var activeLayers = state.activeLayers;
+        var activeBasemap = state.activeBasemap;
+        _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl({ activeLayers: activeLayers, activeBasemap: activeBasemap }));
       }
     }, {
       key: 'reset',
@@ -191,7 +196,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             _react2.default.createElement(
               'li',
-              { className: 'share-map pointer', onClick: this.share },
+              { className: 'share-map pointer', onClick: this.share.bind(this) },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: shareSvg } }),
               _react2.default.createElement(
                 'span',

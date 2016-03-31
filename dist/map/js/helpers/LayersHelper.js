@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils/AppUtils', 'dojo/promise/all', 'dojo/query', 'dojo/dom-class', 'actions/LayerActions', 'actions/ModalActions', 'esri/layers/MosaicRule', 'dojo/on', 'esri/InfoTemplate', 'esri/graphic', 'helpers/WindHelper', 'js/constants'], function (exports, _config, _rasterFunctions, _request, _AppUtils, _all, _query, _domClass, _LayerActions, _ModalActions, _MosaicRule, _on, _InfoTemplate, _graphic, _WindHelper, _constants) {
+define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils/AppUtils', 'dojo/promise/all', 'dojo/query', 'dojo/dom-class', 'actions/LayerActions', 'actions/ModalActions', 'esri/layers/MosaicRule', 'dojo/on', 'esri/InfoTemplate', 'esri/graphic', 'helpers/WindHelper', 'js/constants', 'helpers/ShareHelper'], function (exports, _config, _rasterFunctions, _request, _AppUtils, _all, _query, _domClass, _LayerActions, _ModalActions, _MosaicRule, _on, _InfoTemplate, _graphic, _WindHelper, _constants, _ShareHelper) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -30,25 +30,17 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
   var _constants2 = _interopRequireDefault(_constants);
 
+  var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
+
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
       default: obj
     };
   }
 
+  // import {prepareStateForUrl} from 'helpers/ShareHelper';
+
   var LayersHelper = {
-    connectLayerEvents: function connectLayerEvents() {
-      app.debug('LayersHelper >>> connectLayerEvents');
-      // Enable Mouse Events for al graphics layers
-      app.map.graphics.enableMouseEvents();
-      // Set up Click Listener to Perform Identify
-      app.map.on('click', this.performIdentify.bind(this));
-
-      app.map.on('zoom-end', this.checkZoomDependentLayers.bind(this)); //should this be routed through actions?
-
-      // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
-      //todo:updateAirQuality?!
-    },
     removeCustomFeature: function removeCustomFeature(feature) {
       app.map.graphics.remove(feature);
     },
@@ -392,6 +384,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     showLayer: function showLayer(layerObj) {
       app.debug('LayersHelper >>> showLayer - ' + layerObj.layerId);
+      _ShareHelper2.default.handleHashChange();
       if (layerObj.layerId === _constants2.default.digitalGlobe) {
         _LayerActions.layerActions.showFootprints.defer();
         var footprints = layerObj.footprints;
@@ -420,6 +413,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     hideLayer: function hideLayer(layerId) {
       app.debug('LayersHelper >>> hideLayer - ' + layerId);
+      _ShareHelper2.default.handleHashChange();
       if (layerId === _constants2.default.digitalGlobe) {
         var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.digitalGlobe);
         var bb = app.map.getLayer(_constants2.default.boundingBoxes);
@@ -442,6 +436,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     toggleWind: function toggleWind(checked) {
       app.debug('LayersHelper >>> toggleWind - ' + checked);
+      _ShareHelper2.default.handleHashChange();
       if (checked) {
         _WindHelper2.default.activateWindLayer();
       } else {

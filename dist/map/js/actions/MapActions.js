@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'helpers/LayersHelper', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt'], function (exports, _config, _WebTiledLayer, _LayerFactory, _LayersHelper, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt) {
+define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt'], function (exports, _config, _WebTiledLayer, _LayerFactory, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,8 +9,6 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
   var _WebTiledLayer2 = _interopRequireDefault(_WebTiledLayer);
 
   var _LayerFactory2 = _interopRequireDefault(_LayerFactory);
-
-  var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
   var _Point2 = _interopRequireDefault(_Point);
 
@@ -106,7 +104,9 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
             console.error(layerErrors);
           }
           // Connect events to the layers that need them
-          _LayersHelper2.default.connectLayerEvents();
+          // LayersHelper.connectLayerEvents();
+
+          // this.connectLayerEvents
 
           //self.enableLayersFromHash();
         });
@@ -134,10 +134,22 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         }
       }
     }, {
+      key: 'connectLayerEvents',
+      value: function connectLayerEvents() {
+        app.debug('MapActions >>> connectLayerEvents');
+        this.dispatch();
+      }
+    }, {
       key: 'setDGDate',
       value: function setDGDate(date) {
         app.debug('MapActions >>> setDGDate');
         this.dispatch(date);
+      }
+    }, {
+      key: 'dispatchExtent',
+      value: function dispatchExtent(extent) {
+        app.debug('MapActions >>> dispatchExtent');
+        this.dispatch(extent);
       }
     }, {
       key: 'setAnalysisDate',

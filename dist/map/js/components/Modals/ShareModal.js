@@ -136,7 +136,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
       key: 'handleFocus',
       value: function handleFocus(e) {
         setTimeout(function () {
-          e.target.select();
+          if (e.target) {
+            e.target.select();
+          }
         }, 0);
       }
     }, {

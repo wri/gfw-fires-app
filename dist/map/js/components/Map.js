@@ -1,4 +1,4 @@
-define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/AnalysisPanel/EsriSearch', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/Timeline/Timeline', 'helpers/ShareHelper', 'actions/MapActions', 'utils/params', 'js/config', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _EsriSearch, _ControlPanel, _LayerPanel, _Timeline, _ShareHelper, _MapActions, _params, _config, _react) {
+define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/AnalysisPanel/EsriSearch', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/Timeline/Timeline', 'actions/MapActions', 'utils/params', 'js/config', 'helpers/ShareHelper', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _EsriSearch, _ControlPanel, _LayerPanel, _Timeline, _MapActions, _params, _config, _ShareHelper, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -18,6 +18,8 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
   var _LayerPanel2 = _interopRequireDefault(_LayerPanel);
 
   var _Timeline2 = _interopRequireDefault(_Timeline);
+
+  var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -92,7 +94,9 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
       value: function componentDidMount() {
         var _this2 = this;
 
-        var urlParams = (0, _params.getUrlParams)(location.search);
+        var urlParams = (0, _params.getUrlParams)(window.location.hash);
+        console.log(location.search);
+        console.log(window.location.hash);
         //- Mixin the map config with the url params, make sure to create a new object and not
         //- overwrite the mapConfig, again so reset sets the state back to default and not shared,
         //- TODO: this may not be necessary, remove this if I dont neet to override params, currently I am setting them after load
@@ -100,9 +104,11 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
         _MapActions.mapActions.createMap(newMapConfig).then(function () {
           _this2.setState({ loaded: true });
           _MapActions.mapActions.createLayers();
+          _MapActions.mapActions.connectLayerEvents();
+          console.log('urlParams', urlParams);
           //- Use the helper to take the params and use actions to apply shared state, don't set these params
           //- as default state, otherwise the reset button will reset to shared state and not default state
-          (0, _ShareHelper.applyStateFromUrl)(urlParams);
+          _ShareHelper2.default.applyStateFromUrl(urlParams);
         });
       }
     }, {

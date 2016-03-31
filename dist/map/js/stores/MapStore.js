@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'actions/AnalysisActions', 'helpers/LayersHelper', 'helpers/DateHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _AnalysisActions, _LayersHelper, _DateHelper, _constants, _alt) {
+define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'actions/AnalysisActions', 'helpers/LayersHelper', 'helpers/DateHelper', 'helpers/ShareHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _AnalysisActions, _LayersHelper, _DateHelper, _ShareHelper, _constants, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,6 +9,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
   var _DateHelper2 = _interopRequireDefault(_DateHelper);
+
+  var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
 
   var _constants2 = _interopRequireDefault(_constants);
 
@@ -86,6 +88,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
+        connectLayerEvents: _MapActions.mapActions.connectLayerEvents,
         setDGDate: _MapActions.mapActions.setDGDate,
         setAnalysisDate: _MapActions.mapActions.setAnalysisDate,
         setArchiveDate: _MapActions.mapActions.setArchiveDate,
@@ -115,6 +118,21 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }
 
     _createClass(MapStore, [{
+      key: 'connectLayerEvents',
+      value: function connectLayerEvents() {
+        // Enable Mouse Events for al graphics layers
+        app.map.graphics.enableMouseEvents();
+        // Set up Click Listener to Perform Identify
+        app.map.on('click', _LayersHelper2.default.performIdentify.bind(_LayersHelper2.default));
+
+        app.map.on('extent-change', function () {
+          _ShareHelper2.default.handleHashChange();
+        });
+        app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default)); //should this be routed through actions?
+        // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+        //todo:updateAirQuality?!
+      }
+    }, {
       key: 'setCalendar',
       value: function setCalendar(calendar) {
         console.log(calendar);
@@ -294,6 +312,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           var layers = this.activeLayers.slice();
           layers.push(layerId);
           this.activeLayers = layers;
+          app.activeLayers = layers;
         }
       }
     }, {
@@ -305,6 +324,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           var layers = this.activeLayers.slice();
           layers.splice(index, 1);
           this.activeLayers = layers;
+          app.activeLayers = layers;
         }
       }
     }, {

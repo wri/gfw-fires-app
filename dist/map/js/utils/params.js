@@ -61,7 +61,7 @@ define(['exports'], function (exports) {
     if (!path) {
       return {};
     }
-    var bits = path.split('?');
+    var bits = path.split('#');
     var querystring = bits.length > 1 ? bits[1] : '';
     return toObject(querystring);
   }
