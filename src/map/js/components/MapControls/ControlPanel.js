@@ -1,4 +1,4 @@
-import {prepareStateForUrl} from 'helpers/ShareHelper';
+import ShareHelper from 'helpers/ShareHelper';
 import {modalActions} from 'actions/ModalActions';
 import {analysisActions} from 'actions/AnalysisActions';
 import {controlPanelText} from 'js/config';
@@ -52,7 +52,10 @@ export default class ControlPanel extends React.Component {
   }
 
   share () {
-    modalActions.showShareModal(prepareStateForUrl());
+    let state = mapStore.getState();
+    let activeLayers = state.activeLayers;
+    let activeBasemap = state.activeBasemap;
+    modalActions.showShareModal(ShareHelper.prepareStateForUrl({activeLayers: activeLayers, activeBasemap: activeBasemap}));
   }
 
   reset () {
@@ -118,7 +121,7 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomOutSvg }}/>
             <span className='tooltipmap top right'>{controlPanelText.zoomOutHover}</span>
           </li>
-          <li className='share-map pointer' onClick={this.share}>
+          <li className='share-map pointer' onClick={this.share.bind(this)}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
             <span className='tooltipmap middle left'>{controlPanelText.shareHover}</span>
           </li>

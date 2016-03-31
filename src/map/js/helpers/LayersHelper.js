@@ -13,22 +13,24 @@ import InfoTemplate from 'esri/InfoTemplate';
 import Graphic from 'esri/graphic';
 import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
+import ShareHelper from 'helpers/ShareHelper';
+// import {prepareStateForUrl} from 'helpers/ShareHelper';
 
 let LayersHelper = {
 
-  connectLayerEvents () {
-    app.debug('LayersHelper >>> connectLayerEvents');
-    // Enable Mouse Events for al graphics layers
-    app.map.graphics.enableMouseEvents();
-    // Set up Click Listener to Perform Identify
-    app.map.on('click', this.performIdentify.bind(this));
-
-    app.map.on('zoom-end', this.checkZoomDependentLayers.bind(this)); //should this be routed through actions?
-
-    // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
-    //todo:updateAirQuality?!
-
-  },
+  // connectLayerEvents () {
+  //   app.debug('LayersHelper >>> connectLayerEvents');
+  //   // Enable Mouse Events for al graphics layers
+  //   app.map.graphics.enableMouseEvents();
+  //   // Set up Click Listener to Perform Identify
+  //   app.map.on('click', this.performIdentify.bind(this));
+  //
+  //   app.map.on('zoom-end', this.checkZoomDependentLayers.bind(this)); //should this be routed through actions?
+  //
+  //   // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+  //   //todo:updateAirQuality?!
+  //
+  // },
 
   removeCustomFeature (feature) {
     app.map.graphics.remove(feature);
@@ -376,6 +378,7 @@ let LayersHelper = {
 
   showLayer (layerObj) {
     app.debug(`LayersHelper >>> showLayer - ${layerObj.layerId}`);
+    ShareHelper.handleHashChange();
     if (layerObj.layerId === KEYS.digitalGlobe) {
       layerActions.showFootprints.defer();
       let footprints = layerObj.footprints;
@@ -404,6 +407,7 @@ let LayersHelper = {
 
   hideLayer (layerId) {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
+    ShareHelper.handleHashChange();
     if (layerId === KEYS.digitalGlobe) {
       let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
       let bb = app.map.getLayer(KEYS.boundingBoxes);
@@ -421,6 +425,7 @@ let LayersHelper = {
 
   toggleWind(checked) {
     app.debug(`LayersHelper >>> toggleWind - ${checked}`);
+    ShareHelper.handleHashChange();
     if (checked) {
       WindHelper.activateWindLayer();
     } else {

@@ -5,6 +5,7 @@ import {mapActions} from 'actions/MapActions';
 import {analysisActions} from 'actions/AnalysisActions';
 import LayersHelper from 'helpers/LayersHelper';
 import DateHelper from 'helpers/DateHelper';
+import ShareHelper from 'helpers/ShareHelper';
 import KEYS from 'js/constants';
 import alt from 'js/alt';
 
@@ -45,6 +46,7 @@ class MapStore {
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
+      connectLayerEvents: mapActions.connectLayerEvents,
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
       setArchiveDate: mapActions.setArchiveDate,
@@ -71,6 +73,21 @@ class MapStore {
       changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
+  }
+
+  connectLayerEvents () {
+    // Enable Mouse Events for al graphics layers
+    app.map.graphics.enableMouseEvents();
+    // Set up Click Listener to Perform Identify
+    app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
+
+    app.map.on('extent-change', function(){
+      ShareHelper.handleHashChange();
+    });
+    app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper)); //should this be routed through actions?
+    // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+    //todo:updateAirQuality?!
+
   }
 
   setCalendar (calendar) {
@@ -236,6 +253,7 @@ class MapStore {
       let layers = this.activeLayers.slice();
       layers.push(layerId);
       this.activeLayers = layers;
+      app.activeLayers = layers;
     }
   }
 
@@ -246,6 +264,7 @@ class MapStore {
       let layers = this.activeLayers.slice();
       layers.splice(index, 1);
       this.activeLayers = layers;
+      app.activeLayers = layers;
     }
   }
 

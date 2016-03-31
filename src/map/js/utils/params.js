@@ -46,7 +46,7 @@ export function toQuery(json, noEncode) {
 */
 export function getUrlParams(path) {
   if (!path) { return {}; }
-  let bits = path.split('?');
+  let bits = path.split('#');
   let querystring = bits.length > 1 ? bits[1] : '';
   return toObject(querystring);
 }

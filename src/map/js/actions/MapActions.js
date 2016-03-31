@@ -2,7 +2,6 @@ import {layersConfig, errors, mapConfig} from 'js/config';
 // import {analysisActions} from 'actions/AnalysisActions';
 import WebTiledLayer from 'esri/layers/WebTiledLayer';
 import layerFactory from 'helpers/LayerFactory';
-import LayersHelper from 'helpers/LayersHelper';
 import Point from 'esri/geometry/Point';
 import Symbols from 'helpers/Symbols';
 import Deferred from 'dojo/Deferred';
@@ -51,7 +50,9 @@ class MapActions {
       var layerErrors = addedLayers.filter(layer => layer.error);
       if (layerErrors.length > 0) { console.error(layerErrors); }
       // Connect events to the layers that need them
-      LayersHelper.connectLayerEvents();
+      // LayersHelper.connectLayerEvents();
+
+      // this.connectLayerEvents
 
       //self.enableLayersFromHash();
     });
@@ -75,10 +76,19 @@ class MapActions {
       alert(errors.geolocationUnavailable);
     }
   }
+  connectLayerEvents() {
+    app.debug('MapActions >>> connectLayerEvents');
+    this.dispatch();
+  }
 
   setDGDate (date) {
     app.debug('MapActions >>> setDGDate');
     this.dispatch(date);
+  }
+
+  dispatchExtent (extent) {
+    app.debug('MapActions >>> dispatchExtent');
+    this.dispatch(extent);
   }
 
   setAnalysisDate (date) {

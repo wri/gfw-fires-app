@@ -51,6 +51,7 @@ export const config = {
     corsEnabledServers: [
       'gis-potico.wri.org'
     ],
+    initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [
       {
         date: new window.Kalendae.moment(), //('10/19/2015'),
@@ -428,7 +429,7 @@ export const config = {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires'//,
       // layerIds: [0],
       // infoTemplate: {
@@ -447,7 +448,7 @@ export const config = {
       sublabel: '(varies, global)',
       // group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [0],
       infoTemplate: {
