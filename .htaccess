@@ -1,3 +1,2 @@
 RewriteEngine on
-RewriteCond %{REQUEST_URI} !home
-RewriteRule (.*) home$1 [L]
+Redirect / /home
