@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'dojo/Deferred', 'dojo/request/xhr', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _Deferred, _xhr, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -10,6 +10,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
   var _dom2 = _interopRequireDefault(_dom);
 
   var _Loader2 = _interopRequireDefault(_Loader);
+
+  var _geometryEngine2 = _interopRequireDefault(_geometryEngine);
+
+  var _Deferred2 = _interopRequireDefault(_Deferred);
+
+  var _xhr2 = _interopRequireDefault(_xhr);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -118,6 +124,73 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             phoneErrors: false,
             isUploading: true
           });
+
+          var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
+              deferred = new _Deferred2.default(),
+              params = {
+            'msg_addr': _this.state.email,
+            'msg_type': 'email',
+            'area_name': _this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+          },
+              res;
+
+          // Simplify the geometry and then add a stringified and simpler version of it to params.features
+          var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
+          params.features = JSON.stringify({
+            'rings': simplifiedGeometry.rings,
+            'spatialReference': simplifiedGeometry.spatialReference
+          });
+
+          var success = function success() {
+            alert("succcesss");
+          };
+          var error = function error() {
+            alert("error");
+          };
+
+          $.ajax({
+            type: 'POST',
+            url: subscribeUrl,
+            data: params,
+            error: error,
+            success: success,
+            dataType: 'json'
+          });
+
+          // let postRequest = $.post(subscribeUrl, params, function( data ) {
+          //   console.log(data);
+          //   alert( 'success' );
+          // })
+          //   .fail(function() {
+          //     alert( 'error' );
+          //   })
+          //   .always(function() {
+          //     this.setState({
+          //       isUploading: false
+          //     });
+          //   });
+
+          // xhr(subscribeUrl, {
+          //   handleAs: 'json',
+          //   method: 'POST',
+          //   data: params
+          // }).then(function() {
+          //   this.setState({
+          //     isUploading: false
+          //   });
+          //   alert('success');
+          //
+          //   deferred.resolve(true);
+          //
+          // }, function(err) {
+          // this.setState({
+          //   isUploading: false
+          // });
+          //   alert('There was an error subsrcribing at this time. ' + err.message);
+          //   deferred.resolve(false);
+          // });
+
+          // return deferred.promise;
 
           // todo: submit the request, and on success or failure, hide the loader
         }

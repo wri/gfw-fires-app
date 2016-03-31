@@ -4,6 +4,9 @@ import dom from 'dojo/dom';
 import {mapStore} from 'stores/MapStore';
 import {modalActions} from 'actions/ModalActions';
 import Loader from 'components/Loader';
+import geometryEngine from 'esri/geometry/geometryEngine';
+import Deferred from 'dojo/Deferred';
+import xhr from 'dojo/request/xhr';
 // import {loadJS} from 'utils/loaders';
 import React from 'react';
 
@@ -88,6 +91,74 @@ export default class SubscriptionModal extends React.Component {
         phoneErrors: false,
         isUploading: true
       });
+
+      var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
+        deferred = new Deferred(),
+        params = {
+          'msg_addr': this.state.email,
+          'msg_type': 'email',
+          'area_name': this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+        },
+        res;
+
+      // Simplify the geometry and then add a stringified and simpler version of it to params.features
+      let simplifiedGeometry = geometryEngine.simplify(this.state.currentCustomGraphic.geometry);
+      params.features = JSON.stringify({
+          'rings': simplifiedGeometry.rings,
+          'spatialReference': simplifiedGeometry.spatialReference
+      });
+
+      let success = function () {
+        alert("succcesss")
+      }
+      let error = function () {
+        alert("error")
+      }
+
+
+      $.ajax({
+        type: 'POST',
+        url: subscribeUrl,
+        data: params,
+        error: error,
+        success: success,
+        dataType: 'json'
+      });
+
+      // let postRequest = $.post(subscribeUrl, params, function( data ) {
+      //   console.log(data);
+      //   alert( 'success' );
+      // })
+      //   .fail(function() {
+      //     alert( 'error' );
+      //   })
+      //   .always(function() {
+      //     this.setState({
+      //       isUploading: false
+      //     });
+      //   });
+
+      // xhr(subscribeUrl, {
+      //   handleAs: 'json',
+      //   method: 'POST',
+      //   data: params
+      // }).then(function() {
+      //   this.setState({
+      //     isUploading: false
+      //   });
+      //   alert('success');
+      //
+      //   deferred.resolve(true);
+      //
+      // }, function(err) {
+        // this.setState({
+        //   isUploading: false
+        // });
+      //   alert('There was an error subsrcribing at this time. ' + err.message);
+      //   deferred.resolve(false);
+      // });
+
+      // return deferred.promise;
 
 
       // todo: submit the request, and on success or failure, hide the loader
