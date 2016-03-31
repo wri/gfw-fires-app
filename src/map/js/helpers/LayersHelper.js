@@ -22,13 +22,10 @@ let LayersHelper = {
     app.map.graphics.enableMouseEvents();
     // Set up Click Listener to Perform Identify
     app.map.on('click', this.performIdentify.bind(this));
-    // app.map.on('zoom-end', function () {
-    //   console.log('oo');
-    // });
 
     app.map.on('zoom-end', this.checkZoomDependentLayers.bind(this)); //should this be routed through actions?
 
-    this.updateFireRisk(defaults.riskTempEnd); //defaults.riskStartDate
+    // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
     //todo:updateAirQuality?!
 
   },
@@ -46,6 +43,7 @@ let LayersHelper = {
       helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
 
     if (mainLayer === undefined || helperLayer === undefined) {
+      console.log('No protected Areas');
       // Error Loading Layers and they do not work
       return;
     }
@@ -53,15 +51,12 @@ let LayersHelper = {
     if (!mainLayer.visible && !helperLayer.visible) {
       return;
     }
-    console.log(mainLayer)
-    console.log(helperLayer)
 
     if (app.map.getLevel() > level) {
-      console.log('helperLayer')
       helperLayer.show();
       mainLayer.hide();
     } else {
-      console.log('mainLayer')
+
       helperLayer.hide();
       mainLayer.show();
     }
@@ -372,7 +367,6 @@ let LayersHelper = {
   },
 
   changeOpacity (parameters) {
-    console.log(parameters)
     let layer = app.map.getLayer(parameters.layerId);
     if ( layer ) {
       // TODO:  check that value is >= 0 and <= 1.
@@ -554,7 +548,6 @@ let LayersHelper = {
           defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
         }
       });
-      console.log(defs[0])
       firesLayer.setLayerDefinitions(defs);
     }
   },
@@ -577,7 +570,6 @@ let LayersHelper = {
         defQuery = string;
       }
 
-      console.log(defQuery);
       let layerDefs = [];
       layerDefs[0] = defQuery;
 
@@ -606,7 +598,6 @@ let LayersHelper = {
         defQuery = string;
       }
 
-      console.log(defQuery);
       let layerDefs = [];
       layerDefs[0] = defQuery;
 
@@ -627,7 +618,7 @@ let LayersHelper = {
       let defQuery = "Date >= date'" + startDate + "' AND Date <= date'" + endDate + "'";
       let layerDefs = [];
       layerDefs[9] = defQuery;
-      console.log(defQuery);
+
       noaaLayer.setLayerDefinitions(layerDefs);
     }
 
@@ -642,7 +633,7 @@ let LayersHelper = {
     // let queryString = utils.generateImageryQuery(clauseArray);
 
     let dgGraphics = clauseArray[2];
-    console.log(dgGraphics.length);
+
     let startDate = new Date(clauseArray[0]);
     let endDate = new Date(clauseArray[1]);
 
@@ -663,7 +654,6 @@ let LayersHelper = {
     dgGraphicsLayer.clear();
     dgGraphicsLayer.graphics = newGraphics;
 
-    console.log(dgGraphicsLayer.graphics.length);
     dgGraphicsLayer.redraw();
 
   },
@@ -721,7 +711,6 @@ let LayersHelper = {
 
     let defQuery = year.toString() + julian + '_IDN_FireRisk';
 
-    console.log("Name = '" + defQuery + "'");
     let riskLayer = app.map.getLayer(KEYS.fireRisk);
 
     if (riskLayer) {
@@ -747,13 +736,11 @@ let LayersHelper = {
   },
 
   updateWindDate (dayValue) {
-    console.log(dayValue);
 
     let dateArray = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
     let reportdates = dateArray.split('/');
     let datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
-    console.log(datesFormatted);
     let updatedURL = 'http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' + datesFormatted + '00' + '.1-0.gz.json';
     WindHelper.deactivateWindLayer();
     WindHelper.activateWindLayer(updatedURL);
