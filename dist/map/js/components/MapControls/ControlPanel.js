@@ -121,7 +121,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
         var state = _MapStore.mapStore.getState();
         var activeLayers = state.activeLayers;
         var activeBasemap = state.activeBasemap;
-        _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl({ activeLayers: activeLayers, activeBasemap: activeBasemap }));
+        _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl());
       }
     }, {
       key: 'reset',

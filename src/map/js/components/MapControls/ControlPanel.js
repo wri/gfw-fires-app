@@ -55,7 +55,8 @@ export default class ControlPanel extends React.Component {
     let state = mapStore.getState();
     let activeLayers = state.activeLayers;
     let activeBasemap = state.activeBasemap;
-    modalActions.showShareModal(ShareHelper.prepareStateForUrl({activeLayers: activeLayers, activeBasemap: activeBasemap}));
+    modalActions.showShareModal(ShareHelper.prepareStateForUrl());
+
   }
 
   reset () {
