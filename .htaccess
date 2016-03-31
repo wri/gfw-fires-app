@@ -1,3 +1,2 @@
 RewriteEngine on
-Redirect /index.html /home
-Redirect /index.php /home
+DirectoryIndex home/index.html
