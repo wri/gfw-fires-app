@@ -1,4 +1,4 @@
-define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _Map, _config2, _urlUtils, _reactDom, _react) {
+define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
   'use strict';
 
   var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
@@ -33,14 +33,13 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     };
   }
 
-  //import AlertsModal from 'components/Modals/AlertsModal';
-
-
   if (!_babelPolyfill2.default) {
     console.log('Missing Babel Polyfill.  May experience some weirdness in IE < 9.');
   }
 
   // Shim for rAF with timeout for callback
+
+  //import AlertsModal from 'components/Modals/AlertsModal';
   window.requestAnimationFrame = function () {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (callback) {
       window.setTimeout(callback, 1000 / 60);
@@ -63,6 +62,14 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     });
   };
 
+  var lazyloadAssets = function lazyloadAssets() {
+    // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
+    // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
+    (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
+    // loadCSS(`./css/map.css?${window.version}`);
+    (0, _loaders.loadCSS)('http://js.arcgis.com/3.15/esri/css/esri.css');
+  };
+
   var initializeApp = function initializeApp() {
     app.debug('main >>> initializeApp');
     _reactDom2.default.render(_react2.default.createElement(_Map2.default, null), document.getElementById('root'));
@@ -77,5 +84,6 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   };
 
   configureApp();
+  lazyloadAssets();
   initializeApp();
 });

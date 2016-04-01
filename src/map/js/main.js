@@ -8,6 +8,7 @@ import FiresModal from 'components/Modals/FiresModal';
 import ShareModal from 'components/Modals/ShareModal';
 //import AlertsModal from 'components/Modals/AlertsModal';
 import {defaults} from 'js/config';
+import {loadJS, loadCSS } from 'utils/loaders';
 import Map from 'components/Map';
 import esriConfig from 'esri/config';
 import urlUtils from 'esri/urlUtils';
@@ -41,6 +42,14 @@ let configureApp = () => {
 
 };
 
+let lazyloadAssets = () => {
+  // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
+  // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
+  loadCSS(`../vendors/kalendae/build/kalendae.css`);
+  // loadCSS(`./css/map.css?${window.version}`);
+  loadCSS(`http://js.arcgis.com/3.15/esri/css/esri.css`);
+ };
+
 let initializeApp = () => {
   app.debug('main >>> initializeApp');
   ReactDOM.render(<Map />, document.getElementById('root'));
@@ -55,4 +64,5 @@ let initializeApp = () => {
 };
 
 configureApp();
+lazyloadAssets();
 initializeApp();
