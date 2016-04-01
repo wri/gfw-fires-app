@@ -129,7 +129,7 @@ export default class SubscriptionModal extends React.Component {
 
 
       $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: subscribeUrl,
         data: params,
         error: error,

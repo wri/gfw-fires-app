@@ -165,7 +165,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           }.bind(_this);
 
           $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: subscribeUrl,
             data: params,
             error: error,
