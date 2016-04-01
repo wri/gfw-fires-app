@@ -384,13 +384,13 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     showLayer: function showLayer(layerObj) {
       app.debug('LayersHelper >>> showLayer - ' + layerObj.layerId);
-      _ShareHelper2.default.handleHashChange();
       if (layerObj.layerId === _constants2.default.digitalGlobe) {
         _LayerActions.layerActions.showFootprints.defer();
         var footprints = layerObj.footprints;
         if (footprints) {
           var footprintsLayer = app.map.getLayer(_constants2.default.boundingBoxes);
           footprintsLayer.show();
+          _ShareHelper2.default.handleHashChange();
           return;
         } else {
           _request2.default.getBoundingBoxes().then(function (item) {
@@ -403,6 +403,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               _LayerActions.layerActions.setFootprints(tempGraphics);
             }
           });
+          _ShareHelper2.default.handleHashChange();
           return;
         }
       }
@@ -410,10 +411,11 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (layer) {
         layer.show();
       }
+      _ShareHelper2.default.handleHashChange();
     },
     hideLayer: function hideLayer(layerId) {
       app.debug('LayersHelper >>> hideLayer - ' + layerId);
-      _ShareHelper2.default.handleHashChange();
+
       if (layerId === _constants2.default.digitalGlobe) {
         var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.digitalGlobe);
         var bb = app.map.getLayer(_constants2.default.boundingBoxes);
@@ -427,21 +429,24 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             sub.hide();
           }
         });
+        _ShareHelper2.default.handleHashChange();
         return;
       }
       var layer = app.map.getLayer(layerId);
       if (layer) {
         layer.hide();
       }
+      _ShareHelper2.default.handleHashChange();
     },
     toggleWind: function toggleWind(checked) {
       app.debug('LayersHelper >>> toggleWind - ' + checked);
-      _ShareHelper2.default.handleHashChange();
+
       if (checked) {
         _WindHelper2.default.activateWindLayer();
       } else {
         _WindHelper2.default.deactivateWindLayer();
       }
+      _ShareHelper2.default.handleHashChange();
     },
     getFirePopupContent: function getFirePopupContent(item) {
       app.debug('LayersHelper >>> getFirePopupContent');

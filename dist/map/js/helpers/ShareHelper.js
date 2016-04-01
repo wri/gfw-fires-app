@@ -40,11 +40,18 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
   var ShareHelper = {
     prepareStateForUrl: function prepareStateForUrl(basemap) {
       app.debug('ShareHelper >>> prepareStateForUrl');
-      // let {activeLayers, activeBasemap} = mapStore.getState();
-      // let {activeLayers, activeBasemap} = configObj;
-      var shareObject = {};
+      var shareObject = {},
+          activeLayers = [];
 
-      var activeLayers = app && app.activeLayers ? app.activeLayers : [];
+      _config.layersConfig.forEach(function (l) {
+        if (!l.disabled) {
+          var mapLayer = app.map.getLayer(l.id);
+          if (mapLayer && mapLayer.visible) {
+            activeLayers.push(l.id);
+          }
+        }
+      });
+
       var activeBasemap = app.map.getBasemap();
       if (basemap) {
         activeBasemap = basemap;
@@ -52,15 +59,11 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
 
       var shareParams = {};
 
-      // if (app.activeLayers) {
       if (activeLayers.length > 0) {
         shareObject.activeLayers = activeLayers.join(',');
       }
 
-      //- If the active basemap is not equal to the default, include it
-      // if (activeBasemap !== KEYS.wriBasemap) {
       shareObject.activeBasemap = activeBasemap;
-      // }
 
       //- Set X, Y, and Zoom
       var centerPoint = app.map.extent.getCenter();
@@ -68,8 +71,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       shareObject.y = Math.round(centerPoint.getLatitude());
       shareObject.z = app.map.getLevel();
       shareParams = shareObject;
-      // }
-      // debugger
+
       return params.toQuery(shareParams);
     },
     applyStateFromUrl: function applyStateFromUrl(state) {
@@ -81,30 +83,30 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var y = state.y;
       var z = state.z;
 
-      if (!activeBasemap) {
-        var initialState = void 0,
-            hasHash = void 0;
-
-        var url = window.location.href;
-
-        if (url.split && url.split('#')) {
-          hasHash = url.split('#').length === 2 && url.split('#')[1].length > 1;
-        }
-
-        var inithash = _config.defaults.initialHash;
-
-        if (hasHash & url) {
-          initialState = _ioQuery2.default.queryToObject(url.split('#')[1]);
-        } else {
-          initialState = _ioQuery2.default.queryToObject(inithash.split('#')[1]);
-        }
-
-        activeLayers = initialState.activeLayers;
-        activeBasemap = initialState.activeBasemap;
-        x = initialState.x;
-        y = initialState.y;
-        z = initialState.z;
-      }
+      // if (!activeBasemap) {
+      //   let initialState, hasHash;
+      //
+      //   let url = window.location.href;
+      //   // debugger
+      //   if (url.split && url.split('#')) {
+      //     hasHash = (url.split('#').length === 2 && url.split('#')[1].length > 1);
+      //   }
+      //
+      //   let inithash = defaults.initialHash;
+      //
+      //   // if (hasHash & url) {
+      //   //   initialState = ioQuery.queryToObject(url.split('#')[1]);
+      //   // } else {
+      //     initialState = ioQuery.queryToObject(inithash.split('#')[1]);
+      //   // }
+      //
+      //   activeLayers = initialState.activeLayers;
+      //   activeBasemap = initialState.activeBasemap;
+      //   x = initialState.x;
+      //   y = initialState.y;
+      //   z = initialState.z;
+      //
+      // }
 
       if (activeLayers) {
         var layerIds = activeLayers.split(',');
@@ -126,6 +128,13 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
         app.map.centerAndZoom([x, y], z);
       }
     },
+    applyInitialState: function applyInitialState() {
+      app.debug('ShareHelper >>> applyInitialState');
+      var url = this.prepareStateForUrl();
+      console.log(url);
+
+      (0, _hash2.default)(url);
+    },
     handleHashChange: function handleHashChange(basemap) {
       app.debug('ShareHelper >>> handleHashChange');
       var url = this.prepareStateForUrl(basemap);
@@ -134,7 +143,5 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       (0, _hash2.default)(url);
     }
   };
-  // import {mapStore} from 'stores/MapStore';
-
   exports.default = ShareHelper;
 });

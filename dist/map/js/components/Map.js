@@ -105,7 +105,11 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
           _MapActions.mapActions.connectLayerEvents();
           //- Use the helper to take the params and use actions to apply shared state, don't set these params
           //- as default state, otherwise the reset button will reset to shared state and not default state
-          _ShareHelper2.default.applyStateFromUrl(urlParams);
+          if (urlParams.activeBasemap) {
+            _ShareHelper2.default.applyStateFromUrl(urlParams);
+          } else {
+            _ShareHelper2.default.applyInitialState();
+          }
         });
       }
     }, {

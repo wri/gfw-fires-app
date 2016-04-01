@@ -378,13 +378,13 @@ let LayersHelper = {
 
   showLayer (layerObj) {
     app.debug(`LayersHelper >>> showLayer - ${layerObj.layerId}`);
-    ShareHelper.handleHashChange();
     if (layerObj.layerId === KEYS.digitalGlobe) {
       layerActions.showFootprints.defer();
       let footprints = layerObj.footprints;
       if (footprints) {
         let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
         footprintsLayer.show();
+        ShareHelper.handleHashChange();
         return;
       } else {
         Request.getBoundingBoxes().then(item => {
@@ -397,17 +397,19 @@ let LayersHelper = {
             layerActions.setFootprints(tempGraphics);
           }
         });
+        ShareHelper.handleHashChange();
         return;
       }
 
     }
     let layer = app.map.getLayer(layerObj.layerId);
     if (layer) { layer.show(); }
+    ShareHelper.handleHashChange();
   },
 
   hideLayer (layerId) {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
-    ShareHelper.handleHashChange();
+
     if (layerId === KEYS.digitalGlobe) {
       let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
       let bb = app.map.getLayer(KEYS.boundingBoxes);
@@ -417,21 +419,23 @@ let LayersHelper = {
         let sub = app.map.getLayer(subLayer);
         if (sub) { sub.hide(); }
       });
+      ShareHelper.handleHashChange();
       return;
     }
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
+    ShareHelper.handleHashChange();
   },
 
   toggleWind(checked) {
     app.debug(`LayersHelper >>> toggleWind - ${checked}`);
-    ShareHelper.handleHashChange();
+
     if (checked) {
       WindHelper.activateWindLayer();
     } else {
       WindHelper.deactivateWindLayer();
     }
-
+    ShareHelper.handleHashChange();
   },
 
   getFirePopupContent(item) {

@@ -1,7 +1,6 @@
 import {layerActions} from 'actions/LayerActions';
 import {mapActions} from 'actions/MapActions';
-// import {mapStore} from 'stores/MapStore';
-import {defaults} from 'js/config';
+import {defaults, layersConfig} from 'js/config';
 import * as params from 'utils/params';
 import KEYS from 'js/constants';
 import ioQuery from 'dojo/io-query';
@@ -12,11 +11,17 @@ const ShareHelper = {
 
   prepareStateForUrl (basemap) {
     app.debug('ShareHelper >>> prepareStateForUrl');
-    // let {activeLayers, activeBasemap} = mapStore.getState();
-    // let {activeLayers, activeBasemap} = configObj;
-    let shareObject = {};
+    let shareObject = {}, activeLayers = [];
 
-    let activeLayers = app && app.activeLayers ? app.activeLayers : [];
+    layersConfig.forEach((l) => {
+      if (!l.disabled) {
+        let mapLayer = app.map.getLayer(l.id);
+        if (mapLayer && mapLayer.visible) {
+          activeLayers.push(l.id);
+        }
+      }
+    });
+
     let activeBasemap = app.map.getBasemap();
     if (basemap) {
       activeBasemap = basemap;
@@ -24,24 +29,19 @@ const ShareHelper = {
 
     let shareParams = {};
 
-    // if (app.activeLayers) {
-      if (activeLayers.length > 0) {
-        shareObject.activeLayers = activeLayers.join(',');
-      }
+    if (activeLayers.length > 0) {
+      shareObject.activeLayers = activeLayers.join(',');
+    }
 
-      //- If the active basemap is not equal to the default, include it
-      // if (activeBasemap !== KEYS.wriBasemap) {
-        shareObject.activeBasemap = activeBasemap;
-      // }
+    shareObject.activeBasemap = activeBasemap;
 
-      //- Set X, Y, and Zoom
-      let centerPoint = app.map.extent.getCenter();
-      shareObject.x = Math.round(centerPoint.getLongitude());
-      shareObject.y = Math.round(centerPoint.getLatitude());
-      shareObject.z = app.map.getLevel();
-      shareParams = shareObject;
-    // }
-    // debugger
+    //- Set X, Y, and Zoom
+    let centerPoint = app.map.extent.getCenter();
+    shareObject.x = Math.round(centerPoint.getLongitude());
+    shareObject.y = Math.round(centerPoint.getLatitude());
+    shareObject.z = app.map.getLevel();
+    shareParams = shareObject;
+
     return params.toQuery(shareParams);
   },
 
@@ -54,30 +54,30 @@ const ShareHelper = {
     let y = state.y;
     let z = state.z;
 
-    if (!activeBasemap) {
-      let initialState, hasHash;
-
-      let url = window.location.href;
-
-      if (url.split && url.split('#')) {
-        hasHash = (url.split('#').length === 2 && url.split('#')[1].length > 1);
-      }
-
-      let inithash = defaults.initialHash;
-
-      if (hasHash & url) {
-        initialState = ioQuery.queryToObject(url.split('#')[1]);
-      } else {
-        initialState = ioQuery.queryToObject(inithash.split('#')[1]);
-      }
-
-      activeLayers = initialState.activeLayers;
-      activeBasemap = initialState.activeBasemap;
-      x = initialState.x;
-      y = initialState.y;
-      z = initialState.z;
-
-    }
+    // if (!activeBasemap) {
+    //   let initialState, hasHash;
+    //
+    //   let url = window.location.href;
+    //   // debugger
+    //   if (url.split && url.split('#')) {
+    //     hasHash = (url.split('#').length === 2 && url.split('#')[1].length > 1);
+    //   }
+    //
+    //   let inithash = defaults.initialHash;
+    //
+    //   // if (hasHash & url) {
+    //   //   initialState = ioQuery.queryToObject(url.split('#')[1]);
+    //   // } else {
+    //     initialState = ioQuery.queryToObject(inithash.split('#')[1]);
+    //   // }
+    //
+    //   activeLayers = initialState.activeLayers;
+    //   activeBasemap = initialState.activeBasemap;
+    //   x = initialState.x;
+    //   y = initialState.y;
+    //   z = initialState.z;
+    //
+    // }
 
     if (activeLayers) {
       let layerIds = activeLayers.split(',');
@@ -98,6 +98,14 @@ const ShareHelper = {
     if (app.map.loaded && (x && y && z)) {
       app.map.centerAndZoom([x, y], z);
     }
+  },
+
+  applyInitialState () {
+    app.debug('ShareHelper >>> applyInitialState');
+    let url = this.prepareStateForUrl();
+    console.log(url);
+
+    hash(url);
   },
 
   handleHashChange (basemap) {

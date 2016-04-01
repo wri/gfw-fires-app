@@ -31,7 +31,11 @@ export default class Map extends React.Component {
       mapActions.connectLayerEvents();
       //- Use the helper to take the params and use actions to apply shared state, don't set these params
       //- as default state, otherwise the reset button will reset to shared state and not default state
-      ShareHelper.applyStateFromUrl(urlParams);
+      if (urlParams.activeBasemap) {
+        ShareHelper.applyStateFromUrl(urlParams);
+      } else {
+        ShareHelper.applyInitialState();
+      }
     });
   }
 
