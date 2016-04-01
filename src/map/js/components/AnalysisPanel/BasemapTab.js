@@ -54,7 +54,7 @@ export default class BasemapTab extends React.Component {
     return (
       <div className={className}>
         <div>
-          <div className='shadow open'>
+          <div className='basemap-holder shadow open'>
             <div data-basemap={KEYS.darkGrayBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
               <span className='basemap-label'>{controlPanelText.darkGrayBasemap}</span>
