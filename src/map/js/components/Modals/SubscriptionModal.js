@@ -93,13 +93,12 @@ export default class SubscriptionModal extends React.Component {
       });
 
       var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
-        deferred = new Deferred(),
+        // deferred = new Deferred(),
         params = {
           'msg_addr': this.state.email,
           'msg_type': 'email',
           'area_name': this.state.currentCustomGraphic.attributes.ALERTS_LABEL
-        },
-        res;
+        };
 
       // Simplify the geometry and then add a stringified and simpler version of it to params.features
       let simplifiedGeometry = geometryEngine.simplify(this.state.currentCustomGraphic.geometry);
@@ -109,15 +108,28 @@ export default class SubscriptionModal extends React.Component {
       });
 
       let success = function () {
-        alert("succcesss")
-      }
+        // alert('succcesss');
+        setTimeout( () => {
+          this.close();
+          this.setState({
+            isUploading: false
+          });
+        }, 500);
+      }.bind(this);
       let error = function () {
-        alert("error")
-      }
+        // alert('error');
+        setTimeout( () => {
+          this.close();
+          this.setState({
+            isUploading: false
+          });
+        }, 1000);
+
+      }.bind(this);
 
 
       $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: subscribeUrl,
         data: params,
         error: error,

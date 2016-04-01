@@ -126,13 +126,13 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           });
 
           var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
-              deferred = new _Deferred2.default(),
-              params = {
+
+          // deferred = new Deferred(),
+          params = {
             'msg_addr': _this.state.email,
             'msg_type': 'email',
             'area_name': _this.state.currentCustomGraphic.attributes.ALERTS_LABEL
-          },
-              res;
+          };
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
           var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
@@ -141,15 +141,31 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             'spatialReference': simplifiedGeometry.spatialReference
           });
 
-          var success = function success() {
-            alert("succcesss");
-          };
-          var error = function error() {
-            alert("error");
-          };
+          var success = function () {
+            var _this2 = this;
+
+            // alert('succcesss');
+            setTimeout(function () {
+              _this2.close();
+              _this2.setState({
+                isUploading: false
+              });
+            }, 500);
+          }.bind(_this);
+          var error = function () {
+            var _this3 = this;
+
+            // alert('error');
+            setTimeout(function () {
+              _this3.close();
+              _this3.setState({
+                isUploading: false
+              });
+            }, 1000);
+          }.bind(_this);
 
           $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: subscribeUrl,
             data: params,
             error: error,
