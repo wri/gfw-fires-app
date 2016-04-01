@@ -205,20 +205,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
     */
     layers: [{
-      id: _constants2.default.activeFires,
-      order: 10,
-      type: 'dynamic',
-      label: 'FIRMS active Fires',
-      group: 'fires',
-      visible: true,
-      layerIds: [0, 1, 2, 3],
-      className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
-      metadataId: 'firms_active_fires',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
-    }, {
       id: _constants2.default.viirsFires,
       order: 10,
       type: 'dynamic',
@@ -227,6 +213,20 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [3],
       className: 'viirs-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.activeFires,
+      order: 10,
+      type: 'dynamic',
+      label: 'MODIS active Fires',
+      group: 'fires',
+      visible: true,
+      layerIds: [0, 1, 2, 3],
+      className: 'active-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -280,7 +280,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.burnScars,
       order: 10,
       type: 'dynamic',
-      label: 'Active fires and burn scars',
+      label: 'Crowdsourced fires and burns scars',
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
@@ -598,7 +598,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${Text}</td></tr>' + '<tr><td class="field-name">UserName: </td><td class="field-value">${UserName}</td></tr>' + '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
+        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${Text}</td></tr>' + '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' + '<tr><td class="field-name">UserName: </td><td class="field-value">${UserName}</td></tr>' + '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
       }
     }],
 

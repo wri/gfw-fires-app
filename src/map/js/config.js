@@ -209,15 +209,14 @@ export const config = {
   */
   layers: [
     {
-      id: KEYS.activeFires,
+      id: KEYS.viirsFires,
       order: 10,
       type: 'dynamic',
-      label: 'FIRMS active Fires',
+      label: 'VIIRS active fires',
       group: 'fires',
-      visible: true,
-      layerIds: [0, 1, 2, 3],
-      className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
+      layerIds: [3],
+      className: 'viirs-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -229,14 +228,15 @@ export const config = {
       }
     },
     {
-      id: KEYS.viirsFires,
+      id: KEYS.activeFires,
       order: 10,
       type: 'dynamic',
-      label: 'VIIRS active fires',
+      label: 'MODIS active Fires',
       group: 'fires',
-      layerIds: [3],
-      className: 'viirs-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      visible: true,
+      layerIds: [0, 1, 2, 3],
+      className: 'active-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -301,7 +301,7 @@ export const config = {
       id: KEYS.burnScars,
       order: 10,
       type: 'dynamic',
-      label: 'Active fires and burn scars',
+      label: 'Crowdsourced fires and burns scars',
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
@@ -676,6 +676,7 @@ export const config = {
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${Text}</td></tr>' +
+        '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' +
         '<tr><td class="field-name">UserName: </td><td class="field-value">${UserName}</td></tr>' +
         '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
       }
