@@ -639,6 +639,8 @@ let LayersHelper = {
 
     let dgGraphics = clauseArray[2];
 
+    clauseArray[1] = new window.Kalendae.moment(clauseArray[1]).add(1, 'day').format('M/D/YYYY');
+
     let startDate = new Date(clauseArray[0]);
     let endDate = new Date(clauseArray[1]);
 
@@ -647,7 +649,7 @@ let LayersHelper = {
 
     for (let i = 0; i < dgGraphics.length; i++) {
       let tempDate = new Date(dgGraphics[i].attributes.AcquisitionDate);
-      if (startDate < tempDate && tempDate < endDate) {//} && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
+      if (startDate <= tempDate && tempDate <= endDate) {//} && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
         // let newGraphic = new Graphic(dgGraphics[i].geometry, dgGraphics[i].symbol, dgGraphics[i].attributes);
         newGraphics.push(dgGraphics[i]);
         // newGraphics.push(newGraphic);
