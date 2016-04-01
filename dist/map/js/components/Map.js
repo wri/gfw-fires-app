@@ -95,8 +95,6 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
         var _this2 = this;
 
         var urlParams = (0, _params.getUrlParams)(window.location.hash);
-        console.log(location.search);
-        console.log(window.location.hash);
         //- Mixin the map config with the url params, make sure to create a new object and not
         //- overwrite the mapConfig, again so reset sets the state back to default and not shared,
         //- TODO: this may not be necessary, remove this if I dont neet to override params, currently I am setting them after load
@@ -105,7 +103,6 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
           _this2.setState({ loaded: true });
           _MapActions.mapActions.createLayers();
           _MapActions.mapActions.connectLayerEvents();
-          console.log('urlParams', urlParams);
           //- Use the helper to take the params and use actions to apply shared state, don't set these params
           //- as default state, otherwise the reset button will reset to shared state and not default state
           _ShareHelper2.default.applyStateFromUrl(urlParams);

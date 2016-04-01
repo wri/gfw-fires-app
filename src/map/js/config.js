@@ -209,14 +209,15 @@ export const config = {
   */
   layers: [
     {
-      id: KEYS.viirsFires,
-      order: 10,
+      id: KEYS.activeFires,
+      order: 11,
       type: 'dynamic',
-      label: 'VIIRS active fires',
+      label: 'MODIS active Fires',
       group: 'fires',
-      layerIds: [3],
-      className: 'viirs-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      visible: true,
+      layerIds: [0, 1, 2, 3],
+      className: 'active-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -228,16 +229,15 @@ export const config = {
       }
     },
     {
-      id: KEYS.activeFires,
+      id: KEYS.viirsFires,
       order: 10,
       type: 'dynamic',
-      label: 'MODIS active Fires',
+      label: 'VIIRS active fires',
       group: 'fires',
-      visible: true,
-      layerIds: [0, 1, 2, 3],
-      className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
-      metadataId: 'firms_active_fires',
+      layerIds: [3],
+      className: 'viirs-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
           '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
@@ -902,6 +902,7 @@ export const config = {
       'fireRisk': 'fire_risk',
       'forest-change-forma-alerts': 'forma',
       'activeFires': 'firms_active_fires',
+      'viirsFires': 'viirs_fires',
       'airQuality': 'air_quality',
       'treeCoverDensity': 'tree_cover',
       'forest-and-land-cover-intact-forest-landscape': 'intact_forest_landscapes_change',

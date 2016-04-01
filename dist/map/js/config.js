@@ -205,21 +205,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
     */
     layers: [{
-      id: _constants2.default.viirsFires,
-      order: 10,
-      type: 'dynamic',
-      label: 'VIIRS active fires',
-      group: 'fires',
-      layerIds: [3],
-      className: 'viirs-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
-      metadataId: 'firms_active_fires',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
-    }, {
       id: _constants2.default.activeFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',
@@ -228,6 +215,19 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'active-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.viirsFires,
+      order: 10,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires',
+      layerIds: [3],
+      className: 'viirs-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -805,6 +805,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'fireRisk': 'fire_risk',
         'forest-change-forma-alerts': 'forma',
         'activeFires': 'firms_active_fires',
+        'viirsFires': 'viirs_fires',
         'airQuality': 'air_quality',
         'treeCoverDensity': 'tree_cover',
         'forest-and-land-cover-intact-forest-landscape': 'intact_forest_landscapes_change',
