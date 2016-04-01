@@ -616,6 +616,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var dgGraphics = clauseArray[2];
 
+      clauseArray[1] = new window.Kalendae.moment(clauseArray[1]).add(1, 'day').format('M/D/YYYY');
+
       var startDate = new Date(clauseArray[0]);
       var endDate = new Date(clauseArray[1]);
 
@@ -624,7 +626,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       for (var i = 0; i < dgGraphics.length; i++) {
         var tempDate = new Date(dgGraphics[i].attributes.AcquisitionDate);
-        if (startDate < tempDate && tempDate < endDate) {
+        if (startDate <= tempDate && tempDate <= endDate) {
           //} && ids.indexOf(dgGraphics[i].attributes.OBJECTID) === -1) {
           // let newGraphic = new Graphic(dgGraphics[i].geometry, dgGraphics[i].symbol, dgGraphics[i].attributes);
           newGraphics.push(dgGraphics[i]);

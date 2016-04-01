@@ -181,7 +181,9 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
           toolbar.on('draw-end', function (evt) {
             toolbar.deactivate();
             _this2.setState({ drawButtonActive: false });
-            _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
+            if (app.mobile() === false) {
+              _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
+            }
             var graphic = _geometryUtils2.default.generateDrawnPolygon(evt.geometry);
             graphic.attributes.Layer = 'custom';
             graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;

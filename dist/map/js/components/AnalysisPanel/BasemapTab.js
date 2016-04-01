@@ -123,7 +123,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
             null,
             _react2.default.createElement(
               'div',
-              { className: 'shadow open' },
+              { className: 'basemap-holder shadow open' },
               _react2.default.createElement(
                 'div',
                 { 'data-basemap': _constants2.default.darkGrayBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : ''), onClick: this.clickedBasemap },
