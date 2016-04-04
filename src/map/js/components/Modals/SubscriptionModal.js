@@ -110,6 +110,18 @@ export default class SubscriptionModal extends React.Component {
           'spatialReference': sr //simplifiedGeometry.spatialReference
       });
 
+      let params2 = {
+        'msg_addr': this.state.email,
+        'msg_type': 'email',
+        'area_name': this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+      };
+
+      params2.features = JSON.stringify({
+          'rings': this.state.currentCustomGraphic.geometry.rings,
+          'spatialReference': sr //simplifiedGeometry.spatialReference
+      });
+
+
       let success = function () {
         // alert('succcesss');
         setTimeout( () => {
@@ -129,6 +141,24 @@ export default class SubscriptionModal extends React.Component {
         }, 1000);
 
       }.bind(this);
+
+      $.ajax({
+        type: 'POST',
+        url: subscribeUrl,
+        data: params2,
+        error: error,
+        success: success,
+        dataType: 'jsonp'
+      });
+
+      $.ajax({
+        type: 'POST',
+        url: subscribeUrl,
+        data: params2,
+        error: error,
+        success: success,
+        dataType: 'json'
+      });
 
 
       $.ajax({

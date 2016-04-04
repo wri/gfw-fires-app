@@ -145,6 +145,17 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             'spatialReference': sr //simplifiedGeometry.spatialReference
           });
 
+          var params2 = {
+            'msg_addr': _this.state.email,
+            'msg_type': 'email',
+            'area_name': _this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+          };
+
+          params2.features = JSON.stringify({
+            'rings': _this.state.currentCustomGraphic.geometry.rings,
+            'spatialReference': sr //simplifiedGeometry.spatialReference
+          });
+
           var success = function () {
             var _this2 = this;
 
@@ -167,6 +178,24 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
               });
             }, 1000);
           }.bind(_this);
+
+          $.ajax({
+            type: 'POST',
+            url: subscribeUrl,
+            data: params2,
+            error: error,
+            success: success,
+            dataType: 'jsonp'
+          });
+
+          $.ajax({
+            type: 'POST',
+            url: subscribeUrl,
+            data: params2,
+            error: error,
+            success: success,
+            dataType: 'json'
+          });
 
           $.ajax({
             type: 'POST',
