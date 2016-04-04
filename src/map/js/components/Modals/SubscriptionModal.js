@@ -21,6 +21,7 @@ export default class SubscriptionModal extends React.Component {
     this.state = {
       currentCustomGraphic: undefined,
       email: '',
+      customFeatName: 'Custom Feature',
       phoneNumber: '',
       emailErrors: false,
       phoneErrors: false,
@@ -103,6 +104,8 @@ export default class SubscriptionModal extends React.Component {
         emailParams,
         smsParams,
         deferred = new Deferred();
+        console.log(this.state.customFeatName)
+        console.log(this.state)
 
         // Simplify the geometry and then add a stringified and simpler version of it to params.features
         let simplifiedGeometry = geometryEngine.simplify(this.state.currentCustomGraphic.geometry);
@@ -186,6 +189,7 @@ export default class SubscriptionModal extends React.Component {
 	}
 
   render() {
+    console.log(this.state.customFeatName)
     return (
       <ModalWrapper>
         <div className='canopy-modal-title'>{modalText.subscription.title}</div>

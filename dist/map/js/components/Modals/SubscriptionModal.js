@@ -137,6 +137,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
               emailParams = void 0,
               smsParams = void 0,
               deferred = new _Deferred2.default();
+          console.log(_this.state.customFeatName);
+          console.log(_this.state);
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
           var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
@@ -220,6 +222,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
       _this.state = {
         currentCustomGraphic: undefined,
         email: '',
+        customFeatName: 'Custom Feature',
         phoneNumber: '',
         emailErrors: false,
         phoneErrors: false,
@@ -261,6 +264,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     }, {
       key: 'render',
       value: function render() {
+        console.log(this.state.customFeatName);
         return _react2.default.createElement(
           _ModalWrapper2.default,
           null,
