@@ -93,7 +93,7 @@ export default class SubscriptionModal extends React.Component {
         isUploading: true
       });
 
-      var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
+      var subscribeUrl = 'http://gfw-fires.wri.org:5000/subscribe_by_polygon', //'https://gfw-fires.wri.org/subscribe_by_polygon',
         // deferred = new Deferred(),
         params = {
           'msg_addr': this.state.email,
@@ -107,7 +107,7 @@ export default class SubscriptionModal extends React.Component {
       let sr = new SpatialReference(4326);
       params.features = JSON.stringify({
           'rings': simplifiedGeometry.rings,
-          'spatialReference': sr //simplifiedGeometry.spatialReference
+          'spatialReference': simplifiedGeometry.spatialReference
       });
 
       let params2 = {
@@ -148,26 +148,7 @@ export default class SubscriptionModal extends React.Component {
         data: params2,
         error: error,
         success: success,
-        dataType: 'jsonp'
-      });
-
-      $.ajax({
-        type: 'POST',
-        url: subscribeUrl,
-        data: params2,
-        error: error,
-        success: success,
         dataType: 'json'
-      });
-
-
-      $.ajax({
-        type: 'POST',
-        url: subscribeUrl,
-        data: params,
-        error: error,
-        success: success,
-        dataType: 'jsonp'
       });
 
       $.ajax({

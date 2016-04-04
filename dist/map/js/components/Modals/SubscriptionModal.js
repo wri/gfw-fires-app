@@ -127,8 +127,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             isUploading: true
           });
 
-          var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
-
+          var subscribeUrl = 'http://gfw-fires.wri.org:5000/subscribe_by_polygon',
+              //'https://gfw-fires.wri.org/subscribe_by_polygon',
           // deferred = new Deferred(),
           params = {
             'msg_addr': _this.state.email,
@@ -142,7 +142,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           var sr = new _SpatialReference2.default(4326);
           params.features = JSON.stringify({
             'rings': simplifiedGeometry.rings,
-            'spatialReference': sr //simplifiedGeometry.spatialReference
+            'spatialReference': simplifiedGeometry.spatialReference
           });
 
           var params2 = {
@@ -185,25 +185,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             data: params2,
             error: error,
             success: success,
-            dataType: 'jsonp'
-          });
-
-          $.ajax({
-            type: 'POST',
-            url: subscribeUrl,
-            data: params2,
-            error: error,
-            success: success,
             dataType: 'json'
-          });
-
-          $.ajax({
-            type: 'POST',
-            url: subscribeUrl,
-            data: params,
-            error: error,
-            success: success,
-            dataType: 'jsonp'
           });
 
           $.ajax({
