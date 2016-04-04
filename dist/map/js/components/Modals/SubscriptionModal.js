@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'dojo/Deferred', 'dojo/request/xhr', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _Deferred, _xhr, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'esri/SpatialReference', 'dojo/Deferred', 'dojo/request/xhr', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _SpatialReference, _Deferred, _xhr, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -12,6 +12,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
   var _Loader2 = _interopRequireDefault(_Loader);
 
   var _geometryEngine2 = _interopRequireDefault(_geometryEngine);
+
+  var _SpatialReference2 = _interopRequireDefault(_SpatialReference);
 
   var _Deferred2 = _interopRequireDefault(_Deferred);
 
@@ -136,9 +138,11 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
           var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
+
+          var sr = new _SpatialReference2.default(4326);
           params.features = JSON.stringify({
             'rings': simplifiedGeometry.rings,
-            'spatialReference': simplifiedGeometry.spatialReference
+            'spatialReference': sr //simplifiedGeometry.spatialReference
           });
 
           var success = function () {
@@ -171,6 +175,15 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             error: error,
             success: success,
             dataType: 'jsonp'
+          });
+
+          $.ajax({
+            type: 'POST',
+            url: subscribeUrl,
+            data: params,
+            error: error,
+            success: success,
+            dataType: 'json'
           });
 
           // let postRequest = $.post(subscribeUrl, params, function( data ) {

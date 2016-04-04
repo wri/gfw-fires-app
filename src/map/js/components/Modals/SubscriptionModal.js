@@ -5,6 +5,7 @@ import {mapStore} from 'stores/MapStore';
 import {modalActions} from 'actions/ModalActions';
 import Loader from 'components/Loader';
 import geometryEngine from 'esri/geometry/geometryEngine';
+import SpatialReference from 'esri/SpatialReference';
 import Deferred from 'dojo/Deferred';
 import xhr from 'dojo/request/xhr';
 // import {loadJS} from 'utils/loaders';
@@ -102,9 +103,11 @@ export default class SubscriptionModal extends React.Component {
 
       // Simplify the geometry and then add a stringified and simpler version of it to params.features
       let simplifiedGeometry = geometryEngine.simplify(this.state.currentCustomGraphic.geometry);
+
+      let sr = new SpatialReference(4326);
       params.features = JSON.stringify({
           'rings': simplifiedGeometry.rings,
-          'spatialReference': simplifiedGeometry.spatialReference
+          'spatialReference': sr //simplifiedGeometry.spatialReference
       });
 
       let success = function () {
@@ -135,6 +138,15 @@ export default class SubscriptionModal extends React.Component {
         error: error,
         success: success,
         dataType: 'jsonp'
+      });
+
+      $.ajax({
+        type: 'POST',
+        url: subscribeUrl,
+        data: params,
+        error: error,
+        success: success,
+        dataType: 'json'
       });
 
       // let postRequest = $.post(subscribeUrl, params, function( data ) {
