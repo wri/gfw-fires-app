@@ -167,8 +167,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
           if (_this.state.phoneNumber) {
             smsParams = {
-              'msg_addr': _this.state.email,
-              'msg_type': 'email',
+              'msg_addr': _this.state.phoneNumber,
+              'msg_type': 'sms',
               'area_name': _this.state.customFeatName
             };
 

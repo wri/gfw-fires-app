@@ -134,8 +134,8 @@ export default class SubscriptionModal extends React.Component {
 
         if (this.state.phoneNumber) {
           smsParams = {
-            'msg_addr': this.state.email,
-            'msg_type': 'email',
+            'msg_addr': this.state.phoneNumber,
+            'msg_type': 'sms',
             'area_name': this.state.customFeatName
           };
 
