@@ -72,6 +72,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         app.map.on('load', function () {
           // Clear out the phantom graphic that esri adds to the graphics layer before resolving
           app.map.graphics.clear();
+          app.map.enableScrollWheelZoom();
           deferred.resolve();
         });
         // Add a custom web tiled layer as a basemap

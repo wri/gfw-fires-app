@@ -27,6 +27,7 @@ class MapActions {
     app.map.on('load', () => {
       // Clear out the phantom graphic that esri adds to the graphics layer before resolving
       app.map.graphics.clear();
+      app.map.enableScrollWheelZoom();
       deferred.resolve();
     });
     // Add a custom web tiled layer as a basemap
