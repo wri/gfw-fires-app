@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'esri/SpatialReference', 'dojo/Deferred', 'dojo/request/xhr', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _SpatialReference, _Deferred, _xhr, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'esri/SpatialReference', 'dojo/promise/all', 'dojo/Deferred', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _SpatialReference, _all, _Deferred, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -15,9 +15,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
   var _SpatialReference2 = _interopRequireDefault(_SpatialReference);
 
-  var _Deferred2 = _interopRequireDefault(_Deferred);
+  var _all2 = _interopRequireDefault(_all);
 
-  var _xhr2 = _interopRequireDefault(_xhr);
+  var _Deferred2 = _interopRequireDefault(_Deferred);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -110,7 +110,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         var validEmail = _this.validateEmail(_this.state.email);
         var validPhone = _this.validatePhone(_this.state.phoneNumber);
 
-        if (!_this.state.email || !validEmail) {
+        if (!validPhone && !validEmail) {
+          _this.setState({
+            emailErrors: true,
+            phoneErrors: true
+          });
+        } else if (_this.state.email && !validEmail) {
           _this.setState({
             emailErrors: true,
             phoneErrors: false
@@ -127,113 +132,81 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             isUploading: true
           });
 
-          var subscribeUrl = 'http://gfw-fires.wri.org:5000/subscribe_by_polygon',
-              //'https://gfw-fires.wri.org/subscribe_by_polygon',
-          // deferred = new Deferred(),
-          params = {
-            'msg_addr': _this.state.email,
-            'msg_type': 'email',
-            'area_name': _this.state.customFeatName
-          };
+          var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
+              subscriptions = [],
+              emailParams = void 0,
+              smsParams = void 0,
+              deferred = new _Deferred2.default();
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
           var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
 
-          var sr = new _SpatialReference2.default(4326);
-          params.features = JSON.stringify({
-            'rings': simplifiedGeometry.rings,
-            'spatialReference': simplifiedGeometry.spatialReference
-          });
+          if (_this.state.email) {
+            emailParams = {
+              'msg_addr': _this.state.email,
+              'msg_type': 'email',
+              'area_name': _this.state.customFeatName
+            };
 
-          var params2 = {
-            'msg_addr': _this.state.email,
-            'msg_type': 'email',
-            'area_name': ' this.state.currentCustomGraphic.attributes.ALERTS_LABEL'
-          };
+            emailParams.features = JSON.stringify({
+              'rings': simplifiedGeometry.rings,
+              'spatialReference': simplifiedGeometry.spatialReference
+            });
 
-          params2.features = JSON.stringify({
-            'rings': _this.state.currentCustomGraphic.geometry.rings,
-            'spatialReference': sr //simplifiedGeometry.spatialReference
-          });
+            subscriptions.push($.ajax({
+              type: 'POST',
+              url: subscribeUrl,
+              data: emailParams,
+              error: _this.error,
+              // success: this.success,
+              dataType: 'json'
+            }));
+          }
 
-          var success = function () {
-            var _this2 = this;
+          if (_this.state.phoneNumber) {
+            smsParams = {
+              'msg_addr': _this.state.email,
+              'msg_type': 'email',
+              'area_name': _this.state.customFeatName
+            };
 
-            // alert('succcesss');
-            setTimeout(function () {
-              _this2.close();
-              _this2.setState({
-                isUploading: false
-              });
-            }, 500);
-          }.bind(_this);
-          var error = function () {
-            var _this3 = this;
+            smsParams.features = JSON.stringify({
+              'rings': simplifiedGeometry.rings,
+              'spatialReference': simplifiedGeometry.spatialReference
+            });
 
-            // alert('error');
-            setTimeout(function () {
-              _this3.close();
-              _this3.setState({
-                isUploading: false
-              });
-            }, 1000);
-          }.bind(_this);
+            subscriptions.push($.ajax({
+              type: 'POST',
+              url: subscribeUrl,
+              data: smsParams,
+              error: _this.error,
+              // success: this.success,
+              dataType: 'json'
+            }));
+          }
 
-          $.ajax({
-            type: 'POST',
-            url: subscribeUrl,
-            data: params2,
-            error: error,
-            success: success,
-            dataType: 'json'
-          });
+          (0, _all2.default)(subscriptions).then(_this.success);
 
-          $.ajax({
-            type: 'POST',
-            url: subscribeUrl,
-            data: params,
-            error: error,
-            success: success,
-            dataType: 'json'
-          });
-
-          // let postRequest = $.post(subscribeUrl, params, function( data ) {
-          //   console.log(data);
-          //   alert( 'success' );
-          // })
-          //   .fail(function() {
-          //     alert( 'error' );
-          //   })
-          //   .always(function() {
-          //     this.setState({
-          //       isUploading: false
-          //     });
-          //   });
-
-          // xhr(subscribeUrl, {
-          //   handleAs: 'json',
-          //   method: 'POST',
-          //   data: params
-          // }).then(function() {
-          //   this.setState({
-          //     isUploading: false
-          //   });
-          //   alert('success');
-          //
-          //   deferred.resolve(true);
-          //
-          // }, function(err) {
-          // this.setState({
-          //   isUploading: false
+          // let sr = new SpatialReference(4326);
+          // params.features = JSON.stringify({
+          //     'rings': simplifiedGeometry.rings,
+          //     'spatialReference': simplifiedGeometry.spatialReference
           // });
-          //   alert('There was an error subsrcribing at this time. ' + err.message);
-          //   deferred.resolve(false);
-          // });
-
-          // return deferred.promise;
-
-          // todo: submit the request, and on success or failure, hide the loader
         }
+      };
+
+      _this.success = function () {
+        _this.close();
+        _this.setState({
+          isUploading: false
+        });
+      };
+
+      _this.error = function () {
+        _this.close();
+        _this.setState({
+          isUploading: false
+        });
       };
 
       _this.deleteFeature = function () {
