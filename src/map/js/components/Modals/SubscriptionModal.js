@@ -133,8 +133,9 @@ export default class SubscriptionModal extends React.Component {
         }
 
         if (this.state.phoneNumber) {
+          let numbersOnly = this.state.phoneNumber.replace(/\D/g, '');
           smsParams = {
-            'msg_addr': this.state.phoneNumber,
+            'msg_addr': numbersOnly,
             'msg_type': 'sms',
             'area_name': this.state.customFeatName
           };

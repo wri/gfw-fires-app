@@ -166,8 +166,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           }
 
           if (_this.state.phoneNumber) {
+            var numbersOnly = _this.state.phoneNumber.replace(/\D/g, '');
             smsParams = {
-              'msg_addr': _this.state.phoneNumber,
+              'msg_addr': numbersOnly,
               'msg_type': 'sms',
               'area_name': _this.state.customFeatName
             };
