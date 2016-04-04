@@ -449,6 +449,8 @@ export const config = {
       sublabel: '(varies, global)',
       // group: 'conservation',
       className: 'protected-areas',
+      maxScale: 0,
+      minScale: 0,
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
       metadataId: 'firms_active_fires',
       layerIds: [0],

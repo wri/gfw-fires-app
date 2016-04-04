@@ -71,6 +71,8 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.id = layer.id;
         options.visible = layer.visible || false;
         options.opacity = layer.opacity || 1.0;
+        options.maxScale = layer.maxScale; // || 1.0;
+        options.minScale = layer.minScale; // || 1.0;
         options.imageParameters = imageParameters;
         esriLayer = new _ArcGISDynamicMapServiceLayer2.default(layer.url, options);
         break;

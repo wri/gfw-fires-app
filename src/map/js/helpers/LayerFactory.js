@@ -60,6 +60,8 @@ export default (layer) => {
       options.id = layer.id;
       options.visible = layer.visible || false;
       options.opacity = layer.opacity || 1.0;
+      options.maxScale = layer.maxScale; // || 1.0;
+      options.minScale = layer.minScale; // || 1.0;
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
       break;
