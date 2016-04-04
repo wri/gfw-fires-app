@@ -14,6 +14,7 @@ const utils = {
     // Set the date to filterValue amount of days before today
     date.setDate(date.getDate() - filterValue);
     let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    console.log(dateString);
     return `ACQ_DATE > date '${dateString}'`;
   },
 

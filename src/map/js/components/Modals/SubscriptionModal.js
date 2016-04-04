@@ -134,7 +134,7 @@ export default class SubscriptionModal extends React.Component {
         data: params,
         error: error,
         success: success,
-        dataType: 'json'
+        dataType: 'jsonp'
       });
 
       // let postRequest = $.post(subscribeUrl, params, function( data ) {
