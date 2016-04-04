@@ -49,7 +49,8 @@ export const config = {
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
-      'gis-potico.wri.org'
+      'gis-potico.wri.org',
+      'gfw-fires.wri.org'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [

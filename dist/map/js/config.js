@@ -62,7 +62,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       airQStartDate: new window.Kalendae.moment('09/25/2015'),
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
-      corsEnabledServers: ['gis-potico.wri.org'],
+      corsEnabledServers: ['gis-potico.wri.org', 'gfw-fires.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),

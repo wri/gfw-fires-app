@@ -170,7 +170,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             data: params,
             error: error,
             success: success,
-            dataType: 'json'
+            dataType: 'jsonp'
           });
 
           // let postRequest = $.post(subscribeUrl, params, function( data ) {
