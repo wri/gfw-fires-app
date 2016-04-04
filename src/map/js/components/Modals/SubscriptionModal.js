@@ -98,7 +98,7 @@ export default class SubscriptionModal extends React.Component {
         params = {
           'msg_addr': this.state.email,
           'msg_type': 'email',
-          'area_name': this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+          'area_name': this.state.customFeatName
         };
 
       // Simplify the geometry and then add a stringified and simpler version of it to params.features
@@ -113,7 +113,7 @@ export default class SubscriptionModal extends React.Component {
       let params2 = {
         'msg_addr': this.state.email,
         'msg_type': 'email',
-        'area_name': this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+        'area_name':' this.state.currentCustomGraphic.attributes.ALERTS_LABEL'
       };
 
       params2.features = JSON.stringify({

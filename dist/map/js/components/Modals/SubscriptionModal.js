@@ -133,7 +133,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           params = {
             'msg_addr': _this.state.email,
             'msg_type': 'email',
-            'area_name': _this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+            'area_name': _this.state.customFeatName
           };
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
@@ -148,7 +148,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           var params2 = {
             'msg_addr': _this.state.email,
             'msg_type': 'email',
-            'area_name': _this.state.currentCustomGraphic.attributes.ALERTS_LABEL
+            'area_name': ' this.state.currentCustomGraphic.attributes.ALERTS_LABEL'
           };
 
           params2.features = JSON.stringify({
