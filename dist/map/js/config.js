@@ -224,7 +224,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
-      layerIds: [3],
+      layerIds: [0],
       className: 'viirs-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'viirs_fires',

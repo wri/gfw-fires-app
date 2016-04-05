@@ -82,7 +82,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.activeBasemap = _config.defaults.activeBasemap;
       this.firesSelectIndex = _config.layerPanelText.firesOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
-      this.viiirsSelectIndex = _config.layerPanelText.firesOptions.length - 1;
+      this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
       this.layerPanelVisible = app.mobile === false;
 
