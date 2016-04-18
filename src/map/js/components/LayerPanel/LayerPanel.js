@@ -9,7 +9,6 @@ import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
 import RiskControls from 'components/LayerPanel/RiskControls';
-import LossControls from 'components/LayerPanel/LossControls';
 import AirControls from 'components/LayerPanel/AirControls';
 import WindControls from 'components/LayerPanel/WindControls';
 import LayerTransparency from 'components/LayerPanel/LayerTransparency';
@@ -71,9 +70,6 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.noaa18Fires:
           childComponent = <NoaaControls options={layer.calendar} loaded={this.props.loaded} />;
-          break;
-        case KEYS.loss:
-          childComponent = <LossControls loaded={this.props.loaded} {...this.state} />;
           break;
         case KEYS.treeCoverDensity:
           childComponent = <DensityDisplay {...this.state} />;

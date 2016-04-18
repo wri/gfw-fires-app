@@ -32,7 +32,14 @@ let LayersHelper = {
   //
   // },
 
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
+  },
+
   removeCustomFeature (feature) {
+    this.sendAnalytics('feature', 'delete', 'The user deleted a custom feature.');
     app.map.graphics.remove(feature);
   },
 
@@ -67,6 +74,7 @@ let LayersHelper = {
 
   performIdentify (evt) {
     app.debug('LayerHelper >>> performIdentify');
+    this.sendAnalytics('map', 'click', 'The user performed an identify task by clicking the map.');
 
     let mapPoint = evt.mapPoint,
       deferreds = [],
@@ -431,8 +439,10 @@ let LayersHelper = {
     app.debug(`LayersHelper >>> toggleWind - ${checked}`);
 
     if (checked) {
+      this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer on.');
       WindHelper.activateWindLayer();
     } else {
+      this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer off.');
       WindHelper.deactivateWindLayer();
     }
     ShareHelper.handleHashChange();
@@ -479,6 +489,7 @@ let LayersHelper = {
   */
   updateFiresLayerDefinitions (optionIndex, dontRefresh) {
     app.debug('LayersHelper >>> updateFiresLayerDefinitions');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires expression.');
     let value = layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
     let queryString = utils.generateFiresQuery(value);
 
@@ -590,6 +601,7 @@ let LayersHelper = {
 
   updateArchiveDates (clauseArray) {
     app.debug('LayersHelper >>> updateArchiveDates');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
     // let startDate = new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY');
     // let endDate = new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY');
     let archiveLayer = app.map.getLayer(KEYS.archiveFires);
@@ -617,6 +629,7 @@ let LayersHelper = {
 
   updateNoaaDates (clauseArray) {
     app.debug('LayersHelper >>> updateNoaaDates');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the NOAA-18 Fires date expression.');
     let noaaLayer = app.map.getLayer(KEYS.noaa18Fires);
 
     if (noaaLayer) {
@@ -639,6 +652,7 @@ let LayersHelper = {
   */
   updateDigitalGlobeLayerDefinitions (clauseArray) {
     app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Digital Globe date expression.');
     // let queryString = utils.generateImageryQuery(clauseArray);
 
     let dgGraphics = clauseArray[2];
@@ -669,22 +683,9 @@ let LayersHelper = {
 
   },
 
-  updateLossLayerDefinitions (fromIndex, toIndex) {
-    app.debug('LayersHelper >>> updateLossLayerDefinitions');
-    let fromValue = layerPanelText.lossOptions[fromIndex].value;
-    let toValue = layerPanelText.lossOptions[toIndex].value;
-    let layerConfig = utils.getObject(layersConfig, 'id', KEYS.loss);
-    //- [fromValue, toValue] is inclusive, exclusive, which is why the + 1 is present
-    let rasterFunction = rasterFuncs.getColormapRemap(layerConfig.colormap, [fromValue, (toValue + 1)], layerConfig.outputRange);
-    let layer = app.map.getLayer(KEYS.loss);
-
-    if (layer) {
-      layer.setRenderingRule(rasterFunction);
-    }
-  },
-
   updateTreeCoverDefinitions (densityValue) {
     app.debug('LayersHelper >>> updateTreeCoverDefinitions');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Tree Cover Density slider.');
 
     let layerConfig = utils.getObject(layersConfig, 'id', KEYS.treeCoverDensity);
 
@@ -698,6 +699,7 @@ let LayersHelper = {
 
   updateFireRisk (dayValue) {
     app.debug('LayersHelper >>> updateFireRisk');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire Risk date expression.');
 
     let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
     let otherDate = new Date(dayValue);
@@ -730,7 +732,8 @@ let LayersHelper = {
   },
 
   updateAirQDate (dayValue) {
-
+    app.debug('LayersHelper >>> updateAirQDate');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Air Quality date expression.');
     let layer = app.map.getLayer(KEYS.airQuality);
     let date = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
@@ -747,6 +750,8 @@ let LayersHelper = {
   },
 
   updateWindDate (dayValue) {
+    app.debug('LayersHelper >>> updateWindDate');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Wind Layer date expression.');
 
     let dateArray = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
