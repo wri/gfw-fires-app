@@ -34,14 +34,6 @@ class LayerActions {
     this.dispatch(footprints);
   }
 
-  changeLossFromTimeline (selectedIndex) {
-    this.dispatch(selectedIndex);
-  }
-
-  changeLossToTimeline (selectedIndex) {
-    this.dispatch(selectedIndex);
-  }
-
   toggleLayerPanelVisibility () {
     this.dispatch();
   }

@@ -58,6 +58,7 @@ class MapStore {
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
+      // sendAnalytics: mapActions.sendAnalytics,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
@@ -69,8 +70,6 @@ class MapStore {
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
       toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
-      changeLossToTimeline: layerActions.changeLossToTimeline,
-      changeLossFromTimeline: layerActions.changeLossFromTimeline,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
     });
   }
@@ -128,6 +127,7 @@ class MapStore {
   }
 
   setAnalysisDate (dateObj) {
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Analysis date expression.');
     this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
@@ -246,6 +246,12 @@ class MapStore {
 
   }
 
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
+  }
+
   addActiveLayer (layerId) {
     let index = this.activeLayers.indexOf(layerId);
     if (index === -1) {
@@ -254,6 +260,7 @@ class MapStore {
       layers.push(layerId);
       this.activeLayers = layers;
       app.activeLayers = layers;
+      this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer on.');
     }
   }
 
@@ -265,6 +272,7 @@ class MapStore {
       layers.splice(index, 1);
       this.activeLayers = layers;
       app.activeLayers = layers;
+      this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer off.');
     }
   }
 
@@ -274,6 +282,7 @@ class MapStore {
 
   setBasemap (basemap) {
     if (basemap !== this.activeBasemap) {
+      this.sendAnalytics('basemap', 'toggle', 'The user toggled the ' + basemap + ' basemap on.');
       this.activeBasemap = basemap;
       if (basemap === KEYS.wriBasemap) {
         ShareHelper.handleHashChange(basemap);
@@ -281,32 +290,24 @@ class MapStore {
     }
   }
 
-  showLayerInfo (layerInfo) {
-    this.modalLayerInfo = layerInfo;
-  }
-
   changeFiresTimeline (activeIndex) {
     this.firesSelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires timeline.');
   }
 
   changeViirsTimeline (activeIndex) {
     this.viiirsSelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
   }
 
   changeForestTimeline (activeIndex) {
     this.forestSelectIndex = activeIndex;
-  }
-
-  changeLossFromTimeline (activeIndex) {
-    this.lossFromSelectIndex = activeIndex;
-  }
-
-  changeLossToTimeline (activeIndex) {
-    this.lossToSelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
   }
 
   updateCanopyDensity (newDensity) {
     this.canopyDensity = newDensity;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Tree Cover Density slider.');
   }
 
   toggleFootprintsVisibility () {
