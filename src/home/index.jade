@@ -6,6 +6,43 @@ block append head-meta
 block append head-styles
   link(rel='stylesheet' href='css/home.css')
   link(rel='icon', href='../css/images/favicon.png')
+  script.
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-35900039-4', 'auto', {'name':"A"});
+    ga('A.send', 'pageview');
+    ga('create', 'UA-1981181-14', 'auto', {'name':"B"});
+    ga('B.send', 'pageview');
+    ga('create', 'UA-48182293-1', 'auto', {'name':"C",'cookieDomain':"'fires.globalforestwatch.org']"});
+    ga('C.send', 'pageview');
+    if (window.top !== window.self) {
+      var payload = {
+        'hitType': 'event',
+        'eventCategory': 'Event',
+        'eventAction': 'embed',
+        'eventLabel': 'iFrame Embed',
+        'eventValue': 'This application was viewed inside an embedded iFrame.'
+      };
+      ga('A.send', payload);
+      ga('B.send', payload);
+      ga('C.send', payload);
+    }
+  script.
+    window.liveSettings = {
+      api_key: 'c0d190e8efe94881b66b5bb38ebaece3',
+      detectlang: false,
+      picker: 'top-left',
+      version: 'latest',
+      autocollect: true,
+      dynamic: true,
+      staging: true
+      //- parse_attr: ["attr1", "attr2", ...],
+      //- ignore_tags: ["tag1", "tag2", ...],
+      //- ignore_class: ["classname1", "classname2"]
+    };
+  script(src='//cdn.transifex.com/live.js')
 
 block content
   +navigation(global.pages, 'home', true)

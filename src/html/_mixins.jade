@@ -1,5 +1,5 @@
 mixin navigation(pages, activePage, absolute)
-  nav(class=(absolute !== undefined && absolute === true ? 'navigation-container absolute' : 'navigation-container'))
+  nav(id='navigation-container' class=(absolute !== undefined && absolute === true ? 'navigation-container absolute' : 'navigation-container'))
     section.relative
       div.navigation-language
         label #{navigation.languageLabel}
