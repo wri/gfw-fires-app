@@ -413,17 +413,17 @@ let LayersHelper = {
         mainLayer = app.map.getLayer(KEYS.protectedAreas),
         helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
 
-        if (app.map.getLevel() > level) {
-          if (helperLayer) { helperLayer.show(); }
-          if (mainLayer) { mainLayer.hide(); }
-          // helperLayer.show();
-          // mainLayer.hide();
-        } else {
-          if (mainLayer) { mainLayer.show(); }
-          if (helperLayer) { helperLayer.hide(); }
-          // helperLayer.hide();
-          // mainLayer.show();
-        }
+      if (app.map.getLevel() > level) {
+        if (helperLayer) { helperLayer.show(); }
+        if (mainLayer) { mainLayer.hide(); }
+        // helperLayer.show();
+        // mainLayer.hide();
+      } else {
+        if (mainLayer) { mainLayer.show(); }
+        if (helperLayer) { helperLayer.hide(); }
+        // helperLayer.hide();
+        // mainLayer.show();
+      }
       ShareHelper.handleHashChange();
       return;
     }
@@ -444,6 +444,15 @@ let LayersHelper = {
         let sub = app.map.getLayer(subLayer);
         if (sub) { sub.hide(); }
       });
+      ShareHelper.handleHashChange();
+      return;
+    } else if (layerId === KEYS.protectedAreas || layerId === KEYS.protectedAreasHelper) {
+      let mainLayer = app.map.getLayer(KEYS.protectedAreas),
+        helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
+
+      if (mainLayer) { mainLayer.hide(); }
+      if (helperLayer) { helperLayer.hide(); }
+
       ShareHelper.handleHashChange();
       return;
     }

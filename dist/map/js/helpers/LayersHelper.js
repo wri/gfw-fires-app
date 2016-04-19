@@ -465,6 +465,19 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         });
         _ShareHelper2.default.handleHashChange();
         return;
+      } else if (layerId === _constants2.default.protectedAreas || layerId === _constants2.default.protectedAreasHelper) {
+        var mainLayer = app.map.getLayer(_constants2.default.protectedAreas),
+            helperLayer = app.map.getLayer(_constants2.default.protectedAreasHelper);
+
+        if (mainLayer) {
+          mainLayer.hide();
+        }
+        if (helperLayer) {
+          helperLayer.hide();
+        }
+
+        _ShareHelper2.default.handleHashChange();
+        return;
       }
       var layer = app.map.getLayer(layerId);
       if (layer) {
