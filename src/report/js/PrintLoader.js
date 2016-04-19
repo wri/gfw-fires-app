@@ -4,11 +4,11 @@
     'use strict';
 
     var src = [
-            'http://js.arcgis.com/3.15/',
+            'http://js.arcgis.com/3.16/',
             'http://code.jquery.com/jquery-1.11.0.min.js'
         ],
         css = [
-            'http://js.arcgis.com/3.15/js/esri/css/esri.css',
+            'http://js.arcgis.com/3.16/js/esri/css/esri.css',
             '../css/report.css'
         ],
         base = location.pathname.replace(/\/[^/]+$/, '/'),
