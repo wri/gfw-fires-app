@@ -97,8 +97,6 @@ define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisP
       value: function clearAnalysis() {
         if (this.state.activeTab === _config.analysisPanelText.subscriptionTabId) {
           _AnalysisActions.analysisActions.clearCustomArea();
-        } else {
-          _AnalysisActions.analysisActions.clearActiveWatershed();
         }
       }
     }, {

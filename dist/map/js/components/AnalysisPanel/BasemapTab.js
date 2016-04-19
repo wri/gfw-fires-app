@@ -129,7 +129,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                 { 'data-basemap': _constants2.default.darkGrayBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : '') }),
                 _react2.default.createElement(
-                  'span',
+                  'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.darkGrayBasemap
                 ),
@@ -144,7 +144,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                 { 'data-basemap': _constants2.default.topoBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.topoBasemap ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail topo-basemap ' + (this.state.activeBasemap === _constants2.default.topoBasemap ? 'active' : '') }),
                 _react2.default.createElement(
-                  'span',
+                  'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.topoBasemap
                 ),
@@ -159,7 +159,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                 { 'data-basemap': _constants2.default.wriBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.wriBasemap ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail wri-basemap ' + (this.state.activeBasemap === _constants2.default.wriBasemap ? 'active' : '') }),
                 _react2.default.createElement(
-                  'span',
+                  'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.wriBasemap
                 ),
@@ -174,7 +174,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                 { 'data-basemap': _constants2.default.imageryBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.imageryBasemap ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail imagery-basemap ' + (this.state.activeBasemap === _constants2.default.imageryBasemap ? 'active' : '') }),
                 _react2.default.createElement(
-                  'span',
+                  'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.imageryBasemap
                 ),
@@ -189,7 +189,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                 { 'data-basemap': _constants2.default.landsat8, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.landsat8 ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail landsat-basemap ' + (this.state.activeBasemap === _constants2.default.landsat8 ? 'active' : '') }),
                 _react2.default.createElement(
-                  'span',
+                  'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.landsat8
                 ),

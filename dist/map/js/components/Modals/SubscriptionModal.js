@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'esri/SpatialReference', 'dojo/promise/all', 'dojo/Deferred', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _SpatialReference, _all, _Deferred, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'dojo/promise/all', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _all, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -13,11 +13,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
   var _geometryEngine2 = _interopRequireDefault(_geometryEngine);
 
-  var _SpatialReference2 = _interopRequireDefault(_SpatialReference);
-
   var _all2 = _interopRequireDefault(_all);
-
-  var _Deferred2 = _interopRequireDefault(_Deferred);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -135,10 +131,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
               subscriptions = [],
               emailParams = void 0,
-              smsParams = void 0,
-              deferred = new _Deferred2.default();
-          console.log(_this.state.customFeatName);
-          console.log(_this.state);
+              smsParams = void 0;
+
+          _this.sendAnalytics('subscription', 'request', 'The user subscribed to alerts.');
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
           var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
@@ -256,6 +251,14 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         } else {
           return false;
         }
+      }
+    }, {
+      key: 'sendAnalytics',
+      value: function sendAnalytics(eventType, action, label) {
+        //todo: why is this request getting sent so many times?
+        ga('A.send', 'event', eventType, action, label);
+        ga('B.send', 'event', eventType, action, label);
+        ga('C.send', 'event', eventType, action, label);
       }
     }, {
       key: 'close',

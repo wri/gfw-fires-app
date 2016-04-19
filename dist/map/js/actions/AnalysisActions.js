@@ -59,15 +59,6 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dijit
         this.dispatch(feature);
       }
     }, {
-      key: 'clearActiveWatershed',
-      value: function clearActiveWatershed() {
-        app.debug('AnalysisActions >>> clearActiveWatershed');
-        this.dispatch();
-        //- Clear Highlight Polygons
-        _GraphicsHelper2.default.clearActiveWatersheds();
-        _registry2.default.byId(_config.analysisPanelText.searchWidgetId).clear();
-      }
-    }, {
       key: 'setCustomAreaName',
       value: function setCustomAreaName(newName) {
         app.debug('AnalysisActions >>> setCustomAreaName');

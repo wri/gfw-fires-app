@@ -58,7 +58,11 @@ export default class AnalysisTab extends React.Component {
     }
   }
 
-
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
+  }
 
   render () {
     let className = 'text-center';
@@ -135,6 +139,8 @@ export default class AnalysisTab extends React.Component {
         localErrors: false
       });
     }
+
+    this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
 
     let reportdateFrom = this.state.analysisStartDate.split('/');
     let reportdateTo = this.state.analysisEndDate.split('/');

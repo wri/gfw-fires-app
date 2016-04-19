@@ -41,7 +41,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
   // import {prepareStateForUrl} from 'helpers/ShareHelper';
 
   var LayersHelper = {
+    sendAnalytics: function sendAnalytics(eventType, action, label) {
+      //todo: why is this request getting sent so many times?
+      ga('A.send', 'event', eventType, action, label);
+      ga('B.send', 'event', eventType, action, label);
+      ga('C.send', 'event', eventType, action, label);
+    },
     removeCustomFeature: function removeCustomFeature(feature) {
+      this.sendAnalytics('feature', 'delete', 'The user deleted a custom feature.');
       app.map.graphics.remove(feature);
     },
 
@@ -75,6 +82,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
     performIdentify: function performIdentify(evt) {
       app.debug('LayerHelper >>> performIdentify');
+      this.sendAnalytics('map', 'click', 'The user performed an identify task by clicking the map.');
 
       var mapPoint = evt.mapPoint,
           deferreds = [],
@@ -442,8 +450,10 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> toggleWind - ' + checked);
 
       if (checked) {
+        this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer on.');
         _WindHelper2.default.activateWindLayer();
       } else {
+        this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer off.');
         _WindHelper2.default.deactivateWindLayer();
       }
       _ShareHelper2.default.handleHashChange();
@@ -477,6 +487,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     updateFiresLayerDefinitions: function updateFiresLayerDefinitions(optionIndex, dontRefresh) {
       app.debug('LayersHelper >>> updateFiresLayerDefinitions');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires expression.');
       var value = _config.layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
       var queryString = _AppUtils2.default.generateFiresQuery(value);
 
@@ -576,6 +587,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     updateArchiveDates: function updateArchiveDates(clauseArray) {
       app.debug('LayersHelper >>> updateArchiveDates');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
       // let startDate = new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY');
       // let endDate = new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY');
       var archiveLayer = app.map.getLayer(_constants2.default.archiveFires);
@@ -601,6 +613,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     updateNoaaDates: function updateNoaaDates(clauseArray) {
       app.debug('LayersHelper >>> updateNoaaDates');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the NOAA-18 Fires date expression.');
       var noaaLayer = app.map.getLayer(_constants2.default.noaa18Fires);
 
       if (noaaLayer) {
@@ -617,6 +630,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     updateDigitalGlobeLayerDefinitions: function updateDigitalGlobeLayerDefinitions(clauseArray) {
       app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Digital Globe date expression.');
       // let queryString = utils.generateImageryQuery(clauseArray);
 
       var dgGraphics = clauseArray[2];
@@ -646,21 +660,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       dgGraphicsLayer.redraw();
     },
-    updateLossLayerDefinitions: function updateLossLayerDefinitions(fromIndex, toIndex) {
-      app.debug('LayersHelper >>> updateLossLayerDefinitions');
-      var fromValue = _config.layerPanelText.lossOptions[fromIndex].value;
-      var toValue = _config.layerPanelText.lossOptions[toIndex].value;
-      var layerConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.loss);
-      //- [fromValue, toValue] is inclusive, exclusive, which is why the + 1 is present
-      var rasterFunction = _rasterFunctions2.default.getColormapRemap(layerConfig.colormap, [fromValue, toValue + 1], layerConfig.outputRange);
-      var layer = app.map.getLayer(_constants2.default.loss);
-
-      if (layer) {
-        layer.setRenderingRule(rasterFunction);
-      }
-    },
     updateTreeCoverDefinitions: function updateTreeCoverDefinitions(densityValue) {
       app.debug('LayersHelper >>> updateTreeCoverDefinitions');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Tree Cover Density slider.');
 
       var layerConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.treeCoverDensity);
 
@@ -673,6 +675,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     updateFireRisk: function updateFireRisk(dayValue) {
       app.debug('LayersHelper >>> updateFireRisk');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Fire Risk date expression.');
 
       var date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
       var otherDate = new Date(dayValue);
@@ -704,7 +707,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateAirQDate: function updateAirQDate(dayValue) {
-
+      app.debug('LayersHelper >>> updateAirQDate');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Air Quality date expression.');
       var layer = app.map.getLayer(_constants2.default.airQuality);
       var date = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
@@ -720,6 +724,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       layer.setLayerDefinitions(layerDefs);
     },
     updateWindDate: function updateWindDate(dayValue) {
+      app.debug('LayersHelper >>> updateWindDate');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Wind Layer date expression.');
 
       var dateArray = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 

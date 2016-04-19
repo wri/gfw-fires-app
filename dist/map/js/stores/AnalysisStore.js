@@ -68,7 +68,6 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
         toggleImageryOptions: _AnalysisActions.analysisActions.toggleImageryOptions,
         analyzeCustomArea: _AnalysisActions.analysisActions.analyzeCustomArea,
         setCustomAreaName: _AnalysisActions.analysisActions.setCustomAreaName,
-        clearActiveWatershed: _AnalysisActions.analysisActions.clearActiveWatershed,
         toggleAnalysisToolsVisibility: _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility,
         toggleAnalysisToolsExpanded: _AnalysisActions.analysisActions.toggleAnalysisToolsExpanded,
         toggleSubscribeToolsExpanded: _AnalysisActions.analysisActions.toggleSubscribeToolsExpanded,
@@ -82,12 +81,6 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
     }
 
     _createClass(AnalysisStore, [{
-      key: 'clearActiveWatershed',
-      value: function clearActiveWatershed() {
-        this.toolbarActive = false;
-        this.activeWatershed = null;
-      }
-    }, {
       key: 'analyzeCustomArea',
       value: function analyzeCustomArea(feature) {
         this.activeCustomArea = feature;

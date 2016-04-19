@@ -5,9 +5,7 @@ import {mapStore} from 'stores/MapStore';
 import {modalActions} from 'actions/ModalActions';
 import Loader from 'components/Loader';
 import geometryEngine from 'esri/geometry/geometryEngine';
-import SpatialReference from 'esri/SpatialReference';
 import all from 'dojo/promise/all';
-import Deferred from 'dojo/Deferred';
 // import {loadJS} from 'utils/loaders';
 import React from 'react';
 
@@ -48,6 +46,12 @@ export default class SubscriptionModal extends React.Component {
     } else {
       return false;
     }
+  }
+
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
   }
 
   updateName = evt => {
@@ -102,10 +106,9 @@ export default class SubscriptionModal extends React.Component {
       let subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
         subscriptions = [],
         emailParams,
-        smsParams,
-        deferred = new Deferred();
-        console.log(this.state.customFeatName)
-        console.log(this.state)
+        smsParams;
+
+        this.sendAnalytics('subscription', 'request', 'The user subscribed to alerts.');
 
         // Simplify the geometry and then add a stringified and simpler version of it to params.features
         let simplifiedGeometry = geometryEngine.simplify(this.state.currentCustomGraphic.geometry);

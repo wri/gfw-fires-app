@@ -142,6 +142,14 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         }
       }
     }, {
+      key: 'sendAnalytics',
+      value: function sendAnalytics(eventType, action, label) {
+        //todo: why is this request getting sent so many times?
+        ga('A.send', 'event', eventType, action, label);
+        ga('B.send', 'event', eventType, action, label);
+        ga('C.send', 'event', eventType, action, label);
+      }
+    }, {
       key: 'render',
       value: function render() {
         var className = 'text-center';
@@ -274,6 +282,8 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             localErrors: false
           });
         }
+
+        this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
 
         var reportdateFrom = this.state.analysisStartDate.split('/');
         var reportdateTo = this.state.analysisEndDate.split('/');

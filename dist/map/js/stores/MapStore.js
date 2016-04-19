@@ -100,6 +100,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         setGlobe: _ModalActions.modalActions.showCalendarModal,
         setCurrentCustomGraphic: _ModalActions.modalActions.showSubscribeModal,
         setCalendar: _MapActions.mapActions.setCalendar,
+        // sendAnalytics: mapActions.sendAnalytics,
         addActiveLayer: _LayerActions.layerActions.addActiveLayer,
         removeActiveLayer: _LayerActions.layerActions.removeActiveLayer,
         setFootprints: _LayerActions.layerActions.setFootprints,
@@ -111,8 +112,6 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
         showFootprints: _LayerActions.layerActions.showFootprints,
         toggleFootprintsVisibility: _LayerActions.layerActions.toggleFootprintsVisibility,
-        changeLossToTimeline: _LayerActions.layerActions.changeLossToTimeline,
-        changeLossFromTimeline: _LayerActions.layerActions.changeLossFromTimeline,
         toggleLayerPanelVisibility: _LayerActions.layerActions.toggleLayerPanelVisibility
       });
     }
@@ -179,6 +178,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }, {
       key: 'setAnalysisDate',
       value: function setAnalysisDate(dateObj) {
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Analysis date expression.');
         this.calendarVisible = '';
 
         this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
@@ -304,6 +304,14 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
       }
     }, {
+      key: 'sendAnalytics',
+      value: function sendAnalytics(eventType, action, label) {
+        //todo: why is this request getting sent so many times?
+        ga('A.send', 'event', eventType, action, label);
+        ga('B.send', 'event', eventType, action, label);
+        ga('C.send', 'event', eventType, action, label);
+      }
+    }, {
       key: 'addActiveLayer',
       value: function addActiveLayer(layerId) {
         var index = this.activeLayers.indexOf(layerId);
@@ -313,6 +321,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           layers.push(layerId);
           this.activeLayers = layers;
           app.activeLayers = layers;
+          this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer on.');
         }
       }
     }, {
@@ -325,6 +334,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           layers.splice(index, 1);
           this.activeLayers = layers;
           app.activeLayers = layers;
+          this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer off.');
         }
       }
     }, {
@@ -336,6 +346,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'setBasemap',
       value: function setBasemap(basemap) {
         if (basemap !== this.activeBasemap) {
+          this.sendAnalytics('basemap', 'toggle', 'The user toggled the ' + basemap + ' basemap on.');
           this.activeBasemap = basemap;
           if (basemap === _constants2.default.wriBasemap) {
             _ShareHelper2.default.handleHashChange(basemap);
@@ -343,39 +354,28 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
       }
     }, {
-      key: 'showLayerInfo',
-      value: function showLayerInfo(layerInfo) {
-        this.modalLayerInfo = layerInfo;
-      }
-    }, {
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(activeIndex) {
         this.firesSelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires timeline.');
       }
     }, {
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(activeIndex) {
         this.viiirsSelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
       }
     }, {
       key: 'changeForestTimeline',
       value: function changeForestTimeline(activeIndex) {
         this.forestSelectIndex = activeIndex;
-      }
-    }, {
-      key: 'changeLossFromTimeline',
-      value: function changeLossFromTimeline(activeIndex) {
-        this.lossFromSelectIndex = activeIndex;
-      }
-    }, {
-      key: 'changeLossToTimeline',
-      value: function changeLossToTimeline(activeIndex) {
-        this.lossToSelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
       }
     }, {
       key: 'updateCanopyDensity',
       value: function updateCanopyDensity(newDensity) {
         this.canopyDensity = newDensity;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Tree Cover Density slider.');
       }
     }, {
       key: 'toggleFootprintsVisibility',

@@ -17,7 +17,15 @@ class ModalStore {
     });
   }
 
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
+  }
+
   showLayerInfo (layerInfo) {
+    this.sendAnalytics('metadata', 'request', 'The user requested metadata for the ' + layerInfo + ' layer.');
+
     if (typeof layerInfo === 'string') {
       layerInfo = layerInformation[layerInfo] ? layerInformation[layerInfo] : {};
     }

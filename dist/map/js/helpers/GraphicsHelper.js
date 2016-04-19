@@ -89,12 +89,6 @@ define(['exports', 'esri/geometry/Polygon', 'esri/geometry/Point', 'helpers/Symb
       return new _graphic2.default(new _Point2.default(geometry), _Symbols2.default.getSVGPointSymbol(), attributes || null);
     },
 
-    clearActiveWatersheds: function clearActiveWatersheds() {
-      var layer = app.map.getLayer(_constants2.default.watershedAnalysis);
-      if (layer) {
-        layer.clear();
-      }
-    },
     clearCustomAreas: function clearCustomAreas() {
       var layer = app.map.getLayer(_constants2.default.customAnalysis);
       if (layer) {

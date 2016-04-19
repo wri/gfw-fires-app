@@ -31,7 +31,6 @@ class AnalysisStore {
       toggleImageryOptions: analysisActions.toggleImageryOptions,
       analyzeCustomArea: analysisActions.analyzeCustomArea,
       setCustomAreaName: analysisActions.setCustomAreaName,
-      clearActiveWatershed: analysisActions.clearActiveWatershed,
       toggleAnalysisToolsVisibility: analysisActions.toggleAnalysisToolsVisibility,
       toggleAnalysisToolsExpanded: analysisActions.toggleAnalysisToolsExpanded,
       toggleSubscribeToolsExpanded: analysisActions.toggleSubscribeToolsExpanded,
@@ -42,11 +41,6 @@ class AnalysisStore {
       initAreas: analysisActions.initAreas,
       toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive
     });
-  }
-
-  clearActiveWatershed () {
-    this.toolbarActive = false;
-    this.activeWatershed = null;
   }
 
   analyzeCustomArea (feature) {

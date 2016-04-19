@@ -82,16 +82,6 @@ define(['exports', 'js/alt'], function (exports, _alt) {
         this.dispatch(footprints);
       }
     }, {
-      key: 'changeLossFromTimeline',
-      value: function changeLossFromTimeline(selectedIndex) {
-        this.dispatch(selectedIndex);
-      }
-    }, {
-      key: 'changeLossToTimeline',
-      value: function changeLossToTimeline(selectedIndex) {
-        this.dispatch(selectedIndex);
-      }
-    }, {
       key: 'toggleLayerPanelVisibility',
       value: function toggleLayerPanelVisibility() {
         this.dispatch();

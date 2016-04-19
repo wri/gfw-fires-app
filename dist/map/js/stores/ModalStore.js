@@ -55,8 +55,18 @@ define(['exports', 'actions/ModalActions', 'js/config', 'js/alt'], function (exp
     }
 
     _createClass(ModalStore, [{
+      key: 'sendAnalytics',
+      value: function sendAnalytics(eventType, action, label) {
+        //todo: why is this request getting sent so many times?
+        ga('A.send', 'event', eventType, action, label);
+        ga('B.send', 'event', eventType, action, label);
+        ga('C.send', 'event', eventType, action, label);
+      }
+    }, {
       key: 'showLayerInfo',
       value: function showLayerInfo(layerInfo) {
+        this.sendAnalytics('metadata', 'request', 'The user requested metadata for the ' + layerInfo + ' layer.');
+
         if (typeof layerInfo === 'string') {
           layerInfo = _config.layerInformation[layerInfo] ? _config.layerInformation[layerInfo] : {};
         }
