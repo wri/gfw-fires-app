@@ -1,11 +1,11 @@
 mixin navigation(pages, activePage, absolute)
   nav(id='navigation-container' class=(absolute !== undefined && absolute === true ? 'navigation-container absolute' : 'navigation-container'))
     section.relative
-      div.navigation-language
-        label #{navigation.languageLabel}
-        select#navigation--language
-          option(value=navigation.languages[0][0]) #{navigation.languages[0][1]}
-          option(value=navigation.languages[1][0]) #{navigation.languages[1][1]}
+      //- div.navigation-language
+      //-   label #{navigation.languageLabel}
+      //-   select#navigation--language
+      //-     option(value=navigation.languages[0][0]) #{navigation.languages[0][1]}
+      //-     option(value=navigation.languages[1][0]) #{navigation.languages[1][1]}
       ul.navigation
         for page in pages
           a.navigation--link(href=page.href class=(page.name === activePage ? 'active' : ''))
@@ -19,8 +19,8 @@ mixin navigation(pages, activePage, absolute)
         for page in pages
           a(href=page.href)
             li.mobile-navigation--link(class=(page.name === activePage ? 'active' : '')) #{page.label}
-      p
-        label #{navigation.languageLabel}
-        select#mobile-navigation--language
-          option(value=navigation.languages[0][0]) #{navigation.languages[0][1]}
-          option(value=navigation.languages[1][0]) #{navigation.languages[1][1]}
+      //- p
+      //-   label #{navigation.languageLabel}
+      //-   select#mobile-navigation--language
+      //-     option(value=navigation.languages[0][0]) #{navigation.languages[0][1]}
+      //-     option(value=navigation.languages[1][0]) #{navigation.languages[1][1]}
