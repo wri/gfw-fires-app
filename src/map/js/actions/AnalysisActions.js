@@ -13,14 +13,6 @@ class AnalysisActions {
     this.dispatch(feature);
   }
 
-  clearActiveWatershed () {
-    app.debug('AnalysisActions >>> clearActiveWatershed');
-    this.dispatch();
-    //- Clear Highlight Polygons
-    GraphicsHelper.clearActiveWatersheds();
-    registry.byId(analysisPanelText.searchWidgetId).clear();
-  }
-
   setCustomAreaName (newName) {
     app.debug('AnalysisActions >>> setCustomAreaName');
     this.dispatch(newName);

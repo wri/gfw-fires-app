@@ -26,8 +26,6 @@ export default class AnalysisTools extends React.Component {
   clearAnalysis () {
     if (this.state.activeTab === text.subscriptionTabId) {
       analysisActions.clearCustomArea();
-    } else {
-      analysisActions.clearActiveWatershed();
     }
   }
 

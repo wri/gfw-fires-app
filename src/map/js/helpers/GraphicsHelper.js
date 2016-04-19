@@ -90,14 +90,6 @@ const graphicsHelper = {
   /**
   * Clear features from the custom analysis graphics layer
   */
-  clearActiveWatersheds () {
-    let layer = app.map.getLayer(KEYS.watershedAnalysis);
-    if (layer) { layer.clear(); }
-  },
-
-  /**
-  * Clear features from the custom analysis graphics layer
-  */
   clearCustomAreas () {
     let layer = app.map.getLayer(KEYS.customAnalysis);
     if (layer) { layer.clear(); }
