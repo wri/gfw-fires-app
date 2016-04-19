@@ -3,7 +3,7 @@
   return {
     language: 'id',
     meta: {
-      esriVersion: 3.15
+      esriVersion: 3.16
     },
     global: {
       pages: [
