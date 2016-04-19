@@ -414,6 +414,32 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           _ShareHelper2.default.handleHashChange();
           return;
         }
+      } else if (layerObj.layerId === _constants2.default.protectedAreas || layerObj.layerId === _constants2.default.protectedAreasHelper) {
+        var level = 6,
+            mainLayer = app.map.getLayer(_constants2.default.protectedAreas),
+            helperLayer = app.map.getLayer(_constants2.default.protectedAreasHelper);
+
+        if (app.map.getLevel() > level) {
+          if (helperLayer) {
+            helperLayer.show();
+          }
+          if (mainLayer) {
+            mainLayer.hide();
+          }
+          // helperLayer.show();
+          // mainLayer.hide();
+        } else {
+            if (mainLayer) {
+              mainLayer.show();
+            }
+            if (helperLayer) {
+              helperLayer.hide();
+            }
+            // helperLayer.hide();
+            // mainLayer.show();
+          }
+        _ShareHelper2.default.handleHashChange();
+        return;
       }
       var layer = app.map.getLayer(layerObj.layerId);
       if (layer) {

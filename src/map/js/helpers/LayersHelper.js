@@ -43,7 +43,6 @@ let LayersHelper = {
     app.map.graphics.remove(feature);
   },
 
-
   checkZoomDependentLayers: function() {
     app.debug('LayerHelper >>> checkZoomDependentLayers');
 
@@ -409,6 +408,24 @@ let LayersHelper = {
         return;
       }
 
+    } else if (layerObj.layerId === KEYS.protectedAreas || layerObj.layerId === KEYS.protectedAreasHelper) {
+      let level = 6,
+        mainLayer = app.map.getLayer(KEYS.protectedAreas),
+        helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
+
+        if (app.map.getLevel() > level) {
+          if (helperLayer) { helperLayer.show(); }
+          if (mainLayer) { mainLayer.hide(); }
+          // helperLayer.show();
+          // mainLayer.hide();
+        } else {
+          if (mainLayer) { mainLayer.show(); }
+          if (helperLayer) { helperLayer.hide(); }
+          // helperLayer.hide();
+          // mainLayer.show();
+        }
+      ShareHelper.handleHashChange();
+      return;
     }
     let layer = app.map.getLayer(layerObj.layerId);
     if (layer) { layer.show(); }
