@@ -94,7 +94,8 @@ block append head-scripts
       //- ignore_tags: ["tag1", "tag2", ...],
       //- ignore_class: ["classname1", "classname2"]
     };
-  script(src='//cdn.transifex.com/live.js')
+  //- script(src='//cdn.transifex.com/live.js') //todo: load this in the header, and options in the body. or, everything in the body! 
+  //or, try only loading the settings and not the live script 
 
 block content
   //- style(type='text/css', media='print').
