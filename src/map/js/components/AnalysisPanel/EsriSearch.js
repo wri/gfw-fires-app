@@ -156,11 +156,15 @@ export default class EsriSearch extends React.Component {
       <input ref='searchInput' className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown} autoFocus/>
     );
     if (this.state.esriSearchVisible === false) { className += ' hidden'; }
-
+    if (app.mobile() === true) {
+      className += ' isSearchMobile';
+      tabs[2] = 'Decimal D.';
+    }
 
     return (
+
       <div className={className}>
-        <div>
+        <div className='search-tab-container'>
           {tabs.map((t, i) => (
             <button className={`search-tab ${i === this.state.visibleTab ? 'active' : ''}`} onClick={() => this.setState({ visibleTab: i })}>{t}</button>
           ))}
@@ -209,7 +213,7 @@ export default class EsriSearch extends React.Component {
             <span>Lat:</span><input ref='decimalDegreeLat' type='number' className='deg-input' id='deg-lat' name='deg-lat' />
           </div>
           <div className='deg-box'>
-            <span>Long:</span><input ref='decimalDegreeLng' type='number' className='deg-input' id='deg-lng' name='deg-lng' />
+            <span>Lon:</span><input ref='decimalDegreeLng' type='number' className='deg-input' id='deg-lng' name='deg-lng' />
           </div>
           <button className='search-submit-button gfw-btn green' onClick={this.decimalDegreeSearch.bind(this)}>Search</button>
 

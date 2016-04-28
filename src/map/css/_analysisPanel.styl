@@ -8,6 +8,34 @@
   right 0px
   margin 0 auto
   filter drop-shadow(2px 2px 2px rgba(0, 0, 0, .25)) // $box-shadow
+  &.isSearchMobile
+    width 80%
+    .search-tab-container
+      background-color #c9c9c9
+      width 100%
+    & .search-tab
+      width 32%
+      padding-left 0
+      padding-right 0
+    & .search-box
+      width 100%
+      display block
+    & .deg-box
+      display block
+      & input.deg-input
+        max-width 160px
+    & .search-submit-button
+      margin 5px
+    & .search-coordinates
+      display block
+      width 100%
+      & div
+        width 24%
+    & #coordinateSearch
+      position relative
+      float inherit
+      width inherit
+
 
   +below($mq-mobile)
     width auto
@@ -167,12 +195,12 @@
   transition background 0.15s linear
 
 .search-submit-button.gfw-btn.green:hover
-  background #789631
+  background #ad0023
   text-decoration none !important
 
 .search-submit-button.gfw-btn.green
   color white
-  background #97bd3d
+  background #e7002f
 
 .deg-box
   button
