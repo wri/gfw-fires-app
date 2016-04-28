@@ -1,4 +1,3 @@
-import Request from 'utils/request';
 import React from 'react';
 
 export default class FireRiskLegend extends React.Component {
@@ -23,29 +22,28 @@ export default class FireRiskLegend extends React.Component {
 
   render() {
     return (
-      <div className={`legend-container ${this.props.domClass}`}>
-        <div className='fire-risk-legend'>
-          <div id='fireRiskLegendDataColors'>
-            <div id='fireRiskLegendDataColorsBottom'>
-              <div id='fireRiskLegend'>
-                <div className='fireRiskLegendRow'>
-                  <span className='fireRiskLegendData fireRiskLegendDataHighest'>Very High Risk</span>
-                </div>
-                <div className='fireRiskLegendRow'>
-                  <span className='fireRiskLegendData fireRiskLegendDataHigh'>High Risk</span>
-                </div>
-                <div className='fireRiskLegendRow'>
-                  <span className='fireRiskLegendData fireRiskLegendDataMedium'>Moderate Risk</span>
-                </div>
-                <div className='fireRiskLegendRow'>
-                  <span className='fireRiskLegendData fireRiskLegendDataLow'>Low Risk</span>
-                </div>
-                <div className='fireRiskLegendRow'>
-                  <span className='fireRiskLegendData fireRiskLegendDataLowest'>Very Low Risk</span>
-                </div>
-                <div className='fireRiskLegendRow'>
-                  <span className='fireRiskLegendData'>No Data</span>
-                </div>
+      <div className='fire-risk-legend'>
+        <div id='fireRiskLegendDataColors'>
+          <div id='fireRiskLegendDataColorsBottom'>
+          <div id='fireRiskLegendNoData'></div>
+            <div id='fireRiskLegend'>
+              <div className='fireRiskLegendRow'>
+                <span className='fireRiskLegendData fireRiskLegendDataHighest'>Very High Risk</span>
+              </div>
+              <div className='fireRiskLegendRow'>
+                <span className='fireRiskLegendData fireRiskLegendDataHigh'>High Risk</span>
+              </div>
+              <div className='fireRiskLegendRow'>
+                <span className='fireRiskLegendData fireRiskLegendDataMedium'>Moderate Risk</span>
+              </div>
+              <div className='fireRiskLegendRow'>
+                <span className='fireRiskLegendData fireRiskLegendDataLow'>Low Risk</span>
+              </div>
+              <div className='fireRiskLegendRow'>
+                <span className='fireRiskLegendData fireRiskLegendDataLowest'>Very Low Risk</span>
+              </div>
+              <div className='fireRiskLegendRow'>
+                <span className='fireRiskLegendData'>No Data</span>
               </div>
             </div>
           </div>
