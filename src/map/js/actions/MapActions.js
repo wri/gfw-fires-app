@@ -112,6 +112,11 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setRainDate (date) {
+    app.debug('MapActions >>> setRainDate');
+    this.dispatch(date);
+  }
+
   setAirQDate (date) {
     app.debug('MapActions >>> setAirQDate');
     this.dispatch(date);

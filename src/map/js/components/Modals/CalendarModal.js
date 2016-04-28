@@ -125,6 +125,13 @@ export default class CalendarModal extends React.Component {
       dest: 'riskDate'
     });
 	}
+	changeRain(date) {
+		this.close();
+    mapActions.setRainDate({
+      date: date,
+      dest: 'rainDate'
+    });
+	}
 	changeAirQ(date) {
 		this.close();
     mapActions.setAirQDate({

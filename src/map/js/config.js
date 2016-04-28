@@ -127,6 +127,14 @@ export const config = {
         domClass: 'risk'
       },
       {
+        date: new window.Kalendae.moment(),
+        method: 'changeRain',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('04/02/2015'),
+        domId: 'rain',
+        domClass: 'rain'
+      },
+      {
         date: new window.Kalendae.moment(), //'10/19/2014'),
         method: 'changeWind',
         direction: 'past',
@@ -328,6 +336,23 @@ export const config = {
       calendar: {
         domClass: 'risk-settings',
         childDomClass: 'risk-subsettings',
+        label: 'Select a date'
+      }
+    },
+    {
+      id: KEYS.lastRainfall,
+      order: 6,
+      type: 'image',
+      label: 'Days since last rainfall',
+      // sublabel: '(layer starts at 4/2/15)',
+      group: 'fires',
+      className: 'last-rainfall',
+      // disabled: true,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
+      metadataId: 'last_rainfall', //todo: find correct
+      calendar: {
+        domClass: 'rainfall-settings',
+        childDomClass: 'rainfall-subsettings',
         label: 'Select a date'
       }
     },
@@ -903,6 +928,7 @@ export const config = {
       'forest-change-tree-cover-gain': 'tree_cover_gain',
       'noaa18Fires': 'noaa18_fires',
       'fireRisk': 'fire_risk',
+      'lastRainfall': 'last_rainfall',
       'forest-change-forma-alerts': 'forma',
       'activeFires': 'firms_active_fires',
       'viirsFires': 'viirs_fires',
