@@ -18,20 +18,6 @@ import ShareHelper from 'helpers/ShareHelper';
 
 let LayersHelper = {
 
-  // connectLayerEvents () {
-  //   app.debug('LayersHelper >>> connectLayerEvents');
-  //   // Enable Mouse Events for al graphics layers
-  //   app.map.graphics.enableMouseEvents();
-  //   // Set up Click Listener to Perform Identify
-  //   app.map.on('click', this.performIdentify.bind(this));
-  //
-  //   app.map.on('zoom-end', this.checkZoomDependentLayers.bind(this)); //should this be routed through actions?
-  //
-  //   // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
-  //   //todo:updateAirQuality?!
-  //
-  // },
-
   sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
     ga('A.send', 'event', eventType, action, label);
     ga('B.send', 'event', eventType, action, label);
@@ -754,6 +740,42 @@ let LayersHelper = {
 
     if (riskLayer) {
       riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
+    }
+  },
+
+  updateLastRain (dayValue) {
+    app.debug('LayersHelper >>> updateLastRain');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Days Since Last Rainfall date expression.');
+
+    let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
+    let otherDate = new Date(dayValue);
+    let month = otherDate.getMonth();
+    let year = otherDate.getFullYear();
+    let janOne = new Date(year + ' 01 01');
+    let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
+
+    let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
+
+    if (month > 1 && this.isLeapYear(year)) {
+      julian++;
+    }
+
+    if (julian.toString().length === 1) {
+      julian = '00' + julian.toString();
+    } else if (julian.toString().length === 2) {
+      julian = '0' + julian.toString();
+    } else {
+      julian = julian.toString();
+    }
+
+    let defQuery = 'DSLR_' + year.toString() + julian + '_IDN';
+
+    let rainLayer = app.map.getLayer(KEYS.lastRainfall);
+
+    console.log(defQuery);
+
+    if (rainLayer) {
+      rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
     }
   },
 

@@ -30,7 +30,9 @@ class MapStore {
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);
-    this.riskDate = this.getDate(defaults.riskTempEnd); //todo: are we still getting data for this? -should this be hardcoded to some past date?
+    this.riskDate = this.getDate(defaults.riskTempEnd);
+    this.rainStartDate = this.getDate(defaults.riskStartDate);
+    this.rainDate = this.getDate(defaults.todaysDate);
     this.airQDate = this.getDate(defaults.todaysDate); //airQStartDate);
     this.windDate = this.getDate(defaults.todaysDate); //windStartDate);
     this.masterDate = this.getDate(defaults.todaysDate);
@@ -52,6 +54,7 @@ class MapStore {
       setArchiveDate: mapActions.setArchiveDate,
       setNoaaDate: mapActions.setNoaaDate,
       setRiskDate: mapActions.setRiskDate,
+      setRainDate: mapActions.setRainDate,
       setAirQDate: mapActions.setAirQDate,
       setWindDate: mapActions.setWindDate,
       setMasterDate: mapActions.setMasterDate,
@@ -85,6 +88,9 @@ class MapStore {
     });
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper)); //should this be routed through actions?
     // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+
+    LayersHelper.updateFireRisk(defaults.riskTempEnd);
+    LayersHelper.updateLastRain(defaults.todaysDate);
     //todo:updateAirQuality?!
 
   }
@@ -157,6 +163,14 @@ class MapStore {
     LayersHelper.updateFireRisk(this.riskDate);
   }
 
+  setRainDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateLastRain(this.rainDate);
+  }
+
   setAirQDate (dateObj) {
     this.calendarVisible = '';
 
@@ -184,6 +198,8 @@ class MapStore {
     let noaaStart = window.Kalendae.moment(defaults.noaaStartDate);
     let riskStart = window.Kalendae.moment(defaults.riskStartDate);
     let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
+    let rainStart = window.Kalendae.moment(defaults.riskStartDate);
+    let rainEnd = window.Kalendae.moment(defaults.todaysDate);
     let windStart = window.Kalendae.moment(defaults.windStartDate);
     let airQStart = window.Kalendae.moment(defaults.airQStartDate);
 
@@ -227,6 +243,16 @@ class MapStore {
       this.addActiveLayer(KEYS.fireRisk);
       this.riskDate = masterFormatted;
       LayersHelper.updateFireRisk(this.riskDate);
+    }
+
+    if (masterDate.isBefore(rainStart)) {
+      this.removeActiveLayer(KEYS.lastRainfall);
+    } else if (masterDate.isAfter(rainEnd)) {
+      this.removeActiveLayer(KEYS.lastRainfall);
+    } else {
+      this.addActiveLayer(KEYS.lastRainfall);
+      this.rainDate = masterFormatted;
+      LayersHelper.updateLastRain(this.rainDate);
     }
 
     if (masterDate.isBefore(airQStart)) {
