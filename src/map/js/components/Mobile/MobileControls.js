@@ -119,7 +119,7 @@ export default class Map extends React.Component {
         </button>
         <button onClick={this.toggleAnalysis}>
           <AnalysisSvg />
-          ANALYZE
+          FIRE REPORT
         </button>
         <button onClick={this.toggleSubscription}>
           <AlertsSvg/>
