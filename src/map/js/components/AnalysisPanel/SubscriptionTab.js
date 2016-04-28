@@ -103,7 +103,8 @@ drop = (evt) => {
   // mapActions.toggleAnalysisModal({ visible: false });
 
   const extent = scaleUtils.getExtentForScale(app.map, 40000);
-  const type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
+  // const type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
+  const type = TYPE.SHAPEFILE;
   const params = uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
   const content = uploadConfig.shapefileContent(JSON.stringify(params), type);
 
