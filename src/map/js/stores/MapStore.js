@@ -182,8 +182,8 @@ class MapStore {
     let archiveStart = window.Kalendae.moment(defaults.archiveStartDate);
     let archiveEnd = window.Kalendae.moment(defaults.archiveEndDate);
     let noaaStart = window.Kalendae.moment(defaults.noaaStartDate);
-    // let riskStart = window.Kalendae.moment(defaults.riskStartDate);
-    // let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
+    let riskStart = window.Kalendae.moment(defaults.riskStartDate);
+    let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
     let windStart = window.Kalendae.moment(defaults.windStartDate);
     let airQStart = window.Kalendae.moment(defaults.airQStartDate);
 
@@ -219,15 +219,15 @@ class MapStore {
       LayersHelper.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
     }
 
-    // if (masterDate.isBefore(riskStart)) {
-    //   this.removeActiveLayer(KEYS.fireRisk);
-    // } else if (masterDate.isAfter(riskEnd)) {
-    //   this.removeActiveLayer(KEYS.fireRisk);
-    // } else {
-    //   this.addActiveLayer(KEYS.fireRisk);
-    //   this.riskDate = masterFormatted;
-    //   LayersHelper.updateFireRisk(this.riskDate);
-    // }
+    if (masterDate.isBefore(riskStart)) {
+      this.removeActiveLayer(KEYS.fireRisk);
+    } else if (masterDate.isAfter(riskEnd)) {
+      this.removeActiveLayer(KEYS.fireRisk);
+    } else {
+      this.addActiveLayer(KEYS.fireRisk);
+      this.riskDate = masterFormatted;
+      LayersHelper.updateFireRisk(this.riskDate);
+    }
 
     if (masterDate.isBefore(airQStart)) {
       this.removeActiveLayer(KEYS.airQuality);

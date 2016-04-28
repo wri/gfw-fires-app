@@ -24,20 +24,34 @@ export default class FireRiskLegend extends React.Component {
   render() {
     return (
       <div className={`legend-container ${this.props.domClass}`}>
-        {this.state.legendInfos.length === 0 ? <div className='legend-unavailable'>No Legend</div> :
-          <div className='fire-risk-legend'>
-            {this.state.legendInfos.map(this.itemMapper, this)}
+        <div className='fire-risk-legend'>
+          <div id='fireRiskLegendDataColors'>
+            <div id='fireRiskLegendDataColorsBottom'>
+              <div id='fireRiskLegend'>
+                <div className='fireRiskLegendRow'>
+                  <span className='fireRiskLegendData fireRiskLegendDataHighest'>Very High Risk</span>
+                </div>
+                <div className='fireRiskLegendRow'>
+                  <span className='fireRiskLegendData fireRiskLegendDataHigh'>High Risk</span>
+                </div>
+                <div className='fireRiskLegendRow'>
+                  <span className='fireRiskLegendData fireRiskLegendDataMedium'>Moderate Risk</span>
+                </div>
+                <div className='fireRiskLegendRow'>
+                  <span className='fireRiskLegendData fireRiskLegendDataLow'>Low Risk</span>
+                </div>
+                <div className='fireRiskLegendRow'>
+                  <span className='fireRiskLegendData fireRiskLegendDataLowest'>Very Low Risk</span>
+                </div>
+                <div className='fireRiskLegendRow'>
+                  <span className='fireRiskLegendData'>No Data</span>
+                </div>
+              </div>
+            </div>
           </div>
-        }
+        </div>
       </div>
     );
-  }
-
-  itemMapper (item, index) {
-    return <div className='legend-row' key={index}>
-      <img title={item.label} src={`data:image/png;base64,${item.imageData}`} />
-      <div className='legend-label'>{item.label}</div>
-    </div>;
   }
 
 }
