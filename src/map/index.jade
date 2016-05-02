@@ -12,7 +12,8 @@ block append head-styles
       @require 'css/_critical'
 
 block append head-scripts
-  script(src='../vendors/jquery/dist/jquery.min.js')
+  //- script(src='../vendors/jquery/dist/jquery.min.js')
+  script(src='https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
   script(src='../vendors/kalendae/build/kalendae.standalone.js', async)
   script.
     var base = location.pathname.replace(/\/[^/]+$/, '/map/');
