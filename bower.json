@@ -10,6 +10,7 @@
     "babel-polyfill": "~0.0.1",
     "react-motion": "~0.3.1",
     "kalendae": "~0.4.1",
+    "jquery": "2.1.4",
     "chosen": "~1.5.1",
     "moment": "~2.11.2",
     "moment-timezone": "~0.5.0",

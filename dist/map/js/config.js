@@ -121,14 +121,14 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         domId: 'noaaEnd',
         domClass: 'noaa-end'
       }, {
-        date: new window.Kalendae.moment('02/17/2016'),
+        date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeRisk',
         direction: 'past',
         startDate: new window.Kalendae.moment('04/02/2015'),
         domId: 'risk',
         domClass: 'risk'
       }, {
-        date: new window.Kalendae.moment(),
+        date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeRain',
         direction: 'past',
         startDate: new window.Kalendae.moment('04/02/2015'),
