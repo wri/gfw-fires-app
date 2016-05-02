@@ -1,3 +1,6 @@
+
+import Deferred from 'dojo/Deferred';
+
 const loaders = {
 
   loadCSS: url => {
@@ -9,15 +12,25 @@ const loaders = {
   },
 
   loadJS: (url, async) => {
-    let promise = new Promise((resolve, reject) => {
-      let script = document.createElement('script');
-      script.src = url;
-      script.async = async || false;
-      script.onload = resolve;
-      script.onerror = reject;
-      requestAnimationFrame(function () { document.getElementsByTagName('head')[0].appendChild(script); });
-    });
-    return promise;
+
+    let deferred = new Deferred();
+
+    let script = document.createElement('script');
+    script.src = url;
+    script.async = async || false;
+    script.onload = deferred.resolve();
+    script.onerror = deferred.reject();
+    requestAnimationFrame(function () { document.getElementsByTagName('head')[0].appendChild(script); });
+
+    // let promise = new Promise((resolve, reject) => {
+    //   let script = document.createElement('script');
+    //   script.src = url;
+    //   script.async = async || false;
+    //   script.onload = resolve;
+    //   script.onerror = reject;
+    //   requestAnimationFrame(function () { document.getElementsByTagName('head')[0].appendChild(script); });
+    // });
+    return deferred;
   }
 
 };
