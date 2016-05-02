@@ -13,7 +13,7 @@ block append head-styles
 
 block append head-scripts
   //- script(src='../vendors/jquery/dist/jquery.min.js')
-  script(src='https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
+  //- script(src='https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
   script(src='../vendors/kalendae/build/kalendae.standalone.js', async)
   script.
     var base = location.pathname.replace(/\/[^/]+$/, '/map/');
@@ -37,8 +37,8 @@ block append head-scripts
         ['react-dom', 'vendors/react/react-dom.min'],
         ['react-motion', 'vendors/react-motion/build/react-motion'],
         ['lodash', 'vendors/lodash/lodash.min'],
-        //- ['jquery', 'vendors/jquery/dist/jquery.min'],
-        ['jquery', 'https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js'],
+        ['jquery', 'vendors/jquery/dist/jquery.min'],
+        //- ['jquery', 'https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js'],
         ['babel-polyfill', 'vendors/babel-polyfill/browser-polyfill'],
         ['formsy-react', 'vendors/formsy-react/release/formsy-react'],
         ['chosen', 'vendors/chosen/chosen.jquery']

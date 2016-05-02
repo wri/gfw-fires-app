@@ -13,25 +13,28 @@ export default class CanopyModal extends React.Component {
   }
 
   componentDidMount() {
-    loadJS(assetUrls.rangeSlider).then(() => {
-      $('#tree-cover-slider').ionRangeSlider({
-        type: 'single',
-        values: modalText.canopy.slider,
-        hide_min_max: true,
-        grid_snap: true,
-        to_fixed: true,
-        from_min: 1,
-        from_max: 7,
-        grid: true,
-        from: 5,
-        onFinish: this.sliderChanged,
-        onUpdate: this.sliderUpdated,
-        prettify: value => (value + '%')
-      });
-    }, console.error);
-    // Update with the default values
-    let defaults = mapStore.getState();
-    LayersHelper.updateTreeCoverDefinitions(defaults.canopyDensity);
+    setTimeout(function () {
+      loadJS(assetUrls.rangeSlider).then(() => {
+        $('#tree-cover-slider').ionRangeSlider({
+          type: 'single',
+          values: modalText.canopy.slider,
+          hide_min_max: true,
+          grid_snap: true,
+          to_fixed: true,
+          from_min: 1,
+          from_max: 7,
+          grid: true,
+          from: 5,
+          onFinish: this.sliderChanged,
+          onUpdate: this.sliderUpdated,
+          prettify: value => (value + '%')
+        });
+      }, console.error);
+      // Update with the default values
+      let defaults = mapStore.getState();
+      LayersHelper.updateTreeCoverDefinitions(defaults.canopyDensity);
+    }, 3000);
+
   }
 
   sliderChanged (data) {
