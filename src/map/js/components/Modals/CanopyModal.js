@@ -5,7 +5,7 @@ import {modalText, assetUrls} from 'js/config';
 import {mapStore} from 'stores/MapStore';
 import {loadJS} from 'utils/loaders';
 import React from 'react';
-import 'jquery';
+// import 'jquery';
 
 export default class CanopyModal extends React.Component {
 
