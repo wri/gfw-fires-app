@@ -97,7 +97,41 @@ define(['exports', 'react'], function (exports, _react) {
           _react2.default.createElement(
             'div',
             { id: 'lastRainLegendDataColors' },
-            _react2.default.createElement('div', { id: 'lastRainLegendDataColorsBottom' })
+            _react2.default.createElement(
+              'div',
+              { id: 'lastRainLegendDataColorsBottom' },
+              _react2.default.createElement(
+                'div',
+                { id: 'lastRainLegend' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lastRainLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'lastRainLegendData lastRainLegendDataHighest' },
+                    '40 or more days'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lastRainLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'lastRainLegendData lastRainLegendDataMedium' },
+                    '20 days'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lastRainLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'lastRainLegendData lastRainLegendDataLow' },
+                    '0 days'
+                  )
+                )
+              )
+            )
           )
         );
       }

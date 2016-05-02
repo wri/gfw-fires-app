@@ -72,9 +72,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.noaaStartDate = this.getDate(_config.defaults.analysisStartDate);
       this.noaaEndDate = this.getDate(_config.defaults.todaysDate);
       this.riskStartDate = this.getDate(_config.defaults.riskStartDate);
-      this.riskDate = this.getDate(_config.defaults.riskTempEnd);
+      this.riskDate = this.getDate(_config.defaults.yesterday);
       this.rainStartDate = this.getDate(_config.defaults.riskStartDate);
-      this.rainDate = this.getDate(_config.defaults.todaysDate);
+      this.rainDate = this.getDate(_config.defaults.yesterday);
       this.airQDate = this.getDate(_config.defaults.todaysDate); //airQStartDate);
       this.windDate = this.getDate(_config.defaults.todaysDate); //windStartDate);
       this.masterDate = this.getDate(_config.defaults.todaysDate);
@@ -130,11 +130,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         app.map.on('extent-change, basemap-change', function () {
           _ShareHelper2.default.handleHashChange();
         });
-        app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default)); //should this be routed through actions?
-        // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+        app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
 
-        _LayersHelper2.default.updateFireRisk(_config.defaults.riskTempEnd);
-        _LayersHelper2.default.updateLastRain(_config.defaults.todaysDate);
+        _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
+        _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
         //todo:updateAirQuality?!
       }
     }, {

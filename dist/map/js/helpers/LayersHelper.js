@@ -814,7 +814,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       return new Date(mdy[2], mdy[0] - 1, mdy[1]);
     },
     daydiff: function daydiff(first, second) {
-      return Math.round((second - first) / (1000 * 60 * 60 * 24)) + 1;
+      return Math.round((second - first) / (1000 * 60 * 60 * 24));
     },
     isLeapYear: function isLeapYear(year) {
       if ((year & 3) !== 0) {
