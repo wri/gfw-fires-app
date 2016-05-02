@@ -77,10 +77,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     _createClass(CanopyModal, [{
       key: 'componentDidMount',
       value: function componentDidMount() {
-        setTimeout(function () {
-          var _this2 = this;
 
-          (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
+        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
+          setTimeout(function () {
             $('#tree-cover-slider').ionRangeSlider({
               type: 'single',
               values: _config.modalText.canopy.slider,
@@ -91,17 +90,17 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
               from_max: 7,
               grid: true,
               from: 5,
-              onFinish: _this2.sliderChanged,
-              onUpdate: _this2.sliderUpdated,
+              onFinish: this.sliderChanged,
+              onUpdate: this.sliderUpdated,
               prettify: function prettify(value) {
                 return value + '%';
               }
             });
-          }, console.error);
-          // Update with the default values
-          var defaults = _MapStore.mapStore.getState();
-          _LayersHelper2.default.updateTreeCoverDefinitions(defaults.canopyDensity);
-        }, 3000);
+          }, 3000);
+        }, console.error);
+        // Update with the default values
+        var defaults = _MapStore.mapStore.getState();
+        _LayersHelper2.default.updateTreeCoverDefinitions(defaults.canopyDensity);
       }
     }, {
       key: 'sliderChanged',
