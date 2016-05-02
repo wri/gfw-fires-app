@@ -1,11 +1,9 @@
-define(['exports', 'utils/request', 'react'], function (exports, _request, _react) {
+define(['exports', 'react'], function (exports, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  var _request2 = _interopRequireDefault(_request);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -95,29 +93,73 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
       value: function render() {
         return _react2.default.createElement(
           'div',
-          { className: 'legend-container ' + this.props.domClass },
-          this.state.legendInfos.length === 0 ? _react2.default.createElement(
-            'div',
-            { className: 'legend-unavailable' },
-            'No Legend'
-          ) : _react2.default.createElement(
-            'div',
-            { className: 'fire-risk-legend' },
-            this.state.legendInfos.map(this.itemMapper, this)
-          )
-        );
-      }
-    }, {
-      key: 'itemMapper',
-      value: function itemMapper(item, index) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'legend-row', key: index },
-          _react2.default.createElement('img', { title: item.label, src: 'data:image/png;base64,' + item.imageData }),
+          { className: 'fire-risk-legend' },
           _react2.default.createElement(
             'div',
-            { className: 'legend-label' },
-            item.label
+            { id: 'fireRiskLegendDataColors' },
+            _react2.default.createElement(
+              'div',
+              { id: 'fireRiskLegendDataColorsBottom' },
+              _react2.default.createElement('div', { id: 'fireRiskLegendNoData' }),
+              _react2.default.createElement(
+                'div',
+                { id: 'fireRiskLegend' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fireRiskLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireRiskLegendData fireRiskLegendDataHighest' },
+                    'Very High Risk'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fireRiskLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireRiskLegendData fireRiskLegendDataHigh' },
+                    'High Risk'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fireRiskLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireRiskLegendData fireRiskLegendDataMedium' },
+                    'Moderate Risk'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fireRiskLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireRiskLegendData fireRiskLegendDataLow' },
+                    'Low Risk'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fireRiskLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireRiskLegendData fireRiskLegendDataLowest' },
+                    'Very Low Risk'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'fireRiskLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireRiskLegendData' },
+                    'No Data'
+                  )
+                )
+              )
+            )
           )
         );
       }

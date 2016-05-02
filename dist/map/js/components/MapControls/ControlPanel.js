@@ -163,7 +163,8 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
     }, {
       key: 'toggleSearch',
       value: function toggleSearch() {
-        _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
+        // analysisActions.toggleEsriSearchVisibility();
+        _ModalActions.modalActions.showSearchModal();
       }
     }, {
       key: 'render',

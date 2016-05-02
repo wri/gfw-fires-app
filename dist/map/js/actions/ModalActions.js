@@ -148,6 +148,12 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
         _domClass2.default.remove('canopy-modal', 'hidden');
       }
     }, {
+      key: 'showSearchModal',
+      value: function showSearchModal() {
+        app.debug('ModalActions >>> showSearchModal');
+        _domClass2.default.remove('search-modal', 'hidden');
+      }
+    }, {
       key: 'hideModal',
       value: function hideModal(node) {
         app.debug('ModalActions >>> hideModal');

@@ -133,7 +133,8 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         // mapActions.toggleAnalysisModal({ visible: false });
 
         var extent = _scaleUtils2.default.getExtentForScale(app.map, 40000);
-        var type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
+        // const type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
+        var type = TYPE.SHAPEFILE;
         var params = _config.uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
         var content = _config.uploadConfig.shapefileContent(JSON.stringify(params), type);
 

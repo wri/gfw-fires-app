@@ -72,7 +72,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.noaaStartDate = this.getDate(_config.defaults.analysisStartDate);
       this.noaaEndDate = this.getDate(_config.defaults.todaysDate);
       this.riskStartDate = this.getDate(_config.defaults.riskStartDate);
-      this.riskDate = this.getDate(_config.defaults.riskTempEnd); //todo: are we still getting data for this? -should this be hardcoded to some past date?
+      this.riskDate = this.getDate(_config.defaults.riskTempEnd);
+      this.rainStartDate = this.getDate(_config.defaults.riskStartDate);
+      this.rainDate = this.getDate(_config.defaults.todaysDate);
       this.airQDate = this.getDate(_config.defaults.todaysDate); //airQStartDate);
       this.windDate = this.getDate(_config.defaults.todaysDate); //windStartDate);
       this.masterDate = this.getDate(_config.defaults.todaysDate);
@@ -94,6 +96,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         setArchiveDate: _MapActions.mapActions.setArchiveDate,
         setNoaaDate: _MapActions.mapActions.setNoaaDate,
         setRiskDate: _MapActions.mapActions.setRiskDate,
+        setRainDate: _MapActions.mapActions.setRainDate,
         setAirQDate: _MapActions.mapActions.setAirQDate,
         setWindDate: _MapActions.mapActions.setWindDate,
         setMasterDate: _MapActions.mapActions.setMasterDate,
@@ -129,6 +132,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         });
         app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default)); //should this be routed through actions?
         // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+
+        _LayersHelper2.default.updateFireRisk(_config.defaults.riskTempEnd);
+        _LayersHelper2.default.updateLastRain(_config.defaults.todaysDate);
         //todo:updateAirQuality?!
       }
     }, {
@@ -211,6 +217,15 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         _LayersHelper2.default.updateFireRisk(this.riskDate);
       }
     }, {
+      key: 'setRainDate',
+      value: function setRainDate(dateObj) {
+        this.calendarVisible = '';
+
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+        _LayersHelper2.default.updateLastRain(this.rainDate);
+      }
+    }, {
       key: 'setAirQDate',
       value: function setAirQDate(dateObj) {
         this.calendarVisible = '';
@@ -239,8 +254,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         var archiveStart = window.Kalendae.moment(_config.defaults.archiveStartDate);
         var archiveEnd = window.Kalendae.moment(_config.defaults.archiveEndDate);
         var noaaStart = window.Kalendae.moment(_config.defaults.noaaStartDate);
-        // let riskStart = window.Kalendae.moment(defaults.riskStartDate);
-        // let riskEnd = window.Kalendae.moment(defaults.riskTempEnd);
+        var riskStart = window.Kalendae.moment(_config.defaults.riskStartDate);
+        var riskEnd = window.Kalendae.moment(_config.defaults.riskTempEnd);
+        var rainStart = window.Kalendae.moment(_config.defaults.riskStartDate);
+        var rainEnd = window.Kalendae.moment(_config.defaults.todaysDate);
         var windStart = window.Kalendae.moment(_config.defaults.windStartDate);
         var airQStart = window.Kalendae.moment(_config.defaults.airQStartDate);
 
@@ -278,15 +295,25 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           _LayersHelper2.default.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
         }
 
-        // if (masterDate.isBefore(riskStart)) {
-        //   this.removeActiveLayer(KEYS.fireRisk);
-        // } else if (masterDate.isAfter(riskEnd)) {
-        //   this.removeActiveLayer(KEYS.fireRisk);
-        // } else {
-        //   this.addActiveLayer(KEYS.fireRisk);
-        //   this.riskDate = masterFormatted;
-        //   LayersHelper.updateFireRisk(this.riskDate);
-        // }
+        if (masterDate.isBefore(riskStart)) {
+          this.removeActiveLayer(_constants2.default.fireRisk);
+        } else if (masterDate.isAfter(riskEnd)) {
+          this.removeActiveLayer(_constants2.default.fireRisk);
+        } else {
+          this.addActiveLayer(_constants2.default.fireRisk);
+          this.riskDate = masterFormatted;
+          _LayersHelper2.default.updateFireRisk(this.riskDate);
+        }
+
+        if (masterDate.isBefore(rainStart)) {
+          this.removeActiveLayer(_constants2.default.lastRainfall);
+        } else if (masterDate.isAfter(rainEnd)) {
+          this.removeActiveLayer(_constants2.default.lastRainfall);
+        } else {
+          this.addActiveLayer(_constants2.default.lastRainfall);
+          this.rainDate = masterFormatted;
+          _LayersHelper2.default.updateLastRain(this.rainDate);
+        }
 
         if (masterDate.isBefore(airQStart)) {
           this.removeActiveLayer(_constants2.default.airQuality);

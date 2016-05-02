@@ -180,7 +180,7 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
             'button',
             { onClick: this.toggleAnalysis },
             _react2.default.createElement(_svgs.AnalysisSvg, null),
-            'ANALYZE'
+            'FIRE REPORT'
           ),
           _react2.default.createElement(
             'button',

@@ -215,6 +215,15 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				});
 			}
 		}, {
+			key: 'changeRain',
+			value: function changeRain(date) {
+				this.close();
+				_MapActions.mapActions.setRainDate({
+					date: date,
+					dest: 'rainDate'
+				});
+			}
+		}, {
 			key: 'changeAirQ',
 			value: function changeAirQ(date) {
 				this.close();

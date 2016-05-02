@@ -745,6 +745,41 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
       }
     },
+    updateLastRain: function updateLastRain(dayValue) {
+      app.debug('LayersHelper >>> updateLastRain');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Days Since Last Rainfall date expression.');
+
+      var date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
+      var otherDate = new Date(dayValue);
+      var month = otherDate.getMonth();
+      var year = otherDate.getFullYear();
+      var janOne = new Date(year + ' 01 01');
+      var origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
+
+      var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
+
+      if (month > 1 && this.isLeapYear(year)) {
+        julian++;
+      }
+
+      if (julian.toString().length === 1) {
+        julian = '00' + julian.toString();
+      } else if (julian.toString().length === 2) {
+        julian = '0' + julian.toString();
+      } else {
+        julian = julian.toString();
+      }
+
+      var defQuery = 'DSLR_' + year.toString() + julian + '_IDN';
+
+      var rainLayer = app.map.getLayer(_constants2.default.lastRainfall);
+
+      console.log(defQuery);
+
+      if (rainLayer) {
+        rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
+      }
+    },
     updateAirQDate: function updateAirQDate(dayValue) {
       app.debug('LayersHelper >>> updateAirQDate');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Air Quality date expression.');

@@ -128,6 +128,13 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         domId: 'risk',
         domClass: 'risk'
       }, {
+        date: new window.Kalendae.moment(),
+        method: 'changeRain',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('04/02/2015'),
+        domId: 'rain',
+        domClass: 'rain'
+      }, {
         date: new window.Kalendae.moment(), //'10/19/2014'),
         method: 'changeWind',
         direction: 'past',
@@ -297,12 +304,28 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(layer starts at 4/2/15)',
       group: 'fires',
       className: 'fire-risk',
-      disabled: true,
+      // disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
       metadataId: 'fire_risk',
       calendar: {
         domClass: 'risk-settings',
         childDomClass: 'risk-subsettings',
+        label: 'Select a date'
+      }
+    }, {
+      id: _constants2.default.lastRainfall,
+      order: 6,
+      type: 'image',
+      label: 'Days since last rainfall',
+      // sublabel: '(layer starts at 4/2/15)',
+      group: 'fires',
+      className: 'last-rainfall',
+      // disabled: true,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
+      metadataId: 'last_rainfall', //todo: find correct
+      calendar: {
+        domClass: 'rainfall-settings',
+        childDomClass: 'rainfall-subsettings',
         label: 'Select a date'
       }
     },
@@ -805,6 +828,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'forest-change-tree-cover-gain': 'tree_cover_gain',
         'noaa18Fires': 'noaa18_fires',
         'fireRisk': 'fire_risk',
+        'lastRainfall': 'last_rainfall',
         'forest-change-forma-alerts': 'forma',
         'activeFires': 'firms_active_fires',
         'viirsFires': 'viirs_fires',

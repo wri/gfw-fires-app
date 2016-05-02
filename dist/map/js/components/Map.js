@@ -115,11 +115,12 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     }, {
       key: 'render',
       value: function render() {
+
+        //<EsriSearch loaded={this.state.loaded} />
         return _react2.default.createElement(
           'div',
           { id: _config.mapConfig.id, className: 'map' },
           _react2.default.createElement(_LayerPanel2.default, { loaded: this.state.loaded }),
-          _react2.default.createElement(_EsriSearch2.default, { loaded: this.state.loaded }),
           _react2.default.createElement(_AnalysisTools2.default, null),
           _react2.default.createElement(_ControlPanel2.default, null),
           _react2.default.createElement(_Timeline2.default, null),

@@ -177,6 +177,12 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(date);
       }
     }, {
+      key: 'setRainDate',
+      value: function setRainDate(date) {
+        app.debug('MapActions >>> setRainDate');
+        this.dispatch(date);
+      }
+    }, {
       key: 'setAirQDate',
       value: function setAirQDate(date) {
         app.debug('MapActions >>> setAirQDate');

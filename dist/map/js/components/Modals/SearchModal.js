@@ -1,13 +1,17 @@
-define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/AnalysisStore', 'js/config', 'esri/dijit/Search', 'react'], function (exports, _AnalysisActions, _MapActions, _AnalysisStore, _config, _Search, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'helpers/LayersHelper', 'js/config', 'stores/MapStore', 'utils/loaders', 'react', 'actions/AnalysisActions', 'actions/MapActions', 'stores/AnalysisStore', 'esri/dijit/Search'], function (exports, _ModalWrapper, _ModalActions, _LayersHelper, _config, _MapStore, _loaders, _react, _AnalysisActions, _MapActions, _AnalysisStore, _Search) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
-  var _Search2 = _interopRequireDefault(_Search);
+  var _ModalWrapper2 = _interopRequireDefault(_ModalWrapper);
+
+  var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _Search2 = _interopRequireDefault(_Search);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -154,13 +158,13 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
     return result;
   }
 
-  var EsriSearch = function (_React$Component) {
-    _inherits(EsriSearch, _React$Component);
+  var SearchModal = function (_React$Component) {
+    _inherits(SearchModal, _React$Component);
 
-    function EsriSearch(props) {
-      _classCallCheck(this, EsriSearch);
+    function SearchModal(props) {
+      _classCallCheck(this, SearchModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EsriSearch).call(this, props));
+      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchModal).call(this, props));
 
       _this.state = {
         value: '',
@@ -176,10 +180,10 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
       return _this;
     }
 
-    _createClass(EsriSearch, [{
-      key: 'componentWillReceiveProps',
-      value: function componentWillReceiveProps(nextProps) {
-        if (!this.props.loaded && nextProps.loaded) {
+    _createClass(SearchModal, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        if (!this.state.searchWidget) {
           this.setState({ searchWidget: generateSearchWidget(this) });
         }
       }
@@ -287,189 +291,191 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
         var className = 'search-tools map-component';
         // NOTE: searchInput is mounted & unmounted visible to take advantage of keyboard autoFocus
         var searchInput = this.state.esriSearchVisible === false ? undefined : _react2.default.createElement('input', { ref: 'searchInput', className: 'search-input fill__wide', type: 'text', placeholder: _config.analysisPanelText.searchPlaceholder, value: this.state.value, onChange: this.change.bind(this), onKeyDown: this.keyDown, autoFocus: true });
-        if (this.state.esriSearchVisible === false) {
-          className += ' hidden';
-        }
+        // if (this.state.esriSearchVisible === false) { className += ' hidden'; }
         if (app.mobile() === true) {
           className += ' isSearchMobile';
           tabs[2] = 'Decimal D.';
         }
 
         return _react2.default.createElement(
-          'div',
-          { className: className },
+          _ModalWrapper2.default,
+          null,
           _react2.default.createElement(
             'div',
-            { className: 'search-tab-container' },
-            tabs.map(function (t, i) {
-              return _react2.default.createElement(
-                'button',
-                { className: 'search-tab ' + (i === _this2.state.visibleTab ? 'active' : ''), onClick: function onClick() {
-                    return _this2.setState({ visibleTab: i });
-                  } },
-                t
-              );
-            })
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: this.state.visibleTab === 0 ? '' : 'hidden' },
+            { className: className },
             _react2.default.createElement(
               'div',
-              { className: 'search-input-container' },
-              searchInput,
+              { className: 'search-tab-container' },
+              tabs.map(function (t, i) {
+                return _react2.default.createElement(
+                  'button',
+                  { className: 'search-tab ' + (i === _this2.state.visibleTab ? 'active' : ''), onClick: function onClick() {
+                      return _this2.setState({ visibleTab: i });
+                    } },
+                  t
+                );
+              })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: this.state.visibleTab === 0 ? '' : 'hidden' },
               _react2.default.createElement(
-                'button',
-                { className: 'border-right padding back-white' },
-                _react2.default.createElement('svg', { className: 'search-magnifier vertical-middle', dangerouslySetInnerHTML: { __html: magnifierSvg } })
+                'div',
+                { className: 'search-input-container' },
+                _react2.default.createElement('input', { ref: 'searchInput', className: 'search-input fill__wide', type: 'text', placeholder: _config.analysisPanelText.searchPlaceholder, value: this.state.value, onChange: this.change.bind(this), onKeyDown: this.keyDown, autoFocus: true }),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'border-right padding back-white' },
+                  _react2.default.createElement('svg', { className: 'search-magnifier vertical-middle', dangerouslySetInnerHTML: { __html: magnifierSvg } })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'locate-me pointer', title: 'Locate Me', onClick: this.locateMe },
+                  _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: locateSvg } })
+                )
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'locate-me pointer', title: 'Locate Me', onClick: this.locateMe },
-                _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: locateSvg } })
+                { ref: 'searchResults', className: 'search-results custom-scroll' },
+                this.state.suggestResults.map(function (r, i) {
+                  return _react2.default.createElement(
+                    'div',
+                    null,
+                    _react2.default.createElement(
+                      'button',
+                      { 'data-suggestion-index': i, onClick: _this2.suggestionSearch, onKeyDown: _this2.suggestionKeyDown },
+                      r
+                    )
+                  );
+                }, this)
               )
             ),
             _react2.default.createElement(
               'div',
-              { ref: 'searchResults', className: 'search-results custom-scroll' },
-              this.state.suggestResults.map(function (r, i) {
-                return _react2.default.createElement(
+              { className: this.state.visibleTab === 1 ? '' : 'hidden' },
+              _react2.default.createElement(
+                'div',
+                { ref: 'coordinatesA', className: 'search-coordinates back-white' },
+                _react2.default.createElement(
                   'div',
                   null,
+                  _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
+                  'º'
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
+                  "'"
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
+                  '"'
+                ),
+                _react2.default.createElement(
+                  'select',
+                  { ref: 'directionA' },
                   _react2.default.createElement(
-                    'button',
-                    { 'data-suggestion-index': i, onClick: _this2.suggestionSearch, onKeyDown: _this2.suggestionKeyDown },
-                    r
+                    'option',
+                    null,
+                    'N'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    null,
+                    'S'
                   )
-                );
-              }, this)
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: this.state.visibleTab === 1 ? '' : 'hidden' },
-            _react2.default.createElement(
-              'div',
-              { ref: 'coordinatesA', className: 'search-coordinates back-white' },
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                'º'
+                )
               ),
               _react2.default.createElement(
                 'div',
-                null,
-                _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                "'"
-              ),
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                '"'
-              ),
-              _react2.default.createElement(
-                'select',
-                { ref: 'directionA' },
+                { ref: 'coordinatesB', className: 'search-coordinates back-white' },
                 _react2.default.createElement(
-                  'option',
+                  'div',
                   null,
-                  'N'
+                  _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
+                  'º'
                 ),
                 _react2.default.createElement(
-                  'option',
+                  'div',
                   null,
-                  'S'
+                  _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
+                  "'"
+                ),
+                _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
+                  '"'
+                ),
+                _react2.default.createElement(
+                  'select',
+                  { ref: 'directionB' },
+                  _react2.default.createElement(
+                    'option',
+                    null,
+                    'W'
+                  ),
+                  _react2.default.createElement(
+                    'option',
+                    null,
+                    'E'
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { id: 'coordinateSearch' },
+                _react2.default.createElement(
+                  'button',
+                  { className: 'search-submit-button gfw-btn green', onClick: this.coordinateSearch.bind(this) },
+                  'Search'
                 )
               )
             ),
             _react2.default.createElement(
               'div',
-              { ref: 'coordinatesB', className: 'search-coordinates back-white' },
+              { className: 'search-box degrees ' + (this.state.visibleTab === 2 ? '' : 'hidden') },
               _react2.default.createElement(
                 'div',
-                null,
-                _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                'º'
-              ),
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                "'"
-              ),
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                '"'
-              ),
-              _react2.default.createElement(
-                'select',
-                { ref: 'directionB' },
+                { className: 'deg-box' },
                 _react2.default.createElement(
-                  'option',
+                  'span',
                   null,
-                  'W'
+                  'Lat:'
                 ),
+                _react2.default.createElement('input', { ref: 'decimalDegreeLat', type: 'number', className: 'deg-input', id: 'deg-lat', name: 'deg-lat' })
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'deg-box' },
                 _react2.default.createElement(
-                  'option',
+                  'span',
                   null,
-                  'E'
-                )
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { id: 'coordinateSearch' },
+                  'Lon:'
+                ),
+                _react2.default.createElement('input', { ref: 'decimalDegreeLng', type: 'number', className: 'deg-input', id: 'deg-lng', name: 'deg-lng' })
+              ),
               _react2.default.createElement(
                 'button',
-                { className: 'search-submit-button gfw-btn green', onClick: this.coordinateSearch.bind(this) },
+                { className: 'search-submit-button gfw-btn green', onClick: this.decimalDegreeSearch.bind(this) },
                 'Search'
               )
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'search-box degrees ' + (this.state.visibleTab === 2 ? '' : 'hidden') },
-            _react2.default.createElement(
-              'div',
-              { className: 'deg-box' },
-              _react2.default.createElement(
-                'span',
-                null,
-                'Lat:'
-              ),
-              _react2.default.createElement('input', { ref: 'decimalDegreeLat', type: 'number', className: 'deg-input', id: 'deg-lat', name: 'deg-lat' })
             ),
             _react2.default.createElement(
               'div',
-              { className: 'deg-box' },
-              _react2.default.createElement(
-                'span',
-                null,
-                'Lon:'
-              ),
-              _react2.default.createElement('input', { ref: 'decimalDegreeLng', type: 'number', className: 'deg-input', id: 'deg-lng', name: 'deg-lng' })
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'search-submit-button gfw-btn green', onClick: this.decimalDegreeSearch.bind(this) },
-              'Search'
+              { className: 'hidden' },
+              _react2.default.createElement('div', { id: _config.analysisPanelText.searchWidgetId })
             )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'hidden' },
-            _react2.default.createElement('div', { id: _config.analysisPanelText.searchWidgetId })
           )
         );
       }
     }]);
 
-    return EsriSearch;
+    return SearchModal;
   }(_react2.default.Component);
 
-  exports.default = EsriSearch;
+  exports.default = SearchModal;
 });

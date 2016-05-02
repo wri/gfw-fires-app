@@ -1,4 +1,4 @@
-define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
+define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/SearchModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
   'use strict';
 
   var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
@@ -6,6 +6,8 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   var _LayerModal2 = _interopRequireDefault(_LayerModal);
 
   var _CanopyModal2 = _interopRequireDefault(_CanopyModal);
+
+  var _SearchModal2 = _interopRequireDefault(_SearchModal);
 
   var _BasemapModal2 = _interopRequireDefault(_BasemapModal);
 
@@ -75,6 +77,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     _reactDom2.default.render(_react2.default.createElement(_Map2.default, null), document.getElementById('root'));
     _reactDom2.default.render(_react2.default.createElement(_LayerModal2.default, null), document.getElementById('layer-modal'));
     _reactDom2.default.render(_react2.default.createElement(_CanopyModal2.default, null), document.getElementById('canopy-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_SearchModal2.default, null), document.getElementById('search-modal'));
     _reactDom2.default.render(_react2.default.createElement(_BasemapModal2.default, null), document.getElementById('basemap-modal'));
     _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById('calendar-modal'));
     _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
