@@ -305,12 +305,19 @@
 	margin-left 30px
 	margin-top -7px
 
-.fireRiskLegendData, .lastRainLegendData
+.fireRiskLegendData
 	margin-top 4px
 	display inline-block
 	min-height 15px
 	min-width 15px
-	float right
+	// float right
+
+
+.lastRainLegendData
+	margin-top 7px
+	display block
+	min-height 32px
+	min-width 15px
 
 // .fireRiskLegendDataHighest
 	// background #B53092
@@ -333,15 +340,21 @@
 	// float right
 
 #lastRainLegendDataColors
-	background-image url(images/DSLR_legend.png)
-	height 200px
-	background-size 200px
-	width 180px
-	// margin-left -120px
-	// margin-top 5px
-	// margin-bottom 15px
+	// background-image url(images/DSLR_legend.png)
+	background-image url(images/rainfallLegend.png)
+	// height 200px
+	// background-size 200px
+	// width 23px
+	height 100px
+	background-size 23px
+	width 23px
+	margin-left -120px
+	margin-top 5px
+	margin-bottom 15px
+	// padding-right 50px
+	float right
 
-.fireRiskLegendDataColors
+.fireRiskLegendDataColors, .lastRainLegendDataColors
 	margin-left 23px
 	display inline-block
 	height 120px
@@ -359,7 +372,7 @@
 	float right
 	// border 1px solid gray
 
-#fireRiskLegendDataColorsBottom
+#fireRiskLegendDataColorsBottom, #lastRainLegendDataColorsBottom
 	height 100px
 	// margin-top 6px
 	background-size 20px

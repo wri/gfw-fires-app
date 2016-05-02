@@ -30,9 +30,9 @@ class MapStore {
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);
-    this.riskDate = this.getDate(defaults.riskTempEnd);
+    this.riskDate = this.getDate(defaults.yesterday);
     this.rainStartDate = this.getDate(defaults.riskStartDate);
-    this.rainDate = this.getDate(defaults.todaysDate);
+    this.rainDate = this.getDate(defaults.yesterday);
     this.airQDate = this.getDate(defaults.todaysDate); //airQStartDate);
     this.windDate = this.getDate(defaults.todaysDate); //windStartDate);
     this.masterDate = this.getDate(defaults.todaysDate);
@@ -86,11 +86,10 @@ class MapStore {
     app.map.on('extent-change, basemap-change', function(){
       ShareHelper.handleHashChange();
     });
-    app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper)); //should this be routed through actions?
-    // this.updateFireRisk(defaults.riskTempEnd); //todo: //defaults.riskStartDate
+    app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
 
-    LayersHelper.updateFireRisk(defaults.riskTempEnd);
-    LayersHelper.updateLastRain(defaults.todaysDate);
+    LayersHelper.updateFireRisk(defaults.yesterday);
+    LayersHelper.updateLastRain(defaults.yesterday);
     //todo:updateAirQuality?!
 
   }

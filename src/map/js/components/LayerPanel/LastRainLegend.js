@@ -25,8 +25,17 @@ export default class LastRainLegend extends React.Component {
       <div className='last-rain-legend'>
         <div id='lastRainLegendDataColors'>
           <div id='lastRainLegendDataColorsBottom'>
-
-
+            <div id='lastRainLegend'>
+              <div className='lastRainLegendRow'>
+                <span className='lastRainLegendData lastRainLegendDataHighest'>40 or more days</span>
+              </div>
+              <div className='lastRainLegendRow'>
+                <span className='lastRainLegendData lastRainLegendDataMedium'>20 days</span>
+              </div>
+              <div className='lastRainLegendRow'>
+                <span className='lastRainLegendData lastRainLegendDataLow'>0 days</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
