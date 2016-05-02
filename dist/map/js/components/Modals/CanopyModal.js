@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'helpers/LayersHelper', 'js/config', 'stores/MapStore', 'utils/loaders', 'react'], function (exports, _ModalWrapper, _ModalActions, _LayersHelper, _config, _MapStore, _loaders, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'helpers/LayersHelper', 'js/config', 'stores/MapStore', 'utils/loaders', 'react', 'jquery'], function (exports, _ModalWrapper, _ModalActions, _LayersHelper, _config, _MapStore, _loaders, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
