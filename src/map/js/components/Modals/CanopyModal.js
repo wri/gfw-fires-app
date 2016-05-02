@@ -15,21 +15,21 @@ export default class CanopyModal extends React.Component {
   componentDidMount() {
 
       loadJS(assetUrls.rangeSlider).then(() => {
-        setTimeout(function () {
-        $('#tree-cover-slider').ionRangeSlider({
-          type: 'single',
-          values: modalText.canopy.slider,
-          hide_min_max: true,
-          grid_snap: true,
-          to_fixed: true,
-          from_min: 1,
-          from_max: 7,
-          grid: true,
-          from: 5,
-          onFinish: this.sliderChanged,
-          onUpdate: this.sliderUpdated,
-          prettify: value => (value + '%')
-        });
+        setTimeout(() => {
+          $('#tree-cover-slider').ionRangeSlider({
+            type: 'single',
+            values: modalText.canopy.slider,
+            hide_min_max: true,
+            grid_snap: true,
+            to_fixed: true,
+            from_min: 1,
+            from_max: 7,
+            grid: true,
+            from: 5,
+            onFinish: this.sliderChanged,
+            onUpdate: this.sliderUpdated,
+            prettify: value => (value + '%')
+          });
         }, 3000);
       }, console.error);
       // Update with the default values

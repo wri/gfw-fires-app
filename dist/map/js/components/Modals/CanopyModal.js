@@ -77,6 +77,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     _createClass(CanopyModal, [{
       key: 'componentDidMount',
       value: function componentDidMount() {
+        var _this2 = this;
 
         (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
           setTimeout(function () {
@@ -90,8 +91,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
               from_max: 7,
               grid: true,
               from: 5,
-              onFinish: this.sliderChanged,
-              onUpdate: this.sliderUpdated,
+              onFinish: _this2.sliderChanged,
+              onUpdate: _this2.sliderUpdated,
               prettify: function prettify(value) {
                 return value + '%';
               }
