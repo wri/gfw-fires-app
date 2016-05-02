@@ -1,6 +1,7 @@
 import babelPolyfill from 'babel-polyfill';
 import LayerModal from 'components/Modals/LayerModal';
 import CanopyModal from 'components/Modals/CanopyModal';
+import SearchModal from 'components/Modals/SearchModal';
 import BasemapModal from 'components/Modals/BasemapModal';
 import CalendarModal from 'components/Modals/CalendarModal';
 import SubscriptionModal from 'components/Modals/SubscriptionModal';
@@ -55,6 +56,7 @@ let initializeApp = () => {
   ReactDOM.render(<Map />, document.getElementById('root'));
   ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
   ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
+  ReactDOM.render(<SearchModal />, document.getElementById('search-modal'));
   ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
   ReactDOM.render(<CalendarModal calendars={defaults.calendars}/>, document.getElementById('calendar-modal'));
   ReactDOM.render(<SubscriptionModal />, document.getElementById('subscription-modal'));

@@ -94,7 +94,8 @@ export default class ControlPanel extends React.Component {
   }
 
   toggleSearch () {
-    analysisActions.toggleEsriSearchVisibility();
+    // analysisActions.toggleEsriSearchVisibility();
+    modalActions.showSearchModal();
   }
   // <li className='basemap-layers pointer' onClick={this.togglePanels.bind(this)}>
   //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>

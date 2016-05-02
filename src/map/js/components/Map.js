@@ -40,10 +40,12 @@ export default class Map extends React.Component {
   }
 
   render () {
+
+    //<EsriSearch loaded={this.state.loaded} />
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
-        <EsriSearch loaded={this.state.loaded} />
+
         <AnalysisTools />
         <ControlPanel />
         <Timeline />

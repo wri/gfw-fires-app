@@ -90,6 +90,11 @@ class ModalActions {
     domClass.remove('canopy-modal', 'hidden');
   }
 
+  showSearchModal () {
+    app.debug('ModalActions >>> showSearchModal');
+    domClass.remove('search-modal', 'hidden');
+  }
+
   hideModal (node) {
     app.debug('ModalActions >>> hideModal');
     domClass.add(node, 'hidden');
