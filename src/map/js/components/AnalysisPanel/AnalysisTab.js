@@ -4,7 +4,6 @@ import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
 import Chosen from 'chosen';
-import chosen from 'chosen';
 
 export default class AnalysisTab extends React.Component {
 
