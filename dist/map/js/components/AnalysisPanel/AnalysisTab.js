@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'utils/loaders', 'react'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _loaders, _react) {
+define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'chosen'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _chosen) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,8 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
   var _AnalysisComponent2 = _interopRequireDefault(_AnalysisComponent);
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _chosen2 = _interopRequireDefault(_chosen);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -88,7 +90,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       // this.state = mapStore.getState();
       _this.state = _extends({ localErrors: false }, _MapStore.mapStore.getState());
-      _this.chosenLoaded = false;
       return _this;
     }
 
@@ -100,42 +101,31 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidMount',
       value: function componentDidMount() {
-        var _this2 = this;
-
         var calendar = new window.Kalendae(this.refs.date, {
           mode: 'range'
         });
         calendar.subscribe('change', function (date) {
           console.debug(date);
         });
-        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
-          _this2.chosenLoaded = true;
-        });
       }
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
-        var _this3 = this;
-
-        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
-          setTimeout(function () {
-            if (prevProps.islands.length === 0 && _this3.props.islands.length > 0) {
-              $('#islands').chosen();
-            } else if (prevProps.areaIslandsActive === false && _this3.props.areaIslandsActive === true) {
-              $('#provinces').chosen('destroy');
-              $('#islands').chosen();
-            } else if (prevProps.areaIslandsActive === true && _this3.props.areaIslandsActive === false) {
-              $('#islands').chosen('destroy');
-              $('#provinces').chosen();
-            } else if (_this3.props.customizeOpen === true && prevProps.customizeOpen === false && _this3.props.areaIslandsActive === true) {
-              $('#islands').chosen('destroy');
-              $('#islands').chosen();
-            } else if (_this3.props.customizeOpen === true && prevProps.customizeOpen === false && _this3.props.areaIslandsActive === false) {
-              $('#provinces').chosen('destroy');
-              $('#provinces').chosen();
-            }
-          }, 1000);
-        });
+        if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
+          $('#islands').chosen();
+        } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
+          $('#provinces').chosen('destroy');
+          $('#islands').chosen();
+        } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
+          $('#islands').chosen('destroy');
+          $('#provinces').chosen();
+        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
+          $('#islands').chosen('destroy');
+          $('#islands').chosen();
+        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
+          $('#provinces').chosen('destroy');
+          $('#provinces').chosen();
+        }
       }
     }, {
       key: 'toggleCustomize',

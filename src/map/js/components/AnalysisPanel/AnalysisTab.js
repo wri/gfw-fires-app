@@ -1,11 +1,9 @@
-import {analysisPanelText, assetUrls} from 'js/config';
+import {analysisPanelText} from 'js/config';
 import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
-// import {modalText, assetUrls} from 'js/config';
-import {loadJS} from 'utils/loaders';
 import React from 'react';
-// import Chosen from 'chosen';
+import Chosen from 'chosen';
 
 export default class AnalysisTab extends React.Component {
 
@@ -14,7 +12,6 @@ export default class AnalysisTab extends React.Component {
     mapStore.listen(this.storeUpdated.bind(this));
     // this.state = mapStore.getState();
     this.state = { localErrors: false, ...mapStore.getState() };
-    this.chosenLoaded = false;
   }
 
   storeUpdated () {
@@ -28,33 +25,24 @@ export default class AnalysisTab extends React.Component {
     calendar.subscribe('change', function (date) {
       console.debug(date);
     });
-    loadJS(assetUrls.rangeSlider).then(() => {
-      this.chosenLoaded = true;
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    loadJS(assetUrls.rangeSlider).then(() => {
-      setTimeout(() => {
-        if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-          $('#provinces').chosen('destroy');
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-          $('#islands').chosen('destroy');
-          $('#provinces').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-          $('#islands').chosen('destroy');
-          $('#islands').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-          $('#provinces').chosen('destroy');
-          $('#provinces').chosen();
-        }
-      }, 1000);
-
-    });
-
+    if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
+      $('#islands').chosen();
+    } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
+      $('#provinces').chosen('destroy');
+      $('#islands').chosen();
+    } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
+      $('#islands').chosen('destroy');
+      $('#provinces').chosen();
+    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
+      $('#islands').chosen('destroy');
+      $('#islands').chosen();
+    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
+      $('#provinces').chosen('destroy');
+      $('#provinces').chosen();
+    }
   }
 
   toggleCustomize () {

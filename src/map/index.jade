@@ -38,10 +38,10 @@ block append head-scripts
         ['react-motion', 'vendors/react-motion/build/react-motion'],
         ['lodash', 'vendors/lodash/lodash.min'],
         //- ['jquery', 'vendors/jquery/dist/jquery.min'],
-        ['jquery', 'https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js'],
+        //- ['jquery', 'https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js'],
         ['babel-polyfill', 'vendors/babel-polyfill/browser-polyfill'],
         ['formsy-react', 'vendors/formsy-react/release/formsy-react']//,
-        //- ['chosen', 'vendors/chosen/chosen.jquery']
+        ['chosen', 'vendors/chosen/chosen.jquery']
       ],
       deps: ['dojo/domReady!'],
       callback: function () {
