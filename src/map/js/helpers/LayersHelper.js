@@ -793,7 +793,7 @@ let LayersHelper = {
 
     let layerDefs = [];
     layerDefs[1] = "Date LIKE '" + date + "%'";
-
+    console.log(layerDefs[1]);
     layer.setLayerDefinitions(layerDefs);
   },
 

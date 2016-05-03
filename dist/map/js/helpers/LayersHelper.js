@@ -794,7 +794,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var layerDefs = [];
       layerDefs[1] = "Date LIKE '" + date + "%'";
-
+      console.log(layerDefs[1]);
       layer.setLayerDefinitions(layerDefs);
     },
     updateWindDate: function updateWindDate(dayValue) {

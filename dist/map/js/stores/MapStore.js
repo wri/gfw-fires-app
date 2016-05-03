@@ -134,6 +134,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
 
         _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
         _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
+        _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
         //todo:updateAirQuality?!
       }
     }, {

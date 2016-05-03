@@ -90,6 +90,7 @@ class MapStore {
 
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
+    LayersHelper.updateAirQDate(defaults.todaysDate);
     //todo:updateAirQuality?!
 
   }
