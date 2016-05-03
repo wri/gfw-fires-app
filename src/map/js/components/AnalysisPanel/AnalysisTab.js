@@ -4,6 +4,7 @@ import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
 import Chosen from 'chosen';
+import {chosen} from 'chosen';
 
 export default class AnalysisTab extends React.Component {
 
@@ -25,28 +26,24 @@ export default class AnalysisTab extends React.Component {
     calendar.subscribe('change', function (date) {
       console.debug(date);
     });
-
   }
 
   componentDidUpdate(prevProps, prevState) {
-    setTimeout(() => {
-      if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-        $('#islands').chosen();
-      } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-        $('#provinces').chosen('destroy');
-        $('#islands').chosen();
-      } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-        $('#islands').chosen('destroy');
-        $('#provinces').chosen();
-      } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-        $('#islands').chosen('destroy');
-        $('#islands').chosen();
-      } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-        $('#provinces').chosen('destroy');
-        $('#provinces').chosen();
-      }
-    }, 1000);
-
+    if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
+      $('#islands').chosen();
+    } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
+      $('#provinces').chosen('destroy');
+      $('#islands').chosen();
+    } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
+      $('#islands').chosen('destroy');
+      $('#provinces').chosen();
+    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
+      $('#islands').chosen('destroy');
+      $('#islands').chosen();
+    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
+      $('#provinces').chosen('destroy');
+      $('#provinces').chosen();
+    }
   }
 
   toggleCustomize () {
@@ -191,3 +188,11 @@ export default class AnalysisTab extends React.Component {
   }
 
 }
+
+AnalysisTab.propTypes = {
+  activeTab: React.PropTypes.string.isRequired,
+  areaIslandsActive: React.PropTypes.bool.isRequired,
+  customizeOpen: React.PropTypes.bool.isRequired,
+  islands: React.PropTypes.array.isRequired,
+  provinces: React.PropTypes.array.isRequired
+};
