@@ -1,9 +1,11 @@
-import {analysisPanelText} from 'js/config';
+import {analysisPanelText, assetUrls} from 'js/config';
 import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
+// import {modalText, assetUrls} from 'js/config';
+import {loadJS} from 'utils/loaders';
 import React from 'react';
-import Chosen from 'chosen';
+// import Chosen from 'chosen';
 
 export default class AnalysisTab extends React.Component {
 
@@ -25,6 +27,7 @@ export default class AnalysisTab extends React.Component {
     calendar.subscribe('change', function (date) {
       console.debug(date);
     });
+    loadJS(assetUrls.rangeSlider);
   }
 
   componentDidUpdate(prevProps, prevState) {

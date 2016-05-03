@@ -15,7 +15,7 @@ export default class CanopyModal extends React.Component {
   componentDidMount() {
 
       loadJS(assetUrls.rangeSlider).then(() => {
-        setTimeout(() => {
+        // setTimeout(() => {
           $('#tree-cover-slider').ionRangeSlider({
             type: 'single',
             values: modalText.canopy.slider,
@@ -30,7 +30,7 @@ export default class CanopyModal extends React.Component {
             onUpdate: this.sliderUpdated,
             prettify: value => (value + '%')
           });
-        }, 3000);
+        // }, 3000);
       }, console.error);
       // Update with the default values
       let defaults = mapStore.getState();

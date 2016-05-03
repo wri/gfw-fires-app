@@ -196,7 +196,8 @@ export const config = {
     ionSkinCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
     highcharts: 'http://code.highcharts.com/highcharts.js',
     highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
-    rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js'
+    rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
+    chosen: '../vendors/chosen/chosen.jquery.js'
   },
 
   /**

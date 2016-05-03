@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'chosen'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _chosen) {
+define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'utils/loaders', 'react'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _loaders, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,8 +8,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
   var _AnalysisComponent2 = _interopRequireDefault(_AnalysisComponent);
 
   var _react2 = _interopRequireDefault(_react);
-
-  var _chosen2 = _interopRequireDefault(_chosen);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -107,6 +105,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         calendar.subscribe('change', function (date) {
           console.debug(date);
         });
+        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider);
       }
     }, {
       key: 'componentDidUpdate',
