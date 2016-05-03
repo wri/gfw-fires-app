@@ -87,7 +87,7 @@ block append head-scripts
     window.liveSettings = {
       api_key: "c0d190e8efe94881b66b5bb38ebaece3",
       detectlang: false,
-      picker: 'bottom-left', //'#customTransifex', 
+      picker: '#customTransifex', //'bottom-left', 
       version: 'latest',
       autocollect: true,
       dynamic: true
@@ -103,8 +103,8 @@ block content
   //-   @page { size: landscape; }
   +navigation(global.pages, 'map', true)
   include html/_svgAssets.jade
-  //- div#transifexContainer
-  //-   div#customTransifex
+  div#transifexContainer
+    div#customTransifex
   div#root.layout-content
   div#layer-modal.modal.hidden
   div#canopy-modal.modal.hidden
