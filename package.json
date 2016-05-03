@@ -1,12 +1,12 @@
 {
   "name": "gfw-fires-app",
-  "version": "3.1.96",
+  "version": "3.1.97",
   "description": "Please view README.md before beginning development",
   "main": "index.js",
   "scripts": {
     "start": "gulp build; gulp watch & gulp serve",
     "dist": "gulp dist",
-    "copy": "rm -rf www; mkdir www; cp -r dist/* www; cp .htaccess www; cp robots.txt www; cp sitemap.xml www; cp -r vendors www; mv dist/vendors/chosen/chosen.jquery.js dist/vendors/chosen/chosen.js",
+    "copy": "rm -rf www; mkdir www; cp -r dist/* www; cp .htaccess www; cp robots.txt www; cp sitemap.xml www; cp -r vendors www; mv www/dist/vendors/chosen/chosen.jquery.js www/dist/vendors/chosen/chosen.js",
     "dist-www": "npm run dist;rm -rf www; mkdir www; cp -r dist/* www;",
     "build": "gulp build;",
     "install": "bower install",
