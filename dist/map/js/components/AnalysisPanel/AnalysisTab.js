@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'chosen'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _chosen) {
+define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'chosen', 'jquery'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _chosen, $) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
