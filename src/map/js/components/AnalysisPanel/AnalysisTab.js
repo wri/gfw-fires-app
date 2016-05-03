@@ -35,7 +35,7 @@ export default class AnalysisTab extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     loadJS(assetUrls.rangeSlider).then(() => {
-      setTimeout(function () {
+      setTimeout(() => {
         if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
           $('#islands').chosen();
         } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
