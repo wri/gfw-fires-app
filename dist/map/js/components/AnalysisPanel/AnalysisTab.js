@@ -111,21 +111,25 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
-        if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-          $('#provinces').chosen('destroy');
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-          $('#islands').chosen('destroy');
-          $('#provinces').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-          $('#islands').chosen('destroy');
-          $('#islands').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-          $('#provinces').chosen('destroy');
-          $('#provinces').chosen();
-        }
+        var _this2 = this;
+
+        setTimeout(function () {
+          if (prevProps.islands.length === 0 && _this2.props.islands.length > 0) {
+            $('#islands').chosen();
+          } else if (prevProps.areaIslandsActive === false && _this2.props.areaIslandsActive === true) {
+            $('#provinces').chosen('destroy');
+            $('#islands').chosen();
+          } else if (prevProps.areaIslandsActive === true && _this2.props.areaIslandsActive === false) {
+            $('#islands').chosen('destroy');
+            $('#provinces').chosen();
+          } else if (_this2.props.customizeOpen === true && prevProps.customizeOpen === false && _this2.props.areaIslandsActive === true) {
+            $('#islands').chosen('destroy');
+            $('#islands').chosen();
+          } else if (_this2.props.customizeOpen === true && prevProps.customizeOpen === false && _this2.props.areaIslandsActive === false) {
+            $('#provinces').chosen('destroy');
+            $('#provinces').chosen();
+          }
+        }, 1000);
       }
     }, {
       key: 'toggleCustomize',

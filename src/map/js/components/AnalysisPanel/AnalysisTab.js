@@ -29,21 +29,24 @@ export default class AnalysisTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-      $('#islands').chosen();
-    } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-      $('#provinces').chosen('destroy');
-      $('#islands').chosen();
-    } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-      $('#islands').chosen('destroy');
-      $('#provinces').chosen();
-    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-      $('#islands').chosen('destroy');
-      $('#islands').chosen();
-    } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-      $('#provinces').chosen('destroy');
-      $('#provinces').chosen();
-    }
+    setTimeout(() => {
+      if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
+        $('#islands').chosen();
+      } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
+        $('#provinces').chosen('destroy');
+        $('#islands').chosen();
+      } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
+        $('#islands').chosen('destroy');
+        $('#provinces').chosen();
+      } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
+        $('#islands').chosen('destroy');
+        $('#islands').chosen();
+      } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
+        $('#provinces').chosen('destroy');
+        $('#provinces').chosen();
+      }
+    }, 1000);
+
   }
 
   toggleCustomize () {
