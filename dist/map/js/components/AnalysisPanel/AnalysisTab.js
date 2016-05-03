@@ -88,6 +88,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       // this.state = mapStore.getState();
       _this.state = _extends({ localErrors: false }, _MapStore.mapStore.getState());
+      _this.chosenLoaded = false;
       return _this;
     }
 
@@ -99,32 +100,40 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidMount',
       value: function componentDidMount() {
+        var _this2 = this;
+
         var calendar = new window.Kalendae(this.refs.date, {
           mode: 'range'
         });
         calendar.subscribe('change', function (date) {
           console.debug(date);
         });
-        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider);
+        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
+          _this2.chosenLoaded = true;
+        });
       }
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
-        if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-          $('#provinces').chosen('destroy');
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-          $('#islands').chosen('destroy');
-          $('#provinces').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-          $('#islands').chosen('destroy');
-          $('#islands').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-          $('#provinces').chosen('destroy');
-          $('#provinces').chosen();
-        }
+        (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
+          setTimeout(function () {
+            if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
+              $('#islands').chosen();
+            } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
+              $('#provinces').chosen('destroy');
+              $('#islands').chosen();
+            } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
+              $('#islands').chosen('destroy');
+              $('#provinces').chosen();
+            } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
+              $('#islands').chosen('destroy');
+              $('#islands').chosen();
+            } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
+              $('#provinces').chosen('destroy');
+              $('#provinces').chosen();
+            }
+          }, 1000);
+        });
       }
     }, {
       key: 'toggleCustomize',
