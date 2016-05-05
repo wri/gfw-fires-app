@@ -20,5 +20,7 @@ module.name_mapper='Mobile'->'<PROJECT_ROOT>/src/map/js/components/Mobile/'
 module.name_mapper='alt'->'<PROJECT_ROOT>/build/vendors/alt/dist/alt.min'
 module.name_mapper='react'->'<PROJECT_ROOT>/build/vendors/react/react.min'
 module.name_mapper='react-dom'->'<PROJECT_ROOT>/build/vendors/react/react-dom.min'
+module.name_mapper='esri\/.*'->'<PROJECT_ROOT>/src/map/js/config.js'
+module.name_mapper='dojo\/.*'->'<PROJECT_ROOT>/src/map/js/config.js'
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
