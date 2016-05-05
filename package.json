@@ -9,10 +9,12 @@
     "copy": "rm -rf www; mkdir www; cp -r dist/* www; cp .htaccess www; cp robots.txt www; cp sitemap.xml www; cp -r vendors www;",
     "dist-www": "npm run dist;rm -rf www; mkdir www; cp -r dist/* www;",
     "build": "gulp build;",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "check-flow": "are-we-flow-yet src",
     "install": "bower install",
     "postinstall": "npm run copy;",
     "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'",
-    "test": "eslint src/**/*.js;"
+    "test": "eslint src/**/*.js; flow check;"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
     "babel-core": "^6.1.21",
     "babel-eslint": "^4.1.5",
     "babel-plugin-transform-es2015-modules-amd": "^6.1.18",
+    "babel-plugin-transform-flow-strip-types": "^6.7.0",
     "babel-polyfill": "^6.1.19",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.1.18",
@@ -62,5 +65,8 @@
     "node-notifier": "^4.4.0",
     "react": "^0.14.3",
     "rupture": "^0.6.1"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.24.1"
   }
 }

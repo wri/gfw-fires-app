@@ -1,20 +1,23 @@
+/* @flow */
 import AnalysisTools from 'components/AnalysisPanel/AnalysisTools';
 import MobileUnderlay from 'components/Mobile/MobileUnderlay';
 import MobileControls from 'components/Mobile/MobileControls';
-import EsriSearch from 'components/AnalysisPanel/EsriSearch';
 import ControlPanel from 'components/MapControls/ControlPanel';
 import LayerPanel from 'components/LayerPanel/LayerPanel';
 import Timeline from 'components/Timeline/Timeline';
-// import {applyStateFromUrl} from 'helpers/ShareHelper';
 import {mapActions} from 'actions/MapActions';
 import {getUrlParams} from 'utils/params';
 import {mapConfig} from 'js/config';
 import ShareHelper from 'helpers/ShareHelper';
-import React from 'react';
+import React, {
+  Component
+} from 'react';
 
-export default class Map extends React.Component {
+export default class Map extends Component {
+  displayName: Map;
+  state: any;
 
-  constructor (props) {
+  constructor (props: any) {
     super(props);
     this.state = { loaded: false };
   }
