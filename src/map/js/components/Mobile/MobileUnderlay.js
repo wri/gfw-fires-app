@@ -1,11 +1,22 @@
-import React from 'react';
+/* @flow */
 import {mapStore} from 'stores/MapStore';
 import {analysisStore} from 'stores/AnalysisStore';
 import {layerActions} from 'actions/LayerActions';
 import {analysisActions} from 'actions/AnalysisActions';
+import React, {
+  Component,
+  PropTypes
+} from 'react';
 
-export default class Map extends React.Component {
-  constructor (props) {
+export default class MobileUnderlay extends Component {
+  displayName: MobileUnderlay;
+  state: any;
+
+  static childContextTypes = {
+    state: PropTypes.object
+  };
+
+  constructor (props: any) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
     analysisStore.listen(this.storeUpdated.bind(this));

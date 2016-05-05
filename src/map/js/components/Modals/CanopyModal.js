@@ -1,14 +1,22 @@
+/* @flow */
 import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalActions} from 'actions/ModalActions';
 import LayersHelper from 'helpers/LayersHelper';
 import {modalText, assetUrls} from 'js/config';
 import {mapStore} from 'stores/MapStore';
 import {loadJS} from 'utils/loaders';
-import React from 'react';
+import React, {
+  Component
+} from 'react';
 
-export default class CanopyModal extends React.Component {
+type SliderPropType = {
+  from_value: number
+};
 
-  constructor(props) {
+export default class CanopyModal extends Component {
+  displayName: CanopyModal;
+
+  constructor(props: any) {
     super(props);
   }
 
@@ -39,12 +47,12 @@ export default class CanopyModal extends React.Component {
 
   }
 
-  sliderChanged (data) {
+  sliderChanged (data: SliderPropType) {
     modalActions.updateCanopyDensity(data.from_value);
     LayersHelper.updateTreeCoverDefinitions(data.from_value);
   }
 
-  sliderUpdated (data) {
+  sliderUpdated (data: SliderPropType) {
     // Component was reset, reset the default definition as well
     LayersHelper.updateTreeCoverDefinitions(data.from_value);
   }

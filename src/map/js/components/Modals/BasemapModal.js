@@ -1,26 +1,27 @@
+/* @flow */
 import ModalWrapper from 'components/Modals/ModalWrapper';
-import {modalStore} from 'stores/ModalStore';
 import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
 import cookie from 'dojo/cookie';
-import {modalText} from 'js/config';
 import React from 'react';
+import ReactDOM from 'react-dom';
+
+type CookiePropType = {
+  target: {
+    checked: boolean
+  }
+};
 
 export default class BasemapModal extends React.Component {
+  displayName: BasemapModal;
+  state: any;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
-    modalStore.listen(this.storeUpdated.bind(this));
-    let defaultState = modalStore.getState();
     this.state = {
       cookieChecked: undefined
     };
-  }
-
-  storeUpdated () {
-    let currentState = modalStore.getState();
-    // this.setState({ layerInfo: currentState.modalLayerInfo });
   }
 
   render () {
@@ -32,10 +33,10 @@ export default class BasemapModal extends React.Component {
 
               <div className='modal-overview'>
                 <p>The wind layer is best visualized with the Dark Gray Canvas basemap. Would you like to switch to it now.</p>
-                <button className='gfw-btn white basemap-button pointer' onClick={this.switchBasemap.bind(this)}>Yes</button>
-                <button className='gfw-btn white basemap-button pointer' onClick={this.keepBasemap.bind(this)}>No</button>
+                <button className='gfw-btn white basemap-button pointer' onClick={this.switchBasemap}>Yes</button>
+                <button className='gfw-btn white basemap-button pointer' onClick={this.keepBasemap}>No</button>
                 <div id='basemap-checkbox-container'>
-                  <input id='basemap-cookie-checkbox' onChange={this.setCookie.bind(this)} type='checkbox'>Remember my decision</input>
+                  <input id='basemap-cookie-checkbox' onChange={this.setCookie} type='checkbox'>Remember my decision</input>
                 </div>
               </div>
             </div>
@@ -44,36 +45,35 @@ export default class BasemapModal extends React.Component {
      );
   }
 
-  switchBasemap () {
+  switchBasemap:any = ():void => {
     if (this.state.cookieChecked !== undefined) {
       this.createCookie(this.state.cookieChecked);
     }
     mapActions.setBasemap('dark-gray');
     this.close();
-  }
+  };
 
-  keepBasemap () {
+  keepBasemap:any = ():void => {
     if (this.state.cookieChecked !== undefined) {
       this.createCookie(this.state.cookieChecked);
     }
     this.close();
-  }
+  };
 
-
-  setCookie (evt) {
+  setCookie:{} = (evt: CookiePropType) => { //todo: is this {} in setCookie proper object typing?
     this.setState({
       cookieChecked: evt.target.checked
     });
-  }
+  };
 
-  createCookie (cookieValue) {
+  createCookie:any = (cookieValue: string) => {
     cookie('windBasemapDecision', cookieValue, {
       expires: 7
     });
-  }
+  };
 
-  close () {
-    modalActions.hideModal(React.findDOMNode(this).parentElement);
-  }
+  close:any = ():void => {
+    modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
+  };
 
 }

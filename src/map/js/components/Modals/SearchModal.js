@@ -1,17 +1,32 @@
+/* @flow */
 import ModalWrapper from 'components/Modals/ModalWrapper';
-import {modalActions} from 'actions/ModalActions';
-import LayersHelper from 'helpers/LayersHelper';
-import {modalText, assetUrls} from 'js/config';
-import {mapStore} from 'stores/MapStore';
-import {loadJS} from 'utils/loaders';
-import React from 'react';
-
 import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
 import {analysisStore} from 'stores/AnalysisStore';
 import {analysisConfig, analysisPanelText} from 'js/config';
 import Search from 'esri/dijit/Search';
+import React, {
+  Component
+} from 'react';
 
+type TargetValuePropType = {
+  target: {
+    value: any
+  }
+};
+
+type TargetPropType = {
+  target: any
+};
+
+type KeyPropType = {
+  key: string
+};
+
+type ComboPropType = {
+  key: string,
+  target: any
+};
 
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
 let locateSvg = '<use xlink:href="#icon-locate" />';
@@ -68,9 +83,11 @@ function dms2Deg(s) {
   return result;
 }
 
-export default class SearchModal extends React.Component {
+export default class SearchModal extends Component {
+  displayName: SearchModal;
+  state: any;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       value: '',
@@ -80,9 +97,6 @@ export default class SearchModal extends React.Component {
       esriSearchVisible: analysisStore.getState().esriSearchVisible
     };
     analysisStore.listen(this.onUpdate.bind(this));
-    this.keyDown = this.keyDown.bind(this);
-    this.suggestionSearch = this.suggestionSearch.bind(this);
-    this.suggestionKeyDown = this.suggestionKeyDown.bind(this);
   }
 
   componentDidMount() {
@@ -95,29 +109,29 @@ export default class SearchModal extends React.Component {
     this.setState({ esriSearchVisible: analysisStore.getState().esriSearchVisible });
   }
 
-  change (evt) {
+  change:{} = (evt: TargetValuePropType) => {
     let value = evt.target.value,
         suggestResults = value.length === 0 ? [] : this.state.suggestResults;
 
     this.state.searchWidget.suggest(value);
     this.setState({ value: value, suggestResults: suggestResults });
-  }
+  };
 
-  enter (evt) {
+  enter:{} = (evt: KeyPropType) => {
     if (evt.key === 'Enter' && this.state.value.length > 0) {
       this.state.searchWidget.search(this.state.value);
       analysisActions.toggleEsriSearchVisibility();
     }
-  }
+  };
 
-  keyDown (evt) {
+  keyDown:{} = (evt: KeyPropType) => {
     if (evt.key === 'Enter' && this.state.value.length > 0) { this.enter(evt); }
     if (evt.key === 'ArrowDown' && this.state.suggestResults.length > 0) {
       this.refs.searchResults.childNodes[0].querySelector('button').focus();
     }
-  }
+  };
 
-  suggestionKeyDown (evt) {
+  suggestionKeyDown:{} = (evt: ComboPropType) => {
     if (['ArrowUp', 'ArrowDown'].indexOf(evt.key) > -1 && this.state.value.length > 0) {
       let arrowUp = evt.key === 'ArrowUp';
       let suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
@@ -125,17 +139,17 @@ export default class SearchModal extends React.Component {
       if (suggestionIndex === 0 && arrowUp === true) { this.refs.searchInput.focus(); return; }
       if (nextSibling !== undefined) { nextSibling.querySelector('button').focus(); }
     }
-  }
+  };
 
-  suggestionSearch (evt) {
+  suggestionSearch:{} = (evt: TargetPropType) => {
     let suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
     this.state.searchWidget.search(this.state.searchWidget.suggestResults[0][suggestionIndex]);
     this.state.searchWidget.clear();
     this.setState({ value: '', suggestResults: [] });
     analysisActions.toggleEsriSearchVisibility();
-  }
+  };
 
-  coordinateSearch () {
+  coordinateSearch:any = ():void => {
     let dmsA = Array.apply({}, this.refs.coordinatesA.querySelectorAll('input')).map((i) => i.value).map((v) => parseInt(v)).map(Math.abs);
     let directionA = this.refs.directionA.value;
     let dmsB = Array.apply({}, this.refs.coordinatesB.querySelectorAll('input')).map((i) => i.value).map((v) => parseInt(v)).map(Math.abs);
@@ -143,15 +157,15 @@ export default class SearchModal extends React.Component {
     let lat = dms2Deg(`${directionA} ${dmsA[0]} ${dmsA[1]}' ${dmsA[2]}"`);
     let lng = dms2Deg(`${directionB} ${dmsB[0]} ${dmsB[1]}' ${dmsB[2]}"`);
     mapActions.centerAndZoomLatLng(lat, lng, analysisConfig.searchZoomDefault);
-  }
+  };
 
-  decimalDegreeSearch () {
+  decimalDegreeSearch:any = ():void => {
     let values = [this.refs.decimalDegreeLat.value, this.refs.decimalDegreeLng.value].map(parseFloat);
     let [lat, lng] = values;
     if (values.map(isNaN).indexOf(true) > -1) { throw Error('Invalid input(s)'); }
     mapActions.centerAndZoomLatLng(lat, lng, analysisConfig.searchZoomDefault);
     analysisActions.toggleEsriSearchVisibility();
-  }
+  };
 
   locateMe () {
     mapActions.zoomToUserLocation();
@@ -163,7 +177,7 @@ export default class SearchModal extends React.Component {
     let className = 'search-tools map-component';
     // NOTE: searchInput is mounted & unmounted visible to take advantage of keyboard autoFocus
     let searchInput = this.state.esriSearchVisible === false ? undefined : (
-      <input ref='searchInput' className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown} autoFocus/>
+      <input ref='searchInput' className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change} onKeyDown={this.keyDown} autoFocus/>
     );
     // if (this.state.esriSearchVisible === false) { className += ' hidden'; }
     if (app.mobile() === true) {
@@ -182,7 +196,7 @@ export default class SearchModal extends React.Component {
           </div>
           <div className={this.state.visibleTab === 0 ? '' : 'hidden'}>
             <div className='search-input-container'>
-              <input ref='searchInput' className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change.bind(this)} onKeyDown={this.keyDown} autoFocus/>
+              <input ref='searchInput' className='search-input fill__wide' type='text' placeholder={analysisPanelText.searchPlaceholder} value={this.state.value} onChange={this.change} onKeyDown={this.keyDown} autoFocus/>
               <button className='border-right padding back-white'>
                 <svg className='search-magnifier vertical-middle' dangerouslySetInnerHTML={{ __html: magnifierSvg }} />
               </button>
@@ -216,7 +230,7 @@ export default class SearchModal extends React.Component {
               </select>
             </div>
             <div id='coordinateSearch'>
-              <button className='search-submit-button gfw-btn green' onClick={this.coordinateSearch.bind(this)}>Search</button>
+              <button className='search-submit-button gfw-btn green' onClick={this.coordinateSearch}>Search</button>
             </div>
           </div>
           <div className={`search-box degrees ${this.state.visibleTab === 2 ? '' : 'hidden'}`}>
@@ -226,7 +240,7 @@ export default class SearchModal extends React.Component {
             <div className='deg-box'>
               <span>Lon:</span><input ref='decimalDegreeLng' type='number' className='deg-input' id='deg-lng' name='deg-lng' />
             </div>
-            <button className='search-submit-button gfw-btn green' onClick={this.decimalDegreeSearch.bind(this)}>Search</button>
+            <button className='search-submit-button gfw-btn green' onClick={this.decimalDegreeSearch}>Search</button>
 
           </div>
           <div className='hidden'>

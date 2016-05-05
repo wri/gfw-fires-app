@@ -1,24 +1,18 @@
+/* @flow */
 import {layerActions} from 'actions/LayerActions';
 import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import {analysisStore} from 'stores/AnalysisStore';
 import {analysisPanelText} from 'js/config';
-import {AlertsSvg, AnalysisSvg, BasemapSvg, CalendarSvg, ImagerySvg} from 'utils/svgs';
-import React from 'react';
+import {AlertsSvg, AnalysisSvg, BasemapSvg, ImagerySvg} from 'utils/svgs';
+import React, {
+  Component
+} from 'react';
 
-export default class Map extends React.Component {
+export default class MobileControls extends Component {
+  displayName: MobileControls;
 
-  constructor (props) {
-    super(props);
-    this.toggleLayers = this.toggleLayers.bind(this);
-    this.toggleAnalysis = this.toggleAnalysis.bind(this);
-    this.toggleSubscription = this.toggleSubscription.bind(this);
-    this.toggleTimeline = this.toggleTimeline.bind(this);
-    this.toggleImagery = this.toggleImagery.bind(this);
-    this.toggleBasemaps = this.toggleBasemaps.bind(this);
-  }
-
-  hidePanels () {
+  hidePanels:any = ():void => {
     if (mapStore.getState().layerPanelVisible === true) {
       layerActions.toggleLayerPanelVisibility();
     }
@@ -28,9 +22,9 @@ export default class Map extends React.Component {
     if (analysisStore.getState().timelineVisible === true) {
       analysisActions.toggleTimelineVisibility();
     }
-  }
+  };
 
-  toggleAnalysis () {
+  toggleAnalysis:any = ():void => {
     if (analysisStore.getState().analysisToolsVisible === true
       && analysisStore.getState().activeTab === analysisPanelText.analysisTabId) {
       this.hidePanels();
@@ -39,9 +33,9 @@ export default class Map extends React.Component {
       analysisActions.setAnalysisType(analysisPanelText.analysisTabId);
       analysisActions.toggleAnalysisToolsVisibility();
     }
-  }
+  };
 
-  toggleSubscription () {
+  toggleSubscription:any = ():void => {
     if (analysisStore.getState().analysisToolsVisible === true
       && analysisStore.getState().activeTab === analysisPanelText.subscriptionTabId) {
       this.hidePanels();
@@ -50,27 +44,27 @@ export default class Map extends React.Component {
       analysisActions.setAnalysisType(analysisPanelText.subscriptionTabId);
       analysisActions.toggleAnalysisToolsVisibility();
     }
-  }
+  };
 
-  toggleLayers () {
+  toggleLayers:any = ():void => {
     if (mapStore.getState().layerPanelVisible === true) {
       this.hidePanels();
     } else {
       this.hidePanels();
       layerActions.toggleLayerPanelVisibility();
     }
-  }
+  };
 
-  toggleTimeline () {
+  toggleTimeline:any = ():void => {
     if (analysisStore.getState().timelineVisible === true) {
       this.hidePanels();
     } else {
       this.hidePanels();
       analysisActions.toggleTimelineVisibility();
     }
-  }
+  };
 
-  toggleImagery () {
+  toggleImagery:any = ():void => {
     if (analysisStore.getState().analysisToolsVisible === true
       && analysisStore.getState().activeTab === analysisPanelText.imageryTabId) {
       this.hidePanels();
@@ -79,18 +73,9 @@ export default class Map extends React.Component {
       analysisActions.setAnalysisType(analysisPanelText.imageryTabId);
       analysisActions.toggleAnalysisToolsVisibility();
     }
-  }
+  };
 
-  // toggleImagery () {
-  //   if (analysisStore.getState().imageryToolsExpanded === true) {
-  //     this.hidePanels();
-  //   } else {
-  //     this.hidePanels();
-  //     analysisActions.toggleImageryToolsExpanded();
-  //   }
-  // }
-
-  toggleBasemaps () {
+  toggleBasemaps:any = ():void => {
     if (analysisStore.getState().analysisToolsVisible === true
       && analysisStore.getState().activeTab === analysisPanelText.basemapTabId) {
       this.hidePanels();
@@ -99,18 +84,9 @@ export default class Map extends React.Component {
       analysisActions.setAnalysisType(analysisPanelText.basemapTabId);
       analysisActions.toggleAnalysisToolsVisibility();
     }
-  }
+  };
 
   render () {
-
-    // <button onClick={this.toggleTimeline}>
-    //   <CalendarSvg/>
-    //   Timeline
-    // </button>
-    // <button onClick={this.toggleBasemaps}>
-    //   <BasemapSvg />
-    //   BASEMAPS
-    // </button>
     return (
       <div id='mobile-controls' className='mobile-controls mobile-show'>
         <button onClick={this.toggleLayers}>

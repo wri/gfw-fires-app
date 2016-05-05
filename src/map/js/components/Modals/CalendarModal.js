@@ -1,13 +1,24 @@
+/* @flow */
 import CalendarWrapper from 'components/Modals/CalendarWrapper';
 import {mapStore} from 'stores/MapStore';
 import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
 import {controlPanelText} from 'js/config';
-import React from 'react';
+import ReactDOM from 'react-dom';
+import React, {
+  Component
+} from 'react';
 
-export default class CalendarModal extends React.Component {
+type calendars = Array<Object>; //todo: proper props validation!
 
-	constructor (props) {
+export default class CalendarModal extends Component {
+	displayName: CalendarModal;
+
+	// props: {
+  //   calendars: Array
+  // };
+
+	constructor (props: calendars) {
 		super(props);
 		mapStore.listen(this.storeUpdated.bind(this));
 		this.state = mapStore.getState();
@@ -35,10 +46,7 @@ export default class CalendarModal extends React.Component {
 
 			calendar_obj.subscribe('change', this[calendar.method].bind(this));
 		});
-
 	}
-
-
 
 	render () {
 		return (
@@ -48,7 +56,7 @@ export default class CalendarModal extends React.Component {
 		);
 	}
 
-	itemMapper (item) {
+	itemMapper (item: any) {
 		return <div className={`modal-content ${item.domClass}${this.state.calendarVisible === item.domId ? '' : ' hidden'}`}>
 			{item.domId === 'masterDay' ?
 				<div className='master-calendar'>{controlPanelText.timeInstructions}</div> : null
@@ -58,7 +66,7 @@ export default class CalendarModal extends React.Component {
 	}
 
 	close () {
-		modalActions.hideModal(React.findDOMNode(this).parentElement);
+		modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
 	}
 
 	changeImageryStart(date) {

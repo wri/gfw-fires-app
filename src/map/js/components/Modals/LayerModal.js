@@ -1,10 +1,15 @@
+/* @flow */
 import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalStore} from 'stores/ModalStore';
-import React from 'react';
+import React, {
+  Component
+} from 'react';
 
-export default class LayerModal extends React.Component {
+export default class LayerModal extends Component {
+  displayName: LayerModal;
+  state: any;
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     modalStore.listen(this.storeUpdated.bind(this));
@@ -89,7 +94,9 @@ export default class LayerModal extends React.Component {
      );
   }
 
-  tableMap (item, label) {
+  tableMap (item: string, label: string) {
+    console.log(item);
+    console.log(label);
     return (
       <dl className='source-row'>
         <dt>{label}</dt>
@@ -98,7 +105,7 @@ export default class LayerModal extends React.Component {
     );
   }
 
-  summaryMap (item) {
+  summaryMap (item: any) {
     if (typeof item === 'string') {
       return <p dangerouslySetInnerHTML={{ __html: item }} />;
     } else {
@@ -110,11 +117,11 @@ export default class LayerModal extends React.Component {
     }
   }
 
-  paragraphMap (item) {
+  paragraphMap (item: string) {
     return <p dangerouslySetInnerHTML={{ __html: item }} />;
   }
 
-  htmlContentMap (item) {
+  htmlContentMap (item: string) {
     return <div dangerouslySetInnerHTML={{ __html: item }} />;
   }
 

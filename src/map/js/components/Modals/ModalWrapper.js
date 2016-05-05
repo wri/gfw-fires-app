@@ -1,12 +1,23 @@
+/* @flow */
 import {modalActions} from 'actions/ModalActions';
 import {modalStore} from 'stores/ModalStore';
-import React from 'react';
+import ReactDOM from 'react-dom';
+import React, {
+  Component
+} from 'react';
+
+type WrapperPropType = {
+  downloadData?: any, //todo: both of these are STILL 'Missing in props validation' !!
+  children?: any
+};
 
 let closeSvg = '<use xlink:href="#shape-close" />';
 
-export default class ModalWrapper extends React.Component {
+export default class ModalWrapper extends Component {
+  displayName: ModalWrapper;
+  state: any;
 
-  constructor(props) {
+  constructor(props: WrapperPropType) {
     super(props);
 
     modalStore.listen(this.storeUpdated.bind(this));
@@ -21,22 +32,19 @@ export default class ModalWrapper extends React.Component {
     this.setState({ layerInfo: currentState.modalLayerInfo });
   }
 
-  close () {
-    modalActions.hideModal(React.findDOMNode(this).parentElement);
-  }
+  close:any = ():void => {
+    modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
+  };
 
   render() {
    //todo: hide footer with proper child
    //<a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
-   if (this.props.downloadData) {
-     console.log(this.props.downloadData)
-   }
 
     return (
       <div className='modal-container'>
-        <div className='modal-background' onClick={::this.close} />
+        <div className='modal-background' onClick={this.close} />
         <div className={`modal-window ${app.mobile() === true ? 'narrow' : ''}`}>
-          <div title='close' className='modal-close close-icon pointer' onClick={::this.close}>
+          <div title='close' className='modal-close close-icon pointer' onClick={this.close}>
             <svg dangerouslySetInnerHTML={{ __html: closeSvg }}/>
           </div>
           <div className={`modal-wrapper custom-scroll ${(this.props.children && this.props.children[0]) || !this.props.downloadData ? '' : 'has-footer'}`}>
