@@ -1,0 +1,173 @@
+.headerGfw-wrapper
+	min-height 35px
+
+	+below($mq-mobile)
+		min-height initial
+
+.headerGfw
+	background-color #EEE
+
+	+below($mq-mobile)
+		display none !important
+
+.navigation-container
+	background-color rgba(255, 255, 255, 0.8)
+	width 100%
+	z-index $z-navigation
+	text-align right
+
+	+below($mq-mobile)
+		display none
+
+.navigation-language
+	position absolute
+	left 115px
+	top 0
+	bottom 0
+  display none //todo
+	align-items center
+	font-size .75em
+
+
+	& label
+	& select
+		vertical-align middle
+
+	& label
+		margin-right .5em
+		+below(1100px)
+			display none
+
+.navigation
+	text-align right
+	display inline-block
+
+	& li
+		display inline-block
+
+	&--link
+		display inline-block
+		text-decoration none
+		padding 1em 2em
+		margin 0em .5em
+		color #555555
+		transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
+		border-bottom 5px solid transparent
+
+		&.active
+		&:hover
+		&:active
+		&:focus
+			border-bottom 5px solid $gfw-red
+
+		&:hover
+		&:active
+		&:focus
+			background-color white
+			box-shadow 0px 1px 3px rgba(0,0,0,0.25)
+
+.mobile-navigation-container
+	position fixed
+	text-align right
+	bottom 0
+	left 0
+	right 0
+	z-index $z-mobile-navigation
+	transform translateY(100%)
+	transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
+
+	&:after
+		content ' '
+		position absolute
+		top 100%
+		height 100px
+		left 0px
+		right 0px
+		background-color $white
+
+	&.open
+		transform translateY(0)
+
+// #mobile-navigation-icon
+//   pointer-events all
+
+.mobile-navigation-icon
+	position fixed
+	bottom 0
+	right 0
+	// margin-right 1em
+	height 3em
+	width 3em
+	background-color $pebble
+	fill $white
+	z-index $z-mobile-navigation + 1
+	// opacity .9
+	transition $transition
+	box-sizing border-box
+	padding .5em
+	box-shadow $box-shadow
+
+	&.active
+		background-color $gfw-red
+
+.mobile-navigation
+	text-align left
+	padding 0
+	background-color $white
+
+	& p
+		margin 0
+		padding 1em
+
+	& label
+	& select
+		vertical-align middle
+
+	& label
+		margin-right .5em
+
+	&--link
+		padding 1em 1em
+		background-color $concrete
+		border-top 1px solid darken($concrete, 30%)
+		color #555555
+		//box-shadow $box-shadow
+		text-align center
+		transition $transition
+
+		&.active
+		&:hover
+		&:active
+		&:focus
+			color $gfw-red
+
+		a:last-child &
+			border-bottom 1px solid darken($concrete, 30%)
+			margin-bottom 1em
+
+.logo-container
+	position relative
+	z-index $z-logo
+
+.gfw-fires-logo-wrapper
+	display inline-block
+	position absolute
+
+	&:after
+		content url(../images/beta.png)
+		position absolute
+		bottom -10px
+		right -5px
+
+.gfw-fires-logo
+	transition $transition
+
+	+below($mq-mobile)
+		height 60px
+		width 60px
+
+
+.gfw-fires-logo-beta
+	position absolute
+	top 80px
+	left 81px

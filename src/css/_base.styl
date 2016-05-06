@@ -1,0 +1,99 @@
+html
+body
+  background-color #FFF
+  height 100%
+  width 100%
+  margin 0
+  font-family $fira-sans
+  -webkit-font-smoothing antialiased
+
+body
+  overflow-y scroll
+
+a
+  text-decoration none
+  color inherit
+
+ul
+  padding 0px
+  margin 0px
+  list-style none
+
+section
+  center(1200px, 1em)
+
+.button
+  &--round
+    border none
+    border-radius 30px
+
+
+.m-transifex
+  position fixed
+  bottom 0
+  left 0
+  display none
+  z-index 10000
+  font-size 12px
+
+#transifexContainer
+  position fixed
+  bottom 0
+  left 0
+  display none
+  z-index 10000
+  font-size 12px
+  height 55px
+  width 125px
+  background #666
+
+.m-transifex
+  .txlive-langselector-toggle
+    background #555555
+    color white
+    padding 12px 30px 9px 15px
+    border 1px solid transparent
+    text-transform uppercase
+    cursor pointer
+
+.txlive-langselector-list
+  position absolute
+  width 100%
+  margin 0
+  padding 10px 0
+  display none
+  background-color #eaf1f7
+  box-shadow 0 0 4px rgba( 0,0,0,0.3 )
+  color #666
+  list-style-type none
+
+.m-transifex
+  .txlive-langselector-toggle
+    background #555555
+    color white
+    padding 12px 30px 9px 15px
+    border 1px solid transparent
+    text-transform uppercase
+    cursor pointer
+
+.m-transifex
+  .txlive-langselector-toggle
+    .txlive-langselector-current
+      line-height 1
+      display block
+
+.m-transifex
+  .txlive-langselector-toggle
+    .txlive-langselector-marker
+      width 14px
+      height 14px
+      position absolute
+      top 50%
+      right 10px
+      -webkit-transform translate(0, -50%)
+      -moz-transform translate(0, -50%)
+      -ms-transform translate(0, -50%)
+      -o-transform translate(0, -50%)
+      transform translate(0, -50%)
+      background url(/assets/svg-icons/arrow-down-white-db6c0a96d5e45c22249bab396db1a822.svg) center no-repeat
+      background-size contain

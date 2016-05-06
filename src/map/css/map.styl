@@ -1,0 +1,226 @@
+@require 'rupture'
+@require '_config'
+// Important Layout Classes
+body
+  overflow hidden
+
+.layout-content
+  position absolute
+  height auto
+  width 100%
+  bottom 0
+  left 0
+  top 0
+
+#footerGfw
+  display none
+
+.titlePane .title
+  display none
+
+
+.infoWindow-close.close-icon
+  z-index 500
+  padding-right 5px
+  padding-top 5px
+  height 30px
+  width 30px
+  cursor pointer
+
+.fire-stories-popup
+  font-size 15px
+  &.mobile
+    font-size 13px
+
+// .esriPopup .esriPopupWrapper
+
+.esriPopup .actionsPane
+  display none
+
+.esriPopup .contentPane
+  font-family "Fira Sans" , Helvetica
+  width 100%
+  .name-field
+    font-weight 300
+    font-size 21px
+    width calc(100% - 100px)
+    // line-height 3
+    // padding 0 10px 10px
+  table
+    width 100%
+    text-align left
+  .field-name
+    color #555555
+    font-size 13px
+    font-weight 500
+    width 40%
+    float left
+    line-height 1.25
+    min-height 1px
+    clear both
+    padding 8px 5px 0 0
+    &.thin
+      width 20%
+  .field-value
+    color #555555
+    font-size 13px
+    width 60%
+    float left
+    line-height 1.25
+    min-height 1px
+    padding 8px 0 0
+    &.wide
+      padding-left 10px
+      padding-right 10px
+      width 100%
+      word-break break-word
+  .layer-subscribe-container
+    border-top 1px solid #e5e5df
+    text-align center
+    .layer-subscribe
+      margin-top 10px
+      margin-bottom 5px
+      float none
+
+table.fire-stories-popup .field-name, table.fire-stories-popup .field-value
+  font-size 18px !important
+
+table.fire-stories-popup.mobile .field-name, table.fire-stories-popup.mobile .field-value
+  font-size 14px !important
+
+.map
+  height 100%
+  width 100%
+
+.map-component
+  position absolute
+  z-index 5
+
+.gfw-water-logo
+  background url('images/GFW_Water_logo.png') no-repeat center
+  background-size 90px
+  position absolute
+  height 90px
+  width 90px
+  z-index 5
+  left 20px
+  top 0
+  &:after
+    background url('./images/beta.png')
+    position absolute
+    display block
+    bottom -5px
+    height 18px
+    width 30px
+    right -5px
+    content ''
+
+.imagery-row
+  color black
+  &.selected
+    color red
+
+.imagery-data
+  cursor pointer
+  width 40%
+  padding 3px
+  &.right
+    margin-left 10px
+//   color black
+//   font-size 14px
+//   &.selected
+//     color red
+
+.fire-popup-list
+	padding-bottom 10px
+  &.no-fires
+    padding-top 5px
+    padding-bottom 5px
+    color #BF0000
+
+.fire-popup-list.no-fires
+  padding-top 5px
+  padding-bottom 5px
+  color #BF0000
+
+.fire-pop-item-cont
+	margin 0 auto
+	text-align center
+	padding-top	5px
+
+	.fire-pop-item
+		cursor pointer
+		display inline-block
+		margin 0px auto
+		text-align center
+		margin 4px
+		border rgb(233, 131, 0) 2px solid
+		padding 3px
+		height 40px
+		width 45px
+
+		&.selected
+			background-color rgb(236, 197, 61)
+			color white
+
+		&:hover
+			background-color lighten(rgb(236, 197, 61),30)
+
+		.fire-pop-count
+			font-size 16px
+			FONT-WEIGHT BOLD
+			color #B50303
+
+		.fire-pop-label
+			font-size 10px
+      margin-top -5px
+
+  .fire-pop-label
+    font-size 10px
+    margin-top -5px
+
+// Require any Map Content
+@require '_modal'
+@require '_loader'
+@require '_alertsModal'
+@require '_layerPanel'
+@require '_controlPanel'
+@require '_analysisPanel'
+@require 'layerTransparency'
+@require '_timeline'
+
+// Media Queries for All Map Content
+@media (min-width: 850px)
+  .layout-content
+    top 34px
+
+@media (max-width: 850px)
+  .tooltipmap
+    visibility hidden !important
+
+@media (max-width: 650px)
+  .esriPopup
+   position fixed !important
+   top 75px !important
+   left 30px !important
+   .esriPopupWrapper
+     left 0 !important
+     bottom 0 !important
+     top 0 !important
+     right 0 !important
+   .contentPane
+     max-height 425px !important
+   .pointer
+     display none !important
+
+
+@media (max-height: 400px)
+  .control-panel
+    width 241px
+    max-width 250px
+
+// @media (max-width: 650px) and (orientation: landscape) {
+//   .control-panel {
+//     background: yellow;
+//   }
+// }

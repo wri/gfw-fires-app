@@ -1,0 +1,72 @@
+{
+  "name": "gfw-fires-app",
+  "version": "3.2.12",
+  "description": "Please view README.md before beginning development",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp build; gulp watch & gulp serve",
+    "dist": "gulp dist",
+    "copy": "rm -rf www; mkdir www; cp -r dist/* www; cp .htaccess www; cp robots.txt www; cp sitemap.xml www; cp -r vendors www;",
+    "dist-www": "npm run dist;rm -rf www; mkdir www; cp -r dist/* www;",
+    "build": "gulp build;",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "check-flow": "are-we-flow-yet src",
+    "install": "bower install",
+    "postinstall": "npm run copy;",
+    "deploy-alpha": "aws s3 sync dist s3://alpha.blueraster.io/wri/gfw/fires-redesign/ --recursive --acl public-read --exclude '*.DS_Store'",
+    "test": "eslint src/**/*.js; flow check;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wri/gfw-fires-app.git"
+  },
+  "keywords": [
+    "gfw",
+    "fires",
+    "blueraster",
+    "wri"
+  ],
+  "author": "BlueRaster",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wri/gfw-fires-app/issues"
+  },
+  "homepage": "https://github.com/wri/gfw-fires-app#readme",
+  "dependencies": {
+    "babel-cli": "^6.1.18",
+    "babel-core": "^6.1.21",
+    "babel-eslint": "^4.1.5",
+    "babel-plugin-transform-es2015-modules-amd": "^6.1.18",
+    "babel-plugin-transform-flow-strip-types": "^6.7.0",
+    "babel-polyfill": "^6.1.19",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    "babel-preset-stage-0": "^6.1.18",
+    "bower": "^1.6.5",
+    "browser-sync": "^2.10.0",
+    "eslint": "^1.9.0",
+    "eslint-plugin-react": "^3.8.0",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^6.1.1",
+    "gulp-cached": "^1.1.0",
+    "gulp-copy": "0.0.2",
+    "gulp-filter": "^3.0.1",
+    "gulp-html-autoprefixer": "0.0.1",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-jade": "^1.1.0",
+    "gulp-minify-inline": "^0.1.1",
+    "gulp-plumber": "^1.0.1",
+    "gulp-stylus": "^2.1.0",
+    "gulp-umd": "^0.2.0",
+    "jeet": "^6.1.2",
+    "jstransformer-stylus": "^1.0.0",
+    "merge-stream": "^1.0.0",
+    "node-notifier": "^4.4.0",
+    "react": "^0.14.3",
+    "rupture": "^0.6.1"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.24.1"
+  }
+}

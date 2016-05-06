@@ -1,0 +1,147 @@
+@require '../../../node_modules/rupture/rupture/index'
+@require '../../css/_variables'
+
+.page-title
+  font-size 3em
+  font-weight 300
+  margin 0
+  padding .5em 0 .2em
+  line-height 1em
+
+  +below($mq-mobile)
+    padding: .8em 0 .2em;
+
+.page-description
+  font-size 1.2em
+  font-weight 300
+  margin 0
+  padding 0 0 .7em
+  line-height 1.25em
+
+.content-header
+  margin 2em 0em
+  color $white
+
+.content-container
+  display flex
+  flex-direction row
+
+  a
+    color $gfw-red
+
+  a[href$=".pdf"].pdf-doc:before
+    content "\00a0"
+    background-image url(../images/pdf-icon.svg)
+    background-size contain
+    background-repeat no-repeat
+    width 28px
+    display inline-block
+
+  +below($mq-mobile)
+    flex-direction column
+
+.content-aside
+  padding 1em 0 1em 0
+
+  li
+    text-align center
+    color $dark-gray
+    background #f7f7f7
+    position relative
+    font-weight 500
+    font-size .9em
+    padding 1.3em .7em
+    line-height 1.2em
+    border-top 1px solid darken($concrete, 5%)
+    border-left 1px solid darken($concrete, 5%)
+
+    &:last-child
+      border-bottom 1px solid darken($concrete, 5%)
+
+    &.active
+      background #fff
+      box-shadow 2px 0 0 0px $white
+
+    &.active:after
+      content ''
+      position absolute
+      display block
+      bottom 0%
+      left 0px
+      width 100%
+      height 4px
+      background $gfw-red
+
+    +below($mq-mobile)
+      border-right 1px solid darken($concrete, 5%)
+      box-shadow none
+
+.content-menu
+  width 270px
+
+  +below($mq-mobile)
+    width 100%
+
+.content-body
+  flex-grow: 1;
+  padding 2em 2em 1em 2em
+  border-left 1px solid darken($concrete, 5%)
+  color $dark-gray
+
+  +below($mq-mobile)
+    border-left none
+
+  h3
+    font-size 2.2em
+    font-weight 300
+    margin 0
+    padding 0 0 .5em
+    line-height 1.25em
+
+  h4
+    font-size 1.3em
+    font-weight 500
+    margin  0
+    line-height 1.25em
+    text-align center
+
+  h5
+    font-size 1em
+    text-align center
+    font-weight 500
+    margin .5em 0
+
+  p
+    font-size .9em
+    line-height 1.6em
+    padding .7em 0
+    margin 0
+
+.content-subpage
+  display none
+
+  &.active
+    display block
+
+.gfw-partnership
+  .logo-list
+    padding-bottom 2em
+
+  .text-list
+    li
+      text-align center
+      font-size .9em
+      line-height 1.6em
+
+.indonesian-forest-fires-pdf
+  padding .7em 0 1em
+  display block
+
+h3.partnership-header-title
+  text-align center
+
+.center
+  text-align center
+
+.text-list
+  padding 1em 0 1.5em

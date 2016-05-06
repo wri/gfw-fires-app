@@ -1,0 +1,31 @@
+@require 'jeet'
+@require 'rupture'
+@require '../../css/_variables'
+@require '_action-menu'
+@require '_slider'
+
+// #alerts-modal
+//   position absolute
+//   height 100%
+//   width 100%
+
+#alerts-modal
+  .modal-window
+    max-width 375px
+
+    +below($mq-mobile)
+      max-width initial
+      width calc(100% - 2em)
+
+.photo-credit
+  position absolute
+  bottom 0
+  padding-left 5px
+  color white
+  font-size 12px
+  // font-style italic
+
+
+@media (max-width: 550px)
+  .photo-credit
+    font-size 10px

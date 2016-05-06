@@ -1,0 +1,55 @@
+@require '../../../node_modules/jeet/stylus/jeet/index'
+@require '../../../node_modules/rupture/rupture/index'
+@require '../../css/_variables'
+
+body
+  overflow-y auto
+
+.footerGfw
+  display none !important
+
+.mobile-underlay
+  position absolute
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background-color rgba(0, 0, 0, .25)
+  z-index $z-modal-underlay
+
+.mobile-controls
+  position fixed
+  bottom 0
+  // left 20px
+  // right 80px
+  right 48px
+  width calc(100% - 48px)
+  background-color rgba(255, 255, 255, 1)
+  z-index $z-modal
+  box-shadow $box-shadow
+
+  & button
+    width 25%
+    background-color white
+    border none
+    border 1px solid #aaa
+    height 3em
+    vertical-align middle
+
+    &:nth-child(odd)
+      border-right none
+
+    & span
+      display block
+      font-size 9px
+
+  & svg
+    height 20px
+    width 20px
+    vertical-align middle
+    position relative
+    bottom 1px
+
+
+.kalendae *
+  box-sizing content-box

@@ -1,0 +1,49 @@
+include html/_mixins.jade
+doctype
+html
+  head
+    block head-meta
+      include html/_meta.jade
+
+    block head-styles
+      link(href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,300' rel='stylesheet' type='text/css')
+      link(rel='stylesheet', href='//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.css')
+      link(rel='stylesheet' href='../css/site.css')
+      style
+        :stylus
+          @require '../css/_critical'
+
+    block head-scripts
+      script(src="http://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js" type="text/javascript" async="")
+      script(src='https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
+
+  body
+    script(src='//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js')
+    //- script(src='http://www.globalforestwatch.org/gfw-assets' async='true' data-current='.shape-fires' id='loader-gfw' defer)
+    script(src='https://cdn.rawgit.com/simbiotica/gfw_assets/c821fe8f7c5dc545d78be491074621/js/build/production.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
+    include html/_ie9.html
+    include html/_svgAssets.jade
+
+    div.headerGfw-wrapper
+      div#headerGfw.headerGfw
+
+    section.logo-container
+      div.gfw-fires-logo-wrapper
+        img.gfw-fires-logo(height=90 width=90 src='/images/gfwFires-logo-new.png')
+
+    block content
+
+    div#footerGfw.footerGfw
+
+    block body-scripts
+      script.
+        // language and mobile navigation functionality
+        $(document).ready(function() {
+          //- document.getElementById('navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
+          //- document.getElementById('mobile-navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
+          document.getElementById('mobile-navigation-icon').onclick = function (event) { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); document.getElementById('mobile-navigation-icon').classList.toggle('active'); };
+        });
+
+
+        // embedded version
+        window.version = '#{meta.esriVersion}'

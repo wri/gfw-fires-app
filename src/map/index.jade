@@ -1,0 +1,118 @@
+extends ../_layout.jade
+
+block append head-styles
+  link(rel='stylesheet', href='/map/css/map.css?#{meta.version}')
+  link(rel='icon', href='/css/images/favicon.png')
+  //- link(rel='stylesheet', href='http://js.arcgis.com/#{meta.esriVersion}/esri/css/esri.css')
+  //- link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
+  //- link(rel='stylesheet', href='../vendors/kalendae/build/kalendae.css')
+  style
+    :stylus
+      @require 'css/_base'
+      @require 'css/_critical'
+
+block append head-scripts
+  //- script(src='../vendors/jquery/dist/jquery.min.js')
+  //- script(src='https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
+  script(src='../vendors/kalendae/build/kalendae.standalone.js', async)
+  script.
+    var base = location.pathname.replace(/\/[^/]+$/, '/map/');
+    window.version = '#{meta.version}';
+    var dojoConfig = {
+      parseOnLoad: false,
+      async: true,
+      //- cacheBust: 'v=#{meta.version}',
+      packages: [
+        { name: 'js', location: base + 'js' },
+        { name: 'utils', location: base + 'js/utils' },
+        { name: 'stores', location: base + 'js/stores' },
+        { name: 'helpers', location: base + 'js/helpers' },
+        { name: 'actions', location: base + 'js/actions' },
+        { name: 'components', location: base + 'js/components' },
+        { name: 'vendors', location: base + '../vendors' }
+      ],
+      aliases: [
+        ['alt', 'vendors/alt/dist/alt.min'],
+        ['react', 'vendors/react/react.min'],
+        ['react-dom', 'vendors/react/react-dom.min'],
+        ['react-motion', 'vendors/react-motion/build/react-motion'],
+        ['lodash', 'vendors/lodash/lodash.min'],
+        //- ['jquery', 'vendors/jquery/dist/jquery.min'],
+        ['jquery', 'https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js'],
+        ['babel-polyfill', 'vendors/babel-polyfill/browser-polyfill'],
+        ['formsy-react', 'vendors/formsy-react/release/formsy-react'],
+        ['chosen', 'vendors/chosen/chosen.jquery']
+      ],
+      deps: ['dojo/domReady!'],
+      callback: function () {
+        // Set up globals
+        window.app = {
+          version: '#{meta.version}',
+          debugEnabled: true,
+          mobile: function () {return (window.matchMedia === undefined ? false : window.matchMedia('only screen and (max-width: 850px)').matches)},
+          debug: function (message) {
+            if (this.debugEnabled) {
+              var print = typeof message === 'string' ? console.log : console.dir;
+              print.apply(console, [message]);
+            }
+          }
+        };
+        require(['js/main']);
+      }
+    };
+  script.
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-35900039-4', 'auto', {'name':"A"});
+    ga('A.send', 'pageview');
+    ga('create', 'UA-1981181-14', 'auto', {'name':"B"});
+    ga('B.send', 'pageview');
+    ga('create', 'UA-48182293-1', 'auto', {'name':"C",'cookieDomain':"'fires.globalforestwatch.org']"});
+    ga('C.send', 'pageview');
+    if (window.top !== window.self) {
+      var payload = {
+        'hitType': 'event',
+        'eventCategory': 'Event',
+        'eventAction': 'embed',
+        'eventLabel': 'iFrame Embed',
+        'eventValue': 'This application was viewed inside an embedded iFrame.'
+      };
+      ga('A.send', payload);
+      ga('B.send', payload);
+      ga('C.send', payload);
+    }
+  script.
+    window.liveSettings = {
+      api_key: "c0d190e8efe94881b66b5bb38ebaece3",
+      detectlang: false,
+      picker: '#customTransifex', //'bottom-left', 
+      version: 'latest',
+      autocollect: true,
+      dynamic: true
+      //- staging: true,
+      //- parse_attr: ["attr1", "attr2", ...],
+      //- ignore_tags: ["tag1", "tag2", ...],
+      //- ignore_class: ["classname1", "classname2"]
+    };
+  script(src='//cdn.transifex.com/live.js')
+
+block content
+  //- style(type='text/css', media='print').
+  //-   @page { size: landscape; }
+  +navigation(global.pages, 'map', true)
+  include html/_svgAssets.jade
+  div#transifexContainer
+    div#customTransifex
+  div#root.layout-content
+  div#layer-modal.modal.hidden
+  div#canopy-modal.modal.hidden
+  div#search-modal.modal.hidden
+  div#basemap-modal.modal.hidden
+  div#calendar-modal.modal.hidden
+  div#subscription-modal.modal.hidden
+  div#share-modal.modal.hidden
+  div#fires-modal.modal.hidden
+  div#master-modal.modal.hidden
+  script(src='http://js.arcgis.com/#{meta.esriVersion}/init.js', async)

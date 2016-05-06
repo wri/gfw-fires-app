@@ -1,49 +1,71 @@
-# GFW-Fires
-> Please read this before beginning development to learn how to get started and how to change some simple components of the application.
+GFW-Fires
+---
+Please read this before beginning development to learn how to get started and how to change some simple components of the application.
 
-## Getting Started
+## Quickstart
+- install [node.js](http://nodejs.org/)
+- clone this repo `git clone git@github.com:wri/gfw-fires-app.git`
+- cd into repo folder `> cd gfw-fires-app`
+- install dependencies `> npm install`, bower dependencies will automatically install
+- start serving and build `> npm run start`
+- visit `localhost:3000/en/home`
 
-<p>This project has a few dependencies you will need installed to get started.</p>
+## Development
+TODO
 
-### Installing node.js if you do not have it already.
-<p>View the <a href='http://nodejs.org/'>node.js</a> homepage and install.</p>
 
-### Installing Gulp if you do not have it already.
-<p>View the <a href='http://gulpjs.com'>Gulp</a> homepage.  If you have node installed, you can just run: <pre><code>npm install --global gulp</code></pre>
-
-### Clone the Repo
-<p>If you haven't already done so, clone the repo.</p>
-
-### Installing the remaining dependencies for Gulp.
-<p>Make sure you are in the project folder you just cloned down and run <pre><code>npm install</code></pre></p>
-
-### NOTE: For Mac users
-<p>Installing node and any dependencies via ```npm``` may require you to run the commands with ```sudo```.</p>
-
-### NOTE: For Apache users
-<p>Warning: If you run this project over an Apache server, it is possible that your server configurations will clash with the project's <strong>.htaccess</strong> file.  If this project is not visible on your web server or you cannot view it in the browser, comment out your <strong>.htaccess</strong> file, <strong> but make sure your edits are not tracked in git</strong>.  Just run <code>git update-index --assume-unchanged .htaccess</code> in the root directory to ensure that any changes you make to the <strong>.htaccess</strong> file will not affect production.</p>
-
-### Next Steps
-<p>Now that you have all your dependencies installed.  You can start developing.  We are using a task runner to process .styl files.  The task runner has some preconfigured tasks for you to use.
-
-#### gulp watch
-Run <code>gulp watch</code> from your project directory
-<p>This will run a watch task to listen for any changes to stylus files and compile them into css files.</p>
-
-#### gulp build
-Run <code>gulp build</code> from your project directory.
-<p>This will do everything necessary to generate a minified build for this project.  It will minify images, .styl files, JavaScript, and html and will also copy over any remaining dependencies that are needed and place them in the build directory.</p>
+### Project requirements
+- IE10+
+### Architecture overview
+### Npm scripts
+### Build Process
 
 ## Configurations
 
-#### Coming Soon
-<p>We will post some examples of how to make some simple text changes to labels in the app via different config files in the project.</p>
+### Language
+This application is intended to be available in both english and indonesian, all text that should be translated should be in the correct locals file found in the i18n folder.
+
+### Environment Variables
+TODO
 
 ## Git Workflow
 
-#### Coming Soon
-<p>Where to commit and what branch to branch off of as well as which branch will have the latest code.</p>
+#### Main Development
+Developers should aim to stay close to the latest version of the development branch. Small fixes and tweaks are appropriate as small commits that are made directly to the develop branch.
+Anything sizeable should be a focused (affecting only relevant files to avoid conflicts) and well named feature branch that is properly merged back and deleted upon completion.
 
-## Contribution
-<p> See Git Workflow above to know how and where to commit your code.</p>
+#### Continuous Integration off Master
+Production for this application is a Heroku LAMP dynamo that is configured to watch for changes to the master branch. Upon merging develop into master or pushing to master, it will build the latest version of the app and re-host automatically.
+This automatic update will take a moment because build/dist artifacts are not committed, the dynamo is configured to install node dependencies, install bower dependencies, and compile the app dist for hosting.
+
+#### Versioning
+TODO
+
 ##### NOTE: DO NOT UNDER ANY CIRCUMSTANCES COMMIT ANY CREDENTIALS OF ANY KIND
+
+#### TODO
+- fix inconsistent carousel loading (Slick not a function)
+- layers
+- meta api infowindows
+- timeline
+- transparency dropdowns
+- print
+- fix land use counter
+- honeypots - analysis, subscription, story submit
+- google analytics events
+- .htaccess redirects (/ -> /en/home, /en/ -> /en/home)
+- verify and delete unused remote branches (KarlaRenschler-patch-1, Lucas, popup-enhance)
+- set code up as heroku-deployable
+- update media query variables from mobile mobile-small to tablet and mobile (bojan knows about this)
+- analysis submit functionality
+
+- indonesian translation plan:
+  - use node and transifex to translate i18n/en/locals.js strings and save them to i18n/id/locals.js
+  - to keep things simple, it's recommended to make this a manual script that is only run on version update deployments when text has been added
+
+- completed:
+  - search widget functionality
+  - integrated versioning
+  - cleanout reference www
+  - percentage in peatland fires on home carousel
+  - sourcemaps for styl & js

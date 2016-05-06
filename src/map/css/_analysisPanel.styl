@@ -1,0 +1,594 @@
+// Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
+.search-tools
+  width 500px
+  // right 20px
+  z-index 6
+  // top 300px
+  left 0px
+  right 0px
+  margin 0 auto
+  filter drop-shadow(2px 2px 2px rgba(0, 0, 0, .25)) // $box-shadow
+  &.isSearchMobile
+    width 80%
+    .search-tab-container
+      background-color #c9c9c9
+      width 100%
+    & .search-tab
+      width 32%
+      padding-left 0
+      padding-right 0
+    & .search-box
+      width 100%
+      display block
+    & .deg-box
+      display block
+      & input.deg-input
+        max-width 160px
+    & .search-submit-button
+      margin 5px
+    & .search-coordinates
+      display block
+      width 100%
+      & div
+        width 22%
+    & #coordinateSearch
+      position relative
+      float inherit
+      width inherit
+
+
+  +below($mq-mobile)
+    width auto
+    top 20px
+    bottom initial
+    left 20px
+    right 1em
+    z-index 800 // $z-modal
+
+  // & .search-submit-button
+  //   color #FFF
+  //   border-radius 0
+
+  & .search-tab
+    color white
+    background-color #c9c9c9
+    border none
+    font-size .75em
+    margin-left 3px
+    height 26px
+    padding 5px 15px 2px 15px
+    display inline-block
+    transition all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)
+    outline none
+
+    &.active
+    &:active
+      color #c9c9c9
+      background-color white
+
+    // &:active
+    // &:hover
+    // &:focus
+    //   color #e7002f // $gfw-red
+
+    &:nth-child(1)
+      margin-left 0
+
+    &:nth-child(3)
+      margin-right 0
+
+  & .search-magnifier
+    height 17px
+    width 17px
+    fill #555
+
+  & .search-input-container
+    display flex
+    flex-direction row
+
+  & .search-input
+    outline none
+    border none
+    box-sizing border-box
+    height 100%
+    padding 10px
+
+  & .search-results
+    width 100%
+    max-height 225px
+    overflow auto
+    position absolute
+    background-color rgba(255, 255, 255, .8)
+
+    & button
+      width 100%
+      text-align left
+      background none
+      border none
+      border-bottom 1px solid #CCC
+
+  & .search-coordinates
+    display inline-block
+    // width 100%
+    width calc(100% - 100px)
+    justify-content space-between
+    align-items center
+    div
+      display inline-block
+      width 25%
+
+    & input
+      width 3em
+      padding-right 0
+
+    & select
+      margin-right 10px
+      background #555
+      color white
+      width 60px
+      height 30px
+
+  & .search-button
+    float right
+    position absolute
+    right -80px
+    width 80px
+    top 25px
+
+.search-box.degrees
+  background white
+  display flex
+  display -webkit-flex
+  -webkit-box-pack justify
+  -moz-box-pack justify
+  -ms-flex-pack justify
+  -webkit-justify-content space-between
+  justify-content space-between
+  align-items center
+  -webkit-align-items center
+  padding 0 10px
+
+.deg-box
+  display flex
+  display -webkit-flex
+  -webkit-box-pack justify
+  -moz-box-pack justify
+  -ms-flex-pack justify
+  -webkit-justify-content space-between
+  justify-content space-between
+  align-items center
+  -webkit-align-items center
+
+.deg-box span
+  width auto
+
+.deg-box input.deg-input
+  max-width 120px
+  text-align left
+  margin 13px 0 9px 5px
+  padding 0
+  text-align left
+  outline 0
+  border none
+  border-bottom 1px solid #555555
+  font-size 18px
+  border-radius 0
+  font-family inherit
+
+.deg-box .gfw-btn
+  background #e5e5df
+  position relative
+  display inline-block
+  z-index 1
+  padding 0px 12px
+  border-radius 40px
+  font-size 14px
+  text-decoration none
+  height 36px
+  line-height 36px
+  text-align center
+  font-weight 500
+  white-space nowrap
+  -webkit-transition background 0.15s linear
+  -moz-transition background 0.15s linear
+  -o-transition background 0.15s linear
+  transition background 0.15s linear
+
+.search-submit-button.gfw-btn.green:hover
+  background #ad0023
+  text-decoration none !important
+
+.search-submit-button.gfw-btn.green
+  color white
+  background #e7002f
+
+.deg-box
+  button
+    width auto
+    margin 0 0 0 10px
+
+#coordinateSearch
+  position absolute
+  right 0px
+  // top 26px
+  // top 0
+  bottom 0
+  background white
+  height calc(100% - 26px)
+  padding-top 25px
+  float right
+  width 100px
+  button
+    margin-right 15px
+
+.analysis-tools
+  max-height calc(100% - 255px)
+  flex-direction column
+  // overflow hidden
+  display flex
+  width 320px
+  right 40px
+  top 110px
+  &.isMobileTools
+    max-height calc(100% - 125px)
+  +below($mq-mobile)
+    top initial
+    bottom 70px
+    left 20px
+    right 1em
+    z-index 800 //$z-modal
+    width auto
+  & .no-shrink
+    flex-shrink 0
+  & .tab-container
+    overflow-y auto
+    p
+      text-align left
+      padding-left 40px
+      padding-right 40px
+      font-size 14px
+  & > div
+    background white
+    width 100%
+
+.analysis-toggle
+  cursor pointer
+
+.analysis-tools .tabs .gfw-btn
+.analysis-footer > div
+  font-size 14px
+  width 25%
+
+.analysis-footer
+  padding 10px
+
+.analysis-footer button
+  font-size 14px
+
+  & svg
+    fill $darkGray
+    margin 0 5px
+    height 20px
+    width 20px
+  & > div
+    border-top 1px solid $lightGrayBorder
+    transition background 0.25s linear
+    justify-content center
+    text-align center
+    line-height 20px
+    padding 7px 10px
+    color $darkGray
+    &:first-child
+      border-right 1px solid $lightGrayBorder
+  & .analysis-action-label
+    line-height 22px
+    &:hover
+      background darken(white, 10%)
+
+.analysis-tools
+  .tabs
+    svg
+      height 20px
+      width 20px
+      fill #555
+      vertical-align middle
+
+    .active svg
+      fill $gfwBlue
+
+.analysis-tools .tabs .gfw-btn
+  //$lightGrayBorder is slightly ligher then $lightGray, making it better fit for unactive tab
+  // transition color 0.35s ease-in-out
+  background-color #EEEEEE
+  color $darkGray
+  border-radius 0
+  &.active
+    color $gfwBlue
+    background-color white
+  &:hover
+    background-color white
+// .tab-indicator
+//   transition all 0.35s ease-in-out
+//   background $gfwBlue
+//   height 5px
+//   width 25%
+
+.analyze-header
+  justify-content center
+  align-items center
+  color $gfwBlue
+  display flex
+  height 40px
+
+  & svg
+    margin-right 10px
+    height 20px
+    width 20px
+    fill $gfwBlue
+
+.lat-lng-tool
+  & .lat-lng-form
+    justify-content center
+    margin 10px 0
+  & input
+    border 1px solid $lightGrayBorder
+    padding 5px 10px
+    font-size 13px
+    margin 0 5px
+    outline none
+    width 90px
+
+.lat-lng-btn
+  margin 0 5px
+
+.add-point-btn
+  margin 20px auto 10px
+  width 120px
+  &.active
+    background darken($gfwBlue, 25%)
+
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close, .chosen-container .chosen-results-scroll-up span
+  background url('../css/images/chosen-sprite.png') -42px 1px no-repeat !important
+
+
+.custom-analysis-spacer
+  margin 5px 0
+
+.lat-lng-instructions
+  font-size 14px
+
+.analysis-placeholder
+  text-align center
+  background white
+  font-size 16px
+  padding 30px
+  margin 0
+
+.loss-footnote
+  justify-content center
+  align-items center
+  font-size 11px
+  & .loss-footnote-label
+    padding-right 3px
+
+.loss-link
+  & select
+    -webkit-appearance none
+    position absolute
+    height 100%
+    width 100%
+    opacity 0
+    left 0
+    top 0
+  & .loss-timeline-spacer
+    padding 0 3px
+
+.canopy-link
+  & .canopy-text
+    padding 0 3px
+  & .canopy-density-label:before
+    content ' > '
+  & .canopy-density-label:after
+    content '% '
+
+.custom-analysis-link
+  justify-content center
+  margin 5px 0 10px
+  font-size 12px
+  & .custom-analysis-link-label
+    padding-right 3px
+
+.full-report-button
+  margin 5px auto 10px
+  width 180px
+
+.imagery-tab, #areaTab
+  padding 20px
+
+.imagery-calendar-label, .customize-report-label
+  display block
+  font-size 11px !important
+  color #999
+  text-transform uppercase
+  padding 7px 0
+  position relative
+  text-align left
+  font-size 11px
+
+.customize-report-label
+  cursor pointer
+  padding-left 40px !important
+
+.customize-options span
+  font-size 14px
+
+#imagery-date-ranges button, #analysis-date-ranges button, #areaTab button
+  width 100%
+
+#imagery-date-ranges button, #analysis-date-ranges button
+  font-size 14px
+
+.drop-shapefile
+  border 1px dashed gray
+
+.subscribe-link
+  color #e7002f
+  cursor pointer
+
+.subscription-draw
+  font-size 14px
+
+.feature-title
+.custom-area-title
+  padding 0 10px
+  margin 5px 0
+
+.feature-title
+  padding-top 3px
+
+.watershed-chart
+  margin 0 10px
+  height 150px
+  width 300px
+  padding 0
+
+.custom-area-title
+  & input
+    -webkit-appearance none
+    padding-left 30px
+    font-size 16px
+    outline none
+    border none
+  & .custom-area-title-edit
+    position absolute
+    height 18px
+    left 15px
+    top 1px
+    & svg
+      fill $gfwBlue
+      height 18px
+      width 18px
+
+
+
+.analysis-panel
+  padding 5px
+
+.analysis-instructions
+.analysis-instructions__draw
+  color $grayFont
+
+.analysis-instructions__header
+  font-weight normal
+  margin 5px 0
+
+.analysis-instructions__olist
+  list-style-type decimal
+  font-size 13px
+  padding 0 15px
+
+.analysis-instructions__separator
+  margin 10px 0 5px
+  text-align center
+  font-size 22px
+
+.analysis-instructions__draw-icon-container
+  margin 10px 0
+
+.analysis-instructions__draw-icon
+  fill #e7002f
+  display block
+  margin auto
+  height 100px
+  width 135px
+  margin-bottom 15px
+
+.analysis-instructions__draw-button
+  text-transform uppercase
+  font-weight bold
+  margin 15px
+
+.analysis-instructions__upload-container
+  // background-color $lightGrayHighlight
+  border 1px dashed $lightGray
+  // border-radius 10px
+  position relative
+  text-align center
+  margin 15px 15px
+  font-size 20px
+  padding 10px
+  cursor copy
+  &.active
+    font-weight bold
+  & input
+    display none
+
+.analysis-instructions__upload
+  pointer-events none
+
+.analysis-results
+  color $grayFont
+
+.analysis-results__title
+  border-bottom 1px solid $lightGray
+  font-weight normal
+  padding 0
+  margin 0
+
+.analysis-results__select-label
+  font-size 14px
+  margin 5px 0
+  color black
+
+.analysis-results__select-style
+  border 1px solid $lightGray
+  text-overflow ellipsis
+  white-space nowrap
+  padding-right 15px
+  padding-left 5px
+  line-height 2em
+  overflow hidden
+  font-size 13px
+  color black
+  height 2em
+  width 100%
+
+.analysis-results__select-style:after
+  position absolute
+  content '\25BC'
+  font-size 10px
+  right 5px
+  top 2px
+
+.analysis-results__select
+  -webkit-appearance none
+  position absolute
+  height 100%
+  width 100%
+  opacity 0
+  left 0
+  top 0
+
+.locate-me
+  background-color white
+  padding-top 10px
+  padding-left 10px
+  padding-right 10px
+  &.mobs
+    padding-top 2px
+
+.border-right
+  border-right 1px solid #aaa
+
+.basemap-holder
+  overflow auto
+
+/* IE10+ CSS styles go here */
+// @media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
+//   .analysis-tools
+//     box-shadow none
+//     bottom 155px
+//     & > div
+//       box-shadow 0px 4px 0px #fff, 0px 0px 0px #fff, 2px 2px 2px rgba(0,0,0,0.1), 2px 2px 2px rgba(0,0,0,0.15)
+//     & div:last-of-type
+//       box-shadow 2px 2px 2px rgba(0,0,0,0.25)

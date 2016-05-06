@@ -1,0 +1,81 @@
+for font in $fonts
+  .{font[0]}
+    font-family font[1]
+
+for color in $colors
+  .text-{color[0]}
+    color color[1]
+
+  .back-{color[0]}
+    background-color color[1]
+
+.fill
+  &, &__wide
+    width 100%
+
+  &, &__long
+    height 100%
+
+.pointer
+  cursor pointer
+
+.text-center
+  text-align center
+
+.text-right
+  text-align right
+
+.absolute
+  position absolute
+
+.relative
+  position relative
+
+.inline-block
+  display inline-block
+
+.shadow
+  box-shadow 2px 2px 2px rgba(0,0,0,0.25)
+
+.no-overflow
+  overflow hidden
+
+.font-light
+  font-weight light
+
+.font-normal
+  font-weight normal
+
+.font-bold
+  font-weight bold
+
+.mobile-hide
+  +below($mq-mobile)
+    display none
+
+.mobile-show
+  display none
+
+  +below($mq-mobile)
+    display block
+
+.vertical-middle
+  vertical-align middle
+
+.hidden
+  display none
+
+.padding
+  padding 10px
+
+.flex
+  display flex
+
+.flex-wrap
+  flex-wrap wrap
+
+.flex-justify-between
+  justify-content space-between
+
+.flex-justify-around
+  justify-content space-around

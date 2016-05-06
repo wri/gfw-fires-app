@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--  generator="Inspyder Sitemap Creator 4.1.3"  -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd http://www.google.com/schemas/sitemap-mobile/1.0/sitemap-mobile.xsd http://www.google.com/schemas/sitemap-video/1.1/sitemap-video.xsd" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url>
+	<loc>http://fires.globalforestwatch.org/home/</loc>
+	<lastmod>2016-04-12</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<mobile:mobile/>
+</url>
+<url>
+	<loc>http://fires.globalforestwatch.org/report/index.html</loc>
+	<lastmod>2016-04-12</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<mobile:mobile/>
+</url>
+<url>
+	<loc>http://fires.globalforestwatch.org/map/</loc>
+	<lastmod>2016-04-12</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<mobile:mobile/>
+</url>
+<url>
+	<loc>http://fires.globalforestwatch.org/about/</loc>
+	<lastmod>2016-04-12</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<image:image>
+		<image:loc>http://fires.globalforestwatch.org/images/Infographic-WRI-Forest-v1.0_Page_1.png</image:loc>
+		<image:caption>INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT - page 1</image:caption>
+	</image:image>
+	<image:image>
+		<image:loc>http://fires.globalforestwatch.org/images/Infographic-WRI-Forest-v1.0_Page_2.png</image:loc>
+		<image:caption>INDONESIAN FOREST FIRES: FROM CAUSE TO EFFECT - page 2</image:caption>
+	</image:image>
+	<mobile:mobile/>
+</url>
+<url>
+	<loc>http://fires.globalforestwatch.org/story/</loc>
+	<lastmod>2016-04-12</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.5</priority>
+	<mobile:mobile/>
+</url>
+</urlset>

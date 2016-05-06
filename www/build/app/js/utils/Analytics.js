@@ -1,1 +1,0 @@
-define([],function(){"use strict";return{sendEvent:function(e,n,t,a){var g={hitType:"event",eventCategory:e,eventAction:n,eventLabel:t,eventValue:a};ga&&(ga("A.send",g),ga("B.send",g),ga("C.send",g))},sendPageview:function(e,n){var t={hitType:"pageview"};e&&(t.page=e),n&&(t.title=n),ga&&(ga("A.send",t),ga("B.send",t),ga("C.send",t))}}});
