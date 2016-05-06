@@ -1,4 +1,4 @@
-define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/AnalysisPanel/EsriSearch', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/Timeline/Timeline', 'actions/MapActions', 'utils/params', 'js/config', 'helpers/ShareHelper', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _EsriSearch, _ControlPanel, _LayerPanel, _Timeline, _MapActions, _params, _config, _ShareHelper, _react) {
+define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/Timeline/Timeline', 'actions/MapActions', 'utils/params', 'js/config', 'helpers/ShareHelper', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _ControlPanel, _LayerPanel, _Timeline, _MapActions, _params, _config, _ShareHelper, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -10,8 +10,6 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
   var _MobileUnderlay2 = _interopRequireDefault(_MobileUnderlay);
 
   var _MobileControls2 = _interopRequireDefault(_MobileControls);
-
-  var _EsriSearch2 = _interopRequireDefault(_EsriSearch);
 
   var _ControlPanel2 = _interopRequireDefault(_ControlPanel);
 
@@ -77,8 +75,8 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var Map = function (_React$Component) {
-    _inherits(Map, _React$Component);
+  var Map = function (_Component) {
+    _inherits(Map, _Component);
 
     function Map(props) {
       _classCallCheck(this, Map);
@@ -131,7 +129,7 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     }]);
 
     return Map;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = Map;
 });

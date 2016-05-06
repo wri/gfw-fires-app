@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actions/MapActions', 'actions/ModalActions', 'dojo/cookie', 'js/config', 'react'], function (exports, _ModalWrapper, _ModalStore, _MapActions, _ModalActions, _cookie, _config, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'actions/MapActions', 'actions/ModalActions', 'dojo/cookie', 'react-dom', 'react'], function (exports, _ModalWrapper, _MapActions, _ModalActions, _cookie, _reactDom, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
   var _ModalWrapper2 = _interopRequireDefault(_ModalWrapper);
 
   var _cookie2 = _interopRequireDefault(_cookie);
+
+  var _reactDom2 = _interopRequireDefault(_reactDom);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -65,16 +67,46 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var BasemapModal = function (_React$Component) {
-    _inherits(BasemapModal, _React$Component);
+  var BasemapModal = function (_Component) {
+    _inherits(BasemapModal, _Component);
 
     function BasemapModal(props) {
       _classCallCheck(this, BasemapModal);
 
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasemapModal).call(this, props));
 
-      _ModalStore.modalStore.listen(_this.storeUpdated.bind(_this));
-      var defaultState = _ModalStore.modalStore.getState();
+      _this.switchBasemap = function () {
+        if (_this.state.cookieChecked !== undefined) {
+          _this.createCookie(_this.state.cookieChecked);
+        }
+        _MapActions.mapActions.setBasemap('dark-gray');
+        _this.close();
+      };
+
+      _this.keepBasemap = function () {
+        if (_this.state.cookieChecked !== undefined) {
+          _this.createCookie(_this.state.cookieChecked);
+        }
+        _this.close();
+      };
+
+      _this.setCookie = function (evt) {
+        //todo: is this {} in setCookie proper object typing?
+        _this.setState({
+          cookieChecked: evt.target.checked
+        });
+      };
+
+      _this.createCookie = function (cookieValue) {
+        (0, _cookie2.default)('windBasemapDecision', cookieValue, {
+          expires: 7
+        });
+      };
+
+      _this.close = function () {
+        _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(_this).parentElement);
+      };
+
       _this.state = {
         cookieChecked: undefined
       };
@@ -82,12 +114,6 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
     }
 
     _createClass(BasemapModal, [{
-      key: 'storeUpdated',
-      value: function storeUpdated() {
-        var currentState = _ModalStore.modalStore.getState();
-        // this.setState({ layerInfo: currentState.modalLayerInfo });
-      }
-    }, {
       key: 'render',
       value: function render() {
         return _react2.default.createElement(
@@ -114,12 +140,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
                 ),
                 _react2.default.createElement(
                   'button',
-                  { className: 'gfw-btn white basemap-button pointer', onClick: this.switchBasemap.bind(this) },
+                  { className: 'gfw-btn white basemap-button pointer', onClick: this.switchBasemap },
                   'Yes'
                 ),
                 _react2.default.createElement(
                   'button',
-                  { className: 'gfw-btn white basemap-button pointer', onClick: this.keepBasemap.bind(this) },
+                  { className: 'gfw-btn white basemap-button pointer', onClick: this.keepBasemap },
                   'No'
                 ),
                 _react2.default.createElement(
@@ -127,7 +153,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
                   { id: 'basemap-checkbox-container' },
                   _react2.default.createElement(
                     'input',
-                    { id: 'basemap-cookie-checkbox', onChange: this.setCookie.bind(this), type: 'checkbox' },
+                    { id: 'basemap-cookie-checkbox', onChange: this.setCookie, type: 'checkbox' },
                     'Remember my decision'
                   )
                 )
@@ -136,46 +162,10 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'actio
           )
         );
       }
-    }, {
-      key: 'switchBasemap',
-      value: function switchBasemap() {
-        if (this.state.cookieChecked !== undefined) {
-          this.createCookie(this.state.cookieChecked);
-        }
-        _MapActions.mapActions.setBasemap('dark-gray');
-        this.close();
-      }
-    }, {
-      key: 'keepBasemap',
-      value: function keepBasemap() {
-        if (this.state.cookieChecked !== undefined) {
-          this.createCookie(this.state.cookieChecked);
-        }
-        this.close();
-      }
-    }, {
-      key: 'setCookie',
-      value: function setCookie(evt) {
-        this.setState({
-          cookieChecked: evt.target.checked
-        });
-      }
-    }, {
-      key: 'createCookie',
-      value: function createCookie(cookieValue) {
-        (0, _cookie2.default)('windBasemapDecision', cookieValue, {
-          expires: 7
-        });
-      }
-    }, {
-      key: 'close',
-      value: function close() {
-        _ModalActions.modalActions.hideModal(_react2.default.findDOMNode(this).parentElement);
-      }
     }]);
 
     return BasemapModal;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = BasemapModal;
 });

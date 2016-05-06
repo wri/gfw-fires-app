@@ -1,9 +1,11 @@
-define(['exports', 'actions/ModalActions', 'actions/MapActions', 'stores/ModalStore', 'react'], function (exports, _ModalActions, _MapActions, _ModalStore, _react) {
+define(['exports', 'actions/ModalActions', 'actions/MapActions', 'react-dom', 'react'], function (exports, _ModalActions, _MapActions, _reactDom, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+  var _reactDom2 = _interopRequireDefault(_reactDom);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -63,34 +65,39 @@ define(['exports', 'actions/ModalActions', 'actions/MapActions', 'stores/ModalSt
 
   var closeSvg = '<use xlink:href="#shape-close" />';
 
-  var CalendarWrapper = function (_React$Component) {
-    _inherits(CalendarWrapper, _React$Component);
+  var CalendarWrapper = function (_Component) {
+    _inherits(CalendarWrapper, _Component);
 
     function CalendarWrapper() {
+      var _Object$getPrototypeO;
+
+      var _temp, _this, _ret;
+
       _classCallCheck(this, CalendarWrapper);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(CalendarWrapper).apply(this, arguments));
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CalendarWrapper)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.close = function () {
+        _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(_this).parentElement);
+        _MapActions.mapActions.setCalendar('');
+      }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(CalendarWrapper, [{
-      key: 'close',
-      value: function close() {
-        _ModalActions.modalActions.hideModal(_react2.default.findDOMNode(this).parentElement);
-        _MapActions.mapActions.setCalendar('');
-      }
-    }, {
       key: 'render',
       value: function render() {
         return _react2.default.createElement(
           'div',
           { className: 'modal-container' },
-          _react2.default.createElement('div', { className: 'calendar-background', onClick: this.close.bind(this) }),
+          _react2.default.createElement('div', { className: 'calendar-background', onClick: this.close }),
           _react2.default.createElement(
             'div',
             { className: 'calendar-window ' + (app.mobile() === true ? 'narrow' : '') },
             _react2.default.createElement(
               'div',
-              { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close.bind(this) },
+              { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close },
               _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: closeSvg } })
             ),
             _react2.default.createElement(
@@ -104,7 +111,7 @@ define(['exports', 'actions/ModalActions', 'actions/MapActions', 'stores/ModalSt
     }]);
 
     return CalendarWrapper;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = CalendarWrapper;
 });

@@ -71,8 +71,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
 
   var windowOptions = 'toolbar=0,status=0,height=650,width=450';
 
-  var ShareModal = function (_React$Component) {
-    _inherits(ShareModal, _React$Component);
+  var ShareModal = function (_Component) {
+    _inherits(ShareModal, _Component);
 
     function ShareModal(props) {
       _classCallCheck(this, ShareModal);
@@ -223,7 +223,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
     }]);
 
     return ShareModal;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = ShareModal;
 });

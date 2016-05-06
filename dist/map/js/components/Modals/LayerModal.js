@@ -63,8 +63,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'react
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var LayerModal = function (_React$Component) {
-    _inherits(LayerModal, _React$Component);
+  var LayerModal = function (_Component) {
+    _inherits(LayerModal, _Component);
 
     function LayerModal(props) {
       _classCallCheck(this, LayerModal);
@@ -194,7 +194,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'react
     }]);
 
     return LayerModal;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = LayerModal;
 });

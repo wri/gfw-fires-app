@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'helpers/LayersHelper', 'js/config', 'stores/MapStore', 'utils/loaders', 'react', 'actions/AnalysisActions', 'actions/MapActions', 'stores/AnalysisStore', 'esri/dijit/Search'], function (exports, _ModalWrapper, _ModalActions, _LayersHelper, _config, _MapStore, _loaders, _react, _AnalysisActions, _MapActions, _AnalysisStore, _Search) {
+define(['exports', 'components/Modals/ModalWrapper', 'actions/AnalysisActions', 'actions/MapActions', 'stores/AnalysisStore', 'js/config', 'esri/dijit/Search', 'react'], function (exports, _ModalWrapper, _AnalysisActions, _MapActions, _AnalysisStore, _config, _Search, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -7,11 +7,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
 
   var _ModalWrapper2 = _interopRequireDefault(_ModalWrapper);
 
-  var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
+  var _Search2 = _interopRequireDefault(_Search);
 
   var _react2 = _interopRequireDefault(_react);
-
-  var _Search2 = _interopRequireDefault(_Search);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -139,7 +137,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     var f = sw ? -1 : 1;
 
     // Get into numeric parts
-    var bits = s.match(/[\d.]+/g);
+    var bits = s.match(/[\d.]+/g) || [];
 
     var result = 0;
 
@@ -158,13 +156,92 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     return result;
   }
 
-  var SearchModal = function (_React$Component) {
-    _inherits(SearchModal, _React$Component);
+  var SearchModal = function (_Component) {
+    _inherits(SearchModal, _Component);
 
     function SearchModal(props) {
       _classCallCheck(this, SearchModal);
 
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchModal).call(this, props));
+
+      _this.change = function (evt) {
+        var value = evt.target.value,
+            suggestResults = value.length === 0 ? [] : _this.state.suggestResults;
+
+        _this.state.searchWidget.suggest(value);
+        _this.setState({ value: value, suggestResults: suggestResults });
+      };
+
+      _this.enter = function (evt) {
+        if (evt.key === 'Enter' && _this.state.value.length > 0) {
+          _this.state.searchWidget.search(_this.state.value);
+          _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
+        }
+      };
+
+      _this.keyDown = function (evt) {
+        if (evt.key === 'Enter' && _this.state.value.length > 0) {
+          _this.enter(evt);
+        }
+        if (evt.key === 'ArrowDown' && _this.state.suggestResults.length > 0) {
+          _this.refs.searchResults.childNodes[0].querySelector('button').focus();
+        }
+      };
+
+      _this.suggestionKeyDown = function (evt) {
+        if (['ArrowUp', 'ArrowDown'].indexOf(evt.key) > -1 && _this.state.value.length > 0) {
+          var arrowUp = evt.key === 'ArrowUp';
+          var suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
+          var nextSibling = _this.refs.searchResults.childNodes[suggestionIndex + (arrowUp === true ? -1 : 1)];
+          if (suggestionIndex === 0 && arrowUp === true) {
+            _this.refs.searchInput.focus();return;
+          }
+          if (nextSibling !== undefined) {
+            nextSibling.querySelector('button').focus();
+          }
+        }
+      };
+
+      _this.suggestionSearch = function (evt) {
+        var suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
+        _this.state.searchWidget.search(_this.state.searchWidget.suggestResults[0][suggestionIndex]);
+        _this.state.searchWidget.clear();
+        _this.setState({ value: '', suggestResults: [] });
+        _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
+      };
+
+      _this.coordinateSearch = function () {
+        var dmsA = Array.apply({}, _this.refs.coordinatesA.querySelectorAll('input')).map(function (i) {
+          return i.value;
+        }).map(function (v) {
+          return parseInt(v);
+        }).map(Math.abs);
+        var directionA = _this.refs.directionA.value;
+        var dmsB = Array.apply({}, _this.refs.coordinatesB.querySelectorAll('input')).map(function (i) {
+          return i.value;
+        }).map(function (v) {
+          return parseInt(v);
+        }).map(Math.abs);
+        var directionB = _this.refs.directionB.value;
+        var lat = dms2Deg(directionA + ' ' + dmsA[0] + ' ' + dmsA[1] + '\' ' + dmsA[2] + '"');
+        var lng = dms2Deg(directionB + ' ' + dmsB[0] + ' ' + dmsB[1] + '\' ' + dmsB[2] + '"');
+        _MapActions.mapActions.centerAndZoomLatLng(lat, lng, _config.analysisConfig.searchZoomDefault);
+      };
+
+      _this.decimalDegreeSearch = function () {
+        var values = [_this.refs.decimalDegreeLat.value, _this.refs.decimalDegreeLng.value].map(parseFloat);
+
+        var _values = _slicedToArray(values, 2);
+
+        var lat = _values[0];
+        var lng = _values[1];
+
+        if (values.map(isNaN).indexOf(true) > -1) {
+          throw Error('Invalid input(s)');
+        }
+        _MapActions.mapActions.centerAndZoomLatLng(lat, lng, _config.analysisConfig.searchZoomDefault);
+        _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
+      };
 
       _this.state = {
         value: '',
@@ -174,9 +251,6 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
         esriSearchVisible: _AnalysisStore.analysisStore.getState().esriSearchVisible
       };
       _AnalysisStore.analysisStore.listen(_this.onUpdate.bind(_this));
-      _this.keyDown = _this.keyDown.bind(_this);
-      _this.suggestionSearch = _this.suggestionSearch.bind(_this);
-      _this.suggestionKeyDown = _this.suggestionKeyDown.bind(_this);
       return _this;
     }
 
@@ -193,92 +267,6 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
         this.setState({ esriSearchVisible: _AnalysisStore.analysisStore.getState().esriSearchVisible });
       }
     }, {
-      key: 'change',
-      value: function change(evt) {
-        var value = evt.target.value,
-            suggestResults = value.length === 0 ? [] : this.state.suggestResults;
-
-        this.state.searchWidget.suggest(value);
-        this.setState({ value: value, suggestResults: suggestResults });
-      }
-    }, {
-      key: 'enter',
-      value: function enter(evt) {
-        if (evt.key === 'Enter' && this.state.value.length > 0) {
-          this.state.searchWidget.search(this.state.value);
-          _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
-        }
-      }
-    }, {
-      key: 'keyDown',
-      value: function keyDown(evt) {
-        if (evt.key === 'Enter' && this.state.value.length > 0) {
-          this.enter(evt);
-        }
-        if (evt.key === 'ArrowDown' && this.state.suggestResults.length > 0) {
-          this.refs.searchResults.childNodes[0].querySelector('button').focus();
-        }
-      }
-    }, {
-      key: 'suggestionKeyDown',
-      value: function suggestionKeyDown(evt) {
-        if (['ArrowUp', 'ArrowDown'].indexOf(evt.key) > -1 && this.state.value.length > 0) {
-          var arrowUp = evt.key === 'ArrowUp';
-          var suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
-          var nextSibling = this.refs.searchResults.childNodes[suggestionIndex + (arrowUp === true ? -1 : 1)];
-          if (suggestionIndex === 0 && arrowUp === true) {
-            this.refs.searchInput.focus();return;
-          }
-          if (nextSibling !== undefined) {
-            nextSibling.querySelector('button').focus();
-          }
-        }
-      }
-    }, {
-      key: 'suggestionSearch',
-      value: function suggestionSearch(evt) {
-        var suggestionIndex = JSON.parse(evt.target.getAttribute('data-suggestion-index'));
-        this.state.searchWidget.search(this.state.searchWidget.suggestResults[0][suggestionIndex]);
-        this.state.searchWidget.clear();
-        this.setState({ value: '', suggestResults: [] });
-        _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
-      }
-    }, {
-      key: 'coordinateSearch',
-      value: function coordinateSearch() {
-        var dmsA = Array.apply({}, this.refs.coordinatesA.querySelectorAll('input')).map(function (i) {
-          return i.value;
-        }).map(function (v) {
-          return parseInt(v);
-        }).map(Math.abs);
-        var directionA = this.refs.directionA.value;
-        var dmsB = Array.apply({}, this.refs.coordinatesB.querySelectorAll('input')).map(function (i) {
-          return i.value;
-        }).map(function (v) {
-          return parseInt(v);
-        }).map(Math.abs);
-        var directionB = this.refs.directionB.value;
-        var lat = dms2Deg(directionA + ' ' + dmsA[0] + ' ' + dmsA[1] + '\' ' + dmsA[2] + '"');
-        var lng = dms2Deg(directionB + ' ' + dmsB[0] + ' ' + dmsB[1] + '\' ' + dmsB[2] + '"');
-        _MapActions.mapActions.centerAndZoomLatLng(lat, lng, _config.analysisConfig.searchZoomDefault);
-      }
-    }, {
-      key: 'decimalDegreeSearch',
-      value: function decimalDegreeSearch() {
-        var values = [this.refs.decimalDegreeLat.value, this.refs.decimalDegreeLng.value].map(parseFloat);
-
-        var _values = _slicedToArray(values, 2);
-
-        var lat = _values[0];
-        var lng = _values[1];
-
-        if (values.map(isNaN).indexOf(true) > -1) {
-          throw Error('Invalid input(s)');
-        }
-        _MapActions.mapActions.centerAndZoomLatLng(lat, lng, _config.analysisConfig.searchZoomDefault);
-        _AnalysisActions.analysisActions.toggleEsriSearchVisibility();
-      }
-    }, {
       key: 'locateMe',
       value: function locateMe() {
         _MapActions.mapActions.zoomToUserLocation();
@@ -290,7 +278,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
 
         var className = 'search-tools map-component';
         // NOTE: searchInput is mounted & unmounted visible to take advantage of keyboard autoFocus
-        var searchInput = this.state.esriSearchVisible === false ? undefined : _react2.default.createElement('input', { ref: 'searchInput', className: 'search-input fill__wide', type: 'text', placeholder: _config.analysisPanelText.searchPlaceholder, value: this.state.value, onChange: this.change.bind(this), onKeyDown: this.keyDown, autoFocus: true });
+        var searchInput = this.state.esriSearchVisible === false ? undefined : _react2.default.createElement('input', { ref: 'searchInput', className: 'search-input fill__wide', type: 'text', placeholder: _config.analysisPanelText.searchPlaceholder, value: this.state.value, onChange: this.change, onKeyDown: this.keyDown, autoFocus: true });
         // if (this.state.esriSearchVisible === false) { className += ' hidden'; }
         if (app.mobile() === true) {
           className += ' isSearchMobile';
@@ -322,7 +310,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
               _react2.default.createElement(
                 'div',
                 { className: 'search-input-container' },
-                _react2.default.createElement('input', { ref: 'searchInput', className: 'search-input fill__wide', type: 'text', placeholder: _config.analysisPanelText.searchPlaceholder, value: this.state.value, onChange: this.change.bind(this), onKeyDown: this.keyDown, autoFocus: true }),
+                _react2.default.createElement('input', { ref: 'searchInput', className: 'search-input fill__wide', type: 'text', placeholder: _config.analysisPanelText.searchPlaceholder, value: this.state.value, onChange: this.change, onKeyDown: this.keyDown, autoFocus: true }),
                 _react2.default.createElement(
                   'button',
                   { className: 'border-right padding back-white' },
@@ -430,7 +418,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
                 { id: 'coordinateSearch' },
                 _react2.default.createElement(
                   'button',
-                  { className: 'search-submit-button gfw-btn green', onClick: this.coordinateSearch.bind(this) },
+                  { className: 'search-submit-button gfw-btn green', onClick: this.coordinateSearch },
                   'Search'
                 )
               )
@@ -460,7 +448,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
               ),
               _react2.default.createElement(
                 'button',
-                { className: 'search-submit-button gfw-btn green', onClick: this.decimalDegreeSearch.bind(this) },
+                { className: 'search-submit-button gfw-btn green', onClick: this.decimalDegreeSearch },
                 'Search'
               )
             ),
@@ -475,7 +463,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     }]);
 
     return SearchModal;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = SearchModal;
 });

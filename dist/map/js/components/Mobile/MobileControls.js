@@ -61,26 +61,21 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var Map = function (_React$Component) {
-    _inherits(Map, _React$Component);
+  var MobileControls = function (_Component) {
+    _inherits(MobileControls, _Component);
 
-    function Map(props) {
-      _classCallCheck(this, Map);
+    function MobileControls() {
+      var _Object$getPrototypeO;
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Map).call(this, props));
+      var _temp, _this, _ret;
 
-      _this.toggleLayers = _this.toggleLayers.bind(_this);
-      _this.toggleAnalysis = _this.toggleAnalysis.bind(_this);
-      _this.toggleSubscription = _this.toggleSubscription.bind(_this);
-      _this.toggleTimeline = _this.toggleTimeline.bind(_this);
-      _this.toggleImagery = _this.toggleImagery.bind(_this);
-      _this.toggleBasemaps = _this.toggleBasemaps.bind(_this);
-      return _this;
-    }
+      _classCallCheck(this, MobileControls);
 
-    _createClass(Map, [{
-      key: 'hidePanels',
-      value: function hidePanels() {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(MobileControls)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.hidePanels = function () {
         if (_MapStore.mapStore.getState().layerPanelVisible === true) {
           _LayerActions.layerActions.toggleLayerPanelVisibility();
         }
@@ -90,83 +85,58 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
         if (_AnalysisStore.analysisStore.getState().timelineVisible === true) {
           _AnalysisActions.analysisActions.toggleTimelineVisibility();
         }
-      }
-    }, {
-      key: 'toggleAnalysis',
-      value: function toggleAnalysis() {
+      }, _this.toggleAnalysis = function () {
         if (_AnalysisStore.analysisStore.getState().analysisToolsVisible === true && _AnalysisStore.analysisStore.getState().activeTab === _config.analysisPanelText.analysisTabId) {
-          this.hidePanels();
+          _this.hidePanels();
         } else {
-          this.hidePanels();
+          _this.hidePanels();
           _AnalysisActions.analysisActions.setAnalysisType(_config.analysisPanelText.analysisTabId);
           _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
         }
-      }
-    }, {
-      key: 'toggleSubscription',
-      value: function toggleSubscription() {
+      }, _this.toggleSubscription = function () {
         if (_AnalysisStore.analysisStore.getState().analysisToolsVisible === true && _AnalysisStore.analysisStore.getState().activeTab === _config.analysisPanelText.subscriptionTabId) {
-          this.hidePanels();
+          _this.hidePanels();
         } else {
-          this.hidePanels();
+          _this.hidePanels();
           _AnalysisActions.analysisActions.setAnalysisType(_config.analysisPanelText.subscriptionTabId);
           _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
         }
-      }
-    }, {
-      key: 'toggleLayers',
-      value: function toggleLayers() {
+      }, _this.toggleLayers = function () {
         if (_MapStore.mapStore.getState().layerPanelVisible === true) {
-          this.hidePanels();
+          _this.hidePanels();
         } else {
-          this.hidePanels();
+          _this.hidePanels();
           _LayerActions.layerActions.toggleLayerPanelVisibility();
         }
-      }
-    }, {
-      key: 'toggleTimeline',
-      value: function toggleTimeline() {
+      }, _this.toggleTimeline = function () {
         if (_AnalysisStore.analysisStore.getState().timelineVisible === true) {
-          this.hidePanels();
+          _this.hidePanels();
         } else {
-          this.hidePanels();
+          _this.hidePanels();
           _AnalysisActions.analysisActions.toggleTimelineVisibility();
         }
-      }
-    }, {
-      key: 'toggleImagery',
-      value: function toggleImagery() {
+      }, _this.toggleImagery = function () {
         if (_AnalysisStore.analysisStore.getState().analysisToolsVisible === true && _AnalysisStore.analysisStore.getState().activeTab === _config.analysisPanelText.imageryTabId) {
-          this.hidePanels();
+          _this.hidePanels();
         } else {
-          this.hidePanels();
+          _this.hidePanels();
           _AnalysisActions.analysisActions.setAnalysisType(_config.analysisPanelText.imageryTabId);
           _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
         }
-      }
-    }, {
-      key: 'toggleBasemaps',
-      value: function toggleBasemaps() {
+      }, _this.toggleBasemaps = function () {
         if (_AnalysisStore.analysisStore.getState().analysisToolsVisible === true && _AnalysisStore.analysisStore.getState().activeTab === _config.analysisPanelText.basemapTabId) {
-          this.hidePanels();
+          _this.hidePanels();
         } else {
-          this.hidePanels();
+          _this.hidePanels();
           _AnalysisActions.analysisActions.setAnalysisType(_config.analysisPanelText.basemapTabId);
           _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
         }
-      }
-    }, {
+      }, _temp), _possibleConstructorReturn(_this, _ret);
+    }
+
+    _createClass(MobileControls, [{
       key: 'render',
       value: function render() {
-
-        // <button onClick={this.toggleTimeline}>
-        //   <CalendarSvg/>
-        //   Timeline
-        // </button>
-        // <button onClick={this.toggleBasemaps}>
-        //   <BasemapSvg />
-        //   BASEMAPS
-        // </button>
         return _react2.default.createElement(
           'div',
           { id: 'mobile-controls', className: 'mobile-controls mobile-show' },
@@ -198,8 +168,8 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
       }
     }]);
 
-    return Map;
-  }(_react2.default.Component);
+    return MobileControls;
+  }(_react.Component);
 
-  exports.default = Map;
+  exports.default = MobileControls;
 });

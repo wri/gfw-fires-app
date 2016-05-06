@@ -1,4 +1,4 @@
-define(['exports', 'react', 'stores/MapStore', 'stores/AnalysisStore', 'actions/LayerActions', 'actions/AnalysisActions'], function (exports, _react, _MapStore, _AnalysisStore, _LayerActions, _AnalysisActions) {
+define(['exports', 'stores/MapStore', 'stores/AnalysisStore', 'actions/LayerActions', 'actions/AnalysisActions', 'react'], function (exports, _MapStore, _AnalysisStore, _LayerActions, _AnalysisActions, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -61,13 +61,13 @@ define(['exports', 'react', 'stores/MapStore', 'stores/AnalysisStore', 'actions/
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var Map = function (_React$Component) {
-    _inherits(Map, _React$Component);
+  var MobileUnderlay = function (_Component) {
+    _inherits(MobileUnderlay, _Component);
 
-    function Map(props) {
-      _classCallCheck(this, Map);
+    function MobileUnderlay(props) {
+      _classCallCheck(this, MobileUnderlay);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Map).call(this, props));
+      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MobileUnderlay).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _AnalysisStore.analysisStore.listen(_this.storeUpdated.bind(_this));
@@ -78,7 +78,7 @@ define(['exports', 'react', 'stores/MapStore', 'stores/AnalysisStore', 'actions/
       return _this;
     }
 
-    _createClass(Map, [{
+    _createClass(MobileUnderlay, [{
       key: 'storeUpdated',
       value: function storeUpdated() {
         this.setState({
@@ -113,8 +113,11 @@ define(['exports', 'react', 'stores/MapStore', 'stores/AnalysisStore', 'actions/
       }
     }]);
 
-    return Map;
-  }(_react2.default.Component);
+    return MobileUnderlay;
+  }(_react.Component);
 
-  exports.default = Map;
+  MobileUnderlay.childContextTypes = {
+    state: _react.PropTypes.object
+  };
+  exports.default = MobileUnderlay;
 });

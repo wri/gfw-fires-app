@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'actions/AnalysisActions', 'helpers/LayersHelper', 'helpers/DateHelper', 'helpers/ShareHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _AnalysisActions, _LayersHelper, _DateHelper, _ShareHelper, _constants, _alt) {
+define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'helpers/LayersHelper', 'helpers/ShareHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _LayersHelper, _ShareHelper, _constants, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -7,8 +7,6 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
   exports.mapStore = undefined;
 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
-
-  var _DateHelper2 = _interopRequireDefault(_DateHelper);
 
   var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
 

@@ -1,9 +1,11 @@
-define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], function (exports, _ModalActions, _ModalStore, _react) {
+define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 'react'], function (exports, _ModalActions, _ModalStore, _reactDom, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+  var _reactDom2 = _interopRequireDefault(_reactDom);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -63,13 +65,17 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
 
   var closeSvg = '<use xlink:href="#shape-close" />';
 
-  var ModalWrapper = function (_React$Component) {
-    _inherits(ModalWrapper, _React$Component);
+  var ModalWrapper = function (_Component) {
+    _inherits(ModalWrapper, _Component);
 
     function ModalWrapper(props) {
       _classCallCheck(this, ModalWrapper);
 
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ModalWrapper).call(this, props));
+
+      _this.close = function () {
+        _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(_this).parentElement);
+      };
 
       _ModalStore.modalStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _ModalStore.modalStore.getState();
@@ -86,29 +92,18 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
         this.setState({ layerInfo: currentState.modalLayerInfo });
       }
     }, {
-      key: 'close',
-      value: function close() {
-        _ModalActions.modalActions.hideModal(_react2.default.findDOMNode(this).parentElement);
-      }
-    }, {
       key: 'render',
       value: function render() {
-        //todo: hide footer with proper child
-        //<a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
-        if (this.props.downloadData) {
-          console.log(this.props.downloadData);
-        }
-
         return _react2.default.createElement(
           'div',
           { className: 'modal-container' },
-          _react2.default.createElement('div', { className: 'modal-background', onClick: this.close.bind(this) }),
+          _react2.default.createElement('div', { className: 'modal-background', onClick: this.close }),
           _react2.default.createElement(
             'div',
             { className: 'modal-window ' + (app.mobile() === true ? 'narrow' : '') },
             _react2.default.createElement(
               'div',
-              { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close.bind(this) },
+              { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close },
               _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: closeSvg } })
             ),
             _react2.default.createElement(
@@ -135,7 +130,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react'], functi
     }]);
 
     return ModalWrapper;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = ModalWrapper;
 });

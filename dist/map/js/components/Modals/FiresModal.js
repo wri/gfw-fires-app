@@ -63,8 +63,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'react'], func
 		if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
-	var FiresModal = function (_React$Component) {
-		_inherits(FiresModal, _React$Component);
+	var FiresModal = function (_Component) {
+		_inherits(FiresModal, _Component);
 
 		function FiresModal() {
 			_classCallCheck(this, FiresModal);
@@ -88,7 +88,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'react'], func
 		}]);
 
 		return FiresModal;
-	}(_react2.default.Component);
+	}(_react.Component);
 
 	exports.default = FiresModal;
 });

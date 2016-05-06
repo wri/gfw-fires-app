@@ -65,8 +65,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var CanopyModal = function (_React$Component) {
-    _inherits(CanopyModal, _React$Component);
+  var CanopyModal = function (_Component) {
+    _inherits(CanopyModal, _Component);
 
     function CanopyModal(props) {
       _classCallCheck(this, CanopyModal);
@@ -142,7 +142,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     }]);
 
     return CanopyModal;
-  }(_react2.default.Component);
+  }(_react.Component);
 
   exports.default = CanopyModal;
 });
