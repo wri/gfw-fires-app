@@ -1,7 +1,6 @@
 import GraphicsHelper from 'helpers/GraphicsHelper';
-import {analysisConfig, analysisPanelText} from 'js/config';
+import {analysisConfig} from 'js/config';
 import esriRequest from 'esri/request';
-import registry from 'dijit/registry';
 import all from 'dojo/promise/all';
 import alt from 'js/alt';
 
