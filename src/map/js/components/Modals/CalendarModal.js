@@ -9,16 +9,16 @@ import React, {
   Component
 } from 'react';
 
-type calendars = Array<Object>; //todo: proper props validation!
+type calendarProps = {
+  calendars: Array<Object>;
+};
 
 export default class CalendarModal extends Component {
 	displayName: CalendarModal;
+	props: calendarProps;
+  state: any;
 
-	// props: {
-  //   calendars: Array
-  // };
-
-	constructor (props: calendars) {
+	constructor (props: calendarProps) {
 		super(props);
 		mapStore.listen(this.storeUpdated.bind(this));
 		this.state = mapStore.getState();
@@ -69,14 +69,15 @@ export default class CalendarModal extends Component {
 		modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
 	}
 
-	changeImageryStart(date) {
+	changeImageryStart(date: any) {
+    console.log(date);
 		this.close();
     mapActions.setDGDate({
       date: date,
       dest: 'dgStartDate'
     });
 	}
-	changeImageryEnd(date) {
+	changeImageryEnd(date: any) {
 		this.close();
 		// mapActions.setDGDate(date);
     mapActions.setDGDate({
@@ -84,77 +85,77 @@ export default class CalendarModal extends Component {
       dest: 'dgEndDate'
     });
 	}
-	changeAnalysisStart(date) {
+	changeAnalysisStart(date: any) {
 		this.close();
 		mapActions.setAnalysisDate({
       date: date,
       dest: 'analysisStartDate'
     });
 	}
-	changeAnalysisEnd(date) {
+	changeAnalysisEnd(date: any) {
 		this.close();
     mapActions.setAnalysisDate({
       date: date,
       dest: 'analysisEndDate'
     });
 	}
-	changeArchiveStart(date) {
+	changeArchiveStart(date: any) {
 		this.close();
     mapActions.setArchiveDate({
       date: date,
       dest: 'archiveStartDate'
     });
 	}
-	changeArchiveEnd(date) {
+	changeArchiveEnd(date: any) {
 		this.close();
     mapActions.setArchiveDate({
       date: date,
       dest: 'archiveEndDate'
     });
 	}
-	changeNoaaStart(date) {
+	changeNoaaStart(date: any) {
 		this.close();
     mapActions.setNoaaDate({
       date: date,
       dest: 'noaaStartDate'
     });
 	}
-	changeNoaaEnd(date) {
+	changeNoaaEnd(date: any) {
 		this.close();
     mapActions.setNoaaDate({
       date: date,
       dest: 'noaaEndDate'
     });
 	}
-	changeRisk(date) {
+	changeRisk(date: any) {
 		this.close();
     mapActions.setRiskDate({
       date: date,
       dest: 'riskDate'
     });
 	}
-	changeRain(date) {
+	changeRain(date: any) {
 		this.close();
     mapActions.setRainDate({
       date: date,
       dest: 'rainDate'
     });
 	}
-	changeAirQ(date) {
+	changeAirQ(date: any) {
 		this.close();
     mapActions.setAirQDate({
       date: date,
       dest: 'airQDate'
     });
 	}
-	changeWind(date) {
+	changeWind(date: any) {
 		this.close();
     mapActions.setWindDate({
       date: date,
       dest: 'windDate'
     });
 	}
-	changeMaster(date) {
+	changeMaster(date: any) {
 		this.close();
     mapActions.setMasterDate({
       date: date,

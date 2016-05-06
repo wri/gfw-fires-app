@@ -95,8 +95,6 @@ export default class LayerModal extends Component {
   }
 
   tableMap (item: string, label: string) {
-    console.log(item);
-    console.log(label);
     return (
       <dl className='source-row'>
         <dt>{label}</dt>

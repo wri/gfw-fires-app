@@ -3,8 +3,10 @@ import ModalWrapper from 'components/Modals/ModalWrapper';
 import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
 import cookie from 'dojo/cookie';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React, {
+  Component
+} from 'react';
 
 type CookiePropType = {
   target: {
@@ -12,7 +14,7 @@ type CookiePropType = {
   }
 };
 
-export default class BasemapModal extends React.Component {
+export default class BasemapModal extends Component {
   displayName: BasemapModal;
   state: any;
 

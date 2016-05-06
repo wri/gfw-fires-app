@@ -1,9 +1,12 @@
+/* @flow */
 import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalStore} from 'stores/ModalStore';
 import {modalText} from 'js/config';
 import {modalActions} from 'actions/ModalActions';
 import utils from 'utils/AppUtils';
-import React from 'react';
+import React, {
+  Component
+} from 'react';
 
 let facebookSvg = '<use xlink:href="#icon-facebook" />';
 let twitterSvg = '<use xlink:href="#icon-twitter" />';
@@ -11,9 +14,10 @@ let googleSvg = '<use xlink:href="#icon-googleplus" />';
 
 let windowOptions = 'toolbar=0,status=0,height=650,width=450';
 
-export default class ShareModal extends React.Component {
+export default class ShareModal extends Component {
+  displayName: ShareModal;
 
-  constructor (props) {
+  constructor (props: any) {
     super(props);
 
     modalStore.listen(this.storeUpdated.bind(this));

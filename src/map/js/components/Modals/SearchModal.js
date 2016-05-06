@@ -64,7 +64,7 @@ function dms2Deg(s) {
   var f = sw ? -1 : 1;
 
   // Get into numeric parts
-  var bits = s.match(/[\d.]+/g);
+  var bits = s.match(/[\d.]+/g) || [];
 
   var result = 0;
 
@@ -117,7 +117,7 @@ export default class SearchModal extends Component {
     this.setState({ value: value, suggestResults: suggestResults });
   };
 
-  enter:{} = (evt: KeyPropType) => {
+  enter:Function = (evt: KeyPropType) => {
     if (evt.key === 'Enter' && this.state.value.length > 0) {
       this.state.searchWidget.search(this.state.value);
       analysisActions.toggleEsriSearchVisibility();

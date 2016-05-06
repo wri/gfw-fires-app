@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 type WrapperPropType = {
-  downloadData?: any, //todo: both of these are STILL 'Missing in props validation' !!
+  downloadData?: any,
   children?: any
 };
 
@@ -16,6 +16,7 @@ let closeSvg = '<use xlink:href="#shape-close" />';
 export default class ModalWrapper extends Component {
   displayName: ModalWrapper;
   state: any;
+  props: WrapperPropType;
 
   constructor(props: WrapperPropType) {
     super(props);
@@ -37,9 +38,6 @@ export default class ModalWrapper extends Component {
   };
 
   render() {
-   //todo: hide footer with proper child
-   //<a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
-
     return (
       <div className='modal-container'>
         <div className='modal-background' onClick={this.close} />
@@ -61,5 +59,4 @@ export default class ModalWrapper extends Component {
       </div>
     );
   }
-
 }
