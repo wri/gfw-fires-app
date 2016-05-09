@@ -16,6 +16,7 @@ let windowOptions = 'toolbar=0,status=0,height=650,width=450';
 
 export default class ShareModal extends Component {
   displayName: ShareModal;
+  state: any;
 
   constructor (props: any) {
     super(props);
@@ -67,7 +68,7 @@ export default class ShareModal extends Component {
     window.open(url, 'Twitter', windowOptions);
   }
 
-  handleFocus (e) {
+  handleFocus (e: any) {
     setTimeout(() => {
       if (e.target) {
         e.target.select();
