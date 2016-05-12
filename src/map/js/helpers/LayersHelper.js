@@ -457,7 +457,10 @@ let LayersHelper = {
       this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer off.');
       WindHelper.deactivateWindLayer();
     }
-    ShareHelper.handleHashChange();
+    // setTimeout(() => {
+    //   ShareHelper.handleHashChange();
+    // }, 4000);
+
   },
 
   getFirePopupContent(item) {

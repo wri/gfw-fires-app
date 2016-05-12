@@ -33,7 +33,7 @@ export default class ImageryRow extends React.Component {
   }
 
   toggleFeature () {
-    debugger
+
     // let layer = this.props.layer;
     // if (layer.disabled) { return; }
     // if (this.props.checked) {

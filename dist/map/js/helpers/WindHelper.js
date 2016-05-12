@@ -1,4 +1,4 @@
-define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo/dom-style', 'dojo/_base/connect', 'dojo/_base/array', 'dojo/dom-construct', 'esri/lang', 'esri/request', 'esri/domUtils', 'esri/layers/layer'], function (exports, _windy2, _ModalActions, _Deferred, _domStyle, _connect, _array, _domConstruct, _lang, _request, _domUtils, _layer) {
+define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo/dom-style', 'dojo/_base/connect', 'dojo/_base/array', 'dojo/dom-construct', 'esri/lang', 'esri/request', 'helpers/ShareHelper', 'esri/domUtils', 'esri/layers/layer'], function (exports, _windy2, _ModalActions, _Deferred, _domStyle, _connect, _array, _domConstruct, _lang, _request, _ShareHelper, _domUtils, _layer) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -21,6 +21,8 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
   var _lang2 = _interopRequireDefault(_lang);
 
   var _request2 = _interopRequireDefault(_request);
+
+  var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
 
   var _domUtils2 = _interopRequireDefault(_domUtils);
 
@@ -244,6 +246,8 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
       });
 
       this.redraw();
+
+      _ShareHelper2.default.handleHashChange();
     },
     promptAboutBasemap: function promptAboutBasemap() {
       var currentBM = app.map.getBasemap();
@@ -263,6 +267,7 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
           _handles[i].remove();
         }
       }
+      _ShareHelper2.default.handleHashChange();
     },
 
     fetchDataForWindLayer: function fetchDataForWindLayer(optionalURL) {

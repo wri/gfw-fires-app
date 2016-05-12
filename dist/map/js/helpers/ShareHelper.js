@@ -46,6 +46,9 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       _config.layersConfig.forEach(function (l) {
         if (!l.disabled) {
           var mapLayer = app.map.getLayer(l.id);
+          if (l.id === 'windDirection') {
+            mapLayer = app.map.getLayer('Wind_Direction');
+          }
           if (mapLayer && mapLayer.visible) {
             activeLayers.push(l.id);
           }

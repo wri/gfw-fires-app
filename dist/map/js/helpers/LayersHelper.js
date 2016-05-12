@@ -495,7 +495,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer off.');
         _WindHelper2.default.deactivateWindLayer();
       }
-      _ShareHelper2.default.handleHashChange();
+      // setTimeout(() => {
+      //   ShareHelper.handleHashChange();
+      // }, 4000);
     },
     getFirePopupContent: function getFirePopupContent(item) {
       app.debug('LayersHelper >>> getFirePopupContent');

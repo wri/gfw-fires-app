@@ -1,3 +1,4 @@
+/* @flow */
 import {metadataUrl, metadataIds} from 'js/config';
 import esriRequest from 'esri/request';
 import cookie from 'dojo/cookie';
@@ -100,7 +101,7 @@ class ModalActions {
     domClass.add(node, 'hidden');
   }
 
-  updateCanopyDensity (newDensity) {
+  updateCanopyDensity (newDensity: number) {
     app.debug('ModalActions >>> updateCanopyDensity');
     this.dispatch(newDensity);
   }

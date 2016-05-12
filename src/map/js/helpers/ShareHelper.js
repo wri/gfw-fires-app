@@ -16,6 +16,9 @@ const ShareHelper = {
     layersConfig.forEach((l) => {
       if (!l.disabled) {
         let mapLayer = app.map.getLayer(l.id);
+        if (l.id === 'windDirection') {
+          mapLayer = app.map.getLayer('Wind_Direction');
+        }
         if (mapLayer && mapLayer.visible) {
           activeLayers.push(l.id);
         }

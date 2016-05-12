@@ -7,6 +7,7 @@ import arrayUtils from 'dojo/_base/array';
 import domConstruct from 'dojo/dom-construct';
 import esriLang from 'esri/lang';
 import esriRequest from 'esri/request';
+import ShareHelper from 'helpers/ShareHelper';
 import domUtils from 'esri/domUtils';
 import Layer from 'esri/layers/layer';
 
@@ -156,6 +157,8 @@ let WindHelper = {
 
     this.redraw();
 
+    ShareHelper.handleHashChange();
+
   },
 
   promptAboutBasemap () {
@@ -175,6 +178,7 @@ let WindHelper = {
         _handles[i].remove();
       }
     }
+    ShareHelper.handleHashChange();
   },
 
   fetchDataForWindLayer: function(optionalURL) {

@@ -5,7 +5,7 @@ import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
 import Chosen from 'chosen';
 
-const $ = require('jquery');
+// const $ = require('jquery');
 
 export default class AnalysisTab extends React.Component {
 

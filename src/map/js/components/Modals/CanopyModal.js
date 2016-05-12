@@ -48,7 +48,7 @@ export default class CanopyModal extends Component {
   }
 
   sliderChanged (data: SliderPropType) {
-    modalActions.updateCanopyDensity(data.from_value);
+    modalActions.updateCanopyDensity('data.from_value');
     LayersHelper.updateTreeCoverDefinitions(data.from_value);
   }
 
