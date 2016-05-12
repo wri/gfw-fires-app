@@ -80,24 +80,22 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
         var _this2 = this;
 
         (0, _loaders.loadJS)(_config.assetUrls.rangeSlider).then(function () {
-          setTimeout(function () {
-            $('#tree-cover-slider').ionRangeSlider({
-              type: 'single',
-              values: _config.modalText.canopy.slider,
-              hide_min_max: true,
-              grid_snap: true,
-              to_fixed: true,
-              from_min: 1,
-              from_max: 7,
-              grid: true,
-              from: 5,
-              onFinish: _this2.sliderChanged,
-              onUpdate: _this2.sliderUpdated,
-              prettify: function prettify(value) {
-                return value + '%';
-              }
-            });
-          }, 3000);
+          $('#tree-cover-slider').ionRangeSlider({
+            type: 'single',
+            values: _config.modalText.canopy.slider,
+            hide_min_max: true,
+            grid_snap: true,
+            to_fixed: true,
+            from_min: 1,
+            from_max: 7,
+            grid: true,
+            from: 5,
+            onFinish: _this2.sliderChanged,
+            onUpdate: _this2.sliderUpdated,
+            prettify: function prettify(value) {
+              return value + '%';
+            }
+          });
         }, console.error);
         // Update with the default values
         var defaults = _MapStore.mapStore.getState();

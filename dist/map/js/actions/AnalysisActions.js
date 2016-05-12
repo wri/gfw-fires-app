@@ -1,4 +1,4 @@
-define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dijit/registry', 'dojo/promise/all', 'js/alt'], function (exports, _GraphicsHelper, _config, _request, _registry, _all, _alt) {
+define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/promise/all', 'js/alt'], function (exports, _GraphicsHelper, _config, _request, _all, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,8 +9,6 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dijit
   var _GraphicsHelper2 = _interopRequireDefault(_GraphicsHelper);
 
   var _request2 = _interopRequireDefault(_request);
-
-  var _registry2 = _interopRequireDefault(_registry);
 
   var _all2 = _interopRequireDefault(_all);
 

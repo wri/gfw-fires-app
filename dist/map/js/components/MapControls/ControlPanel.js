@@ -118,9 +118,9 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
     }, {
       key: 'share',
       value: function share() {
-        var state = _MapStore.mapStore.getState();
-        var activeLayers = state.activeLayers;
-        var activeBasemap = state.activeBasemap;
+        // let state = mapStore.getState();
+        // let activeLayers = state.activeLayers;
+        // let activeBasemap = state.activeBasemap;
         _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl());
       }
     }, {
