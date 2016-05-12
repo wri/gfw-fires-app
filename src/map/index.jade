@@ -21,7 +21,7 @@ block append head-scripts
     var dojoConfig = {
       parseOnLoad: false,
       async: true,
-      //- cacheBust: 'v=#{meta.version}',
+      cacheBust: 'v=#{meta.version}',
       packages: [
         { name: 'js', location: base + 'js' },
         { name: 'utils', location: base + 'js/utils' },

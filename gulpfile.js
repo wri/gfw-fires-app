@@ -286,7 +286,7 @@ gulp.task('browser-sync', function () {
 });
 
 gulp.task('serve', ['browser-sync']);
-gulp.task('watch', ['stylus-watch', 'babel-watch','jade-watch']);
-gulp.task('build', ['stylus-build','babel-build','jade-build','imagemin-build','copy-build-vendor','copy-build-php']);
+gulp.task('watch', ['stylus-watch', 'babel-watch', 'jade-watch']);
+gulp.task('build', ['stylus-build', 'babel-build', 'jade-build', 'imagemin-build', 'copy-build-vendor', 'copy-build-php']);
 
-gulp.task('dist', ['stylus-dist','babel-dist','jade-dist','imagemin-dist','copy-dist-vendor','copy-dist-php']);
+gulp.task('dist', ['stylus-dist', 'babel-dist', 'jade-dist', 'imagemin-dist', 'copy-dist-vendor', 'copy-dist-php']);
