@@ -98,7 +98,7 @@ define(['exports', 'actions/LayerActions', 'react'], function (exports, _LayerAc
     }, {
       key: 'toggleFeature',
       value: function toggleFeature() {
-        debugger;
+
         // let layer = this.props.layer;
         // if (layer.disabled) { return; }
         // if (this.props.checked) {

@@ -111,6 +111,13 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
+      layer = app.map.getLayer(_constants2.default.viirsFires);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirs(mapPoint));
+        }
+      }
+
       layer = app.map.getLayer(_constants2.default.archiveFires);
       if (layer) {
         if (layer.visible) {
@@ -202,6 +209,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           switch (item.layer) {
             case _constants2.default.activeFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
+              break;
+            case _constants2.default.viirsFires:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
               break;
             case _constants2.default.archiveFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.archiveFires));

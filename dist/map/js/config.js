@@ -299,7 +299,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.fireRisk,
-      order: 6,
+      order: 7,
       type: 'image',
       label: 'Fire risk',
       sublabel: '(layer starts at 4/2/15)',
