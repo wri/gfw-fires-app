@@ -88,6 +88,13 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.viirsFires);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirs(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.archiveFires);
     if (layer) {
       if (layer.visible) {
@@ -179,6 +186,9 @@ let LayersHelper = {
         switch (item.layer) {
           case KEYS.activeFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
+            break;
+          case KEYS.viirsFires:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
             break;
           case KEYS.archiveFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.archiveFires));

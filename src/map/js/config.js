@@ -325,7 +325,7 @@ export const config = {
     },
     {
       id: KEYS.fireRisk,
-      order: 6,
+      order: 7,
       type: 'image',
       label: 'Fire risk',
       sublabel: '(layer starts at 4/2/15)',
