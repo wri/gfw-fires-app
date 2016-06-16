@@ -264,8 +264,7 @@ define([
                 self.queryForPeatFires(),
                 self.queryForSumatraFires(),
                 self.queryForMoratoriumFires(),
-                self.queryForDailyFireData(),
-                self.attachClickHandlers()
+                self.queryForDailyFireData()
             ]).then(function(res) {
                 self.get_extent();
                 self.printReport();
@@ -347,7 +346,8 @@ define([
             var aoi = window.reportOptions.aoitype + " in ('";
             aoi += aois.join("','");
             aoi += "')"
-            var sql = [aoi, startdate, enddate, "BRIGHTNESS >= 330", "CONFIDENCE >= 30"].join(' AND ')
+            // var sql = [aoi, startdate, enddate, "BRIGHTNESS >= 330", "CONFIDENCE >= 30"].join(' AND ')
+            var sql = [aoi, startdate, enddate].join(' AND ')
             return sql;
         },
 
@@ -1182,7 +1182,7 @@ define([
                 deferred = new Deferred(),
                 query = new Query(),
                 queryAll = new Query(),
-                queryHigh = new Query(),
+                // queryHigh = new Query(),
                 fireDataLabels = [],
                 fireData = [],
                 self = this,
@@ -1192,7 +1192,9 @@ define([
 
 
 
-            query.where = [self.get_aoi_definition(), "BRIGHTNESS >= 330", "CONFIDENCE >= 30"].join(' AND ');
+            // query.where = [self.get_aoi_definition(), "BRIGHTNESS >= 330", "CONFIDENCE >= 30"].join(' AND ');
+            query.where = self.get_aoi_definition();
+            console.log(query.where);
             query.returnGeometry = false;
             query.groupByFieldsForStatistics = [PRINT_CONFIG.dailyFiresField];
             query.orderByFields = ['ACQ_DATE ASC'];
@@ -1203,10 +1205,10 @@ define([
             query.outStatistics = [statdef];
 
 
-            var highConfidenceDefinition = self.get_layer_definition();
-            queryAll.where = highConfidenceDefinition.split(" AND BRIGHTNESS")[0];
-            queryHigh.where = highConfidenceDefinition;
-
+            // var highConfidenceDefinition = self.get_layer_definition();
+            // queryAll.where = highConfidenceDefinition.split(" AND BRIGHTNESS")[0];
+            // queryHigh.where = highConfidenceDefinition;
+            queryAll.where = self.get_layer_definition();
 
             queryTask.executeForCount(queryAll,function(count){
                 $("#totalFireAlerts").html(count + ' ');
@@ -1214,12 +1216,12 @@ define([
             },function(error){
                 console.log(error);
             });
-            queryTask.executeForCount(queryHigh,function(count){
-                $("#highConfidenceFireAlerts").html(count + ' ');
-                console.log("High Confidence Fires: ", count);
-            },function(error){
-                console.log(error);
-            });
+            // queryTask.executeForCount(queryHigh,function(count){
+            //     $("#highConfidenceFireAlerts").html(count + ' ');
+            //     console.log("High Confidence Fires: ", count);
+            // },function(error){
+            //     console.log(error);
+            // });
 
 
             success = function(res) {
@@ -1298,49 +1300,6 @@ define([
             return deferred.promise;
         },
 
-        attachClickHandlers: function() {
-            on(dom.byId("high-confidence-info-report"), "click", function() {
-                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-                // var _self = this;
-                // require([
-                //     "dijit/Dialog",
-                //     "dojo/on",
-                //     "dojo/_base/lang"
-                // ], function(Dialog, on, Lang) {
-                //     var content = "<p>" + MapConfig.text.firesConfidenceDialog.text + "</p>";
-
-                //     var dialog = new Dialog({
-                //         title: MapConfig.text.firesConfidenceDialog.title.toUpperCase(),
-                //         style: "width: 415px; background-color: white; border: 1px solid gray;",
-                //         draggable: false,
-                //         id: 'high-confidence-info-popup',
-                //         hide: function() {
-                //             dialog.destroy();
-                //         }
-                //     });
-                //     dialog.setContent(content);
-                //     dialog.show();
-
-                //     $('body').on('click',function(e){
-                //         if (e.target.classList.contains('dijitDialogUnderlay')) {
-                //             dialog.hide();
-                //             $('body').off('click');
-                //         }
-                //     });
-                // });
-
-            });
-
-            on(dom.byId("confidence-footnote"), "click", function() {
-
-                $("html, body").animate({ scrollTop: $(document).height() }, "slow");
-            });
-        },
-
-
-
-
-
         queryFireData: function(config, callback, errback) {
             var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.confidenceFireId),
                 deferred = new Deferred(),
@@ -1351,7 +1310,6 @@ define([
 
             // Make Time Relative to Last Week
             time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 8);
-
 
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
