@@ -22,7 +22,7 @@ class MapStore {
     this.dgStartDate = this.getDate(defaults.dgStartDate);
     this.dgEndDate = this.getDate(defaults.todaysDate);
     this.analysisStartDate = this.getDate(defaults.analysisStartDate);
-    this.analysisEndDate = this.getDate(defaults.todaysDate);
+    this.analysisEndDate = this.getDate(defaults.yesterday);
     this.archiveStartDate = this.getDate(defaults.archiveInitialDate);
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
@@ -39,6 +39,7 @@ class MapStore {
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
+    this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
@@ -282,6 +283,12 @@ class MapStore {
       // Create a copy of the strings array for easy change detection
       let layers = this.activeLayers.slice();
       layers.push(layerId);
+      if (layerId === 'plantationTypes') {
+        // debugger
+        this.removeActiveLayer('plantationSpecies');
+      } else if (layerId === 'plantationSpecies') {
+        this.removeActiveLayer('plantationTypes');
+      }
       this.activeLayers = layers;
       app.activeLayers = layers;
       this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer on.');
@@ -293,6 +300,7 @@ class MapStore {
     if (index !== -1) {
       // Create a copy of the strings array for easy change detection
       let layers = this.activeLayers.slice();
+      console.log(layerId);
       layers.splice(index, 1);
       this.activeLayers = layers;
       app.activeLayers = layers;
@@ -317,6 +325,12 @@ class MapStore {
   changeFiresTimeline (activeIndex) {
     this.firesSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires timeline.');
+  }
+
+  changePlantations (activeIndex) {
+    debugger
+    this.plantationSelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
   }
 
   changeViirsTimeline (activeIndex) {

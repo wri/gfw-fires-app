@@ -26,6 +26,10 @@ class LayerActions {
     this.dispatch(selectedIndex);
   }
 
+  changePlantations (selectedIndex) {
+    this.dispatch(selectedIndex);
+  }
+
   changeForestTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
   }

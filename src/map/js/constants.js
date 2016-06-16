@@ -26,6 +26,8 @@ const KEYS = {
   peatlands: 'peatlands',
   treeCoverDensity: 'treeCoverDensity',
   primaryForests: 'primaryForests',
+  plantationSpecies: 'plantationSpecies',
+  plantationTypes: 'plantationTypes',
   airQuality: 'airQuality',
   landsat8: 'landsat8',
   windDirection: 'windDirection',

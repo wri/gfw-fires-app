@@ -557,6 +557,18 @@ let LayersHelper = {
 
   },
 
+  updatePlantationLayerDefinitions (optionIndex) {
+    app.debug('LayersHelper >>> updatePlantationLayerDefinitions');
+
+    let plantations = app.map.getLayer(KEYS.plantationTypes);
+
+    if (plantations) {
+      debugger
+      viirsFires.setVisibleLayers([optionIndex]);
+    }
+
+  },
+
   updateForestDefinitions (optionIndex) {
     app.debug('LayersHelper >>> updateForestDefinitions');
 

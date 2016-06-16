@@ -5,6 +5,7 @@ import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import ForestControls from 'components/LayerPanel/ForestControls';
+import PlantationControls from 'components/LayerPanel/PlantationControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
@@ -50,6 +51,7 @@ export default class LayerPanel extends React.Component {
 
       // Some layers have legends or tools and they should be rendered inside the layer checkbox
       let childComponent;
+
       switch (layer.id) {
         case KEYS.waterStress:
           childComponent = <WaterStressLegend url={layer.url} layerIds={layer.layerIds} />;
@@ -96,6 +98,9 @@ export default class LayerPanel extends React.Component {
         case KEYS.digitalGlobe:
           childComponent = <ImageryComponent {...this.state} domId={layer.calendar.domId} domClass={layer.calendar.domClass} childDomClass={layer.calendar.childDomClass} startDate={layer.calendar.startDate} currentDate={layer.calendar.currentDate} />;
           break;
+        case KEYS.plantationTypes:
+          childComponent = <PlantationControls loaded={this.props.loaded} {...this.state} />;
+          break;
         default:
           childComponent = null;
       }
@@ -140,6 +145,7 @@ export default class LayerPanel extends React.Component {
           {landCoverLayers[0]}
           {landCoverLayers[1]}
           {landCoverLayers[2]}
+          {landCoverLayers[3]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
           {layersConfig.map(this.checkboxMap('airQuality'), this)}
