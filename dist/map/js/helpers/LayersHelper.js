@@ -577,6 +577,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         viirsFires.setVisibleLayers([optionIndex]);
       }
     },
+    updatePlantationLayerDefinitions: function updatePlantationLayerDefinitions(optionIndex) {
+      app.debug('LayersHelper >>> updatePlantationLayerDefinitions');
+
+      var plantations = app.map.getLayer(_constants2.default.plantationTypes);
+
+      if (plantations) {
+        plantations.setVisibleLayers([optionIndex]);
+      }
+    },
     updateForestDefinitions: function updateForestDefinitions(optionIndex) {
       app.debug('LayersHelper >>> updateForestDefinitions');
 

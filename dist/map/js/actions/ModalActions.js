@@ -62,9 +62,16 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
           urlPrefix: 'http://api.globalforestwatch.org',
           proxyUrl: '/map/php/proxy.php'
         });
+        console.log(_config.metadataIds);
+        console.log(_config.layersConfig);
+
+        var metadataId = _config.layersConfig.filter(function (l) {
+          return l.id === layerId;
+        })[0].metadataId;
+        console.log(metadataId);
 
         (0, _request2.default)({
-          url: _config.metadataUrl + _config.metadataIds[layerId],
+          url: _config.metadataUrl + metadataId,
           handleAs: 'json',
           callbackParamName: 'callback'
         }, {
@@ -84,7 +91,6 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
       key: 'showShareModal',
       value: function showShareModal(params) {
         app.debug('ModalActions >>> showShareModal');
-        //TODO: Generate a url from bitly that includes Map Store state, this way we can share params
         var url = document.location.href.split('?')[0];
         this.dispatch(url + '?' + params);
         _domClass2.default.remove('share-modal', 'hidden');

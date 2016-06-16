@@ -61,7 +61,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       // riskTempEnd: new window.Kalendae.moment('02/17/2016'),
       airQStartDate: new window.Kalendae.moment('09/25/2015'),
       windStartDate: new window.Kalendae.moment('10/19/2014'),
-      analysisStartDate: new window.Kalendae.moment().subtract(7, 'd'),
+      analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
       corsEnabledServers: ['gis-potico.wri.org', 'gfw-fires.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
@@ -79,14 +79,14 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         domId: 'imageryEnd',
         domClass: 'imagery-end'
       }, {
-        date: new window.Kalendae.moment().subtract(7, 'd'),
+        date: new window.Kalendae.moment().subtract(8, 'd'),
         method: 'changeAnalysisStart',
         direction: 'past',
         startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'analysisStart',
         domClass: 'analysis-start'
       }, {
-        date: new window.Kalendae.moment(),
+        date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeAnalysisEnd',
         direction: 'past',
         startDate: new window.Kalendae.moment('01/01/2013'),
@@ -250,7 +250,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'archive-fires',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      // metadataId: 'firms_active_fires',
+      metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
       },
@@ -274,7 +274,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'noaa-fires',
       defaultDefinitionExpression: "Date < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'noaa18_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>' + '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'
       },
@@ -288,12 +288,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.burnScars,
       order: 10,
       type: 'dynamic',
-      label: 'Crowdsourced fires and burns scars',
+      label: 'Crowdsourced fires, burns scars',
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      // metadataId: 'firms_active_fires',
+      metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
         content: '<table><span class="name-field">${type_}</span></tr>' + '<tr><td>CrowdRank: </td><td class="field-value">${CrowdRank}</td></tr>' + '<tr><td>Image Date: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
       }
@@ -323,7 +323,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'last-rainfall',
       // disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
-      metadataId: 'last_rainfall', //todo: find correct
+      metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
       calendar: {
         domClass: 'rainfall-settings',
         childDomClass: 'rainfall-subsettings',
@@ -342,7 +342,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'forest-moratorium',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'idn_forest_moratorium',
       layerIds: [7]
     }, {
       id: _constants2.default.oilPalm,
@@ -353,7 +353,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'oil-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'gfw_oil_palm',
       layerIds: [1],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
@@ -367,7 +367,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'rspo-palm',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
@@ -381,7 +381,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'wood-fiber',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'gfw_wood_fiber',
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
@@ -395,7 +395,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'logging-concessions',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'gfw_logging',
       layerIds: [3],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
@@ -409,7 +409,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'conservation',
       className: 'protected-areas',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
-      metadataId: 'firms_active_fires' //,
+      metadataId: 'wdpa_protected_areas' //,
       // layerIds: [0],
       // infoTemplate: {
       //   content: '<table><span class="name-field">${Name}</span></tr>' +
@@ -429,7 +429,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       maxScale: 0,
       minScale: 0,
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' + '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' + '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
@@ -443,7 +443,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'landCover',
       className: 'peatlands',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'idn_peat_lands',
       layerIds: [22]
     }, {
       id: _constants2.default.treeCoverDensity,
@@ -454,7 +454,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'landCover',
       className: 'tree-cover',
       url: 'http://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'tree_cover',
       colormap: [[50, 14, 204, 14]],
       inputRange: [30, 101],
       outputRange: [50],
@@ -468,9 +468,33 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'landCover',
       className: 'primary-forests',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'idn_primary_forests',
       layerIds: [3]
     }, {
+      id: _constants2.default.plantationTypes,
+      order: 4,
+      type: 'dynamic',
+      label: 'Plantations',
+      // sublabel: '(2000 - 2012, 30m, Indonesia)',
+      group: 'landCover',
+      className: 'plantation-types',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
+      metadataId: 'gfw_plantations',
+      layerIds: [5]
+    },
+    // {
+    //   id: KEYS.plantationSpecies, //todo: duplicate for plantationTypes and get a header over them!
+    //   order: 4,
+    //   type: 'dynamic',
+    //   label: 'Plantation by Species',
+    //   // sublabel: '(2000 - 2012, 30m, Indonesia)',
+    //   group: 'landCover',
+    //   className: 'plantation-species',
+    //   url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
+    //   metadataId: 'gfw_plantations',
+    //   layerIds: [8]
+    // },
+    {
       id: _constants2.default.windDirection,
       order: 10,
       type: 'wind',
@@ -494,7 +518,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'airQuality',
       className: 'air-quality',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'air_quality',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
@@ -509,7 +533,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'imagery',
       className: 'tree-cover',
       url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
-      metadataId: 'firms_active_fires'
+      metadataId: 'latest_landsat'
     }, {
       id: _constants2.default.boundingBoxes,
       order: 1,
@@ -607,7 +631,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [10],
       className: 'fire-stories',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'user_stories',
       infoTemplate: app.mobile() === true ? {
         content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
       } : {
@@ -712,6 +736,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           max: 'Extreme'
         },
         firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }],
+        plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],
         lossOptions: [{ label: '2001', value: 1 }, { label: '2002', value: 2 }, { label: '2003', value: 3 }, { label: '2004', value: 4 }, { label: '2005', value: 5 }, { label: '2006', value: 6 }, { label: '2007', value: 7 }, { label: '2008', value: 8 }, { label: '2009', value: 9 }, { label: '2010', value: 10 }, { label: '2011', value: 11 }, { label: '2012', value: 12 }, { label: '2013', value: 13 }, { label: '2014', value: 14 }],
         treeCover: {

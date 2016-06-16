@@ -251,7 +251,9 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
     },
     promptAboutBasemap: function promptAboutBasemap() {
       var currentBM = app.map.getBasemap();
-      if (currentBM !== 'dark-gray') {
+
+      if (currentBM !== 'dark-gray' && window.location.hash.indexOf('dark-gray') === -1) {
+        console.log(currentBM);
         _ModalActions.modalActions.showBasemapModal.defer();
       }
     },

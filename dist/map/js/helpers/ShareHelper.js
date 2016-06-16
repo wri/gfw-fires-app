@@ -111,7 +111,12 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       //
       // }
 
+      if (activeBasemap) {
+        _MapActions.mapActions.setBasemap(activeBasemap);
+      }
+
       if (activeLayers) {
+        console.log(activeLayers);
         var layerIds = activeLayers.split(',');
         layerIds.forEach(function (id) {
           _LayerActions.layerActions.addActiveLayer(id);
@@ -121,10 +126,6 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
         if (layerIds.indexOf(_constants2.default.activeFires) === -1) {
           _LayerActions.layerActions.removeActiveLayer(_constants2.default.activeFires);
         }
-      }
-
-      if (activeBasemap) {
-        _MapActions.mapActions.setBasemap(activeBasemap);
       }
 
       if (app.map.loaded && x && y && z) {

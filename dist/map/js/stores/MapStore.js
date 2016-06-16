@@ -64,7 +64,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.dgStartDate = this.getDate(_config.defaults.dgStartDate);
       this.dgEndDate = this.getDate(_config.defaults.todaysDate);
       this.analysisStartDate = this.getDate(_config.defaults.analysisStartDate);
-      this.analysisEndDate = this.getDate(_config.defaults.todaysDate);
+      this.analysisEndDate = this.getDate(_config.defaults.yesterday);
       this.archiveStartDate = this.getDate(_config.defaults.archiveInitialDate);
       this.archiveEndDate = this.getDate(_config.defaults.analysisStartDate);
       this.noaaStartDate = this.getDate(_config.defaults.analysisStartDate);
@@ -81,6 +81,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.currentCustomGraphic = undefined;
       this.activeBasemap = _config.defaults.activeBasemap;
       this.firesSelectIndex = _config.layerPanelText.firesOptions.length - 1;
+      this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
       this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
@@ -110,6 +111,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
         changeForestTimeline: _LayerActions.layerActions.changeForestTimeline,
         changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
+        changePlantations: _LayerActions.layerActions.changePlantations,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
         showFootprints: _LayerActions.layerActions.showFootprints,
         toggleFootprintsVisibility: _LayerActions.layerActions.toggleFootprintsVisibility,
@@ -344,6 +346,12 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           // Create a copy of the strings array for easy change detection
           var layers = this.activeLayers.slice();
           layers.push(layerId);
+          if (layerId === 'plantationTypes') {
+            // debugger
+            this.removeActiveLayer('plantationSpecies');
+          } else if (layerId === 'plantationSpecies') {
+            this.removeActiveLayer('plantationTypes');
+          }
           this.activeLayers = layers;
           app.activeLayers = layers;
           this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer on.');
@@ -356,6 +364,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         if (index !== -1) {
           // Create a copy of the strings array for easy change detection
           var layers = this.activeLayers.slice();
+          console.log(layerId);
           layers.splice(index, 1);
           this.activeLayers = layers;
           app.activeLayers = layers;
@@ -383,6 +392,12 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       value: function changeFiresTimeline(activeIndex) {
         this.firesSelectIndex = activeIndex;
         this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires timeline.');
+      }
+    }, {
+      key: 'changePlantations',
+      value: function changePlantations(activeIndex) {
+        this.plantationSelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
       }
     }, {
       key: 'changeViirsTimeline',
