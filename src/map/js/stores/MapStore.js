@@ -69,6 +69,7 @@ class MapStore {
       changeFiresTimeline: layerActions.changeFiresTimeline,
       changeForestTimeline: layerActions.changeForestTimeline,
       changeViirsTimeline: layerActions.changeViirsTimeline,
+      changePlantations: layerActions.changePlantations,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
       toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
@@ -328,7 +329,6 @@ class MapStore {
   }
 
   changePlantations (activeIndex) {
-    debugger
     this.plantationSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
   }

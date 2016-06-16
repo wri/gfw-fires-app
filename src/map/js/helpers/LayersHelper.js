@@ -563,8 +563,7 @@ let LayersHelper = {
     let plantations = app.map.getLayer(KEYS.plantationTypes);
 
     if (plantations) {
-      debugger
-      viirsFires.setVisibleLayers([optionIndex]);
+      plantations.setVisibleLayers([optionIndex]);
     }
 
   },

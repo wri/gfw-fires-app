@@ -805,7 +805,6 @@ export const config = {
     },
     layerPanel: {
       concessions: 'Concessions',
-      plantations: 'Plantations',
       waterStressLegend: {
         min: 'Low',
         max: 'High',
@@ -824,8 +823,8 @@ export const config = {
         {label: 'Past Week', value: 7}
       ],
       plantationOptions: [
-        {label: 'by Type', value: 5},
-        {label: 'by Species', value: 8}
+        {label: 'by Species', value: 8},
+        {label: 'by Type', value: 5}
       ],
       forestOptions: [
         {label: '2000', value: 0},

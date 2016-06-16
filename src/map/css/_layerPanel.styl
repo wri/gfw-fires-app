@@ -95,6 +95,10 @@
 		display flex
 		width 100%
 
+.plantations-legend-container-type .land-cover-legend .legend-row
+	margin 5px 0
+	line-height 1
+
 .water-stress-legend .no-data-labels div:nth-child(2)
 .water-stress-legend .no-data-labels img:nth-child(4)
 	order 1
@@ -169,6 +173,9 @@
 		padding-right 20px
 	&.flex
 		align-items center
+	&.plantations
+		width 185px
+		margin-bottom 10px
 	&.fires
 		width 125px
 	& select
@@ -185,6 +192,9 @@
 .loss-timeline-spacer
 	font-size 12px
 	padding 0 8px
+
+.active-plantations-control
+	margin-bottom 10px
 
 //- The classes below are the layer ids, if those layer ids are changed in the config, they will need
 //- to be updated here as well so that the correct colors are applied to the layer checkbox
