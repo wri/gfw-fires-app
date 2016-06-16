@@ -163,9 +163,12 @@ let WindHelper = {
 
   promptAboutBasemap () {
     let currentBM = app.map.getBasemap();
-    if (currentBM !== 'dark-gray') {
+
+    if (currentBM !== 'dark-gray' && window.location.hash.indexOf('dark-gray') === -1) {
+      console.log(currentBM);
       modalActions.showBasemapModal.defer();
     }
+
   },
 
   deactivateWindLayer: function() {

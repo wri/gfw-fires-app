@@ -82,7 +82,12 @@ const ShareHelper = {
     //
     // }
 
+    if (activeBasemap) {
+      mapActions.setBasemap(activeBasemap);
+    }
+
     if (activeLayers) {
+      console.log(activeLayers);
       let layerIds = activeLayers.split(',');
       layerIds.forEach(id => {
         layerActions.addActiveLayer(id);
@@ -92,10 +97,6 @@ const ShareHelper = {
       if (layerIds.indexOf(KEYS.activeFires) === -1) {
         layerActions.removeActiveLayer(KEYS.activeFires);
       }
-    }
-
-    if (activeBasemap) {
-      mapActions.setBasemap(activeBasemap);
     }
 
     if (app.map.loaded && (x && y && z)) {
