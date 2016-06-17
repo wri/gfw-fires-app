@@ -90,7 +90,6 @@ gulp.task('jade-watch', function () {
   gulp.watch(config.jade.watch, ['jade-build']);
 });
 
-
 gulp.task('jade-build', function () {
   var stream = mergeStream();
   config.i18n.forEach(function(locale) {

@@ -14,7 +14,6 @@ import RainControls from 'components/LayerPanel/RainControls';
 import AirControls from 'components/LayerPanel/AirControls';
 import WindControls from 'components/LayerPanel/WindControls';
 import LayerTransparency from 'components/LayerPanel/LayerTransparency';
-// import RiskCalendar from 'components/LayerPanel/RiskCalendar';
 import ImageryComponent from 'components/LayerPanel/ImageryComponent';
 import LayerGroup from 'components/LayerPanel/LayerGroup';
 import DamsLegend from 'components/LayerPanel/DamsLegend';
