@@ -36,7 +36,6 @@ export default class CalendarModal extends Component {
 		this.props.calendars.forEach(calendar => {
 			if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
 				this.getLatest(calendar.method).then((res) => {
-					console.log(calendar.date);
 					if (calendar.date.isAfter(res)) {
 						calendar.date = res;
 						if (calendar.method === 'changeRisk') {
@@ -50,9 +49,8 @@ export default class CalendarModal extends Component {
 								dest: 'rainDate'
 							});
 						}
-
 					}
-					console.log(calendar.date);
+
 					let calendar_obj = new window.Kalendae(calendar.domId, {
 						months: 1,
 						mode: 'single',
@@ -165,7 +163,6 @@ export default class CalendarModal extends Component {
 	}
 	changeRisk(date: any) {
 		this.close();
-		console.log(date);
 		mapActions.setRiskDate({
 			date: date,
 			dest: 'riskDate'
@@ -216,16 +213,13 @@ export default class CalendarModal extends Component {
 
 		queryTask.execute(query, (results) => {
 			let newest = results.features[results.features.length - 1];
-			// let date = newest.attributes.Name.split('_IDN_FireRisk')[0];
 			let date;
-			console.log(method);
 			if (method === 'changeRisk') {
 				date = newest.attributes.Name.split('_IDN_FireRisk')[0];
 			} else {
 				date = newest.attributes.Name.split('_IDN')[0];
 				date = date.split('DSLR_')[1];
 			}
-			console.log(date);
 			let dates = date.split('2016');
 			let julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
 			deferred.resolve(julian);

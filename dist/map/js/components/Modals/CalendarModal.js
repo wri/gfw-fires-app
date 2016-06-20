@@ -99,7 +99,6 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				this.props.calendars.forEach(function (calendar) {
 					if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
 						_this2.getLatest(calendar.method).then(function (res) {
-							console.log(calendar.date);
 							if (calendar.date.isAfter(res)) {
 								calendar.date = res;
 								if (calendar.method === 'changeRisk') {
@@ -114,7 +113,7 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 									});
 								}
 							}
-							console.log(calendar.date);
+
 							var calendar_obj = new window.Kalendae(calendar.domId, {
 								months: 1,
 								mode: 'single',
@@ -248,7 +247,6 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 			key: 'changeRisk',
 			value: function changeRisk(date) {
 				this.close();
-				console.log(date);
 				_MapActions.mapActions.setRiskDate({
 					date: date,
 					dest: 'riskDate'
@@ -312,16 +310,13 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 
 				queryTask.execute(query, function (results) {
 					var newest = results.features[results.features.length - 1];
-					// let date = newest.attributes.Name.split('_IDN_FireRisk')[0];
 					var date = void 0;
-					console.log(method);
 					if (method === 'changeRisk') {
 						date = newest.attributes.Name.split('_IDN_FireRisk')[0];
 					} else {
 						date = newest.attributes.Name.split('_IDN')[0];
 						date = date.split('DSLR_')[1];
 					}
-					console.log(date);
 					var dates = date.split('2016');
 					var julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
 					deferred.resolve(julian);
