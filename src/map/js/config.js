@@ -50,6 +50,7 @@ export const config = {
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
     corsEnabledServers: [
       'gis-potico.wri.org',
+      'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'gfw-fires.wri.org'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
