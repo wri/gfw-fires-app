@@ -119,7 +119,7 @@ export const config = {
         domClass: 'noaa-end'
       },
       {
-        date: new window.Kalendae.moment().subtract(2, 'd'),
+        date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeRisk',
         direction: 'past',
         startDate: new window.Kalendae.moment('04/02/2015'),

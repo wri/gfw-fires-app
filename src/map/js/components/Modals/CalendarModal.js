@@ -36,6 +36,7 @@ export default class CalendarModal extends Component {
 		this.props.calendars.forEach(calendar => {
 			if (calendar.method === 'changeRisk') {
 				this.getRiskLatest().then((res) => {
+          console.log(calendar.date);
 					if (calendar.date.isAfter(res)) {
 						calendar.date = res;
 						mapActions.setRiskDate({
@@ -49,11 +50,7 @@ export default class CalendarModal extends Component {
 						mode: 'single',
 						direction: calendar.direction,
 						blackout: function (date) {
-							if (date.yearDay() >= calendar.startDate.yearDay()) {
-								return false;
-							} else {
-								return true;
-							}
+              return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
 						},
 						selected: calendar.date
 					});
@@ -77,8 +74,6 @@ export default class CalendarModal extends Component {
 				});
 				calendar_obj.subscribe('change', this[calendar.method].bind(this));
 			}
-
-
 
 		});
 	}

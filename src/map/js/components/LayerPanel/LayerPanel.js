@@ -44,9 +44,6 @@ export default class LayerPanel extends React.Component {
       let activeLayers = this.state.activeLayers;
       // Exclude Layers not part of this group
       if (layer.group !== group) { return null; }
-      // TODO: Remove once current layer panel design is approved
-      // If it is just a label, render the grop label
-      // if (layer.isGroupLabel) { return <div key={layer.id} className='layer-group-label'>{layer.label}</div>; }
 
       // Some layers have legends or tools and they should be rendered inside the layer checkbox
       let childComponent;
