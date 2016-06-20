@@ -97,15 +97,22 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				var _this2 = this;
 
 				this.props.calendars.forEach(function (calendar) {
-					if (calendar.method === 'changeRisk') {
-						_this2.getRiskLatest().then(function (res) {
+					if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
+						_this2.getLatest(calendar.method).then(function (res) {
 							console.log(calendar.date);
 							if (calendar.date.isAfter(res)) {
 								calendar.date = res;
-								_MapActions.mapActions.setRiskDate({
-									date: res,
-									dest: 'riskDate'
-								});
+								if (calendar.method === 'changeRisk') {
+									_MapActions.mapActions.setRiskDate({
+										date: res,
+										dest: 'riskDate'
+									});
+								} else {
+									_MapActions.mapActions.setRainDate({
+										date: res,
+										dest: 'rainDate'
+									});
+								}
 							}
 							console.log(calendar.date);
 							var calendar_obj = new window.Kalendae(calendar.domId, {
@@ -284,13 +291,20 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				});
 			}
 		}, {
-			key: 'getRiskLatest',
-			value: function getRiskLatest() {
+			key: 'getLatest',
+			value: function getLatest(method) {
 				var deferred = new _Deferred2.default();
-				var riskLayer = _config.layersConfig.filter(function (layer) {
-					return layer && layer.id === _constants2.default.fireRisk;
-				})[0];
-				var queryTask = new _QueryTask2.default(riskLayer.url);
+				var qLayer = void 0;
+				if (method === 'changeRisk') {
+					qLayer = _config.layersConfig.filter(function (layer) {
+						return layer && layer.id === _constants2.default.fireRisk;
+					})[0];
+				} else {
+					qLayer = _config.layersConfig.filter(function (layer) {
+						return layer && layer.id === _constants2.default.lastRainfall;
+					})[0];
+				}
+				var queryTask = new _QueryTask2.default(qLayer.url);
 				var query = new _query2.default();
 				query.where = '1=1';
 				query.returnGeometry = false;
@@ -298,7 +312,16 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 
 				queryTask.execute(query, function (results) {
 					var newest = results.features[results.features.length - 1];
-					var date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+					// let date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+					var date = void 0;
+					console.log(method);
+					if (method === 'changeRisk') {
+						date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+					} else {
+						date = newest.attributes.Name.split('_IDN')[0];
+						date = date.split('DSLR_')[1];
+					}
+					console.log(date);
 					var dates = date.split('2016');
 					var julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
 					deferred.resolve(julian);

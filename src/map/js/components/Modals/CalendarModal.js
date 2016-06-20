@@ -34,23 +34,31 @@ export default class CalendarModal extends Component {
 
 	componentDidMount() {
 		this.props.calendars.forEach(calendar => {
-			if (calendar.method === 'changeRisk') {
-				this.getRiskLatest().then((res) => {
-          console.log(calendar.date);
+			if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
+				this.getLatest(calendar.method).then((res) => {
+					console.log(calendar.date);
 					if (calendar.date.isAfter(res)) {
 						calendar.date = res;
-						mapActions.setRiskDate({
-							date: res,
-							dest: 'riskDate'
-						});
+						if (calendar.method === 'changeRisk') {
+							mapActions.setRiskDate({
+								date: res,
+								dest: 'riskDate'
+							});
+						} else {
+							mapActions.setRainDate({
+								date: res,
+								dest: 'rainDate'
+							});
+						}
+
 					}
-          console.log(calendar.date);
+					console.log(calendar.date);
 					let calendar_obj = new window.Kalendae(calendar.domId, {
 						months: 1,
 						mode: 'single',
 						direction: calendar.direction,
 						blackout: function (date) {
-              return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
+							return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
 						},
 						selected: calendar.date
 					});
@@ -192,10 +200,15 @@ export default class CalendarModal extends Component {
 		});
 	}
 
-	getRiskLatest () {
+	getLatest (method: string) {
 		let deferred = new Deferred();
-		let riskLayer = layersConfig.filter(layer => layer && layer.id === KEYS.fireRisk)[0];
-		let queryTask = new QueryTask(riskLayer.url);
+		let qLayer;
+		if (method === 'changeRisk') {
+			qLayer = layersConfig.filter(layer => layer && layer.id === KEYS.fireRisk)[0];
+		} else {
+			qLayer = layersConfig.filter(layer => layer && layer.id === KEYS.lastRainfall)[0];
+		}
+		let queryTask = new QueryTask(qLayer.url);
 		let query = new Query();
 		query.where = '1=1';
 		query.returnGeometry = false;
@@ -203,7 +216,16 @@ export default class CalendarModal extends Component {
 
 		queryTask.execute(query, (results) => {
 			let newest = results.features[results.features.length - 1];
-			let date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+			// let date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+			let date;
+			console.log(method);
+			if (method === 'changeRisk') {
+				date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+			} else {
+				date = newest.attributes.Name.split('_IDN')[0];
+				date = date.split('DSLR_')[1];
+			}
+			console.log(date);
 			let dates = date.split('2016');
 			let julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
 			deferred.resolve(julian);
