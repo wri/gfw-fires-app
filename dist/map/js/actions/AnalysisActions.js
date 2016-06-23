@@ -134,10 +134,10 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
           _this.dispatch({
             islands: responses.islands.features.map(function (f) {
               return f.attributes.ISLAND;
-            }),
+            }).sort(),
             provinces: responses.provinces.features.map(function (f) {
               return f.attributes.PROVINCE;
-            })
+            }).sort()
           });
         });
       }
