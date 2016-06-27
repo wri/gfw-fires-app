@@ -62,7 +62,6 @@ let initializeApp = () => {
   ReactDOM.render(<SubscriptionModal />, document.getElementById('subscription-modal'));
   ReactDOM.render(<FiresModal />, document.getElementById('fires-modal'));
   ReactDOM.render(<ShareModal />, document.getElementById('share-modal'));
-  //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
 };
 
 configureApp();
