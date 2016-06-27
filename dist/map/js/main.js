@@ -66,7 +66,6 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
   var lazyloadAssets = function lazyloadAssets() {
     // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
-    // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
     (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
     // loadCSS(`./css/map.css?${window.version}`);
     (0, _loaders.loadCSS)('http://js.arcgis.com/3.16/esri/css/esri.css');
@@ -83,7 +82,6 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
     _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById('fires-modal'));
     _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById('share-modal'));
-    //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
   };
 
   configureApp();

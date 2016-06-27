@@ -19,11 +19,12 @@ body
 
 .mobile-controls
   position fixed
-  bottom 0
+  bottom 50px
   // left 20px
   // right 80px
-  right 48px
-  width calc(100% - 48px)
+  // right 48px
+  left 0
+  width 100%
   background-color rgba(255, 255, 255, 1)
   z-index $z-modal
   box-shadow $box-shadow
@@ -32,12 +33,20 @@ body
     width 25%
     background-color white
     border none
-    border 1px solid #aaa
+    border 1px solid #e5e5df
     height 3em
     vertical-align middle
+    border-top none
+    border-bottom none
 
     &:nth-child(odd)
       border-right none
+    &:first-child
+      border-left none
+    &:last-child
+      border-right none
+    &:nth-child(3)
+      border-left none
 
     & span
       display block
@@ -49,6 +58,7 @@ body
     vertical-align middle
     position relative
     bottom 1px
+    fill #555555
 
 
 .kalendae *
