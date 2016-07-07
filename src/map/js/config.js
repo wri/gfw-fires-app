@@ -145,7 +145,7 @@ export const config = {
         domClass: 'wind'
       },
       {
-        date: new window.Kalendae.moment(), //'09/25/2015'),
+        date: new window.Kalendae.moment(),
         method: 'changeAirQ',
         direction: 'past',
         startDate: new window.Kalendae.moment('09/25/2015'),
