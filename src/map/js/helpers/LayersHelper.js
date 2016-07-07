@@ -438,9 +438,7 @@ let LayersHelper = {
       let dgZero = app.map.getLayer(layerId);
       if (dgZero) { dgZero.hide(); }
       subLayers.forEach(subLayer => {
-        console.log(subLayer);
         let sub = app.map.getLayer(subLayer);
-        console.log(sub);
         if (sub) { sub.hide(); }
       });
       ShareHelper.handleHashChange();
