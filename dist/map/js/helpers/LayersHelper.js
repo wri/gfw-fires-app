@@ -467,8 +467,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           bb.hide();
         }
         var subLayers = config.subLayers;
+        var dgZero = app.map.getLayer(layerId);
+        if (dgZero) {
+          dgZero.hide();
+        }
         subLayers.forEach(function (subLayer) {
+          console.log(subLayer);
           var sub = app.map.getLayer(subLayer);
+          console.log(sub);
           if (sub) {
             sub.hide();
           }
