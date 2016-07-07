@@ -137,7 +137,7 @@ export const config = {
         domClass: 'rain'
       },
       {
-        date: new window.Kalendae.moment(), //'10/19/2014'),
+        date: new window.Kalendae.moment(),
         method: 'changeWind',
         direction: 'past',
         startDate: new window.Kalendae.moment('10/19/2014'),
