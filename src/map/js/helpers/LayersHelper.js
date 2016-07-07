@@ -260,7 +260,6 @@ let LayersHelper = {
 
         });
 
-
         dojoQuery('.infoWindow-close').forEach((rowData) => {
           closeHandles.push(on(rowData, 'click', function() {
             app.map.infoWindow.hide();
@@ -436,8 +435,12 @@ let LayersHelper = {
       let bb = app.map.getLayer(KEYS.boundingBoxes);
       if (bb) { bb.hide(); }
       let subLayers = config.subLayers;
+      let dgZero = app.map.getLayer(layerId);
+      if (dgZero) { dgZero.hide(); }
       subLayers.forEach(subLayer => {
+        console.log(subLayer);
         let sub = app.map.getLayer(subLayer);
+        console.log(sub);
         if (sub) { sub.hide(); }
       });
       ShareHelper.handleHashChange();
