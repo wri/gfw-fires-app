@@ -363,7 +363,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.rspoOilPalm,
-      order: 8,
+      order: 10,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',

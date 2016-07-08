@@ -397,7 +397,7 @@ export const config = {
     },
     {
       id: KEYS.rspoOilPalm,
-      order: 8,
+      order: 10,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
