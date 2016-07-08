@@ -120,8 +120,8 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
         var layerIds = activeLayers.split(',');
         layerIds.forEach(function (id) {
           console.log(z);
-          if (id === 'protectedAreasHelper' && z < 6) {
-            var helper = app.map.getLayer('protectedAreasHelper');
+          if (id === 'protectedAreasHelper' && parseInt(z) > 6) {
+            var helper = app.map.getLayer(id);
             helper.show();
           }
           _LayerActions.layerActions.addActiveLayer(id);

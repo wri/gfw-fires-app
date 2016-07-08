@@ -91,8 +91,8 @@ const ShareHelper = {
       let layerIds = activeLayers.split(',');
       layerIds.forEach(id => {
         console.log(z);
-        if (id === 'protectedAreasHelper' && z < 6) {
-          let helper = app.map.getLayer('protectedAreasHelper');
+        if (id === 'protectedAreasHelper' && parseInt(z) > 6) {
+          let helper = app.map.getLayer(id);
           helper.show();
         }
         layerActions.addActiveLayer(id);
