@@ -938,6 +938,8 @@ export const config = {
         emailPlaceholder: 'Email',
         verifyInput: 'verifyInput',
         phoneInstructions: 'Enter your phone number below to receive SMS alerts',
+        phoneExplanation: 'A confirmation message will be sent to your phone.',
+        emailExplanation: 'A confirmation email will be sent from gfwfires@wri.org with a link to complete the sign up process.',
         phonePlaceholder: 'Phone number',
         warningTextEmail: 'You must enter a valid email address!',
         warningTextPhone: 'You must enter a valid phone number!',

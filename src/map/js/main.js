@@ -4,6 +4,7 @@ import CanopyModal from 'components/Modals/CanopyModal';
 import SearchModal from 'components/Modals/SearchModal';
 import BasemapModal from 'components/Modals/BasemapModal';
 import CalendarModal from 'components/Modals/CalendarModal';
+import ConfirmationModal from 'components/Modals/ConfirmationModal';
 import SubscriptionModal from 'components/Modals/SubscriptionModal';
 import FiresModal from 'components/Modals/FiresModal';
 import ShareModal from 'components/Modals/ShareModal';
@@ -59,6 +60,7 @@ let initializeApp = () => {
   ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
   ReactDOM.render(<CalendarModal calendars={defaults.calendars}/>, document.getElementById('calendar-modal'));
   ReactDOM.render(<SubscriptionModal />, document.getElementById('subscription-modal'));
+  ReactDOM.render(<ConfirmationModal />, document.getElementById('confirmation-modal'));
   ReactDOM.render(<FiresModal />, document.getElementById('fires-modal'));
   ReactDOM.render(<ShareModal />, document.getElementById('share-modal'));
 };
