@@ -101,6 +101,10 @@ export default class LayerPanel extends React.Component {
           childComponent = null;
       }
 
+      if (layer.id === 'protectedAreasHelper' && activeLayers.indexOf(layer.id) > -1) {
+        activeLayers.push('protectedAreas');
+      }
+
       return (
         <LayerCheckbox disabled={layer.disabled} key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
           {childComponent}
@@ -109,21 +113,10 @@ export default class LayerPanel extends React.Component {
     };
   }
 
-  conservationMap () {
-    return layer => {
-      let activeLayers = this.state.activeLayers;
-      return (
-        <LayerCheckbox disabled={layer.disabled} key={layer.id} layer={layer} checked={activeLayers.indexOf('protectedAreasHelper') > -1 || activeLayers.indexOf('protectedAreas') > -1}>
-
-        </LayerCheckbox>
-      );
-    };
-  }
-
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
     let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
-    let conservationLayers = layersConfig.filter((l) => l.group === 'conservation').map(this.checkboxMap('conservationMap'), this);
+    let conservationLayers = layersConfig.filter((l) => l.group === 'conservation').map(this.checkboxMap('conservation'), this);
     let landCoverLayers = layersConfig.filter((l) => l.group === 'landCover').map(this.checkboxMap('landCover'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
     if (this.state.panelsHidden === true && className.indexOf('hidden') === -1) { className += ' hidden'; }
