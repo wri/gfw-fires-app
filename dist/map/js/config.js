@@ -214,6 +214,21 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
     */
     layers: [{
+      id: _constants2.default.viirsFires,
+      order: 10,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires',
+      visible: true,
+      layerIds: [3],
+      className: 'viirs-fires',
+      //defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    }, {
       id: _constants2.default.activeFires,
       order: 11,
       type: 'dynamic',
@@ -224,19 +239,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'active-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
-    }, {
-      id: _constants2.default.viirsFires,
-      order: 10,
-      type: 'dynamic',
-      label: 'VIIRS active fires',
-      group: 'fires',
-      layerIds: [0],
-      className: 'viirs-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
-      metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -361,7 +363,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.rspoOilPalm,
-      order: 9,
+      order: 8,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
