@@ -92,10 +92,10 @@ const ShareHelper = {
       layerIds.forEach(id => {
         console.log(z);
         if (id === 'protectedAreasHelper' && z < 6) {
-          layerActions.addActiveLayer('protectedAreas');
-        } else {
-          layerActions.addActiveLayer(id);
+          let helper = app.map.getLayer('protectedAreasHelper');
+          helper.show();
         }
+        layerActions.addActiveLayer(id);
       });
 
       // activeFires is on by default, we need to turn it off if not present in the shared state
