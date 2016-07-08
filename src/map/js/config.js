@@ -475,7 +475,7 @@ export const config = {
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
-      // group: 'conservation',
+      group: 'conservation',
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,

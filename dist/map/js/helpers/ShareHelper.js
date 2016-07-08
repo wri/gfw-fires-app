@@ -119,7 +119,12 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
         console.log(activeLayers);
         var layerIds = activeLayers.split(',');
         layerIds.forEach(function (id) {
-          _LayerActions.layerActions.addActiveLayer(id);
+          console.log(z);
+          if (id === 'protectedAreasHelper' && z < 6) {
+            _LayerActions.layerActions.addActiveLayer('protectedAreas');
+          } else {
+            _LayerActions.layerActions.addActiveLayer(id);
+          }
         });
 
         // activeFires is on by default, we need to turn it off if not present in the shared state
