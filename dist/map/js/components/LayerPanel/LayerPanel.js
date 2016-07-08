@@ -206,10 +206,6 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
               childComponent = null;
           }
 
-          if (layer.id === 'protectedAreasHelper' && activeLayers.indexOf(layer.id) > -1) {
-            activeLayers.push('protectedAreas');
-          }
-
           return _react2.default.createElement(
             _LayerCheckbox2.default,
             { disabled: layer.disabled, key: layer.id, layer: layer, checked: activeLayers.indexOf(layer.id) > -1 },

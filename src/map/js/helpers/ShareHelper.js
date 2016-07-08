@@ -94,6 +94,7 @@ const ShareHelper = {
         if (id === 'protectedAreasHelper' && parseInt(z) > 6) {
           let helper = app.map.getLayer(id);
           helper.show();
+          layerActions.addActiveLayer('protectedAreas');
         }
         layerActions.addActiveLayer(id);
       });

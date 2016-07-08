@@ -101,10 +101,6 @@ export default class LayerPanel extends React.Component {
           childComponent = null;
       }
 
-      if (layer.id === 'protectedAreasHelper' && activeLayers.indexOf(layer.id) > -1) {
-        activeLayers.push('protectedAreas');
-      }
-
       return (
         <LayerCheckbox disabled={layer.disabled} key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
           {childComponent}

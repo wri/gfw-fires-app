@@ -123,6 +123,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
           if (id === 'protectedAreasHelper' && parseInt(z) > 6) {
             var helper = app.map.getLayer(id);
             helper.show();
+            _LayerActions.layerActions.addActiveLayer('protectedAreas');
           }
           _LayerActions.layerActions.addActiveLayer(id);
         });
