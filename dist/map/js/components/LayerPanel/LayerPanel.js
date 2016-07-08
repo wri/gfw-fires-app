@@ -214,6 +214,16 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
         };
       }
     }, {
+      key: 'conservationMap',
+      value: function conservationMap() {
+        var _this3 = this;
+
+        return function (layer) {
+          var activeLayers = _this3.state.activeLayers;
+          return _react2.default.createElement(_LayerCheckbox2.default, { disabled: layer.disabled, key: layer.id, layer: layer, checked: activeLayers.indexOf('protectedAreasHelper') > -1 || activeLayers.indexOf('protectedAreas') > -1 });
+        };
+      }
+    }, {
       key: 'render',
       value: function render() {
         var className = 'layer-panel map-component custom-scroll shadow';
@@ -222,7 +232,7 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
         }).map(this.checkboxMap('forestUse'), this);
         var conservationLayers = _config.layersConfig.filter(function (l) {
           return l.group === 'conservation';
-        }).map(this.checkboxMap('conservation'), this);
+        }).map(this.checkboxMap('conservationMap'), this);
         var landCoverLayers = _config.layersConfig.filter(function (l) {
           return l.group === 'landCover';
         }).map(this.checkboxMap('landCover'), this);
