@@ -41,7 +41,7 @@ class MapStore {
     this.firesSelectIndex = layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
-    this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
+    this.viiirsSelectIndex = layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.layerPanelVisible = app.mobile === false;
 
