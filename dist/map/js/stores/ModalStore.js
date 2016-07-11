@@ -44,20 +44,21 @@ define(['exports', 'actions/ModalActions', 'js/config', 'js/alt'], function (exp
 
       this.bitlyUrl = '';
       this.modalLayerInfo = {};
+      this.confirmationInfo = {};
       this.shareBy = 'embed';
 
       this.bindListeners({
         showLayerInfo: _ModalActions.modalActions.showLayerInfo,
         updateBitlyUrl: _ModalActions.modalActions.showShareModal,
         switchEmbed: _ModalActions.modalActions.switchEmbed,
-        switchLink: _ModalActions.modalActions.switchLink
+        switchLink: _ModalActions.modalActions.switchLink,
+        showConfirmationModal: _ModalActions.modalActions.showConfirmationModal
       });
     }
 
     _createClass(ModalStore, [{
       key: 'sendAnalytics',
       value: function sendAnalytics(eventType, action, label) {
-        //todo: why is this request getting sent so many times?
         ga('A.send', 'event', eventType, action, label);
         ga('B.send', 'event', eventType, action, label);
         ga('C.send', 'event', eventType, action, label);
@@ -72,6 +73,11 @@ define(['exports', 'actions/ModalActions', 'js/config', 'js/alt'], function (exp
         }
 
         this.modalLayerInfo = layerInfo;
+      }
+    }, {
+      key: 'showConfirmationModal',
+      value: function showConfirmationModal(confirmationConfig) {
+        this.confirmationInfo = confirmationConfig;
       }
     }, {
       key: 'updateBitlyUrl',

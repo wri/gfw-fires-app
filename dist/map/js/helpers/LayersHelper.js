@@ -355,9 +355,12 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default[keyword]);
         var fire_results = '',
             subscribe = '';
-        if (keyword === _constants2.default.woodFiber || keyword === _constants2.default.oilPalm || keyword === _constants2.default.rspoOilPalm || keyword === _constants2.default.loggingConcessions || keyword === _constants2.default.protectedAreasHelper) {
+        if (keyword === _constants2.default.woodFiber || keyword === _constants2.default.oilPalm || keyword === _constants2.default.loggingConcessions) {
           fire_results = _this2.getFirePopupContent(item);
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+        } else if (keyword === _constants2.default.rspoOilPalm || keyword === _constants2.default.protectedAreasHelper) {
+          fire_results = _this2.getFirePopupContent(item);
+          subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
         } else {
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         }
