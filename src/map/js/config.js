@@ -52,6 +52,8 @@ export const config = {
       'gis-potico.wri.org',
       'wri-gfw-fires-staging.herokuapp.com',
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
+      'http://api.globalforestwatch.org/user',
+      'http://connect.wri.org/',
       'gfw-fires.wri.org'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
