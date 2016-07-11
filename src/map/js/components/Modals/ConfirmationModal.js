@@ -1,4 +1,3 @@
-/* @flow */
 import ModalWrapper from 'components/Modals/ModalWrapper';
 import {modalStore} from 'stores/ModalStore';
 import {modalText} from 'js/config';
@@ -31,8 +30,10 @@ export default class ConfirmationModal extends Component {
       <ModalWrapper>
         <div>
           <div className='canopy-modal-title'>Subscription success!</div>
-          {this.state.confirmationInfo.email ? <div className='longer'>{modalText.subscription.emailExplanation} </div> : null}
-          {this.state.confirmationInfo.phoneNumber ? <div className='longer'>{modalText.subscription.phoneExplanation} </div> : null}
+          {this.state.confirmationInfo.email ?
+            <div className='longer'>{modalText.subscription.emailConfirmation}</div> : null
+          }
+          {this.state.confirmationInfo.phoneNumber ? <div className='longer'>{modalText.subscription.phoneConfirmation}</div> : null}
         </div>
       </ModalWrapper>
     );

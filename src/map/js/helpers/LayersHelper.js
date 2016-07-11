@@ -332,9 +332,12 @@ let LayersHelper = {
     featureObjects.forEach(item => {
       let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
       let fire_results = '', subscribe = '';
-      if (keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.rspoOilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.protectedAreasHelper) {
+      if (keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.loggingConcessions) {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+      } else if (keyword === KEYS.rspoOilPalm || keyword === KEYS.protectedAreasHelper) {
+        fire_results = this.getFirePopupContent(item);
+        subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else {
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       }

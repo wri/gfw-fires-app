@@ -86,8 +86,9 @@ block append head-scripts
     window.liveSettings = {
       api_key: "c0d190e8efe94881b66b5bb38ebaece3",
       detectlang: false,
-      //- picker: '#customTransifex', //'bottom-left', 
-      picker: 'bottom-left', 
+      picker: '#customTransifex', //'bottom-left', 
+      //- picker: 'bottom-left', 
+      //- picker: '#transifexTranslateElement',
       version: 'latest',
       autocollect: true,
       dynamic: true,
@@ -108,6 +109,7 @@ block content
   div#root.layout-content
   div#layer-modal.modal.hidden
   div#canopy-modal.modal.hidden
+  div#confirmation-modal.modal.hidden
   div#search-modal.modal.hidden
   div#basemap-modal.modal.hidden
   div#calendar-modal.modal.hidden
