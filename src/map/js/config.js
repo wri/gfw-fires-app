@@ -488,8 +488,8 @@ export const config = {
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${desig_eng}</td></tr>' +
-        '<tr><td class="field-name">ID: </td><td class="field-value">${wdpaid}</td></tr>' +
+        '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
+        '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' +
         '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' +
         '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
