@@ -144,7 +144,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
     }, {
       key: 'switchEmbed',
       value: function switchEmbed() {
-        _ModalActions.modalActions.switchEmbed(); //todo: make a bitly
+        _ModalActions.modalActions.switchEmbed();
       }
     }, {
       key: 'switchLink',
@@ -177,7 +177,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
             _react2.default.createElement('input', { className: '' + (this.state.shareBy === 'embed' ? 'hidden' : ''), ref: 'shareInputLink', type: 'text', readOnly: true, value: this.state.bitlyUrl, onClick: this.handleFocus }),
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white pointer', onClick: this.copyShare.bind(this) },
+              { className: 'gfw-btn white pointer share-copy', onClick: this.copyShare.bind(this) },
               this.state.copyText
             )
           ),
@@ -186,13 +186,13 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
             { className: 'share-options' },
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white basemap-button pointer ' + (this.state.shareBy === 'embed' ? 'active' : ''), onClick: this.switchEmbed.bind(this) },
-              'EMBED'
+              { className: 'gfw-btn white basemap-button pointer ' + (this.state.shareBy === 'link' ? 'active' : ''), onClick: this.switchLink.bind(this) },
+              'LINK'
             ),
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white basemap-button pointer ' + (this.state.shareBy === 'link' ? 'active' : ''), onClick: this.switchLink.bind(this) },
-              'LINK'
+              { className: 'gfw-btn white basemap-button pointer ' + (this.state.shareBy === 'embed' ? 'active' : ''), onClick: this.switchEmbed.bind(this) },
+              'EMBED'
             )
           ),
           _react2.default.createElement(

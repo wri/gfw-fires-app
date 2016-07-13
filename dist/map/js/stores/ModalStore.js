@@ -45,7 +45,7 @@ define(['exports', 'actions/ModalActions', 'js/config', 'js/alt'], function (exp
       this.bitlyUrl = '';
       this.modalLayerInfo = {};
       this.confirmationInfo = {};
-      this.shareBy = 'embed';
+      this.shareBy = 'link';
 
       this.bindListeners({
         showLayerInfo: _ModalActions.modalActions.showLayerInfo,

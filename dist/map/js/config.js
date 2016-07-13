@@ -63,7 +63,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
       corsEnabledServers: ['gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
-      'gfw-fires.wri.org'],
+      'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),
@@ -215,7 +215,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     */
     layers: [{
       id: _constants2.default.viirsFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
@@ -230,7 +230,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.activeFires,
-      order: 11,
+      order: 10,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',
@@ -373,7 +373,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
+        content: '<table><span class="name-field">${name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
       }
     }, {
       id: _constants2.default.woodFiber,
@@ -435,7 +435,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' + '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' + '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${desig_eng}</td></tr>' + '<tr><td class="field-name">ID: </td><td class="field-value">${wdpaid}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' + '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
     }, {
       id: _constants2.default.peatlands,
