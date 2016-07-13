@@ -409,7 +409,7 @@ export const config = {
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' +
+        content: '<table><span class="name-field">${name}</span></tr>' +
         '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' +
         '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' +
         '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' +
@@ -488,10 +488,10 @@ export const config = {
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
-        '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
-        '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
-        '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
+        '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${desig_eng}</td></tr>' +
+        '<tr><td class="field-name">ID: </td><td class="field-value">${wdpaid}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' +
+        '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
     },
     {
