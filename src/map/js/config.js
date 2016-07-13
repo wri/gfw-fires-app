@@ -224,7 +224,7 @@ export const config = {
   layers: [
     {
       id: KEYS.viirsFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
@@ -245,7 +245,7 @@ export const config = {
     },
     {
       id: KEYS.activeFires,
-      order: 11,
+      order: 10,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',

@@ -8,7 +8,7 @@ class ModalStore {
     this.bitlyUrl = '';
     this.modalLayerInfo = {};
     this.confirmationInfo = {};
-    this.shareBy = 'embed';
+    this.shareBy = 'link';
 
     this.bindListeners({
       showLayerInfo: modalActions.showLayerInfo,
