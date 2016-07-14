@@ -454,6 +454,83 @@ export const config = {
         '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
       }
     },
+
+    {
+      id: KEYS.oilPalmGreenpeace,
+      order: 9,
+      type: 'dynamic',
+      label: 'Palm oil',
+      group: 'forestUse',
+      className: 'oil-palm-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_oil_palm',
+      layerIds: [0],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
+        '<tr><td>Group: </td><td>${Group}</td></tr>' +
+        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>Business Permit: </td><td>${Business Permit}</td></tr>' +
+        '<tr><td>Plantation Permit: </td><td>${Plantation Permit}</td></tr>' +
+        '<tr><td>Location Permit: </td><td>${Location Permit}</td></tr>' +
+        '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+      }
+    },
+    {
+      id: KEYS.woodFiberGreenpeace,
+      order: 9,
+      type: 'dynamic',
+      label: 'Wood Fiber',
+      group: 'forestUse',
+      className: 'wood-fiber-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_wood_fiber',
+      layerIds: [1],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
+        '<tr><td>Group: </td><td>${Group}</td></tr>' +
+        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>Permit: </td><td>${Permit}</td></tr>' +
+        '<tr><td>Permit granted in: </td><td>${Permit Granted in}</td></tr>' +
+        '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+      }
+    },
+    {
+      id: KEYS.loggingGreenpeace,
+      order: 9,
+      type: 'dynamic',
+      label: 'Selective logging',
+      group: 'forestUse',
+      className: 'logging-concessions-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_logging',
+      layerIds: [2],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
+        '<tr><td>Group: </td><td>${Group}</td></tr>' +
+        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>Permit: </td><td>${Permit}</td></tr>' +
+        '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+      }
+    },
+    {
+      id: KEYS.coalConcessions,
+      order: 9,
+      type: 'dynamic',
+      label: 'Coal mining',
+      group: 'forestUse',
+      className: 'coal-concessions-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_mining',
+      layerIds: [3],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' +
+        '<tr><td>Group: </td><td>${Group}</td></tr>' +
+        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>Status: </td><td>${Status}</td></tr>' +
+        '<tr><td>Province: </td><td>${Province}</td></tr>' +
+        '<tr><td>District: </td><td>${District}</td></tr></table>'
+      }
+    },
     {
       id: KEYS.protectedAreas,
       order: 7,
@@ -811,6 +888,7 @@ export const config = {
     },
     layerPanel: {
       concessions: 'Concessions',
+      concessionsGreenpeace: 'Greenpeace Concessions',
       waterStressLegend: {
         min: 'Low',
         max: 'High',
