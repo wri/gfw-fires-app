@@ -95,10 +95,14 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
           _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(
+            this.state.confirmationInfo === 'error' ? _react2.default.createElement(
               'div',
               { className: 'canopy-modal-title' },
-              'Subscription success!'
+              _config.modalText.subscription.subscribeFailTitle
+            ) : _react2.default.createElement(
+              'div',
+              { className: 'canopy-modal-title' },
+              _config.modalText.subscription.subscribeTitle
             ),
             this.state.confirmationInfo.email ? _react2.default.createElement(
               'div',
@@ -109,6 +113,11 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
               'div',
               { className: 'longer' },
               _config.modalText.subscription.phoneConfirmation
+            ) : null,
+            this.state.confirmationInfo === 'error' ? _react2.default.createElement(
+              'div',
+              { className: 'longer' },
+              _config.modalText.subscription.error
             ) : null
           )
         );

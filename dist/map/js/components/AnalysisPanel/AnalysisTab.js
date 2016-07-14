@@ -111,6 +111,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
+        console.log('oooh');
         if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
           $('#islands').chosen();
         } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
@@ -156,6 +157,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         if (this.props.activeTab !== _config.analysisPanelText.analysisTabId) {
           className += ' hidden';
         }
+        console.log(this.props.analysisSourceGFW);
         return _react2.default.createElement(
           'div',
           { className: className },
@@ -182,6 +184,27 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           _react2.default.createElement(
             'div',
             { className: 'customize-options ' + (this.props.customizeOpen === true ? '' : 'hidden') },
+            _react2.default.createElement(
+              'p',
+              null,
+              _config.analysisPanelText.analysisChooseData
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'flex flex-justify-around' },
+              _react2.default.createElement(
+                'label',
+                null,
+                _react2.default.createElement('input', { id: 'gfw', onChange: _AnalysisActions.analysisActions.toggleAnalysisSource, checked: this.props.analysisSourceGFW, type: 'radio' }),
+                ' GFW'
+              ),
+              _react2.default.createElement(
+                'label',
+                null,
+                _react2.default.createElement('input', { id: 'greenpeace', onChange: _AnalysisActions.analysisActions.toggleAnalysisSource, checked: !this.props.analysisSourceGFW, type: 'radio' }),
+                ' Greenpeace'
+              )
+            ),
             _react2.default.createElement(
               'p',
               null,
@@ -340,6 +363,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
   AnalysisTab.propTypes = {
     activeTab: _react2.default.PropTypes.string.isRequired,
     areaIslandsActive: _react2.default.PropTypes.bool.isRequired,
+    analysisSourceGFW: _react2.default.PropTypes.bool.isRequired,
     customizeOpen: _react2.default.PropTypes.bool.isRequired,
     islands: _react2.default.PropTypes.array.isRequired,
     provinces: _react2.default.PropTypes.array.isRequired

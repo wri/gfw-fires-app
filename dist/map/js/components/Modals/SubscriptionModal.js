@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'dojo/promise/all', 'react'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _all, _react) {
+define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'dojo/promise/all', 'react', 'react-dom', 'intlTelInput'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _all, _react, _reactDom, _intlTelInput) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -16,6 +16,10 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
   var _all2 = _interopRequireDefault(_all);
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _reactDom2 = _interopRequireDefault(_reactDom);
+
+  var _intlTelInput2 = _interopRequireDefault(_intlTelInput);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -162,6 +166,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
           if (_this.state.phoneNumber) {
             var numbersOnly = _this.state.phoneNumber.replace(/\D/g, '');
+            // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
+
             smsParams = {
               'msg_addr': numbersOnly,
               'msg_type': 'sms',
@@ -203,6 +209,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
       _this.error = function () {
         _this.close();
+        _ModalActions.modalActions.showConfirmationModal('error');
         _this.setState({
           isUploading: false
         });
@@ -230,6 +237,19 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     }
 
     _createClass(SubscriptionModal, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _this2 = this;
+
+        $('#phoneInput').intlTelInput();
+
+        $('#phoneInput').on('countrychange', function (e, countryData) {
+          _this2.setState({
+            phoneNumber: countryData.dialCode
+          });
+        });
+      }
+    }, {
       key: 'storeUpdated',
       value: function storeUpdated() {
         var newState = _MapStore.mapStore.getState();
@@ -264,12 +284,11 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     }, {
       key: 'close',
       value: function close() {
-        _ModalActions.modalActions.hideModal(_react2.default.findDOMNode(this).parentElement);
+        _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(this).parentElement);
       }
     }, {
       key: 'render',
       value: function render() {
-        console.log(this.state.customFeatName);
         return _react2.default.createElement(
           _ModalWrapper2.default,
           null,
@@ -295,7 +314,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             null,
             _config.modalText.subscription.phoneInstructions
           ),
-          _react2.default.createElement('input', { className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
+          _react2.default.createElement('input', { id: 'phoneInput', className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
           _react2.default.createElement(
             'p',
             { className: 'sign-up' },

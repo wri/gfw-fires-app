@@ -502,6 +502,246 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
+    identifyoilPalmGreenpeace: function identifyoilPalmGreenpeace(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.oilPalmGreenpeace);
+      var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.oilPalmGreenpeace);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          var queries = features.map(function (feature) {
+            var qDeferred = new _Deferred2.default();
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var query = new _query2.default();
+            query.geometry = feature.feature.geometry;
+            query.where = '1=1';
+            query.outFields = ['Date'];
+            queryTask.execute(query).then(function (results) {
+              feature.fires = results.features;
+
+              setTimeout(function () {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
+          });
+          (0, _all2.default)(queries).then(function (qResults) {
+            deferred.resolve({
+              layer: _constants2.default.oilPalmGreenpeace,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
+    identifyWoodFiberGreenpeace: function identifyWoodFiberGreenpeace(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.woodFiberGreenpeace);
+      var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.woodFiberGreenpeace);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          var queries = features.map(function (feature) {
+            var qDeferred = new _Deferred2.default();
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var query = new _query2.default();
+            query.geometry = feature.feature.geometry;
+            query.where = '1=1';
+            query.outFields = ['Date'];
+            queryTask.execute(query).then(function (results) {
+              feature.fires = results.features;
+
+              setTimeout(function () {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
+          });
+          (0, _all2.default)(queries).then(function (qResults) {
+            deferred.resolve({
+              layer: _constants2.default.woodFiberGreenpeace,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
+    identifyLoggingGreenpeace: function identifyLoggingGreenpeace(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.loggingGreenpeace);
+      var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.loggingGreenpeace);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          var queries = features.map(function (feature) {
+            var qDeferred = new _Deferred2.default();
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var query = new _query2.default();
+            query.geometry = feature.feature.geometry;
+            query.where = '1=1';
+            query.outFields = ['Date'];
+            queryTask.execute(query).then(function (results) {
+              feature.fires = results.features;
+
+              setTimeout(function () {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
+          });
+          (0, _all2.default)(queries).then(function (qResults) {
+            deferred.resolve({
+              layer: _constants2.default.loggingGreenpeace,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
+    identifyCoalConcessions: function identifyCoalConcessions(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.coalConcessions);
+      var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.coalConcessions);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          var queries = features.map(function (feature) {
+            var qDeferred = new _Deferred2.default();
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var query = new _query2.default();
+            query.geometry = feature.feature.geometry;
+            query.where = '1=1';
+            query.outFields = ['Date'];
+            queryTask.execute(query).then(function (results) {
+              feature.fires = results.features;
+
+              setTimeout(function () {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
+          });
+          (0, _all2.default)(queries).then(function (qResults) {
+            deferred.resolve({
+              layer: _constants2.default.coalConcessions,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
     identifyProtectedAreas: function identifyProtectedAreas(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.protectedAreasHelper);

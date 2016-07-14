@@ -68,6 +68,11 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
         this.dispatch(tabId);
       }
     }, {
+      key: 'toggleAnalysisSource',
+      value: function toggleAnalysisSource() {
+        this.dispatch();
+      }
+    }, {
       key: 'toggleDrawToolbar',
       value: function toggleDrawToolbar(status) {
         this.dispatch(status);

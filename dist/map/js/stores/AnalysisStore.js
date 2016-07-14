@@ -57,6 +57,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.basemapToolsExpanded = false;
       this.subscribeToolsExpanded = false;
       this.timelineVisible = false;
+      this.analysisSourceGFW = true;
       this.areaIslandsActive = true;
       this.islands = [];
       this.provinces = [];
@@ -75,6 +76,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
         toggleBasemapToolsExpanded: _AnalysisActions.analysisActions.toggleBasemapToolsExpanded,
         toggleEsriSearchVisibility: _AnalysisActions.analysisActions.toggleEsriSearchVisibility,
         toggleTimelineVisibility: _AnalysisActions.analysisActions.toggleTimelineVisibility,
+        toggleAnalysisSource: _AnalysisActions.analysisActions.toggleAnalysisSource,
         initAreas: _AnalysisActions.analysisActions.initAreas,
         toggleAreaIslandsActive: _AnalysisActions.analysisActions.toggleAreaIslandsActive
       });
@@ -94,6 +96,11 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       key: 'setAnalysisType',
       value: function setAnalysisType(tabId) {
         this.activeTab = tabId;
+      }
+    }, {
+      key: 'toggleAnalysisSource',
+      value: function toggleAnalysisSource() {
+        this.analysisSourceGFW = !this.analysisSourceGFW;
       }
     }, {
       key: 'toggleDrawToolbar',
