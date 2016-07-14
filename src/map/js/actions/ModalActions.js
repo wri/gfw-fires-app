@@ -46,6 +46,12 @@ class ModalActions {
     domClass.remove('share-modal', 'hidden');
   }
 
+  showConfirmationModal (params) {
+    app.debug('ModalActions >>> showConfirmationModal');
+    this.dispatch(params);
+    domClass.remove('confirmation-modal', 'hidden');
+  }
+
   showCalendarModal (active) {
     app.debug('ModalActions >>> showCalendarModal');
     domClass.remove('calendar-modal', 'hidden');

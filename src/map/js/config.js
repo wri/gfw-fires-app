@@ -52,6 +52,8 @@ export const config = {
       'gis-potico.wri.org',
       'wri-gfw-fires-staging.herokuapp.com',
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
+      'http://api.globalforestwatch.org/user',
+      'http://connect.wri.org/',
       'gfw-fires.wri.org'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
@@ -221,16 +223,17 @@ export const config = {
   */
   layers: [
     {
-      id: KEYS.activeFires,
+      id: KEYS.viirsFires,
       order: 11,
       type: 'dynamic',
-      label: 'MODIS active Fires',
+      label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0, 1, 2, 3],
-      className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
-      metadataId: 'firms_active_fires',
+      layerIds: [3],
+      className: 'viirs-fires',
+      //defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
           '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
@@ -241,15 +244,16 @@ export const config = {
       }
     },
     {
-      id: KEYS.viirsFires,
+      id: KEYS.activeFires,
       order: 10,
       type: 'dynamic',
-      label: 'VIIRS active fires',
+      label: 'MODIS active Fires',
       group: 'fires',
-      layerIds: [0],
-      className: 'viirs-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
-      metadataId: 'viirs_fires',
+      visible: true,
+      layerIds: [0, 1, 2, 3],
+      className: 'active-fires',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
+      metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
           '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
@@ -395,7 +399,7 @@ export const config = {
     },
     {
       id: KEYS.rspoOilPalm,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
@@ -405,7 +409,7 @@ export const config = {
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' +
+        content: '<table><span class="name-field">${name}</span></tr>' +
         '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' +
         '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' +
         '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' +
@@ -475,7 +479,7 @@ export const config = {
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
-      // group: 'conservation',
+      group: 'conservation',
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,
@@ -484,10 +488,10 @@ export const config = {
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
-        '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
-        '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
-        '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
+        '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
+        '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' +
+        '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
     },
     {
@@ -936,6 +940,13 @@ export const config = {
         emailPlaceholder: 'Email',
         verifyInput: 'verifyInput',
         phoneInstructions: 'Enter your phone number below to receive SMS alerts',
+        phoneExplanation: 'A confirmation message will be sent to your phone.',
+        emailExplanationStart: 'A confirmation email will be sent from ',
+        emailExplanationDisplay: 'gfwfires@wri.org',
+        emailExplanationAddress: 'mailto:gfwfires@wri.org',
+        emailExplanationEnd: ' with a link to complete the sign up process.',
+        emailConfirmation: 'Your request has been received. Please check your email for a confirmation message with a link to complete the subscription process.',
+        phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
         phonePlaceholder: 'Phone number',
         warningTextEmail: 'You must enter a valid email address!',
         warningTextPhone: 'You must enter a valid phone number!',

@@ -132,7 +132,7 @@ define([], function () {
                 });
                 MapModel.vm.islands(islands.sort());
                 MapModel.vm.reportAOIs(islands);
-                MapModel.vm.selectedAOIs(['Sumatra', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Java']);
+                MapModel.vm.selectedAOIs(["Java", "Kalimantan", "Lesser Sunda", "Maluku", "Papua", "Sulawesi", "Sumatra"]);
             };
             var provinceresults = function provinceresults(results) {
                 var provinces = [];

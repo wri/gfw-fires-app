@@ -71,8 +71,8 @@ class AnalysisActions {
       provinces: esriRequest(analysisConfig.requests.provinces)
     }).then((responses) => {
       this.dispatch({
-        islands: responses.islands.features.map((f) => f.attributes.ISLAND),
-        provinces: responses.provinces.features.map((f) => f.attributes.PROVINCE)
+        islands: responses.islands.features.map((f) => f.attributes.ISLAND).sort(),
+        provinces: responses.provinces.features.map((f) => f.attributes.PROVINCE).sort()
       });
     });
   }

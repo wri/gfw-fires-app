@@ -1,4 +1,4 @@
-define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/SearchModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
+define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/SearchModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/ConfirmationModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _ConfirmationModal, _SubscriptionModal, _FiresModal, _ShareModal, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
   'use strict';
 
   var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
@@ -12,6 +12,8 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   var _BasemapModal2 = _interopRequireDefault(_BasemapModal);
 
   var _CalendarModal2 = _interopRequireDefault(_CalendarModal);
+
+  var _ConfirmationModal2 = _interopRequireDefault(_ConfirmationModal);
 
   var _SubscriptionModal2 = _interopRequireDefault(_SubscriptionModal);
 
@@ -66,7 +68,6 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
   var lazyloadAssets = function lazyloadAssets() {
     // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
-    // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
     (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
     // loadCSS(`./css/map.css?${window.version}`);
     (0, _loaders.loadCSS)('http://js.arcgis.com/3.16/esri/css/esri.css');
@@ -81,9 +82,9 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     _reactDom2.default.render(_react2.default.createElement(_BasemapModal2.default, null), document.getElementById('basemap-modal'));
     _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById('calendar-modal'));
     _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_ConfirmationModal2.default, null), document.getElementById('confirmation-modal'));
     _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById('fires-modal'));
     _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById('share-modal'));
-    //ReactDOM.render(<AlertsModal />, document.getElementById('alerts-modal'));
   };
 
   configureApp();

@@ -96,6 +96,13 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
         _domClass2.default.remove('share-modal', 'hidden');
       }
     }, {
+      key: 'showConfirmationModal',
+      value: function showConfirmationModal(params) {
+        app.debug('ModalActions >>> showConfirmationModal');
+        this.dispatch(params);
+        _domClass2.default.remove('confirmation-modal', 'hidden');
+      }
+    }, {
       key: 'showCalendarModal',
       value: function showCalendarModal(active) {
         app.debug('ModalActions >>> showCalendarModal');

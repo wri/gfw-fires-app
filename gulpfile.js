@@ -71,7 +71,7 @@ var config = {
     server: ['build', 'www']
   },
   copyExtras: {
-    src: 'src/**/*.{php,config,sqlite}',
+    src: 'src/**/*.{php,config,sqlite,pdf}',
     build: 'build',
     dist: 'dist'
   },

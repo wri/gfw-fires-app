@@ -63,7 +63,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
       corsEnabledServers: ['gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
-      'gfw-fires.wri.org'],
+      'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),
@@ -214,8 +214,23 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
     */
     layers: [{
-      id: _constants2.default.activeFires,
+      id: _constants2.default.viirsFires,
       order: 11,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires',
+      visible: true,
+      layerIds: [3],
+      className: 'viirs-fires',
+      //defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.activeFires,
+      order: 10,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',
@@ -224,19 +239,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'active-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
-    }, {
-      id: _constants2.default.viirsFires,
-      order: 10,
-      type: 'dynamic',
-      label: 'VIIRS active fires',
-      group: 'fires',
-      layerIds: [0],
-      className: 'viirs-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
-      metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -361,7 +363,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.rspoOilPalm,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
@@ -371,7 +373,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
+        content: '<table><span class="name-field">${name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
       }
     }, {
       id: _constants2.default.woodFiber,
@@ -425,7 +427,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
-      // group: 'conservation',
+      group: 'conservation',
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,
@@ -433,7 +435,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' + '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' + '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' + '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
     }, {
       id: _constants2.default.peatlands,
@@ -826,6 +828,13 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           emailPlaceholder: 'Email',
           verifyInput: 'verifyInput',
           phoneInstructions: 'Enter your phone number below to receive SMS alerts',
+          phoneExplanation: 'A confirmation message will be sent to your phone.',
+          emailExplanationStart: 'A confirmation email will be sent from ',
+          emailExplanationDisplay: 'gfwfires@wri.org',
+          emailExplanationAddress: 'mailto:gfwfires@wri.org',
+          emailExplanationEnd: ' with a link to complete the sign up process.',
+          emailConfirmation: 'Your request has been received. Please check your email for a confirmation message with a link to complete the subscription process.',
+          phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
           phonePlaceholder: 'Phone number',
           warningTextEmail: 'You must enter a valid email address!',
           warningTextPhone: 'You must enter a valid phone number!',

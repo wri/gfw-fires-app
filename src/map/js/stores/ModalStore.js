@@ -7,17 +7,19 @@ class ModalStore {
   constructor () {
     this.bitlyUrl = '';
     this.modalLayerInfo = {};
-    this.shareBy = 'embed';
+    this.confirmationInfo = {};
+    this.shareBy = 'link';
 
     this.bindListeners({
       showLayerInfo: modalActions.showLayerInfo,
       updateBitlyUrl: modalActions.showShareModal,
       switchEmbed: modalActions.switchEmbed,
-      switchLink: modalActions.switchLink
+      switchLink: modalActions.switchLink,
+      showConfirmationModal: modalActions.showConfirmationModal
     });
   }
 
-  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+  sendAnalytics (eventType, action, label) {
     ga('A.send', 'event', eventType, action, label);
     ga('B.send', 'event', eventType, action, label);
     ga('C.send', 'event', eventType, action, label);
@@ -31,6 +33,10 @@ class ModalStore {
     }
 
     this.modalLayerInfo = layerInfo;
+  }
+
+  showConfirmationModal (confirmationConfig) {
+    this.confirmationInfo = confirmationConfig;
   }
 
   updateBitlyUrl (bitlyUrl) {

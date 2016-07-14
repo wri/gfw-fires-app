@@ -195,6 +195,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
       _this.success = function () {
         _this.close();
+        _ModalActions.modalActions.showConfirmationModal(_this.state);
         _this.setState({
           isUploading: false
         });
@@ -296,6 +297,22 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           ),
           _react2.default.createElement('input', { className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
           _react2.default.createElement(
+            'p',
+            { className: 'sign-up' },
+            _config.modalText.subscription.emailExplanationStart,
+            _react2.default.createElement(
+              'a',
+              { href: _config.modalText.subscription.emailExplanationAddress },
+              _config.modalText.subscription.emailExplanationDisplay
+            ),
+            _config.modalText.subscription.emailExplanationEnd
+          ),
+          _react2.default.createElement(
+            'p',
+            { className: 'sign-up' },
+            _config.modalText.subscription.phoneExplanation
+          ),
+          _react2.default.createElement(
             'div',
             { className: 'submit-warning ' + (this.state.phoneErrors ? '' : 'hidden') },
             _config.modalText.subscription.warningTextPhone
@@ -315,12 +332,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
               _config.modalText.subscription.subscribePlaceholder
             )
           ),
-          _react2.default.createElement(_Loader2.default, { active: this.state.isUploading }),
-          _react2.default.createElement(
-            'div',
-            { className: 'submit-success ' + (this.state.success ? '' : 'hidden') },
-            _config.modalText.subscription.successMessage
-          )
+          _react2.default.createElement(_Loader2.default, { active: this.state.isUploading })
         );
       }
     }]);

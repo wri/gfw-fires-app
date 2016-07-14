@@ -77,7 +77,7 @@ export default class ShareModal extends Component {
   }
 
   switchEmbed () {
-    modalActions.switchEmbed(); //todo: make a bitly
+    modalActions.switchEmbed();
   }
 
   switchLink () {
@@ -95,11 +95,11 @@ export default class ShareModal extends Component {
         <div className='share-input'>
           <input className={`${this.state.shareBy === 'link' ? 'hidden' : ''}`} ref='shareInputEmbed' type='text' readOnly value={iframeURL} onClick={this.handleFocus} />
           <input className={`${this.state.shareBy === 'embed' ? 'hidden' : ''}`} ref='shareInputLink' type='text' readOnly value={this.state.bitlyUrl} onClick={this.handleFocus} />
-          <button className='gfw-btn white pointer' onClick={this.copyShare.bind(this)}>{this.state.copyText}</button>
+          <button className='gfw-btn white pointer share-copy' onClick={this.copyShare.bind(this)}>{this.state.copyText}</button>
         </div>
         <div className='share-options'>
-          <button className={`gfw-btn white basemap-button pointer ${this.state.shareBy === 'embed' ? 'active' : ''}`} onClick={this.switchEmbed.bind(this)}>EMBED</button>
           <button className={`gfw-btn white basemap-button pointer ${this.state.shareBy === 'link' ? 'active' : ''}`} onClick={this.switchLink.bind(this)}>LINK</button>
+          <button className={`gfw-btn white basemap-button pointer ${this.state.shareBy === 'embed' ? 'active' : ''}`} onClick={this.switchEmbed.bind(this)}>EMBED</button>
         </div>
         <div className='share-items'>
           <ul>
