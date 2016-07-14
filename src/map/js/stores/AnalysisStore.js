@@ -20,6 +20,7 @@ class AnalysisStore {
     this.basemapToolsExpanded = false;
     this.subscribeToolsExpanded = false;
     this.timelineVisible = false;
+    this.analysisSourceGFW = true;
     this.areaIslandsActive = true;
     this.islands = [];
     this.provinces = [];
@@ -38,6 +39,7 @@ class AnalysisStore {
       toggleBasemapToolsExpanded: analysisActions.toggleBasemapToolsExpanded,
       toggleEsriSearchVisibility: analysisActions.toggleEsriSearchVisibility,
       toggleTimelineVisibility: analysisActions.toggleTimelineVisibility,
+      toggleAnalysisSource: analysisActions.toggleAnalysisSource,
       initAreas: analysisActions.initAreas,
       toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive
     });
@@ -53,6 +55,10 @@ class AnalysisStore {
 
   setAnalysisType (tabId) {
     this.activeTab = tabId;
+  }
+
+  toggleAnalysisSource () {
+    this.analysisSourceGFW = !this.analysisSourceGFW;
   }
 
   toggleDrawToolbar (status) {

@@ -21,6 +21,10 @@ class AnalysisActions {
     this.dispatch(tabId);
   }
 
+  toggleAnalysisSource () {
+    this.dispatch();
+  }
+
   toggleDrawToolbar (status) {
     this.dispatch(status);
   }

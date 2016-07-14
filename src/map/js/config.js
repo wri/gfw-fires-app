@@ -963,6 +963,7 @@ export const config = {
       analysisTabLabel: 'Fire Report',
       analysisCustomize: 'CUSTOMIZE REPORT',
       analysisChoose: 'Choose your own custom time period and geographic area.',
+      analysisChooseData: 'Analyze concession data from:',
       subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',
