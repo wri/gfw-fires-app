@@ -111,7 +111,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
-        console.log('oooh');
         if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
           $('#islands').chosen();
         } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
@@ -157,7 +156,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         if (this.props.activeTab !== _config.analysisPanelText.analysisTabId) {
           className += ' hidden';
         }
-        console.log(this.props.analysisSourceGFW);
         return _react2.default.createElement(
           'div',
           { className: className },
@@ -306,8 +304,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           });
         }
 
-        this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
-
         var reportdateFrom = this.state.analysisStartDate.split('/');
         var reportdateTo = this.state.analysisEndDate.split('/');
 
@@ -320,23 +316,33 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         reportdates.tMonth = Number(reportdateTo[0]);
         reportdates.tDay = Number(reportdateTo[1]);
 
-        var hash = this.reportDataToHash(aoiType, reportdates, provinces);
+        var dataSource = 'gfw';
+
+        if (this.props.analysisSourceGFW === false) {
+          dataSource = 'greenpeace';
+        }
+
+        var hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
         var win = window.open('../report/index.html' + hash, '_blank', '');
 
         win.report = true;
         win.reportOptions = {
           'dates': reportdates,
           'aois': provinces,
-          'aoitype': aoiType
+          'aoitype': aoiType,
+          'dataSource': dataSource
         };
+
+        this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
       }
     }, {
       key: 'reportDataToHash',
-      value: function reportDataToHash(aoitype, dates, aois) {
+      value: function reportDataToHash(aoitype, dates, aois, dataSource) {
         var hash = '#',
             dateargs = [],
             datestring = void 0,
-            aoistring = void 0;
+            aoistring = void 0,
+            dataSourceString = void 0;
 
         for (var val in dates) {
           if (dates.hasOwnProperty(val)) {
@@ -348,7 +354,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         aoistring = 'aois=' + aois.join('!');
 
-        hash += ['aoitype=' + aoitype, datestring, aoistring].join('&');
+        dataSourceString = 'dataSource=' + dataSource;
+
+        hash += ['aoitype=' + aoitype, datestring, aoistring, dataSourceString].join('&');
 
         return hash;
       }
