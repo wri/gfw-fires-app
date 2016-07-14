@@ -30,7 +30,6 @@ export default class AnalysisTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('oooh');
     if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
       $('#islands').chosen();
     } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
@@ -69,7 +68,6 @@ export default class AnalysisTab extends React.Component {
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
-    console.log(this.props.analysisSourceGFW);
     return (
       <div className={className}>
         <h4>{analysisPanelText.analysisAreaTitle}</h4>
