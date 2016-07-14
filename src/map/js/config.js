@@ -948,8 +948,11 @@ export const config = {
         emailConfirmation: 'Your request has been received. Please check your email for a confirmation message with a link to complete the subscription process.',
         phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
         phonePlaceholder: 'Phone number',
+        error: 'There was a problem with subscribing. Please try again later.',
         warningTextEmail: 'You must enter a valid email address!',
         warningTextPhone: 'You must enter a valid phone number!',
+        subscribeTitle: 'Subscription success!',
+        subscribeFailTitle: 'Subscription error',
         successMessage: 'You have successfully subscribed. You will receive an email asking you to verify your subscription. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.',
         subscribePlaceholder: 'SUBSCRIBE',
         deletePlaceholder: 'DELETE FEATURE'

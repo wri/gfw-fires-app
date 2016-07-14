@@ -29,11 +29,17 @@ export default class ConfirmationModal extends Component {
     return (
       <ModalWrapper>
         <div>
-          <div className='canopy-modal-title'>Subscription success!</div>
+          {this.state.confirmationInfo === 'error' ?
+            <div className='canopy-modal-title'>{modalText.subscription.subscribeFailTitle}</div> :
+            <div className='canopy-modal-title'>{modalText.subscription.subscribeTitle}</div>
+          }
           {this.state.confirmationInfo.email ?
             <div className='longer'>{modalText.subscription.emailConfirmation}</div> : null
           }
           {this.state.confirmationInfo.phoneNumber ? <div className='longer'>{modalText.subscription.phoneConfirmation}</div> : null}
+          {this.state.confirmationInfo === 'error' ?
+            <div className='longer'>{modalText.subscription.error}</div> : null
+          }
         </div>
       </ModalWrapper>
     );
