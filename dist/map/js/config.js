@@ -22,12 +22,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         navigationMode: 'css-transforms',
         force3DTransforms: true,
         showAttribution: false,
-        center: [115, 0],
+        center: [0, 40],
         fadeOnZoom: true,
         basemap: 'topo',
         slider: false,
         logo: false,
-        zoom: app.mobile() === true ? 4 : 5
+        zoom: app.mobile() === true ? 4 : 3
       },
       customBasemap: {
         url: 'https://api.tiles.mapbox.com/v4/wri.c974eefc/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg',
@@ -394,7 +394,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 9,
       type: 'dynamic',
       label: 'Managed forests',
-      sublabel: '(Indonesia)',
+      sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'logging-concessions',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
