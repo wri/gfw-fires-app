@@ -311,12 +311,6 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           ),
           _react2.default.createElement(
             'p',
-            null,
-            _config.modalText.subscription.phoneInstructions
-          ),
-          _react2.default.createElement('input', { id: 'phoneInput', className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
-          _react2.default.createElement(
-            'p',
             { className: 'sign-up' },
             _config.modalText.subscription.emailExplanationStart,
             _react2.default.createElement(
@@ -326,6 +320,12 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             ),
             _config.modalText.subscription.emailExplanationEnd
           ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _config.modalText.subscription.phoneInstructions
+          ),
+          _react2.default.createElement('input', { id: 'phoneInput', className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
           _react2.default.createElement(
             'p',
             { className: 'sign-up' },

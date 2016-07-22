@@ -217,11 +217,11 @@ export default class SubscriptionModal extends React.Component {
         <p>{modalText.subscription.emailInstructions}</p>
         <input className='longer' value={this.state.email} placeholder={modalText.subscription.emailPlaceholder} onChange={this.updateEmail}></input>
         <div className={`submit-warning ${this.state.emailErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextEmail}</div>
-        <p>{modalText.subscription.phoneInstructions}</p>
-        <input id='phoneInput' className='longer' value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
         <p className='sign-up'>{modalText.subscription.emailExplanationStart}
         <a href={modalText.subscription.emailExplanationAddress}>{modalText.subscription.emailExplanationDisplay}</a>
         {modalText.subscription.emailExplanationEnd}</p>
+        <p>{modalText.subscription.phoneInstructions}</p>
+        <input id='phoneInput' className='longer' value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
         <p className='sign-up'>{modalText.subscription.phoneExplanation}</p>
         <div className={`submit-warning ${this.state.phoneErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextPhone}</div>
         <input className='hidden' id={modalText.subscription.verifyInput} />
