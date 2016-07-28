@@ -8,6 +8,8 @@ import geometryEngine from 'esri/geometry/geometryEngine';
 import all from 'dojo/promise/all';
 // import {loadJS} from 'utils/loaders';
 import React from 'react';
+import ReactDOM from 'react-dom';
+import intlTelInput from 'intlTelInput';
 
 export default class SubscriptionModal extends React.Component {
 
@@ -26,6 +28,22 @@ export default class SubscriptionModal extends React.Component {
       isSubscribing: false,
       success: false
     };
+  }
+
+  componentDidMount () {
+
+    $('#phoneInput').intlTelInput();
+
+    // Only b/c intlTelInput doesn't like values in initialState
+    this.setState({
+      phoneNumber: 1
+    });
+
+    $('#phoneInput').on('countrychange', (e, countryData) => {
+      this.setState({
+        phoneNumber: countryData.dialCode
+      });
+    });
   }
 
   storeUpdated () {
@@ -137,6 +155,8 @@ export default class SubscriptionModal extends React.Component {
 
         if (this.state.phoneNumber) {
           let numbersOnly = this.state.phoneNumber.replace(/\D/g, '');
+          // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
+
           smsParams = {
             'msg_addr': numbersOnly,
             'msg_type': 'sms',
@@ -179,6 +199,7 @@ export default class SubscriptionModal extends React.Component {
 
   error = () => {
     this.close();
+    modalActions.showConfirmationModal('error');
     this.setState({
       isUploading: false
     });
@@ -190,11 +211,10 @@ export default class SubscriptionModal extends React.Component {
   };
 
   close () {
-		modalActions.hideModal(React.findDOMNode(this).parentElement);
+		modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
 	}
 
   render() {
-    console.log(this.state.customFeatName)
     return (
       <ModalWrapper>
         <div className='canopy-modal-title'>{modalText.subscription.title}</div>
@@ -203,11 +223,11 @@ export default class SubscriptionModal extends React.Component {
         <p>{modalText.subscription.emailInstructions}</p>
         <input className='longer' value={this.state.email} placeholder={modalText.subscription.emailPlaceholder} onChange={this.updateEmail}></input>
         <div className={`submit-warning ${this.state.emailErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextEmail}</div>
-        <p>{modalText.subscription.phoneInstructions}</p>
-        <input className='longer' value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
         <p className='sign-up'>{modalText.subscription.emailExplanationStart}
         <a href={modalText.subscription.emailExplanationAddress}>{modalText.subscription.emailExplanationDisplay}</a>
         {modalText.subscription.emailExplanationEnd}</p>
+        <p>{modalText.subscription.phoneInstructions}</p>
+        <input id='phoneInput' className='longer' value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
         <p className='sign-up'>{modalText.subscription.phoneExplanation}</p>
         <div className={`submit-warning ${this.state.phoneErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextPhone}</div>
         <input className='hidden' id={modalText.subscription.verifyInput} />

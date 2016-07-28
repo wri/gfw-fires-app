@@ -22,12 +22,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         navigationMode: 'css-transforms',
         force3DTransforms: true,
         showAttribution: false,
-        center: [115, 0],
+        center: [0, 40],
         fadeOnZoom: true,
         basemap: 'topo',
         slider: false,
         logo: false,
-        zoom: app.mobile() === true ? 4 : 5
+        zoom: app.mobile() === true ? 4 : 3
       },
       customBasemap: {
         url: 'https://api.tiles.mapbox.com/v4/wri.c974eefc/${level}/${col}/${row}.png?access_token=pk.eyJ1Ijoid3JpIiwiYSI6IjU3NWNiNGI4Njc4ODk4MmIyODFkYmJmM2NhNDgxMWJjIn0.v1tciCeBElMdpnrikGDrPg',
@@ -394,7 +394,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 9,
       type: 'dynamic',
       label: 'Managed forests',
-      sublabel: '(Indonesia)',
+      sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'logging-concessions',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
@@ -402,6 +402,58 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [3],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.oilPalmGreenpeace,
+      order: 9,
+      type: 'dynamic',
+      label: 'Palm oil',
+      group: 'forestUse',
+      className: 'oil-palm-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_oil_palm',
+      layerIds: [0],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Business Permit: </td><td>${Business Permit}</td></tr>' + '<tr><td>Plantation Permit: </td><td>${Plantation Permit}</td></tr>' + '<tr><td>Location Permit: </td><td>${Location Permit}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+      }
+    }, {
+      id: _constants2.default.woodFiberGreenpeace,
+      order: 9,
+      type: 'dynamic',
+      label: 'Wood Fiber',
+      group: 'forestUse',
+      className: 'wood-fiber-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_wood_fiber',
+      layerIds: [1],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Permit: </td><td>${Permit}</td></tr>' + '<tr><td>Permit granted in: </td><td>${Permit Granted in}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+      }
+    }, {
+      id: _constants2.default.loggingGreenpeace,
+      order: 9,
+      type: 'dynamic',
+      label: 'Selective logging',
+      group: 'forestUse',
+      className: 'logging-concessions-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_logging',
+      layerIds: [2],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Permit: </td><td>${Permit}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+      }
+    }, {
+      id: _constants2.default.coalConcessions,
+      order: 9,
+      type: 'dynamic',
+      label: 'Coal mining',
+      group: 'forestUse',
+      className: 'coal-concessions-greenpeace',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      metadataId: 'gfw_mining',
+      layerIds: [3],
+      infoTemplate: {
+        content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Status: </td><td>${Status}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr>' + '<tr><td>District: </td><td>${District}</td></tr></table>'
       }
     }, {
       id: _constants2.default.protectedAreas,
@@ -728,6 +780,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       },
       layerPanel: {
         concessions: 'Concessions',
+        concessionsGreenpeace: 'Greenpeace Concessions',
         waterStressLegend: {
           min: 'Low',
           max: 'High',
@@ -773,6 +826,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         analysisTabLabel: 'Fire Report',
         analysisCustomize: 'CUSTOMIZE REPORT',
         analysisChoose: 'Choose your own custom time period and geographic area.',
+        analysisChooseData: 'Analyze concession data from:',
         subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
         subscriptionButtonLabel: 'START DRAWING',
         subscriptionInstructionsOne: 'Sign up to receive ',
@@ -836,8 +890,11 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           emailConfirmation: 'Your request has been received. Please check your email for a confirmation message with a link to complete the subscription process.',
           phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
           phonePlaceholder: 'Phone number',
+          error: 'There was a problem with subscribing. Please try again later.',
           warningTextEmail: 'You must enter a valid email address!',
           warningTextPhone: 'You must enter a valid phone number!',
+          subscribeTitle: 'Subscription success!',
+          subscribeFailTitle: 'Subscription error',
           successMessage: 'You have successfully subscribed. You will receive an email asking you to verify your subscription. Please be sure to check your SPAM folder. Once verified, you will start receiving alerts for your area.',
           subscribePlaceholder: 'SUBSCRIBE',
           deletePlaceholder: 'DELETE FEATURE'

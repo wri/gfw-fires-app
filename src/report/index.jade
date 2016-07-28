@@ -34,16 +34,16 @@ html(lang="en")
 			window.liveSettings = {
 				api_key: "c0d190e8efe94881b66b5bb38ebaece3",
 				detectlang: false,
-				picker: "bottom-left",
-				version: 'latest',
-				autocollect: true,
-				dynamic: true,
+				picker: '#transifexTranslateElement'
+				//- version: 'latest',
+				//- autocollect: true,
+				//- dynamic: true,
 				//- staging: true,
 				//- parse_attr: ["attr1", "attr2", ...],
 				//- ignore_tags: ["tag1", "tag2", ...],
 				//- ignore_class: ["classname1", "classname2"]
 			};
-		script(src='//cdn.transifex.com/live.js')
+		//- script(src='//cdn.transifex.com/live.js')
 		
 		//- script(src='../../../libs/timezone.js') //todo
 		meta(name="author", content="")
@@ -111,17 +111,20 @@ html(lang="en")
 					div#fire-line-chart(class='fire-line-chart')
 			div#section-five(class='page-break')
 				div(class='section-title') Figure 5: COMPANY CONCESSIONS WITH FIRE ALERTS
-				div(class='no-break')
-					div(class='sub-title') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-					div#pulpwood-fires-table
-				div(class='no-break')
-					div(class='sub-title') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-					div#palmoil-fires-table
-				div(class='no-break')
-					div(class='sub-title') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-					div#logging-fires-table
+				div#gfw-concessions
+					div(class='no-break')
+						div(class='sub-title') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+						div#pulpwood-fires-table
+					div(class='no-break')
+						div(class='sub-title') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+						div#palmoil-fires-table
+					div(class='no-break')
+						div(class='sub-title') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+						div#logging-fires-table
+					
+				div#all-concessions-fires-table
+					
 			div#section-seven(class='page-break')
-
 				div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
 				div(class='sub-title')
 				div(class='no-break')
@@ -130,6 +133,9 @@ html(lang="en")
 				div(class='section-title no-break') Figure 7: FIRE ALERTS BY LAND USE AREA
 					div#land-use-fires-chart-container(class='chart-container')
 						div#land-use-fires-chart(class='chart small-legend-text')
+						
+					div#breakdown-fires-chart-container(class='chart-container')
+						div#breakdown-fires-chart(class='chart')
 				div(class='section-title no-break') Figure 8: FIRE ALERTS IN PROTECTED AREAS
 					div#protected-areas-fires-chart-container(class='chart-container')
 						div#protected-areas-fires-chart(class='chart small-legend-text')

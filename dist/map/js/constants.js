@@ -26,6 +26,12 @@ define(['exports'], function (exports) {
     oilPalm: 'oilPalm',
     rspoOilPalm: 'rspoOilPalm',
     woodFiber: 'woodFiber',
+
+    loggingGreenpeace: 'loggingGreenpeace',
+    oilPalmGreenpeace: 'oilPalmGreenpeace',
+    coalConcessions: 'coalConcessions',
+    woodFiberGreenpeace: 'woodFiberGreenpeace',
+
     forestMoratorium: 'forestMoratorium',
     protectedAreas: 'protectedAreas',
     protectedAreasHelper: 'protectedAreasHelper',

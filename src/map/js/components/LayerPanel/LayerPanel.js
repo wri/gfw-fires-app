@@ -131,6 +131,11 @@ export default class LayerPanel extends React.Component {
           {landUseLayers[2]}
           {landUseLayers[3]}
           {landUseLayers[4]}
+          {layerPanelText.concessionsGreenpeace}
+          {landUseLayers[5]}
+          {landUseLayers[6]}
+          {landUseLayers[7]}
+          {landUseLayers[8]}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Conservation'>
           <LayerTransparency layers={conservationLayers}></LayerTransparency>

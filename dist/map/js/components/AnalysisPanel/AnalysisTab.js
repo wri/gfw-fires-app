@@ -185,6 +185,27 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             _react2.default.createElement(
               'p',
               null,
+              _config.analysisPanelText.analysisChooseData
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'flex flex-justify-around' },
+              _react2.default.createElement(
+                'label',
+                null,
+                _react2.default.createElement('input', { id: 'gfw', onChange: _AnalysisActions.analysisActions.toggleAnalysisSource, checked: this.props.analysisSourceGFW, type: 'radio' }),
+                ' GFW'
+              ),
+              _react2.default.createElement(
+                'label',
+                null,
+                _react2.default.createElement('input', { id: 'greenpeace', onChange: _AnalysisActions.analysisActions.toggleAnalysisSource, checked: !this.props.analysisSourceGFW, type: 'radio' }),
+                ' Greenpeace'
+              )
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
               _config.analysisPanelText.analysisChoose
             ),
             _react2.default.createElement(
@@ -283,8 +304,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           });
         }
 
-        this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
-
         var reportdateFrom = this.state.analysisStartDate.split('/');
         var reportdateTo = this.state.analysisEndDate.split('/');
 
@@ -297,23 +316,33 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         reportdates.tMonth = Number(reportdateTo[0]);
         reportdates.tDay = Number(reportdateTo[1]);
 
-        var hash = this.reportDataToHash(aoiType, reportdates, provinces);
+        var dataSource = 'gfw';
+
+        if (this.props.analysisSourceGFW === false) {
+          dataSource = 'greenpeace';
+        }
+
+        var hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
         var win = window.open('../report/index.html' + hash, '_blank', '');
 
         win.report = true;
         win.reportOptions = {
           'dates': reportdates,
           'aois': provinces,
-          'aoitype': aoiType
+          'aoitype': aoiType,
+          'dataSource': dataSource
         };
+
+        this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
       }
     }, {
       key: 'reportDataToHash',
-      value: function reportDataToHash(aoitype, dates, aois) {
+      value: function reportDataToHash(aoitype, dates, aois, dataSource) {
         var hash = '#',
             dateargs = [],
             datestring = void 0,
-            aoistring = void 0;
+            aoistring = void 0,
+            dataSourceString = void 0;
 
         for (var val in dates) {
           if (dates.hasOwnProperty(val)) {
@@ -325,7 +354,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         aoistring = 'aois=' + aois.join('!');
 
-        hash += ['aoitype=' + aoitype, datestring, aoistring].join('&');
+        dataSourceString = 'dataSource=' + dataSource;
+
+        hash += ['aoitype=' + aoitype, datestring, aoistring, dataSourceString].join('&');
 
         return hash;
       }
@@ -340,6 +371,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
   AnalysisTab.propTypes = {
     activeTab: _react2.default.PropTypes.string.isRequired,
     areaIslandsActive: _react2.default.PropTypes.bool.isRequired,
+    analysisSourceGFW: _react2.default.PropTypes.bool.isRequired,
     customizeOpen: _react2.default.PropTypes.bool.isRequired,
     islands: _react2.default.PropTypes.array.isRequired,
     provinces: _react2.default.PropTypes.array.isRequired

@@ -251,7 +251,12 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             landUseLayers[1],
             landUseLayers[2],
             landUseLayers[3],
-            landUseLayers[4]
+            landUseLayers[4],
+            _config.layerPanelText.concessionsGreenpeace,
+            landUseLayers[5],
+            landUseLayers[6],
+            landUseLayers[7],
+            landUseLayers[8]
           ),
           _react2.default.createElement(
             _LayerGroup2.default,

@@ -144,6 +144,34 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.oilPalmGreenpeace);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyoilPalmGreenpeace(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.woodFiberGreenpeace);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyWoodFiberGreenpeace(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.loggingGreenpeace);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyLoggingGreenpeace(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.coalConcessions);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyCoalConcessions(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.protectedAreas);
     let helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
     if (layer && helperLayer) {
@@ -210,6 +238,18 @@ let LayersHelper = {
             break;
           case KEYS.loggingConcessions:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.loggingConcessions));
+            break;
+          case KEYS.oilPalmGreenpeace:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.oilPalmGreenpeace));
+            break;
+          case KEYS.woodFiberGreenpeace:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.woodFiberGreenpeace));
+            break;
+          case KEYS.loggingGreenpeace:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.loggingGreenpeace));
+            break;
+          case KEYS.coalConcessions:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.coalConcessions));
             break;
           case KEYS.protectedAreasHelper:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreasHelper));
@@ -332,7 +372,7 @@ let LayersHelper = {
     featureObjects.forEach(item => {
       let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
       let fire_results = '', subscribe = '';
-      if (keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.loggingConcessions) {
+      if (keyword === KEYS.woodFiber || keyword === KEYS.oilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.oilPalmGreenpeace || keyword === KEYS.woodFiberGreenpeace || keyword === KEYS.loggingGreenpeace || keyword === KEYS.coalConcessions) {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else if (keyword === KEYS.rspoOilPalm || keyword === KEYS.protectedAreasHelper) {

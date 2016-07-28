@@ -54,7 +54,8 @@ define([
             palmoilQuery: "There are no fire alerts in palm oil concessions in the AOI and time range.",
             loggingQuery: "There are no fire alerts in logging concessions in the AOI and time range.",
             adminQuery: "There are no fire alerts in the AOI and time range.",
-            subDistrictQuery: "There are no fire alerts for this AOI and time range."
+            subDistrictQuery: "There are no fire alerts for this AOI and time range.",
+            greenpeace: "There are no fire alerts in Greenpeace concessions in the AOI and time range.",
         },
         firesLayer: {
             url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
@@ -193,6 +194,15 @@ define([
             },
             layerId: 5
         },
+        concessionsQuery: {
+            outFields: ['concessionname', 'groupname', 'concession', 'totalfires'],
+            tableId: 'all-concessions-fires-table',
+            headerField: ['CONCESSION NAME', 'GROUP', 'CONCESSION TYPE'],
+            UniqueValueField: 'groupname',
+            regionField: 'concession',
+            layerId: 6,
+            chartId: 'concession'
+        },
 
         queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         companyConcessionsId: 1,
@@ -244,6 +254,21 @@ define([
                 }
             });
 
+            // #gfw-concessions, #all-concessions-fires-table
+            console.log(this.dataSource)
+            if (this.dataSource === 'greenpeace') {
+              $('#gfw-concessions').hide();
+              $('#all-concessions-fires-table').show();
+              $('#breakdown-fires-chart-container').show();
+              $('#land-use-fires-chart-container').hide();
+
+            } else if (this.dataSource === 'gfw') {
+              $('#gfw-concessions').show();
+              $('#all-concessions-fires-table').hide();
+              $('#breakdown-fires-chart-container').hide();
+              $('#land-use-fires-chart-container').show();
+            }
+
             all([
                 self.buildFiresMap(),
                 // self.buildOtherFiresMap("adminBoundary"),
@@ -258,6 +283,9 @@ define([
                 self.queryDistrictsFireCount("palmoilQuery"),
                 self.queryDistrictsFireCount("loggingQuery"),
                 self.queryDistrictsFireCount("rspoQuery"),
+
+                self.queryFiresBreakdown(),
+                self.queryFireCount('concessionsQuery'),
                 // self.queryDistrictsForFires('adminQuery'),
                 // self.queryDistrictsForFires('subDistrictQuery'),
                 // self.queryCompanyConcessions()
@@ -289,6 +317,7 @@ define([
             });
             this.aoilist = window.reportOptions.aois.join(', ');
             this.aoitype = window.reportOptions.aoitype;
+            this.dataSource = window.reportOptions.dataSource;
             dom.byId('fromDate').innerHTML = "From: " + self.startdate;
             dom.byId('toDate').innerHTML = "To: " + self.enddate;
             dom.byId('aoiList').innerHTML = 'ON ' + self.aoitype.toUpperCase() + 'S: ' + self.aoilist;
@@ -328,6 +357,7 @@ define([
             }
             window.reportOptions['aois'] = _initialState.aois.split('!')
             window.reportOptions['dates'] = dateObj;
+            window.reportOptions.dataSource = _initialState.dataSource;
         },
 
         date_obj_to_string: function(dateobj) {
@@ -739,6 +769,202 @@ define([
                 }
             }, function(err) {
                 deferred.resolve(false);
+            });
+
+            return deferred.promise;
+        },
+
+        queryFiresBreakdown: function() {
+            var deferred = new Deferred(),
+                totalData = [],
+                self = this,
+                outside,
+                palmOil = 0,
+                pulpwood = 0,
+                mining = 0,
+                logging = 0,
+                total = 0;
+
+            let aoiType = reportOptions.aoitype.toLowerCase();
+
+            for (var key in reportOptions.dates) {
+              if (parseInt(reportOptions.dates[key]) < 10) {
+                reportOptions.dates[key] = '0' + reportOptions.dates[key];
+              }
+            }
+
+            var aoiString = reportOptions.aois.toString();
+
+            var startDates = reportOptions.dates.fYear + reportOptions.dates.fMonth + reportOptions.dates.fDay;
+            var endDates = reportOptions.dates.tYear + reportOptions.dates.tMonth + reportOptions.dates.tDay;
+
+            var baseUrl = 'https://b10fk4n1u3.execute-api.us-east-1.amazonaws.com/stage/firms/';
+
+            console.log(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString);
+
+            $.get(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString, function (data) {
+              arrayUtils.forEach(data, function(feature) {
+                var type = 'totalfires';
+
+                total += parseInt(feature[type]);
+
+                if (!feature.concession) {
+                  feature.concession = 'outside';
+                }
+
+                switch (feature.concession) {
+                  case 'outside':
+                    outside = parseInt(feature[type]);
+                    break;
+                  case 'Palm Oil':
+                    palmOil = parseInt(feature[type]);
+                    break;
+                  case 'Pulpwood':
+                    pulpwood = parseInt(feature[type]);
+                    break;
+                  case 'Mining':
+                    mining = parseInt(feature[type]);
+                    break;
+                  case 'Logging':
+                    logging = parseInt(feature[type]);
+                    break;
+                  default:
+                    break
+                }
+
+              });
+
+              if (outside > 0) {
+                var outsideLabel = 'Outside Concessions';
+
+                totalData.push({
+                    color: "#888888",
+                    name: outsideLabel,
+                    visible: true,
+                    y: outside
+                });
+              }
+              if (palmOil > 0) {
+                var palmLabel = 'Palm Oil';
+
+                totalData.push({
+                  color: "#0a50a5",
+                  name: palmLabel,
+                  visible: true,
+                  y: palmOil
+                });
+              }
+              if (pulpwood > 0) {
+                var pulpwoodLabel = 'Wood fibre';
+
+                totalData.push({
+                    color: "#333",
+                    name: pulpwoodLabel,
+                    visible: true,
+                    y: pulpwood
+                });
+              }
+              if (mining > 0) {
+                var miningLabel = 'Mining';
+
+                totalData.push({
+                    color: "#8416a6",
+                    name: miningLabel,
+                    visible: true,
+                    y: mining
+                });
+              }
+              if (logging > 0) {
+                var loggingLabel = 'Logging';
+                if (reportOptions.language === 'bahasa') {
+                  loggingLabel = 'Penebangan';
+                }
+                totalData.push({
+                    color: "#a6050e",
+                    name: loggingLabel,
+                    visible: true,
+                    y: logging
+                });
+              }
+              console.log(total);
+              if (total === 0) {
+                var parent = dom.byId('breakdown-fires-chart-container').parentElement;
+                domClass.add(parent, 'hidden');
+                deferred.resolve(false);
+              } else {
+                // dom.byId('totalHotSpots').innerHTML = self.numberWithCommas(total) + ' ';
+
+                console.log(totalData);
+
+                self.buildPieChart("breakdown-fires-chart", {
+                    data: totalData,
+                    name: 'Peat Fires',
+                    labelDistance: 25,
+                    total: total
+                });
+                deferred.resolve(true);
+              }
+
+            });
+
+
+            var failure = function() {
+                deferred.resolve(false);
+            };
+
+            return deferred.promise;
+        },
+
+        buildFiresTable: function(features, queryConfig, configKey) {
+            var table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
+            table += "<th>" + queryConfig.headerField[1].toUpperCase() + "</th>";
+            table += "<th>" + queryConfig.headerField[2].toUpperCase() + "</th>";
+
+            var filtered = arrayUtils.filter(features, function(feature) {
+                return feature.totalfires !== 0;
+            });
+
+            table += "<th>NUMBER OF FIRE ALERTS</th></tr>";
+
+            outFields = queryConfig.outFields;
+
+            table += this.generateGPTableRows(filtered, outFields);
+
+            table += "</table>";
+            console.log(PRINT_CONFIG.noFeatures);
+            var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + PRINT_CONFIG.noFeatures['greenpeace'] + '</div>';
+            return finaltable;
+        },
+
+        queryFireCount: function(configKey) {
+            var deferred = new Deferred(),
+              self = this,
+              queryConfig = PRINT_CONFIG[configKey];
+
+            var aoiType = reportOptions.aoitype.toLowerCase();
+
+            for (var key in reportOptions.dates) {
+              if (parseInt(reportOptions.dates[key]) < 10 && reportOptions.dates[key].length === 1) {
+                reportOptions.dates[key] = '0' + reportOptions.dates[key];
+              }
+            }
+
+            var aoiString = reportOptions.aois.toString();
+
+
+            var startDates = reportOptions.dates.fYear.toString() + reportOptions.dates.fMonth.toString() + reportOptions.dates.fDay.toString();
+            var endDates = reportOptions.dates.tYear.toString() + reportOptions.dates.tMonth.toString() + reportOptions.dates.tDay.toString();
+
+            console.log(window.reportOptions);
+            var baseUrl = 'https://b10fk4n1u3.execute-api.us-east-1.amazonaws.com/stage/firms/';
+            console.log(baseUrl + aoiType + '?chart=' + queryConfig.chartId + '&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString);
+
+            $.get(baseUrl + aoiType + '?chart=' + queryConfig.chartId + '&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString, function (data) {
+              var table = dom.byId(queryConfig.tableId);
+              console.log(table);
+              if (table) {
+                  table.innerHTML = self.buildFiresTable(data, queryConfig, configKey);
+              }
             });
 
             return deferred.promise;
@@ -1444,6 +1670,48 @@ define([
 
             });
             return rows;
+        },
+
+        generateGPTableRows: function(features, fieldNames) {
+            var self = this;
+            var rows = "";
+            var whitespace = /^\s+$/;
+
+            function isValid(item) {
+                return item !== null && item !== undefined && !whitespace.test(item);
+            }
+            arrayUtils.forEach(features, function(feature) {
+                var valid = true;
+                var cols = '';
+                arrayUtils.forEach(fieldNames, function(field) {
+                    if (isValid(feature[field])) {
+
+                      if (field === 'totalfires' || field === 'totalglad') {
+                        var integer = parseInt(feature[field]);
+                        feature[field] = self.numberWithCommas(feature[field]);
+                        //todo: translate things like 'Palm Oil' that come back from the API here
+
+                        cols += "<td>" + (isValid(feature[field]) ? feature[field] : ' - ') + "</td>";
+                      } else {
+                        cols += "<td>" + (isValid(feature[field]) ? feature[field] : ' - ') + "</td>";
+                      }
+
+                    } else {
+                        valid = false
+                    }
+                });
+                if (valid) {
+                    rows += "<tr>";
+                    rows += cols;
+                    rows += "</tr>";
+                }
+
+            });
+            return rows;
+        },
+
+        numberWithCommas: function(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
 
         printReport: function() {

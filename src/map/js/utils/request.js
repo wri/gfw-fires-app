@@ -482,6 +482,246 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
+  identifyoilPalmGreenpeace: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.oilPalmGreenpeace);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.oilPalmGreenpeace);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 10;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
+        });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.oilPalmGreenpeace,
+            features: qResults
+          });
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyWoodFiberGreenpeace: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.woodFiberGreenpeace);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.woodFiberGreenpeace);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 10;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
+        });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.woodFiberGreenpeace,
+            features: qResults
+          });
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyLoggingGreenpeace: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.loggingGreenpeace);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.loggingGreenpeace);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 10;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
+        });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.loggingGreenpeace,
+            features: qResults
+          });
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyCoalConcessions: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.coalConcessions);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.coalConcessions);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 10;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let query = new Query();
+          query.geometry = feature.feature.geometry;
+          query.where = '1=1';
+          query.outFields = ['Date'];
+          queryTask.execute(query).then(function(results){
+            feature.fires = results.features;
+
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+          return qDeferred;
+        });
+        all(queries).then(function(qResults){
+          deferred.resolve({
+            layer: KEYS.coalConcessions,
+            features: qResults
+          });
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
   identifyProtectedAreas: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreasHelper);

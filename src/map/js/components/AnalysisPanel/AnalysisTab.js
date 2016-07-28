@@ -76,6 +76,17 @@ export default class AnalysisTab extends React.Component {
           <span className='analysis-toggle'>{this.props.customizeOpen ? ' ▼' : ' ►'}</span>
         </p>
         <div className={`customize-options ${this.props.customizeOpen === true ? '' : 'hidden'}`}>
+          <p>{analysisPanelText.analysisChooseData}</p>
+          <div className='flex flex-justify-around'>
+            <label>
+              <input id='gfw' onChange={analysisActions.toggleAnalysisSource} checked={this.props.analysisSourceGFW} type='radio' />
+              {' GFW'}
+            </label>
+            <label>
+              <input id='greenpeace' onChange={analysisActions.toggleAnalysisSource} checked={!this.props.analysisSourceGFW} type='radio' />
+              {' Greenpeace'}
+            </label>
+          </div>
           <p>{analysisPanelText.analysisChoose}</p>
           <div className='flex flex-justify-around'>
             <label>
@@ -141,8 +152,6 @@ export default class AnalysisTab extends React.Component {
       });
     }
 
-    this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
-
     let reportdateFrom = this.state.analysisStartDate.split('/');
     let reportdateTo = this.state.analysisEndDate.split('/');
 
@@ -155,22 +164,32 @@ export default class AnalysisTab extends React.Component {
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
 
-    let hash = this.reportDataToHash(aoiType, reportdates, provinces);
+    let dataSource = 'gfw';
+
+    if (this.props.analysisSourceGFW === false) {
+      dataSource = 'greenpeace';
+    }
+
+    let hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
     let win = window.open('../report/index.html' + hash, '_blank', '');
 
     win.report = true;
     win.reportOptions = {
       'dates': reportdates,
       'aois': provinces,
-      'aoitype': aoiType
+      'aoitype': aoiType,
+      'dataSource': dataSource
     };
+
+    this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
   }
 
-  reportDataToHash (aoitype, dates, aois) {
+  reportDataToHash (aoitype, dates, aois, dataSource) {
     let hash = '#',
       dateargs = [],
       datestring,
-      aoistring;
+      aoistring,
+      dataSourceString;
 
 
     for (let val in dates) {
@@ -179,11 +198,14 @@ export default class AnalysisTab extends React.Component {
       }
     }
 
+
     datestring = 'dates=' + dateargs.join('!');
 
     aoistring = 'aois=' + aois.join('!');
 
-    hash += ['aoitype=' + aoitype, datestring, aoistring].join('&');
+    dataSourceString = 'dataSource=' + dataSource;
+
+    hash += ['aoitype=' + aoitype, datestring, aoistring, dataSourceString].join('&');
 
     return hash;
   }
@@ -193,6 +215,7 @@ export default class AnalysisTab extends React.Component {
 AnalysisTab.propTypes = {
   activeTab: React.PropTypes.string.isRequired,
   areaIslandsActive: React.PropTypes.bool.isRequired,
+  analysisSourceGFW: React.PropTypes.bool.isRequired,
   customizeOpen: React.PropTypes.bool.isRequired,
   islands: React.PropTypes.array.isRequired,
   provinces: React.PropTypes.array.isRequired
