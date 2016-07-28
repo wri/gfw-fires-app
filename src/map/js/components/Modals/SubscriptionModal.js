@@ -31,7 +31,13 @@ export default class SubscriptionModal extends React.Component {
   }
 
   componentDidMount () {
+
     $('#phoneInput').intlTelInput();
+
+    // Only b/c intlTelInput doesn't like values in initialState
+    this.setState({
+      phoneNumber: 1
+    });
 
     $('#phoneInput').on('countrychange', (e, countryData) => {
       this.setState({

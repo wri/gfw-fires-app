@@ -899,7 +899,7 @@ define([
                 self.buildPieChart("breakdown-fires-chart", {
                     data: totalData,
                     name: 'Peat Fires',
-                    labelDistance: -25,
+                    labelDistance: 25,
                     total: total
                 });
                 deferred.resolve(true);

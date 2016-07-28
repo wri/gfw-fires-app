@@ -76,7 +76,9 @@ block content
             div.inner.relative
               aside
                 h2 #{home.slides[1][0]}
-                h3#percentage-header #{home.slides[1][1]}
+                h3
+                  span#percentage-header 
+                  span#percentage-content #{home.slides[1][1]}
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
@@ -209,7 +211,7 @@ block content
       var percentage = Math.round( ( peatCount / totalCount ) * 100 );
       percentage = '<span class="text-gfw-red">{}% </span> '.replace('{}', percentage);
       var header = document.getElementById('percentage-header');
-      header.innerHTML = percentage + header.innerHTML;
+      header.innerHTML = percentage;
     };
     var peatResponse;
     var totalResponse;
