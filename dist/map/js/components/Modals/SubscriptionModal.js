@@ -243,6 +243,11 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
         $('#phoneInput').intlTelInput();
 
+        // Only b/c intlTelInput doesn't like values in initialState
+        this.setState({
+          phoneNumber: 1
+        });
+
         $('#phoneInput').on('countrychange', function (e, countryData) {
           _this2.setState({
             phoneNumber: countryData.dialCode
