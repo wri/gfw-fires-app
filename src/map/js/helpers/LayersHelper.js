@@ -423,6 +423,37 @@ let LayersHelper = {
     }
   },
 
+  updateOverlays (layers) {
+    let layer = app.map.getLayer(KEYS.overlays);
+    if ( layer ) {
+      if (layers.length === 0) {
+        layer.hide();
+      } else {
+        let visibleLayers = [];
+        layers.forEach(layerName => {
+          switch (layerName) {
+            case 'provinces':
+              visibleLayers.push(4);
+              break;
+            case 'districts':
+              visibleLayers.push(3);
+              break;
+            case 'subdistricts':
+              visibleLayers.push(2);
+              break;
+            case 'villages':
+              visibleLayers.push(1);
+              break;
+            default:
+              break;
+          }
+        });
+        layer.setVisibleLayers(visibleLayers);
+        layer.show();
+      }
+    }
+  },
+
   showLayer (layerObj) {
     app.debug(`LayersHelper >>> showLayer - ${layerObj.layerId}`);
     if (layerObj.layerId === KEYS.digitalGlobe) {

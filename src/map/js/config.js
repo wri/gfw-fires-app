@@ -667,6 +667,18 @@ export const config = {
       layerIds: [1]
     },
     {
+      id: KEYS.overlays,
+      order: 1,
+      type: 'dynamic',
+      label: 'Latest Landsat 8 Imagery',
+      sublabel: '(latest image, 30m, global)',
+      group: 'imagery',
+      className: 'overlays',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer',
+      metadataId: 'latest_landsat',
+      layerIds: [1, 2, 3, 4]
+    },
+    {
       id: KEYS.landsat8,
       order: 1,
       type: 'image',

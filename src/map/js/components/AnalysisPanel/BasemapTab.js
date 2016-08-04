@@ -19,15 +19,27 @@ export default class BasemapTab extends React.Component {
     let defaultState = mapStore.getState();
     this.state = {
       basemapGalleryOpen: false,
-      activeBasemap: defaultState.activeBasemap
+      activeBasemap: defaultState.activeBasemap,
+      overlaysVisible: defaultState.overlaysVisible
     };
   }
 
   storeUpdated () {
+    console.log('storeUpdated');
     let newState = mapStore.getState();
     if (newState.activeBasemap !== this.state.activeBasemap) {
-      this.setState({ activeBasemap: newState.activeBasemap });
+      this.setState({
+        activeBasemap: newState.activeBasemap
+      });
       mapActions.changeBasemap(newState.activeBasemap);
+    }
+    console.log(newState.overlaysVisible);
+    // console.log(this.state.overlaysVisible);
+    if (newState.overlaysVisible !== this.state.overlaysVisible) {
+      // console.log(newState.overlaysVisible);
+      this.setState({
+        overlaysVisible: newState.overlaysVisible
+      });
     }
   }
 
@@ -47,14 +59,24 @@ export default class BasemapTab extends React.Component {
     }
   };
 
+  handleCheckToggle = (evt) => {
+    mapActions.updateOverlays(evt.target.id);
+  };
+
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.basemapTabId) { className += ' hidden'; }
-
+    console.log(this.state.overlaysVisible);
     return (
       <div className={className}>
         <div>
           <div className='basemap-holder shadow open'>
+            <div className='basemap-item'>
+              <div className='basemap-admin'><input checked={this.state.overlaysVisible.indexOf('provinces') > -1} onChange={this.handleCheckToggle} type='checkbox' id='provinces' /><span>Provinces</span></div>
+              <div className='basemap-admin'><input checked={this.state.overlaysVisible.indexOf('districts') > -1} onChange={this.handleCheckToggle} type='checkbox' id='districts' /><span>Districts</span></div>
+              <div className='basemap-admin'><input checked={this.state.overlaysVisible.indexOf('subdistricts') > -1} onChange={this.handleCheckToggle} type='checkbox' id='subdistricts' /><span>Subdistricts</span></div>
+              <div className='basemap-admin'><input checked={this.state.overlaysVisible.indexOf('villages') > -1} onChange={this.handleCheckToggle} type='checkbox' id='villages' /><span>Villages</span></div>
+            </div>
             <div data-basemap={KEYS.darkGrayBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail dark-gray-basemap ${this.state.activeBasemap === KEYS.darkGrayBasemap ? 'active' : ''}`} />
               <div className='basemap-label'>{controlPanelText.darkGrayBasemap}</div>

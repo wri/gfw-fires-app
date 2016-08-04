@@ -182,6 +182,10 @@ class MapActions {
     this.dispatch(footprints);
   }
 
+  updateOverlays(overlays) {
+    this.dispatch(overlays);
+  }
+
   reset () {
     app.debug('MapActions >>> reset');
     // Reset the Store, this will also reset layers, layer definitions, and all React components
