@@ -60,6 +60,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.lossFromSelectIndex = _config.defaults.lossFromSelectIndex;
       this.footprintsVisible = true;
       this.footprints = undefined;
+      this.overlaysVisible = [];
       this.date = this.getDate(_config.defaults.todaysDate);
       this.dgStartDate = this.getDate(_config.defaults.dgStartDate);
       this.dgEndDate = this.getDate(_config.defaults.todaysDate);
@@ -102,6 +103,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         setGlobe: _ModalActions.modalActions.showCalendarModal,
         setCurrentCustomGraphic: _ModalActions.modalActions.showSubscribeModal,
         setCalendar: _MapActions.mapActions.setCalendar,
+        updateOverlays: _MapActions.mapActions.updateOverlays,
         // sendAnalytics: mapActions.sendAnalytics,
         addActiveLayer: _LayerActions.layerActions.addActiveLayer,
         removeActiveLayer: _LayerActions.layerActions.removeActiveLayer,
@@ -135,13 +137,24 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
         _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
-        //todo:updateAirQuality?!
       }
     }, {
       key: 'setCalendar',
       value: function setCalendar(calendar) {
-        console.log(calendar);
         this.calendarVisible = calendar;
+      }
+    }, {
+      key: 'updateOverlays',
+      value: function updateOverlays(overlay) {
+        var newOverlays = this.overlaysVisible.slice();
+        var index = newOverlays.indexOf(overlay);
+        if (index > -1) {
+          newOverlays.splice(index, 1);
+        } else {
+          newOverlays.push(overlay);
+        }
+        this.overlaysVisible = newOverlays;
+        _LayersHelper2.default.updateOverlays(newOverlays);
       }
     }, {
       key: 'togglePanels',

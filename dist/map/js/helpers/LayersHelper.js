@@ -226,6 +226,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
+      layer = app.map.getLayer(_constants2.default.overlays);
+      if (layer) {
+        if (layer.visible) {
+          var visibleLayers = layer.visibleLayers;
+          deferreds.push(_request2.default.identifyOverlays(mapPoint, visibleLayers));
+        }
+      }
+
       if (deferreds.length === 0) {
         return;
       }
@@ -282,6 +290,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               break;
             case _constants2.default.twitter:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.twitter));
+              break;
+            case _constants2.default.overlays:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.overlays));
               break;
             case _constants2.default.boundingBoxes:
               features = features.concat(_this.setDigitalGlobeTemplates(item.features));
@@ -401,6 +412,11 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         } else if (keyword === _constants2.default.rspoOilPalm || keyword === _constants2.default.protectedAreasHelper) {
           fire_results = _this2.getFirePopupContent(item);
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+        } else if (keyword === _constants2.default.burnScars) {
+          subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+        } else if (keyword === _constants2.default.overlays) {
+          subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+          config = config[item.layerName];
         } else {
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         }
@@ -441,6 +457,38 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (layer) {
         // TODO:  check that value is >= 0 and <= 1.
         layer.setOpacity(parameters.value);
+      }
+    },
+    updateOverlays: function updateOverlays(layers) {
+      var layer = app.map.getLayer(_constants2.default.overlays);
+      if (layer) {
+        if (layers.length === 0) {
+          layer.hide();
+        } else {
+          (function () {
+            var visibleLayers = [];
+            layers.forEach(function (layerName) {
+              switch (layerName) {
+                case 'provinces':
+                  visibleLayers.push(4);
+                  break;
+                case 'districts':
+                  visibleLayers.push(3);
+                  break;
+                case 'subdistricts':
+                  visibleLayers.push(2);
+                  break;
+                case 'villages':
+                  visibleLayers.push(1);
+                  break;
+                default:
+                  break;
+              }
+            });
+            layer.setVisibleLayers(visibleLayers);
+            layer.show();
+          })();
+        }
       }
     },
     showLayer: function showLayer(layerObj) {

@@ -842,6 +842,43 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
+    identifyOverlays: function identifyOverlays(mapPoint, layers) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.overlays);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      // params.layerIds = config.layerIds;
+      params.layerIds = layers;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: _constants2.default.overlays,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
     identifyTwitter: function identifyTwitter(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.twitter);

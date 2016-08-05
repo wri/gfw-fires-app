@@ -41,6 +41,7 @@ define(['exports'], function (exports) {
     plantationSpecies: 'plantationSpecies',
     plantationTypes: 'plantationTypes',
     airQuality: 'airQuality',
+    overlays: 'overlays',
     landsat8: 'landsat8',
     windDirection: 'windDirection',
     digitalGlobe: 'dg-00',
