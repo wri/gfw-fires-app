@@ -676,7 +676,39 @@ export const config = {
       className: 'overlays',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer',
       metadataId: 'latest_landsat',
-      layerIds: [1, 2, 3, 4]
+      layerIds: [1, 2, 3, 4],
+      Provinces: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${NAME}</span></tr>' +
+          '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>' +
+          '<tr><td class="field-name">Type: </td><td class="field-value">${TYPE}</td></tr>'
+        }
+      },
+      Districts: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${DISTRICT}</span></tr>' +
+          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>' +
+          '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>'
+        }
+      },
+      Subdistricts: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' +
+          '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' +
+          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
+        }
+      },
+      Villages: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${NAME}</span></tr>' +
+          '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' +
+          '<tr><td class="field-name">Subdistrict: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
+        }
+      },
+      infoTemplate: {
+        content: '<table><span class="name-field">${NAME}</span></tr>' +
+        '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${OBJECTID}</td></tr>'
+      }
     },
     {
       id: KEYS.landsat8,

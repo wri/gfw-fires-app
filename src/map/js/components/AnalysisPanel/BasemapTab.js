@@ -25,7 +25,6 @@ export default class BasemapTab extends React.Component {
   }
 
   storeUpdated () {
-    console.log('storeUpdated');
     let newState = mapStore.getState();
     if (newState.activeBasemap !== this.state.activeBasemap) {
       this.setState({
@@ -33,10 +32,8 @@ export default class BasemapTab extends React.Component {
       });
       mapActions.changeBasemap(newState.activeBasemap);
     }
-    console.log(newState.overlaysVisible);
-    // console.log(this.state.overlaysVisible);
+
     if (newState.overlaysVisible !== this.state.overlaysVisible) {
-      // console.log(newState.overlaysVisible);
       this.setState({
         overlaysVisible: newState.overlaysVisible
       });
@@ -66,7 +63,7 @@ export default class BasemapTab extends React.Component {
   render () {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.basemapTabId) { className += ' hidden'; }
-    console.log(this.state.overlaysVisible);
+
     return (
       <div className={className}>
         <div>

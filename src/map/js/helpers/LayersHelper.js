@@ -180,7 +180,6 @@ let LayersHelper = {
       }
     }
 
-
     layer = app.map.getLayer(KEYS.fireStories);
     if (layer) {
       if (layer.visible) {
@@ -201,6 +200,14 @@ let LayersHelper = {
         if (evt.graphic) {
           deferreds.push(Request.identifyDigitalGlobe(evt.graphic, mapPoint));
         }
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.overlays);
+    if (layer) {
+      if (layer.visible) {
+        let visibleLayers = layer.visibleLayers;
+        deferreds.push(Request.identifyOverlays(mapPoint, visibleLayers));
       }
     }
 
@@ -259,6 +266,9 @@ let LayersHelper = {
             break;
           case KEYS.twitter:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
+            break;
+          case KEYS.overlays:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
             break;
           case KEYS.boundingBoxes:
             features = features.concat(this.setDigitalGlobeTemplates(item.features));
@@ -379,7 +389,10 @@ let LayersHelper = {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else if (keyword === KEYS.burnScars) {
-        subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+      } else if (keyword === KEYS.overlays) {
+        subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+        config = config[item.layerName];
       } else {
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       }
