@@ -411,7 +411,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_oil_palm',
+      metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Business Permit: </td><td>${Business Permit}</td></tr>' + '<tr><td>Plantation Permit: </td><td>${Plantation Permit}</td></tr>' + '<tr><td>Location Permit: </td><td>${Location Permit}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
@@ -424,7 +424,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_wood_fiber',
+      metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Permit: </td><td>${Permit}</td></tr>' + '<tr><td>Permit granted in: </td><td>${Permit Granted in}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
@@ -437,7 +437,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'logging-concessions-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_logging',
+      metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Permit: </td><td>${Permit}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
@@ -450,7 +450,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'forestUse',
       className: 'coal-concessions-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_mining',
+      metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Status: </td><td>${Status}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr>' + '<tr><td>District: </td><td>${District}</td></tr></table>'

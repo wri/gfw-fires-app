@@ -463,7 +463,7 @@ export const config = {
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_oil_palm',
+      metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
@@ -483,7 +483,7 @@ export const config = {
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_wood_fiber',
+      metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
@@ -502,7 +502,7 @@ export const config = {
       group: 'forestUse',
       className: 'logging-concessions-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_logging',
+      metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
@@ -520,7 +520,7 @@ export const config = {
       group: 'forestUse',
       className: 'coal-concessions-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_mining',
+      metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' +
