@@ -38,8 +38,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     };
   }
 
-  // import {prepareStateForUrl} from 'helpers/ShareHelper';
-
   var LayersHelper = {
     sendAnalytics: function sendAnalytics(eventType, action, label) {
       //todo: why is this request getting sent so many times?
@@ -308,7 +306,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
               app.map.infoWindow.resize(650);
             }
-            //resize(width, height)
+
             app.map.infoWindow.setFeatures(features);
             app.map.infoWindow.show(mapPoint);
             var handles = [];
@@ -326,11 +324,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
                 _request2.default.getFeatureGeometry(url, objId).then(function (item) {
                   item.features[0].attributes.Layer = 'prebuilt';
                   item.features[0].attributes.featureName = item.features[0].attributes.name;
-                  // if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
-
                   _ModalActions.modalActions.showSubscribeModal(item.features[0]);
-
-                  // }
                 });
               }));
             });
@@ -441,7 +435,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       htmlContent += '</table>';
       template = new _InfoTemplate2.default('Digital Globe Imagery', htmlContent);
       features[0].setInfoTemplate(template);
-      // return features;
       return [features[0]];
     },
 
@@ -455,7 +448,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     changeOpacity: function changeOpacity(parameters) {
       var layer = app.map.getLayer(parameters.layerId);
       if (layer) {
-        // TODO:  check that value is >= 0 and <= 1.
         layer.setOpacity(parameters.value);
       }
     },
@@ -527,18 +519,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           if (mainLayer) {
             mainLayer.hide();
           }
-          // helperLayer.show();
-          // mainLayer.hide();
         } else {
-            if (mainLayer) {
-              mainLayer.show();
-            }
-            if (helperLayer) {
-              helperLayer.hide();
-            }
-            // helperLayer.hide();
-            // mainLayer.show();
+          if (mainLayer) {
+            mainLayer.show();
           }
+          if (helperLayer) {
+            helperLayer.hide();
+          }
+        }
         _ShareHelper2.default.handleHashChange();
         return;
       }
@@ -600,9 +588,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer off.');
         _WindHelper2.default.deactivateWindLayer();
       }
-      // setTimeout(() => {
-      //   ShareHelper.handleHashChange();
-      // }, 4000);
     },
     getFirePopupContent: function getFirePopupContent(item) {
       app.debug('LayersHelper >>> getFirePopupContent');
@@ -743,8 +728,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     updateArchiveDates: function updateArchiveDates(clauseArray) {
       app.debug('LayersHelper >>> updateArchiveDates');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-      // let startDate = new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY');
-      // let endDate = new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY');
       var archiveLayer = app.map.getLayer(_constants2.default.archiveFires);
 
       if (archiveLayer) {
@@ -786,8 +769,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     updateDigitalGlobeLayerDefinitions: function updateDigitalGlobeLayerDefinitions(clauseArray) {
       app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Digital Globe date expression.');
-      // let queryString = utils.generateImageryQuery(clauseArray);
-
       var dgGraphics = clauseArray[2];
 
       clauseArray[1] = new window.Kalendae.moment(clauseArray[1]).add(1, 'day').format('M/D/YYYY');

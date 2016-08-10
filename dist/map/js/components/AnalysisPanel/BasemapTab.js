@@ -73,12 +73,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
 
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasemapTab).call(this, props));
 
-      _this.childClicked = function (evt) {
-        evt.stopPropagation();
-        var id = evt.currentTarget.getAttribute('data-id');
-        _ModalActions.modalActions.showLayerInfo(id);
-      };
-
       _this.clickedBasemap = function (evt) {
         var id = evt.currentTarget.getAttribute('data-basemap');
         if (id === _constants2.default.landsat8) {
@@ -189,11 +183,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.darkGrayBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.darkGrayBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -204,11 +193,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.topoBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.topoBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -219,11 +203,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.wriBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.wriBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -234,11 +213,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.imageryBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.imageryBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -249,11 +223,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.landsat8
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.landsat8, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               )
             )
