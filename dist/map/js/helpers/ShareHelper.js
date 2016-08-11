@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'utils/params', 'js/constants', 'dojo/io-query', 'dojo/hash'], function (exports, _LayerActions, _MapActions, _config, _params, _constants, _ioQuery, _hash) {
+define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'utils/params', 'js/constants', 'dojo/hash'], function (exports, _LayerActions, _MapActions, _config, _params, _constants, _hash) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,8 +9,6 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
   var params = _interopRequireWildcard(_params);
 
   var _constants2 = _interopRequireDefault(_constants);
-
-  var _ioQuery2 = _interopRequireDefault(_ioQuery);
 
   var _hash2 = _interopRequireDefault(_hash);
 
@@ -86,40 +84,13 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var y = state.y;
       var z = state.z;
 
-      // if (!activeBasemap) {
-      //   let initialState, hasHash;
-      //
-      //   let url = window.location.href;
-      //   // debugger
-      //   if (url.split && url.split('#')) {
-      //     hasHash = (url.split('#').length === 2 && url.split('#')[1].length > 1);
-      //   }
-      //
-      //   let inithash = defaults.initialHash;
-      //
-      //   // if (hasHash & url) {
-      //   //   initialState = ioQuery.queryToObject(url.split('#')[1]);
-      //   // } else {
-      //     initialState = ioQuery.queryToObject(inithash.split('#')[1]);
-      //   // }
-      //
-      //   activeLayers = initialState.activeLayers;
-      //   activeBasemap = initialState.activeBasemap;
-      //   x = initialState.x;
-      //   y = initialState.y;
-      //   z = initialState.z;
-      //
-      // }
-
       if (activeBasemap) {
         _MapActions.mapActions.setBasemap(activeBasemap);
       }
 
       if (activeLayers) {
-        console.log(activeLayers);
         var layerIds = activeLayers.split(',');
         layerIds.forEach(function (id) {
-          console.log(z);
           if (id === 'protectedAreasHelper' && parseInt(z) > 6) {
             var helper = app.map.getLayer(id);
             helper.show();

@@ -1,4 +1,3 @@
-import {mapConfig} from 'js/config';
 
 class DateHelper {
 

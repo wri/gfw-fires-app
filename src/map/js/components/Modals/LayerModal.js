@@ -104,15 +104,7 @@ export default class LayerModal extends Component {
   }
 
   summaryMap (item: any) {
-    if (typeof item === 'string') {
-      return <p dangerouslySetInnerHTML={{ __html: item }} />;
-    } else {
-      return (
-        <ul>
-          {item.map(listItem => <li dangerouslySetInnerHTML={{ __html: listItem }} />)}
-        </ul>
-      );
-    }
+    return <d dangerouslySetInnerHTML={{ __html: item }} />;
   }
 
   paragraphMap (item: string) {

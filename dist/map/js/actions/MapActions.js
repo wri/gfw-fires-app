@@ -273,6 +273,11 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(footprints);
       }
     }, {
+      key: 'updateOverlays',
+      value: function updateOverlays(overlays) {
+        this.dispatch(overlays);
+      }
+    }, {
       key: 'reset',
       value: function reset() {
         app.debug('MapActions >>> reset');

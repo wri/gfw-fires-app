@@ -1,4 +1,4 @@
-import {layerPanelText, layersConfig, defaults, uploadConfig} from 'js/config';
+import {layerPanelText, layersConfig, uploadConfig} from 'js/config';
 import rasterFuncs from 'utils/rasterFunctions';
 import Request from 'utils/request';
 import utils from 'utils/AppUtils';
@@ -14,7 +14,6 @@ import Graphic from 'esri/graphic';
 import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
 import ShareHelper from 'helpers/ShareHelper';
-// import {prepareStateForUrl} from 'helpers/ShareHelper';
 
 let LayersHelper = {
 
@@ -180,7 +179,6 @@ let LayersHelper = {
       }
     }
 
-
     layer = app.map.getLayer(KEYS.fireStories);
     if (layer) {
       if (layer.visible) {
@@ -201,6 +199,14 @@ let LayersHelper = {
         if (evt.graphic) {
           deferreds.push(Request.identifyDigitalGlobe(evt.graphic, mapPoint));
         }
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.overlays);
+    if (layer) {
+      if (layer.visible) {
+        let visibleLayers = layer.visibleLayers;
+        deferreds.push(Request.identifyOverlays(mapPoint, visibleLayers));
       }
     }
 
@@ -260,6 +266,9 @@ let LayersHelper = {
           case KEYS.twitter:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
             break;
+          case KEYS.overlays:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
+            break;
           case KEYS.boundingBoxes:
             features = features.concat(this.setDigitalGlobeTemplates(item.features));
             break;
@@ -272,7 +281,7 @@ let LayersHelper = {
         if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
           app.map.infoWindow.resize(650);
         }
-        //resize(width, height)
+
         app.map.infoWindow.setFeatures(features);
         app.map.infoWindow.show(mapPoint);
         let handles = [];
@@ -290,11 +299,7 @@ let LayersHelper = {
                 Request.getFeatureGeometry(url, objId).then(item => {
                   item.features[0].attributes.Layer = 'prebuilt';
                   item.features[0].attributes.featureName = item.features[0].attributes.name;
-                  // if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
-
-                    modalActions.showSubscribeModal(item.features[0]);
-
-                  // }
+                  modalActions.showSubscribeModal(item.features[0]);
                 });
           }));
 
@@ -378,6 +383,11 @@ let LayersHelper = {
       } else if (keyword === KEYS.rspoOilPalm || keyword === KEYS.protectedAreasHelper) {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+      } else if (keyword === KEYS.burnScars) {
+        subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+      } else if (keyword === KEYS.overlays) {
+        subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+        config = config[item.layerName];
       } else {
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       }
@@ -402,7 +412,6 @@ let LayersHelper = {
     htmlContent += '</table>';
     template = new InfoTemplate('Digital Globe Imagery', htmlContent);
     features[0].setInfoTemplate(template);
-    // return features;
     return [features[0]];
   },
 
@@ -416,8 +425,38 @@ let LayersHelper = {
   changeOpacity (parameters) {
     let layer = app.map.getLayer(parameters.layerId);
     if ( layer ) {
-      // TODO:  check that value is >= 0 and <= 1.
       layer.setOpacity(parameters.value);
+    }
+  },
+
+  updateOverlays (layers) {
+    let layer = app.map.getLayer(KEYS.overlays);
+    if ( layer ) {
+      if (layers.length === 0) {
+        layer.hide();
+      } else {
+        let visibleLayers = [];
+        layers.forEach(layerName => {
+          switch (layerName) {
+            case 'provinces':
+              visibleLayers.push(4);
+              break;
+            case 'districts':
+              visibleLayers.push(3);
+              break;
+            case 'subdistricts':
+              visibleLayers.push(2);
+              break;
+            case 'villages':
+              visibleLayers.push(1);
+              break;
+            default:
+              break;
+          }
+        });
+        layer.setVisibleLayers(visibleLayers);
+        layer.show();
+      }
     }
   },
 
@@ -454,13 +493,9 @@ let LayersHelper = {
       if (app.map.getLevel() > level) {
         if (helperLayer) { helperLayer.show(); }
         if (mainLayer) { mainLayer.hide(); }
-        // helperLayer.show();
-        // mainLayer.hide();
       } else {
         if (mainLayer) { mainLayer.show(); }
         if (helperLayer) { helperLayer.hide(); }
-        // helperLayer.hide();
-        // mainLayer.show();
       }
       ShareHelper.handleHashChange();
       return;
@@ -511,9 +546,6 @@ let LayersHelper = {
       this.sendAnalytics('layer', 'toggle', 'The user toggled the Wind layer off.');
       WindHelper.deactivateWindLayer();
     }
-    // setTimeout(() => {
-    //   ShareHelper.handleHashChange();
-    // }, 4000);
 
   },
 
@@ -652,8 +684,6 @@ let LayersHelper = {
     }
   },
 
-  //todo update docs
-
   toggleArchiveConfidence (checked) {
     app.debug('LayersHelper >>> toggleArchiveConfidence');
 
@@ -677,13 +707,9 @@ let LayersHelper = {
     }
   },
 
-  //todo update docs
-
   updateArchiveDates (clauseArray) {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-    // let startDate = new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY');
-    // let endDate = new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY');
     let archiveLayer = app.map.getLayer(KEYS.archiveFires);
 
     if (archiveLayer) {
@@ -733,8 +759,6 @@ let LayersHelper = {
   updateDigitalGlobeLayerDefinitions (clauseArray) {
     app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Digital Globe date expression.');
-    // let queryString = utils.generateImageryQuery(clauseArray);
-
     let dgGraphics = clauseArray[2];
 
     clauseArray[1] = new window.Kalendae.moment(clauseArray[1]).add(1, 'day').format('M/D/YYYY');

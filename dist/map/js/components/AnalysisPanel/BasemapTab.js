@@ -73,12 +73,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
 
       var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasemapTab).call(this, props));
 
-      _this.childClicked = function (evt) {
-        evt.stopPropagation();
-        var id = evt.currentTarget.getAttribute('data-id');
-        _ModalActions.modalActions.showLayerInfo(id);
-      };
-
       _this.clickedBasemap = function (evt) {
         var id = evt.currentTarget.getAttribute('data-basemap');
         if (id === _constants2.default.landsat8) {
@@ -89,11 +83,16 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
         }
       };
 
+      _this.handleCheckToggle = function (evt) {
+        _MapActions.mapActions.updateOverlays(evt.target.id);
+      };
+
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _MapStore.mapStore.getState();
       _this.state = {
         basemapGalleryOpen: false,
-        activeBasemap: defaultState.activeBasemap
+        activeBasemap: defaultState.activeBasemap,
+        overlaysVisible: defaultState.overlaysVisible
       };
       return _this;
     }
@@ -103,8 +102,16 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
       value: function storeUpdated() {
         var newState = _MapStore.mapStore.getState();
         if (newState.activeBasemap !== this.state.activeBasemap) {
-          this.setState({ activeBasemap: newState.activeBasemap });
+          this.setState({
+            activeBasemap: newState.activeBasemap
+          });
           _MapActions.mapActions.changeBasemap(newState.activeBasemap);
+        }
+
+        if (newState.overlaysVisible !== this.state.overlaysVisible) {
+          this.setState({
+            overlaysVisible: newState.overlaysVisible
+          });
         }
       }
     }, {
@@ -126,17 +133,56 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
               { className: 'basemap-holder shadow open' },
               _react2.default.createElement(
                 'div',
+                { className: 'basemap-item' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'basemap-admin' },
+                  _react2.default.createElement('input', { checked: this.state.overlaysVisible.indexOf('provinces') > -1, onChange: this.handleCheckToggle, type: 'checkbox', id: 'provinces' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    'Provinces'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'basemap-admin' },
+                  _react2.default.createElement('input', { checked: this.state.overlaysVisible.indexOf('districts') > -1, onChange: this.handleCheckToggle, type: 'checkbox', id: 'districts' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    'Districts'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'basemap-admin' },
+                  _react2.default.createElement('input', { checked: this.state.overlaysVisible.indexOf('subdistricts') > -1, onChange: this.handleCheckToggle, type: 'checkbox', id: 'subdistricts' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    'Subdistricts'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'basemap-admin' },
+                  _react2.default.createElement('input', { checked: this.state.overlaysVisible.indexOf('villages') > -1, onChange: this.handleCheckToggle, type: 'checkbox', id: 'villages' }),
+                  _react2.default.createElement(
+                    'span',
+                    null,
+                    'Villages'
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'div',
                 { 'data-basemap': _constants2.default.darkGrayBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : '') }),
                 _react2.default.createElement(
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.darkGrayBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.darkGrayBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -147,11 +193,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.topoBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.topoBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -162,11 +203,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.wriBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.wriBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -177,11 +213,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.imageryBasemap
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.imageryBasemap, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               ),
               _react2.default.createElement(
@@ -192,11 +223,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.landsat8
-                ),
-                _react2.default.createElement(
-                  'span',
-                  { onClick: this.childClicked, 'data-id': _constants2.default.landsat8, className: 'info-icon pointer' },
-                  _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
                 )
               )
             )

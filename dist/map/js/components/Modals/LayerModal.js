@@ -169,17 +169,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'react
     }, {
       key: 'summaryMap',
       value: function summaryMap(item) {
-        if (typeof item === 'string') {
-          return _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: item } });
-        } else {
-          return _react2.default.createElement(
-            'ul',
-            null,
-            item.map(function (listItem) {
-              return _react2.default.createElement('li', { dangerouslySetInnerHTML: { __html: listItem } });
-            })
-          );
-        }
+        return _react2.default.createElement('d', { dangerouslySetInnerHTML: { __html: item } });
       }
     }, {
       key: 'paragraphMap',

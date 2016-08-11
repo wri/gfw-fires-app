@@ -18,6 +18,7 @@ class MapStore {
     this.lossFromSelectIndex = defaults.lossFromSelectIndex;
     this.footprintsVisible = true;
     this.footprints = undefined;
+    this.overlaysVisible = [];
     this.date = this.getDate(defaults.todaysDate);
     this.dgStartDate = this.getDate(defaults.dgStartDate);
     this.dgEndDate = this.getDate(defaults.todaysDate);
@@ -60,6 +61,7 @@ class MapStore {
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
+      updateOverlays: mapActions.updateOverlays,
       // sendAnalytics: mapActions.sendAnalytics,
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
@@ -91,13 +93,23 @@ class MapStore {
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
-    //todo:updateAirQuality?!
 
   }
 
   setCalendar (calendar) {
-    console.log(calendar);
     this.calendarVisible = calendar;
+  }
+
+  updateOverlays (overlay) {
+    let newOverlays = this.overlaysVisible.slice();
+    let index = newOverlays.indexOf(overlay);
+    if (index > -1) {
+      newOverlays.splice(index, 1);
+    } else {
+      newOverlays.push(overlay);
+    }
+    this.overlaysVisible = newOverlays;
+    LayersHelper.updateOverlays(newOverlays);
   }
 
   togglePanels () {

@@ -47,15 +47,6 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         break;
       case 'wind':
         break;
-      // case 'globe':
-      //   options.id = layer.id;
-      //   options.visible = layer.visible || false;
-      //   options.opacity = layer.opacity || 1;
-      //   // esriLayer = options.services.map((service) => (
-      //
-      //
-      //   esriLayer = [new ImageLayer(layer.url, options)];
-      //   break;
       case 'dynamic':
         // Create some image parameters
         var imageParameters = new _ImageParameters2.default();

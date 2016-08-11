@@ -209,9 +209,9 @@ block content
       var peatCount = JSON.parse(peatResponse).count;
       var totalCount = JSON.parse(totalResponse).count;
       var percentage = Math.round( ( peatCount / totalCount ) * 100 );
-      percentage = '<span class="text-gfw-red">{}% </span> '.replace('{}', percentage);
-      var header = document.getElementById('percentage-header');
-      header.innerHTML = percentage;
+      //- percentage = '<span class="text-gfw-red">{}% </span> '.replace('{}', percentage);
+      //- var header = document.getElementById('percentage-header');
+      //- header.innerHTML = percentage;
     };
     var peatResponse;
     var totalResponse;

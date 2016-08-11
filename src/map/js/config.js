@@ -463,7 +463,7 @@ export const config = {
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_oil_palm',
+      metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
@@ -483,7 +483,7 @@ export const config = {
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_wood_fiber',
+      metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
@@ -502,7 +502,7 @@ export const config = {
       group: 'forestUse',
       className: 'logging-concessions-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_logging',
+      metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
@@ -520,7 +520,7 @@ export const config = {
       group: 'forestUse',
       className: 'coal-concessions-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
-      metadataId: 'gfw_mining',
+      metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
         content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' +
@@ -665,6 +665,50 @@ export const config = {
         domClass: 'air-quality'
       },
       layerIds: [1]
+    },
+    {
+      id: KEYS.overlays,
+      order: 1,
+      type: 'dynamic',
+      label: 'Latest Landsat 8 Imagery',
+      sublabel: '(latest image, 30m, global)',
+      group: 'imagery',
+      className: 'overlays',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer',
+      metadataId: 'latest_landsat',
+      layerIds: [1, 2, 3, 4],
+      Provinces: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${NAME}</span></tr>' +
+          '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>' +
+          '<tr><td class="field-name">Type: </td><td class="field-value">${TYPE}</td></tr>'
+        }
+      },
+      Districts: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${DISTRICT}</span></tr>' +
+          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>' +
+          '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>'
+        }
+      },
+      Subdistricts: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' +
+          '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' +
+          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
+        }
+      },
+      Villages: {
+        infoTemplate: {
+          content: '<table><span class="name-field">${NAME}</span></tr>' +
+          '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' +
+          '<tr><td class="field-name">Subdistrict: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
+        }
+      },
+      infoTemplate: {
+        content: '<table><span class="name-field">${NAME}</span></tr>' +
+        '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${OBJECTID}</td></tr>'
+      }
     },
     {
       id: KEYS.landsat8,
