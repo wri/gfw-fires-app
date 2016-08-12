@@ -407,7 +407,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           fire_results = _this2.getFirePopupContent(item);
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
         } else if (keyword === _constants2.default.burnScars) {
-          subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
+          subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         } else if (keyword === _constants2.default.overlays) {
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
           config = config[item.layerName];
@@ -430,7 +430,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var htmlContent = '<table>';
       features.forEach(function (feature) {
         var date = window.Kalendae.moment(feature.attributes.AcquisitionDate).format('M/D/YYYY');
-        htmlContent += '<tr class="imagery-row"><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data left">' + date + ' </td><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data right">' + feature.attributes.SensorName + '</td></tr>';
+        htmlContent += '<tr class="imagery-row"><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data left">' + date + ' </td><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data right">' + feature.attributes.SensorName + '</td></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       });
       htmlContent += '</table>';
       template = new _InfoTemplate2.default('Digital Globe Imagery', htmlContent);
