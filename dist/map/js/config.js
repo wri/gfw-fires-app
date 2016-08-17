@@ -215,7 +215,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     */
     layers: [{
       id: _constants2.default.viirsFires,
-      order: 11,
+      order: 12,
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
@@ -230,7 +230,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.activeFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',
@@ -244,7 +244,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.archiveFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',

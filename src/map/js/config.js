@@ -224,7 +224,7 @@ export const config = {
   layers: [
     {
       id: KEYS.viirsFires,
-      order: 11,
+      order: 12,
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
@@ -245,7 +245,7 @@ export const config = {
     },
     {
       id: KEYS.activeFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',
@@ -265,7 +265,7 @@ export const config = {
     },
     {
       id: KEYS.archiveFires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
