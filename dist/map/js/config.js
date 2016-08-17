@@ -268,7 +268,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.noaa18Fires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'NOAA-18 Fires',
       sublabel: '(layer starts at 10/22/14)',
@@ -289,7 +289,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.burnScars,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'Crowdsourced fires, burns scars',
       group: 'fires',

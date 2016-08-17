@@ -292,7 +292,7 @@ export const config = {
     },
     {
       id: KEYS.noaa18Fires,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'NOAA-18 Fires',
       sublabel: '(layer starts at 10/22/14)',
@@ -315,7 +315,7 @@ export const config = {
     },
     {
       id: KEYS.burnScars,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'Crowdsourced fires, burns scars',
       group: 'fires',
