@@ -61,7 +61,7 @@ export default class ModalWrapper extends Component {
             {(this.props.children && this.props.children[0]) || !this.props.downloadData ? null :
               <div className='modal-footer'>
                 <div className="m-btncontainer is-center">
-                  <a href={this.props.downloadData} onClick={sendDownloadAnalytics} target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
+                  <a href={this.props.downloadData} onClick={this.sendDownloadAnalytics} target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
                 </div>
               </div>
             }

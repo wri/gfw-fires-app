@@ -131,7 +131,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
                   { className: 'm-btncontainer is-center' },
                   _react2.default.createElement(
                     'a',
-                    { href: this.props.downloadData, onClick: sendDownloadAnalytics, target: '_blank', className: 'btn green uppercase download-mobile-link' },
+                    { href: this.props.downloadData, onClick: this.sendDownloadAnalytics, target: '_blank', className: 'btn green uppercase download-mobile-link' },
                     'Learn more or download data'
                   )
                 )
