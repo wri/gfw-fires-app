@@ -59,7 +59,8 @@ export default class SubscriptionModal extends React.Component {
   }
 
   validatePhone (phoneNumber) { //todo: use old phone # validation library
-    if (phoneNumber.length > 5) {
+    console.log(phoneNumber);
+    if (phoneNumber.length > 5 || phoneNumber === 1) {
       return true;
     } else {
       return false;
@@ -154,6 +155,13 @@ export default class SubscriptionModal extends React.Component {
         }
 
         if (this.state.phoneNumber) {
+          if (!this.state.phoneNumber.replace) {
+            this.setState({
+              phoneErrors: false,
+              isUploading: false
+            });
+            return;
+          }
           let numbersOnly = this.state.phoneNumber.replace(/\D/g, '');
           // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 

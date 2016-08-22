@@ -165,6 +165,13 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           }
 
           if (_this.state.phoneNumber) {
+            if (!_this.state.phoneNumber.replace) {
+              _this.setState({
+                phoneErrors: false,
+                isUploading: false
+              });
+              return;
+            }
             var numbersOnly = _this.state.phoneNumber.replace(/\D/g, '');
             // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 
@@ -272,7 +279,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
       key: 'validatePhone',
       value: function validatePhone(phoneNumber) {
         //todo: use old phone # validation library
-        if (phoneNumber.length > 5) {
+        console.log(phoneNumber);
+        if (phoneNumber.length > 5 || phoneNumber === 1) {
           return true;
         } else {
           return false;
