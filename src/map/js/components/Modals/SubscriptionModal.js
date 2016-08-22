@@ -154,14 +154,7 @@ export default class SubscriptionModal extends React.Component {
           }));
         }
 
-        if (this.state.phoneNumber) {
-          if (!this.state.phoneNumber.replace) {
-            this.setState({
-              phoneErrors: false,
-              isUploading: false
-            });
-            return;
-          }
+        if (this.state.phoneNumber && this.state.phoneNumber !== 1) {
           let numbersOnly = this.state.phoneNumber.replace(/\D/g, '');
           // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 

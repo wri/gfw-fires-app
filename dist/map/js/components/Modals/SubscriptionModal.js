@@ -164,14 +164,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             }));
           }
 
-          if (_this.state.phoneNumber) {
-            if (!_this.state.phoneNumber.replace) {
-              _this.setState({
-                phoneErrors: false,
-                isUploading: false
-              });
-              return;
-            }
+          if (_this.state.phoneNumber && _this.state.phoneNumber !== 1) {
             var numbersOnly = _this.state.phoneNumber.replace(/\D/g, '');
             // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 
