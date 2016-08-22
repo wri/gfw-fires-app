@@ -226,7 +226,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }, {
       id: _constants2.default.activeFires,

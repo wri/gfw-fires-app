@@ -235,7 +235,7 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHT_T14}</td></tr>' +
           '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
           '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' +
           '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' +
