@@ -217,6 +217,16 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
               ),
               _react2.default.createElement(
                 'div',
+                { 'data-basemap': _constants2.default.osmBasemap, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.osmBasemap ? 'active' : ''), onClick: this.clickedBasemap },
+                _react2.default.createElement('span', { className: 'basemap-thumbnail osm-basemap ' + (this.state.activeBasemap === _constants2.default.osmBasemap ? 'active' : '') }),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'basemap-label' },
+                  _config.controlPanelText.osmBasemap
+                )
+              ),
+              _react2.default.createElement(
+                'div',
                 { 'data-basemap': _constants2.default.landsat8, className: 'basemap-item ' + (this.state.activeBasemap === _constants2.default.landsat8 ? 'active' : ''), onClick: this.clickedBasemap },
                 _react2.default.createElement('span', { className: 'basemap-thumbnail landsat-basemap ' + (this.state.activeBasemap === _constants2.default.landsat8 ? 'active' : '') }),
                 _react2.default.createElement(

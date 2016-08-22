@@ -37,6 +37,17 @@ export default class ModalWrapper extends Component {
     modalActions.hideModal(ReactDOM.findDOMNode(this).parentElement);
   };
 
+  sendDownloadAnalytics = (evt) => {
+    console.log(evt.target.id);
+    this.sendAnalytics('map', 'download', 'The user is downloading data via a layer info panel.');
+  }
+
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
+  }
+
   render() {
     return (
       <div className='modal-container'>
@@ -50,7 +61,7 @@ export default class ModalWrapper extends Component {
             {(this.props.children && this.props.children[0]) || !this.props.downloadData ? null :
               <div className='modal-footer'>
                 <div className="m-btncontainer is-center">
-                  <a href={this.props.downloadData} target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
+                  <a href={this.props.downloadData} onClick={sendDownloadAnalytics} target="_blank" className="btn green uppercase download-mobile-link">Learn more or download data</a>
                 </div>
               </div>
             }

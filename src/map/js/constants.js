@@ -5,6 +5,7 @@ const KEYS = {
   wriBasemap: 'wri-basemap',
   imageryBasemap: 'satellite',
   topoBasemap: 'topo',
+  osmBasemap: 'osm',
   darkGrayBasemap: 'dark-gray',
 
   //- Layers and Layer Categories

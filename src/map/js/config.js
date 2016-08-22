@@ -1024,6 +1024,7 @@ export const config = {
       darkGrayBasemap: 'Dark Gray',
       topoBasemap: 'Topo',
       wriBasemap: 'WRI',
+      osmBasemap: 'OSM',
       imageryBasemap: 'Imagery',
       landsat8: 'Landsat',
       zoomInHover: 'ZOOM IN',

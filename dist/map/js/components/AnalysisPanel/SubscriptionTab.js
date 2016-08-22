@@ -271,13 +271,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         evt.preventDefault();
       }
     }, {
-      key: 'drop',
-      value: function drop(evt) {
-        evt.preventDefault();
-        var data = evt.dataTransfer.getData('text');
-        evt.target.appendChild(document.getElementById(data));
-      }
-    }, {
       key: 'drag',
       value: function drag(evt) {
         evt.dataTransfer.setData('text', evt.target.id);

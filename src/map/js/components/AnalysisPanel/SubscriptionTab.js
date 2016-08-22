@@ -187,11 +187,11 @@ drop = (evt) => {
     evt.preventDefault();
   }
 
-  drop (evt) {
-    evt.preventDefault();
-    var data = evt.dataTransfer.getData('text');
-    evt.target.appendChild(document.getElementById(data));
-  }
+  // drop (evt) {
+  //   evt.preventDefault();
+  //   var data = evt.dataTransfer.getData('text');
+  //   evt.target.appendChild(document.getElementById(data));
+  // }
 
   drag(evt) {
     evt.dataTransfer.setData('text', evt.target.id);

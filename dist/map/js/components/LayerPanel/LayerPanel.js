@@ -339,6 +339,16 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                       { className: 'basemap-label narrow' },
                       _config.controlPanelText.imageryBasemap
                     )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.osmBasemap) },
+                    _react2.default.createElement('div', { className: 'basemap-thumbnail osm-basemap ' + (this.state.activeBasemap === _constants2.default.osmBasemap ? 'active' : '') }),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'basemap-label narrow' },
+                      _config.controlPanelText.osmBasemap
+                    )
                   )
                 )
               )

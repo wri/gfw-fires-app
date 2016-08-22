@@ -877,6 +877,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         darkGrayBasemap: 'Dark Gray',
         topoBasemap: 'Topo',
         wriBasemap: 'WRI',
+        osmBasemap: 'OSM',
         imageryBasemap: 'Imagery',
         landsat8: 'Landsat',
         zoomInHover: 'ZOOM IN',

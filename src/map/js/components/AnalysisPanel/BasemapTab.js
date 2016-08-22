@@ -84,6 +84,10 @@ export default class BasemapTab extends React.Component {
               <span className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
               <div className='basemap-label'>{controlPanelText.imageryBasemap}</div>
             </div>
+            <div data-basemap={KEYS.osmBasemap} className={`basemap-item ${this.state.activeBasemap === KEYS.osmBasemap ? 'active' : ''}`} onClick={this.clickedBasemap}>
+              <span className={`basemap-thumbnail osm-basemap ${this.state.activeBasemap === KEYS.osmBasemap ? 'active' : ''}`} />
+              <div className='basemap-label'>{controlPanelText.osmBasemap}</div>
+            </div>
             <div data-basemap={KEYS.landsat8} className={`basemap-item ${this.state.activeBasemap === KEYS.landsat8 ? 'active' : ''}`} onClick={this.clickedBasemap}>
               <span className={`basemap-thumbnail landsat-basemap ${this.state.activeBasemap === KEYS.landsat8 ? 'active' : ''}`} />
               <div className='basemap-label'>{controlPanelText.landsat8}</div>

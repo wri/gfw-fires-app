@@ -179,6 +179,10 @@ export default class LayerPanel extends React.Component {
                   <div className={`basemap-thumbnail imagery-basemap ${this.state.activeBasemap === KEYS.imageryBasemap ? 'active' : ''}`} />
                   <div className='basemap-label narrow'>{controlPanelText.imageryBasemap}</div>
                 </div>
+                <div className='basemap-item narrow pointer' onClick={this.clickedBasemap.bind(this, KEYS.osmBasemap)}>
+                  <div className={`basemap-thumbnail osm-basemap ${this.state.activeBasemap === KEYS.osmBasemap ? 'active' : ''}`} />
+                  <div className='basemap-label narrow'>{controlPanelText.osmBasemap}</div>
+                </div>
               </div>
             </div>
           </div>

@@ -77,6 +77,11 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
         _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(_this).parentElement);
       };
 
+      _this.sendDownloadAnalytics = function (evt) {
+        console.log(evt.target.id);
+        _this.sendAnalytics('map', 'download', 'The user is downloading data via a layer info panel.');
+      };
+
       _ModalStore.modalStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _ModalStore.modalStore.getState();
       _this.state = {
@@ -90,6 +95,14 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
       value: function storeUpdated() {
         var currentState = _ModalStore.modalStore.getState();
         this.setState({ layerInfo: currentState.modalLayerInfo });
+      }
+    }, {
+      key: 'sendAnalytics',
+      value: function sendAnalytics(eventType, action, label) {
+        //todo: why is this request getting sent so many times?
+        ga('A.send', 'event', eventType, action, label);
+        ga('B.send', 'event', eventType, action, label);
+        ga('C.send', 'event', eventType, action, label);
       }
     }, {
       key: 'render',
@@ -118,7 +131,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
                   { className: 'm-btncontainer is-center' },
                   _react2.default.createElement(
                     'a',
-                    { href: this.props.downloadData, target: '_blank', className: 'btn green uppercase download-mobile-link' },
+                    { href: this.props.downloadData, onClick: sendDownloadAnalytics, target: '_blank', className: 'btn green uppercase download-mobile-link' },
                     'Learn more or download data'
                   )
                 )

@@ -34,9 +34,6 @@ export default class ControlPanel extends React.Component {
     let newState = mapStore.getState();
     if (newState.pannelsHidden !== this.state.pannelsHidden) {
       //todo: figure out how this is triggering when they are both false
-      console.log(newState.pannelsHidden)
-      console.log(this.state.pannelsHidden)
-      console.log('would hide panels..')
       // debugger
       // this.setState({ pannelsHidden: newState.pannelsHidden });
       // mapActions.togglePanels(newState.pannelsHidden);
@@ -55,8 +52,8 @@ export default class ControlPanel extends React.Component {
     // let state = mapStore.getState();
     // let activeLayers = state.activeLayers;
     // let activeBasemap = state.activeBasemap;
+    this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
     modalActions.showShareModal(ShareHelper.prepareStateForUrl());
-
   }
 
   reset () {
@@ -76,7 +73,14 @@ export default class ControlPanel extends React.Component {
     mapActions.setBasemap(id);
   }
 
+  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
+  }
+
   print () {
+    this.sendAnalytics('map', 'print', 'The user printed the map.');
     window.print();
   }
 
