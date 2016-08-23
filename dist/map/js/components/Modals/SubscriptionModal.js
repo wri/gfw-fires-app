@@ -87,6 +87,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         _this.setState({
           customFeatName: evt.target.value
         });
+
+        _this.state.currentCustomGraphic.attributes.featureName = evt.target.value;
       };
 
       _this.updateEmail = function (evt) {
@@ -226,7 +228,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
       _this.state = {
         currentCustomGraphic: undefined,
         email: '',
-        customFeatName: 'Custom Feature',
+        customFeatName: '', //'Custom Feature',
         phoneNumber: '',
         emailErrors: false,
         phoneErrors: false,
@@ -259,7 +261,10 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
       value: function storeUpdated() {
         var newState = _MapStore.mapStore.getState();
         if (newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
-          this.setState({ currentCustomGraphic: newState.currentCustomGraphic });
+          this.setState({
+            currentCustomGraphic: newState.currentCustomGraphic,
+            customFeatName: newState.currentCustomGraphic.attributes.featureName
+          });
         }
       }
     }, {
@@ -295,6 +300,14 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     }, {
       key: 'render',
       value: function render() {
+        console.log(this.state.currentCustomGraphic);
+        // let nameToDisplay = this.state.customFeatName;
+        // if (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes && this.state.customFeatName === 'Custom Feature') {
+        //   nameToDisplay = this.state.currentCustomGraphic.attributes.featureName;
+        // }
+        console.log(this.state.customFeatName);
+        //
+        //value={this.state.customFeatName ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName}
         return _react2.default.createElement(
           _ModalWrapper2.default,
           null,
@@ -303,7 +316,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             { className: 'canopy-modal-title' },
             _config.modalText.subscription.title
           ),
-          this.state.currentCustomGraphic ? _react2.default.createElement('input', { className: 'longer', value: this.state.customFeatName !== undefined ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName, onChange: this.updateName }) : null,
+          this.state.currentCustomGraphic ? _react2.default.createElement('input', { className: 'longer', value: this.state.customFeatName, onChange: this.updateName }) : null,
           _react2.default.createElement(
             'p',
             null,

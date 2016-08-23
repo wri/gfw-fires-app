@@ -81,6 +81,8 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
   };
 
   var drawSvg = '<use xlink:href="#icon-analysis-draw" />';
+  var closeSymbolCode = 9660,
+      openSymbolCode = 9650;
 
   var toolbar = void 0;
 
@@ -143,29 +145,96 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         input.files = evt.dataTransfer.files;
 
         _request2.default.upload(_config.uploadConfig.portal, content, _this.refs.upload).then(function (response) {
-          _this.setState({ isUploading: false });
           if (response.featureCollection) {
-            var graphics = _geometryUtils2.default.generatePolygonsFromUpload(response.featureCollection);
-            var graphicsExtent = _graphicsUtils2.default.graphicsExtent(graphics);
-            app.map.setExtent(graphicsExtent, true);
-            graphics.forEach(function (graphic) {
-              graphic.attributes.Layer = 'custom';
-              graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
-              app.map.graphics.add(graphic);
-            });
+            (function () {
+              var graphics = _geometryUtils2.default.generatePolygonsFromUpload(response.featureCollection);
+              // const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
+              var uploadedFeats = [];
+
+              response.featureCollection.layers[0].layerDefinition.fields.forEach(function (field) {
+                uploadedFeats.push({
+                  name: field.name,
+                  id: field.alias
+                });
+              });
+              console.log(uploadedFeats);
+
+              _this.setState({
+                isUploading: false,
+                fieldSelectionShown: true,
+                fields: uploadedFeats,
+                uploadedGraphics: graphics
+              });
+
+              // new ComboBox({
+              //   id: 'upload-fields-input',
+              //   value: '-- Choose name field --',
+              //   store: store,
+              //   searchAttr: 'name',
+              //   onChange: (name) => {
+              //     if (name) {
+              //       self.addFeaturesToMap(name, response.featureCollection.layers[0].featureSet);
+              //       this.resetView();
+              //     }
+              //   }
+              // }, 'upload-fields-input');
+
+              // app.map.setExtent(graphicsExtent, true);
+              // graphics.forEach((graphic) => {
+              //   graphic.attributes.Layer = 'custom';
+              //   graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
+              //   app.map.graphics.add(graphic);
+              // });
+            })();
           } else {
-            console.error('No feature collection present in the file');
-          }
+              _this.setState({
+                fieldSelectionShown: false,
+                isUploading: false
+              });
+              console.error('No feature collection present in the file');
+            }
         }, function (error) {
-          _this.setState({ isUploading: false });
+          _this.setState({
+            isUploading: false,
+            fieldSelectionShown: false
+          });
           console.error(error);
+        });
+      };
+
+      _this.selectField = function (evt) {
+        _this.setState({
+          showFields: false,
+          fieldSelectionShown: false
+        });
+
+        var nameField = evt.target.id;
+
+        var graphicsExtent = _graphicsUtils2.default.graphicsExtent(_this.state.uploadedGraphics);
+
+        app.map.setExtent(graphicsExtent, true);
+        _this.state.uploadedGraphics.forEach(function (graphic) {
+          graphic.attributes.Layer = 'custom';
+          // graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
+          graphic.attributes.featureName = graphic.attributes[nameField];
+          app.map.graphics.add(graphic);
+        });
+      };
+
+      _this.toggleFields = function () {
+        _this.setState({
+          showFields: !_this.state.showFields
         });
       };
 
       _this.state = {
         dndActive: false,
         drawButtonActive: false,
-        isUploading: false
+        isUploading: false,
+        fieldSelectionShown: false,
+        showFields: false,
+        fields: [],
+        graphics: []
       };
       return _this;
     }
@@ -191,6 +260,15 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
             app.map.graphics.add(graphic);
           });
         }
+      }
+    }, {
+      key: 'fieldMap',
+      value: function fieldMap(field) {
+        return _react2.default.createElement(
+          'div',
+          { id: field.id, onClick: this.selectField, className: 'generated-field-row' },
+          field.name
+        );
       }
     }, {
       key: 'render',
@@ -230,6 +308,25 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
             _config.analysisPanelText.subscriptionButtonLabel
           ),
           _react2.default.createElement(
+            'div',
+            { id: 'upload-fields-input', className: 'subscription-field-container ' + (this.state.fieldSelectionShown ? '' : ' hidden') },
+            _react2.default.createElement(
+              'span',
+              { className: 'upload-fields-label' },
+              'Choose name field '
+            ),
+            _react2.default.createElement(
+              'span',
+              { onClick: this.toggleFields, className: 'layer-category-caret red' },
+              String.fromCharCode(!this.state.showFields ? closeSymbolCode : openSymbolCode)
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'subscription-field-select ' + (this.state.showFields ? '' : ' hidden') },
+              this.state.fields.map(this.fieldMap, this)
+            )
+          ),
+          _react2.default.createElement(
             'form',
             {
               className: 'analysis-instructions__upload-container ' + (app.mobile() ? 'hidden ' : '') + (this.state.dndActive ? 'active' : ''),
@@ -257,23 +354,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
     }, {
       key: 'signUp',
       value: function signUp() {
-        console.log('sign upp');
         _ModalActions.modalActions.showSubscribeModal();
-      }
-    }, {
-      key: 'startDrawing',
-      value: function startDrawing() {
-        console.log('start drawing');
-      }
-    }, {
-      key: 'allowDrop',
-      value: function allowDrop(evt) {
-        evt.preventDefault();
-      }
-    }, {
-      key: 'drag',
-      value: function drag(evt) {
-        evt.dataTransfer.setData('text', evt.target.id);
       }
     }]);
 
