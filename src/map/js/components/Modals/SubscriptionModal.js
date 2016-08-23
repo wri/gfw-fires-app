@@ -21,7 +21,7 @@ export default class SubscriptionModal extends React.Component {
     this.state = {
       currentCustomGraphic: undefined,
       email: '',
-      customFeatName: 'Custom Feature',
+      customFeatName: '', //'Custom Feature',
       phoneNumber: '',
       emailErrors: false,
       phoneErrors: false,
@@ -49,7 +49,10 @@ export default class SubscriptionModal extends React.Component {
   storeUpdated () {
     let newState = mapStore.getState();
     if (newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
-      this.setState({ currentCustomGraphic: newState.currentCustomGraphic });
+      this.setState({
+        currentCustomGraphic: newState.currentCustomGraphic,
+        customFeatName: newState.currentCustomGraphic.attributes.featureName
+      });
     }
   }
 
@@ -77,6 +80,8 @@ export default class SubscriptionModal extends React.Component {
     this.setState({
       customFeatName: evt.target.value
     });
+
+    this.state.currentCustomGraphic.attributes.featureName = evt.target.value;
   };
 
   updateEmail = evt => {
@@ -216,10 +221,18 @@ export default class SubscriptionModal extends React.Component {
 	}
 
   render() {
+    console.log(this.state.currentCustomGraphic);
+    // let nameToDisplay = this.state.customFeatName;
+    // if (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes && this.state.customFeatName === 'Custom Feature') {
+    //   nameToDisplay = this.state.currentCustomGraphic.attributes.featureName;
+    // }
+    console.log(this.state.customFeatName);
+    //
+    //value={this.state.customFeatName ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName}
     return (
       <ModalWrapper>
         <div className='canopy-modal-title'>{modalText.subscription.title}</div>
-        {this.state.currentCustomGraphic ? <input className='longer' value={this.state.customFeatName !== undefined ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName} onChange={this.updateName} /> : null}
+        {this.state.currentCustomGraphic ? <input className='longer' value={this.state.customFeatName} onChange={this.updateName} /> : null}
 
         <p>{modalText.subscription.emailInstructions}</p>
         <input className='longer' value={this.state.email} placeholder={modalText.subscription.emailPlaceholder} onChange={this.updateEmail}></input>
