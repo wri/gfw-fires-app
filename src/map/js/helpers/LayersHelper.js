@@ -261,7 +261,8 @@ let LayersHelper = {
             features = features.concat(this.setActiveTemplates(item.features, KEYS.protectedAreasHelper));
             break;
           case KEYS.fireStories:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
+            features = features.concat(this.setStoryTemplates(item.features, KEYS.fireStories));
+            // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
             break;
           case KEYS.twitter:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
@@ -413,6 +414,34 @@ let LayersHelper = {
     template = new InfoTemplate('Digital Globe Imagery', htmlContent);
     features[0].setInfoTemplate(template);
     return [features[0]];
+  },
+
+  setStoryTemplates: function(features) {
+    let template, htmlContent;
+    console.log(features);
+
+    features.forEach(item => {
+      console.log(item.feature);
+      if (app.mobile() === true) {
+        htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr>';
+      } else {
+        htmlContent = '<table class="fire-stories-popup"><span class="name-field">' + item.feature.attributes.Title + '</span></tr>';
+      }
+      if (item.feature.attributes.Details && item.feature.attributes.Details !== 'Null') {
+        htmlContent += '<tr><td class="field-value wide">' + item.feature.attributes.Details + '</td></tr>';
+      }
+
+      if (item.feature.attributes.Video && item.feature.attributes.Details !== 'Null') {
+        htmlContent += '<tr><td class="field-value wide"><a href="' + item.feature.attributes.Video + '" target="_blank">Video</a></td></tr>';
+      }
+
+      htmlContent += '<tr><td class="field-value wide">' + item.feature.attributes.Date + '</td></tr>';
+
+    });
+    htmlContent += '</table>';
+    template = new InfoTemplate('Crowdsourced fire stories', htmlContent);
+    features[0].feature.setInfoTemplate(template);
+    return [features[0].feature];
   },
 
   setCustomFeaturesTemplates: function(feature) {

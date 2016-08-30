@@ -6,11 +6,16 @@ import React from 'react';
 export default class TabControls extends React.Component {
 
   click (tabId) {
-   analysisActions.setAnalysisType(tabId);
-    if (this.props.activeTab === tabId) { analysisActions.toggleAnalysisToolsExpanded(); }
-    else if (this.props.subscribeToolsExpanded === false) { analysisActions.toggleSubscribeToolsExpanded(); }
-    else if (this.props.imageryToolsExpanded === false) { analysisActions.toggleImageryToolsExpanded(); }
-    else if (this.props.basemapToolsExpanded === false) { analysisActions.toggleBasemapToolsExpanded(); }
+    if (this.props.activeTab === tabId) {
+      analysisActions.toggleAnalysisToolsExpanded();
+    } else if (this.props.subscribeToolsExpanded === false) {
+      analysisActions.toggleSubscribeToolsExpanded();
+    } else if (this.props.imageryToolsExpanded === false) {
+      analysisActions.toggleImageryToolsExpanded();
+    } else if (this.props.basemapToolsExpanded === false) {
+      analysisActions.toggleBasemapToolsExpanded();
+    }
+    analysisActions.setAnalysisType(tabId);
   }
 
   render () {

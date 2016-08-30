@@ -19,27 +19,6 @@ let refreshSvg = '<use xlink:href="#icon-reset" />';
 
 export default class ControlPanel extends React.Component {
 
-  constructor (props) {
-   super(props);
-
-    // mapStore.listen(this.storeUpdated.bind(this));
-    let defaultState = mapStore.getState();
-    // this.state = {
-    //   pannelsHidden: false,
-    //   activeBasemap: defaultState.activeBasemap
-    // };
-  }
-
-  storeUpdated () {
-    let newState = mapStore.getState();
-    if (newState.pannelsHidden !== this.state.pannelsHidden) {
-      //todo: figure out how this is triggering when they are both false
-      // debugger
-      // this.setState({ pannelsHidden: newState.pannelsHidden });
-      // mapActions.togglePanels(newState.pannelsHidden);
-    }
-  }
-
   zoomIn () {
     app.map.setZoom(app.map.getZoom() + 1);
   }
@@ -49,9 +28,6 @@ export default class ControlPanel extends React.Component {
   }
 
   share () {
-    // let state = mapStore.getState();
-    // let activeLayers = state.activeLayers;
-    // let activeBasemap = state.activeBasemap;
     this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
     modalActions.showShareModal(ShareHelper.prepareStateForUrl());
   }
@@ -65,10 +41,6 @@ export default class ControlPanel extends React.Component {
     mapActions.setCalendar('masterDay');
   }
 
-  // togglePanels () {
-  //   this.setState({ panelsHidden: !this.state.panelsHidden });
-  // }
-
   clickedBasemap (id) {
     mapActions.setBasemap(id);
   }
@@ -79,7 +51,7 @@ export default class ControlPanel extends React.Component {
     ga('C.send', 'event', eventType, action, label);
   }
 
-  print () {
+  printMap = () => {
     this.sendAnalytics('map', 'print', 'The user printed the map.');
     window.print();
   }
@@ -127,7 +99,7 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomOutSvg }}/>
             <span className='tooltipmap top right'>{controlPanelText.zoomOutHover}</span>
           </li>
-          <li className='share-map pointer' onClick={this.share.bind(this)}>
+          <li className='share-map pointer' onClick={this.share}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: shareSvg }}/>
             <span className='tooltipmap middle left'>{controlPanelText.shareHover}</span>
           </li>
@@ -147,7 +119,7 @@ export default class ControlPanel extends React.Component {
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: timelineSvg }}/>
             <span className='tooltipmap low left'>{controlPanelText.timeHover}</span>
           </li>
-          {app.mobile() === true ? null : <li className='print pointer' onClick={this.print}>
+          {app.mobile() === true ? null : <li className='print pointer' onClick={this.printMap}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: printSvg }}/>
             <span className='tooltipmap low right'>{controlPanelText.printHover}</span>
           </li> }

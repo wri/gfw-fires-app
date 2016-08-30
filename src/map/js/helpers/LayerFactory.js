@@ -44,7 +44,12 @@ export default (layer) => {
       imageParameters.format = 'png32';
       if (layer.defaultDefinitionExpression) {
         let layerDefs = [];
-        layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
+        // layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
+        // imageParameters.layerDefinitions = layerDefs;
+
+        layer.layerIds.forEach(val => {
+          layerDefs[val] = layer.defaultDefinitionExpression;
+        });
         imageParameters.layerDefinitions = layerDefs;
       }
       // Populate the options and then add the layer
