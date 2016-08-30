@@ -423,9 +423,9 @@ let LayersHelper = {
     features.forEach(item => {
       console.log(item.feature);
       if (app.mobile() === true) {
-        htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr>';
+        htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       } else {
-        htmlContent = '<table class="fire-stories-popup"><span class="name-field">' + item.feature.attributes.Title + '</span></tr>';
+        htmlContent = '<table class="fire-stories-popup"><span class="name-field">' + item.feature.attributes.Title + '</span></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       }
       if (item.feature.attributes.Details && item.feature.attributes.Details !== 'Null') {
         htmlContent += '<tr><td class="field-value wide">' + item.feature.attributes.Details + '</td></tr>';
