@@ -809,7 +809,8 @@ let LayersHelper = {
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
-    let janOne = new Date(year + ' 01 01');
+    let janOne = new Date(year, 1, 1);
+
     let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
@@ -843,7 +844,7 @@ let LayersHelper = {
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
-    let janOne = new Date(year + ' 01 01');
+    let janOne = new Date(year, 1, 1);
     let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
@@ -865,6 +866,7 @@ let LayersHelper = {
     let rainLayer = app.map.getLayer(KEYS.lastRainfall);
 
     console.log(defQuery);
+    //DSLR_2016NaN_IDN
 
     if (rainLayer) {
       rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");

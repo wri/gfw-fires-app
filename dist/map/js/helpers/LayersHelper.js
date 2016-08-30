@@ -817,7 +817,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var otherDate = new Date(dayValue);
       var month = otherDate.getMonth();
       var year = otherDate.getFullYear();
-      var janOne = new Date(year + ' 01 01');
+      var janOne = new Date(year, 1, 1);
+
       var origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
@@ -850,7 +851,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var otherDate = new Date(dayValue);
       var month = otherDate.getMonth();
       var year = otherDate.getFullYear();
-      var janOne = new Date(year + ' 01 01');
+      var janOne = new Date(year, 1, 1);
       var origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
@@ -872,6 +873,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var rainLayer = app.map.getLayer(_constants2.default.lastRainfall);
 
       console.log(defQuery);
+      //DSLR_2016NaN_IDN
 
       if (rainLayer) {
         rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
