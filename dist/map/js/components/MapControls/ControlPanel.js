@@ -77,32 +77,24 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
   var ControlPanel = function (_React$Component) {
     _inherits(ControlPanel, _React$Component);
 
-    function ControlPanel(props) {
+    function ControlPanel() {
+      var _Object$getPrototypeO;
+
+      var _temp, _this, _ret;
+
       _classCallCheck(this, ControlPanel);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ControlPanel).call(this, props));
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
 
-      // mapStore.listen(this.storeUpdated.bind(this));
-      var defaultState = _MapStore.mapStore.getState();
-      // this.state = {
-      //   pannelsHidden: false,
-      //   activeBasemap: defaultState.activeBasemap
-      // };
-      return _this;
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(ControlPanel)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.printMap = function () {
+        _this.sendAnalytics('map', 'print', 'The user printed the map.');
+        window.print();
+      }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ControlPanel, [{
-      key: 'storeUpdated',
-      value: function storeUpdated() {
-        var newState = _MapStore.mapStore.getState();
-        if (newState.pannelsHidden !== this.state.pannelsHidden) {
-          //todo: figure out how this is triggering when they are both false
-          // debugger
-          // this.setState({ pannelsHidden: newState.pannelsHidden });
-          // mapActions.togglePanels(newState.pannelsHidden);
-        }
-      }
-    }, {
       key: 'zoomIn',
       value: function zoomIn() {
         app.map.setZoom(app.map.getZoom() + 1);
@@ -115,9 +107,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
     }, {
       key: 'share',
       value: function share() {
-        // let state = mapStore.getState();
-        // let activeLayers = state.activeLayers;
-        // let activeBasemap = state.activeBasemap;
         this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
         _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl());
       }
@@ -144,12 +133,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
         ga('A.send', 'event', eventType, action, label);
         ga('B.send', 'event', eventType, action, label);
         ga('C.send', 'event', eventType, action, label);
-      }
-    }, {
-      key: 'print',
-      value: function print() {
-        this.sendAnalytics('map', 'print', 'The user printed the map.');
-        window.print();
       }
     }, {
       key: 'toggleShow',
@@ -204,7 +187,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             _react2.default.createElement(
               'li',
-              { className: 'share-map pointer', onClick: this.share.bind(this) },
+              { className: 'share-map pointer', onClick: this.share },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: shareSvg } }),
               _react2.default.createElement(
                 'span',
@@ -254,7 +237,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             ),
             app.mobile() === true ? null : _react2.default.createElement(
               'li',
-              { className: 'print pointer', onClick: this.print },
+              { className: 'print pointer', onClick: this.printMap },
               _react2.default.createElement('svg', { className: 'panel-icon', dangerouslySetInnerHTML: { __html: printSvg } }),
               _react2.default.createElement(
                 'span',

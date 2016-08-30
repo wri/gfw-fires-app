@@ -284,7 +284,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.protectedAreasHelper));
               break;
             case _constants2.default.fireStories:
-              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.fireStories));
+              features = features.concat(_this.setStoryTemplates(item.features, _constants2.default.fireStories));
+              // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
               break;
             case _constants2.default.twitter:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.twitter));
@@ -436,6 +437,34 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       template = new _InfoTemplate2.default('Digital Globe Imagery', htmlContent);
       features[0].setInfoTemplate(template);
       return [features[0]];
+    },
+
+    setStoryTemplates: function setStoryTemplates(features) {
+      var template = void 0,
+          htmlContent = void 0;
+      console.log(features);
+
+      features.forEach(function (item) {
+        console.log(item.feature);
+        if (app.mobile() === true) {
+          htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr>';
+        } else {
+          htmlContent = '<table class="fire-stories-popup"><span class="name-field">' + item.feature.attributes.Title + '</span></tr>';
+        }
+        if (item.feature.attributes.Details && item.feature.attributes.Details !== 'Null') {
+          htmlContent += '<tr><td class="field-value wide">' + item.feature.attributes.Details + '</td></tr>';
+        }
+
+        if (item.feature.attributes.Video && item.feature.attributes.Details !== 'Null') {
+          htmlContent += '<tr><td class="field-value wide"><a href="' + item.feature.attributes.Video + '" target="_blank">Video</a></td></tr>';
+        }
+
+        htmlContent += '<tr><td class="field-value wide">' + item.feature.attributes.Date + '</td></tr>';
+      });
+      htmlContent += '</table>';
+      template = new _InfoTemplate2.default('Crowdsourced fire stories', htmlContent);
+      features[0].feature.setInfoTemplate(template);
+      return [features[0].feature];
     },
 
     setCustomFeaturesTemplates: function setCustomFeaturesTemplates(feature) {

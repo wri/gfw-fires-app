@@ -73,7 +73,6 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'utils/svgs', 'react'
     _createClass(TabControls, [{
       key: 'click',
       value: function click(tabId) {
-        _AnalysisActions.analysisActions.setAnalysisType(tabId);
         if (this.props.activeTab === tabId) {
           _AnalysisActions.analysisActions.toggleAnalysisToolsExpanded();
         } else if (this.props.subscribeToolsExpanded === false) {
@@ -83,6 +82,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'utils/svgs', 'react'
         } else if (this.props.basemapToolsExpanded === false) {
           _AnalysisActions.analysisActions.toggleBasemapToolsExpanded();
         }
+        _AnalysisActions.analysisActions.setAnalysisType(tabId);
       }
     }, {
       key: 'render',
