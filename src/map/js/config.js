@@ -224,12 +224,12 @@ export const config = {
   layers: [
     {
       id: KEYS.viirsFires,
-      order: 12,
+      order: 13,
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [3],
+      layerIds: [0],
       className: 'viirs-fires',
       //defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
@@ -245,12 +245,13 @@ export const config = {
     },
     {
       id: KEYS.activeFires,
-      order: 11,
+      order: 12,
       type: 'dynamic',
       label: 'MODIS active Fires',
       group: 'fires',
       visible: true,
       layerIds: [0, 1, 2, 3],
+      defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
@@ -265,7 +266,7 @@ export const config = {
     },
     {
       id: KEYS.archiveFires,
-      order: 11,
+      order: 12,
       type: 'dynamic',
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
@@ -292,7 +293,7 @@ export const config = {
     },
     {
       id: KEYS.noaa18Fires,
-      order: 11,
+      order: 12,
       type: 'dynamic',
       label: 'NOAA-18 Fires',
       sublabel: '(layer starts at 10/22/14)',
@@ -315,7 +316,7 @@ export const config = {
     },
     {
       id: KEYS.burnScars,
-      order: 11,
+      order: 12,
       type: 'dynamic',
       label: 'Crowdsourced fires, burns scars',
       group: 'fires',
@@ -331,7 +332,7 @@ export const config = {
     },
     {
       id: KEYS.fireRisk,
-      order: 7,
+      order: 8,
       type: 'image',
       label: 'Fire risk',
       sublabel: '(layer starts at 4/2/15)',
@@ -348,7 +349,7 @@ export const config = {
     },
     {
       id: KEYS.lastRainfall,
-      order: 6,
+      order: 7,
       type: 'image',
       label: 'Days since last rainfall',
       // sublabel: '(layer starts at 4/2/15)',
@@ -366,7 +367,7 @@ export const config = {
     // TODO: crowdsourced fires
     {
       id: KEYS.forestMoratorium,
-      order: 8,
+      order: 9,
       type: 'dynamic',
       label: 'Forest Moratorium',
       // TODO: hookup instructions below
@@ -380,7 +381,7 @@ export const config = {
     },
     {
       id: KEYS.oilPalm,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Oil palm',
       sublabel: '(varies, select countries)',
@@ -399,7 +400,7 @@ export const config = {
     },
     {
       id: KEYS.rspoOilPalm,
-      order: 10,
+      order: 11,
       type: 'dynamic',
       label: 'RSPO oil palm',
       sublabel: '(May 2013, select countries)',
@@ -418,7 +419,7 @@ export const config = {
     },
     {
       id: KEYS.woodFiber,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Wood fiber',
       sublabel: '(varies, select countries)',
@@ -437,7 +438,7 @@ export const config = {
     },
     {
       id: KEYS.loggingConcessions,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Managed forests',
       sublabel: '(varies, select countries)',
@@ -457,7 +458,7 @@ export const config = {
 
     {
       id: KEYS.oilPalmGreenpeace,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Palm oil',
       group: 'forestUse',
@@ -477,7 +478,7 @@ export const config = {
     },
     {
       id: KEYS.woodFiberGreenpeace,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Wood Fiber',
       group: 'forestUse',
@@ -496,7 +497,7 @@ export const config = {
     },
     {
       id: KEYS.loggingGreenpeace,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Selective logging',
       group: 'forestUse',
@@ -514,7 +515,7 @@ export const config = {
     },
     {
       id: KEYS.coalConcessions,
-      order: 9,
+      order: 10,
       type: 'dynamic',
       label: 'Coal mining',
       group: 'forestUse',
@@ -533,7 +534,7 @@ export const config = {
     },
     {
       id: KEYS.protectedAreas,
-      order: 7,
+      order: 8,
       type: 'tiled',
       label: 'Protected areas',
       sublabel: '(varies, global)',
@@ -552,7 +553,7 @@ export const config = {
     },
     {
       id: KEYS.protectedAreasHelper,
-      order: 7,
+      order: 8,
       type: 'dynamic',
       label: 'Protected areas',
       sublabel: '(varies, global)',
@@ -573,7 +574,7 @@ export const config = {
     },
     {
       id: KEYS.peatlands,
-      order: 5,
+      order: 6,
       type: 'dynamic',
       label: 'Peatlands',
       sublabel: '(year 2000, Indonesia)',
@@ -585,7 +586,7 @@ export const config = {
     },
     {
       id: KEYS.treeCoverDensity,
-      order: 2,
+      order: 6,
       type: 'image',
       label: 'Tree cover density',
       sublabel: '(2000, Hansen/UMD/Google/USGS/NASA)',
@@ -600,7 +601,7 @@ export const config = {
     },
     {
       id: KEYS.primaryForests,
-      order: 4,
+      order: 6,
       type: 'dynamic',
       label: 'Primary Forests',
       sublabel: '(2000 - 2012, 30m, Indonesia)',
@@ -612,7 +613,7 @@ export const config = {
     },
     {
       id: KEYS.plantationTypes,
-      order: 4,
+      order: 6,
       type: 'dynamic',
       label: 'Plantations',
       // sublabel: '(2000 - 2012, 30m, Indonesia)',
@@ -624,7 +625,7 @@ export const config = {
     },
     // {
     //   id: KEYS.plantationSpecies, //todo: duplicate for plantationTypes and get a header over them!
-    //   order: 4,
+    //   order: 5,
     //   type: 'dynamic',
     //   label: 'Plantation by Species',
     //   // sublabel: '(2000 - 2012, 30m, Indonesia)',
@@ -652,7 +653,7 @@ export const config = {
     },
     {
       id: KEYS.airQuality,
-      order: 10,
+      order: 25,
       type: 'dynamic',
       label: 'Air Quality',
       sublabel: '(layer starts at 9/25/15)',
@@ -755,7 +756,7 @@ export const config = {
     },
     {
       id: KEYS.digitalGlobe,
-      order: 1,
+      order: 5,
       subLayers: [KEYS.digitalGlobe0, KEYS.digitalGlobe1, KEYS.digitalGlobe2, KEYS.digitalGlobe3, KEYS.digitalGlobe4],
       imageServices: [
         { id: 'dg-00', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer', mosaic: 'WV01' },
@@ -826,7 +827,7 @@ export const config = {
     },
     {
       id: KEYS.fireStories,
-      order: 10,
+      order: 11,
       type: 'feature',
       label: 'Fire Stories',
       group: 'stories',
@@ -837,16 +838,18 @@ export const config = {
       infoTemplate: app.mobile() === true ? {
         content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' +
         '<tr><td class="field-value wide">${Details}</td></tr>' +
+        '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
         '<tr><td class="field-value wide">${Date}</td></tr>'
       } : {
         content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' +
         '<tr><td class="field-value wide">${Details}</td></tr>' +
+        '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
         '<tr><td class="field-value wide">${Date}</td></tr>'
       }
     },
     {
       id: KEYS.twitter,
-      order: 10,
+      order: 11,
       type: 'feature',
       label: 'Twitter',
       group: 'stories',
@@ -855,10 +858,10 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${Text}</td></tr>' +
+        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${body}</td></tr>' +
         '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' +
-        '<tr><td class="field-name">UserName: </td><td class="field-value">${UserName}</td></tr>' +
-        '<tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>'
+        '<tr><td class="field-name">UserName: </td><td class="field-value">${actor_disp}</td></tr>' +
+        '<tr><td class="field-name">Date: </td><td class="field-value">${postedtime}</td></tr>'
       }
     }
   ],
