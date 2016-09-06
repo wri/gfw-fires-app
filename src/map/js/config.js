@@ -235,12 +235,12 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHT_T14}</td></tr>' +
-          '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' +
-          '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' +
-          '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
-          '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     },
     {
@@ -256,12 +256,12 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
-          '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' +
-          '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' +
-          '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
-          '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     },
     {
@@ -277,9 +277,9 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
-          '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
       },
       calendar: {
         // startDate: new Date('10/19/2015'),
@@ -304,7 +304,7 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'noaa18_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>' +
+        content: '<table><tr><td class="field-name">DATE: </td><td class="field-value">${Date}</td></tr>' +
           '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'
       },
       calendar: {
@@ -326,8 +326,8 @@ export const config = {
       metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
         content: '<table><span class="name-field">${type_}</span></tr>' +
-          '<tr><td>CrowdRank: </td><td class="field-value">${CrowdRank}</td></tr>' +
-          '<tr><td>Image Date: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
+          '<tr><td>CROWDRANK: </td><td class="field-value">${CrowdRank}</td></tr>' +
+          '<tr><td>IMAGE DATE: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
       }
     },
     {
@@ -392,10 +392,11 @@ export const config = {
       layerIds: [1],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' +
-        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' +
-        '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+        '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Company}</td></tr>' +
+        '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' +
+        '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     },
     {
@@ -411,10 +412,11 @@ export const config = {
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${name}</span></tr>' +
-        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' +
-        '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' +
-        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' +
-        '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
+        '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${area_ha}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${country}</td></tr>' +
+        '<tr><td class="field-name">COMPANY: </td><td class="field-value">${group_comp}</td></tr>' +
+        '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${certificat}</td></tr>' +
+        '<tr><td class="field-name">SOURCE: </td><td class="field-value">${source}</td></tr>'
       }
     },
     {
@@ -430,10 +432,11 @@ export const config = {
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' +
-        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' +
-        '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+        '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Company}</td></tr>' +
+        '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' +
+        '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     },
     {
@@ -449,10 +452,11 @@ export const config = {
       layerIds: [3],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
-        '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' +
-        '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' +
-        '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+        '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Company}</td></tr>' +
+        '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' +
+        '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     },
 
@@ -467,13 +471,13 @@ export const config = {
       metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
-        '<tr><td>Group: </td><td>${Group}</td></tr>' +
-        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
-        '<tr><td>Business Permit: </td><td>${Business Permit}</td></tr>' +
-        '<tr><td>Plantation Permit: </td><td>${Plantation Permit}</td></tr>' +
-        '<tr><td>Location Permit: </td><td>${Location Permit}</td></tr>' +
-        '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${Consession Holder}</td></tr>' +
+        '<tr><td>GROUP: </td><td>${Group}</td></tr>' +
+        '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>BUSINESS PERMIT: </td><td>${Business Permit}</td></tr>' +
+        '<tr><td>PLANTATION PERMIT: </td><td>${Plantation Permit}</td></tr>' +
+        '<tr><td>LOCATION PERMIT: </td><td>${Location Permit}</td></tr>' +
+        '<tr><td>PROVINCE: </td><td>${Province}</td></tr></table>'
       }
     },
     {
@@ -487,12 +491,12 @@ export const config = {
       metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
-        '<tr><td>Group: </td><td>${Group}</td></tr>' +
-        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
-        '<tr><td>Permit: </td><td>${Permit}</td></tr>' +
-        '<tr><td>Permit granted in: </td><td>${Permit Granted in}</td></tr>' +
-        '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${Consession Holder}</td></tr>' +
+        '<tr><td>GROUP: </td><td>${Group}</td></tr>' +
+        '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>PERMIT: </td><td>${Permit}</td></tr>' +
+        '<tr><td>PERMIT GRANTED IN: </td><td>${Permit Granted in}</td></tr>' +
+        '<tr><td>PROVINCE: </td><td>${Province}</td></tr></table>'
       }
     },
     {
@@ -506,11 +510,11 @@ export const config = {
       metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' +
-        '<tr><td>Group: </td><td>${Group}</td></tr>' +
-        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
-        '<tr><td>Permit: </td><td>${Permit}</td></tr>' +
-        '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${Consession Holder}</td></tr>' +
+        '<tr><td>GROUP: </td><td>${Group}</td></tr>' +
+        '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>PERMIT: </td><td>${Permit}</td></tr>' +
+        '<tr><td>PROVINCE: </td><td>${Province}</td></tr></table>'
       }
     },
     {
@@ -524,12 +528,12 @@ export const config = {
       metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' +
-        '<tr><td>Group: </td><td>${Group}</td></tr>' +
-        '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
-        '<tr><td>Status: </td><td>${Status}</td></tr>' +
-        '<tr><td>Province: </td><td>${Province}</td></tr>' +
-        '<tr><td>District: </td><td>${District}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${coal_com}</td></tr>' +
+        '<tr><td>GROUP: </td><td>${Group}</td></tr>' +
+        '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' +
+        '<tr><td>STATUS: </td><td>${Status}</td></tr>' +
+        '<tr><td>PROVINCE: </td><td>${Province}</td></tr>' +
+        '<tr><td>DISTRICT: </td><td>${District}</td></tr></table>'
       }
     },
     {
@@ -545,7 +549,7 @@ export const config = {
       // layerIds: [0],
       // infoTemplate: {
       //   content: '<table><span class="name-field">${Name}</span></tr>' +
-      //   '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
+      //   '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
       //   '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
       //   '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
       //   '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
@@ -681,29 +685,29 @@ export const config = {
       Provinces: {
         infoTemplate: {
           content: '<table><span class="name-field">${NAME}</span></tr>' +
-          '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>' +
-          '<tr><td class="field-name">Type: </td><td class="field-value">${TYPE}</td></tr>'
+          '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>' +
+          '<tr><td class="field-name">TYPE: </td><td class="field-value">${TYPE}</td></tr>'
         }
       },
       Districts: {
         infoTemplate: {
           content: '<table><span class="name-field">${DISTRICT}</span></tr>' +
-          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>' +
-          '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>'
+          '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>' +
+          '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>'
         }
       },
       Subdistricts: {
         infoTemplate: {
           content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' +
-          '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' +
-          '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
+          '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' +
+          '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
         }
       },
       Villages: {
         infoTemplate: {
           content: '<table><span class="name-field">${NAME}</span></tr>' +
-          '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' +
-          '<tr><td class="field-name">Subdistrict: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
+          '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' +
+          '<tr><td class="field-name">SUBDISTRICT: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
         }
       },
       infoTemplate: {
@@ -729,7 +733,7 @@ export const config = {
       label: 'Bounding boxes',
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-          '<tr><td class="field-name">Image Aquisition Date: </td><td class="field-value">${AcquisitionDate}</td></tr>'
+          '<tr><td class="field-name">IMAGE ACQUISITION DATE: </td><td class="field-value">${AcquisitionDate}</td></tr>'
       },
       layerDefinition: {
         'geometryType': 'esriGeometryPolygon',
@@ -740,15 +744,15 @@ export const config = {
          }, {
            'name': 'Name',
            'type': 'esriFieldTypeString',
-           'alias': 'Name'
+           'alias': 'NAME'
          }, {
            'name': 'AcquisitionDate',
            'type': 'esriFieldTypeDate',
-           'alias': 'Acquisition Date'
+           'alias': 'ACQUISITION DATE'
          }, {
            'name': 'SensorName',
            'type': 'esriFieldTypeString',
-           'alias': 'Sensor Name'
+           'alias': 'SENSOR NAME'
          }]
       },
       // group: 'imagery',
@@ -788,6 +792,7 @@ export const config = {
     {
       id: KEYS.digitalGlobe0,
       type: 'image',
+      order: 5,
       mosaic: 'QB01',
       'minScale': 0,
       'maxScale': 10000, //zoom level 6 is highest visible
@@ -796,6 +801,7 @@ export const config = {
     {
       id: KEYS.digitalGlobe1,
       type: 'image',
+      order: 5,
       mosaic: 'WV02',
       'minScale': 0,
       'maxScale': 10000,
@@ -804,6 +810,7 @@ export const config = {
     {
       id: KEYS.digitalGlobe2,
       type: 'image',
+      order: 5,
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
@@ -812,6 +819,7 @@ export const config = {
     {
       id: KEYS.digitalGlobe3,
       type: 'image',
+      order: 5,
       mosaic: 'WV03',
       'minScale': 0,
       'maxScale': 10000,
@@ -820,6 +828,7 @@ export const config = {
     {
       id: KEYS.digitalGlobe4,
       type: 'image',
+      order: 5,
       mosaic: 'WV03_SWIR',
       'minScale': 0,
       'maxScale': 10000,
@@ -858,10 +867,10 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${body}</td></tr>' +
+        content: '<table><tr><td class="field-name">TWEET: </td><td class="field-value">${body}</td></tr>' +
         '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' +
-        '<tr><td class="field-name">UserName: </td><td class="field-value">${actor_disp}</td></tr>' +
-        '<tr><td class="field-name">Date: </td><td class="field-value">${postedtime}</td></tr>'
+        '<tr><td class="field-name">USERNAME: </td><td class="field-value">${actor_disp}</td></tr>' +
+        '<tr><td class="field-name">DATE: </td><td class="field-value">${postedtime}</td></tr>'
       }
     }
   ],

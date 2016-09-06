@@ -582,7 +582,7 @@ let LayersHelper = {
     app.debug('LayersHelper >>> getFirePopupContent');
     let isFires = item.fires.length > 0;
 
-    let firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
+    let firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
     let noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
     let fire_results = isFires ? [firesDiv] : [noFiresDiv];
 

@@ -622,7 +622,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> getFirePopupContent');
       var isFires = item.fires.length > 0;
 
-      var firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
+      var firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
       var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
       var fire_results = isFires ? [firesDiv] : [noFiresDiv];
 
