@@ -388,7 +388,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'gfw_wood_fiber',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Company}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     }, {
       id: _constants2.default.loggingConcessions,
@@ -488,7 +488,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' + '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">LEGAL DESIGNATION: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' + '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
     }, {
       id: _constants2.default.peatlands,
