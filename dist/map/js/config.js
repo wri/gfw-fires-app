@@ -360,7 +360,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'gfw_oil_palm',
       layerIds: [1],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Company}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     }, {
       id: _constants2.default.rspoOilPalm,
@@ -402,7 +402,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'gfw_logging',
       layerIds: [3],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Company}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     }, {
       id: _constants2.default.oilPalmGreenpeace,
