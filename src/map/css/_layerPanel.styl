@@ -322,7 +322,7 @@
 	top 0
 
 
-#fireRiskLegend, #lastRainLegend
+#fireWeatherLegend, #lastRainLegend
 	width 90px
 	font-size 11px
 	display inline-block
@@ -330,13 +330,9 @@
 	margin-left 30px
 	margin-top -6px
 
-.fireRiskLegendData
-	// margin-top .4em
+.fireWeatherLegendData
 	line-height 2em
 	display inline-block
-	// min-height 15px
-	// min-width 15px
-	// // float right
 
 .lastRainLegendData
 	margin-top 7px
@@ -344,28 +340,26 @@
 	min-height 35px
 	min-width 15px
 
-#lastRainLegendDataColors
-	// background-image url(images/DSLR_legend.png)
+#lastRainLegendDataColors, #fireHistoryLegendDataColors
 	background-image url(images/rainfallLegend.png)
-	// height 200px
-	// background-size 200px
-	// width 23px
 	height 99px
 	background-size 23px
 	width 23px
 	margin-left -120px
 	margin-top 5px
 	margin-bottom 15px
-	// padding-right 50px
 	float right
 
-.fireRiskLegendDataColors, .lastRainLegendDataColors
+#fireHistoryLegendDataColors
+	background-image url(images/fireHistoryLegend.jpg)
+
+.fireWeatherLegendDataColors, .lastRainLegendDataColors
 	margin-left 23px
 	display inline-block
 	height 120px
 	width 20px
 
-#fireRiskLegendDataColors
+#fireWeatherLegendDataColors
 	background-image url(images/firesRiskLegend.png)
 	height 100px
 	background-size 23px
@@ -373,20 +367,17 @@
 	margin-left -120px
 	margin-top 5px
 	margin-bottom 15px
-	// padding-right 50px
 	float right
-	// border 1px solid gray
 
-#fireRiskLegendDataColorsBottom, #lastRainLegendDataColorsBottom
+#fireWeatherLegendDataColorsBottom, #lastRainLegendDataColorsBottom
 	height 100px
-	// margin-top 6px
 	background-size 20px
 	border 1px solid gray
 
 #lastRainLegendDataColorsBottom
 	height 99px
 
-#fireRiskLegendNoData
+#fireWeatherLegendNoData
 	position absolute
 	width 23px
 	height 23px
@@ -396,5 +387,5 @@
 
 // /* IE10+ CSS styles go here */
 // @media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
-// 	.fireRiskLegendData
+// 	.fireWeatherLegendData
 // 		margin-top 7px
