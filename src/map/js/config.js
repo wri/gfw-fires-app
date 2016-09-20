@@ -331,23 +331,6 @@ export const config = {
       }
     },
     {
-      id: KEYS.fireRisk,
-      order: 8,
-      type: 'image',
-      label: 'Fire risk',
-      sublabel: '(layer starts at 4/2/15)',
-      group: 'fires',
-      className: 'fire-risk',
-      // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
-      metadataId: 'fire_risk',
-      calendar: {
-        domClass: 'risk-settings',
-        childDomClass: 'risk-subsettings',
-        label: 'Select a date'
-      }
-    },
-    {
       id: KEYS.lastRainfall,
       order: 7,
       type: 'image',
@@ -364,7 +347,40 @@ export const config = {
         label: 'Select a date'
       }
     },
-    // TODO: crowdsourced fires
+    {
+      id: KEYS.fireWeather,
+      order: 8,
+      type: 'image',
+      label: 'Fire weather',
+      sublabel: '(layer starts at 4/2/15)',
+      group: 'fireRisk',
+      className: 'fire-risk',
+      // disabled: true,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
+      metadataId: 'fire_risk',
+      calendar: {
+        domClass: 'risk-settings',
+        childDomClass: 'risk-subsettings',
+        label: 'Select a date'
+      }
+    },
+    {
+      id: KEYS.fireHistory,
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      // sublabel: '(layer starts at 4/2/15)',
+      group: 'fireRisk',
+      className: 'fire-history',
+      // disabled: true,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      metadataId: 'fire_history',
+      calendar: {
+        domClass: 'risk-settings',
+        childDomClass: 'risk-subsettings',
+        label: 'Select a date'
+      }
+    },
     {
       id: KEYS.forestMoratorium,
       order: 9,
@@ -1108,7 +1124,7 @@ export const config = {
       'forest-change-tree-cover-loss': 'tree_cover_loss',
       'forest-change-tree-cover-gain': 'tree_cover_gain',
       'noaa18Fires': 'noaa18_fires',
-      'fireRisk': 'fire_risk',
+      'fireWeather': 'fire_risk',
       'lastRainfall': 'last_rainfall',
       'forest-change-forma-alerts': 'forma',
       'activeFires': 'firms_active_fires',

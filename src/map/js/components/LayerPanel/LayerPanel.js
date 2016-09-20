@@ -4,6 +4,7 @@ import SedimentLegend from 'components/LayerPanel/SedimentLegend';
 import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
+import FireHistoryTimeline from 'components/LayerPanel/FireHistoryTimeline';
 import ForestControls from 'components/LayerPanel/ForestControls';
 import PlantationControls from 'components/LayerPanel/PlantationControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
@@ -79,8 +80,11 @@ export default class LayerPanel extends React.Component {
         case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
-        case KEYS.fireRisk:
+        case KEYS.fireWeather:
           childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
+          break;
+        case KEYS.fireHistory:
+          childComponent = <FireHistoryTimeline options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.lastRainfall:
           childComponent = <RainControls options={layer.calendar} loaded={this.props.loaded} />;
@@ -122,6 +126,9 @@ export default class LayerPanel extends React.Component {
       <div className={className}>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
+          {layersConfig.map(this.checkboxMap('fireRisk'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
           <LayerTransparency layers={landUseLayers}></LayerTransparency>

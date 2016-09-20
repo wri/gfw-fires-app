@@ -248,11 +248,11 @@ class MapStore {
     }
 
     if (masterDate.isBefore(riskStart)) {
-      this.removeActiveLayer(KEYS.fireRisk);
+      this.removeActiveLayer(KEYS.fireWeather);
     } else if (masterDate.isAfter(riskEnd)) {
-      this.removeActiveLayer(KEYS.fireRisk);
+      this.removeActiveLayer(KEYS.fireWeather);
     } else {
-      this.addActiveLayer(KEYS.fireRisk);
+      this.addActiveLayer(KEYS.fireWeather);
       this.riskDate = masterFormatted;
       LayersHelper.updateFireRisk(this.riskDate);
     }

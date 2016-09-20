@@ -858,7 +858,7 @@ let LayersHelper = {
 
     let defQuery = year.toString() + julian + '_IDN_FireRisk';
 
-    let riskLayer = app.map.getLayer(KEYS.fireRisk);
+    let riskLayer = app.map.getLayer(KEYS.fireWeather);
 
     if (riskLayer) {
       riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
