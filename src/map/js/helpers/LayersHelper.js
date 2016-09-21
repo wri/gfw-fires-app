@@ -684,6 +684,15 @@ let LayersHelper = {
 
   },
 
+  updateFireHistoryDefinitions (index) {
+    let fireHistory = app.map.getLayer(KEYS.fireHistory);
+    let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
+    if (fireHistory) {
+      console.log("Name = '" + value + "'");
+      fireHistory.setDefinitionExpression("Name = '" + value + "'");
+    }
+  },
+
   toggleConfidence (checked) {
     app.debug('LayersHelper >>> toggleConfidence');
 

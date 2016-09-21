@@ -6,14 +6,16 @@ export default class FireHistoryLegend extends React.Component {
     return (
       <div className='last-rain-legend'>
         <div id='fireHistoryLegendDataColors'>
-          <div id='lastRainLegendDataColorsBottom'>
+          <div id='fireHistoryLegendDataColorsBottom'>
             <div id='lastRainLegend'>
               <div className='lastRainLegendRow'>
-                <span className='lastRainLegendData lastRainLegendDataHighest'>Very high density</span>
+                <span className='fireHistoryLegendData fireHistoryLegendDataHighest'>High</span>
               </div>
-
               <div className='lastRainLegendRow'>
-                <span className='lastRainLegendData lastRainLegendDataLow'>Low density</span>
+                <span className='fireHistoryLegendData fireHistoryLegendDataMedium'>Low</span>
+              </div>
+              <div className='lastRainLegendRow'>
+                <span className='fireHistoryLegendData fireHistoryLegendDataLow'>None</span>
               </div>
             </div>
           </div>

@@ -331,19 +331,19 @@ export const config = {
       }
     },
     {
-      id: KEYS.lastRainfall,
-      order: 7,
+      id: KEYS.fireHistory,
+      order: 8,
       type: 'image',
-      label: 'Days since last rainfall',
+      label: 'Fire history',
       // sublabel: '(layer starts at 4/2/15)',
-      group: 'fires',
-      className: 'last-rainfall',
+      group: 'fireRisk',
+      className: 'fire-history',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
-      metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      metadataId: 'idn_fire_history',
       calendar: {
-        domClass: 'rainfall-settings',
-        childDomClass: 'rainfall-subsettings',
+        domClass: 'risk-settings',
+        childDomClass: 'risk-subsettings',
         label: 'Select a date'
       }
     },
@@ -365,19 +365,19 @@ export const config = {
       }
     },
     {
-      id: KEYS.fireHistory,
-      order: 8,
+      id: KEYS.lastRainfall,
+      order: 7,
       type: 'image',
-      label: 'Fire history',
+      label: 'Days since last rainfall',
       // sublabel: '(layer starts at 4/2/15)',
       group: 'fireRisk',
-      className: 'fire-history',
+      className: 'last-rainfall',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
-      metadataId: 'fire_history',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
+      metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
       calendar: {
-        domClass: 'risk-settings',
-        childDomClass: 'risk-subsettings',
+        domClass: 'rainfall-settings',
+        childDomClass: 'rainfall-subsettings',
         label: 'Select a date'
       }
     },
@@ -971,6 +971,23 @@ export const config = {
         min: 'Low',
         max: 'Extreme'
       },
+      fireHistoryOptions: [
+        {label: 2001, value: 2001},
+        {label: 2002, value: 2002},
+        {label: 2003, value: 2003},
+        {label: 2004, value: 2004},
+        {label: 2005, value: 2005},
+        {label: 2006, value: 2006},
+        {label: 2007, value: 2007},
+        {label: 2008, value: 2008},
+        {label: 2009, value: 2009},
+        {label: 2010, value: 2010},
+        {label: 2011, value: 2011},
+        {label: 2012, value: 2012},
+        {label: 2013, value: 2013},
+        {label: 2014, value: 2014},
+        {label: 2015, value: 2015}
+      ],
       firesOptions: [
 
         {label: 'Past 24 hours', value: 1},

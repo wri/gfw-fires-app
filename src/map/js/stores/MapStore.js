@@ -44,6 +44,7 @@ class MapStore {
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
+    this.fireHistorySelectIndex = 0;
     this.layerPanelVisible = app.mobile === false;
 
     this.bindListeners({
@@ -70,6 +71,7 @@ class MapStore {
       togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       changeForestTimeline: layerActions.changeForestTimeline,
+      changeFireHistoryTimeline: layerActions.changeFireHistoryTimeline,
       changeViirsTimeline: layerActions.changeViirsTimeline,
       changePlantations: layerActions.changePlantations,
       updateCanopyDensity: modalActions.updateCanopyDensity,
@@ -93,6 +95,7 @@ class MapStore {
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
+    LayersHelper.updateFireHistoryDefinitions(0);
 
   }
 
@@ -353,6 +356,11 @@ class MapStore {
   changeForestTimeline (activeIndex) {
     this.forestSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
+  }
+
+  changeFireHistoryTimeline (activeIndex) {
+    this.fireHistorySelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
   }
 
   updateCanopyDensity (newDensity) {
