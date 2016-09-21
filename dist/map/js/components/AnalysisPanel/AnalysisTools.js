@@ -77,7 +77,7 @@ define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisP
     function AnalysisTools(props) {
       _classCallCheck(this, AnalysisTools);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AnalysisTools).call(this, props));
+      var _this = _possibleConstructorReturn(this, (AnalysisTools.__proto__ || Object.getPrototypeOf(AnalysisTools)).call(this, props));
 
       _AnalysisActions.analysisActions.initAreas();
       _AnalysisStore.analysisStore.listen(_this.storeUpdated.bind(_this));

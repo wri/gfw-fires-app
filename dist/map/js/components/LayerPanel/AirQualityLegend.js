@@ -69,7 +69,7 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     function AirQualityLegend(props) {
       _classCallCheck(this, AirQualityLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AirQualityLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (AirQualityLegend.__proto__ || Object.getPrototypeOf(AirQualityLegend)).call(this, props));
 
       _this.state = { legendInfos: [] };
       return _this;

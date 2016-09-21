@@ -71,7 +71,7 @@ define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapAction
     function RainControls(props) {
       _classCallCheck(this, RainControls);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RainControls).call(this, props));
+      var _this = _possibleConstructorReturn(this, (RainControls.__proto__ || Object.getPrototypeOf(RainControls)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

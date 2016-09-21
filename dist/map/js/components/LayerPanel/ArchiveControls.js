@@ -71,7 +71,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     function ArchiveControls(props) {
       _classCallCheck(this, ArchiveControls);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArchiveControls).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ArchiveControls.__proto__ || Object.getPrototypeOf(ArchiveControls)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

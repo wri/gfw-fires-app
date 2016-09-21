@@ -71,7 +71,7 @@ define(['exports', 'helpers/LayersHelper', 'stores/MapStore', 'actions/LayerActi
     function ImagerySettings(props) {
       _classCallCheck(this, ImagerySettings);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImagerySettings).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ImagerySettings.__proto__ || Object.getPrototypeOf(ImagerySettings)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();
@@ -96,9 +96,9 @@ define(['exports', 'helpers/LayersHelper', 'stores/MapStore', 'actions/LayerActi
             _LayersHelper2.default.showLayer(layerObj);
             // LayersHelper.showLayer(KEYS.boundingBoxes);
           } else {
-              console.log('hidingg');
-              _LayersHelper2.default.hideLayer(_constants2.default.boundingBoxes);
-            }
+            console.log('hidingg');
+            _LayersHelper2.default.hideLayer(_constants2.default.boundingBoxes);
+          }
         }
       }
     }, {

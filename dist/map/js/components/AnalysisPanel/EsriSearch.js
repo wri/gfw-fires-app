@@ -160,7 +160,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
     function EsriSearch(props) {
       _classCallCheck(this, EsriSearch);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EsriSearch).call(this, props));
+      var _this = _possibleConstructorReturn(this, (EsriSearch.__proto__ || Object.getPrototypeOf(EsriSearch)).call(this, props));
 
       _this.state = {
         value: '',

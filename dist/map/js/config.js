@@ -302,12 +302,28 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         content: '<table><span class="name-field">${type_}</span></tr>' + '<tr><td>CROWDRANK: </td><td class="field-value">${CrowdRank}</td></tr>' + '<tr><td>IMAGE DATE: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
       }
     }, {
-      id: _constants2.default.fireRisk,
+      id: _constants2.default.fireHistory,
       order: 8,
       type: 'image',
-      label: 'Fire risk',
+      label: 'Fire history',
+      // sublabel: '(layer starts at 4/2/15)',
+      group: 'fireRisk',
+      className: 'fire-history',
+      // disabled: true,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      metadataId: 'idn_fire_history',
+      calendar: {
+        domClass: 'risk-settings',
+        childDomClass: 'risk-subsettings',
+        label: 'Select a date'
+      }
+    }, {
+      id: _constants2.default.fireWeather,
+      order: 8,
+      type: 'image',
+      label: 'Fire weather',
       sublabel: '(layer starts at 4/2/15)',
-      group: 'fires',
+      group: 'fireRisk',
       className: 'fire-risk',
       // disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
@@ -323,7 +339,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       type: 'image',
       label: 'Days since last rainfall',
       // sublabel: '(layer starts at 4/2/15)',
-      group: 'fires',
+      group: 'fireRisk',
       className: 'last-rainfall',
       // disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
@@ -333,9 +349,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         childDomClass: 'rainfall-subsettings',
         label: 'Select a date'
       }
-    },
-    // TODO: crowdsourced fires
-    {
+    }, {
       id: _constants2.default.forestMoratorium,
       order: 9,
       type: 'dynamic',
@@ -831,6 +845,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           min: 'Low',
           max: 'Extreme'
         },
+        fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }],
         firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }],
         plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],
@@ -961,7 +976,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'forest-change-tree-cover-loss': 'tree_cover_loss',
         'forest-change-tree-cover-gain': 'tree_cover_gain',
         'noaa18Fires': 'noaa18_fires',
-        'fireRisk': 'fire_risk',
+        'fireWeather': 'fire_risk',
         'lastRainfall': 'last_rainfall',
         'forest-change-forma-alerts': 'forma',
         'activeFires': 'firms_active_fires',

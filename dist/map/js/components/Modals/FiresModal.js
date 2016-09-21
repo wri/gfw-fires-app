@@ -69,7 +69,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'react'], func
 		function FiresModal() {
 			_classCallCheck(this, FiresModal);
 
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(FiresModal).apply(this, arguments));
+			return _possibleConstructorReturn(this, (FiresModal.__proto__ || Object.getPrototypeOf(FiresModal)).apply(this, arguments));
 		}
 
 		_createClass(FiresModal, [{

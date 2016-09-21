@@ -89,7 +89,7 @@ define(['exports', 'react'], function (exports, _react) {
     function LayerGroup(props) {
       _classCallCheck(this, LayerGroup);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LayerGroup).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LayerGroup.__proto__ || Object.getPrototypeOf(LayerGroup)).call(this, props));
 
       _this.state = { open: true };
       return _this;

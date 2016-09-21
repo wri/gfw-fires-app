@@ -77,7 +77,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
     function ForestControls() {
       _classCallCheck(this, ForestControls);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(ForestControls).apply(this, arguments));
+      return _possibleConstructorReturn(this, (ForestControls.__proto__ || Object.getPrototypeOf(ForestControls)).apply(this, arguments));
     }
 
     _createClass(ForestControls, [{

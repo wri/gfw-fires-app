@@ -69,7 +69,7 @@ define(['exports', 'helpers/LayersHelper', 'react'], function (exports, _LayersH
     function LayerTransparency(props) {
       _classCallCheck(this, LayerTransparency);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LayerTransparency).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LayerTransparency.__proto__ || Object.getPrototypeOf(LayerTransparency)).call(this, props));
 
       // debugger
       // this.state = { opacity: props.layer.opacity || 1 };

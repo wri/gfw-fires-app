@@ -77,7 +77,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
     function ShareModal(props) {
       _classCallCheck(this, ShareModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ShareModal).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ShareModal.__proto__ || Object.getPrototypeOf(ShareModal)).call(this, props));
 
       _ModalStore.modalStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _ModalStore.modalStore.getState();

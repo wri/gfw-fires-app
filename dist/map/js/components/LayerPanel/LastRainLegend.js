@@ -67,7 +67,7 @@ define(['exports', 'react'], function (exports, _react) {
     function LastRainLegend(props) {
       _classCallCheck(this, LastRainLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LastRainLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LastRainLegend.__proto__ || Object.getPrototypeOf(LastRainLegend)).call(this, props));
 
       //- Set legend Info to an empty array until data is returned
       _this.state = {

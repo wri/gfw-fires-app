@@ -71,7 +71,7 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', '
     function ImageryComponent(props) {
       _classCallCheck(this, ImageryComponent);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageryComponent).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ImageryComponent.__proto__ || Object.getPrototypeOf(ImageryComponent)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

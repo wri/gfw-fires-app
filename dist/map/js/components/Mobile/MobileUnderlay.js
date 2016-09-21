@@ -67,7 +67,7 @@ define(['exports', 'stores/MapStore', 'stores/AnalysisStore', 'actions/LayerActi
     function MobileUnderlay(props) {
       _classCallCheck(this, MobileUnderlay);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MobileUnderlay).call(this, props));
+      var _this = _possibleConstructorReturn(this, (MobileUnderlay.__proto__ || Object.getPrototypeOf(MobileUnderlay)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _AnalysisStore.analysisStore.listen(_this.storeUpdated.bind(_this));

@@ -73,7 +73,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/MapActions', 'acti
     function BasemapModal(props) {
       _classCallCheck(this, BasemapModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasemapModal).call(this, props));
+      var _this = _possibleConstructorReturn(this, (BasemapModal.__proto__ || Object.getPrototypeOf(BasemapModal)).call(this, props));
 
       _this.switchBasemap = function () {
         if (_this.state.cookieChecked !== undefined) {

@@ -296,8 +296,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           //   features: features
           // });
         } else {
-            deferred.resolve(false);
-          }
+          deferred.resolve(false);
+        }
       }, function (error) {
         console.log(error);
         deferred.resolve(false);
@@ -360,8 +360,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           //   features: features
           // });
         } else {
-            deferred.resolve(false);
-          }
+          deferred.resolve(false);
+        }
       }, function (error) {
         console.log(error);
         deferred.resolve(false);
@@ -424,8 +424,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           //   features: features
           // });
         } else {
-            deferred.resolve(false);
-          }
+          deferred.resolve(false);
+        }
       }, function (error) {
         console.log(error);
         deferred.resolve(false);
@@ -488,8 +488,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           //   features: features
           // });
         } else {
-            deferred.resolve(false);
-          }
+          deferred.resolve(false);
+        }
       }, function (error) {
         console.log(error);
         deferred.resolve(false);
@@ -792,8 +792,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           //   features: features
           // });
         } else {
-            deferred.resolve(false);
-          }
+          deferred.resolve(false);
+        }
       }, function (error) {
         console.log(error);
         deferred.resolve(false);

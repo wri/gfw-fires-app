@@ -71,7 +71,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     function FiresControls() {
       _classCallCheck(this, FiresControls);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(FiresControls).apply(this, arguments));
+      return _possibleConstructorReturn(this, (FiresControls.__proto__ || Object.getPrototypeOf(FiresControls)).apply(this, arguments));
     }
 
     _createClass(FiresControls, [{

@@ -104,7 +104,7 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
     function RasterLayer(data, options) {
       _classCallCheck(this, RasterLayer);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RasterLayer).call(this, data, options));
+      var _this = _possibleConstructorReturn(this, (RasterLayer.__proto__ || Object.getPrototypeOf(RasterLayer)).call(this, data, options));
 
       _this.data = data;
       _this.loaded = true;

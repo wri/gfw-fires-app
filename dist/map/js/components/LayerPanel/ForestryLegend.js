@@ -69,7 +69,7 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     function ForestryLegend(props) {
       _classCallCheck(this, ForestryLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ForestryLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ForestryLegend.__proto__ || Object.getPrototypeOf(ForestryLegend)).call(this, props));
 
       _this.state = { legendInfos: [] };
       return _this;

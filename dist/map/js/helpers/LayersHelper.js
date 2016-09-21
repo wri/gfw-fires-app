@@ -704,6 +704,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         primaryForests.setVisibleLayers([optionIndex]);
       }
     },
+    updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
+      var fireHistory = app.map.getLayer(_constants2.default.fireHistory);
+      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
+      if (fireHistory) {
+        console.log("Name = '" + value + "'");
+        fireHistory.setDefinitionExpression("Name = '" + value + "'");
+      }
+    },
     toggleConfidence: function toggleConfidence(checked) {
       app.debug('LayersHelper >>> toggleConfidence');
 
@@ -866,7 +874,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var defQuery = year.toString() + julian + '_IDN_FireRisk';
 
-      var riskLayer = app.map.getLayer(_constants2.default.fireRisk);
+      var riskLayer = app.map.getLayer(_constants2.default.fireWeather);
 
       if (riskLayer) {
         riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");

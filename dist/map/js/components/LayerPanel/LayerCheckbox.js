@@ -74,7 +74,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
     function LayerCheckbox(props) {
       _classCallCheck(this, LayerCheckbox);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LayerCheckbox).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LayerCheckbox.__proto__ || Object.getPrototypeOf(LayerCheckbox)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

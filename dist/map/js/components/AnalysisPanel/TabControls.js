@@ -67,7 +67,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'utils/svgs', 'react'
     function TabControls() {
       _classCallCheck(this, TabControls);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(TabControls).apply(this, arguments));
+      return _possibleConstructorReturn(this, (TabControls.__proto__ || Object.getPrototypeOf(TabControls)).apply(this, arguments));
     }
 
     _createClass(TabControls, [{

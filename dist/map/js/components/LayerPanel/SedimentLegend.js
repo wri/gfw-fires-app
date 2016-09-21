@@ -69,7 +69,7 @@ define(['exports', 'js/config', 'utils/request', 'react'], function (exports, _c
     function SedimentLegend(props) {
       _classCallCheck(this, SedimentLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SedimentLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (SedimentLegend.__proto__ || Object.getPrototypeOf(SedimentLegend)).call(this, props));
 
       //- Set legend Info to an empty array until data is returned
       _this.state = {

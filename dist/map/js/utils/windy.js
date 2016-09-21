@@ -403,19 +403,19 @@ define(["exports"], function (exports) {
                     if (m === null) {
                         particle.age = MAX_PARTICLE_AGE; // particle has escaped the grid, never to return...
                     } else {
-                            var xt = x + v[0];
-                            var yt = y + v[1];
-                            if (field(xt, yt)[2] !== null) {
-                                // Path from (x,y) to (xt,yt) is visible, so add this particle to the appropriate draw bucket.
-                                particle.xt = xt;
-                                particle.yt = yt;
-                                buckets[colorStyles.indexFor(m)].push(particle);
-                            } else {
-                                // Particle isn't visible, but it still moves through the field.
-                                particle.x = xt;
-                                particle.y = yt;
-                            }
+                        var xt = x + v[0];
+                        var yt = y + v[1];
+                        if (field(xt, yt)[2] !== null) {
+                            // Path from (x,y) to (xt,yt) is visible, so add this particle to the appropriate draw bucket.
+                            particle.xt = xt;
+                            particle.yt = yt;
+                            buckets[colorStyles.indexFor(m)].push(particle);
+                        } else {
+                            // Particle isn't visible, but it still moves through the field.
+                            particle.x = xt;
+                            particle.y = yt;
                         }
+                    }
                     particle.age += 1;
                 });
             }

@@ -71,7 +71,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
     function ModalWrapper(props) {
       _classCallCheck(this, ModalWrapper);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ModalWrapper).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ModalWrapper.__proto__ || Object.getPrototypeOf(ModalWrapper)).call(this, props));
 
       _this.close = function () {
         _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(_this).parentElement);

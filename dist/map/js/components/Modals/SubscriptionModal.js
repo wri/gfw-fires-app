@@ -81,7 +81,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     function SubscriptionModal(props) {
       _classCallCheck(this, SubscriptionModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SubscriptionModal).call(this, props));
+      var _this = _possibleConstructorReturn(this, (SubscriptionModal.__proto__ || Object.getPrototypeOf(SubscriptionModal)).call(this, props));
 
       _this.updateName = function (evt) {
         _this.setState({

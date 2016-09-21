@@ -81,7 +81,7 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     function Map(props) {
       _classCallCheck(this, Map);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Map).call(this, props));
+      var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this, props));
 
       _this.state = { loaded: false };
       return _this;

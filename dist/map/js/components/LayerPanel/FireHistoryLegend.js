@@ -1,11 +1,9 @@
-define(['exports', 'utils/request', 'react'], function (exports, _request, _react) {
+define(['exports', 'react'], function (exports, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  var _request2 = _interopRequireDefault(_request);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -63,76 +61,66 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var DamsLegend = function (_React$Component) {
-    _inherits(DamsLegend, _React$Component);
+  var FireHistoryLegend = function (_React$Component) {
+    _inherits(FireHistoryLegend, _React$Component);
 
-    function DamsLegend(props) {
-      _classCallCheck(this, DamsLegend);
+    function FireHistoryLegend() {
+      _classCallCheck(this, FireHistoryLegend);
 
-      var _this = _possibleConstructorReturn(this, (DamsLegend.__proto__ || Object.getPrototypeOf(DamsLegend)).call(this, props));
-
-      //- Set legend Info to an empty array until data is returned
-      _this.state = {
-        legendInfos: []
-      };
-      return _this;
+      return _possibleConstructorReturn(this, (FireHistoryLegend.__proto__ || Object.getPrototypeOf(FireHistoryLegend)).apply(this, arguments));
     }
 
-    _createClass(DamsLegend, [{
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var _this2 = this;
-
-        _request2.default.getLegendInfos(this.props.url, this.props.layerIds).then(function (legendInfos) {
-          _this2.setState({ legendInfos: legendInfos });
-        });
-      }
-    }, {
-      key: 'shouldComponentUpdate',
-      value: function shouldComponentUpdate(nextProps, nextState) {
-        return nextState.legendInfos.length !== this.state.legendInfos.length;
-      }
-    }, {
+    _createClass(FireHistoryLegend, [{
       key: 'render',
       value: function render() {
         return _react2.default.createElement(
           'div',
-          { className: 'legend-container' },
-          this.state.legendInfos.length === 0 ? _react2.default.createElement(
-            'div',
-            { className: 'legend-unavailable' },
-            'No Legend'
-          ) : _react2.default.createElement(
-            'div',
-            { className: 'major-dams-legend' },
-            this.state.legendInfos.map(this.itemMapper, this)
-          )
-        );
-      }
-    }, {
-      key: 'itemMapper',
-      value: function itemMapper(item, index) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'legend-row', key: index },
-          _react2.default.createElement('img', { title: item.label, src: 'data:image/png;base64,' + item.imageData }),
+          { className: 'last-rain-legend' },
           _react2.default.createElement(
             'div',
-            { className: 'legend-label' },
-            item.label
+            { id: 'fireHistoryLegendDataColors' },
+            _react2.default.createElement(
+              'div',
+              { id: 'fireHistoryLegendDataColorsBottom' },
+              _react2.default.createElement(
+                'div',
+                { id: 'lastRainLegend' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lastRainLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireHistoryLegendData fireHistoryLegendDataHighest' },
+                    'High'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lastRainLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireHistoryLegendData fireHistoryLegendDataMedium' },
+                    'Low'
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'lastRainLegendRow' },
+                  _react2.default.createElement(
+                    'span',
+                    { className: 'fireHistoryLegendData fireHistoryLegendDataLow' },
+                    'None'
+                  )
+                )
+              )
+            )
           )
         );
       }
     }]);
 
-    return DamsLegend;
+    return FireHistoryLegend;
   }(_react2.default.Component);
 
-  exports.default = DamsLegend;
-
-
-  DamsLegend.propTypes = {
-    url: _react2.default.PropTypes.string.isRequired,
-    layerIds: _react2.default.PropTypes.array.isRequired
-  };
+  exports.default = FireHistoryLegend;
 });

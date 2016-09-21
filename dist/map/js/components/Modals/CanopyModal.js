@@ -71,7 +71,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     function CanopyModal(props) {
       _classCallCheck(this, CanopyModal);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(CanopyModal).call(this, props));
+      return _possibleConstructorReturn(this, (CanopyModal.__proto__ || Object.getPrototypeOf(CanopyModal)).call(this, props));
     }
 
     _createClass(CanopyModal, [{

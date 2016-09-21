@@ -162,7 +162,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/AnalysisActions', 
     function SearchModal(props) {
       _classCallCheck(this, SearchModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchModal).call(this, props));
+      var _this = _possibleConstructorReturn(this, (SearchModal.__proto__ || Object.getPrototypeOf(SearchModal)).call(this, props));
 
       _this.change = function (evt) {
         var value = evt.target.value,
