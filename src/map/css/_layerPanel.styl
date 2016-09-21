@@ -182,6 +182,8 @@
 		margin-bottom 10px
 	&.fires
 		width 125px
+	&.fires-history
+		width 120px
 	& select
 		-webkit-appearance none
 		position absolute
@@ -322,6 +324,8 @@
 	top 0
 
 
+
+
 #fireWeatherLegend, #lastRainLegend
 	width 90px
 	font-size 11px
@@ -334,11 +338,14 @@
 	line-height 2em
 	display inline-block
 
-.lastRainLegendData
+.lastRainLegendData, .fireHistoryLegendData
 	margin-top 7px
 	display block
 	min-height 35px
 	min-width 15px
+
+.fireHistoryLegendData
+	margin-top 0px
 
 #lastRainLegendDataColors, #fireHistoryLegendDataColors
 	background-image url(images/rainfallLegend.png)
@@ -352,6 +359,8 @@
 
 #fireHistoryLegendDataColors
 	background-image url(images/fireHistoryLegend.jpg)
+	height 65px
+	background-size 25px
 
 .fireWeatherLegendDataColors, .lastRainLegendDataColors
 	margin-left 23px
@@ -369,8 +378,13 @@
 	margin-bottom 15px
 	float right
 
-#fireWeatherLegendDataColorsBottom, #lastRainLegendDataColorsBottom
+#fireHistoryLegendDataColorsBottom, #lastRainLegendDataColorsBottom
 	height 100px
+	background-size 20px
+	border 1px solid gray
+
+#fireHistoryLegendDataColorsBottom
+	height 75px
 	background-size 20px
 	border 1px solid gray
 
@@ -384,6 +398,27 @@
 	border 1px solid gray
 	bottom -5px
 	margin-left -1px
+
+.history-timeline-player
+	background url('images/play.svg') no-repeat center
+	height 15px
+	width 15px
+	position absolute
+	display block
+	background-size 15px 15px
+	right -30px
+	cursor pointer
+	top 4px
+
+.history-timeline-player.playing
+	background url('images/pause.svg') no-repeat center
+	height 15px
+	width 15px
+	display inline-block
+	background-size 15px 15px
+	float right
+	cursor pointer
+	padding-top 7px
 
 // /* IE10+ CSS styles go here */
 // @media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
