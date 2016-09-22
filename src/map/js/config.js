@@ -282,9 +282,6 @@ export const config = {
           '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
       },
       calendar: {
-        // startDate: new Date('10/19/2015'),
-        // currentDate: new Date(),
-        // domId: 'imageryCalendar',
         domClass: 'archive-settings',
         childDomClass: 'archive-subsettings',
         minLabel: 'From',
@@ -660,7 +657,7 @@ export const config = {
       order: 10,
       type: 'wind',
       label: 'Wind direction',
-      sublabel: '(2000, 30m, Indonesia, Daily, NOAA)',
+      sublabel: '(2000, 30m, Daily, NOAA)',
       group: 'airQuality',
       className: 'wind-direction',
       // url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
