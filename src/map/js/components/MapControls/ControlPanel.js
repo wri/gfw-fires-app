@@ -2,6 +2,7 @@ import ShareHelper from 'helpers/ShareHelper';
 import {modalActions} from 'actions/ModalActions';
 import {analysisActions} from 'actions/AnalysisActions';
 import webMercatorUtils from 'esri/geometry/webMercatorUtils';
+import Scalebar from 'esri/dijit/Scalebar';
 import {controlPanelText} from 'js/config';
 import {mapActions} from 'actions/MapActions';
 import {mapStore} from 'stores/MapStore';
@@ -29,6 +30,15 @@ export default class ControlPanel extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.map.loaded !== this.props.map.loaded) {
       this.props.map.on('mouse-move', this.displayCoordinates);
+      let scalebar = new Scalebar({
+        map: this.props.map,
+        // "dual" displays both miles and kilometers
+        // "english" is the default, which displays miles
+        // use "metric" for kilometers
+        attachTo: 'bottom-right',
+        scalebarUnit: 'metric'
+      });
+      console.log(scalebar);
     }
   }
 
@@ -38,8 +48,6 @@ export default class ControlPanel extends React.Component {
       lat: mp.x.toFixed(2),
       lng: mp.y.toFixed(2)
     });
-
-    console.log(mp.x.toFixed(2) + ', ' + mp.y.toFixed(2));
   }
 
   zoomIn () {
@@ -109,7 +117,8 @@ export default class ControlPanel extends React.Component {
   render() {
     return (
       <div className='control-panel map-component shadow'>
-        <span className='lat-lng-display'>
+        <div id='scalebar-container'></div>
+        <span className={`lat-lng-display ${this.state.lat ? '' : ' hidden'}`}>
           <span>{this.state.lat}</span>
           <span>, </span>
           <span>{this.state.lng}</span>
