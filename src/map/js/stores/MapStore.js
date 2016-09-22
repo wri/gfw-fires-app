@@ -46,6 +46,8 @@ class MapStore {
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.fireHistorySelectIndex = 0;
     this.layerPanelVisible = app.mobile === false;
+    this.lat = undefined;
+    this.lng = undefined;
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],

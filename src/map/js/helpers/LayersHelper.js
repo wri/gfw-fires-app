@@ -10,7 +10,6 @@ import {modalActions} from 'actions/ModalActions';
 import MosaicRule from 'esri/layers/MosaicRule';
 import on from 'dojo/on';
 import InfoTemplate from 'esri/InfoTemplate';
-import Graphic from 'esri/graphic';
 import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
 import ShareHelper from 'helpers/ShareHelper';
@@ -28,7 +27,7 @@ let LayersHelper = {
     app.map.graphics.remove(feature);
   },
 
-  checkZoomDependentLayers: function() {
+  checkZoomDependentLayers () {
     app.debug('LayerHelper >>> checkZoomDependentLayers');
 
     let level = 6,
