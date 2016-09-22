@@ -247,7 +247,7 @@ export const config = {
       id: KEYS.activeFires,
       order: 12,
       type: 'dynamic',
-      label: 'MODIS active Fires',
+      label: 'MODIS active fires',
       group: 'fires',
       visible: true,
       layerIds: [0, 1, 2, 3],
@@ -278,8 +278,11 @@ export const config = {
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
-          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
+        '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+        '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+        '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+        '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQUISITION DATE}</td></tr>' +
+        '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQUISITION TIME}</td></tr>'
       },
       calendar: {
         domClass: 'archive-settings',
@@ -292,7 +295,7 @@ export const config = {
       id: KEYS.noaa18Fires,
       order: 12,
       type: 'dynamic',
-      label: 'NOAA-18 Fires',
+      label: 'NOAA-18 fires',
       sublabel: '(layer starts at 10/22/14)',
       group: 'fires',
       layerIds: [9],
@@ -382,7 +385,7 @@ export const config = {
       id: KEYS.forestMoratorium,
       order: 9,
       type: 'dynamic',
-      label: 'Forest Moratorium',
+      label: 'Forest moratorium',
       // TODO: hookup instructions below
       // instruction: 'The moratorium prohibits new concessions on primary forest or peatlands. Learn More.'
       sublabel: '(Indonesia)',
@@ -497,7 +500,7 @@ export const config = {
       id: KEYS.woodFiberGreenpeace,
       order: 10,
       type: 'dynamic',
-      label: 'Wood Fiber',
+      label: 'Wood fiber',
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
@@ -672,7 +675,7 @@ export const config = {
       id: KEYS.airQuality,
       order: 25,
       type: 'dynamic',
-      label: 'Air Quality',
+      label: 'Air quality',
       sublabel: '(layer starts at 9/25/15)',
       group: 'airQuality',
       className: 'air-quality',
@@ -851,7 +854,7 @@ export const config = {
       id: KEYS.fireStories,
       order: 11,
       type: 'feature',
-      label: 'Fire Stories',
+      label: 'Fire stories',
       group: 'stories',
       layerIds: [10],
       className: 'fire-stories',
