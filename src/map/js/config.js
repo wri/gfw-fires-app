@@ -624,7 +624,7 @@ export const config = {
       id: KEYS.primaryForests,
       order: 6,
       type: 'dynamic',
-      label: 'Primary Forests',
+      label: 'Primary forests',
       sublabel: '(2000 - 2012, 30m, Indonesia)',
       group: 'landCover',
       className: 'primary-forests',

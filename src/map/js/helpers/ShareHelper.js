@@ -70,9 +70,12 @@ const ShareHelper = {
         layerActions.addActiveLayer(id);
       });
 
-      // activeFires is on by default, we need to turn it off if not present in the shared state
+      // activeFires & viirsFires are on by default, we need to turn them off if not present in state
       if (layerIds.indexOf(KEYS.activeFires) === -1) {
         layerActions.removeActiveLayer(KEYS.activeFires);
+      }
+      if (layerIds.indexOf(KEYS.viirsFires) === -1) {
+        layerActions.removeActiveLayer(KEYS.viirsFires);
       }
     }
 
