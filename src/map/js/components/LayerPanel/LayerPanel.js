@@ -129,7 +129,7 @@ export default class LayerPanel extends React.Component {
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
-          <LayerTransparency layers={fireRiskLayers}></LayerTransparency>
+          <LayerTransparency initalOpacity={.80} layers={fireRiskLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('fireRisk'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>

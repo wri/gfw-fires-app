@@ -253,7 +253,7 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
           _react2.default.createElement(
             _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Fire Risk' },
-            _react2.default.createElement(_LayerTransparency2.default, { layers: fireRiskLayers }),
+            _react2.default.createElement(_LayerTransparency2.default, { initalOpacity: .80, layers: fireRiskLayers }),
             _config.layersConfig.map(this.checkboxMap('fireRisk'), this)
           ),
           _react2.default.createElement(

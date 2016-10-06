@@ -73,7 +73,9 @@ define(['exports', 'helpers/LayersHelper', 'react'], function (exports, _LayersH
 
       // debugger
       // this.state = { opacity: props.layer.opacity || 1 };
-      _this.state = { opacity: 1 };
+      _this.state = { opacity: props.initalOpacity || 1 };
+
+      // this.state = { opacity: 1 };
       return _this;
     }
 
