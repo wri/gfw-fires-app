@@ -119,9 +119,9 @@ export default class ControlPanel extends React.Component {
       <div className='control-panel map-component shadow'>
         <div id='scalebar-container'></div>
         <span className={`lat-lng-display ${this.state.lat ? '' : ' hidden'}`}>
-          <span>{this.state.lat}</span>
+          <span>Lat/Lon: {this.state.lng}</span>
           <span>, </span>
-          <span>{this.state.lng}</span>
+          <span>{this.state.lat}</span>
         </span>
         <ul>
           <li className='zoom-in pointer' onClick={this.zoomIn}>

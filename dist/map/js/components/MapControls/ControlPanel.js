@@ -194,7 +194,8 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             _react2.default.createElement(
               'span',
               null,
-              this.state.lat
+              'Lat/Lon: ',
+              this.state.lng
             ),
             _react2.default.createElement(
               'span',
@@ -204,7 +205,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             _react2.default.createElement(
               'span',
               null,
-              this.state.lng
+              this.state.lat
             )
           ),
           _react2.default.createElement(
