@@ -88,6 +88,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
       this.fireHistorySelectIndex = 0;
       this.layerPanelVisible = app.mobile === false;
+      this.lat = undefined;
+      this.lng = undefined;
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],

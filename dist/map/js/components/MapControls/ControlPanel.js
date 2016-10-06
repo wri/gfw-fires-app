@@ -1,4 +1,4 @@
-define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/AnalysisActions', 'js/config', 'actions/MapActions', 'stores/MapStore', 'react'], function (exports, _ShareHelper, _ModalActions, _AnalysisActions, _config, _MapActions, _MapStore, _react) {
+define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/AnalysisActions', 'esri/geometry/webMercatorUtils', 'esri/dijit/Scalebar', 'js/config', 'actions/MapActions', 'stores/MapStore', 'react'], function (exports, _ShareHelper, _ModalActions, _AnalysisActions, _webMercatorUtils, _Scalebar, _config, _MapActions, _MapStore, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6,6 +6,10 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
   });
 
   var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
+
+  var _webMercatorUtils2 = _interopRequireDefault(_webMercatorUtils);
+
+  var _Scalebar2 = _interopRequireDefault(_Scalebar);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -67,8 +71,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
   var zoomOutSvg = '<use xlink:href="#icon-minus" />';
   var shareSvg = '<use xlink:href="#icon-share" />';
   var magnifierSvg = '<use xlink:href="#icon-magnifier" />';
-  // let basemapSvg = '<use xlink:href="#icon-basemap" />';
-  var locateSvg = '<use xlink:href="#icon-locate" />';
   var timelineSvg = '<use xlink:href="#icon-timeline" />';
   var printSvg = '<use xlink:href="#icon-print" />';
   var showSvg = '<use xlink:href="#icon-controlstoggle__on" />';
@@ -77,24 +79,53 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
   var ControlPanel = function (_React$Component) {
     _inherits(ControlPanel, _React$Component);
 
-    function ControlPanel() {
-      var _ref;
-
-      var _temp, _this, _ret;
-
+    function ControlPanel(props) {
       _classCallCheck(this, ControlPanel);
 
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
+      var _this = _possibleConstructorReturn(this, (ControlPanel.__proto__ || Object.getPrototypeOf(ControlPanel)).call(this, props));
 
-      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ControlPanel.__proto__ || Object.getPrototypeOf(ControlPanel)).call.apply(_ref, [this].concat(args))), _this), _this.printMap = function () {
+      _this.displayCoordinates = function (evt) {
+        var mp = _webMercatorUtils2.default.webMercatorToGeographic(evt.mapPoint);
+        _this.setState({
+          lat: mp.x.toFixed(2),
+          lng: mp.y.toFixed(2)
+        });
+      };
+
+      _this.share = function () {
+        _this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
+        _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl());
+      };
+
+      _this.printMap = function () {
         _this.sendAnalytics('map', 'print', 'The user printed the map.');
         window.print();
-      }, _temp), _possibleConstructorReturn(_this, _ret);
+      };
+
+      _this.state = {
+        lat: '',
+        lng: ''
+      };
+      return _this;
     }
 
     _createClass(ControlPanel, [{
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate(prevProps) {
+        if (prevProps.map.loaded !== this.props.map.loaded) {
+          this.props.map.on('mouse-move', this.displayCoordinates);
+          var scalebar = new _Scalebar2.default({
+            map: this.props.map,
+            // "dual" displays both miles and kilometers
+            // "english" is the default, which displays miles
+            // use "metric" for kilometers
+            attachTo: 'bottom-right',
+            scalebarUnit: 'metric'
+          });
+          console.log(scalebar);
+        }
+      }
+    }, {
       key: 'zoomIn',
       value: function zoomIn() {
         app.map.setZoom(app.map.getZoom() + 1);
@@ -103,12 +134,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
       key: 'zoomOut',
       value: function zoomOut() {
         app.map.setZoom(app.map.getZoom() - 1);
-      }
-    }, {
-      key: 'share',
-      value: function share() {
-        this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
-        _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl());
       }
     }, {
       key: 'reset',
@@ -162,6 +187,26 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
         return _react2.default.createElement(
           'div',
           { className: 'control-panel map-component shadow' },
+          _react2.default.createElement('div', { id: 'scalebar-container' }),
+          _react2.default.createElement(
+            'span',
+            { className: 'lat-lng-display ' + (this.state.lat ? '' : ' hidden') },
+            _react2.default.createElement(
+              'span',
+              null,
+              this.state.lat
+            ),
+            _react2.default.createElement(
+              'span',
+              null,
+              ', '
+            ),
+            _react2.default.createElement(
+              'span',
+              null,
+              this.state.lng
+            )
+          ),
           _react2.default.createElement(
             'ul',
             null,

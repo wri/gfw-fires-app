@@ -83,7 +83,10 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
 
       var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this, props));
 
-      _this.state = { loaded: false };
+      _this.state = {
+        loaded: false,
+        map: {}
+      };
       return _this;
     }
 
@@ -98,7 +101,10 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
         //- TODO: this may not be necessary, remove this if I dont neet to override params, currently I am setting them after load
         var newMapConfig = Object.assign({}, _config.mapConfig);
         _MapActions.mapActions.createMap(newMapConfig).then(function () {
-          _this2.setState({ loaded: true });
+          _this2.setState({
+            loaded: true,
+            map: app.map
+          });
           _MapActions.mapActions.createLayers();
           _MapActions.mapActions.connectLayerEvents();
           //- Use the helper to take the params and use actions to apply shared state, don't set these params
@@ -113,14 +119,15 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     }, {
       key: 'render',
       value: function render() {
-
+        console.log(this);
+        console.log(this.state);
         //<EsriSearch loaded={this.state.loaded} />
         return _react2.default.createElement(
           'div',
           { id: _config.mapConfig.id, className: 'map' },
           _react2.default.createElement(_LayerPanel2.default, { loaded: this.state.loaded }),
           _react2.default.createElement(_AnalysisTools2.default, null),
-          _react2.default.createElement(_ControlPanel2.default, null),
+          _react2.default.createElement(_ControlPanel2.default, { map: this.state.map }),
           _react2.default.createElement(_Timeline2.default, null),
           _react2.default.createElement(_MobileUnderlay2.default, null),
           _react2.default.createElement(_MobileControls2.default, null)

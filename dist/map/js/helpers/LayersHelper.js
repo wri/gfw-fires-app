@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils/AppUtils', 'dojo/promise/all', 'dojo/query', 'dojo/dom-class', 'actions/LayerActions', 'actions/ModalActions', 'esri/layers/MosaicRule', 'dojo/on', 'esri/InfoTemplate', 'esri/graphic', 'helpers/WindHelper', 'js/constants', 'helpers/ShareHelper'], function (exports, _config, _rasterFunctions, _request, _AppUtils, _all, _query, _domClass, _LayerActions, _ModalActions, _MosaicRule, _on, _InfoTemplate, _graphic, _WindHelper, _constants, _ShareHelper) {
+define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils/AppUtils', 'dojo/promise/all', 'dojo/query', 'dojo/dom-class', 'actions/LayerActions', 'actions/ModalActions', 'esri/layers/MosaicRule', 'dojo/on', 'esri/InfoTemplate', 'helpers/WindHelper', 'js/constants', 'helpers/ShareHelper'], function (exports, _config, _rasterFunctions, _request, _AppUtils, _all, _query, _domClass, _LayerActions, _ModalActions, _MosaicRule, _on, _InfoTemplate, _WindHelper, _constants, _ShareHelper) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -24,8 +24,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
   var _InfoTemplate2 = _interopRequireDefault(_InfoTemplate);
 
-  var _graphic2 = _interopRequireDefault(_graphic);
-
   var _WindHelper2 = _interopRequireDefault(_WindHelper);
 
   var _constants2 = _interopRequireDefault(_constants);
@@ -49,8 +47,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       this.sendAnalytics('feature', 'delete', 'The user deleted a custom feature.');
       app.map.graphics.remove(feature);
     },
-
-
     checkZoomDependentLayers: function checkZoomDependentLayers() {
       app.debug('LayerHelper >>> checkZoomDependentLayers');
 
@@ -77,7 +73,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         mainLayer.show();
       }
     },
-
     performIdentify: function performIdentify(evt) {
       app.debug('LayerHelper >>> performIdentify');
       this.sendAnalytics('map', 'click', 'The user performed an identify task by clicking the map.');

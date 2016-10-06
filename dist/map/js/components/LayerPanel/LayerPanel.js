@@ -225,6 +225,9 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
         var landUseLayers = _config.layersConfig.filter(function (l) {
           return l.group === 'forestUse';
         }).map(this.checkboxMap('forestUse'), this);
+        var fireRiskLayers = _config.layersConfig.filter(function (l) {
+          return l.group === 'fireRisk';
+        }).map(this.checkboxMap('fireRisk'), this);
         var conservationLayers = _config.layersConfig.filter(function (l) {
           return l.group === 'conservation';
         }).map(this.checkboxMap('conservation'), this);
@@ -250,6 +253,7 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
           _react2.default.createElement(
             _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Fire Risk' },
+            _react2.default.createElement(_LayerTransparency2.default, { layers: fireRiskLayers }),
             _config.layersConfig.map(this.checkboxMap('fireRisk'), this)
           ),
           _react2.default.createElement(
