@@ -116,6 +116,7 @@ export default class LayerPanel extends React.Component {
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
     let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
+    let fireRiskLayers = layersConfig.filter((l) => l.group === 'fireRisk').map(this.checkboxMap('fireRisk'), this);
     let conservationLayers = layersConfig.filter((l) => l.group === 'conservation').map(this.checkboxMap('conservation'), this);
     let landCoverLayers = layersConfig.filter((l) => l.group === 'landCover').map(this.checkboxMap('landCover'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
@@ -128,6 +129,7 @@ export default class LayerPanel extends React.Component {
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
+          <LayerTransparency layers={fireRiskLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('fireRisk'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
