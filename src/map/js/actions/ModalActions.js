@@ -11,10 +11,10 @@ class ModalActions {
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
 
-    urlUtils.addProxyRule({
-      urlPrefix: 'http://api.globalforestwatch.org',
-      proxyUrl: '/map/php/proxy.php'
-    });
+    // urlUtils.addProxyRule({
+    //   urlPrefix: 'http://api.globalforestwatch.org',
+    //   proxyUrl: '/map/php/proxy.php'
+    // });
     console.log(metadataIds);
     console.log(layersConfig);
 
@@ -26,7 +26,7 @@ class ModalActions {
       handleAs: 'json',
       callbackParamName: 'callback'
     }, {
-      usePost: true
+      usePost: false
     }).then(res => {
       this.dispatch(res);
       domClass.remove('layer-modal', 'hidden');
