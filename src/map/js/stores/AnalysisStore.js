@@ -79,18 +79,38 @@ class AnalysisStore {
 
   toggleAnalysisToolsExpanded () {
     this.analysisToolsExpanded = !this.analysisToolsExpanded;
+    if (this.analysisToolsExpanded === true) {
+      this.subscribeToolsExpanded = false;
+      this.imageryToolsExpanded = false;
+      this.basemapToolsExpanded = false;
+    }
   }
 
   toggleSubscribeToolsExpanded () {
     this.subscribeToolsExpanded = !this.subscribeToolsExpanded;
+    if (this.subscribeToolsExpanded === true) {
+      this.analysisToolsExpanded = false;
+      this.imageryToolsExpanded = false;
+      this.basemapToolsExpanded = false;
+    }
   }
 
   toggleImageryToolsExpanded () {
     this.imageryToolsExpanded = !this.imageryToolsExpanded;
+    if (this.imageryToolsExpanded === true) {
+      this.analysisToolsExpanded = false;
+      this.subscribeToolsExpanded = false;
+      this.basemapToolsExpanded = false;
+    }
   }
 
   toggleBasemapToolsExpanded () {
     this.basemapToolsExpanded = !this.basemapToolsExpanded;
+    if (this.basemapToolsExpanded === true) {
+      this.analysisToolsExpanded = false;
+      this.imageryToolsExpanded = false;
+      this.subscribeToolsExpanded = false;
+    }
   }
 
   toggleEsriSearchVisibility () {
