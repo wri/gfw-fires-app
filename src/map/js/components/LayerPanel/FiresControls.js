@@ -1,3 +1,4 @@
+import ModisLegend from 'components/LayerPanel/ModisLegend';
 import {layerActions} from 'actions/LayerActions';
 import LayersHelper from 'helpers/LayersHelper';
 import {modalActions} from 'actions/ModalActions';
@@ -24,6 +25,7 @@ export default class FiresControls extends React.Component {
   render () {
     let activeItem = firesOptions[this.props.firesSelectIndex];
     return <div>
+      <ModisLegend />
       <div className='timeline-container relative fires'>
         <select className='pointer' value={activeItem.value} onChange={this.changeFiresTimeline}>
           {firesOptions.map(this.optionsMap, this)}
