@@ -10,6 +10,7 @@ import PlantationControls from 'components/LayerPanel/PlantationControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
+import BurnScarsLegend from 'components/LayerPanel/BurnScarsLegend';
 import RiskControls from 'components/LayerPanel/RiskControls';
 import RainControls from 'components/LayerPanel/RainControls';
 import AirControls from 'components/LayerPanel/AirControls';
@@ -70,6 +71,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.noaa18Fires:
           childComponent = <NoaaControls options={layer.calendar} loaded={this.props.loaded} />;
+          break;
+        case KEYS.burnScars:
+          childComponent = <BurnScarsLegend url={layer.url} layerIds={layer.layerIds} {...this.state} />;
           break;
         case KEYS.treeCoverDensity:
           childComponent = <DensityDisplay {...this.state} />;
