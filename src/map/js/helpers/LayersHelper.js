@@ -694,12 +694,10 @@ let LayersHelper = {
 
   toggleConfidence (checked) {
     app.debug('LayersHelper >>> toggleConfidence');
-
     let firesLayer = app.map.getLayer(KEYS.activeFires);
     let defs = firesLayer.layerDefinitions;
 
     if (firesLayer) {
-
       firesLayer.visibleLayers.forEach(val => {
         let currentString = defs[val];
         if (currentString) {
@@ -711,7 +709,11 @@ let LayersHelper = {
               defs[val] = 'ACQ_DATE' + string;
             }
           } else {
-            defs[val] = '1=1';
+            if (checked) {
+              defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
+            } else {
+              defs[val] = '1=1';
+            }
           }
         } else {
           defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';

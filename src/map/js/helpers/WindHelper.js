@@ -26,7 +26,7 @@ let WIND_CONFIG = {
 
 esri.config.defaults.io.corsEnabledServers.push(WIND_CONFIG.dataUrl);
 
-export default class RasterLayer extends Layer {
+class RasterLayer extends Layer {
     constructor(data, options) {
       super(data, options);
 
