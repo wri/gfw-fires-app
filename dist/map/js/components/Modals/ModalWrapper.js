@@ -63,8 +63,6 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var closeSvg = '<use xlink:href="#shape-close" />';
-
   var ModalWrapper = function (_Component) {
     _inherits(ModalWrapper, _Component);
 
@@ -114,11 +112,7 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
           _react2.default.createElement(
             'div',
             { className: 'modal-window ' + (app.mobile() === true ? 'narrow' : '') },
-            _react2.default.createElement(
-              'div',
-              { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close },
-              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: closeSvg } })
-            ),
+            _react2.default.createElement('div', { title: 'close', className: 'modal-close close-icon pointer', onClick: this.close }),
             _react2.default.createElement(
               'div',
               { className: 'modal-wrapper custom-scroll ' + (this.props.children && this.props.children[0] || !this.props.downloadData ? '' : 'has-footer') },

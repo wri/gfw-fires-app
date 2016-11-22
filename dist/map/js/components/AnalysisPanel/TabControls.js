@@ -73,15 +73,20 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'utils/svgs', 'react'
     _createClass(TabControls, [{
       key: 'click',
       value: function click(tabId) {
-        if (this.props.activeTab === tabId) {
-          _AnalysisActions.analysisActions.toggleAnalysisToolsExpanded();
-        } else if (this.props.subscribeToolsExpanded === false) {
-          _AnalysisActions.analysisActions.toggleSubscribeToolsExpanded();
-        } else if (this.props.imageryToolsExpanded === false) {
-          _AnalysisActions.analysisActions.toggleImageryToolsExpanded();
-        } else if (this.props.basemapToolsExpanded === false) {
-          _AnalysisActions.analysisActions.toggleBasemapToolsExpanded();
+        switch (tabId) {
+          case _config.analysisPanelText.analysisTabId:
+            _AnalysisActions.analysisActions.toggleAnalysisToolsExpanded();
+            break;
+          case _config.analysisPanelText.subscriptionTabId:
+            _AnalysisActions.analysisActions.toggleSubscribeToolsExpanded();
+            break;
+          case _config.analysisPanelText.imageryTabId:
+            _AnalysisActions.analysisActions.toggleImageryToolsExpanded();
+            break;
+          case _config.analysisPanelText.basemapTabId:
+            _AnalysisActions.analysisActions.toggleBasemapToolsExpanded();
         }
+
         _AnalysisActions.analysisActions.setAnalysisType(tabId);
       }
     }, {

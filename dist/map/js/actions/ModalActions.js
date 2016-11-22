@@ -58,10 +58,10 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
 
         app.debug('ModalActions >>> showLayerInfo');
 
-        _urlUtils2.default.addProxyRule({
-          urlPrefix: 'http://api.globalforestwatch.org',
-          proxyUrl: '/map/php/proxy.php'
-        });
+        // urlUtils.addProxyRule({
+        //   urlPrefix: 'http://api.globalforestwatch.org',
+        //   proxyUrl: '/map/php/proxy.php'
+        // });
         console.log(_config.metadataIds);
         console.log(_config.layersConfig);
 
@@ -75,7 +75,7 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
           handleAs: 'json',
           callbackParamName: 'callback'
         }, {
-          usePost: true
+          usePost: false
         }).then(function (res) {
           _this.dispatch(res);
           _domClass2.default.remove('layer-modal', 'hidden');

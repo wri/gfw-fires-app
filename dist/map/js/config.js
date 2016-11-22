@@ -588,7 +588,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'airQuality',
       className: 'air-quality',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
-      metadataId: 'air_quality',
+      metadataId: 'air_quality_old',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
@@ -981,7 +981,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'forest-change-forma-alerts': 'forma',
         'activeFires': 'firms_active_fires',
         'viirsFires': 'viirs_fires',
-        'airQuality': 'air_quality',
+        'airQuality': 'air_quality_old',
         'treeCoverDensity': 'tree_cover',
         'forest-and-land-cover-intact-forest-landscape': 'intact_forest_landscapes_change',
         'peatlands': 'idn_peat_lands',

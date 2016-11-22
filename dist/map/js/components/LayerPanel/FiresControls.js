@@ -1,9 +1,11 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _react) {
+define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'react'], function (exports, _ModisLegend, _LayerActions, _LayersHelper, _ModalActions, _config, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+  var _ModisLegend2 = _interopRequireDefault(_ModisLegend);
 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
@@ -96,6 +98,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
         return _react2.default.createElement(
           'div',
           null,
+          _react2.default.createElement(_ModisLegend2.default, null),
           _react2.default.createElement(
             'div',
             { className: 'timeline-container relative fires' },

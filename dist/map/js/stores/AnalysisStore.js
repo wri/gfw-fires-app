@@ -126,21 +126,41 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       key: 'toggleAnalysisToolsExpanded',
       value: function toggleAnalysisToolsExpanded() {
         this.analysisToolsExpanded = !this.analysisToolsExpanded;
+        if (this.analysisToolsExpanded === true) {
+          this.subscribeToolsExpanded = false;
+          this.imageryToolsExpanded = false;
+          this.basemapToolsExpanded = false;
+        }
       }
     }, {
       key: 'toggleSubscribeToolsExpanded',
       value: function toggleSubscribeToolsExpanded() {
         this.subscribeToolsExpanded = !this.subscribeToolsExpanded;
+        if (this.subscribeToolsExpanded === true) {
+          this.analysisToolsExpanded = false;
+          this.imageryToolsExpanded = false;
+          this.basemapToolsExpanded = false;
+        }
       }
     }, {
       key: 'toggleImageryToolsExpanded',
       value: function toggleImageryToolsExpanded() {
         this.imageryToolsExpanded = !this.imageryToolsExpanded;
+        if (this.imageryToolsExpanded === true) {
+          this.analysisToolsExpanded = false;
+          this.subscribeToolsExpanded = false;
+          this.basemapToolsExpanded = false;
+        }
       }
     }, {
       key: 'toggleBasemapToolsExpanded',
       value: function toggleBasemapToolsExpanded() {
         this.basemapToolsExpanded = !this.basemapToolsExpanded;
+        if (this.basemapToolsExpanded === true) {
+          this.analysisToolsExpanded = false;
+          this.imageryToolsExpanded = false;
+          this.subscribeToolsExpanded = false;
+        }
       }
     }, {
       key: 'toggleEsriSearchVisibility',

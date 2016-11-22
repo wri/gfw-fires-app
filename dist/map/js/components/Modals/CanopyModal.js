@@ -106,7 +106,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     }, {
       key: 'sliderChanged',
       value: function sliderChanged(data) {
-        _ModalActions.modalActions.updateCanopyDensity('data.from_value');
+        _ModalActions.modalActions.updateCanopyDensity(data.from_value);
         _LayersHelper2.default.updateTreeCoverDefinitions(data.from_value);
       }
     }, {

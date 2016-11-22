@@ -202,9 +202,6 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
     return RasterLayer;
   }(_layer2.default);
 
-  exports.default = RasterLayer;
-
-
   var WindHelper = {
 
     activateWindLayer: function activateWindLayer(updatedURL) {
