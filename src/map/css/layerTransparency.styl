@@ -3,86 +3,104 @@
   width 90%
   padding-top 15px
 
-  input[type='range']
-    -webkit-appearance none
-    width 100%
-    margin 7px 0
-  input[type=range]:focus
-    outline none
+  // Chrome ****
+  input[type=range]{
+    -webkit-appearance: none;
+  }
+
   input[type=range]::-webkit-slider-runnable-track
-    width 100%
-    height 2px
-    cursor pointer
-    box-shadow none
-    background $lightGray
-    border-radius 0px
-    border 0px solid $darkGray
+    width: 100%;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    //border-radius: 3px;
+
   input[type=range]::-webkit-slider-thumb
-    box-shadow none
-    border 1px solid $lightGray
-    height 16px
-    width 16px
-    border-radius 3px
-    background #fff url(images/dot.svg) no-repeat 50% 50%;;
-    cursor pointer
-    -webkit-appearance none
-    margin-top -7px
+    -webkit-appearance: none;
+    //border: 1px solid #4a4a4a;
+    height: 16px;
+    width: 16px;
+    //border-radius: 50%;
+    background: #e7002f;
+    margin-top: -5px;
+
+  input[type=range]:focus
+    outline: none;
+
   input[type=range]:focus::-webkit-slider-runnable-track
-    background #b7b7b7
+    background: #ccc;
+
+  // Firefox ****
+  input[type=range]
+    /* fix for FF unable to apply focus style bug  */
+    border: 1px solid white;
+
+    /*required for proper track sizing in FF*/
+    width: 100%;
+    padding .5rem 0
 
   input[type=range]::-moz-range-track
-    width 100%
-    height 2px
-    cursor pointer
-    box-shadow 1px 1px 1px #ffffff, 0px 0px 1px #ffffff
-    background #aaaaaa
-    border-radius 0px
-    border 0px solid #010101
-  input[type=range]::-moz-range-thumb
-    box-shadow 0px 0px 0px #000000, 0px 0px 0px #0d0d0d
-    border 1px solid #dddddd
-    height 20px
-    width 20px
-    border-radius 3px
-    background #fff url(images/dot.svg) no-repeat 50% 50%
-    cursor pointer
+    width: 100%;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    //border-radius: 3px;
 
-  input[type=range]::-ms-track
-    width 100%
-    height 2px
-    cursor pointer
-    background transparent
-    border-color transparent
+  input[type=range]::-moz-range-thumb
+    border: 1px solid #4a4a4a;
+    height: 16px;
+    width: 16px;
+    //border-radius: 50%;
+    background: #e7002f;
+
+  /*hide the outline behind the border*/
+  input[type=range]:-moz-focusring
+    outline: 1px solid white;
+    outline-offset: -1px;
+
+  input[type=range]:focus::-moz-range-track
+    background: #ccc;
+
+  // Internet Explorer ****
+  input[type=range]::-ms-track {
+    width: 90%;
+    height: 5px;
+    margin 0 5%
+
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
     color: transparent;
+  }
   input[type=range]::-ms-fill-lower
-    background #9d9d9d
-    border 0px solid #010101
-    border-radius 0px
-    box-shadow 1px 1px 1px #ffffff, 0px 0px 1px #ffffff
+    background: #777;
+    //border-radius: 10px;
+
   input[type=range]::-ms-fill-upper
-    background #aaa
-    border 0px solid #010101
-    border-radius 0px
-    box-shadow 1px 1px 1px #ffffff, 0px 0px 1px #ffffff
+    background: #ddd;
+    //border-radius: 10px;
+
   input[type=range]::-ms-thumb
-    box-shadow 0px 0px 0px #000000, 0px 0px 0px #0d0d0d
-    border 1px solid #dddddd
-    height 20px
-    width 20px
-    border-radius 3px
-    background #fff url(images/dot.svg) no-repeat 50% 50%;
-    cursor pointer
-    height 2px
+    border: none;
+    height: 16px;
+    width: 16px;
+    //border-radius: 50%;
+    background: #e7002f;
+
   input[type=range]:focus::-ms-fill-lower
-    background #aaa
+    background: #888;
+
   input[type=range]:focus::-ms-fill-upper
-    background #b7b7b7
+    background: #ccc;
+
 
   div
     color $lightGray
     font-size 0.75em
     text-align center
-    position absolute
-    width 150px
-    left calc(50% - 75px)
-    margin-top -12px
+    width 100%
