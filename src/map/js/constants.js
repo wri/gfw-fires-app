@@ -9,7 +9,6 @@ const KEYS = {
   darkGrayBasemap: 'dark-gray',
 
   //- Layers and Layer Categories
-  activeFires: 'activeFires',
   viirsFires: 'viirsFires',
   archiveFires: 'archiveFires',
   noaa18Fires: 'noaa18Fires',

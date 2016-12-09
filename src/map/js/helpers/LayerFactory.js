@@ -4,6 +4,7 @@ import ImageLayer from 'esri/layers/ArcGISImageServiceLayer';
 import ImageParameters from 'esri/layers/ImageParameters';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import FeatureLayer from 'esri/layers/FeatureLayer';
+import WMSLayer from 'esri/layers/WMSLayer';
 import {errors} from 'js/config';
 
 /**

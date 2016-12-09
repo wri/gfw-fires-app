@@ -49,6 +49,7 @@ export const config = {
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
     corsEnabledServers: [
+      //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org',
       'wri-gfw-fires-staging.herokuapp.com',
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?

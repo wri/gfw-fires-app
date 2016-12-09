@@ -93,12 +93,26 @@
 	margin 5px 0
 	& .legend-label
 		font-size 12px
+		vertical-align: middle
 		padding 0 5px
 		padding-top 1px
 	& .legend-row
 		margin 5px 0
 		display flex
 		width 100%
+
+.modis-legend
+	flex-wrap wrap
+	display flex
+	margin 5px 0
+	& .legend-label
+		font-size 12px
+		vertical-align: middle
+		padding 1px 5px
+	& .legend-row
+		margin 5px 0
+		display flex
+		width: 100%
 
 .plantations-legend-container-type .land-cover-legend .legend-row
 	margin 5px 0
@@ -435,9 +449,9 @@
 	background-color: #ffa634
 #high-confidence
 	background-color: #ff4824
-.legend-label
-	font-size: 12px
-	padding: 0 5px
+// .legend-label
+// 	font-size: 12px
+// 	padding: 1px 5px
 
 // /* IE10+ CSS styles go here */
 // @media all and (-ms-high-contrast: none), (-ms-high-contrast: active)
