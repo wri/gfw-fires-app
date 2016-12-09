@@ -51,7 +51,13 @@ export default class ModalWrapper extends Component {
       <div className='modal-container'>
         <div className='modal-background' onClick={this.close} />
         <div className={`modal-window ${app.mobile() === true ? 'narrow' : ''}`}>
-          <div title='close' className='modal-close close-icon pointer' onClick={this.close}></div>
+          <div className="modal-header">
+            <h2 className='modal-title'>{this.state.layerInfo.title}</h2>
+            {!this.state.layerInfo.subtitle ? null :
+              <h3 className='modal-subtitle'>{this.state.layerInfo.subtitle}</h3>
+            }
+            <div title='close' className='modal-close close-icon pointer' onClick={this.close}></div>
+          </div>
           <div className={`modal-wrapper custom-scroll ${(this.props.children && this.props.children[0]) || !this.props.downloadData ? '' : 'has-footer'}`}>
             {this.props.children}
             {(this.props.children && this.props.children[0]) || !this.props.downloadData ? null :
