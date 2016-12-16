@@ -25,7 +25,7 @@ export default class FiresControls extends React.Component {
   render () {
     let activeItem = firesOptions[this.props.firesSelectIndex];
     return <div>
-      <ModisLegend />
+      //ModisLegend />
       <div className='timeline-container relative fires'>
         <select className='pointer' value={activeItem.value} onChange={this.changeFiresTimeline}>
           {firesOptions.map(this.optionsMap, this)}
