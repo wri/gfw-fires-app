@@ -60,9 +60,9 @@ export default class LayerPanel extends React.Component {
         case KEYS.majorDams:
           childComponent = <DamsLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
-        // case KEYS.activeFires:
-        //   childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
-        //   break;
+        case KEYS.activeFires:
+          childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
+          break;
         case KEYS.viirsFires:
           childComponent = <ViirsControls loaded={this.props.loaded} {...this.state} />;
           break;
