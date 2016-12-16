@@ -52,7 +52,7 @@ export default class LayerPanel extends React.Component {
 
       switch (layer.id) {
         case KEYS.waterStress:
-          //childComponent = <WaterStressLegend url={layer.url} layerIds={layer.layerIds} />;
+          childComponent = <WaterStressLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
         case KEYS.sediment:
           childComponent = <SedimentLegend url={layer.url} layerIds={layer.layerIds} />;
@@ -60,9 +60,9 @@ export default class LayerPanel extends React.Component {
         case KEYS.majorDams:
           childComponent = <DamsLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
-        case KEYS.activeFires:
-          childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
-          break;
+        // case KEYS.activeFires:
+        //   childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
+        //   break;
         case KEYS.viirsFires:
           childComponent = <ViirsControls loaded={this.props.loaded} {...this.state} />;
           break;

@@ -10,6 +10,7 @@ const KEYS = {
 
   //- Layers and Layer Categories
   viirsFires: 'viirsFires',
+  activeFires: 'activeFires',
   archiveFires: 'archiveFires',
   noaa18Fires: 'noaa18Fires',
   burnScars: 'burnScars',
