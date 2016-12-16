@@ -25,14 +25,13 @@ export default class FiresControls extends React.Component {
   render () {
     let activeItem = firesOptions[this.props.firesSelectIndex];
     return <div>
-      <ModisLegend />
       <div className='timeline-container relative fires'>
         <select className='pointer' value={activeItem.value} onChange={this.changeFiresTimeline}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
       </div>
-      <input onChange={this.toggleConfidence} type='checkbox' /><span className='fires-confidence-wrapper'>Only show <span className='fires-confidence' onClick={this.showFiresModal}>high confidence fires</span></span>
+      {/*<input onChange={this.toggleConfidence} type='checkbox' /><span className='fires-confidence-wrapper'>Only show <span className='fires-confidence' onClick={this.showFiresModal}>high confidence fires</span></span>*/}
     </div>;
   }
 
@@ -40,9 +39,9 @@ export default class FiresControls extends React.Component {
     modalActions.showFiresModal();
   }
 
-  toggleConfidence (evt) {
-    LayersHelper.toggleConfidence(evt.target.checked);
-  }
+  // toggleConfidence (evt) {
+  //   LayersHelper.toggleConfidence(evt.target.checked);
+  // }
 
   optionsMap (item, index) {
     return <option key={index} value={item.value}>{item.label}</option>;

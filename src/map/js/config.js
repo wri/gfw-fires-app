@@ -251,10 +251,10 @@ export const config = {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0, 1, 2, 3],
+      layerIds: [0,1],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_1/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
