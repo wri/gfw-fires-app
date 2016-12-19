@@ -98,7 +98,6 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
         return _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_ModisLegend2.default, null),
           _react2.default.createElement(
             'div',
             { className: 'timeline-container relative fires' },
@@ -112,17 +111,6 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
               { className: 'active-fires-control gfw-btn sml white' },
               activeItem.label
             )
-          ),
-          _react2.default.createElement('input', { onChange: this.toggleConfidence, type: 'checkbox' }),
-          _react2.default.createElement(
-            'span',
-            { className: 'fires-confidence-wrapper' },
-            'Only show ',
-            _react2.default.createElement(
-              'span',
-              { className: 'fires-confidence', onClick: this.showFiresModal },
-              'high confidence fires'
-            )
           )
         );
       }
@@ -130,11 +118,6 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
       key: 'showFiresModal',
       value: function showFiresModal() {
         _ModalActions.modalActions.showFiresModal();
-      }
-    }, {
-      key: 'toggleConfidence',
-      value: function toggleConfidence(evt) {
-        _LayersHelper2.default.toggleConfidence(evt.target.checked);
       }
     }, {
       key: 'optionsMap',

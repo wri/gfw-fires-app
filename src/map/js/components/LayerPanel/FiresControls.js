@@ -31,17 +31,12 @@ export default class FiresControls extends React.Component {
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
       </div>
-      {/*<input onChange={this.toggleConfidence} type='checkbox' /><span className='fires-confidence-wrapper'>Only show <span className='fires-confidence' onClick={this.showFiresModal}>high confidence fires</span></span>*/}
     </div>;
   }
 
   showFiresModal () {
     modalActions.showFiresModal();
   }
-
-  // toggleConfidence (evt) {
-  //   LayersHelper.toggleConfidence(evt.target.checked);
-  // }
 
   optionsMap (item, index) {
     return <option key={index} value={item.value}>{item.label}</option>;

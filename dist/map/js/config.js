@@ -62,7 +62,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       airQStartDate: new window.Kalendae.moment('09/25/2015'),
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
-      corsEnabledServers: ['gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
+      corsEnabledServers: [
+      //'https://services.digitalglobe.com/mapservice/gis/',
+      'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
@@ -235,10 +237,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0, 1, 2, 3],
+      layerIds: [0, 1],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_1/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'

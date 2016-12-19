@@ -15,8 +15,8 @@ define(['exports'], function (exports) {
     darkGrayBasemap: 'dark-gray',
 
     //- Layers and Layer Categories
-    activeFires: 'activeFires',
     viirsFires: 'viirsFires',
+    activeFires: 'activeFires',
     archiveFires: 'archiveFires',
     noaa18Fires: 'noaa18Fires',
     burnScars: 'burnScars',

@@ -707,36 +707,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         fireHistory.setDefinitionExpression("Name = '" + value + "'");
       }
     },
-    toggleConfidence: function toggleConfidence(checked) {
-      app.debug('LayersHelper >>> toggleConfidence');
-      var firesLayer = app.map.getLayer(_constants2.default.activeFires);
-      var defs = firesLayer.layerDefinitions;
-
-      if (firesLayer) {
-        firesLayer.visibleLayers.forEach(function (val) {
-          var currentString = defs[val];
-          if (currentString) {
-            if (currentString.indexOf('ACQ_DATE') > -1) {
-              if (checked) {
-                defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-              } else {
-                var string = currentString.split('ACQ_DATE')[1];
-                defs[val] = 'ACQ_DATE' + string;
-              }
-            } else {
-              if (checked) {
-                defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-              } else {
-                defs[val] = '1=1';
-              }
-            }
-          } else {
-            defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-          }
-        });
-        firesLayer.setLayerDefinitions(defs);
-      }
-    },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');
 
