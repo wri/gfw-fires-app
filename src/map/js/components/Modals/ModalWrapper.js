@@ -36,7 +36,6 @@ export default class ModalWrapper extends Component {
   };
 
   sendDownloadAnalytics = (evt) => {
-    console.log(evt.target.id);
     this.sendAnalytics('map', 'download', 'The user is downloading data via a layer info panel.');
   }
 

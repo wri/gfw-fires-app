@@ -122,6 +122,9 @@ class MapStore {
   }
 
   setCurrentCustomGraphic (graphic) {
+    if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === 'custom') {
+      graphic = app.map.graphics.graphics[0];
+    }
     this.currentCustomGraphic = graphic;
   }
 
@@ -318,7 +321,6 @@ class MapStore {
     if (index !== -1) {
       // Create a copy of the strings array for easy change detection
       let layers = this.activeLayers.slice();
-      console.log(layerId);
       layers.splice(index, 1);
       this.activeLayers = layers;
       app.activeLayers = layers;

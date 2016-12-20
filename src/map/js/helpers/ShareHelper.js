@@ -87,16 +87,12 @@ const ShareHelper = {
   applyInitialState () {
     app.debug('ShareHelper >>> applyInitialState');
     let url = this.prepareStateForUrl();
-    console.log(url);
-
     hash(url);
   },
 
   handleHashChange (basemap) {
     app.debug('ShareHelper >>> handleHashChange');
     let url = this.prepareStateForUrl(basemap);
-    console.log(url);
-
     hash(url);
   }
 

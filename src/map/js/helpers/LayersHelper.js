@@ -35,7 +35,6 @@ let LayersHelper = {
       helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
 
     if (mainLayer === undefined || helperLayer === undefined) {
-      console.log('No protected Areas');
       // Error Loading Layers and they do not work
       return;
     }
@@ -69,13 +68,7 @@ let LayersHelper = {
     app.map.infoWindow.resize(270);
 
     if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
-      // this.setCustomFeaturesTemplates(evt.graphic);
-      // app.map.infoWindow.setFeatures([evt.graphic]);
-      // app.map.infoWindow.show(mapPoint);
-
-      // on(rowData, 'click', function(clickEvt) {
       modalActions.showSubscribeModal(evt.graphic);
-
       return;
     }
 
@@ -417,10 +410,8 @@ let LayersHelper = {
 
   setStoryTemplates: function(features) {
     let template, htmlContent;
-    console.log(features);
 
     features.forEach(item => {
-      console.log(item.feature);
       if (app.mobile() === true) {
         htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       } else {
@@ -687,7 +678,6 @@ let LayersHelper = {
     let fireHistory = app.map.getLayer(KEYS.fireHistory);
     let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
     if (fireHistory) {
-      console.log("Name = '" + value + "'");
       fireHistory.setDefinitionExpression("Name = '" + value + "'");
     }
   },
@@ -904,9 +894,6 @@ let LayersHelper = {
 
     let rainLayer = app.map.getLayer(KEYS.lastRainfall);
 
-    console.log(defQuery);
-    //DSLR_2016NaN_IDN
-
     if (rainLayer) {
       rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
     }
@@ -926,7 +913,6 @@ let LayersHelper = {
 
     let layerDefs = [];
     layerDefs[1] = "Date LIKE '" + date + "%'";
-    console.log(layerDefs[1]);
     layer.setLayerDefinitions(layerDefs);
   },
 
