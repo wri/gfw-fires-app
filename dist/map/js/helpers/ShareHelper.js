@@ -115,15 +115,11 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
     applyInitialState: function applyInitialState() {
       app.debug('ShareHelper >>> applyInitialState');
       var url = this.prepareStateForUrl();
-      console.log(url);
-
       (0, _hash2.default)(url);
     },
     handleHashChange: function handleHashChange(basemap) {
       app.debug('ShareHelper >>> handleHashChange');
       var url = this.prepareStateForUrl(basemap);
-      console.log(url);
-
       (0, _hash2.default)(url);
     }
   };

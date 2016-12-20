@@ -949,6 +949,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
           phonePlaceholder: 'Phone number',
           error: 'There was a problem with subscribing. Please try again later.',
+          warningTextPoints: 'You must draw or upload a shape!',
           warningTextEmail: 'You must enter a valid email address!',
           warningTextPhone: 'You must enter a valid phone number!',
           subscribeTitle: 'Subscription success!',

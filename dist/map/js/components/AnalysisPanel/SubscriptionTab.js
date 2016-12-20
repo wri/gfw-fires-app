@@ -157,7 +157,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
                   id: field.alias
                 });
               });
-              console.log(uploadedFeats);
 
               _this.setState({
                 isUploading: false,

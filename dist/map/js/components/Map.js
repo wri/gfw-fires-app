@@ -119,8 +119,6 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     }, {
       key: 'render',
       value: function render() {
-        console.log(this);
-        console.log(this.state);
         //<EsriSearch loaded={this.state.loaded} />
         return _react2.default.createElement(
           'div',
