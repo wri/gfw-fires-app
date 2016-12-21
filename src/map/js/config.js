@@ -341,7 +341,7 @@ export const config = {
       group: 'fireRisk',
       className: 'fire-history',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
