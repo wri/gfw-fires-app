@@ -684,12 +684,17 @@ let LayersHelper = {
   },
 
   updateFireHistoryDefinitions (index) {
-    let fireHistory = app.map.getLayer(KEYS.fireHistory);
-    let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
-    if (fireHistory) {
-      console.log("Name = '" + value + "'");
-      fireHistory.setDefinitionExpression("Name = '" + value + "'");
-    }
+    let layers = layersConfig.filter(layer => layer && layer.label === 'Fire history');
+    layers.forEach(layer => {
+      let date = 2001 + index;
+      let layerTitle = 'firesHistory' + date;
+      let firesHistoryLayer = app.map.getLayer(layer.id);
+      if (layer.id === layerTitle){
+        firesHistoryLayer.show();
+      } else {
+        firesHistoryLayer.hide();
+      }
+    });
   },
 
   // toggleConfidence (checked) {

@@ -97,7 +97,7 @@ class MapStore {
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
-    LayersHelper.updateFireHistoryDefinitions(0);
+    //LayersHelper.updateFireHistoryDefinitions(0);
 
   }
 
