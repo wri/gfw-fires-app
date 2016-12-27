@@ -703,16 +703,24 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var layers = _config.layersConfig.filter(function (layer) {
         return layer && layer.label === 'Fire history';
       });
+      var date = 2001 + index;
+      var layerTitle = 'firesHistory' + date;
+      var activeFireHistory = _config.layersConfig.filter(function (layer) {
+        return layer && layer.id === layerTitle;
+      });
+      var activeFireHistoryLayer = app.map.getLayer(activeFireHistory[0].id);
+
       layers.forEach(function (layer) {
-        var date = 2001 + index;
-        var layerTitle = 'firesHistory' + date;
-        var firesHistoryLayer = app.map.getLayer(layer.id);
-        if (layer.id === layerTitle) {
-          firesHistoryLayer.show();
-        } else {
-          firesHistoryLayer.hide();
+        if (layer.id !== layerTitle) {
+          (function () {
+            var firesHistoryLayer = app.map.getLayer(layer.id);
+            _on2.default.once(activeFireHistoryLayer, 'update-end', function () {
+              firesHistoryLayer.hide();
+            });
+          })();
         }
       });
+      activeFireHistoryLayer.show();
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');

@@ -231,9 +231,10 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/AnalysisActions', 
       _this.decimalDegreeSearch = function () {
         var values = [_this.refs.decimalDegreeLat.value, _this.refs.decimalDegreeLng.value].map(parseFloat);
 
-        var _values = _slicedToArray(values, 2),
-            lat = _values[0],
-            lng = _values[1];
+        var _values = _slicedToArray(values, 2);
+
+        var lat = _values[0];
+        var lng = _values[1];
 
         if (values.map(isNaN).indexOf(true) > -1) {
           throw Error('Invalid input(s)');
@@ -347,7 +348,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/AnalysisActions', 
                   'div',
                   null,
                   _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                  '\xBA'
+                  'º'
                 ),
                 _react2.default.createElement(
                   'div',
@@ -383,7 +384,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/AnalysisActions', 
                   'div',
                   null,
                   _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                  '\xBA'
+                  'º'
                 ),
                 _react2.default.createElement(
                   'div',
