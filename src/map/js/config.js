@@ -341,7 +341,9 @@ export const config = {
       group: 'fireRisk',
       className: 'fire-history',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
+      // url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
+      //url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/idn_annual_fire_frequency_cache/ImageServer',
+      url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2010/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -991,6 +993,13 @@ export const config = {
         {label: 2013, value: 2013},
         {label: 2014, value: 2014},
         {label: 2015, value: 2015}
+      ],
+      fireHistoryOptions2:[
+        {label: 2001, value:'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2001/ImageServer'},
+        {label: 2002, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2002/ImageServer'},
+        {label: 2003, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2003/ImageServer'},
+        {label: 2004, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2004/ImageServer'},
+        {label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer'}
       ],
       firesOptions: [
 
