@@ -685,14 +685,18 @@ let LayersHelper = {
 
   updateFireHistoryDefinitions (index) {
     let layers = layersConfig.filter(layer => layer && layer.label === 'Fire history');
+    let date = 2001 + index;
+    let layerTitle = 'firesHistory' + date;
+    let activeFireHistory = layersConfig.filter(layer => layer && layer.id === layerTitle);
+    let activeFireHistoryLayer = app.map.getLayer(activeFireHistory.id);
+
     layers.forEach(layer => {
-      let date = 2001 + index;
-      let layerTitle = 'firesHistory' + date;
       let firesHistoryLayer = app.map.getLayer(layer.id);
-      if (layer.id === layerTitle){
-        firesHistoryLayer.show();
-      } else {
-        firesHistoryLayer.hide();
+      if (layer.id !== layerTitle) {
+        on.once(activeFireHistoryLayer, 'visibility-change', () => {
+          firesHistoryLayer.hide();
+          console.log('VISIBILIY CHANGED')
+        });
       }
     });
   },
