@@ -465,6 +465,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (layer) {
         layer.setOpacity(parameters.value);
       }
+      if (layer.id === _constants2.default.fireHistory) {
+        var layers = _config.layersConfig.filter(function (layerConfig) {
+          return layerConfig && layerConfig.label === 'Fire history';
+        });
+        layers.forEach(function (subLayer) {
+          var firesHistoryLayer = app.map.getLayer(subLayer.id);
+          firesHistoryLayer.setOpacity(parameters.value);
+        });
+      }
     },
     updateOverlays: function updateOverlays(layers) {
       var layer = app.map.getLayer(_constants2.default.overlays);
@@ -544,6 +553,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
         _ShareHelper2.default.handleHashChange();
         return;
+      } else if (layerObj.layerId === _constants2.default.fireHistory) {
+        (function () {
+          var date = 2001 + layerObj.fireHistorySelectIndex;
+          var layerTitle = 'firesHistory' + date;
+          var activeFireHistory = _config.layersConfig.filter(function (layer) {
+            return layer && layer.id === layerTitle;
+          });
+          layerObj.layerId = activeFireHistory[0].id;
+        })();
       }
       var layer = app.map.getLayer(layerObj.layerId);
       if (layer) {
@@ -586,6 +604,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         _ShareHelper2.default.handleHashChange();
         return;
+      } else if (layerId === _constants2.default.fireHistory) {
+        var layers = _config.layersConfig.filter(function (layer) {
+          return layer && layer.label === 'Fire history';
+        });
+
+        layers.forEach(function (layer) {
+          var firesHistoryLayer = app.map.getLayer(layer.id);
+          firesHistoryLayer.hide();
+        });
       }
       var layer = app.map.getLayer(layerId);
       if (layer) {
@@ -691,7 +718,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
-<<<<<<< HEAD
       var layers = _config.layersConfig.filter(function (layer) {
         return layer && layer.label === 'Fire history';
       });
@@ -713,13 +739,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       });
       activeFireHistoryLayer.show();
-=======
-      var fireHistory = app.map.getLayer(_constants2.default.fireHistory);
-      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
-      if (fireHistory) {
-        fireHistory.setDefinitionExpression("Name = '" + value + "'");
-      }
->>>>>>> develop
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');

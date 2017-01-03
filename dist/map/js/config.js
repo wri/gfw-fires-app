@@ -195,6 +195,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       highcharts: 'http://code.highcharts.com/highcharts.js',
       highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
       rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
+      // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
       chosen: '../vendors/chosen/chosen.jquery.js'
     },
 
