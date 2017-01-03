@@ -31,6 +31,7 @@ export default class LayerCheckbox extends React.Component {
         let layerObj = {};
         layerObj.layerId = this.props.layer.id;
         layerObj.footprints = this.state.footprints;
+        layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
         LayersHelper.showLayer(layerObj);
       } else {
         LayersHelper.hideLayer(this.props.layer.id);
