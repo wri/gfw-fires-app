@@ -122,7 +122,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
             attachTo: 'bottom-right',
             scalebarUnit: 'metric'
           });
-          console.log(scalebar);
         }
       }
     }, {

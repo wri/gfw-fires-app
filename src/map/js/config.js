@@ -202,6 +202,7 @@ export const config = {
     highcharts: 'http://code.highcharts.com/highcharts.js',
     highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
     rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
+    // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
     chosen: '../vendors/chosen/chosen.jquery.js'
   },
 
@@ -1257,6 +1258,7 @@ export const config = {
         phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
         phonePlaceholder: 'Phone number',
         error: 'There was a problem with subscribing. Please try again later.',
+        warningTextPoints: 'You must draw or upload a shape!',
         warningTextEmail: 'You must enter a valid email address!',
         warningTextPhone: 'You must enter a valid phone number!',
         subscribeTitle: 'Subscription success!',

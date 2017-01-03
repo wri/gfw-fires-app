@@ -109,10 +109,20 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           return;
         }
 
+        // if (!this.state.currentCustomGraphic) {
+        //   return;
+        // }
+
+        var validPoint = _this.state.currentCustomGraphic ? true : false;
+        console.log('validPoint', validPoint);
         var validEmail = _this.validateEmail(_this.state.email);
         var validPhone = _this.validatePhone(_this.state.phoneNumber);
 
-        if (!validPhone && !validEmail) {
+        if (!validPoint) {
+          _this.setState({
+            pointErrors: true
+          });
+        } else if (!validPhone && !validEmail) {
           _this.setState({
             emailErrors: true,
             phoneErrors: true
@@ -129,6 +139,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           });
         } else {
           _this.setState({
+            pointErrors: false,
             emailErrors: false,
             phoneErrors: false,
             isUploading: true
@@ -230,6 +241,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         email: '',
         customFeatName: '', //'Custom Feature',
         phoneNumber: '',
+        pointErrors: false,
         emailErrors: false,
         phoneErrors: false,
         isSubscribing: false,
@@ -260,10 +272,22 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
       key: 'storeUpdated',
       value: function storeUpdated() {
         var newState = _MapStore.mapStore.getState();
-        if (newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
+        if (newState.currentCustomGraphic && newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
           this.setState({
             currentCustomGraphic: newState.currentCustomGraphic,
-            customFeatName: newState.currentCustomGraphic.attributes.featureName
+            customFeatName: newState.currentCustomGraphic.attributes.featureName,
+            pointErrors: false
+          });
+        } else if (!newState.currentCustomGraphic && newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
+          this.setState({
+            currentCustomGraphic: undefined,
+            customFeatName: ''
+          });
+        }
+
+        if (!this.state.currentCustomGraphic && newState.currentCustomGraphic) {
+          this.setState({
+            pointErrors: false
           });
         }
       }
@@ -277,7 +301,6 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
       key: 'validatePhone',
       value: function validatePhone(phoneNumber) {
         //todo: use old phone # validation library
-        console.log(phoneNumber);
         if (phoneNumber.length > 5 || phoneNumber === 1) {
           return true;
         } else {
@@ -315,6 +338,11 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             _config.modalText.subscription.title
           ),
           this.state.currentCustomGraphic ? _react2.default.createElement('input', { className: 'longer', value: this.state.customFeatName, onChange: this.updateName }) : null,
+          _react2.default.createElement(
+            'div',
+            { className: 'submit-warning ' + (this.state.pointErrors ? '' : 'hidden') },
+            _config.modalText.subscription.warningTextPoints
+          ),
           _react2.default.createElement(
             'p',
             null,

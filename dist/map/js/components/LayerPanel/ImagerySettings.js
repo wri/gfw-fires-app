@@ -88,15 +88,12 @@ define(['exports', 'helpers/LayersHelper', 'stores/MapStore', 'actions/LayerActi
       value: function componentDidUpdate(prevProps, prevState) {
         if (prevState.footprintsVisible !== this.state.footprintsVisible) {
           if (this.state.footprintsVisible) {
-            console.log('showing');
 
             var layerObj = {};
             layerObj.layerId = _constants2.default.boundingBoxes;
             layerObj.footprints = this.state.footprints;
             _LayersHelper2.default.showLayer(layerObj);
-            // LayersHelper.showLayer(KEYS.boundingBoxes);
           } else {
-            console.log('hidingg');
             _LayersHelper2.default.hideLayer(_constants2.default.boundingBoxes);
           }
         }

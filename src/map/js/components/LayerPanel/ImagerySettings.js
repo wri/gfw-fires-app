@@ -20,15 +20,12 @@ export default class ImagerySettings extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.footprintsVisible !== this.state.footprintsVisible) {
       if (this.state.footprintsVisible) {
-        console.log('showing');
 
         let layerObj = {};
         layerObj.layerId = KEYS.boundingBoxes;
         layerObj.footprints = this.state.footprints;
         LayersHelper.showLayer(layerObj);
-        // LayersHelper.showLayer(KEYS.boundingBoxes);
       } else {
-        console.log('hidingg');
         LayersHelper.hideLayer(KEYS.boundingBoxes);
       }
     }

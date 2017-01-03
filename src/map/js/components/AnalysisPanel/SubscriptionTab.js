@@ -131,7 +131,6 @@ export default class SubscriptionTab extends React.Component {
                 id: field.alias
             });
         });
-        console.log(uploadedFeats);
 
         this.setState({
           isUploading: false,

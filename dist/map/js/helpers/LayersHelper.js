@@ -55,7 +55,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           helperLayer = app.map.getLayer(_constants2.default.protectedAreasHelper);
 
       if (mainLayer === undefined || helperLayer === undefined) {
-        console.log('No protected Areas');
         // Error Loading Layers and they do not work
         return;
       }
@@ -87,13 +86,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.map.infoWindow.resize(270);
 
       if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
-        // this.setCustomFeaturesTemplates(evt.graphic);
-        // app.map.infoWindow.setFeatures([evt.graphic]);
-        // app.map.infoWindow.show(mapPoint);
-
-        // on(rowData, 'click', function(clickEvt) {
         _ModalActions.modalActions.showSubscribeModal(evt.graphic);
-
         return;
       }
 
@@ -437,10 +430,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     setStoryTemplates: function setStoryTemplates(features) {
       var template = void 0,
           htmlContent = void 0;
-      console.log(features);
 
       features.forEach(function (item) {
-        console.log(item.feature);
         if (app.mobile() === true) {
           htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         } else {
@@ -700,6 +691,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
+<<<<<<< HEAD
       var layers = _config.layersConfig.filter(function (layer) {
         return layer && layer.label === 'Fire history';
       });
@@ -721,6 +713,13 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       });
       activeFireHistoryLayer.show();
+=======
+      var fireHistory = app.map.getLayer(_constants2.default.fireHistory);
+      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
+      if (fireHistory) {
+        fireHistory.setDefinitionExpression("Name = '" + value + "'");
+      }
+>>>>>>> develop
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');
@@ -891,9 +890,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var rainLayer = app.map.getLayer(_constants2.default.lastRainfall);
 
-      console.log(defQuery);
-      //DSLR_2016NaN_IDN
-
       if (rainLayer) {
         rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
       }
@@ -912,7 +908,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var layerDefs = [];
       layerDefs[1] = "Date LIKE '" + date + "%'";
-      console.log(layerDefs[1]);
       layer.setLayerDefinitions(layerDefs);
     },
     updateWindDate: function updateWindDate(dayValue) {

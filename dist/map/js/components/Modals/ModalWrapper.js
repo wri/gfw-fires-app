@@ -76,7 +76,6 @@ define(['exports', 'actions/ModalActions', 'stores/ModalStore', 'react-dom', 're
       };
 
       _this.sendDownloadAnalytics = function (evt) {
-        console.log(evt.target.id);
         _this.sendAnalytics('map', 'download', 'The user is downloading data via a layer info panel.');
       };
 

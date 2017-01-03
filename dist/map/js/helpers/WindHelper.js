@@ -250,7 +250,6 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
       var currentBM = app.map.getBasemap();
 
       if (currentBM !== 'dark-gray' && window.location.hash.indexOf('dark-gray') === -1) {
-        console.log(currentBM);
         _ModalActions.modalActions.showBasemapModal.defer();
       }
     },
@@ -274,8 +273,6 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
       if (optionalURL) {
         WIND_CONFIG.dataUrl = optionalURL;
       }
-
-      console.log(WIND_CONFIG.dataUrl);
 
       var deferred = new _Deferred2.default(),
           req = new _request2.default({

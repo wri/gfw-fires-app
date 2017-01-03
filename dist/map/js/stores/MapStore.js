@@ -169,6 +169,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }, {
       key: 'setCurrentCustomGraphic',
       value: function setCurrentCustomGraphic(graphic) {
+        if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === 'custom') {
+          graphic = app.map.graphics.graphics[0];
+        }
         this.currentCustomGraphic = graphic;
       }
     }, {
@@ -382,7 +385,6 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         if (index !== -1) {
           // Create a copy of the strings array for easy change detection
           var layers = this.activeLayers.slice();
-          console.log(layerId);
           layers.splice(index, 1);
           this.activeLayers = layers;
           app.activeLayers = layers;

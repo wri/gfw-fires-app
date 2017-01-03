@@ -38,7 +38,6 @@ export default class ControlPanel extends React.Component {
         attachTo: 'bottom-right',
         scalebarUnit: 'metric'
       });
-      console.log(scalebar);
     }
   }
 
