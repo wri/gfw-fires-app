@@ -342,10 +342,7 @@ export const config = {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      // disabled: true,
-      // url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
-      //url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/idn_annual_fire_frequency_cache/ImageServer',
-      url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2001/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -361,18 +358,9 @@ export const config = {
         label: 'Fire history',
         sublabel: '(2001-2015, Indonesia)',
         opacity: 0.8,
-        //group: 'fireRisk',
         className: 'fire-history',
-        // disabled: true,
-        // url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
-        //url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/idn_annual_fire_frequency_cache/ImageServer',
-        url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2002/ImageServer',
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2002/ImageServer',
         metadataId: 'idn_fire_history'
-        // calendar: {
-        //   domClass: 'risk-settings',
-        //   childDomClass: 'risk-subsettings',
-        //   label: 'Select a date'
-        // }
       },
         {
           id: 'firesHistory2003',
@@ -380,7 +368,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2003/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2003/ImageServer'
         },
           {
           id: 'firesHistory2004',
@@ -388,7 +376,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2004/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2004/ImageServer'
         },
         {
           id: 'firesHistory2005',
@@ -396,7 +384,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2005/ImageServer'
         },
         {
           id: 'firesHistory2006',
@@ -404,7 +392,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2006/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2006/ImageServer'
         },
         {
           id: 'firesHistory2007',
@@ -412,7 +400,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2007/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2007/ImageServer'
         },
         {
           id: 'firesHistory2008',
@@ -420,7 +408,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2008/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2008/ImageServer'
         },
         {
           id: 'firesHistory2009',
@@ -428,7 +416,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2009/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2009/ImageServer'
         },
         {
           id: 'firesHistory2010',
@@ -436,7 +424,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2010/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2010/ImageServer'
         },
         {
           id: 'firesHistory2011',
@@ -444,7 +432,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2011/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2011/ImageServer'
         },
         {
           id: 'firesHistory2012',
@@ -452,7 +440,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2012/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2012/ImageServer'
         },
         {
           id: 'firesHistory2013',
@@ -460,7 +448,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2013/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2013/ImageServer'
         },
         {
           id: 'firesHistory2014',
@@ -468,7 +456,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2014/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2014/ImageServer'
         },
         {
           id: 'firesHistory2015',
@@ -476,7 +464,7 @@ export const config = {
           type: 'image',
           label: 'Fire history',
           opacity: 0.8,
-          url: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2015/ImageServer'
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2015/ImageServer'
         },
     {
       id: KEYS.fireWeather,
