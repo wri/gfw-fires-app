@@ -71,11 +71,7 @@ define(['exports', 'helpers/LayersHelper', 'react'], function (exports, _LayersH
 
       var _this = _possibleConstructorReturn(this, (LayerTransparency.__proto__ || Object.getPrototypeOf(LayerTransparency)).call(this, props));
 
-      // debugger
-      // this.state = { opacity: props.layer.opacity || 1 };
       _this.state = { opacity: props.initalOpacity || 1 };
-
-      // this.state = { opacity: 1 };
       return _this;
     }
 

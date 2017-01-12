@@ -195,6 +195,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       highcharts: 'http://code.highcharts.com/highcharts.js',
       highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
       rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
+      // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
       chosen: '../vendors/chosen/chosen.jquery.js'
     },
 
@@ -310,7 +311,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'fireRisk',
       className: 'fire-history',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
