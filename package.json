@@ -1,6 +1,6 @@
 {
   "name": "gfw-fires-app",
-  "version": "3.2.63",
+  "version": "3.2.79",
   "description": "Please view README.md before beginning development",
   "main": "index.js",
   "scripts": {
@@ -59,10 +59,12 @@
     "gulp-plumber": "^1.0.1",
     "gulp-stylus": "^2.1.0",
     "gulp-umd": "^0.2.0",
-    "jeet": "^6.1.2",
+    "ion-rangeslider": "^2.1.6",
+    "jeet": "^7.1.0",
     "jstransformer-stylus": "^1.0.0",
     "merge-stream": "^1.0.0",
     "node-notifier": "^4.4.0",
+    "normalize-css": "^2.3.1",
     "react": "^0.14.3",
     "rupture": "^0.6.1"
   },

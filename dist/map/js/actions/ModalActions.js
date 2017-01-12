@@ -58,30 +58,21 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
 
         app.debug('ModalActions >>> showLayerInfo');
 
-        _urlUtils2.default.addProxyRule({
-          urlPrefix: 'http://api.globalforestwatch.org',
-          proxyUrl: '/map/php/proxy.php'
-        });
-        console.log(_config.metadataIds);
-        console.log(_config.layersConfig);
-
         var metadataId = _config.layersConfig.filter(function (l) {
           return l.id === layerId;
         })[0].metadataId;
-        console.log(metadataId);
 
         (0, _request2.default)({
           url: _config.metadataUrl + metadataId,
           handleAs: 'json',
           callbackParamName: 'callback'
         }, {
-          usePost: true
+          usePost: false
         }).then(function (res) {
           _this.dispatch(res);
           _domClass2.default.remove('layer-modal', 'hidden');
         }, function (err) {
           // this.dispatch({});
-          // console.log(layerId)
           _this.dispatch(layerId); //todo: show config's template based on this layerId
           _domClass2.default.remove('layer-modal', 'hidden');
           console.error(err);

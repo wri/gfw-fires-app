@@ -69,7 +69,7 @@ define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper'
     function AnalysisComponent(props) {
       _classCallCheck(this, AnalysisComponent);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AnalysisComponent).call(this, props));
+      var _this = _possibleConstructorReturn(this, (AnalysisComponent.__proto__ || Object.getPrototypeOf(AnalysisComponent)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

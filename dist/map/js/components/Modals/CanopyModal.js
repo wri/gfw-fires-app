@@ -71,7 +71,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     function CanopyModal(props) {
       _classCallCheck(this, CanopyModal);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(CanopyModal).call(this, props));
+      return _possibleConstructorReturn(this, (CanopyModal.__proto__ || Object.getPrototypeOf(CanopyModal)).call(this, props));
     }
 
     _createClass(CanopyModal, [{
@@ -106,7 +106,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/ModalActions', 'he
     }, {
       key: 'sliderChanged',
       value: function sliderChanged(data) {
-        _ModalActions.modalActions.updateCanopyDensity('data.from_value');
+        _ModalActions.modalActions.updateCanopyDensity(data.from_value);
         _LayersHelper2.default.updateTreeCoverDefinitions(data.from_value);
       }
     }, {

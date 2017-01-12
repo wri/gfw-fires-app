@@ -86,7 +86,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
       this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
+      this.fireHistorySelectIndex = 0;
       this.layerPanelVisible = app.mobile === false;
+      this.lat = undefined;
+      this.lng = undefined;
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
@@ -112,6 +115,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         togglePanels: _MapActions.mapActions.togglePanels,
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
         changeForestTimeline: _LayerActions.layerActions.changeForestTimeline,
+        changeFireHistoryTimeline: _LayerActions.layerActions.changeFireHistoryTimeline,
         changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
         changePlantations: _LayerActions.layerActions.changePlantations,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
@@ -137,6 +141,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
         _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
+        _LayersHelper2.default.updateFireHistoryDefinitions(0);
       }
     }, {
       key: 'setCalendar',
@@ -164,6 +169,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }, {
       key: 'setCurrentCustomGraphic',
       value: function setCurrentCustomGraphic(graphic) {
+        if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === 'custom') {
+          graphic = app.map.graphics.graphics[0];
+        }
         this.currentCustomGraphic = graphic;
       }
     }, {
@@ -309,11 +317,11 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
 
         if (masterDate.isBefore(riskStart)) {
-          this.removeActiveLayer(_constants2.default.fireRisk);
+          this.removeActiveLayer(_constants2.default.fireWeather);
         } else if (masterDate.isAfter(riskEnd)) {
-          this.removeActiveLayer(_constants2.default.fireRisk);
+          this.removeActiveLayer(_constants2.default.fireWeather);
         } else {
-          this.addActiveLayer(_constants2.default.fireRisk);
+          this.addActiveLayer(_constants2.default.fireWeather);
           this.riskDate = masterFormatted;
           _LayersHelper2.default.updateFireRisk(this.riskDate);
         }
@@ -377,7 +385,6 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         if (index !== -1) {
           // Create a copy of the strings array for easy change detection
           var layers = this.activeLayers.slice();
-          console.log(layerId);
           layers.splice(index, 1);
           this.activeLayers = layers;
           app.activeLayers = layers;
@@ -423,6 +430,12 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       value: function changeForestTimeline(activeIndex) {
         this.forestSelectIndex = activeIndex;
         this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
+      }
+    }, {
+      key: 'changeFireHistoryTimeline',
+      value: function changeFireHistoryTimeline(activeIndex) {
+        this.fireHistorySelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
       }
     }, {
       key: 'updateCanopyDensity',

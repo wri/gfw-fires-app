@@ -99,9 +99,12 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
           _LayerActions.layerActions.addActiveLayer(id);
         });
 
-        // activeFires is on by default, we need to turn it off if not present in the shared state
+        // activeFires & viirsFires are on by default, we need to turn them off if not present in state
         if (layerIds.indexOf(_constants2.default.activeFires) === -1) {
           _LayerActions.layerActions.removeActiveLayer(_constants2.default.activeFires);
+        }
+        if (layerIds.indexOf(_constants2.default.viirsFires) === -1) {
+          _LayerActions.layerActions.removeActiveLayer(_constants2.default.viirsFires);
         }
       }
 
@@ -112,15 +115,11 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
     applyInitialState: function applyInitialState() {
       app.debug('ShareHelper >>> applyInitialState');
       var url = this.prepareStateForUrl();
-      console.log(url);
-
       (0, _hash2.default)(url);
     },
     handleHashChange: function handleHashChange(basemap) {
       app.debug('ShareHelper >>> handleHashChange');
       var url = this.prepareStateForUrl(basemap);
-      console.log(url);
-
       (0, _hash2.default)(url);
     }
   };

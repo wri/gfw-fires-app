@@ -1,4 +1,4 @@
-define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'js/config'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _config) {
+define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'esri/layers/WMSLayer', 'js/config'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _WMSLayer, _config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -16,6 +16,8 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
   var _GraphicsLayer2 = _interopRequireDefault(_GraphicsLayer);
 
   var _FeatureLayer2 = _interopRequireDefault(_FeatureLayer);
+
+  var _WMSLayer2 = _interopRequireDefault(_WMSLayer);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {

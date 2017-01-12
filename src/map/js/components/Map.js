@@ -19,7 +19,10 @@ export default class Map extends Component {
 
   constructor (props: any) {
     super(props);
-    this.state = { loaded: false };
+    this.state = {
+      loaded: false,
+      map: {}
+     };
   }
 
   componentDidMount() {
@@ -29,7 +32,10 @@ export default class Map extends Component {
     //- TODO: this may not be necessary, remove this if I dont neet to override params, currently I am setting them after load
     let newMapConfig = Object.assign({}, mapConfig);
     mapActions.createMap(newMapConfig).then(() => {
-      this.setState({ loaded: true });
+      this.setState({
+        loaded: true,
+        map: app.map
+      });
       mapActions.createLayers();
       mapActions.connectLayerEvents();
       //- Use the helper to take the params and use actions to apply shared state, don't set these params
@@ -43,14 +49,13 @@ export default class Map extends Component {
   }
 
   render () {
-
     //<EsriSearch loaded={this.state.loaded} />
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
 
         <AnalysisTools />
-        <ControlPanel />
+        <ControlPanel map={this.state.map} />
         <Timeline />
         <MobileUnderlay />
         <MobileControls />

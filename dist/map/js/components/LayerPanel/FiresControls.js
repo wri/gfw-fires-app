@@ -1,9 +1,11 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _react) {
+define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'react'], function (exports, _ModisLegend, _LayerActions, _LayersHelper, _ModalActions, _config, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+
+  var _ModisLegend2 = _interopRequireDefault(_ModisLegend);
 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
@@ -71,7 +73,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     function FiresControls() {
       _classCallCheck(this, FiresControls);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(FiresControls).apply(this, arguments));
+      return _possibleConstructorReturn(this, (FiresControls.__proto__ || Object.getPrototypeOf(FiresControls)).apply(this, arguments));
     }
 
     _createClass(FiresControls, [{
@@ -109,17 +111,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
               { className: 'active-fires-control gfw-btn sml white' },
               activeItem.label
             )
-          ),
-          _react2.default.createElement('input', { onChange: this.toggleConfidence, type: 'checkbox' }),
-          _react2.default.createElement(
-            'span',
-            { className: 'fires-confidence-wrapper' },
-            'Only show ',
-            _react2.default.createElement(
-              'span',
-              { className: 'fires-confidence', onClick: this.showFiresModal },
-              'high confidence fires'
-            )
           )
         );
       }
@@ -127,11 +118,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
       key: 'showFiresModal',
       value: function showFiresModal() {
         _ModalActions.modalActions.showFiresModal();
-      }
-    }, {
-      key: 'toggleConfidence',
-      value: function toggleConfidence(evt) {
-        _LayersHelper2.default.toggleConfidence(evt.target.checked);
       }
     }, {
       key: 'optionsMap',

@@ -1,6 +1,8 @@
 import ShareHelper from 'helpers/ShareHelper';
 import {modalActions} from 'actions/ModalActions';
 import {analysisActions} from 'actions/AnalysisActions';
+import webMercatorUtils from 'esri/geometry/webMercatorUtils';
+import Scalebar from 'esri/dijit/Scalebar';
 import {controlPanelText} from 'js/config';
 import {mapActions} from 'actions/MapActions';
 import {mapStore} from 'stores/MapStore';
@@ -10,8 +12,6 @@ let zoomInSvg = '<use xlink:href="#icon-plus" />';
 let zoomOutSvg = '<use xlink:href="#icon-minus" />';
 let shareSvg = '<use xlink:href="#icon-share" />';
 let magnifierSvg = '<use xlink:href="#icon-magnifier" />';
-// let basemapSvg = '<use xlink:href="#icon-basemap" />';
-let locateSvg = '<use xlink:href="#icon-locate" />';
 let timelineSvg = '<use xlink:href="#icon-timeline" />';
 let printSvg = '<use xlink:href="#icon-print" />';
 let showSvg = '<use xlink:href="#icon-controlstoggle__on" />';
@@ -19,17 +19,42 @@ let refreshSvg = '<use xlink:href="#icon-reset" />';
 
 export default class ControlPanel extends React.Component {
 
+  constructor (props: any) {
+    super(props);
+    this.state = {
+      lat: '',
+      lng: ''
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.map.loaded !== this.props.map.loaded) {
+      this.props.map.on('mouse-move', this.displayCoordinates);
+      let scalebar = new Scalebar({
+        map: this.props.map,
+        // "dual" displays both miles and kilometers
+        // "english" is the default, which displays miles
+        // use "metric" for kilometers
+        attachTo: 'bottom-right',
+        scalebarUnit: 'metric'
+      });
+    }
+  }
+
+  displayCoordinates = (evt) => {
+    let mp = webMercatorUtils.webMercatorToGeographic(evt.mapPoint);
+    this.setState({
+      lat: mp.x.toFixed(2),
+      lng: mp.y.toFixed(2)
+    });
+  }
+
   zoomIn () {
     app.map.setZoom(app.map.getZoom() + 1);
   }
 
   zoomOut () {
     app.map.setZoom(app.map.getZoom() - 1);
-  }
-
-  share () {
-    this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
-    modalActions.showShareModal(ShareHelper.prepareStateForUrl());
   }
 
   reset () {
@@ -49,6 +74,11 @@ export default class ControlPanel extends React.Component {
     ga('A.send', 'event', eventType, action, label);
     ga('B.send', 'event', eventType, action, label);
     ga('C.send', 'event', eventType, action, label);
+  }
+
+  share = () => {
+    this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
+    modalActions.showShareModal(ShareHelper.prepareStateForUrl());
   }
 
   printMap = () => {
@@ -83,13 +113,15 @@ export default class ControlPanel extends React.Component {
   //   className += ' hidden';
   // }
 
-  // <li className='locate-me mobs pointer' onClick={this.locateMe}>
-  //   <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: locateSvg }}/>
-  // </li>
-
   render() {
     return (
       <div className='control-panel map-component shadow'>
+        <div id='scalebar-container'></div>
+        <span className={`lat-lng-display ${this.state.lat ? '' : ' hidden'}`}>
+          <span>Lat/Lon: {this.state.lng}</span>
+          <span>, </span>
+          <span>{this.state.lat}</span>
+        </span>
         <ul>
           <li className='zoom-in pointer' onClick={this.zoomIn}>
             <svg className='panel-icon' dangerouslySetInnerHTML={{ __html: zoomInSvg }}/>

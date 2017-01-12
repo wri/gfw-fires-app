@@ -11,28 +11,19 @@ class ModalActions {
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
 
-    urlUtils.addProxyRule({
-      urlPrefix: 'http://api.globalforestwatch.org',
-      proxyUrl: '/map/php/proxy.php'
-    });
-    console.log(metadataIds);
-    console.log(layersConfig);
-
     let metadataId = layersConfig.filter((l) => l.id === layerId)[0].metadataId;
-    console.log(metadataId);
 
     esriRequest({
       url: metadataUrl + metadataId,
       handleAs: 'json',
       callbackParamName: 'callback'
     }, {
-      usePost: true
+      usePost: false
     }).then(res => {
       this.dispatch(res);
       domClass.remove('layer-modal', 'hidden');
     }, err => {
       // this.dispatch({});
-      // console.log(layerId)
       this.dispatch(layerId); //todo: show config's template based on this layerId
       domClass.remove('layer-modal', 'hidden');
       console.error(err);

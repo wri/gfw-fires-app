@@ -71,7 +71,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
     function BasemapTab(props) {
       _classCallCheck(this, BasemapTab);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasemapTab).call(this, props));
+      var _this = _possibleConstructorReturn(this, (BasemapTab.__proto__ || Object.getPrototypeOf(BasemapTab)).call(this, props));
 
       _this.clickedBasemap = function (evt) {
         var id = evt.currentTarget.getAttribute('data-basemap');

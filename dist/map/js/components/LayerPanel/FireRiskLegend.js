@@ -67,7 +67,7 @@ define(['exports', 'react'], function (exports, _react) {
     function FireRiskLegend(props) {
       _classCallCheck(this, FireRiskLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FireRiskLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (FireRiskLegend.__proto__ || Object.getPrototypeOf(FireRiskLegend)).call(this, props));
 
       //- Set legend Info to an empty array until data is returned
       _this.state = {
@@ -96,65 +96,65 @@ define(['exports', 'react'], function (exports, _react) {
           { className: 'fire-risk-legend' },
           _react2.default.createElement(
             'div',
-            { id: 'fireRiskLegendDataColors' },
+            { id: 'fireWeatherLegendDataColors' },
             _react2.default.createElement(
               'div',
-              { id: 'fireRiskLegendDataColorsBottom' },
-              _react2.default.createElement('div', { id: 'fireRiskLegendNoData' }),
+              { id: 'fireWeatherLegendDataColorsBottom' },
+              _react2.default.createElement('div', { id: 'fireWeatherLegendNoData' }),
               _react2.default.createElement(
                 'div',
-                { id: 'fireRiskLegend' },
+                { id: 'fireWeatherLegend' },
                 _react2.default.createElement(
                   'div',
-                  { className: 'fireRiskLegendRow' },
+                  { className: 'fireWeatherLegendRow' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'fireRiskLegendData fireRiskLegendDataHighest' },
+                    { className: 'fireWeatherLegendData fireWeatherLegendDataHighest' },
                     'Very High Risk'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'fireRiskLegendRow' },
+                  { className: 'fireWeatherLegendRow' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'fireRiskLegendData fireRiskLegendDataHigh' },
+                    { className: 'fireWeatherLegendData fireWeatherLegendDataHigh' },
                     'High Risk'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'fireRiskLegendRow' },
+                  { className: 'fireWeatherLegendRow' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'fireRiskLegendData fireRiskLegendDataMedium' },
+                    { className: 'fireWeatherLegendData fireWeatherLegendDataMedium' },
                     'Moderate Risk'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'fireRiskLegendRow' },
+                  { className: 'fireWeatherLegendRow' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'fireRiskLegendData fireRiskLegendDataLow' },
+                    { className: 'fireWeatherLegendData fireWeatherLegendDataLow' },
                     'Low Risk'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'fireRiskLegendRow' },
+                  { className: 'fireWeatherLegendRow' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'fireRiskLegendData fireRiskLegendDataLowest' },
+                    { className: 'fireWeatherLegendData fireWeatherLegendDataLowest' },
                     'Very Low Risk'
                   )
                 ),
                 _react2.default.createElement(
                   'div',
-                  { className: 'fireRiskLegendRow' },
+                  { className: 'fireWeatherLegendRow' },
                   _react2.default.createElement(
                     'span',
-                    { className: 'fireRiskLegendData' },
+                    { className: 'fireWeatherLegendData' },
                     'No Data'
                   )
                 )

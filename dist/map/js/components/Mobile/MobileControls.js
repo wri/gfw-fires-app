@@ -65,7 +65,7 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
     _inherits(MobileControls, _Component);
 
     function MobileControls() {
-      var _Object$getPrototypeO;
+      var _ref;
 
       var _temp, _this, _ret;
 
@@ -75,7 +75,7 @@ define(['exports', 'actions/LayerActions', 'actions/AnalysisActions', 'stores/Ma
         args[_key] = arguments[_key];
       }
 
-      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(MobileControls)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.hidePanels = function () {
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = MobileControls.__proto__ || Object.getPrototypeOf(MobileControls)).call.apply(_ref, [this].concat(args))), _this), _this.hidePanels = function () {
         if (_MapStore.mapStore.getState().layerPanelVisible === true) {
           _LayerActions.layerActions.toggleLayerPanelVisibility();
         }

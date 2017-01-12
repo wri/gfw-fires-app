@@ -85,7 +85,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     function AnalysisTab(props) {
       _classCallCheck(this, AnalysisTab);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AnalysisTab).call(this, props));
+      var _this = _possibleConstructorReturn(this, (AnalysisTab.__proto__ || Object.getPrototypeOf(AnalysisTab)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       // this.state = mapStore.getState();

@@ -77,7 +77,7 @@ define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisP
     function AnalysisTools(props) {
       _classCallCheck(this, AnalysisTools);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AnalysisTools).call(this, props));
+      var _this = _possibleConstructorReturn(this, (AnalysisTools.__proto__ || Object.getPrototypeOf(AnalysisTools)).call(this, props));
 
       _AnalysisActions.analysisActions.initAreas();
       _AnalysisStore.analysisStore.listen(_this.storeUpdated.bind(_this));
@@ -110,13 +110,21 @@ define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisP
           className += ' isMobileTools';
         }
 
+        var isExpanded = false;
+
+        if (this.state.analysisToolsExpanded || this.state.subscribeToolsExpanded || this.state.imageryToolsExpanded || this.state.basemapToolsExpanded) {
+          isExpanded = true;
+        } else {
+          isExpanded = false;
+        }
+
         return _react2.default.createElement(
           'div',
           { className: className },
           app.mobile() === true ? undefined : _react2.default.createElement(_TabControls2.default, this.state),
           _react2.default.createElement(
             'div',
-            { className: 'tab-container custom-scroll ' + (app.mobile() === false && this.state.analysisToolsExpanded === false ? 'hidden' : '') },
+            { className: 'tab-container custom-scroll ' + (app.mobile() === false && isExpanded === false ? 'hidden' : '') },
             _react2.default.createElement(_AnalysisTab2.default, this.state),
             _react2.default.createElement(_SubscriptionTab2.default, this.state),
             _react2.default.createElement(_ImageryTab2.default, this.state),

@@ -23,6 +23,7 @@ export default class SubscriptionModal extends React.Component {
       email: '',
       customFeatName: '', //'Custom Feature',
       phoneNumber: '',
+      pointErrors: false,
       emailErrors: false,
       phoneErrors: false,
       isSubscribing: false,
@@ -48,10 +49,22 @@ export default class SubscriptionModal extends React.Component {
 
   storeUpdated () {
     let newState = mapStore.getState();
-    if (newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
+    if (newState.currentCustomGraphic && newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
       this.setState({
         currentCustomGraphic: newState.currentCustomGraphic,
-        customFeatName: newState.currentCustomGraphic.attributes.featureName
+        customFeatName: newState.currentCustomGraphic.attributes.featureName,
+        pointErrors: false
+      });
+    } else if (!newState.currentCustomGraphic && newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
+      this.setState({
+        currentCustomGraphic: undefined,
+        customFeatName: ''
+      });
+    }
+
+    if (!this.state.currentCustomGraphic && newState.currentCustomGraphic) {
+      this.setState({
+        pointErrors: false
       });
     }
   }
@@ -62,7 +75,6 @@ export default class SubscriptionModal extends React.Component {
   }
 
   validatePhone (phoneNumber) { //todo: use old phone # validation library
-    console.log(phoneNumber);
     if (phoneNumber.length > 5 || phoneNumber === 1) {
       return true;
     } else {
@@ -102,10 +114,20 @@ export default class SubscriptionModal extends React.Component {
       return;
     }
 
+    // if (!this.state.currentCustomGraphic) {
+    //   return;
+    // }
+
+    let validPoint = this.state.currentCustomGraphic ? true : false;
+    console.log('validPoint', validPoint);
     let validEmail = this.validateEmail(this.state.email);
     let validPhone = this.validatePhone(this.state.phoneNumber);
 
-    if (!validPhone && !validEmail) {
+    if (!validPoint) {
+      this.setState({
+        pointErrors: true
+      });
+    } else if (!validPhone && !validEmail) {
       this.setState({
         emailErrors: true,
         phoneErrors: true
@@ -122,6 +144,7 @@ export default class SubscriptionModal extends React.Component {
       });
     } else {
       this.setState({
+        pointErrors: false,
         emailErrors: false,
         phoneErrors: false,
         isUploading: true
@@ -221,19 +244,17 @@ export default class SubscriptionModal extends React.Component {
 	}
 
   render() {
-    console.log(this.state.currentCustomGraphic);
     // let nameToDisplay = this.state.customFeatName;
     // if (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes && this.state.customFeatName === 'Custom Feature') {
     //   nameToDisplay = this.state.currentCustomGraphic.attributes.featureName;
     // }
-    console.log(this.state.customFeatName);
     //
     //value={this.state.customFeatName ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName}
     return (
       <ModalWrapper>
         <div className='canopy-modal-title'>{modalText.subscription.title}</div>
         {this.state.currentCustomGraphic ? <input className='longer' value={this.state.customFeatName} onChange={this.updateName} /> : null}
-
+        <div className={`submit-warning ${this.state.pointErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextPoints}</div>
         <p>{modalText.subscription.emailInstructions}</p>
         <input className='longer' value={this.state.email} placeholder={modalText.subscription.emailPlaceholder} onChange={this.updateEmail}></input>
         <div className={`submit-warning ${this.state.emailErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextEmail}</div>

@@ -44,7 +44,10 @@ class MapStore {
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
+    this.fireHistorySelectIndex = 0;
     this.layerPanelVisible = app.mobile === false;
+    this.lat = undefined;
+    this.lng = undefined;
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
@@ -70,6 +73,7 @@ class MapStore {
       togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
       changeForestTimeline: layerActions.changeForestTimeline,
+      changeFireHistoryTimeline: layerActions.changeFireHistoryTimeline,
       changeViirsTimeline: layerActions.changeViirsTimeline,
       changePlantations: layerActions.changePlantations,
       updateCanopyDensity: modalActions.updateCanopyDensity,
@@ -93,6 +97,7 @@ class MapStore {
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
+    LayersHelper.updateFireHistoryDefinitions(0);
 
   }
 
@@ -117,6 +122,9 @@ class MapStore {
   }
 
   setCurrentCustomGraphic (graphic) {
+    if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === 'custom') {
+      graphic = app.map.graphics.graphics[0];
+    }
     this.currentCustomGraphic = graphic;
   }
 
@@ -248,11 +256,11 @@ class MapStore {
     }
 
     if (masterDate.isBefore(riskStart)) {
-      this.removeActiveLayer(KEYS.fireRisk);
+      this.removeActiveLayer(KEYS.fireWeather);
     } else if (masterDate.isAfter(riskEnd)) {
-      this.removeActiveLayer(KEYS.fireRisk);
+      this.removeActiveLayer(KEYS.fireWeather);
     } else {
-      this.addActiveLayer(KEYS.fireRisk);
+      this.addActiveLayer(KEYS.fireWeather);
       this.riskDate = masterFormatted;
       LayersHelper.updateFireRisk(this.riskDate);
     }
@@ -313,7 +321,6 @@ class MapStore {
     if (index !== -1) {
       // Create a copy of the strings array for easy change detection
       let layers = this.activeLayers.slice();
-      console.log(layerId);
       layers.splice(index, 1);
       this.activeLayers = layers;
       app.activeLayers = layers;
@@ -353,6 +360,11 @@ class MapStore {
   changeForestTimeline (activeIndex) {
     this.forestSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
+  }
+
+  changeFireHistoryTimeline (activeIndex) {
+    this.fireHistorySelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
   }
 
   updateCanopyDensity (newDensity) {

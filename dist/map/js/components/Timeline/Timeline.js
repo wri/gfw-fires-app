@@ -67,7 +67,7 @@ define(['exports', 'stores/AnalysisStore', 'react'], function (exports, _Analysi
     function Timeline(props) {
       _classCallCheck(this, Timeline);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Timeline).call(this, props));
+      var _this = _possibleConstructorReturn(this, (Timeline.__proto__ || Object.getPrototypeOf(Timeline)).call(this, props));
 
       _AnalysisStore.analysisStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _AnalysisStore.analysisStore.getState();

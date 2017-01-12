@@ -48,7 +48,7 @@ let lazyloadAssets = () => {
   // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
   loadCSS(`../vendors/kalendae/build/kalendae.css`);
   // loadCSS(`./css/map.css?${window.version}`);
-  loadCSS(`http://js.arcgis.com/3.16/esri/css/esri.css`);
+  loadCSS(`//js.arcgis.com/3.16/esri/css/esri.css`);
  };
 
 let initializeApp = () => {

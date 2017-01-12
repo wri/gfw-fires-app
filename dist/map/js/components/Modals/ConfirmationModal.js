@@ -69,7 +69,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'js/co
     function ConfirmationModal(props) {
       _classCallCheck(this, ConfirmationModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConfirmationModal).call(this, props));
+      var _this = _possibleConstructorReturn(this, (ConfirmationModal.__proto__ || Object.getPrototypeOf(ConfirmationModal)).call(this, props));
 
       _ModalStore.modalStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _ModalStore.modalStore.getState();

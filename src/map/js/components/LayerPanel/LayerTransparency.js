@@ -6,9 +6,7 @@ export default class LayerTransparency extends React.Component {
 
   constructor (props) {
     super(props);
-    // debugger
-    // this.state = { opacity: props.layer.opacity || 1 };
-    this.state = { opacity: 1 };
+    this.state = { opacity: props.initalOpacity || 1 };
   }
 
   render () {

@@ -69,7 +69,7 @@ define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapAction
     function WindControls(props) {
       _classCallCheck(this, WindControls);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WindControls).call(this, props));
+      var _this = _possibleConstructorReturn(this, (WindControls.__proto__ || Object.getPrototypeOf(WindControls)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

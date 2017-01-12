@@ -71,7 +71,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     function ViirsControls() {
       _classCallCheck(this, ViirsControls);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(ViirsControls).apply(this, arguments));
+      return _possibleConstructorReturn(this, (ViirsControls.__proto__ || Object.getPrototypeOf(ViirsControls)).apply(this, arguments));
     }
 
     _createClass(ViirsControls, [{

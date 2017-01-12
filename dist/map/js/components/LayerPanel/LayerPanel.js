@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerPanel/LandCoverLegend', 'components/LayerPanel/SedimentLegend', 'components/LayerPanel/DensityDisplay', 'components/LayerPanel/LayerCheckbox', 'components/LayerPanel/FiresControls', 'components/LayerPanel/ForestControls', 'components/LayerPanel/PlantationControls', 'components/LayerPanel/ViirsControls', 'components/LayerPanel/ArchiveControls', 'components/LayerPanel/NoaaControls', 'components/LayerPanel/RiskControls', 'components/LayerPanel/RainControls', 'components/LayerPanel/AirControls', 'components/LayerPanel/WindControls', 'components/LayerPanel/LayerTransparency', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerGroup', 'components/LayerPanel/DamsLegend', 'js/config', 'stores/MapStore', 'actions/MapActions', 'js/constants', 'react'], function (exports, _WaterStressLegend, _LandCoverLegend, _SedimentLegend, _DensityDisplay, _LayerCheckbox, _FiresControls, _ForestControls, _PlantationControls, _ViirsControls, _ArchiveControls, _NoaaControls, _RiskControls, _RainControls, _AirControls, _WindControls, _LayerTransparency, _ImageryComponent, _LayerGroup, _DamsLegend, _config, _MapStore, _MapActions, _constants, _react) {
+define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerPanel/LandCoverLegend', 'components/LayerPanel/SedimentLegend', 'components/LayerPanel/DensityDisplay', 'components/LayerPanel/LayerCheckbox', 'components/LayerPanel/FiresControls', 'components/LayerPanel/FireHistoryTimeline', 'components/LayerPanel/ForestControls', 'components/LayerPanel/PlantationControls', 'components/LayerPanel/ViirsControls', 'components/LayerPanel/ArchiveControls', 'components/LayerPanel/NoaaControls', 'components/LayerPanel/BurnScarsLegend', 'components/LayerPanel/RiskControls', 'components/LayerPanel/RainControls', 'components/LayerPanel/AirControls', 'components/LayerPanel/WindControls', 'components/LayerPanel/LayerTransparency', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerGroup', 'components/LayerPanel/DamsLegend', 'js/config', 'stores/MapStore', 'actions/MapActions', 'js/constants', 'react'], function (exports, _WaterStressLegend, _LandCoverLegend, _SedimentLegend, _DensityDisplay, _LayerCheckbox, _FiresControls, _FireHistoryTimeline, _ForestControls, _PlantationControls, _ViirsControls, _ArchiveControls, _NoaaControls, _BurnScarsLegend, _RiskControls, _RainControls, _AirControls, _WindControls, _LayerTransparency, _ImageryComponent, _LayerGroup, _DamsLegend, _config, _MapStore, _MapActions, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -17,6 +17,8 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
 
   var _FiresControls2 = _interopRequireDefault(_FiresControls);
 
+  var _FireHistoryTimeline2 = _interopRequireDefault(_FireHistoryTimeline);
+
   var _ForestControls2 = _interopRequireDefault(_ForestControls);
 
   var _PlantationControls2 = _interopRequireDefault(_PlantationControls);
@@ -26,6 +28,8 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
   var _ArchiveControls2 = _interopRequireDefault(_ArchiveControls);
 
   var _NoaaControls2 = _interopRequireDefault(_NoaaControls);
+
+  var _BurnScarsLegend2 = _interopRequireDefault(_BurnScarsLegend);
 
   var _RiskControls2 = _interopRequireDefault(_RiskControls);
 
@@ -121,7 +125,7 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
     function LayerPanel(props) {
       _classCallCheck(this, LayerPanel);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LayerPanel).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LayerPanel.__proto__ || Object.getPrototypeOf(LayerPanel)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();
@@ -175,6 +179,9 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             case _constants2.default.noaa18Fires:
               childComponent = _react2.default.createElement(_NoaaControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
               break;
+            case _constants2.default.burnScars:
+              childComponent = _react2.default.createElement(_BurnScarsLegend2.default, _extends({ url: layer.url, layerIds: layer.layerIds }, _this2.state));
+              break;
             case _constants2.default.treeCoverDensity:
               childComponent = _react2.default.createElement(_DensityDisplay2.default, _this2.state);
               break;
@@ -184,8 +191,11 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             case _constants2.default.peatlands:
               childComponent = _react2.default.createElement(_LandCoverLegend2.default, { url: layer.url, layerIds: layer.layerIds });
               break;
-            case _constants2.default.fireRisk:
+            case _constants2.default.fireWeather:
               childComponent = _react2.default.createElement(_RiskControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
+              break;
+            case _constants2.default.fireHistory:
+              childComponent = _react2.default.createElement(_FireHistoryTimeline2.default, _extends({}, _this2.state, { loaded: _this2.props.loaded }));
               break;
             case _constants2.default.lastRainfall:
               childComponent = _react2.default.createElement(_RainControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
@@ -220,6 +230,9 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
         var landUseLayers = _config.layersConfig.filter(function (l) {
           return l.group === 'forestUse';
         }).map(this.checkboxMap('forestUse'), this);
+        var fireRiskLayers = _config.layersConfig.filter(function (l) {
+          return l.group === 'fireRisk';
+        }).map(this.checkboxMap('fireRisk'), this);
         var conservationLayers = _config.layersConfig.filter(function (l) {
           return l.group === 'conservation';
         }).map(this.checkboxMap('conservation'), this);
@@ -241,6 +254,12 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Fires' },
             _config.layersConfig.map(this.checkboxMap('fires'), this)
+          ),
+          _react2.default.createElement(
+            _LayerGroup2.default,
+            { activeLayers: this.state.activeLayers, label: 'Fire Risk' },
+            _react2.default.createElement(_LayerTransparency2.default, { initalOpacity: .80, layers: fireRiskLayers }),
+            _config.layersConfig.map(this.checkboxMap('fireRisk'), this)
           ),
           _react2.default.createElement(
             _LayerGroup2.default,

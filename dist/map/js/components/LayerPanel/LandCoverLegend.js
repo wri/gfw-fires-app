@@ -69,7 +69,7 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     function LandCoverLegend(props) {
       _classCallCheck(this, LandCoverLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LandCoverLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LandCoverLegend.__proto__ || Object.getPrototypeOf(LandCoverLegend)).call(this, props));
 
       _this.state = { legendInfos: [] };
       return _this;

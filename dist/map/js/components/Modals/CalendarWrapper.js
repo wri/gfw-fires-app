@@ -69,7 +69,7 @@ define(['exports', 'actions/ModalActions', 'actions/MapActions', 'react-dom', 'r
     _inherits(CalendarWrapper, _Component);
 
     function CalendarWrapper() {
-      var _Object$getPrototypeO;
+      var _ref;
 
       var _temp, _this, _ret;
 
@@ -79,7 +79,7 @@ define(['exports', 'actions/ModalActions', 'actions/MapActions', 'react-dom', 'r
         args[_key] = arguments[_key];
       }
 
-      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(CalendarWrapper)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.close = function () {
+      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CalendarWrapper.__proto__ || Object.getPrototypeOf(CalendarWrapper)).call.apply(_ref, [this].concat(args))), _this), _this.close = function () {
         _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(_this).parentElement);
         _MapActions.mapActions.setCalendar('');
       }, _temp), _possibleConstructorReturn(_this, _ret);

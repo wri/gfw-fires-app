@@ -10,7 +10,6 @@ import {modalActions} from 'actions/ModalActions';
 import MosaicRule from 'esri/layers/MosaicRule';
 import on from 'dojo/on';
 import InfoTemplate from 'esri/InfoTemplate';
-import Graphic from 'esri/graphic';
 import WindHelper from 'helpers/WindHelper';
 import KEYS from 'js/constants';
 import ShareHelper from 'helpers/ShareHelper';
@@ -28,7 +27,7 @@ let LayersHelper = {
     app.map.graphics.remove(feature);
   },
 
-  checkZoomDependentLayers: function() {
+  checkZoomDependentLayers () {
     app.debug('LayerHelper >>> checkZoomDependentLayers');
 
     let level = 6,
@@ -36,7 +35,6 @@ let LayersHelper = {
       helperLayer = app.map.getLayer(KEYS.protectedAreasHelper);
 
     if (mainLayer === undefined || helperLayer === undefined) {
-      console.log('No protected Areas');
       // Error Loading Layers and they do not work
       return;
     }
@@ -70,13 +68,7 @@ let LayersHelper = {
     app.map.infoWindow.resize(270);
 
     if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
-      // this.setCustomFeaturesTemplates(evt.graphic);
-      // app.map.infoWindow.setFeatures([evt.graphic]);
-      // app.map.infoWindow.show(mapPoint);
-
-      // on(rowData, 'click', function(clickEvt) {
       modalActions.showSubscribeModal(evt.graphic);
-
       return;
     }
 
@@ -418,10 +410,8 @@ let LayersHelper = {
 
   setStoryTemplates: function(features) {
     let template, htmlContent;
-    console.log(features);
 
     features.forEach(item => {
-      console.log(item.feature);
       if (app.mobile() === true) {
         htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       } else {
@@ -582,7 +572,7 @@ let LayersHelper = {
     app.debug('LayersHelper >>> getFirePopupContent');
     let isFires = item.fires.length > 0;
 
-    let firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
+    let firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
     let noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
     let fire_results = isFires ? [firesDiv] : [noFiresDiv];
 
@@ -684,34 +674,44 @@ let LayersHelper = {
 
   },
 
-  toggleConfidence (checked) {
-    app.debug('LayersHelper >>> toggleConfidence');
-
-    let firesLayer = app.map.getLayer(KEYS.activeFires);
-    let defs = firesLayer.layerDefinitions;
-
-    if (firesLayer) {
-
-      firesLayer.visibleLayers.forEach(val => {
-        let currentString = defs[val];
-        if (currentString) {
-          if (currentString.indexOf('ACQ_DATE') > -1) {
-            if (checked) {
-              defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-            } else {
-              let string = currentString.split('ACQ_DATE')[1];
-              defs[val] = 'ACQ_DATE' + string;
-            }
-          } else {
-            defs[val] = '1=1';
-          }
-        } else {
-          defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-        }
-      });
-      firesLayer.setLayerDefinitions(defs);
+  updateFireHistoryDefinitions (index) {
+    let fireHistory = app.map.getLayer(KEYS.fireHistory);
+    let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
+    if (fireHistory) {
+      fireHistory.setDefinitionExpression("Name = '" + value + "'");
     }
   },
+
+  // toggleConfidence (checked) {
+  //   app.debug('LayersHelper >>> toggleConfidence');
+  //   let firesLayer = app.map.getLayer(KEYS.activeFires);
+  //   let defs = firesLayer.layerDefinitions;
+  //
+  //   if (firesLayer) {
+  //     firesLayer.visibleLayers.forEach(val => {
+  //       let currentString = defs[val];
+  //       if (currentString) {
+  //         if (currentString.indexOf('ACQ_DATE') > -1) {
+  //           if (checked) {
+  //             defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
+  //           } else {
+  //             let string = currentString.split('ACQ_DATE')[1];
+  //             defs[val] = 'ACQ_DATE' + string;
+  //           }
+  //         } else {
+  //           if (checked) {
+  //             defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
+  //           } else {
+  //             defs[val] = '1=1';
+  //           }
+  //         }
+  //       } else {
+  //         defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
+  //       }
+  //     });
+  //     firesLayer.setLayerDefinitions(defs);
+  //   }
+  // },
 
   toggleArchiveConfidence (checked) {
     app.debug('LayersHelper >>> toggleArchiveConfidence');
@@ -858,7 +858,7 @@ let LayersHelper = {
 
     let defQuery = year.toString() + julian + '_IDN_FireRisk';
 
-    let riskLayer = app.map.getLayer(KEYS.fireRisk);
+    let riskLayer = app.map.getLayer(KEYS.fireWeather);
 
     if (riskLayer) {
       riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
@@ -894,9 +894,6 @@ let LayersHelper = {
 
     let rainLayer = app.map.getLayer(KEYS.lastRainfall);
 
-    console.log(defQuery);
-    //DSLR_2016NaN_IDN
-
     if (rainLayer) {
       rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
     }
@@ -916,7 +913,6 @@ let LayersHelper = {
 
     let layerDefs = [];
     layerDefs[1] = "Date LIKE '" + date + "%'";
-    console.log(layerDefs[1]);
     layer.setLayerDefinitions(layerDefs);
   },
 

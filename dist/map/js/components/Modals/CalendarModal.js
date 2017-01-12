@@ -79,7 +79,7 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 		function CalendarModal(props) {
 			_classCallCheck(this, CalendarModal);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CalendarModal).call(this, props));
+			var _this = _possibleConstructorReturn(this, (CalendarModal.__proto__ || Object.getPrototypeOf(CalendarModal)).call(this, props));
 
 			_MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
 			_this.state = _MapStore.mapStore.getState();
@@ -295,7 +295,7 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				var qLayer = void 0;
 				if (method === 'changeRisk') {
 					qLayer = _config.layersConfig.filter(function (layer) {
-						return layer && layer.id === _constants2.default.fireRisk;
+						return layer && layer.id === _constants2.default.fireWeather;
 					})[0];
 				} else {
 					qLayer = _config.layersConfig.filter(function (layer) {

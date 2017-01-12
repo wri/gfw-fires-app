@@ -160,7 +160,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
     function EsriSearch(props) {
       _classCallCheck(this, EsriSearch);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EsriSearch).call(this, props));
+      var _this = _possibleConstructorReturn(this, (EsriSearch.__proto__ || Object.getPrototypeOf(EsriSearch)).call(this, props));
 
       _this.state = {
         value: '',
@@ -263,10 +263,9 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
       value: function decimalDegreeSearch() {
         var values = [this.refs.decimalDegreeLat.value, this.refs.decimalDegreeLng.value].map(parseFloat);
 
-        var _values = _slicedToArray(values, 2);
-
-        var lat = _values[0];
-        var lng = _values[1];
+        var _values = _slicedToArray(values, 2),
+            lat = _values[0],
+            lng = _values[1];
 
         if (values.map(isNaN).indexOf(true) > -1) {
           throw Error('Invalid input(s)');
@@ -355,7 +354,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
                 'div',
                 null,
                 _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                'º'
+                '\xBA'
               ),
               _react2.default.createElement(
                 'div',
@@ -391,7 +390,7 @@ define(['exports', 'actions/AnalysisActions', 'actions/MapActions', 'stores/Anal
                 'div',
                 null,
                 _react2.default.createElement('input', { className: 'search-input', type: 'number', min: '0', step: '1', placeholder: '00' }),
-                'º'
+                '\xBA'
               ),
               _react2.default.createElement(
                 'div',

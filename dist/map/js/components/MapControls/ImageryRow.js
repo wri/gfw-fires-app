@@ -67,7 +67,7 @@ define(['exports', 'actions/LayerActions', 'react'], function (exports, _LayerAc
     function ImageryRow() {
       _classCallCheck(this, ImageryRow);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(ImageryRow).apply(this, arguments));
+      return _possibleConstructorReturn(this, (ImageryRow.__proto__ || Object.getPrototypeOf(ImageryRow)).apply(this, arguments));
     }
 
     _createClass(ImageryRow, [{

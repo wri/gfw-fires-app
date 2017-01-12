@@ -70,7 +70,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
     (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
     // loadCSS(`./css/map.css?${window.version}`);
-    (0, _loaders.loadCSS)('http://js.arcgis.com/3.16/esri/css/esri.css');
+    (0, _loaders.loadCSS)('//js.arcgis.com/3.16/esri/css/esri.css');
   };
 
   var initializeApp = function initializeApp() {

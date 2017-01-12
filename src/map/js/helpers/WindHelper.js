@@ -26,7 +26,7 @@ let WIND_CONFIG = {
 
 esri.config.defaults.io.corsEnabledServers.push(WIND_CONFIG.dataUrl);
 
-export default class RasterLayer extends Layer {
+class RasterLayer extends Layer {
     constructor(data, options) {
       super(data, options);
 
@@ -165,7 +165,6 @@ let WindHelper = {
     let currentBM = app.map.getBasemap();
 
     if (currentBM !== 'dark-gray' && window.location.hash.indexOf('dark-gray') === -1) {
-      console.log(currentBM);
       modalActions.showBasemapModal.defer();
     }
 
@@ -189,8 +188,6 @@ let WindHelper = {
     if (optionalURL) {
       WIND_CONFIG.dataUrl = optionalURL;
     }
-
-    console.log(WIND_CONFIG.dataUrl);
 
     var deferred = new Deferred(),
       req = new esriRequest({

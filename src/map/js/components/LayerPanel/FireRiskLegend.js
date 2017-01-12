@@ -23,27 +23,27 @@ export default class FireRiskLegend extends React.Component {
   render() {
     return (
       <div className='fire-risk-legend'>
-        <div id='fireRiskLegendDataColors'>
-          <div id='fireRiskLegendDataColorsBottom'>
-          <div id='fireRiskLegendNoData'></div>
-            <div id='fireRiskLegend'>
-              <div className='fireRiskLegendRow'>
-                <span className='fireRiskLegendData fireRiskLegendDataHighest'>Very High Risk</span>
+        <div id='fireWeatherLegendDataColors'>
+          <div id='fireWeatherLegendDataColorsBottom'>
+          <div id='fireWeatherLegendNoData'></div>
+            <div id='fireWeatherLegend'>
+              <div className='fireWeatherLegendRow'>
+                <span className='fireWeatherLegendData fireWeatherLegendDataHighest'>Very High Risk</span>
               </div>
-              <div className='fireRiskLegendRow'>
-                <span className='fireRiskLegendData fireRiskLegendDataHigh'>High Risk</span>
+              <div className='fireWeatherLegendRow'>
+                <span className='fireWeatherLegendData fireWeatherLegendDataHigh'>High Risk</span>
               </div>
-              <div className='fireRiskLegendRow'>
-                <span className='fireRiskLegendData fireRiskLegendDataMedium'>Moderate Risk</span>
+              <div className='fireWeatherLegendRow'>
+                <span className='fireWeatherLegendData fireWeatherLegendDataMedium'>Moderate Risk</span>
               </div>
-              <div className='fireRiskLegendRow'>
-                <span className='fireRiskLegendData fireRiskLegendDataLow'>Low Risk</span>
+              <div className='fireWeatherLegendRow'>
+                <span className='fireWeatherLegendData fireWeatherLegendDataLow'>Low Risk</span>
               </div>
-              <div className='fireRiskLegendRow'>
-                <span className='fireRiskLegendData fireRiskLegendDataLowest'>Very Low Risk</span>
+              <div className='fireWeatherLegendRow'>
+                <span className='fireWeatherLegendData fireWeatherLegendDataLowest'>Very Low Risk</span>
               </div>
-              <div className='fireRiskLegendRow'>
-                <span className='fireRiskLegendData'>No Data</span>
+              <div className='fireWeatherLegendRow'>
+                <span className='fireWeatherLegendData'>No Data</span>
               </div>
             </div>
           </div>

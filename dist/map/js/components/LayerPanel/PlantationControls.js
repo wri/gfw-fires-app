@@ -73,7 +73,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
     function PlantationControls() {
       _classCallCheck(this, PlantationControls);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(PlantationControls).apply(this, arguments));
+      return _possibleConstructorReturn(this, (PlantationControls.__proto__ || Object.getPrototypeOf(PlantationControls)).apply(this, arguments));
     }
 
     _createClass(PlantationControls, [{

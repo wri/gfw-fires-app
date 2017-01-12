@@ -201,7 +201,7 @@ export default class CalendarModal extends Component {
 		let deferred = new Deferred();
 		let qLayer;
 		if (method === 'changeRisk') {
-			qLayer = layersConfig.filter(layer => layer && layer.id === KEYS.fireRisk)[0];
+			qLayer = layersConfig.filter(layer => layer && layer.id === KEYS.fireWeather)[0];
 		} else {
 			qLayer = layersConfig.filter(layer => layer && layer.id === KEYS.lastRainfall)[0];
 		}

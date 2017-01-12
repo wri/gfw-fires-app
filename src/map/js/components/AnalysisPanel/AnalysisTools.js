@@ -34,12 +34,20 @@ export default class AnalysisTools extends React.Component {
     if (this.state.analysisToolsVisible === false) { className += ' hidden'; }
     if (app.mobile() === true) { className += ' isMobileTools'; }
 
+    let isExpanded = false;
+
+    if (this.state.analysisToolsExpanded || this.state.subscribeToolsExpanded || this.state.imageryToolsExpanded || this.state.basemapToolsExpanded) {
+      isExpanded = true;
+    } else {
+      isExpanded = false;
+    }
+    
     return (
       <div className={className}>
         {app.mobile() === true ? undefined :
           <TabControls {...this.state} />
         }
-        <div className={`tab-container custom-scroll ${app.mobile() === false && this.state.analysisToolsExpanded === false ? 'hidden' : '' }`}>
+        <div className={`tab-container custom-scroll ${app.mobile() === false && isExpanded === false ? 'hidden' : '' }`}>
           <AnalysisTab {...this.state} />
           <SubscriptionTab {...this.state} />
           <ImageryTab {...this.state} />

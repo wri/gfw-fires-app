@@ -69,7 +69,7 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     function DamsLegend(props) {
       _classCallCheck(this, DamsLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DamsLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (DamsLegend.__proto__ || Object.getPrototypeOf(DamsLegend)).call(this, props));
 
       //- Set legend Info to an empty array until data is returned
       _this.state = {

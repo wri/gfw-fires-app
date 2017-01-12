@@ -69,7 +69,7 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     function LegendBase(props) {
       _classCallCheck(this, LegendBase);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LegendBase).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LegendBase.__proto__ || Object.getPrototypeOf(LegendBase)).call(this, props));
 
       _this.state = { layerInfos: [] };
       return _this;

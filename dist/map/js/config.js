@@ -62,7 +62,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       airQStartDate: new window.Kalendae.moment('09/25/2015'),
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
-      corsEnabledServers: ['gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
+      corsEnabledServers: [
+      //'https://services.digitalglobe.com/mapservice/gis/',
+      'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
@@ -193,6 +195,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       highcharts: 'http://code.highcharts.com/highcharts.js',
       highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
       rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
+      // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
       chosen: '../vendors/chosen/chosen.jquery.js'
     },
 
@@ -226,22 +229,22 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }, {
       id: _constants2.default.activeFires,
       order: 12,
       type: 'dynamic',
-      label: 'MODIS active Fires',
+      label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0, 1, 2, 3],
+      layerIds: [0, 1],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires/MapServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_1/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Latitude: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">Longitude: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">Acquisition Date: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">Acquisition Time: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }, {
       id: _constants2.default.archiveFires,
@@ -256,12 +259,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Brightness: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">Confidence: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQUISITION DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQUISITION TIME}</td></tr>'
       },
       calendar: {
-        // startDate: new Date('10/19/2015'),
-        // currentDate: new Date(),
-        // domId: 'imageryCalendar',
         domClass: 'archive-settings',
         childDomClass: 'archive-subsettings',
         minLabel: 'From',
@@ -271,7 +271,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.noaa18Fires,
       order: 12,
       type: 'dynamic',
-      label: 'NOAA-18 Fires',
+      label: 'NOAA-18 fires',
       sublabel: '(layer starts at 10/22/14)',
       group: 'fires',
       layerIds: [9],
@@ -280,7 +280,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'noaa18_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Date: </td><td class="field-value">${Date}</td></tr>' + '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'
+        content: '<table><tr><td class="field-name">DATE: </td><td class="field-value">${Date}</td></tr>' + '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'
       },
       calendar: {
         domClass: 'noaa-settings',
@@ -299,15 +299,33 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
-        content: '<table><span class="name-field">${type_}</span></tr>' + '<tr><td>CrowdRank: </td><td class="field-value">${CrowdRank}</td></tr>' + '<tr><td>Image Date: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
+        content: '<table><span class="name-field">${type_}</span></tr>' + '<tr><td>CROWDRANK: </td><td class="field-value">${CrowdRank}</td></tr>' + '<tr><td>IMAGE DATE: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
       }
     }, {
-      id: _constants2.default.fireRisk,
+      id: _constants2.default.fireHistory,
       order: 8,
       type: 'image',
-      label: 'Fire risk',
+      label: 'Fire history',
+      sublabel: '(2001-2015, Indonesia)',
+      opacity: 0.8,
+      group: 'fireRisk',
+      className: 'fire-history',
+      // disabled: true,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
+      metadataId: 'idn_fire_history',
+      calendar: {
+        domClass: 'risk-settings',
+        childDomClass: 'risk-subsettings',
+        label: 'Select a date'
+      }
+    }, {
+      id: _constants2.default.fireWeather,
+      order: 8,
+      type: 'image',
+      label: 'Fire weather',
       sublabel: '(layer starts at 4/2/15)',
-      group: 'fires',
+      opacity: 0.8,
+      group: 'fireRisk',
       className: 'fire-risk',
       // disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
@@ -323,7 +341,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       type: 'image',
       label: 'Days since last rainfall',
       // sublabel: '(layer starts at 4/2/15)',
-      group: 'fires',
+      opacity: 0.8,
+      group: 'fireRisk',
       className: 'last-rainfall',
       // disabled: true,
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
@@ -333,13 +352,11 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         childDomClass: 'rainfall-subsettings',
         label: 'Select a date'
       }
-    },
-    // TODO: crowdsourced fires
-    {
+    }, {
       id: _constants2.default.forestMoratorium,
       order: 9,
       type: 'dynamic',
-      label: 'Forest Moratorium',
+      label: 'Forest moratorium',
       // TODO: hookup instructions below
       // instruction: 'The moratorium prohibits new concessions on primary forest or peatlands. Learn More.'
       sublabel: '(Indonesia)',
@@ -360,7 +377,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'gfw_oil_palm',
       layerIds: [1],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     }, {
       id: _constants2.default.rspoOilPalm,
@@ -374,7 +391,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${source}</td></tr>'
+        content: '<table><span class="name-field">${name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${group_comp}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${source}</td></tr>'
       }
     }, {
       id: _constants2.default.woodFiber,
@@ -388,7 +405,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'gfw_wood_fiber',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     }, {
       id: _constants2.default.loggingConcessions,
@@ -402,7 +419,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'gfw_logging',
       layerIds: [3],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">Country: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">Certification Status: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">Source: </td><td class="field-value">${Source}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${Certification Status}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>'
       }
     }, {
       id: _constants2.default.oilPalmGreenpeace,
@@ -415,20 +432,20 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Business Permit: </td><td>${Business Permit}</td></tr>' + '<tr><td>Plantation Permit: </td><td>${Plantation Permit}</td></tr>' + '<tr><td>Location Permit: </td><td>${Location Permit}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${Consession Holder}</td></tr>' + '<tr><td>GROUP: </td><td>${Group}</td></tr>' + '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>BUSINESS PERMIT: </td><td>${Business Permit}</td></tr>' + '<tr><td>PLANTATION PERMIT: </td><td>${Plantation Permit}</td></tr>' + '<tr><td>LOCATION PERMIT: </td><td>${Location Permit}</td></tr>' + '<tr><td>PROVINCE: </td><td>${Province}</td></tr></table>'
       }
     }, {
       id: _constants2.default.woodFiberGreenpeace,
       order: 10,
       type: 'dynamic',
-      label: 'Wood Fiber',
+      label: 'Wood fiber',
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Permit: </td><td>${Permit}</td></tr>' + '<tr><td>Permit granted in: </td><td>${Permit Granted in}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${Consession Holder}</td></tr>' + '<tr><td>GROUP: </td><td>${Group}</td></tr>' + '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>PERMIT: </td><td>${Permit}</td></tr>' + '<tr><td>PERMIT GRANTED IN: </td><td>${Permit Granted in}</td></tr>' + '<tr><td>PROVINCE: </td><td>${Province}</td></tr></table>'
       }
     }, {
       id: _constants2.default.loggingGreenpeace,
@@ -441,7 +458,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${Consession Holder}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Permit: </td><td>${Permit}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${Consession Holder}</td></tr>' + '<tr><td>GROUP: </td><td>${Group}</td></tr>' + '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>PERMIT: </td><td>${Permit}</td></tr>' + '<tr><td>PROVINCE: </td><td>${Province}</td></tr></table>'
       }
     }, {
       id: _constants2.default.coalConcessions,
@@ -454,7 +471,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
-        content: '<table><tr><td>Concession holder: </td><td>${coal_com}</td></tr>' + '<tr><td>Group: </td><td>${Group}</td></tr>' + '<tr><td>Area (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>Status: </td><td>${Status}</td></tr>' + '<tr><td>Province: </td><td>${Province}</td></tr>' + '<tr><td>District: </td><td>${District}</td></tr></table>'
+        content: '<table><tr><td>CONCESSION HOLDER: </td><td>${coal_com}</td></tr>' + '<tr><td>GROUP: </td><td>${Group}</td></tr>' + '<tr><td>AREA (ha): </td><td>${Area (ha):NumberFormat(places:0)}</td></tr>' + '<tr><td>STATUS: </td><td>${Status}</td></tr>' + '<tr><td>PROVINCE: </td><td>${Province}</td></tr>' + '<tr><td>DISTRICT: </td><td>${District}</td></tr></table>'
       }
     }, {
       id: _constants2.default.protectedAreas,
@@ -469,7 +486,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       // layerIds: [0],
       // infoTemplate: {
       //   content: '<table><span class="name-field">${Name}</span></tr>' +
-      //   '<tr><td class="field-name">GIS Calculated Area (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
+      //   '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS_AREA}</td></tr>' +
       //   '<tr><td class="field-name">Local Name: </td><td class="field-value">${Local Name}</td></tr>' +
       //   '<tr><td class="field-name">Local Designation: </td><td class="field-value">${Local Designation}</td></tr>' +
       //   '<tr><td class="field-name">WDPA_PID: </td><td class="field-value">${WDPA_PID}</td></tr>'
@@ -488,7 +505,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">Legal Designation: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' + '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">LEGAL DESIGNATION: </td><td class="field-value">${Local Designation}</td></tr>' + '<tr><td class="field-name">ID: </td><td class="field-value">${WDPA ID}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${iso3}</td></tr>' + '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${iucn_cat}</td></tr>'
       }
     }, {
       id: _constants2.default.peatlands,
@@ -519,7 +536,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.primaryForests,
       order: 6,
       type: 'dynamic',
-      label: 'Primary Forests',
+      label: 'Primary forests',
       sublabel: '(2000 - 2012, 30m, Indonesia)',
       group: 'landCover',
       className: 'primary-forests',
@@ -555,7 +572,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 10,
       type: 'wind',
       label: 'Wind direction',
-      sublabel: '(2000, 30m, Indonesia, Daily, NOAA)',
+      sublabel: '(2000, 30m, Daily, NOAA)',
       group: 'airQuality',
       className: 'wind-direction',
       // url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
@@ -569,12 +586,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.airQuality,
       order: 25,
       type: 'dynamic',
-      label: 'Air Quality',
+      label: 'Air quality',
       sublabel: '(layer starts at 9/25/15)',
       group: 'airQuality',
       className: 'air-quality',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
-      metadataId: 'air_quality',
+      metadataId: 'air_quality_old',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
@@ -593,22 +610,22 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [1, 2, 3, 4],
       Provinces: {
         infoTemplate: {
-          content: '<table><span class="name-field">${NAME}</span></tr>' + '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>' + '<tr><td class="field-name">Type: </td><td class="field-value">${TYPE}</td></tr>'
+          content: '<table><span class="name-field">${NAME}</span></tr>' + '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${TYPE}</td></tr>'
         }
       },
       Districts: {
         infoTemplate: {
-          content: '<table><span class="name-field">${DISTRICT}</span></tr>' + '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>' + '<tr><td class="field-name">Island: </td><td class="field-value">${ISLAND}</td></tr>'
+          content: '<table><span class="name-field">${DISTRICT}</span></tr>' + '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>' + '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>'
         }
       },
       Subdistricts: {
         infoTemplate: {
-          content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' + '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' + '<tr><td class="field-name">Province: </td><td class="field-value">${PROVINCE}</td></tr>'
+          content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' + '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' + '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
         }
       },
       Villages: {
         infoTemplate: {
-          content: '<table><span class="name-field">${NAME}</span></tr>' + '<tr><td class="field-name">District: </td><td class="field-value">${DISTRICT}</td></tr>' + '<tr><td class="field-name">Subdistrict: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
+          content: '<table><span class="name-field">${NAME}</span></tr>' + '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' + '<tr><td class="field-name">SUBDISTRICT: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
         }
       },
       infoTemplate: {
@@ -630,7 +647,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       type: 'feature',
       label: 'Bounding boxes',
       infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">Image Aquisition Date: </td><td class="field-value">${AcquisitionDate}</td></tr>'
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">IMAGE ACQUISITION DATE: </td><td class="field-value">${AcquisitionDate}</td></tr>'
       },
       layerDefinition: {
         'geometryType': 'esriGeometryPolygon',
@@ -641,15 +658,15 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         }, {
           'name': 'Name',
           'type': 'esriFieldTypeString',
-          'alias': 'Name'
+          'alias': 'NAME'
         }, {
           'name': 'AcquisitionDate',
           'type': 'esriFieldTypeDate',
-          'alias': 'Acquisition Date'
+          'alias': 'ACQUISITION DATE'
         }, {
           'name': 'SensorName',
           'type': 'esriFieldTypeString',
-          'alias': 'Sensor Name'
+          'alias': 'SENSOR NAME'
         }]
       },
       // group: 'imagery',
@@ -680,6 +697,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     }, {
       id: _constants2.default.digitalGlobe0,
       type: 'image',
+      order: 5,
       mosaic: 'QB01',
       'minScale': 0,
       'maxScale': 10000, //zoom level 6 is highest visible
@@ -687,6 +705,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     }, {
       id: _constants2.default.digitalGlobe1,
       type: 'image',
+      order: 5,
       mosaic: 'WV02',
       'minScale': 0,
       'maxScale': 10000,
@@ -694,6 +713,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     }, {
       id: _constants2.default.digitalGlobe2,
       type: 'image',
+      order: 5,
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
@@ -701,6 +721,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     }, {
       id: _constants2.default.digitalGlobe3,
       type: 'image',
+      order: 5,
       mosaic: 'WV03',
       'minScale': 0,
       'maxScale': 10000,
@@ -708,6 +729,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     }, {
       id: _constants2.default.digitalGlobe4,
       type: 'image',
+      order: 5,
       mosaic: 'WV03_SWIR',
       'minScale': 0,
       'maxScale': 10000,
@@ -716,7 +738,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.fireStories,
       order: 11,
       type: 'feature',
-      label: 'Fire Stories',
+      label: 'Fire stories',
       group: 'stories',
       layerIds: [10],
       className: 'fire-stories',
@@ -738,7 +760,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">Tweet: </td><td class="field-value">${body}</td></tr>' + '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' + '<tr><td class="field-name">UserName: </td><td class="field-value">${actor_disp}</td></tr>' + '<tr><td class="field-name">Date: </td><td class="field-value">${postedtime}</td></tr>'
+        content: '<table><tr><td class="field-name">TWEET: </td><td class="field-value">${body}</td></tr>' + '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' + '<tr><td class="field-name">USERNAME: </td><td class="field-value">${actor_disp}</td></tr>' + '<tr><td class="field-name">DATE: </td><td class="field-value">${postedtime}</td></tr>'
       }
     }],
 
@@ -826,6 +848,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           min: 'Low',
           max: 'Extreme'
         },
+        fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }],
         firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }],
         plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],
@@ -927,6 +950,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           phoneConfirmation: 'Your request has been received. A confirmation message will be sent to your phone.',
           phonePlaceholder: 'Phone number',
           error: 'There was a problem with subscribing. Please try again later.',
+          warningTextPoints: 'You must draw or upload a shape!',
           warningTextEmail: 'You must enter a valid email address!',
           warningTextPhone: 'You must enter a valid phone number!',
           subscribeTitle: 'Subscription success!',
@@ -956,12 +980,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'forest-change-tree-cover-loss': 'tree_cover_loss',
         'forest-change-tree-cover-gain': 'tree_cover_gain',
         'noaa18Fires': 'noaa18_fires',
-        'fireRisk': 'fire_risk',
+        'fireWeather': 'fire_risk',
         'lastRainfall': 'last_rainfall',
         'forest-change-forma-alerts': 'forma',
         'activeFires': 'firms_active_fires',
         'viirsFires': 'viirs_fires',
-        'airQuality': 'air_quality',
+        'airQuality': 'air_quality_old',
         'treeCoverDensity': 'tree_cover',
         'forest-and-land-cover-intact-forest-landscape': 'intact_forest_landscapes_change',
         'peatlands': 'idn_peat_lands',

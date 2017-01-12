@@ -71,7 +71,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     function NoaaControls(props) {
       _classCallCheck(this, NoaaControls);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NoaaControls).call(this, props));
+      var _this = _possibleConstructorReturn(this, (NoaaControls.__proto__ || Object.getPrototypeOf(NoaaControls)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();

@@ -69,7 +69,7 @@ define(['exports', 'js/config', 'utils/request', 'react'], function (exports, _c
     function WaterStressLegend(props) {
       _classCallCheck(this, WaterStressLegend);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WaterStressLegend).call(this, props));
+      var _this = _possibleConstructorReturn(this, (WaterStressLegend.__proto__ || Object.getPrototypeOf(WaterStressLegend)).call(this, props));
 
       //- Set legend Info to an empty array until data is returned
       _this.state = {

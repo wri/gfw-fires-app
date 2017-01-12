@@ -4,11 +4,13 @@ import SedimentLegend from 'components/LayerPanel/SedimentLegend';
 import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
+import FireHistoryTimeline from 'components/LayerPanel/FireHistoryTimeline';
 import ForestControls from 'components/LayerPanel/ForestControls';
 import PlantationControls from 'components/LayerPanel/PlantationControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
+import BurnScarsLegend from 'components/LayerPanel/BurnScarsLegend';
 import RiskControls from 'components/LayerPanel/RiskControls';
 import RainControls from 'components/LayerPanel/RainControls';
 import AirControls from 'components/LayerPanel/AirControls';
@@ -70,6 +72,9 @@ export default class LayerPanel extends React.Component {
         case KEYS.noaa18Fires:
           childComponent = <NoaaControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
+        case KEYS.burnScars:
+          childComponent = <BurnScarsLegend url={layer.url} layerIds={layer.layerIds} {...this.state} />;
+          break;
         case KEYS.treeCoverDensity:
           childComponent = <DensityDisplay {...this.state} />;
           break;
@@ -79,8 +84,11 @@ export default class LayerPanel extends React.Component {
         case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
-        case KEYS.fireRisk:
+        case KEYS.fireWeather:
           childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
+          break;
+        case KEYS.fireHistory:
+          childComponent = <FireHistoryTimeline {...this.state} loaded={this.props.loaded} />;
           break;
         case KEYS.lastRainfall:
           childComponent = <RainControls options={layer.calendar} loaded={this.props.loaded} />;
@@ -112,6 +120,7 @@ export default class LayerPanel extends React.Component {
   render() {
     let className = 'layer-panel map-component custom-scroll shadow';
     let landUseLayers = layersConfig.filter((l) => l.group === 'forestUse').map(this.checkboxMap('forestUse'), this);
+    let fireRiskLayers = layersConfig.filter((l) => l.group === 'fireRisk').map(this.checkboxMap('fireRisk'), this);
     let conservationLayers = layersConfig.filter((l) => l.group === 'conservation').map(this.checkboxMap('conservation'), this);
     let landCoverLayers = layersConfig.filter((l) => l.group === 'landCover').map(this.checkboxMap('landCover'), this);
     if (app.mobile() === true && this.state.layerPanelVisible === false) { className += ' hidden'; }
@@ -122,6 +131,10 @@ export default class LayerPanel extends React.Component {
       <div className={className}>
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
+        </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
+          <LayerTransparency initalOpacity={.80} layers={fireRiskLayers}></LayerTransparency>
+          {layersConfig.map(this.checkboxMap('fireRisk'), this)}
         </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Land use'>
           <LayerTransparency layers={landUseLayers}></LayerTransparency>

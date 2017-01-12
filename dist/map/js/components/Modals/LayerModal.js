@@ -69,7 +69,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'react
     function LayerModal(props) {
       _classCallCheck(this, LayerModal);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LayerModal).call(this, props));
+      var _this = _possibleConstructorReturn(this, (LayerModal.__proto__ || Object.getPrototypeOf(LayerModal)).call(this, props));
 
       _ModalStore.modalStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _ModalStore.modalStore.getState();

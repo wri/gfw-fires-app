@@ -92,7 +92,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
     function SubscriptionTab(props) {
       _classCallCheck(this, SubscriptionTab);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SubscriptionTab).call(this, props));
+      var _this = _possibleConstructorReturn(this, (SubscriptionTab.__proto__ || Object.getPrototypeOf(SubscriptionTab)).call(this, props));
 
       _this.draw = function () {
         toolbar.activate(_draw2.default.FREEHAND_POLYGON);
@@ -157,7 +157,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
                   id: field.alias
                 });
               });
-              console.log(uploadedFeats);
 
               _this.setState({
                 isUploading: false,
@@ -187,12 +186,12 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
               // });
             })();
           } else {
-              _this.setState({
-                fieldSelectionShown: false,
-                isUploading: false
-              });
-              console.error('No feature collection present in the file');
-            }
+            _this.setState({
+              fieldSelectionShown: false,
+              isUploading: false
+            });
+            console.error('No feature collection present in the file');
+          }
         }, function (error) {
           _this.setState({
             isUploading: false,

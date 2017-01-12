@@ -67,7 +67,7 @@ define(['exports', 'actions/ModalActions', 'js/config', 'react'], function (expo
     function DensityDisplay() {
       _classCallCheck(this, DensityDisplay);
 
-      return _possibleConstructorReturn(this, Object.getPrototypeOf(DensityDisplay).apply(this, arguments));
+      return _possibleConstructorReturn(this, (DensityDisplay.__proto__ || Object.getPrototypeOf(DensityDisplay)).apply(this, arguments));
     }
 
     _createClass(DensityDisplay, [{

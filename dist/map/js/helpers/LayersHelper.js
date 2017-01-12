@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils/AppUtils', 'dojo/promise/all', 'dojo/query', 'dojo/dom-class', 'actions/LayerActions', 'actions/ModalActions', 'esri/layers/MosaicRule', 'dojo/on', 'esri/InfoTemplate', 'esri/graphic', 'helpers/WindHelper', 'js/constants', 'helpers/ShareHelper'], function (exports, _config, _rasterFunctions, _request, _AppUtils, _all, _query, _domClass, _LayerActions, _ModalActions, _MosaicRule, _on, _InfoTemplate, _graphic, _WindHelper, _constants, _ShareHelper) {
+define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils/AppUtils', 'dojo/promise/all', 'dojo/query', 'dojo/dom-class', 'actions/LayerActions', 'actions/ModalActions', 'esri/layers/MosaicRule', 'dojo/on', 'esri/InfoTemplate', 'helpers/WindHelper', 'js/constants', 'helpers/ShareHelper'], function (exports, _config, _rasterFunctions, _request, _AppUtils, _all, _query, _domClass, _LayerActions, _ModalActions, _MosaicRule, _on, _InfoTemplate, _WindHelper, _constants, _ShareHelper) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -24,8 +24,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
   var _InfoTemplate2 = _interopRequireDefault(_InfoTemplate);
 
-  var _graphic2 = _interopRequireDefault(_graphic);
-
   var _WindHelper2 = _interopRequireDefault(_WindHelper);
 
   var _constants2 = _interopRequireDefault(_constants);
@@ -49,8 +47,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       this.sendAnalytics('feature', 'delete', 'The user deleted a custom feature.');
       app.map.graphics.remove(feature);
     },
-
-
     checkZoomDependentLayers: function checkZoomDependentLayers() {
       app.debug('LayerHelper >>> checkZoomDependentLayers');
 
@@ -59,7 +55,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           helperLayer = app.map.getLayer(_constants2.default.protectedAreasHelper);
 
       if (mainLayer === undefined || helperLayer === undefined) {
-        console.log('No protected Areas');
         // Error Loading Layers and they do not work
         return;
       }
@@ -77,7 +72,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         mainLayer.show();
       }
     },
-
     performIdentify: function performIdentify(evt) {
       app.debug('LayerHelper >>> performIdentify');
       this.sendAnalytics('map', 'click', 'The user performed an identify task by clicking the map.');
@@ -92,13 +86,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.map.infoWindow.resize(270);
 
       if (evt.graphic && evt.graphic.attributes && evt.graphic.attributes.Layer === 'custom') {
-        // this.setCustomFeaturesTemplates(evt.graphic);
-        // app.map.infoWindow.setFeatures([evt.graphic]);
-        // app.map.infoWindow.show(mapPoint);
-
-        // on(rowData, 'click', function(clickEvt) {
         _ModalActions.modalActions.showSubscribeModal(evt.graphic);
-
         return;
       }
 
@@ -442,10 +430,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     setStoryTemplates: function setStoryTemplates(features) {
       var template = void 0,
           htmlContent = void 0;
-      console.log(features);
 
       features.forEach(function (item) {
-        console.log(item.feature);
         if (app.mobile() === true) {
           htmlContent = '<table class="fire-stories-popup mobile"><span class="name-field">' + item.feature.attributes.Title + '</span></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
         } else {
@@ -622,7 +608,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> getFirePopupContent');
       var isFires = item.fires.length > 0;
 
-      var firesDiv = '<div class="fire-popup-list" id="fireResults">Recent Fires';
+      var firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
       var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
       var fire_results = isFires ? [firesDiv] : [noFiresDiv];
 
@@ -704,32 +690,11 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         primaryForests.setVisibleLayers([optionIndex]);
       }
     },
-    toggleConfidence: function toggleConfidence(checked) {
-      app.debug('LayersHelper >>> toggleConfidence');
-
-      var firesLayer = app.map.getLayer(_constants2.default.activeFires);
-      var defs = firesLayer.layerDefinitions;
-
-      if (firesLayer) {
-
-        firesLayer.visibleLayers.forEach(function (val) {
-          var currentString = defs[val];
-          if (currentString) {
-            if (currentString.indexOf('ACQ_DATE') > -1) {
-              if (checked) {
-                defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-              } else {
-                var string = currentString.split('ACQ_DATE')[1];
-                defs[val] = 'ACQ_DATE' + string;
-              }
-            } else {
-              defs[val] = '1=1';
-            }
-          } else {
-            defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-          }
-        });
-        firesLayer.setLayerDefinitions(defs);
+    updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
+      var fireHistory = app.map.getLayer(_constants2.default.fireHistory);
+      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
+      if (fireHistory) {
+        fireHistory.setDefinitionExpression("Name = '" + value + "'");
       }
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
@@ -866,7 +831,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var defQuery = year.toString() + julian + '_IDN_FireRisk';
 
-      var riskLayer = app.map.getLayer(_constants2.default.fireRisk);
+      var riskLayer = app.map.getLayer(_constants2.default.fireWeather);
 
       if (riskLayer) {
         riskLayer.setDefinitionExpression("Name = '" + defQuery + "'");
@@ -901,9 +866,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var rainLayer = app.map.getLayer(_constants2.default.lastRainfall);
 
-      console.log(defQuery);
-      //DSLR_2016NaN_IDN
-
       if (rainLayer) {
         rainLayer.setDefinitionExpression("Name = '" + defQuery + "'");
       }
@@ -922,7 +884,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var layerDefs = [];
       layerDefs[1] = "Date LIKE '" + date + "%'";
-      console.log(layerDefs[1]);
       layer.setLayerDefinitions(layerDefs);
     },
     updateWindDate: function updateWindDate(dayValue) {
