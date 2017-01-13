@@ -257,7 +257,7 @@ let LayersHelper = {
             // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
             break;
           case KEYS.twitter:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
+            features = features.concat(this.setTweetTemplates(item.features, KEYS.twitter));
             break;
           case KEYS.overlays:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
@@ -407,7 +407,47 @@ let LayersHelper = {
     features[0].setInfoTemplate(template);
     return [features[0]];
   },
+  setTweetTemplates: function(features) {
+    let template, htmlContent;
 
+    features.forEach(item => {
+        let url = item.feature.attributes.link;
+        let indexId = url.lastIndexOf('/') + 1;
+        let tweetId = url.substring(indexId);
+        htmlContent = '<div id="'+ tweetId + '">' + tweetId + '</div>';
+    //   if (app.mobile() === true) {
+    //     htmlContent = '<div class="tweet-container mobile"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+    //   } else {
+    //     htmlContent = '<div class="tweet-container"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+    //   }
+    //   htmlContent += '<div class="tweet-header">';
+    //
+    //   htmlContent += '<div class="tweet-image"><img src=' + item.feature.attributes.actor_imag + ' /></div>';
+    //   htmlContent += '<div class="tweet-actor">';
+    //   if (item.feature.attributes.actor_disp !== null || item.feature.attributes.actor_disp !== 'undefined') {
+    //     htmlContent += '<span class="actor-name">' + item.feature.attributes.actor_disp + '</span>';
+    //   }
+    //   if (item.feature.attributes.actor_pref !== null || item.feature.attributes.actor_pref !== 'undefined') {
+    //     htmlContent += '<span class="actor-username">' + '@' + item.feature.attributes.actor_pref + '</span>';
+    //   }
+    //   htmlContent += '</div></div>'
+    //
+    //   if (item.feature.attributes.body !== null || item.feature.attributes.body !== 'undefined') {
+    //     htmlContent += '<div class="tweet-body">' + item.feature.attributes.body + '</div>';
+    //   }
+    //   htmlContent += '<div class="tweet-footer">'
+    //   if (item.feature.attributes.postedtime !== null || item.feature.attributes.postedtime !== 'undefined') {
+    //     htmlContent += '<div class="tweet-date">' + item.feature.attributes.postedtime + '</div>';
+    //   }
+    //   if (item.feature.attributes.link !== null || item.feature.attributes.link !== 'undefined') {
+    //     htmlContent += '<div class="tweet-url"><a href="' + item.feature.attributes.link + '">View Tweet</a></div>'
+    //   }
+    })
+    htmlContent += '</div>';
+    template = new InfoTemplate('Twitter', htmlContent);
+    features[0].feature.setInfoTemplate(template);
+    return [features[0].feature];
+  },
   setStoryTemplates: function(features) {
     let template, htmlContent;
 
