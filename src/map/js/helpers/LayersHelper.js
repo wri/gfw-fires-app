@@ -407,6 +407,7 @@ let LayersHelper = {
     features[0].setInfoTemplate(template);
     return [features[0]];
   },
+
   setTweetTemplates: function(features) {
     let template, htmlContent, tweetId;
 
@@ -416,13 +417,11 @@ let LayersHelper = {
       tweetId = url.substring(indexId);
 
       if (app.mobile() === true) {
-        htmlContent = '<div id="tweet" class="tweet-container mobile">';
+        htmlContent = '<div id="tweet" class="tweet-container mobile"></div>';
       } else {
-        htmlContent = '<div id="tweet" class="tweet-container">';
+        htmlContent = '<div id="tweet" class="tweet-container"></div>';
       }
     })
-    
-    htmlContent += '</div>';
     template = new InfoTemplate('Twitter', htmlContent);
     features[0].feature.setInfoTemplate(template);
 
