@@ -257,7 +257,7 @@ let LayersHelper = {
             // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
             break;
           case KEYS.twitter:
-            features = features.concat(this.setTweetTemplates(item.features, KEYS.twitter));
+            features = features.concat(this.setTweetTemplates(item.features, mapPoint));
             break;
           case KEYS.overlays:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
@@ -408,9 +408,9 @@ let LayersHelper = {
     return [features[0]];
   },
 
-  setTweetTemplates: function(features) {
+  setTweetTemplates: function(features, mapPoint) {
     let template, htmlContent, tweetId;
-
+    console.log(mapPoint);
     features.forEach(item => {
       let url = item.feature.attributes.link;
       let indexId = url.lastIndexOf('/') + 1;
@@ -426,11 +426,16 @@ let LayersHelper = {
     features[0].feature.setInfoTemplate(template);
 
     on.once(app.map.infoWindow, 'show', (() => {
+      app.map.infoWindow.hide();
       app.map.infoWindow.resize(500, 200);
       twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
         cards: 'hidden',
         align: 'center'
+      }).then(() => {
+        app.map.infoWindow.show(mapPoint);
+        console.log('tweet created.')
       });
+
     }));
 
     return [features[0].feature];
