@@ -408,44 +408,32 @@ let LayersHelper = {
     return [features[0]];
   },
   setTweetTemplates: function(features) {
-    let template, htmlContent;
+    let template, htmlContent, tweetId;
 
     features.forEach(item => {
-        let url = item.feature.attributes.link;
-        let indexId = url.lastIndexOf('/') + 1;
-        let tweetId = url.substring(indexId);
-        htmlContent = '<div id="'+ tweetId + '">' + tweetId + '</div>';
-    //   if (app.mobile() === true) {
-    //     htmlContent = '<div class="tweet-container mobile"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-    //   } else {
-    //     htmlContent = '<div class="tweet-container"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-    //   }
-    //   htmlContent += '<div class="tweet-header">';
-    //
-    //   htmlContent += '<div class="tweet-image"><img src=' + item.feature.attributes.actor_imag + ' /></div>';
-    //   htmlContent += '<div class="tweet-actor">';
-    //   if (item.feature.attributes.actor_disp !== null || item.feature.attributes.actor_disp !== 'undefined') {
-    //     htmlContent += '<span class="actor-name">' + item.feature.attributes.actor_disp + '</span>';
-    //   }
-    //   if (item.feature.attributes.actor_pref !== null || item.feature.attributes.actor_pref !== 'undefined') {
-    //     htmlContent += '<span class="actor-username">' + '@' + item.feature.attributes.actor_pref + '</span>';
-    //   }
-    //   htmlContent += '</div></div>'
-    //
-    //   if (item.feature.attributes.body !== null || item.feature.attributes.body !== 'undefined') {
-    //     htmlContent += '<div class="tweet-body">' + item.feature.attributes.body + '</div>';
-    //   }
-    //   htmlContent += '<div class="tweet-footer">'
-    //   if (item.feature.attributes.postedtime !== null || item.feature.attributes.postedtime !== 'undefined') {
-    //     htmlContent += '<div class="tweet-date">' + item.feature.attributes.postedtime + '</div>';
-    //   }
-    //   if (item.feature.attributes.link !== null || item.feature.attributes.link !== 'undefined') {
-    //     htmlContent += '<div class="tweet-url"><a href="' + item.feature.attributes.link + '">View Tweet</a></div>'
-    //   }
+      let url = item.feature.attributes.link;
+      let indexId = url.lastIndexOf('/') + 1;
+      tweetId = url.substring(indexId);
+
+      if (app.mobile() === true) {
+        htmlContent = '<div id="tweet" class="tweet-container mobile">';
+      } else {
+        htmlContent = '<div id="tweet" class="tweet-container">';
+      }
     })
+    
     htmlContent += '</div>';
     template = new InfoTemplate('Twitter', htmlContent);
     features[0].feature.setInfoTemplate(template);
+
+    on.once(app.map.infoWindow, 'show', (() => {
+      app.map.infoWindow.resize(500, 200);
+      twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
+        cards: 'hidden',
+        align: 'center'
+      });
+    }));
+
     return [features[0].feature];
   },
   setStoryTemplates: function(features) {
