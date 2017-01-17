@@ -417,9 +417,9 @@ let LayersHelper = {
       tweetId = url.substring(indexId);
 
       if (app.mobile() === true) {
-        htmlContent = '<div id="tweet" class="tweet-container mobile"></div>';
+        htmlContent = '<div id="tweet" class="tweet-container mobile"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div></div>';
       } else {
-        htmlContent = '<div id="tweet" class="tweet-container"></div>';
+        htmlContent = '<div id="tweet" class="tweet-container"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div></div>';
       }
     })
     template = new InfoTemplate('Twitter', htmlContent);
