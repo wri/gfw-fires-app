@@ -431,22 +431,23 @@ let LayersHelper = {
         htmlContent += '<div id="tweet"></div>';
         htmlContent += '</div>';
       }
-    })
+    });
+
     template = new InfoTemplate('Twitter', htmlContent);
     features[0].feature.setInfoTemplate(template);
 
-    on.once(app.map.infoWindow, 'show', (() => {
+    on.once(app.map.infoWindow, 'show', () => {
       app.map.infoWindow.hide();
       app.map.infoWindow.resize(500, 200);
       twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
         cards: 'hidden',
         align: 'center'
       }).then((el) => {
-        if (el){
+        if (el) {
           app.map.infoWindow.show(mapPoint);
         }
       });
-    }));
+    });
 
     return [features[0].feature];
   },
