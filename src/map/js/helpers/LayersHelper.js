@@ -300,6 +300,10 @@ let LayersHelper = {
 
         dojoQuery('.infoWindow-close').forEach((rowData) => {
           closeHandles.push(on(rowData, 'click', function() {
+            let tweet = document.getElementById('tweet');
+            if (tweet) {
+              tweet.style.display = 'none';
+            }
             app.map.infoWindow.hide();
           }));
 
@@ -417,9 +421,15 @@ let LayersHelper = {
       tweetId = url.substring(indexId);
 
       if (app.mobile() === true) {
-        htmlContent = '<div id="tweet" class="tweet-container mobile"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div></div>';
+        htmlContent = '<div class="tweet-container mobile">';
+        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        htmlContent += '<div id="tweet"></div>';
+        htmlContent += '</div>';
       } else {
-        htmlContent = '<div id="tweet" class="tweet-container"><div title="close" class="infoTweetWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div></div>';
+        htmlContent = '<div class="tweet-container">';
+        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        htmlContent += '<div id="tweet"></div>';
+        htmlContent += '</div>';
       }
     })
     template = new InfoTemplate('Twitter', htmlContent);
@@ -431,11 +441,11 @@ let LayersHelper = {
       twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
         cards: 'hidden',
         align: 'center'
-      }).then(() => {
-        app.map.infoWindow.show(mapPoint);
-        console.log('tweet created.')
+      }).then((el) => {
+        if (el){
+          app.map.infoWindow.show(mapPoint);
+        }
       });
-
     }));
 
     return [features[0].feature];
