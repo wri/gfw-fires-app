@@ -276,7 +276,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
               break;
             case _constants2.default.twitter:
-              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.twitter));
+              features = features.concat(_this.setTweetTemplates(item.features, mapPoint));
               break;
             case _constants2.default.overlays:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.overlays));
@@ -320,6 +320,10 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
             (0, _query2.default)('.infoWindow-close').forEach(function (rowData) {
               closeHandles.push((0, _on2.default)(rowData, 'click', function () {
+                var tweet = document.getElementById('tweet');
+                if (tweet) {
+                  tweet.style.display = 'none';
+                }
                 app.map.infoWindow.hide();
               }));
             });
@@ -427,6 +431,47 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       return [features[0]];
     },
 
+    setTweetTemplates: function setTweetTemplates(features, mapPoint) {
+      var template = void 0,
+          htmlContent = void 0,
+          tweetId = void 0;
+      console.log(mapPoint);
+      features.forEach(function (item) {
+        var url = item.feature.attributes.link;
+        var indexId = url.lastIndexOf('/') + 1;
+        tweetId = url.substring(indexId);
+
+        if (app.mobile() === true) {
+          htmlContent = '<div class="tweet-container mobile">';
+          htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+          htmlContent += '<div id="tweet"></div>';
+          htmlContent += '</div>';
+        } else {
+          htmlContent = '<div class="tweet-container">';
+          htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+          htmlContent += '<div id="tweet"></div>';
+          htmlContent += '</div>';
+        }
+      });
+
+      template = new _InfoTemplate2.default('Twitter', htmlContent);
+      features[0].feature.setInfoTemplate(template);
+
+      _on2.default.once(app.map.infoWindow, 'show', function () {
+        app.map.infoWindow.hide();
+        app.map.infoWindow.resize(500, 200);
+        twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
+          cards: 'hidden',
+          align: 'center'
+        }).then(function (el) {
+          if (el) {
+            app.map.infoWindow.show(mapPoint);
+          }
+        });
+      });
+
+      return [features[0].feature];
+    },
     setStoryTemplates: function setStoryTemplates(features) {
       var template = void 0,
           htmlContent = void 0;

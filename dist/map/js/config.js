@@ -758,10 +758,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [3],
       className: 'twitter',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">TWEET: </td><td class="field-value">${body}</td></tr>' + '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' + '<tr><td class="field-name">USERNAME: </td><td class="field-value">${actor_disp}</td></tr>' + '<tr><td class="field-name">DATE: </td><td class="field-value">${postedtime}</td></tr>'
-      }
+      metadataId: 'firms_active_fires'
     }],
 
     symbol: {
