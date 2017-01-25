@@ -28,7 +28,16 @@ export default class FireHistoryTimeline extends React.Component {
 		}
 	}
 
+	increaseFireHistoryYear(evt) {
+		layerActions.incrementFireHistoryYear();
+	}
+
+	decreaseFireHistoryYear(evt) {
+		layerActions.decrementFireHistoryYear();
+	}
+
 	render () {
+		console.log(this.props);
 		let activeItem = fireHistoryOptions[this.props.fireHistorySelectIndex];
     return <div>
       <FireHistoryLegend />
@@ -39,6 +48,8 @@ export default class FireHistoryTimeline extends React.Component {
         <span className='history-timeline-player' id='timelinePlayer' onClick={this.toggleTimeline.bind(this)}></span>
         <div className='fires-history-cover-control gfw-btn sml white'>{activeItem.label}</div>
       </div>
+			<div className={`fire-hist ${this.props.fireHistorySelectIndex === 14 ? 'gray-out': ''}`} onClick={this.increaseFireHistoryYear}>Forward</div>
+			<div className={`fire-hist ${this.props.fireHistorySelectIndex === 0 ? 'gray-out': ''}`} onClick={this.decreaseFireHistoryYear}>Backward</div>
     </div>;
 	}
 
