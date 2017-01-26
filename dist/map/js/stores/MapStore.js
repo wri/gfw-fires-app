@@ -86,7 +86,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
       this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
-      this.fireHistorySelectIndex = 0;
+      this.fireHistorySelectIndex = 14;
       this.layerPanelVisible = app.mobile === false;
       this.lat = undefined;
       this.lng = undefined;
@@ -116,6 +116,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
         changeForestTimeline: _LayerActions.layerActions.changeForestTimeline,
         changeFireHistoryTimeline: _LayerActions.layerActions.changeFireHistoryTimeline,
+        incrementFireHistoryYear: _LayerActions.layerActions.incrementFireHistoryYear,
+        decrementFireHistoryYear: _LayerActions.layerActions.decrementFireHistoryYear,
         changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
         changePlantations: _LayerActions.layerActions.changePlantations,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
@@ -435,6 +437,18 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'changeFireHistoryTimeline',
       value: function changeFireHistoryTimeline(activeIndex) {
         this.fireHistorySelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+      }
+    }, {
+      key: 'incrementFireHistoryYear',
+      value: function incrementFireHistoryYear() {
+        this.fireHistorySelectIndex += 1;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+      }
+    }, {
+      key: 'decrementFireHistoryYear',
+      value: function decrementFireHistoryYear() {
+        this.fireHistorySelectIndex -= 1;
         this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
       }
     }, {
