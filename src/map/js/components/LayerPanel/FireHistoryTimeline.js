@@ -29,15 +29,18 @@ export default class FireHistoryTimeline extends React.Component {
 	}
 
 	increaseFireHistoryYear = (evt) => {
-		this.props.fireHistorySelectIndex < 14 ? layerActions.incrementFireHistoryYear() : '';
+		if(this.props.fireHistorySelectIndex < 14) {
+			layerActions.incrementFireHistoryYear();
+		}
 	}
 
 	decreaseFireHistoryYear = (evt) => {
-		this.props.fireHistorySelectIndex > 0 ? layerActions.decrementFireHistoryYear() : '';
+		if(this.props.fireHistorySelectIndex > 0) {
+			layerActions.decrementFireHistoryYear();
+		}
 	}
 
 	render () {
-		console.log(this.props.fireHistorySelectIndex);
 		let activeItem = fireHistoryOptions[this.props.fireHistorySelectIndex];
     return <div>
       <FireHistoryLegend />
