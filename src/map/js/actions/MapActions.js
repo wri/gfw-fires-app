@@ -161,19 +161,13 @@ class MapActions {
         app.map.removeLayer(baseLayer);
       }
     } else if (basemap === KEYS.landsat8) {
-      // app.map.setBasemap(null);
-      const currentBM = app.map.getLayer(app.map.layerIds[0]);
-      currentBM.hide();
-      //maybe do this hide on.once(layer.show)
-      //TODO: Why is this being called twice?!
       layer = app.map.getLayer(basemap);
       if (layer) {
         on.once(layer, 'update-end', () => {
-          console.log('update end!');
-          layer.show();
-          console.log('after');
+          const currentBM = app.map.getLayer(app.map.layerIds[0]);
+          currentBM.hide();
         });
-        // layer.show();
+        layer.show();
       }
     } else {
       landsatLayer = app.map.getLayer(KEYS.landsat8);
