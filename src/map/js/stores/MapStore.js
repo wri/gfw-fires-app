@@ -370,13 +370,11 @@ class MapStore {
   }
 
   incrementFireHistoryYear () {
-    //this.fireHistorySelectIndex === 14 ? '' : this.fireHistorySelectIndex += 1;
     this.fireHistorySelectIndex += 1;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
   }
 
   decrementFireHistoryYear () {
-    //this.fireHistorySelectIndex === 0 ? '' : this.fireHistorySelectIndex -= 1;
     this.fireHistorySelectIndex -= 1;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
   }
