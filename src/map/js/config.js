@@ -373,7 +373,7 @@ export const config = {
       order: 7,
       type: 'image',
       label: 'Days since last rainfall',
-      sublabel: '(Indonesia 4/2/15 to present)',
+      sublabel: '(Indonesia, 4/2/15 to present)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'last-rainfall',
