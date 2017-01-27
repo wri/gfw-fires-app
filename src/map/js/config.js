@@ -48,6 +48,8 @@ export const config = {
     airQStartDate: new window.Kalendae.moment('09/25/2015'),
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
+    archiveViirsStartDate: new window.Kalendae.moment('01/01/2017'),
+    archiveModisStartDate: new window.Kalendae.moment('01/01/2012'),
     corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org',
@@ -351,7 +353,6 @@ export const config = {
       }
     },
       {
-        //id: KEYS.fireHistory,
         id: 'firesHistory2002',
         order: 8,
         type: 'image',
@@ -1003,6 +1004,20 @@ export const config = {
       className: 'twitter',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
+    }, {
+      id: 'modisArchive',
+      type: 'image',
+      layerIds: [1],
+      opacity: 0.8,
+      className: 'modis-archive',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer'
+    }, {
+      id: 'viirsArchive',
+      type: 'image',
+      layerIds: [0],
+      opacity: 0.8,
+      className: 'viirs-achive',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer'
     }
   ],
 
