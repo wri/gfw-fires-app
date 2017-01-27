@@ -66,6 +66,8 @@ const ShareHelper = {
           let helper = app.map.getLayer(id);
           helper.show();
           layerActions.addActiveLayer('protectedAreas');
+        } else if (id.indexOf('firesHistory') > -1) {
+          id = KEYS.fireHistory;
         }
         layerActions.addActiveLayer(id);
       });

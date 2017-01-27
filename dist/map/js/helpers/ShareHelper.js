@@ -95,6 +95,8 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
             var helper = app.map.getLayer(id);
             helper.show();
             _LayerActions.layerActions.addActiveLayer('protectedAreas');
+          } else if (id.indexOf('firesHistory') > -1) {
+            id = _constants2.default.fireHistory;
           }
           _LayerActions.layerActions.addActiveLayer(id);
         });

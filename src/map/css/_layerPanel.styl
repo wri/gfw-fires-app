@@ -198,7 +198,15 @@
 	&.fires
 		width 125px
 	&.fires-history
+		display flex
+		flex-direction row
+		justify-content center
 		width 120px
+		.pointer
+			width 50px !important
+		.fires-history-cover-control
+			width 300px
+			margin 0px 5px 0px 5px
 	& select
 		-webkit-appearance none
 		position absolute
@@ -209,6 +217,22 @@
 		top 0
 		&:hover + div
 			background darken(white, 10%)
+.history-play-container
+	display flex
+	flex-direction row
+	justify-content center
+	padding-left 10px
+	.history-play
+		background url('images/play.svg') no-repeat center
+		width 15px
+		height 15px
+		background-size 15px 15px
+		cursor pointer
+		margin 5px 5px 5px 5px
+		&.backward
+			transform rotate(180deg)
+		&.disable
+			opacity .25
 
 .loss-timeline-spacer
 	font-size 12px

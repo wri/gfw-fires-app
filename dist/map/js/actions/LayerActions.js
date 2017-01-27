@@ -67,6 +67,16 @@ define(['exports', 'js/alt'], function (exports, _alt) {
         this.dispatch(selectedIndex);
       }
     }, {
+      key: 'incrementFireHistoryYear',
+      value: function incrementFireHistoryYear() {
+        this.dispatch();
+      }
+    }, {
+      key: 'decrementFireHistoryYear',
+      value: function decrementFireHistoryYear() {
+        this.dispatch();
+      }
+    }, {
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(selectedIndex) {
         this.dispatch(selectedIndex);
