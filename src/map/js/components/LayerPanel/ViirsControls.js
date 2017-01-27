@@ -6,7 +6,19 @@ import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
 
+class ArchiveViirsControls extends React.Component {
+  render() {
+    return <div>yo.</div>;
+  }
+}
+
 export default class ViirsControls extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      customeDateRange: true
+    }
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) {
@@ -22,15 +34,16 @@ export default class ViirsControls extends React.Component {
   }
 
   render () {
-    //<input onChange={this.toggleConfidence} type='checkbox' /><span className='fires-confidence-wrapper'>Only show <span className='fires-confidence' onClick={this.showFiresModal}>high confidence fires</span></span>
     let activeItem = firesOptions[this.props.viiirsSelectIndex];
     return <div>
-      <div className='timeline-container relative fires'>
+      <div className='timeline-container fires'>
         <select className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
+        <div className='active-fires-control gfw-btn sml white' onClick={this.toggleViirsArchiveState.bind(this)}>C.D.R</div>
       </div>
+      <ArchiveViirsControls display={this.state.customeDateRange}/>
     </div>;
   }
 
@@ -48,6 +61,10 @@ export default class ViirsControls extends React.Component {
 
   changeViirsTimeline (evt) {
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
+  }
+
+  toggleViirsArchiveState () {
+    this.state.customeDateRange = !this.state.customeDateRange
   }
 
 }
