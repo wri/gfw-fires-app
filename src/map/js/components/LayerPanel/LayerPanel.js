@@ -38,7 +38,6 @@ export default class LayerPanel extends React.Component {
   }
 
   clickedBasemap (id) {
-    console.log('clicked basemap elseeewhere!');
     mapActions.setBasemap(id);
   }
 
