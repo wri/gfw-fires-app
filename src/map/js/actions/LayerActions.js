@@ -22,6 +22,14 @@ class LayerActions {
     this.dispatch(selectedIndex);
   }
 
+  incrementFireHistoryYear() {
+    this.dispatch();
+  }
+
+  decrementFireHistoryYear() {
+    this.dispatch();
+  }
+
   changeViirsTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
   }

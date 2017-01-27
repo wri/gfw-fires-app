@@ -489,6 +489,13 @@ let LayersHelper = {
     if ( layer ) {
       layer.setOpacity(parameters.value);
     }
+    if (layer.id === KEYS.fireHistory) {
+      let layers = layersConfig.filter(layerConfig => layerConfig && layerConfig.label === 'Fire history');
+      layers.forEach(subLayer => {
+        let firesHistoryLayer = app.map.getLayer(subLayer.id);
+        firesHistoryLayer.setOpacity(parameters.value);
+      });
+    }
   },
 
   updateOverlays (layers) {
@@ -561,6 +568,11 @@ let LayersHelper = {
       }
       ShareHelper.handleHashChange();
       return;
+    } else if (layerObj.layerId === KEYS.fireHistory) {
+      let date = 2001 + layerObj.fireHistorySelectIndex;
+      let layerTitle = 'firesHistory' + date;
+      let activeFireHistory = layersConfig.filter(layer => layer && layer.id === layerTitle);
+      layerObj.layerId = activeFireHistory[0].id;
     }
     let layer = app.map.getLayer(layerObj.layerId);
     if (layer) { layer.show(); }
@@ -592,6 +604,13 @@ let LayersHelper = {
 
       ShareHelper.handleHashChange();
       return;
+    } else if (layerId === KEYS.fireHistory) {
+      let layers = layersConfig.filter(layer => layer && layer.label === 'Fire history');
+
+      layers.forEach(layer => {
+        let firesHistoryLayer = app.map.getLayer(layer.id);
+        firesHistoryLayer.hide();
+      });
     }
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
@@ -718,11 +737,21 @@ let LayersHelper = {
   },
 
   updateFireHistoryDefinitions (index) {
-    let fireHistory = app.map.getLayer(KEYS.fireHistory);
-    let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
-    if (fireHistory) {
-      fireHistory.setDefinitionExpression("Name = '" + value + "'");
-    }
+    let layers = layersConfig.filter(layer => layer && layer.label === 'Fire history');
+    let date = 2001 + index;
+    let layerTitle = 'firesHistory' + date;
+    let activeFireHistory = layersConfig.filter(layer => layer && layer.id === layerTitle);
+    let activeFireHistoryLayer = app.map.getLayer(activeFireHistory[0].id);
+
+    layers.forEach(layer => {
+      if (layer.id !== layerTitle) {
+        let firesHistoryLayer = app.map.getLayer(layer.id);
+        on.once(activeFireHistoryLayer, 'update-end', () => {
+          firesHistoryLayer.hide();
+        });
+      }
+    });
+    activeFireHistoryLayer.show();
   },
 
   // toggleConfidence (checked) {
