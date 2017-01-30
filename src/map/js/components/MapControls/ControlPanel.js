@@ -66,10 +66,6 @@ export default class ControlPanel extends React.Component {
     mapActions.setCalendar('masterDay');
   }
 
-  clickedBasemap (id) {
-    mapActions.setBasemap(id);
-  }
-
   sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
     ga('A.send', 'event', eventType, action, label);
     ga('B.send', 'event', eventType, action, label);

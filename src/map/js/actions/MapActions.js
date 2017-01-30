@@ -9,6 +9,7 @@ import Graphic from 'esri/graphic';
 import KEYS from 'js/constants';
 import EsriMap from 'esri/map';
 import alt from 'js/alt';
+import on from 'dojo/on';
 
 // Variable to hold the user location graphic, this is deinfed here to make it
 // easier to remove at a later point
@@ -161,7 +162,13 @@ class MapActions {
       }
     } else if (basemap === KEYS.landsat8) {
       layer = app.map.getLayer(basemap);
-      if (layer) { layer.show(); }
+      if (layer) {
+        on.once(layer, 'update-end', () => {
+          const currentBM = app.map.getLayer(app.map.layerIds[0]);
+          currentBM.hide();
+        });
+        layer.show();
+      }
     } else {
       landsatLayer = app.map.getLayer(KEYS.landsat8);
       if (landsatLayer) { landsatLayer.hide(); }
