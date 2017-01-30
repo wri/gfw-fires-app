@@ -201,12 +201,14 @@
 		display flex
 		flex-direction row
 		justify-content center
-		width 120px
+		width 150px
 		.pointer
 			width 50px !important
 		.fires-history-cover-control
-			width 300px
+			width 100px
 			margin 0px 5px 0px 5px
+		& select
+			margin-left 50px !important
 	& select
 		-webkit-appearance none
 		position absolute
@@ -215,24 +217,24 @@
 		opacity 0
 		left 0
 		top 0
-		&:hover + div
+		&:hover
 			background darken(white, 10%)
 .history-play-container
 	display flex
 	flex-direction row
 	justify-content center
 	padding-left 10px
-	.history-play
-		background url('images/play.svg') no-repeat center
-		width 15px
-		height 15px
-		background-size 15px 15px
-		cursor pointer
-		margin 5px 5px 5px 5px
-		&.backward
-			transform rotate(180deg)
-		&.disable
-			opacity .25
+.history-play
+	background url('images/play.svg') no-repeat center
+	width 15px
+	height 15px
+	background-size 15px 15px
+	cursor pointer
+	margin 5px 5px 5px 5px
+	&.backward
+		transform rotate(180deg)
+	&.disable
+		opacity .25
 
 .loss-timeline-spacer
 	font-size 12px
