@@ -20,7 +20,15 @@ win.requestAnimationFrame = (function () {
 })();
 let i = 0;
 
+export type FireHistoryProps = {
+  storyMode: bool,
+  fireHistorySelectIndex: number
+};
+
 export default class FireHistoryTimeline extends React.Component {
+
+	props: FireHistoryProps;
+  displayName: 'FireHistoryTimeline';
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.fireHistorySelectIndex !== this.props.fireHistorySelectIndex) {
@@ -28,14 +36,14 @@ export default class FireHistoryTimeline extends React.Component {
 		}
 	}
 
-	increaseFireHistoryYear = (evt) => {
-		if(this.props.fireHistorySelectIndex < 14) {
+	increaseFireHistoryYear = () => {
+		if (this.props.fireHistorySelectIndex < 14) {
 			layerActions.incrementFireHistoryYear();
 		}
 	}
 
-	decreaseFireHistoryYear = (evt) => {
-		if(this.props.fireHistorySelectIndex > 0) {
+	decreaseFireHistoryYear = () => {
+		if (this.props.fireHistorySelectIndex > 0) {
 			layerActions.decrementFireHistoryYear();
 		}
 	}
@@ -64,7 +72,6 @@ export default class FireHistoryTimeline extends React.Component {
 	}
 
 	toggleTimeline (evt) {
-
 		if (evt.target.classList.contains('playing')) {
 			evt.target.classList.remove('playing');
 			playing = false;

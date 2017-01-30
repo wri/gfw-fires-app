@@ -257,7 +257,7 @@ let LayersHelper = {
             // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
             break;
           case KEYS.twitter:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
+            features = features.concat(this.setTweetTemplates(item.features, mapPoint));
             break;
           case KEYS.overlays:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
@@ -300,6 +300,10 @@ let LayersHelper = {
 
         dojoQuery('.infoWindow-close').forEach((rowData) => {
           closeHandles.push(on(rowData, 'click', function() {
+            let tweet = document.getElementById('tweet');
+            if (tweet) {
+              tweet.style.display = 'none';
+            }
             app.map.infoWindow.hide();
           }));
 
@@ -408,6 +412,45 @@ let LayersHelper = {
     return [features[0]];
   },
 
+  setTweetTemplates: function(features, mapPoint) {
+    let template, htmlContent, tweetId;
+    console.log(mapPoint);
+    features.forEach(item => {
+      let url = item.feature.attributes.link;
+      let indexId = url.lastIndexOf('/') + 1;
+      tweetId = url.substring(indexId);
+
+      if (app.mobile() === true) {
+        htmlContent = '<div class="tweet-container mobile">';
+        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        htmlContent += '<div id="tweet"></div>';
+        htmlContent += '</div>';
+      } else {
+        htmlContent = '<div class="tweet-container">';
+        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        htmlContent += '<div id="tweet"></div>';
+        htmlContent += '</div>';
+      }
+    });
+
+    template = new InfoTemplate('Twitter', htmlContent);
+    features[0].feature.setInfoTemplate(template);
+
+    on.once(app.map.infoWindow, 'show', () => {
+      app.map.infoWindow.hide();
+      app.map.infoWindow.resize(500, 200);
+      twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
+        cards: 'hidden',
+        align: 'center'
+      }).then((el) => {
+        if (el) {
+          app.map.infoWindow.show(mapPoint);
+        }
+      });
+    });
+
+    return [features[0].feature];
+  },
   setStoryTemplates: function(features) {
     let template, htmlContent;
 

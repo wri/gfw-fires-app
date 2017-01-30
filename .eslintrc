@@ -19,7 +19,8 @@
     "_babelPolyfill": true,
     "it": true,
     "expect": true,
-    "describe": true
+    "describe": true,
+    "twttr": true
   },
   "plugins": [
     "react"
