@@ -785,7 +785,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       'minScale': 0,
       'maxScale': 10000,
       className: 'digital-globe',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer',
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer',
       metadataId: 'digital_globe',
       calendar: {
         // startDate: new Date('10/19/2015'),
