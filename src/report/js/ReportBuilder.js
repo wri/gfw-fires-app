@@ -318,8 +318,8 @@ define([
             this.aoilist = window.reportOptions.aois.join(', ');
             this.aoitype = window.reportOptions.aoitype;
             this.dataSource = window.reportOptions.dataSource;
-            dom.byId('fromDate').innerHTML = "From: " + self.startdate;
-            dom.byId('toDate').innerHTML = "To: " + self.enddate;
+            dom.byId('fromDate').innerHTML = self.startdate;
+            dom.byId('toDate').innerHTML = " - " + self.enddate;
             dom.byId('aoiList').innerHTML = 'ON ' + self.aoitype.toUpperCase() + 'S: ' + self.aoilist;
         },
 
@@ -355,7 +355,7 @@ define([
             window.reportOptions = {
                 aoitype: _initialState.aoitype
             }
-            window.reportOptions['aois'] = _initialState.aois.split('!')
+            window.reportOptions['aois'] = _initialState.aois.split('!');
             window.reportOptions['dates'] = dateObj;
             window.reportOptions.dataSource = _initialState.dataSource;
         },
@@ -363,9 +363,9 @@ define([
         date_obj_to_string: function(dateobj) {
             //var dtstr = "date'";
             var dtstr = '';
-            dtstr += dateobj.year + '-';
-            dtstr += dateobj.month + '-';
-            dtstr += dateobj.day;
+            dtstr += dateobj.month + '/';
+            dtstr += dateobj.day + '/';
+            dtstr += dateobj.year;
             return dtstr;
         },
 
