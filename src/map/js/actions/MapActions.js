@@ -1,4 +1,4 @@
-dimport {layersConfig, errors, mapConfig} from 'js/config';
+import {layersConfig, errors, mapConfig} from 'js/config';
 // import {analysisActions} from 'actions/AnalysisActions';
 import WebTiledLayer from 'esri/layers/WebTiledLayer';
 import layerFactory from 'helpers/LayerFactory';
