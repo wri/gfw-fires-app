@@ -64,7 +64,7 @@ export default class LayerPanel extends React.Component {
           childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
           break;
         case KEYS.viirsFires:
-          childComponent = <ViirsControls loaded={this.props.loaded} {...this.state} />;
+          childComponent = <ViirsControls loaded={this.props.loaded} options={layer.calendar} {...this.state} />;
           break;
         case KEYS.archiveFires:
           childComponent = <ArchiveControls options={layer.calendar} loaded={this.props.loaded} />;

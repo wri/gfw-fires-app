@@ -26,6 +26,8 @@ class MapStore {
     this.analysisEndDate = this.getDate(defaults.yesterday);
     this.archiveStartDate = this.getDate(defaults.archiveInitialDate);
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
+    this.archiveViirsStartDate = this.getDate(defaults.archiveViirsStartDate);
+    this.archiveViirsEndDate = this.getDate(defaults.archiveViirsEndDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);
@@ -55,6 +57,7 @@ class MapStore {
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
       setArchiveDate: mapActions.setArchiveDate,
+      setViirsArchiveDate: mapActions.setViirsArchiveDate,
       setNoaaDate: mapActions.setNoaaDate,
       setRiskDate: mapActions.setRiskDate,
       setRainDate: mapActions.setRainDate,
@@ -168,6 +171,16 @@ class MapStore {
 
     LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
   }
+
+  setViirsArchiveDate (dateObj) {
+    debugger
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateViirsArchiveDates([this.archiveViirsStartDate, this.archiveViirsStartDateEndDate]);
+  }
+
 
   setNoaaDate (dateObj) {
     this.calendarVisible = '';

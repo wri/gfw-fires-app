@@ -48,7 +48,8 @@ export const config = {
     airQStartDate: new window.Kalendae.moment('09/25/2015'),
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
-    archiveViirsStartDate: new window.Kalendae.moment('01/01/2017'),
+    archiveViirsStartDate: new window.Kalendae.moment().subtract(14, 'd'),
+    archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
     archiveModisStartDate: new window.Kalendae.moment('01/01/2012'),
     corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
@@ -108,6 +109,22 @@ export const config = {
         startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'archiveEnd',
         domClass: 'archive-end'
+      },
+      {
+        date: new window.Kalendae.moment().subtract(14, 'd'),
+        method: 'changeViirsArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2017'),
+        domId: 'archiveViirsStart',
+        domClass: 'viirs-archive-start'
+      },
+      {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeViirsArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2017'),
+        domId: 'archiveViirsEnd',
+        domClass: 'viirs-archive-end'
       },
       {
         date: new window.Kalendae.moment(), //('10/22/2014'),
@@ -245,8 +262,15 @@ export const config = {
           '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     },
+    
     {
       id: KEYS.activeFires,
       order: 12,

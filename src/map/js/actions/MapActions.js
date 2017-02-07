@@ -1,4 +1,4 @@
-import {layersConfig, errors, mapConfig} from 'js/config';
+dimport {layersConfig, errors, mapConfig} from 'js/config';
 // import {analysisActions} from 'actions/AnalysisActions';
 import WebTiledLayer from 'esri/layers/WebTiledLayer';
 import layerFactory from 'helpers/LayerFactory';
@@ -99,6 +99,12 @@ class MapActions {
 
   setArchiveDate (date) {
     app.debug('MapActions >>> setArchiveDate');
+    this.dispatch(date);
+  }
+
+  setViirsArchiveDate (date) {
+    debugger;
+    app.debug('MapActions >>> setViirsArchiveDate');
     this.dispatch(date);
   }
 
