@@ -50,7 +50,8 @@ export const config = {
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
     archiveViirsStartDate: new window.Kalendae.moment().subtract(14, 'd'),
     archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
-    archiveModisStartDate: new window.Kalendae.moment('01/01/2012'),
+    archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
+    archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org',
@@ -125,6 +126,22 @@ export const config = {
         startDate: new window.Kalendae.moment('01/01/2017'),
         domId: 'archiveViirsEnd',
         domClass: 'viirs-archive-end'
+      },
+      {
+        date: new window.Kalendae.moment().subtract(14, 'd'),
+        method: 'changeModisArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2012'),
+        domId: 'archiveModisStart',
+        domClass: 'modis-archive-start'
+      },
+      {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeModisArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2012'),
+        domId: 'archiveModisEnd',
+        domClass: 'modis-archive-end'
       },
       {
         date: new window.Kalendae.moment(), //('10/22/2014'),
@@ -270,7 +287,7 @@ export const config = {
         maxLabel: 'To'
       }
     },
-    
+
     {
       id: KEYS.activeFires,
       order: 12,
@@ -290,6 +307,12 @@ export const config = {
           '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'modis-archive-settings',
+        childDomClass: 'modis-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     },
     {

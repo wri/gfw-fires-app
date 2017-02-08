@@ -148,7 +148,6 @@ export default class CalendarModal extends Component {
 		});
 	}
 	changeViirsArchiveStart(date: any) {
-		debugger
 		this.close();
 		mapActions.setViirsArchiveDate({
 			date: date,
@@ -159,7 +158,21 @@ export default class CalendarModal extends Component {
 		this.close();
 		mapActions.setViirsArchiveDate({
 			date: date,
-			dest: 'archiveViirsEndtDate'
+			dest: 'archiveViirsEndDate'
+		});
+	}
+	changeModisArchiveStart(date: any) {
+		this.close();
+		mapActions.setModisArchiveDate({
+			date: date,
+			dest: 'archiveModisStartDate'
+		});
+	}
+	changeModisArchiveEnd(date: any) {
+		this.close();
+		mapActions.setModisArchiveDate({
+			date: date,
+			dest: 'archiveModisEndDate'
 		});
 	}
 	changeNoaaStart(date: any) {
