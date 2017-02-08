@@ -11,12 +11,6 @@ import React from 'react';
 let firesOptions = layerPanelText.firesOptions;
 
 export default class ViirsControls extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     showCDR: true
-  //   }
-  // }
 
   componentDidUpdate(prevProps) {
     if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) {
@@ -45,7 +39,7 @@ export default class ViirsControls extends React.Component {
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
-        {/*<div className='active-fires-control gfw-btn sml white' onClick={this.toggleViirsArchiveState.bind(this)}>C.D.R</div>*/}
+        <div className='active-fires-control gfw-btn sml white' onClick={this.toggleViirsArchive}>C.D.R</div>
       </div>
       <div id='viirs-archive-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -81,5 +75,10 @@ export default class ViirsControls extends React.Component {
   changeEnd() {
     modalActions.showCalendarModal('end');
     mapActions.setCalendar('archiveViirsEnd');
+  }
+
+  toggleViirsArchive() {
+    let el = document.getElementById('viirs-archive-date-ranges');
+    el.className = el.className.length === 0 ? 'hidden' : '';
   }
 }
