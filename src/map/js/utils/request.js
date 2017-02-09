@@ -1011,13 +1011,20 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
-  identifyDigitalGlobe: (graphic) => {
+  identifyDigitalGlobe: (graphic, mapPoint) => {
     let featureExtent = graphic.geometry.getExtent();
     let overlaps = [];
 
     for (let i = 0; i < graphic._layer.graphics.length; i++) {
       let tempExtent = graphic._layer.graphics[i].geometry.getExtent();
-      if (featureExtent.intersects(tempExtent)) {
+      
+      //if the graphic clicked touches any other graphic, show those as well
+      // if (featureExtent.intersects(tempExtent)) {
+      //   overlaps.push(graphic._layer.graphics[i]);
+      // }
+
+      //if the mapPoint is within the footprint - show
+      if (tempExtent.contains(mapPoint)) {
         overlaps.push(graphic._layer.graphics[i]);
       }
     }
