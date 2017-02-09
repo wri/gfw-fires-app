@@ -62,6 +62,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       airQStartDate: new window.Kalendae.moment('09/25/2015'),
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
+      archiveViirsStartDate: new window.Kalendae.moment().subtract(14, 'd'),
+      archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+      archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
+      archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
@@ -109,6 +113,34 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'archiveEnd',
         domClass: 'archive-end'
+      }, {
+        date: new window.Kalendae.moment().subtract(14, 'd'),
+        method: 'changeViirsArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2017'),
+        domId: 'archiveViirsStart',
+        domClass: 'viirs-archive-start'
+      }, {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeViirsArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2017'),
+        domId: 'archiveViirsEnd',
+        domClass: 'viirs-archive-end'
+      }, {
+        date: new window.Kalendae.moment().subtract(14, 'd'),
+        method: 'changeModisArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2012'),
+        domId: 'archiveModisStart',
+        domClass: 'modis-archive-start'
+      }, {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeModisArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2012'),
+        domId: 'archiveModisEnd',
+        domClass: 'modis-archive-end'
       }, {
         date: new window.Kalendae.moment(), //('10/22/2014'),
         method: 'changeNoaaStart',
@@ -230,6 +262,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     }, {
       id: _constants2.default.activeFires,
@@ -245,6 +283,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'modis-archive-settings',
+        childDomClass: 'modis-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     }, {
       id: _constants2.default.archiveFires,
@@ -307,7 +351,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 8,
       type: 'image',
       label: 'Fire history',
-      sublabel: '(2001-2015, Indonesia)',
+      sublabel: '(Indonesia, 2001-2015)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
@@ -319,7 +363,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         label: 'Select a date'
       }
     }, {
-      //id: KEYS.fireHistory,
       id: 'firesHistory2002',
       order: 8,
       type: 'image',
@@ -425,7 +468,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 8,
       type: 'image',
       label: 'Fire weather',
-      sublabel: '(layer starts at 4/2/15)',
+      sublabel: '(Indonesia, 4/2/15 to present)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-risk',
@@ -442,7 +485,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 7,
       type: 'image',
       label: 'Days since last rainfall',
-      // sublabel: '(layer starts at 4/2/15)',
+      sublabel: '(Indonesia, 4/2/15 to present)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'last-rainfall',
@@ -861,6 +904,22 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'twitter',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
+    }, {
+      id: _constants2.default.modisArchive,
+      type: 'dynamic',
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      layerIds: [1],
+      opacity: 0.8,
+      className: 'modis-archive',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer'
+    }, {
+      id: _constants2.default.viirsArchive,
+      type: 'dynamic',
+      layerIds: [0],
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      opacity: 0.8,
+      className: 'viirs-achive',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer'
     }],
 
     symbol: {

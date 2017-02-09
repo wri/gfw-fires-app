@@ -165,6 +165,18 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(date);
       }
     }, {
+      key: 'setViirsArchiveDate',
+      value: function setViirsArchiveDate(date) {
+        app.debug('MapActions >>> setViirsArchiveDate');
+        this.dispatch(date);
+      }
+    }, {
+      key: 'setModisArchiveDate',
+      value: function setModisArchiveDate(date) {
+        app.debug('MapActions >>> setModisArchiveDate');
+        this.dispatch(date);
+      }
+    }, {
       key: 'setNoaaDate',
       value: function setNoaaDate(date) {
         app.debug('MapActions >>> setNoaaDate');

@@ -68,6 +68,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.analysisEndDate = this.getDate(_config.defaults.yesterday);
       this.archiveStartDate = this.getDate(_config.defaults.archiveInitialDate);
       this.archiveEndDate = this.getDate(_config.defaults.analysisStartDate);
+      this.archiveViirsStartDate = this.getDate(_config.defaults.archiveViirsStartDate);
+      this.archiveViirsEndDate = this.getDate(_config.defaults.archiveViirsEndDate);
+      this.archiveModisStartDate = this.getDate(_config.defaults.archiveModisStartDate);
+      this.archiveModisEndDate = this.getDate(_config.defaults.archiveModisEndDate);
       this.noaaStartDate = this.getDate(_config.defaults.analysisStartDate);
       this.noaaEndDate = this.getDate(_config.defaults.todaysDate);
       this.riskStartDate = this.getDate(_config.defaults.riskStartDate);
@@ -97,6 +101,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         setDGDate: _MapActions.mapActions.setDGDate,
         setAnalysisDate: _MapActions.mapActions.setAnalysisDate,
         setArchiveDate: _MapActions.mapActions.setArchiveDate,
+        setViirsArchiveDate: _MapActions.mapActions.setViirsArchiveDate,
+        setModisArchiveDate: _MapActions.mapActions.setModisArchiveDate,
         setNoaaDate: _MapActions.mapActions.setNoaaDate,
         setRiskDate: _MapActions.mapActions.setRiskDate,
         setRainDate: _MapActions.mapActions.setRainDate,
@@ -220,6 +226,24 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
 
         _LayersHelper2.default.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+      }
+    }, {
+      key: 'setViirsArchiveDate',
+      value: function setViirsArchiveDate(dateObj) {
+        this.calendarVisible = '';
+
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+        _LayersHelper2.default.updateViirsArchiveDates([this.archiveViirsStartDate, this.archiveViirsEndDate]);
+      }
+    }, {
+      key: 'setModisArchiveDate',
+      value: function setModisArchiveDate(dateObj) {
+        this.calendarVisible = '';
+
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+        _LayersHelper2.default.updateModisArchiveDates([this.archiveModisStartDate, this.archiveModisEndDate]);
       }
     }, {
       key: 'setNoaaDate',

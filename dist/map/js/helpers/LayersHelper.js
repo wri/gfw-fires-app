@@ -435,7 +435,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var template = void 0,
           htmlContent = void 0,
           tweetId = void 0;
-      console.log(mapPoint);
       features.forEach(function (item) {
         var url = item.feature.attributes.link;
         var indexId = url.lastIndexOf('/') + 1;
@@ -609,6 +608,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         })();
       }
       var layer = app.map.getLayer(layerObj.layerId);
+      console.log(layer);
+      console.log(layerObj);
       if (layer) {
         layer.show();
       }
@@ -827,6 +828,32 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         var layerDefs = [];
         layerDefs[0] = defQuery;
+
+        archiveLayer.setLayerDefinitions(layerDefs);
+      }
+    },
+    updateViirsArchiveDates: function updateViirsArchiveDates(clauseArray) {
+      app.debug('LayersHelper >>> updateArchiveDates');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
+      var archiveLayer = app.map.getLayer(_constants2.default.viirsArchive);
+      if (archiveLayer) {
+
+        var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+        var layerDefs = [];
+        layerDefs[0] = string;
+
+        archiveLayer.setLayerDefinitions(layerDefs);
+      }
+    },
+    updateModisArchiveDates: function updateModisArchiveDates(clauseArray) {
+      app.debug('LayersHelper >>> updateArchiveDates');
+      this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
+      var archiveLayer = app.map.getLayer(_constants2.default.modisArchive);
+      if (archiveLayer) {
+
+        var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+        var layerDefs = [];
+        layerDefs[1] = string;
 
         archiveLayer.setLayerDefinitions(layerDefs);
       }

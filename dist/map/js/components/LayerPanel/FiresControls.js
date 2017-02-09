@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'react'], function (exports, _ModisLegend, _LayerActions, _LayersHelper, _ModalActions, _config, _react) {
+define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _ModisLegend, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,10 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
   var _ModisLegend2 = _interopRequireDefault(_ModisLegend);
 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
+
+  var _DateHelper2 = _interopRequireDefault(_DateHelper);
+
+  var _constants2 = _interopRequireDefault(_constants);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -95,6 +99,10 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
       key: 'render',
       value: function render() {
         var activeItem = firesOptions[this.props.firesSelectIndex];
+
+        var startDate = window.Kalendae.moment(this.props.archiveModisStartDate);
+        var endDate = window.Kalendae.moment(this.props.archiveModisEndDate);
+
         return _react2.default.createElement(
           'div',
           null,
@@ -110,6 +118,30 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
               'div',
               { className: 'active-fires-control gfw-btn sml white' },
               activeItem.label
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { id: 'modis-archive-date-ranges' },
+            _react2.default.createElement(
+              'span',
+              { className: 'imagery-calendar-label' },
+              this.props.options.minLabel
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
+              _DateHelper2.default.getDate(startDate)
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'imagery-calendar-label' },
+              this.props.options.maxLabel
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
+              _DateHelper2.default.getDate(endDate)
             )
           )
         );
@@ -132,6 +164,22 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(evt) {
         _LayerActions.layerActions.changeFiresTimeline(evt.target.selectedIndex);
+        _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
+        var layerObj = {};
+        layerObj.layerId = _constants2.default.activeFires;
+        _LayersHelper2.default.showLayer(layerObj);
+      }
+    }, {
+      key: 'changeStart',
+      value: function changeStart() {
+        _ModalActions.modalActions.showCalendarModal('start');
+        _MapActions.mapActions.setCalendar('archiveModisStart');
+      }
+    }, {
+      key: 'changeEnd',
+      value: function changeEnd() {
+        _ModalActions.modalActions.showCalendarModal('end');
+        _MapActions.mapActions.setCalendar('archiveModisEnd');
       }
     }]);
 
