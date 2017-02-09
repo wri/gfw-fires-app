@@ -4,6 +4,8 @@ import {modalActions} from 'actions/ModalActions';
 import {layerPanelText} from 'js/config';
 import DateHelper from 'helpers/DateHelper';
 import {mapActions} from 'actions/MapActions';
+import KEYS from 'js/constants';
+
 
 
 import React from 'react';
@@ -39,7 +41,6 @@ export default class ViirsControls extends React.Component {
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
-        <div className='active-fires-control gfw-btn sml white' onClick={this.toggleViirsArchive}>C.D.R</div>
       </div>
       <div id='viirs-archive-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -64,6 +65,10 @@ export default class ViirsControls extends React.Component {
 
   changeViirsTimeline (evt) {
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
+    LayersHelper.hideLayer(KEYS.viirsArchive);
+    let layerObj = {};
+		layerObj.layerId = KEYS.viirsFires;
+		LayersHelper.showLayer(layerObj);
   }
 
 
@@ -75,10 +80,5 @@ export default class ViirsControls extends React.Component {
   changeEnd() {
     modalActions.showCalendarModal('end');
     mapActions.setCalendar('archiveViirsEnd');
-  }
-
-  toggleViirsArchive() {
-    let el = document.getElementById('viirs-archive-date-ranges');
-    el.className = el.className.length === 0 ? 'hidden' : '';
   }
 }

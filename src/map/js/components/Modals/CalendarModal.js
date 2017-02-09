@@ -5,6 +5,7 @@ import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
 import KEYS from 'js/constants';
 import {layersConfig, controlPanelText} from 'js/config';
+import LayersHelper from 'helpers/LayersHelper';
 import QueryTask from 'esri/tasks/QueryTask';
 import Query from 'esri/tasks/query';
 import Deferred from 'dojo/Deferred';
@@ -153,6 +154,10 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveViirsStartDate'
 		});
+		LayersHelper.hideLayer(KEYS.viirsFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.viirsArchive;
+		LayersHelper.showLayer(layerObj);
 	}
 	changeViirsArchiveEnd(date: any) {
 		this.close();
@@ -160,6 +165,10 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveViirsEndDate'
 		});
+		LayersHelper.hideLayer(KEYS.viirsFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.viirsArchive;
+		LayersHelper.showLayer(layerObj);
 	}
 	changeModisArchiveStart(date: any) {
 		this.close();
@@ -167,6 +176,10 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveModisStartDate'
 		});
+		LayersHelper.hideLayer(KEYS.activeFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.modisArchive;
+		LayersHelper.showLayer(layerObj);
 	}
 	changeModisArchiveEnd(date: any) {
 		this.close();
@@ -174,6 +187,10 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveModisEndDate'
 		});
+		LayersHelper.hideLayer(KEYS.activeFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.modisArchive;
+		LayersHelper.showLayer(layerObj);
 	}
 	changeNoaaStart(date: any) {
 		this.close();

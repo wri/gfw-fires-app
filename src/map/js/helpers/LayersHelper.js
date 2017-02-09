@@ -414,7 +414,6 @@ let LayersHelper = {
 
   setTweetTemplates: function(features, mapPoint) {
     let template, htmlContent, tweetId;
-    console.log(mapPoint);
     features.forEach(item => {
       let url = item.feature.attributes.link;
       let indexId = url.lastIndexOf('/') + 1;
@@ -575,6 +574,8 @@ let LayersHelper = {
       layerObj.layerId = activeFireHistory[0].id;
     }
     let layer = app.map.getLayer(layerObj.layerId);
+    console.log(layer);
+    console.log(layerObj);
     if (layer) { layer.show(); }
     ShareHelper.handleHashChange();
   },
@@ -837,49 +838,29 @@ let LayersHelper = {
   updateViirsArchiveDates (clauseArray) {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-    let archiveLayer = app.map.getLayer(KEYS.viirsFires);
-    // if (archiveLayer) {
-    //   let defQuery;
-    //
-    //   let currentString = archiveLayer.layerDefinitions[0];
-    //
-    //   if (currentString.indexOf(' AND BRIGHTNESS') > -1) {
-    //     let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
-    //     defQuery = string + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-    //   } else {
-    //     let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
-    //     defQuery = string;
-    //   }
-    //
-    //   let layerDefs = [];
-    //   layerDefs[0] = defQuery;
-    //
-    //   archiveLayer.setLayerDefinitions(layerDefs);
-    // }
+    let archiveLayer = app.map.getLayer(KEYS.viirsArchive);
+    if (archiveLayer) {
+
+      let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      let layerDefs = [];
+      layerDefs[0] = string;
+
+      archiveLayer.setLayerDefinitions(layerDefs);
+    }
   },
 
   updateModisArchiveDates (clauseArray) {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-    let archiveLayer = app.map.getLayer(KEYS.activeFires);
-    // if (archiveLayer) {
-    //   let defQuery;
-    //
-    //   let currentString = archiveLayer.layerDefinitions[0];
-    //
-    //   if (currentString.indexOf(' AND BRIGHTNESS') > -1) {
-    //     let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
-    //     defQuery = string + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-    //   } else {
-    //     let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
-    //     defQuery = string;
-    //   }
-    //
-    //   let layerDefs = [];
-    //   layerDefs[0] = defQuery;
-    //
-    //   archiveLayer.setLayerDefinitions(layerDefs);
-    // }
+    let archiveLayer = app.map.getLayer(KEYS.modisArchive);
+    if (archiveLayer) {
+
+      let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      let layerDefs = [];
+      layerDefs[1] = string;
+
+      archiveLayer.setLayerDefinitions(layerDefs);
+    }
   },
 
   updateNoaaDates (clauseArray) {

@@ -28,6 +28,8 @@ class MapStore {
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
     this.archiveViirsStartDate = this.getDate(defaults.archiveViirsStartDate);
     this.archiveViirsEndDate = this.getDate(defaults.archiveViirsEndDate);
+    this.archiveModisStartDate = this.getDate(defaults.archiveModisStartDate);
+    this.archiveModisEndDate = this.getDate(defaults.archiveModisEndDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);

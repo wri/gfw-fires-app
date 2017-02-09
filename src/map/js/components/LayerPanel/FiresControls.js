@@ -5,6 +5,8 @@ import {modalActions} from 'actions/ModalActions';
 import {layerPanelText} from 'js/config';
 import DateHelper from 'helpers/DateHelper';
 import {mapActions} from 'actions/MapActions';
+import KEYS from 'js/constants';
+
 import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
@@ -36,7 +38,6 @@ export default class FiresControls extends React.Component {
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
-        <div className='active-fires-control gfw-btn sml white' onClick={this.toggleModisArchive}>C.D.R</div>
       </div>
       <div id='modis-archive-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -57,6 +58,10 @@ export default class FiresControls extends React.Component {
 
   changeFiresTimeline (evt) {
     layerActions.changeFiresTimeline(evt.target.selectedIndex);
+    LayersHelper.hideLayer(KEYS.modisArchive);
+    let layerObj = {};
+		layerObj.layerId = KEYS.activeFires;
+		LayersHelper.showLayer(layerObj);
   }
 
   changeStart() {
@@ -69,8 +74,4 @@ export default class FiresControls extends React.Component {
     mapActions.setCalendar('archiveModisEnd');
   }
 
-  toggleModisArchive() {
-    let el = document.getElementById('modis-archive-date-ranges');
-    el.className = el.className.length === 0 ? 'hidden' : '';
-  }
 }

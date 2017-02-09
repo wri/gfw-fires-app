@@ -1052,16 +1052,18 @@ export const config = {
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
     }, {
-      id: 'modisArchive',
-      type: 'image',
+      id: KEYS.modisArchive,
+      type: 'dynamic',
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       layerIds: [1],
       opacity: 0.8,
       className: 'modis-archive',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer'
     }, {
-      id: 'viirsArchive',
-      type: 'image',
+      id: KEYS.viirsArchive,
+      type: 'dynamic',
       layerIds: [0],
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 0.8,
       className: 'viirs-achive',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer'
