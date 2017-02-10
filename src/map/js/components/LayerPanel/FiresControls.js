@@ -45,7 +45,7 @@ export default class FiresControls extends React.Component {
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
-        <div className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Date Range</div>
+        <div className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
       </div>
       <div id='modis-archive-date-ranges' className={showModisArchive}>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
