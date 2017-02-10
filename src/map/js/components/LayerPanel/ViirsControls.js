@@ -13,6 +13,12 @@ import React from 'react';
 let firesOptions = layerPanelText.firesOptions;
 
 export default class ViirsControls extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      viirsArchiveVisible: false
+    };
+  }
 
   componentDidUpdate(prevProps) {
     if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) {
@@ -35,14 +41,17 @@ export default class ViirsControls extends React.Component {
     let startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
     let endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
 
+    let showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';
+
     return <div>
       <div className='timeline-container fires'>
         <select className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
+        <div className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Date Range</div>
       </div>
-      <div id='viirs-archive-date-ranges'>
+      <div id='viirs-archive-date-ranges' className={showViirsArchive}>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
         <button className={`gfw-btn white pointer ${this.props.calendarVisible === 'archiveStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
         <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
@@ -51,9 +60,9 @@ export default class ViirsControls extends React.Component {
     </div>;
   }
 
-  // showFiresModal () {
-  //   modalActions.showFiresModal();
-  // }
+  toggleViirsArchive () {
+    this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
+  }
 
   toggleConfidence (evt) {
     LayersHelper.toggleConfidence(evt.target.checked);
