@@ -52,7 +52,7 @@ export default class LayerCheckbox extends React.Component {
         <span onClick={this.toggleLayer.bind(this)} className='layer-checkbox-label pointer'>{layer.label}</span>
         {!layer.sublabel ? null : <div className='layer-checkbox-sublabel'>{layer.sublabel}</div>}
         {!layer.metadataId ? null :
-          <span className='info-icon pointer' onClick={this.showInfo.bind(this)}>
+          <span className={`info-icon pointer ${this.state.iconLoading === this.props.layer.id ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
         }
@@ -68,6 +68,7 @@ export default class LayerCheckbox extends React.Component {
   showInfo () {
     let layer = this.props.layer;
     if (layer.disabled) { return; }
+    layerActions.showLoading(layer.id);
     modalActions.showLayerInfo(this.props.layer.id);
   }
 

@@ -18,6 +18,10 @@ class LayerActions {
     // }
   }
 
+  showLoading (layerId) {
+    this.dispatch(layerId);
+  }
+
   changeFiresTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
   }
