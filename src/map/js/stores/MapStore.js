@@ -52,9 +52,12 @@ class MapStore {
     this.layerPanelVisible = app.mobile === false;
     this.lat = undefined;
     this.lng = undefined;
+    this.iconLoading = '';
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
+      showLoading: layerActions.showLoading,
+      hideLoading: modalActions.showLayerInfo,
       connectLayerEvents: mapActions.connectLayerEvents,
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
@@ -146,6 +149,14 @@ class MapStore {
 
   getDate (date) {
     return window.Kalendae.moment(date).format('M/D/YYYY');
+  }
+
+  showLoading (layerInfo) {
+    this.iconLoading = layerInfo;
+  }
+
+  hideLoading () {
+    this.iconLoading = '';
   }
 
   setDGDate (dateObj) {
