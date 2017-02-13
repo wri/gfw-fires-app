@@ -79,10 +79,24 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.modisArchive);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyModisArchive(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.viirsFires);
     if (layer) {
       if (layer.visible) {
         deferreds.push(Request.identifyViirs(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.viirsArchive);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirsArchive(mapPoint));
       }
     }
 
@@ -213,8 +227,14 @@ let LayersHelper = {
           case KEYS.activeFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
             break;
+          case KEYS.modisArchive:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.modisArchive));
+            break;
           case KEYS.viirsFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
+            break;
+          case KEYS.viirsArchive:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsArchive));
             break;
           case KEYS.archiveFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.archiveFires));
