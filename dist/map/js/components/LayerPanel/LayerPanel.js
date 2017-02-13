@@ -168,10 +168,10 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
               childComponent = _react2.default.createElement(_DamsLegend2.default, { url: layer.url, layerIds: layer.layerIds });
               break;
             case _constants2.default.activeFires:
-              childComponent = _react2.default.createElement(_FiresControls2.default, _extends({ loaded: _this2.props.loaded }, _this2.state));
+              childComponent = _react2.default.createElement(_FiresControls2.default, _extends({ loaded: _this2.props.loaded, options: layer.calendar }, _this2.state));
               break;
             case _constants2.default.viirsFires:
-              childComponent = _react2.default.createElement(_ViirsControls2.default, _extends({ loaded: _this2.props.loaded }, _this2.state));
+              childComponent = _react2.default.createElement(_ViirsControls2.default, _extends({ loaded: _this2.props.loaded, options: layer.calendar }, _this2.state));
               break;
             case _constants2.default.archiveFires:
               childComponent = _react2.default.createElement(_ArchiveControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });

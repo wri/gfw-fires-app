@@ -196,7 +196,17 @@
 		width 185px
 		margin-bottom 10px
 	&.fires
-		width 125px
+		display flex
+		flex-direction row
+		justify-content space-between
+		& select
+			width 50% !important
+			height 24px !important
+			margin 30px 0px 0px 12px !important
+		& .select-modis
+			width 50% !important
+			height 24px !important
+			margin 0px !important
 	&.fires-history
 		display flex
 		flex-direction row
@@ -219,6 +229,11 @@
 		top 0
 		&:hover
 			background darken(white, 10%)
+
+.active-fires-control
+	margin 0px 1px !important
+	width 50%
+
 .history-play-container
 	display flex
 	flex-direction row
@@ -475,6 +490,10 @@
 	background-color: #ffa634
 #high-confidence
 	background-color: #ff4824
+
+#modis-archive-date-ranges button, #viirs-archive-date-ranges button
+	font-size 10px !important
+
 // .legend-label
 // 	font-size: 12px
 // 	padding: 1px 5px

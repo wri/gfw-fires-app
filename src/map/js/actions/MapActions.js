@@ -103,6 +103,16 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setViirsArchiveDate (date) {
+    app.debug('MapActions >>> setViirsArchiveDate');
+    this.dispatch(date);
+  }
+
+  setModisArchiveDate (date) {
+    app.debug('MapActions >>> setModisArchiveDate');
+    this.dispatch(date);
+  }
+
   setNoaaDate (date) {
     app.debug('MapActions >>> setNoaaDate');
     this.dispatch(date);

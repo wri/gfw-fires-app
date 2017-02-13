@@ -182,6 +182,41 @@ const request = {
     return deferred.promise;
   },
 
+  identifyModisArchive: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.modisArchive);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.modisArchive);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 10;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.modisArchive,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
   /**
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
@@ -209,6 +244,42 @@ const request = {
       if (features.length > 0) {
         deferred.resolve({
           layer: KEYS.viirsFires,
+          features: features
+        });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+  identifyViirsArchive: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.viirsArchive);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.viirsArchive);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 10;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        deferred.resolve({
+          layer: KEYS.viirsArchive,
           features: features
         });
       } else {
@@ -1017,7 +1088,7 @@ const request = {
 
     for (let i = 0; i < graphic._layer.graphics.length; i++) {
       let tempExtent = graphic._layer.graphics[i].geometry.getExtent();
-      
+
       //if the graphic clicked touches any other graphic, show those as well
       // if (featureExtent.intersects(tempExtent)) {
       //   overlaps.push(graphic._layer.graphics[i]);
