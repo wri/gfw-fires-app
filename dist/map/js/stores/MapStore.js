@@ -94,9 +94,12 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.layerPanelVisible = app.mobile === false;
       this.lat = undefined;
       this.lng = undefined;
+      this.iconLoading = '';
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
+        showLoading: _LayerActions.layerActions.showLoading,
+        hideLoading: _ModalActions.modalActions.showLayerInfo,
         connectLayerEvents: _MapActions.mapActions.connectLayerEvents,
         setDGDate: _MapActions.mapActions.setDGDate,
         setAnalysisDate: _MapActions.mapActions.setAnalysisDate,
@@ -196,6 +199,16 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'getDate',
       value: function getDate(date) {
         return window.Kalendae.moment(date).format('M/D/YYYY');
+      }
+    }, {
+      key: 'showLoading',
+      value: function showLoading(layerInfo) {
+        this.iconLoading = layerInfo;
+      }
+    }, {
+      key: 'hideLoading',
+      value: function hideLoading() {
+        this.iconLoading = '';
       }
     }, {
       key: 'setDGDate',

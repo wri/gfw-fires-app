@@ -74,10 +74,15 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
   var FiresControls = function (_React$Component) {
     _inherits(FiresControls, _React$Component);
 
-    function FiresControls() {
+    function FiresControls(props) {
       _classCallCheck(this, FiresControls);
 
-      return _possibleConstructorReturn(this, (FiresControls.__proto__ || Object.getPrototypeOf(FiresControls)).apply(this, arguments));
+      var _this = _possibleConstructorReturn(this, (FiresControls.__proto__ || Object.getPrototypeOf(FiresControls)).call(this, props));
+
+      _this.state = {
+        modisArchiveVisible: false
+      };
+      return _this;
     }
 
     _createClass(FiresControls, [{
@@ -103,6 +108,8 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
         var startDate = window.Kalendae.moment(this.props.archiveModisStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveModisEndDate);
 
+        var showModisArchive = this.state.modisArchiveVisible ? '' : 'hidden';
+
         return _react2.default.createElement(
           'div',
           null,
@@ -111,18 +118,23 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
             { className: 'timeline-container relative fires' },
             _react2.default.createElement(
               'select',
-              { className: 'pointer', value: activeItem.value, onChange: this.changeFiresTimeline },
+              { className: 'pointer select-modis', value: activeItem.value, onChange: this.changeFiresTimeline },
               firesOptions.map(this.optionsMap, this)
             ),
             _react2.default.createElement(
               'div',
               { className: 'active-fires-control gfw-btn sml white' },
               activeItem.label
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'active-fires-control gfw-btn sml white pointer', onClick: this.toggleViirsArchive.bind(this) },
+              'Custom Range'
             )
           ),
           _react2.default.createElement(
             'div',
-            { id: 'modis-archive-date-ranges' },
+            { id: 'modis-archive-date-ranges', className: showModisArchive },
             _react2.default.createElement(
               'span',
               { className: 'imagery-calendar-label' },
@@ -147,9 +159,9 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
         );
       }
     }, {
-      key: 'showFiresModal',
-      value: function showFiresModal() {
-        _ModalActions.modalActions.showFiresModal();
+      key: 'toggleViirsArchive',
+      value: function toggleViirsArchive() {
+        this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
       }
     }, {
       key: 'optionsMap',
@@ -163,6 +175,7 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
     }, {
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(evt) {
+        console.log('reached changeFiresTimeline');
         _LayerActions.layerActions.changeFiresTimeline(evt.target.selectedIndex);
         _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
         var layerObj = {};

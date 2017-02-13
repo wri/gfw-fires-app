@@ -72,10 +72,15 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
   var ViirsControls = function (_React$Component) {
     _inherits(ViirsControls, _React$Component);
 
-    function ViirsControls() {
+    function ViirsControls(props) {
       _classCallCheck(this, ViirsControls);
 
-      return _possibleConstructorReturn(this, (ViirsControls.__proto__ || Object.getPrototypeOf(ViirsControls)).apply(this, arguments));
+      var _this = _possibleConstructorReturn(this, (ViirsControls.__proto__ || Object.getPrototypeOf(ViirsControls)).call(this, props));
+
+      _this.state = {
+        viirsArchiveVisible: false
+      };
+      return _this;
     }
 
     _createClass(ViirsControls, [{
@@ -102,6 +107,8 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
         var startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
 
+        var showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';
+
         return _react2.default.createElement(
           'div',
           null,
@@ -117,11 +124,16 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
               'div',
               { className: 'active-fires-control gfw-btn sml white' },
               activeItem.label
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'active-fires-control gfw-btn sml white pointer', onClick: this.toggleViirsArchive.bind(this) },
+              'Custom Range'
             )
           ),
           _react2.default.createElement(
             'div',
-            { id: 'viirs-archive-date-ranges' },
+            { id: 'viirs-archive-date-ranges', className: showViirsArchive },
             _react2.default.createElement(
               'span',
               { className: 'imagery-calendar-label' },
@@ -144,6 +156,11 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
             )
           )
         );
+      }
+    }, {
+      key: 'toggleViirsArchive',
+      value: function toggleViirsArchive() {
+        this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
       }
     }, {
       key: 'toggleConfidence',

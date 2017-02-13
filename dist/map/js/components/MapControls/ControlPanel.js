@@ -146,11 +146,6 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
         _MapActions.mapActions.setCalendar('masterDay');
       }
     }, {
-      key: 'clickedBasemap',
-      value: function clickedBasemap(id) {
-        _MapActions.mapActions.setBasemap(id);
-      }
-    }, {
       key: 'sendAnalytics',
       value: function sendAnalytics(eventType, action, label) {
         //todo: why is this request getting sent so many times?
