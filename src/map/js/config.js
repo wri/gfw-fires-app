@@ -44,7 +44,6 @@ export const config = {
     archiveInitialDate: new window.Kalendae.moment().subtract(14, 'd'),
     noaaStartDate: new window.Kalendae.moment('10/22/2014'),
     riskStartDate: new window.Kalendae.moment('04/02/2015'),
-    // riskTempEnd: new window.Kalendae.moment('02/17/2016'),
     airQStartDate: new window.Kalendae.moment('09/25/2015'),
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
