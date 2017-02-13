@@ -131,7 +131,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeModisArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2012'),
+        startDate: new window.Kalendae.moment('01/02/2012'),
         domId: 'archiveModisStart',
         domClass: 'modis-archive-start'
       },
@@ -139,7 +139,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeModisArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2012'),
+        startDate: new window.Kalendae.moment('01/02/2012'),
         domId: 'archiveModisEnd',
         domClass: 'modis-archive-end'
       },
