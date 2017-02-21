@@ -276,7 +276,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
               break;
             case _constants2.default.twitter:
-              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.twitter));
+              features = features.concat(_this.setTweetTemplates(item.features, mapPoint));
               break;
             case _constants2.default.overlays:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.overlays));
@@ -320,6 +320,10 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
             (0, _query2.default)('.infoWindow-close').forEach(function (rowData) {
               closeHandles.push((0, _on2.default)(rowData, 'click', function () {
+                var tweet = document.getElementById('tweet');
+                if (tweet) {
+                  tweet.style.display = 'none';
+                }
                 app.map.infoWindow.hide();
               }));
             });
@@ -427,6 +431,47 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       return [features[0]];
     },
 
+    setTweetTemplates: function setTweetTemplates(features, mapPoint) {
+      var template = void 0,
+          htmlContent = void 0,
+          tweetId = void 0;
+      console.log(mapPoint);
+      features.forEach(function (item) {
+        var url = item.feature.attributes.link;
+        var indexId = url.lastIndexOf('/') + 1;
+        tweetId = url.substring(indexId);
+
+        if (app.mobile() === true) {
+          htmlContent = '<div class="tweet-container mobile">';
+          htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+          htmlContent += '<div id="tweet"></div>';
+          htmlContent += '</div>';
+        } else {
+          htmlContent = '<div class="tweet-container">';
+          htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+          htmlContent += '<div id="tweet"></div>';
+          htmlContent += '</div>';
+        }
+      });
+
+      template = new _InfoTemplate2.default('Twitter', htmlContent);
+      features[0].feature.setInfoTemplate(template);
+
+      _on2.default.once(app.map.infoWindow, 'show', function () {
+        app.map.infoWindow.hide();
+        app.map.infoWindow.resize(500, 200);
+        twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
+          cards: 'hidden',
+          align: 'center'
+        }).then(function (el) {
+          if (el) {
+            app.map.infoWindow.show(mapPoint);
+          }
+        });
+      });
+
+      return [features[0].feature];
+    },
     setStoryTemplates: function setStoryTemplates(features) {
       var template = void 0,
           htmlContent = void 0;
@@ -464,6 +509,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var layer = app.map.getLayer(parameters.layerId);
       if (layer) {
         layer.setOpacity(parameters.value);
+      }
+      if (layer.id === _constants2.default.fireHistory) {
+        var layers = _config.layersConfig.filter(function (layerConfig) {
+          return layerConfig && layerConfig.label === 'Fire history';
+        });
+        layers.forEach(function (subLayer) {
+          var firesHistoryLayer = app.map.getLayer(subLayer.id);
+          firesHistoryLayer.setOpacity(parameters.value);
+        });
       }
     },
     updateOverlays: function updateOverlays(layers) {
@@ -544,6 +598,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
         _ShareHelper2.default.handleHashChange();
         return;
+      } else if (layerObj.layerId === _constants2.default.fireHistory) {
+        (function () {
+          var date = 2001 + layerObj.fireHistorySelectIndex;
+          var layerTitle = 'firesHistory' + date;
+          var activeFireHistory = _config.layersConfig.filter(function (layer) {
+            return layer && layer.id === layerTitle;
+          });
+          layerObj.layerId = activeFireHistory[0].id;
+        })();
       }
       var layer = app.map.getLayer(layerObj.layerId);
       if (layer) {
@@ -586,6 +649,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         _ShareHelper2.default.handleHashChange();
         return;
+      } else if (layerId === _constants2.default.fireHistory) {
+        var layers = _config.layersConfig.filter(function (layer) {
+          return layer && layer.label === 'Fire history';
+        });
+
+        layers.forEach(function (layer) {
+          var firesHistoryLayer = app.map.getLayer(layer.id);
+          firesHistoryLayer.hide();
+        });
       }
       var layer = app.map.getLayer(layerId);
       if (layer) {
@@ -691,11 +763,27 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
-      var fireHistory = app.map.getLayer(_constants2.default.fireHistory);
-      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
-      if (fireHistory) {
-        fireHistory.setDefinitionExpression("Name = '" + value + "'");
-      }
+      var layers = _config.layersConfig.filter(function (layer) {
+        return layer && layer.label === 'Fire history';
+      });
+      var date = 2001 + index;
+      var layerTitle = 'firesHistory' + date;
+      var activeFireHistory = _config.layersConfig.filter(function (layer) {
+        return layer && layer.id === layerTitle;
+      });
+      var activeFireHistoryLayer = app.map.getLayer(activeFireHistory[0].id);
+
+      layers.forEach(function (layer) {
+        if (layer.id !== layerTitle) {
+          (function () {
+            var firesHistoryLayer = app.map.getLayer(layer.id);
+            _on2.default.once(activeFireHistoryLayer, 'update-end', function () {
+              firesHistoryLayer.hide();
+            });
+          })();
+        }
+      });
+      activeFireHistoryLayer.show();
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');

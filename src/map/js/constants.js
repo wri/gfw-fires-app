@@ -15,7 +15,7 @@ const KEYS = {
   noaa18Fires: 'noaa18Fires',
   burnScars: 'burnScars',
   fireWeather: 'fireWeather',
-  fireHistory: 'fireHistory',
+  fireHistory: 'firesHistory2001',
   lastRainfall: 'lastRainfall',
   crowdsourcedFires: 'crowdsourcedFires',
   loggingConcessions: 'loggingConcessions',

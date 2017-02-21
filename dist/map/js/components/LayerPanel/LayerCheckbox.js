@@ -99,6 +99,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
             var layerObj = {};
             layerObj.layerId = this.props.layer.id;
             layerObj.footprints = this.state.footprints;
+            layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
             _LayersHelper2.default.showLayer(layerObj);
           } else {
             _LayersHelper2.default.hideLayer(this.props.layer.id);

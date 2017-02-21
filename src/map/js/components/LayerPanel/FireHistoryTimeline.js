@@ -20,11 +20,31 @@ win.requestAnimationFrame = (function () {
 })();
 let i = 0;
 
+export type FireHistoryProps = {
+  storyMode: bool,
+  fireHistorySelectIndex: number
+};
+
 export default class FireHistoryTimeline extends React.Component {
+
+	props: FireHistoryProps;
+  displayName: 'FireHistoryTimeline';
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.fireHistorySelectIndex !== this.props.fireHistorySelectIndex) {
 			LayersHelper.updateFireHistoryDefinitions(this.props.fireHistorySelectIndex);
+		}
+	}
+
+	increaseFireHistoryYear = () => {
+		if (this.props.fireHistorySelectIndex < 14) {
+			layerActions.incrementFireHistoryYear();
+		}
+	}
+
+	decreaseFireHistoryYear = () => {
+		if (this.props.fireHistorySelectIndex > 0) {
+			layerActions.decrementFireHistoryYear();
 		}
 	}
 
@@ -36,8 +56,9 @@ export default class FireHistoryTimeline extends React.Component {
         <select className='pointer' value={this.props.fireHistorySelectIndex} onChange={this.updateFireHistoryDefinitions}>
           {fireHistoryOptions.map(this.optionsMap, this)}
           </select>
-        <span className='history-timeline-player' id='timelinePlayer' onClick={this.toggleTimeline.bind(this)}></span>
+				<div className={`history-play backward ${this.props.fireHistorySelectIndex === 0 ? 'disable': ''}`} onClick={this.decreaseFireHistoryYear}></div>
         <div className='fires-history-cover-control gfw-btn sml white'>{activeItem.label}</div>
+				<div className={`history-play ${this.props.fireHistorySelectIndex === 14 ? 'disable': ''}`} onClick={this.increaseFireHistoryYear}></div>
       </div>
     </div>;
 	}
@@ -51,7 +72,6 @@ export default class FireHistoryTimeline extends React.Component {
 	}
 
 	toggleTimeline (evt) {
-
 		if (evt.target.classList.contains('playing')) {
 			evt.target.classList.remove('playing');
 			playing = false;
