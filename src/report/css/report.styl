@@ -1,245 +1,498 @@
-// @font-face
-// 	font-family "Arial MT Condensed Bold"
-// 	src url("../fonts/ArialMTStd-BoldCond.otf") format("opentype")
-//
-// @font-face
-// 	font-family "Arial MT Condensed Light"
-// 	src url("../fonts/ArialMTStd-LightCond.otf") format("opentype")
-
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,400,500');
 
 html, body
-	height 100%
-	width 100%
-	padding 0
-	margin 0
+  height 100%
+  width 100%
+  padding 0
+  margin 0
 
 .report-page
-	font-family: 'Fira Sans', Georgia, serif
+  font-family: 'Fira Sans', Georgia, serif
 
-.report-title
-	margin 30px 0 50px
+//--------------
+// Report Header
+//--------------
+.report__header-content {
+  display flex
+  padding-left: .75em
+}
 
-.report-title, .section-title
-	text-align center
-	font-size 28px
+.report__header {
+  height: 60px;
+  background-color: #555;
+  display: flex;
+}
 
-.section-title, .sub-title, .noFiresTable
-	//font-family: "Arial MT Condensed Light", Arial, Georgia, sans-serif
-	font-size 22px
-	margin 10px 0
+.report-title__container
+  display: flex
+  align-items: baseline;
+  color: #fff
+  padding 1.1em 0.5em 0.25em 0.5em
 
-.sub-title
-	text-align center
-	font-size 18px
+  .report-title
+    font-weight 300
+    font-size 2rem
+    margin: 0
 
-.sub-title2
-	text-align center
-	font-size 22px
-	//font-family Arial MT Condensed
+  .report-date-range__container {
+    padding-left: .5em;
+    font-size: 1.15em;
+  }
+
+.num-of-fires__container {
+  border-bottom: 1px solid #FFCECB;
+  margin-bottom: 1em;
+  text-align center
+}
+
+.num-of-fires__wraper {
+  display: inline-block;
+}
+
+.num-of-fires__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15em
+  height 90px
+}
+
+//--------------
+// Report body
+//--------------
+.report__body {
+  padding: 0 .5em;
+}
+
+#totalFiresLabel {
+  display flex
+  align-items center
+  justify-content: center;
+}
+
+#totalFireAlerts {
+  font-size: 4em;
+  color: #E50017;
+  margin: 0 .5rem
+  flex: 1 1 75px;
+}
+
+.fire-alert__container {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  text-transform capitalize
+}
 
 .map-container
-	border 2px solid black
-	margin 0 auto
-	height 500px
-	width 650px
+  margin 0 auto
+  height 375px
+  box-sizing border-box
 
-.map-container.small
-	height 500px
+.map-container.map-legend
+  display: flex;
+
+  .legend-container
+    font-size 14px
+    color: #000;
+    font-weight: 300;
+    padding 0 0.25em
+    display: flex;
+    align-items: flex-end;
+    flex: 1 1 80px;
+    box-sizing: border-box;
+    justify-content: center;
 
 .map
-	position relative
-	height 100%
-	width 100%
+  background-color: #222327
+  position relative
+  height 100%
+  width 100%
 
-.legend-container
-	position absolute
-	font-size 12px
-	z-index 50
-	bottom 5px
-	left 5px
+  .legend-container
+    background-color: #4A4A4A
+    color: #fff
+    position absolute
+    font-size 12px
+    z-index 50
+    bottom 5px
+    left 5px
+    padding 0.5em
+
+  .legend__title
+    font-weight: 400
+    margin: 0
+    text-align: center
+
+//--------------
+// Report map section
+//--------------
+.report-section__map-container {
+  display: flex;
+  padding: 1.5em 0;
+  margin-top: 1em;
+  padding-top: 1.5em;
+  border-top: 1px solid #FFCECB;
+}
+
+.report-section__content
+  padding 0 1rem
+  font-size: 14px
+  flex 1
+
+  p
+    margin: 0
+
+.report-section__content.padding-top
+  padding-top 1.8rem
+
+.report-section__map
+  flex 2
+
+.report-section__title
+  margin 0
+  height: 2rem;
+  font-size: 1.3rem;
+  font-weight: 300
+
+.two-rows
+  height: 3.6rem;
+  text-align: left;
+  white-space: nowrap;
 
 .legend-swatch
-	border 1px solid black
-	height 16px
-	width 16px
+//border 1px solid black
+  height: 40px;
+  width: 4px;
+
+.legend-swatch__container
+  display: flex;
+  padding: .5rem 0 0;
+  align-items: center;
 
 .legend-swatch-round
-	border 1px solid white
-	border-radius 35px
-	height 12px
-	width 12px
+  border 1px solid transparent
+  border-radius 50%
+  height 14px
+  width 14px
+  display inline-block
+  margin-right 5px
 
 #high-confidence-info-report, #confidence-footnote
-	cursor pointer
-	color #e7002f
+  cursor pointer
+  color #e7002f
 
 #high-confidence-info-popup
-	color #464052
+  color #464052
 
 #high-confidence-info-popup .dijitDialogPaneActionBar
-	margin 10px 0 0
-	text-align center
+  margin 10px 0 0
+  text-align center
 
 #high-confidence-info-popup > div.dijitDialogTitleBar
-	background white
-	text-align center
+  background white
+  text-align center
 
 #disclaimer
-	width 50%
-	text-align center
-	margin-left 25%
-	font-size 14px
-	margin-bottom 50px
-	margin-top 50px
-	border 1px solid gray
-	padding 5px
+  text-align center
+  font-size 14px
+  margin-bottom 50px
+  margin-top 50px
+  border 1px solid gray
+  padding 5px
 
 .closeText
-	float right !important
-	cursor pointer
+  float right !important
+  cursor pointer
 
 .dijitDialog
-	-webkit-box-shadow 0 5px 10px #adadad
+  -webkit-box-shadow 0 5px 10px #adadad
 
 .dijitDialogPaneContent
-	padding 10px
+  padding 10px
 
 .dijitDialogTitleBar
-	padding 5px 6px 3px 6px
-	text-align center
-	background-color #D0D0D0
-	font-weight bold
+  padding 5px 6px 3px 6px
+  text-align center
+  background-color #D0D0D0
+  font-weight bold
 
 .dijitDialogUnderlayWrapper
-	position absolute
-	transparent !important
+  position absolute
+  transparent !important
 
 .dijitDialogUnderlay
-	background #eee
-	opacity 0.5
-
+  background #eee
+  opacity 0.5
 
 .hc-fire
-	background-color #e16e20
+  background-color #e16e20
 
 .oa-fire
-	background-color #fba730
+  background-color #fba730
 
 .legend-label
-	padding-left 10px
+  text-align right
 
 .legend-title
-	max-width 160px
+  max-width 160px
 
+//--------------
+// Chart Container
+//--------------
 .chart-container
-	margin 0 auto
-	height 380px
-	width 450px
+  display flex
+  justify-content: center;
+
+.chart-wrapper
+//margin 0 auto
+  height 240px
+  width 560px
+  position relative
 
 .chart
-	height 380px
-	width 450px
+  height 240px
+  width 560px
 
 .chart text
-	font-size 20px !important
-	font-weight normal !important
+  font-size 20px !important
+  font-weight normal !important
+
+.chart-data-label__container {
+  cursor: pointer;
+  font-family: 'Fira Sans', Georgia, serif
+  font-weight: 400
+  width: 160px;
+  font-size: 12px;
+  display: block;
+  white-space: initial;
+}
+
+#land-use-fires-chart .highcharts-data-label-color-3 .chart-data-label__container,
+#peat-fires-chart .highcharts-data-label-color-1 .chart-data-label__container,
+#moratorium-fires-chart .highcharts-data-label-color-1 .chart-data-label__container {
+  text-align right
+}
+
+#moratorium-fires-chart .highcharts-data-label-color-0 .chart-data-label__container {
+  padding-left 5px
+  width: 110px
+}
+
+.pie-chart-title
+  margin: 0;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  font-size: 1.1rem;
+  text-align: right;
+  font-weight: 400
+  width: 180px;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+.indicative-moratorium-area
+  width: 210px;
+  left -30px
 
 .fire-line-chart
-	margin 0 auto
-	height 500px
-	width 650px
-
-// .chart.small-legend-text .highcharts-legend-item text
-// 	font-size 14px !important
+  margin 0 auto
+  height 500px
+  width 800px
 
 .fires-table
-	//font-family "Arial MT Condensed Light", Arial, Georgia, sans-serif
-	border-collapse collapse
-	text-align center
-	margin 20px auto
+  border-collapse collapse
+  margin 20px auto 0
 
 .fires-table th
-	border-bottom 2px solid #888
-	max-width 230px
-	min-width 150px
-	padding 10px
-	color white
+  border-bottom 1px solid #888
+  font-weight: 400
 
-.fires-table th:first-child
-	background-color #0d6b3e
+//.fires-table th:first-child
+//  background-color #0d6b3e
 
-.fires-table th:nth-child(2)
-	background-color #82b53c
+//.fires-table th:nth-child(2)
+//  background-color #82b53c
 
-.fires-table th:last-child
-	background-color #e89927
+//.fires-table th:last-child
+//  background-color #e89927
 
 .fires-table td
-	border-bottom 2px solid #888
-	max-width 230px
-	padding 5px
-	color black
+  padding 5px 15px 5px 0
+  color #7A777B
+  border-bottom 1px solid #E7E4E4
 
-#all-concessions-fires-table .fires-table th:nth-child(3)
-	background-color #118bbb
+.fires-table th:first-child
+.fires-table td:first-child
+  text-align left
 
-#all-concessions-fires-table .fires-table tr > td:nth-child(3)
-	background-color #f8c8a9
+.fires-table .number-column
+  min-width 50px
 
-.fires-table tr > td:first-child, .fires-table tr > td:nth-child(2)
-	background-color #cddfb1
+//#all-concessions-fires-table .fires-table th:nth-child(3)
+//  background-color #118bbb
+
+//#all-concessions-fires-table .fires-table tr > td:nth-child(3)
+//  background-color #f8c8a9
+
+//.fires-table tr > td:first-child, .fires-table tr > td:nth-child(2)
+//  background-color #cddfb1
 
 .fires-table tr > td:last-child
-	background-color #f8c8a9
+//background-color #f8c8a9
+  text-align center
+  padding 5px 0
 
 .noFiresTable
-	text-align center
-	font-size 16px
+  text-align center
+  font-size 16px
 
 #noFiresMsg
-	color #e7002f
+  color #e7002f
 
 .loader
-	position absolute
-	z-index 10
-	height 50px
-	width 50px
-	top 45%
-	left 47%
-	background url('images/loader.gif') no-repeat center
+  position absolute
+  z-index 10
+  height 50px
+  width 50px
+  top 45%
+  left 47%
+  background url('images/loader.gif') no-repeat center
 
 @media print
-	.page-break
-		display block
-		page-break-before always
-	.no-break
-		page-break-inside avoid !important
-	html, body
-		-webkit-print-color-adjust exact
+  .page-break
+    display block
+    page-break-before always
 
+  .no-break
+    page-break-inside avoid !important
 
-@media (max-width: 650px)
-	.report-page
-		position fixed
-		width 100vw
-		height: 100vh
-		overflow-x hidden
-		overflow-y: scroll;
-		-webkit-overflow-scrolling: touch;
+  html, body
+    -webkit-print-color-adjust exact
 
-		.map-container
-			border 2px solid black
-			height 42.5vh !important
-			width 85vw
+//--------------
+// Report Charts section
+//--------------
+.report-section__charts-container {
+  padding-top: 2em;
+//background: rgba(255, 0, 0, 0.02);
+}
 
-		#disclaimer
-			width 85vw
-			margin 1em auto 2em
+tspan {
+  font-family: 'Fira Sans', Georgia, serif
+  font-weight: 300
+  color: #9B9B9B
+  font-size: 12px;
+}
 
-		.chart-container
-		.chart
-			width 90vw
+//--------------
+// Report Header + Body
+//--------------
+@media screen and (min-width: 961px) {
+  .report__header-content
+  .report__body {
+    width: 960px;
+    margin: 0 auto;
+  }
 
-		#fire-line-chart
-			height 50vh
-			width 90vw
+  .map-container {
+    width 610px
+  }
+
+  #district-fires-map,
+  #district-fires-map .map {
+    width: 530px;
+  }
+
+  .pull-right {
+    justify-content: flex-end;
+  }
+
+  .pull-left {
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .report-section__map-container {
+    flex-direction: column;
+  }
+
+  .map-container {
+    margin: 0 1em;
+  }
+
+  .report-section__content {
+    padding 1.5rem 1rem
+  }
+
+  .report-section__title {
+    padding: 0 0.75em;
+  }
+
+  .two-rows:empty {
+    display: none
+  }
+}
+
+@media (max-width: 650px) {
+
+  .report-page {
+    position fixed
+    width 100vw
+    height: 100vh
+    overflow-x hidden
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .report-page #disclaimer {
+      width 85vw
+      margin 1em auto 2em
+  }
+
+  .pie-chart-title {
+    width: 100%;
+    height: auto;
+    justify-content center
+  }
+
+  .pie-chart-title br {
+    display: none
+  }
+
+}
+
+@media screen and (min-width: 501px) {
+  .gfw-fires-logo__link {
+    position: relative;
+    top: 1em;
+  }
+
+  .gfw-fires-logo__image {
+    width: 70px !important
+    height: 70px !important
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .report-title__container {
+    align-items: initial;
+    flex-direction: column;
+    padding: 0 0.5em;
+  }
+
+  #totalFireAlerts {
+    line-height: 1em;
+  }
+
+  .report-title__container .report-date-range__container {
+    padding: 0 0 3px 0;
+  }
+}
+
+.text-center
+  text-align: center;
