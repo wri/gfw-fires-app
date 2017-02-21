@@ -97,10 +97,24 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
+      layer = app.map.getLayer(_constants2.default.modisArchive);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyModisArchive(mapPoint));
+        }
+      }
+
       layer = app.map.getLayer(_constants2.default.viirsFires);
       if (layer) {
         if (layer.visible) {
           deferreds.push(_request2.default.identifyViirs(mapPoint));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.viirsArchive);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirsArchive(mapPoint));
         }
       }
 
@@ -232,8 +246,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             case _constants2.default.activeFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
               break;
+            case _constants2.default.modisArchive:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.modisArchive));
+              break;
             case _constants2.default.viirsFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
+              break;
+            case _constants2.default.viirsArchive:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsArchive));
               break;
             case _constants2.default.archiveFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.archiveFires));
