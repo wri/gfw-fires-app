@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt'], function (exports, _config, _WebTiledLayer, _LayerFactory, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt) {
+define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt', 'dojo/on'], function (exports, _config, _WebTiledLayer, _LayerFactory, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt, _on) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -23,6 +23,8 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
   var _map2 = _interopRequireDefault(_map);
 
   var _alt2 = _interopRequireDefault(_alt);
+
+  var _on2 = _interopRequireDefault(_on);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -165,6 +167,18 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(date);
       }
     }, {
+      key: 'setViirsArchiveDate',
+      value: function setViirsArchiveDate(date) {
+        app.debug('MapActions >>> setViirsArchiveDate');
+        this.dispatch(date);
+      }
+    }, {
+      key: 'setModisArchiveDate',
+      value: function setModisArchiveDate(date) {
+        app.debug('MapActions >>> setModisArchiveDate');
+        this.dispatch(date);
+      }
+    }, {
       key: 'setNoaaDate',
       value: function setNoaaDate(date) {
         app.debug('MapActions >>> setNoaaDate');
@@ -243,6 +257,10 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         } else if (basemap === _constants2.default.landsat8) {
           layer = app.map.getLayer(basemap);
           if (layer) {
+            _on2.default.once(layer, 'update-end', function () {
+              var currentBM = app.map.getLayer(app.map.layerIds[0]);
+              currentBM.hide();
+            });
             layer.show();
           }
         } else {

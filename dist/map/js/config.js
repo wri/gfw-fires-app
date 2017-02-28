@@ -58,10 +58,13 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       archiveInitialDate: new window.Kalendae.moment().subtract(14, 'd'),
       noaaStartDate: new window.Kalendae.moment('10/22/2014'),
       riskStartDate: new window.Kalendae.moment('04/02/2015'),
-      // riskTempEnd: new window.Kalendae.moment('02/17/2016'),
       airQStartDate: new window.Kalendae.moment('09/25/2015'),
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
+      archiveViirsStartDate: new window.Kalendae.moment().subtract(14, 'd'),
+      archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+      archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
+      archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
@@ -109,6 +112,34 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'archiveEnd',
         domClass: 'archive-end'
+      }, {
+        date: new window.Kalendae.moment().subtract(14, 'd'),
+        method: 'changeViirsArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2017'),
+        domId: 'archiveViirsStart',
+        domClass: 'viirs-archive-start'
+      }, {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeViirsArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2017'),
+        domId: 'archiveViirsEnd',
+        domClass: 'viirs-archive-end'
+      }, {
+        date: new window.Kalendae.moment().subtract(14, 'd'),
+        method: 'changeModisArchiveStart',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/02/2012'),
+        domId: 'archiveModisStart',
+        domClass: 'modis-archive-start'
+      }, {
+        date: new window.Kalendae.moment().subtract(7, 'd'),
+        method: 'changeModisArchiveEnd',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/02/2012'),
+        domId: 'archiveModisEnd',
+        domClass: 'modis-archive-end'
       }, {
         date: new window.Kalendae.moment(), //('10/22/2014'),
         method: 'changeNoaaStart',
@@ -230,6 +261,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     }, {
       id: _constants2.default.activeFires,
@@ -245,6 +282,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'modis-archive-settings',
+        childDomClass: 'modis-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     }, {
       id: _constants2.default.archiveFires,
@@ -303,15 +346,15 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.fireHistory,
+      //id: 'firesHistory2001',
       order: 8,
       type: 'image',
       label: 'Fire history',
-      sublabel: '(2001-2015, Indonesia)',
+      sublabel: '(Indonesia, 2001-2015)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -319,11 +362,112 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         label: 'Select a date'
       }
     }, {
+      id: 'firesHistory2002',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      sublabel: '(2001-2015, Indonesia)',
+      opacity: 0.8,
+      className: 'fire-history',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2002/ImageServer',
+      metadataId: 'idn_fire_history'
+    }, {
+      id: 'firesHistory2003',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2003/ImageServer'
+    }, {
+      id: 'firesHistory2004',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2004/ImageServer'
+    }, {
+      id: 'firesHistory2005',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2005/ImageServer'
+    }, {
+      id: 'firesHistory2006',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2006/ImageServer'
+    }, {
+      id: 'firesHistory2007',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2007/ImageServer'
+    }, {
+      id: 'firesHistory2008',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2008/ImageServer'
+    }, {
+      id: 'firesHistory2009',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2009/ImageServer'
+    }, {
+      id: 'firesHistory2010',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2010/ImageServer'
+    }, {
+      id: 'firesHistory2011',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2011/ImageServer'
+    }, {
+      id: 'firesHistory2012',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2012/ImageServer'
+    }, {
+      id: 'firesHistory2013',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2013/ImageServer'
+    }, {
+      id: 'firesHistory2014',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2014/ImageServer'
+    }, {
+      id: 'firesHistory2015',
+      order: 8,
+      type: 'image',
+      label: 'Fire history',
+      opacity: 0.8,
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2015/ImageServer'
+    }, {
       id: _constants2.default.fireWeather,
       order: 8,
       type: 'image',
       label: 'Fire weather',
-      sublabel: '(layer starts at 4/2/15)',
+      sublabel: '(Indonesia, 4/2/15 to present)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-risk',
@@ -340,7 +484,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 7,
       type: 'image',
       label: 'Days since last rainfall',
-      // sublabel: '(layer starts at 4/2/15)',
+      sublabel: '(Indonesia, 4/2/15 to present)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'last-rainfall',
@@ -675,7 +819,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.digitalGlobe,
       order: 5,
       subLayers: [_constants2.default.digitalGlobe0, _constants2.default.digitalGlobe1, _constants2.default.digitalGlobe2, _constants2.default.digitalGlobe3, _constants2.default.digitalGlobe4],
-      imageServices: [{ id: 'dg-00', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
+      imageServices: [{ id: 'dg-00', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GEO1/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
       type: 'image',
       label: 'Digital Globe - First Look',
       mosaic: 'WV01',
@@ -683,7 +827,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       'minScale': 0,
       'maxScale': 10000,
       className: 'digital-globe',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV01/ImageServer',
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer',
       metadataId: 'digital_globe',
       calendar: {
         // startDate: new Date('10/19/2015'),
@@ -701,7 +845,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'QB01',
       'minScale': 0,
       'maxScale': 10000, //zoom level 6 is highest visible
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/QB01/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe1,
       type: 'image',
@@ -709,7 +853,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'WV02',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV02/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe2,
       type: 'image',
@@ -717,7 +861,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/GEO1/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GEO1/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe3,
       type: 'image',
@@ -725,7 +869,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'WV03',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe4,
       type: 'image',
@@ -733,7 +877,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'WV03_SWIR',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/dg_imagery/WV03_SWIR/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer'
     }, {
       id: _constants2.default.fireStories,
       order: 11,
@@ -758,9 +902,28 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [3],
       className: 'twitter',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires',
+      metadataId: 'firms_active_fires'
+    }, {
+      id: _constants2.default.modisArchive,
+      type: 'dynamic',
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      layerIds: [1],
+      opacity: 0.8,
+      className: 'modis-archive',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">TWEET: </td><td class="field-value">${body}</td></tr>' + '<tr><td class="field-name"></td><td class="field-value"><a href=${link} target="_blank">Open link</a></td></tr>' + '<tr><td class="field-name">USERNAME: </td><td class="field-value">${actor_disp}</td></tr>' + '<tr><td class="field-name">DATE: </td><td class="field-value">${postedtime}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.viirsArchive,
+      type: 'dynamic',
+      layerIds: [0],
+      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
+      opacity: 0.8,
+      className: 'viirs-achive',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }],
 
@@ -849,6 +1012,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           max: 'Extreme'
         },
         fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }],
+        fireHistoryOptions2: [{ label: 2001, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2001/ImageServer' }, { label: 2002, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2002/ImageServer' }, { label: 2003, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2003/ImageServer' }, { label: 2004, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2004/ImageServer' }, { label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer' }],
         firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }],
         plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],

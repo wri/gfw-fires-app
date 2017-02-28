@@ -76,7 +76,7 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
       _this.clickedBasemap = function (evt) {
         var id = evt.currentTarget.getAttribute('data-basemap');
         if (id === _constants2.default.landsat8) {
-          _MapActions.mapActions.changeBasemap(id);
+          // mapActions.changeBasemap(id);
           _MapActions.mapActions.setBasemap(id);
         } else {
           _MapActions.mapActions.setBasemap(id);

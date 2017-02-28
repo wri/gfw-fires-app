@@ -26,6 +26,10 @@ class MapStore {
     this.analysisEndDate = this.getDate(defaults.yesterday);
     this.archiveStartDate = this.getDate(defaults.archiveInitialDate);
     this.archiveEndDate = this.getDate(defaults.analysisStartDate);
+    this.archiveViirsStartDate = this.getDate(defaults.archiveViirsStartDate);
+    this.archiveViirsEndDate = this.getDate(defaults.archiveViirsEndDate);
+    this.archiveModisStartDate = this.getDate(defaults.archiveModisStartDate);
+    this.archiveModisEndDate = this.getDate(defaults.archiveModisEndDate);
     this.noaaStartDate = this.getDate(defaults.analysisStartDate);
     this.noaaEndDate = this.getDate(defaults.todaysDate);
     this.riskStartDate = this.getDate(defaults.riskStartDate);
@@ -44,17 +48,22 @@ class MapStore {
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
-    this.fireHistorySelectIndex = 0;
+    this.fireHistorySelectIndex = 14;
     this.layerPanelVisible = app.mobile === false;
     this.lat = undefined;
     this.lng = undefined;
+    this.iconLoading = '';
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
+      showLoading: layerActions.showLoading,
+      hideLoading: modalActions.showLayerInfo,
       connectLayerEvents: mapActions.connectLayerEvents,
       setDGDate: mapActions.setDGDate,
       setAnalysisDate: mapActions.setAnalysisDate,
       setArchiveDate: mapActions.setArchiveDate,
+      setViirsArchiveDate: mapActions.setViirsArchiveDate,
+      setModisArchiveDate: mapActions.setModisArchiveDate,
       setNoaaDate: mapActions.setNoaaDate,
       setRiskDate: mapActions.setRiskDate,
       setRainDate: mapActions.setRainDate,
@@ -74,6 +83,8 @@ class MapStore {
       changeFiresTimeline: layerActions.changeFiresTimeline,
       changeForestTimeline: layerActions.changeForestTimeline,
       changeFireHistoryTimeline: layerActions.changeFireHistoryTimeline,
+      incrementFireHistoryYear: layerActions.incrementFireHistoryYear,
+      decrementFireHistoryYear: layerActions.decrementFireHistoryYear,
       changeViirsTimeline: layerActions.changeViirsTimeline,
       changePlantations: layerActions.changePlantations,
       updateCanopyDensity: modalActions.updateCanopyDensity,
@@ -97,7 +108,7 @@ class MapStore {
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
-    LayersHelper.updateFireHistoryDefinitions(0);
+    //LayersHelper.updateFireHistoryDefinitions(0);
 
   }
 
@@ -140,6 +151,14 @@ class MapStore {
     return window.Kalendae.moment(date).format('M/D/YYYY');
   }
 
+  showLoading (layerInfo) {
+    this.iconLoading = layerInfo;
+  }
+
+  hideLoading () {
+    this.iconLoading = '';
+  }
+
   setDGDate (dateObj) {
     this.calendarVisible = '';
 
@@ -165,6 +184,22 @@ class MapStore {
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
 
     LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+  }
+
+  setViirsArchiveDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateViirsArchiveDates([this.archiveViirsStartDate, this.archiveViirsEndDate]);
+  }
+
+  setModisArchiveDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+    LayersHelper.updateModisArchiveDates([this.archiveModisStartDate, this.archiveModisEndDate]);
   }
 
   setNoaaDate (dateObj) {
@@ -364,6 +399,16 @@ class MapStore {
 
   changeFireHistoryTimeline (activeIndex) {
     this.fireHistorySelectIndex = activeIndex;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+  }
+
+  incrementFireHistoryYear () {
+    this.fireHistorySelectIndex += 1;
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+  }
+
+  decrementFireHistoryYear () {
+    this.fireHistorySelectIndex -= 1;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
   }
 

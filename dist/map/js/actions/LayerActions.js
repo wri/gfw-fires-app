@@ -62,9 +62,24 @@ define(['exports', 'js/alt'], function (exports, _alt) {
         // }
       }
     }, {
+      key: 'showLoading',
+      value: function showLoading(layerId) {
+        this.dispatch(layerId);
+      }
+    }, {
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(selectedIndex) {
         this.dispatch(selectedIndex);
+      }
+    }, {
+      key: 'incrementFireHistoryYear',
+      value: function incrementFireHistoryYear() {
+        this.dispatch();
+      }
+    }, {
+      key: 'decrementFireHistoryYear',
+      value: function decrementFireHistoryYear() {
+        this.dispatch();
       }
     }, {
       key: 'changeViirsTimeline',

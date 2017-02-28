@@ -5,6 +5,7 @@ import {mapActions} from 'actions/MapActions';
 import {modalActions} from 'actions/ModalActions';
 import KEYS from 'js/constants';
 import {layersConfig, controlPanelText} from 'js/config';
+import LayersHelper from 'helpers/LayersHelper';
 import QueryTask from 'esri/tasks/QueryTask';
 import Query from 'esri/tasks/query';
 import Deferred from 'dojo/Deferred';
@@ -147,6 +148,50 @@ export default class CalendarModal extends Component {
 			dest: 'archiveEndDate'
 		});
 	}
+	changeViirsArchiveStart(date: any) {
+		this.close();
+		mapActions.setViirsArchiveDate({
+			date: date,
+			dest: 'archiveViirsStartDate'
+		});
+		LayersHelper.hideLayer(KEYS.viirsFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.viirsArchive;
+		LayersHelper.showLayer(layerObj);
+	}
+	changeViirsArchiveEnd(date: any) {
+		this.close();
+		mapActions.setViirsArchiveDate({
+			date: date,
+			dest: 'archiveViirsEndDate'
+		});
+		LayersHelper.hideLayer(KEYS.viirsFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.viirsArchive;
+		LayersHelper.showLayer(layerObj);
+	}
+	changeModisArchiveStart(date: any) {
+		this.close();
+		mapActions.setModisArchiveDate({
+			date: date,
+			dest: 'archiveModisStartDate'
+		});
+		LayersHelper.hideLayer(KEYS.activeFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.modisArchive;
+		LayersHelper.showLayer(layerObj);
+	}
+	changeModisArchiveEnd(date: any) {
+		this.close();
+		mapActions.setModisArchiveDate({
+			date: date,
+			dest: 'archiveModisEndDate'
+		});
+		LayersHelper.hideLayer(KEYS.activeFires);
+		let layerObj = {};
+		layerObj.layerId = KEYS.modisArchive;
+		LayersHelper.showLayer(layerObj);
+	}
 	changeNoaaStart(date: any) {
 		this.close();
 		mapActions.setNoaaDate({
@@ -220,8 +265,11 @@ export default class CalendarModal extends Component {
 				date = newest.attributes.Name.split('_IDN')[0];
 				date = date.split('DSLR_')[1];
 			}
-			let dates = date.split('2016');
-			let julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
+
+			const currentYear = new Date().getFullYear();
+			let dates = date.split(currentYear.toString());
+			let julian = new window.Kalendae.moment(currentYear.toString()).add(parseInt(dates[1]), 'd');
+
 			deferred.resolve(julian);
 		});
 		return deferred;

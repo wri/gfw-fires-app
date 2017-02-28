@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _react) {
+define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6,6 +6,10 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
   });
 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
+
+  var _DateHelper2 = _interopRequireDefault(_DateHelper);
+
+  var _constants2 = _interopRequireDefault(_constants);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -68,10 +72,15 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
   var ViirsControls = function (_React$Component) {
     _inherits(ViirsControls, _React$Component);
 
-    function ViirsControls() {
+    function ViirsControls(props) {
       _classCallCheck(this, ViirsControls);
 
-      return _possibleConstructorReturn(this, (ViirsControls.__proto__ || Object.getPrototypeOf(ViirsControls)).apply(this, arguments));
+      var _this = _possibleConstructorReturn(this, (ViirsControls.__proto__ || Object.getPrototypeOf(ViirsControls)).call(this, props));
+
+      _this.state = {
+        viirsArchiveVisible: false
+      };
+      return _this;
     }
 
     _createClass(ViirsControls, [{
@@ -92,14 +101,20 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     }, {
       key: 'render',
       value: function render() {
-        //<input onChange={this.toggleConfidence} type='checkbox' /><span className='fires-confidence-wrapper'>Only show <span className='fires-confidence' onClick={this.showFiresModal}>high confidence fires</span></span>
+
         var activeItem = firesOptions[this.props.viiirsSelectIndex];
+
+        var startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
+        var endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
+
+        var showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';
+
         return _react2.default.createElement(
           'div',
           null,
           _react2.default.createElement(
             'div',
-            { className: 'timeline-container relative fires' },
+            { className: 'timeline-container fires' },
             _react2.default.createElement(
               'select',
               { className: 'pointer', value: activeItem.value, onChange: this.changeViirsTimeline },
@@ -109,9 +124,43 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
               'div',
               { className: 'active-fires-control gfw-btn sml white' },
               activeItem.label
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'active-fires-control gfw-btn sml white pointer', onClick: this.toggleViirsArchive.bind(this) },
+              'Custom Range'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { id: 'viirs-archive-date-ranges', className: showViirsArchive },
+            _react2.default.createElement(
+              'span',
+              { className: 'imagery-calendar-label' },
+              this.props.options.minLabel
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
+              _DateHelper2.default.getDate(startDate)
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'imagery-calendar-label' },
+              this.props.options.maxLabel
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
+              _DateHelper2.default.getDate(endDate)
             )
           )
         );
+      }
+    }, {
+      key: 'toggleViirsArchive',
+      value: function toggleViirsArchive() {
+        this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
       }
     }, {
       key: 'toggleConfidence',
@@ -131,6 +180,22 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(evt) {
         _LayerActions.layerActions.changeViirsTimeline(evt.target.selectedIndex);
+        _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
+        var layerObj = {};
+        layerObj.layerId = _constants2.default.viirsFires;
+        _LayersHelper2.default.showLayer(layerObj);
+      }
+    }, {
+      key: 'changeStart',
+      value: function changeStart() {
+        _ModalActions.modalActions.showCalendarModal('start');
+        _MapActions.mapActions.setCalendar('archiveViirsStart');
+      }
+    }, {
+      key: 'changeEnd',
+      value: function changeEnd() {
+        _ModalActions.modalActions.showCalendarModal('end');
+        _MapActions.mapActions.setCalendar('archiveViirsEnd');
       }
     }]);
 

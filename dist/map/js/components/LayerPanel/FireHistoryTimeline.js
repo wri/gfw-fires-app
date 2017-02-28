@@ -80,9 +80,25 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
 		_inherits(FireHistoryTimeline, _React$Component);
 
 		function FireHistoryTimeline() {
+			var _ref;
+
+			var _temp, _this, _ret;
+
 			_classCallCheck(this, FireHistoryTimeline);
 
-			return _possibleConstructorReturn(this, (FireHistoryTimeline.__proto__ || Object.getPrototypeOf(FireHistoryTimeline)).apply(this, arguments));
+			for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+				args[_key] = arguments[_key];
+			}
+
+			return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = FireHistoryTimeline.__proto__ || Object.getPrototypeOf(FireHistoryTimeline)).call.apply(_ref, [this].concat(args))), _this), _this.increaseFireHistoryYear = function () {
+				if (_this.props.fireHistorySelectIndex < 14) {
+					_LayerActions.layerActions.incrementFireHistoryYear();
+				}
+			}, _this.decreaseFireHistoryYear = function () {
+				if (_this.props.fireHistorySelectIndex > 0) {
+					_LayerActions.layerActions.decrementFireHistoryYear();
+				}
+			}, _temp), _possibleConstructorReturn(_this, _ret);
 		}
 
 		_createClass(FireHistoryTimeline, [{
@@ -108,12 +124,13 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
 							{ className: 'pointer', value: this.props.fireHistorySelectIndex, onChange: this.updateFireHistoryDefinitions },
 							fireHistoryOptions.map(this.optionsMap, this)
 						),
-						_react2.default.createElement('span', { className: 'history-timeline-player', id: 'timelinePlayer', onClick: this.toggleTimeline.bind(this) }),
+						_react2.default.createElement('div', { className: 'history-play backward ' + (this.props.fireHistorySelectIndex === 0 ? 'disable' : ''), onClick: this.decreaseFireHistoryYear }),
 						_react2.default.createElement(
 							'div',
 							{ className: 'fires-history-cover-control gfw-btn sml white' },
 							activeItem.label
-						)
+						),
+						_react2.default.createElement('div', { className: 'history-play ' + (this.props.fireHistorySelectIndex === 14 ? 'disable' : ''), onClick: this.increaseFireHistoryYear })
 					)
 				);
 			}
@@ -134,7 +151,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
 		}, {
 			key: 'toggleTimeline',
 			value: function toggleTimeline(evt) {
-
 				if (evt.target.classList.contains('playing')) {
 					evt.target.classList.remove('playing');
 					playing = false;

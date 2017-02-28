@@ -68,6 +68,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.analysisEndDate = this.getDate(_config.defaults.yesterday);
       this.archiveStartDate = this.getDate(_config.defaults.archiveInitialDate);
       this.archiveEndDate = this.getDate(_config.defaults.analysisStartDate);
+      this.archiveViirsStartDate = this.getDate(_config.defaults.archiveViirsStartDate);
+      this.archiveViirsEndDate = this.getDate(_config.defaults.archiveViirsEndDate);
+      this.archiveModisStartDate = this.getDate(_config.defaults.archiveModisStartDate);
+      this.archiveModisEndDate = this.getDate(_config.defaults.archiveModisEndDate);
       this.noaaStartDate = this.getDate(_config.defaults.analysisStartDate);
       this.noaaEndDate = this.getDate(_config.defaults.todaysDate);
       this.riskStartDate = this.getDate(_config.defaults.riskStartDate);
@@ -86,17 +90,22 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
       this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
-      this.fireHistorySelectIndex = 0;
+      this.fireHistorySelectIndex = 14;
       this.layerPanelVisible = app.mobile === false;
       this.lat = undefined;
       this.lng = undefined;
+      this.iconLoading = '';
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
+        showLoading: _LayerActions.layerActions.showLoading,
+        hideLoading: _ModalActions.modalActions.showLayerInfo,
         connectLayerEvents: _MapActions.mapActions.connectLayerEvents,
         setDGDate: _MapActions.mapActions.setDGDate,
         setAnalysisDate: _MapActions.mapActions.setAnalysisDate,
         setArchiveDate: _MapActions.mapActions.setArchiveDate,
+        setViirsArchiveDate: _MapActions.mapActions.setViirsArchiveDate,
+        setModisArchiveDate: _MapActions.mapActions.setModisArchiveDate,
         setNoaaDate: _MapActions.mapActions.setNoaaDate,
         setRiskDate: _MapActions.mapActions.setRiskDate,
         setRainDate: _MapActions.mapActions.setRainDate,
@@ -116,6 +125,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
         changeForestTimeline: _LayerActions.layerActions.changeForestTimeline,
         changeFireHistoryTimeline: _LayerActions.layerActions.changeFireHistoryTimeline,
+        incrementFireHistoryYear: _LayerActions.layerActions.incrementFireHistoryYear,
+        decrementFireHistoryYear: _LayerActions.layerActions.decrementFireHistoryYear,
         changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
         changePlantations: _LayerActions.layerActions.changePlantations,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
@@ -141,7 +152,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
         _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
-        _LayersHelper2.default.updateFireHistoryDefinitions(0);
+        //LayersHelper.updateFireHistoryDefinitions(0);
       }
     }, {
       key: 'setCalendar',
@@ -190,6 +201,16 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         return window.Kalendae.moment(date).format('M/D/YYYY');
       }
     }, {
+      key: 'showLoading',
+      value: function showLoading(layerInfo) {
+        this.iconLoading = layerInfo;
+      }
+    }, {
+      key: 'hideLoading',
+      value: function hideLoading() {
+        this.iconLoading = '';
+      }
+    }, {
       key: 'setDGDate',
       value: function setDGDate(dateObj) {
         this.calendarVisible = '';
@@ -218,6 +239,24 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
 
         _LayersHelper2.default.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+      }
+    }, {
+      key: 'setViirsArchiveDate',
+      value: function setViirsArchiveDate(dateObj) {
+        this.calendarVisible = '';
+
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+        _LayersHelper2.default.updateViirsArchiveDates([this.archiveViirsStartDate, this.archiveViirsEndDate]);
+      }
+    }, {
+      key: 'setModisArchiveDate',
+      value: function setModisArchiveDate(dateObj) {
+        this.calendarVisible = '';
+
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+
+        _LayersHelper2.default.updateModisArchiveDates([this.archiveModisStartDate, this.archiveModisEndDate]);
       }
     }, {
       key: 'setNoaaDate',
@@ -435,6 +474,18 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'changeFireHistoryTimeline',
       value: function changeFireHistoryTimeline(activeIndex) {
         this.fireHistorySelectIndex = activeIndex;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+      }
+    }, {
+      key: 'incrementFireHistoryYear',
+      value: function incrementFireHistoryYear() {
+        this.fireHistorySelectIndex += 1;
+        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+      }
+    }, {
+      key: 'decrementFireHistoryYear',
+      value: function decrementFireHistoryYear() {
+        this.fireHistorySelectIndex -= 1;
         this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
       }
     }, {

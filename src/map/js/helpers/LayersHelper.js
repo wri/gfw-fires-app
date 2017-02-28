@@ -79,10 +79,24 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.modisArchive);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyModisArchive(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.viirsFires);
     if (layer) {
       if (layer.visible) {
         deferreds.push(Request.identifyViirs(mapPoint));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.viirsArchive);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirsArchive(mapPoint));
       }
     }
 
@@ -213,8 +227,14 @@ let LayersHelper = {
           case KEYS.activeFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
             break;
+          case KEYS.modisArchive:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.modisArchive));
+            break;
           case KEYS.viirsFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
+            break;
+          case KEYS.viirsArchive:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsArchive));
             break;
           case KEYS.archiveFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.archiveFires));
@@ -257,7 +277,7 @@ let LayersHelper = {
             // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
             break;
           case KEYS.twitter:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.twitter));
+            features = features.concat(this.setTweetTemplates(item.features, mapPoint));
             break;
           case KEYS.overlays:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
@@ -300,6 +320,10 @@ let LayersHelper = {
 
         dojoQuery('.infoWindow-close').forEach((rowData) => {
           closeHandles.push(on(rowData, 'click', function() {
+            let tweet = document.getElementById('tweet');
+            if (tweet) {
+              tweet.style.display = 'none';
+            }
             app.map.infoWindow.hide();
           }));
 
@@ -408,6 +432,44 @@ let LayersHelper = {
     return [features[0]];
   },
 
+  setTweetTemplates: function(features, mapPoint) {
+    let template, htmlContent, tweetId;
+    features.forEach(item => {
+      let url = item.feature.attributes.link;
+      let indexId = url.lastIndexOf('/') + 1;
+      tweetId = url.substring(indexId);
+
+      if (app.mobile() === true) {
+        htmlContent = '<div class="tweet-container mobile">';
+        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        htmlContent += '<div id="tweet"></div>';
+        htmlContent += '</div>';
+      } else {
+        htmlContent = '<div class="tweet-container">';
+        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        htmlContent += '<div id="tweet"></div>';
+        htmlContent += '</div>';
+      }
+    });
+
+    template = new InfoTemplate('Twitter', htmlContent);
+    features[0].feature.setInfoTemplate(template);
+
+    on.once(app.map.infoWindow, 'show', () => {
+      app.map.infoWindow.hide();
+      app.map.infoWindow.resize(500, 200);
+      twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
+        cards: 'hidden',
+        align: 'center'
+      }).then((el) => {
+        if (el) {
+          app.map.infoWindow.show(mapPoint);
+        }
+      });
+    });
+
+    return [features[0].feature];
+  },
   setStoryTemplates: function(features) {
     let template, htmlContent;
 
@@ -445,6 +507,13 @@ let LayersHelper = {
     let layer = app.map.getLayer(parameters.layerId);
     if ( layer ) {
       layer.setOpacity(parameters.value);
+    }
+    if (layer.id === KEYS.fireHistory) {
+      let layers = layersConfig.filter(layerConfig => layerConfig && layerConfig.label === 'Fire history');
+      layers.forEach(subLayer => {
+        let firesHistoryLayer = app.map.getLayer(subLayer.id);
+        firesHistoryLayer.setOpacity(parameters.value);
+      });
     }
   },
 
@@ -518,8 +587,15 @@ let LayersHelper = {
       }
       ShareHelper.handleHashChange();
       return;
+    } else if (layerObj.layerId === KEYS.fireHistory) {
+      let date = 2001 + layerObj.fireHistorySelectIndex;
+      let layerTitle = 'firesHistory' + date;
+      let activeFireHistory = layersConfig.filter(layer => layer && layer.id === layerTitle);
+      layerObj.layerId = activeFireHistory[0].id;
     }
     let layer = app.map.getLayer(layerObj.layerId);
+    console.log(layer);
+    console.log(layerObj);
     if (layer) { layer.show(); }
     ShareHelper.handleHashChange();
   },
@@ -549,6 +625,13 @@ let LayersHelper = {
 
       ShareHelper.handleHashChange();
       return;
+    } else if (layerId === KEYS.fireHistory) {
+      let layers = layersConfig.filter(layer => layer && layer.label === 'Fire history');
+
+      layers.forEach(layer => {
+        let firesHistoryLayer = app.map.getLayer(layer.id);
+        firesHistoryLayer.hide();
+      });
     }
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
@@ -675,11 +758,21 @@ let LayersHelper = {
   },
 
   updateFireHistoryDefinitions (index) {
-    let fireHistory = app.map.getLayer(KEYS.fireHistory);
-    let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
-    if (fireHistory) {
-      fireHistory.setDefinitionExpression("Name = '" + value + "'");
-    }
+    let layers = layersConfig.filter(layer => layer && layer.label === 'Fire history');
+    let date = 2001 + index;
+    let layerTitle = 'firesHistory' + date;
+    let activeFireHistory = layersConfig.filter(layer => layer && layer.id === layerTitle);
+    let activeFireHistoryLayer = app.map.getLayer(activeFireHistory[0].id);
+
+    layers.forEach(layer => {
+      if (layer.id !== layerTitle) {
+        let firesHistoryLayer = app.map.getLayer(layer.id);
+        on.once(activeFireHistoryLayer, 'update-end', () => {
+          firesHistoryLayer.hide();
+        });
+      }
+    });
+    activeFireHistoryLayer.show();
   },
 
   // toggleConfidence (checked) {
@@ -760,6 +853,34 @@ let LayersHelper = {
       archiveLayer.setLayerDefinitions(layerDefs);
     }
 
+  },
+
+  updateViirsArchiveDates (clauseArray) {
+    app.debug('LayersHelper >>> updateArchiveDates');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
+    let archiveLayer = app.map.getLayer(KEYS.viirsArchive);
+    if (archiveLayer) {
+
+      let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      let layerDefs = [];
+      layerDefs[0] = string;
+
+      archiveLayer.setLayerDefinitions(layerDefs);
+    }
+  },
+
+  updateModisArchiveDates (clauseArray) {
+    app.debug('LayersHelper >>> updateArchiveDates');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
+    let archiveLayer = app.map.getLayer(KEYS.modisArchive);
+    if (archiveLayer) {
+
+      let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      let layerDefs = [];
+      layerDefs[1] = string;
+
+      archiveLayer.setLayerDefinitions(layerDefs);
+    }
   },
 
   updateNoaaDates (clauseArray) {

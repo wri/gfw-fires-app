@@ -99,9 +99,18 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
             var layerObj = {};
             layerObj.layerId = this.props.layer.id;
             layerObj.footprints = this.state.footprints;
+            layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
             _LayersHelper2.default.showLayer(layerObj);
           } else {
             _LayersHelper2.default.hideLayer(this.props.layer.id);
+            if (this.props.layer.id === 'activeFires') {
+              console.log('removing....');
+              _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
+            }
+            if (this.props.layer.id === 'viirsFires') {
+              console.log('removing....');
+              _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
+            }
           }
         }
       }
@@ -139,7 +148,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
           ),
           !layer.metadataId ? null : _react2.default.createElement(
             'span',
-            { className: 'info-icon pointer', onClick: this.showInfo.bind(this) },
+            { className: 'info-icon pointer ' + (this.state.iconLoading === this.props.layer.id ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
             _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
           ),
           !this.props.children ? null : _react2.default.createElement(
@@ -156,6 +165,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
         if (layer.disabled) {
           return;
         }
+        _LayerActions.layerActions.showLoading(layer.id);
         _ModalActions.modalActions.showLayerInfo(this.props.layer.id);
       }
     }, {

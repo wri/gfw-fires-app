@@ -43,7 +43,7 @@ export default class BasemapTab extends React.Component {
   clickedBasemap = (evt) => {
     let id = evt.currentTarget.getAttribute('data-basemap');
     if (id === KEYS.landsat8) {
-      mapActions.changeBasemap(id);
+      // mapActions.changeBasemap(id);
       mapActions.setBasemap(id);
     } else {
       mapActions.setBasemap(id);

@@ -202,6 +202,41 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       return deferred.promise;
     },
 
+    identifyModisArchive: function identifyModisArchive(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.modisArchive);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.modisArchive);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: _constants2.default.modisArchive,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
     /**
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
@@ -229,6 +264,42 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           deferred.resolve({
             layer: _constants2.default.viirsFires,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    identifyViirsArchive: function identifyViirsArchive(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsArchive);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.viirsArchive);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 10;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: _constants2.default.viirsArchive,
             features: features
           });
         } else {
@@ -1031,13 +1102,20 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
-    identifyDigitalGlobe: function identifyDigitalGlobe(graphic) {
+    identifyDigitalGlobe: function identifyDigitalGlobe(graphic, mapPoint) {
       var featureExtent = graphic.geometry.getExtent();
       var overlaps = [];
 
       for (var i = 0; i < graphic._layer.graphics.length; i++) {
         var tempExtent = graphic._layer.graphics[i].geometry.getExtent();
-        if (featureExtent.intersects(tempExtent)) {
+
+        //if the graphic clicked touches any other graphic, show those as well
+        // if (featureExtent.intersects(tempExtent)) {
+        //   overlaps.push(graphic._layer.graphics[i]);
+        // }
+
+        //if the mapPoint is within the footprint - show
+        if (tempExtent.contains(mapPoint)) {
           overlaps.push(graphic._layer.graphics[i]);
         }
       }

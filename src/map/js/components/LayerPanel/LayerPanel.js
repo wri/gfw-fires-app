@@ -61,10 +61,10 @@ export default class LayerPanel extends React.Component {
           childComponent = <DamsLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
         case KEYS.activeFires:
-          childComponent = <FiresControls loaded={this.props.loaded} {...this.state} />;
+          childComponent = <FiresControls loaded={this.props.loaded} options={layer.calendar} {...this.state} />;
           break;
         case KEYS.viirsFires:
-          childComponent = <ViirsControls loaded={this.props.loaded} {...this.state} />;
+          childComponent = <ViirsControls loaded={this.props.loaded} options={layer.calendar} {...this.state} />;
           break;
         case KEYS.archiveFires:
           childComponent = <ArchiveControls options={layer.calendar} loaded={this.props.loaded} />;
@@ -132,7 +132,7 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Indonesia Fire Risk'>
           <LayerTransparency initalOpacity={.80} layers={fireRiskLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('fireRisk'), this)}
         </LayerGroup>

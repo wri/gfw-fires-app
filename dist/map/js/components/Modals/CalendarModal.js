@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'actions/MapActions', 'actions/ModalActions', 'js/constants', 'js/config', 'esri/tasks/QueryTask', 'esri/tasks/query', 'dojo/Deferred', 'react-dom', 'react'], function (exports, _CalendarWrapper, _MapStore, _MapActions, _ModalActions, _constants, _config, _QueryTask, _query, _Deferred, _reactDom, _react) {
+define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'actions/MapActions', 'actions/ModalActions', 'js/constants', 'js/config', 'helpers/LayersHelper', 'esri/tasks/QueryTask', 'esri/tasks/query', 'dojo/Deferred', 'react-dom', 'react'], function (exports, _CalendarWrapper, _MapStore, _MapActions, _ModalActions, _constants, _config, _LayersHelper, _QueryTask, _query, _Deferred, _reactDom, _react) {
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,8 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 	var _CalendarWrapper2 = _interopRequireDefault(_CalendarWrapper);
 
 	var _constants2 = _interopRequireDefault(_constants);
+
+	var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
 	var _QueryTask2 = _interopRequireDefault(_QueryTask);
 
@@ -226,6 +228,58 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				});
 			}
 		}, {
+			key: 'changeViirsArchiveStart',
+			value: function changeViirsArchiveStart(date) {
+				this.close();
+				_MapActions.mapActions.setViirsArchiveDate({
+					date: date,
+					dest: 'archiveViirsStartDate'
+				});
+				_LayersHelper2.default.hideLayer(_constants2.default.viirsFires);
+				var layerObj = {};
+				layerObj.layerId = _constants2.default.viirsArchive;
+				_LayersHelper2.default.showLayer(layerObj);
+			}
+		}, {
+			key: 'changeViirsArchiveEnd',
+			value: function changeViirsArchiveEnd(date) {
+				this.close();
+				_MapActions.mapActions.setViirsArchiveDate({
+					date: date,
+					dest: 'archiveViirsEndDate'
+				});
+				_LayersHelper2.default.hideLayer(_constants2.default.viirsFires);
+				var layerObj = {};
+				layerObj.layerId = _constants2.default.viirsArchive;
+				_LayersHelper2.default.showLayer(layerObj);
+			}
+		}, {
+			key: 'changeModisArchiveStart',
+			value: function changeModisArchiveStart(date) {
+				this.close();
+				_MapActions.mapActions.setModisArchiveDate({
+					date: date,
+					dest: 'archiveModisStartDate'
+				});
+				_LayersHelper2.default.hideLayer(_constants2.default.activeFires);
+				var layerObj = {};
+				layerObj.layerId = _constants2.default.modisArchive;
+				_LayersHelper2.default.showLayer(layerObj);
+			}
+		}, {
+			key: 'changeModisArchiveEnd',
+			value: function changeModisArchiveEnd(date) {
+				this.close();
+				_MapActions.mapActions.setModisArchiveDate({
+					date: date,
+					dest: 'archiveModisEndDate'
+				});
+				_LayersHelper2.default.hideLayer(_constants2.default.activeFires);
+				var layerObj = {};
+				layerObj.layerId = _constants2.default.modisArchive;
+				_LayersHelper2.default.showLayer(layerObj);
+			}
+		}, {
 			key: 'changeNoaaStart',
 			value: function changeNoaaStart(date) {
 				this.close();
@@ -317,8 +371,11 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 						date = newest.attributes.Name.split('_IDN')[0];
 						date = date.split('DSLR_')[1];
 					}
-					var dates = date.split('2016');
-					var julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
+
+					var currentYear = new Date().getFullYear();
+					var dates = date.split(currentYear.toString());
+					var julian = new window.Kalendae.moment(currentYear.toString()).add(parseInt(dates[1]), 'd');
+
 					deferred.resolve(julian);
 				});
 				return deferred;

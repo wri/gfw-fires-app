@@ -1,186 +1,217 @@
 doctype html
 html(lang="en")
-	head
-		link(rel='icon', href='../css/images/favicon.png')
-		script(src='//code.jquery.com/jquery-1.11.0.min.js')
-		script(src='//code.highcharts.com/highcharts.js')
-		script(src='//code.highcharts.com/modules/exporting.js')
-		script(src='../vendors/moment/moment.js')
-		script(src='../vendors/moment-timezone/moment-timezone.js')
-		script.
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-			ga('create', 'UA-35900039-4', 'auto', {'name':"A"});
-			ga('A.send', 'pageview');
-			ga('create', 'UA-1981181-14', 'auto', {'name':"B"});
-			ga('B.send', 'pageview');
-			ga('create', 'UA-48182293-1', 'auto', {'name':"C",'cookieDomain':"'fires.globalforestwatch.org']"});
-			ga('C.send', 'pageview');
-			if (window.top !== window.self) {
-				var payload = {
-					'hitType': 'event',
-					'eventCategory': 'Event',
-					'eventAction': 'embed',
-					'eventLabel': 'iFrame Embed',
-					'eventValue': 'This application was viewed inside an embedded iFrame.'
-				};
-				ga('A.send', payload);
-				ga('B.send', payload);
-				ga('C.send', payload);
-			}
-		script.
-			window.liveSettings = {
-				api_key: "c0d190e8efe94881b66b5bb38ebaece3",
-				detectlang: false,
-				picker: '#transifexTranslateElement'
-				//- version: 'latest',
-				//- autocollect: true,
-				//- dynamic: true,
-				//- staging: true,
-				//- parse_attr: ["attr1", "attr2", ...],
-				//- ignore_tags: ["tag1", "tag2", ...],
-				//- ignore_class: ["classname1", "classname2"]
-			};
-		//- script(src='//cdn.transifex.com/live.js')
-		
-		//- script(src='../../../libs/timezone.js') //todo
-		meta(name="author", content="")
-		meta(name="keywords", content="GFW, Fires, Global, Forest, Watch")
-		meta(name="description", content="")
-		meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-		meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
-		meta(name="apple-mobile-web-app-capable", content="yes")
-		meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
-			
-		link(rel="stylesheet", href="//js.arcgis.com/3.16/esri/css/esri.css")
-		link(rel="stylesheet", href="css/report.css")
-	body
-		div#report(class='report-page')
-			div(class='report-title') GFW Fires ANALYSES
-				div#subtitles
-					div#fromDate
-					div#toDate
-					div#aoiList
-					div#totalFiresLabel.sub-title2 
-						span#confidence-count During this time period, there were&nbsp;
-						span#totalFireAlerts &nbsp;
-						span fire alerts
-					div#noFiresMsg
-			div#section-one
-			div(class='section-title') Figure 1: DISTRIBUTION OF FIRE ALERTS
-			div(class='map-container')
-				div#simple-fires-map(class='map')
-					div#firesmapload.loader
-					div#fires-legend-container(class='legend-container')
-						//- div(class='legend-title') Active Fires
-						div#fires-legend
-							table
-								tr
-									td(class='legend-swatch-round hc-fire')
-									td(class='legend-label') Active Fires
-								//- tr
-								//- 	td(class='legend-swatch-round oa-fire')
-								//- 	td(class='legend-label') Other Active Fires	
-			div#section-two(class='page-break')
-				div(class='section-title') Figure 2a: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
-				div(class='map-container small')
-					div#district-fires-map(class='map')
-						div#distmapload.loader
+  head
+    link(rel='icon', href='../css/images/favicon.png')
+    script(src='//code.jquery.com/jquery-1.11.0.min.js')
+    script(src='//code.highcharts.com/highcharts.js')
+    //script(src='//code.highcharts.com/modules/exporting.js')
+    script(src='../vendors/moment/moment.js')
+    script(src='../vendors/moment-timezone/moment-timezone.js')
+    script.
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+          }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-35900039-4', 'auto', {'name': "A"});
+      ga('A.send', 'pageview');
+      ga('create', 'UA-1981181-14', 'auto', {'name': "B"});
+      ga('B.send', 'pageview');
+      ga('create', 'UA-48182293-1', 'auto', {'name': "C", 'cookieDomain': "'fires.globalforestwatch.org']"});
+      ga('C.send', 'pageview');
+      if (window.top !== window.self) {
+        var payload = {
+          'hitType': 'event',
+          'eventCategory': 'Event',
+          'eventAction': 'embed',
+          'eventLabel': 'iFrame Embed',
+          'eventValue': 'This application was viewed inside an embedded iFrame.'
+        };
+        ga('A.send', payload);
+        ga('B.send', payload);
+        ga('C.send', payload);
+      }
+    script.
+      window.liveSettings = {
+        api_key: "c0d190e8efe94881b66b5bb38ebaece3",
+        detectlang: false,
+        picker: '#transifexTranslateElement'
+        //- version: 'latest',
+        //- autocollect: true,
+        //- dynamic: true,
+        //- staging: true,
+        //- parse_attr: ["attr1", "attr2", ...],
+        //- ignore_tags: ["tag1", "tag2", ...],
+        //- ignore_class: ["classname1", "classname2"]
+      };
+    //- script(src='//cdn.transifex.com/live.js')
 
-						div#legend-container(class='legend-container')
-							div(class='legend-title') Fire Alerts by Districts
-							div#legend
-				div(class='section-title') Figure 2b: DISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
-				div#district-fires-table
-			div#section-three(class='page-break')
-				div(class='section-title') Figure 3a: SUBDISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
-				div(class='map-container small')
-					div#subdistrict-fires-map(class='map')
-						div#subdistmapload.loader
+    //- script(src='../../../libs/timezone.js') //todo
+    meta(name="author", content="")
+    meta(name="keywords", content="GFW, Fires, Global, Forest, Watch")
+    meta(name="description", content="")
+    meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=Edge,chrome=1")
+    meta(name="apple-mobile-web-app-capable", content="yes")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
 
-						div(class='legend-container')
-							div(class='legend-title') Fire Alerts by SubDistricts
-							div#SubDistrict-legend
-				div(class='section-title') Figure 3b: SUBDISTRICTS WITH THE GREATEST NUMBER OF FIRE ALERTS
-				div#subdistrict-fires-table
-			div#section-four(class='page-break')
-				div(class='section-title') Figure 4: FIRE ALERT COUNT JAN 1, 2013 - PRESENT
-				div#fire-alert-count-sumatra
-					div#fire-line-chart(class='fire-line-chart')
-			div#section-five(class='page-break')
-				div(class='section-title') Figure 5: COMPANY CONCESSIONS WITH FIRE ALERTS
-				div#gfw-concessions
-					div(class='no-break')
-						div(class='sub-title') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-						div#pulpwood-fires-table
-					div(class='no-break')
-						div(class='sub-title') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-						div#palmoil-fires-table
-					div(class='no-break')
-						div(class='sub-title') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-						div#logging-fires-table
-					
-				div#all-concessions-fires-table
-					
-			div#section-seven(class='page-break')
-				div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
-				div(class='sub-title')
-				div(class='no-break')
-					div#rspo-cert-table
-			div#section-six
-				div(class='section-title no-break') Figure 7: FIRE ALERTS BY LAND USE AREA
-					div#land-use-fires-chart-container(class='chart-container')
-						div#land-use-fires-chart(class='chart small-legend-text')
-						
-					div#breakdown-fires-chart-container(class='chart-container')
-						div#breakdown-fires-chart(class='chart')
-				div(class='section-title no-break') Figure 8: FIRE ALERTS IN PROTECTED AREAS
-					div#protected-areas-fires-chart-container(class='chart-container')
-						div#protected-areas-fires-chart(class='chart small-legend-text')
-				div(class='section-title') Figure 9: PORTION OF FIRES OCCURRING ON PEATLAND
-					div#peat-fires-chart-container(class='chart-container')
-						div#peat-fires-chart(class='chart')
-				div(class='section-title page-break') Figure 10: PORTION OF FIRES OCCURRING IN AN INDICATIVE MORATORIUM AREA
-					div#moratorium-fires-chart-container(class='chart-container')
-						div#moratorium-fires-chart(class='chart')
+    link(rel="stylesheet", href="//js.arcgis.com/3.19/esri/css/esri.css")
+    link(rel="stylesheet", href="css/report.css")
+  body
+    div#report(class='report-page')
+      div.report__header
+        div.report__header-content
+          a.gfw-fires-logo__link(href='../home')
+            img.gfw-fires-logo__image(height=60 width=60 src='/images/gfwFires-logo-new.png')
+          div.report-title__container
+            h1.report-title Fire Report
+            div.report-date-range__container
+              span#fromDate
+              span#toDate
+            div#totalFiresLabel.sub-title2
+      div.report__body
+        div.num-of-fires__container
+          div.num-of-fires__wraper
+            div.num-of-fires__content
+              span#confidence-count During this time period, there were
+              span#totalFireAlerts
+              div.fire-alert__container
+                span fire
+                span alerts
+        div#aoiList
+        div#noFiresMsg
+        div#section-one
+          div.report-section__map-container.distribution-fire-alerts
+            div.report-section__content.padding-top
+              p Lorem ipsum dolor sit amet, nulla sapien egestas mattis lobortis lectus, ligula et hendrerit urna aliquam nibh. Orci pede, neque ac feugiat. Vestibulum purus ut risus non feugiat, libero diam fermentum vitae odio, vestibulum et eu ac vestibulum mauris, aliquam blandit nec nec quia sapien lorem, quam laoreet pellentesque. Est nibh, a mauris, feugiat amet erat ut condimentum neque. Quis lorem lectus enim, amet pellentesque dui eros nec sed, dolor pretium. At in quis pellentesque duis ut quam, blandit adipiscing sit diam non velit ut, ornare tristique curabitur eget scelerisque sit viverra, egestas sed mauris morbi nec, vitae suspendisse imperdiet montes.
+            div.report-section__map
+              h3.report-section__title.text-center Distribution of Fire Alerts
+              div(class='map-container')
+                div#simple-fires-map(class='map')
+                  div#firesmapload.loader
+                  div#fires-legend-container(class='legend-container')
+                    div#fires-legend
+                      h4.legend__title Legend
+                      div.legend-swatch__container
+                        span(class='legend-swatch-round hc-fire')
+                        span(class='legend-label') Active Fires
+          div#section-two(class='page-break')
+            div.report-section__map-container.district-fire-numbers__container
+              div.report-section__map
+                h3.report-section__title.two-rows PROVINCES </br> with greatest number of fire alerts
+                div(class='map-container map-legend')
+                  div#legend-container(class='legend-container')
+                    div#legend
+                  div#district-fires-map(class='map')
+                    div#distmapload.loader
 
-			div#section-eight(class='page-break')
+              div.report-section__content
+                h3.report-section__title.two-rows JURISDICTIONS </br> with greatest number of fire alerts
+                div#district-fires-table
 
-				//- div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
-				//- div(class='sub-title')
-				div(id='disclaimer' class='no-break')
-					p WRI used NASA’s Active Fire Data to determine the likely location of fires on the ground. This system uses the NASA MODIS satellites that survey the entire earth every 1-2 days. The sensors on these satellites detect the heat signatures of fires within the infrared spectral band. When the satellite imagery is processed, an algorithm searches for fire-like signatures. When a fire is detected, the system indicates the 1 km2 where the fire occurred with an “alert.” The system will nearly always detect fires of 1,000 m2 in size, but under ideal conditions, can detect flaming fires as small as 50 m2. Since each satellite passes over the equator twice a day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
-					p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
-					p Sources:
-					p NASA FIRMS FAQ Morton, D., R. DeFries, J. T. Randerson, L. Giglio, W. Schroeder, and G. van der Werf. 2008. Agricultural intensification increases deforestation fire activity in Amazonia. Global Change Biology 14:2262-2276.
-					p Data Sources for Figures:
-					p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
-					p Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)
+          div#section-three(class='page-break')
+            div.report-section__map-container.distribution-fire-alerts
+              div.report-section__content
+                h3.report-section__title.two-rows DISTRICTS </br> with greatest number of fire alerts
+                div#subdistrict-fires-table
+              div.report-section__map
+                div.two-rows
+                div(class='map-container map-legend')
+                  div#subdistrict-fires-map(class='map')
+                    div#subdistmapload.loader
+                  div(class='legend-container')
+                    div#SubDistrict-legend
 
-		script.
-			var base = location.pathname.replace(/\/[^/]+$/, '/');
-			var dojoConfig = {
-					parseOnLoad: false,
-					isDebug: false,
-					textPluginHeaders: {
-							"X-Requested-With": null
-					},
-					async: true,
-					packages: [{
-							name: 'vendors',
-							location: base + '../vendors'
-					}, {
-							name: 'js',
-							location: base + 'js'
-					}],
-					deps: [
-							'js/ReportBuilder',
-							'dojo/domReady!'
-					],
-					callback: function(ReportBuilder) {
-						ReportBuilder.init();
-					}
-			};
-		script(src='//js.arcgis.com/3.16/init.js', async)
+          div#section-four(class='page-break')
+            h3.report-section__title FIRE ALERT COUNT JAN 1, 2013 - PRESENT
+            div#fire-alert-count-sumatra
+              div#fire-line-chart(class='fire-line-chart')
+          div#section-five(class='page-break')
+            h3.report-section__title.two-rows CONCESSIONS </br> with greatest number of fire alerts
+            div#gfw-concessions
+              div(class='no-break')
+                div(class='sub-title') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                div#pulpwood-fires-table
+              div(class='no-break')
+                div(class='sub-title') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                div#palmoil-fires-table
+              div(class='no-break')
+                div(class='sub-title') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                div#logging-fires-table
+
+            div#all-concessions-fires-table
+
+          div#section-seven(class='page-break')
+            div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
+            div(class='sub-title')
+            div(class='no-break')
+              div#rspo-cert-table
+          div#section-six(class='page-break')
+            div.report-section__charts-container
+              div#land-use-fires-chart-container(class='chart-container pull-right')
+                div.chart-wrapper
+                  h3.pie-chart-title Fire Alerts by</br> LAND USE</br> AREA
+                  div#land-use-fires-chart(class='chart small-legend-text')
+
+              div#breakdown-fires-chart-container(class='chart-container')
+                div#breakdown-fires-chart(class='chart')
+
+              div#protected-areas-fires-chart-container(class='chart-container pull-left')
+                div.chart-wrapper
+                  h3.pie-chart-title Fire Alerts in</br> PROTECTED</br> AREAS
+                  div#protected-areas-fires-chart(class='chart small-legend-text')
+
+              div#moratorium-fires-chart-container(class='chart-container pull-right')
+                div.chart-wrapper
+                  h3.pie-chart-title.indicative-moratorium-area Portion of Fires</br> OCCURING IN AN</br> INDICATIVE MORATORIUM</br> AREA
+                  div#moratorium-fires-chart(class='chart')
+
+              div#peat-fires-chart-container(class='chart-container pull-left')
+                div.chart-wrapper
+                  h3.pie-chart-title Portion of Fires</br> OCCURING ON</br> PEATLAND
+                  div#peat-fires-chart(class='chart')
+
+          div#section-eight(class='page-break')
+
+            //- div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
+            //- div(class='sub-title')
+            div(id='disclaimer' class='no-break')
+              p WRI used NASA’s Active Fire Data to determine the likely location of fires on the ground. This system uses the NASA MODIS satellites that survey the entire earth every 1-2 days. The sensors on these satellites detect the heat signatures of fires within the infrared spectral band. When the satellite imagery is processed, an algorithm searches for fire-like signatures. When a fire is detected, the system indicates the 1 km2 where the fire occurred with an “alert.” The system will nearly always detect fires of 1,000 m2 in size, but under ideal conditions, can detect flaming fires as small as 50 m2. Since each satellite passes over the equator twice a day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
+              p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
+              p Sources:
+              p NASA FIRMS FAQ Morton, D., R. DeFries, J. T. Randerson, L. Giglio, W. Schroeder, and G. van der Werf. 2008. Agricultural intensification increases deforestation fire activity in Amazonia. Global Change Biology 14:2262-2276.
+              p Data Sources for Figures:
+              p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
+              p Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)
+
+    script.
+      var base = location.pathname.replace(/\/[^/]+$/, '/');
+      var dojoConfig = {
+        parseOnLoad: false,
+        isDebug: false,
+        textPluginHeaders: {
+          "X-Requested-With": null
+        },
+        async: true,
+        packages: [{
+          name: 'vendors',
+          location: base + '../vendors'
+        }, {
+          name: 'js',
+          location: base + 'js'
+        }],
+        deps: [
+          'js/ReportBuilder',
+          'dojo/domReady!'
+        ],
+        callback: function (ReportBuilder) {
+          ReportBuilder.init();
+        }
+      };
+    script(src='//js.arcgis.com/3.19/init.js', async)

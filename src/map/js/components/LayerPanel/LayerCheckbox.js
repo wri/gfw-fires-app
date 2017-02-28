@@ -31,9 +31,18 @@ export default class LayerCheckbox extends React.Component {
         let layerObj = {};
         layerObj.layerId = this.props.layer.id;
         layerObj.footprints = this.state.footprints;
+        layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
         LayersHelper.showLayer(layerObj);
       } else {
         LayersHelper.hideLayer(this.props.layer.id);
+        if (this.props.layer.id === 'activeFires') {
+          console.log('removing....')
+          LayersHelper.hideLayer(KEYS.modisArchive);
+        }
+        if (this.props.layer.id === 'viirsFires') {
+          console.log('removing....')
+          LayersHelper.hideLayer(KEYS.viirsArchive);
+        }
       }
     }
   }
@@ -51,7 +60,7 @@ export default class LayerCheckbox extends React.Component {
         <span onClick={this.toggleLayer.bind(this)} className='layer-checkbox-label pointer'>{layer.label}</span>
         {!layer.sublabel ? null : <div className='layer-checkbox-sublabel'>{layer.sublabel}</div>}
         {!layer.metadataId ? null :
-          <span className='info-icon pointer' onClick={this.showInfo.bind(this)}>
+          <span className={`info-icon pointer ${this.state.iconLoading === this.props.layer.id ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
         }
@@ -67,6 +76,7 @@ export default class LayerCheckbox extends React.Component {
   showInfo () {
     let layer = this.props.layer;
     if (layer.disabled) { return; }
+    layerActions.showLoading(layer.id);
     modalActions.showLayerInfo(this.props.layer.id);
   }
 

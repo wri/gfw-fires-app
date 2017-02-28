@@ -18,8 +18,20 @@ class LayerActions {
     // }
   }
 
+  showLoading (layerId) {
+    this.dispatch(layerId);
+  }
+
   changeFiresTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
+  }
+
+  incrementFireHistoryYear() {
+    this.dispatch();
+  }
+
+  decrementFireHistoryYear() {
+    this.dispatch();
   }
 
   changeViirsTimeline (selectedIndex) {
