@@ -36,15 +36,15 @@ define([
 
     var PRINT_CONFIG = {
         zoom: 4,
-        basemap: 'dark-gray',
+        basemap: 'gray',
         slider: false,
         mapcenter: [120, -1.2],
         colorramp: [
-            [253, 240, 0],
-            [255, 218, 0],
-            [248, 137, 0],
-            [225, 63, 0],
-            [229, 0, 2]
+            [252, 221, 209],
+            [226, 166, 162],
+            [199, 111, 116],
+            [173, 55, 69],
+            [147, 1, 22]
         ],
         query_results: {},
         regionmap: {},
@@ -58,7 +58,7 @@ define([
             greenpeace: "There are no fire alerts in Greenpeace concessions in the AOI and time range.",
         },
         firesLayer: {
-            url: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+            url: "//gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
             id: "Active_Fires",
             fire_id: 0,
             defaultLayers: [0],
@@ -89,7 +89,7 @@ define([
         },
         adminBoundary: {
             mapDiv: "district-fires-map",
-            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+            url: '//gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
             id: 'district-bounds',
             defaultLayers: [6],
             UniqueValueField: 'DISTRICT',
@@ -107,7 +107,7 @@ define([
         },
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
-            url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+            url: '//gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             UniqueValueField: 'SUBDISTRIC',
@@ -204,7 +204,7 @@ define([
             chartId: 'concession'
         },
 
-        queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+        queryUrl: "//gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 8,
@@ -246,13 +246,13 @@ define([
             // Set up some configurations
             esriConfig.defaults.io.proxyUrl = proxyUrl;
 
-            // Highcharts.setOptions({
-            //     chart: {
-            //         style: {
-            //             fontFamily: 'Arial MT Condensed Light'
-            //         }
-            //     }
-            // });
+            Highcharts.setOptions({
+                chart: {
+                    style: {
+                        fontFamily: 'Arial MT Condensed Light'
+                    }
+                }
+            });
 
             // #gfw-concessions, #all-concessions-fires-table
             console.log(this.dataSource)
@@ -318,8 +318,8 @@ define([
             this.aoilist = window.reportOptions.aois.join(', ');
             this.aoitype = window.reportOptions.aoitype;
             this.dataSource = window.reportOptions.dataSource;
-            dom.byId('fromDate').innerHTML = self.startdate;
-            dom.byId('toDate').innerHTML = " - " + self.enddate;
+            dom.byId('fromDate').innerHTML = "From: " + self.startdate;
+            dom.byId('toDate').innerHTML = "To: " + self.enddate;
             dom.byId('aoiList').innerHTML = 'ON ' + self.aoitype.toUpperCase() + 'S: ' + self.aoilist;
         },
 
@@ -355,7 +355,7 @@ define([
             window.reportOptions = {
                 aoitype: _initialState.aoitype
             }
-            window.reportOptions['aois'] = _initialState.aois.split('!');
+            window.reportOptions['aois'] = _initialState.aois.split('!')
             window.reportOptions['dates'] = dateObj;
             window.reportOptions.dataSource = _initialState.dataSource;
         },
@@ -363,9 +363,9 @@ define([
         date_obj_to_string: function(dateobj) {
             //var dtstr = "date'";
             var dtstr = '';
-            dtstr += dateobj.month + '/';
-            dtstr += dateobj.day + '/';
-            dtstr += dateobj.year;
+            dtstr += dateobj.year + '-';
+            dtstr += dateobj.month + '-';
+            dtstr += dateobj.day;
             return dtstr;
         },
 
@@ -899,7 +899,7 @@ define([
                 self.buildPieChart("breakdown-fires-chart", {
                     data: totalData,
                     name: 'Peat Fires',
-                    labelDistance: 5,
+                    labelDistance: 25,
                     total: total
                 });
                 deferred.resolve(true);
@@ -1035,7 +1035,7 @@ define([
             }
 
             function buildTable(features) {
-                var table = "<table class='fires-table jurisdictions-fire-alerts-number'><tr><th>" + queryConfig.headerField[0] + "</th>"
+                var table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>"
                 if (queryConfig.headerField.length > 1) {
                     table += "<th>" + window.reportOptions.aoitype.toUpperCase() + "</th>";
                 } else {
@@ -1044,7 +1044,7 @@ define([
                 var filtered = arrayUtils.filter(features, function(feature) {
                     return feature.attributes.fire_count !== 0;
                 });
-                table += "<th class='number-column'>#</th></tr>";
+                table += "<th>NUMBER OF FIRE ALERTS</th></tr>";
                 // table += self.generateTableRows(features, fields);
                 table += self.generateTableRows(filtered, fields);
 
@@ -1212,10 +1212,6 @@ define([
                         nonpeat++;
                     }
                 });
-
-                // -------------
-                // Portion of fires occurring on peatland
-                // -------------
                 peatData.push({
                     color: "rgba(184,0,18,1)",
                     name: "Peat",
@@ -1223,7 +1219,7 @@ define([
                     y: peat
                 });
                 peatData.push({
-                    color: "rgba(216, 212, 212, 1)",
+                    color: "rgba(17,139,187,1)",
                     name: "Non-peat",
                     visible: true,
                     y: nonpeat
@@ -1232,7 +1228,7 @@ define([
                 self.buildPieChart("peat-fires-chart", {
                     data: peatData,
                     name: 'Peat Fires',
-                    labelDistance: 5,
+                    labelDistance: -25,
                     total: total
                 });
                 deferred.resolve(true);
@@ -1269,18 +1265,14 @@ define([
                         outside++;
                     }
                 });
-
-              // -------------
-                // Portion of fires occurring in an indicative moratorium area
-              // -------------
                 chartData.push({
-                    color: "rgba(229, 0, 23, 1)",
+                    color: "rgba(184,0,18,1)",
                     name: "In Indicative Moratorium Areas",
                     visible: true,
                     y: inside
                 });
                 chartData.push({
-                  color: "rgba(216, 212, 212, 1)",
+                    color: "rgba(17,139,187,1)",
                     name: "Not in Indicative Moratorium Areas",
                     visible: true,
                     y: outside
@@ -1288,7 +1280,7 @@ define([
                 self.buildPieChart("moratorium-fires-chart", {
                     data: chartData,
                     name: 'Moratorium Fires',
-                    labelDistance: 5,
+                    labelDistance: -25,
                     total: total
                 });
                 deferred.resolve(true);
@@ -1347,18 +1339,14 @@ define([
                     }
 
                 });
-
-                // -------------
-                // Protected Areas
-                // -------------
                 protectedAreaData.push({
-                    color: "rgba(248, 137, 0, 1)",
+                    color: "rgba(184,0,18,1)",
                     name: "In Protected Areas",
                     visible: true,
                     y: protectedarea
                 });
                 protectedAreaData.push({
-                    color: "rgba(216, 212, 212, 1)",
+                    color: "rgba(17,139,187,1)",
                     name: "Outside Protected Areas",
                     visible: true,
                     y: unprotected
@@ -1366,33 +1354,30 @@ define([
                 self.buildPieChart("protected-areas-fires-chart", {
                     data: protectedAreaData,
                     name: 'Protected Area Fires',
-                    labelDistance: 5,
+                    labelDistance: -30,
                     total: total
                 });
 
-                // -------------
-                // LAND USE AREA
-                // -------------
                 concessionData.push({
-                    color: "rgba(253, 240, 0, 1)",
+                    color: "rgba(17,139,187,1)",
                     name: "Pulpwood Plantations",
                     visible: true,
                     y: pulpwood
                 });
                 concessionData.push({
-                    color: "rgba(255, 218, 0, 1)",
+                    color: "rgba(184,0,18,1)",
                     name: "Palm Oil Concessions",
                     visible: true,
                     y: palmoil
                 });
                 concessionData.push({
-                    color: "rgba(255, 188, 0, 1)",
+                    color: "rgba(106,0,78,1)",
                     name: "Logging Concessions",
                     visible: true,
                     y: logging
                 });
                 concessionData.push({
-                    color: "rgba(216, 212, 212, 1)",
+                    color: "rgba(233,153,39,1)",
                     name: "Outside Concessions",
                     visible: true,
                     y: total - (logging + palmoil + pulpwood)
@@ -1400,12 +1385,9 @@ define([
                 self.buildPieChart("land-use-fires-chart", {
                     data: concessionData,
                     name: 'Fires in Concessions',
-                    labelDistance: 5,
+                    labelDistance: 30,
                     total: total
                 });
-                console.log('----------------');
-                console.log(concessionData);
-                console.log('----------------');
                 deferred.resolve(true);
             };
 
@@ -1580,7 +1562,7 @@ define([
                     type: 'pie'
                 },
                 title: {
-                  text: null
+                    text: null
                 },
                 yAxis: {
                     title: {
@@ -1591,15 +1573,9 @@ define([
                     pie: {
                         shadow: false,
                         center: ['50%', '50%'],
-                        borderWidth: 0,
+                        showInLegend: true,
                         dataLabels: {
-                          useHTML: true,
-                          format: ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>',
-                          //connectorColor: 'transparent',
-                          //connectorWidth: 0,
-                        },
-                        style: {
-                          fontSize: '.8em'
+                            fontSize: '22px'
                         }
                     }
                 },
@@ -1612,13 +1588,13 @@ define([
                     enabled: false
                 },
                 legend: {
-                    enabled: false
+                    layout: 'vertical',
                 },
                 series: [{
                     name: config.name,
                     data: config.data,
-                    size: '70%',
-                    innerSize: '55%',
+                    size: '80%',
+                    innerSize: '50%',
                     dataLabels: {
                         distance: config.labelDistance,
                         color: 'black',
