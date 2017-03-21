@@ -4,6 +4,7 @@ html(lang="en")
     link(rel='icon', href='../css/images/favicon.png')
     script(src='//code.jquery.com/jquery-1.11.0.min.js')
     script(src='//code.highcharts.com/highcharts.js')
+    script(src='//code.highcharts.com/highcharts-more.js')
     //script(src='//code.highcharts.com/modules/exporting.js')
     script(src='../vendors/moment/moment.js')
     script(src='../vendors/moment-timezone/moment-timezone.js')
@@ -85,9 +86,15 @@ html(lang="en")
                 span fire
                 span alerts
         div#aoiList
+        h3#firesCountTitle
+        div#firesCountContainer
+          div#firesCountChart
+          div#firesCountIslandsListContainer
+            h3.selected
+            ul#firesCountIslandsList
         div#noFiresMsg
         div#section-one
-          div.report-section__map-container.distribution-fire-alerts
+          div.report-section__map-container.distribution-fire-alerts.page-break
             div.report-section__content.padding-top
               p Lorem ipsum dolor sit amet, nulla sapien egestas mattis lobortis lectus, ligula et hendrerit urna aliquam nibh. Orci pede, neque ac feugiat. Vestibulum purus ut risus non feugiat, libero diam fermentum vitae odio, vestibulum et eu ac vestibulum mauris, aliquam blandit nec nec quia sapien lorem, quam laoreet pellentesque. Est nibh, a mauris, feugiat amet erat ut condimentum neque. Quis lorem lectus enim, amet pellentesque dui eros nec sed, dolor pretium. At in quis pellentesque duis ut quam, blandit adipiscing sit diam non velit ut, ornare tristique curabitur eget scelerisque sit viverra, egestas sed mauris morbi nec, vitae suspendisse imperdiet montes.
             div.report-section__map
@@ -107,7 +114,7 @@ html(lang="en")
                 h3.report-section__title.two-rows PROVINCES </br> with greatest number of fire alerts
                 div(class='map-container map-legend')
                   div#legend-container(class='legend-container')
-                    div#legend
+                    div#districtLegend
                   div#district-fires-map(class='map')
                     div#distmapload.loader
 
@@ -132,27 +139,37 @@ html(lang="en")
             h3.report-section__title FIRE ALERT COUNT JAN 1, 2013 - PRESENT
             div#fire-alert-count-sumatra
               div#fire-line-chart(class='fire-line-chart')
-          div#section-five(class='page-break')
-            h3.report-section__title.two-rows CONCESSIONS </br> with greatest number of fire alerts
-            div#gfw-concessions
-              div(class='no-break')
-                div(class='sub-title') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-                div#pulpwood-fires-table
-              div(class='no-break')
-                div(class='sub-title') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-                div#palmoil-fires-table
-              div(class='no-break')
-                div(class='sub-title') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-                div#logging-fires-table
+          div#ConcessionRspoContainer(class='page-break')
+            div#section-five(class='page-break')
+              h3(class='section-title')
+                | CONCESSIONS
+                br
+                span.break-raw with greatest number of fire alerts
+              div#gfw-concessions
+                div#finalConcessionsTable
+                div(class='no-break')
+                  div(class='sub-title consession') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                  div#pulpwood-fires-table
+                div(class='no-break')
+                  div(class='sub-title consession') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                  div#palmoil-fires-table
+                div(class='no-break')
+                  div(class='sub-title consession') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                  div#logging-fires-table
 
-            div#all-concessions-fires-table
+              div#all-concessions-fires-table
 
+            div.vertical-devider
+
+            div#section-six(class='page-break')
+              h3(class='section-title')
+                | RSPO CERTIFIED CONCESSIONS
+                br
+                span.break-raw with fire alerts
+              div(class='sub-title')
+              div(class='no-break')
+                div#rspo-cert-table
           div#section-seven(class='page-break')
-            div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
-            div(class='sub-title')
-            div(class='no-break')
-              div#rspo-cert-table
-          div#section-six(class='page-break')
             div.report-section__charts-container
               div#land-use-fires-chart-container(class='chart-container pull-right')
                 div.chart-wrapper
@@ -176,6 +193,16 @@ html(lang="en")
                 div.chart-wrapper
                   h3.pie-chart-title Portion of Fires</br> OCCURING ON</br> PEATLAND
                   div#peat-fires-chart(class='chart')
+
+          div#fireHistory
+            h3.fire-history__title
+              | FIRE HISTORY
+              strong 2012-Present
+            h4.fire-history__region
+              | Region:
+              strong Indonesia
+
+            div.fire-history__chart
 
           div#section-eight(class='page-break')
 
