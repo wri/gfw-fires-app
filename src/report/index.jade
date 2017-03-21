@@ -108,114 +108,115 @@ html(lang="en")
                       div.legend-swatch__container
                         span(class='legend-swatch-round hc-fire')
                         span(class='legend-label') Active Fires
-          div#section-two(class='page-break')
-            div.report-section__map-container.district-fire-numbers__container
-              div.report-section__map
-                h3.report-section__title.two-rows PROVINCES </br> with greatest number of fire alerts
-                div(class='map-container map-legend')
-                  div#legend-container(class='legend-container')
-                    div#districtLegend
-                  div#district-fires-map(class='map')
-                    div#distmapload.loader
 
-              div.report-section__content
-                h3.report-section__title.two-rows JURISDICTIONS </br> with greatest number of fire alerts
-                div#district-fires-table
+        div#section-two(class='page-break')
+          div.report-section__map-container.district-fire-numbers__container
+            div.report-section__map
+              h3.report-section__title.two-rows PROVINCES </br> with greatest number of fire alerts
+              div(class='map-container map-legend')
+                div#legend-container(class='legend-container')
+                  div#districtLegend
+                div#district-fires-map(class='map')
+                  div#distmapload.loader
 
-          div#section-three(class='page-break')
-            div.report-section__map-container.distribution-fire-alerts
-              div.report-section__content
-                h3.report-section__title.two-rows DISTRICTS </br> with greatest number of fire alerts
-                div#subdistrict-fires-table
-              div.report-section__map
-                div.two-rows
-                div(class='map-container map-legend')
-                  div#subdistrict-fires-map(class='map')
-                    div#subdistmapload.loader
-                  div(class='legend-container')
-                    div#SubDistrict-legend
+            div.report-section__content
+              h3.report-section__title.two-rows JURISDICTIONS </br> with greatest number of fire alerts
+              div#district-fires-table
 
-          div#section-four(class='page-break')
-            h3.report-section__title FIRE ALERT COUNT JAN 1, 2013 - PRESENT
-            div#fire-alert-count-sumatra
-              div#fire-line-chart(class='fire-line-chart')
-          div#ConcessionRspoContainer(class='page-break')
-            div#section-five(class='page-break')
-              h3(class='section-title')
-                | CONCESSIONS
-                br
-                span.break-raw with greatest number of fire alerts
-              div#gfw-concessions
-                div#finalConcessionsTable
-                div(class='no-break')
-                  div(class='sub-title consession') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-                  div#pulpwood-fires-table
-                div(class='no-break')
-                  div(class='sub-title consession') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-                  div#palmoil-fires-table
-                div(class='no-break')
-                  div(class='sub-title consession') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
-                  div#logging-fires-table
+        div#section-three(class='page-break')
+          div.report-section__map-container.distribution-fire-alerts
+            div.report-section__content
+              h3.report-section__title.two-rows DISTRICTS </br> with greatest number of fire alerts
+              div#subdistrict-fires-table
+            div.report-section__map
+              div.two-rows
+              div(class='map-container map-legend')
+                div#subdistrict-fires-map(class='map')
+                  div#subdistmapload.loader
+                div(class='legend-container')
+                  div#SubDistrict-legend
 
-              div#all-concessions-fires-table
-
-            div.vertical-devider
-
-            div#section-six(class='page-break')
-              h3(class='section-title')
-                | RSPO CERTIFIED CONCESSIONS
-                br
-                span.break-raw with fire alerts
-              div(class='sub-title')
+        div#section-four(class='page-break')
+          h3.report-section__title FIRE ALERT COUNT JAN 1, 2013 - PRESENT
+          div#fire-alert-count-sumatra
+            div#fire-line-chart(class='fire-line-chart')
+        div#ConcessionRspoContainer(class='page-break')
+          div#section-five(class='page-break')
+            h3(class='section-title')
+              | CONCESSIONS
+              br
+              span.break-raw with greatest number of fire alerts
+            div#gfw-concessions
+              div#finalConcessionsTable
               div(class='no-break')
-                div#rspo-cert-table
-          div#section-seven(class='page-break')
-            div.report-section__charts-container
-              div#land-use-fires-chart-container(class='chart-container pull-right')
-                div.chart-wrapper
-                  h3.pie-chart-title Fire Alerts by</br> LAND USE</br> AREA
-                  div#land-use-fires-chart(class='chart small-legend-text')
+                div(class='sub-title consession') PULPWOOD CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                div#pulpwood-fires-table
+              div(class='no-break')
+                div(class='sub-title consession') PALM OIL CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                div#palmoil-fires-table
+              div(class='no-break')
+                div(class='sub-title consession') LOGGING CONCESSIONS WITH THE HIGHEST SHARE OF FIRE ALERTS
+                div#logging-fires-table
 
-              div#breakdown-fires-chart-container(class='chart-container')
-                div#breakdown-fires-chart(class='chart')
+            div#all-concessions-fires-table
 
-              div#protected-areas-fires-chart-container(class='chart-container pull-left')
-                div.chart-wrapper
-                  h3.pie-chart-title Fire Alerts in</br> PROTECTED</br> AREAS
-                  div#protected-areas-fires-chart(class='chart small-legend-text')
+          div.vertical-devider
 
-              div#moratorium-fires-chart-container(class='chart-container pull-right')
-                div.chart-wrapper
-                  h3.pie-chart-title.indicative-moratorium-area Portion of Fires</br> OCCURING IN AN</br> INDICATIVE MORATORIUM</br> AREA
-                  div#moratorium-fires-chart(class='chart')
+          div#section-six(class='page-break')
+            h3(class='section-title')
+              | RSPO CERTIFIED CONCESSIONS
+              br
+              span.break-raw with fire alerts
+            div(class='sub-title')
+            div(class='no-break')
+              div#rspo-cert-table
+        div#section-seven(class='page-break')
+          div.report-section__charts-container
+            div#land-use-fires-chart-container(class='chart-container pull-right')
+              div.chart-wrapper
+                h3.pie-chart-title Fire Alerts by</br> LAND USE</br> AREA
+                div#land-use-fires-chart(class='chart small-legend-text')
 
-              div#peat-fires-chart-container(class='chart-container pull-left')
-                div.chart-wrapper
-                  h3.pie-chart-title Portion of Fires</br> OCCURING ON</br> PEATLAND
-                  div#peat-fires-chart(class='chart')
+            div#breakdown-fires-chart-container(class='chart-container')
+              div#breakdown-fires-chart(class='chart')
 
-          div#fireHistory
-            h3.fire-history__title
-              | FIRE HISTORY
-              strong 2012-Present
-            h4.fire-history__region
-              | Region:
-              strong Indonesia
+            div#protected-areas-fires-chart-container(class='chart-container pull-left')
+              div.chart-wrapper
+                h3.pie-chart-title Fire Alerts in</br> PROTECTED</br> AREAS
+                div#protected-areas-fires-chart(class='chart small-legend-text')
 
-            div.fire-history__chart
+            div#moratorium-fires-chart-container(class='chart-container pull-right')
+              div.chart-wrapper
+                h3.pie-chart-title.indicative-moratorium-area Portion of Fires</br> OCCURING IN AN</br> INDICATIVE MORATORIUM</br> AREA
+                div#moratorium-fires-chart(class='chart')
 
-          div#section-eight(class='page-break')
+            div#peat-fires-chart-container(class='chart-container pull-left')
+              div.chart-wrapper
+                h3.pie-chart-title Portion of Fires</br> OCCURING ON</br> PEATLAND
+                div#peat-fires-chart(class='chart')
 
-            //- div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
-            //- div(class='sub-title')
-            div(id='disclaimer' class='no-break')
-              p WRI used NASA’s Active Fire Data to determine the likely location of fires on the ground. This system uses the NASA MODIS satellites that survey the entire earth every 1-2 days. The sensors on these satellites detect the heat signatures of fires within the infrared spectral band. When the satellite imagery is processed, an algorithm searches for fire-like signatures. When a fire is detected, the system indicates the 1 km2 where the fire occurred with an “alert.” The system will nearly always detect fires of 1,000 m2 in size, but under ideal conditions, can detect flaming fires as small as 50 m2. Since each satellite passes over the equator twice a day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
-              p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
-              p Sources:
-              p NASA FIRMS FAQ Morton, D., R. DeFries, J. T. Randerson, L. Giglio, W. Schroeder, and G. van der Werf. 2008. Agricultural intensification increases deforestation fire activity in Amazonia. Global Change Biology 14:2262-2276.
-              p Data Sources for Figures:
-              p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
-              p Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)
+        div#fireHistory
+          h3.fire-history__title
+            | FIRE HISTORY
+            strong 2012-Present
+          h4.fire-history__region
+            | Region:
+            strong Indonesia
+
+          div.fire-history__chart
+
+        div#section-eight(class='page-break')
+
+          //- div(class='section-title') Figure 6: RSPO CERTIFIED CONCESSIONS WITH FIRE ALERTS
+          //- div(class='sub-title')
+          div(id='disclaimer' class='no-break')
+            p WRI used NASA’s Active Fire Data to determine the likely location of fires on the ground. This system uses the NASA MODIS satellites that survey the entire earth every 1-2 days. The sensors on these satellites detect the heat signatures of fires within the infrared spectral band. When the satellite imagery is processed, an algorithm searches for fire-like signatures. When a fire is detected, the system indicates the 1 km2 where the fire occurred with an “alert.” The system will nearly always detect fires of 1,000 m2 in size, but under ideal conditions, can detect flaming fires as small as 50 m2. Since each satellite passes over the equator twice a day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
+            p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
+            p Sources:
+            p NASA FIRMS FAQ Morton, D., R. DeFries, J. T. Randerson, L. Giglio, W. Schroeder, and G. van der Werf. 2008. Agricultural intensification increases deforestation fire activity in Amazonia. Global Change Biology 14:2262-2276.
+            p Data Sources for Figures:
+            p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
+            p Administrative boundaries from GADM and Center for International Forestry Research (CIFOR)
 
     script.
       var base = location.pathname.replace(/\/[^/]+$/, '/');
