@@ -91,6 +91,7 @@ html, body
 
 .map-container.map-legend
   display: flex;
+  position: relative
 
   .legend-container
     font-size 14px
@@ -129,9 +130,8 @@ html, body
 //--------------
 .report-section__map-container {
   display: flex;
-  padding: 1.5em 0;
   margin-top: 1em;
-  padding-top: 1.5em;
+  padding-top: 1em;
   border-top: 1px solid #FFCECB;
 }
 
@@ -151,14 +151,16 @@ html, body
 
 .report-section__title
   margin 0
-  height: 2rem;
+  //height: 2rem;
   font-size: 1.3rem;
   font-weight: 300
 
 .two-rows
-  height: 3.6rem;
+  //height: 3.6rem;
+  //white-space: nowrap;
   text-align: left;
-  white-space: nowrap;
+  padding-bottom: .25em !important
+
 
 .legend-swatch
 //border 1px solid black
@@ -236,6 +238,52 @@ html, body
 
 .legend-title
   max-width 160px
+
+//--------------
+// Section Container
+//--------------
+.section-title
+  font-size: 2rem
+  font-family: 'Fira Sans', Georgia, serif
+  font-weight: 300
+  line-height: 1em;
+  margin-top: .5em
+  margin-bottom: 0
+
+.break-raw
+  font-size: 24px;
+  font-weight: 400
+
+.table-cell-bar__container
+  display: flex;
+  box-sizing: border-box;
+  height: 30px;
+  width: 100px;
+  text-align: left !important
+  padding: 0 !important
+  align-items: center;
+  justify-content: flex-start;
+  border-bottom: 0px solid !important;
+
+.table-cell-bar__item
+  line-height: 30px;
+  height: 4px;
+  display: inline-block;
+  background-color: #D40000;
+  border-bottom: 1px solid red;
+
+
+//----------------------------
+// Concession RSPO Container
+//----------------------------
+#ConcessionRspoContainer
+  display: flex;
+  justify-content: space-around;
+  font-size: 15px;
+
+.vertical-devider
+  width: 1px;
+  background: #ffcecb;
 
 //--------------
 // Chart Container
@@ -320,14 +368,17 @@ html, body
 //.fires-table th:last-child
 //  background-color #e89927
 
+.fires-table tr
+
 .fires-table td
-  padding 5px 15px 5px 0
-  color #7A777B
   border-bottom 1px solid #E7E4E4
+  padding 5px 10px
+  color #7A777B
 
 .fires-table th:first-child
 .fires-table td:first-child
   text-align left
+  padding-left: 10px
 
 .fires-table .number-column
   min-width 50px
@@ -377,7 +428,9 @@ html, body
 // Report Charts section
 //--------------
 .report-section__charts-container {
-  padding-top: 2em;
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #ffcecb;
 //background: rgba(255, 0, 0, 0.02);
 }
 
@@ -414,6 +467,10 @@ tspan {
   .pull-left {
     justify-content: flex-start;
   }
+
+  .report-section__map-container {
+    padding: 1.5em 0;
+  }
 }
 
 @media screen and (max-width: 960px) {
@@ -430,11 +487,32 @@ tspan {
   }
 
   .report-section__title {
-    padding: 0 0.75em;
+    padding: 0 0 0 .5em;
   }
 
   .two-rows:empty {
     display: none
+  }
+
+  #ConcessionRspoContainer {
+    flex-direction column
+  }
+
+  .report-section__map {
+    order: -1;
+  }
+
+  .section-title {
+    padding-left: .25em
+  }
+
+  .vertical-devider {
+    display none
+  }
+
+  .fire-line-chart {
+    width 100%
+    height: 400px;
   }
 }
 
@@ -462,6 +540,22 @@ tspan {
 
   .pie-chart-title br {
     display: none
+  }
+
+  #firesCountContainer #firesCountChart {
+    width 100%
+    height 350px
+  }
+
+  #firesCountContainer {
+    flex-direction column
+  }
+
+  .map-container.map-legend .legend-container {
+    position: absolute
+    bottom 3px
+    z-index 100
+    color: #fff
   }
 
 }
@@ -496,3 +590,176 @@ tspan {
 
 .text-center
   text-align: center;
+
+#firesCountContainer
+  display: flex
+
+#firesCountChart
+  margin-top: 1em
+  height: 400px
+  width calc( 100% - 185px)
+
+#firesCountIslandsListContainer
+  width 185px
+  padding 0 1em
+
+  .selected
+    color: #f88900
+
+  h3
+    margin: .5em 0;
+    cursor pointer
+    font-size: 1rem
+    font-weight normal
+    padding .2em .4em
+
+    strong
+      font-size: 1.5rem
+      font-weight normal
+
+  h3:hover
+    background-color rgba(204, 204, 204, 0.3)
+
+#firesCountIslandsList
+  list-style-type:circle
+  max-height: 320px;
+  overflow: auto;
+  margin 0
+  padding-left: 2em;
+
+  li
+    padding .2em .5em
+    margin .2em 0
+    cursor pointer
+
+  li:hover
+    background-color rgba(204, 204, 204, 0.3)
+
+#firesCountTitle
+  font-weight: normal
+  font-size: 24px;
+  margin: .5em 0
+
+  .total_firecounts
+    color: #F88900
+    font-size: 35px;
+
+.highcharts-legend-item
+  padding: .5em;
+  font-family: 'Fira Sans', Georgia, serif;
+
+  text
+    font-weight: normal !important
+    padding: .25em 0
+    font-size: 14px !important
+
+#fireHistory
+  border-top 1px solid #ffcecb
+
+.fire-history__title
+  font-size: 24px;
+  font-weight: normal
+  text-align: center
+
+  strong
+    padding-left: 10px
+    font-size: .8em
+
+.fire-history__chart
+  max-width 550px
+  max-height 350px
+  height 350px
+  margin: auto
+
+.history-chart-tooltip__container
+  color #fff
+  padding: .5em
+  font-family: 'Fira Sans', Georgia, serif;
+
+.history-chart-tooltip__content
+  margin 0
+  font-weight: normal
+  font-size: 30px
+
+  span
+    font-size: 14px
+
+.history-chart-tooltip__year
+  margin 0
+  font-weight: normal
+  color: #666666
+  font-size: 20px
+
+
+.fire-history__region
+  font-size: 1rem
+  width: 550px
+  margin: auto
+  font-weight: normal
+  text-transform uppercase
+
+  strong
+    font-size: 2rem
+    text-transform none
+    font-weight: normal
+    padding-left: 5px
+
+.table-color-switch
+  display: block;
+  width: 12px;
+  height: 12px;
+  margin: auto;
+  border-radius: 50%;
+
+.table-cell
+  text-align: center;
+  padding: 5px 10px;
+
+.table-cell.regular
+  text-align: left;
+
+
+// TODO: remove old tables
+#pulpwood-fires-table
+#palmoil-fires-table
+#logging-fires-table
+.sub-title.consession
+  display: none
+
+.align-left
+  text-align: left;
+  padding-left: 10px;
+
+.concession-fires-counts__table
+  border-collapse: collapse;
+  margin: 20px auto 0;
+  color: #7a777b;
+
+  thead
+    border-bottom: 1px solid #888;
+
+    th
+      font-weight: normal
+
+    .consession__name
+      text-align left
+      padding-left 10px
+
+    .consession__number
+      padding 0 10px
+
+  tbody
+    .concession__name
+    .concession__count
+      padding: 0 10px
+
+    tr
+      border-bottom: 1px solid #e7e4e4
+
+#section-five
+#section-six
+  margin-bottom: 1em
+
+// TODO: show container after real content is is place
+#section-one .report-section__content
+  display none
