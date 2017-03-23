@@ -284,8 +284,8 @@ define([
                 self.queryDistrictsFireCount("loggingQuery"),
                 self.queryDistrictsFireCount("rspoQuery"),
 
-                self.queryFiresBreakdown(),
-                self.queryFireCount('concessionsQuery'),
+                // self.queryFiresBreakdown(),
+                // self.queryFireCount('concessionsQuery'),
                 // self.queryDistrictsForFires('adminQuery'),
                 // self.queryDistrictsForFires('subDistrictQuery'),
                 // self.queryCompanyConcessions()
