@@ -146,43 +146,45 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
 
         _request2.default.upload(_config.uploadConfig.portal, content, _this.refs.upload).then(function (response) {
           if (response.featureCollection) {
-            var graphics = _geometryUtils2.default.generatePolygonsFromUpload(response.featureCollection);
-            // const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
-            var uploadedFeats = [];
+            (function () {
+              var graphics = _geometryUtils2.default.generatePolygonsFromUpload(response.featureCollection);
+              // const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
+              var uploadedFeats = [];
 
-            response.featureCollection.layers[0].layerDefinition.fields.forEach(function (field) {
-              uploadedFeats.push({
-                name: field.name,
-                id: field.alias
+              response.featureCollection.layers[0].layerDefinition.fields.forEach(function (field) {
+                uploadedFeats.push({
+                  name: field.name,
+                  id: field.alias
+                });
               });
-            });
 
-            _this.setState({
-              isUploading: false,
-              fieldSelectionShown: true,
-              fields: uploadedFeats,
-              uploadedGraphics: graphics
-            });
+              _this.setState({
+                isUploading: false,
+                fieldSelectionShown: true,
+                fields: uploadedFeats,
+                uploadedGraphics: graphics
+              });
 
-            // new ComboBox({
-            //   id: 'upload-fields-input',
-            //   value: '-- Choose name field --',
-            //   store: store,
-            //   searchAttr: 'name',
-            //   onChange: (name) => {
-            //     if (name) {
-            //       self.addFeaturesToMap(name, response.featureCollection.layers[0].featureSet);
-            //       this.resetView();
-            //     }
-            //   }
-            // }, 'upload-fields-input');
+              // new ComboBox({
+              //   id: 'upload-fields-input',
+              //   value: '-- Choose name field --',
+              //   store: store,
+              //   searchAttr: 'name',
+              //   onChange: (name) => {
+              //     if (name) {
+              //       self.addFeaturesToMap(name, response.featureCollection.layers[0].featureSet);
+              //       this.resetView();
+              //     }
+              //   }
+              // }, 'upload-fields-input');
 
-            // app.map.setExtent(graphicsExtent, true);
-            // graphics.forEach((graphic) => {
-            //   graphic.attributes.Layer = 'custom';
-            //   graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
-            //   app.map.graphics.add(graphic);
-            // });
+              // app.map.setExtent(graphicsExtent, true);
+              // graphics.forEach((graphic) => {
+              //   graphic.attributes.Layer = 'custom';
+              //   graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
+              //   app.map.graphics.add(graphic);
+              // });
+            })();
           } else {
             _this.setState({
               fieldSelectionShown: false,

@@ -160,30 +160,32 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
 
 					return;
 				} else {
-					var _fade = function _fade() {
-						if (i === fireHistoryOptions.length) {
-							playing = false;
-							document.getElementById('timelinePlayer').classList.remove('playing');
-							i = 0;
-							return;
-						}
+					(function () {
+						var fade = function fade() {
+							if (i === fireHistoryOptions.length) {
+								playing = false;
+								document.getElementById('timelinePlayer').classList.remove('playing');
+								i = 0;
+								return;
+							}
 
-						_LayerActions.layerActions.changeFireHistoryTimeline(i);
+							_LayerActions.layerActions.changeFireHistoryTimeline(i);
 
-						if (playing === true) {
-							win.requestAnimationFrame(_fade);
-						} else {
-							document.getElementById('timelinePlayer').classList.remove('playing');
-							i = 0;
-							return;
-						}
-						i++;
-					};
+							if (playing === true) {
+								win.requestAnimationFrame(fade);
+							} else {
+								document.getElementById('timelinePlayer').classList.remove('playing');
+								i = 0;
+								return;
+							}
+							i++;
+						};
 
-					evt.target.classList.add('playing');
-					playing = true;
+						evt.target.classList.add('playing');
+						playing = true;
 
-					win.requestAnimationFrame(_fade);
+						win.requestAnimationFrame(fade);
+					})();
 				}
 			}
 		}]);
