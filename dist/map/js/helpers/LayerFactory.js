@@ -56,16 +56,14 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         imageParameters.layerIds = layer.layerIds;
         imageParameters.format = 'png32';
         if (layer.defaultDefinitionExpression) {
-          (function () {
-            var layerDefs = [];
-            // layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
-            // imageParameters.layerDefinitions = layerDefs;
+          var layerDefs = [];
+          // layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
+          // imageParameters.layerDefinitions = layerDefs;
 
-            layer.layerIds.forEach(function (val) {
-              layerDefs[val] = layer.defaultDefinitionExpression;
-            });
-            imageParameters.layerDefinitions = layerDefs;
-          })();
+          layer.layerIds.forEach(function (val) {
+            layerDefs[val] = layer.defaultDefinitionExpression;
+          });
+          imageParameters.layerDefinitions = layerDefs;
         }
         // Populate the options and then add the layer
         options.id = layer.id;
