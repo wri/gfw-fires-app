@@ -5,30 +5,8 @@ import FireHistoryLegend from 'components/LayerPanel/FireHistoryLegend';
 import React from 'react';
 
 let fireHistoryOptions = layerPanelText.fireHistoryOptions;
-let playing = false;
-
-let win = {};
-win.requestAnimationFrame = (function () {
-	return win.requestAnimationFrame ||
-		win.webkitRequestAnimationFrame ||
-		win.mozRequestAnimationFrame ||
-		win.oRequestAnimationFrame ||
-		win.msRequestAnimationFrame ||
-		function (callback) {
-			window.setTimeout(callback, 1500);
-		};
-})();
-let i = 0;
-
-export type FireHistoryProps = {
-  storyMode: bool,
-  fireHistorySelectIndex: number
-};
 
 export default class FireHistoryTimeline extends React.Component {
-
-	props: FireHistoryProps;
-  displayName: 'FireHistoryTimeline';
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.fireHistorySelectIndex !== this.props.fireHistorySelectIndex) {
@@ -69,44 +47,6 @@ export default class FireHistoryTimeline extends React.Component {
 
 	updateFireHistoryDefinitions (evt) {
 		layerActions.changeFireHistoryTimeline(evt.target.selectedIndex);
-	}
-
-	toggleTimeline (evt) {
-		if (evt.target.classList.contains('playing')) {
-			evt.target.classList.remove('playing');
-			playing = false;
-			setTimeout(function () {
-				i = 0; //timeout b/c the last requestAnimationFrame is still firing! If we can stop it, we can remove this setTimeout
-			}, 1500); //todo: use interval and clearinterval
-
-			return;
-		} else {
-			evt.target.classList.add('playing');
-			playing = true;
-
-			function fade() {
-				if (i === fireHistoryOptions.length) {
-					playing = false;
-					document.getElementById('timelinePlayer').classList.remove('playing');
-					i = 0;
-					return;
-				}
-
-				layerActions.changeFireHistoryTimeline(i);
-
-				if (playing === true) {
-					win.requestAnimationFrame(fade);
-				} else {
-					document.getElementById('timelinePlayer').classList.remove('playing');
-					i = 0;
-					return;
-				}
-				i++;
-			}
-
-			win.requestAnimationFrame(fade);
-		}
-
 	}
 
 }
