@@ -382,7 +382,6 @@ export const config = {
     },
     {
       id: KEYS.fireHistory,
-      //id: 'firesHistory2001',
       order: 8,
       type: 'image',
       label: 'Fire history',
@@ -390,7 +389,8 @@ export const config = {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
+      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
