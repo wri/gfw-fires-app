@@ -6,7 +6,14 @@ import React from 'react';
 
 let fireHistoryOptions = layerPanelText.fireHistoryOptions;
 
+export type FireHistoryProps = {
+	fireHistorySelectIndex: number
+};
+
 export default class FireHistoryTimeline extends React.Component {
+
+	props: FireHistoryProps;
+	displayName: 'FireHistoryTimeline';
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.fireHistorySelectIndex !== this.props.fireHistorySelectIndex) {
@@ -34,9 +41,9 @@ export default class FireHistoryTimeline extends React.Component {
         <select className='pointer' value={this.props.fireHistorySelectIndex} onChange={this.updateFireHistoryDefinitions}>
           {fireHistoryOptions.map(this.optionsMap, this)}
           </select>
-				<div className={`history-play backward ${this.props.fireHistorySelectIndex === 0 ? 'disable': ''}`} onClick={this.decreaseFireHistoryYear}></div>
+				<div className={`history-play backward ${this.props.fireHistorySelectIndex === 0 ? 'disable' : ''}`} onClick={this.decreaseFireHistoryYear}></div>
         <div className='fires-history-cover-control gfw-btn sml white'>{activeItem.label}</div>
-				<div className={`history-play ${this.props.fireHistorySelectIndex === 14 ? 'disable': ''}`} onClick={this.increaseFireHistoryYear}></div>
+				<div className={`history-play ${this.props.fireHistorySelectIndex === 14 ? 'disable' : ''}`} onClick={this.increaseFireHistoryYear}></div>
       </div>
     </div>;
 	}
