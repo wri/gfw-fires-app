@@ -613,17 +613,10 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
         _ShareHelper2.default.handleHashChange();
         return;
-      } else if (layerObj.layerId === _constants2.default.fireHistory) {
-        var date = 2001 + layerObj.fireHistorySelectIndex;
-        var layerTitle = 'firesHistory' + date;
-        var activeFireHistory = _config.layersConfig.filter(function (layer) {
-          return layer && layer.id === layerTitle;
-        });
-        layerObj.layerId = activeFireHistory[0].id;
       }
+
       var layer = app.map.getLayer(layerObj.layerId);
-      console.log(layer);
-      console.log(layerObj);
+      console.log(layer, layerObj);
       if (layer) {
         layer.show();
       }
@@ -664,16 +657,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         _ShareHelper2.default.handleHashChange();
         return;
-      } else if (layerId === _constants2.default.fireHistory) {
-        var layers = _config.layersConfig.filter(function (layer) {
-          return layer && layer.label === 'Fire history';
-        });
-
-        layers.forEach(function (layer) {
-          var firesHistoryLayer = app.map.getLayer(layer.id);
-          firesHistoryLayer.hide();
-        });
       }
+
       var layer = app.map.getLayer(layerId);
       if (layer) {
         layer.hide();
@@ -778,25 +763,12 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
-      var layers = _config.layersConfig.filter(function (layer) {
-        return layer && layer.label === 'Fire history';
-      });
-      var date = 2001 + index;
-      var layerTitle = 'firesHistory' + date;
-      var activeFireHistory = _config.layersConfig.filter(function (layer) {
-        return layer && layer.id === layerTitle;
-      });
-      var activeFireHistoryLayer = app.map.getLayer(activeFireHistory[0].id);
-
-      layers.forEach(function (layer) {
-        if (layer.id !== layerTitle) {
-          var firesHistoryLayer = app.map.getLayer(layer.id);
-          _on2.default.once(activeFireHistoryLayer, 'update-end', function () {
-            firesHistoryLayer.hide();
-          });
-        }
-      });
-      activeFireHistoryLayer.show();
+      // FOR SERVICE http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer
+      var firesHistory = app.map.getLayer(_constants2.default.fireHistory);
+      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
+      if (firesHistory) {
+        firesHistory.setDefinitionExpression("Name = '" + value + "'");
+      }
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');
