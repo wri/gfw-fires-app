@@ -346,7 +346,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }
     }, {
       id: _constants2.default.fireHistory,
-      //id: 'firesHistory2001',
       order: 8,
       type: 'image',
       label: 'Fire history',
@@ -354,114 +353,15 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
+      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
         childDomClass: 'risk-subsettings',
         label: 'Select a date'
       }
-    }, {
-      id: 'firesHistory2002',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      sublabel: '(2001-2015, Indonesia)',
-      opacity: 0.8,
-      className: 'fire-history',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2002/ImageServer',
-      metadataId: 'idn_fire_history'
-    }, {
-      id: 'firesHistory2003',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2003/ImageServer'
-    }, {
-      id: 'firesHistory2004',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2004/ImageServer'
-    }, {
-      id: 'firesHistory2005',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2005/ImageServer'
-    }, {
-      id: 'firesHistory2006',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2006/ImageServer'
-    }, {
-      id: 'firesHistory2007',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2007/ImageServer'
-    }, {
-      id: 'firesHistory2008',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2008/ImageServer'
-    }, {
-      id: 'firesHistory2009',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2009/ImageServer'
-    }, {
-      id: 'firesHistory2010',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2010/ImageServer'
-    }, {
-      id: 'firesHistory2011',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2011/ImageServer'
-    }, {
-      id: 'firesHistory2012',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2012/ImageServer'
-    }, {
-      id: 'firesHistory2013',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2013/ImageServer'
-    }, {
-      id: 'firesHistory2014',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2014/ImageServer'
-    }, {
-      id: 'firesHistory2015',
-      order: 8,
-      type: 'image',
-      label: 'Fire history',
-      opacity: 0.8,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2015/ImageServer'
     }, {
       id: _constants2.default.fireWeather,
       order: 8,

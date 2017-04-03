@@ -66,15 +66,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
 	}
 
 	var fireHistoryOptions = _config.layerPanelText.fireHistoryOptions;
-	var playing = false;
-
-	var win = {};
-	win.requestAnimationFrame = function () {
-		return win.requestAnimationFrame || win.webkitRequestAnimationFrame || win.mozRequestAnimationFrame || win.oRequestAnimationFrame || win.msRequestAnimationFrame || function (callback) {
-			window.setTimeout(callback, 1500);
-		};
-	}();
-	var i = 0;
 
 	var FireHistoryTimeline = function (_React$Component) {
 		_inherits(FireHistoryTimeline, _React$Component);
@@ -147,46 +138,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
 			key: 'updateFireHistoryDefinitions',
 			value: function updateFireHistoryDefinitions(evt) {
 				_LayerActions.layerActions.changeFireHistoryTimeline(evt.target.selectedIndex);
-			}
-		}, {
-			key: 'toggleTimeline',
-			value: function toggleTimeline(evt) {
-				if (evt.target.classList.contains('playing')) {
-					evt.target.classList.remove('playing');
-					playing = false;
-					setTimeout(function () {
-						i = 0; //timeout b/c the last requestAnimationFrame is still firing! If we can stop it, we can remove this setTimeout
-					}, 1500); //todo: use interval and clearinterval
-
-					return;
-				} else {
-					(function () {
-						var fade = function fade() {
-							if (i === fireHistoryOptions.length) {
-								playing = false;
-								document.getElementById('timelinePlayer').classList.remove('playing');
-								i = 0;
-								return;
-							}
-
-							_LayerActions.layerActions.changeFireHistoryTimeline(i);
-
-							if (playing === true) {
-								win.requestAnimationFrame(fade);
-							} else {
-								document.getElementById('timelinePlayer').classList.remove('playing');
-								i = 0;
-								return;
-							}
-							i++;
-						};
-
-						evt.target.classList.add('playing');
-						playing = true;
-
-						win.requestAnimationFrame(fade);
-					})();
-				}
 			}
 		}]);
 

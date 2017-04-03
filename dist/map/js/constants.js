@@ -23,7 +23,7 @@ define(['exports'], function (exports) {
     noaa18Fires: 'noaa18Fires',
     burnScars: 'burnScars',
     fireWeather: 'fireWeather',
-    fireHistory: 'firesHistory2001',
+    fireHistory: 'fireHistory',
     lastRainfall: 'lastRainfall',
     crowdsourcedFires: 'crowdsourcedFires',
     loggingConcessions: 'loggingConcessions',
