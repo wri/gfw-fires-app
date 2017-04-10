@@ -41,11 +41,11 @@ export default class FiresControls extends React.Component {
 
     return <div>
       <div className='timeline-container relative fires'>
-        <select className='pointer select-modis' value={activeItem.value} onChange={this.changeFiresTimeline}>
+        <select id='modis-time-options' className='pointer select-modis' value={activeItem.value} onChange={this.changeFiresTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
-        <div className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
+        <div id='modis-custom-range-btn' className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleModisArchive.bind(this)}>Custom Range</div>
       </div>
       <div id='modis-archive-date-ranges' className={showModisArchive}>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -56,8 +56,9 @@ export default class FiresControls extends React.Component {
     </div>;
   }
 
-  toggleViirsArchive () {
+  toggleModisArchive (evt) {
     this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
+    evt.target.classList.add('darken');
   }
 
   optionsMap (item, index) {
@@ -65,12 +66,17 @@ export default class FiresControls extends React.Component {
   }
 
   changeFiresTimeline (evt) {
-    console.log('reached changeFiresTimeline')
     layerActions.changeFiresTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.modisArchive);
     let layerObj = {};
 		layerObj.layerId = KEYS.activeFires;
 		LayersHelper.showLayer(layerObj);
+
+    document.getElementById('modis-custom-range-btn').classList.remove('darken');
+
+    if (this.state.modisArchiveVisible === true) {
+      this.setState({ modisArchiveVisible: false });
+    }
   }
 
   changeStart() {

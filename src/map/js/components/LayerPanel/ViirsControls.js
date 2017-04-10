@@ -45,11 +45,11 @@ export default class ViirsControls extends React.Component {
 
     return <div>
       <div className='timeline-container fires'>
-        <select className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline}>
+        <select id='viirs-time-options' className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
-        <div className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
+        <div id='viirs-custom-range-btn' className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
       </div>
       <div id='viirs-archive-date-ranges' className={showViirsArchive}>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -62,6 +62,7 @@ export default class ViirsControls extends React.Component {
 
   toggleViirsArchive () {
     this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
+    evt.target.classList.add('darken');
   }
 
   toggleConfidence (evt) {
@@ -78,6 +79,12 @@ export default class ViirsControls extends React.Component {
     let layerObj = {};
 		layerObj.layerId = KEYS.viirsFires;
 		LayersHelper.showLayer(layerObj);
+
+    document.getElementById('viirs-custom-range-btn').classList.remove('darken');
+
+    if (this.state.viirsArchiveVisible === true) {
+      this.setState({ viirsArchiveVisible: false });
+    }
   }
 
 
