@@ -836,7 +836,7 @@ export const config = {
         { id: 'dg-00', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer', mosaic: 'WV01' },
         { id: 'dg-01', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer', mosaic: 'QB01' },
         { id: 'dg-02', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer', mosaic: 'WV02' },
-        { id: 'dg-03', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GEO1/ImageServer', mosaic: 'GEO1' },
+        { id: 'dg-03', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GE01/ImageServer', mosaic: 'GEO1' },
         { id: 'dg-04', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer', mosaic: 'WV03' },
         { id: 'dg-05', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
       ],
@@ -884,7 +884,7 @@ export const config = {
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GEO1/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GE01/ImageServer'
     },
     {
       id: KEYS.digitalGlobe3,

@@ -719,7 +719,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.digitalGlobe,
       order: 5,
       subLayers: [_constants2.default.digitalGlobe0, _constants2.default.digitalGlobe1, _constants2.default.digitalGlobe2, _constants2.default.digitalGlobe3, _constants2.default.digitalGlobe4],
-      imageServices: [{ id: 'dg-00', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GEO1/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
+      imageServices: [{ id: 'dg-00', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GE01/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
       type: 'image',
       label: 'Digital Globe - First Look',
       mosaic: 'WV01',
@@ -761,7 +761,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GEO1/ImageServer'
+      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GE01/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe3,
       type: 'image',
