@@ -3,7 +3,7 @@ import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
-import Chosen from 'chosen';
+import chosen from 'chosen';
 
 // const $ = require('jquery');
 

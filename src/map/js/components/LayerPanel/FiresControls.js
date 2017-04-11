@@ -41,10 +41,10 @@ export default class FiresControls extends React.Component {
 
     return <div>
       <div className='timeline-container relative fires'>
-        <select id='modis-time-options' className='pointer select-modis' value={activeItem.value} onChange={this.changeFiresTimeline.bind(this)}>
+        <select className='pointer select-modis' value={activeItem.value} onChange={this.changeFiresTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
-        <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
+        <div id='modis-time-options' className='active-fires-control gfw-btn sml white darken'>{activeItem.label}</div>
         <div id='modis-custom-range-btn' className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleModisArchive.bind(this)}>Custom Range</div>
       </div>
       <div id='modis-archive-date-ranges' className={showModisArchive}>
@@ -57,8 +57,10 @@ export default class FiresControls extends React.Component {
   }
 
   toggleModisArchive (evt) {
+    this.props.firesSelectIndex = 0;
     this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
     evt.target.classList.add('darken');
+    document.getElementById('modis-time-options').classList.remove('darken');
   }
 
   optionsMap (item, index) {
@@ -66,6 +68,8 @@ export default class FiresControls extends React.Component {
   }
 
   changeFiresTimeline (evt) {
+    if (evt.target.selectedIndex === 0) { return; }
+
     layerActions.changeFiresTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.modisArchive);
     let layerObj = {};
@@ -73,6 +77,7 @@ export default class FiresControls extends React.Component {
 		LayersHelper.showLayer(layerObj);
 
     document.getElementById('modis-custom-range-btn').classList.remove('darken');
+    document.getElementById('modis-time-options').classList.add('darken');
 
     if (this.state.modisArchiveVisible === true) {
       this.setState({ modisArchiveVisible: false });

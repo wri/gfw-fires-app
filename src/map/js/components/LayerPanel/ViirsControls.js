@@ -6,8 +6,6 @@ import DateHelper from 'helpers/DateHelper';
 import {mapActions} from 'actions/MapActions';
 import KEYS from 'js/constants';
 
-
-
 import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
@@ -34,21 +32,17 @@ export default class ViirsControls extends React.Component {
   }
 
   render () {
-
-
     let activeItem = firesOptions[this.props.viiirsSelectIndex];
-
     let startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
     let endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
-
     let showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';
 
     return <div>
       <div className='timeline-container fires'>
-        <select id='viirs-time-options' className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
+        <select className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
-        <div className='active-fires-control gfw-btn sml white'>{activeItem.label}</div>
+        <div id='viirs-time-options' className='active-fires-control gfw-btn sml white darken'>{activeItem.label}</div>
         <div id='viirs-custom-range-btn' className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
       </div>
       <div id='viirs-archive-date-ranges' className={showViirsArchive}>
@@ -60,9 +54,11 @@ export default class ViirsControls extends React.Component {
     </div>;
   }
 
-  toggleViirsArchive () {
+  toggleViirsArchive (evt) {
+    this.props.viiirsSelectIndex = 0;
     this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
     evt.target.classList.add('darken');
+    document.getElementById('viirs-time-options').classList.remove('darken');
   }
 
   toggleConfidence (evt) {
@@ -74,6 +70,8 @@ export default class ViirsControls extends React.Component {
   }
 
   changeViirsTimeline (evt) {
+    if (evt.target.selectedIndex === 0) { return; }
+
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.viirsArchive);
     let layerObj = {};
@@ -81,6 +79,7 @@ export default class ViirsControls extends React.Component {
 		LayersHelper.showLayer(layerObj);
 
     document.getElementById('viirs-custom-range-btn').classList.remove('darken');
+    document.getElementById('viirs-time-options').classList.add('darken');
 
     if (this.state.viirsArchiveVisible === true) {
       this.setState({ viirsArchiveVisible: false });

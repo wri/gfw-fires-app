@@ -1076,7 +1076,7 @@ export const config = {
         {label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer'}
       ],
       firesOptions: [
-
+        {label: 'Active Fires', value: 0},
         {label: 'Past 24 hours', value: 1},
         {label: 'Past 48 hours', value: 2},
         {label: 'Past 72 hours', value: 3},

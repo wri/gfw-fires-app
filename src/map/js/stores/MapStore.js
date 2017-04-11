@@ -43,10 +43,10 @@ class MapStore {
     this.activeDG = undefined;
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
-    this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
+    this.firesSelectIndex = 1; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
-    this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+    this.viiirsSelectIndex = 1; //layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.fireHistorySelectIndex = 14;
     this.layerPanelVisible = app.mobile === false;
