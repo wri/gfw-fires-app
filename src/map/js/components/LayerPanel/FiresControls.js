@@ -57,7 +57,6 @@ export default class FiresControls extends React.Component {
   }
 
   toggleModisArchive (evt) {
-    this.props.firesSelectIndex = 0;
     this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
     evt.target.classList.add('darken');
     document.getElementById('modis-time-options').classList.remove('darken');
@@ -68,8 +67,6 @@ export default class FiresControls extends React.Component {
   }
 
   changeFiresTimeline (evt) {
-    if (evt.target.selectedIndex === 0) { return; }
-
     layerActions.changeFiresTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.modisArchive);
     let layerObj = {};

@@ -40,7 +40,13 @@ export default class GlobalCountryReport extends React.Component {
 
     let countriesList = null;
     if (this.props.countries.length > 0) {
-      countriesList = this.props.countries.map((country) => { return (<option value={country}>{country}</option>); });
+      countriesList = this.props.countries.map((country, idx) => {
+        if (idx < 4) {
+          return (<option selected value={country}>{country}</option>);
+        } else {
+          return (<option value={country}>{country}</option>);
+        }
+      });
     }
 
     return (

@@ -55,7 +55,6 @@ export default class ViirsControls extends React.Component {
   }
 
   toggleViirsArchive (evt) {
-    this.props.viiirsSelectIndex = 0;
     this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
     evt.target.classList.add('darken');
     document.getElementById('viirs-time-options').classList.remove('darken');
@@ -70,8 +69,6 @@ export default class ViirsControls extends React.Component {
   }
 
   changeViirsTimeline (evt) {
-    if (evt.target.selectedIndex === 0) { return; }
-
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.viirsArchive);
     let layerObj = {};
