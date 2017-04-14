@@ -5,7 +5,6 @@ import {layerPanelText} from 'js/config';
 import DateHelper from 'helpers/DateHelper';
 import {mapActions} from 'actions/MapActions';
 import KEYS from 'js/constants';
-
 import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
@@ -40,6 +39,7 @@ export default class ViirsControls extends React.Component {
     return <div>
       <div className='timeline-container fires'>
         <select className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
+          <option disabled selected value> -- select an option -- </option>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div id='viirs-time-options' className='active-fires-control gfw-btn sml white darken'>{activeItem.label}</div>

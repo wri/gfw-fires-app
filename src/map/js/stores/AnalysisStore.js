@@ -27,6 +27,7 @@ class AnalysisStore {
     this.islands = [];
     this.provinces = [];
     this.countries = [];
+    this.adm1 = [];
 
     this.bindListeners({
       setAnalysisType: analysisActions.setAnalysisType,
@@ -133,6 +134,8 @@ class AnalysisStore {
     this.islands = areas.islands;
     this.provinces = areas.provinces;
     this.countries = areas.countries;
+    this.adm1 = areas.adm1;
+
   }
 
   toggleAreaIslandsActive() {

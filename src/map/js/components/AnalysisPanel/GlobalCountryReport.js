@@ -10,7 +10,10 @@ export default class GlobalCountryReport extends React.Component {
   constructor (props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
-    this.state = { localErrors: false, ...mapStore.getState() };
+    this.state = {
+      localErrors: false,
+      currentCountry: '',
+      ...mapStore.getState() };
   }
 
   storeUpdated () {
@@ -24,14 +27,21 @@ export default class GlobalCountryReport extends React.Component {
     calendar.subscribe('change', function (date) {
       console.debug(date);
     });
+
+    $('#countries').on('change', (evt) => {
+      this.applyCountryFilter(evt);
+    });
   }
 
   componentDidUpdate (prevProps, prevState) {
     if (prevProps.countries.length === 0 && this.props.countries.length > 0) {
       $('#countries').chosen();
+      $('#global-adm1').chosen();
     } else if (this.props.customizeCountryOpen === true && prevProps.customizeCountryOpen === false) {
       $('#countries').chosen('destroy');
       $('#countries').chosen();
+      $('#global-adm1').chosen('destroy');
+      $('#global-adm1').chosen();
     }
   }
 
@@ -40,13 +50,14 @@ export default class GlobalCountryReport extends React.Component {
 
     let countriesList = null;
     if (this.props.countries.length > 0) {
-      countriesList = this.props.countries.map((country, idx) => {
-        if (idx < 4) {
-          return (<option selected value={country}>{country}</option>);
-        } else {
-          return (<option value={country}>{country}</option>);
-        }
+      countriesList = this.props.countries.map((country) => {
+        return (<option value={country}>{country}</option>);
       });
+    }
+
+    if (this.state.currentCountry) {
+      let adm1Areas = this.props.adm1.filter((o) => { return o.NAME_0 === this.state.currentCountry; });
+      console.log(adm1Areas);
     }
 
     return (
@@ -56,10 +67,15 @@ export default class GlobalCountryReport extends React.Component {
           <span className='analysis-toggle'>{this.props.customizeCountryOpen ? ' ▼' : ' ►'}</span>
         </p>
         <div className={`customize-options ${this.props.customizeCountryOpen === true ? '' : 'hidden'}`}>
-          <p>{analysisPanelText.analysisCountryChooseData}</p>
           <div className={'padding'}>
-            <select multiple id='countries' className={`chosen-select-no-single fill__wide`}>
+            <select id='countries' className={`chosen-select-no-single fill__wide`} >
+              <option disabled selected value>Choose a country</option>
               {countriesList}
+            </select>
+          </div>
+          <div className={'padding'}>
+            <select id='global-adm1' multiple className={`chosen-select-no-single fill__wide`}>
+
             </select>
           </div>
           <button onClick={this.clearAll.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
@@ -71,6 +87,12 @@ export default class GlobalCountryReport extends React.Component {
         </div>
       </div>
     );
+  }
+
+  applyCountryFilter (evt) {
+    let country = this.props.countries[evt.target.selectedIndex - 1];
+    this.setState({ currentCountry: country });
+    console.log(this.state.currentCountry);
   }
 
   toggleCustomize () {

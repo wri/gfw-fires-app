@@ -1029,6 +1029,10 @@ export const config = {
       countries: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
         callback: 'callback'
+      },
+      adm1: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
+        callback: 'callback'
       }
     }
   },
@@ -1145,7 +1149,7 @@ export const config = {
       analysisCustomize: 'CUSTOMIZE REPORT',
       analysisChoose: 'Choose your own custom time period and geographic area.',
       analysisIndonesiaChooseData: 'Analyze concession data from:',
-      analysisCountryChooseData: 'Analyze from a range of countries:',
+      analysisCountryChooseData: 'Pick a country:',
       subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',
