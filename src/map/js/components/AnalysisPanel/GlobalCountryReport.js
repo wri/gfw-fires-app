@@ -34,19 +34,20 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
+    $('#global-adm1').chosen('destroy');
+    $('#global-adm1').chosen();
     if (prevProps.countries.length === 0 && this.props.countries.length > 0) {
       $('#countries').chosen();
-      $('#global-adm1').chosen();
     } else if (this.props.customizeCountryOpen === true && prevProps.customizeCountryOpen === false) {
       $('#countries').chosen('destroy');
       $('#countries').chosen();
-      $('#global-adm1').chosen('destroy');
-      $('#global-adm1').chosen();
     }
   }
 
   render () {
     let className = 'text-center';
+    let adm1Units = null;
+    let adm1Classes = 'hidden'
 
     let countriesList = null;
     if (this.props.countries.length > 0) {
@@ -56,8 +57,12 @@ export default class GlobalCountryReport extends React.Component {
     }
 
     if (this.state.currentCountry) {
+      adm1Classes = 'padding';
       let adm1Areas = this.props.adm1.filter((o) => { return o.NAME_0 === this.state.currentCountry; });
-      console.log(adm1Areas);
+      adm1Areas.sort();
+      adm1Units = adm1Areas.map((adm1) => {
+        return (<option value={adm1.NAME_1}>{adm1.NAME_1}</option>);
+      });
     }
 
     return (
@@ -68,14 +73,15 @@ export default class GlobalCountryReport extends React.Component {
         </p>
         <div className={`customize-options ${this.props.customizeCountryOpen === true ? '' : 'hidden'}`}>
           <div className={'padding'}>
+            <p>Select a country: </p>
             <select id='countries' className={`chosen-select-no-single fill__wide`} >
-              <option disabled selected value>Choose a country</option>
               {countriesList}
             </select>
           </div>
-          <div className={'padding'}>
+          <div className={adm1Classes}>
+            <p>Select {this.state.currentCountry}&#39;s subregions: </p>
             <select id='global-adm1' multiple className={`chosen-select-no-single fill__wide`}>
-
+              {adm1Units}
             </select>
           </div>
           <button onClick={this.clearAll.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
@@ -90,9 +96,9 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   applyCountryFilter (evt) {
-    let country = this.props.countries[evt.target.selectedIndex - 1];
+    let country = this.props.countries[evt.target.selectedIndex];
     this.setState({ currentCountry: country });
-    console.log(this.state.currentCountry);
+    $('#global-adm1').val('').trigger('chosen:updated');
   }
 
   toggleCustomize () {
@@ -100,14 +106,17 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   clearAll () {
+    this.setState({ currentCountry: '' });
+    $('#global-adm1').val('').trigger('chosen:updated');
     $('#countries').val('').trigger('chosen:updated');
   }
 
   countryAnalysis () {
     app.debug('AnalysisTab >>> countryAnalysis');
 
-    let reportType = 'globalcountries',
+    let reportType = 'globalcountryreport',
         countries = $('#countries').chosen().val(),
+        regions = $('#global-adm1').chosen().val(),
         reportdateFrom = this.state.analysisStartDate.split('/'),
         reportdateTo = this.state.analysisEndDate.split('/'),
         reportdates = {};
@@ -119,7 +128,7 @@ export default class GlobalCountryReport extends React.Component {
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
 
-    let hash = this.reportDataToHash(reportType, reportdates, countries);
+    let hash = this.reportDataToHash(reportType, reportdates, countries, regions);
     let win = window.open('../report/index.html' + hash, '_blank', '');
 
     win.report = true;
@@ -130,24 +139,23 @@ export default class GlobalCountryReport extends React.Component {
     };
   }
 
-  reportDataToHash (reportType, dates, countries) {
+  reportDataToHash (reportType, dates, country, countryRegions) {
     let hash = '#';
-    let dateArgs = [];
-    let dateString = '';
-    let countriesString = '';
-    let reportTypeString = '';
+    let reportTypeString = 'reporttype=' + reportType;
+    let countryString = 'country=' + country;
 
+    let countryRegionString = 'countryRegions=' + countryRegions.join('!');
+
+    let dateArgs = [];
+    let dateString = 'dates=';
     for (let val in dates) {
       if (dates.hasOwnProperty(val)) {
         dateArgs.push([val, dates[val]].join('-'));
       }
     }
+    dateString += dateArgs.join('!');
 
-    dateString = 'dates=' + dateArgs.join('!');
-    countriesString = 'countries=' + countries.join('!');
-    reportTypeString = 'reporttype=' + reportType;
-
-    hash += [dateString, countriesString, reportTypeString].join('&');
+    hash += [reportTypeString, countryString, countryRegionString, dateString].join('&');
     return hash;
   }
 }
