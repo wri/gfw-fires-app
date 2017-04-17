@@ -302,6 +302,8 @@ define([
         },
 
         init_report_options: function() {
+            var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
             var self = this;
             if (!window.reportOptions) {
                 self.read_hash();
@@ -309,12 +311,12 @@ define([
             var dateobj = window.reportOptions.dates;
             this.startdate = self.date_obj_to_string({
                 year: dateobj.fYear,
-                month: dateobj.fMonth,
+                month: monthNames[dateobj.fMonth - 1].substring(0,3),
                 day: dateobj.fDay
             });
             this.enddate = self.date_obj_to_string({
                 year: dateobj.tYear,
-                month: dateobj.tMonth,
+                month: monthNames[dateobj.tMonth - 1].substring(0,3),
                 day: dateobj.tDay
             });
             this.aoilist = window.reportOptions.aois.join(', ');
@@ -366,8 +368,8 @@ define([
         date_obj_to_string: function(dateobj) {
             //var dtstr = "date'";
             var dtstr = '';
-            dtstr += dateobj.month + '/';
-            dtstr += dateobj.day + '/';
+            dtstr += dateobj.day + ' ';
+            dtstr += dateobj.month + ' ';
             dtstr += dateobj.year;
             return dtstr;
         },
