@@ -38,8 +38,7 @@ export default class ViirsControls extends React.Component {
 
     return <div>
       <div className='timeline-container fires'>
-        <select className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
-          <option disabled selected value> -- select an option -- </option>
+        <select id='viirs-select' className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div id='viirs-time-options' className='active-fires-control gfw-btn sml white darken'>{activeItem.label}</div>
@@ -58,6 +57,10 @@ export default class ViirsControls extends React.Component {
     this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
     evt.target.classList.add('darken');
     document.getElementById('viirs-time-options').classList.remove('darken');
+
+
+    layerActions.changeViirsTimeline(firesOptions.length - 1); //change to disabled option of Viirs fires
+    document.getElementById('viirs-select').selectedIndex = firesOptions.length - 1;
   }
 
   toggleConfidence (evt) {
@@ -65,7 +68,11 @@ export default class ViirsControls extends React.Component {
   }
 
   optionsMap (item, index) {
-    return <option key={index} value={item.value}>{item.label}</option>;
+    if (item.label === 'Active Fires') {
+      return <option key={index} value={item.value} disabled >{item.label}</option>;
+    } else {
+      return <option key={index} value={item.value}>{item.label}</option>;
+    }
   }
 
   changeViirsTimeline (evt) {

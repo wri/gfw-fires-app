@@ -41,7 +41,7 @@ export default class FiresControls extends React.Component {
 
     return <div>
       <div className='timeline-container relative fires'>
-        <select className='pointer select-modis' value={activeItem.value} onChange={this.changeFiresTimeline.bind(this)}>
+        <select id='modis-select' className='pointer select-modis' value={activeItem.value} onChange={this.changeFiresTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
         <div id='modis-time-options' className='active-fires-control gfw-btn sml white darken'>{activeItem.label}</div>
@@ -60,10 +60,17 @@ export default class FiresControls extends React.Component {
     this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
     evt.target.classList.add('darken');
     document.getElementById('modis-time-options').classList.remove('darken');
+
+    layerActions.changeFiresTimeline(firesOptions.length - 1); //change to disabled option of Active fires
+    document.getElementById('modis-select').selectedIndex = firesOptions.length - 1;
   }
 
   optionsMap (item, index) {
-    return <option key={index} value={item.value}>{item.label}</option>;
+    if (item.label === 'Active Fires') {
+      return <option key={index} value={item.value} disabled >{item.label}</option>;
+    } else {
+      return <option key={index} value={item.value}>{item.label}</option>;
+    }
   }
 
   changeFiresTimeline (evt) {
