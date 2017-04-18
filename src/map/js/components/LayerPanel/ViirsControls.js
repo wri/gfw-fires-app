@@ -18,7 +18,7 @@ export default class ViirsControls extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) {
+    if ((prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) && (this.props.viiirsSelectIndex !== firesOptions.length - 1)) {
       LayersHelper.updateViirsDefinitions(this.props.viiirsSelectIndex);
     }
   }
@@ -38,11 +38,11 @@ export default class ViirsControls extends React.Component {
 
     return <div>
       <div className='timeline-container fires'>
-        <select id='viirs-select' className='pointer' value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
+        <select id='viirs-select' className={`pointer ${this.state.viirsArchiveVisible === true ? '' : 'darken'}`} value={activeItem.value} onChange={this.changeViirsTimeline.bind(this)}>
           {firesOptions.map(this.optionsMap, this)}
         </select>
-        <div id='viirs-time-options' className='active-fires-control gfw-btn sml white darken'>{activeItem.label}</div>
-        <div id='viirs-custom-range-btn' className='active-fires-control gfw-btn sml white pointer' onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
+        <div id='viirs-time-options' className={`active-fires-control gfw-btn sml white ${this.state.viirsArchiveVisible === true ? '' : 'darken'}`} >{activeItem.label}</div>
+        <div id={`viirs-custom-range-btn`} className={`active-fires-control gfw-btn sml white pointer ${this.state.viirsArchiveVisible === true ? 'darken' : ''}`} onClick={this.toggleViirsArchive.bind(this)}>Custom Range</div>
       </div>
       <div id='viirs-archive-date-ranges' className={showViirsArchive}>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -55,16 +55,8 @@ export default class ViirsControls extends React.Component {
 
   toggleViirsArchive (evt) {
     this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
-    evt.target.classList.add('darken');
-    document.getElementById('viirs-time-options').classList.remove('darken');
-
-
     layerActions.changeViirsTimeline(firesOptions.length - 1); //change to disabled option of Viirs fires
     document.getElementById('viirs-select').selectedIndex = firesOptions.length - 1;
-  }
-
-  toggleConfidence (evt) {
-    LayersHelper.toggleConfidence(evt.target.checked);
   }
 
   optionsMap (item, index) {
@@ -81,9 +73,6 @@ export default class ViirsControls extends React.Component {
     let layerObj = {};
 		layerObj.layerId = KEYS.viirsFires;
 		LayersHelper.showLayer(layerObj);
-
-    document.getElementById('viirs-custom-range-btn').classList.remove('darken');
-    document.getElementById('viirs-time-options').classList.add('darken');
 
     if (this.state.viirsArchiveVisible === true) {
       this.setState({ viirsArchiveVisible: false });

@@ -185,7 +185,8 @@ export default class IndonesiaSpecialtyReport extends React.Component {
       dateargs = [],
       datestring,
       aoistring,
-      dataSourceString;
+      dataSourceString,
+      reportType = 'reporttype=indonesiaspecialtyreport';
 
 
     for (let val in dates) {
@@ -201,7 +202,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
 
     dataSourceString = 'dataSource=' + dataSource;
 
-    hash += ['aoitype=' + aoitype, datestring, aoistring, dataSourceString].join('&');
+    hash += ['aoitype=' + aoitype, datestring, aoistring, dataSourceString, reportType].join('&');
 
     return hash;
   }
