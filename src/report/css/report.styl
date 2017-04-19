@@ -39,8 +39,19 @@ html, body
     font-size: 1.15em;
   }
 
+#aoiList {
+  font-weight: normal;
+  height: 3em;
+  margin: .5em 0 0 0;
+  line-height: 3em;
+}
+
+.border-top-separator
+  border-top: 1px solid #ffcecb;
+  padding-top: .25em
+  margin-top: .25em
+
 .num-of-fires__container {
-  border-bottom: 1px solid #FFCECB;
   margin-bottom: 1em;
   text-align center
 }
@@ -130,7 +141,7 @@ html, body
 //--------------
 .report-section__map-container {
   display: flex;
-  margin-top: 1em;
+  margin-top: .5em;
   padding-top: 1em;
   border-top: 1px solid #FFCECB;
 }
@@ -154,6 +165,10 @@ html, body
   //height: 2rem;
   font-size: 1.3rem;
   font-weight: 300
+
+.fire-alert-count__subtitle
+  margin: 0.5em 0.5em 1em 0
+  font-weight: normal
 
 .two-rows
   //height: 3.6rem;
@@ -343,10 +358,6 @@ html, body
   align-items: center;
   justify-content: flex-end;
 
-.indicative-moratorium-area
-  width: 210px;
-  left -30px
-
 .fire-line-chart
   margin 0 auto
   height 500px
@@ -470,7 +481,7 @@ tspan {
   }
 
   .report-section__map-container {
-    padding: 1.5em 0;
+    padding: 1.25em 0;
   }
 }
 
@@ -487,7 +498,8 @@ tspan {
     padding 1.5rem 1rem
   }
 
-  .report-section__title {
+  .report-section__title,
+  .fire-alert-count__subtitle {
     padding: 0 0 0 .5em;
   }
 
@@ -561,6 +573,13 @@ tspan {
 
 }
 
+@media screen and (min-width: 651px) {
+  .indicative-moratorium-area {
+    width: 210px;
+    left -30px;
+  }
+}
+
 @media screen and (min-width: 501px) {
   .gfw-fires-logo__link {
     position: relative;
@@ -592,6 +611,9 @@ tspan {
 .text-center
   text-align: center;
 
+#firesCountContainerSection
+  min-height: 500px
+
 #firesCountContainer
   display: flex
 
@@ -599,6 +621,12 @@ tspan {
   margin-top: 1em
   height: 400px
   width calc( 100% - 185px)
+
+.firesCountChart__popup
+  color #000
+  padding .25em
+  margin .125em 0
+  font-size: 14px
 
 #firesCountIslandsListContainer
   width 185px
@@ -636,14 +664,26 @@ tspan {
   li:hover
     background-color rgba(204, 204, 204, 0.3)
 
+#firesCountTitleMain
+  margin: .25em 0 0 0
+
 #firesCountTitle
-  font-weight: normal
-  font-size: 24px;
-  margin: .5em 0
+  margin: 0
 
   .total_firecounts
     color: #F88900
     font-size: 35px;
+
+#firesCountTitleMain
+#firesCountTitle
+  font-weight: normal
+  font-size: 24px;
+
+.section-description
+  padding-top: .5em
+  display: block
+  text-transform none !important
+  font-size: .8em !important
 
 .highcharts-legend-item
   padding: .5em;
@@ -653,9 +693,6 @@ tspan {
     font-weight: normal !important
     padding: .25em 0
     font-size: 14px !important
-
-#fireHistory
-  border-top 1px solid #ffcecb
 
 .fire-history__title
   font-size: 24px;
@@ -693,8 +730,9 @@ tspan {
 
 
 .fire-history__region
+.fire-history__subtitle
+.fire-history__description
   font-size: 1rem
-  width: 550px
   margin: auto
   font-weight: normal
   text-transform uppercase
@@ -704,6 +742,9 @@ tspan {
     text-transform none
     font-weight: normal
     padding-left: 5px
+
+.fire-history__subtitle
+  text-transform none
 
 .table-color-switch
   display: block;
@@ -757,6 +798,9 @@ tspan {
     tr
       border-bottom: 1px solid #e7e4e4
 
+#section-four
+  padding-top 1em
+
 #section-five
 #section-six
   margin-bottom: 1em
@@ -764,3 +808,22 @@ tspan {
 // TODO: show container after real content is is place
 #section-one .report-section__content
   display none
+
+.esriAttribution
+  font-size: 9px
+  line-height: 10px
+
+.map .logo-sm
+  width: 40px;
+  height: 22px;
+  background-repeat no-repeat
+
+.map .esriSimpleSliderTL {
+  top: 10px;
+  left: auto;
+  right: 10px;
+}
+
+.map .esriSimpleSlider {
+  border-radius 0
+}
