@@ -37,7 +37,7 @@ define([
     var PRINT_CONFIG = {
         zoom: 4,
         basemap: 'dark-gray',
-        slider: false,
+        slider: true,
         mapcenter: [120, -1.2],
         colorramp: [
             [253, 240, 0],
@@ -405,7 +405,7 @@ define([
                 basemap: PRINT_CONFIG.basemap,
                 zoom: PRINT_CONFIG.zoom,
                 center: PRINT_CONFIG.mapcenter,
-                slider: PRINT_CONFIG.slider
+                slider: PRINT_CONFIG.slider,
             });
 
             map.on("update-start", function() {
@@ -953,14 +953,13 @@ define([
 
       getIndonesiaFireCounts: function () {
 
-        var queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
+        var queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
           deferred = new Deferred(),
           query = new Query(),
           series = [],
           index = 0,
           yearObject = {
             data: [],
-            color: '#ccc'
           };
 
         query.where = "1=1";
@@ -968,43 +967,79 @@ define([
         query.outFields = ['*'];
 
         queryTask.execute(query, function (res) {
+          var currentYear = new Date().getFullYear();
+          var currentMonth = new Date().getMonth();
+          var dataLabelsFormat = {
+            enabled: true,
+            align: 'left',
+            x: 3,
+            verticalAlign: 'middle',
+            overflow: true,
+            crop: false,
+            format: '{series.name}'
+          };
           var allFeatures = res.features;
+
+          function shadeColor2(color, percent) {
+            var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+            return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+          }
+
+          var indexColor = 0;
+          var colorStep = 15;
+          var baseColor = '#777777';
+
+          let dataLabelsFormatAction = function (yearObject, hexColor) {
+            if (yearObject.data.length !== 12) {
+              var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
+            }
+            var twelveMonthsData = yearObject['data'];
+            var lastMonthData = twelveMonthsData.pop();
+            yearObject['data'] = [...twelveMonthsData, {
+              dataLabels: dataLabelsFormat,
+              y: lastMonthData
+            }];
+            yearObject['color'] = hexColor;
+          };
+
           if (allFeatures.length > 0) {
             allFeatures.forEach(function (item) {
               var countryName = item.attributes.NAME_ENGLISH;
               if (countryName === 'Indonesia') {
                 var obj = item.attributes;
                 Object.keys(obj).forEach(function(key) {
-                  if (key.substring(0, 3) === 'cf_') {
+                  if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
                     index = index + 1;
-                    yearObject['name'] = '20' + key.substring(3, 5);
-                    yearObject['data'].push(obj[key]);
-                    if(index % 12 === 0){
-                      series.push(yearObject);
-                      yearObject = {
-                        data: [],
-                        color: '#ccc'
-                      };
+                    var yearFromData = '20' + key.substring(3, 5);
+                    if (currentYear >= yearFromData) {
+                      yearObject['name'] = yearFromData;
+                      yearObject['data'].push(obj[key]);
+                      if(index % 12 === 0){
+                        var hexColor = shadeColor2(baseColor, (indexColor / 100));
+                        indexColor = indexColor + colorStep;
+                        dataLabelsFormatAction(yearObject, hexColor);
+                        series.push(yearObject);
+                        yearObject = {
+                          data: []
+                        };
+                      }
                     }
                   }
                 });
 
-                series.push(yearObject);
+                indexColor = 10;
+                dataLabelsFormatAction(yearObject);
                 yearObject.color = '#D40000';
+                series.push(yearObject);
 
                 window['firesCountRegionSeries'] = series;
                 window['firesCountRegionCurrentYear'] = yearObject;
 
-                function add(a, b) {
-                  return a + b;
-                }
-
                 // Adding sum for year to window
-                window['firesCountRegionCurrentYearSum'] = yearObject.data.reduce(add, 0);
+                window['firesCountRegionCurrentYearSum'] = yearObject.data[yearObject.data.length - 1].y;
 
-                $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' Fires, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
 
-                // var firesCountChart = $('#firesCountChart').highcharts({
                 var firesCountChart = Highcharts.chart('firesCountChart', {
                   title: {
                     text: ''
@@ -1016,12 +1051,31 @@ define([
                     }
                   },
 
+                  plotOptions: {
+                    series: {
+                      color: '#ccc',
+                    },
+                  },
+
                   credits: {
                     enabled: false
                   },
 
-                  legend: {
-                    enabled: false,
+                  plotOptions: {
+                    line: {
+                      marker: {
+                        enabled: false
+                      }
+                    }
+                  },
+
+                  tooltip: {
+                    useHTML: true,
+                    backgroundColor: '#ffbb07',
+                    formatter: function() {
+                      return `<p class="firesCountChart__popup"> ${this.x} ${this.series.name}: ${Highcharts.numberFormat(this.y, 0, '.', ',')}</p>`
+                    }
+
                   },
 
                   xAxis: {
@@ -1035,14 +1089,13 @@ define([
                 getIndonesiaIslandsFireCounts(firesCountChart);
 
                 function getIndonesiaIslandsFireCounts(firesCountChart) {
-                  var queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/4"),
+                  var queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/5"),
                     deferred = new Deferred(),
                     query = new Query(),
                     series = [],
                     index = 0,
                     yearObject = {
                       data: [],
-                      color: '#ccc'
                     };
 
                   query.where = "1=1";
@@ -1060,7 +1113,7 @@ define([
 
                     $('#firesCountIslandsListContainer h3').click(function () {
                       $(this).addClass('selected');
-                      $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' Fires, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                      $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
                       $('#firesCountIslandsList li').removeClass('selected');
                       firesCountChart.update({
                         series: window.firesCountRegionSeries
@@ -1076,32 +1129,36 @@ define([
                         series = [],
                         yearObject = {
                           data: [],
-                          color: '#ccc'
                         };
 
                       window['islandsData'].forEach(function (item) {
                         if(item.attributes.ISLAND === selectedIsland){
                           var obj = item.attributes;
                           Object.keys(obj).forEach(function(key) {
-                            if (key.substring(0, 3) === 'cf_') {
+                            if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
                               index = index + 1;
                               yearObject['name'] = '20' + key.substring(3, 5);
                               yearObject['data'].push(obj[key]);
                               if(index % 12 === 0){
+
+                                var hexColor = shadeColor2(baseColor, (indexColor / 100));
+                                indexColor = indexColor + colorStep;
+                                dataLabelsFormatAction(yearObject, hexColor);
                                 series.push(yearObject);
                                 yearObject = {
                                   data: [],
-                                  color: '#ccc'
                                 };
                               }
                             }
                           });
 
+                          indexColor = 10;
+                          dataLabelsFormatAction(yearObject);
                           yearObject.color = '#D40000';
                           series.push(yearObject);
 
-                          window['firesCountCurrentIslandYearSum'] = yearObject.data.reduce(add, 0);
-                          $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' Fires, Year to Date <span class="total_firecounts">' + window['firesCountCurrentIslandYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                          window['firesCountCurrentIslandYearSum'] = yearObject.data[yearObject.data.length - 1].y;
+                          $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountCurrentIslandYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
                           firesCountChart.update({
                             series: series
                           });
@@ -1142,6 +1199,7 @@ define([
         query.outFields = ['*'];
 
         queryTask.execute(query, function (res) {
+          var currentYear = new Date().getFullYear();
           var allFeatures = res.features;
           if (allFeatures.length > 0) {
             allFeatures.forEach(function (item) {
@@ -1151,12 +1209,15 @@ define([
                 Object.keys(obj).forEach(function(key) {
                   if (key.substring(0, 5) === 'Fire_') {
                     index = index + 1;
-                    allValues.push(obj[key]);
-                    yearObject['data'].push({
-                      x: parseInt(key.substring(5, 9)),
-                      y: 0,
-                      z: obj[key]
-                    });
+                    var yearFromData = parseInt(key.substring(5, 9));
+                    if (currentYear >= yearFromData) {
+                      allValues.push(obj[key]);
+                      yearObject['data'].push({
+                        x: yearFromData,
+                        y: 0,
+                        z: obj[key]
+                      });
+                    }
                   }
                 });
 
@@ -1582,13 +1643,13 @@ define([
                 // -------------
                 peatData.push({
                     color: "rgba(184,0,18,1)",
-                    name: "Peat",
+                    name: "peatland",
                     visible: true,
                     y: peat
                 });
                 peatData.push({
                     color: "rgba(216, 212, 212, 1)",
-                    name: "Non-peat",
+                    name: "non-peatland",
                     visible: true,
                     y: nonpeat
                 });
