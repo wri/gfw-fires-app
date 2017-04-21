@@ -5,7 +5,39 @@ import DateHelper from 'helpers/DateHelper';
 import {modalActions} from 'actions/ModalActions';
 import React from 'react';
 
+// export type TreatmentProps = {
+//   storyMode: bool,
+//   translationTable: Array<Object>,
+//   translationFilters: Array<Object>
+// };
+//
+// export default class TreatmentData extends Component {
+//
+//   props: TreatmentProps;
+//   displayName: 'TreatmentData';
+//   state: {
+//     data: Array<Object>,
+//     occurance: string,
+//     dropdowns: Array<Object>,
+//     dropdownSelections: Array<Object>,
+//     multipleDropdownSelections: Array<Object>,
+//     isResetting: boolean,
+//     studyType: string,
+//     resetFilters: Array<Object>,
+//     newDropdownsReset: Array<Object>,
+//     defaultSiteIdQuery: string
+//   };
+//
+//   constructor(props: TreatmentProps) {
+
+export type AnalysisProps = {
+  options: Object
+};
+
 export default class AnalysisComponent extends React.Component {
+
+  props: AnalysisProps;
+  displayName: 'AnalysisComponent';
 
   constructor (props) {
     super(props);

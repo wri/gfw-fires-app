@@ -1025,6 +1025,14 @@ export const config = {
       provinces: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
         callback: 'callback'
+      },
+      countries: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
+        callback: 'callback'
+      },
+      adm1: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
+        callback: 'callback'
       }
     }
   },
@@ -1076,11 +1084,11 @@ export const config = {
         {label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer'}
       ],
       firesOptions: [
-
         {label: 'Past 24 hours', value: 1},
         {label: 'Past 48 hours', value: 2},
         {label: 'Past 72 hours', value: 3},
-        {label: 'Past Week', value: 7}
+        {label: 'Past Week', value: 7},
+        {label: 'Active Fires', value: null}
       ],
       plantationOptions: [
         {label: 'by Species', value: 8},
@@ -1134,12 +1142,15 @@ export const config = {
       analysisButtonLabel: 'GENERATE REPORT',
       analysisButtonClear: 'CLEAR ALL',
       analysisAreaTitle: 'Fire Report',
-      analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
+      indonesiaReportTitle: 'Indonesia Specialty Report',
+      globalReportTitle: 'Global Country Report',
+      analysisAreaHeader: 'View fire statistics for the last 7 days',
       analysisTimeframeHeader: 'Select any time frame of interest:',
       analysisTabLabel: 'Fire Report',
       analysisCustomize: 'CUSTOMIZE REPORT',
       analysisChoose: 'Choose your own custom time period and geographic area.',
-      analysisChooseData: 'Analyze concession data from:',
+      analysisIndonesiaChooseData: 'Analyze concession data from:',
+      analysisCountryChooseData: 'Pick a country:',
       subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',

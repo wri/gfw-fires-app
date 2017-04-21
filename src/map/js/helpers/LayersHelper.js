@@ -590,7 +590,6 @@ let LayersHelper = {
     }
 
     let layer = app.map.getLayer(layerObj.layerId);
-    console.log(layer, layerObj);
     if (layer) { layer.show(); }
     ShareHelper.handleHashChange();
   },
@@ -621,7 +620,7 @@ let LayersHelper = {
       ShareHelper.handleHashChange();
       return;
     }
-    
+
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
     ShareHelper.handleHashChange();
