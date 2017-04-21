@@ -10,7 +10,23 @@ import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
 
+export type FiresProps = {
+  loaded: bool,
+  options: Object,
+  firesSelectIndex: Number,
+  archiveModisStartDate: string,
+  archiveModisEndDate: string,
+  calendarVisible: string
+};
+
 export default class FiresControls extends React.Component {
+
+  props: FiresProps;
+  displayName: 'FiresControls';
+  state: {
+    modisArchiveVisible: boolean
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +69,7 @@ export default class FiresControls extends React.Component {
     </div>;
   }
 
-  toggleModisArchive (evt) {
+  toggleModisArchive () {
     this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
     layerActions.changeFiresTimeline(firesOptions.length - 1); //change to disabled option of Active fires
     document.getElementById('modis-select').selectedIndex = firesOptions.length - 1;

@@ -9,7 +9,20 @@ import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
 
+export type ViirsProps = {
+  loaded: bool,
+  options: Object,
+  viiirsSelectIndex: Number,
+  archiveViirsStartDate: string,
+  archiveViirsEndDate: string,
+  calendarVisible: string
+};
+
 export default class ViirsControls extends React.Component {
+
+  props: ViirsProps;
+  displayName: 'ViirsControls';
+
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +66,7 @@ export default class ViirsControls extends React.Component {
     </div>;
   }
 
-  toggleViirsArchive (evt) {
+  toggleViirsArchive () {
     this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
     layerActions.changeViirsTimeline(firesOptions.length - 1); //change to disabled option of Viirs fires
     document.getElementById('viirs-select').selectedIndex = firesOptions.length - 1;
@@ -78,7 +91,6 @@ export default class ViirsControls extends React.Component {
       this.setState({ viirsArchiveVisible: false });
     }
   }
-
 
   changeStart() {
     modalActions.showCalendarModal('start');
