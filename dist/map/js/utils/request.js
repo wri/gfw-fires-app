@@ -341,7 +341,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -405,7 +405,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -469,7 +469,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -533,7 +533,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -597,7 +597,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -657,7 +657,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -717,7 +717,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -777,7 +777,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';
@@ -837,7 +837,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + '/4');
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/1');
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
             query.where = '1=1';

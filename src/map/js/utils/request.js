@@ -321,7 +321,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -385,7 +385,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -449,7 +449,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -513,7 +513,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -577,7 +577,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -637,7 +637,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -697,7 +697,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -757,7 +757,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
@@ -817,7 +817,7 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/4');
+          let queryTask = new QueryTask(firesConfig.url + '/1');
           let query = new Query();
           query.geometry = feature.feature.geometry;
           query.where = '1=1';
