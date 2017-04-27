@@ -616,7 +616,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
 
       var layer = app.map.getLayer(layerObj.layerId);
-      console.log(layer, layerObj);
       if (layer) {
         layer.show();
       }
