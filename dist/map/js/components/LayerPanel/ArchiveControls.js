@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _MapStore, _MapActions, _DateHelper, _react) {
+define(['exports', 'helpers/LayersHelper', 'actions/ModalActions', 'actions/MapActions', 'helpers/DateHelper', 'react'], function (exports, _LayersHelper, _ModalActions, _MapActions, _DateHelper, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -68,27 +68,18 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
   var ArchiveControls = function (_React$Component) {
     _inherits(ArchiveControls, _React$Component);
 
-    function ArchiveControls(props) {
+    function ArchiveControls() {
       _classCallCheck(this, ArchiveControls);
 
-      var _this = _possibleConstructorReturn(this, (ArchiveControls.__proto__ || Object.getPrototypeOf(ArchiveControls)).call(this, props));
-
-      _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
-      _this.state = _MapStore.mapStore.getState();
-      return _this;
+      return _possibleConstructorReturn(this, (ArchiveControls.__proto__ || Object.getPrototypeOf(ArchiveControls)).apply(this, arguments));
     }
 
     _createClass(ArchiveControls, [{
-      key: 'storeUpdated',
-      value: function storeUpdated() {
-        this.setState(_MapStore.mapStore.getState());
-      }
-    }, {
       key: 'render',
       value: function render() {
 
-        var startDate = window.Kalendae.moment(this.state.archiveStartDate);
-        var endDate = window.Kalendae.moment(this.state.archiveEndDate);
+        var startDate = window.Kalendae.moment(this.props.archiveStartDate);
+        var endDate = window.Kalendae.moment(this.props.archiveEndDate);
 
         return _react2.default.createElement(
           'div',
@@ -114,7 +105,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
             ),
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white pointer ' + (this.state.calendarVisible === 'archiveStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
+              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
               _DateHelper2.default.getDate(startDate)
             ),
             _react2.default.createElement(
@@ -124,7 +115,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
             ),
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white pointer ' + (this.state.calendarVisible === 'archiveEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
+              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
               _DateHelper2.default.getDate(endDate)
             )
           )
