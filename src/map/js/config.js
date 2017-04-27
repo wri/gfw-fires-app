@@ -382,7 +382,6 @@ export const config = {
     },
     {
       id: KEYS.fireHistory,
-      //id: 'firesHistory2001',
       order: 8,
       type: 'image',
       label: 'Fire history',
@@ -390,7 +389,9 @@ export const config = {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
+      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
+      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
+      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -398,121 +399,6 @@ export const config = {
         label: 'Select a date'
       }
     },
-      {
-        id: 'firesHistory2002',
-        order: 8,
-        type: 'image',
-        label: 'Fire history',
-        sublabel: '(2001-2015, Indonesia)',
-        opacity: 0.8,
-        className: 'fire-history',
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2002/ImageServer',
-        metadataId: 'idn_fire_history'
-      },
-        {
-          id: 'firesHistory2003',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2003/ImageServer'
-        },
-          {
-          id: 'firesHistory2004',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2004/ImageServer'
-        },
-        {
-          id: 'firesHistory2005',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2005/ImageServer'
-        },
-        {
-          id: 'firesHistory2006',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2006/ImageServer'
-        },
-        {
-          id: 'firesHistory2007',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2007/ImageServer'
-        },
-        {
-          id: 'firesHistory2008',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2008/ImageServer'
-        },
-        {
-          id: 'firesHistory2009',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2009/ImageServer'
-        },
-        {
-          id: 'firesHistory2010',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2010/ImageServer'
-        },
-        {
-          id: 'firesHistory2011',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2011/ImageServer'
-        },
-        {
-          id: 'firesHistory2012',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2012/ImageServer'
-        },
-        {
-          id: 'firesHistory2013',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2013/ImageServer'
-        },
-        {
-          id: 'firesHistory2014',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2014/ImageServer'
-        },
-        {
-          id: 'firesHistory2015',
-          order: 8,
-          type: 'image',
-          label: 'Fire history',
-          opacity: 0.8,
-          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2015/ImageServer'
-        },
     {
       id: KEYS.fireWeather,
       order: 8,
@@ -1055,7 +941,7 @@ export const config = {
       type: 'dynamic',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       layerIds: [1],
-      opacity: 0.8,
+      opacity: 1,
       className: 'modis-archive',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
@@ -1071,7 +957,7 @@ export const config = {
       type: 'dynamic',
       layerIds: [0],
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      opacity: 0.8,
+      opacity: 1,
       className: 'viirs-achive',
       url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
@@ -1139,6 +1025,14 @@ export const config = {
       provinces: {
         url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
         callback: 'callback'
+      },
+      countries: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
+        callback: 'callback'
+      },
+      adm1: {
+        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
+        callback: 'callback'
       }
     }
   },
@@ -1190,11 +1084,11 @@ export const config = {
         {label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer'}
       ],
       firesOptions: [
-
         {label: 'Past 24 hours', value: 1},
         {label: 'Past 48 hours', value: 2},
         {label: 'Past 72 hours', value: 3},
-        {label: 'Past Week', value: 7}
+        {label: 'Past Week', value: 7},
+        {label: 'Active Fires', value: null}
       ],
       plantationOptions: [
         {label: 'by Species', value: 8},
@@ -1248,12 +1142,15 @@ export const config = {
       analysisButtonLabel: 'GENERATE REPORT',
       analysisButtonClear: 'CLEAR ALL',
       analysisAreaTitle: 'Fire Report',
-      analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
+      indonesiaReportTitle: 'Indonesia Specialty Report',
+      globalReportTitle: 'Global Country Report',
+      analysisAreaHeader: 'View fire statistics for the last 7 days',
       analysisTimeframeHeader: 'Select any time frame of interest:',
       analysisTabLabel: 'Fire Report',
       analysisCustomize: 'CUSTOMIZE REPORT',
       analysisChoose: 'Choose your own custom time period and geographic area.',
-      analysisChooseData: 'Analyze concession data from:',
+      analysisIndonesiaChooseData: 'Analyze concession data from:',
+      analysisCountryChooseData: 'Pick a country:',
       subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',

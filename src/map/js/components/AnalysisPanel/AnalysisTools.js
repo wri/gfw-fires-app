@@ -41,7 +41,7 @@ export default class AnalysisTools extends React.Component {
     } else {
       isExpanded = false;
     }
-    
+
     return (
       <div className={className}>
         {app.mobile() === true ? undefined :
