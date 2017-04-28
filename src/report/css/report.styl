@@ -41,9 +41,10 @@ html, body
 
 #aoiList {
   font-weight: normal;
-  height: 3em;
   margin: .5em 0 0 0;
-  line-height: 3em;
+  padding: .5em 0;
+  line-height: 1.5em
+  min-height 1.5em
 }
 
 .border-top-separator
@@ -86,6 +87,7 @@ html, body
   color: #E50017;
   margin: 0 .5rem
   flex: 1 1 75px;
+  min-width: 100px;
 }
 
 .fire-alert__container {
@@ -361,7 +363,7 @@ html, body
 .fire-line-chart
   margin 0 auto
   height 500px
-  width 800px
+  //width 800px
 
 .fires-table
   border-collapse collapse
@@ -419,11 +421,13 @@ html, body
 .loader
   position absolute
   z-index 10
-  height 50px
-  width 50px
-  top 45%
-  left 47%
-  background url('images/loader.gif') no-repeat center
+  height 60px
+  width 60px
+  top calc(50% - 30px);
+  left calc(50% - 30px);
+  background url('images/loading.svg') no-repeat center
+  background-size cover
+  //background url('images/loader.gif') no-repeat center
 
 @media print
   .page-break
@@ -649,6 +653,9 @@ tspan {
   h3:hover
     background-color rgba(204, 204, 204, 0.3)
 
+  .fires-count__label
+    margin 0
+
 #firesCountIslandsList
   list-style-type:circle
   max-height: 320px;
@@ -698,6 +705,7 @@ tspan {
   font-size: 24px;
   font-weight: normal
   text-align: center
+  margin .25em 0
 
   strong
     padding-left: 10px

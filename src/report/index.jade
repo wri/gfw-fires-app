@@ -71,7 +71,8 @@ html(lang="en")
           a.gfw-fires-logo__link(href='../home')
             img.gfw-fires-logo__image(height=60 width=60 src='/images/gfwFires-logo-new.png')
           div.report-title__container
-            h1.report-title Fire Report
+            h1.report-title Fire Report for
+              span.selected-country
             div.report-date-range__container
               span#fromDate
               span#toDate
@@ -94,7 +95,7 @@ html(lang="en")
             div.report-section__map
               h3.report-section__title.text-center DISTRIBUTION OF FIRE ALERTS
               div(class='map-container')
-                div#simple-fires-map(class='map')
+                div#DistributionOfFireAlertsMap(class='map')
                   div#firesmapload.loader
                   div#fires-legend-container(class='legend-container')
                     div#fires-legend
@@ -106,7 +107,9 @@ html(lang="en")
         div#section-two(class='page-break')
           div.report-section__map-container.district-fire-numbers__container
             div.report-section__map
-              h3.report-section__title.two-rows PROVINCES </br> with greatest number of fire alerts
+              h3.report-section__title.two-rows
+                span.admin-type-1 PROVINCES
+                |  <br>with greatest number of fire alerts
               div(class='map-container map-legend')
                 div#legend-container(class='legend-container')
                   div#districtLegend
@@ -114,13 +117,17 @@ html(lang="en")
                   div#distmapload.loader
 
             div.report-section__content
-              h3.report-section__title.two-rows JURISDICTIONS </br> with greatest number of fire alerts
+              h3.report-section__title.two-rows
+                span.admin-type-1 JURISDICTIONS
+                |  </br> with greatest number of fire alerts
               div#district-fires-table
 
         div#section-three(class='page-break')
           div.report-section__map-container.distribution-fire-alerts
             div.report-section__content
-              h3.report-section__title.two-rows DISTRICTS </br> with greatest number of fire alerts
+              h3.report-section__title.two-rows
+                span.admin-type-2 DISTRICTS
+                |  </br> with greatest number of fire alerts
               div#subdistrict-fires-table
             div.report-section__map
               div.two-rows
@@ -205,7 +212,7 @@ html(lang="en")
           h3.fire-history__title Annual Fire History
           h4.fire-history__region
             | Region:
-            strong Indonesia
+            strong.country-name Indonesia
           h3.fire-history__subtitle Total MODIS fire alerts
           i.section-description.fire-history__description Fire history analyses use MODIS fires data only for 2012 to present.
           div.fire-history__chart
