@@ -116,9 +116,9 @@ export default class IndonesiaSpecialtyReport extends React.Component {
           <p>{analysisPanelText.analysisTimeframeHeader}</p>
           <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
           <div id='analysisWarning' className={`analysis-warning ${this.state.localErrors === false ? 'hidden' : ''}`}>Please select an island or province</div>
-          <div className='no-shrink analysis-footer text-center'>
-            <button onClick={this.beginAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
-          </div>
+        </div>
+        <div className='no-shrink analysis-footer text-center'>
+          <button onClick={this.beginAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>
       </div>
     );
