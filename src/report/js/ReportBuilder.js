@@ -455,6 +455,8 @@ define([
               window.reportOptions['country'] = _initialState.country;
             }
 
+            console.log(_initialState);
+
             window.reportOptions['aois'] = _initialState.aois.split('!');
             window.reportOptions['dates'] = dateObj;
             window.reportOptions['type'] = _initialState.aoitype;
