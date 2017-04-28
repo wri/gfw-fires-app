@@ -388,7 +388,7 @@ define([
 
             queryTask.execute(queryConfig, function (respons) {
               var countryAdminTypes = respons.features["0"].attributes;
-              console.log('countryAdminTypes: ', countryAdminTypes);
+              // console.log('countryAdminTypes: ', countryAdminTypes);
               $('.admin-type-1').text(countryAdminTypes.TYPE_1);
               $('.admin-type-2').text(countryAdminTypes.TYPE_2);
               PRINT_CONFIG.reportOptions.countryAdminTypes = countryAdminTypes;
@@ -454,8 +454,6 @@ define([
             } else {
               window.reportOptions['country'] = _initialState.country;
             }
-
-            console.log(_initialState);
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
             window.reportOptions['dates'] = dateObj;
@@ -744,9 +742,6 @@ define([
                 var html = "<table>";
                 var rows = [];
                 var curbreak = 0;
-                // var relatedTableId = PRINT_CONFIG[configKey].relatedTableId + '-colorRange';
-                // console.log(relatedTableId);
-                // window[relatedTableId] = [];
 
                 for (var i = 0; i < PRINT_CONFIG[configKey].breakCount; i++) {
                     var item = symbols[i];
@@ -879,7 +874,7 @@ define([
 
             var baseUrl = 'https://b10fk4n1u3.execute-api.us-east-1.amazonaws.com/stage/firms/';
 
-            console.log(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString);
+            // console.log(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString);
 
             $.get(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString, function (data) {
               arrayUtils.forEach(data, function(feature) {
@@ -965,15 +960,13 @@ define([
                     y: logging
                 });
               }
-              console.log(total);
+
               if (total === 0) {
                 var parent = dom.byId('breakdown-fires-chart-container').parentElement;
                 domClass.add(parent, 'hidden');
                 deferred.resolve(false);
               } else {
                 // dom.byId('totalHotSpots').innerHTML = self.numberWithCommas(total) + ' ';
-
-                console.log(totalData);
 
                 self.buildPieChart("breakdown-fires-chart", {
                     data: totalData,
@@ -1010,7 +1003,7 @@ define([
             table += this.generateGPTableRows(filtered, outFields);
 
             table += "</table>";
-            // console.log(PRINT_CONFIG.noFeatures);
+
             var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + PRINT_CONFIG.noFeatures['greenpeace'] + '</div>';
             return finaltable;
         },
@@ -1188,9 +1181,14 @@ define([
                     $(this).addClass('selected');
                     $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
                     $('#firesCountIslandsList li').removeClass('selected');
-                    firesCountChart.update({
-                      series: window.firesCountRegionSeries
-                    });
+
+                    if (firesCountChart.series) {
+                      firesCountChart.update({
+                        series: window.firesCountRegionSeries
+                      });
+                    } else {
+                      firesCountChart.addSeries(window.firesCountRegionSeries);
+                    }
                   });
 
                   $('#firesCountIslandsList li').click(function () {
@@ -1386,9 +1384,7 @@ define([
           var startDates = reportOptions.dates.fYear.toString() + reportOptions.dates.fMonth.toString() + reportOptions.dates.fDay.toString();
           var endDates = reportOptions.dates.tYear.toString() + reportOptions.dates.tMonth.toString() + reportOptions.dates.tDay.toString();
 
-          console.log(window.reportOptions);
           var baseUrl = 'https://b10fk4n1u3.execute-api.us-east-1.amazonaws.com/stage/firms/';
-          console.log(baseUrl + aoiType + '?chart=' + queryConfig.chartId + '&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString);
 
           $.get(baseUrl + aoiType + '?chart=' + queryConfig.chartId + '&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString, function (data) {
             var table = dom.byId(queryConfig.tableId);
@@ -1693,7 +1689,7 @@ define([
 
                 // render the tables
                 buildTables(woodFiber, oilPalm, logging);
-                console.log(woodFiber, oilPalm, logging);
+
                 deferred.resolve(true);
             }, function(err) {
                 deferred.resolve(false);
@@ -2148,14 +2144,14 @@ define([
             }
             callback = function(results) {
                 var extent = graphicsUtils.graphicsExtent(results.features);
-                // extent.xmax *= 1.2;
-                // extent.ymax*=1.2;
-                // extent.ymin*=1.2;
-                // extent.xmin*=1.2;
+
                 arrayUtils.forEach(mapkeys, function(key) {
                     var map = PRINT_CONFIG.maps[key];
-                    map.setExtent(extent, true);
-                    //map.setExtent(extent);
+                    console.log(map);
+                    if (map) {
+                      map.setExtent(extent, true);
+                    }
+
                 })
                 deferred.resolve(true);
             }
