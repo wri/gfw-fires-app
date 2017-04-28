@@ -70,6 +70,7 @@ define([
             urlGlobal: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
             id: "Active_Fires",
             fire_id: 0,
+            fire_id_global_modis: 1,
             defaultLayers: [0],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
@@ -316,19 +317,19 @@ define([
             }
 
             self.queryForDailyFireData(areaOfInterestType);
-            self.buildDistributionOfFireAlertsMap();
 
-            var queryDistrictsFireCountDistrict = self.queryDistrictsFireCount("adminQuery", areaOfInterestType).then(function() {
-              self.buildFireCountMap('adminBoundary', 'adminQuery')
+            all([
+              self.buildDistributionOfFireAlertsMap(),
+              self.queryDistrictsFireCount("adminQuery", areaOfInterestType),
+              self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType)
+            ]).then(function (result) {
+              self.buildFireCountMap('adminBoundary', 'adminQuery');
+              self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
             });
 
-            var queryDistrictsFireCountSubDistrict = self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType).then(function() {
-              self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery')
-            });
-
+            self.get_extent();
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
-            self.get_extent();
 
             if (areaOfInterestType === TypeIsland) {
               //TODO: Clean this part after update is made on map page to include country 'Indonesia' in url hash
@@ -352,7 +353,7 @@ define([
                 // Indonesia charts query --- END
 
                 self.getFireCounts(selectedCountry),
-                self.getFireHistoryCounts(selectedCountry),
+                self.getFireHistoryCounts(selectedCountry)
               ]).then(function(res) {
                 self.printReport();
               });
@@ -388,7 +389,6 @@ define([
 
             queryTask.execute(queryConfig, function (respons) {
               var countryAdminTypes = respons.features["0"].attributes;
-              console.log('countryAdminTypes: ', countryAdminTypes);
               $('.admin-type-1').text(countryAdminTypes.TYPE_1);
               $('.admin-type-2').text(countryAdminTypes.TYPE_2);
               PRINT_CONFIG.reportOptions.countryAdminTypes = countryAdminTypes;
@@ -515,11 +515,6 @@ define([
                 fireLayer,
                 map,
                 queryUrl;
-
-            var startExtent = new Extent({
-              "xmin":-122.68,"ymin":45.53,"xmax":-122.45,"ymax":45.6,
-              "spatialReference":{"wkid":4326}
-            });
 
             map = new Map("DistributionOfFireAlertsMap", {
                 basemap: PRINT_CONFIG.basemap,
@@ -1145,6 +1140,7 @@ define([
               getFireCountsChartAction(firesCountChart, selectedCountry);
 
               function getFireCountsChartAction(firesCountChart, selectedCountry) {
+                debugger
                 var queryTask,
                   queryOptions;
                   deferred = new Deferred(),
@@ -1263,9 +1259,9 @@ define([
             data: []
           };
 
-      query.where = "NAME_ENGLISH='" + selectedCountry + "'";
-      query.returnGeometry = false;
-      query.outFields = ['*'];
+        query.where = "NAME_ENGLISH='" + selectedCountry + "'";
+        query.returnGeometry = false;
+        query.outFields = ['*'];
 
         queryTask.execute(query, function (res) {
           var currentYear = new Date().getFullYear();
@@ -1484,8 +1480,8 @@ define([
                 if(districtFireTable){
                   table = `<table class='fires-table'><tr><th>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Jurisdiction'}</th>`;
                 } else if (subdistrictFireTable) {
-                  table = `<table class='fires-table'><tr><th class='admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_2 : 'Regency/City'}</th>`;
-                  table += `<th class='align-left admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Province'}</th>`;
+                  table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_2 : 'Regency/City'}</th>`;
+                  table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Province'}</th>`;
                 } else {
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
                   fields = [fields[0], fields[2]];
@@ -1556,6 +1552,7 @@ define([
             }
 
             queryTask.execute(query, function(res) {
+                debugger
                 PRINT_CONFIG.query_results[configKey] = res.features;
                 if (res.features.length > 0) {
                   var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
@@ -1581,13 +1578,13 @@ define([
                 } else {
                     deferred.resolve(false);
                     dom.byId('noFiresMsg').innerHTML = "No Fire Alerts for this AOI and time frame."
-
                 }
 
             }, function(err) {
                 deferred.resolve(false);
             });
 
+            debugger
             return deferred.promise;
         },
 
@@ -1937,7 +1934,7 @@ define([
                 failure;
 
             if (areaOfInterestType === 'GLOBAL') {
-              queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.firesLayer.fire_id);
+              queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.firesLayer.fire_id_global_modis);
               query.where = self.get_aoi_definition();
             } else {
               queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.firesLayer.fire_id);
@@ -2231,8 +2228,10 @@ define([
                     } else if (isValid(feature.attributes[field])) {
                       if (field === "GLOBAL" && queryConfigTableId === "subdistrict-fires-table") {
                         field = 'NAME_1'
+                        cols += "<td class='table-cell subdistrict-admin-level-1'>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ') + "</td>";
+                      } else {
+                        cols += "<td class='table-cell regular'>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ') + "</td>";
                       }
-                      cols += "<td class='table-cell regular'>" + (isValid(feature.attributes[field]) ? feature.attributes[field] : ' - ') + "</td>";
                     } else {
                       valid = false
                     }
