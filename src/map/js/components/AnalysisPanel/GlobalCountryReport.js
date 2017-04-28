@@ -12,7 +12,7 @@ export default class GlobalCountryReport extends React.Component {
     mapStore.listen(this.storeUpdated.bind(this));
     this.state = {
       localErrors: false,
-      currentCountry: '',
+      currentCountry: null,
       ...mapStore.getState() };
   }
 
@@ -47,7 +47,7 @@ export default class GlobalCountryReport extends React.Component {
   render () {
     let className = 'text-center';
     let adm1Units = null;
-    let adm1Classes = 'hidden'
+    let adm1Classes = 'hidden';
 
     let countriesList = null;
     if (this.props.countries.length > 0) {
@@ -61,23 +61,23 @@ export default class GlobalCountryReport extends React.Component {
       let adm1Areas = this.props.adm1.filter((o) => { return o.NAME_0 === this.state.currentCountry; });
       adm1Areas.sort();
       adm1Units = adm1Areas.map((adm1) => {
-        return (<option value={adm1.NAME_1}>{adm1.NAME_1}</option>);
+        return (<option selected='true' value={adm1.NAME_1} >{adm1.NAME_1}</option>);
       });
     }
 
     return (
       <div className={className}>
         <h4>{analysisPanelText.globalReportTitle}</h4>
+        <div className={'padding'}>
+          <select id='countries' className={`chosen-select-no-single fill__wide`} >
+            <option disabled selected value={'default'}>Select a Country</option>
+            {countriesList}
+          </select>
+        </div>
         <p className='customize-report-label' onClick={this.toggleCustomize}>{analysisPanelText.analysisCustomize}
           <span className='analysis-toggle'>{this.props.customizeCountryOpen ? ' ▼' : ' ►'}</span>
         </p>
         <div className={`customize-options ${this.props.customizeCountryOpen === true ? '' : 'hidden'}`}>
-          <div className={'padding'}>
-            <p>Select a country: </p>
-            <select id='countries' className={`chosen-select-no-single fill__wide`} >
-              {countriesList}
-            </select>
-          </div>
           <div className={adm1Classes}>
             <p>Select {this.state.currentCountry}&#39;s subregions: </p>
             <select id='global-adm1' multiple className={`chosen-select-no-single fill__wide`}>
@@ -87,18 +87,20 @@ export default class GlobalCountryReport extends React.Component {
           <button onClick={this.clearAll.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
           <p>{analysisPanelText.analysisTimeframeHeader}</p>
           <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
-          <div className='no-shrink analysis-footer text-center'>
-            <button onClick={this.countryAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
-          </div>
+        </div>
+        <div className='no-shrink analysis-footer text-center'>
+          <button onClick={this.countryAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
         </div>
       </div>
     );
   }
 
   applyCountryFilter (evt) {
-    let country = this.props.countries[evt.target.selectedIndex];
+    let country = this.props.countries[evt.target.selectedIndex - 1];
     this.setState({ currentCountry: country });
-    $('#global-adm1').val('').trigger('chosen:updated');
+    //Select All subregions by default
+    $('#global-adm1 option').prop('selected', true);
+    $('#global-adm1').trigger('chosen:updated');
   }
 
   toggleCustomize () {
@@ -120,7 +122,6 @@ export default class GlobalCountryReport extends React.Component {
         reportdateFrom = this.state.analysisStartDate.split('/'),
         reportdateTo = this.state.analysisEndDate.split('/'),
         reportdates = {};
-
     reportdates.fYear = Number(reportdateFrom[2]);
     reportdates.fMonth = Number(reportdateFrom[0]);
     reportdates.fDay = Number(reportdateFrom[1]);
