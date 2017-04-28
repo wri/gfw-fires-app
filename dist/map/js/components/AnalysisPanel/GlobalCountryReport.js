@@ -90,7 +90,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _extends({
         localErrors: false,
-        currentCountry: ''
+        currentCountry: null
       }, _MapStore.mapStore.getState());
       return _this;
     }
@@ -157,7 +157,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           adm1Units = adm1Areas.map(function (adm1) {
             return _react2.default.createElement(
               'option',
-              { value: adm1.NAME_1 },
+              { selected: 'true', value: adm1.NAME_1 },
               adm1.NAME_1
             );
           });
@@ -172,6 +172,20 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             _config.analysisPanelText.globalReportTitle
           ),
           _react2.default.createElement(
+            'div',
+            { className: 'padding' },
+            _react2.default.createElement(
+              'select',
+              { id: 'countries', className: 'chosen-select-no-single fill__wide' },
+              _react2.default.createElement(
+                'option',
+                { disabled: true, selected: true, value: 'default' },
+                'Select a Country'
+              ),
+              countriesList
+            )
+          ),
+          _react2.default.createElement(
             'p',
             { className: 'customize-report-label', onClick: this.toggleCustomize },
             _config.analysisPanelText.analysisCustomize,
@@ -184,20 +198,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           _react2.default.createElement(
             'div',
             { className: 'customize-options ' + (this.props.customizeCountryOpen === true ? '' : 'hidden') },
-            _react2.default.createElement(
-              'div',
-              { className: 'padding' },
-              _react2.default.createElement(
-                'p',
-                null,
-                'Select a country: '
-              ),
-              _react2.default.createElement(
-                'select',
-                { id: 'countries', className: 'chosen-select-no-single fill__wide' },
-                countriesList
-              )
-            ),
             _react2.default.createElement(
               'div',
               { className: adm1Classes },
@@ -224,15 +224,15 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
               null,
               _config.analysisPanelText.analysisTimeframeHeader
             ),
-            _react2.default.createElement(_AnalysisComponent2.default, _extends({}, this.state, { options: _config.analysisPanelText.analysisCalendar })),
+            _react2.default.createElement(_AnalysisComponent2.default, _extends({}, this.state, { options: _config.analysisPanelText.analysisCalendar }))
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'no-shrink analysis-footer text-center' },
             _react2.default.createElement(
-              'div',
-              { className: 'no-shrink analysis-footer text-center' },
-              _react2.default.createElement(
-                'button',
-                { onClick: this.countryAnalysis.bind(this), className: 'gfw-btn blue' },
-                _config.analysisPanelText.analysisButtonLabel
-              )
+              'button',
+              { onClick: this.countryAnalysis.bind(this), className: 'gfw-btn blue' },
+              _config.analysisPanelText.analysisButtonLabel
             )
           )
         );
@@ -240,9 +240,11 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'applyCountryFilter',
       value: function applyCountryFilter(evt) {
-        var country = this.props.countries[evt.target.selectedIndex];
+        var country = this.props.countries[evt.target.selectedIndex - 1];
         this.setState({ currentCountry: country });
-        $('#global-adm1').val('').trigger('chosen:updated');
+        //Select All subregions by default
+        $('#global-adm1 option').prop('selected', true);
+        $('#global-adm1').trigger('chosen:updated');
       }
     }, {
       key: 'toggleCustomize',
@@ -267,7 +269,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             reportdateFrom = this.state.analysisStartDate.split('/'),
             reportdateTo = this.state.analysisEndDate.split('/'),
             reportdates = {};
-
         reportdates.fYear = Number(reportdateFrom[2]);
         reportdates.fMonth = Number(reportdateFrom[0]);
         reportdates.fDay = Number(reportdateFrom[1]);

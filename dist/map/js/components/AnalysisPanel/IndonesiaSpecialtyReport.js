@@ -259,15 +259,15 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
               'div',
               { id: 'analysisWarning', className: 'analysis-warning ' + (this.state.localErrors === false ? 'hidden' : '') },
               'Please select an island or province'
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'no-shrink analysis-footer text-center' },
             _react2.default.createElement(
-              'div',
-              { className: 'no-shrink analysis-footer text-center' },
-              _react2.default.createElement(
-                'button',
-                { onClick: this.beginAnalysis.bind(this), className: 'gfw-btn blue' },
-                _config.analysisPanelText.analysisButtonLabel
-              )
+              'button',
+              { onClick: this.beginAnalysis.bind(this), className: 'gfw-btn blue' },
+              _config.analysisPanelText.analysisButtonLabel
             )
           )
         );
