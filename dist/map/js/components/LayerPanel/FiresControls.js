@@ -1,11 +1,9 @@
-define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _ModisLegend, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
+define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  var _ModisLegend2 = _interopRequireDefault(_ModisLegend);
 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
@@ -88,7 +86,7 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
     _createClass(FiresControls, [{
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (prevProps.firesSelectIndex !== this.props.firesSelectIndex) {
+        if (prevProps.firesSelectIndex !== this.props.firesSelectIndex && this.props.firesSelectIndex !== firesOptions.length - 1) {
           _LayersHelper2.default.updateFiresLayerDefinitions(this.props.firesSelectIndex);
         }
       }
@@ -104,10 +102,8 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
       key: 'render',
       value: function render() {
         var activeItem = firesOptions[this.props.firesSelectIndex];
-
         var startDate = window.Kalendae.moment(this.props.archiveModisStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveModisEndDate);
-
         var showModisArchive = this.state.modisArchiveVisible ? '' : 'hidden';
 
         return _react2.default.createElement(
@@ -118,17 +114,17 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
             { className: 'timeline-container relative fires' },
             _react2.default.createElement(
               'select',
-              { className: 'pointer select-modis', value: activeItem.value, onChange: this.changeFiresTimeline },
+              { id: 'modis-select', className: 'pointer select-modis ' + (this.state.modisArchiveVisible === true ? '' : 'darken'), value: activeItem.value, onChange: this.changeFiresTimeline.bind(this) },
               firesOptions.map(this.optionsMap, this)
             ),
             _react2.default.createElement(
               'div',
-              { className: 'active-fires-control gfw-btn sml white' },
+              { id: 'modis-time-options', className: 'active-fires-control gfw-btn sml white ' + (this.state.modisArchiveVisible === true ? '' : 'darken') },
               activeItem.label
             ),
             _react2.default.createElement(
               'div',
-              { className: 'active-fires-control gfw-btn sml white pointer', onClick: this.toggleViirsArchive.bind(this) },
+              { id: 'modis-custom-range-btn', className: 'active-fires-control gfw-btn sml white pointer ' + (this.state.modisArchiveVisible === true ? 'darken' : ''), onClick: this.toggleModisArchive.bind(this) },
               'Custom Range'
             )
           ),
@@ -159,28 +155,41 @@ define(['exports', 'components/LayerPanel/ModisLegend', 'actions/LayerActions', 
         );
       }
     }, {
-      key: 'toggleViirsArchive',
-      value: function toggleViirsArchive() {
+      key: 'toggleModisArchive',
+      value: function toggleModisArchive() {
         this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
+        _LayerActions.layerActions.changeFiresTimeline(firesOptions.length - 1); //change to disabled option of Active fires
+        document.getElementById('modis-select').selectedIndex = firesOptions.length - 1;
       }
     }, {
       key: 'optionsMap',
       value: function optionsMap(item, index) {
-        return _react2.default.createElement(
-          'option',
-          { key: index, value: item.value },
-          item.label
-        );
+        if (item.label === 'Active Fires') {
+          return _react2.default.createElement(
+            'option',
+            { key: index, value: item.value, disabled: true },
+            item.label
+          );
+        } else {
+          return _react2.default.createElement(
+            'option',
+            { key: index, value: item.value },
+            item.label
+          );
+        }
       }
     }, {
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(evt) {
-        console.log('reached changeFiresTimeline');
         _LayerActions.layerActions.changeFiresTimeline(evt.target.selectedIndex);
         _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
         var layerObj = {};
         layerObj.layerId = _constants2.default.activeFires;
         _LayersHelper2.default.showLayer(layerObj);
+
+        if (this.state.modisArchiveVisible === true) {
+          this.setState({ modisArchiveVisible: false });
+        }
       }
     }, {
       key: 'changeStart',
