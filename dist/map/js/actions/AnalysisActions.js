@@ -83,6 +83,11 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
         this.dispatch();
       }
     }, {
+      key: 'toggleCountryCustomize',
+      value: function toggleCountryCustomize() {
+        this.dispatch();
+      }
+    }, {
       key: 'toggleImageryOptions',
       value: function toggleImageryOptions() {
         this.dispatch();
@@ -134,7 +139,9 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
 
         (0, _all2.default)({
           islands: (0, _request2.default)(_config.analysisConfig.requests.islands),
-          provinces: (0, _request2.default)(_config.analysisConfig.requests.provinces)
+          provinces: (0, _request2.default)(_config.analysisConfig.requests.provinces),
+          countries: (0, _request2.default)(_config.analysisConfig.requests.countries),
+          adm1: (0, _request2.default)(_config.analysisConfig.requests.adm1)
         }).then(function (responses) {
           _this.dispatch({
             islands: responses.islands.features.map(function (f) {
@@ -142,7 +149,13 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
             }).sort(),
             provinces: responses.provinces.features.map(function (f) {
               return f.attributes.PROVINCE;
-            }).sort()
+            }).sort(),
+            countries: responses.countries.features.map(function (f) {
+              return f.attributes.NAME_0;
+            }).sort(),
+            adm1: responses.adm1.features.map(function (f) {
+              return f.attributes;
+            })
           });
         });
       }
