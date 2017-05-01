@@ -18,10 +18,6 @@ const utils = {
   },
 
   generateViirsQuery: filterValue => {
-    if (filterValue >= 7) {
-      return '1 = 1';
-    }
-
     let date = new Date();
 
     date.setDate(date.getDate() - filterValue);

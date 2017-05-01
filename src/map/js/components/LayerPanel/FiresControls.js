@@ -89,7 +89,7 @@ export default class FiresControls extends React.Component {
     let layerObj = {};
 		layerObj.layerId = KEYS.activeFires;
 		LayersHelper.showLayer(layerObj);
-
+    
     if (this.state.modisArchiveVisible === true) {
       this.setState({ modisArchiveVisible: false });
     }
