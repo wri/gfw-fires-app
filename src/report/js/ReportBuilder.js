@@ -332,13 +332,14 @@ define([
             all([
               self.buildDistributionOfFireAlertsMap(),
               districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId);
+                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
+                  self.buildFireCountMap('adminBoundary', 'adminQuery');
+                });
               }),
               // subDistrictLayerIdsViirsModis.forEach(function (districtLayerId) {
               //   self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, )
               // }),
             ]).then(function (result) {
-              self.buildFireCountMap('adminBoundary', 'adminQuery');
               // self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
             });
 
