@@ -161,6 +161,8 @@ define([
             },
             fire_stats_global: {
                 id: 0,
+                id_viirs: 0,
+                id_modis: 1,
                 outField: 'fire_count',
                 onField: 'NAME_1'
             }
@@ -182,6 +184,8 @@ define([
             },
             fire_stats_global: {
                 id: 0,
+                id_viirs: 0,
+                id_modis: 1,
                 outField: 'fire_count',
                 onField: 'NAME_2'
             },
@@ -317,17 +321,28 @@ define([
             }
 
             self.queryForDailyFireData(areaOfInterestType);
+            var districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_viirs;
+            var districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
+            var subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_viirs;
+            var subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_modis;
+            // var districtLayerIdsViirsModis = [districtViirsLayerId, districtMiirsLayerId];
+            var districtLayerIdsViirsModis = [districtMiirsLayerId];
+            var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             all([
               self.buildDistributionOfFireAlertsMap(),
-              self.queryDistrictsFireCount("adminQuery", areaOfInterestType),
-              self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType)
+              districtLayerIdsViirsModis.forEach(function (districtLayerId) {
+                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId);
+              }),
+              // subDistrictLayerIdsViirsModis.forEach(function (districtLayerId) {
+              //   self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, )
+              // }),
             ]).then(function (result) {
               self.buildFireCountMap('adminBoundary', 'adminQuery');
-              self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+              // self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
             });
 
-            self.get_extent();
+            // self.get_extent();
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
 
@@ -1140,7 +1155,6 @@ define([
               getFireCountsChartAction(firesCountChart, selectedCountry);
 
               function getFireCountsChartAction(firesCountChart, selectedCountry) {
-                debugger
                 var queryTask,
                   queryOptions;
                   deferred = new Deferred(),
@@ -1394,17 +1408,21 @@ define([
           return deferred.promise;
         },
 
-        queryDistrictsFireCount: function(configKey, areaOfInterestType) {
+        queryDistrictsFireCount: function(configKey, areaOfInterestType, districtLayerId) {
+            console.log('districtLayerId in function: ', districtLayerId);
+            console.log(configKey, areaOfInterestType, districtLayerId);
             var queryConfig = PRINT_CONFIG[configKey],
                 queryTask,
                 fields,
                 deferred = new Deferred(),
                 query = new Query(),
                 statdef = new StatisticDefinition(),
+                queryTask,
+                fields,
                 self = this;
 
             if (areaOfInterestType === 'GLOBAL') {
-              queryTask = new QueryTask(PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG[configKey].fire_stats_global.id);
+              queryTask = new QueryTask(PRINT_CONFIG.queryUrlGlobal + "/" + districtLayerId);
               fields = [PRINT_CONFIG[configKey].fire_stats_global.onField, window.reportOptions.aoitype, PRINT_CONFIG[configKey].fire_stats_global.outField];
               query.outFields = [PRINT_CONFIG[configKey].fire_stats_global.onField];
               statdef.onStatisticField = PRINT_CONFIG[configKey].fire_stats_global.onField;
@@ -1552,7 +1570,6 @@ define([
             }
 
             queryTask.execute(query, function(res) {
-                debugger
                 PRINT_CONFIG.query_results[configKey] = res.features;
                 if (res.features.length > 0) {
                   var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
@@ -1584,7 +1601,6 @@ define([
                 deferred.resolve(false);
             });
 
-            debugger
             return deferred.promise;
         },
 
