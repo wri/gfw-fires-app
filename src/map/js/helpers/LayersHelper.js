@@ -705,22 +705,37 @@ let LayersHelper = {
         } else {
           defs[val] = queryString;
         }
-
       });
 
       firesLayer.setLayerDefinitions(defs, dontRefresh);
     }
   },
 
-  updateViirsDefinitions (optionIndex) {
-    app.debug('LayersHelper >>> updateViirsDefinitions');
+  updateViirsDefinitions (optionIndex, dontRefresh) {
+    let value = layerPanelText.firesOptions[optionIndex].value || 1;
+    let queryString = utils.generateFiresQuery(value);
 
-    let viirsFires = app.map.getLayer(KEYS.viirsFires);
+    let viirs = app.map.getLayer(KEYS.viirsFires);
+    let defs;
 
-    if (viirsFires) {
-      viirsFires.setVisibleLayers([optionIndex]);
+    if (!viirs) {
+      defs = [];
+    } else {
+      defs = viirs.layerDefinitions;
     }
 
+    if (viirs) {
+      viirs.visibleLayers.forEach(val => {
+        let currentString = defs[val];
+        if (currentString) {
+          defs[val] = queryString;
+        } else {
+          defs[val] = queryString;
+        }
+      });
+
+      viirs.setLayerDefinitions(defs, dontRefresh);
+    }
   },
 
   updatePlantationLayerDefinitions (optionIndex) {

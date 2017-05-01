@@ -1,9 +1,9 @@
 // NOTE: umd wrapper taken from https://www.npmjs.com/package/fid-umd
-(function (name, root, factory) { function isObject(x) { return typeof x === 'object'; } if (isObject(root.module) && isObject(root.module.exports)) { root.module.exports = factory(); } else if (isObject(root.exports)) { root.exports[name] = factory(); } else if (isObject(root.define) && root.define.amd) { root.define(name, [], factory); } else if (isObject(root.modulejs)) { root.modulejs.define(name, factory); } else if (isObject(root.YUI)) { root.YUI.add(name, function (Y) { Y[name] = factory(); }); } else { root[name] = factory(); } }("locals", this, function () {
+(function (name, root, factory) { function isObject(x) { return typeof x === 'object'; } if (isObject(root.module) && isObject(root.module.exports)) { root.module.exports = factory(); } else if (isObject(root.exports)) { root.exports[name] = factory(); } else if (isObject(root.define) && root.define.amd) { root.define(name, [], factory); } else if (isObject(root.modulejs)) { root.modulejs.define(name, factory); } else if (isObject(root.YUI)) { root.YUI.add(name, function (Y) { Y[name] = factory(); }); } else { root[name] = factory(); } }('locals', this, function () {
   return {
     language: 'id',
     meta: {
-      esriVersion: 3.16
+      esriVersion: 3.20
     },
     global: {
       pages: [

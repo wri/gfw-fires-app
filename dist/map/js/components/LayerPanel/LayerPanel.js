@@ -174,7 +174,7 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
               childComponent = _react2.default.createElement(_ViirsControls2.default, _extends({ loaded: _this2.props.loaded, options: layer.calendar }, _this2.state));
               break;
             case _constants2.default.archiveFires:
-              childComponent = _react2.default.createElement(_ArchiveControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
+              childComponent = _react2.default.createElement(_ArchiveControls2.default, _extends({ options: layer.calendar, loaded: _this2.props.loaded }, _this2.state));
               break;
             case _constants2.default.noaa18Fires:
               childComponent = _react2.default.createElement(_NoaaControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
