@@ -102,8 +102,11 @@ html(lang="en")
                       h4.legend__title Legend
                       h5.map-resources VIIRS & MODIS
                       div.legend-swatch__container
-                        span(class='legend-swatch-round hc-fire')
-                        span(class='legend-label') Active Fires
+                          span(class='legend-swatch-round hc-fire viirs-fires-color')
+                          span(class='legend-label viirs-fires-label') Active Viirs Fires
+                      div.legend-swatch__container
+                          span(class='legend-swatch-round hc-fire modis-fires-color')
+                          span(class='legend-label modis-fires-label') Active Modis Fires
 
         div#section-two(class='page-break')
           div.report-section__map-container.district-fire-numbers__container
@@ -256,4 +259,4 @@ html(lang="en")
         }
       };
     script(src='//js.arcgis.com/3.19/init.js', async)
-    
+
