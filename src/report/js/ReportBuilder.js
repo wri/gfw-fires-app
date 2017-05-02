@@ -574,11 +574,14 @@ define([
 
               fireLayer = new ArcGISDynamicLayer(queryUrl, {
                 imageParameters: fireParams,
-                id: PRINT_CONFIG.firesLayer.id,
+                id: PRINT_CONFIG.firesLayer.id + id[0],
                 visible: true
               });
+              let layerDefs = [];
+              layerDefs[0] = self.get_layer_definition();
+              layerDefs[1] = self.get_layer_definition();
 
-              fireLayer.setLayerDefinitions([self.get_layer_definition()]);
+              fireLayer.setLayerDefinitions(layerDefs);
 
               map.addLayer(fireLayer);
             }
@@ -2024,7 +2027,12 @@ define([
 
               queryTask.executeForCount(queryAll, function (count) {
                 PRINT_CONFIG[fireCountLayer] = count;
-                console.log("Total Fires: " + fireCountLayer, count);
+
+                if (PRINT_CONFIG['fire_id_global_viirs'] && PRINT_CONFIG['fire_id_global_modis']) {
+                  var globalFiresTotalCount = PRINT_CONFIG['fire_id_global_viirs'] + PRINT_CONFIG['fire_id_global_modis'];
+                  $("#totalFireAlerts").html(globalFiresTotalCount);
+                }
+
               }, function (error) {
                 console.log(error);
               });
@@ -2037,9 +2045,6 @@ define([
                   fireData.push(feature.attributes.Count);
                   count += feature.attributes.Count;
                 });
-
-                var globalFiresTotalCount = PRINT_CONFIG['fire_id_global_viirs'] + PRINT_CONFIG['fire_id_global_modis'];
-                $("#totalFireAlerts").html(globalFiresTotalCount);
 
                 $("#totalFiresLabel").show()
 
