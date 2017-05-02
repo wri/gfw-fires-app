@@ -14,6 +14,8 @@ class AnalysisStore {
     this.esriSearchVisible = false;
     this.analysisToolsVisible = app.mobile() === false;
     this.customizeOpen = false;
+    this.customizeCountryOpen = false;
+
     this.imageryOpen = false;
     this.analysisToolsExpanded = true;
     this.imageryToolsExpanded = false;
@@ -24,11 +26,14 @@ class AnalysisStore {
     this.areaIslandsActive = true;
     this.islands = [];
     this.provinces = [];
+    this.countries = [];
+    this.adm1 = [];
 
     this.bindListeners({
       setAnalysisType: analysisActions.setAnalysisType,
       toggleDrawToolbar: analysisActions.toggleDrawToolbar,
       toggleCustomize: analysisActions.toggleCustomize,
+      toggleCountryCustomize: analysisActions.toggleCountryCustomize,
       toggleImageryOptions: analysisActions.toggleImageryOptions,
       analyzeCustomArea: analysisActions.analyzeCustomArea,
       setCustomAreaName: analysisActions.setCustomAreaName,
@@ -67,6 +72,10 @@ class AnalysisStore {
 
   toggleCustomize () {
     this.customizeOpen = !this.customizeOpen;
+  }
+
+  toggleCountryCustomize () {
+    this.customizeCountryOpen = !this.customizeCountryOpen;
   }
 
   toggleImageryOptions () {
@@ -124,6 +133,9 @@ class AnalysisStore {
   initAreas (areas) {
     this.islands = areas.islands;
     this.provinces = areas.provinces;
+    this.countries = areas.countries;
+    this.adm1 = areas.adm1;
+
   }
 
   toggleAreaIslandsActive() {

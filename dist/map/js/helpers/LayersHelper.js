@@ -97,10 +97,24 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
+      layer = app.map.getLayer(_constants2.default.modisArchive);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyModisArchive(mapPoint));
+        }
+      }
+
       layer = app.map.getLayer(_constants2.default.viirsFires);
       if (layer) {
         if (layer.visible) {
           deferreds.push(_request2.default.identifyViirs(mapPoint));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.viirsArchive);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirsArchive(mapPoint));
         }
       }
 
@@ -232,8 +246,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             case _constants2.default.activeFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
               break;
+            case _constants2.default.modisArchive:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.modisArchive));
+              break;
             case _constants2.default.viirsFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
+              break;
+            case _constants2.default.viirsArchive:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsArchive));
               break;
             case _constants2.default.archiveFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.archiveFires));
@@ -291,69 +311,67 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         });
 
         if (features.length > 0) {
-          (function () {
-            if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
-              app.map.infoWindow.resize(650);
-            }
+          if (features[0].infoTemplate && features[0].infoTemplate.title === 'Crowdsourced fire stories' && app.mobile() !== true) {
+            app.map.infoWindow.resize(650);
+          }
 
-            app.map.infoWindow.setFeatures(features);
-            app.map.infoWindow.show(mapPoint);
-            var handles = [];
-            var subscribeHandles = [];
-            var closeHandles = [];
-            var self = _this;
+          app.map.infoWindow.setFeatures(features);
+          app.map.infoWindow.show(mapPoint);
+          var handles = [];
+          var subscribeHandles = [];
+          var closeHandles = [];
+          var self = this;
 
-            (0, _query2.default)('.contentPane .layer-subscribe').forEach(function (rowData) {
+          (0, _query2.default)('.contentPane .layer-subscribe').forEach(function (rowData) {
 
-              subscribeHandles.push((0, _on2.default)(rowData, 'click', function (clickEvt) {
-                var target = clickEvt.target ? clickEvt.target : clickEvt.srcElement,
-                    url = target.getAttribute('data-url'),
-                    objId = target.getAttribute('data-id');
+            subscribeHandles.push((0, _on2.default)(rowData, 'click', function (clickEvt) {
+              var target = clickEvt.target ? clickEvt.target : clickEvt.srcElement,
+                  url = target.getAttribute('data-url'),
+                  objId = target.getAttribute('data-id');
 
-                _request2.default.getFeatureGeometry(url, objId).then(function (item) {
-                  item.features[0].attributes.Layer = 'prebuilt';
-                  item.features[0].attributes.featureName = item.features[0].attributes.name;
-                  _ModalActions.modalActions.showSubscribeModal(item.features[0]);
-                });
-              }));
-            });
+              _request2.default.getFeatureGeometry(url, objId).then(function (item) {
+                item.features[0].attributes.Layer = 'prebuilt';
+                item.features[0].attributes.featureName = item.features[0].attributes.name;
+                _ModalActions.modalActions.showSubscribeModal(item.features[0]);
+              });
+            }));
+          });
 
-            (0, _query2.default)('.infoWindow-close').forEach(function (rowData) {
-              closeHandles.push((0, _on2.default)(rowData, 'click', function () {
-                var tweet = document.getElementById('tweet');
-                if (tweet) {
-                  tweet.style.display = 'none';
-                }
-                app.map.infoWindow.hide();
-              }));
-            });
+          (0, _query2.default)('.infoWindow-close').forEach(function (rowData) {
+            closeHandles.push((0, _on2.default)(rowData, 'click', function () {
+              var tweet = document.getElementById('tweet');
+              if (tweet) {
+                tweet.style.display = 'none';
+              }
+              app.map.infoWindow.hide();
+            }));
+          });
 
-            (0, _query2.default)('.contentPane .imagery-data').forEach(function (rowData) {
+          (0, _query2.default)('.contentPane .imagery-data').forEach(function (rowData) {
 
-              handles.push((0, _on2.default)(rowData, 'click', function (clickEvt) {
-                var target = clickEvt.target ? clickEvt.target : clickEvt.srcElement,
-                    bucket = target.dataset ? target.dataset.bucket : target.getAttribute('data-bucket'),
-                    layerId = target.getAttribute('data-layer'),
-                    objId = target.getAttribute('data-id');
+            handles.push((0, _on2.default)(rowData, 'click', function (clickEvt) {
+              var target = clickEvt.target ? clickEvt.target : clickEvt.srcElement,
+                  bucket = target.dataset ? target.dataset.bucket : target.getAttribute('data-bucket'),
+                  layerId = target.getAttribute('data-layer'),
+                  objId = target.getAttribute('data-id');
 
-                (0, _query2.default)('.contentPane .imagery-data').forEach(function (innerNode) {
-                  _domClass2.default.remove(innerNode.parentElement, 'selected');
-                });
+              (0, _query2.default)('.contentPane .imagery-data').forEach(function (innerNode) {
+                _domClass2.default.remove(innerNode.parentElement, 'selected');
+              });
 
-                _domClass2.default.add(clickEvt.currentTarget.parentElement, 'selected');
+              _domClass2.default.add(clickEvt.currentTarget.parentElement, 'selected');
 
-                var propertyArray = bucket.split('_');
-                var bucketObj = {};
-                bucketObj.feature = {};
-                bucketObj.feature.attributes = {};
-                bucketObj.feature.attributes.SensorName = propertyArray[0];
+              var propertyArray = bucket.split('_');
+              var bucketObj = {};
+              bucketObj.feature = {};
+              bucketObj.feature.attributes = {};
+              bucketObj.feature.attributes.SensorName = propertyArray[0];
 
-                bucketObj.feature.attributes.OBJECTID = objId;
-                bucketObj.feature.attributes.LayerId = layerId;
-                self.showDigitalGlobeImagery(bucketObj);
-              }));
-            });
-          })();
+              bucketObj.feature.attributes.OBJECTID = objId;
+              bucketObj.feature.attributes.LayerId = layerId;
+              self.showDigitalGlobeImagery(bucketObj);
+            }));
+          });
         }
       }.bind(this));
     },
@@ -525,29 +543,27 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         if (layers.length === 0) {
           layer.hide();
         } else {
-          (function () {
-            var visibleLayers = [];
-            layers.forEach(function (layerName) {
-              switch (layerName) {
-                case 'provinces':
-                  visibleLayers.push(4);
-                  break;
-                case 'districts':
-                  visibleLayers.push(3);
-                  break;
-                case 'subdistricts':
-                  visibleLayers.push(2);
-                  break;
-                case 'villages':
-                  visibleLayers.push(1);
-                  break;
-                default:
-                  break;
-              }
-            });
-            layer.setVisibleLayers(visibleLayers);
-            layer.show();
-          })();
+          var visibleLayers = [];
+          layers.forEach(function (layerName) {
+            switch (layerName) {
+              case 'provinces':
+                visibleLayers.push(4);
+                break;
+              case 'districts':
+                visibleLayers.push(3);
+                break;
+              case 'subdistricts':
+                visibleLayers.push(2);
+                break;
+              case 'villages':
+                visibleLayers.push(1);
+                break;
+              default:
+                break;
+            }
+          });
+          layer.setVisibleLayers(visibleLayers);
+          layer.show();
         }
       }
     },
@@ -597,19 +613,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
         _ShareHelper2.default.handleHashChange();
         return;
-      } else if (layerObj.layerId === _constants2.default.fireHistory) {
-        (function () {
-          var date = 2001 + layerObj.fireHistorySelectIndex;
-          var layerTitle = 'firesHistory' + date;
-          var activeFireHistory = _config.layersConfig.filter(function (layer) {
-            return layer && layer.id === layerTitle;
-          });
-          layerObj.layerId = activeFireHistory[0].id;
-        })();
       }
+
       var layer = app.map.getLayer(layerObj.layerId);
-      console.log(layer);
-      console.log(layerObj);
       if (layer) {
         layer.show();
       }
@@ -650,16 +656,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         _ShareHelper2.default.handleHashChange();
         return;
-      } else if (layerId === _constants2.default.fireHistory) {
-        var layers = _config.layersConfig.filter(function (layer) {
-          return layer && layer.label === 'Fire history';
-        });
-
-        layers.forEach(function (layer) {
-          var firesHistoryLayer = app.map.getLayer(layer.id);
-          firesHistoryLayer.hide();
-        });
       }
+
       var layer = app.map.getLayer(layerId);
       if (layer) {
         layer.hide();
@@ -764,27 +762,12 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
-      var layers = _config.layersConfig.filter(function (layer) {
-        return layer && layer.label === 'Fire history';
-      });
-      var date = 2001 + index;
-      var layerTitle = 'firesHistory' + date;
-      var activeFireHistory = _config.layersConfig.filter(function (layer) {
-        return layer && layer.id === layerTitle;
-      });
-      var activeFireHistoryLayer = app.map.getLayer(activeFireHistory[0].id);
-
-      layers.forEach(function (layer) {
-        if (layer.id !== layerTitle) {
-          (function () {
-            var firesHistoryLayer = app.map.getLayer(layer.id);
-            _on2.default.once(activeFireHistoryLayer, 'update-end', function () {
-              firesHistoryLayer.hide();
-            });
-          })();
-        }
-      });
-      activeFireHistoryLayer.show();
+      // FOR SERVICE http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer
+      var firesHistory = app.map.getLayer(_constants2.default.fireHistory);
+      var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
+      if (firesHistory) {
+        firesHistory.setDefinitionExpression("Name = '" + value + "'");
+      }
     },
     toggleArchiveConfidence: function toggleArchiveConfidence(checked) {
       app.debug('LayersHelper >>> toggleArchiveConfidence');

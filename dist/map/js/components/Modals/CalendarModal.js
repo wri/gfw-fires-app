@@ -371,8 +371,11 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 						date = newest.attributes.Name.split('_IDN')[0];
 						date = date.split('DSLR_')[1];
 					}
-					var dates = date.split('2016');
-					var julian = new window.Kalendae.moment('2016').add(parseInt(dates[1]), 'd');
+
+					var currentYear = new Date().getFullYear();
+					var dates = date.split(currentYear.toString());
+					var julian = new window.Kalendae.moment(currentYear.toString()).add(parseInt(dates[1]), 'd');
+
 					deferred.resolve(julian);
 				});
 				return deferred;
