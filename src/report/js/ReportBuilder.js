@@ -74,6 +74,8 @@ define([
             fire_id_global_modis: 9,
             defaultLayers: [8],
             defaultLayersModis: [9],
+            defaultLayersIslandViirs: [0],
+            defaultLayersIslandModis: [11],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
@@ -562,9 +564,15 @@ define([
               queryUrl = PRINT_CONFIG.firesLayer.urlIsland
             }
 
-            [PRINT_CONFIG.firesLayer.defaultLayers, PRINT_CONFIG.firesLayer.defaultLayersModis].forEach(function (id) {
-              addFirePoints(id);
-            });
+            if(window.reportOptions.aoitype === 'GLOBAL'){
+              [PRINT_CONFIG.firesLayer.defaultLayers, PRINT_CONFIG.firesLayer.defaultLayersModis].forEach(function (id) {
+                addFirePoints(id);
+              });
+            } else {
+              [PRINT_CONFIG.firesLayer.defaultLayersIslandViirs, PRINT_CONFIG.firesLayer.defaultLayersIslandModis].forEach(function (id) {
+                addFirePoints(id);
+              });
+            }
 
             function addFirePoints(id) {
               fireParams = new ImageParameters();
@@ -578,8 +586,14 @@ define([
                 visible: true
               });
               let layerDefs = [];
-              layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_viirs] = self.get_layer_definition();
-              layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_modis] = self.get_layer_definition();
+
+              if(window.reportOptions.aoitype === 'GLOBAL'){
+                layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_viirs] = self.get_layer_definition();
+                layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_modis] = self.get_layer_definition();
+              } else {
+                layerDefs[PRINT_CONFIG.firesLayer.defaultLayersIslandViirs] = self.get_layer_definition();
+                layerDefs[PRINT_CONFIG.firesLayer.defaultLayersIslandModis] = self.get_layer_definition();
+              }
 
               fireLayer.setLayerDefinitions(layerDefs);
 
