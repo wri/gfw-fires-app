@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create a Map</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=7, IE=9, IE=10">
+  <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/dojo/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/js/esri/css/esri.css">
+  <style>
+    html, body, #mapDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+    }
+  </style>
+
+  <script src="http://serverapi.arcgisonline.com/jsapi/arcgis/3.5/"></script>
+  <script>
+    var map, layerDynamic;
+    require(["esri/map", "dojo/Deferred", "dojo/domReady!"], function (Map, Deferred) {
+      map = new Map("mapDiv", {
+        center: [-56.049, 10.485],
+        zoom: 3,
+        basemap: "streets"
+      });
+      layerDynamic = new esri.layers.ArcGISDynamicMapServiceLayer("http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Louisville/LOJIC_LandRecords_Louisville/MapServer", {
+        id: 'Dynamic',
+      });
+      map.addLayers([layerDynamic]);
+
+
+      layerDynamic.on("load", function () {
+        var deferred = new Deferred();
+        deferred = map.setExtent(layerDynamic.initialExtent, true);
+        deferred.then(function () {
+          console.log(layerDynamic.initialExtent);
+          console.log("Extent set");
+        });
+      });
+    });
+  </script>
+
+</head>
+<body class="claro">
+<div id="mapDiv"></div>
+</body>
+</html>
