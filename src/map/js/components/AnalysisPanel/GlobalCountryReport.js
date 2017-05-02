@@ -84,7 +84,7 @@ export default class GlobalCountryReport extends React.Component {
               {adm1Units}
             </select>
           </div>
-          <button onClick={this.clearAll.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
+          <button onClick={this.clearSubregions.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
           <p>{analysisPanelText.analysisTimeframeHeader}</p>
           <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
         </div>
@@ -107,10 +107,8 @@ export default class GlobalCountryReport extends React.Component {
     analysisActions.toggleCountryCustomize();
   }
 
-  clearAll () {
-    this.setState({ currentCountry: '' });
+  clearSubregions () {
     $('#global-adm1').val('').trigger('chosen:updated');
-    $('#countries').val('').trigger('chosen:updated');
   }
 
   countryAnalysis () {
