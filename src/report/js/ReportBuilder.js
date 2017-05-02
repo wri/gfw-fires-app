@@ -66,14 +66,14 @@ define([
             greenpeace: "There are no fire alerts in Greenpeace concessions in the AOI and time range.",
         },
         firesLayer: {
-            urlIsland: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-            urlGlobal: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
+            urlIsland: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
             id: "Active_Fires",
             fire_id: 0,
-            fire_id_global_viirs: 0,
-            fire_id_global_modis: 1,
-            defaultLayers: [0],
-            defaultLayersModis: [1],
+            fire_id_global_viirs: 8,
+            fire_id_global_modis: 9,
+            defaultLayers: [8],
+            defaultLayersModis: [9],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
@@ -101,7 +101,7 @@ define([
         },
         adminBoundary: {
             mapDiv: "district-fires-map",
-            urlIsland: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+            urlIsland: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
             urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
             id: 'district-bounds',
             defaultLayers: [6],
@@ -125,8 +125,8 @@ define([
         },
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
-            urlIsland: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-            urlGlobal: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+            urlIsland: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+            urlGlobal: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             defaultLayersGlobal: [4],
@@ -253,8 +253,8 @@ define([
             chartId: 'concession'
         },
 
-        queryUrl: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-        queryUrlGlobal: "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
+        queryUrl: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+        queryUrlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 8,
@@ -397,7 +397,7 @@ define([
             var aois = window.reportOptions.aois;
             var aoiData = aois.join('\',\'');
 
-            queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/8"),
+            queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/8"),
               deferred = new Deferred(),
               query = new Query();
 
@@ -578,8 +578,8 @@ define([
                 visible: true
               });
               let layerDefs = [];
-              layerDefs[0] = self.get_layer_definition();
-              layerDefs[1] = self.get_layer_definition();
+              layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_viirs] = self.get_layer_definition();
+              layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_modis] = self.get_layer_definition();
 
               fireLayer.setLayerDefinitions(layerDefs);
 
@@ -1031,7 +1031,7 @@ define([
         },
 
       getFireCounts: function (selectedCountry) {
-        var queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
+        var queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
           deferred = new Deferred(),
           query = new Query(),
           series = [],
@@ -1173,14 +1173,14 @@ define([
                   };
 
                 if (window.reportOptions['country'] === 'Indonesia') {
-                  queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
+                  queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
 
                   query.where = "1=1";
                   query.returnGeometry = false;
                   query.outFields = ['*'];
                   queryOptions = query;
                 } else {
-                  queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
+                  queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
 
                   query.where = 'NAME_0=\'' + selectedCountry + '\'';
                   query.returnGeometry = false;
@@ -1275,7 +1275,7 @@ define([
       },
 
       getFireHistoryCounts: function (selectedCountry) {
-        var queryTask = new QueryTask("http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
+        var queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
           deferred = new Deferred(),
           query = new Query(),
           series = {},
@@ -2225,7 +2225,6 @@ define([
 
                 arrayUtils.forEach(mapkeys, function(key) {
                     var map = PRINT_CONFIG.maps[key];
-                    console.log(map);
                     if (map) {
                       map.setExtent(extent, true);
                     }
