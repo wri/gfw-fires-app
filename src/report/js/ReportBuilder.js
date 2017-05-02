@@ -401,7 +401,7 @@ define([
             var aois = window.reportOptions.aois;
             var aoiData = aois.join('\',\'');
 
-            queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/8"),
+            queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/10"),
               deferred = new Deferred(),
               query = new Query();
 
@@ -2053,7 +2053,6 @@ define([
             }
 
             success = function(res) {
-                debugger
                 var count = 0;
                 arrayUtils.forEach(res.features, function(feature) {
                   fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).utcOffset('Asia/Jakarta').format("M/D/YYYY"));
