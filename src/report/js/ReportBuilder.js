@@ -163,7 +163,7 @@ define([
             fire_stats: {
                 id: 0,
                 id_viirs: 0,
-                id_modis: 1,
+                id_modis: 11,
                 outField: 'fire_count',
                 onField: 'DISTRICT'
             },
@@ -188,7 +188,7 @@ define([
             fire_stats: {
                 id: 0,
                 id_viirs: 0,
-                id_modis: 1,
+                id_modis: 11,
                 outField: 'fire_count',
                 onField: 'SUBDISTRIC'
             },
@@ -332,10 +332,21 @@ define([
               $('#land-use-fires-chart-container').show();
             }
 
-            var districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_viirs;
-            var districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
-            var subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_viirs;
-            var subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_modis;
+            var districtViirsLayerId;
+            var districtMiirsLayerId;
+            var subDistrictViirsLayerId;
+            var subDistrictModisLayerId;
+            if (window.reportOptions.aoitype === 'GLOBAL') {
+              districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_viirs;
+              districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
+              subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_viirs;
+              subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_modis;
+            } else if (window.reportOptions.aoitype === 'ISLAND') {
+              districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_viirs;
+              districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_modis;
+              subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats.id_viirs;
+              subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats.id_modis;
+            }
             var districtLayerIdsViirsModis = [districtViirsLayerId, districtMiirsLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
@@ -343,12 +354,12 @@ define([
               self.queryForDailyFireData(areaOfInterestType),
               self.buildDistributionOfFireAlertsMap(),
               districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
+                self.queryDistrictsFireCount("adminQuery", districtLayerId, areaOfInterestType).then(function () {
                   self.buildFireCountMap('adminBoundary', 'adminQuery');
                 });
               }),
               subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+                self.queryDistrictsFireCount("subDistrictQuery", subDistrictLayerId, areaOfInterestType).then(function (result) {
                   self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
                 });
               })
@@ -361,10 +372,10 @@ define([
             if (areaOfInterestType === TypeIsland) {
               all([
                 // Indonesia tables query --- START
-                self.queryDistrictsFireCount("rspoQuery"),
-                self.queryDistrictsFireCount("loggingQuery"),
-                self.queryDistrictsFireCount("palmoilQuery"),
-                self.queryDistrictsFireCount("pulpwoodQuery"),
+                self.queryDistrictsFireCount("rspoQuery", PRINT_CONFIG.rspoQuery.fire_stats.id),
+                self.queryDistrictsFireCount("loggingQuery", PRINT_CONFIG.loggingQuery.fire_stats.id),
+                self.queryDistrictsFireCount("palmoilQuery", PRINT_CONFIG.palmoilQuery.fire_stats.id),
+                self.queryDistrictsFireCount("pulpwoodQuery", PRINT_CONFIG.pulpwoodQuery.fire_stats.id),
                 // Indonesia tables query --- END
 
                 self.queryFiresBreakdown(),
@@ -1434,10 +1445,8 @@ define([
           return deferred.promise;
         },
 
-        queryDistrictsFireCount: function(configKey, areaOfInterestType, districtLayerId) {
+        queryDistrictsFireCount: function(configKey, districtLayerId, areaOfInterestType) {
             var queryConfig = PRINT_CONFIG[configKey],
-                queryTask,
-                fields,
                 deferred = new Deferred(),
                 query = new Query(),
                 statdef = new StatisticDefinition(),
@@ -1452,7 +1461,7 @@ define([
               statdef.onStatisticField = PRINT_CONFIG[configKey].fire_stats_global.onField;
               statdef.outStatisticFieldName = PRINT_CONFIG[configKey].fire_stats_global.outField;
             } else {
-              queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + queryConfig.fire_stats.id);
+              queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + districtLayerId);
               fields = [queryConfig.fire_stats.onField, window.reportOptions.aoitype, queryConfig.fire_stats.outField];
               query.outFields = [queryConfig.fire_stats.onField];
               statdef.onStatisticField = queryConfig.fire_stats.onField;
