@@ -43,7 +43,7 @@
     width calc(100% - 37px)
     left calc(50% + 2px)
     top 60%
-    max-height 440px
+    max-height 450px
 
 .modal-window:before, .modal-window:after
   content ""
@@ -222,7 +222,7 @@
   box-sizing border-box
   left 0
   top 0
-  padding 20px
+  padding 0 1em 20px 1em
 
 .calendar-wrapper
   overflow-x hidden
@@ -344,7 +344,7 @@ input.longer
 
 .modal-subtitle
   display block
-  margin-top 5px
+  margin 5px 0 0 0
   font-size 13px
   line-height 1.2
   color #999
@@ -405,6 +405,17 @@ input.longer
   font-weight 500
   color #333
 
+.modal-header
+  border-bottom 1px solid #e5e5df
+  padding 0.8em 1em
+  position relative
+
+.modal-header__title
+  margin 0
+
+.modal-close
+  height 100%
+
 .modal-footer
   position absolute
   bottom 0
@@ -412,7 +423,7 @@ input.longer
   width 100%
   background white
   z-index 2
-  padding 15px 0
+  padding .6em 0
   border-top 1px solid #e5e5df
 
 .modal-footer:before, .modal-footer:after

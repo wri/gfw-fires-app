@@ -34,8 +34,6 @@ export default class LayerModal extends Component {
             {!this.state.layerInfo.title ? <div className='no-info-available'>No information available</div> :
             <div className='modal-content'>
               <div className='modal-source'>
-                <h2 className='modal-title'>{this.state.layerInfo.title}</h2>
-                <h3 className='modal-subtitle'>{this.state.layerInfo.subtitle}</h3>
                 <div className='modal-table'>
                   {!this.state.layerInfo.function ? null :
                     this.tableMap(this.state.layerInfo.function, 'function')
