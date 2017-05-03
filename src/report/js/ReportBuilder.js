@@ -418,14 +418,14 @@ define([
 
               query.where = `NAME_ENGLISH = '${selectedCountry}' AND Name_1 in ('${aoiData}')`;
               query.returnGeometry = false;
-              query.outFields = ['Type_1, Type_2'];
+              query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
               query.returnDistinctValues = true;
               queryConfig = query;
 
             queryTask.execute(queryConfig, function (respons) {
               var countryAdminTypes = respons.features["0"].attributes;
-              $('.admin-type-1').text(countryAdminTypes.TYPE_1);
-              $('.admin-type-2').text(countryAdminTypes.TYPE_2);
+              $('.admin-type-1').text(countryAdminTypes.ENGTYPE_1);
+              $('.admin-type-2').text(countryAdminTypes.ENGTYPE_2);
               PRINT_CONFIG.reportOptions.countryAdminTypes = countryAdminTypes;
             }, function (err) {
               console.log('Country Admin Types error: ', err);
@@ -1529,10 +1529,10 @@ define([
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
 
                 if(districtFireTable){
-                  table = `<table class='fires-table'><tr><th>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Jurisdiction'}</th>`;
+                  table = `<table class='fires-table'><tr><th>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction'}</th>`;
                 } else if (subdistrictFireTable) {
-                  table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_2 : 'Regency/City'}</th>`;
-                  table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Province'}</th>`;
+                  table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City'}</th>`;
+                  table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province'}</th>`;
                 } else {
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
                   fields = [fields[0], fields[2]];
