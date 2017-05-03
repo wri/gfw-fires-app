@@ -354,12 +354,12 @@ define([
               self.queryForDailyFireData(areaOfInterestType),
               self.buildDistributionOfFireAlertsMap(),
               districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-                self.queryDistrictsFireCount("adminQuery", districtLayerId, areaOfInterestType).then(function () {
+                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
                   self.buildFireCountMap('adminBoundary', 'adminQuery');
                 });
               }),
               subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-                self.queryDistrictsFireCount("subDistrictQuery", subDistrictLayerId, areaOfInterestType).then(function (result) {
+                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
                   self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
                 });
               })
@@ -372,10 +372,10 @@ define([
             if (areaOfInterestType === TypeIsland) {
               all([
                 // Indonesia tables query --- START
-                self.queryDistrictsFireCount("rspoQuery", PRINT_CONFIG.rspoQuery.fire_stats.id),
-                self.queryDistrictsFireCount("loggingQuery", PRINT_CONFIG.loggingQuery.fire_stats.id),
-                self.queryDistrictsFireCount("palmoilQuery", PRINT_CONFIG.palmoilQuery.fire_stats.id),
-                self.queryDistrictsFireCount("pulpwoodQuery", PRINT_CONFIG.pulpwoodQuery.fire_stats.id),
+                self.queryDistrictsFireCount("rspoQuery", null, PRINT_CONFIG.rspoQuery.fire_stats.id),
+                self.queryDistrictsFireCount("loggingQuery", null, PRINT_CONFIG.loggingQuery.fire_stats.id),
+                self.queryDistrictsFireCount("palmoilQuery", null, PRINT_CONFIG.palmoilQuery.fire_stats.id),
+                self.queryDistrictsFireCount("pulpwoodQuery", null, PRINT_CONFIG.pulpwoodQuery.fire_stats.id),
                 // Indonesia tables query --- END
 
                 self.queryFiresBreakdown(),
@@ -1445,7 +1445,7 @@ define([
           return deferred.promise;
         },
 
-        queryDistrictsFireCount: function(configKey, districtLayerId, areaOfInterestType) {
+        queryDistrictsFireCount: function(configKey, areaOfInterestType, districtLayerId) {
             var queryConfig = PRINT_CONFIG[configKey],
                 deferred = new Deferred(),
                 query = new Query(),
@@ -2294,15 +2294,15 @@ define([
                       var tableColorRange = window[queryConfigTableId + '-colorRange'];
 
                       if (tableColorRange) {
-                        tableColorRange.forEach(function (binItem, index) {
-                          var color = PRINT_CONFIG.colorramp[index];
+                        tableColorRange.forEach(function (binItem, colorIndex) {
+                          var color = colorIndex >= 5 ? PRINT_CONFIG.colorramp[colorIndex - 1] : PRINT_CONFIG.colorramp[colorIndex];
                           if (window.reportOptions.aoitype === 'ISLAND'){
-                            if (colorValue > tableColorRange[index] && colorValue <= tableColorRange[index + 1]){
-                              cols += "<td class='table-cell'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
+                              cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
                             }
                           } else {
-                            if (colorValue === tableColorRange[index]){
-                              cols += "<td class='table-cell'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            if (colorValue === tableColorRange[colorIndex]){
+                              cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
                             }
                           }
                         })
