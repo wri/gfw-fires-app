@@ -387,8 +387,6 @@ define([
                 self.queryForMoratoriumFires(areaOfInterestType),
                 // Indonesia charts query --- END
 
-                self.getFireCounts(selectedCountry),
-                self.getFireHistoryCounts(selectedCountry)
               ]).then(function(res) {
                 self.printReport();
               });
@@ -1201,14 +1199,12 @@ define([
 
                 if (window.reportOptions['country'] === 'Indonesia') {
                   queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
-
                   query.where = "1=1";
                   query.returnGeometry = false;
                   query.outFields = ['*'];
                   queryOptions = query;
                 } else {
                   queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
-
                   query.where = 'NAME_0=\'' + selectedCountry + '\'';
                   query.returnGeometry = false;
                   query.outFields = ['*'];
@@ -1221,7 +1217,6 @@ define([
 
                   // Create list of regions
                   $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
-                  $('#firesCountIslandsList').html('');
                   window.reportOptions['aois'].forEach(function (item) {
                     $('#firesCountIslandsList').append("<li>" + item + "</li>");
                   });
