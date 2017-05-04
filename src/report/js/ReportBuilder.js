@@ -72,12 +72,12 @@ define([
             fire_id: 0,
             fire_id_global_viirs: 8,
             fire_id_global_modis: 9,
-            fire_id_island_viirs: 0,
-            fire_id_island_modis: 11,
+            fire_id_island_modis: 0,
+            fire_id_island_viirs: 11,
             defaultLayers: [8],
             defaultLayersModis: [9],
-            defaultLayersIslandViirs: [0],
-            defaultLayersIslandModis: [11],
+            defaultLayersIslandModis: [0],
+            defaultLayersIslandViirs: [11],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
@@ -162,8 +162,8 @@ define([
             layerIdGlobal: 4,
             fire_stats: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 11,
+                id_modis: 0,
+                id_viirs: 11,
                 outField: 'fire_count',
                 onField: 'DISTRICT'
             },
@@ -187,8 +187,8 @@ define([
             headerFieldGlobal: ['NAME_2', 'NAME_1'],
             fire_stats: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 11,
+                id_modis: 0,
+                id_viirs: 11,
                 outField: 'fire_count',
                 onField: 'SUBDISTRIC'
             },
@@ -1601,7 +1601,9 @@ define([
               var queryResultFirst = PRINT_CONFIG.query_results[configKey];
               if (queryResultFirst !== undefined) {
                 let combinedResults = {};
-                console.log(PRINT_CONFIG.query_results[configKey], res.features);
+
+
+
                 var queryResultSecond = res.features;
                 if(queryResultFirst.length > queryResultSecond.length){
                   queryResultSecond = [queryResultFirst, queryResultFirst = queryResultSecond][0];
@@ -1634,17 +1636,21 @@ define([
                   });
                 }
 
-                PRINT_CONFIG.query_results[configKey] = combinedResults;
+                var sortCombinedResults = _.orderBy(combinedResults, function (element) {
+                  return element.attributes.fire_count;
+                }, 'desc');
+                
+                PRINT_CONFIG.query_results[configKey] = sortCombinedResults;
 
-                if (combinedResults.length > 0) {
+                if (sortCombinedResults.length > 0) {
                   var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
                   if (queryConfigField) {
                     self.getRegion(configKey).then(function() {
                       var regmap = PRINT_CONFIG.regionmap[configKey];
-                      arrayUtils.forEach(combinedResults, function(feat) {
+                      arrayUtils.forEach(sortCombinedResults, function(feat) {
                         feat.attributes[window.reportOptions.aoitype] = regmap[feat.attributes[queryConfigField]];
                       })
-                      dom.byId(queryConfig.tableId).innerHTML = buildTable(combinedResults.slice(0, 10));
+                      dom.byId(queryConfig.tableId).innerHTML = buildTable(sortCombinedResults.slice(0, 10));
                     });
                   }
                   deferred.resolve(true);
@@ -2063,8 +2069,6 @@ define([
                   fireData.push(feature.attributes.Count);
                   count += feature.attributes.Count;
                 });
-
-                console.log('fireData',fireData);
 
                 $("#totalFiresLabel").show()
 
