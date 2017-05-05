@@ -598,7 +598,7 @@ define([
                 id: PRINT_CONFIG.firesLayer.id + id[0],
                 visible: true
               });
-              let layerDefs = [];
+              var layerDefs = [];
 
               if(window.reportOptions.aoitype === 'GLOBAL'){
                 layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_viirs] = self.get_layer_definition();
@@ -908,7 +908,7 @@ define([
                 logging = 0,
                 total = 0;
 
-            let aoiType = reportOptions.aoitype.toLowerCase();
+            var aoiType = reportOptions.aoitype.toLowerCase();
 
             for (var key in reportOptions.dates) {
               if (parseInt(reportOptions.dates[key]) < 10) {
@@ -1093,7 +1093,7 @@ define([
             return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
           }
 
-          let dataLabelsFormatAction = function (yearObject, hexColor) {
+          var dataLabelsFormatAction = function (yearObject, hexColor) {
             if (yearObject.data.length !== 12) {
               var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
             }
@@ -1605,10 +1605,7 @@ define([
             queryTask.execute(query, function(res) {
               var queryResultFirst = PRINT_CONFIG.query_results[configKey];
               if (queryResultFirst !== undefined) {
-                let combinedResults = {};
-
-
-
+                var combinedResults = {};
                 var queryResultSecond = res.features;
                 if(queryResultFirst.length > queryResultSecond.length){
                   queryResultSecond = [queryResultFirst, queryResultFirst = queryResultSecond][0];
@@ -1629,11 +1626,8 @@ define([
                   combinedResults = queryResultSecond.map(function (result) {
                     queryResultFirst.forEach(function (firstResult) {
                       if (firstResult.attributes.DISTRICT === result.attributes.DISTRICT && configKey === "adminQuery") {
-                        // console.log(firstResult.attributes.DISTRICT);
-                        // console.log(firstResult.attributes.fire_count);
-                        // console.log(result.attributes.fire_count);
                         result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
-                      } else if (firstResult.attributes.NAME_2 === result.attributes.NAME_2 && configKey === "subDistrictQuery") {
+                      } else if (firstResult.attributes.SUBDISTRIC === result.attributes.SUBDISTRIC && configKey === "subDistrictQuery") {
                         result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
                       }
                     });
