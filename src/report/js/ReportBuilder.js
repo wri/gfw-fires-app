@@ -458,7 +458,7 @@ define([
             this.dataSource = window.reportOptions.dataSource;
             document.querySelector('#fromDate').innerHTML = self.startdate;
             document.querySelector('#toDate').innerHTML = " - " + self.enddate;
-            document.querySelector('#aoiList').innerHTML = 'ON ' + self.aoitype + 'S: ' + self.aoilist;
+            document.querySelector('#aoiList').innerHTML = self.aoilist;
             window['concessionFiresCounts'] = [];
         },
 
