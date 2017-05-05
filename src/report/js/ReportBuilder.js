@@ -1199,7 +1199,7 @@ define([
                     data: [],
                   };
 
-                if (window.reportOptions['country'] === 'Indonesia') {
+                if (window.reportOptions.aoitype !== 'GLOBAL') {
                   queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
                   query.where = "1=1";
                   query.returnGeometry = false;
@@ -1215,7 +1215,6 @@ define([
 
                 queryTask.execute(queryOptions, function (respons) {
                   var islandOrRegionFeatures = respons.features;
-                  window['islandsOrRegionData'] = islandOrRegionFeatures;
 
                   // Create list of regions
                   $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
@@ -1241,14 +1240,14 @@ define([
                     $('#firesCountIslandsListContainer h3').removeClass('selected');
                     $('#firesCountIslandsList li').removeClass('selected');
                     $(this).addClass('selected');
-                    var selectedIslandOrRegion = this.outerText,
+                    var selectedIslandOrRegion = $(this).text(),
                       index = 0,
                       series = [],
                       yearObject = {
                         data: [],
                       };
 
-                    window['islandsOrRegionData'].forEach(function (item) {
+                    islandOrRegionFeatures.forEach(function (item) {
                       if(item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion){
                         var obj = item.attributes;
                         Object.keys(obj).forEach(function(key) {
