@@ -36,10 +36,10 @@ define([
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, geostats) {
 
     var PRINT_CONFIG = {
-        zoom: 4,
+        zoom: 1,
         basemap: 'dark-gray',
         slider: true,
-        mapcenter: [120, -1.2],
+        mapcenter: [0, 0],
         colorramp: [
             [253, 240, 0, 1],
             [255, 218, 0, 1],
@@ -1639,7 +1639,7 @@ define([
                 var sortCombinedResults = _.orderBy(combinedResults, function (element) {
                   return element.attributes.fire_count;
                 }, 'desc');
-                
+
                 PRINT_CONFIG.query_results[configKey] = sortCombinedResults;
 
                 if (sortCombinedResults.length > 0) {
