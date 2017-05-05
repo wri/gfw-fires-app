@@ -350,8 +350,9 @@ define([
             var districtLayerIdsViirsModis = [districtViirsLayerId, districtMiirsLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
+            self.queryForDailyFireData(areaOfInterestType),
+
             all([
-              self.queryForDailyFireData(areaOfInterestType),
               self.buildDistributionOfFireAlertsMap(),
               districtLayerIdsViirsModis.forEach(function (districtLayerId) {
                 self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
@@ -401,6 +402,7 @@ define([
               });
 
             }
+            self.get_extent();
         },
 
         getCountryAdminTypes: function (selectedCountry) {
