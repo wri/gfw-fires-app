@@ -2048,12 +2048,16 @@ define([
               queryTask.executeForCount(queryAll, function (count) {
                 PRINT_CONFIG[fireCountLayer] = count;
 
-                if (PRINT_CONFIG['fire_id_global_viirs'] && PRINT_CONFIG['fire_id_global_modis']){
-                  var globalFiresTotalCount = PRINT_CONFIG['fire_id_global_viirs'] + PRINT_CONFIG['fire_id_global_modis'];
-                  $("#totalFireAlerts").html(globalFiresTotalCount);
+                function numberWithCommas(globalFiresTotalCount) {
+                  return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                if (PRINT_CONFIG.fire_id_global_viirs && PRINT_CONFIG.fire_id_global_modis){
+                  var globalFiresTotalCount = PRINT_CONFIG.fire_id_global_viirs + PRINT_CONFIG.fire_id_global_modis;
+                  $("#totalFireAlerts").html(numberWithCommas(globalFiresTotalCount));
                 } else if (PRINT_CONFIG['fire_id_island_viirs'] && PRINT_CONFIG['fire_id_island_modis']) {
-                  var globalFiresTotalCount = PRINT_CONFIG['fire_id_island_viirs'] + PRINT_CONFIG['fire_id_island_modis'];
-                  $("#totalFireAlerts").html(globalFiresTotalCount);
+                  var islandFiresTotalCount = PRINT_CONFIG['fire_id_island_viirs'] + PRINT_CONFIG['fire_id_island_modis'];
+                  $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
                 }
 
               }, function (error) {
