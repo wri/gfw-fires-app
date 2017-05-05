@@ -1336,11 +1336,13 @@ define([
               });
 
               series['data'] = yearObject['data'];
+              var minValue =  Math.min.apply(null, allValues);
               var maxValue =  Math.max.apply(null, allValues);
               var numberOfBins = PRINT_CONFIG.colorRampFireHistory.length;
-              var binsArray = [0];
+              var binsArray = [minValue];
               PRINT_CONFIG.colorRampFireHistory.forEach(function (item, index) {
-                binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
+                // binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
+                binsArray.push(parseInt(((maxValue - minValue) / numberOfBins) * (index + 1)) + minValue);
               });
 
               series.data.map(function (item) {
@@ -1376,7 +1378,7 @@ define([
 
                 plotOptions: {
                   bubble:{
-                    minSize:'2.5%',
+                    minSize:'30%',
                     maxSize:'60%'
                   }
                 },
