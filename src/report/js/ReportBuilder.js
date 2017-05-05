@@ -1577,8 +1577,10 @@ define([
                       }
                     });
 
-                    concessionsFinalArray = concessionsFinalArray.reverse();
-                    var maxValue = concessionsFinalArray[0].attributes.fire_count;
+                    if (concessionsFinalArray.length > 0) {
+                      concessionsFinalArray = concessionsFinalArray.reverse();
+                      var maxValue = concessionsFinalArray[0].attributes.fire_count;
+                    }
 
                     concessionsFinalArray.forEach(function (item) {
                       var barSize = ((100 / maxValue) * item.attributes.fire_count).toString() + '%';
