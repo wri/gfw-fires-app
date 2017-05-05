@@ -1641,7 +1641,7 @@ define([
                   });
                 }
 
-                var sortCombinedResults = _.orderBy(combinedResults, function (element) {
+                var sortCombinedResults = _.sortByOrder(combinedResults, function (element) {
                   return element.attributes.fire_count;
                 }, 'desc');
 
