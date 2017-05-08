@@ -1140,7 +1140,7 @@ export const config = {
       basemapTabId: 'basemapTab',
       // TODO: separate below text out of config for simple locale swapping
       searchPlaceholder: 'Search for a location',
-      analysisButtonLabel: 'GENERATE REPORT',
+      analysisButtonLabel: 'GENERATE',
       analysisButtonClear: 'CLEAR ALL',
       analysisAreaTitle: 'Fire Report',
       indonesiaReportTitle: 'Indonesia Specialty Report',
