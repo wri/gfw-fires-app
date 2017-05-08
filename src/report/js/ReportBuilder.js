@@ -402,7 +402,6 @@ define([
               });
 
             }
-            self.get_extent();
         },
 
         getCountryAdminTypes: function (selectedCountry) {
@@ -656,7 +655,6 @@ define([
 
             var dist_names = feat_stats.map(function(item) {
                 if (item.attributes[uniqueValueField] != null) {
-
                     return item.attributes[uniqueValueField].replace("'", "''");
                 }
             }).filter(function(item) {
@@ -1648,7 +1646,7 @@ define([
                       var regmap = PRINT_CONFIG.regionmap[configKey];
                       arrayUtils.forEach(sortCombinedResults, function(feat) {
                         feat.attributes[window.reportOptions.aoitype] = regmap[feat.attributes[queryConfigField]];
-                      })
+                      });
                       dom.byId(queryConfig.tableId).innerHTML = buildTable(sortCombinedResults.slice(0, 10));
                     });
                   }
