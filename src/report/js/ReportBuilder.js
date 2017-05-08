@@ -2313,7 +2313,7 @@ define([
                             }
                           } else {
                             if (colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
-                              var includes = cols.includes('table-cell__value');
+                              var includes = _.includes(cols, 'table-cell__value');
                               if(!includes){
                                 cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
                               }
