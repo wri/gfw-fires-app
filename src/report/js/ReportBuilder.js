@@ -1536,7 +1536,7 @@ define([
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
 
                 if(districtFireTable){
-                  table = `<table class='fires-table'><tr><th>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction'}</th>`;
+                  table = `<table class='fires-table'><tr><th class="admin-type-1">${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction'}</th>`;
                 } else if (subdistrictFireTable) {
                   table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City'}</th>`;
                   table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province'}</th>`;
