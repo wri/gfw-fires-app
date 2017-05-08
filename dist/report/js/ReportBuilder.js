@@ -36,10 +36,10 @@ define([
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, geostats) {
 
     var PRINT_CONFIG = {
-        zoom: 4,
+        zoom: 1,
         basemap: 'dark-gray',
         slider: true,
-        mapcenter: [120, -1.2],
+        mapcenter: [0, 0],
         colorramp: [
             [253, 240, 0, 1],
             [255, 218, 0, 1],
@@ -72,12 +72,12 @@ define([
             fire_id: 0,
             fire_id_global_viirs: 8,
             fire_id_global_modis: 9,
-            fire_id_island_viirs: 0,
-            fire_id_island_modis: 11,
+            fire_id_island_modis: 0,
+            fire_id_island_viirs: 11,
             defaultLayers: [8],
             defaultLayersModis: [9],
-            defaultLayersIslandViirs: [0],
-            defaultLayersIslandModis: [11],
+            defaultLayersIslandModis: [0],
+            defaultLayersIslandViirs: [11],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
@@ -106,7 +106,7 @@ define([
         adminBoundary: {
             mapDiv: "district-fires-map",
             urlIsland: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
+            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
             id: 'district-bounds',
             defaultLayers: [6],
             defaultLayersGlobal: [6],
@@ -130,7 +130,7 @@ define([
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
             urlIsland: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-            urlGlobal: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+            urlGlobal: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             defaultLayersGlobal: [4],
@@ -162,8 +162,8 @@ define([
             layerIdGlobal: 4,
             fire_stats: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 11,
+                id_modis: 0,
+                id_viirs: 11,
                 outField: 'fire_count',
                 onField: 'DISTRICT'
             },
@@ -187,8 +187,8 @@ define([
             headerFieldGlobal: ['NAME_2', 'NAME_1'],
             fire_stats: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 11,
+                id_modis: 0,
+                id_viirs: 11,
                 outField: 'fire_count',
                 onField: 'SUBDISTRIC'
             },
@@ -350,32 +350,44 @@ define([
             var districtLayerIdsViirsModis = [districtViirsLayerId, districtMiirsLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
+            self.queryForDailyFireData(areaOfInterestType),
+
             all([
-              self.queryForDailyFireData(areaOfInterestType),
-              self.buildDistributionOfFireAlertsMap(),
+              self.buildDistributionOfFireAlertsMap()
+            ]).then(function () {
+              self.get_extent('fires');
+            });
+
+            all([
               districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-                self.queryDistrictsFireCount("adminQuery", districtLayerId, areaOfInterestType).then(function () {
+                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
                   self.buildFireCountMap('adminBoundary', 'adminQuery');
                 });
-              }),
+              })
+            ]).then(function () {
+              self.get_extent('adminBoundary');
+            });
+
+            all([
               subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-                self.queryDistrictsFireCount("subDistrictQuery", subDistrictLayerId, areaOfInterestType).then(function (result) {
+                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
                   self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
                 });
               })
-            ]);
+            ]).then(function () {
+              self.get_extent('subdistrictBoundary');
+            });
 
-            self.get_extent();
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
 
             if (areaOfInterestType === TypeIsland) {
               all([
                 // Indonesia tables query --- START
-                self.queryDistrictsFireCount("rspoQuery", PRINT_CONFIG.rspoQuery.fire_stats.id),
-                self.queryDistrictsFireCount("loggingQuery", PRINT_CONFIG.loggingQuery.fire_stats.id),
-                self.queryDistrictsFireCount("palmoilQuery", PRINT_CONFIG.palmoilQuery.fire_stats.id),
-                self.queryDistrictsFireCount("pulpwoodQuery", PRINT_CONFIG.pulpwoodQuery.fire_stats.id),
+                self.queryDistrictsFireCount("rspoQuery", null, PRINT_CONFIG.rspoQuery.fire_stats.id),
+                self.queryDistrictsFireCount("loggingQuery", null, PRINT_CONFIG.loggingQuery.fire_stats.id),
+                self.queryDistrictsFireCount("palmoilQuery", null, PRINT_CONFIG.palmoilQuery.fire_stats.id),
+                self.queryDistrictsFireCount("pulpwoodQuery", null, PRINT_CONFIG.pulpwoodQuery.fire_stats.id),
                 // Indonesia tables query --- END
 
                 self.queryFiresBreakdown(),
@@ -387,8 +399,6 @@ define([
                 self.queryForMoratoriumFires(areaOfInterestType),
                 // Indonesia charts query --- END
 
-                self.getFireCounts(selectedCountry),
-                self.getFireHistoryCounts(selectedCountry)
               ]).then(function(res) {
                 self.printReport();
               });
@@ -418,14 +428,14 @@ define([
 
               query.where = `NAME_ENGLISH = '${selectedCountry}' AND Name_1 in ('${aoiData}')`;
               query.returnGeometry = false;
-              query.outFields = ['Type_1, Type_2'];
+              query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
               query.returnDistinctValues = true;
               queryConfig = query;
 
             queryTask.execute(queryConfig, function (respons) {
               var countryAdminTypes = respons.features["0"].attributes;
-              $('.admin-type-1').text(countryAdminTypes.TYPE_1);
-              $('.admin-type-2').text(countryAdminTypes.TYPE_2);
+              $('.admin-type-1').text(countryAdminTypes.ENGTYPE_1);
+              $('.admin-type-2').text(countryAdminTypes.ENGTYPE_2);
               PRINT_CONFIG.reportOptions.countryAdminTypes = countryAdminTypes;
             }, function (err) {
               console.log('Country Admin Types error: ', err);
@@ -458,7 +468,7 @@ define([
             this.dataSource = window.reportOptions.dataSource;
             document.querySelector('#fromDate').innerHTML = self.startdate;
             document.querySelector('#toDate').innerHTML = " - " + self.enddate;
-            document.querySelector('#aoiList').innerHTML = 'ON ' + self.aoitype + 'S: ' + self.aoilist;
+            document.querySelector('#aoiList').innerHTML = self.aoilist;
             window['concessionFiresCounts'] = [];
         },
 
@@ -598,7 +608,7 @@ define([
                 id: PRINT_CONFIG.firesLayer.id + id[0],
                 visible: true
               });
-              let layerDefs = [];
+              var layerDefs = [];
 
               if(window.reportOptions.aoitype === 'GLOBAL'){
                 layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_viirs] = self.get_layer_definition();
@@ -656,7 +666,6 @@ define([
 
             var dist_names = feat_stats.map(function(item) {
                 if (item.attributes[uniqueValueField] != null) {
-
                     return item.attributes[uniqueValueField].replace("'", "''");
                 }
             }).filter(function(item) {
@@ -908,7 +917,7 @@ define([
                 logging = 0,
                 total = 0;
 
-            let aoiType = reportOptions.aoitype.toLowerCase();
+            var aoiType = reportOptions.aoitype.toLowerCase();
 
             for (var key in reportOptions.dates) {
               if (parseInt(reportOptions.dates[key]) < 10) {
@@ -1093,7 +1102,7 @@ define([
             return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
           }
 
-          let dataLabelsFormatAction = function (yearObject, hexColor) {
+          var dataLabelsFormatAction = function (yearObject, hexColor) {
             if (yearObject.data.length !== 12) {
               var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
             }
@@ -1199,16 +1208,14 @@ define([
                     data: [],
                   };
 
-                if (window.reportOptions['country'] === 'Indonesia') {
+                if (window.reportOptions.aoitype !== 'GLOBAL') {
                   queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
-
                   query.where = "1=1";
                   query.returnGeometry = false;
                   query.outFields = ['*'];
                   queryOptions = query;
                 } else {
                   queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
-
                   query.where = 'NAME_0=\'' + selectedCountry + '\'';
                   query.returnGeometry = false;
                   query.outFields = ['*'];
@@ -1217,11 +1224,9 @@ define([
 
                 queryTask.execute(queryOptions, function (respons) {
                   var islandOrRegionFeatures = respons.features;
-                  window['islandsOrRegionData'] = islandOrRegionFeatures;
 
                   // Create list of regions
                   $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
-                  $('#firesCountIslandsList').html('');
                   window.reportOptions['aois'].forEach(function (item) {
                     $('#firesCountIslandsList').append("<li>" + item + "</li>");
                   });
@@ -1244,14 +1249,14 @@ define([
                     $('#firesCountIslandsListContainer h3').removeClass('selected');
                     $('#firesCountIslandsList li').removeClass('selected');
                     $(this).addClass('selected');
-                    var selectedIslandOrRegion = this.outerText,
+                    var selectedIslandOrRegion = $(this).text(),
                       index = 0,
                       series = [],
                       yearObject = {
                         data: [],
                       };
 
-                    window['islandsOrRegionData'].forEach(function (item) {
+                    islandOrRegionFeatures.forEach(function (item) {
                       if(item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion){
                         var obj = item.attributes;
                         Object.keys(obj).forEach(function(key) {
@@ -1339,11 +1344,13 @@ define([
               });
 
               series['data'] = yearObject['data'];
+              var minValue =  Math.min.apply(null, allValues);
               var maxValue =  Math.max.apply(null, allValues);
               var numberOfBins = PRINT_CONFIG.colorRampFireHistory.length;
-              var binsArray = [0];
+              var binsArray = [minValue];
               PRINT_CONFIG.colorRampFireHistory.forEach(function (item, index) {
-                binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
+                // binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
+                binsArray.push(parseInt(((maxValue - minValue) / numberOfBins) * (index + 1)) + minValue);
               });
 
               series.data.map(function (item) {
@@ -1379,7 +1386,7 @@ define([
 
                 plotOptions: {
                   bubble:{
-                    minSize:'2.5%',
+                    minSize:'30%',
                     maxSize:'60%'
                   }
                 },
@@ -1445,7 +1452,7 @@ define([
           return deferred.promise;
         },
 
-        queryDistrictsFireCount: function(configKey, districtLayerId, areaOfInterestType) {
+        queryDistrictsFireCount: function(configKey, areaOfInterestType, districtLayerId) {
             var queryConfig = PRINT_CONFIG[configKey],
                 deferred = new Deferred(),
                 query = new Query(),
@@ -1529,10 +1536,10 @@ define([
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
 
                 if(districtFireTable){
-                  table = `<table class='fires-table'><tr><th>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Jurisdiction'}</th>`;
+                  table = `<table class='fires-table'><tr><th class="admin-type-1">${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction'}</th>`;
                 } else if (subdistrictFireTable) {
-                  table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_2 : 'Regency/City'}</th>`;
-                  table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.TYPE_1 : 'Province'}</th>`;
+                  table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City'}</th>`;
+                  table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province'}</th>`;
                 } else {
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
                   fields = [fields[0], fields[2]];
@@ -1578,8 +1585,10 @@ define([
                       }
                     });
 
-                    concessionsFinalArray = concessionsFinalArray.reverse();
-                    var maxValue = concessionsFinalArray[0].attributes.fire_count;
+                    if (concessionsFinalArray.length > 0) {
+                      concessionsFinalArray = concessionsFinalArray.reverse();
+                      var maxValue = concessionsFinalArray[0].attributes.fire_count;
+                    }
 
                     concessionsFinalArray.forEach(function (item) {
                       var barSize = ((100 / maxValue) * item.attributes.fire_count).toString() + '%';
@@ -1605,8 +1614,7 @@ define([
             queryTask.execute(query, function(res) {
               var queryResultFirst = PRINT_CONFIG.query_results[configKey];
               if (queryResultFirst !== undefined) {
-                let combinedResults = {};
-                console.log(PRINT_CONFIG.query_results[configKey], res.features);
+                var combinedResults = {};
                 var queryResultSecond = res.features;
                 if(queryResultFirst.length > queryResultSecond.length){
                   queryResultSecond = [queryResultFirst, queryResultFirst = queryResultSecond][0];
@@ -1627,11 +1635,8 @@ define([
                   combinedResults = queryResultSecond.map(function (result) {
                     queryResultFirst.forEach(function (firstResult) {
                       if (firstResult.attributes.DISTRICT === result.attributes.DISTRICT && configKey === "adminQuery") {
-                        // console.log(firstResult.attributes.DISTRICT);
-                        // console.log(firstResult.attributes.fire_count);
-                        // console.log(result.attributes.fire_count);
                         result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
-                      } else if (firstResult.attributes.NAME_2 === result.attributes.NAME_2 && configKey === "subDistrictQuery") {
+                      } else if (firstResult.attributes.SUBDISTRIC === result.attributes.SUBDISTRIC && configKey === "subDistrictQuery") {
                         result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
                       }
                     });
@@ -1639,17 +1644,21 @@ define([
                   });
                 }
 
-                PRINT_CONFIG.query_results[configKey] = combinedResults;
+                var sortCombinedResults = _.sortByOrder(combinedResults, function (element) {
+                  return element.attributes.fire_count;
+                }, 'desc');
 
-                if (combinedResults.length > 0) {
+                PRINT_CONFIG.query_results[configKey] = sortCombinedResults;
+
+                if (sortCombinedResults.length > 0) {
                   var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
                   if (queryConfigField) {
                     self.getRegion(configKey).then(function() {
                       var regmap = PRINT_CONFIG.regionmap[configKey];
-                      arrayUtils.forEach(combinedResults, function(feat) {
+                      arrayUtils.forEach(sortCombinedResults, function(feat) {
                         feat.attributes[window.reportOptions.aoitype] = regmap[feat.attributes[queryConfigField]];
-                      })
-                      dom.byId(queryConfig.tableId).innerHTML = buildTable(combinedResults.slice(0, 10));
+                      });
+                      dom.byId(queryConfig.tableId).innerHTML = buildTable(sortCombinedResults.slice(0, 10));
                     });
                   }
                   deferred.resolve(true);
@@ -2048,12 +2057,16 @@ define([
               queryTask.executeForCount(queryAll, function (count) {
                 PRINT_CONFIG[fireCountLayer] = count;
 
-                if (PRINT_CONFIG['fire_id_global_viirs'] && PRINT_CONFIG['fire_id_global_modis']){
-                  var globalFiresTotalCount = PRINT_CONFIG['fire_id_global_viirs'] + PRINT_CONFIG['fire_id_global_modis'];
-                  $("#totalFireAlerts").html(globalFiresTotalCount);
+                function numberWithCommas(globalFiresTotalCount) {
+                  return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                if (PRINT_CONFIG.fire_id_global_viirs && PRINT_CONFIG.fire_id_global_modis){
+                  var globalFiresTotalCount = PRINT_CONFIG.fire_id_global_viirs + PRINT_CONFIG.fire_id_global_modis;
+                  $("#totalFireAlerts").html(numberWithCommas(globalFiresTotalCount));
                 } else if (PRINT_CONFIG['fire_id_island_viirs'] && PRINT_CONFIG['fire_id_island_modis']) {
-                  var globalFiresTotalCount = PRINT_CONFIG['fire_id_island_viirs'] + PRINT_CONFIG['fire_id_island_modis'];
-                  $("#totalFireAlerts").html(globalFiresTotalCount);
+                  var islandFiresTotalCount = PRINT_CONFIG['fire_id_island_viirs'] + PRINT_CONFIG['fire_id_island_modis'];
+                  $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
                 }
 
               }, function (error) {
@@ -2068,8 +2081,6 @@ define([
                   fireData.push(feature.attributes.Count);
                   count += feature.attributes.Count;
                 });
-
-                console.log('fireData',fireData);
 
                 $("#totalFiresLabel").show()
 
@@ -2226,7 +2237,7 @@ define([
 
         },
 
-        get_extent: function() {
+        get_extent: function(mapkeysItem) {
             var queryTask,
                 deferred = new Deferred(),
                 query = new Query(),
@@ -2234,7 +2245,7 @@ define([
                 self = this,
                 mapkeys;
 
-            mapkeys = ['fires', 'adminBoundary', 'subdistrictBoundary'];
+            mapkeys = [mapkeysItem];
             query.where = self.get_aoi_definition('REGION');
 
             query.returnGeometry = true;
@@ -2294,15 +2305,18 @@ define([
                       var tableColorRange = window[queryConfigTableId + '-colorRange'];
 
                       if (tableColorRange) {
-                        tableColorRange.forEach(function (binItem, index) {
-                          var color = PRINT_CONFIG.colorramp[index];
+                        tableColorRange.forEach(function (binItem, colorIndex) {
+                          var color = colorIndex >= 5 ? PRINT_CONFIG.colorramp[colorIndex - 1] : PRINT_CONFIG.colorramp[colorIndex];
                           if (window.reportOptions.aoitype === 'ISLAND'){
-                            if (colorValue > tableColorRange[index] && colorValue <= tableColorRange[index + 1]){
-                              cols += "<td class='table-cell'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
+                              cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
                             }
                           } else {
-                            if (colorValue === tableColorRange[index]){
-                              cols += "<td class='table-cell'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            if (colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
+                              var includes = _.includes(cols, 'table-cell__value');
+                              if(!includes){
+                                cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                              }
                             }
                           }
                         })
