@@ -63,7 +63,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   }
 
   render () {
-    let className = 'text-center';
+    let className = 'text-center report-width';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
     return (
       <div className={className}>
