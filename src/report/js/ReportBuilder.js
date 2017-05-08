@@ -352,30 +352,22 @@ define([
 
             self.queryForDailyFireData(areaOfInterestType),
 
-            all([
-              self.buildDistributionOfFireAlertsMap()
-            ]).then(function () {
+            self.buildDistributionOfFireAlertsMap().then(function () {
               self.get_extent('fires');
             });
 
-            all([
-              districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
-                  self.buildFireCountMap('adminBoundary', 'adminQuery');
-                });
-              })
-            ]).then(function () {
-              self.get_extent('adminBoundary');
+            districtLayerIdsViirsModis.forEach(function (districtLayerId) {
+              self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
+                self.get_extent('adminBoundary');
+                self.buildFireCountMap('adminBoundary', 'adminQuery');
+              });
             });
 
-            all([
-              subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-                  self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-                });
-              })
-            ]).then(function () {
-              self.get_extent('subdistrictBoundary');
+            subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+              self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+                self.get_extent('subdistrictBoundary');
+                self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+              });
             });
 
             self.getFireCounts(selectedCountry);
@@ -571,11 +563,11 @@ define([
             // TODO: At cleanup stage
             window.map1 = map;
 
-    map.on("update-start", function() {
-    esri.show(dom.byId("firesmapload"));
-  });
-    map.on("update-end", function() {
-    esri.hide(dom.byId("firesmapload"));
+            map.on("update-start", function() {
+              esri.show(dom.byId("firesmapload"));
+            });
+            map.on("update-end", function() {
+              esri.hide(dom.byId("firesmapload"));
             });
 
             PRINT_CONFIG.maps['fires'] = map;
