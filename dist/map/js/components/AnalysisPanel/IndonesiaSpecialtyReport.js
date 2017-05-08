@@ -151,7 +151,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'render',
       value: function render() {
-        var className = 'text-center';
+        var className = 'text-center report-width';
         if (this.props.activeTab !== _config.analysisPanelText.analysisTabId) {
           className += ' hidden';
         }

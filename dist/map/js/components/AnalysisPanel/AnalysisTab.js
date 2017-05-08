@@ -123,12 +123,16 @@ define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'component
             _config.analysisPanelText.analysisAreaTitle
           ),
           _react2.default.createElement(
-            'p',
+            'div',
             null,
             _config.analysisPanelText.analysisAreaHeader
           ),
-          _react2.default.createElement(_GlobalCountryReport2.default, this.props),
-          _react2.default.createElement(_IndonesiaSpecialtyReport2.default, this.props)
+          _react2.default.createElement(
+            'div',
+            { className: 'reports-container' },
+            _react2.default.createElement(_GlobalCountryReport2.default, this.props),
+            _react2.default.createElement(_IndonesiaSpecialtyReport2.default, this.props)
+          )
         );
       }
     }]);

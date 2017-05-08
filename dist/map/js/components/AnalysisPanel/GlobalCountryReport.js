@@ -165,7 +165,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         return _react2.default.createElement(
           'div',
-          { className: className },
+          { className: 'report-width' },
           _react2.default.createElement(
             'h4',
             null,
