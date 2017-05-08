@@ -106,7 +106,7 @@ define([
         adminBoundary: {
             mapDiv: "district-fires-map",
             urlIsland: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
+            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
             id: 'district-bounds',
             defaultLayers: [6],
             defaultLayersGlobal: [6],
@@ -130,7 +130,7 @@ define([
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
             urlIsland: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-            urlGlobal: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+            urlGlobal: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             defaultLayersGlobal: [4],
@@ -353,20 +353,31 @@ define([
             self.queryForDailyFireData(areaOfInterestType),
 
             all([
-              self.buildDistributionOfFireAlertsMap(),
+              self.buildDistributionOfFireAlertsMap()
+            ]).then(function () {
+              self.get_extent('fires');
+            });
+
+            all([
               districtLayerIdsViirsModis.forEach(function (districtLayerId) {
                 self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
                   self.buildFireCountMap('adminBoundary', 'adminQuery');
                 });
-              }),
+              })
+            ]).then(function () {
+              self.get_extent('adminBoundary');
+            });
+
+            all([
               subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
                 self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
                   self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
                 });
               })
-            ]);
+            ]).then(function () {
+              self.get_extent('subdistrictBoundary');
+            });
 
-            self.get_extent();
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
 
@@ -2298,13 +2309,14 @@ define([
                           var color = colorIndex >= 5 ? PRINT_CONFIG.colorramp[colorIndex - 1] : PRINT_CONFIG.colorramp[colorIndex];
                           if (window.reportOptions.aoitype === 'ISLAND'){
                             if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
-                              cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                              cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
                             }
                           } else {
-                            if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
-                              cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
-                            } else if (features[features.length - 1].attributes.NAME_1 === feature.attributes.NAME_1 && colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
-                              cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                            if (colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
+                              var includes = cols.includes('table-cell__value');
+                              if(!includes){
+                                cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                              }
                             }
                           }
                         })
