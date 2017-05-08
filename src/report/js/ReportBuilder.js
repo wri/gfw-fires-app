@@ -493,6 +493,10 @@ define([
             }
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
+            window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
+              aoisItem = aoisItem.split("'").join("''");
+              return aoisItem;
+            });
             window.reportOptions['dates'] = dateObj;
             window.reportOptions['type'] = _initialState.aoitype;
             window.reportOptions.dataSource = _initialState.dataSource;
