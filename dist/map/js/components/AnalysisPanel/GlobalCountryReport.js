@@ -216,7 +216,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             ),
             _react2.default.createElement(
               'button',
-              { onClick: this.clearAll.bind(this), className: 'gfw-btn blue' },
+              { onClick: this.clearSubregions.bind(this), className: 'gfw-btn blue' },
               _config.analysisPanelText.analysisButtonClear
             ),
             _react2.default.createElement(
@@ -252,11 +252,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         _AnalysisActions.analysisActions.toggleCountryCustomize();
       }
     }, {
-      key: 'clearAll',
-      value: function clearAll() {
-        this.setState({ currentCountry: '' });
+      key: 'clearSubregions',
+      value: function clearSubregions() {
         $('#global-adm1').val('').trigger('chosen:updated');
-        $('#countries').val('').trigger('chosen:updated');
       }
     }, {
       key: 'countryAnalysis',

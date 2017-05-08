@@ -734,13 +734,30 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         firesLayer.setLayerDefinitions(defs, dontRefresh);
       }
     },
-    updateViirsDefinitions: function updateViirsDefinitions(optionIndex) {
-      app.debug('LayersHelper >>> updateViirsDefinitions');
+    updateViirsDefinitions: function updateViirsDefinitions(optionIndex, dontRefresh) {
+      var value = _config.layerPanelText.firesOptions[optionIndex].value || 1;
+      var queryString = _AppUtils2.default.generateFiresQuery(value);
 
-      var viirsFires = app.map.getLayer(_constants2.default.viirsFires);
+      var viirs = app.map.getLayer(_constants2.default.viirsFires);
+      var defs = void 0;
 
-      if (viirsFires) {
-        viirsFires.setVisibleLayers([optionIndex]);
+      if (!viirs) {
+        defs = [];
+      } else {
+        defs = viirs.layerDefinitions;
+      }
+
+      if (viirs) {
+        viirs.visibleLayers.forEach(function (val) {
+          var currentString = defs[val];
+          if (currentString) {
+            defs[val] = queryString;
+          } else {
+            defs[val] = queryString;
+          }
+        });
+
+        viirs.setLayerDefinitions(defs, dontRefresh);
       }
     },
     updatePlantationLayerDefinitions: function updatePlantationLayerDefinitions(optionIndex) {
