@@ -2237,7 +2237,7 @@ define([
 
         },
 
-        get_extent: function() {
+        get_extent: function(mapkeysItem) {
             var queryTask,
                 deferred = new Deferred(),
                 query = new Query(),
@@ -2245,7 +2245,7 @@ define([
                 self = this,
                 mapkeys;
 
-            mapkeys = ['fires', 'adminBoundary', 'subdistrictBoundary'];
+            mapkeys = [mapkeysItem];
             query.where = self.get_aoi_definition('REGION');
 
             query.returnGeometry = true;
