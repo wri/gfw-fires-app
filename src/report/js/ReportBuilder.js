@@ -2305,6 +2305,8 @@ define([
                           } else {
                             if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
                               cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                            } else if (features[features.length - 1].attributes.NAME_1 === feature.attributes.NAME_1 && colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
+                              cols += `<td class='table-cell'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
                             }
                           }
                         })
