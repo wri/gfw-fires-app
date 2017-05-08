@@ -1,5 +1,4 @@
 import {analysisPanelText} from 'js/config';
-//import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import React from 'react';
 import chosen from 'chosen';
@@ -29,11 +28,13 @@ export default class AnalysisTab extends React.Component {
     let className = 'text-center';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
     return (
-      <div className={className}>
+      <div className={className} >
         <h4>{analysisPanelText.analysisAreaTitle}</h4>
-        <p>{analysisPanelText.analysisAreaHeader}</p>
-        <GlobalCountryReport {...this.props} />
-        <IndonesiaSpecialtyReport {...this.props} />
+        <div>{analysisPanelText.analysisAreaHeader}</div>
+        <div className='reports-container'>
+          <GlobalCountryReport {...this.props} />
+          <IndonesiaSpecialtyReport {...this.props} />
+        </div>
       </div>
     );
   }
