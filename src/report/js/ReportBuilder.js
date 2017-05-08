@@ -2323,9 +2323,12 @@ define([
 
                       if (tableColorRange) {
                         tableColorRange.forEach(function (binItem, index) {
-                          if (colorValue > tableColorRange[index] && colorValue <= tableColorRange[index + 1]) {
+                          if (colorValue >= tableColorRange[index] && colorValue <= tableColorRange[index + 1]) {
                             var color = PRINT_CONFIG.colorramp[index];
-                            cols += "<td class='table-cell'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            var includes = _.includes(cols, 'table-cell__value');
+                            if(!includes){
+                              cols += "<td class='table-cell table-cell__value'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            }
                           }
                         })
                       }
