@@ -492,6 +492,7 @@ define([
             }
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
+            window.reportOptions['aois-chart'] = _.cloneDeep(window.reportOptions['aois']);
             window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
               fixingApostrophe = aoisItem.split("'").join("''");
               return fixingApostrophe;
@@ -1222,8 +1223,8 @@ define([
 
                   // Create list of regions
                   $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
-                  window.reportOptions['aois'].forEach(function (item) {
-                    $('#firesCountIslandsList').append("<li>" + item + "</li>");
+                  window.reportOptions['aois-chart'].forEach(function (item) {
+                    $('#firesCountIslandsList').append("<li>" + item.split("''").join("'") + "</li>");
                   });
 
                   $('#firesCountIslandsListContainer h3').click(function () {
