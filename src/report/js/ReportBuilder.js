@@ -169,8 +169,8 @@ define([
             },
             fire_stats_global: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 1,
+                id_viirs: 8,
+                id_modis: 9,
                 outField: 'fire_count',
                 onField: 'NAME_1'
             }
@@ -194,8 +194,8 @@ define([
             },
             fire_stats_global: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 1,
+                id_viirs: 8,
+                id_modis: 9,
                 outField: 'fire_count',
                 onField: 'NAME_2'
             },
