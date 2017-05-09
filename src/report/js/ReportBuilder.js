@@ -333,21 +333,21 @@ define([
             }
 
             var districtViirsLayerId;
-            var districtMiirsLayerId;
+            var districtModisLayerId;
             var subDistrictViirsLayerId;
             var subDistrictModisLayerId;
             if (window.reportOptions.aoitype === 'GLOBAL') {
               districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_viirs;
-              districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
+              districtModisLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
               subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_viirs;
               subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_modis;
             } else if (window.reportOptions.aoitype === 'ISLAND') {
               districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_viirs;
-              districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_modis;
+              districtModisLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_modis;
               subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats.id_viirs;
               subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats.id_modis;
             }
-            var districtLayerIdsViirsModis = [districtViirsLayerId, districtMiirsLayerId];
+            var districtLayerIdsViirsModis = [districtViirsLayerId, districtModisLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             self.queryForDailyFireData(areaOfInterestType),
@@ -403,7 +403,6 @@ define([
               ]).then(function(res) {
                 self.printReport();
               });
-
             }
         },
 
@@ -494,8 +493,8 @@ define([
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
             window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
-              aoisItem = aoisItem.split("'").join("''");
-              return aoisItem;
+              fixingApostrophe = aoisItem.split("'").join("''");
+              return fixingApostrophe;
             });
             window.reportOptions['dates'] = dateObj;
             window.reportOptions['type'] = _initialState.aoitype;
@@ -1608,10 +1607,11 @@ define([
             }
 
             queryTask.execute(query, function(res) {
-              var queryResultFirst = PRINT_CONFIG.query_results[configKey];
-              if (queryResultFirst !== undefined) {
-                var combinedResults = {};
+              if (PRINT_CONFIG.query_results[configKey] !== undefined) {
+                var queryResultFirst = _.cloneDeep(PRINT_CONFIG.query_results[configKey]);
                 var queryResultSecond = res.features;
+                var combinedResults = {};
+
                 if(queryResultFirst.length > queryResultSecond.length){
                   queryResultSecond = [queryResultFirst, queryResultFirst = queryResultSecond][0];
                 }
@@ -1701,7 +1701,7 @@ define([
 
             queryTask.execute(query, function(res) {
                 if (res.features.length > 0) {
-                    dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
+                    $('$' + queryConfig.tableId).html(buildTable(res.features.slice(0, 10)));
                     deferred.resolve(true);
                 }
             }, function(err) {
@@ -2064,7 +2064,6 @@ define([
                   var islandFiresTotalCount = PRINT_CONFIG['fire_id_island_viirs'] + PRINT_CONFIG['fire_id_island_modis'];
                   $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
                 }
-
               }, function (error) {
                 console.log(error);
               });
