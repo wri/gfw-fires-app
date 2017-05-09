@@ -494,7 +494,7 @@ define([
             window.reportOptions['aois'] = _initialState.aois.split('!');
             window.reportOptions['aois-chart'] = _.cloneDeep(window.reportOptions['aois']);
             window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
-              fixingApostrophe = aoisItem.split("'").join("''");
+              var fixingApostrophe = aoisItem.split("'").join("''");
               return fixingApostrophe;
             });
             window.reportOptions['dates'] = dateObj;

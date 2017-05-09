@@ -169,8 +169,8 @@ define([
             },
             fire_stats_global: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 1,
+                id_viirs: 8,
+                id_modis: 9,
                 outField: 'fire_count',
                 onField: 'NAME_1'
             }
@@ -194,8 +194,8 @@ define([
             },
             fire_stats_global: {
                 id: 0,
-                id_viirs: 0,
-                id_modis: 1,
+                id_viirs: 8,
+                id_modis: 9,
                 outField: 'fire_count',
                 onField: 'NAME_2'
             },
@@ -333,49 +333,41 @@ define([
             }
 
             var districtViirsLayerId;
-            var districtMiirsLayerId;
+            var districtModisLayerId;
             var subDistrictViirsLayerId;
             var subDistrictModisLayerId;
             if (window.reportOptions.aoitype === 'GLOBAL') {
               districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_viirs;
-              districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
+              districtModisLayerId = PRINT_CONFIG.adminQuery.fire_stats_global.id_modis;
               subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_viirs;
               subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats_global.id_modis;
             } else if (window.reportOptions.aoitype === 'ISLAND') {
               districtViirsLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_viirs;
-              districtMiirsLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_modis;
+              districtModisLayerId = PRINT_CONFIG.adminQuery.fire_stats.id_modis;
               subDistrictViirsLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats.id_viirs;
               subDistrictModisLayerId = PRINT_CONFIG.subDistrictQuery.fire_stats.id_modis;
             }
-            var districtLayerIdsViirsModis = [districtViirsLayerId, districtMiirsLayerId];
+            var districtLayerIdsViirsModis = [districtViirsLayerId, districtModisLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             self.queryForDailyFireData(areaOfInterestType),
 
-            all([
-              self.buildDistributionOfFireAlertsMap()
-            ]).then(function () {
+            self.buildDistributionOfFireAlertsMap().then(function () {
               self.get_extent('fires');
             });
 
-            all([
-              districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-                self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
-                  self.buildFireCountMap('adminBoundary', 'adminQuery');
-                });
-              })
-            ]).then(function () {
-              self.get_extent('adminBoundary');
+            districtLayerIdsViirsModis.forEach(function (districtLayerId) {
+              self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
+                self.get_extent('adminBoundary');
+                self.buildFireCountMap('adminBoundary', 'adminQuery');
+              });
             });
 
-            all([
-              subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-                  self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-                });
-              })
-            ]).then(function () {
-              self.get_extent('subdistrictBoundary');
+            subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+              self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+                self.get_extent('subdistrictBoundary');
+                self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+              });
             });
 
             self.getFireCounts(selectedCountry);
@@ -411,7 +403,6 @@ define([
               ]).then(function(res) {
                 self.printReport();
               });
-
             }
         },
 
@@ -501,6 +492,11 @@ define([
             }
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
+            window.reportOptions['aois-chart'] = _.cloneDeep(window.reportOptions['aois']);
+            window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
+              var fixingApostrophe = aoisItem.split("'").join("''");
+              return fixingApostrophe;
+            });
             window.reportOptions['dates'] = dateObj;
             window.reportOptions['type'] = _initialState.aoitype;
             window.reportOptions.dataSource = _initialState.dataSource;
@@ -571,11 +567,11 @@ define([
             // TODO: At cleanup stage
             window.map1 = map;
 
-    map.on("update-start", function() {
-    esri.show(dom.byId("firesmapload"));
-  });
-    map.on("update-end", function() {
-    esri.hide(dom.byId("firesmapload"));
+            map.on("update-start", function() {
+              esri.show(dom.byId("firesmapload"));
+            });
+            map.on("update-end", function() {
+              esri.hide(dom.byId("firesmapload"));
             });
 
             PRINT_CONFIG.maps['fires'] = map;
@@ -1227,8 +1223,8 @@ define([
 
                   // Create list of regions
                   $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
-                  window.reportOptions['aois'].forEach(function (item) {
-                    $('#firesCountIslandsList').append("<li>" + item + "</li>");
+                  window.reportOptions['aois-chart'].forEach(function (item) {
+                    $('#firesCountIslandsList').append("<li>" + item.split("''").join("'") + "</li>");
                   });
 
                   $('#firesCountIslandsListContainer h3').click(function () {
@@ -1612,10 +1608,11 @@ define([
             }
 
             queryTask.execute(query, function(res) {
-              var queryResultFirst = PRINT_CONFIG.query_results[configKey];
-              if (queryResultFirst !== undefined) {
-                var combinedResults = {};
+              if (PRINT_CONFIG.query_results[configKey] !== undefined) {
+                var queryResultFirst = _.cloneDeep(PRINT_CONFIG.query_results[configKey]);
                 var queryResultSecond = res.features;
+                var combinedResults = {};
+
                 if(queryResultFirst.length > queryResultSecond.length){
                   queryResultSecond = [queryResultFirst, queryResultFirst = queryResultSecond][0];
                 }
@@ -1705,7 +1702,7 @@ define([
 
             queryTask.execute(query, function(res) {
                 if (res.features.length > 0) {
-                    dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
+                    $('$' + queryConfig.tableId).html(buildTable(res.features.slice(0, 10)));
                     deferred.resolve(true);
                 }
             }, function(err) {
@@ -2068,7 +2065,6 @@ define([
                   var islandFiresTotalCount = PRINT_CONFIG['fire_id_island_viirs'] + PRINT_CONFIG['fire_id_island_modis'];
                   $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
                 }
-
               }, function (error) {
                 console.log(error);
               });
@@ -2327,9 +2323,12 @@ define([
 
                       if (tableColorRange) {
                         tableColorRange.forEach(function (binItem, index) {
-                          if (colorValue > tableColorRange[index] && colorValue <= tableColorRange[index + 1]) {
+                          if (colorValue >= tableColorRange[index] && colorValue <= tableColorRange[index + 1]) {
                             var color = PRINT_CONFIG.colorramp[index];
-                            cols += "<td class='table-cell'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            var includes = _.includes(cols, 'table-cell__value');
+                            if(!includes){
+                              cols += "<td class='table-cell table-cell__value'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
+                            }
                           }
                         })
                       }
