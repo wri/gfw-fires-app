@@ -492,7 +492,6 @@ define([
             }
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
-            window.reportOptions['aois-chart'] = _.cloneDeep(window.reportOptions['aois']);
             window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
               var fixingApostrophe = aoisItem.split("'").join("''");
               return fixingApostrophe;
@@ -570,6 +569,7 @@ define([
             map.on("update-start", function() {
               esri.show(dom.byId("firesmapload"));
             });
+
             map.on("update-end", function() {
               esri.hide(dom.byId("firesmapload"));
             });
@@ -1223,7 +1223,7 @@ define([
 
                   // Create list of regions
                   $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
-                  window.reportOptions['aois-chart'].forEach(function (item) {
+                  window.reportOptions['aois'].forEach(function (item) {
                     $('#firesCountIslandsList').append("<li>" + item.split("''").join("'") + "</li>");
                   });
 
@@ -1609,39 +1609,46 @@ define([
 
             queryTask.execute(query, function(res) {
               if (PRINT_CONFIG.query_results[configKey] !== undefined) {
-                var queryResultFirst = _.cloneDeep(PRINT_CONFIG.query_results[configKey]);
+                var queryResultFirst = PRINT_CONFIG.query_results[configKey].slice(0);
                 var queryResultSecond = res.features;
-                var combinedResults = {};
-
-                if(queryResultFirst.length > queryResultSecond.length){
-                  queryResultSecond = [queryResultFirst, queryResultFirst = queryResultSecond][0];
-                }
+                var queryResultKeys = [];
+                var combinedResults = [];
+                var adminLevelOneTwoArray = {};
+                var keyRegion;
 
                 if (areaOfInterestType === "GLOBAL") {
-                  combinedResults = queryResultSecond.map(function (result) {
-                    queryResultFirst.forEach(function (firstResult) {
-                      if (firstResult.attributes.NAME_1 === result.attributes.NAME_1 && configKey === "adminQuery") {
-                        result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
-                      } else if (firstResult.attributes.NAME_2 === result.attributes.NAME_2 && configKey === "subDistrictQuery") {
-                        result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
-                      }
-                    });
-                    return result;
-                  });
+                  keyRegion = configKey === "adminQuery" ? 'NAME_1' : 'NAME_2';
                 } else {
-                  combinedResults = queryResultSecond.map(function (result) {
-                    queryResultFirst.forEach(function (firstResult) {
-                      if (firstResult.attributes.DISTRICT === result.attributes.DISTRICT && configKey === "adminQuery") {
-                        result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
-                      } else if (firstResult.attributes.SUBDISTRIC === result.attributes.SUBDISTRIC && configKey === "subDistrictQuery") {
-                        result.attributes.fire_count = result.attributes.fire_count + firstResult.attributes.fire_count;
-                      }
-                    });
-                    return result;
-                  });
+                  keyRegion = configKey === "adminQuery" ? 'DISTRICT' : 'SUBDISTRIC';
                 }
 
-                var sortCombinedResults = _.sortByOrder(combinedResults, function (element) {
+                [queryResultFirst, queryResultSecond].forEach(function (resultItem) {
+                  resultItem.forEach(function (item) {
+                    if (item.attributes.NAME_2) {
+                    }
+                    queryResultKeys.push(item.attributes[keyRegion]);
+                  })
+                });
+
+                _.uniq(queryResultKeys).forEach(function (key) {
+                  var fireCount = 0;
+                  [queryResultFirst, queryResultSecond].forEach(function (queryResultItem) {
+                    queryResultItem.forEach(function (item) {
+                      adminLevelOneTwoArray[item.attributes.NAME_2] = item.attributes.NAME_1;
+                      if(item.attributes[keyRegion] === key){
+                        fireCount = fireCount + item.attributes.fire_count;
+                      }
+                    })
+                  });
+
+                  if (areaOfInterestType === "GLOBAL") {
+                    combinedResults.push(keyRegion === 'NAME_1' ? {attributes: {NAME_1: key, fire_count: fireCount}} : {attributes: {NAME_1: adminLevelOneTwoArray[key], NAME_2: key, fire_count: fireCount}});
+                  } else {
+                    combinedResults.push(keyRegion === 'DISTRICT' ? {attributes: {DISTRICT: key, fire_count: fireCount}} : {attributes: {SUBDISTRIC: key, fire_count: fireCount}});
+                  }
+                });
+
+                sortCombinedResults = _.sortByOrder(combinedResults, function (element) {
                   return element.attributes.fire_count;
                 }, 'desc');
 
