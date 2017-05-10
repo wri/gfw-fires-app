@@ -440,9 +440,8 @@ define([
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             var self = this;
-            if (!window.reportOptions) {
-                self.read_hash();
-            }
+            self.read_hash();
+
             var dateobj = window.reportOptions.dates;
             this.startdate = self.date_obj_to_string({
                 year: dateobj.fYear,
@@ -493,7 +492,7 @@ define([
 
             window.reportOptions['aois'] = _initialState.aois.split('!');
             window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
-              var fixingApostrophe = aoisItem.split("'").join("''");
+              var fixingApostrophe = aoisItem.replace(/'/g, "''");
               return fixingApostrophe;
             });
             window.reportOptions['dates'] = dateObj;
