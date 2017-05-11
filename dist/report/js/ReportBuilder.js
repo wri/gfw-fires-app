@@ -403,7 +403,7 @@ define([
               deferred = new Deferred(),
               query = new Query();
 
-              query.where = `NAME_ENGLISH = '${selectedCountry}' AND Name_1 in ('${aoiData}')`;
+              query.where = "NAME_ENGLISH = '" + selectedCountry + "' AND Name_1 in ('" + aoiData + "')";
               query.returnGeometry = false;
               query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
               query.returnDistinctValues = true;
@@ -817,15 +817,15 @@ define([
 
                 if (queryConfigTableId === 'district-fires-table') {
                   tableRows =
-                    `<tr><th class="admin-type-1">${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction'}</th>` +
-                    `<th class="number-column">#</th>` +
-                    `<th class="switch-color-column"></th></tr>`;
+                    '<tr><th class="admin-type-1">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>' +
+                    '<th class="number-column">#</th>' +
+                    '<th class="switch-color-column"></th></tr>';
                 } else {
                   tableRows =
-                    `<tr><th class="admin-type-2">${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City'}</th>` +
-                    `<th class="align-left admin-type-1">${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province'}</th>` +
-                    `<th class="number-column">#</th>` +
-                    `<th class="switch-color-column"></th></tr>`;
+                    '<tr><th class="admin-type-2">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>' +
+                    ('<th class="align-left admin-type-1">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>') +
+                    '<th class="number-column">#</th>' +
+                    '<th class="switch-color-column"></th></tr>';
                 }
 
                 tableRows += sortCombinedResults.map(function (feature) {
@@ -845,16 +845,16 @@ define([
 
                   if (queryConfigTableId === 'district-fires-table') {
                     return(
-                      `<tr><td class="table-cell ${aoitype}">${admin1}</td>` +
-                      `<td class='table-cell table-cell__value'>${colorValue}</td>` +
-                      `<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : PRINT_CONFIG.colorramp[0]})'></span></td></tr>`
+                      "<tr><td class=\"table-cell " + aoitype + "\">" + admin1 + "</td>" +
+                      ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
+                      ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : PRINT_CONFIG.colorramp[0]) + ")'></span></td></tr>")
                     )
                   } else {
                     return(
-                      `<tr><td class="table-cell ${aoitype}">${subDistrict2}</td>` +
-                      `<td class="table-cell ${aoitype}">${subDistrict1}</td>` +
-                      `<td class='table-cell table-cell__value'>${colorValue}</td>` +
-                      `<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : PRINT_CONFIG.colorramp[0]})'></span></td></tr>`
+                      "<tr><td class=\"table-cell " + aoitype + "\">" + subDistrict2 + "</td>" +
+                      ("<td class=\"table-cell " + aoitype + "\">" + subDistrict1 + "</td>") +
+                      ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
+                      ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : PRINT_CONFIG.colorramp[0]) + ")'></span></td></tr>")
                     )
                   }
                 });
@@ -1147,10 +1147,11 @@ define([
             }
             var twelveMonthsData = yearObject['data'];
             var lastMonthData = twelveMonthsData.pop();
-            yearObject['data'] = [...twelveMonthsData, {
+            yearObject['data'] = [].concat(twelveMonthsData, [{
               dataLabels: dataLabelsFormat,
               y: lastMonthData
-            }];
+            }]);
+
             yearObject['color'] = hexColor;
           };
 
@@ -1574,11 +1575,11 @@ define([
                 var districtFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'district-fires-table';
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
 
-                if(districtFireTable){
-                  table = `<table class='fires-table'><tr><th class="admin-type-1">${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction'}</th>`;
+                if (districtFireTable) {
+                  table = '<table class="fires-table"><tr><th class="admin-type-1">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>';
                 } else if (subdistrictFireTable) {
-                  table = `<table class='fires-table'><tr><th class='admin-type-2'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City'}</th>`;
-                  table += `<th class='align-left admin-type-1'>${PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province'}</th>`;
+                  table = '<table class="fires-table"><tr><th class="admin-type-2">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>';
+                  table += '<th class="align-left admin-type-1">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>';
                 } else {
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
                   fields = [fields[0], fields[2]];
@@ -2362,15 +2363,15 @@ define([
                       if (tableColorRange) {
                         tableColorRange.forEach(function (binItem, colorIndex) {
                           var color = colorIndex >= 5 ? PRINT_CONFIG.colorramp[colorIndex - 1] : PRINT_CONFIG.colorramp[colorIndex];
-                          if (window.reportOptions.aoitype === 'ISLAND'){
-                            if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
-                              cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                          if (window.reportOptions.aoitype === 'ISLAND') {
+                            if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]) {
+                              cols += '<td class="table-cell table-cell__value">' + colorValue + '</td><td class="table-color-switch_cell"><span class="table-color-switch" style=\'background-color: rgba(' + (color ? color.toString() : '') + ')\'></span></td>';
                             }
                           } else {
-                            if (colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]){
+                            if (colorValue >= tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]) {
                               var includes = _.includes(cols, 'table-cell__value');
-                              if(!includes){
-                                cols += `<td class='table-cell table-cell__value'>${colorValue}</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${color ? color.toString() : ''})'></span></td>`;
+                              if (!includes) {
+                                cols += '<td class="table-cell table-cell__value">' + colorValue + '</td><td class="table-color-switch_cell"><span class="table-color-switch" style=\'background-color: rgba(' + (color ? color.toString() : '') + ')\'></span></td>';
                               }
                             }
                           }
