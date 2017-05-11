@@ -75,10 +75,6 @@ html, body
 //--------------
 // Report body
 //--------------
-#subdistrict-fires-table
-  .admin-type-1
-    padding-left: 0
-
 .report__body {
   padding: 0 .5em;
 }
@@ -396,7 +392,7 @@ html, body
 
 .fires-table
   border-collapse collapse
-  margin 20px auto 0
+  margin 1em auto 0
 
 .fires-table th
   border-bottom 1px solid #888
@@ -421,7 +417,7 @@ html, body
 .fires-table th:first-child
 .fires-table td:first-child
   text-align left
-  padding-left: 10px
+  padding: 0 10px
 
 .fires-table .number-column
   min-width 50px
@@ -804,7 +800,9 @@ tspan {
 .table-cell.subdistrict-admin-level-1
   padding-left 0
 
-
+.table-cell.global
+.table-cell.island
+    text-align: left
 
 // TODO: remove old tables
 #pulpwood-fires-table
