@@ -903,10 +903,8 @@ define([
             //     esri.show(dom.byId())
             // })
 
-
             return deferred.promise;
         },
-
 
         getRegion: function(configKey) {
             var queryConfig = PRINT_CONFIG[configKey],
