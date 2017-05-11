@@ -840,7 +840,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
         var layerDefs = [];
-        layerDefs[0] = string;
+        layerDefs[8] = string;
 
         archiveLayer.setLayerDefinitions(layerDefs);
       }
@@ -853,7 +853,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
         var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
         var layerDefs = [];
-        layerDefs[1] = string;
+        layerDefs[9] = string;
 
         archiveLayer.setLayerDefinitions(layerDefs);
       }
