@@ -1149,10 +1149,11 @@ define([
             }
             var twelveMonthsData = yearObject['data'];
             var lastMonthData = twelveMonthsData.pop();
-            yearObject['data'] = [...twelveMonthsData, {
+            yearObject['data'] = [].concat(twelveMonthsData, [{
               dataLabels: dataLabelsFormat,
               y: lastMonthData
-            }];
+            }]);
+
             yearObject['color'] = hexColor;
           };
 
