@@ -1199,6 +1199,16 @@ define([
                   text: ''
                 },
 
+                xAxis: {
+                  labels: {
+                    style: {
+                      color: '#000',
+                      fontSize: '16px',
+                      fontFamily: "'Fira Sans', Georgia, serif"
+                    }
+                  }
+                },
+
                 yAxis: {
                   title: {
                     text: ''
@@ -1422,6 +1432,16 @@ define([
                   enabled: false
                 },
 
+                xAxis: {
+                  labels: {
+                    style: {
+                      color: '#000',
+                      fontSize: '16px',
+                      fontFamily: "'Fira Sans', Georgia, serif"
+                    }
+                  }
+                },
+
                 yAxis: {
                   visible: false
                 },
@@ -1440,7 +1460,7 @@ define([
                   formatter: function () {
                     return (
                       '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span> Fires</span></h3>' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
                       '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
                       '</div>'
                     )
@@ -1935,19 +1955,19 @@ define([
               // -------------
                 chartData.push({
                     color: "rgba(229, 0, 23, 1)",
-                    name: "In Indicative Moratorium Areas",
+                    name: "In indicative moratorium areas",
                     visible: true,
                     y: inside
                 });
                 chartData.push({
                   color: "rgba(216, 212, 212, 1)",
-                    name: "Not in Indicative Moratorium Areas",
+                    name: "Not in indicative moratorium areas",
                     visible: true,
                     y: outside
                 });
                 self.buildPieChart("moratorium-fires-chart", {
                     data: chartData,
-                    name: 'Moratorium Fires',
+                    name: 'Moratorium fires',
                     labelDistance: 5,
                     total: total
                 });
@@ -2013,19 +2033,19 @@ define([
                 // -------------
                 protectedAreaData.push({
                     color: "rgba(248, 137, 0, 1)",
-                    name: "In Protected Areas",
+                    name: "In protected areas",
                     visible: true,
                     y: protectedarea
                 });
                 protectedAreaData.push({
                     color: "rgba(216, 212, 212, 1)",
-                    name: "Outside Protected Areas",
+                    name: "Outside protected areas",
                     visible: true,
                     y: unprotected
                 });
                 self.buildPieChart("protected-areas-fires-chart", {
                     data: protectedAreaData,
-                    name: 'Protected Area Fires',
+                    name: 'Protected area fires',
                     labelDistance: 5,
                     total: total
                 });
@@ -2035,31 +2055,31 @@ define([
                 // -------------
                 concessionData.push({
                     color: "rgba(253, 240, 0, 1)",
-                    name: "Pulpwood Plantations",
+                    name: "Pulpwood plantations",
                     visible: true,
                     y: pulpwood
                 });
                 concessionData.push({
                     color: "rgba(255, 218, 0, 1)",
-                    name: "Palm Oil Concessions",
+                    name: "Palm oil concessions",
                     visible: true,
                     y: palmoil
                 });
                 concessionData.push({
                     color: "rgba(255, 188, 0, 1)",
-                    name: "Logging Concessions",
+                    name: "Logging concessions",
                     visible: true,
                     y: logging
                 });
                 concessionData.push({
                     color: "rgba(216, 212, 212, 1)",
-                    name: "Outside Concessions",
+                    name: "Outside concessions",
                     visible: true,
                     y: total - (logging + palmoil + pulpwood)
                 });
                 self.buildPieChart("land-use-fires-chart", {
                     data: concessionData,
-                    name: 'Fires in Concessions',
+                    name: 'Fires in concessions',
                     labelDistance: 5,
                     total: total
                 });
@@ -2099,6 +2119,7 @@ define([
               })
             } else {
               var queryEndpointsIds = ['fire_id_island_viirs', 'fire_id_island_modis'];
+              $('.fire-alert-count__year').text('2013');
               queryEndpointsIds.forEach(function (fireCountLayer) {
                 queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
                 queryForFiresCount(fireCountLayer);
