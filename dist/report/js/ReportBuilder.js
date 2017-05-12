@@ -74,10 +74,11 @@ define([
             fire_id_global_modis: 9,
             fire_id_island_modis: 0,
             fire_id_island_viirs: 11,
-            defaultLayers: [8],
-            defaultLayersModis: [9],
-            defaultLayersIslandModis: [0],
-            defaultLayersIslandViirs: [11],
+            defaultLayers: [8, 9],
+            // defaultLayersModis: [9],
+            defaultLayersIsland: [0, 11],
+            // defaultLayersIslandModis: [0],
+            // defaultLayersIslandViirs: [11],
             //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
@@ -273,17 +274,17 @@ define([
         init: function() {
 
             var self = this;
-            var proxies = ReportConfig.proxies;
-
-            var url = document.location.href;
-            var proxyUrl = "/proxy/proxy.ashx";
-            //var proxyUrl = "/proxy/proxy.php";
-
-            for (var domain in proxies) {
-                if (url.indexOf(domain) === 0) {
-                    proxyUrl = proxies[domain];
-                }
-            }
+            // var proxies = ReportConfig.proxies;
+            //
+            // var url = document.location.href;
+            // var proxyUrl = "/proxy/proxy.ashx";
+            // //var proxyUrl = "/proxy/proxy.php";
+            //
+            // for (var domain in proxies) {
+            //     if (url.indexOf(domain) === 0) {
+            //         proxyUrl = proxies[domain];
+            //     }
+            // }
 
             var urlHash = window.location.href.split('#')[1].split('&');
             var urlHashObject = {};
@@ -302,7 +303,7 @@ define([
             // self.getCountryAdminTypes(selectedCountry);
 
             // Set up some configurations
-            esriConfig.defaults.io.proxyUrl = proxyUrl;
+            // esriConfig.defaults.io.proxyUrl = proxyUrl;
 
             // #gfw-concessions, #all-concessions-fires-table
             if (this.dataSource === 'greenpeace') {
@@ -339,20 +340,20 @@ define([
             self.queryForDailyFireData(areaOfInterestType),
 
             self.buildDistributionOfFireAlertsMap().then(function () {
-              self.get_extent('fires');
+              // self.get_extent('fires');
             });
 
             districtLayerIdsViirsModis.forEach(function (districtLayerId) {
               self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
-                self.get_extent('adminBoundary');
                 self.buildFireCountMap('adminBoundary', 'adminQuery');
+                self.get_extent('adminBoundary');
               });
             });
 
             subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
               self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-                self.get_extent('subdistrictBoundary');
                 self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+                // self.get_extent('subdistrictBoundary');
               });
             });
 
@@ -569,35 +570,33 @@ define([
             }
 
             if(window.reportOptions.aoitype === 'GLOBAL'){
-              [PRINT_CONFIG.firesLayer.defaultLayers, PRINT_CONFIG.firesLayer.defaultLayersModis].forEach(function (id) {
-                addFirePoints(id);
-              });
+              addFirePoints(PRINT_CONFIG.firesLayer.defaultLayers, 'globalFires');
+              // [PRINT_CONFIG.firesLayer.defaultLayers, PRINT_CONFIG.firesLayer.defaultLayersModis].forEach(function (id) {
+              // });
             } else {
-              [PRINT_CONFIG.firesLayer.defaultLayersIslandViirs, PRINT_CONFIG.firesLayer.defaultLayersIslandModis].forEach(function (id) {
-                addFirePoints(id);
-              });
+              addFirePoints(PRINT_CONFIG.firesLayer.defaultLayers, 'indonesianFires');
+              // [PRINT_CONFIG.firesLayer.defaultLayersIslandViirs, PRINT_CONFIG.firesLayer.defaultLayersIslandModis].forEach(function (id) {
+              //   addFirePoints(id);
+              // });
             }
 
-            function addFirePoints(id) {
+            function addFirePoints(ids, layerId) {
+              var layerDefs = [];
               fireParams = new ImageParameters();
               fireParams.format = "png32";
-              fireParams.layerIds = id;
+              fireParams.layerIds = [];
               fireParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+              ids.forEach(function(id) {
+                fireParams.layerIds.push(id);
+                layerDefs[id] = self.get_layer_definition();
+              });
 
               fireLayer = new ArcGISDynamicLayer(queryUrl, {
                 imageParameters: fireParams,
-                id: PRINT_CONFIG.firesLayer.id + id[0],
+                id: layerId,
                 visible: true
               });
-              var layerDefs = [];
-
-              if(window.reportOptions.aoitype === 'GLOBAL'){
-                layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_viirs] = self.get_layer_definition();
-                layerDefs[PRINT_CONFIG.firesLayer.fire_id_global_modis] = self.get_layer_definition();
-              } else {
-                layerDefs[PRINT_CONFIG.firesLayer.defaultLayersIslandViirs] = self.get_layer_definition();
-                layerDefs[PRINT_CONFIG.firesLayer.defaultLayersIslandModis] = self.get_layer_definition();
-              }
 
               fireLayer.setLayerDefinitions(layerDefs);
 
@@ -1791,8 +1790,6 @@ define([
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
 
-
-
             query.where = "fire_count IS NOT NULL";
             query.returnGeometry = false;
             query.outFields = fields;
@@ -2099,7 +2096,6 @@ define([
             }
 
             function queryForFiresCount(fireCountLayer) {
-              // query.where = [self.get_aoi_definition(), "BRIGHTNESS >= 330", "CONFIDENCE >= 30"].join(' AND ');
               query.where = self.get_aoi_definition();
               query.returnGeometry = false;
               query.groupByFieldsForStatistics = [PRINT_CONFIG.dailyFiresField];
@@ -2303,8 +2299,9 @@ define([
 
             mapkeys = [mapkeysItem];
             query.where = self.get_aoi_definition('REGION');
-
+            query.maxAllowableOffset = 10000;
             query.returnGeometry = true;
+
             if (window.reportOptions.aoitype === 'ISLAND') {
               query.outFields = ["DISTRICT"];
               queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.adminQuery.layerId)
@@ -2316,9 +2313,8 @@ define([
                 var extent = graphicsUtils.graphicsExtent(results.features);
 
                 arrayUtils.forEach(mapkeys, function(key) {
-                    var map = PRINT_CONFIG.maps[key];
-                    if (map) {
-                      map.setExtent(extent, true);
+                    for (map in PRINT_CONFIG.maps) {
+                      PRINT_CONFIG.maps[map].setExtent(extent, true);
                     }
 
                 })
