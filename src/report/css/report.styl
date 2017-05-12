@@ -60,10 +60,6 @@ html, body
   text-align center
 }
 
-.num-of-fires__wraper {
-  display: inline-block;
-}
-
 .num-of-fires__content {
   display: flex;
   align-items: center;
@@ -89,15 +85,14 @@ html, body
   font-size: 4em;
   color: #E50017;
   margin: 0 .5rem
-  flex: 1 1 75px;
   min-width: 100px;
 }
 
 .fire-alert__container {
-  display: flex;
-  flex-direction: column;
   text-align: left;
-  text-transform capitalize
+  p {
+    margin: 0
+  }
 }
 
 .map-container
@@ -134,7 +129,7 @@ html, body
     z-index 50
     bottom 5px
     left 5px
-    padding 0.5em
+    padding 0.25em 0.5em
 
   .legend__title
     font-weight: 400
@@ -194,7 +189,7 @@ html, body
 
 .legend-swatch__container
   display: flex;
-  padding: .5rem 0 0;
+  padding: .25rem 0;
   align-items: center;
 
 .legend-swatch-round
@@ -221,12 +216,11 @@ html, body
   text-align center
 
 #disclaimer
-  text-align center
   font-size 14px
   margin-bottom 50px
   margin-top 3em
   border 1px solid gray
-  padding .5em .5em 1em .5em
+  padding 0 1em 1em 1em
 
   a
     color #000
@@ -327,6 +321,10 @@ html, body
   width: 1px;
   background: #ffcecb;
   margin: 0 1.5em;
+
+.consession__type
+  text-align: left
+  min-width: 80px
 
 //--------------
 // Chart Container
@@ -653,11 +651,14 @@ tspan {
   height: 400px
   width calc( 100% - 185px)
 
+.firesCountChart__text
+.firesCountChart__popup
+  padding .25em
+  margin 0
+  font-size: 16px
+
 .firesCountChart__popup
   color #000
-  padding .25em
-  margin .125em 0
-  font-size: 14px
 
 #firesCountIslandsListContainer
   width 185px
@@ -746,13 +747,13 @@ tspan {
 
 .history-chart-tooltip__container
   color #fff
-  padding: .5em
+  padding: 0 .5em
   font-family: 'Fira Sans', Georgia, serif;
 
 .history-chart-tooltip__content
   margin 0
   font-weight: normal
-  font-size: 30px
+  font-size: 24px
 
   span
     font-size: 14px
@@ -768,6 +769,7 @@ tspan {
 .fire-history__subtitle
 .fire-history__description
   font-size: 1rem
+  font-size: 24px
   margin: auto
   font-weight: normal
   text-transform uppercase
