@@ -514,7 +514,7 @@ define([
                 aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
               }
 
-            var sql = [aoi, startdate, enddate].join(' AND ');
+            var sql = [startdate, enddate, aoi].join(' AND ');
                 return sql;
         },
 
