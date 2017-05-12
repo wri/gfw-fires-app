@@ -1220,13 +1220,13 @@ define([
                   enabled: false
                 },
 
-              tooltip: {
-                useHTML: true,
-                backgroundColor: '#ffbb07',
-                formatter: function() {
-                  return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
-                }
-
+                tooltip: {
+                  useHTML: true,
+                  backgroundColor: '#ffbb07',
+                  borderWidth: 0,
+                  formatter: function () {
+                    return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
+                  }
                 },
 
                 xAxis: {
@@ -1435,15 +1435,16 @@ define([
 
                 tooltip: {
                   useHTML: true,
-                  backgroundColor: '#FFB600',
+                  backgroundColor: '#ffbb07',
                   borderWidth: 0,
-                  thousandsSep: ',',
-                  headerFormat: '<div class="history-chart-tooltip__container">',
-                  pointFormat:
-                  '<h3 class="history-chart-tooltip__content">{point.z} <span>Fires per SQ 1,000 Kilometers</span></h3>' +
-                  '<p class="history-chart-tooltip__year">{point.x}</p>',
-                  footerFormat: '</div>',
-                  // followPointer: true
+                  formatter: function () {
+                    return (
+                      '<div class="history-chart-tooltip__container">' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span> Fires</span></h3>' +
+                      '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
+                      '</div>'
+                    )
+                  }
                 },
 
                 series: [{
