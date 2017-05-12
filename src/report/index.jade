@@ -85,8 +85,8 @@ html(lang="en")
               span#confidence-count During this time period, there were
               span#totalFireAlerts
               div.fire-alert__container
-                span fire
-                span alerts
+                p Fire
+                p Alerts
         div#aoiListSection.border-top-separator
           h3#aoiList
         div#section-one
@@ -142,14 +142,17 @@ html(lang="en")
                   div#SubDistrict-legend
 
         div#section-four.page-break.border-top-separator
-          h3.report-section__title FIRE ALERT COUNT JAN 1, 2012 - PRESENT
+          h3.report-section__title
+            | FIRE ALERT COUNT JAN 1,
+            span.fire-alert-count__year 2012
+            |  - PRESENT
           h4.report-section__subtitle.fire-alert-count__subtitle MODIS fire alerts
           div#fire-alert-count-sumatra
             div#fire-line-chart(class='fire-line-chart')
         div#ConcessionRspoContainer(class='page-break')
           div#section-five(class='page-break')
             h3(class='section-title')
-              | TYPE
+              | CONCESSION
               br
               span.break-raw with greatest number of fire alerts
             div#gfw-concessions
