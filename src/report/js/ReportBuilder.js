@@ -2135,7 +2135,7 @@ define([
             success = function(res) {
                 var count = 0;
                 arrayUtils.forEach(res.features, function(feature) {
-                  fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).utcOffset('Asia/Jakarta').format("M/D/YYYY"));
+                  fireDataLabels.push(moment(feature.attributes[PRINT_CONFIG.dailyFiresField]).utcOffset('Asia/Jakarta').format("D MMM YYYY"));
                   fireData.push(feature.attributes.Count);
                   count += feature.attributes.Count;
                 });
