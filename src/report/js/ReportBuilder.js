@@ -1613,7 +1613,7 @@ define([
                   concessionFiresCounts.push(filtered);
 
                   if(concessionFiresCounts.length === 3){
-                    concessionTable = "<table class='concession-fires-counts__table'><thead><tr><th class='consession__name'>Name</th><th class='consession__type'>Concession</th><th class='consession__number'>#</th><th class='consession__bar'></th></tr></thead>";
+                    concessionTable = "<table class='concession-fires-counts__table'><thead><tr><th class='consession__name'>Name</th><th class='consession__type'>Type</th><th class='consession__number'>#</th><th class='consession__bar'></th></tr></thead>";
                     var combineConcessionsArray = concessionFiresCounts[0].concat(concessionFiresCounts[1], concessionFiresCounts[2]);
 
                     combineConcessionsArray.sort(function (a, b) {
