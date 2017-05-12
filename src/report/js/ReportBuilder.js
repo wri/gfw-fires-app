@@ -47,6 +47,164 @@ define([
             [225, 63, 0, 1],
             [229, 0, 2, 1]
         ],
+        countryFeatures: {
+            "Belarus": 22,
+            "Czech Republic": 62,
+            "Eritrea": 72,
+            "Lithuania": 130,
+            "Kyrgyzstan": 122,
+            "Costa Rica": 56,
+            "South Africa": 211,
+            "Venezuela": 249,
+            "Ukraine": 240,
+            "Zimbabwe": 256,
+            "Gambia": 84,
+            "Angola": 8,
+            "Serbia": 202,
+            "El Salvador": 70,
+            "Democratic Republic of the Congo": 63,
+            "Croatia": 58,
+            "Georgia": 85,
+            "Djibouti": 65,
+            "Madagascar": 134,
+            "Niger": 162,
+            "Turkey": 235,
+            "Tanzania": 227,
+            "Vietnam": 250,
+            "Poland": 181,
+            "Oman": 170,
+            "Afghanistan": 1,
+            "Egypt": 69,
+            "Germany": 86,
+            "Kazakhstan": 117,
+            "Morocco": 152,
+            "Japan": 114,
+            "Denmark": 64,
+            "Guatemala": 94,
+            "Belgium": 23,
+            "Ecuador": 68,
+            "Haiti": 99,
+            "Rwanda": 189,
+            "Argentina": 12,
+            "Samoa": 197,
+            "Azerbaijan": 17,
+            "South Korea": 213,
+            "Indonesia": 106,
+            "Chad": 47,
+            "Laos": 123,
+            "Burkina Faso": 38,
+            "Switzerland": 223,
+            "Zambia": 255,
+            "Nicaragua": 161,
+            "Botswana": 31,
+            "Italy": 112,
+            "Netherlands": 158,
+            "Tunisia": 234,
+            "Colombia": 53,
+            "Guyana": 98,
+            "Martinique": 141,
+            "Burundi": 39,
+            "Bangladesh": 20,
+            "Mozambique": 153,
+            "Mongolia": 149,
+            "Sri Lanka": 217,
+            "Iran": 107,
+            "North Korea": 166,
+            "Mexico": 145,
+            "New Caledonia": 159,
+            "United States": 244,
+            "Bulgaria": 37,
+            "Nepal": 157,
+            "Malaysia": 136,
+            "Greece": 89,
+            "Spain": 215,
+            "Côte d'Ivoire": 57,
+            "Guinea": 97,
+            "French Guiana": 80,
+            "Somalia": 210,
+            "Ghana": 87,
+            "Malawi": 135,
+            "Hungary": 103,
+            "Myanmar": 154,
+            "Honduras": 101,
+            "Finland": 78,
+            "Faroe Islands": 76,
+            "Sudan": 218,
+            "Reunion": 186,
+            "Uzbekistan": 246,
+            "Taiwan": 225,
+            "South Sudan": 214,
+            "Namibia": 155,
+            "India": 105,
+            "Luxembourg": 131,
+            "Thailand": 228,
+            "Norway": 169,
+            "Palestina": 173,
+            "United Kingdom": 242,
+            "Wallis and Futuna": 252,
+            "Gabon": 83,
+            "Kosovo": 120,
+            "China": 49,
+            "Iceland": 104,
+            "American Samoa": 6,
+            "Benin": 25,
+            "Ethiopia": 74,
+            "Russia": 188,
+            "Uruguay": 245,
+            "Guinea-Bissau": 96,
+            "Suriname": 219,
+            "Estonia": 73,
+            "Canada": 42,
+            "Guadeloupe": 92,
+            "Slovakia": 207,
+            "Peru": 178,
+            "Cuba": 59,
+            "Bhutan": 27,
+            "Chile": 48,
+            "Bosnia and Herzegovina": 30,
+            "Central African Republic": 46,
+            "Sweden": 222,
+            "Mali": 138,
+            "Albania": 4,
+            "Yemen": 254,
+            "Paraguay": 177,
+            "Mauritania": 142,
+            "Cambodia": 40,
+            "France": 79,
+            "Cameroon": 41,
+            "Tajikistan": 226,
+            "Fiji": 77,
+            "Panama": 174,
+            "Kenya": 118,
+            "New Zealand": 160,
+            "Latvia": 124,
+            "Philippines": 179,
+            "East Timor": 229,
+            "Liberia": 127,
+            "Syria": 224,
+            "Nigeria": 163,
+            "Republic of Congo": 185,
+            "Bolivia": 28,
+            "Algeria": 5,
+            "Senegal": 201,
+            "Brazil": 33,
+            "Iraq": 108,
+            "Portugal": 182,
+            "Sierra Leone": 204,
+            "Papua New Guinea": 175,
+            "Jordan": 116,
+            "Dominican Republic": 66,
+            "Brunei": 36,
+            "Lebanon": 125,
+            "Australia": 15,
+            "Uganda": 239,
+            "Romania": 187,
+            "Slovenia": 208,
+            "Greenland": 90,
+            "Togo": 230,
+            "Austria": 16,
+            "Pakistan": 171
+          },
         colorRampFireHistory: [
             '#FDF000',
             '#F88900',
@@ -404,7 +562,9 @@ define([
               deferred = new Deferred(),
               query = new Query();
 
-              query.where = "NAME_ENGLISH = '" + selectedCountry + "' AND Name_1 in ('" + aoiData + "')";
+              var countryObjs = PRINT_CONFIG.countryFeatures;
+
+              query.where = "ID_0 = " + countryObjs[selectedCountry] + " AND Name_1 in ('" + aoiData + "')";
               query.returnGeometry = false;
               query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
               query.returnDistinctValues = true;
@@ -509,7 +669,9 @@ define([
             if (aoiType === 'ISLAND') {
                 aoi = aoiType + " in ('" + aoiData + "')";
               } else {
-                countryQueryGlobal = "NAME_ENGLISH = \'" + country + "'";
+                var countryObjs = PRINT_CONFIG.countryFeatures;
+
+                countryQueryGlobal = "ID_0 = " + countryObjs[country];
                 aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
                 aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
               }
@@ -525,7 +687,9 @@ define([
             if (window.reportOptions.aoitype === 'GLOBAL' && queryType === 'REGION') {
               aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
             } else if (window.reportOptions.aoitype === 'GLOBAL') {
-              aoi = "NAME_ENGLISH = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
+              var countryObjs = PRINT_CONFIG.countryFeatures;
+
+              aoi = "ID_0 = " + countryObjs[window.reportOptions.country] + " AND NAME_1 in ('" + aois.join("','") + "')";
             } else {
               aoi = window.reportOptions.aoitype + " in ('" + aois.join("','") + "')";
             }
@@ -549,9 +713,6 @@ define([
                 slider: PRINT_CONFIG.slider
             });
 
-            // TODO: At cleanup stage
-            window.map1 = map;
-
             map.on("update-start", function() {
               esri.show(dom.byId("firesmapload"));
             });
@@ -562,7 +723,6 @@ define([
 
             PRINT_CONFIG.maps['fires'] = map;
 
-
             if (window.reportOptions.aoitype === 'GLOBAL') {
               queryUrl = PRINT_CONFIG.firesLayer.urlGlobal;
             } else {
@@ -571,13 +731,8 @@ define([
 
             if(window.reportOptions.aoitype === 'GLOBAL'){
               addFirePoints(PRINT_CONFIG.firesLayer.defaultLayers, 'globalFires');
-              // [PRINT_CONFIG.firesLayer.defaultLayers, PRINT_CONFIG.firesLayer.defaultLayersModis].forEach(function (id) {
-              // });
             } else {
-              addFirePoints(PRINT_CONFIG.firesLayer.defaultLayers, 'indonesianFires');
-              // [PRINT_CONFIG.firesLayer.defaultLayersIslandViirs, PRINT_CONFIG.firesLayer.defaultLayersIslandModis].forEach(function (id) {
-              //   addFirePoints(id);
-              // });
+              addFirePoints(PRINT_CONFIG.firesLayer.defaultLayersIsland, 'indonesianFires');
             }
 
             function addFirePoints(ids, layerId) {
@@ -970,8 +1125,6 @@ define([
 
             var baseUrl = 'https://b10fk4n1u3.execute-api.us-east-1.amazonaws.com/stage/firms/';
 
-            // console.log(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString);
-
             $.get(baseUrl + aoiType + '?chart=breakdown&start=' + startDates + '&stop=' + endDates + '&aoi=' + aoiString, function (data) {
               arrayUtils.forEach(data, function(feature) {
                 var type = 'totalfires';
@@ -1114,7 +1267,8 @@ define([
             data: [],
           };
 
-        query.where = "NAME_ENGLISH='" + selectedCountry + "'";
+        var countryObjs = PRINT_CONFIG.countryFeatures;
+        query.where = "ID_0=" + countryObjs[selectedCountry];
         query.returnGeometry = false;
         query.outFields = ['*'];
 
@@ -1156,7 +1310,6 @@ define([
 
           if (allFeatures.length > 0) {
             allFeatures.forEach(function (item) {
-              var countryName = item.attributes.NAME_ENGLISH;
               var obj = item.attributes;
               Object.keys(obj).forEach(function(key) {
                 if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
@@ -1356,7 +1509,8 @@ define([
             data: []
           };
 
-        query.where = "NAME_ENGLISH='" + selectedCountry + "'";
+        var countryObjs = PRINT_CONFIG.countryFeatures;
+        query.where = "ID_0=" + countryObjs[selectedCountry];
         query.returnGeometry = false;
         query.outFields = ['*'];
 
@@ -1365,7 +1519,6 @@ define([
           var allFeatures = res.features;
           if (allFeatures.length > 0) {
             allFeatures.forEach(function (item) {
-              var countryName = item.attributes.NAME_ENGLISH;
               var obj = item.attributes;
               Object.keys(obj).forEach(function(key) {
                 if (key.substring(0, 5) === 'Fire_') {
