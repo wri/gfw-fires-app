@@ -1634,7 +1634,11 @@ define([
 
                     concessionsFinalArray.forEach(function (item) {
                       var barSize = ((100 / maxValue) * item.attributes.fire_count).toString() + '%';
-                      concessionTable += "<tr><td class='concession__name'>" + item.name + "</td><td class='concession__type'>" + item.type + "</td><td class='concession__count'>" + item.attributes.fire_count + "</td><td class='table-cell-bar__container'><span class='table-cell-bar__item' style='width: " + barSize + "'></span></td></tr>";
+                      var concessionType = item.type;
+                      if(concessionType === "Wood"){
+                        concessionType = concessionType.replace(/Wood/gi, 'Wood fiber');
+                      }
+                      concessionTable += "<tr><td class='concession__name'>" + item.name + "</td><td class='concession__type'>" + concessionType + "</td><td class='concession__count'>" + item.attributes.fire_count + "</td><td class='table-cell-bar__container'><span class='table-cell-bar__item' style='width: " + barSize + "'></span></td></tr>";
                     });
 
                     concessionTable += "</table>";
