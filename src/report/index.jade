@@ -112,7 +112,7 @@ html(lang="en")
         div#section-two(class='page-break')
           div.report-section__map-container.district-fire-numbers__container
             div.report-section__map
-              h3.report-section__title.two-rows Greatest number of fire alerts by:&nbsp;
+              h3.report-section__title.two-rows Greatest number of fire alerts&nbsp;
                 span.admin-type-1 PROVINCE
               div(class='map-container map-legend')
                 div#legend-container(class='legend-container')
@@ -121,7 +121,7 @@ html(lang="en")
                   div#distmapload.loader
 
             div.report-section__content
-              h3.report-section__title.two-rows Greatest number of fire alerts by:&nbsp;
+              h3.report-section__title.two-rows Greatest number of fire alerts&nbsp;
                 span.admin-type-1 JURISDICTION
               div#district-fires-table
                 tbody
@@ -129,7 +129,7 @@ html(lang="en")
         div#section-three(class='page-break')
           div.report-section__map-container.distribution-fire-alerts
             div.report-section__content
-              h3.report-section__title.two-rows Greatest number of fire alerts by:&nbsp;
+              h3.report-section__title.two-rows Greatest number of fire alerts&nbsp;
                 span.admin-type-2 DISTRICT
               div#subdistrict-fires-table
                 tbody
@@ -226,7 +226,8 @@ html(lang="en")
           div(id='disclaimer' class='no-break')
             p WRI uses NASA Fire Information for Resource Management Sytem (FIRMS) near real time (NRT) active fire data from the MODIS and VIIRS satellites to map fire locations. The sensors on these satellites detect the heat signatures of fires from the infrared spectral band. When a fire is detected, the system indicates the area where the fire occurred with an “alert.” Because each satellite orbits the earth twice per day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
             p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Fire data from the MODIS satellite are approximately 1km resolution and VIIRS satellite data has a resolution of 375m. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
-            p Sources:
+            p
+              strong Sources:
             p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
             p
               | VIIRS 375m NRT - NRT VIIRS 375 m Active Fire product&nbsp;
@@ -236,7 +237,7 @@ html(lang="en")
               | ]. DOI:&nbsp;
               a(href='https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/v1-vnp14imgt') 5067/FIRMS/VIIRS/VNP14IMGT.NRT.001.
             p
-              | MODIS Collection 6 NRT - MODIS Collection 6 NRT Hotspot / Active Fire Detections
+              | MODIS Collection 6 NRT - MODIS Collection 6 NRT Hotspot / Active Fire Detections&nbsp;
               a(href='https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/c6-mcd14dl') MCD14DL
               | . Available on-line [
               a(href='https://earthdata.nasa.gov/firms') https://earthdata.nasa.gov/firms
