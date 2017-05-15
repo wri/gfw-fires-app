@@ -2017,7 +2017,8 @@ define([
                 PRINT_CONFIG.query_results[configKey] = res.features;
                 if (configKey == 'rspoQuery') {
                   dom.byId(queryConfig.tableId).innerHTML = buildRSPOTable(res.features);
-                } else {
+                } else if (configKey !== "subDistrictQuery") {
+                  console.log('adminQuery: ', configKey);
                   dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
                 }
               }
