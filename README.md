@@ -41,6 +41,10 @@ This automatic update will take a moment because build/dist artifacts are not co
 #### Versioning
 TODO
 
+### App Pages
+- [Map](http://localhost:3000/map/) - `http://localhost:3000/map/`
+- [Report](http://localhost:3000/report) - `http://localhost:3000/report`
+
 ##### NOTE: DO NOT UNDER ANY CIRCUMSTANCES COMMIT ANY CREDENTIALS OF ANY KIND
 
 #### TODO
