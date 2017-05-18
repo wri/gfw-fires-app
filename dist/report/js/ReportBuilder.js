@@ -324,8 +324,8 @@ define([
             greenpeace: "There are no fire alerts in Greenpeace concessions in the AOI and time range.",
         },
         firesLayer: {
-            urlIsland: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
+            urlIsland: "https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+            urlGlobal: "https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
             id: "Active_Fires",
             fire_id: 0,
             fire_id_global_viirs: 8,
@@ -364,8 +364,8 @@ define([
         },
         adminBoundary: {
             mapDiv: "district-fires-map",
-            urlIsland: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-            urlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
+            urlIsland: "https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+            urlGlobal: "https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
             id: 'district-bounds',
             defaultLayers: [6],
             defaultLayersGlobal: [6],
@@ -388,8 +388,8 @@ define([
         },
         subdistrictBoundary: {
             mapDiv: "subdistrict-fires-map",
-            urlIsland: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-            urlGlobal: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+            urlIsland: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+            urlGlobal: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             defaultLayersGlobal: [4],
@@ -516,8 +516,8 @@ define([
             chartId: 'concession'
         },
 
-        queryUrl: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
-        queryUrlGlobal: "http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
+        queryUrl: "https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
+        queryUrlGlobal: "https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 8,
@@ -532,6 +532,8 @@ define([
         init: function() {
 
             var self = this;
+            self.init_report_options();
+
             // var proxies = ReportConfig.proxies;
             //
             // var url = document.location.href;
@@ -544,24 +546,15 @@ define([
             //     }
             // }
 
-            var urlHash = window.location.href.split('#')[1].split('&');
-            var urlHashObject = {};
-            urlHash.forEach(function (item) {
-              var itemArray = item.split('=');
-              urlHashObject[itemArray[0]] = itemArray[1];
-            });
-
-            var areaOfInterestType = urlHashObject.aoitype;
-            var selectedCountry = urlHashObject.country ? urlHashObject.country : 'Indonesia';
-            $('.selected-country').text(selectedCountry);
-            var TypeIsland = 'ISLAND';
-            $('.country-name').text(selectedCountry);
-
-            self.init_report_options();
             // self.getCountryAdminTypes(selectedCountry);
 
             // Set up some configurations
             // esriConfig.defaults.io.proxyUrl = proxyUrl;
+
+            var areaOfInterestType = window.reportOptions['aoitype'];
+            var selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
+            $('.selected-country').text(selectedCountry);
+            $('.country-name').text(selectedCountry);
 
             // #gfw-concessions, #all-concessions-fires-table
             if (this.dataSource === 'greenpeace') {
@@ -598,7 +591,7 @@ define([
             self.queryForDailyFireData(areaOfInterestType),
 
             self.buildDistributionOfFireAlertsMap().then(function () {
-              // self.get_extent('fires');
+              self.get_extent('fires');
             });
 
             districtLayerIdsViirsModis.forEach(function (districtLayerId) {
@@ -611,14 +604,14 @@ define([
             subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
               self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
                 self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-                // self.get_extent('subdistrictBoundary');
+                self.get_extent('subdistrictBoundary');
               });
             });
 
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
 
-            if (areaOfInterestType === TypeIsland) {
+            if (window.reportOptions.aoitype !== 'GLOBAL') {
               all([
                 // Indonesia tables query --- START
                 self.queryDistrictsFireCount("rspoQuery", null, PRINT_CONFIG.rspoQuery.fire_stats.id),
@@ -658,7 +651,7 @@ define([
             var aois = window.reportOptions.aois;
             var aoiData = aois.join('\',\'');
 
-            queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/10"),
+            queryTask = new QueryTask("https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/10"),
               deferred = new Deferred(),
               query = new Query();
 
@@ -729,6 +722,13 @@ define([
                 dateObj[datearr[0]] = datearr[1];
             })
 
+            if (_initialState.aoitype === 'PROVINCE') {
+              _initialState.aoitype = 'GLOBAL';
+              _initialState.reporttype = 'globalcountryreport';
+              _initialState.country= 'Indonesia';
+              delete (_initialState.dataSource);
+            }
+
             window.reportOptions = {
                 aoitype: _initialState.aoitype
             }
@@ -771,10 +771,6 @@ define([
             var enddate = "ACQ_DATE <= date'" + this.enddate + "'";
             var countryQueryGlobal;
             var aoiQueryGlobal;
-
-            // console.log(aoiData);
-            console.log(aois);
-
 
             if (aoiType === 'ISLAND') {
                 aoi = aoiType + " in ('" + aoiData + "')";
@@ -855,7 +851,6 @@ define([
               ids.forEach(function(id) {
                 fireParams.layerIds.push(id);
                 layerDefs[id] = self.get_layer_definition();
-                console.log(layerDefs[id]);
               });
 
               fireLayer = new ArcGISDynamicLayer(queryUrl, {
@@ -1370,7 +1365,7 @@ define([
         },
 
       getFireCounts: function (selectedCountry) {
-        var queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
+        var queryTask = new QueryTask("https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
           deferred = new Deferred(),
           query = new Query(),
           series = [],
@@ -1523,13 +1518,13 @@ define([
                   };
 
                 if (window.reportOptions.aoitype !== 'GLOBAL') {
-                  queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
+                  queryTask = new QueryTask("https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
                   query.where = "1=1";
                   query.returnGeometry = false;
                   query.outFields = ['*'];
                   queryOptions = query;
                 } else {
-                  queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
+                  queryTask = new QueryTask("https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3"),
                   query.where = 'NAME_0=\'' + selectedCountry + '\'';
                   query.returnGeometry = false;
                   query.outFields = ['*'];
@@ -1621,7 +1616,7 @@ define([
       },
 
       getFireHistoryCounts: function (selectedCountry) {
-        var queryTask = new QueryTask("http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
+        var queryTask = new QueryTask("https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/2"),
           deferred = new Deferred(),
           query = new Query(),
           series = {},
@@ -1994,6 +1989,11 @@ define([
                   return element.attributes.fire_count;
                 }, 'desc');
 
+                // Remove in case of nonexistent sub-district
+                var sortCombinedResults = $.grep(sortCombinedResults, function(item){
+                  return item.attributes.SUBDISTRIC != " ";
+                });
+
                 PRINT_CONFIG.query_results[configKey] = sortCombinedResults;
 
                 if (sortCombinedResults.length > 0) {
@@ -2018,7 +2018,6 @@ define([
                 if (configKey == 'rspoQuery') {
                   dom.byId(queryConfig.tableId).innerHTML = buildRSPOTable(res.features);
                 } else if (configKey !== "subDistrictQuery") {
-                  console.log('adminQuery: ', configKey);
                   dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
                 }
               }
