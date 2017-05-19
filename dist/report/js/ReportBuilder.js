@@ -695,7 +695,7 @@ define([
                 month: monthNames[dateobj.tMonth - 1].substring(0,3),
                 day: dateobj.tDay
             });
-            this.aoilist = window.reportOptions.aois.join(', ');
+            this.aoilist = window.reportOptions.aois.sort().join(', ');
             this.aoitype = window.reportOptions.aoitype;
             this.dataSource = window.reportOptions.dataSource;
             document.querySelector('#fromDate').innerHTML = self.startdate;
