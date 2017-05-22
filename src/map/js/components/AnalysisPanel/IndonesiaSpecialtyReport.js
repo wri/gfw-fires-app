@@ -85,24 +85,25 @@ export default class IndonesiaSpecialtyReport extends React.Component {
           </div>
           <p>{analysisPanelText.analysisIndonesiaChooseData}</p>
           <div className='flex flex-justify-around'>
-            <label>
+            <p>By Province(s)</p>
+            {/*<label>
               <input onChange={analysisActions.toggleAreaIslandsActive} checked={this.props.areaIslandsActive} type='radio' />
               {' By Island(s)'}
-            </label>
-            <label>
+            </label>*/}
+            {/*<label>
               <input onChange={analysisActions.toggleAreaIslandsActive} checked={!this.props.areaIslandsActive} type='radio' />
               {' By Province(s)'}
-            </label>
+            </label>*/}
           </div>
           <div className='padding'>
-          {this.props.islands.length > 0 ?
+          {/*{this.props.islands.length > 0 ?
             <select multiple id='islands' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`} onChange={this.change} disabled={this.props.islands.length === 0}>
               {this.props.islands.map((i) => (
                 <option selected='true' value={i}>{i}</option>
               ))}
             </select>
             : null
-          }
+          }*/}
           {this.props.islands.length > 0 ?
             <select multiple id='provinces' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === false ? '' : 'hidden'}`} onChange={this.change}>
               {this.props.provinces.map((p) => (
