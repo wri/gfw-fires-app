@@ -23,7 +23,7 @@ class AnalysisStore {
     this.subscribeToolsExpanded = false;
     this.timelineVisible = false;
     this.analysisSourceGFW = true;
-    this.areaIslandsActive = true;
+    this.areaIslandsActive = false;
     this.islands = [];
     this.provinces = [];
     this.countries = [];
