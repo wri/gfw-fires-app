@@ -37,7 +37,7 @@ define([
 
     var PRINT_CONFIG = {
         zoom: 1,
-        basemap: 'dark-gray',
+        basemap: 'topo',
         slider: true,
         mapcenter: [0, 0],
         colorramp: [
