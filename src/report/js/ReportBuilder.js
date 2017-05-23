@@ -695,7 +695,7 @@ define([
                 month: monthNames[dateobj.tMonth - 1].substring(0,3),
                 day: dateobj.tDay
             });
-            this.aoilist = window.reportOptions.aois.sort().join(', ');
+            this.aoilist = window.reportOptions.aois.join(', ');
             this.aoitype = window.reportOptions.aoitype;
             this.dataSource = window.reportOptions.dataSource;
             document.querySelector('#fromDate').innerHTML = self.startdate;
@@ -739,7 +739,7 @@ define([
               window.reportOptions['country'] = _initialState.country;
             }
 
-            window.reportOptions['aois'] = _initialState.aois.split('!');
+            window.reportOptions['aois'] = _initialState.aois.split('!').sort();
             window.reportOptions['aois'] = window.reportOptions['aois'].map(function (aoisItem) {
               var fixingApostrophe = aoisItem.replace(/'/g, "''");
               return fixingApostrophe;
