@@ -535,7 +535,7 @@ export const config = {
       id: KEYS.oilPalmGreenpeace,
       order: 10,
       type: 'dynamic',
-      label: 'Palm oil',
+      label: 'Oil palm',
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
