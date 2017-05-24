@@ -11,15 +11,11 @@ define(["exports"], function (exports) {
     * @return {string} Query String to use for Fires Filter
     */
     generateFiresQuery: function generateFiresQuery(filterValue) {
-      // The service only has data for the last week, so if filter is 7 days, just set to 1 = 1
-      if (filterValue >= 7) {
-        return '1 = 1';
-      }
-
       var date = new Date();
       // Set the date to filterValue amount of days before today
       date.setDate(date.getDate() - filterValue);
       var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      console.log(dateString);
       return "ACQ_DATE > date '" + dateString + "'";
     },
 

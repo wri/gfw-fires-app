@@ -276,10 +276,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0, 1],
+      layerIds: [9],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_1/MapServer',
+      url: 'http://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -470,7 +470,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.oilPalmGreenpeace,
       order: 10,
       type: 'dynamic',
-      label: 'Palm oil',
+      label: 'Oil palm',
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
@@ -808,21 +808,21 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.modisArchive,
       type: 'dynamic',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      layerIds: [1],
+      layerIds: [9],
       opacity: 1,
       className: 'modis-archive',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }, {
       id: _constants2.default.viirsArchive,
       type: 'dynamic',
-      layerIds: [0],
+      layerIds: [8],
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 1,
       className: 'viirs-achive',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw-staging.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -949,15 +949,15 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         basemapTabId: 'basemapTab',
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
-        analysisButtonLabel: 'GENERATE REPORT',
+        analysisButtonLabel: 'GENERATE',
         analysisButtonClear: 'CLEAR ALL',
         analysisAreaTitle: 'Fire Report',
         indonesiaReportTitle: 'Indonesia Specialty Report',
-        globalReportTitle: 'Global Country Report',
-        analysisAreaHeader: 'View fire statistics for the last 7 days',
+        globalReportTitle: 'Country Report',
+        analysisAreaHeader: 'View fire statistics for the last 7 days for any country',
         analysisTimeframeHeader: 'Select any time frame of interest:',
         analysisTabLabel: 'Fire Report',
-        analysisCustomize: 'CUSTOMIZE REPORT',
+        analysisCustomize: 'CUSTOMIZE',
         analysisChoose: 'Choose your own custom time period and geographic area.',
         analysisIndonesiaChooseData: 'Analyze concession data from:',
         analysisCountryChooseData: 'Pick a country:',

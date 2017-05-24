@@ -153,7 +153,17 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           var adm1Areas = this.props.adm1.filter(function (o) {
             return o.NAME_0 === _this3.state.currentCountry;
           });
-          adm1Areas.sort();
+
+          adm1Areas.sort(function (a, b) {
+            if (a.NAME_1 < b.NAME_1) {
+              return -1;
+            }
+            if (a.NAME_1 > b.NAME_1) {
+              return 1;
+            }
+            return 0;
+          });
+
           adm1Units = adm1Areas.map(function (adm1) {
             return _react2.default.createElement(
               'option',
@@ -165,7 +175,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         return _react2.default.createElement(
           'div',
-          { className: className },
+          { className: 'report-width' },
           _react2.default.createElement(
             'h4',
             null,
@@ -216,7 +226,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             ),
             _react2.default.createElement(
               'button',
-              { onClick: this.clearAll.bind(this), className: 'gfw-btn blue' },
+              { onClick: this.clearSubregions.bind(this), className: 'gfw-btn blue' },
               _config.analysisPanelText.analysisButtonClear
             ),
             _react2.default.createElement(
@@ -252,11 +262,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         _AnalysisActions.analysisActions.toggleCountryCustomize();
       }
     }, {
-      key: 'clearAll',
-      value: function clearAll() {
-        this.setState({ currentCountry: '' });
+      key: 'clearSubregions',
+      value: function clearSubregions() {
         $('#global-adm1').val('').trigger('chosen:updated');
-        $('#countries').val('').trigger('chosen:updated');
       }
     }, {
       key: 'countryAnalysis',
@@ -282,7 +290,10 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         win.report = true;
         win.reportOptions = {
           'dates': reportdates,
-          'countries': countries,
+          'country': countries,
+          'aois': regions,
+          'aoitype': 'GLOBAL',
+          'type': 'GLOBAL',
           'reportType': reportType
         };
       }
@@ -293,7 +304,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         var reportTypeString = 'reporttype=' + reportType;
         var countryString = 'country=' + country;
 
-        var countryRegionString = 'countryRegions=' + countryRegions.join('!');
+        var countryRegionString = 'aois=' + countryRegions.join('!');
 
         var dateArgs = [];
         var dateString = 'dates=';
@@ -304,7 +315,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         }
         dateString += dateArgs.join('!');
 
-        hash += [reportTypeString, countryString, countryRegionString, dateString].join('&');
+        hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
         return hash;
       }
     }]);

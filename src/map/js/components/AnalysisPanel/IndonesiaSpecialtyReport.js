@@ -189,13 +189,11 @@ export default class IndonesiaSpecialtyReport extends React.Component {
       dataSourceString,
       reportType = 'reporttype=indonesiaspecialtyreport';
 
-
     for (let val in dates) {
       if (dates.hasOwnProperty(val)) {
         dateargs.push([val, dates[val]].join('-'));
       }
     }
-
 
     datestring = 'dates=' + dateargs.join('!');
 

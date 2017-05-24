@@ -60,7 +60,7 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.subscribeToolsExpanded = false;
       this.timelineVisible = false;
       this.analysisSourceGFW = true;
-      this.areaIslandsActive = true;
+      this.areaIslandsActive = false;
       this.islands = [];
       this.provinces = [];
       this.countries = [];

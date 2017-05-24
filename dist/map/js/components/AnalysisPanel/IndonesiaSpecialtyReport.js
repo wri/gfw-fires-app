@@ -151,7 +151,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'render',
       value: function render() {
-        var className = 'text-center';
+        var className = 'text-center report-width';
         if (this.props.activeTab !== _config.analysisPanelText.analysisTabId) {
           className += ' hidden';
         }
@@ -206,32 +206,14 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
               'div',
               { className: 'flex flex-justify-around' },
               _react2.default.createElement(
-                'label',
+                'p',
                 null,
-                _react2.default.createElement('input', { onChange: _AnalysisActions.analysisActions.toggleAreaIslandsActive, checked: this.props.areaIslandsActive, type: 'radio' }),
-                ' By Island(s)'
-              ),
-              _react2.default.createElement(
-                'label',
-                null,
-                _react2.default.createElement('input', { onChange: _AnalysisActions.analysisActions.toggleAreaIslandsActive, checked: !this.props.areaIslandsActive, type: 'radio' }),
-                ' By Province(s)'
+                'By Province(s)'
               )
             ),
             _react2.default.createElement(
               'div',
               { className: 'padding' },
-              this.props.islands.length > 0 ? _react2.default.createElement(
-                'select',
-                { multiple: true, id: 'islands', className: 'chosen-select-no-single fill__wide ' + (this.props.areaIslandsActive === true ? '' : 'hidden'), onChange: this.change, disabled: this.props.islands.length === 0 },
-                this.props.islands.map(function (i) {
-                  return _react2.default.createElement(
-                    'option',
-                    { selected: 'true', value: i },
-                    i
-                  );
-                })
-              ) : null,
               this.props.islands.length > 0 ? _react2.default.createElement(
                 'select',
                 { multiple: true, id: 'provinces', className: 'chosen-select-no-single fill__wide ' + (this.props.areaIslandsActive === false ? '' : 'hidden'), onChange: this.change },
