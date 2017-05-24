@@ -254,10 +254,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0],
+      layerIds: [8],
       className: 'viirs-fires',
-      //defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/VIIRS/MapServer',
+      defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
+      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -275,10 +275,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [0, 1],
+      layerIds: [9],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Global_Fires_1/MapServer',
+      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -469,7 +469,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.oilPalmGreenpeace,
       order: 10,
       type: 'dynamic',
-      label: 'Palm oil',
+      label: 'Oil palm',
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
       url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
@@ -807,21 +807,21 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.modisArchive,
       type: 'dynamic',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      layerIds: [1],
+      layerIds: [9],
       opacity: 1,
       className: 'modis-archive',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
     }, {
       id: _constants2.default.viirsArchive,
       type: 'dynamic',
-      layerIds: [0],
+      layerIds: [8],
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 1,
       className: 'viirs-achive',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -881,6 +881,14 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         provinces: {
           url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
           callback: 'callback'
+        },
+        countries: {
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
+          callback: 'callback'
+        },
+        adm1: {
+          url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
+          callback: 'callback'
         }
       }
     },
@@ -913,7 +921,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         },
         fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }],
         fireHistoryOptions2: [{ label: 2001, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2001/ImageServer' }, { label: 2002, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2002/ImageServer' }, { label: 2003, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2003/ImageServer' }, { label: 2004, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2004/ImageServer' }, { label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer' }],
-        firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }],
+        firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }, { label: 'Active Fires', value: null }],
         plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],
         lossOptions: [{ label: '2001', value: 1 }, { label: '2002', value: 2 }, { label: '2003', value: 3 }, { label: '2004', value: 4 }, { label: '2005', value: 5 }, { label: '2006', value: 6 }, { label: '2007', value: 7 }, { label: '2008', value: 8 }, { label: '2009', value: 9 }, { label: '2010', value: 10 }, { label: '2011', value: 11 }, { label: '2012', value: 12 }, { label: '2013', value: 13 }, { label: '2014', value: 14 }],
@@ -940,15 +948,18 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         basemapTabId: 'basemapTab',
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
-        analysisButtonLabel: 'GENERATE REPORT',
+        analysisButtonLabel: 'GENERATE',
         analysisButtonClear: 'CLEAR ALL',
         analysisAreaTitle: 'Fire Report',
-        analysisAreaHeader: 'View Indonesia fire statistics for the last 7 days',
+        indonesiaReportTitle: 'Indonesia Specialty Report',
+        globalReportTitle: 'Country Report',
+        analysisAreaHeader: 'View fire statistics for the last 7 days for any country',
         analysisTimeframeHeader: 'Select any time frame of interest:',
         analysisTabLabel: 'Fire Report',
-        analysisCustomize: 'CUSTOMIZE REPORT',
+        analysisCustomize: 'CUSTOMIZE',
         analysisChoose: 'Choose your own custom time period and geographic area.',
-        analysisChooseData: 'Analyze concession data from:',
+        analysisIndonesiaChooseData: 'Analyze concession data from:',
+        analysisCountryChooseData: 'Pick a country:',
         subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
         subscriptionButtonLabel: 'START DRAWING',
         subscriptionInstructionsOne: 'Sign up to receive ',

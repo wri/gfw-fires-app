@@ -1,14 +1,14 @@
 define([], function () {
-    "use strict";
+    'use strict';
 
-    define(["dojo/on", "dojo/dom", "esri/tasks/query", "esri/tasks/QueryTask", "views/map/MapConfig", "views/map/MapModel", "dojo/_base/array"], function (on, dom, Query, QueryTask, MapConfig, MapModel, arrayUtil) {
+    define(['dojo/on', 'dojo/dom', 'esri/tasks/query', 'esri/tasks/QueryTask', 'views/map/MapConfig', 'views/map/MapModel', 'dojo/_base/array'], function (on, dom, Query, QueryTask, MapConfig, MapModel, arrayUtil) {
 
         var o = {};
 
         o.queryDistinct = function (url, fieldname, callback) {
             var query = new Query();
             query.returnGeometry = false;
-            query.where = "1=1";
+            query.where = '1=1';
             query.outFields = [fieldname];
             query.returnDistinctValues = true;
             var task = new QueryTask(url);
@@ -54,26 +54,26 @@ define([], function () {
                     aoitype = 'ISLAND';
                 }
 
-                var currentDate = $("#firesDateFrom").datepicker("getDate");
-                var dateFrom = ("0" + (currentDate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + currentDate.getDate().toString()).substr(-2) + "/" + currentDate.getFullYear().toString();
+                var currentDate = $('#firesDateFrom').datepicker('getDate');
+                var dateFrom = ('0' + (currentDate.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + currentDate.getDate().toString()).substr(-2) + '/' + currentDate.getFullYear().toString();
                 // var observedDate = new Date(MapModel.vm.firesObservFrom());
 
-                // var observedDate2 = ("0" + (observedDate.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + observedDate.getDate().toString()).substr(-2) + "/" + (observedDate.getFullYear().toString());
+                // var observedDate2 = ('0' + (observedDate.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + observedDate.getDate().toString()).substr(-2) + '/' + (observedDate.getFullYear().toString());
 
                 // if (dateFrom != observedDate2) {
                 //     observedDate2 = dateFrom;
                 // }
 
-                var currentDateTo = $("#firesDateTo").datepicker("getDate");
-                var dateTo = ("0" + (currentDateTo.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + currentDateTo.getDate().toString()).substr(-2) + "/" + currentDateTo.getFullYear().toString();
+                var currentDateTo = $('#firesDateTo').datepicker('getDate');
+                var dateTo = ('0' + (currentDateTo.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + currentDateTo.getDate().toString()).substr(-2) + '/' + currentDateTo.getFullYear().toString();
                 // if (dateTo != MapModel.vm.firesObservTo()) {
                 //     debugger;
                 // }
 
-                //var reportdateFrom = MapModel.vm.firesObservFrom().split("/");
-                var reportdateFrom = dateFrom.split("/");
-                //var reportdateTo = MapModel.vm.firesObservTo().split("/");
-                var reportdateTo = dateTo.split("/");
+                //var reportdateFrom = MapModel.vm.firesObservFrom().split('/');
+                var reportdateFrom = dateFrom.split('/');
+                //var reportdateTo = MapModel.vm.firesObservTo().split('/');
+                var reportdateTo = dateTo.split('/');
                 var reportdates = {};
 
                 reportdates.fYear = Number(reportdateFrom[2]);
@@ -96,7 +96,7 @@ define([], function () {
         };
 
         o.report_data_to_hash = function (aoitype, dates, aois) {
-            var hash = "#",
+            var hash = '#',
                 dateargs = [],
                 datestring,
                 aoistring;
@@ -107,12 +107,12 @@ define([], function () {
                 }
             }
 
-            datestring = "dates=" + dateargs.join('!');
+            datestring = 'dates=' + dateargs.join('!');
 
-            aoistring = "aois=" + aois().join('!');
+            aoistring = 'aois=' + aois().join('!');
 
-            hash += ["aoitype=" + aoitype, datestring, aoistring].join("&");
-            console.log("HASH STING", hash);
+            hash += ['aoitype=' + aoitype, datestring, aoistring].join('&');
+            console.log('HASH STING', hash);
             return hash;
         };
 
@@ -126,45 +126,45 @@ define([], function () {
             var islandresults = function islandresults(results) {
                 var islands = [];
                 arrayUtil.forEach(results.features, function (f) {
-                    if (f.attributes.ISLAND != '') {
+                    if (f.attributes.ISLAND !== '') {
                         islands.push(f.attributes.ISLAND);
                     }
                 });
                 MapModel.vm.islands(islands.sort());
                 MapModel.vm.reportAOIs(islands);
-                MapModel.vm.selectedAOIs(["Java", "Kalimantan", "Lesser Sunda", "Maluku", "Papua", "Sulawesi", "Sumatra"]);
+                MapModel.vm.selectedAOIs(['Java', 'Kalimantan', 'Lesser Sunda', 'Maluku', 'Papua', 'Sulawesi', 'Sumatra']);
             };
             var provinceresults = function provinceresults(results) {
                 var provinces = [];
                 arrayUtil.forEach(results.features, function (f) {
-                    if (f.attributes.PROVINCE != '') {
+                    if (f.attributes.PROVINCE !== '') {
                         provinces.push(f.attributes.PROVINCE);
                     }
                 });
                 MapModel.vm.provinces(provinces.sort());
             };
-            var url = "http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7";
-            self.queryDistinct(url + "?returnDistinctValues=true", fires.report_fields.islands, islandresults);
-            self.queryDistinct(url + "?returnDistinctValues=true", fires.report_fields.provinces, provinceresults);
+            var url = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7';
+            self.queryDistinct(url + '?returnDistinctValues=true', fires.report_fields.islands, islandresults);
+            self.queryDistinct(url + '?returnDistinctValues=true', fires.report_fields.provinces, provinceresults);
         };
 
         o.query = function (props) {
 
             var layer = props.layer;
-            var where = props.where || "1=1";
+            var where = props.where || '1=1';
             var returnGeometry = props.returnGeometry || false;
-            var outFields = props.outFields || ["*"];
-            var type = props.type || "execute";
+            var outFields = props.outFields || ['*'];
+            var type = props.type || 'execute';
 
             var queryTask = new QueryTask(layer);
 
             var query = new Query();
-            query.where = where; //"ACQ_DATE > date '" + dateString + "'";
+            query.where = where; //'ACQ_DATE > date '' + dateString + ''';
             query.returnGeometry = returnGeometry; // false;
-            query.outFields = outFields; //["peat"];
+            query.outFields = outFields; //['peat'];
             query.getCount;
 
-            var deferred = eval("queryTask." + type + "(query)");
+            var deferred = eval('queryTask.' + type + '(query)');
 
             return deferred;
         };
@@ -176,15 +176,15 @@ define([], function () {
         //
         //     var date = new Date();
         //
-        //     var dateTo = ("0" + (date.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date.getDate().toString()).substr(-2) + "/" + (date.getFullYear().toString());
+        //     var dateTo = ('0' + (date.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + date.getDate().toString()).substr(-2) + '/' + (date.getFullYear().toString());
         //
         //     var date2 = new Date(new Date().setDate(new Date().getDate() - 7));
         //
-        //     var dateFrom = ("0" + (date2.getMonth() + 1).toString()).substr(-2) + "/" + ("0" + date2.getDate().toString()).substr(-2) + "/" + (date2.getFullYear().toString());
+        //     var dateFrom = ('0' + (date2.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + date2.getDate().toString()).substr(-2) + '/' + (date2.getFullYear().toString());
         //
         //
-        //     var reportdateFrom = dateFrom.split("/");
-        //     var reportdateTo = dateTo.split("/");
+        //     var reportdateFrom = dateFrom.split('/');
+        //     var reportdateTo = dateTo.split('/');
         //     var reportdates = {};
         //
         //     reportdates.fYear = Number(reportdateFrom[2]);

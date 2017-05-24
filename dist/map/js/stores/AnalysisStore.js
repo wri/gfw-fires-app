@@ -51,6 +51,8 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.esriSearchVisible = false;
       this.analysisToolsVisible = app.mobile() === false;
       this.customizeOpen = false;
+      this.customizeCountryOpen = false;
+
       this.imageryOpen = false;
       this.analysisToolsExpanded = true;
       this.imageryToolsExpanded = false;
@@ -58,14 +60,17 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.subscribeToolsExpanded = false;
       this.timelineVisible = false;
       this.analysisSourceGFW = true;
-      this.areaIslandsActive = true;
+      this.areaIslandsActive = false;
       this.islands = [];
       this.provinces = [];
+      this.countries = [];
+      this.adm1 = [];
 
       this.bindListeners({
         setAnalysisType: _AnalysisActions.analysisActions.setAnalysisType,
         toggleDrawToolbar: _AnalysisActions.analysisActions.toggleDrawToolbar,
         toggleCustomize: _AnalysisActions.analysisActions.toggleCustomize,
+        toggleCountryCustomize: _AnalysisActions.analysisActions.toggleCountryCustomize,
         toggleImageryOptions: _AnalysisActions.analysisActions.toggleImageryOptions,
         analyzeCustomArea: _AnalysisActions.analysisActions.analyzeCustomArea,
         setCustomAreaName: _AnalysisActions.analysisActions.setCustomAreaName,
@@ -111,6 +116,11 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       key: 'toggleCustomize',
       value: function toggleCustomize() {
         this.customizeOpen = !this.customizeOpen;
+      }
+    }, {
+      key: 'toggleCountryCustomize',
+      value: function toggleCountryCustomize() {
+        this.customizeCountryOpen = !this.customizeCountryOpen;
       }
     }, {
       key: 'toggleImageryOptions',
@@ -177,6 +187,8 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       value: function initAreas(areas) {
         this.islands = areas.islands;
         this.provinces = areas.provinces;
+        this.countries = areas.countries;
+        this.adm1 = areas.adm1;
       }
     }, {
       key: 'toggleAreaIslandsActive',

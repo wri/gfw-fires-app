@@ -86,7 +86,7 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     _createClass(ViirsControls, [{
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) {
+        if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex && this.props.viiirsSelectIndex !== firesOptions.length - 1) {
           _LayersHelper2.default.updateViirsDefinitions(this.props.viiirsSelectIndex);
         }
       }
@@ -101,12 +101,9 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     }, {
       key: 'render',
       value: function render() {
-
         var activeItem = firesOptions[this.props.viiirsSelectIndex];
-
         var startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
-
         var showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';
 
         return _react2.default.createElement(
@@ -117,17 +114,17 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
             { className: 'timeline-container fires' },
             _react2.default.createElement(
               'select',
-              { className: 'pointer', value: activeItem.value, onChange: this.changeViirsTimeline },
+              { id: 'viirs-select', className: 'pointer ' + (this.state.viirsArchiveVisible === true ? '' : 'darken'), value: activeItem.value, onChange: this.changeViirsTimeline.bind(this) },
               firesOptions.map(this.optionsMap, this)
             ),
             _react2.default.createElement(
               'div',
-              { className: 'active-fires-control gfw-btn sml white' },
+              { id: 'viirs-time-options', className: 'active-fires-control gfw-btn sml white ' + (this.state.viirsArchiveVisible === true ? '' : 'darken') },
               activeItem.label
             ),
             _react2.default.createElement(
               'div',
-              { className: 'active-fires-control gfw-btn sml white pointer', onClick: this.toggleViirsArchive.bind(this) },
+              { id: 'viirs-custom-range-btn', className: 'active-fires-control gfw-btn sml white pointer ' + (this.state.viirsArchiveVisible === true ? 'darken' : ''), onClick: this.toggleViirsArchive.bind(this) },
               'Custom Range'
             )
           ),
@@ -161,20 +158,25 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
       key: 'toggleViirsArchive',
       value: function toggleViirsArchive() {
         this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
-      }
-    }, {
-      key: 'toggleConfidence',
-      value: function toggleConfidence(evt) {
-        _LayersHelper2.default.toggleConfidence(evt.target.checked);
+        _LayerActions.layerActions.changeViirsTimeline(firesOptions.length - 1); //change to disabled option of Viirs fires
+        document.getElementById('viirs-select').selectedIndex = firesOptions.length - 1;
       }
     }, {
       key: 'optionsMap',
       value: function optionsMap(item, index) {
-        return _react2.default.createElement(
-          'option',
-          { key: index, value: item.value },
-          item.label
-        );
+        if (item.label === 'Active Fires') {
+          return _react2.default.createElement(
+            'option',
+            { key: index, value: item.value, disabled: true },
+            item.label
+          );
+        } else {
+          return _react2.default.createElement(
+            'option',
+            { key: index, value: item.value },
+            item.label
+          );
+        }
       }
     }, {
       key: 'changeViirsTimeline',
@@ -184,6 +186,10 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
         var layerObj = {};
         layerObj.layerId = _constants2.default.viirsFires;
         _LayersHelper2.default.showLayer(layerObj);
+
+        if (this.state.viirsArchiveVisible === true) {
+          this.setState({ viirsArchiveVisible: false });
+        }
       }
     }, {
       key: 'changeStart',

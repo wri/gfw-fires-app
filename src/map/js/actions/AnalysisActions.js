@@ -33,6 +33,10 @@ class AnalysisActions {
     this.dispatch();
   }
 
+  toggleCountryCustomize () {
+    this.dispatch();
+  }
+
   toggleImageryOptions () {
     this.dispatch();
   }
@@ -72,11 +76,15 @@ class AnalysisActions {
   initAreas () {
     all({
       islands: esriRequest(analysisConfig.requests.islands),
-      provinces: esriRequest(analysisConfig.requests.provinces)
+      provinces: esriRequest(analysisConfig.requests.provinces),
+      countries: esriRequest(analysisConfig.requests.countries),
+      adm1: esriRequest(analysisConfig.requests.adm1)
     }).then((responses) => {
       this.dispatch({
         islands: responses.islands.features.map((f) => f.attributes.ISLAND).sort(),
-        provinces: responses.provinces.features.map((f) => f.attributes.PROVINCE).sort()
+        provinces: responses.provinces.features.map((f) => f.attributes.PROVINCE).sort(),
+        countries: responses.countries.features.map((f) => f.attributes.NAME_0).sort(),
+        adm1: responses.adm1.features.map((f) => f.attributes )
       });
     });
   }

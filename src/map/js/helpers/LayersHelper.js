@@ -590,7 +590,6 @@ let LayersHelper = {
     }
 
     let layer = app.map.getLayer(layerObj.layerId);
-    console.log(layer, layerObj);
     if (layer) { layer.show(); }
     ShareHelper.handleHashChange();
   },
@@ -621,7 +620,7 @@ let LayersHelper = {
       ShareHelper.handleHashChange();
       return;
     }
-    
+
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
     ShareHelper.handleHashChange();
@@ -706,22 +705,37 @@ let LayersHelper = {
         } else {
           defs[val] = queryString;
         }
-
       });
 
       firesLayer.setLayerDefinitions(defs, dontRefresh);
     }
   },
 
-  updateViirsDefinitions (optionIndex) {
-    app.debug('LayersHelper >>> updateViirsDefinitions');
+  updateViirsDefinitions (optionIndex, dontRefresh) {
+    let value = layerPanelText.firesOptions[optionIndex].value || 1;
+    let queryString = utils.generateFiresQuery(value);
 
-    let viirsFires = app.map.getLayer(KEYS.viirsFires);
+    let viirs = app.map.getLayer(KEYS.viirsFires);
+    let defs;
 
-    if (viirsFires) {
-      viirsFires.setVisibleLayers([optionIndex]);
+    if (!viirs) {
+      defs = [];
+    } else {
+      defs = viirs.layerDefinitions;
     }
 
+    if (viirs) {
+      viirs.visibleLayers.forEach(val => {
+        let currentString = defs[val];
+        if (currentString) {
+          defs[val] = queryString;
+        } else {
+          defs[val] = queryString;
+        }
+      });
+
+      viirs.setLayerDefinitions(defs, dontRefresh);
+    }
   },
 
   updatePlantationLayerDefinitions (optionIndex) {
@@ -841,7 +855,7 @@ let LayersHelper = {
 
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
       let layerDefs = [];
-      layerDefs[0] = string;
+      layerDefs[8] = string;
 
       archiveLayer.setLayerDefinitions(layerDefs);
     }
@@ -855,7 +869,7 @@ let LayersHelper = {
 
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
       let layerDefs = [];
-      layerDefs[1] = string;
+      layerDefs[9] = string;
 
       archiveLayer.setLayerDefinitions(layerDefs);
     }

@@ -1,15 +1,17 @@
-define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'chosen'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _chosen) {
+define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'components/AnalysisPanel/IndonesiaSpecialtyReport', 'components/AnalysisPanel/GlobalCountryReport'], function (exports, _config, _MapStore, _react, _chosen, _IndonesiaSpecialtyReport, _GlobalCountryReport) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
-  var _AnalysisComponent2 = _interopRequireDefault(_AnalysisComponent);
-
   var _react2 = _interopRequireDefault(_react);
 
   var _chosen2 = _interopRequireDefault(_chosen);
+
+  var _IndonesiaSpecialtyReport2 = _interopRequireDefault(_IndonesiaSpecialtyReport);
+
+  var _GlobalCountryReport2 = _interopRequireDefault(_GlobalCountryReport);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -88,7 +90,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       var _this = _possibleConstructorReturn(this, (AnalysisTab.__proto__ || Object.getPrototypeOf(AnalysisTab)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
-      // this.state = mapStore.getState();
       _this.state = _extends({ localErrors: false }, _MapStore.mapStore.getState());
       return _this;
     }
@@ -97,49 +98,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       key: 'storeUpdated',
       value: function storeUpdated() {
         this.setState(_MapStore.mapStore.getState());
-      }
-    }, {
-      key: 'componentDidMount',
-      value: function componentDidMount() {
-        var calendar = new window.Kalendae(this.refs.date, {
-          mode: 'range'
-        });
-        calendar.subscribe('change', function (date) {
-          console.debug(date);
-        });
-      }
-    }, {
-      key: 'componentDidUpdate',
-      value: function componentDidUpdate(prevProps, prevState) {
-        if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-          $('#provinces').chosen('destroy');
-          $('#islands').chosen();
-        } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-          $('#islands').chosen('destroy');
-          $('#provinces').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-          $('#islands').chosen('destroy');
-          $('#islands').chosen();
-        } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-          $('#provinces').chosen('destroy');
-          $('#provinces').chosen();
-        }
-      }
-    }, {
-      key: 'toggleCustomize',
-      value: function toggleCustomize() {
-        _AnalysisActions.analysisActions.toggleCustomize();
-      }
-    }, {
-      key: 'clearAll',
-      value: function clearAll() {
-        if (this.props.areaIslandsActive === true) {
-          $('#islands').val('').trigger('chosen:updated');
-        } else {
-          $('#provinces').val('').trigger('chosen:updated');
-        }
       }
     }, {
       key: 'sendAnalytics',
@@ -165,200 +123,17 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             _config.analysisPanelText.analysisAreaTitle
           ),
           _react2.default.createElement(
-            'p',
+            'div',
             null,
             _config.analysisPanelText.analysisAreaHeader
           ),
           _react2.default.createElement(
-            'p',
-            { className: 'customize-report-label', onClick: this.toggleCustomize },
-            _config.analysisPanelText.analysisCustomize,
-            _react2.default.createElement(
-              'span',
-              { className: 'analysis-toggle' },
-              this.props.customizeOpen ? ' ▼' : ' ►'
-            )
-          ),
-          _react2.default.createElement(
             'div',
-            { className: 'customize-options ' + (this.props.customizeOpen === true ? '' : 'hidden') },
-            _react2.default.createElement(
-              'p',
-              null,
-              _config.analysisPanelText.analysisChooseData
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'flex flex-justify-around' },
-              _react2.default.createElement(
-                'label',
-                null,
-                _react2.default.createElement('input', { id: 'gfw', onChange: _AnalysisActions.analysisActions.toggleAnalysisSource, checked: this.props.analysisSourceGFW, type: 'radio' }),
-                ' GFW'
-              ),
-              _react2.default.createElement(
-                'label',
-                null,
-                _react2.default.createElement('input', { id: 'greenpeace', onChange: _AnalysisActions.analysisActions.toggleAnalysisSource, checked: !this.props.analysisSourceGFW, type: 'radio' }),
-                ' Greenpeace'
-              )
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              _config.analysisPanelText.analysisChoose
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'flex flex-justify-around' },
-              _react2.default.createElement(
-                'label',
-                null,
-                _react2.default.createElement('input', { onChange: _AnalysisActions.analysisActions.toggleAreaIslandsActive, checked: this.props.areaIslandsActive, type: 'radio' }),
-                ' By Island(s)'
-              ),
-              _react2.default.createElement(
-                'label',
-                null,
-                _react2.default.createElement('input', { onChange: _AnalysisActions.analysisActions.toggleAreaIslandsActive, checked: !this.props.areaIslandsActive, type: 'radio' }),
-                ' By Province(s)'
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'padding' },
-              this.props.islands.length > 0 ? _react2.default.createElement(
-                'select',
-                { multiple: true, id: 'islands', className: 'chosen-select-no-single fill__wide ' + (this.props.areaIslandsActive === true ? '' : 'hidden'), onChange: this.change, disabled: this.props.islands.length === 0 },
-                this.props.islands.map(function (i) {
-                  return _react2.default.createElement(
-                    'option',
-                    { selected: 'true', value: i },
-                    i
-                  );
-                })
-              ) : null,
-              this.props.islands.length > 0 ? _react2.default.createElement(
-                'select',
-                { multiple: true, id: 'provinces', className: 'chosen-select-no-single fill__wide ' + (this.props.areaIslandsActive === false ? '' : 'hidden'), onChange: this.change },
-                this.props.provinces.map(function (p) {
-                  return _react2.default.createElement(
-                    'option',
-                    { selected: 'true', value: p },
-                    p
-                  );
-                })
-              ) : null
-            ),
-            _react2.default.createElement(
-              'button',
-              { onClick: this.clearAll.bind(this), className: 'gfw-btn blue' },
-              _config.analysisPanelText.analysisButtonClear
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              _config.analysisPanelText.analysisTimeframeHeader
-            ),
-            _react2.default.createElement(_AnalysisComponent2.default, _extends({}, this.state, { options: _config.analysisPanelText.analysisCalendar })),
-            _react2.default.createElement(
-              'div',
-              { id: 'analysisWarning', className: 'analysis-warning ' + (this.state.localErrors === false ? 'hidden' : '') },
-              'Please select an island or province'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'no-shrink analysis-footer text-center' },
-            _react2.default.createElement(
-              'button',
-              { onClick: this.beginAnalysis.bind(this), className: 'gfw-btn blue' },
-              _config.analysisPanelText.analysisButtonLabel
-            )
+            { className: 'reports-container' },
+            _react2.default.createElement(_GlobalCountryReport2.default, this.props),
+            _react2.default.createElement(_IndonesiaSpecialtyReport2.default, this.props)
           )
         );
-      }
-    }, {
-      key: 'beginAnalysis',
-      value: function beginAnalysis() {
-        app.debug('AnalysisTab >>> beginAnalysis');
-        var provinces = void 0;
-        var aoiType = void 0;
-
-        if (this.props.areaIslandsActive) {
-          provinces = $('#islands').chosen().val();
-          aoiType = 'ISLAND';
-        } else {
-          provinces = $('#provinces').chosen().val();
-          aoiType = 'PROVINCE';
-        }
-
-        if (!provinces) {
-          this.setState({
-            localErrors: true
-          });
-          return;
-        } else {
-          this.setState({
-            localErrors: false
-          });
-        }
-
-        var reportdateFrom = this.state.analysisStartDate.split('/');
-        var reportdateTo = this.state.analysisEndDate.split('/');
-
-        var reportdates = {};
-
-        reportdates.fYear = Number(reportdateFrom[2]);
-        reportdates.fMonth = Number(reportdateFrom[0]);
-        reportdates.fDay = Number(reportdateFrom[1]);
-        reportdates.tYear = Number(reportdateTo[2]);
-        reportdates.tMonth = Number(reportdateTo[0]);
-        reportdates.tDay = Number(reportdateTo[1]);
-
-        var dataSource = 'gfw';
-
-        if (this.props.analysisSourceGFW === false) {
-          dataSource = 'greenpeace';
-        }
-
-        var hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
-        var win = window.open('../report/index.html' + hash, '_blank', '');
-
-        win.report = true;
-        win.reportOptions = {
-          'dates': reportdates,
-          'aois': provinces,
-          'aoitype': aoiType,
-          'dataSource': dataSource
-        };
-
-        this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
-      }
-    }, {
-      key: 'reportDataToHash',
-      value: function reportDataToHash(aoitype, dates, aois, dataSource) {
-        var hash = '#',
-            dateargs = [],
-            datestring = void 0,
-            aoistring = void 0,
-            dataSourceString = void 0;
-
-        for (var val in dates) {
-          if (dates.hasOwnProperty(val)) {
-            dateargs.push([val, dates[val]].join('-'));
-          }
-        }
-
-        datestring = 'dates=' + dateargs.join('!');
-
-        aoistring = 'aois=' + aois.join('!');
-
-        dataSourceString = 'dataSource=' + dataSource;
-
-        hash += ['aoitype=' + aoitype, datestring, aoistring, dataSourceString].join('&');
-
-        return hash;
       }
     }]);
 
