@@ -59,7 +59,17 @@ export default class GlobalCountryReport extends React.Component {
     if (this.state.currentCountry) {
       adm1Classes = 'padding';
       let adm1Areas = this.props.adm1.filter((o) => { return o.NAME_0 === this.state.currentCountry; });
-      adm1Areas.sort();
+
+      adm1Areas.sort((a, b) => {
+        if (a.NAME_1 < b.NAME_1) {
+          return -1;
+        }
+        if (a.NAME_1 > b.NAME_1) {
+          return 1;
+        }
+        return 0;
+      });
+
       adm1Units = adm1Areas.map((adm1) => {
         return (<option selected='true' value={adm1.NAME_1} >{adm1.NAME_1}</option>);
       });

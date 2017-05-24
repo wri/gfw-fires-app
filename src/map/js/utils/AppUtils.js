@@ -5,7 +5,6 @@ const utils = {
   * @return {string} Query String to use for Fires Filter
   */
   generateFiresQuery: filterValue => {
-
     let date = new Date();
     // Set the date to filterValue amount of days before today
     date.setDate(date.getDate() - filterValue);

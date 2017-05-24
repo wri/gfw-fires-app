@@ -153,7 +153,17 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           var adm1Areas = this.props.adm1.filter(function (o) {
             return o.NAME_0 === _this3.state.currentCountry;
           });
-          adm1Areas.sort();
+
+          adm1Areas.sort(function (a, b) {
+            if (a.NAME_1 < b.NAME_1) {
+              return -1;
+            }
+            if (a.NAME_1 > b.NAME_1) {
+              return 1;
+            }
+            return 0;
+          });
+
           adm1Units = adm1Areas.map(function (adm1) {
             return _react2.default.createElement(
               'option',

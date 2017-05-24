@@ -11,7 +11,6 @@ define(["exports"], function (exports) {
     * @return {string} Query String to use for Fires Filter
     */
     generateFiresQuery: function generateFiresQuery(filterValue) {
-
       var date = new Date();
       // Set the date to filterValue amount of days before today
       date.setDate(date.getDate() - filterValue);
