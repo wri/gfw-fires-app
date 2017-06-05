@@ -68,7 +68,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
-      'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org'],
+      'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org', 'gfw.blueraster.io', 'https://gfw.blueraster.io/'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),
@@ -260,7 +260,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       },
       calendar: {
         domClass: 'viirs-archive-settings',
@@ -296,10 +296,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
       group: 'fires',
-      layerIds: [9],
+      layerIds: [0],
       className: 'archive-fires',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQUISITION DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQUISITION TIME}</td></tr>'
@@ -320,7 +320,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [9],
       className: 'noaa-fires',
       defaultDefinitionExpression: "Date < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "'",
-      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'noaa18_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">DATE: </td><td class="field-value">${Date}</td></tr>' + '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'

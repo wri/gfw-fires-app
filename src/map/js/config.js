@@ -58,7 +58,9 @@ export const config = {
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'http://api.globalforestwatch.org/user',
       'http://connect.wri.org/',
-      'gfw-fires.wri.org'
+      'gfw-fires.wri.org',
+      'gfw.blueraster.io',
+      'https://gfw.blueraster.io/'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [
@@ -272,7 +274,7 @@ export const config = {
       url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' +
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
           '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
           '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
@@ -321,10 +323,10 @@ export const config = {
       label: 'Archive fires for Indonesia',
       sublabel: '(layer starts at 01/01/13)',
       group: 'fires',
-      layerIds: [9],
+      layerIds: [0],
       className: 'archive-fires',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -351,7 +353,7 @@ export const config = {
       layerIds: [9],
       className: 'noaa-fires',
       defaultDefinitionExpression: "Date < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "'",
-      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'noaa18_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">DATE: </td><td class="field-value">${Date}</td></tr>' +
