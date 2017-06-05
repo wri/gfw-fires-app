@@ -1811,7 +1811,7 @@ define([
               statdef.outStatisticFieldName = queryConfig.fire_stats.outField;
             }
 
-            query.where = self.get_layer_definition();
+            query.where = self.get_layer_definition(configKey);
             query.returnGeometry = false;
             query.orderByFields = ["fire_count DESC"];
             query.groupByFieldsForStatistics = [query.outFields[0]];
