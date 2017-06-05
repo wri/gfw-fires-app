@@ -156,7 +156,7 @@ define([
                 MapModel.vm.provinces(provinces.sort());
 
             };
-            var url = 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7';
+            var url = 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7';
             self.queryDistinct(url + '?returnDistinctValues=true',
                 fires.report_fields.islands, islandresults
             );

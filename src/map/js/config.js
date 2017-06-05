@@ -58,7 +58,9 @@ export const config = {
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'http://api.globalforestwatch.org/user',
       'http://connect.wri.org/',
-      'gfw-fires.wri.org'
+      'gfw-fires.wri.org',
+      'gfw.blueraster.io',
+      'https://gfw.blueraster.io/'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [
@@ -269,10 +271,10 @@ export const config = {
       layerIds: [8],
       className: 'viirs-fires',
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
-        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_T14}</td></tr>' +
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
           '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
           '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
@@ -297,7 +299,7 @@ export const config = {
       layerIds: [9],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -324,7 +326,7 @@ export const config = {
       layerIds: [0],
       className: 'archive-fires',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -351,7 +353,7 @@ export const config = {
       layerIds: [9],
       className: 'noaa-fires',
       defaultDefinitionExpression: "Date < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "'",
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'noaa18_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">DATE: </td><td class="field-value">${Date}</td></tr>' +
@@ -372,7 +374,7 @@ export const config = {
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
         content: '<table><span class="name-field">${type_}</span></tr>' +
@@ -389,9 +391,7 @@ export const config = {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/IDN_FireFrequency_2001/ImageServer',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer',
-      //url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_fire_frequency/ImageServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -409,7 +409,7 @@ export const config = {
       group: 'fireRisk',
       className: 'fire-risk',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/fire_risk/ImageServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/image_services/fire_risk/ImageServer',
       metadataId: 'fire_risk',
       calendar: {
         domClass: 'risk-settings',
@@ -427,7 +427,7 @@ export const config = {
       group: 'fireRisk',
       className: 'last-rainfall',
       // disabled: true,
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/DSLR/ImageServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/image_services/DSLR/ImageServer',
       metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
       calendar: {
         domClass: 'rainfall-settings',
@@ -681,7 +681,7 @@ export const config = {
       sublabel: '(2000 - 2012, 30m, Indonesia)',
       group: 'landCover',
       className: 'primary-forests',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
       metadataId: 'idn_primary_forests',
       layerIds: [3]
     },
@@ -733,7 +733,7 @@ export const config = {
       sublabel: '(layer starts at 9/25/15)',
       group: 'airQuality',
       className: 'air-quality',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
       metadataId: 'air_quality_old',
       calendar: {
         domId: 'airQCalendar',
@@ -912,7 +912,7 @@ export const config = {
       group: 'stories',
       layerIds: [10],
       className: 'fire-stories',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
       metadataId: 'user_stories',
       infoTemplate: app.mobile() === true ? {
         content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' +
@@ -934,7 +934,7 @@ export const config = {
       group: 'stories',
       layerIds: [3],
       className: 'twitter',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
     }, {
       id: KEYS.modisArchive,
@@ -1019,11 +1019,19 @@ export const config = {
     searchZoomDefault: 10,
     requests: {
       islands: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ISLAND',
+        url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ISLAND',
         callback: 'callback'
       },
       provinces: {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
+        url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
+        callback: 'callback'
+      },
+      countries: {
+        url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
+        callback: 'callback'
+      },
+      adm1: {
+        url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
         callback: 'callback'
       },
       countries: {
