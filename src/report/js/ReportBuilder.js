@@ -1415,6 +1415,12 @@ define([
             yearObject['color'] = hexColor;
           };
 
+          // Remove current month data
+          var month = moment().format('MM');
+          var year = moment().format('YY');
+          var thisMonth = 'cf_' + year + '_' + month;
+          allFeatures["0"].attributes[thisMonth] = null;
+
           if (allFeatures.length > 0) {
             allFeatures.forEach(function (item) {
               var obj = item.attributes;
