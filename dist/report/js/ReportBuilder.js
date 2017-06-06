@@ -611,7 +611,7 @@ define([
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
 
-            if (window.reportOptions.aoitype !== 'GLOBAL') {
+            if (window.reportOptions.country === 'Indonesia') {
               all([
                 // Indonesia tables query --- START
                 self.queryDistrictsFireCount("rspoQuery", null, PRINT_CONFIG.rspoQuery.fire_stats.id),
@@ -758,7 +758,7 @@ define([
             return dtstr;
         },
 
-        get_layer_definition: function() {
+        get_layer_definition: function(queryType) {
             var aois = window.reportOptions.aois;
             // aois = aois.map(function (aoisItem) {
             //   var fixingApostrophe = aoisItem.replace(/'/g, "");
@@ -771,11 +771,21 @@ define([
             var enddate = "ACQ_DATE <= date'" + this.enddate + "'";
             var countryQueryGlobal;
             var aoiQueryGlobal;
+            var countryObjs = PRINT_CONFIG.countryFeatures;
 
             if (aoiType === 'ISLAND') {
                 aoi = aoiType + " in ('" + aoiData + "')";
+              } else if (
+                queryType === 'queryFireData' ||
+                queryType === 'rspoQuery' ||
+                queryType === 'loggingQuery' ||
+                queryType === 'palmoilQuery' ||
+                queryType === 'pulpwoodQuery'
+              ) {
+
+                aoiQueryGlobal = "PROVINCE in ('" + aoiData + "')";
+                aoi = aoiQueryGlobal;
               } else {
-                var countryObjs = PRINT_CONFIG.countryFeatures;
 
                 countryQueryGlobal = "ID_0 = " + countryObjs[country];
                 aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
@@ -1415,6 +1425,12 @@ define([
             yearObject['color'] = hexColor;
           };
 
+          // Remove current month data
+          var month = moment().format('MM');
+          var year = moment().format('YY');
+          var thisMonth = 'cf_' + year + '_' + month;
+          allFeatures["0"].attributes[thisMonth] = null;
+
           if (allFeatures.length > 0) {
             allFeatures.forEach(function (item) {
               var obj = item.attributes;
@@ -1795,7 +1811,7 @@ define([
               statdef.outStatisticFieldName = queryConfig.fire_stats.outField;
             }
 
-            query.where = self.get_layer_definition();
+            query.where = self.get_layer_definition(configKey);
             query.returnGeometry = false;
             query.orderByFields = ["fire_count DESC"];
             query.groupByFieldsForStatistics = [query.outFields[0]];
@@ -2506,7 +2522,7 @@ define([
 
             dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
                 time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-            var layerdef = self.get_layer_definition()
+            var layerdef = self.get_layer_definition('queryFireData');
             query.where = (config.where === undefined) ? layerdef : layerdef + " AND " + config.where;
 
             query.returnGeometry = config.returnGeometry || false;
