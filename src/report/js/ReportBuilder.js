@@ -683,7 +683,7 @@ define([
 
             var self = this;
 
-            var longURL = window.location.href;
+            var longURL = encodeURI(window.location.href);
             $.getJSON("http://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURL, function (response) {
               var bitlyShortLink = response.data.url;
               $('.share-link')
