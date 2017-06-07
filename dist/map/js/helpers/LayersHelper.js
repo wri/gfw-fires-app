@@ -682,11 +682,19 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
       var noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
       var fire_results = isFires ? [firesDiv] : [noFiresDiv];
+      // console.log(isFires);
+      console.log(item.fires);
+      // debugger
 
       if (isFires) {
         var fireCounts = [1, 2, 3, 7].map(function (numdays) {
+          console.log('numdays', numdays);
           return item.fires.filter(function (fire) {
-            return window.Kalendae.moment(fire.attributes.Date) > window.Kalendae.moment().subtract(numdays + 1, 'days');
+            console.log(window.Kalendae.moment(fire.attributes.ACQ_DATE));
+            // console.log(window.Kalendae.moment().subtract(numdays + 1, 'days'));
+            console.log('');
+            // console.log(window.Kalendae.moment(fire.attributes.ACQ_DATE) > window.Kalendae.moment().subtract(numdays + 1, 'days'));
+            return window.Kalendae.moment(fire.attributes.ACQ_DATE) > window.Kalendae.moment().subtract(numdays + 1, 'days');
           }).length;
         });
 
@@ -779,7 +787,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
     },
     updateFireHistoryDefinitions: function updateFireHistoryDefinitions(index) {
-      // FOR SERVICE http://gis-potico.wri.org/arcgis/rest/services/Fires/idn_annual_fire_frequency/ImageServer
       var firesHistory = app.map.getLayer(_constants2.default.fireHistory);
       var value = 'kd' + _config.layerPanelText.fireHistoryOptions[index].value;
       if (firesHistory) {

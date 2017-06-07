@@ -14,23 +14,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     };
   }
 
-  var _requests;
-
-  function _defineProperty(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: true,
-        configurable: true,
-        writable: true
-      });
-    } else {
-      obj[key] = value;
-    }
-
-    return obj;
-  }
-
   var config = exports.config = {
 
     map: {
@@ -53,7 +36,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           visible: false
         }
       },
-      geometryServiceUrl: 'http://gis-gfw.wri.org/arcgis/rest/services/Utilities/Geometry/GeometryServer'
+      geometryServiceUrl: 'https://gfw.blueraster.io/arcgis/rest/services/Utilities/Geometry/GeometryServer'
     },
 
     /**
@@ -421,7 +404,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(Indonesia)',
       group: 'forestUse',
       className: 'forest-moratorium',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
       metadataId: 'idn_forest_moratorium',
       layerIds: [7]
     }, {
@@ -432,7 +415,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'oil-palm',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_oil_palm',
       layerIds: [1],
       infoTemplate: {
@@ -446,7 +429,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(May 2013, select countries)',
       group: 'forestUse',
       className: 'rspo-palm',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
@@ -460,7 +443,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'wood-fiber',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_wood_fiber',
       layerIds: [0],
       infoTemplate: {
@@ -474,7 +457,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'logging-concessions',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_logging',
       layerIds: [3],
       infoTemplate: {
@@ -487,7 +470,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Oil palm',
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
@@ -500,7 +483,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Wood fiber',
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
@@ -513,7 +496,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Selective logging',
       group: 'forestUse',
       className: 'logging-concessions-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
@@ -526,7 +509,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Coal mining',
       group: 'forestUse',
       className: 'coal-concessions-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
@@ -540,7 +523,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas' //,
       // layerIds: [0],
       // infoTemplate: {
@@ -560,7 +543,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer', //'http://gis-gfw.wri.org/arcgis/rest/services/wdpa_protected_areas_cached/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
@@ -574,7 +557,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(year 2000, Indonesia)',
       group: 'landCover',
       className: 'peatlands',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
       metadataId: 'idn_peat_lands',
       layerIds: [22]
     }, {
@@ -610,7 +593,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       // sublabel: '(2000 - 2012, 30m, Indonesia)',
       group: 'landCover',
       className: 'plantation-types',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
+      url: 'https://gfw.blueraster.io/arcgis/rest/services/forest_cover/MapServer',
       metadataId: 'gfw_plantations',
       layerIds: [5]
     },
@@ -622,7 +605,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     //   // sublabel: '(2000 - 2012, 30m, Indonesia)',
     //   group: 'landCover',
     //   className: 'plantation-species',
-    //   url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
+    //   url: 'https://gfw.blueraster.io/arcgis/rest/services/forest_cover/MapServer',
     //   metadataId: 'gfw_plantations',
     //   layerIds: [8]
     // },
@@ -888,7 +871,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
 
     analysis: {
       searchZoomDefault: 10,
-      requests: (_requests = {
+      requests: {
         islands: {
           url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ISLAND',
           callback: 'callback'
@@ -905,13 +888,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           url: 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
           callback: 'callback'
         }
-      }, _defineProperty(_requests, 'countries', {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
-        callback: 'callback'
-      }), _defineProperty(_requests, 'adm1', {
-        url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
-        callback: 'callback'
-      }), _requests)
+      }
     },
 
     text: {
