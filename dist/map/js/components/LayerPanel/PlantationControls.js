@@ -115,12 +115,12 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'js/config', 
             _react2.default.createElement(
               'div',
               { className: 'plantations-legend-container-type ' + (this.props.plantationSelectIndex === 1 ? '' : ' hidden') },
-              _react2.default.createElement(_LandCoverLegend2.default, { url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer', layerIds: [plantationOptions[1].value] })
+              _react2.default.createElement(_LandCoverLegend2.default, { url: 'https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer', layerIds: [plantationOptions[1].value] })
             ),
             _react2.default.createElement(
               'div',
               { className: 'plantations-legend-container ' + (this.props.plantationSelectIndex === 0 ? '' : ' hidden') },
-              _react2.default.createElement(_LandCoverLegend2.default, { url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer', layerIds: [plantationOptions[0].value] })
+              _react2.default.createElement(_LandCoverLegend2.default, { url: 'https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer', layerIds: [plantationOptions[0].value] })
             )
           )
         );
