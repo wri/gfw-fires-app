@@ -682,6 +682,17 @@ define([
             var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             var self = this;
+
+            var longURL = encodeURI(window.location.href);
+            $.getJSON("http://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURL, function (response) {
+              var bitlyShortLink = response.data.url;
+              $('.share-link')
+                .on('click', function () {
+                  document.querySelector('.share-link-input__container').classList.toggle("hidden");
+                  $('.share-link-input').val(bitlyShortLink);
+                })
+            });
+
             self.read_hash();
 
             var dateobj = window.reportOptions.dates;

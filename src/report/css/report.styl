@@ -21,6 +21,50 @@ html, body
   height: 60px;
   background-color: #555;
   display: flex;
+  position relative
+}
+
+.share-link {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-right: 2em;
+  line-height: 2rem;
+  height: 2rem;
+  color: #fff;
+  text-decoration: none;
+  background: url(images/icon-share.svg);
+  background-repeat: no-repeat;
+  background-position: center right .5em;
+  font-size: 15px;
+  opacity: 0.8;
+  transition: opacity 0.3s linear;
+  cursor pointer
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.share-link-input__container {
+  padding: 10px 12px
+  background-color #555555
+  position: absolute;
+  bottom: -50px;
+  height: 50px;
+  right: 0;
+  box-sizing: border-box;
+
+  &.hidden {
+    display: none
+  }
+}
+
+input.share-link-input {
+  height: 30px;
+  padding: 5px 6px;
+  font-size: 14px;
+  box-sizing: border-box;
 }
 
 .report-title__container
@@ -519,6 +563,10 @@ tspan {
 
   .report-section__map-container {
     padding: 1.25em 0;
+  }
+
+  .report__header-content {
+    position: relative;
   }
 }
 
