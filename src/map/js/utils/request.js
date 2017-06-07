@@ -324,7 +324,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -388,7 +389,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -452,7 +454,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -516,7 +519,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -580,7 +584,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -640,7 +645,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -700,7 +706,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -760,7 +767,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;
@@ -820,7 +828,8 @@ const request = {
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
           let query = new Query();
           query.geometry = feature.feature.geometry;
-          query.where = '1=1';
+          const queryString = utils.generateFiresQuery(7);
+          query.where = queryString;
           query.outFields = ['ACQ_DATE'];
           queryTask.execute(query).then(function(results){
             feature.fires = results.features;

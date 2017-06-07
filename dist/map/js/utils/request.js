@@ -344,7 +344,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -408,7 +409,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -472,7 +474,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -536,7 +539,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -600,7 +604,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -660,7 +665,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -720,7 +726,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -780,7 +787,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
@@ -840,7 +848,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
             var query = new _query2.default();
             query.geometry = feature.feature.geometry;
-            query.where = '1=1';
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            query.where = queryString;
             query.outFields = ['ACQ_DATE'];
             queryTask.execute(query).then(function (results) {
               feature.fires = results.features;
