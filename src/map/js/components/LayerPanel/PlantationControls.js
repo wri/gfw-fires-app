@@ -31,10 +31,10 @@ export default class PlantationControls extends React.Component {
         </select>
         <div className='active-plantations-control gfw-btn sml white'>{activeItem.label}</div>
         <div className={`plantations-legend-container-type ${this.props.plantationSelectIndex === 1 ? '' : ' hidden'}`}>
-          <LandCoverLegend url='https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer' layerIds={[plantationOptions[1].value]} />
+          <LandCoverLegend url='http://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer' layerIds={[plantationOptions[1].value]} />
         </div>
         <div className={`plantations-legend-container ${this.props.plantationSelectIndex === 0 ? '' : ' hidden'}`}>
-          <LandCoverLegend url='https://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer' layerIds={[plantationOptions[0].value]} />
+          <LandCoverLegend url='http://gfw.blueraster.io/arcgis/rest/services/land_use/MapServer' layerIds={[plantationOptions[0].value]} />
         </div>
       </div>
     </div>;

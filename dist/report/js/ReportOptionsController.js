@@ -143,7 +143,7 @@ define([], function () {
                 });
                 MapModel.vm.provinces(provinces.sort());
             };
-            var url = 'https://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7';
+            var url = 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7';
             self.queryDistinct(url + '?returnDistinctValues=true', fires.report_fields.islands, islandresults);
             self.queryDistinct(url + '?returnDistinctValues=true', fires.report_fields.provinces, provinceresults);
         };

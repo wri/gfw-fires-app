@@ -34,7 +34,7 @@ let configureApp = () => {
   defaults.corsEnabledServers.forEach((server) => { esriConfig.defaults.io.corsEnabledServers.push(server); });
 
   urlUtils.addProxyRule({
-    urlPrefix: 'https://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
+    urlPrefix: 'http://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
     proxyUrl: '/map/php/proxy.php'
   });
 
