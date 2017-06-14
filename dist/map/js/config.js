@@ -523,7 +523,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas' //,
       // layerIds: [0],
       // infoTemplate: {
@@ -543,7 +543,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
