@@ -445,7 +445,7 @@ export const config = {
       sublabel: '(Indonesia)',
       group: 'forestUse',
       className: 'forest-moratorium',
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
+      url: 'http://gfw.blueraster.io/arcgis/rest/services/commodities/MapServer',
       metadataId: 'idn_forest_moratorium',
       layerIds: [7]
     },
@@ -654,7 +654,7 @@ export const config = {
       sublabel: '(year 2000, Indonesia)',
       group: 'landCover',
       className: 'peatlands',
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
+      url: 'http://gfw.blueraster.io/arcgis/rest/services/commodities/MapServer',
       metadataId: 'idn_peat_lands',
       layerIds: [22]
     },
@@ -912,7 +912,7 @@ export const config = {
       group: 'stories',
       layerIds: [10],
       className: 'fire-stories',
-      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
+      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'user_stories',
       infoTemplate: app.mobile() === true ? {
         content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' +
