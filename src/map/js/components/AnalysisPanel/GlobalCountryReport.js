@@ -130,6 +130,10 @@ export default class GlobalCountryReport extends React.Component {
         reportdateFrom = this.state.analysisStartDate.split('/'),
         reportdateTo = this.state.analysisEndDate.split('/'),
         reportdates = {};
+
+    if (!countries) {
+      return;
+    }
     reportdates.fYear = Number(reportdateFrom[2]);
     reportdates.fMonth = Number(reportdateFrom[0]);
     reportdates.fDay = Number(reportdateFrom[1]);
