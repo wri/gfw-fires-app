@@ -745,13 +745,13 @@ export const config = {
       id: KEYS.overlays,
       order: 1,
       type: 'dynamic',
-      label: 'Latest Landsat 8 Imagery',
-      sublabel: '(latest image, 30m, global)',
+      label: '',
+      sublabel: '',
       group: 'imagery',
       className: 'overlays',
-      url: 'http://gis-potico.wri.org/arcgis/rest/services/Fires/Village_Fires/MapServer',
+      url: 'http://gfw.blueraster.io/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'latest_landsat',
-      layerIds: [1, 2, 3, 4],
+      layerIds: [4, 5, 6, 7],
       Provinces: {
         infoTemplate: {
           content: '<table><span class="name-field">${NAME}</span></tr>' +
