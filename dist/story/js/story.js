@@ -58,7 +58,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
   var storyAffectedAreaValid;
 
   _urlUtils2.default.addProxyRule({
-    urlPrefix: 'http://gfw.blueraster.io',
+    urlPrefix: 'http://gis-gfw.wri.org',
     proxyUrl: '/map/php/proxy.php'
   });
 
@@ -78,7 +78,7 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
 
   $('#story-date-input').kalendae(options);
 
-  var storiesLayer = new _FeatureLayer2.default('http://gfw.blueraster.io/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
+  var storiesLayer = new _FeatureLayer2.default('http://gis-gfw.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
 
   map.addLayer(storiesLayer);
 

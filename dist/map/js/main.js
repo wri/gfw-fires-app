@@ -57,7 +57,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     });
 
     _urlUtils2.default.addProxyRule({
-      urlPrefix: 'gfw.blueraster.io/arcgis/rest/services/protected_services/MapServer',
+      urlPrefix: 'gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
       proxyUrl: '/map/php/proxy.php'
     });
 

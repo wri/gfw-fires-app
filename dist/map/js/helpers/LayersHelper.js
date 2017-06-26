@@ -547,16 +547,16 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           layers.forEach(function (layerName) {
             switch (layerName) {
               case 'provinces':
-                visibleLayers.push(4);
+                visibleLayers.push(7);
                 break;
               case 'districts':
-                visibleLayers.push(3);
+                visibleLayers.push(6);
                 break;
               case 'subdistricts':
-                visibleLayers.push(2);
+                visibleLayers.push(5);
                 break;
               case 'villages':
-                visibleLayers.push(1);
+                visibleLayers.push(4);
                 break;
               default:
                 break;
