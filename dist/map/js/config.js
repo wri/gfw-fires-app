@@ -339,7 +339,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
         content: '<table><span class="name-field">${type_}</span></tr>' + '<tr><td>CROWDRANK: </td><td class="field-value">${CrowdRank}</td></tr>' + '<tr><td>IMAGE DATE: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'

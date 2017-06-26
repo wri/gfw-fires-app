@@ -374,7 +374,7 @@ export const config = {
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
         content: '<table><span class="name-field">${type_}</span></tr>' +
