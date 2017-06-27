@@ -614,7 +614,7 @@ export const config = {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas'//,
       // layerIds: [0],
       // infoTemplate: {
@@ -635,7 +635,7 @@ export const config = {
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
@@ -833,12 +833,12 @@ export const config = {
       order: 5,
       subLayers: [KEYS.digitalGlobe0, KEYS.digitalGlobe1, KEYS.digitalGlobe2, KEYS.digitalGlobe3, KEYS.digitalGlobe4],
       imageServices: [
-        { id: 'dg-00', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer', mosaic: 'WV01' },
-        { id: 'dg-01', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer', mosaic: 'QB01' },
-        { id: 'dg-02', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer', mosaic: 'WV02' },
-        { id: 'dg-03', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GE01/ImageServer', mosaic: 'GEO1' },
-        { id: 'dg-04', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer', mosaic: 'WV03' },
-        { id: 'dg-05', url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
+        { id: 'dg-00', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer', mosaic: 'WV01' },
+        { id: 'dg-01', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer', mosaic: 'QB01' },
+        { id: 'dg-02', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer', mosaic: 'WV02' },
+        { id: 'dg-03', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer', mosaic: 'GEO1' },
+        { id: 'dg-04', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer', mosaic: 'WV03' },
+        { id: 'dg-05', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
       ],
       type: 'image',
       label: 'Digital Globe - First Look',
@@ -847,7 +847,7 @@ export const config = {
       'minScale': 0,
       'maxScale': 10000,
       className: 'digital-globe',
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV01/ImageServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer',
       metadataId: 'digital_globe',
       calendar: {
         // startDate: new Date('10/19/2015'),
@@ -866,7 +866,7 @@ export const config = {
       mosaic: 'QB01',
       'minScale': 0,
       'maxScale': 10000, //zoom level 6 is highest visible
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/QB01/ImageServer'
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer'
     },
     {
       id: KEYS.digitalGlobe1,
@@ -875,7 +875,7 @@ export const config = {
       mosaic: 'WV02',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV02/ImageServer'
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer'
     },
     {
       id: KEYS.digitalGlobe2,
@@ -884,7 +884,7 @@ export const config = {
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/GE01/ImageServer'
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer'
     },
     {
       id: KEYS.digitalGlobe3,
@@ -893,7 +893,7 @@ export const config = {
       mosaic: 'WV03',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03/ImageServer'
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer'
     },
     {
       id: KEYS.digitalGlobe4,
@@ -902,7 +902,7 @@ export const config = {
       mosaic: 'WV03_SWIR',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://46.137.255.222/arcgis/rest/services/OptimizeRaster/WV03_SWIR/ImageServer'
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer'
     },
     {
       id: KEYS.fireStories,

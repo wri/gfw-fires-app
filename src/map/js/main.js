@@ -39,7 +39,7 @@ let configureApp = () => {
   });
 
   urlUtils.addProxyRule({
-    urlPrefix: 'gfw-staging.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+    urlPrefix: 'gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
     proxyUrl: '/map/php/proxy.php'
   });
 
