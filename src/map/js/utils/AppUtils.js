@@ -18,7 +18,7 @@ const utils = {
 
     date.setDate(date.getDate() - filterValue);
     let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return `date > date '${dateString}'`;
+    return `ACQ_DATE > date '${dateString}'`;
   },
 
   generateImageryQuery: queryStringArray => {
