@@ -646,19 +646,12 @@ let LayersHelper = {
     let firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
     let noFiresDiv = '<div class="fire-popup-list no-fires" id="fireResults">No fires in past 7 days';
     let fire_results = isFires ? [firesDiv] : [noFiresDiv];
-    // console.log(isFires);
-    console.log(item.fires);
-    // debugger
+
 
     if (isFires) {
       let fireCounts = [1, 2, 3, 7].map(function(numdays){
-        console.log('numdays', numdays);
       return item.fires.filter(function(fire) {
-        console.log(window.Kalendae.moment(fire.attributes.ACQ_DATE));
-        // console.log(window.Kalendae.moment().subtract(numdays + 1, 'days'));
-        console.log('');
-        // console.log(window.Kalendae.moment(fire.attributes.ACQ_DATE) > window.Kalendae.moment().subtract(numdays + 1, 'days'));
-        return window.Kalendae.moment(fire.attributes.ACQ_DATE) > window.Kalendae.moment().subtract(numdays + 1, 'days');
+        return window.Kalendae.moment(fire.attributes.ACQ_DATE) > window.Kalendae.moment().subtract(numdays, 'days');
         }).length;
       });
 
