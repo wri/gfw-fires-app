@@ -321,6 +321,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.oilPalm);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.oilPalm);
@@ -342,14 +343,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
-
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
               setTimeout(function () {
                 qDeferred.resolve(false);
               }, 3000);
@@ -386,6 +401,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.rspoOilPalm);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.rspoOilPalm);
@@ -407,13 +423,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
               setTimeout(function () {
                 qDeferred.resolve(false);
@@ -532,6 +563,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.loggingConcessions);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.loggingConcessions);
@@ -553,13 +585,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
               setTimeout(function () {
                 qDeferred.resolve(false);
@@ -597,6 +644,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.oilPalmGreenpeace);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.oilPalmGreenpeace);
@@ -618,13 +666,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
               setTimeout(function () {
                 qDeferred.resolve(false);
@@ -658,6 +721,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.woodFiberGreenpeace);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.woodFiberGreenpeace);
@@ -679,13 +743,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
               setTimeout(function () {
                 qDeferred.resolve(false);
@@ -719,6 +798,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.loggingGreenpeace);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.loggingGreenpeace);
@@ -740,13 +820,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
               setTimeout(function () {
                 qDeferred.resolve(false);
@@ -780,6 +875,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.coalConcessions);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.coalConcessions);
@@ -801,14 +897,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
-
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
               setTimeout(function () {
                 qDeferred.resolve(false);
               }, 3000);
@@ -841,6 +951,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.protectedAreasHelper);
       var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
       var layer = app.map.getLayer(_constants2.default.protectedAreasHelper);
@@ -862,13 +973,28 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
             var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
             var query = new _query2.default();
+            var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
             var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
             query.where = queryString;
             query.outFields = ['ACQ_DATE'];
-            queryTask.execute(query).then(function (results) {
-              feature.fires = results.features;
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
               setTimeout(function () {
                 qDeferred.resolve(false);

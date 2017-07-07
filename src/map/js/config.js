@@ -502,7 +502,7 @@ export const config = {
       layerIds: [0],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' +
-        '<tr><td class="field-name">AFFILIATION: </td><td class="field-value">${Group}</td></tr>' +
+        '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' +
         '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' +
         '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' +
         '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' +

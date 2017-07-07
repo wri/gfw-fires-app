@@ -301,6 +301,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalm);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.oilPalm);
@@ -322,14 +323,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
-
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
             setTimeout(function() {
               qDeferred.resolve(false);
             }, 3000);
@@ -366,6 +381,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.rspoOilPalm);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.rspoOilPalm);
@@ -387,13 +403,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
 
             setTimeout(function() {
               qDeferred.resolve(false);
@@ -512,6 +543,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.loggingConcessions);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.loggingConcessions);
@@ -533,13 +565,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
 
             setTimeout(function() {
               qDeferred.resolve(false);
@@ -577,6 +624,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalmGreenpeace);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.oilPalmGreenpeace);
@@ -598,13 +646,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
 
             setTimeout(function() {
               qDeferred.resolve(false);
@@ -638,6 +701,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.woodFiberGreenpeace);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.woodFiberGreenpeace);
@@ -659,13 +723,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
 
             setTimeout(function() {
               qDeferred.resolve(false);
@@ -699,6 +778,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.loggingGreenpeace);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.loggingGreenpeace);
@@ -720,13 +800,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
 
             setTimeout(function() {
               qDeferred.resolve(false);
@@ -760,6 +855,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.coalConcessions);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.coalConcessions);
@@ -781,14 +877,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
-
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
             setTimeout(function() {
               qDeferred.resolve(false);
             }, 3000);
@@ -821,6 +931,7 @@ const request = {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreasHelper);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    const viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.protectedAreasHelper);
@@ -842,13 +953,28 @@ const request = {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
           let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
           let query = new Query();
+          let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
           const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
           query.where = queryString;
           query.outFields = ['ACQ_DATE'];
-          queryTask.execute(query).then(function(results){
-            feature.fires = results.features;
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
 
             setTimeout(function() {
               qDeferred.resolve(false);

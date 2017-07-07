@@ -119,13 +119,15 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
-        $('#global-adm1').chosen('destroy');
-        $('#global-adm1').chosen();
-        if (prevProps.countries.length === 0 && this.props.countries.length > 0) {
-          $('#countries').chosen();
-        } else if (this.props.customizeCountryOpen === true && prevProps.customizeCountryOpen === false) {
-          $('#countries').chosen('destroy');
-          $('#countries').chosen();
+        if ($('#global-adm1').chosen) {
+          $('#global-adm1').chosen('destroy');
+          $('#global-adm1').chosen();
+          if (prevProps.countries.length === 0 && this.props.countries.length > 0) {
+            $('#countries').chosen();
+          } else if (this.props.customizeCountryOpen === true && prevProps.customizeCountryOpen === false) {
+            $('#countries').chosen('destroy');
+            $('#countries').chosen();
+          }
         }
       }
     }, {
