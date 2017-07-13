@@ -1,6 +1,9 @@
 {
   "name": "gfw-fires-app",
-  "version": "3.3.22",
+  "version": "3.3.23",
+  "engines": {
+    "node": "6.11.1"
+  },
   "description": "Please view README.md before beginning development",
   "main": "index.js",
   "scripts": {
