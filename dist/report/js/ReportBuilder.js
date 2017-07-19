@@ -941,41 +941,46 @@ define([
             });
 
             var natural_breaks_renderer = function(feat_stats, dist_names, method) {
-                var nbks;
-                geostats();
-                setSerie(arr);
+                var nbks = [0, 10, 50, 100, 250, 5000];
+
+                if (geostats) {
+                  geostats();
+                  setSerie(arr);
+                }
 
                 if (arr.length < boundaryConfig.breakCount) {
                     boundaryConfig.breakCount = arr.length - 1;
                 }
                 var brkCount = boundaryConfig.breakCount;
-                switch (method) {
+                if (getClassJenks) {
+                  switch (method) {
                     case 'natural':
-                        nbks = getClassJenks(boundaryConfig.breakCount);
-                        break;
+                    nbks = getClassJenks(boundaryConfig.breakCount);
+                    break;
                     case 'equal':
-                        nbks = getClassEqInterval(boundaryConfig.breakCount);
-                        break;
+                    nbks = getClassEqInterval(boundaryConfig.breakCount);
+                    break;
 
                     case 'quantile':
-                        nbks = getClassQuantile(boundaryConfig.breakCount);
-                        break;
+                    nbks = getClassQuantile(boundaryConfig.breakCount);
+                    break;
 
                     case 'stddev':
-                        nbks = getClassStdDeviation(nbClass);
-                        break;
+                    nbks = getClassStdDeviation(nbClass);
+                    break;
 
                     case 'arithmetic':
-                        nbks = getClassArithmeticProgression(nbClass);
-                        break;
+                    nbks = getClassArithmeticProgression(nbClass);
+                    break;
 
                     case 'geometric':
-                        nbks = getClassGeometricProgression(nbClass);
-                        break;
+                    nbks = getClassGeometricProgression(nbClass);
+                    break;
 
                     default:
-                        nbks = getClassJenks(boundaryConfig.breakCount);
-                        break;
+                    nbks = getClassJenks(boundaryConfig.breakCount);
+                    break;
+                  }
                 }
 
                 var symbols = {};
