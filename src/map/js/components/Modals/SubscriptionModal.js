@@ -150,8 +150,8 @@ export default class SubscriptionModal extends React.Component {
         isUploading: true
       });
 
-      // let subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
-        let subscribeUrl = 'http://54.164.126.73/subscribe_by_polygon',
+      let subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
+        // let subscribeUrl = 'http://54.164.126.73/subscribe_by_polygon',
         subscriptions = [],
         emailParams,
         smsParams;
