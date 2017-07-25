@@ -1048,7 +1048,7 @@ let LayersHelper = {
   },
 
   daydiff (first, second) {
-    return Math.round((second - first) / (1000 * 60 * 60 * 24));
+    return Math.round((second - first) / (1000 * 60 * 60 * 24)) + 1;
   },
 
   isLeapYear (year) {
