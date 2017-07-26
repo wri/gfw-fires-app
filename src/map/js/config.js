@@ -427,7 +427,7 @@ export const config = {
       group: 'fireRisk',
       className: 'last-rainfall',
       // disabled: true,
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/image_services/DSLR/ImageServer', //'http://gis-gfw.wri.org/arcgis/rest/services/image_services/DSLR/ImageServer',
+      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/DSLR/ImageServer',
       metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
       calendar: {
         domClass: 'rainfall-settings',
