@@ -922,17 +922,18 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       this.sendAnalytics('widget', 'timeline', 'The user updated the Fire Risk date expression.');
 
       var date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
+
       var otherDate = new Date(dayValue);
       var month = otherDate.getMonth();
       var year = otherDate.getFullYear();
-      var janOne = new Date(year, 0, 1);
+      var janOne = new Date(year, 0, 0);
 
       var origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
       if (month > 1 && this.isLeapYear(year)) {
-        julian++;
+        julian--;
       }
 
       if (julian.toString().length === 1) {
@@ -943,7 +944,10 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         julian = julian.toString();
       }
 
+      console.log('julian2', julian);
+
       var defQuery = year.toString() + julian + '_IDN_FireRisk';
+      console.log(defQuery);
 
       var riskLayer = app.map.getLayer(_constants2.default.fireWeather);
 
@@ -959,13 +963,13 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var otherDate = new Date(dayValue);
       var month = otherDate.getMonth();
       var year = otherDate.getFullYear();
-      var janOne = new Date(year, 0, 1);
+      var janOne = new Date(year, 0, 0);
       var origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
       if (month > 1 && this.isLeapYear(year)) {
-        julian++;
+        julian--;
       }
 
       if (julian.toString().length === 1) {
@@ -1017,7 +1021,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       return new Date(mdy[2], mdy[0] - 1, mdy[1]);
     },
     daydiff: function daydiff(first, second) {
-      return Math.round((second - first) / (1000 * 60 * 60 * 24)) + 1;
+      return Math.round((second - first) / (1000 * 60 * 60 * 24));
     },
     isLeapYear: function isLeapYear(year) {
       if ((year & 3) !== 0) {

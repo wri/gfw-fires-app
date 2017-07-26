@@ -948,17 +948,18 @@ let LayersHelper = {
     this.sendAnalytics('widget', 'timeline', 'The user updated the Fire Risk date expression.');
 
     let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
+
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
-    let janOne = new Date(year, 0, 1);
+    let janOne = new Date(year, 0, 0);
 
     let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
     if (month > 1 && this.isLeapYear(year)) {
-      julian++;
+      julian--;
     }
 
     if (julian.toString().length === 1) {
@@ -969,7 +970,10 @@ let LayersHelper = {
       julian = julian.toString();
     }
 
+    console.log('julian2', julian);
+
     let defQuery = year.toString() + julian + '_IDN_FireRisk';
+    console.log(defQuery);
 
     let riskLayer = app.map.getLayer(KEYS.fireWeather);
 
@@ -986,13 +990,13 @@ let LayersHelper = {
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
-    let janOne = new Date(year, 0, 1);
+    let janOne = new Date(year, 0, 0);
     let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
     if (month > 1 && this.isLeapYear(year)) {
-      julian++;
+      julian--;
     }
 
     if (julian.toString().length === 1) {
@@ -1048,7 +1052,7 @@ let LayersHelper = {
   },
 
   daydiff (first, second) {
-    return Math.round((second - first) / (1000 * 60 * 60 * 24)) + 1;
+    return Math.round((second - first) / (1000 * 60 * 60 * 24));
   },
 
   isLeapYear (year) {
