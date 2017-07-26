@@ -932,9 +932,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
-      if (month > 1 && this.isLeapYear(year)) {
-        julian--;
-      }
+      // if (month > 1 && this.isLeapYear(year)) {
+      //   julian--;
+      // }
 
       if (julian.toString().length === 1) {
         julian = '00' + julian.toString();
@@ -968,9 +968,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
-      if (month > 1 && this.isLeapYear(year)) {
-        julian--;
-      }
+      // if (month > 1 && this.isLeapYear(year)) {
+      //   julian--;
+      // }
 
       if (julian.toString().length === 1) {
         julian = '00' + julian.toString();
