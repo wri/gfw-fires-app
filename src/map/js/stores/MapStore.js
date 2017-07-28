@@ -105,7 +105,11 @@ class MapStore {
     });
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
 
+    LayersHelper.updateFireRisk(defaults.yesterday);
+    LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
+    //LayersHelper.updateFireHistoryDefinitions(0);
+
   }
 
   setCalendar (calendar) {

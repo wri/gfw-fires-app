@@ -149,7 +149,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         });
         app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
 
+        _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
+        _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
+        //LayersHelper.updateFireHistoryDefinitions(0);
       }
     }, {
       key: 'setCalendar',
