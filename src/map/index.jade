@@ -55,7 +55,7 @@ block append head-scripts
         // Set up globals
         window.app = {
           version: '#{meta.version}',
-          debugEnabled: true,
+          debugEnabled: false,
           mobile: function () {return (window.matchMedia === undefined ? false : window.matchMedia('only screen and (max-width: 850px)').matches)},
           debug: function (message) {
             if (this.debugEnabled) {

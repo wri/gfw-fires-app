@@ -104,7 +104,7 @@ class MapStore {
       ShareHelper.handleHashChange();
     });
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
-
+    console.log('defaults.yesterday', defaults.yesterday);
     LayersHelper.updateFireRisk(defaults.yesterday);
     LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
@@ -212,8 +212,10 @@ class MapStore {
 
   setRiskDate (dateObj) {
     this.calendarVisible = '';
+    console.log('dateObj.date', dateObj.date);
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    console.log('this[dateObj.dest]', this[dateObj.dest]);
 
     LayersHelper.updateFireRisk(this.riskDate);
   }

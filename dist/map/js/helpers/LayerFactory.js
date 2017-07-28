@@ -72,8 +72,6 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.maxScale = layer.maxScale; // || 1.0;
         options.minScale = layer.minScale; // || 1.0;
         options.imageParameters = imageParameters;
-        console.log(layer.url);
-        console.log(options);
         esriLayer = new _ArcGISDynamicMapServiceLayer2.default(layer.url, options);
         break;
       case 'feature':

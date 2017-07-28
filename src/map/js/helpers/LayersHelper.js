@@ -970,10 +970,7 @@ let LayersHelper = {
       julian = julian.toString();
     }
 
-    console.log('julian2', julian);
-
     let defQuery = year.toString() + julian + '_IDN_FireRisk';
-    console.log(defQuery);
 
     let riskLayer = app.map.getLayer(KEYS.fireWeather);
 
@@ -987,6 +984,7 @@ let LayersHelper = {
     this.sendAnalytics('widget', 'timeline', 'The user updated the Days Since Last Rainfall date expression.');
 
     let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
+    console.log('date', date);
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
@@ -994,7 +992,7 @@ let LayersHelper = {
     let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
-
+    console.log('julian2', julian);
     // if (month > 1 && this.isLeapYear(year)) {
     //   julian--;
     // }
@@ -1008,7 +1006,7 @@ let LayersHelper = {
     }
 
     let defQuery = 'DSLR_' + year.toString() + julian + '_IDN';
-
+    console.log(defQuery);
     let rainLayer = app.map.getLayer(KEYS.lastRainfall);
 
     if (rainLayer) {

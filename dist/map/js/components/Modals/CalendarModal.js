@@ -99,50 +99,57 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				var _this2 = this;
 
 				this.props.calendars.forEach(function (calendar) {
-					if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
-						_this2.getLatest(calendar.method).then(function (res) {
-							if (calendar.date.isAfter(res)) {
-								calendar.date = res;
-								if (calendar.method === 'changeRisk') {
-									_MapActions.mapActions.setRiskDate({
-										date: res,
-										dest: 'riskDate'
-									});
-								} else {
-									_MapActions.mapActions.setRainDate({
-										date: res,
-										dest: 'rainDate'
-									});
-								}
+					// if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
+					// 	this.getLatest(calendar.method).then((res) => {
+					// 		console.log('calendar.method', calendar.method);
+					// 		//updateFireRisk
+					// 		console.log('calendar.date', calendar.date);
+					// 		console.log('res', res);
+					// 		if (calendar.date.isAfter(res)) {
+					// 			console.log('isAfter!', res);
+					// 			calendar.date = res;
+					// 			if (calendar.method === 'changeRisk') {
+					// 				mapActions.setRiskDate({
+					// 					date: res,
+					// 					dest: 'riskDate'
+					// 				});
+					// 			} else {
+					// 				mapActions.setRainDate({
+					// 					date: res,
+					// 					dest: 'rainDate'
+					// 				});
+					// 			}
+					// 		}
+					//
+					// 		let calendar_obj = new window.Kalendae(calendar.domId, {
+					// 			months: 1,
+					// 			mode: 'single',
+					// 			direction: calendar.direction,
+					// 			blackout: function (date) {
+					// 				return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
+					// 			},
+					// 			selected: calendar.date
+					// 		});
+					// 		calendar_obj.subscribe('change', this[calendar.method].bind(this));
+					//
+					// 	});
+					//
+					// } else {
+					var calendar_obj = new window.Kalendae(calendar.domId, {
+						months: 1,
+						mode: 'single',
+						direction: calendar.direction,
+						blackout: function blackout(date) {
+							if (date.yearDay() >= calendar.startDate.yearDay()) {
+								return false;
+							} else {
+								return true;
 							}
-
-							var calendar_obj = new window.Kalendae(calendar.domId, {
-								months: 1,
-								mode: 'single',
-								direction: calendar.direction,
-								blackout: function blackout(date) {
-									return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
-								},
-								selected: calendar.date
-							});
-							calendar_obj.subscribe('change', _this2[calendar.method].bind(_this2));
-						});
-					} else {
-						var calendar_obj = new window.Kalendae(calendar.domId, {
-							months: 1,
-							mode: 'single',
-							direction: calendar.direction,
-							blackout: function blackout(date) {
-								if (date.yearDay() >= calendar.startDate.yearDay()) {
-									return false;
-								} else {
-									return true;
-								}
-							},
-							selected: calendar.date
-						});
-						calendar_obj.subscribe('change', _this2[calendar.method].bind(_this2));
-					}
+						},
+						selected: calendar.date
+					});
+					calendar_obj.subscribe('change', _this2[calendar.method].bind(_this2));
+					// }
 				});
 			}
 		}, {

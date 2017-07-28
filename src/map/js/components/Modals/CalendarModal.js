@@ -35,37 +35,42 @@ export default class CalendarModal extends Component {
 
 	componentDidMount() {
 		this.props.calendars.forEach(calendar => {
-			if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
-				this.getLatest(calendar.method).then((res) => {
-					if (calendar.date.isAfter(res)) {
-						calendar.date = res;
-						if (calendar.method === 'changeRisk') {
-							mapActions.setRiskDate({
-								date: res,
-								dest: 'riskDate'
-							});
-						} else {
-							mapActions.setRainDate({
-								date: res,
-								dest: 'rainDate'
-							});
-						}
-					}
-
-					let calendar_obj = new window.Kalendae(calendar.domId, {
-						months: 1,
-						mode: 'single',
-						direction: calendar.direction,
-						blackout: function (date) {
-							return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
-						},
-						selected: calendar.date
-					});
-					calendar_obj.subscribe('change', this[calendar.method].bind(this));
-
-				});
-
-			} else {
+			// if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
+			// 	this.getLatest(calendar.method).then((res) => {
+			// 		console.log('calendar.method', calendar.method);
+			// 		//updateFireRisk
+			// 		console.log('calendar.date', calendar.date);
+			// 		console.log('res', res);
+			// 		if (calendar.date.isAfter(res)) {
+			// 			console.log('isAfter!', res);
+			// 			calendar.date = res;
+			// 			if (calendar.method === 'changeRisk') {
+			// 				mapActions.setRiskDate({
+			// 					date: res,
+			// 					dest: 'riskDate'
+			// 				});
+			// 			} else {
+			// 				mapActions.setRainDate({
+			// 					date: res,
+			// 					dest: 'rainDate'
+			// 				});
+			// 			}
+			// 		}
+			//
+			// 		let calendar_obj = new window.Kalendae(calendar.domId, {
+			// 			months: 1,
+			// 			mode: 'single',
+			// 			direction: calendar.direction,
+			// 			blackout: function (date) {
+			// 				return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
+			// 			},
+			// 			selected: calendar.date
+			// 		});
+			// 		calendar_obj.subscribe('change', this[calendar.method].bind(this));
+			//
+			// 	});
+			//
+			// } else {
 				let calendar_obj = new window.Kalendae(calendar.domId, {
 					months: 1,
 					mode: 'single',
@@ -80,7 +85,7 @@ export default class CalendarModal extends Component {
 					selected: calendar.date
 				});
 				calendar_obj.subscribe('change', this[calendar.method].bind(this));
-			}
+			// }
 
 		});
 	}
