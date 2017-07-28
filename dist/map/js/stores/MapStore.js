@@ -148,11 +148,12 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           _ShareHelper2.default.handleHashChange();
         });
         app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
-        console.log('defaults.yesterday', _config.defaults.yesterday);
-        _LayersHelper2.default.updateFireRisk(_config.defaults.yesterday);
-        _LayersHelper2.default.updateLastRain(_config.defaults.yesterday);
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
         //LayersHelper.updateFireHistoryDefinitions(0);
+
+        // //only do this for the layer
+        // LayersHelper.updateFireRisk(defaults.yesterday);
+        // LayersHelper.updateLastRain(defaults.yesterday);
       }
     }, {
       key: 'setCalendar',
@@ -271,10 +272,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'setRiskDate',
       value: function setRiskDate(dateObj) {
         this.calendarVisible = '';
-        console.log('dateObj.date', dateObj.date);
 
         this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-        console.log('this[dateObj.dest]', this[dateObj.dest]);
 
         _LayersHelper2.default.updateFireRisk(this.riskDate);
       }

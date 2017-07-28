@@ -104,12 +104,12 @@ class MapStore {
       ShareHelper.handleHashChange();
     });
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
-    console.log('defaults.yesterday', defaults.yesterday);
-    LayersHelper.updateFireRisk(defaults.yesterday);
-    LayersHelper.updateLastRain(defaults.yesterday);
     LayersHelper.updateAirQDate(defaults.todaysDate);
     //LayersHelper.updateFireHistoryDefinitions(0);
 
+    // //only do this for the layer
+    // LayersHelper.updateFireRisk(defaults.yesterday);
+    // LayersHelper.updateLastRain(defaults.yesterday);
   }
 
   setCalendar (calendar) {
@@ -212,10 +212,8 @@ class MapStore {
 
   setRiskDate (dateObj) {
     this.calendarVisible = '';
-    console.log('dateObj.date', dateObj.date);
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
-    console.log('this[dateObj.dest]', this[dateObj.dest]);
 
     LayersHelper.updateFireRisk(this.riskDate);
   }

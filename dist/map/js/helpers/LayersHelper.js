@@ -957,7 +957,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       this.sendAnalytics('widget', 'timeline', 'The user updated the Days Since Last Rainfall date expression.');
 
       var date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
-      console.log('date', date);
       var otherDate = new Date(dayValue);
       var month = otherDate.getMonth();
       var year = otherDate.getFullYear();
@@ -965,7 +964,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       var origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
       var julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
-      console.log('julian2', julian);
       // if (month > 1 && this.isLeapYear(year)) {
       //   julian--;
       // }
@@ -979,7 +977,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       }
 
       var defQuery = 'DSLR_' + year.toString() + julian + '_IDN';
-      console.log(defQuery);
       var rainLayer = app.map.getLayer(_constants2.default.lastRainfall);
 
       if (rainLayer) {
