@@ -620,8 +620,8 @@ define([
                 self.queryDistrictsFireCount("pulpwoodQuery", null, PRINT_CONFIG.pulpwoodQuery.fire_stats.id),
                 // Indonesia tables query --- END
 
-                self.queryFiresBreakdown(),
-                self.queryFireCount('concessionsQuery'),
+                // self.queryFiresBreakdown(),
+                // self.queryFireCount('concessionsQuery'),
 
                 // Indonesia charts query --- START
                 self.queryForPeatFires(areaOfInterestType),
@@ -911,7 +911,7 @@ define([
 
             var feat_stats = PRINT_CONFIG.query_results[queryKey];
 
-            if (feat_stats.length == 0) {
+            if (!feat_stats || feat_stats.length == 0) {
                 return;
             }
 
