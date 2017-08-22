@@ -202,7 +202,7 @@ block content
       ['where', 'ACQ_DATE > date \'{} 12:00:00\''.replace('{}', dateStr)],
     ]).map(function (c) { return c.join('='); }).join('&');
 
-    var queryUrl = 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0/query?';
+    var queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/0/query?';
     var peatQuery = encodeURI(queryUrl + peatQueryString);
     var totalQuery = encodeURI(queryUrl + totalQueryString);
 

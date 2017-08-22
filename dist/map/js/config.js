@@ -36,7 +36,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           visible: false
         }
       },
-      geometryServiceUrl: 'http://gis-gfw.wri.org/arcgis/rest/services/Utilities/Geometry/GeometryServer'
+      geometryServiceUrl: 'https://gis-gfw.wri.org/arcgis/rest/services/Utilities/Geometry/GeometryServer'
     },
 
     /**
@@ -68,7 +68,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
-      'http://api.globalforestwatch.org/user', 'http://connect.wri.org/', 'gfw-fires.wri.org', 'gis-gfw.wri.org', 'https://gis-gfw.wri.org/'],
+      'gfw-fires.wri.org', 'gis-gfw.wri.org', 'https://gis-gfw.wri.org/'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),
@@ -193,7 +193,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     },
 
     upload: {
-      portal: 'http://www.arcgis.com/sharing/rest/content/features/generate',
+      portal: 'https://www.arcgis.com/sharing/rest/content/features/generate',
       infoTemplate: {
         content: '<table><tr><td>Name: </td><td>${featureName}</td></tr></table>' + '<button>Subscribe</button>' + '<button>Remove</button>'
       },
@@ -257,7 +257,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [8],
       className: 'viirs-fires',
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -278,7 +278,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [9],
       defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
       className: 'active-fires',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -299,7 +299,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [0],
       className: 'archive-fires',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_firms_active_fires_archive',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQUISITION DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQUISITION TIME}</td></tr>'
@@ -320,7 +320,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [9],
       className: 'noaa-fires',
       defaultDefinitionExpression: "Date < date'" + new window.Kalendae.moment().format('M/D/YYYY') + "' AND Date > date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "'",
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'noaa18_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">DATE: </td><td class="field-value">${Date}</td></tr>' + '<tr><td class="field-name">SNo: </td><td class="field-value">${SNo}</td></tr>'
@@ -339,7 +339,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'idn_crowdsourced_fires_and_burn_scars',
       infoTemplate: {
         content: '<table><span class="name-field">${type_}</span></tr>' + '<tr><td>CROWDRANK: </td><td class="field-value">${CrowdRank}</td></tr>' + '<tr><td>IMAGE DATE: </td><td class="field-value">${ImageAquisitionDate}</td></tr>'
@@ -353,7 +353,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -370,7 +370,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'fireRisk',
       className: 'fire-risk',
       // disabled: true,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/fire_risk/ImageServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/fire_risk/ImageServer',
       metadataId: 'fire_risk',
       calendar: {
         domClass: 'risk-settings',
@@ -387,7 +387,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'fireRisk',
       className: 'last-rainfall',
       // disabled: true,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/DSLR/ImageServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/DSLR/ImageServer',
       metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
       calendar: {
         domClass: 'rainfall-settings',
@@ -404,7 +404,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(Indonesia)',
       group: 'forestUse',
       className: 'forest-moratorium',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'idn_forest_moratorium',
       layerIds: [7]
     }, {
@@ -415,7 +415,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'oil-palm',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_oil_palm',
       layerIds: [1],
       infoTemplate: {
@@ -429,7 +429,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(May 2013, select countries)',
       group: 'forestUse',
       className: 'rspo-palm',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
       metadataId: 'rspo_oil_palm',
       layerIds: [0],
       infoTemplate: {
@@ -443,7 +443,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'wood-fiber',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_wood_fiber',
       layerIds: [0],
       infoTemplate: {
@@ -457,7 +457,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'logging-concessions',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_logging',
       layerIds: [3],
       infoTemplate: {
@@ -470,7 +470,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Oil palm',
       group: 'forestUse',
       className: 'oil-palm-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_oilpalm_greenpeace',
       layerIds: [0],
       infoTemplate: {
@@ -483,7 +483,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Wood fiber',
       group: 'forestUse',
       className: 'wood-fiber-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_woodfiber_greenpeace',
       layerIds: [1],
       infoTemplate: {
@@ -496,7 +496,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Selective logging',
       group: 'forestUse',
       className: 'logging-concessions-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_logging_greenpeace',
       layerIds: [2],
       infoTemplate: {
@@ -509,7 +509,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'Coal mining',
       group: 'forestUse',
       className: 'coal-concessions-greenpeace',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',
       metadataId: 'idn_coalmining_greenpeace',
       layerIds: [3],
       infoTemplate: {
@@ -523,7 +523,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(varies, global)',
       group: 'conservation',
       className: 'protected-areas',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas' //,
       // layerIds: [0],
       // infoTemplate: {
@@ -543,7 +543,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       className: 'protected-areas',
       maxScale: 0,
       minScale: 0,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       metadataId: 'wdpa_protected_areas',
       layerIds: [0],
       infoTemplate: {
@@ -557,7 +557,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(year 2000, Indonesia)',
       group: 'landCover',
       className: 'peatlands',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer',
       metadataId: 'idn_peat_lands',
       layerIds: [22]
     }, {
@@ -568,7 +568,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(2000, Hansen/UMD/Google/USGS/NASA)',
       group: 'landCover',
       className: 'tree-cover',
-      url: 'http://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer',
+      url: 'https://gis-treecover.wri.org/arcgis/rest/services/TreeCover2000/ImageServer',
       metadataId: 'tree_cover',
       colormap: [[50, 14, 204, 14]],
       inputRange: [30, 101],
@@ -582,7 +582,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(2000 - 2012, 30m, Indonesia)',
       group: 'landCover',
       className: 'primary-forests',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/primary_forest_2000to2012/MapServer',
       metadataId: 'idn_primary_forests',
       layerIds: [3]
     }, {
@@ -593,7 +593,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       // sublabel: '(2000 - 2012, 30m, Indonesia)',
       group: 'landCover',
       className: 'plantation-types',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
       metadataId: 'gfw_plantations',
       layerIds: [5]
     },
@@ -605,7 +605,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     //   // sublabel: '(2000 - 2012, 30m, Indonesia)',
     //   group: 'landCover',
     //   className: 'plantation-species',
-    //   url: 'http://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/forest_cover/MapServer',
     //   metadataId: 'gfw_plantations',
     //   layerIds: [8]
     // },
@@ -632,7 +632,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(layer starts at 9/25/15)',
       group: 'airQuality',
       className: 'air-quality',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
       metadataId: 'air_quality_old',
       calendar: {
         domId: 'airQCalendar',
@@ -647,7 +647,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '',
       group: 'imagery',
       className: 'overlays',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'latest_landsat',
       layerIds: [4, 5, 6, 7],
       Provinces: {
@@ -717,7 +717,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.digitalGlobe,
       order: 5,
       subLayers: [_constants2.default.digitalGlobe0, _constants2.default.digitalGlobe1, _constants2.default.digitalGlobe2, _constants2.default.digitalGlobe3, _constants2.default.digitalGlobe4],
-      imageServices: [{ id: 'dg-00', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
+      imageServices: [{ id: 'dg-00', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
       type: 'image',
       label: 'Digital Globe - First Look',
       mosaic: 'WV01',
@@ -725,7 +725,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       'minScale': 0,
       'maxScale': 10000,
       className: 'digital-globe',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer',
       metadataId: 'digital_globe',
       calendar: {
         // startDate: new Date('10/19/2015'),
@@ -743,7 +743,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'QB01',
       'minScale': 0,
       'maxScale': 10000, //zoom level 6 is highest visible
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer'
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe1,
       type: 'image',
@@ -751,7 +751,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'WV02',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer'
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe2,
       type: 'image',
@@ -759,7 +759,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'GEO1',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer'
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe3,
       type: 'image',
@@ -767,7 +767,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'WV03',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer'
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer'
     }, {
       id: _constants2.default.digitalGlobe4,
       type: 'image',
@@ -775,7 +775,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       mosaic: 'WV03_SWIR',
       'minScale': 0,
       'maxScale': 10000,
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer'
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer'
     }, {
       id: _constants2.default.fireStories,
       order: 11,
@@ -784,7 +784,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'stories',
       layerIds: [10],
       className: 'fire-stories',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'user_stories',
       infoTemplate: app.mobile() === true ? {
         content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
@@ -799,7 +799,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'stories',
       layerIds: [3],
       className: 'twitter',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
     }, {
       id: _constants2.default.modisArchive,
@@ -808,7 +808,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [9],
       opacity: 1,
       className: 'modis-archive',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -819,7 +819,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 1,
       className: 'viirs-achive',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -873,19 +873,19 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       searchZoomDefault: 10,
       requests: {
         islands: {
-          url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ISLAND',
+          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=ISLAND',
           callback: 'callback'
         },
         provinces: {
-          url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
+          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
           callback: 'callback'
         },
         countries: {
-          url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
+          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
           callback: 'callback'
         },
         adm1: {
-          url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
+          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
           callback: 'callback'
         }
       }
@@ -918,7 +918,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           max: 'Extreme'
         },
         fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }],
-        fireHistoryOptions2: [{ label: 2001, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2001/ImageServer' }, { label: 2002, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2002/ImageServer' }, { label: 2003, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2003/ImageServer' }, { label: 2004, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2004/ImageServer' }, { label: 2005, value: 'http://ags104.blueraster.io/arcgis/rest/services/GFWFires/IDN_2005/ImageServer' }],
         firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }, { label: 'Active Fires', value: null }],
         plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],

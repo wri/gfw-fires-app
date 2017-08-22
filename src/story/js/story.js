@@ -35,7 +35,7 @@ var storyEmailValid;
 var storyAffectedAreaValid;
 
 urlUtils.addProxyRule({
-  urlPrefix: 'http://gis-gfw.wri.org',
+  urlPrefix: 'https://gis-gfw.wri.org',
   proxyUrl: '/map/php/proxy.php'
 });
 
@@ -56,7 +56,7 @@ let options = {
 $('#story-date-input').kalendae(options);
 
 
-var storiesLayer = new FeatureLayer('http://gis-gfw.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
+var storiesLayer = new FeatureLayer('https://gis-gfw.wri.org/arcgis/rest/services/Fires/fire_stories/FeatureServer/0', {});
 
 map.addLayer(storiesLayer);
 

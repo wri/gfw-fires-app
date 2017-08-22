@@ -6,8 +6,8 @@ define([], function () {
     (function (win, doc) {
         'use strict';
 
-        var src = ['http://js.arcgis.com/3.20/', 'http://code.jquery.com/jquery-1.11.0.min.js'],
-            css = ['http://js.arcgis.com/3.20/js/esri/css/esri.css', '../css/report.css'],
+        var src = ['https://js.arcgis.com/3.20/', 'https://code.jquery.com/jquery-1.11.0.min.js'],
+            css = ['https://js.arcgis.com/3.20/js/esri/css/esri.css', '../css/report.css'],
             base = location.pathname.replace(/\/[^/]+$/, '/'),
             dojoConfig = {
             parseOnLoad: false,
