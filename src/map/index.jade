@@ -16,8 +16,6 @@ block append head-meta
 
 
 block append head-scripts
-  //- script(src='../vendors/jquery/dist/jquery.min.js')
-  //- script(src='https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js')
   script(src='../vendors/kalendae/build/kalendae.standalone.js', async)
   script.
     var base = location.pathname.replace(/\/[^/]+$/, '/map/');
@@ -103,7 +101,6 @@ block append head-scripts
       //- ignore_tags: ["tag1", "tag2", ...],
       //- ignore_class: ["classname1", "classname2"]
     };
-  //- script(src='//cdn.transifex.com/live.js')
 
 block content
   //- style(type='text/css', media='print').
@@ -123,5 +120,5 @@ block content
   div#share-modal.modal.hidden
   div#fires-modal.modal.hidden
   div#master-modal.modal.hidden
-  script(src='//js.arcgis.com/3.20/init.js', async)
-  script(src='//platform.twitter.com/widgets.js', async)
+  script(src='https://js.arcgis.com/3.20/init.js', async)
+  script(src='https://platform.twitter.com/widgets.js', async)

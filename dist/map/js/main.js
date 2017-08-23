@@ -68,10 +68,8 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   };
 
   var lazyloadAssets = function lazyloadAssets() {
-    // link(rel='stylesheet', href='./css/map.css?#{meta.version}')
     (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
-    // loadCSS(`./css/map.css?${window.version}`);
-    (0, _loaders.loadCSS)('//js.arcgis.com/3.20/esri/css/esri.css');
+    (0, _loaders.loadCSS)('https://js.arcgis.com/3.20/esri/css/esri.css');
   };
 
   var initializeApp = function initializeApp() {
