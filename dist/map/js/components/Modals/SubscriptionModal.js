@@ -146,9 +146,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           });
 
           var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
-
-          // let subscribeUrl = 'http://54.164.126.73/subscribe_by_polygon',
-          subscriptions = [],
+              subscriptions = [],
               emailParams = void 0,
               smsParams = void 0;
 

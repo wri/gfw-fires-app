@@ -534,18 +534,6 @@ define([
             var self = this;
             self.init_report_options();
 
-            // var proxies = ReportConfig.proxies;
-            //
-            // var url = document.location.href;
-            // var proxyUrl = "/proxy/proxy.ashx";
-            // //var proxyUrl = "/proxy/proxy.php";
-            //
-            // for (var domain in proxies) {
-            //     if (url.indexOf(domain) === 0) {
-            //         proxyUrl = proxies[domain];
-            //     }
-            // }
-
             // self.getCountryAdminTypes(selectedCountry);
 
             // Set up some configurations
@@ -688,7 +676,7 @@ define([
             var baseURI = fullURIArray[0];
             var hashString = encodeURIComponent('#' + fullURIArray[1]);
             var longURIParsed = baseURI + hashString;
-            $.getJSON("http://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
+            $.getJSON("https://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
               var bitlyShortLink = response.data.url;
               $('.share-link')
                 .on('click', function () {

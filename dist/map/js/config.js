@@ -223,8 +223,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
     assetUrls: {
       ionCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.css',
       ionSkinCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
-      highcharts: 'http://code.highcharts.com/highcharts.js',
-      highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
+      highcharts: 'https://code.highcharts.com/highcharts.js',
+      highchartsExport: 'https://code.highcharts.com/modules/exporting.js',
       rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
       // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
       chosen: '../vendors/chosen/chosen.jquery.js'
@@ -617,7 +617,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(2000, 30m, Daily, NOAA)',
       group: 'airQuality',
       className: 'wind-direction',
-      // url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
+      // url: 'https://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
       metadataId: 'wind_direction',
       calendar: {
         domId: 'windDirectionCalendar',
@@ -681,7 +681,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(latest image, 30m, global)',
       group: 'imagery',
       className: 'tree-cover',
-      url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
+      url: 'https://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
       metadataId: 'latest_landsat'
     }, {
       id: _constants2.default.boundingBoxes,
@@ -829,7 +829,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       gfwBlue: [64, 153, 206],
       bbSymbol: [255, 0, 0],
       svgPath: 'M16,3.5c-4.142,0-7.5,3.358-7.5,7.5c0,4.143,7.5,18.121,7.5,18.121S23.5,15.143,23.5,11C23.5,6.858,20.143,3.5,16,3.5z M16,14.584c-1.979,0-3.584-1.604-3.584-3.584S14.021,7.416,16,7.416S19.584,9.021,19.584,11S17.979,14.584,16,14.584z',
-      pointUrl: 'http://js.arcgis.com/3.14/esri/dijit/Search/images/search-pointer.png'
+      pointUrl: 'https://js.arcgis.com/3.14/esri/dijit/Search/images/search-pointer.png'
     },
 
     alertsModal: {
@@ -852,7 +852,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           successMessage: 'subscription successful'
         },
         forma: {
-          url: 'http://gfw-apis.appspot.com/subscribe',
+          url: 'https://gfw-apis.appspot.com/subscribe',
           options: {
             method: 'POST',
             data: {
@@ -1103,7 +1103,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'satellite': 'satellite'
 
       },
-      metadataUrl: 'http://api.globalforestwatch.org/metadata/' //todo switch this to proper server
+      metadataUrl: 'https://api.globalforestwatch.org/metadata/' //todo switch this to proper server
     }
 
   };
@@ -1113,15 +1113,15 @@ define(['exports', 'js/constants'], function (exports, _constants) {
   config.text.layerInformation[_constants2.default.treeCoverDensity] = {
     title: 'Tree Cover',
     subtitle: '(year 2000, 30m global, Hansen/UMD/Google/USGS/NASA)',
-    table: [{ label: 'Function', html: 'Identifies areas of tree cover' }, { label: 'Resolution/Scale', html: '30 × 30 meters' }, { label: 'Geographic Coverage', html: 'Global land (excluding Antarctica and Arctic islands)' }, { label: 'Source Data', html: '<a href="http://landsat.usgs.gov/" target="_blank">Landsat 7 ETM+</a>' }, { label: 'Date of Content', html: '2000' }, { label: 'Cautions', html: 'For the purpose of this study, “tree cover” was defined as all vegetation taller than 5 meters in height. “Tree cover” is the biophysical presence of trees and may take the form of natural forests or plantations existing over a range of canopy densities.' }],
-    overview: ['This data set displays tree cover over all global land (except for Antarctica and a number of Arctic islands) for the year 2000 at 30 × 30 meter resolution. “Percent tree cover” is defined as the density of tree canopy coverage of the land surface and is color-coded by density bracket (see legend).', 'Data in this layer were generated using multispectral satellite imagery from the <a href="http://landsat.usgs.gov/" target="_blank">Landsat 7 thematic mapper plus (ETM+)</a> sensor. The clear surface observations from over 600,000 images were analyzed using Google Earth Engine, a cloud platform for earth observation and data analysis, to determine per pixel tree cover using a supervised learning algorithm.'],
+    table: [{ label: 'Function', html: 'Identifies areas of tree cover' }, { label: 'Resolution/Scale', html: '30 × 30 meters' }, { label: 'Geographic Coverage', html: 'Global land (excluding Antarctica and Arctic islands)' }, { label: 'Source Data', html: '<a href="https://landsat.usgs.gov/" target="_blank">Landsat 7 ETM+</a>' }, { label: 'Date of Content', html: '2000' }, { label: 'Cautions', html: 'For the purpose of this study, “tree cover” was defined as all vegetation taller than 5 meters in height. “Tree cover” is the biophysical presence of trees and may take the form of natural forests or plantations existing over a range of canopy densities.' }],
+    overview: ['This data set displays tree cover over all global land (except for Antarctica and a number of Arctic islands) for the year 2000 at 30 × 30 meter resolution. “Percent tree cover” is defined as the density of tree canopy coverage of the land surface and is color-coded by density bracket (see legend).', 'Data in this layer were generated using multispectral satellite imagery from the <a href="https://landsat.usgs.gov/" target="_blank">Landsat 7 thematic mapper plus (ETM+)</a> sensor. The clear surface observations from over 600,000 images were analyzed using Google Earth Engine, a cloud platform for earth observation and data analysis, to determine per pixel tree cover using a supervised learning algorithm.'],
     citation: ['<strong>Citation:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “High-Resolution Global Maps of 21st-Century Forest Cover Change.” <em>Science</em> 342 (15 November): 850–53. Data available on-line from: <a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank">http://earthenginepartners.appspot.com/science-2013-global-forest</a>.', '<strong>Suggested citation for data as displayed on GFW:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “Tree Cover.” University of Maryland, Google, USGS, and NASA. Accessed through Global Forest Watch on [date]. <a href="http://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a>.']
   };
 
   config.text.layerInformation[_constants2.default.activeFires] = {
     title: 'Firms Active Fires',
     subtitle: '(daily, 1km, global, NASA)',
-    download_data: 'http://www.google.com',
+    download_data: 'https://www.google.com',
     table: [{ label: 'Function', html: 'Displays fire alert data for the past 7 days' }, { label: 'Resolution/Scale', html: '1 × 1 kilometer' }, { label: 'Geographic Coverage', html: 'Global' }, { label: 'Source Data', html: '<a href="http://modis.gsfc.nasa.gov/about/" target="_blank">MODIS</a>' }, { label: 'Date of Content', html: 'Past 7 days' }, { label: 'Cautions', html: '<p>Not all fires are detected. There are several reasons why MODIS may not have detected a certain fire. The fire may have started and ended between satellite overpasses. The fire may have been too small or too cool to be detected in the (approximately) 1 km<sup>2</sup> pixel. Cloud cover, heavy smoke, or tree canopy may completely obscure a fire.</p><p>It is not recommended to use active fire locations to estimate burned area due to spatial and temporal sampling issues.</p><p>When zoomed out, this data layer displays some degree of inaccuracy because the data points must be collapsed to be visible on a larger scale. Zoom in for greater detail.</p>' }],
     overview: ['The Fire Information for Resource Management System (FIRMS) delivers global MODIS-derived hotspots and fire locations. The active fire locations represent the center of a 1-kilometer pixel that is flagged by the MOD14/MYD14 Fire and Thermal Anomalies Algorithm as containing one or more fires within the pixel.', 'The near real-time active fire locations are processed by the <a href="https://earthdata.nasa.gov/data/near-real-time-data" target="_blank">NASA Land and Atmosphere Near Real-Time Capability for EOS (LANCE)</a> using the standard MODIS Fire and Thermal Anomalies product (MOD14/MYD14). Data older than the past 7 days can be obtained from the <a href="https://earthdata.nasa.gov/data/near-real-time-data/firms/active-fire-data#tab-content-6" target="_blank">Archive Download Tool</a>. The tool provides near real-time data and, as it becomes available and is replaced with the standard NASA (MCD14ML) fire product.', 'More information on active fire data is available from the <a href="https://earthdata.nasa.gov/data/near-real-time-data/firms" target="_blank">NASA FIRMS website</a>.'],
     citation: ['<strong>Citation:</strong>NASA FIRMS. “NASA Fire Information for Resource Management System (FIRMS).” Accessed on [date]. <a href="earthdata.nasa.gov/data/near-real-time-data/firms" target="_blank">earthdata.nasa.gov/data/near-real-time-data/firms</a>.', '<strong>Suggested citation for data as displayed on GFW:</strong> “NASA Active Fires.” NASA FIRMS. Accessed through Global Forest Watch on [date]. <a href="http://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a>.']
@@ -1129,21 +1129,21 @@ define(['exports', 'js/constants'], function (exports, _constants) {
 
   config.text.layerInformation[_constants2.default.burnScars] = {
     title: 'Burn Scars',
-    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
+    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
     overview: ['This data layer provides the extent of burn land area, or burn scars, mapped from Landsat satellite imagery, using Google Earth Engine. This analysis was conducted by the Data Lab team (Robin Kraft, Dan Hammer, and Aaron Steele) of the World Resources Institute using Google Earth Engine. This analysis will be updated regularly as additional Landsat imagery becomes available.', 'This analysis was conducted as an open source project; code is available here:<br><a href="https://gist.github.com/robinkraft/077c14d35a50a8b31581" target="_blank">https://gist.github.com/robinkraft/077c14d35a50a8b31581</a>'],
     citation: ['<strong>Citation:</strong>Elvidge, Christopher D. and Kimberly Baugh. 2014. Burn scar mapping from Landsat 8. Presentation at APAN meeting in Bandung, Indonesia. January 20.', '<strong>URL:</strong><a href="http://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf" target="_blank">http://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf</a>.']
   };
 
   config.text.layerInformation[_constants2.default.darkGrayBasemap] = {
     title: 'Dark Gray Canvas',
-    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
+    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
     overview: ['This web map draws attention to your thematic content by providing a dark, neutral background with minimal colors, labels, and features.'],
     citation: ['This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> ']
   };
 
   config.text.layerInformation[_constants2.default.topoBasemap] = {
     title: 'Topographic',
-    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
+    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
     overview: ['Topographic map which includes boundaries, cities, water features, physiographic features, parks, landmarks, transportation, and buildings.'],
     citation: ['This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> ']
   };
@@ -1156,7 +1156,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
 
   config.text.layerInformation[_constants2.default.imageryBasemap] = {
     title: 'World Imagery',
-    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
+    table: [{ label: 'Function', html: 'Provides an estimate of the extent of land burned by fire' }, { label: 'Resolution/Scale', html: '30 meters' }, { label: 'Geographic Coverage', html: 'Sumatra, Indonesia' }, { label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>' }, { label: 'Date of Content', html: 'May 1, 2014 - present' }, { label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.' }],
     overview: ['Satellite and high-resolution aerial imagery for the world with political boundaries and place names. You can turn on transportation including street names.'],
     citation: ['This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> ']
   };

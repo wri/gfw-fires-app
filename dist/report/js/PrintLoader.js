@@ -38,7 +38,7 @@ define([], function () {
             deps: ['views/report/ReportBuilder', 'dojo/domReady!'],
             callback: function callback(ReportBuilder) {
                 ReportBuilder.init();
-                loadScript('http://code.highcharts.com/modules/exporting.js');
+                loadScript('https://code.highcharts.com/modules/exporting.js');
             }
         }; // End dojoConfig
 
