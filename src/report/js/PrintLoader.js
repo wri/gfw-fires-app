@@ -49,7 +49,7 @@
             ],
             callback: function(ReportBuilder) {
                 ReportBuilder.init();
-                loadScript('http://code.highcharts.com/modules/exporting.js');
+                loadScript('https://code.highcharts.com/modules/exporting.js');
             }
         }; // End dojoConfig
 

@@ -55,7 +55,7 @@ const tabs = [
   'Decimal Degrees'
 ];
 
-// REFERENCE: http://stackoverflow.com/a/5971628
+// REFERENCE: https://stackoverflow.com/a/5971628
 function dms2Deg(s) {
   // Determine if south latitude or west longitude
   var sw = /[sw]/i.test(s);

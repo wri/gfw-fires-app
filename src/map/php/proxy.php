@@ -2814,8 +2814,6 @@ class XmlParser
     function tagEnd($parser, $name)
     {
 
-        //http://www.php.net/manual/en/function.xml-parse.php
-
         $this->results[count($this->results)-2]['childrens'][] = $this->results[count($this->results)-1];
 
         if(count($this->results[count($this->results)-2]['childrens'] ) == 1)

@@ -8,7 +8,7 @@ block append head-meta
 block append head-styles
   link(rel='icon', href='../css/images/favicon.png')
   link(rel='stylesheet', href='https://js.arcgis.com/3.20/esri/css/esri.css')
-  link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
+  link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,300')
   //- link(rel='stylesheet', href='../vendors/kalendae/build/kalendae.css')
   style
     :stylus
@@ -140,7 +140,7 @@ block content
         div#story-video-container.field
           label #{story.form.video[0]}
           p.description #{story.form.video[1]}
-          input#story-video-input(type='text' placeholder='http://www.youtube.com/watch?v=ITG-0brb98I')
+          input#story-video-input(type='text' placeholder='https://www.youtube.com/watch?v=ITG-0brb98I')
 
         div#story-media-container.field
           label #{story.form.media[0]}

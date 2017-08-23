@@ -3,7 +3,7 @@
     credit: All the credit for this work goes to: https://github.com/cambecc for creating the repo:
       https://github.com/cambecc/earth. The majority of this code is directly take nfrom there, since its awesome.
 
-    This class takes a canvas element and an array of data (1km GFS from http://www.emc.ncep.noaa.gov/index.php?branch=GFS)
+    This class takes a canvas element and an array of data (1km GFS from www.emc.ncep.noaa.gov/index.php?branch=GFS)
     and then uses a mercator (forward/reverse) projection to correctly map wind vectors in "map space".
 
     The "start" method takes the bounds of the map at its current extent and starts the whole gridding,
@@ -75,8 +75,6 @@ var Windy = function( params ){
       var date = new Date(header.refTime);
       date.setHours(date.getHours() + header.forecastTime);
 
-      // Scan mode 0 assumed. Longitude increases from λ0, and latitude decreases from φ0.
-      // http://www.nco.ncep.noaa.gov/pmb/docs/grib2/grib2_table3-4.shtml
       var grid = [], p = 0;
       var isContinuous = Math.floor(ni * Δλ) >= 360;
       for (var j = 0; j < nj; j++) {
@@ -130,7 +128,7 @@ var Windy = function( params ){
 
   /**
    * @returns {Number} returns remainder of floored division, i.e., floor(a / n). Useful for consistent modulo
-   *          of negative numbers. See http://en.wikipedia.org/wiki/Modulo_operation.
+   *          of negative numbers.
    */
   var floorMod = function(a, n) {
       return a - n * Math.floor(a / n);

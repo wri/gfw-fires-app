@@ -234,8 +234,8 @@ export const config = {
   assetUrls: {
     ionCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.css',
     ionSkinCSS: 'vendors/ion.rangeslider/css/ion.rangeSlider.skinNice.css',
-    highcharts: 'http://code.highcharts.com/highcharts.js',
-    highchartsExport: 'http://code.highcharts.com/modules/exporting.js',
+    highcharts: 'https://code.highcharts.com/highcharts.js',
+    highchartsExport: 'https://code.highcharts.com/modules/exporting.js',
     rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
     // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
     chosen: '../vendors/chosen/chosen.jquery.js'
@@ -716,7 +716,7 @@ export const config = {
       sublabel: '(2000, 30m, Daily, NOAA)',
       group: 'airQuality',
       className: 'wind-direction',
-      // url: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
+      // url: 'https://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
       metadataId: 'wind_direction',
       calendar: {
         domId: 'windDirectionCalendar',
@@ -792,7 +792,7 @@ export const config = {
       sublabel: '(latest image, 30m, global)',
       group: 'imagery',
       className: 'tree-cover',
-      url: 'http://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
+      url: 'https://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
       metadataId: 'latest_landsat'
     },
     {
@@ -974,7 +974,7 @@ export const config = {
     gfwBlue: [64, 153, 206],
     bbSymbol: [255, 0, 0],
     svgPath: 'M16,3.5c-4.142,0-7.5,3.358-7.5,7.5c0,4.143,7.5,18.121,7.5,18.121S23.5,15.143,23.5,11C23.5,6.858,20.143,3.5,16,3.5z M16,14.584c-1.979,0-3.584-1.604-3.584-3.584S14.021,7.416,16,7.416S19.584,9.021,19.584,11S17.979,14.584,16,14.584z',
-    pointUrl: 'http://js.arcgis.com/3.14/esri/dijit/Search/images/search-pointer.png'
+    pointUrl: 'https://js.arcgis.com/3.14/esri/dijit/Search/images/search-pointer.png'
   },
 
   alertsModal: {
@@ -997,7 +997,7 @@ export const config = {
         successMessage: 'subscription successful'
       },
       forma: {
-        url: 'http://gfw-apis.appspot.com/subscribe',
+        url: 'https://gfw-apis.appspot.com/subscribe',
         options: {
           method: 'POST',
           data: {
@@ -1283,7 +1283,7 @@ export const config = {
       'satellite': 'satellite'
 
     },
-    metadataUrl: 'http://api.globalforestwatch.org/metadata/' //todo switch this to proper server
+    metadataUrl: 'https://api.globalforestwatch.org/metadata/' //todo switch this to proper server
   }
 
 };
@@ -1297,13 +1297,13 @@ config.text.layerInformation[KEYS.treeCoverDensity] = {
     {label: 'Function', html: 'Identifies areas of tree cover'},
     {label: 'Resolution/Scale', html: '30 × 30 meters'},
     {label: 'Geographic Coverage', html: 'Global land (excluding Antarctica and Arctic islands)'},
-    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/" target="_blank">Landsat 7 ETM+</a>'},
+    {label: 'Source Data', html: '<a href="https://landsat.usgs.gov/" target="_blank">Landsat 7 ETM+</a>'},
     {label: 'Date of Content', html: '2000'},
     {label: 'Cautions', html: 'For the purpose of this study, “tree cover” was defined as all vegetation taller than 5 meters in height. “Tree cover” is the biophysical presence of trees and may take the form of natural forests or plantations existing over a range of canopy densities.'}
   ],
   overview: [
     'This data set displays tree cover over all global land (except for Antarctica and a number of Arctic islands) for the year 2000 at 30 × 30 meter resolution. “Percent tree cover” is defined as the density of tree canopy coverage of the land surface and is color-coded by density bracket (see legend).',
-    'Data in this layer were generated using multispectral satellite imagery from the <a href="http://landsat.usgs.gov/" target="_blank">Landsat 7 thematic mapper plus (ETM+)</a> sensor. The clear surface observations from over 600,000 images were analyzed using Google Earth Engine, a cloud platform for earth observation and data analysis, to determine per pixel tree cover using a supervised learning algorithm.'
+    'Data in this layer were generated using multispectral satellite imagery from the <a href="https://landsat.usgs.gov/" target="_blank">Landsat 7 thematic mapper plus (ETM+)</a> sensor. The clear surface observations from over 600,000 images were analyzed using Google Earth Engine, a cloud platform for earth observation and data analysis, to determine per pixel tree cover using a supervised learning algorithm.'
   ],
   citation: [
     '<strong>Citation:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “High-Resolution Global Maps of 21st-Century Forest Cover Change.” <em>Science</em> 342 (15 November): 850–53. Data available on-line from: <a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank">http://earthenginepartners.appspot.com/science-2013-global-forest</a>.',
@@ -1315,7 +1315,7 @@ config.text.layerInformation[KEYS.treeCoverDensity] = {
 config.text.layerInformation[KEYS.activeFires] = {
   title: 'Firms Active Fires',
   subtitle: '(daily, 1km, global, NASA)',
-  download_data: 'http://www.google.com',
+  download_data: 'https://www.google.com',
   table: [
     {label: 'Function', html: 'Displays fire alert data for the past 7 days'},
     {label: 'Resolution/Scale', html: '1 × 1 kilometer'},
@@ -1341,7 +1341,7 @@ config.text.layerInformation[KEYS.burnScars] = {
     {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
     {label: 'Resolution/Scale', html: '30 meters'},
     {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
-    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
     {label: 'Date of Content', html: 'May 1, 2014 - present'},
     {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
   ],
@@ -1361,7 +1361,7 @@ config.text.layerInformation[KEYS.darkGrayBasemap] = {
     {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
     {label: 'Resolution/Scale', html: '30 meters'},
     {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
-    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
     {label: 'Date of Content', html: 'May 1, 2014 - present'},
     {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
   ],
@@ -1379,7 +1379,7 @@ config.text.layerInformation[KEYS.topoBasemap] = {
     {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
     {label: 'Resolution/Scale', html: '30 meters'},
     {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
-    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
     {label: 'Date of Content', html: 'May 1, 2014 - present'},
     {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
   ],
@@ -1407,7 +1407,7 @@ config.text.layerInformation[KEYS.imageryBasemap] = {
     {label: 'Function', html: 'Provides an estimate of the extent of land burned by fire'},
     {label: 'Resolution/Scale', html: '30 meters'},
     {label: 'Geographic Coverage', html: 'Sumatra, Indonesia'},
-    {label: 'Source Data', html: '<a href="http://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
+    {label: 'Source Data', html: '<a href="https://landsat.usgs.gov/index.php" target="_blank">Landsat</a>'},
     {label: 'Date of Content', html: 'May 1, 2014 - present'},
     {label: 'Cautions', html: 'This data layer is provided as a beta analysis product and should be used for visual purposes only.'}
   ],

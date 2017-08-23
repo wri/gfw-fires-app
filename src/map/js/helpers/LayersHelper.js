@@ -401,7 +401,7 @@ let LayersHelper = {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.objectid + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else if (keyword === KEYS.burnScars) {
-        subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="http://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
+        subscribe = '</table><div id="burnScarImagery"><img height="220" width="220" src="https://s3.amazonaws.com/explorationlab/' + item.feature.attributes.ChipURL + '"></div><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
       } else if (keyword === KEYS.overlays) {
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
         config = config[item.layerName];
@@ -1036,7 +1036,7 @@ let LayersHelper = {
 
     let reportdates = dateArray.split('/');
     let datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
-    let updatedURL = 'http://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' + datesFormatted + '00' + '.1-0.gz.json';
+    let updatedURL = 'https://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' + datesFormatted + '00' + '.1-0.gz.json';
     WindHelper.deactivateWindLayer();
     WindHelper.activateWindLayer(updatedURL);
   },

@@ -12,7 +12,7 @@ import domUtils from 'esri/domUtils';
 import Layer from 'esri/layers/layer';
 
 let WIND_CONFIG = {
-  dataUrl: 'http://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
+  dataUrl: 'https://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
   id: 'Wind_Direction',
   opacity: 0.85,
   mapLoaderId: 'map_loader',
