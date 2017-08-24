@@ -676,13 +676,18 @@ define([
             var baseURI = fullURIArray[0];
             var hashString = encodeURIComponent('#' + fullURIArray[1]);
             var longURIParsed = baseURI + hashString;
-            console.log('longURIParsed', longURIParsed);
             $.getJSON("https://api-ssl.bitly.com/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
               var bitlyShortLink = response.data.url;
+              var updatedBitly;
+              if (bitlyShortLink.indexOf('https') > -1) {
+                updatedBitly = 'https' + bitlyShortLink.split['http'][1];
+              } else {
+                updatedBitly = bitlyShortLink;
+              }
               $('.share-link')
                 .on('click', function () {
                   document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                  $('.share-link-input').val(bitlyShortLink);
+                  $('.share-link-input').val(updatedBitly);
                 })
             });
 
