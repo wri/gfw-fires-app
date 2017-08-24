@@ -680,7 +680,7 @@ define([
               var bitlyShortLink = response.data.url;
               var updatedBitly;
               console.log('bitlyShortLink', bitlyShortLink);
-              if (bitlyShortLink.indexOf('https') > -1) {
+              if (bitlyShortLink.indexOf('http') > -1) {
                 updatedBitly = 'https' + bitlyShortLink.split['http'][1];
               } else {
                 updatedBitly = bitlyShortLink;
