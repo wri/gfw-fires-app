@@ -676,21 +676,28 @@ define([
             var baseURI = fullURIArray[0];
             var hashString = encodeURIComponent('#' + fullURIArray[1]);
             var longURIParsed = baseURI + hashString;
-            $.getJSON("https://api-ssl.bitly.com/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
+            // $.getJSON("https://api-ssl.bitly.com/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
+            //   var bitlyShortLink = response.data.url;
+            //   var updatedBitly;
+            //   console.log('bitlyShortLink', bitlyShortLink);
+            //   if (bitlyShortLink.indexOf('http') > -1) {
+            //     updatedBitly = 'https' + bitlyShortLink.split('http')[1];
+            //   } else {
+            //     updatedBitly = bitlyShortLink;
+            //   }
+            //   console.log('updatedBitly', updatedBitly);
+            //   $('.share-link').on('click', function () {
+            //       document.querySelector('.share-link-input__container').classList.toggle("hidden");
+            //       $('.share-link-input').val(updatedBitly);
+            //   });
+            // });
+            $.getJSON("http://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
               var bitlyShortLink = response.data.url;
-              var updatedBitly;
-              console.log('bitlyShortLink', bitlyShortLink);
-              if (bitlyShortLink.indexOf('http') > -1) {
-                updatedBitly = 'https' + bitlyShortLink.split('http')[1];
-              } else {
-                updatedBitly = bitlyShortLink;
-              }
-              console.log('updatedBitly', updatedBitly);
               $('.share-link')
                 .on('click', function () {
                   document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                  $('.share-link-input').val(updatedBitly);
-                })
+                  $('.share-link-input').val(bitlyShortLink);
+                });
             });
 
             self.read_hash();
@@ -1813,6 +1820,7 @@ define([
                 fields,
                 self = this;
 
+
             if (areaOfInterestType === 'GLOBAL') {
               queryTask = new QueryTask(PRINT_CONFIG.queryUrlGlobal + "/" + districtLayerId);
               fields = [PRINT_CONFIG[configKey].fire_stats_global.onField, window.reportOptions.aoitype, PRINT_CONFIG[configKey].fire_stats_global.outField];
@@ -1969,6 +1977,14 @@ define([
               query.groupByFieldsForStatistics.push("ISLAND");
             }
 
+            // if (configKey === 'subDistrictQuery') {
+            //   console.log('');
+            //   console.log('subDistrictQuery');
+            //   console.log('queryConfig', queryConfig);
+            //   console.log('queryqueryy', query);
+            //   console.log('queryTask', queryTask);
+            // }
+
             queryTask.execute(query, function(res) {
               if (PRINT_CONFIG.query_results[configKey] !== undefined) {
                 var queryResultFirst = PRINT_CONFIG.query_results[configKey].slice(0); // Deep clone of first object
@@ -2090,79 +2106,6 @@ define([
                 deferred.resolve(false);
             });
 
-            return deferred.promise;
-        },
-
-        queryCompanyConcessions: function() {
-            var queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.companyConcessionsId),
-                fields = ["Name", "fire_count", "TYPE"], //"GROUP_NAME"
-                deferred = new Deferred(),
-                query = new Query(),
-                time = new Date(),
-                woodFiber = [],
-                logging = [],
-                oilPalm = [],
-                self = this,
-                type;
-
-
-            // Make Time Relative to Last Week
-            time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 7);
-
-            dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate() - 7) + " " +
-                time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-
-            query.where = "fire_count IS NOT NULL";
-            query.returnGeometry = false;
-            query.outFields = fields;
-            query.orderByFields = ["fire_count DESC"];
-
-            function buildTables(woodFiberFeatures, palmOilFeatures, loggingFeatures) {
-                var tableHeader = "<table class='fires-table'><tr><th>NAME</th><th>NUMBER OF FIRE ALERTS</th></tr>", //<th>GROUP, AFFILIATE, OR MAIN BUYER</th>
-                    woodTable = tableHeader + self.generateTableRows(woodFiberFeatures, fields.slice(0, 2)) + "</table>",
-                    palmTable = tableHeader + self.generateTableRows(palmOilFeatures, fields.slice(0, 2)) + "</table>",
-                    logTable = tableHeader + self.generateTableRows(loggingFeatures, fields.slice(0, 2)) + "</table>",
-                    noWoodFeatures = "There are no fire alerts in pulpwood concessions in the last 7 days.",
-                    noPalmFeatures = "There are no fire alerts in palm oil concessions in the last 7 days.",
-                    noLogFeatures = "There are no fire alerts in logging concessions in the last 7 days.";
-
-                dom.byId("pulpwood-fires-table").innerHTML = (woodFiberFeatures.length > 0) ? woodTable : '<div class="noFiresTable">' + noWoodFeatures + '</div>';
-                dom.byId("palmoil-fires-table").innerHTML = (palmOilFeatures.length > 0) ? palmTable : '<div class="noFiresTable">' + noPalmFeatures + '</div>';
-                dom.byId("logging-fires-table").innerHTML = (loggingFeatures.length > 0) ? logTable : '<div class="noFiresTable">' + noLogFeatures + '</div>';
-            }
-
-            queryTask.execute(query, function(res) {
-                // Sort the response by TYPE
-                arrayUtils.every(res.features, function(feature) {
-                    type = feature.attributes.TYPE;
-                    if (type === 'Oil palm concession' && oilPalm.length < 10) {
-                        oilPalm.push(feature);
-                    } else if (type === 'Wood fiber plantation' && woodFiber.length < 10) {
-                        woodFiber.push(feature);
-                    } else if (type === 'Logging concession' && logging.length < 10) {
-                        logging.push(feature);
-                    }
-                    return !(oilPalm.length > 9 && woodFiber.length > 9 && logging.length > 9);
-                });
-
-                // Filter out all features with a fire_count of 0
-                oilPalm = arrayUtils.filter(oilPalm, function(feature) {
-                    return feature.attributes.fire_count !== 0;
-                });
-                woodFiber = arrayUtils.filter(woodFiber, function(feature) {
-                    return feature.attributes.fire_count !== 0;
-                });
-                logging = arrayUtils.filter(logging, function(feature) {
-                    return feature.attributes.fire_count !== 0;
-                });
-
-                // render the tables
-                buildTables(woodFiber, oilPalm, logging);
-
-                deferred.resolve(true);
-            }, function(err) {
-                deferred.resolve(false);
-            });
             return deferred.promise;
         },
 
