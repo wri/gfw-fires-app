@@ -1103,7 +1103,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         'satellite': 'satellite'
 
       },
-      metadataUrl: 'https://api.globalforestwatch.org/metadata/' //todo switch this to proper server
+      metadataUrl: 'https://production-api.globalforestwatch.org/v1/gfw-metadata/' //todo switch this to proper server
     }
 
   };
