@@ -1283,7 +1283,7 @@ export const config = {
       'satellite': 'satellite'
 
     },
-    metadataUrl: 'https://api.globalforestwatch.org/metadata/' //todo switch this to proper server
+    metadataUrl: 'http://production-api.globalforestwatch.org/v1/gfw-metadata/' //todo switch this to proper server
   }
 
 };
