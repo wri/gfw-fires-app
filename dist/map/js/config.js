@@ -67,8 +67,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
-      'gis-potico.wri.org', 'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
-      'gfw-fires.wri.org', 'gis-gfw.wri.org', 'https://gis-gfw.wri.org/', 'https://production-api.globalforestwatch.org/v1/gfw-metadata/'],
+      'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
+      'gfw-fires.wri.org', 'gis-gfw.wri.org', 'https://gis-gfw.wri.org/', 'https://production-api.globalforestwatch.org/v1/gfw-metadata/', 'https://fires.globalforestwatch.org/map/php/proxy.php', 'https://gis-gfw.wri.org'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),
