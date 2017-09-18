@@ -34,12 +34,12 @@ let configureApp = () => {
   defaults.corsEnabledServers.forEach((server) => { esriConfig.defaults.io.corsEnabledServers.push(server); });
 
   urlUtils.addProxyRule({
-    urlPrefix: 'gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+    urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
     proxyUrl: '/map/php/proxy.php'
   });
 
   urlUtils.addProxyRule({
-    urlPrefix: 'gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+    urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
     proxyUrl: '/map/php/proxy.php'
   });
 
