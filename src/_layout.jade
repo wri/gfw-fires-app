@@ -25,10 +25,16 @@ html
           a.async=true;
           a.type="text/javascript";
           b.parentNode.insertBefore(a,b)}, 1);
-
-  body
+          
+      script.
+        window.liveSettings = {
+          picker: '#transifexTranslateElement',
+          api_key: "9eda410a7db74687ba40771c56abd357",
+          detectlang: false,
+          site: 'gfw-fires'
+        }
     script(src='https://cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js')
-    script(src='https://gfw-assets.s3.amazonaws.com/static/gfw-assets.latest.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
+    script(src='http://gfw-assets.s3.amazonaws.com/static/gfw-assets.nightly.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
 
     include html/_ie9.html
     include html/_svgAssets.jade
