@@ -75,8 +75,8 @@ html(lang="en")
             h1.report-title Fire Report for
               span.selected-country
             div.report-date-range__container
-              span#fromDate
-              span#toDate
+              span.fromDate
+              span.toDate
             div#totalFiresLabel.sub-title2
           span.share-link SHARE
           div.share-link-input__container.hidden
@@ -90,14 +90,17 @@ html(lang="en")
               div.fire-alert__container
                 p Fire
                 p Alerts
+
         div#aoiListSection.border-top-separator
           h3#aoiList
-        div#section-one
+
+        div#section-one.map-section
+          h3.report-section__title.text-center DISTRIBUTION OF FIRE ALERTS
+            div.report-date-range__map-container
+              span.fromDate
+              span.toDate
           div.report-section__map-container.distribution-fire-alerts.page-break
-            div.report-section__content.padding-top
-              p Lorem ipsum dolor sit amet, nulla sapien egestas mattis lobortis lectus, ligula et hendrerit urna aliquam nibh. Orci pede, neque ac feugiat. Vestibulum purus ut risus non feugiat, libero diam fermentum vitae odio, vestibulum et eu ac vestibulum mauris, aliquam blandit nec nec quia sapien lorem, quam laoreet pellentesque. Est nibh, a mauris, feugiat amet erat ut condimentum neque. Quis lorem lectus enim, amet pellentesque dui eros nec sed, dolor pretium. At in quis pellentesque duis ut quam, blandit adipiscing sit diam non velit ut, ornare tristique curabitur eget scelerisque sit viverra, egestas sed mauris morbi nec, vitae suspendisse imperdiet montes.
             div.report-section__map
-              h3.report-section__title.text-center DISTRIBUTION OF FIRE ALERTS
               div(class='map-container')
                 div#DistributionOfFireAlertsMap(class='map')
                   div#firesmapload.loader
@@ -110,11 +113,13 @@ html(lang="en")
                           span(class='legend-swatch-round hc-fire modis-fires-color')
                           span(class='legend-label modis-fires-label') MODIS Fires
 
-        div#section-two(class='page-break')
+        div#section-two.map-section.page-break
+          h3.report-section__title.text-center Greatest number of fire alerts by <span class="admin-type-1">PROVINCE</span>
+            div.report-date-range__map-container
+              span.fromDate
+              span.toDate
           div.report-section__map-container.district-fire-numbers__container
             div.report-section__map
-              h3.report-section__title.two-rows Greatest number of fire alerts by&nbsp;
-                span.admin-type-1 PROVINCE
               div(class='map-container map-legend')
                 div#legend-container(class='legend-container')
                   div#districtLegend
@@ -126,11 +131,13 @@ html(lang="en")
                 table.fires-table
                   tbody
 
-        div#section-three(class='page-break')
+        div#section-three.map-section.page-break
+          h3.report-section__title.text-center Greatest number of fire alerts by <span class="admin-type-2">DISTRICT</span>
+            div.report-date-range__map-container
+              span.fromDate
+              span.toDate
           div.report-section__map-container.distribution-fire-alerts
             div.report-section__content
-              h3.report-section__title.two-rows Greatest number of fire alerts by&nbsp;
-                span.admin-type-2 DISTRICT
               div#subdistrict-fires-table
                 table.fires-table
                   tbody
