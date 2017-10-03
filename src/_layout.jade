@@ -4,7 +4,7 @@ html
   head
     block head-meta
       include html/_meta.jade
-      
+
 
     block head-styles
       link(href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,300' rel='stylesheet' type='text/css')
@@ -25,7 +25,7 @@ html
           a.async=true;
           a.type="text/javascript";
           b.parentNode.insertBefore(a,b)}, 1);
-          
+
       script.
         window.liveSettings = {
           picker: '#transifexTranslateElement',
@@ -41,11 +41,6 @@ html
 
     div.headerGfw-wrapper
       div#headerGfw.headerGfw
-
-    section.logo-container
-      div.gfw-fires-logo-wrapper
-        a.gfw-fires-logo-link(href='../home')
-          img.gfw-fires-logo(height=90 width=90 src='/images/gfwFires-logo-new.png')
 
     block content
 

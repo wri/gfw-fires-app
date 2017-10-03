@@ -36,7 +36,7 @@ block append head-styles
       api_key: "c0d190e8efe94881b66b5bb38ebaece3",
       detectlang: false,
       //- picker: '#customTransifex',
-      //- picker: 'bottom-left', 
+      //- picker: 'bottom-left',
       picker: '#transifexTranslateElement'//,
       //- version: 'latest',
       //- autocollect: true,
@@ -48,8 +48,7 @@ block append head-styles
     };
 
 block content
-  +navigation(global.pages, 'home', true)
-  
+
   div#transifexContainer
     div#customTransifex
 
@@ -78,7 +77,7 @@ block content
               aside
                 h2 #{home.slides[1][0]}
                 h3
-                  span#percentage-header 
+                  span#percentage-header
                   span#percentage-content #{home.slides[1][1]}
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
@@ -219,7 +218,7 @@ block content
 
     getCORS(queryUrl + peatQueryString, function (request) { peatResponse = request.currentTarget.response || request.target.responseText; process(); });
     getCORS(queryUrl + totalQueryString, function (request) { totalResponse = request.currentTarget.response || request.target.responseText; process(); });
-    
+
 //- script.
 //-   window.liveSettings = {
 //-     api_key: 'c0d190e8efe94881b66b5bb38ebaece3',
