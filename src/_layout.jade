@@ -31,7 +31,32 @@ html
           picker: '#transifexTranslateElement',
           api_key: "9eda410a7db74687ba40771c56abd357",
           detectlang: false,
-          site: 'gfw-fires'
+          site: 'gfw-fires',
+          menuOptions:
+          {
+            options: [
+              {
+                title: 'logo',
+                url: '/home'
+              },
+              {
+                title: 'gfw fires',
+                url: '/home',
+              },
+              {
+                title: 'map',
+                url: '/map',
+              },
+              {
+                title: 'learn more',
+                url: '/about',
+              },
+              {
+                title: 'share stories',
+                url: '/story',
+              },
+            ],
+          },
         }
     script(src='https://cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js')
     script(src='http://gfw-assets.s3.amazonaws.com/static/gfw-assets.nightly.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
