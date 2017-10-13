@@ -186,7 +186,7 @@ export const config = {
       {
         date: new window.Kalendae.moment(),
         method: 'changeAirQ',
-        direction: 'past',
+        direction: 'today-past',
         startDate: new window.Kalendae.moment('10/12/2017'),
         domId: 'airQ',
         domClass: 'airQ'
