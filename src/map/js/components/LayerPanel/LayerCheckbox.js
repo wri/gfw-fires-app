@@ -58,6 +58,7 @@ export default class LayerCheckbox extends React.Component {
         {!layer.disabled ? null : <span className='tooltipmap fire'>Coming Soon!</span>}
         <span onClick={this.toggleLayer.bind(this)} className='toggle-switch pointer'><span/></span>
         <span onClick={this.toggleLayer.bind(this)} className='layer-checkbox-label pointer'>{layer.label}</span>
+        {!layer.middleLabel ? null : <div className='layer-checkbox-label'>{layer.middleLabel}</div>}
         {!layer.sublabel ? null : <div className='layer-checkbox-sublabel'>{layer.sublabel}</div>}
         {!layer.metadataId ? null :
           <span className={`info-icon pointer ${this.state.iconLoading === this.props.layer.id ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>

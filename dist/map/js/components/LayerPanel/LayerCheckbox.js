@@ -141,6 +141,11 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
             { onClick: this.toggleLayer.bind(this), className: 'layer-checkbox-label pointer' },
             layer.label
           ),
+          !layer.middleLabel ? null : _react2.default.createElement(
+            'div',
+            { className: 'layer-checkbox-label' },
+            layer.middleLabel
+          ),
           !layer.sublabel ? null : _react2.default.createElement(
             'div',
             { className: 'layer-checkbox-sublabel' },

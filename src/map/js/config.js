@@ -731,6 +731,7 @@ export const config = {
       order: 25,
       type: 'dynamic',
       label: 'Air quality (beta)',
+      middleLabel: '(OpenAQ, US EPA Air Quality Index)',
       sublabel: '(layer starts at 10/12/2017)',
       group: 'airQuality',
       className: 'air-quality',
