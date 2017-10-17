@@ -1014,17 +1014,16 @@ let LayersHelper = {
   updateAirQDate (dayValue) {
     app.debug('LayersHelper >>> updateAirQDate');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Air Quality date expression.');
-    let layer = app.map.getLayer(KEYS.airQuality);
-    let date = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
+    const layer = app.map.getLayer(KEYS.airQuality);
 
-    let reportdates = date.split('/');
-    reportdates[0] = parseInt(reportdates[0]);
-    reportdates[1] = parseInt(reportdates[1]);
+    // Start of day
+    const start = window.Kalendae.moment(dayValue).startOf('day');
+    // End of day
+    const end = window.Kalendae.moment(dayValue).endOf('day');
 
-    date = reportdates.join('/');
-
-    let layerDefs = [];
-    layerDefs[1] = "Date LIKE '" + date + "%'";
+    const layerDefs = [];
+    // Create layer definition
+    layerDefs[0] = `update_date >= date'${start.format('YYYY-MM-DD HH:mm:ss')}' AND update_date <= date'${end.format('YYYY-MM-DD HH:mm:ss')}'`;
     layer.setLayerDefinitions(layerDefs);
   },
 
