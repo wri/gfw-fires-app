@@ -730,7 +730,7 @@ export const config = {
       id: KEYS.airQuality,
       order: 25,
       type: 'dynamic',
-      label: 'Air quality',
+      label: 'Air quality (beta)',
       sublabel: '(layer starts at 10/12/2017)',
       group: 'airQuality',
       className: 'air-quality',
