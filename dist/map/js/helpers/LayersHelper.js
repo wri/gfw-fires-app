@@ -987,16 +987,15 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> updateAirQDate');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Air Quality date expression.');
       var layer = app.map.getLayer(_constants2.default.airQuality);
-      var date = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
-      var reportdates = date.split('/');
-      reportdates[0] = parseInt(reportdates[0]);
-      reportdates[1] = parseInt(reportdates[1]);
-
-      date = reportdates.join('/');
+      // Start of day
+      var start = window.Kalendae.moment(dayValue).startOf('day');
+      // End of day
+      var end = window.Kalendae.moment(dayValue).endOf('day');
 
       var layerDefs = [];
-      layerDefs[1] = "Date LIKE '" + date + "%'";
+      // Create layer definition
+      layerDefs[0] = 'update_date >= date\'' + start.format('YYYY-MM-DD HH:mm:ss') + '\' AND update_date <= date\'' + end.format('YYYY-MM-DD HH:mm:ss') + '\'';
       layer.setLayerDefinitions(layerDefs);
     },
     updateWindDate: function updateWindDate(dayValue) {

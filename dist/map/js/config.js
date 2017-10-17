@@ -178,8 +178,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       }, {
         date: new window.Kalendae.moment(),
         method: 'changeAirQ',
-        direction: 'past',
-        startDate: new window.Kalendae.moment('09/25/2015'),
+        direction: 'today-past',
+        startDate: new window.Kalendae.moment('10/12/2017'),
         domId: 'airQ',
         domClass: 'airQ'
       }, {
@@ -629,16 +629,16 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 25,
       type: 'dynamic',
       label: 'Air quality',
-      sublabel: '(layer starts at 9/25/15)',
+      sublabel: '(layer starts at 10/12/2017)',
       group: 'airQuality',
       className: 'air-quality',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/AirQuality_sea/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
       metadataId: 'air_quality_old',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
       },
-      layerIds: [1]
+      layerIds: [0]
     }, {
       id: _constants2.default.overlays,
       order: 1,
