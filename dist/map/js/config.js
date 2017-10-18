@@ -256,7 +256,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       visible: true,
       layerIds: [8],
       className: 'viirs-fires',
-      defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
+      defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
@@ -276,7 +276,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'fires',
       visible: true,
       layerIds: [9],
-      defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
+      defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
       className: 'active-fires',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'firms_active_fires',
