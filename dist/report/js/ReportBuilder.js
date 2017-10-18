@@ -518,6 +518,8 @@ define([
 
         queryUrl: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         queryUrlGlobal: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
+        queryUrlGlobalVIIRS: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer",
+        queryUrlGlobalMODIS: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 8,
@@ -2349,7 +2351,11 @@ define([
             if (areaOfInterestType === 'GLOBAL') {
               var queryEndpointsIds = ['fire_id_global_viirs', 'fire_id_global_modis'];
               queryEndpointsIds.forEach(function (fireCountLayer) {
-                queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
+                if (fireCountLayer === 'fire_id_global_viirs') {
+                  queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobalVIIRS + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
+                } else if (fireCountLayer === 'fire_id_global_modis') {
+                  queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobalMODIS + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
+                }
                 queryForFiresCount(fireCountLayer);
               })
             } else {

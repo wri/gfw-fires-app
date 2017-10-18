@@ -58,12 +58,12 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
     _urlUtils2.default.addProxyRule({
       urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
-      proxyUrl: 'http://fires.globalforestwatch.org/map/php/proxy.php'
+      proxyUrl: '/map/php/proxy.php'
     });
 
     _urlUtils2.default.addProxyRule({
       urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
-      proxyUrl: 'http://fires.globalforestwatch.org/map/php/proxy.php'
+      proxyUrl: '/map/php/proxy.php'
     });
   };
 

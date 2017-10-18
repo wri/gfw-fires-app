@@ -57,6 +57,7 @@ export const config = {
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'gfw-fires.wri.org',
       'gis-gfw.wri.org',
+      'gfw-staging.wri.org',
       'https://gis-gfw.wri.org/',
       'https://production-api.globalforestwatch.org/v1/gfw-metadata/',
       'https://fires.globalforestwatch.org/map/php/proxy.php',
@@ -116,7 +117,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeViirsArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2017'),
+        startDate: new window.Kalendae.moment('01/08/2016'),
         domId: 'archiveViirsStart',
         domClass: 'viirs-archive-start'
       },
@@ -124,7 +125,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeViirsArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2017'),
+        startDate: new window.Kalendae.moment('01/08/2016'),
         domId: 'archiveViirsEnd',
         domClass: 'viirs-archive-end'
       },
@@ -271,7 +272,7 @@ export const config = {
       layerIds: [8],
       className: 'viirs-fires',
       defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -299,7 +300,7 @@ export const config = {
       layerIds: [9],
       defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
       className: 'active-fires',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -945,7 +946,7 @@ export const config = {
       layerIds: [9],
       opacity: 1,
       className: 'modis-archive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
@@ -961,7 +962,7 @@ export const config = {
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 1,
       className: 'viirs-achive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
