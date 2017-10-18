@@ -838,7 +838,8 @@ define([
             var self = this;
             var deferred = new Deferred(),
                 fireParams,
-                fireLayer,
+                fireLayerVIIRS,
+                fireLayerMODIS,
                 map,
                 queryUrl;
 
@@ -883,20 +884,34 @@ define([
                 layerDefs[id] = self.get_layer_definition();
               });
 
-              fireLayer = new ArcGISDynamicLayer(queryUrl, {
+              fireLayerVIIRS = new ArcGISDynamicLayer(PRINT_CONFIG.queryUrlGlobalVIIRS, {
                 imageParameters: fireParams,
-                id: layerId,
+                id: layerId + 'viirs',
+                visible: true
+              });
+              fireLayerMODIS = new ArcGISDynamicLayer(PRINT_CONFIG.queryUrlGlobalMODIS, {
+                imageParameters: fireParams,
+                id: layerId + 'modis',
                 visible: true
               });
 
-              fireLayer.setLayerDefinitions(layerDefs);
+              fireLayerVIIRS.setLayerDefinitions(layerDefs);
+              fireLayerMODIS.setLayerDefinitions(layerDefs);
 
-              map.addLayer(fireLayer);
+              // map.addLayer(fireLayerMODIS);
+              map.addLayers([fireLayerVIIRS, fireLayerMODIS]);
             }
 
-            fireLayer.on('load', function() {
+            map.on('layers-add-result', function() {
                 deferred.resolve(true);
             });
+
+            // fireLayerVIIRS.on('load', function() {
+            //     deferred.resolve(true);
+            // });
+            // fireLayerMODIS.on('load', function() {
+            //     deferred.resolve(true);
+            // });
 
             return deferred.promise;
         },
