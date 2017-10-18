@@ -117,7 +117,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeViirsArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2017'),
+        startDate: new window.Kalendae.moment('01/08/2016'),
         domId: 'archiveViirsStart',
         domClass: 'viirs-archive-start'
       },
@@ -125,7 +125,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeViirsArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2017'),
+        startDate: new window.Kalendae.moment('01/08/2016'),
         domId: 'archiveViirsEnd',
         domClass: 'viirs-archive-end'
       },
