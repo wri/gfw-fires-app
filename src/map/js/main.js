@@ -35,12 +35,12 @@ let configureApp = () => {
 
   urlUtils.addProxyRule({
     urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
-    proxyUrl: 'http://fires.globalforestwatch.org/map/php/proxy.php'
+    proxyUrl: '/map/php/proxy.php'
   });
 
   urlUtils.addProxyRule({
     urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
-    proxyUrl: 'http://fires.globalforestwatch.org/map/php/proxy.php'
+    proxyUrl: '/map/php/proxy.php'
   });
 
 };
