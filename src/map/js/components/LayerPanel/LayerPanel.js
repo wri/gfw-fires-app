@@ -132,6 +132,9 @@ export default class LayerPanel extends React.Component {
         <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
         </LayerGroup>
+        <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
+          {layersConfig.map(this.checkboxMap('airQuality'), this)}
+        </LayerGroup>
         <LayerGroup activeLayers={this.state.activeLayers} label='Indonesia Fire Risk'>
           <LayerTransparency initalOpacity={.80} layers={fireRiskLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('fireRisk'), this)}
@@ -160,9 +163,6 @@ export default class LayerPanel extends React.Component {
           {landCoverLayers[1]}
           {landCoverLayers[2]}
           {landCoverLayers[3]}
-        </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
-          {layersConfig.map(this.checkboxMap('airQuality'), this)}
         </LayerGroup>
 
         <LayerGroup activeLayers={this.state.activeLayers} label='Stories'>

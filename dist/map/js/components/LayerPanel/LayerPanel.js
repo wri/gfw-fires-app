@@ -257,6 +257,11 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
           ),
           _react2.default.createElement(
             _LayerGroup2.default,
+            { activeLayers: this.state.activeLayers, label: 'Air Quality' },
+            _config.layersConfig.map(this.checkboxMap('airQuality'), this)
+          ),
+          _react2.default.createElement(
+            _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Indonesia Fire Risk' },
             _react2.default.createElement(_LayerTransparency2.default, { initalOpacity: .80, layers: fireRiskLayers }),
             _config.layersConfig.map(this.checkboxMap('fireRisk'), this)
@@ -291,11 +296,6 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             landCoverLayers[1],
             landCoverLayers[2],
             landCoverLayers[3]
-          ),
-          _react2.default.createElement(
-            _LayerGroup2.default,
-            { activeLayers: this.state.activeLayers, label: 'Air Quality' },
-            _config.layersConfig.map(this.checkboxMap('airQuality'), this)
           ),
           _react2.default.createElement(
             _LayerGroup2.default,

@@ -53,13 +53,14 @@ export const config = {
     archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
     corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
-      'gis-potico.wri.org',
       'wri-gfw-fires-staging.herokuapp.com',
       'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
       'gfw-fires.wri.org',
       'gis-gfw.wri.org',
       'https://gis-gfw.wri.org/',
-      'https://production-api.globalforestwatch.org/v1/gfw-metadata/'
+      'https://production-api.globalforestwatch.org/v1/gfw-metadata/',
+      'https://fires.globalforestwatch.org/map/php/proxy.php',
+      'https://gis-gfw.wri.org'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [
@@ -269,7 +270,7 @@ export const config = {
       visible: true,
       layerIds: [8],
       className: 'viirs-fires',
-      defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
+      defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
@@ -296,7 +297,7 @@ export const config = {
       group: 'fires',
       visible: true,
       layerIds: [9],
-      defaultDefinitionExpression: "ACQ_DATE > date'" + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD') + "'",
+      defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
       className: 'active-fires',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/',
       metadataId: 'firms_active_fires',
@@ -729,7 +730,8 @@ export const config = {
       id: KEYS.airQuality,
       order: 25,
       type: 'dynamic',
-      label: 'Air quality',
+      label: 'Air quality (beta)',
+      middleLabel: '(OpenAQ, US EPA Air Quality Index)',
       sublabel: '(layer starts at 10/12/2017)',
       group: 'airQuality',
       className: 'air-quality',
