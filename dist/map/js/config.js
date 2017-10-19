@@ -179,7 +179,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         date: new window.Kalendae.moment(),
         method: 'changeAirQ',
         direction: 'today-past',
-        startDate: new window.Kalendae.moment('10/12/2017'),
+        startDate: new window.Kalendae.moment('10/19/2017'),
         domId: 'airQ',
         domClass: 'airQ'
       }, {
@@ -630,7 +630,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       type: 'dynamic',
       label: 'Air quality (beta)',
       middleLabel: '(OpenAQ, US EPA Air Quality Index)',
-      sublabel: '(layer starts at 10/12/2017)',
+      sublabel: '(layer starts at 10/19/2017)',
       group: 'airQuality',
       className: 'air-quality',
       url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
