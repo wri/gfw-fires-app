@@ -49,7 +49,6 @@ export default class Map extends Component {
   }
 
   render () {
-    //<EsriSearch loaded={this.state.loaded} />
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
