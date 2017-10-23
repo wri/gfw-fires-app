@@ -1826,11 +1826,11 @@ define([
             if (areaOfInterestType === 'GLOBAL') {
               var url;
               if (districtLayerId === 8) {
-                url = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8';
+                url = PRINT_CONFIG.firesLayer.global_viirs;
               }
 
               if (districtLayerId === 9) {
-                url = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9';
+                url = PRINT_CONFIG.firesLayer.global_modis;
               }
               queryTask = new QueryTask(url);
 
@@ -2362,11 +2362,10 @@ define([
 
               queryEndpointsIds.forEach(function (fireCountLayer) {
                 if (fireCountLayer === 'fire_id_global_viirs') {
-                  queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8');
+                  queryTask = new QueryTask(PRINT_CONFIG.firesLayer.global_viirs);
                 } else if (fireCountLayer === 'fire_id_global_modis') {
-                  queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9');
+                  queryTask = new QueryTask(PRINT_CONFIG.firesLayer.global_modis);
                 }
-                // queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
 
                 queryForFiresCount(fireCountLayer);
               });
