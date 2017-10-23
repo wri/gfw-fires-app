@@ -326,6 +326,8 @@ define([
         firesLayer: {
             urlIsland: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
             urlGlobal: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
+            global_viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8',
+            global_modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9',
             id: "Active_Fires",
             fire_id: 0,
             fire_id_global_viirs: 8,
@@ -518,8 +520,6 @@ define([
 
         queryUrl: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         queryUrlGlobal: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer",
-        queryUrlGlobalVIIRS: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer",
-        queryUrlGlobalMODIS: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer",
         companyConcessionsId: 1,
         confidenceFireId: 0,
         dailyFiresId: 8,
@@ -838,8 +838,7 @@ define([
             var self = this;
             var deferred = new Deferred(),
                 fireParams,
-                fireLayerVIIRS,
-                fireLayerMODIS,
+                fireLayer,
                 map,
                 queryUrl;
 
@@ -884,34 +883,20 @@ define([
                 layerDefs[id] = self.get_layer_definition();
               });
 
-              fireLayerVIIRS = new ArcGISDynamicLayer(PRINT_CONFIG.queryUrlGlobalVIIRS, {
+              fireLayer = new ArcGISDynamicLayer(queryUrl, {
                 imageParameters: fireParams,
-                id: layerId + 'viirs',
-                visible: true
-              });
-              fireLayerMODIS = new ArcGISDynamicLayer(PRINT_CONFIG.queryUrlGlobalMODIS, {
-                imageParameters: fireParams,
-                id: layerId + 'modis',
+                id: layerId,
                 visible: true
               });
 
-              fireLayerVIIRS.setLayerDefinitions(layerDefs);
-              fireLayerMODIS.setLayerDefinitions(layerDefs);
+              fireLayer.setLayerDefinitions(layerDefs);
 
-              // map.addLayer(fireLayerMODIS);
-              map.addLayers([fireLayerVIIRS, fireLayerMODIS]);
+              map.addLayer(fireLayer);
             }
 
-            map.on('layers-add-result', function() {
+            fireLayer.on('load', function() {
                 deferred.resolve(true);
             });
-
-            // fireLayerVIIRS.on('load', function() {
-            //     deferred.resolve(true);
-            // });
-            // fireLayerMODIS.on('load', function() {
-            //     deferred.resolve(true);
-            // });
 
             return deferred.promise;
         },
@@ -1839,7 +1824,16 @@ define([
 
 
             if (areaOfInterestType === 'GLOBAL') {
-              queryTask = new QueryTask(PRINT_CONFIG.queryUrlGlobal + "/" + districtLayerId);
+              var url;
+              if (districtLayerId === 8) {
+                url = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8';
+              }
+
+              if (districtLayerId === 9) {
+                url = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9';
+              }
+              queryTask = new QueryTask(url);
+
               fields = [PRINT_CONFIG[configKey].fire_stats_global.onField, window.reportOptions.aoitype, PRINT_CONFIG[configKey].fire_stats_global.outField];
               query.outFields = [PRINT_CONFIG[configKey].fire_stats_global.onField];
               statdef.onStatisticField = PRINT_CONFIG[configKey].fire_stats_global.onField;
@@ -2365,14 +2359,17 @@ define([
 
             if (areaOfInterestType === 'GLOBAL') {
               var queryEndpointsIds = ['fire_id_global_viirs', 'fire_id_global_modis'];
+
               queryEndpointsIds.forEach(function (fireCountLayer) {
                 if (fireCountLayer === 'fire_id_global_viirs') {
-                  queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobalVIIRS + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
+                  queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8');
                 } else if (fireCountLayer === 'fire_id_global_modis') {
-                  queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobalMODIS + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
+                  queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9');
                 }
+                // queryTask = new QueryTask(queryURL = PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.firesLayer[fireCountLayer]);
+
                 queryForFiresCount(fireCountLayer);
-              })
+              });
             } else {
               var queryEndpointsIds = ['fire_id_island_viirs', 'fire_id_island_modis'];
               $('.fire-alert-count__year').text('2013');
@@ -2591,10 +2588,10 @@ define([
 
             if (window.reportOptions.aoitype === 'ISLAND') {
               query.outFields = ["DISTRICT"];
-              queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.adminQuery.layerId)
+              queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.adminQuery.layerId);
             } else {
               query.outFields = ["NAME_1"];
-              queryTask = new QueryTask(PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.adminQuery.layerIdGlobal)
+              queryTask = new QueryTask(PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.adminQuery.layerIdGlobal);
             }
             callback = function(results) {
                 var extent = graphicsUtils.graphicsExtent(results.features);
