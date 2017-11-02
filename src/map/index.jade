@@ -7,7 +7,7 @@ block append head-styles
     :stylus
       @require 'css/_base'
       @require 'css/_critical'
-      
+
 block append head-meta
   meta(name='title', content='Map — Global Forest Watch Fires')
   meta(name='description', content='Browse current active fires and sign up for alerts, or layer data to create custom maps showing forest use, conservation, land cover, air quality, and satellite imagery.')
@@ -86,26 +86,10 @@ block append head-scripts
       ga('B.send', payload);
       ga('C.send', payload);
     }
-  script.
-    window.liveSettings = {
-      api_key: "c0d190e8efe94881b66b5bb38ebaece3",
-      detectlang: false,
-      //- picker: '#customTransifex',
-      //- picker: 'bottom-left', 
-      picker: '#transifexTranslateElement'//,
-      //- version: 'latest',
-      //- autocollect: true,
-      //- dynamic: true,
-      //- staging: true
-      //- parse_attr: ["attr1", "attr2", ...],
-      //- ignore_tags: ["tag1", "tag2", ...],
-      //- ignore_class: ["classname1", "classname2"]
-    };
 
 block content
   //- style(type='text/css', media='print').
   //-   @page { size: landscape; }
-  +navigation(global.pages, 'map', true)
   include html/_svgAssets.jade
   div#transifexContainer
     div#customTransifex

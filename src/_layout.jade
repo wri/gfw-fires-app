@@ -4,7 +4,7 @@ html
   head
     block head-meta
       include html/_meta.jade
-      
+
 
     block head-styles
       link(href='https://fonts.googleapis.com/css?family=Fira+Sans:400,500,300' rel='stylesheet' type='text/css')
@@ -26,20 +26,46 @@ html
           a.type="text/javascript";
           b.parentNode.insertBefore(a,b)}, 1);
 
-  body
+      script.
+        window.liveSettings = {
+          picker: '#transifexTranslateElement',
+          api_key: "9eda410a7db74687ba40771c56abd357",
+          detectlang: false,
+          site: 'gfw-fires',
+          menuOptions:
+          {
+            options: [
+              {
+                title: 'logo',
+                url: '/home'
+              },
+              {
+                title: 'gfw fires',
+                url: '/home',
+              },
+              {
+                title: 'map',
+                url: '/map',
+              },
+              {
+                title: 'learn more',
+                url: '/about',
+              },
+              {
+                title: 'share stories',
+                url: '/story',
+              },
+            ],
+          },
+        }
     script(src='https://cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js')
-    script(src='https://gfw-assets.s3.amazonaws.com/static/gfw-assets.latest.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
+    script(src='http://gfw-assets.s3.amazonaws.com/static/gfw-assets.nightly.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
 
     include html/_ie9.html
     include html/_svgAssets.jade
 
     div.headerGfw-wrapper
       div#headerGfw.headerGfw
-
-    section.logo-container
-      div.gfw-fires-logo-wrapper
-        a.gfw-fires-logo-link(href='../home')
-          img.gfw-fires-logo(height=90 width=90 src='/images/gfwFires-logo-new.png')
 
     block content
 
@@ -51,7 +77,7 @@ html
         $(document).ready(function() {
           //- document.getElementById('navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
           //- document.getElementById('mobile-navigation--language').onchange = function (event) { location.pathname = location.pathname.replace(/\/.{2}\//g, event.target.value); };
-          document.getElementById('mobile-navigation-icon').onclick = function (event) { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); document.getElementById('mobile-navigation-icon').classList.toggle('active'); };
+          //- document.getElementById('mobile-navigation-icon').onclick = function (event) { document.getElementById('mobile-navigation').classList.toggle('open'); document.body.classList.toggle('no-overflow'); document.getElementById('mobile-navigation-icon').classList.toggle('active'); };
         });
 
 
