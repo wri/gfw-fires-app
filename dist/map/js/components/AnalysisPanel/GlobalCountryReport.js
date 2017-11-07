@@ -180,7 +180,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           { className: 'report-width' },
           _react2.default.createElement(
             'h4',
-            null,
+            { className: 'country-report__title' },
             _config.analysisPanelText.globalReportTitle
           ),
           _react2.default.createElement(
