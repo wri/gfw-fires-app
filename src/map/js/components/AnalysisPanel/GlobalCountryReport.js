@@ -79,7 +79,7 @@ export default class GlobalCountryReport extends React.Component {
 
     return (
       <div className='report-width'>
-        <h4>{analysisPanelText.globalReportTitle}</h4>
+        <h4 className="country-report__title">{analysisPanelText.globalReportTitle}</h4>
         <div className={'padding'}>
           <select id='countries' className={`chosen-select-no-single fill__wide`} >
             <option disabled selected value={'default'}>Select a Country</option>

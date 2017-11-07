@@ -29,7 +29,7 @@ export default class AnalysisTab extends React.Component {
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
     return (
       <div className={className} >
-        <h4>{analysisPanelText.analysisAreaTitle}</h4>
+        <h4 className="analysis__title">{analysisPanelText.analysisAreaTitle}</h4>
         <div>{analysisPanelText.analysisAreaHeader}</div>
         <div className='reports-container'>
           <GlobalCountryReport {...this.props} />

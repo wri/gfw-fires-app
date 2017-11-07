@@ -28,7 +28,7 @@ html, body
   position: absolute;
   bottom: 0;
   right: 0;
-  padding-right: 2em;
+  padding-right: 12px;
   line-height: 2rem;
   height: 2rem;
   color: #fff;
@@ -40,6 +40,7 @@ html, body
   opacity: 0.8;
   transition: opacity 0.3s linear;
   cursor pointer
+  user-select: none;
 
   &:hover {
     opacity: 1;
@@ -86,9 +87,15 @@ input.share-link-input {
     font-size: 1.15em;
   }
 
+.report-date-range__map-container {
+  display: inline-block;
+  font-size: 1rem
+  font-weight 400
+}
+
 #aoiList {
   font-weight: normal;
-  margin: .5em 0 0 0;
+  margin: .5em 0;
   padding: .5em 0;
   line-height: 1.5em
   min-height 1.5em
@@ -188,11 +195,13 @@ input.share-link-input {
 //--------------
 // Report map section
 //--------------
+.map-section {
+  border-top: 1px solid #FFCECB;
+}
+
 .report-section__map-container {
   display: flex;
-  margin-top: .5em;
   padding-top: 1em;
-  border-top: 1px solid #FFCECB;
 }
 
 .report-section__content
@@ -217,14 +226,19 @@ input.share-link-input {
   flex 2
 
 .report-section__title
+  padding .5em 0
   margin 0
   //height: 2rem;
+  text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: 300
 
+.report-section__subtitle
 .fire-alert-count__subtitle
-  margin: 0.5em 0.5em 1em 0
-  font-weight: normal
+  margin: 0
+  padding: 0 0.5em 0.5em 0
+  font-size: 1.1rem
+  font-weight: 400
 
 .two-rows
   //height: 3.6rem;
@@ -562,7 +576,7 @@ tspan {
   }
 
   .report-section__map-container {
-    padding: 1.25em 0;
+    padding: 0 0 1.25em 0;
   }
 
   .report__header-content {
@@ -755,26 +769,17 @@ tspan {
   li:hover
     background-color rgba(204, 204, 204, 0.3)
 
-#firesCountTitleMain
-  margin: .25em 0 0 0
-
 #firesCountTitle
   margin: 0
 
   .total_firecounts
     color: #F88900
-    font-size: 35px;
-
-#firesCountTitleMain
-#firesCountTitle
-  font-weight: normal
-  font-size: 24px;
+    font-size: 1.5rem;
 
 .section-description
-  padding-top: .5em
   display: block
   text-transform none !important
-  font-size: .8em !important
+  font-size: .8rem !important
 
 .highcharts-legend-item
   padding: .5em;

@@ -706,8 +706,8 @@ define([
             this.aoilist = window.reportOptions.aois.join(', ');
             this.aoitype = window.reportOptions.aoitype;
             this.dataSource = window.reportOptions.dataSource;
-            document.querySelector('#fromDate').innerHTML = self.startdate;
-            document.querySelector('#toDate').innerHTML = " - " + self.enddate;
+            $('.fromDate').text(' ' + self.startdate);
+            $('.toDate').text(' - ' + self.enddate);
             document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
             window['concessionFiresCounts'] = [];
         },
