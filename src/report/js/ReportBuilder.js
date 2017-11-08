@@ -708,6 +708,7 @@ define([
             this.dataSource = window.reportOptions.dataSource;
             $('.fromDate').text(' ' + self.startdate);
             $('.toDate').text(' - ' + self.enddate);
+            $('.interaction-type').text(document.ontouchstart === undefined ? 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in');
             document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
             window['concessionFiresCounts'] = [];
         },
@@ -2474,10 +2475,10 @@ define([
                     title: {
                         text: null
                     },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-                    },
+                    // subtitle: {
+                    //     text: document.ontouchstart === undefined ?
+                    //         'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                    // },
                     plotOptions: {
                         line: {
                             marker: {
