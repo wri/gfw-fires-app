@@ -30,10 +30,11 @@ define([
     "esri/request",
     "js/config",
     "esri/geometry/Extent",
+    "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
 ], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, geostats) {
+    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats) {
 
     var PRINT_CONFIG = {
         zoom: 1,
@@ -2639,7 +2640,6 @@ define([
               queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.adminQuery.layerId);
             } else {
               query.outFields = ["NAME_1"];
-              console.log(PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.adminQuery.layerIdGlobal);
               queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
             }
             callback = function(results) {
@@ -2649,7 +2649,19 @@ define([
 
                   for (map in PRINT_CONFIG.maps) {
                     if (extent) {
-                      PRINT_CONFIG.maps[map].setExtent(extent, true);
+                      if (query.where.includes("NAME_0 = 'United States'")) {
+                        console.log('%c UNITED STATES', 'color: green; font-weight: bold;');
+                        const unitedStatesExtent = new Extent();
+                        unitedStatesExtent.xmin = -24322950.66;
+                        unitedStatesExtent.ymin = 392274.67;
+                        unitedStatesExtent.xmax = -2191679.23;
+                        unitedStatesExtent.ymax = 12133002.21;
+                        unitedStatesExtent.spatialReference = new SpatialReference({wkid: 102100});
+                        PRINT_CONFIG.maps[map].setExtent(unitedStatesExtent, true);
+                      } else {
+                        console.log('%c NOT IN THE US', 'color: green; font-weight: bold;');
+                        PRINT_CONFIG.maps[map].setExtent(extent, true);
+                      }
                     }
                   }
 
