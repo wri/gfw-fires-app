@@ -243,7 +243,10 @@ block content
 
     document.addEventListener('DOMContentLoaded', function (event) {
       menuItems.forEach(function (item, index) {
-        item.onclick = function () {
+        item.onclick = function (event) {
+          if (event.target.textContent === 'THE GFW PARTNERSHIP') {
+            window.open('http://www.globalforestwatch.org/about/the-gfw-partnership', '_blank');
+          }
 
           menuItems.forEach(function (item) {
             item.classList.remove('active');
@@ -254,9 +257,11 @@ block content
           links.forEach(function (link) {
             document.getElementById(link).className = document.getElementById(link).className.replace('active', '');
           });
-          var element = document.getElementById(links[index])
-          element.className = element.className + ' active'
-          //-element.scrollIntoView();
+          
+          if (links[index] !== 'three') {
+            var element = document.getElementById(links[index]);
+            element.className = element.className + ' active'
+          }
         };
       });
     });
