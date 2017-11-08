@@ -30,10 +30,11 @@ define([
     "esri/request",
     "js/config",
     "esri/geometry/Extent",
+    "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
 ], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, geostats) {
+    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats) {
 
     var PRINT_CONFIG = {
         zoom: 1,
@@ -708,6 +709,7 @@ define([
             this.dataSource = window.reportOptions.dataSource;
             $('.fromDate').text(' ' + self.startdate);
             $('.toDate').text(' - ' + self.enddate);
+            $('.interaction-type').text(document.ontouchstart === undefined ? 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in');
             document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
             window['concessionFiresCounts'] = [];
         },
@@ -1660,9 +1662,14 @@ define([
                       yearObject = {
                         data: [],
                       };
-
+                    // Get the current year + month attribute
+                    var month = moment().format('MM');
+                    var year = moment().format('YY');
+                    var thisMonth = 'cf_' + year + '_' + month;
                     islandOrRegionFeatures.forEach(function (item) {
-                      if(item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion){
+                      // Set the current month to null - we only want the last completed month
+                      item.attributes[thisMonth] = null;
+                      if (item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion) {
                         var obj = item.attributes;
                         Object.keys(obj).forEach(function(key) {
                           if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
@@ -1694,7 +1701,7 @@ define([
                         });
                       }
 
-                    })
+                    });
                   });
                 }, function (err) {
                   deferred.resolve(false);
@@ -2474,10 +2481,10 @@ define([
                     title: {
                         text: null
                     },
-                    subtitle: {
-                        text: document.ontouchstart === undefined ?
-                            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-                    },
+                    // subtitle: {
+                    //     text: document.ontouchstart === undefined ?
+                    //         'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+                    // },
                     plotOptions: {
                         line: {
                             marker: {
@@ -2638,7 +2645,6 @@ define([
               queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + PRINT_CONFIG.adminQuery.layerId);
             } else {
               query.outFields = ["NAME_1"];
-              console.log(PRINT_CONFIG.queryUrlGlobal + "/" + PRINT_CONFIG.adminQuery.layerIdGlobal);
               queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
             }
             callback = function(results) {
@@ -2648,7 +2654,19 @@ define([
 
                   for (map in PRINT_CONFIG.maps) {
                     if (extent) {
-                      PRINT_CONFIG.maps[map].setExtent(extent, true);
+                      if (query.where.includes("NAME_0 = 'United States'")) {
+                        console.log('%c UNITED STATES', 'color: green; font-weight: bold;');
+                        const unitedStatesExtent = new Extent();
+                        unitedStatesExtent.xmin = -24322950.66;
+                        unitedStatesExtent.ymin = 392274.67;
+                        unitedStatesExtent.xmax = -2191679.23;
+                        unitedStatesExtent.ymax = 12133002.21;
+                        unitedStatesExtent.spatialReference = new SpatialReference({wkid: 102100});
+                        PRINT_CONFIG.maps[map].setExtent(unitedStatesExtent, true);
+                      } else {
+                        console.log('%c NOT IN THE US', 'color: green; font-weight: bold;');
+                        PRINT_CONFIG.maps[map].setExtent(extent, true);
+                      }
                     }
                   }
 
