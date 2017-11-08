@@ -1662,9 +1662,14 @@ define([
                       yearObject = {
                         data: [],
                       };
-
+                    // Get the current year + month attribute
+                    var month = moment().format('MM');
+                    var year = moment().format('YY');
+                    var thisMonth = 'cf_' + year + '_' + month;
                     islandOrRegionFeatures.forEach(function (item) {
-                      if(item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion){
+                      // Set the current month to null - we only want the last completed month
+                      item.attributes[thisMonth] = null;
+                      if (item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion) {
                         var obj = item.attributes;
                         Object.keys(obj).forEach(function(key) {
                           if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
@@ -1696,7 +1701,7 @@ define([
                         });
                       }
 
-                    })
+                    });
                   });
                 }, function (err) {
                   deferred.resolve(false);
