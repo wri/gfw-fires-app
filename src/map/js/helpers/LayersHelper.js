@@ -427,7 +427,7 @@ let LayersHelper = {
       htmlContent += '<tr class="imagery-row"><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data left">' + date + ' </td><td data-id="' + feature.attributes.OBJECTID + '" data-layer="' + feature.attributes.LayerId + '" data-bucket="' + feature.attributes.SensorName + '" class="imagery-data right">' + feature.attributes.SensorName + '</td></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
     });
     htmlContent += '</table>';
-    template = new InfoTemplate('Digital Globe Imagery', htmlContent);
+    template = new InfoTemplate('DigitalGlobe Imagery', htmlContent);
     features[0].setInfoTemplate(template);
     return [features[0]];
   },
@@ -900,7 +900,7 @@ let LayersHelper = {
   */
   updateDigitalGlobeLayerDefinitions (clauseArray) {
     app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Digital Globe date expression.');
+    this.sendAnalytics('widget', 'timeline', 'The user updated the DigitalGlobe date expression.');
     let dgGraphics = clauseArray[2];
 
     clauseArray[1] = new window.Kalendae.moment(clauseArray[1]).add(1, 'day').format('M/D/YYYY');

@@ -844,7 +844,7 @@ export const config = {
         { id: 'dg-05', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
       ],
       type: 'image',
-      label: 'Digital Globe - First Look',
+      label: 'DigitalGlobe - FirstLook',
       mosaic: 'WV01',
       // group: 'imagery',
       'minScale': 0,
