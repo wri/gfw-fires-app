@@ -37,29 +37,29 @@ html
             options: [
               {
                 title: 'logo',
-                url: '/home'
+                url: window.location.host === 'fires.globalforestwatch.org' ? 'https://fires.globalforestwatch.org/home/' : 'https://fires-staging.globalforestwatch.org/home/'
               },
               {
                 title: 'gfw fires',
-                url: '/home',
+                url: window.location.host === 'fires.globalforestwatch.org' ? 'https://fires.globalforestwatch.org/home/' : 'https://fires-staging.globalforestwatch.org/home/'
               },
               {
                 title: 'map',
-                url: '/map',
+                url: window.location.host === 'fires.globalforestwatch.org' ? 'https://fires.globalforestwatch.org/map/' : 'https://fires-staging.globalforestwatch.org/map/'
               },
               {
                 title: 'learn more',
-                url: '/about',
+                url: window.location.host === 'fires.globalforestwatch.org' ? 'https://fires.globalforestwatch.org/about/' : 'https://fires-staging.globalforestwatch.org/about/'
               },
               {
                 title: 'share stories',
-                url: '/story',
+                url: window.location.host === 'fires.globalforestwatch.org' ? 'https://fires.globalforestwatch.org/story/' : 'https://fires-staging.globalforestwatch.org/story/'
               },
             ],
           },
         }
     script(src='https://cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js')
-    script(src='http://gfw-assets.s3.amazonaws.com/static/gfw-assets.nightly.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
+    script(src='https://gfw-assets.s3.amazonaws.com/static/gfw-assets.nightly.js' async='true' data-current='.shape-fires' id='loader-gfw' defer)
 
     include html/_ie9.html
     include html/_svgAssets.jade
