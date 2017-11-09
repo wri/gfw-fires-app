@@ -736,7 +736,7 @@ export const config = {
       sublabel: '(layer starts at 10/19/2017)',
       group: 'airQuality',
       className: 'air-quality',
-      url: 'http://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
       metadataId: 'air_quality_old',
       calendar: {
         domId: 'airQCalendar',
