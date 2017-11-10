@@ -853,7 +853,6 @@ define([
         },
 
         buildDistributionOfFireAlertsMap: function() {
-          console.log('Build Distribution Of Fire Alerts Map');
           var self = this;
           var deferred = new Deferred(),
               fireParams,
@@ -956,7 +955,6 @@ define([
         },
 
         buildFireCountMap: function(configKey, queryKey) {
-          console.log('Build Fire Count Map');
           var deferred = new Deferred(),
             boundaryConfig = PRINT_CONFIG[configKey],
             options = [],
@@ -994,9 +992,6 @@ define([
               queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer'
             }
           }
-
-          console.log('Query URL', boundaryConfig.urlGlobal);
-          console.log('Unique Value Field', boundaryConfig.UniqueValueFieldGlobal);
 
           var dist_names = feat_stats.map(function(item) {
             if (item.attributes[uniqueValueField] != null) {
@@ -1120,8 +1115,6 @@ define([
             otherFiresParams.layerIds = boundaryConfig.defaultLayersGlobal;
           }
 
-          console.log('QueryURL', queryUrl);
-          console.log('Other Fires Params', otherFiresParams);
           otherFiresLayer = new ArcGISDynamicLayer(queryUrl, {
             imageParameters: otherFiresParams,
             id: boundaryConfig.id,
@@ -1257,7 +1250,6 @@ define([
         },
 
         getRegion: function(configKey) {
-          console.log('Get Region');
           var queryConfig = PRINT_CONFIG[configKey],
             queryTask,
             regionField,
@@ -1877,37 +1869,39 @@ define([
         },
 
         queryDistrictsFireCount: function(configKey, areaOfInterestType, districtLayerId) {
-            var queryConfig = PRINT_CONFIG[configKey],
-                deferred = new Deferred(),
-                query = new Query(),
-                statdef = new StatisticDefinition(),
-                queryTask,
-                fields,
-                self = this;
+          var queryConfig = PRINT_CONFIG[configKey],
+            deferred = new Deferred(),
+            query = new Query(),
+            statdef = new StatisticDefinition(),
+            queryTask,
+            fields,
+            self = this;
 
-
-            if (areaOfInterestType === 'GLOBAL') {
-              var url;
-              if (districtLayerId === 8) {
-                url = PRINT_CONFIG.firesLayer.global_viirs;
-              }
-
-              if (districtLayerId === 9) {
-                url = PRINT_CONFIG.firesLayer.global_modis;
-              }
-              queryTask = new QueryTask(url);
-
-              fields = [PRINT_CONFIG[configKey].fire_stats_global.onField, window.reportOptions.aoitype, PRINT_CONFIG[configKey].fire_stats_global.outField];
-              query.outFields = [PRINT_CONFIG[configKey].fire_stats_global.onField];
-              statdef.onStatisticField = PRINT_CONFIG[configKey].fire_stats_global.onField;
-              statdef.outStatisticFieldName = PRINT_CONFIG[configKey].fire_stats_global.outField;
-            } else {
-              queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + districtLayerId);
-              fields = [queryConfig.fire_stats.onField, window.reportOptions.aoitype, queryConfig.fire_stats.outField];
-              query.outFields = [queryConfig.fire_stats.onField];
-              statdef.onStatisticField = queryConfig.fire_stats.onField;
-              statdef.outStatisticFieldName = queryConfig.fire_stats.outField;
+          // Global Report
+          if (areaOfInterestType === 'GLOBAL') {
+            // Assign correct query url
+            var url;
+            if (districtLayerId === 8) {
+              url = PRINT_CONFIG.firesLayer.global_viirs;
             }
+            if (districtLayerId === 9) {
+              url = PRINT_CONFIG.firesLayer.global_modis;
+            }
+            queryTask = new QueryTask(url);
+            // NAME_1 - STATES/PROVINCES
+            // NAME_2 - DISTRICTS
+            fields = [PRINT_CONFIG[configKey].fire_stats_global.onField, window.reportOptions.aoitype, PRINT_CONFIG[configKey].fire_stats_global.outField];
+            query.outFields = [PRINT_CONFIG[configKey].fire_stats_global.onField];
+            statdef.onStatisticField = PRINT_CONFIG[configKey].fire_stats_global.onField;
+            statdef.outStatisticFieldName = PRINT_CONFIG[configKey].fire_stats_global.outField;
+          // Indonesia Report
+          } else {
+            queryTask = new QueryTask(PRINT_CONFIG.queryUrl + "/" + districtLayerId);
+            fields = [queryConfig.fire_stats.onField, window.reportOptions.aoitype, queryConfig.fire_stats.outField];
+            query.outFields = [queryConfig.fire_stats.onField];
+            statdef.onStatisticField = queryConfig.fire_stats.onField;
+            statdef.outStatisticFieldName = queryConfig.fire_stats.outField;
+          }
 
             query.where = self.get_layer_definition(configKey);
             query.returnGeometry = false;
@@ -1957,7 +1951,6 @@ define([
                     // table += self.generateTableRows(features, fields);
                 table += self.generateTableRows(filtered, ['type', 'fire_count'], 'rspo-cert-table');
                 table += "</table>";
-
                 var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + PRINT_CONFIG.noFeatures[configKey] + '</div>';
 
                 return finaltable;
@@ -1968,16 +1961,20 @@ define([
                 var table;
                 var districtFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'district-fires-table';
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
-
+                var districtLabel = PRINT_CONFIG.reportOptions.countryAdminTypes && PRINT_CONFIG.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction';
+                var subdistrictLabel = PRINT_CONFIG.reportOptions.countryAdminTypes && PRINT_CONFIG.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province';
+                console.log('new dis', districtLabel);
                 if (districtFireTable) {
-                  table = '<table class="fires-table"><tr><th class="admin-type-1">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>';
+                  table = '<table class="fires-table"><tr><th class="admin-type-1">' + districtLabel + '</th>';
                 } else if (subdistrictFireTable) {
                   table = '<table class="fires-table"><tr><th class="admin-type-2">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>';
-                  table += '<th class="align-left admin-type-1">' + (PRINT_CONFIG.reportOptions.countryAdminTypes ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>';
+                  table += '<th class="align-left admin-type-1">' + subdistrictLabel + '</th>';
                 } else {
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
                   fields = [fields[0], fields[2]];
                 }
+
+                console.log('%c Table', 'color:red;font-weight:bolder', table);
 
                 var filtered = arrayUtils.filter(features, function(feature) {
                     return feature.attributes.fire_count !== 0;
@@ -2109,7 +2106,6 @@ define([
                 });
 
                 PRINT_CONFIG.query_results[configKey] = sortCombinedResults;
-
                 if (sortCombinedResults.length > 0) {
                   var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
                   if (queryConfigField) {
@@ -2118,7 +2114,7 @@ define([
                       arrayUtils.forEach(sortCombinedResults, function(feat) {
                         feat.attributes[window.reportOptions.aoitype] = regmap[feat.attributes[queryConfigField]];
                       });
-                      // dom.byId(queryConfig.tableId).innerHTML = buildTable(sortCombinedResults.slice(0, 10));
+                      dom.byId(queryConfig.tableId).innerHTML = buildTable(sortCombinedResults.slice(0, 10));
                     });
                   }
                   deferred.resolve(true);
@@ -2655,7 +2651,6 @@ define([
                   for (map in PRINT_CONFIG.maps) {
                     if (extent) {
                       if (query.where.includes("NAME_0 = 'United States'")) {
-                        console.log('%c UNITED STATES', 'color: green; font-weight: bold;');
                         const unitedStatesExtent = new Extent();
                         unitedStatesExtent.xmin = -24322950.66;
                         unitedStatesExtent.ymin = 392274.67;
@@ -2664,7 +2659,6 @@ define([
                         unitedStatesExtent.spatialReference = new SpatialReference({wkid: 102100});
                         PRINT_CONFIG.maps[map].setExtent(unitedStatesExtent, true);
                       } else {
-                        console.log('%c NOT IN THE US', 'color: green; font-weight: bold;');
                         PRINT_CONFIG.maps[map].setExtent(extent, true);
                       }
                     }
