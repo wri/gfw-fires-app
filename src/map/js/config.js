@@ -371,7 +371,7 @@ export const config = {
       id: KEYS.burnScars,
       order: 12,
       type: 'dynamic',
-      label: 'Crowdsourced fires, burns scars',
+      label: 'Crowdsourced fires, burn scars',
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
