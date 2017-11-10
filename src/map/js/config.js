@@ -745,6 +745,18 @@ export const config = {
       layerIds: [0]
     },
     {
+      id: KEYS.gfedEmissions,
+      order: 1,
+      type: 'dynamic',
+      label: 'Emission 2015',
+      sublabel: '(Global Fire Emissions Database)',
+      group: 'airQuality',
+      className: 'gfed-emissions',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/GFED_2015_Emissions/MapServer',
+      metadataId: 'gfed_emissions',
+      layerIds: [0]
+    },
+    {
       id: KEYS.overlays,
       order: 1,
       type: 'dynamic',
