@@ -634,7 +634,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'airQuality',
       className: 'air-quality',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
-      metadataId: 'air_quality_old',
+      metadataId: 'gfw_airquality',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
