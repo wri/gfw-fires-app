@@ -162,7 +162,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           { className: className },
           _react2.default.createElement(
             'h4',
-            null,
+            { className: 'indonesia-report__title' },
             _config.analysisPanelText.indonesiaReportTitle
           ),
           _react2.default.createElement(

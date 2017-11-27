@@ -35,8 +35,9 @@ block append head-styles
     window.liveSettings = {
       api_key: "c0d190e8efe94881b66b5bb38ebaece3",
       detectlang: false,
+      site: 'gfw-fires',
       //- picker: '#customTransifex',
-      //- picker: 'bottom-left', 
+      //- picker: 'bottom-left',
       picker: '#transifexTranslateElement'//,
       //- version: 'latest',
       //- autocollect: true,
@@ -48,8 +49,7 @@ block append head-styles
     };
 
 block content
-  +navigation(global.pages, 'home', true)
-  
+
   div#transifexContainer
     div#customTransifex
 
@@ -58,13 +58,13 @@ block content
     nav.mobile-hide.home-nav
       h2.shadow #{home.explore}
         div.inline-block
-          a(href='../map', title=home.exploreAlt, alt=home.exploreAlt)
+          a(href='../map/', title=home.exploreAlt, alt=home.exploreAlt)
             button.button--round.text-white.back-gfw-red #{home.view}
 
     section.slider-section
       ul.home-slider
         li.slide.pointer
-          a(href='../map')
+          a(href='../map/')
             div.inner.relative
               aside
                 h2 #{home.slides[0][0]}
@@ -72,19 +72,20 @@ block content
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
+
         li.slide.pointer
-          a(href='../map')
+          a(href='../map/')
             div.inner.relative
               aside
                 h2 #{home.slides[1][0]}
                 h3
-                  span#percentage-header 
+                  span#percentage-header
                   span#percentage-content #{home.slides[1][1]}
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
         li.slide.pointer
-          a(href='../map')
+          a(href='../map/')
             div.inner.relative
               aside
                 h2 #{home.slides[2][0]}
@@ -109,7 +110,6 @@ block content
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
-
   div.action-menu
     section
       div#alerts2.action-menu__item
@@ -143,7 +143,7 @@ block content
             div
               p
                | #{home.alerts.modal.content[0].trim() + ' '}
-               a.text-gfw-red(href='../map') #{home.alerts.modal.content[1].trim()}
+               a.text-gfw-red(href='../map/') #{home.alerts.modal.content[1].trim()}
                | #{' ' + home.alerts.modal.content[2].trim()}
 
   script.
@@ -219,7 +219,7 @@ block content
 
     getCORS(queryUrl + peatQueryString, function (request) { peatResponse = request.currentTarget.response || request.target.responseText; process(); });
     getCORS(queryUrl + totalQueryString, function (request) { totalResponse = request.currentTarget.response || request.target.responseText; process(); });
-    
+
 //- script.
 //-   window.liveSettings = {
 //-     api_key: 'c0d190e8efe94881b66b5bb38ebaece3',

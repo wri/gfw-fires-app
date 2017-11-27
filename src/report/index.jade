@@ -43,6 +43,7 @@ html(lang="en")
       window.liveSettings = {
         api_key: "c0d190e8efe94881b66b5bb38ebaece3",
         detectlang: false,
+        site: 'gfw-fires',
         picker: '#transifexTranslateElement'
         //- version: 'latest',
         //- autocollect: true,
@@ -155,14 +156,13 @@ html(lang="en")
             span.fire-alert-count__year 2012
             |  - PRESENT
           h4.report-section__subtitle.fire-alert-count__subtitle MODIS fire alerts
+          i.section-description.fire-history__description.interaction-type
           div#fire-alert-count-sumatra
             div#fire-line-chart(class='fire-line-chart')
         div#ConcessionRspoContainer(class='page-break')
           div#section-five(class='page-break')
-            h3(class='section-title')
-              | CONCESSION
-              br
-              span.break-raw with greatest number of fire alerts
+            h3.report-section__title CONCESSIONS
+            h4.report-section__subtitle with the greatest number of fire alerts
             div#gfw-concessions
               div#finalConcessionsTable
               div(class='no-break')
@@ -179,11 +179,9 @@ html(lang="en")
 
           div.vertical-divider
 
-          div#section-six(class='page-break')
-            h3(class='section-title')
-              | RSPO CERTIFIED CONCESSIONS
-              br
-              span.break-raw with fire alerts
+          div#section-six.page-break
+            h3.report-section__title RSPO CERTIFIED CONCESSIONS
+            h4.report-section__subtitle with fire alerts
             div(class='sub-title')
             div(class='no-break')
               div#rspo-cert-table
@@ -213,8 +211,8 @@ html(lang="en")
                 div#peat-fires-chart(class='chart')
 
         div#firesCountContainerSection.border-top-separator
-          h3#firesCountTitleMain Fire History: Fire Season Progression
-          h4#firesCountTitle
+          h3#firesCountTitleMain.report-section__title Fire History: Fire Season Progression
+          h4#firesCountTitle.report-section__subtitle
           i.section-description Fire history analyses use MODIS fires data only for 2012 to present.
           div#firesCountContainer
             div#firesCountChart
@@ -224,16 +222,13 @@ html(lang="en")
           div#noFiresMsg
 
         div#fireHistory.border-top-separator
-          h3.fire-history__title Annual Fire History
-          h4.fire-history__region
-            | Region:
-            strong.country-name Indonesia
-          h3.fire-history__subtitle Total MODIS fire alerts
+          h3.report-section__title Annual Fire History
+          h4.report-section__subtitle Region: <strong class="country-name">Indonesia</strong>
+          h4.report-section__subtitle Total MODIS fire alerts
           i.section-description.fire-history__description Fire history analyses use MODIS fires data only for 2012 to present.
           div.fire-history__chart
 
         div#section-eight(class='page-break')
-
           div(id='disclaimer' class='no-break')
             p WRI uses NASA Fire Information for Resource Management Sytem (FIRMS) near real time (NRT) active fire data from the MODIS and VIIRS satellites to map fire locations. The sensors on these satellites detect the heat signatures of fires from the infrared spectral band. When a fire is detected, the system indicates the area where the fire occurred with an “alert.” Because each satellite orbits the earth twice per day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
             p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Fire data from the MODIS satellite are approximately 1km resolution and VIIRS satellite data has a resolution of 375m. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.

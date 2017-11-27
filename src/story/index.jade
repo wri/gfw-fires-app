@@ -54,28 +54,12 @@ block append head-scripts
       ga('B.send', payload);
       ga('C.send', payload);
     }
-  script.
-    window.liveSettings = {
-      api_key: "c0d190e8efe94881b66b5bb38ebaece3",
-      detectlang: false,
-      //- picker: '#customTransifex',
-      //- picker: 'bottom-left', 
-      picker: '#transifexTranslateElement'//,
-      //- version: 'latest',
-      //- autocollect: true,
-      //- dynamic: true,
-      //- staging: true
-      //- parse_attr: ["attr1", "attr2", ...],
-      //- ignore_tags: ["tag1", "tag2", ...],
-      //- ignore_class: ["classname1", "classname2"]
-    };
 
 block content
-  +navigation(global.pages, 'story')
-  
+
   div#transifexContainer
     div#customTransifex
-  
+
   div#success-modal.modal.hidden
     div.modal-container
       div#modal-background.modal-background
@@ -87,8 +71,8 @@ block content
             div
               p Your story was successfully submitted! You will now be redirected to the map.
               div
-                 a.text-gfw-red(href='../map') OK
-                 
+                a.text-gfw-red(href='../map/') OK
+
   div#failure-modal.modal.hidden
     div.modal-container
       div#modal-background.modal-background
@@ -174,9 +158,8 @@ block content
         li #{story.details[9]}
 
   script(src = 'https://js.arcgis.com/3.20/init.js')
-  
+
   script.
     $(document).ready(function () {
-      document.getElementById('closeModal').onclick = function () { document.getElementById('failure-modal').classList.toggle('hidden'); };      
+      document.getElementById('closeModal').onclick = function () { document.getElementById('failure-modal').classList.toggle('hidden'); };
     });
-  

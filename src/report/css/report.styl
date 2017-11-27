@@ -28,7 +28,7 @@ html, body
   position: absolute;
   bottom: 0;
   right: 0;
-  padding-right: 2em;
+  padding-right: 12px;
   line-height: 2rem;
   height: 2rem;
   color: #fff;
@@ -40,6 +40,7 @@ html, body
   opacity: 0.8;
   transition: opacity 0.3s linear;
   cursor pointer
+  user-select: none;
 
   &:hover {
     opacity: 1;
@@ -88,7 +89,9 @@ input.share-link-input {
 
 .report-date-range__map-container {
   display: inline-block;
-  font-size: 1rem
+  font-size: 1rem;
+  font-weight 400;
+  margin-left: 10px;
 }
 
 #aoiList {
@@ -231,9 +234,12 @@ input.share-link-input {
   font-size: 1.3rem;
   font-weight: 300
 
+.report-section__subtitle
 .fire-alert-count__subtitle
-  margin: 0.5em 0.5em 1em 0
-  font-weight: normal
+  margin: 0
+  padding: 0 0.5em 0.5em 0
+  font-size: 1.1rem
+  font-weight: 400
 
 .two-rows
   //height: 3.6rem;
@@ -764,26 +770,17 @@ tspan {
   li:hover
     background-color rgba(204, 204, 204, 0.3)
 
-#firesCountTitleMain
-  margin: .25em 0 0 0
-
 #firesCountTitle
   margin: 0
 
   .total_firecounts
     color: #F88900
-    font-size: 35px;
-
-#firesCountTitleMain
-#firesCountTitle
-  font-weight: normal
-  font-size: 24px;
+    font-size: 1.5rem;
 
 .section-description
-  padding-top: .5em
   display: block
   text-transform none !important
-  font-size: .8em !important
+  font-size: .8rem !important
 
 .highcharts-legend-item
   padding: .5em;

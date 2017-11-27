@@ -119,7 +119,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'component
           { className: className },
           _react2.default.createElement(
             'h4',
-            null,
+            { className: 'analysis__title' },
             _config.analysisPanelText.analysisAreaTitle
           ),
           _react2.default.createElement(

@@ -69,7 +69,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
     return (
       <div className={className}>
-        <h4>{analysisPanelText.indonesiaReportTitle}</h4>
+        <h4 className="indonesia-report__title">{analysisPanelText.indonesiaReportTitle}</h4>
         <p className='customize-report-label' onClick={this.toggleCustomize}>{analysisPanelText.analysisCustomize}
           <span className='analysis-toggle'>{this.props.customizeOpen ? ' ▼' : ' ►'}</span>
         </p>
