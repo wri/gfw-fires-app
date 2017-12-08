@@ -25,7 +25,9 @@ export default class AirQualityLegend extends React.Component {
       <div className='legend-container'>
         {this.state.legendInfos.length === 0 ? <div className='legend-unavailable'>No Legend</div> :
           <div className='air-quality-legend'>
-            {this.state.legendInfos.map(this.itemMapper, this)}
+            {this.state.legendInfos.map(legendInfo => (
+              legendInfo.map(this.itemMapper, this))
+            )}
           </div>
         }
       </div>
