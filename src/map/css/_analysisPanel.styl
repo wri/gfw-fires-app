@@ -1,4 +1,7 @@
 // Loaded inline in html, image basepath is css/images/*.{jpg|png|svg}
+.no-pad
+  padding 0px !important
+
 .search-tools
   width 500px
   // right 20px
@@ -259,9 +262,15 @@
 .reports-container
   display flex
   flex-direction row
+  +below($mq-mobile) {
+    flex-direction: column;
+  }
 
 .report-width
-  width 50% !important
+  width 50%
+  +below($mq-mobile) {
+    width 100%
+  }
 
 .analysis-toggle
   cursor pointer

@@ -5,31 +5,6 @@ import DateHelper from 'helpers/DateHelper';
 import {modalActions} from 'actions/ModalActions';
 import React from 'react';
 
-// export type TreatmentProps = {
-//   storyMode: bool,
-//   translationTable: Array<Object>,
-//   translationFilters: Array<Object>
-// };
-//
-// export default class TreatmentData extends Component {
-//
-//   props: TreatmentProps;
-//   displayName: 'TreatmentData';
-//   state: {
-//     data: Array<Object>,
-//     occurance: string,
-//     dropdowns: Array<Object>,
-//     dropdownSelections: Array<Object>,
-//     multipleDropdownSelections: Array<Object>,
-//     isResetting: boolean,
-//     studyType: string,
-//     resetFilters: Array<Object>,
-//     newDropdownsReset: Array<Object>,
-//     defaultSiteIdQuery: string
-//   };
-//
-//   constructor(props: TreatmentProps) {
-
 export type AnalysisProps = {
   options: Object
 };
@@ -56,9 +31,9 @@ export default class AnalysisComponent extends React.Component {
     return <div className={`timeline-container ${this.props.options.domClass}`}>
       <div id='analysis-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.minLabelPlus}</span>
-        <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'analysisStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
+        <button className={`gfw-btn no-pad white pointer ${this.state.calendarVisible === 'analysisStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
         <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
-        <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'analysisEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        <button className={`gfw-btn no-pad white pointer ${this.state.calendarVisible === 'analysisEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
       </div>
     </div>;
   }
