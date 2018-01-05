@@ -853,7 +853,6 @@ define([
         },
 
         buildDistributionOfFireAlertsMap: function() {
-          console.log('Build Distribution Of Fire Alerts Map');
           var self = this;
           var deferred = new Deferred(),
               fireParams,
@@ -956,7 +955,6 @@ define([
         },
 
         buildFireCountMap: function(configKey, queryKey) {
-          console.log('Build Fire Count Map');
           var deferred = new Deferred(),
             boundaryConfig = PRINT_CONFIG[configKey],
             options = [],
@@ -994,9 +992,6 @@ define([
               queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer'
             }
           }
-
-          console.log('Query URL', boundaryConfig.urlGlobal);
-          console.log('Unique Value Field', boundaryConfig.UniqueValueFieldGlobal);
 
           var dist_names = feat_stats.map(function(item) {
             if (item.attributes[uniqueValueField] != null) {
@@ -1070,14 +1065,25 @@ define([
             arrayUtils.forEach(feat_stats, function(feat) {
               var count = feat.attributes['fire_count'];
               var sym;
+
               for (var i = 0; i < nbks.length; i++) {
                 if (count <= nbks[i + 1]) {
                   sym = symbols[i];
                   break;
                 }
               }
-              if (sym == undefined) {
-                console.log("UNDEFINED", feat);
+
+              // Checks for an undefined symbol AND if only 1 natural break,
+              // Catches error of single admin unit being unsymbolized
+              if (typeof sym === 'undefined' && nbks.length === 1) {
+                const singleSymbol = new SimpleFillSymbol();
+                singleSymbol.setColor({
+                  a: 1,
+                  r: 253,
+                  g: 237,
+                  b: 7
+                });
+                sym = singleSymbol;
               }
 
               renderer.addValue({
@@ -1120,8 +1126,6 @@ define([
             otherFiresParams.layerIds = boundaryConfig.defaultLayersGlobal;
           }
 
-          console.log('QueryURL', queryUrl);
-          console.log('Other Fires Params', otherFiresParams);
           otherFiresLayer = new ArcGISDynamicLayer(queryUrl, {
             imageParameters: otherFiresParams,
             id: boundaryConfig.id,
@@ -1257,7 +1261,6 @@ define([
         },
 
         getRegion: function(configKey) {
-          console.log('Get Region');
           var queryConfig = PRINT_CONFIG[configKey],
             queryTask,
             regionField,
@@ -1466,7 +1469,7 @@ define([
           };
 
         var countryObjs = PRINT_CONFIG.countryFeatures;
-        query.where = "ID_0=" + countryObjs[selectedCountry];
+        query.where = "ID_0=" + countryObjs[selectedCountry] + ' AND 1=1';
         query.returnGeometry = false;
         query.outFields = ['*'];
 
@@ -1510,11 +1513,15 @@ define([
           var month = moment().format('MM');
           var year = moment().format('YY');
           var thisMonth = 'cf_' + year + '_' + month;
-          allFeatures["0"].attributes[thisMonth] = null;
+          if (month !== '01') {
+            allFeatures["0"].attributes[thisMonth] = null;
+          }
 
           if (allFeatures.length > 0) {
+            console.log('allFeatures', allFeatures);
             allFeatures.forEach(function (item) {
               var obj = item.attributes;
+              console.log(obj);
               Object.keys(obj).forEach(function(key) {
                 if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
                   index = index + 1;
@@ -1534,6 +1541,7 @@ define([
                   }
                 }
               });
+              console.log('yearObject', yearObject);
 
               indexColor = 10;
               dataLabelsFormatAction(yearObject);
@@ -2655,7 +2663,7 @@ define([
                   for (map in PRINT_CONFIG.maps) {
                     if (extent) {
                       if (query.where.includes("NAME_0 = 'United States'")) {
-                        console.log('%c UNITED STATES', 'color: green; font-weight: bold;');
+                        // In the United States
                         const unitedStatesExtent = new Extent();
                         unitedStatesExtent.xmin = -24322950.66;
                         unitedStatesExtent.ymin = 392274.67;
@@ -2664,7 +2672,7 @@ define([
                         unitedStatesExtent.spatialReference = new SpatialReference({wkid: 102100});
                         PRINT_CONFIG.maps[map].setExtent(unitedStatesExtent, true);
                       } else {
-                        console.log('%c NOT IN THE US', 'color: green; font-weight: bold;');
+                        // Not in the United States
                         PRINT_CONFIG.maps[map].setExtent(extent, true);
                       }
                     }

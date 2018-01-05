@@ -100,7 +100,7 @@ define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper'
             ),
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white pointer ' + (this.state.calendarVisible === 'analysisStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
+              { className: 'gfw-btn no-pad white pointer ' + (this.state.calendarVisible === 'analysisStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
               _DateHelper2.default.getDate(startDate)
             ),
             _react2.default.createElement(
@@ -110,7 +110,7 @@ define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper'
             ),
             _react2.default.createElement(
               'button',
-              { className: 'gfw-btn white pointer ' + (this.state.calendarVisible === 'analysisEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
+              { className: 'gfw-btn no-pad white pointer ' + (this.state.calendarVisible === 'analysisEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
               _DateHelper2.default.getDate(endDate)
             )
           )
