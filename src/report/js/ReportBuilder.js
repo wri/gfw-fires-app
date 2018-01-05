@@ -1469,7 +1469,7 @@ define([
           };
 
         var countryObjs = PRINT_CONFIG.countryFeatures;
-        query.where = "ID_0=" + countryObjs[selectedCountry];
+        query.where = "ID_0=" + countryObjs[selectedCountry] + ' AND 1=1';
         query.returnGeometry = false;
         query.outFields = ['*'];
 
@@ -1513,11 +1513,15 @@ define([
           var month = moment().format('MM');
           var year = moment().format('YY');
           var thisMonth = 'cf_' + year + '_' + month;
-          allFeatures["0"].attributes[thisMonth] = null;
+          if (month !== '01') {
+            allFeatures["0"].attributes[thisMonth] = null;
+          }
 
           if (allFeatures.length > 0) {
+            console.log('allFeatures', allFeatures);
             allFeatures.forEach(function (item) {
               var obj = item.attributes;
+              console.log(obj);
               Object.keys(obj).forEach(function(key) {
                 if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
                   index = index + 1;
@@ -1537,6 +1541,7 @@ define([
                   }
                 }
               });
+              console.log('yearObject', yearObject);
 
               indexColor = 10;
               dataLabelsFormatAction(yearObject);
