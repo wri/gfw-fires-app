@@ -1518,10 +1518,8 @@ define([
           }
 
           if (allFeatures.length > 0) {
-            console.log('allFeatures', allFeatures);
             allFeatures.forEach(function (item) {
               var obj = item.attributes;
-              console.log(obj);
               Object.keys(obj).forEach(function(key) {
                 if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
                   index = index + 1;
@@ -1541,7 +1539,6 @@ define([
                   }
                 }
               });
-              console.log('yearObject', yearObject);
 
               indexColor = 10;
               dataLabelsFormatAction(yearObject);
@@ -1676,7 +1673,10 @@ define([
                     var thisMonth = 'cf_' + year + '_' + month;
                     islandOrRegionFeatures.forEach(function (item) {
                       // Set the current month to null - we only want the last completed month
-                      item.attributes[thisMonth] = null;
+
+                      if (month !== '01') {
+                        item.attributes[thisMonth] = null;
+                      }
                       if (item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion) {
                         var obj = item.attributes;
                         Object.keys(obj).forEach(function(key) {
