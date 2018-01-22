@@ -737,12 +737,12 @@ export const config = {
       group: 'airQuality',
       className: 'air-quality',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
-      metadataId: 'air_quality_old',
+      metadataId: 'gfw_airquality',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
       },
-      layerIds: [0]
+      layerIds: [0, 1]
     },
     {
       id: KEYS.gfedEmissions,

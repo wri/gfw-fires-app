@@ -257,7 +257,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [8],
       className: 'viirs-fires',
       defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -278,7 +278,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [9],
       defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
       className: 'active-fires',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -634,12 +634,12 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       group: 'airQuality',
       className: 'air-quality',
       url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
-      metadataId: 'air_quality_old',
+      metadataId: 'gfw_airquality',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
       },
-      layerIds: [0]
+      layerIds: [0, 1]
     }, {
       id: _constants2.default.overlays,
       order: 1,
@@ -720,7 +720,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       subLayers: [_constants2.default.digitalGlobe0, _constants2.default.digitalGlobe1, _constants2.default.digitalGlobe2, _constants2.default.digitalGlobe3, _constants2.default.digitalGlobe4],
       imageServices: [{ id: 'dg-00', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer', mosaic: 'WV01' }, { id: 'dg-01', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer', mosaic: 'QB01' }, { id: 'dg-02', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer', mosaic: 'WV02' }, { id: 'dg-03', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer', mosaic: 'GEO1' }, { id: 'dg-04', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer', mosaic: 'WV03' }, { id: 'dg-05', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }],
       type: 'image',
-      label: 'Digital Globe - First Look',
+      label: 'DigitalGlobe - FirstLook',
       mosaic: 'WV01',
       // group: 'imagery',
       'minScale': 0,
@@ -809,7 +809,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       layerIds: [9],
       opacity: 1,
       className: 'modis-archive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -820,7 +820,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 1,
       className: 'viirs-achive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer', //'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
@@ -882,11 +882,11 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           callback: 'callback'
         },
         countries: {
-          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
+          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
           callback: 'callback'
         },
         adm1: {
-          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
+          url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0,NAME_1',
           callback: 'callback'
         }
       }

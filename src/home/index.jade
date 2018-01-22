@@ -58,76 +58,41 @@ block content
     nav.mobile-hide.home-nav
       h2.shadow #{home.explore}
         div.inline-block
-          if window && window.location && window.location.host === 'fires.globalforestwatch.org'
-            a(href='https://fires.globalforestwatch.org/map/', title=home.exploreAlt, alt=home.exploreAlt)
-              button.button--round.text-white.back-gfw-red #{home.view}
-          else
-            a(href='https://fires-staging.globalforestwatch.org/map/', title=home.exploreAlt, alt=home.exploreAlt)
-              button.button--round.text-white.back-gfw-red #{home.view}
+          a(href='../map/', title=home.exploreAlt, alt=home.exploreAlt)
+            button.button--round.text-white.back-gfw-red #{home.view}
 
     section.slider-section
       ul.home-slider
         li.slide.pointer
-          if window && window.location && window.location.host === 'fires.globalforestwatch.org'
-            a(href='https://fires.globalforestwatch.org/map/')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[0][0]}
-                  h3 #{home.slides[0][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
-          else
-            a(href='https://fires-staging.globalforestwatch.org/map/')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[0][0]}
-                  h3 #{home.slides[0][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
+          a(href='../map/')
+            div.inner.relative
+              aside
+                h2 #{home.slides[0][0]}
+                h3 #{home.slides[0][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
+
         li.slide.pointer
-          if window && window.location && window.location.host === 'fires.globalforestwatch.org'
-            a(href='https://fires.globalforestwatch.org/map/')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[1][0]}
-                  h3
-                    span#percentage-header
-                    span#percentage-content #{home.slides[1][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
-          else
-            a(href='https://fires-staging.globalforestwatch.org/map/')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[1][0]}
-                  h3
-                    span#percentage-header
-                    span#percentage-content #{home.slides[1][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
+          a(href='../map/')
+            div.inner.relative
+              aside
+                h2 #{home.slides[1][0]}
+                h3
+                  span#percentage-header
+                  span#percentage-content #{home.slides[1][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
         li.slide.pointer
-          if window && window.location && window.location.host === 'fires.globalforestwatch.org'
-            a(href='fires.globalforestwatch.org')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[2][0]}
-                  h3 #{home.slides[2][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
-          else
-            a(href='https://fires-staging.globalforestwatch.org/map/')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[2][0]}
-                  h3 #{home.slides[2][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
+          a(href='../map/')
+            div.inner.relative
+              aside
+                h2 #{home.slides[2][0]}
+                h3 #{home.slides[2][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
         li#alerts1.slide.pointer
           div.inner.relative
             aside
@@ -137,25 +102,14 @@ block content
                 span.mobile-hide #{home.slider.moreInfo}
                 span.mobile-show +
         li.slide.pointer
-          if window && window.location && window.location.host === 'fires.globalforestwatch.org'
-            a(href='https://fires.globalforestwatch.org/story')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[4][0]}
-                  h3 #{home.slides[4][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
-          else
-            a(href='https://fires-staging.globalforestwatch.org/story')
-              div.inner.relative
-                aside
-                  h2 #{home.slides[4][0]}
-                  h3 #{home.slides[4][1]}
-                  div.slide-link
-                    span.mobile-hide #{home.slider.moreInfo}
-                    span.mobile-show +
-
+          a(href='../story')
+            div.inner.relative
+              aside
+                h2 #{home.slides[4][0]}
+                h3 #{home.slides[4][1]}
+                div.slide-link
+                  span.mobile-hide #{home.slider.moreInfo}
+                  span.mobile-show +
   div.action-menu
     section
       div#alerts2.action-menu__item
@@ -189,12 +143,8 @@ block content
             div
               p
                | #{home.alerts.modal.content[0].trim() + ' '}
-               if window && window.location && window.location.host === 'fires.globalforestwatch.org'
-                 a.text-gfw-red(href='https://fires.globalforestwatch.org/map/') #{home.alerts.modal.content[1].trim()}
-                 | #{' ' + home.alerts.modal.content[2].trim()}
-               else
-                 a.text-gfw-red(href='https://fires-staging.globalforestwatch.org/map/') #{home.alerts.modal.content[1].trim()}
-                 | #{' ' + home.alerts.modal.content[2].trim()}
+               a.text-gfw-red(href='../map/') #{home.alerts.modal.content[1].trim()}
+               | #{' ' + home.alerts.modal.content[2].trim()}
 
   script.
     $('.home-slider').slick({

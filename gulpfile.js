@@ -5,7 +5,6 @@ var browserSync = require('browser-sync');
 var mergeStream = require('merge-stream');
 var version = require('./package.json').version;
 var imagemin = require('gulp-imagemin');
-var notifier = require('node-notifier');
 var cached = require('gulp-cached');
 var stylus = require('gulp-stylus');
 var babel = require('gulp-babel');
@@ -18,11 +17,6 @@ var gulp = require('gulp');
 var plumber = function () {
   return require('gulp-plumber')({
     errorHandler: function (error) {
-      notifier.notify({
-        title: 'Gulp Error',
-        message: error.message,
-        sound: true
-      });
       console.log(error.message);
       this.emit('end');
     }

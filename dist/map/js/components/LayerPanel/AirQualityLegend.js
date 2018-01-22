@@ -101,6 +101,8 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
     }, {
       key: 'render',
       value: function render() {
+        var _this3 = this;
+
         return _react2.default.createElement(
           'div',
           { className: 'legend-container' },
@@ -111,7 +113,9 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
           ) : _react2.default.createElement(
             'div',
             { className: 'air-quality-legend' },
-            this.state.legendInfos.map(this.itemMapper, this)
+            this.state.legendInfos.map(function (legendInfo) {
+              return legendInfo.map(_this3.itemMapper, _this3);
+            })
           )
         );
       }

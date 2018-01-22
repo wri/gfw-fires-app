@@ -11,6 +11,7 @@ www/src/proxy
 build
 vendors
 www/*
+webpackOut
 
 # Ignore these, just do it
 node_modules
