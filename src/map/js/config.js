@@ -371,7 +371,7 @@ export const config = {
       id: KEYS.burnScars,
       order: 12,
       type: 'dynamic',
-      label: 'Crowdsourced fires, burns scars',
+      label: 'Crowdsourced fires, burn scars',
       group: 'fires',
       layerIds: [8],
       className: 'burn-scars',
@@ -736,13 +736,25 @@ export const config = {
       sublabel: '(layer starts at 10/19/2017)',
       group: 'airQuality',
       className: 'air-quality',
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
       metadataId: 'gfw_airquality',
       calendar: {
         domId: 'airQCalendar',
         domClass: 'air-quality'
       },
       layerIds: [0, 1]
+    },
+    {
+      id: KEYS.gfedEmissions,
+      order: 1,
+      type: 'dynamic',
+      label: 'Emission 2015',
+      sublabel: '(Global Fire Emissions Database)',
+      group: 'airQuality',
+      className: 'gfed-emissions',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/GFED_2015_Emissions/MapServer',
+      metadataId: 'gfed_emissions',
+      layerIds: [0]
     },
     {
       id: KEYS.overlays,
