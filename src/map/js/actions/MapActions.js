@@ -11,6 +11,8 @@ import EsriMap from 'esri/map';
 import alt from 'js/alt';
 import on from 'dojo/on';
 
+import PlanetLayer from 'js/layers/PlanetLayer';
+
 // Variable to hold the user location graphic, this is deinfed here to make it
 // easier to remove at a later point
 let userLocation;
@@ -151,6 +153,25 @@ class MapActions {
   setBasemap (basemap) {
     app.debug('MapActions >>> setBasemap');
     this.dispatch(basemap);
+  }
+
+  changePlanetBasemap (basemap) {
+    const {title, url} = basemap;
+    const layer = app.map.getLayer(`planetBasemap`);
+
+    if (layer) {
+      app.map.removeLayer(layer);
+    }
+
+    // const correctUrl = url.replace(/{TileRow}/, '${row}').replace(/{TileCol/, '${col}').replace(/{TileMatrix}/, '${level}');
+    // console.log(correctUrl);
+
+    const planetBasemap = new PlanetLayer({
+      visible: true,
+      url: url,
+      id: 'planetBasemap'
+    });
+    app.map.addLayer(planetBasemap);
   }
 
   changeBasemap (basemap) {

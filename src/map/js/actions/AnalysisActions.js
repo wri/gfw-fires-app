@@ -73,6 +73,10 @@ class AnalysisActions {
     this.dispatch();
   }
 
+  savePlanetBasemaps (basemaps) {
+    this.dispatch(basemaps);
+  }
+
   initAreas () {
     all({
       islands: esriRequest(analysisConfig.requests.islands),

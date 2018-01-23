@@ -51,7 +51,9 @@ const KEYS = {
   digitalGlobe4: 'dg-05',
   boundingBoxes: 'boundingBoxes',
   twitter: 'twitter',
-  fireStories: 'fireStories'
+  fireStories: 'fireStories',
+
+  planetBasemaps: 'planetBasemaps'
 };
 
 export { KEYS as default };
