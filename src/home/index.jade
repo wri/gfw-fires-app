@@ -78,9 +78,7 @@ block content
             div.inner.relative
               aside
                 h2 #{home.slides[1][0]}
-                h3
-                  span#percentage-header
-                  span#percentage-content #{home.slides[1][1]}
+                h3 #{home.slides[1][1]}
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
@@ -93,20 +91,12 @@ block content
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
-        li#alerts1.slide.pointer
-          div.inner.relative
-            aside
-              h2 #{home.slides[3][0]}
-              h3 #{home.slides[3][1]}
-              div.slide-link
-                span.mobile-hide #{home.slider.moreInfo}
-                span.mobile-show +
         li.slide.pointer
           a(href='../story')
             div.inner.relative
               aside
-                h2 #{home.slides[4][0]}
-                h3 #{home.slides[4][1]}
+                h2 #{home.slides[3][0]}
+                h3 #{home.slides[3][1]}
                 div.slide-link
                   span.mobile-hide #{home.slider.moreInfo}
                   span.mobile-show +
