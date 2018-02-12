@@ -1,7 +1,4 @@
 import {analysisPanelText} from 'js/config';
-import {prepareStateForUrl} from 'helpers/ShareHelper';
-import {modalActions} from 'actions/ModalActions';
-import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
 import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
@@ -9,8 +6,6 @@ import KEYS from 'js/constants';
 
 import PlanetBasemaps from 'js/components/AnalysisPanel/PlanetBasemaps';
 import React from 'react';
-
-let useSvg = '<use xlink:href="#shape-info" />';
 
 export default class BasemapTab extends React.Component {
 

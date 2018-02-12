@@ -629,13 +629,14 @@
   height 500px
   bottom 0px
   left -350px
-  background-color #efefef
+  background-color white
   display flex
   flex-wrap wrap
   justify-content center
   align-items center
   padding-top 10px
   padding-bottom 10px
+  overflow scroll
 }
 
 .analysis-planet__option {
@@ -643,6 +644,13 @@
   font-size 12px
   padding: 2.5px
   color #555555
+  transition background-color 0.5s ease
+  &.planet__option-active {
+    background-color: #efefef
+  }
+  &:hover {
+    background-color #efefef
+  }
 }
 
 /* IE10+ CSS styles go here */

@@ -53,7 +53,7 @@ const KEYS = {
   twitter: 'twitter',
   fireStories: 'fireStories',
 
-  planetBasemaps: 'planetBasemaps'
+  planetBasemap: 'planetBasemap'
 };
 
 export { KEYS as default };
