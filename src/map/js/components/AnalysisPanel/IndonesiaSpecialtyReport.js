@@ -3,14 +3,18 @@ import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
-import chosen from 'chosen';
+import Select from 'react-select';
 
 export default class IndonesiaSpecialtyReport extends React.Component {
 
   constructor (props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
-    this.state = { localErrors: false, ...mapStore.getState() };
+    this.state = {
+      localErrors: false,
+      selectedIsland: '',
+      ...mapStore.getState()
+    };
   }
 
   storeUpdated () {
@@ -27,23 +31,22 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   }
 
   componentDidUpdate (prevProps, prevState) {
-    if ($('#islands').chosen) {
-      if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-        $('#islands').chosen();
-      } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-        $('#provinces').chosen('destroy');
-        $('#islands').chosen();
-      } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-        $('#islands').chosen('destroy');
-        $('#provinces').chosen();
-      } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-        $('#islands').chosen('destroy');
-        $('#islands').chosen();
-      } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-        $('#provinces').chosen('destroy');
-        $('#provinces').chosen();
-      }
+    if (prevProps.provinces.length === 0 && this.props.provinces.length > 0) {
+      this.selectAllProvinces();
     }
+  }
+
+  selectAllProvinces () {
+    const provinces = this.props.provinces.map(province => {
+      return {
+        value: province,
+        label: province
+      };
+    });
+
+    this.setState({
+      selectedIsland: provinces
+    });
   }
 
   toggleCustomize () {
@@ -51,11 +54,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   }
 
   clearAll () {
-    if (this.props.areaIslandsActive === true) {
-      $('#islands').val('').trigger('chosen:updated');
-    } else {
-      $('#provinces').val('').trigger('chosen:updated');
-    }
+    this.setState({ selectedIsland: '' });
   }
 
   sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
@@ -67,6 +66,13 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   render () {
     let className = 'text-center report-width';
     if (this.props.activeTab !== analysisPanelText.analysisTabId) { className += ' hidden'; }
+
+    const islands = this.props.provinces.map(province => {
+      return {
+        value: province,
+        label: province
+      };
+    });
     return (
       <div className={className}>
         <h4 className="indonesia-report__title">{analysisPanelText.indonesiaReportTitle}</h4>
@@ -88,32 +94,14 @@ export default class IndonesiaSpecialtyReport extends React.Component {
           <p>{analysisPanelText.analysisIndonesiaChooseData}</p>
           <div className='flex flex-justify-around'>
             <p>By Province(s)</p>
-            {/*<label>
-              <input onChange={analysisActions.toggleAreaIslandsActive} checked={this.props.areaIslandsActive} type='radio' />
-              {' By Island(s)'}
-            </label>*/}
-            {/*<label>
-              <input onChange={analysisActions.toggleAreaIslandsActive} checked={!this.props.areaIslandsActive} type='radio' />
-              {' By Province(s)'}
-            </label>*/}
           </div>
           <div className='padding'>
-          {/*{this.props.islands.length > 0 ?
-            <select multiple id='islands' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === true ? '' : 'hidden'}`} onChange={this.change} disabled={this.props.islands.length === 0}>
-              {this.props.islands.map((i) => (
-                <option selected='true' value={i}>{i}</option>
-              ))}
-            </select>
-            : null
-          }*/}
-          {this.props.islands.length > 0 ?
-            <select multiple id='provinces' className={`chosen-select-no-single fill__wide ${this.props.areaIslandsActive === false ? '' : 'hidden'}`} onChange={this.change}>
-              {this.props.provinces.map((p) => (
-                <option selected='true' value={p}>{p}</option>
-              ))}
-            </select>
-            : null
-          }
+          <Select
+            onChange={this.handleIslandChange.bind(this)}
+            options={islands}
+            multi={true}
+            value={this.state.selectedIsland}
+          />
           </div>
           <button onClick={this.clearAll.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
           <p>{analysisPanelText.analysisTimeframeHeader}</p>
@@ -127,18 +115,15 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     );
   }
 
+  handleIslandChange(selected) {
+    this.setState({ selectedIsland: selected });
+  }
+
   beginAnalysis () {
     app.debug('AnalysisTab >>> beginAnalysis');
-    let provinces;
-    let aoiType;
 
-    if (this.props.areaIslandsActive) {
-      provinces = $('#islands').chosen().val();
-      aoiType = 'ISLAND';
-    } else {
-      provinces = $('#provinces').chosen().val();
-      aoiType = 'PROVINCE';
-    }
+    const aoiType = this.props.areaIslandsActive ? 'ISLAND' : 'PROVINCE';
+    const provinces = this.props.areaIslandsActive ? this.state.selectedIsland : this.state.selectedIsland;
 
     if (!provinces) {
       this.setState({
@@ -163,11 +148,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
 
-    let dataSource = 'gfw';
-
-    if (this.props.analysisSourceGFW === false) {
-      dataSource = 'greenpeace';
-    }
+    const dataSource = this.props.analysisSourceGFW ? 'gfw' : 'greenpeace';
 
     let hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
     let win = window.open('../report/index.html' + hash, '_blank', '');
@@ -198,8 +179,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     }
 
     datestring = 'dates=' + dateargs.join('!');
-
-    aoistring = 'aois=' + aois.join('!');
+    aoistring = `aois=${aois.map(aoi => aoi.value).join('!')}`;
 
     dataSourceString = 'dataSource=' + dataSource;
 

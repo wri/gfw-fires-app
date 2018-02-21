@@ -3,7 +3,6 @@ import {analysisActions} from 'actions/AnalysisActions';
 import {mapStore} from 'stores/MapStore';
 import AnalysisComponent from 'components/LayerPanel/AnalysisComponent';
 import React from 'react';
-import chosen from 'chosen';
 import Select from 'react-select';
 
 
@@ -82,6 +81,7 @@ export default class GlobalCountryReport extends React.Component {
           <div className='padding'>
             <p>Select {this.state.currentCountry}&#39;s subregions: </p>
             <Select
+              placeholder='Select a Country'
               onChange={this.handleSubRegionChange.bind(this)}
               options={countrySubRegionsList}
               multi={true}
@@ -139,15 +139,16 @@ export default class GlobalCountryReport extends React.Component {
     app.debug('AnalysisTab >>> countryAnalysis');
 
     let reportType = 'globalcountryreport',
-        countries = $('#countries').chosen().val(),
-        regions = $('#global-adm1').chosen().val(),
-        reportdateFrom = this.state.analysisStartDate.split('/'),
-        reportdateTo = this.state.analysisEndDate.split('/'),
-        reportdates = {};
+      countries = this.state.selectedGlobalCoutry,
+      regions = this.state.selectedSubRegion,
+      reportdateFrom = this.state.analysisStartDate.split('/'),
+      reportdateTo = this.state.analysisEndDate.split('/'),
+      reportdates = {};
 
     if (!countries) {
       return;
     }
+
     reportdates.fYear = Number(reportdateFrom[2]);
     reportdates.fMonth = Number(reportdateFrom[0]);
     reportdates.fDay = Number(reportdateFrom[1]);
@@ -155,18 +156,8 @@ export default class GlobalCountryReport extends React.Component {
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
 
-    let hash = this.reportDataToHash(reportType, reportdates, countries, regions);
-    let win = window.open('../report/index.html' + hash, '_blank', '');
-
-    win.report = true;
-    win.reportOptions = {
-      'dates': reportdates,
-      'country': countries,
-      'aois': regions,
-      'aoitype': 'GLOBAL',
-      'type': 'GLOBAL',
-      'reportType': reportType
-    };
+    const hash = this.reportDataToHash(reportType, reportdates, countries, regions);
+    window.open('../report/index.html' + hash, '_blank', '');
   }
 
   reportDataToHash (reportType, dates, country, countryRegions) {
@@ -174,7 +165,7 @@ export default class GlobalCountryReport extends React.Component {
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
 
-    let countryRegionString = 'aois=' + countryRegions.join('!');
+    const countryRegionString = `aois=${countryRegions.map(region => region.value).join('!')}`;
 
     let dateArgs = [];
     let dateString = 'dates=';
