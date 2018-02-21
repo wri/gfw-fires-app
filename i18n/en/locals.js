@@ -24,9 +24,9 @@
       meta: {
         title: 'Global Forest Watch Fires'
       },
-      explore: 'EXPLORE NOW!',
+      explore: 'EXPLORE NOW',
       exploreAlt: 'Explore Now',
-      view: 'VIEW MAP!',
+      view: 'VIEW MAP',
       slider: {
         moreInfo: 'MORE INFO'
       },
@@ -41,7 +41,7 @@
         description: 'Sign up to receive email or SMS fire alerts in your area of interest.',
         button: 'SIGN UP NOW',
         modal: {
-          title: 'Sign up to receive fire alerts!',
+          title: 'Sign up to receive fire alerts',
           content: [
             'To sign up for clearance or fire alerts, go to the',
             'Map',
