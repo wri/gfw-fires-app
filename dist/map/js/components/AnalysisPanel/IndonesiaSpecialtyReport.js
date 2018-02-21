@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'chosen'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _chosen) {
+define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'components/LayerPanel/AnalysisComponent', 'react', 'react-select'], function (exports, _config, _AnalysisActions, _MapStore, _AnalysisComponent, _react, _reactSelect) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,7 +9,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
   var _react2 = _interopRequireDefault(_react);
 
-  var _chosen2 = _interopRequireDefault(_chosen);
+  var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -88,7 +88,10 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       var _this = _possibleConstructorReturn(this, (IndonesiaSpecialtyReport.__proto__ || Object.getPrototypeOf(IndonesiaSpecialtyReport)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
-      _this.state = _extends({ localErrors: false }, _MapStore.mapStore.getState());
+      _this.state = _extends({
+        localErrors: false,
+        selectedIsland: ''
+      }, _MapStore.mapStore.getState());
       return _this;
     }
 
@@ -110,23 +113,23 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps, prevState) {
-        if ($('#islands').chosen) {
-          if (prevProps.islands.length === 0 && this.props.islands.length > 0) {
-            $('#islands').chosen();
-          } else if (prevProps.areaIslandsActive === false && this.props.areaIslandsActive === true) {
-            $('#provinces').chosen('destroy');
-            $('#islands').chosen();
-          } else if (prevProps.areaIslandsActive === true && this.props.areaIslandsActive === false) {
-            $('#islands').chosen('destroy');
-            $('#provinces').chosen();
-          } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === true) {
-            $('#islands').chosen('destroy');
-            $('#islands').chosen();
-          } else if (this.props.customizeOpen === true && prevProps.customizeOpen === false && this.props.areaIslandsActive === false) {
-            $('#provinces').chosen('destroy');
-            $('#provinces').chosen();
-          }
+        if (prevProps.provinces.length === 0 && this.props.provinces.length > 0) {
+          this.selectAllProvinces();
         }
+      }
+    }, {
+      key: 'selectAllProvinces',
+      value: function selectAllProvinces() {
+        var provinces = this.props.provinces.map(function (province) {
+          return {
+            value: province,
+            label: province
+          };
+        });
+
+        this.setState({
+          selectedIsland: provinces
+        });
       }
     }, {
       key: 'toggleCustomize',
@@ -136,11 +139,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'clearAll',
       value: function clearAll() {
-        if (this.props.areaIslandsActive === true) {
-          $('#islands').val('').trigger('chosen:updated');
-        } else {
-          $('#provinces').val('').trigger('chosen:updated');
-        }
+        this.setState({ selectedIsland: '' });
       }
     }, {
       key: 'sendAnalytics',
@@ -157,6 +156,13 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         if (this.props.activeTab !== _config.analysisPanelText.analysisTabId) {
           className += ' hidden';
         }
+
+        var islands = this.props.provinces.map(function (province) {
+          return {
+            value: province,
+            label: province
+          };
+        });
         return _react2.default.createElement(
           'div',
           { className: className },
@@ -216,17 +222,12 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             _react2.default.createElement(
               'div',
               { className: 'padding' },
-              this.props.islands.length > 0 ? _react2.default.createElement(
-                'select',
-                { multiple: true, id: 'provinces', className: 'chosen-select-no-single fill__wide ' + (this.props.areaIslandsActive === false ? '' : 'hidden'), onChange: this.change },
-                this.props.provinces.map(function (p) {
-                  return _react2.default.createElement(
-                    'option',
-                    { selected: 'true', value: p },
-                    p
-                  );
-                })
-              ) : null
+              _react2.default.createElement(_reactSelect2.default, {
+                onChange: this.handleIslandChange.bind(this),
+                options: islands,
+                multi: true,
+                value: this.state.selectedIsland
+              })
             ),
             _react2.default.createElement(
               'button',
@@ -257,19 +258,17 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         );
       }
     }, {
+      key: 'handleIslandChange',
+      value: function handleIslandChange(selected) {
+        this.setState({ selectedIsland: selected });
+      }
+    }, {
       key: 'beginAnalysis',
       value: function beginAnalysis() {
         app.debug('AnalysisTab >>> beginAnalysis');
-        var provinces = void 0;
-        var aoiType = void 0;
 
-        if (this.props.areaIslandsActive) {
-          provinces = $('#islands').chosen().val();
-          aoiType = 'ISLAND';
-        } else {
-          provinces = $('#provinces').chosen().val();
-          aoiType = 'PROVINCE';
-        }
+        var aoiType = this.props.areaIslandsActive ? 'ISLAND' : 'PROVINCE';
+        var provinces = this.props.areaIslandsActive ? this.state.selectedIsland : this.state.selectedIsland;
 
         if (!provinces) {
           this.setState({
@@ -294,11 +293,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         reportdates.tMonth = Number(reportdateTo[0]);
         reportdates.tDay = Number(reportdateTo[1]);
 
-        var dataSource = 'gfw';
-
-        if (this.props.analysisSourceGFW === false) {
-          dataSource = 'greenpeace';
-        }
+        var dataSource = this.props.analysisSourceGFW ? 'gfw' : 'greenpeace';
 
         var hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
         var win = window.open('../report/index.html' + hash, '_blank', '');
@@ -330,8 +325,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         }
 
         datestring = 'dates=' + dateargs.join('!');
-
-        aoistring = 'aois=' + aois.join('!');
+        aoistring = 'aois=' + aois.map(function (aoi) {
+          return aoi.value;
+        }).join('!');
 
         dataSourceString = 'dataSource=' + dataSource;
 
