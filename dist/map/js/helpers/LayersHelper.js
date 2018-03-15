@@ -525,16 +525,18 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     changeOpacity: function changeOpacity(parameters) {
       var layer = app.map.getLayer(parameters.layerId);
       if (layer) {
+        // Change the opacity of the layer
         layer.setOpacity(parameters.value);
-      }
-      if (layer.id === _constants2.default.fireHistory) {
-        var layers = _config.layersConfig.filter(function (layerConfig) {
-          return layerConfig && layerConfig.label === 'Fire history';
-        });
-        layers.forEach(function (subLayer) {
-          var firesHistoryLayer = app.map.getLayer(subLayer.id);
-          firesHistoryLayer.setOpacity(parameters.value);
-        });
+        // Special clause for fire history layer
+        if (layer.hasOwnProperty('id') && layer.id === _constants2.default.fireHistory) {
+          var layers = _config.layersConfig.filter(function (layerConfig) {
+            return layerConfig && layerConfig.label === 'Fire history';
+          });
+          layers.forEach(function (subLayer) {
+            var firesHistoryLayer = app.map.getLayer(subLayer.id);
+            firesHistoryLayer.setOpacity(parameters.value);
+          });
+        }
       }
     },
     updateOverlays: function updateOverlays(layers) {

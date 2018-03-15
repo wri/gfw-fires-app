@@ -231,29 +231,33 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       value: function handleGlobalCountryChange(selected) {
         var _this3 = this;
 
-        this.setState({ selectedGlobalCoutry: selected.value }, function () {
-          var countrySubRegions = _this3.props.adm1.filter(function (o) {
-            return o.NAME_0 === selected.value;
-          });
-          countrySubRegions.sort(function (a, b) {
-            if (a.NAME_1 < b.NAME_1) {
-              return -1;
-            }
-            if (a.NAME_1 > b.NAME_1) {
-              return 1;
-            }
-            return 0;
-          });
+        if (selected) {
+          this.setState({ selectedGlobalCoutry: selected.value }, function () {
+            var countrySubRegions = _this3.props.adm1.filter(function (o) {
+              return o.NAME_0 === selected.value;
+            });
+            countrySubRegions.sort(function (a, b) {
+              if (a.NAME_1 < b.NAME_1) {
+                return -1;
+              }
+              if (a.NAME_1 > b.NAME_1) {
+                return 1;
+              }
+              return 0;
+            });
 
-          var countrySubRegionsList = countrySubRegions.map(function (state) {
-            return {
-              value: state.NAME_1,
-              label: state.NAME_1
-            };
-          });
+            var countrySubRegionsList = countrySubRegions.map(function (state) {
+              return {
+                value: state.NAME_1,
+                label: state.NAME_1
+              };
+            });
 
-          _this3.setState({ selectedSubRegion: countrySubRegionsList });
-        });
+            _this3.setState({ selectedSubRegion: countrySubRegionsList });
+          });
+        } else {
+          this.setState({ selectedGlobalCoutry: '' });
+        }
       }
     }, {
       key: 'toggleCustomize',

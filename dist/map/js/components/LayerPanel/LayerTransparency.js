@@ -78,7 +78,6 @@ define(['exports', 'helpers/LayersHelper', 'react'], function (exports, _LayersH
     _createClass(LayerTransparency, [{
       key: 'render',
       value: function render() {
-        //<div className={`layer-transparency ${this.props.visible ? '' : 'hidden'}`}>
         return _react2.default.createElement(
           'div',
           { className: 'layer-transparency' },
