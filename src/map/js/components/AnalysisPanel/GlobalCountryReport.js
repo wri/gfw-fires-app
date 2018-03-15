@@ -104,27 +104,31 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   handleGlobalCountryChange (selected) {
-    this.setState({selectedGlobalCoutry: selected.value}, () => {
-      const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === selected.value);
-      countrySubRegions.sort((a, b) => {
-        if (a.NAME_1 < b.NAME_1) {
-          return -1;
-        }
-        if (a.NAME_1 > b.NAME_1) {
-          return 1;
-        }
-        return 0;
-      });
+    if (selected) {
+      this.setState({ selectedGlobalCoutry: selected.value }, () => {
+        const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === selected.value);
+        countrySubRegions.sort((a, b) => {
+          if (a.NAME_1 < b.NAME_1) {
+            return -1;
+          }
+          if (a.NAME_1 > b.NAME_1) {
+            return 1;
+          }
+          return 0;
+        });
 
-      const countrySubRegionsList = countrySubRegions.map(state => {
-        return {
-          value: state.NAME_1,
-          label: state.NAME_1
-        };
-      });
+        const countrySubRegionsList = countrySubRegions.map(state => {
+          return {
+            value: state.NAME_1,
+            label: state.NAME_1
+          };
+        });
 
-      this.setState({ selectedSubRegion: countrySubRegionsList});
-    });
+        this.setState({ selectedSubRegion: countrySubRegionsList });
+      });
+    } else {
+      this.setState({ selectedGlobalCoutry: '' });
+    }
   }
 
   toggleCustomize () {
