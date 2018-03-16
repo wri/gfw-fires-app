@@ -2,10 +2,13 @@
 class DateHelper {
 
   getDate (date) {
-    let whatDay = this.getDayOfWeek(date);
-    let whatMonth = this.getMonth(date);
-    let fullDate = whatDay + ', ' + date.date() + ' ' + whatMonth + ' ' + date.year();
-    return fullDate;
+    // NEW FORMAT (02/12/17)
+    return date.format('DD MMM YYYY').toUpperCase();
+    // OLD FORMAT
+    // let whatDay = this.getDayOfWeek(date);
+    // let whatMonth = this.getMonth(date);
+    // let fullDate = whatDay + ', ' + date.date() + ' ' + whatMonth + ' ' + date.year();
+    // return fullDate;
   }
 
   getDayOfWeek(date) {

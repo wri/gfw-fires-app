@@ -505,15 +505,17 @@ let LayersHelper = {
 
   changeOpacity (parameters) {
     let layer = app.map.getLayer(parameters.layerId);
-    if ( layer ) {
+    if (layer) {
+      // Change the opacity of the layer
       layer.setOpacity(parameters.value);
-    }
-    if (layer.id === KEYS.fireHistory) {
-      let layers = layersConfig.filter(layerConfig => layerConfig && layerConfig.label === 'Fire history');
-      layers.forEach(subLayer => {
-        let firesHistoryLayer = app.map.getLayer(subLayer.id);
-        firesHistoryLayer.setOpacity(parameters.value);
-      });
+      // Special clause for fire history layer
+      if (layer.hasOwnProperty('id') && layer.id === KEYS.fireHistory) {
+        let layers = layersConfig.filter(layerConfig => layerConfig && layerConfig.label === 'Fire history');
+        layers.forEach(subLayer => {
+          let firesHistoryLayer = app.map.getLayer(subLayer.id);
+          firesHistoryLayer.setOpacity(parameters.value);
+        });
+      }
     }
   },
 

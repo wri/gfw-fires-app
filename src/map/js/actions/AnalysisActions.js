@@ -78,17 +78,25 @@ class AnalysisActions {
   }
 
   initAreas () {
-    all({
-      islands: esriRequest(analysisConfig.requests.islands),
-      provinces: esriRequest(analysisConfig.requests.provinces),
-      countries: esriRequest(analysisConfig.requests.countries),
-      adm1: esriRequest(analysisConfig.requests.adm1)
-    }).then((responses) => {
+    let islands = [], provinces = [], countries = [], adm1 = [];
+    // There is some very wrong with WRI's AGS servers - it seems as if it cannot handle simultaneous requests, promises chaining for now
+    esriRequest(analysisConfig.requests.islands)
+    .then(result => {
+      islands = result.features.map((f) => f.attributes.ISLAND).sort();
+      return esriRequest(analysisConfig.requests.provinces);
+    }).then(result => {
+      provinces = result.features.map((f) => f.attributes.PROVINCE).sort();
+      return esriRequest(analysisConfig.requests.countries);
+    }).then(result => {
+      countries = result.features.map((f) => f.attributes.NAME_0).sort();
+      return esriRequest(analysisConfig.requests.adm1);
+    }).then(result => {
+      adm1 = result.features.map((f) => f.attributes);
       this.dispatch({
-        islands: responses.islands.features.map((f) => f.attributes.ISLAND).sort(),
-        provinces: responses.provinces.features.map((f) => f.attributes.PROVINCE).sort(),
-        countries: responses.countries.features.map((f) => f.attributes.NAME_0).sort(),
-        adm1: responses.adm1.features.map((f) => f.attributes )
+        islands,
+        provinces,
+        countries,
+        adm1
       });
     });
   }

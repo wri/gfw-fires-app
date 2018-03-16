@@ -24,17 +24,16 @@
       meta: {
         title: 'Global Forest Watch Fires'
       },
-      explore: 'EXPLORE NOW!',
+      explore: 'EXPLORE NOW',
       exploreAlt: 'Explore Now',
-      view: 'VIEW MAP!',
+      view: 'VIEW MAP',
       slider: {
         moreInfo: 'MORE INFO'
       },
       slides: [
         ['EXPLORE', 'EXPLORE THE INTERACTIVE MAP'],
-        ['LATEST FIRES', 'FIRES OCCURRING IN PEATLAND IN THE LAST 7 DAYS'],
-        ['LATEST IMAGERY', 'VIEW THE LATEST IMAGERY'],
-        ['FIRE ALERTS', 'SIGN UP FOR SMS AND EMAIL FIRE ALERTS'],
+        ['FIRE REPORT', 'VIEW FIRE STATISTICS FOR ANY COUNTRY'],
+        ['FIRE ALERTS', 'RECEIVE ALERTS WHEN FIRES OCCUR IN YOUR AREA'],
         ['SUBMIT A STORY', 'SHARE YOUR EXPERIENCES']
       ],
       alerts: {
@@ -42,7 +41,7 @@
         description: 'Sign up to receive email or SMS fire alerts in your area of interest.',
         button: 'SIGN UP NOW',
         modal: {
-          title: 'Sign up to receive fire alerts!',
+          title: 'Sign up to receive fire alerts',
           content: [
             'To sign up for clearance or fire alerts, go to the',
             'Map',

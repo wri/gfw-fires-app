@@ -3,6 +3,7 @@ extends ../_layout.jade
 block append head-styles
   link(rel='stylesheet', href='/map/css/map.css?#{meta.version}')
   link(rel='icon', href='/css/images/favicon.png')
+  link(rel='stylesheet', href='https://unpkg.com/react-select/dist/react-select.css')
   style
     :stylus
       @require 'css/_base'
@@ -39,12 +40,15 @@ block append head-scripts
         ['react-dom', 'vendors/react/react-dom.min'],
         ['react-motion', 'vendors/react-motion/build/react-motion'],
         ['lodash', 'vendors/lodash/lodash.min'],
-        //- ['jquery', 'vendors/jquery/dist/jquery.min'],
         ['jquery', 'https://cdn.jsdelivr.net/jquery/2.1.4/jquery.min.js'],
         ['babel-polyfill', 'vendors/babel-polyfill/browser-polyfill'],
         ['formsy-react', 'vendors/formsy-react/release/formsy-react'],
         ['intlTelInput', 'vendors/intl-tel-input/build/js/intlTelInput'],
-        ['chosen', 'vendors/chosen/chosen.jquery']
+        ['chosen', 'vendors/chosen/chosen.jquery'],
+        ['react-select', 'vendors/react-select/dist/react-select.min'],
+        ['react-input-autosize', 'vendors/react-input-autosize/dist/react-input-autosize.min'],
+        ['prop-types', 'vendors/prop-types/prop-types.min'],
+        ['classnames', 'vendors/classnames/index']
       ],
       deps: ['dojo/domReady!'],
       callback: function () {

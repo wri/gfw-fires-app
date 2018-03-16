@@ -1979,7 +1979,6 @@ define([
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
                 var districtLabel = PRINT_CONFIG.reportOptions.countryAdminTypes && PRINT_CONFIG.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction';
                 var subdistrictLabel = PRINT_CONFIG.reportOptions.countryAdminTypes && PRINT_CONFIG.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? PRINT_CONFIG.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province';
-                console.log('new dis', districtLabel);
                 if (districtFireTable) {
                   table = '<table class="fires-table"><tr><th class="admin-type-1">' + districtLabel + '</th>';
                 } else if (subdistrictFireTable) {
@@ -1989,8 +1988,6 @@ define([
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
                   fields = [fields[0], fields[2]];
                 }
-
-                console.log('%c Table', 'color:red;font-weight:bolder', table);
 
                 var filtered = arrayUtils.filter(features, function(feature) {
                     return feature.attributes.fire_count !== 0;
@@ -2663,7 +2660,6 @@ define([
                 var extent = graphicsUtils.graphicsExtent(results.features);
 
                 arrayUtils.forEach(mapkeys, function(key) {
-
                   for (map in PRINT_CONFIG.maps) {
                     if (extent) {
                       if (query.where.includes("NAME_0 = 'United States'")) {
@@ -2673,7 +2669,7 @@ define([
                         unitedStatesExtent.xmax = -2191679.23;
                         unitedStatesExtent.ymax = 12133002.21;
                         unitedStatesExtent.spatialReference = new SpatialReference({wkid: 102100});
-                        PRINT_CONFIG.maps[map].setExtent(unitedStatesExtent, true);
+                        PRINT_CONFIG.maps[map].setExtent(unitedStatesExtent, false);
                       } else {
                         PRINT_CONFIG.maps[map].setExtent(extent, true);
                       }

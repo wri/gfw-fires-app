@@ -37,10 +37,13 @@ define(['exports'], function (exports) {
     _createClass(DateHelper, [{
       key: 'getDate',
       value: function getDate(date) {
-        var whatDay = this.getDayOfWeek(date);
-        var whatMonth = this.getMonth(date);
-        var fullDate = whatDay + ', ' + date.date() + ' ' + whatMonth + ' ' + date.year();
-        return fullDate;
+        // NEW FORMAT (02/12/17)
+        return date.format('DD MMM YYYY').toUpperCase();
+        // OLD FORMAT
+        // let whatDay = this.getDayOfWeek(date);
+        // let whatMonth = this.getMonth(date);
+        // let fullDate = whatDay + ', ' + date.date() + ' ' + whatMonth + ' ' + date.year();
+        // return fullDate;
       }
     }, {
       key: 'getDayOfWeek',

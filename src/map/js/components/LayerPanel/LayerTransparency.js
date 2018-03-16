@@ -1,4 +1,3 @@
-// import layerActions from 'actions/LayerActions';
 import LayersHelper from 'helpers/LayersHelper';
 import React from 'react';
 
@@ -10,7 +9,6 @@ export default class LayerTransparency extends React.Component {
   }
 
   render () {
-    //<div className={`layer-transparency ${this.props.visible ? '' : 'hidden'}`}>
     return (
       <div className='layer-transparency'>
         <div>Transparency</div>
