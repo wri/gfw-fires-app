@@ -57,7 +57,9 @@ define(['exports'], function (exports) {
     digitalGlobe4: 'dg-05',
     boundingBoxes: 'boundingBoxes',
     twitter: 'twitter',
-    fireStories: 'fireStories'
+    fireStories: 'fireStories',
+
+    planetBasemap: 'planetBasemap'
   };
 
   exports.default = KEYS;

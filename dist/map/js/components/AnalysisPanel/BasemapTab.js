@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/AnalysisActions', 'actions/MapActions', 'stores/MapStore', 'js/constants', 'react'], function (exports, _config, _ShareHelper, _ModalActions, _AnalysisActions, _MapActions, _MapStore, _constants, _react) {
+define(['exports', 'js/config', 'actions/MapActions', 'stores/MapStore', 'js/constants', 'js/components/AnalysisPanel/PlanetBasemaps', 'react'], function (exports, _config, _MapActions, _MapStore, _constants, _PlanetBasemaps, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6,6 +6,8 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
   });
 
   var _constants2 = _interopRequireDefault(_constants);
+
+  var _PlanetBasemaps2 = _interopRequireDefault(_PlanetBasemaps);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -63,8 +65,6 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
-  var useSvg = '<use xlink:href="#shape-info" />';
-
   var BasemapTab = function (_React$Component) {
     _inherits(BasemapTab, _React$Component);
 
@@ -75,21 +75,25 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
 
       _this.clickedBasemap = function (evt) {
         var id = evt.currentTarget.getAttribute('data-basemap');
-        if (id === _constants2.default.landsat8) {
-          // mapActions.changeBasemap(id);
-          _MapActions.mapActions.setBasemap(id);
-        } else {
-          _MapActions.mapActions.setBasemap(id);
-        }
+        _MapActions.mapActions.changeBasemap(id);
       };
 
       _this.handleCheckToggle = function (evt) {
         _MapActions.mapActions.updateOverlays(evt.target.id);
       };
 
+      _this.displayPlanetBasemaps = function () {
+        _this.setState({ showPlanetBasemaps: true });
+      };
+
+      _this.hidePlanetBasemaps = function () {
+        _this.setState({ showPlanetBasemaps: false });
+      };
+
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       var defaultState = _MapStore.mapStore.getState();
       _this.state = {
+        showPlanetBasemaps: false,
         basemapGalleryOpen: false,
         activeBasemap: defaultState.activeBasemap,
         overlaysVisible: defaultState.overlaysVisible
@@ -233,6 +237,17 @@ define(['exports', 'js/config', 'helpers/ShareHelper', 'actions/ModalActions', '
                   'div',
                   { className: 'basemap-label' },
                   _config.controlPanelText.landsat8
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { 'data-basemap': _constants2.default.PlanetBasemaps, className: 'basemap-item', onMouseEnter: this.displayPlanetBasemaps, onMouseLeave: this.hidePlanetBasemaps },
+                _react2.default.createElement(_PlanetBasemaps2.default, { visible: this.state.showPlanetBasemaps, basemaps: this.props.planetBasemaps }),
+                _react2.default.createElement('span', { className: 'basemap-thumbnail landsat-basemap' }),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'basemap-label' },
+                  'Planet'
                 )
               )
             )

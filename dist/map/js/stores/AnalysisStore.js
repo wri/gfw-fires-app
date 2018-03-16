@@ -66,6 +66,8 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.countries = [];
       this.adm1 = [];
 
+      this.planetBasemaps = [];
+
       this.bindListeners({
         setAnalysisType: _AnalysisActions.analysisActions.setAnalysisType,
         toggleDrawToolbar: _AnalysisActions.analysisActions.toggleDrawToolbar,
@@ -83,7 +85,9 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
         toggleTimelineVisibility: _AnalysisActions.analysisActions.toggleTimelineVisibility,
         toggleAnalysisSource: _AnalysisActions.analysisActions.toggleAnalysisSource,
         initAreas: _AnalysisActions.analysisActions.initAreas,
-        toggleAreaIslandsActive: _AnalysisActions.analysisActions.toggleAreaIslandsActive
+        toggleAreaIslandsActive: _AnalysisActions.analysisActions.toggleAreaIslandsActive,
+
+        savePlanetBasemaps: _AnalysisActions.analysisActions.savePlanetBasemaps
       });
     }
 
@@ -194,6 +198,11 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       key: 'toggleAreaIslandsActive',
       value: function toggleAreaIslandsActive() {
         this.areaIslandsActive = !this.areaIslandsActive;
+      }
+    }, {
+      key: 'savePlanetBasemaps',
+      value: function savePlanetBasemaps(basemaps) {
+        this.planetBasemaps = basemaps;
       }
     }]);
 

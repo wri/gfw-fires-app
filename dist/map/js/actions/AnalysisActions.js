@@ -133,6 +133,11 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
         this.dispatch();
       }
     }, {
+      key: 'savePlanetBasemaps',
+      value: function savePlanetBasemaps(basemaps) {
+        this.dispatch(basemaps);
+      }
+    }, {
       key: 'initAreas',
       value: function initAreas() {
         var _this = this;
