@@ -66,7 +66,8 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       this.countries = [];
       this.adm1 = [];
 
-      this.planetBasemaps = [];
+      this.monthlyPlanetBasemaps = [];
+      this.quarterlyPlanetBasemaps = [];
 
       this.bindListeners({
         setAnalysisType: _AnalysisActions.analysisActions.setAnalysisType,
@@ -87,7 +88,8 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
         initAreas: _AnalysisActions.analysisActions.initAreas,
         toggleAreaIslandsActive: _AnalysisActions.analysisActions.toggleAreaIslandsActive,
 
-        savePlanetBasemaps: _AnalysisActions.analysisActions.savePlanetBasemaps
+        saveMonthlyPlanetBasemaps: _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps,
+        saveQuarterlyPlanetBasemaps: _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps
       });
     }
 
@@ -203,6 +205,16 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
       key: 'savePlanetBasemaps',
       value: function savePlanetBasemaps(basemaps) {
         this.planetBasemaps = basemaps;
+      }
+    }, {
+      key: 'saveMonthlyPlanetBasemaps',
+      value: function saveMonthlyPlanetBasemaps(basemaps) {
+        this.monthlyPlanetBasemaps = basemaps;
+      }
+    }, {
+      key: 'saveQuarterlyPlanetBasemaps',
+      value: function saveQuarterlyPlanetBasemaps(basemaps) {
+        this.quarterlyPlanetBasemaps = basemaps;
       }
     }]);
 

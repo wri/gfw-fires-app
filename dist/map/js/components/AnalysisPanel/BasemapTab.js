@@ -238,17 +238,6 @@ define(['exports', 'js/config', 'actions/MapActions', 'stores/MapStore', 'js/con
                   { className: 'basemap-label' },
                   _config.controlPanelText.landsat8
                 )
-              ),
-              _react2.default.createElement(
-                'div',
-                { 'data-basemap': _constants2.default.PlanetBasemaps, className: 'basemap-item', onMouseEnter: this.displayPlanetBasemaps, onMouseLeave: this.hidePlanetBasemaps },
-                _react2.default.createElement(_PlanetBasemaps2.default, { visible: this.state.showPlanetBasemaps, basemaps: this.props.planetBasemaps }),
-                _react2.default.createElement('span', { className: 'basemap-thumbnail landsat-basemap' }),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'basemap-label' },
-                  'Planet'
-                )
               )
             )
           )

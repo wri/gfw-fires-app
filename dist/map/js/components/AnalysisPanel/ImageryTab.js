@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerCheckbox', 'js/config', 'stores/MapStore', 'js/constants', 'react'], function (exports, _ImageryComponent, _LayerCheckbox, _config, _MapStore, _constants, _react) {
+define(['exports', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerCheckbox', 'js/config', 'stores/MapStore', 'js/constants', 'react', 'components/AnalysisPanel/PlanetImagery'], function (exports, _ImageryComponent, _LayerCheckbox, _config, _MapStore, _constants, _react, _PlanetImagery) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -12,6 +12,8 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'components/LayerPa
   var _constants2 = _interopRequireDefault(_constants);
 
   var _react2 = _interopRequireDefault(_react);
+
+  var _PlanetImagery2 = _interopRequireDefault(_PlanetImagery);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -123,7 +125,8 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'components/LayerPa
             _LayerCheckbox2.default,
             { key: dgLayer.id, childrenVisible: this.props.imageryOpen, layer: dgLayer, checked: activeLayers.indexOf(dgLayer.id) > -1 },
             _react2.default.createElement(_ImageryComponent2.default, _extends({}, this.state, { options: dgLayer.calendar }))
-          )
+          ),
+          _react2.default.createElement(_PlanetImagery2.default, { monthlyBasemaps: this.props.monthlyPlanetBasemaps, quarterlyBasemaps: this.props.quarterlyPlanetBasemaps })
         );
       }
     }]);
