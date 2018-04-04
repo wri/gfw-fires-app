@@ -33,7 +33,7 @@ export default class ImageryTab extends React.Component {
           <ImageryComponent {...this.state} options={dgLayer.calendar} />
         </LayerCheckbox>
 
-        <PlanetImagery />
+        <PlanetImagery monthlyBasemaps={this.props.monthlyPlanetBasemaps} quarterlyBasemaps={this.props.quarterlyPlanetBasemaps} />
       </div>
     );
   }

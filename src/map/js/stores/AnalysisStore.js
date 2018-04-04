@@ -29,7 +29,8 @@ class AnalysisStore {
     this.countries = [];
     this.adm1 = [];
 
-    this.planetBasemaps = [];
+    this.monthlyPlanetBasemaps = [];
+    this.quarterlyPlanetBasemaps = [];
 
     this.bindListeners({
       setAnalysisType: analysisActions.setAnalysisType,
@@ -50,7 +51,8 @@ class AnalysisStore {
       initAreas: analysisActions.initAreas,
       toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive,
 
-      savePlanetBasemaps: analysisActions.savePlanetBasemaps
+      saveMonthlyPlanetBasemaps: analysisActions.saveMonthlyPlanetBasemaps,
+      saveQuarterlyPlanetBasemaps: analysisActions.saveQuarterlyPlanetBasemaps
     });
   }
 
@@ -148,6 +150,14 @@ class AnalysisStore {
 
   savePlanetBasemaps (basemaps) {
     this.planetBasemaps = basemaps;
+  }
+
+  saveMonthlyPlanetBasemaps(basemaps) {
+    this.monthlyPlanetBasemaps = basemaps;
+  }
+
+  saveQuarterlyPlanetBasemaps(basemaps) {
+    this.quarterlyPlanetBasemaps = basemaps;
   }
 
 }

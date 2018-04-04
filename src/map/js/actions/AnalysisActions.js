@@ -73,7 +73,11 @@ class AnalysisActions {
     this.dispatch();
   }
 
-  savePlanetBasemaps (basemaps) {
+  saveMonthlyPlanetBasemaps (basemaps) {
+    this.dispatch(basemaps);
+  }
+
+  saveQuarterlyPlanetBasemaps(basemaps) {
     this.dispatch(basemaps);
   }
 

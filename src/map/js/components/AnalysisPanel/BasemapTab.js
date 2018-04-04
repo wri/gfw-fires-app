@@ -87,7 +87,6 @@ export default class BasemapTab extends React.Component {
             </div>
 
             <div data-basemap={KEYS.PlanetBasemaps} className={`basemap-item`} onMouseEnter={this.displayPlanetBasemaps} onMouseLeave={this.hidePlanetBasemaps}>
-              <PlanetBasemaps visible={this.state.showPlanetBasemaps} basemaps={this.props.planetBasemaps} />
               <span className={`basemap-thumbnail landsat-basemap`} />
               <div className='basemap-label'>Planet</div>
             </div>

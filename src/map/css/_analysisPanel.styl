@@ -656,20 +656,46 @@
 .planet-category {
   height 30px
   width 100%
-  padding 5px50
-  border 1px solid red
+  padding 5px
+  text-align center
+  border 1px solid #e7002f
   &.active {
     color white
-    background-color red
+    background-color #e7002f
+  }
+}
+
+.planet-basemap {
+  width 25%
+  font-size 13px;
+  padding 5px
+  text-align center
+  &:hover {
+    background-color rgba(231,0,47,.35)
+    cursor pointer
+  }
+  &.active {
+    color white
+    background-color #e7002f
   }
 }
 
 .flex {
   display flex
+  &.flex-column {
+    flex-direction column
+  }
+  &.flex-wrap {
+    flex-wrap wrap
+  }
 }
 
 .justify-center {
   justify-content center
+}
+
+.justify-between {
+  justify-content space-between
 }
 
 /* IE10+ CSS styles go here */
