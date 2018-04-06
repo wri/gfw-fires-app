@@ -1,4 +1,5 @@
 import React from 'react';
+import Select from 'react-select';
 import { mapActions } from 'actions/MapActions';
 import { analysisActions } from 'actions/AnalysisActions';
 
@@ -63,12 +64,12 @@ export default class PlanetImagery extends React.Component {
         const { monthlyBasemaps, quarterlyBasemaps } = this.props;
         const { activeCategory, activePlanetBasemap } = this.state;
         const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-        return filterBasemaps.map((basemap, idx) => {
+
+        return filterBasemaps.map(basemap => {
             const { url, title } = basemap;
             const pieces = title.split(' ');
 
             const content = activeCategory === 'PLANET-MONTHLY' ? pieces[2] + ' ' + pieces[3] : pieces[2];
-
             let formattedTitle = '';
             if (activeCategory === 'PLANET-MONTHLY') {
                 formattedTitle = window.Kalendae.moment(content, 'YYYY MM').format('MMM YYYY');
@@ -76,38 +77,72 @@ export default class PlanetImagery extends React.Component {
                 const subpieces = content.split('q');
                 formattedTitle = `Quarter ${subpieces[1]} ${subpieces[0]}`;
             }
-
-            return (
-                <div
-                    key={idx}
-                    data-basemap={url}
-                    onClick={this.handleBasemap}
-                    className={`planet-basemap ${activePlanetBasemap === title ? 'active' : ''}`}
-                    onClick={this.handleBasemap}
-                >
-                    {formattedTitle}
-                </div>
-            );
+            return {
+                value: url,
+                label: formattedTitle
+            };
         });
+
+        // return filterBasemaps.map((basemap, idx) => {
+        //     const { url, title } = basemap;
+        //     const pieces = title.split(' ');
+
+        //     const content = activeCategory === 'PLANET-MONTHLY' ? pieces[2] + ' ' + pieces[3] : pieces[2];
+
+        //     let formattedTitle = '';
+        //     if (activeCategory === 'PLANET-MONTHLY') {
+        //         formattedTitle = window.Kalendae.moment(content, 'YYYY MM').format('MMM YYYY');
+        //     } else {
+        //         const subpieces = content.split('q');
+        //         formattedTitle = `Quarter ${subpieces[1]} ${subpieces[0]}`;
+        //     }
+
+        //     return (
+        //         <div
+        //             key={idx}
+        //             data-basemap={url}
+        //             onClick={this.handleBasemap}
+        //             className={`planet-basemap ${activePlanetBasemap === title ? 'active' : ''}`}
+        //             onClick={this.handleBasemap}
+        //         >
+        //             {formattedTitle}
+        //         </div>
+        //     );
+        // });
     }
 
-    handleBasemap = (evt) => {
+    handleBasemap = selected => {
+        const { label, value } = selected;
         const { monthlyBasemaps, quarterlyBasemaps } = this.props;
         const { activeCategory } = this.state;
-        const url = evt.currentTarget.getAttribute('data-basemap');
         const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-        const choice = filterBasemaps.find(basemap => basemap.url === url);
+        const choice = filterBasemaps.find(basemap => basemap.url === value);
         if (choice) {
             this.setState({
-                activePlanetBasemap: choice.title
+                activePlanetBasemap: selected
             }, () => {
                 mapActions.changeBasemap(choice);
             });
         }
     }
 
+    // handleBasemap = (evt) => {
+    //     const { monthlyBasemaps, quarterlyBasemaps } = this.props;
+    //     const { activeCategory } = this.state;
+    //     const url = evt.currentTarget.getAttribute('data-basemap');
+    //     const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+    //     const choice = filterBasemaps.find(basemap => basemap.url === url);
+    //     if (choice) {
+    //         this.setState({
+    //             activePlanetBasemap: choice.title
+    //         }, () => {
+    //             mapActions.changeBasemap(choice);
+    //         });
+    //     }
+    // }
+
     render () {
-        const { checked, activeCategory } = this.state;
+        const { checked, activeCategory, activePlanetBasemap } = this.state;
         return (
             <div className={`layer-checkbox relative ${checked ? 'active' : ''}`}>
                 <span className='toggle-switch pointer' onClick={this.toggle.bind(this)}>
@@ -117,7 +152,7 @@ export default class PlanetImagery extends React.Component {
                     Planet Basemaps
                 </span>
                 <div className={`layer-content-container flex flex-column justify-center ${checked ? '' : 'hidden'}`}>
-                    <div className='flex'>
+                    <div className='flex imagery-category-container'>
                         <div
                             id='PLANET-MONTHLY'
                             onClick={this.setCategory.bind(this)}
@@ -133,8 +168,17 @@ export default class PlanetImagery extends React.Component {
                             Quarterly
                         </div>
                     </div>
-                    <div className='flex flex-wrap justify-between'>
-                        {this.createBasemapOptions()}
+                    <div className='flex justify-center'>
+                        {/* {this.createBasemapOptions()} */}
+                        <Select
+                            multi={false}
+                            value={activePlanetBasemap}
+                            options={this.createBasemapOptions()}
+                            onChange={this.handleBasemap.bind(this)}
+                            style={{
+                                width: '200px'
+                            }}
+                        />
                     </div>
                 </div>
             </div>
