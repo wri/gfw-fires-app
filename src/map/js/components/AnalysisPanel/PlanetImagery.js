@@ -82,33 +82,6 @@ export default class PlanetImagery extends React.Component {
                 label: formattedTitle
             };
         });
-
-        // return filterBasemaps.map((basemap, idx) => {
-        //     const { url, title } = basemap;
-        //     const pieces = title.split(' ');
-
-        //     const content = activeCategory === 'PLANET-MONTHLY' ? pieces[2] + ' ' + pieces[3] : pieces[2];
-
-        //     let formattedTitle = '';
-        //     if (activeCategory === 'PLANET-MONTHLY') {
-        //         formattedTitle = window.Kalendae.moment(content, 'YYYY MM').format('MMM YYYY');
-        //     } else {
-        //         const subpieces = content.split('q');
-        //         formattedTitle = `Quarter ${subpieces[1]} ${subpieces[0]}`;
-        //     }
-
-        //     return (
-        //         <div
-        //             key={idx}
-        //             data-basemap={url}
-        //             onClick={this.handleBasemap}
-        //             className={`planet-basemap ${activePlanetBasemap === title ? 'active' : ''}`}
-        //             onClick={this.handleBasemap}
-        //         >
-        //             {formattedTitle}
-        //         </div>
-        //     );
-        // });
     }
 
     handleBasemap = selected => {
@@ -125,21 +98,6 @@ export default class PlanetImagery extends React.Component {
             });
         }
     }
-
-    // handleBasemap = (evt) => {
-    //     const { monthlyBasemaps, quarterlyBasemaps } = this.props;
-    //     const { activeCategory } = this.state;
-    //     const url = evt.currentTarget.getAttribute('data-basemap');
-    //     const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-    //     const choice = filterBasemaps.find(basemap => basemap.url === url);
-    //     if (choice) {
-    //         this.setState({
-    //             activePlanetBasemap: choice.title
-    //         }, () => {
-    //             mapActions.changeBasemap(choice);
-    //         });
-    //     }
-    // }
 
     render () {
         const { checked, activeCategory, activePlanetBasemap } = this.state;
@@ -168,12 +126,11 @@ export default class PlanetImagery extends React.Component {
                             Quarterly
                         </div>
                     </div>
-                    <div className='flex justify-center'>
-                        {/* {this.createBasemapOptions()} */}
+                    <div className='planet-small-margin flex'>
                         <Select
                             multi={false}
                             value={activePlanetBasemap}
-                            options={this.createBasemapOptions()}
+                            options={this.createBasemapOptions().reverse()}
                             onChange={this.handleBasemap.bind(this)}
                             style={{
                                 width: '200px'
