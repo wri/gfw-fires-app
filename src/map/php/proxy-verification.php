@@ -142,9 +142,9 @@ function getMbstringMessage($mbstring)
 
 function versionPhpCheck()
 {
-    if (version_compare(PHP_VERSION, '5.4.2') >= 0) {
+    if (version_compare(PHP_VERSION, '5.6') >= 0) {
         return "Pass";
-    }elseif(version_compare(PHP_VERSION, '5.3.0', '>=') && version_compare(PHP_VERSION, '5.4.1', '<=')){
+    }elseif(version_compare(PHP_VERSION, '5.3.0', '>=') && version_compare(PHP_VERSION, '5.6', '<=')){
         return "Warning";
     }else{
         return "Fail";
@@ -155,7 +155,6 @@ $bool = array(true=>"Pass", false=>"Fail");
 $version = versionPhpCheck();
 $extensions = get_loaded_extensions();
 $writeable = can_write();
-$openssl = in_array('openssl', $extensions);
 $pdo_sqlite = in_array('pdo_sqlite', $extensions);
 $curl = in_array('curl', $extensions);
 $curl_version = curl_version();
@@ -172,18 +171,13 @@ $curl_version = curl_version();
 <table>
 
 <tr>
-<td><span>Check PHP version 5.4.2 or newer?</span></td>
+<td><span>Check PHP version 5.6 or newer?</span></td>
 <td><?php echo '<span class="'. strtolower($version) . '">' . $version . '</span> [v' . phpversion() . ']' ; ?></td>
 </tr>
 
 <tr>
 <td><span>Check if directory is writable?</span></td>
 <td><?php echo '<span class="'. strtolower($bool[$writeable]) . '">' . $bool[$writeable] . '</span>'; ?></td>
-</tr>
-
-<tr>
-<td><span>Check for OpenSSL extension?</span></td>
-<td><?php echo '<span class="'. strtolower($bool[$openssl]) . '">' . $bool[$openssl] . '</span>'; ?></td>
 </tr>
 
 <tr>
