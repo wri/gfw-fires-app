@@ -1255,17 +1255,6 @@ class Proxy {
 
     }
 
-
-    // public function isUserLogin()
-    // {
-
-    //     if (isset($this->resource['username']) && isset($this->resource['password'])) {
-
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
     public function isUserLogin()
     {
       $user = getenv($this->resource['username']);
@@ -1360,28 +1349,6 @@ class Proxy {
 
     }
 
-
-    // public function doUserPasswordLogin() {
-
-    //     $this->proxyLog->log("Resource using ArcGIS Server security");
-
-    //     $tokenServiceUri = $this->getTokenEndpoint();
-
-    //     $this->proxyPost($tokenServiceUri, array (
-    //         'request' => 'getToken',
-    //         'f' => 'json',
-    //         'referer' => $this->referer,
-    //         'expiration' => 60,
-    //         'username' => $this->resource['username'],
-    //         'password' => $this->resource['password']
-    //     ));
-
-    //     $tokenResponse = json_decode($this->proxyBody, true);
-
-    //     $token = $tokenResponse['token'];
-
-    //     return $token;
-    // }
     public function doUserPasswordLogin() {
         $this->proxyLog->log("Resource using ArcGIS Server security");
         $tokenServiceUri = $this->getTokenEndpoint();
