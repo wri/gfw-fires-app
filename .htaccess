@@ -1,18 +1,14 @@
 RewriteEngine on
-# RewriteCond %{REQUEST_URI} http://fires-staging.globalforestwatch.org/index.html
-# RewriteRule https://fires-staging.globalforestwatch.org/home/
 
-Redirect /index.html /home
-Redirect /index.php /home
+RewriteCond %{REQUEST_URI} fires-staging.globalforestwatch.org/
+Redirect ^(.*)$ https://fires-staging.globalforestwatch.org/home/
 
-# Redirect http://fires-staging.globalforestwatch.org/index.html https://fires-staging.globalforestwatch.org/home/
-# Redirect https://fires-staging.globalforestwatch.org/index.html https://fires-staging.globalforestwatch.org/home/
+RewriteCond %{REQUEST_URI} fires.globalforestwatch.org/
+Redirect ^(.*)$ https://fires.globalforestwatch.org/home/
 
-# Redirect http://fires-staging.globalforestwatch.org/index.php https://fires-staging.globalforestwatch.org/home/
-# Redirect https://fires-staging.globalforestwatch.org/index.php https://fires-staging.globalforestwatch.org/home/
-
-# RewriteCond %{HTTPS} on
-# RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# HTTP -> HTTPS
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
 
 # Enable Compression
 SetOutputFilter DEFLATE
