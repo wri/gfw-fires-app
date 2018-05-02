@@ -3,12 +3,12 @@
 /**
  * PHP Proxy Client
  *
- * Version 1.1.1-beta
+ * Version 1.1.2
  * See https://github.com/Esri/resource-proxy for more information.
  *
  */
 
-$version = "1.1.1-beta";
+$version = "1.1.2";
 
 error_reporting(0);
 
@@ -575,37 +575,38 @@ class Proxy {
 
     public function getResponse()
     {
-        //Remove built in PHP headers
-
-
+        // Remove built in PHP headers (except for session cookie)
+        // headers_list() - Returns a list of response headers sent (or ready to send)
         foreach(headers_list() as $key => $value)
         {
-            $pos = strripos($value, ":");
+            $pos = stripos($value, ":");
 
             $header_type = substr($value,0,$pos);
 
             if ($this->contains($value, "Cookie")) { //Don't remove the PHP session cookie
-
                 continue;
-
             }
 
             header_remove($header_type);
-
         }
 
-        //Remove scenario causing provisional header error message
-
         foreach ($this->headers as $key => $value) {
+            // TODO: Proxies should not return hop-by-hop header fields #362
 
-            if ($this->contains($value, "Transfer-Encoding: chunked")) { //See issue #75
+            // Reset the content-type for OGC WMS - issue #367
+            // Note: this might not be what everyone expects, but it helps some users
+            // TODO: make this configurable
+            if ($this->contains($value, "Content-Type: application/vnd.ogc.wms_xml")) {
+                $this->proxyLog->log("Adjusting Content-Type for WMS OGC: " . $value);
+                $value = "Content-Type: text/xml";
+            }
 
+            // Remove scenario causing provisional header error message - see issue #75
+            if ($this->contains($value, "Transfer-Encoding: chunked")) {
                 continue;
-
             }
 
             header($value, false);
-
         }
 
         header("Content-length: " . strlen($this->proxyBody)); //Issue 190 with truncated response, not sure how to gzip the data (or keep gzip via CURLOPT_ENCODING) without extension.
@@ -1040,7 +1041,7 @@ class Proxy {
         exit();
     }
 
-    public function proxyGet($url) {
+    public function proxyGet($url = null) {
 
         $this->response = null;
 
@@ -1172,10 +1173,13 @@ class Proxy {
 
                         rename($file["tmp_name"], $this->unlinkPath);
 
-                        $this->proxyData[$key] = "@" . $this->unlinkPath;
-
-                        $query_array[$key] = "@" . $this->unlinkPath;
-
+                        if (version_compare(PHP_VERSION, '5.6.0') >= 0) {
+                            $this->proxyData[$key]  = new CURLFile($this->unlinkPath);
+                            $query_array[$key] = new CURLFile($this->unlinkPath);
+                        } else { 
+                            $this->proxyData[$key] = "@" . $this->unlinkPath;
+                            $query_array[$key] = "@" . $this->unlinkPath;
+                        }
                     }
 
                 }
@@ -1251,16 +1255,14 @@ class Proxy {
 
     }
 
-
     public function isUserLogin()
     {
-
-        if (isset($this->resource['username']) && isset($this->resource['password'])) {
-
-            return true;
-        }
-
-        return false;
+      $user = getenv($this->resource['username']);
+      $pass = getenv($this->resource['password']);
+      if (isset($user) && isset($pass)) {
+          return true;
+      }
+      return false;
     }
 
     public function isAppLogin()
@@ -1347,26 +1349,19 @@ class Proxy {
 
     }
 
-
     public function doUserPasswordLogin() {
-
         $this->proxyLog->log("Resource using ArcGIS Server security");
-
         $tokenServiceUri = $this->getTokenEndpoint();
-
         $this->proxyPost($tokenServiceUri, array (
             'request' => 'getToken',
             'f' => 'json',
             'referer' => $this->referer,
             'expiration' => 60,
-            'username' => getenv($this->resource['username']),//getenv($this->resource['username'])
+            'username' => getenv($this->resource['username']),
             'password' => getenv($this->resource['password'])
         ));
-
         $tokenResponse = json_decode($this->proxyBody, true);
-
         $token = $tokenResponse['token'];
-
         return $token;
     }
 
@@ -1997,7 +1992,7 @@ class RateMeter
 
         $this->countCap = $ratelimit;
 
-        $this->rate = $ratelimit / $ratelimitperiod / 60;  //ratelimitperiod is designed to be in seconds
+        $this->rate = $ratelimit / $ratelimitperiod / 60;
 
         $this->ip = $_SERVER['REMOTE_ADDR'];
 
@@ -2746,7 +2741,7 @@ class XmlParser
 
     public $file;
 
-    function XmlParser($f = "proxy.config")
+    function __construct($f = "proxy.config")
     {
         if(trim($f) != "") { $this->loadFile($f);}
     }
@@ -2814,6 +2809,8 @@ class XmlParser
     function tagEnd($parser, $name)
     {
 
+        //http://www.php.net/manual/en/function.xml-parse.php
+
         $this->results[count($this->results)-2]['childrens'][] = $this->results[count($this->results)-1];
 
         if(count($this->results[count($this->results)-2]['childrens'] ) == 1)
@@ -2845,4 +2842,3 @@ $proxyObject = new Proxy($proxyConfig, $proxyLog);
 
 $proxyObject->getResponse();
 
-?>
