@@ -59,27 +59,43 @@ export default class PlanetImagery extends React.Component {
         const id = evt.target.id;
         this.setState({ activeCategory: id });
     }
+    
+    parseMonthlyTitle(title) {
+        // ex. formats 'Global Monthly 2016 01 Mosaic' OR 'Latest Monthly'
+        const words = title.split(' ');
+        const year = words[2];
+        const month = words[3];
+        if (year === undefined || month === undefined) {
+            return title;
+        } else {
+            const yyyyMM = year + ' ' + month;
+            const label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
+            return label;
+        }
+    }
+
+    parseQuarterlyTitle(title) {
+        const words = title.split(' ');
+        const yearQuarter = words[2];
+        if (yearQuarter === undefined) {
+            return title;
+        } else {
+            const [ year, quarter ] = yearQuarter.split('q');
+            const label = `Quarter ${quarter} ${year}`;
+            return label;
+        }
+    }
 
     createBasemapOptions () {
         const { monthlyBasemaps, quarterlyBasemaps } = this.props;
         const { activeCategory, activePlanetBasemap } = this.state;
         const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-
         return filterBasemaps.map(basemap => {
             const { url, title } = basemap;
-            const pieces = title.split(' ');
-
-            const content = activeCategory === 'PLANET-MONTHLY' ? pieces[2] + ' ' + pieces[3] : pieces[2];
-            let formattedTitle = '';
-            if (activeCategory === 'PLANET-MONTHLY') {
-                formattedTitle = window.Kalendae.moment(content, 'YYYY MM').format('MMM YYYY');
-            } else {
-                const subpieces = content.split('q');
-                formattedTitle = `Quarter ${subpieces[1]} ${subpieces[0]}`;
-            }
+            const label = activeCategory === 'PLANET-MONTHLY' ? this.parseMonthlyTitle(title) : this.parseQuarterlyTitle(title);
             return {
                 value: url,
-                label: formattedTitle
+                label: label
             };
         });
     }
