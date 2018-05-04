@@ -154,11 +154,13 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                                 var url = $(this).find('ResourceURL').attr('template');
                                 basemaps.push({ title: title, url: url });
                             });
+                            // const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
+                            // const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
                             var monthlyBasemaps = basemaps.filter(function (b) {
-                                return b.title.includes('Monthly');
+                                return b.title.indexOf('Monthly') >= 0;
                             });
                             var quarterlyBasemaps = basemaps.filter(function (b) {
-                                return b.title.includes('Quarterly');
+                                return b.title.indexOf('Quarterly') >= 0;
                             });
                             _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                             _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
