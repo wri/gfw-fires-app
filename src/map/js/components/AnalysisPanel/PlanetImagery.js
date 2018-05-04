@@ -27,8 +27,10 @@ export default class PlanetImagery extends React.Component {
                         const url = $(this).find('ResourceURL').attr('template');
                         basemaps.push({ title, url });
                     });
-                    const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
-                    const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
+                    // const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
+                    // const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
+                    const monthlyBasemaps = basemaps.filter(b => b.title.indexOf('Monthly') >= 0);
+                    const quarterlyBasemaps = basemaps.filter(b => b.title.indexOf('Quarterly') >= 0);
                     analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                     analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
                 } else {
