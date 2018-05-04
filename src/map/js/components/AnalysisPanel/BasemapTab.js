@@ -1,14 +1,11 @@
 import {analysisPanelText} from 'js/config';
-import {prepareStateForUrl} from 'helpers/ShareHelper';
-import {modalActions} from 'actions/ModalActions';
-import {analysisActions} from 'actions/AnalysisActions';
 import {mapActions} from 'actions/MapActions';
 import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
 import KEYS from 'js/constants';
-import React from 'react';
 
-let useSvg = '<use xlink:href="#shape-info" />';
+import PlanetBasemaps from 'js/components/AnalysisPanel/PlanetBasemaps';
+import React from 'react';
 
 export default class BasemapTab extends React.Component {
 
@@ -18,6 +15,7 @@ export default class BasemapTab extends React.Component {
     mapStore.listen(this.storeUpdated.bind(this));
     let defaultState = mapStore.getState();
     this.state = {
+      showPlanetBasemaps: false,
       basemapGalleryOpen: false,
       activeBasemap: defaultState.activeBasemap,
       overlaysVisible: defaultState.overlaysVisible
@@ -42,12 +40,7 @@ export default class BasemapTab extends React.Component {
 
   clickedBasemap = (evt) => {
     let id = evt.currentTarget.getAttribute('data-basemap');
-    if (id === KEYS.landsat8) {
-      // mapActions.changeBasemap(id);
-      mapActions.setBasemap(id);
-    } else {
-      mapActions.setBasemap(id);
-    }
+    mapActions.changeBasemap(id);
   };
 
   handleCheckToggle = (evt) => {
@@ -98,4 +91,11 @@ export default class BasemapTab extends React.Component {
     );
   }
 
+  displayPlanetBasemaps = () => {
+    this.setState({ showPlanetBasemaps: true });
+  }
+
+  hidePlanetBasemaps = () => {
+    this.setState({ showPlanetBasemaps: false });
+  }
 }

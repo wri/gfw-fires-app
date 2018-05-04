@@ -155,39 +155,68 @@ class MapActions {
 
   changeBasemap (basemap) {
     app.debug(`MapActions >>> changeBasemap - ${basemap}`);
-    let layer, labelLayer, baseLayer, landsatLayer;
-    // Basemap can only be one of two options, wri or satellite
+    let layer, labelLayer, baseLayer, landsatLayer, planetLayer;
+    // Base can be 4 options, WRI, Satellite, Planet, or generic
     if (basemap === KEYS.wriBasemap) {
+      // Hide all other basemaps
       landsatLayer = app.map.getLayer(KEYS.landsat8);
+      planetLayer = app.map.getLayer(KEYS.planetBasemap);
       if (landsatLayer) { landsatLayer.hide(); }
-      layer = app.map.getLayer(basemap);
-      labelLayer = app.map.getLayer(KEYS.wriBasemapLabel);
-      if (layer) { layer.show(); }
-      if (labelLayer) { labelLayer.show(); }
-      // Remove the satellite layer if its present, wri-basemap should be first in layer ids,
-      // if not, then the first layer is satellite
+      if (planetLayer) { planetLayer.hide(); }
+      // Show the correct basemap
       if (app.map.layerIds[0] !== basemap) {
         baseLayer = app.map.getLayer(app.map.layerIds[0]);
         app.map.removeLayer(baseLayer);
       }
+      layer = app.map.getLayer(KEYS.wriBasemap);
+      labelLayer = app.map.getLayer(KEYS.wriBasemapLabel);
+      if (layer) { layer.show(); }
+      if (labelLayer) { labelLayer.show(); }
     } else if (basemap === KEYS.landsat8) {
+      // Hide all other basemaps
+      planetLayer = app.map.getLayer(KEYS.planetBasemap);
+      if (planetLayer) { planetLayer.hide(); }
+      // Show the correct basemap
       layer = app.map.getLayer(basemap);
       if (layer) {
         on.once(layer, 'update-end', () => {
-          const currentBM = app.map.getLayer(app.map.layerIds[0]);
-          currentBM.hide();
+          const currentBasemap = app.map.getLayer(app.map.layerIds[0]);
+          currentBasemap.hide();
         });
         layer.show();
       }
-    } else {
+    } else if (typeof basemap === 'object') {
+      // Hide all other basemaps
+      layer = app.map.getLayer(KEYS.wriBasemap);
       landsatLayer = app.map.getLayer(KEYS.landsat8);
+      planetLayer = app.map.getLayer(KEYS.planetBasemap);
+      if (layer) { layer.hide(); }
       if (landsatLayer) { landsatLayer.hide(); }
-      // Hide the wri basemap and show the satellite basemap, KEYS.wriBasemap
-      app.map.setBasemap(basemap);
+      if (planetLayer) { app.map.removeLayer(planetLayer); }
+      // Show the correct basemap
+      const { url } = basemap;
+      // Note - we replace the url template with what the JS API 3.x API documents, it just works this way?
+      // ex "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/{TileMatrix}/{TileCol}/{TileRow}.png"
+      // ex  "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/${level}/${col}/${row}.png"
+      const slippyUrl = url.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
+      const planetBasemap = new WebTiledLayer(slippyUrl, {
+        id: KEYS.planetBasemap,
+        visible: true
+      });
+      app.map.setBasemap('topo');
+      app.map.addLayer(planetBasemap, 3);
+    } else {
+      // Hide all other basemaps
+      landsatLayer = app.map.getLayer(KEYS.landsat8);
+      planetLayer = app.map.getLayer(KEYS.planetBasemap);
       layer = app.map.getLayer(KEYS.wriBasemap);
       labelLayer = app.map.getLayer(KEYS.wriBasemapLabel);
+      if (landsatLayer) { landsatLayer.hide(); }
+      if (planetLayer) { planetLayer.hide(); }
       if (layer) { layer.hide(); }
       if (labelLayer) { labelLayer.hide(); }
+      // Show the correct basemap
+      app.map.setBasemap(basemap);
     }
   }
 

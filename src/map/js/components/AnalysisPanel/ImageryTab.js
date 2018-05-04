@@ -6,6 +6,8 @@ import {mapStore} from 'stores/MapStore';
 import KEYS from 'js/constants';
 import React from 'react';
 
+import PlanetImagery  from 'components/AnalysisPanel/PlanetImagery';
+
 export default class ImageryTab extends React.Component {
 
   constructor (props) {
@@ -30,6 +32,8 @@ export default class ImageryTab extends React.Component {
         <LayerCheckbox key={dgLayer.id} childrenVisible={this.props.imageryOpen} layer={dgLayer} checked={activeLayers.indexOf(dgLayer.id) > -1}>
           <ImageryComponent {...this.state} options={dgLayer.calendar} />
         </LayerCheckbox>
+
+        <PlanetImagery monthlyBasemaps={this.props.monthlyPlanetBasemaps} quarterlyBasemaps={this.props.quarterlyPlanetBasemaps} />
       </div>
     );
   }

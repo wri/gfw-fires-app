@@ -32,6 +32,12 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
     };
   }
 
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
@@ -233,14 +239,25 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         var layer = void 0,
             labelLayer = void 0,
             baseLayer = void 0,
-            landsatLayer = void 0;
-        // Basemap can only be one of two options, wri or satellite
+            landsatLayer = void 0,
+            planetLayer = void 0;
+        // Base can be 4 options, WRI, Satellite, Planet, or generic
         if (basemap === _constants2.default.wriBasemap) {
+          // Hide all other basemaps
           landsatLayer = app.map.getLayer(_constants2.default.landsat8);
+          planetLayer = app.map.getLayer(_constants2.default.planetBasemap);
           if (landsatLayer) {
             landsatLayer.hide();
           }
-          layer = app.map.getLayer(basemap);
+          if (planetLayer) {
+            planetLayer.hide();
+          }
+          // Show the correct basemap
+          if (app.map.layerIds[0] !== basemap) {
+            baseLayer = app.map.getLayer(app.map.layerIds[0]);
+            app.map.removeLayer(baseLayer);
+          }
+          layer = app.map.getLayer(_constants2.default.wriBasemap);
           labelLayer = app.map.getLayer(_constants2.default.wriBasemapLabel);
           if (layer) {
             layer.show();
@@ -248,36 +265,68 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
           if (labelLayer) {
             labelLayer.show();
           }
-          // Remove the satellite layer if its present, wri-basemap should be first in layer ids,
-          // if not, then the first layer is satellite
-          if (app.map.layerIds[0] !== basemap) {
-            baseLayer = app.map.getLayer(app.map.layerIds[0]);
-            app.map.removeLayer(baseLayer);
-          }
         } else if (basemap === _constants2.default.landsat8) {
+          // Hide all other basemaps
+          planetLayer = app.map.getLayer(_constants2.default.planetBasemap);
+          if (planetLayer) {
+            planetLayer.hide();
+          }
+          // Show the correct basemap
           layer = app.map.getLayer(basemap);
           if (layer) {
             _on2.default.once(layer, 'update-end', function () {
-              var currentBM = app.map.getLayer(app.map.layerIds[0]);
-              currentBM.hide();
+              var currentBasemap = app.map.getLayer(app.map.layerIds[0]);
+              currentBasemap.hide();
             });
             layer.show();
           }
-        } else {
+        } else if ((typeof basemap === 'undefined' ? 'undefined' : _typeof(basemap)) === 'object') {
+          // Hide all other basemaps
+          layer = app.map.getLayer(_constants2.default.wriBasemap);
           landsatLayer = app.map.getLayer(_constants2.default.landsat8);
+          planetLayer = app.map.getLayer(_constants2.default.planetBasemap);
+          if (layer) {
+            layer.hide();
+          }
           if (landsatLayer) {
             landsatLayer.hide();
           }
-          // Hide the wri basemap and show the satellite basemap, KEYS.wriBasemap
-          app.map.setBasemap(basemap);
+          if (planetLayer) {
+            app.map.removeLayer(planetLayer);
+          }
+          // Show the correct basemap
+          var url = basemap.url;
+
+          // Note - we replace the url template with what the JS API 3.x API documents, it just works this way?
+          // ex "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/{TileMatrix}/{TileCol}/{TileRow}.png"
+          // ex  "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/${level}/${col}/${row}.png"
+          var slippyUrl = url.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
+          var planetBasemap = new _WebTiledLayer2.default(slippyUrl, {
+            id: _constants2.default.planetBasemap,
+            visible: true
+          });
+          app.map.setBasemap('topo');
+          app.map.addLayer(planetBasemap, 3);
+        } else {
+          // Hide all other basemaps
+          landsatLayer = app.map.getLayer(_constants2.default.landsat8);
+          planetLayer = app.map.getLayer(_constants2.default.planetBasemap);
           layer = app.map.getLayer(_constants2.default.wriBasemap);
           labelLayer = app.map.getLayer(_constants2.default.wriBasemapLabel);
+          if (landsatLayer) {
+            landsatLayer.hide();
+          }
+          if (planetLayer) {
+            planetLayer.hide();
+          }
           if (layer) {
             layer.hide();
           }
           if (labelLayer) {
             labelLayer.hide();
           }
+          // Show the correct basemap
+          app.map.setBasemap(basemap);
         }
       }
     }, {

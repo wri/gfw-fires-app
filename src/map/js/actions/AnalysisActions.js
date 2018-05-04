@@ -73,6 +73,14 @@ class AnalysisActions {
     this.dispatch();
   }
 
+  saveMonthlyPlanetBasemaps (basemaps) {
+    this.dispatch(basemaps);
+  }
+
+  saveQuarterlyPlanetBasemaps(basemaps) {
+    this.dispatch(basemaps);
+  }
+
   initAreas () {
     let islands = [], provinces = [], countries = [], adm1 = [];
     // There is some very wrong with WRI's AGS servers - it seems as if it cannot handle simultaneous requests, promises chaining for now

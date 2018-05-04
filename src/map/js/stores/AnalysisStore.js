@@ -29,6 +29,9 @@ class AnalysisStore {
     this.countries = [];
     this.adm1 = [];
 
+    this.monthlyPlanetBasemaps = [];
+    this.quarterlyPlanetBasemaps = [];
+
     this.bindListeners({
       setAnalysisType: analysisActions.setAnalysisType,
       toggleDrawToolbar: analysisActions.toggleDrawToolbar,
@@ -46,7 +49,10 @@ class AnalysisStore {
       toggleTimelineVisibility: analysisActions.toggleTimelineVisibility,
       toggleAnalysisSource: analysisActions.toggleAnalysisSource,
       initAreas: analysisActions.initAreas,
-      toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive
+      toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive,
+
+      saveMonthlyPlanetBasemaps: analysisActions.saveMonthlyPlanetBasemaps,
+      saveQuarterlyPlanetBasemaps: analysisActions.saveQuarterlyPlanetBasemaps
     });
   }
 
@@ -140,6 +146,18 @@ class AnalysisStore {
 
   toggleAreaIslandsActive() {
     this.areaIslandsActive = !this.areaIslandsActive;
+  }
+
+  savePlanetBasemaps (basemaps) {
+    this.planetBasemaps = basemaps;
+  }
+
+  saveMonthlyPlanetBasemaps(basemaps) {
+    this.monthlyPlanetBasemaps = basemaps;
+  }
+
+  saveQuarterlyPlanetBasemaps(basemaps) {
+    this.quarterlyPlanetBasemaps = basemaps;
   }
 
 }

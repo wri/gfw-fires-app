@@ -133,6 +133,16 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
         this.dispatch();
       }
     }, {
+      key: 'saveMonthlyPlanetBasemaps',
+      value: function saveMonthlyPlanetBasemaps(basemaps) {
+        this.dispatch(basemaps);
+      }
+    }, {
+      key: 'saveQuarterlyPlanetBasemaps',
+      value: function saveQuarterlyPlanetBasemaps(basemaps) {
+        this.dispatch(basemaps);
+      }
+    }, {
       key: 'initAreas',
       value: function initAreas() {
         var _this = this;
