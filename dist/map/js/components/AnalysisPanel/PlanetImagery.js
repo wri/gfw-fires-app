@@ -15,6 +15,44 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
         };
     }
 
+    var _slicedToArray = function () {
+        function sliceIterator(arr, i) {
+            var _arr = [];
+            var _n = true;
+            var _d = false;
+            var _e = undefined;
+
+            try {
+                for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+                    _arr.push(_s.value);
+
+                    if (i && _arr.length === i) break;
+                }
+            } catch (err) {
+                _d = true;
+                _e = err;
+            } finally {
+                try {
+                    if (!_n && _i["return"]) _i["return"]();
+                } finally {
+                    if (_d) throw _e;
+                }
+            }
+
+            return _arr;
+        }
+
+        return function (arr, i) {
+            if (Array.isArray(arr)) {
+                return arr;
+            } else if (Symbol.iterator in Object(arr)) {
+                return sliceIterator(arr, i);
+            } else {
+                throw new TypeError("Invalid attempt to destructure non-iterable instance");
+            }
+        };
+    }();
+
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
@@ -165,8 +203,42 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                 this.setState({ activeCategory: id });
             }
         }, {
+            key: 'parseMonthlyTitle',
+            value: function parseMonthlyTitle(title) {
+                // ex. formats 'Global Monthly 2016 01 Mosaic' OR 'Latest Monthly'
+                var words = title.split(' ');
+                var year = words[2];
+                var month = words[3];
+                if (year === undefined || month === undefined) {
+                    return title;
+                } else {
+                    var yyyyMM = year + ' ' + month;
+                    var label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
+                    return label;
+                }
+            }
+        }, {
+            key: 'parseQuarterlyTitle',
+            value: function parseQuarterlyTitle(title) {
+                var words = title.split(' ');
+                var yearQuarter = words[2];
+                if (yearQuarter === undefined) {
+                    return title;
+                } else {
+                    var _yearQuarter$split = yearQuarter.split('q'),
+                        _yearQuarter$split2 = _slicedToArray(_yearQuarter$split, 2),
+                        year = _yearQuarter$split2[0],
+                        quarter = _yearQuarter$split2[1];
+
+                    var label = 'Quarter ' + quarter + ' ' + year;
+                    return label;
+                }
+            }
+        }, {
             key: 'createBasemapOptions',
             value: function createBasemapOptions() {
+                var _this3 = this;
+
                 var _props = this.props,
                     monthlyBasemaps = _props.monthlyBasemaps,
                     quarterlyBasemaps = _props.quarterlyBasemaps;
@@ -175,24 +247,14 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     activePlanetBasemap = _state.activePlanetBasemap;
 
                 var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-
                 return filterBasemaps.map(function (basemap) {
                     var url = basemap.url,
                         title = basemap.title;
 
-                    var pieces = title.split(' ');
-
-                    var content = activeCategory === 'PLANET-MONTHLY' ? pieces[2] + ' ' + pieces[3] : pieces[2];
-                    var formattedTitle = '';
-                    if (activeCategory === 'PLANET-MONTHLY') {
-                        formattedTitle = window.Kalendae.moment(content, 'YYYY MM').format('MMM YYYY');
-                    } else {
-                        var subpieces = content.split('q');
-                        formattedTitle = 'Quarter ' + subpieces[1] + ' ' + subpieces[0];
-                    }
+                    var label = activeCategory === 'PLANET-MONTHLY' ? _this3.parseMonthlyTitle(title) : _this3.parseQuarterlyTitle(title);
                     return {
                         value: url,
-                        label: formattedTitle
+                        label: label
                     };
                 });
             }
