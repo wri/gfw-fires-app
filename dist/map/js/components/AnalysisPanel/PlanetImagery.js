@@ -148,13 +148,29 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     if (this.readyState === 4) {
                         if (this.status === 200) {
                             var basemaps = [];
-                            var xmlDoc = $.parseXML(xhttp.responseText);
-                            var $xml = $(xmlDoc);
-                            $xml.find('Layer').each(function (i, el) {
-                                var title = el.firstChild.innerHTML;
-                                var url = $(this).find('ResourceURL').attr('template');
+
+                            var xmlParser = new DOMParser();
+                            var xmlString = xhttp.responseText;
+                            var xmlDoc = xmlParser.parseFromString(xmlString, 'text/xml');
+
+                            var contents = xmlDoc.getElementsByTagName('Contents')[0];
+                            var layerCollection = contents.getElementsByTagName('Layer');
+                            var layerCollectionLength = layerCollection.length;
+
+                            for (var i = 0; i < layerCollectionLength; i++) {
+                                var currentLayer = layerCollection[i];
+                                var title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
+                                var url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
                                 basemaps.push({ title: title, url: url });
-                            });
+                            }
+
+                            // const xmlDoc = $.parseXML(xhttp.responseText);
+                            // const $xml = $(xmlDoc);
+                            // $xml.find('Layer').each(function (i, el) {
+                            //     const title = el.firstChild.innerHTML;
+                            //     const url = $(this).find('ResourceURL').attr('template');
+                            //     basemaps.push({ title, url });
+                            // });
 
                             var monthlyBasemaps = [];
                             var quarterlyBasemaps = [];

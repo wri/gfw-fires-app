@@ -20,13 +20,30 @@ export default class PlanetImagery extends React.Component {
             if (this.readyState === 4) {
                 if (this.status === 200) {
                     const basemaps = [];
-                    const xmlDoc = $.parseXML(xhttp.responseText);
-                    const $xml = $(xmlDoc);
-                    $xml.find('Layer').each(function (i, el) {
-                        const title = el.firstChild.innerHTML;
-                        const url = $(this).find('ResourceURL').attr('template');
+
+                    const xmlParser = new DOMParser();
+                    const xmlString = xhttp.responseText;
+                    const xmlDoc = xmlParser.parseFromString(xmlString, 'text/xml');
+
+                    const contents = xmlDoc.getElementsByTagName('Contents')[0];
+                    const layerCollection = contents.getElementsByTagName('Layer');
+                    const layerCollectionLength = layerCollection.length;
+
+                    for (let i = 0; i < layerCollectionLength; i++) {
+                        const currentLayer = layerCollection[i];
+                        const title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
+                        const url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
                         basemaps.push({ title, url });
-                    });
+                    }
+
+
+                    // const xmlDoc = $.parseXML(xhttp.responseText);
+                    // const $xml = $(xmlDoc);
+                    // $xml.find('Layer').each(function (i, el) {
+                    //     const title = el.firstChild.innerHTML;
+                    //     const url = $(this).find('ResourceURL').attr('template');
+                    //     basemaps.push({ title, url });
+                    // });
 
                     const monthlyBasemaps = [];
                     const quarterlyBasemaps = [];
