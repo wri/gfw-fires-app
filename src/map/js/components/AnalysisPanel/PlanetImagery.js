@@ -48,18 +48,31 @@ export default class PlanetImagery extends React.Component {
         }, () => {
             if (!this.state.checked) {
                 mapActions.changeBasemap('topo');
-            } else if (this.state.checked && this.state.activePlanetBasemap) {
-                const checkMonthly = this.props.monthlyBasemaps.find(b => b.title === this.state.activePlanetBasemap);
-                const checkQuarterly = this.props.quarterlyBasemaps.find(b => b.title === this.state.activePlanetBasemap);
-                if (checkMonthly) { mapActions.changeBasemap(checkMonthly); }
-                if (checkQuarterly) { mapActions.changeBasemap(checkQuarterly); }
+            } else if (this.state.checked) {
+                const defaultBasemap = this.createBasemapOptions().reverse()[0];
+                this.setState({
+                  activePlanetBasemap: defaultBasemap
+                }, () => {
+                  mapActions.changeBasemap({
+                    title: defaultBasemap.label,
+                    url: defaultBasemap.value
+                  });
+                });
             }
         });
     }
 
     setCategory(evt) {
         const id = evt.target.id;
-        this.setState({ activeCategory: id });
+        this.setState({ activeCategory: id }, () => {
+            const defaultBasemap = this.createBasemapOptions().reverse()[0];
+            this.setState({ activePlanetBasemap: defaultBasemap }, () => {
+                mapActions.changeBasemap({
+                  title: defaultBasemap.label,
+                  url: defaultBasemap.value
+                });
+            });
+        });
     }
     
     parseMonthlyTitle(title) {
@@ -112,6 +125,7 @@ export default class PlanetImagery extends React.Component {
             this.setState({
                 activePlanetBasemap: selected
             }, () => {
+                console.log(choice);
                 mapActions.changeBasemap(choice);
             });
         }
