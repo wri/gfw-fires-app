@@ -151,7 +151,9 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
 
                             var xmlParser = new DOMParser();
                             var xmlString = xhttp.responseText;
-                            var xmlDoc = xmlParser.parseFromString(xmlString, 'text/xml');
+                            var htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+
+                            var xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
 
                             var contents = xmlDoc.getElementsByTagName('Contents')[0];
                             var layerCollection = contents.getElementsByTagName('Layer');

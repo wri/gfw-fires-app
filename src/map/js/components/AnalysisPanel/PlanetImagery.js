@@ -23,7 +23,10 @@ export default class PlanetImagery extends React.Component {
 
                     const xmlParser = new DOMParser();
                     const xmlString = xhttp.responseText;
-                    const xmlDoc = xmlParser.parseFromString(xmlString, 'text/xml');
+                    const htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+
+                    const xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+
 
                     const contents = xmlDoc.getElementsByTagName('Contents')[0];
                     const layerCollection = contents.getElementsByTagName('Layer');
