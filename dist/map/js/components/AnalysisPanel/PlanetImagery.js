@@ -125,6 +125,7 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     _this.setState({
                         activePlanetBasemap: selected
                     }, function () {
+                        console.log(choice);
                         _MapActions.mapActions.changeBasemap(choice);
                     });
                 }
@@ -156,12 +157,20 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                             });
                             // const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
                             // const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
-                            var monthlyBasemaps = basemaps.filter(function (b) {
-                                return b.title.indexOf('Monthly') >= 0;
+                            // const monthlyBasemaps = basemaps.filter(b => b.title.indexOf('Monthly') >= 0);
+                            // const quarterlyBasemaps = basemaps.filter(b => b.title.indexOf('Quarterly') >= 0);
+                            var monthlyBasemaps = [];
+                            var quarterlyBasemaps = [];
+
+                            basemaps.forEach(function (basemap) {
+                                if (basemap.title.indexOf('Monthly') >= 0) {
+                                    monthlyBasemaps.push(basemap);
+                                }
+                                if (basemap.title.indexOf('Quarterly') >= 0) {
+                                    quarterlyBasemaps.push(basemap);
+                                }
                             });
-                            var quarterlyBasemaps = basemaps.filter(function (b) {
-                                return b.title.indexOf('Quarterly') >= 0;
-                            });
+
                             _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                             _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
                         } else {
@@ -182,27 +191,34 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                 }, function () {
                     if (!_this2.state.checked) {
                         _MapActions.mapActions.changeBasemap('topo');
-                    } else if (_this2.state.checked && _this2.state.activePlanetBasemap) {
-                        var checkMonthly = _this2.props.monthlyBasemaps.find(function (b) {
-                            return b.title === _this2.state.activePlanetBasemap;
+                    } else if (_this2.state.checked) {
+                        var defaultBasemap = _this2.createBasemapOptions().reverse()[0];
+                        _this2.setState({
+                            activePlanetBasemap: defaultBasemap
+                        }, function () {
+                            _MapActions.mapActions.changeBasemap({
+                                title: defaultBasemap.label,
+                                url: defaultBasemap.value
+                            });
                         });
-                        var checkQuarterly = _this2.props.quarterlyBasemaps.find(function (b) {
-                            return b.title === _this2.state.activePlanetBasemap;
-                        });
-                        if (checkMonthly) {
-                            _MapActions.mapActions.changeBasemap(checkMonthly);
-                        }
-                        if (checkQuarterly) {
-                            _MapActions.mapActions.changeBasemap(checkQuarterly);
-                        }
                     }
                 });
             }
         }, {
             key: 'setCategory',
             value: function setCategory(evt) {
+                var _this3 = this;
+
                 var id = evt.target.id;
-                this.setState({ activeCategory: id });
+                this.setState({ activeCategory: id }, function () {
+                    var defaultBasemap = _this3.createBasemapOptions().reverse()[0];
+                    _this3.setState({ activePlanetBasemap: defaultBasemap }, function () {
+                        _MapActions.mapActions.changeBasemap({
+                            title: defaultBasemap.label,
+                            url: defaultBasemap.value
+                        });
+                    });
+                });
             }
         }, {
             key: 'parseMonthlyTitle',
@@ -239,7 +255,7 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
         }, {
             key: 'createBasemapOptions',
             value: function createBasemapOptions() {
-                var _this3 = this;
+                var _this4 = this;
 
                 var _props = this.props,
                     monthlyBasemaps = _props.monthlyBasemaps,
@@ -253,7 +269,7 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     var url = basemap.url,
                         title = basemap.title;
 
-                    var label = activeCategory === 'PLANET-MONTHLY' ? _this3.parseMonthlyTitle(title) : _this3.parseQuarterlyTitle(title);
+                    var label = activeCategory === 'PLANET-MONTHLY' ? _this4.parseMonthlyTitle(title) : _this4.parseQuarterlyTitle(title);
                     return {
                         value: url,
                         label: label
