@@ -32,10 +32,11 @@ export default class PlanetImagery extends React.Component {
                     const quarterlyBasemaps = [];
                     console.log('hello');
                     basemaps.forEach(function(basemap) {
-                        if (basemap.title.indexOf('Monthly') >= 0) {
+                        console.log(basemap);
+                        if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
                             monthlyBasemaps.push(basemap);
                         }
-                        if (basemap.title.indexOf('Quarterly') >= 0) {
+                        if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
                             quarterlyBasemaps.push(basemap);
                         }
                     });
