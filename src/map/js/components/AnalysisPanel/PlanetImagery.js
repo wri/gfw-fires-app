@@ -27,7 +27,6 @@ export default class PlanetImagery extends React.Component {
 
                     const xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
 
-
                     const contents = xmlDoc.getElementsByTagName('Contents')[0];
                     const layerCollection = contents.getElementsByTagName('Layer');
                     const layerCollectionLength = layerCollection.length;
@@ -39,20 +38,9 @@ export default class PlanetImagery extends React.Component {
                         basemaps.push({ title, url });
                     }
 
-
-                    // const xmlDoc = $.parseXML(xhttp.responseText);
-                    // const $xml = $(xmlDoc);
-                    // $xml.find('Layer').each(function (i, el) {
-                    //     const title = el.firstChild.innerHTML;
-                    //     const url = $(this).find('ResourceURL').attr('template');
-                    //     basemaps.push({ title, url });
-                    // });
-
                     const monthlyBasemaps = [];
                     const quarterlyBasemaps = [];
-                    console.log('hello');
                     basemaps.forEach(function(basemap) {
-                        console.log(basemap);
                         if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
                             monthlyBasemaps.push(basemap);
                         }
