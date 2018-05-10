@@ -29,8 +29,20 @@ export default class PlanetImagery extends React.Component {
                     });
                     // const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
                     // const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
-                    const monthlyBasemaps = basemaps.filter(b => b.title.indexOf('Monthly') >= 0);
-                    const quarterlyBasemaps = basemaps.filter(b => b.title.indexOf('Quarterly') >= 0);
+                    // const monthlyBasemaps = basemaps.filter(b => b.title.indexOf('Monthly') >= 0);
+                    // const quarterlyBasemaps = basemaps.filter(b => b.title.indexOf('Quarterly') >= 0);
+                    const monthlyBasemaps = [];
+                    const quarterlyBasemaps = [];
+
+                    basemaps.forEach(function(basemap) {
+                        if (basemap.title.indexOf('Monthly') >= 0) {
+                            monthlyBasemaps.push(basemap);
+                        }
+                        if (basemap.title.indexOf('Quarterly') >= 0) {
+                            quarterlyBasemaps.push(basemap);
+                        }
+                    });
+
                     analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                     analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
                 } else {
