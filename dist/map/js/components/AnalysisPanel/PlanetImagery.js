@@ -166,19 +166,9 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                                 basemaps.push({ title: title, url: url });
                             }
 
-                            // const xmlDoc = $.parseXML(xhttp.responseText);
-                            // const $xml = $(xmlDoc);
-                            // $xml.find('Layer').each(function (i, el) {
-                            //     const title = el.firstChild.innerHTML;
-                            //     const url = $(this).find('ResourceURL').attr('template');
-                            //     basemaps.push({ title, url });
-                            // });
-
                             var monthlyBasemaps = [];
                             var quarterlyBasemaps = [];
-                            console.log('hello');
                             basemaps.forEach(function (basemap) {
-                                console.log(basemap);
                                 if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
                                     monthlyBasemaps.push(basemap);
                                 }
