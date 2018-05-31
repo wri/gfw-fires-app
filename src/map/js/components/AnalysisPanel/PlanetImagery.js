@@ -1,7 +1,11 @@
 import React from 'react';
 import Select from 'react-select';
+import KEYS from 'js/constants';
 import { mapActions } from 'actions/MapActions';
 import { analysisActions } from 'actions/AnalysisActions';
+import { modalActions } from 'actions/ModalActions';
+
+const useSvg = '<use xlink:href="#shape-info" />';
 
 export default class PlanetImagery extends React.Component {
     constructor(props) {
@@ -143,10 +147,13 @@ export default class PlanetImagery extends React.Component {
             this.setState({
                 activePlanetBasemap: selected
             }, () => {
-                console.log(choice);
                 mapActions.changeBasemap(choice);
             });
         }
+    }
+
+    showInfo = () => {
+        modalActions.showLayerInfo(KEYS.planetBasemap);
     }
 
     render () {
@@ -159,6 +166,13 @@ export default class PlanetImagery extends React.Component {
                 <span className='layer-checkbox-label pointer' onClick={this.toggle.bind(this)}>
                     Planet Basemaps
                 </span>
+
+
+                <span className={`info-icon pointer`} onClick={this.showInfo.bind(this)}>
+                    <svg dangerouslySetInnerHTML={{ __html: useSvg }} />
+                </span>
+
+
                 <div className={`layer-content-container flex flex-column justify-center ${checked ? '' : 'hidden'}`}>
                     <div className='flex imagery-category-container'>
                         <div
