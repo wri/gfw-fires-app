@@ -125,6 +125,7 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     _this.setState({
                         activePlanetBasemap: selected
                     }, function () {
+                        console.log(choice);
                         _MapActions.mapActions.changeBasemap(choice);
                     });
                 }
@@ -147,21 +148,35 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     if (this.readyState === 4) {
                         if (this.status === 200) {
                             var basemaps = [];
-                            var xmlDoc = $.parseXML(xhttp.responseText);
-                            var $xml = $(xmlDoc);
-                            $xml.find('Layer').each(function (i, el) {
-                                var title = el.firstChild.innerHTML;
-                                var url = $(this).find('ResourceURL').attr('template');
+
+                            var xmlParser = new DOMParser();
+                            var xmlString = xhttp.responseText;
+                            var htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+
+                            var xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+
+                            var contents = xmlDoc.getElementsByTagName('Contents')[0];
+                            var layerCollection = contents.getElementsByTagName('Layer');
+                            var layerCollectionLength = layerCollection.length;
+
+                            for (var i = 0; i < layerCollectionLength; i++) {
+                                var currentLayer = layerCollection[i];
+                                var title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
+                                var url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
                                 basemaps.push({ title: title, url: url });
+                            }
+
+                            var monthlyBasemaps = [];
+                            var quarterlyBasemaps = [];
+                            basemaps.forEach(function (basemap) {
+                                if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
+                                    monthlyBasemaps.push(basemap);
+                                }
+                                if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
+                                    quarterlyBasemaps.push(basemap);
+                                }
                             });
-                            // const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
-                            // const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
-                            var monthlyBasemaps = basemaps.filter(function (b) {
-                                return b.title.indexOf('Monthly') >= 0;
-                            });
-                            var quarterlyBasemaps = basemaps.filter(function (b) {
-                                return b.title.indexOf('Quarterly') >= 0;
-                            });
+
                             _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                             _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
                         } else {
@@ -182,27 +197,34 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                 }, function () {
                     if (!_this2.state.checked) {
                         _MapActions.mapActions.changeBasemap('topo');
-                    } else if (_this2.state.checked && _this2.state.activePlanetBasemap) {
-                        var checkMonthly = _this2.props.monthlyBasemaps.find(function (b) {
-                            return b.title === _this2.state.activePlanetBasemap;
+                    } else if (_this2.state.checked) {
+                        var defaultBasemap = _this2.createBasemapOptions().reverse()[0];
+                        _this2.setState({
+                            activePlanetBasemap: defaultBasemap
+                        }, function () {
+                            _MapActions.mapActions.changeBasemap({
+                                title: defaultBasemap.label,
+                                url: defaultBasemap.value
+                            });
                         });
-                        var checkQuarterly = _this2.props.quarterlyBasemaps.find(function (b) {
-                            return b.title === _this2.state.activePlanetBasemap;
-                        });
-                        if (checkMonthly) {
-                            _MapActions.mapActions.changeBasemap(checkMonthly);
-                        }
-                        if (checkQuarterly) {
-                            _MapActions.mapActions.changeBasemap(checkQuarterly);
-                        }
                     }
                 });
             }
         }, {
             key: 'setCategory',
             value: function setCategory(evt) {
+                var _this3 = this;
+
                 var id = evt.target.id;
-                this.setState({ activeCategory: id });
+                this.setState({ activeCategory: id }, function () {
+                    var defaultBasemap = _this3.createBasemapOptions().reverse()[0];
+                    _this3.setState({ activePlanetBasemap: defaultBasemap }, function () {
+                        _MapActions.mapActions.changeBasemap({
+                            title: defaultBasemap.label,
+                            url: defaultBasemap.value
+                        });
+                    });
+                });
             }
         }, {
             key: 'parseMonthlyTitle',
@@ -239,7 +261,7 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
         }, {
             key: 'createBasemapOptions',
             value: function createBasemapOptions() {
-                var _this3 = this;
+                var _this4 = this;
 
                 var _props = this.props,
                     monthlyBasemaps = _props.monthlyBasemaps,
@@ -253,7 +275,7 @@ define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/Analy
                     var url = basemap.url,
                         title = basemap.title;
 
-                    var label = activeCategory === 'PLANET-MONTHLY' ? _this3.parseMonthlyTitle(title) : _this3.parseQuarterlyTitle(title);
+                    var label = activeCategory === 'PLANET-MONTHLY' ? _this4.parseMonthlyTitle(title) : _this4.parseQuarterlyTitle(title);
                     return {
                         value: url,
                         label: label

@@ -20,17 +20,35 @@ export default class PlanetImagery extends React.Component {
             if (this.readyState === 4) {
                 if (this.status === 200) {
                     const basemaps = [];
-                    const xmlDoc = $.parseXML(xhttp.responseText);
-                    const $xml = $(xmlDoc);
-                    $xml.find('Layer').each(function (i, el) {
-                        const title = el.firstChild.innerHTML;
-                        const url = $(this).find('ResourceURL').attr('template');
+
+                    const xmlParser = new DOMParser();
+                    const xmlString = xhttp.responseText;
+                    const htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+
+                    const xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+
+                    const contents = xmlDoc.getElementsByTagName('Contents')[0];
+                    const layerCollection = contents.getElementsByTagName('Layer');
+                    const layerCollectionLength = layerCollection.length;
+
+                    for (let i = 0; i < layerCollectionLength; i++) {
+                        const currentLayer = layerCollection[i];
+                        const title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
+                        const url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
                         basemaps.push({ title, url });
+                    }
+
+                    const monthlyBasemaps = [];
+                    const quarterlyBasemaps = [];
+                    basemaps.forEach(function(basemap) {
+                        if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
+                            monthlyBasemaps.push(basemap);
+                        }
+                        if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
+                            quarterlyBasemaps.push(basemap);
+                        }
                     });
-                    // const monthlyBasemaps = basemaps.filter(b => b.title.includes('Monthly'));
-                    // const quarterlyBasemaps = basemaps.filter(b => b.title.includes('Quarterly'));
-                    const monthlyBasemaps = basemaps.filter(b => b.title.indexOf('Monthly') >= 0);
-                    const quarterlyBasemaps = basemaps.filter(b => b.title.indexOf('Quarterly') >= 0);
+
                     analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                     analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
                 } else {
@@ -48,18 +66,31 @@ export default class PlanetImagery extends React.Component {
         }, () => {
             if (!this.state.checked) {
                 mapActions.changeBasemap('topo');
-            } else if (this.state.checked && this.state.activePlanetBasemap) {
-                const checkMonthly = this.props.monthlyBasemaps.find(b => b.title === this.state.activePlanetBasemap);
-                const checkQuarterly = this.props.quarterlyBasemaps.find(b => b.title === this.state.activePlanetBasemap);
-                if (checkMonthly) { mapActions.changeBasemap(checkMonthly); }
-                if (checkQuarterly) { mapActions.changeBasemap(checkQuarterly); }
+            } else if (this.state.checked) {
+                const defaultBasemap = this.createBasemapOptions().reverse()[0];
+                this.setState({
+                  activePlanetBasemap: defaultBasemap
+                }, () => {
+                  mapActions.changeBasemap({
+                    title: defaultBasemap.label,
+                    url: defaultBasemap.value
+                  });
+                });
             }
         });
     }
 
     setCategory(evt) {
         const id = evt.target.id;
-        this.setState({ activeCategory: id });
+        this.setState({ activeCategory: id }, () => {
+            const defaultBasemap = this.createBasemapOptions().reverse()[0];
+            this.setState({ activePlanetBasemap: defaultBasemap }, () => {
+                mapActions.changeBasemap({
+                  title: defaultBasemap.label,
+                  url: defaultBasemap.value
+                });
+            });
+        });
     }
     
     parseMonthlyTitle(title) {
@@ -112,6 +143,7 @@ export default class PlanetImagery extends React.Component {
             this.setState({
                 activePlanetBasemap: selected
             }, () => {
+                console.log(choice);
                 mapActions.changeBasemap(choice);
             });
         }
