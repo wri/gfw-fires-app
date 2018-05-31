@@ -114,11 +114,20 @@ export default class PlanetImagery extends React.Component {
     parseQuarterlyTitle(title) {
         const words = title.split(' ');
         const yearQuarter = words[2];
+
+        const dict = {
+            1: 'JAN-MAR',
+            2: 'APR-JUN',
+            3: 'JUL-SEP',
+            4: 'OCT-DEC'
+        };
+
         if (yearQuarter === undefined) {
             return title;
         } else {
             const [ year, quarter ] = yearQuarter.split('q');
-            const label = `Quarter ${quarter} ${year}`;
+            // const label = `Quarter ${quarter} ${year}`;
+            const label = `${dict[1]} ${year}`;
             return label;
         }
     }
