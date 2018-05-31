@@ -29,11 +29,10 @@ export default class ImageryTab extends React.Component {
     return (
       <div className={className}>
         <h3>{analysisPanelText.imageryArea}</h3>
+        <PlanetImagery monthlyBasemaps={this.props.monthlyPlanetBasemaps} quarterlyBasemaps={this.props.quarterlyPlanetBasemaps} />
         <LayerCheckbox key={dgLayer.id} childrenVisible={this.props.imageryOpen} layer={dgLayer} checked={activeLayers.indexOf(dgLayer.id) > -1}>
           <ImageryComponent {...this.state} options={dgLayer.calendar} />
         </LayerCheckbox>
-
-        <PlanetImagery monthlyBasemaps={this.props.monthlyPlanetBasemaps} quarterlyBasemaps={this.props.quarterlyPlanetBasemaps} />
       </div>
     );
   }
