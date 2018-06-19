@@ -35,12 +35,11 @@ define([
     "./Config"
 ], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
-    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats, config) {
+    Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats, Config) {
 
     return {
 
         init: function() {
-
             var self = this;
             self.init_report_options();
 
@@ -73,20 +72,20 @@ define([
             var subDistrictViirsLayerId;
             var subDistrictModisLayerId;
             if (window.reportOptions.aoitype === 'GLOBAL') {
-              districtViirsLayerId = config.adminQuery.fire_stats_global.id_viirs;
-              districtModisLayerId = config.adminQuery.fire_stats_global.id_modis;
-              subDistrictViirsLayerId = config.subDistrictQuery.fire_stats_global.id_viirs;
-              subDistrictModisLayerId = config.subDistrictQuery.fire_stats_global.id_modis;
+              districtViirsLayerId = Config.adminQuery.fire_stats_global.id_viirs;
+              districtModisLayerId = Config.adminQuery.fire_stats_global.id_modis;
+              subDistrictViirsLayerId = Config.subDistrictQuery.fire_stats_global.id_viirs;
+              subDistrictModisLayerId = Config.subDistrictQuery.fire_stats_global.id_modis;
             } else if (window.reportOptions.aoitype === 'ISLAND') {
-              districtViirsLayerId = config.adminQuery.fire_stats.id_viirs;
-              districtModisLayerId = config.adminQuery.fire_stats.id_modis;
-              subDistrictViirsLayerId = config.subDistrictQuery.fire_stats.id_viirs;
-              subDistrictModisLayerId = config.subDistrictQuery.fire_stats.id_modis;
+              districtViirsLayerId = Config.adminQuery.fire_stats.id_viirs;
+              districtModisLayerId = Config.adminQuery.fire_stats.id_modis;
+              subDistrictViirsLayerId = Config.subDistrictQuery.fire_stats.id_viirs;
+              subDistrictModisLayerId = Config.subDistrictQuery.fire_stats.id_modis;
             }
             var districtLayerIdsViirsModis = [districtViirsLayerId, districtModisLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
-            self.queryForDailyFireData(areaOfInterestType),
+            self.queryForDailyFireData(areaOfInterestType);
 
             self.buildDistributionOfFireAlertsMap().then(function () {
               self.get_extent('fires');
@@ -112,10 +111,10 @@ define([
             if (window.reportOptions.country === 'Indonesia') {
               all([
                 // Indonesia tables query --- START
-                self.queryDistrictsFireCount("rspoQuery", null, config.rspoQuery.fire_stats.id),
-                self.queryDistrictsFireCount("loggingQuery", null, config.loggingQuery.fire_stats.id),
-                self.queryDistrictsFireCount("palmoilQuery", null, config.palmoilQuery.fire_stats.id),
-                self.queryDistrictsFireCount("pulpwoodQuery", null, config.pulpwoodQuery.fire_stats.id),
+                self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id),
+                self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id),
+                self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id),
+                self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id),
                 // Indonesia tables query --- END
 
                 // self.queryFiresBreakdown(),
@@ -154,7 +153,7 @@ define([
               deferred = new Deferred(),
               query = new Query();
 
-              var countryObjs = config.countryFeatures;
+              var countryObjs = Config.countryFeatures;
 
               query.where = "ID_0 = " + countryObjs[selectedCountry] + " AND Name_1 in ('" + aoiData + "')";
               query.returnGeometry = false;
@@ -167,7 +166,7 @@ define([
                 var countryAdminTypes = response.features["0"].attributes;
                 $('.admin-type-1').text(countryAdminTypes.ENGTYPE_1);
                 $('.admin-type-2').text(countryAdminTypes.ENGTYPE_2);
-                config.reportOptions.countryAdminTypes = countryAdminTypes;
+                Config.reportOptions.countryAdminTypes = countryAdminTypes;
               }
             }, function (err) {
               console.log('Country Admin Types error: ', err);
@@ -280,7 +279,7 @@ define([
           var country = window.reportOptions.country;
           var countryQueryGlobal;
           var aoiQueryGlobal;
-          var countryObjs = config.countryFeatures;
+          var countryObjs = Config.countryFeatures;
 
           if (aoiType === 'ISLAND') {
             aoi = aoiType + " in ('" + aoiData + "')";
@@ -318,7 +317,7 @@ define([
           var enddate = "ACQ_DATE <= date'" + this.enddate + "'";
           var countryQueryGlobal;
           var aoiQueryGlobal;
-          var countryObjs = config.countryFeatures;
+          var countryObjs = Config.countryFeatures;
 
           if (aoiType === 'ISLAND') {
             aoi = aoiType + " in ('" + aoiData + "')";
@@ -347,7 +346,7 @@ define([
             if (window.reportOptions.aoitype === 'GLOBAL' && queryType === 'REGION') {
               aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
             } else if (window.reportOptions.aoitype === 'GLOBAL') {
-              var countryObjs = config.countryFeatures;
+              var countryObjs = Config.countryFeatures;
 
               aoi = "ID_0 = " + countryObjs[window.reportOptions.country] + " AND NAME_1 in ('" + aois.join("','") + "')";
             } else {
@@ -366,10 +365,10 @@ define([
               queryUrl;
 
           map = new Map("DistributionOfFireAlertsMap", {
-              basemap: config.basemap,
-              zoom: config.zoom,
-              center: config.mapcenter,
-              slider: config.slider
+              basemap: Config.basemap,
+              zoom: Config.zoom,
+              center: Config.mapcenter,
+              slider: Config.slider
           });
 
           map.on("update-start", function() {
@@ -380,18 +379,18 @@ define([
             esri.hide(dom.byId("firesmapload"));
           });
 
-          config.maps['fires'] = map;
+          Config.maps['fires'] = map;
 
           if (window.reportOptions.aoitype === 'GLOBAL') {
-            queryUrl = config.firesLayer.urlGlobal;
+            queryUrl = Config.firesLayer.urlGlobal;
           } else {
-            queryUrl = config.firesLayer.urlIsland
+            queryUrl = Config.firesLayer.urlIsland
           }
 
           if(window.reportOptions.aoitype === 'GLOBAL'){
-            addFirePoints(config.firesLayer.defaultLayers, 'globalFires');
+            addFirePoints(Config.firesLayer.defaultLayers, 'globalFires');
           } else {
-            addFirePoints(config.firesLayer.defaultLayersIsland, 'indonesianFires');
+            addFirePoints(Config.firesLayer.defaultLayersIsland, 'indonesianFires');
           }
 
           function addFirePoints(ids, layerId) {
@@ -461,7 +460,7 @@ define([
 
         buildFireCountMap: function(configKey, queryKey) {
           var deferred = new Deferred(),
-            boundaryConfig = config[configKey],
+            boundaryConfig = Config[configKey],
             options = [],
             otherFiresParams,
             otherFiresLayer,
@@ -472,7 +471,7 @@ define([
             uniqueValueField,
             queryUrl;
 
-          var feat_stats = config.query_results[queryKey];
+          var feat_stats = Config.query_results[queryKey];
           if (!feat_stats || feat_stats.length == 0) {
             return;
           }
@@ -548,7 +547,7 @@ define([
             var symbols = {};
             for (var i = 0; i < brkCount; i += 1) {
               var symbol = new SimpleFillSymbol();
-              var color = config.colorramp[i];
+              var color = Config.colorramp[i];
               symbol.setColor({
                 a: 255,
                 r: color[0],
@@ -609,17 +608,17 @@ define([
           var symbols = obj.s;
           var breaks = obj.b;
 
-          var relatedTableId = config[configKey].relatedTableId + '-colorRange';
-          config[relatedTableId] = breaks;
+          var relatedTableId = Config[configKey].relatedTableId + '-colorRange';
+          Config[relatedTableId] = breaks;
 
           map = new Map(boundaryConfig.mapDiv, {
-            basemap: config.basemap,
-            zoom: config.zoom,
-            center: config.mapcenter,
-            slider: config.slider
+            basemap: Config.basemap,
+            zoom: Config.zoom,
+            center: Config.mapcenter,
+            slider: Config.slider
           });
 
-          config.maps[configKey] = map;
+          Config.maps[configKey] = map;
 
           otherFiresParams = new ImageParameters();
           otherFiresParams.format = "png32";
@@ -640,7 +639,7 @@ define([
           function buildLegend(rendererInfo) {
             var html = "<table>";
             var rows = [];
-            for (var i = 0; i < config[configKey].breakCount; i++) {
+            for (var i = 0; i < Config[configKey].breakCount; i++) {
               var item = symbols[i];
               var row;
               if (item) {
@@ -659,9 +658,9 @@ define([
           }
 
           function buildRegionsTables() {
-            var tableResults = configKey === 'adminBoundary' ? config.query_results['adminQuery'] : config.query_results['subDistrictQuery'];
+            var tableResults = configKey === 'adminBoundary' ? Config.query_results['adminQuery'] : Config.query_results['subDistrictQuery'];
             var firstTenTableResults = tableResults.slice(0, 10);
-            var tableColorBreakPoints = config[relatedTableId];
+            var tableColorBreakPoints = Config[relatedTableId];
 
             if (configKey === "adminBoundary") {
               $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
@@ -675,13 +674,13 @@ define([
 
               if (queryConfigTableId === 'district-fires-table') {
                 tableRows =
-                  '<tr><th class="admin-type-1">' + (config.reportOptions.countryAdminTypes ? config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>' +
+                  '<tr><th class="admin-type-1">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>' +
                   '<th class="number-column">#</th>' +
                   '<th class="switch-color-column"></th></tr>';
               } else {
                 tableRows =
-                  '<tr><th class="admin-type-2">' + (config.reportOptions.countryAdminTypes ? config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>' +
-                  ('<th class="align-left admin-type-1">' + (config.reportOptions.countryAdminTypes ? config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>') +
+                  '<tr><th class="admin-type-2">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>' +
+                  ('<th class="align-left admin-type-1">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>') +
                   '<th class="number-column">#</th>' +
                   '<th class="switch-color-column"></th></tr>';
               }
@@ -696,7 +695,7 @@ define([
                 if (tableColorBreakPoints) {
                   tableColorBreakPoints.forEach(function (binItem, colorIndex) {
                     if (colorValue > tableColorBreakPoints[colorIndex] && colorValue <= tableColorBreakPoints[colorIndex + 1]){
-                      color = config.colorramp[colorIndex];
+                      color = Config.colorramp[colorIndex];
                     }
                   });
                 }
@@ -705,14 +704,14 @@ define([
                   return(
                     "<tr><td class=\"table-cell " + aoitype + "\">" + admin1 + "</td>" +
                     ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
-                    ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : config.colorramp[0]) + ")'></span></td></tr>")
+                    ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : Config.colorramp[0]) + ")'></span></td></tr>")
                   )
                 } else {
                   return(
                     "<tr><td class=\"table-cell " + aoitype + "\">" + subDistrict2 + "</td>" +
                     ("<td class=\"table-cell " + aoitype + "\">" + subDistrict1 + "</td>") +
                     ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
-                    ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : config.colorramp[0]) + ")'></span></td></tr>")
+                    ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : Config.colorramp[0]) + ")'></span></td></tr>")
                   )
                 }
               });
@@ -766,7 +765,7 @@ define([
         },
 
         getRegion: function(configKey) {
-          var queryConfig = config[configKey],
+          var queryConfig = Config[configKey],
             queryTask,
             regionField,
             deferred = new Deferred(),
@@ -778,12 +777,12 @@ define([
           if (window.reportOptions.aoitype === 'ISLAND') {
             regionField = window.reportOptions.aoitype;
             uniqueValueField = queryConfig.UniqueValueField;
-            queryTask = new QueryTask(config.queryUrl + "/" + queryConfig.layerId);
+            queryTask = new QueryTask(Config.queryUrl + "/" + queryConfig.layerId);
           } else {
             regionField = 'NAME_0';
             uniqueValueField = queryConfig.UniqueValueFieldGlobal;
             queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
-            // queryTask = new QueryTask(config.queryUrlGlobal + "/" + queryConfig.layerIdGlobal);
+            // queryTask = new QueryTask(Config.queryUrlGlobal + "/" + queryConfig.layerIdGlobal);
           }
 
           query.where = self.get_aoi_definition('REGION');
@@ -795,7 +794,7 @@ define([
               arrayUtils.forEach(res.features, function (feat) {
                 regions[feat.attributes[uniqueValueField]] = feat.attributes[regionField];
               });
-              config.regionmap[configKey] = regions;
+              Config.regionmap[configKey] = regions;
               deferred.resolve(true);
             }
           }, function(err) {
@@ -958,7 +957,7 @@ define([
 
             table += "</table>";
 
-            var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + config.noFeatures['greenpeace'] + '</div>';
+            var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + Config.noFeatures['greenpeace'] + '</div>';
             return finaltable;
         },
 
@@ -973,7 +972,7 @@ define([
             data: [],
           };
 
-        var countryObjs = config.countryFeatures;
+        var countryObjs = Config.countryFeatures;
         query.where = "ID_0=" + countryObjs[selectedCountry] + ' AND 1=1';
         query.returnGeometry = false;
         query.outFields = ['*'];
@@ -1243,7 +1242,7 @@ define([
             data: []
           };
 
-        var countryObjs = config.countryFeatures;
+        var countryObjs = Config.countryFeatures;
         query.where = "ID_0=" + countryObjs[selectedCountry];
         query.returnGeometry = false;
         query.outFields = ['*'];
@@ -1272,9 +1271,9 @@ define([
               series['data'] = yearObject['data'];
               var minValue =  Math.min.apply(null, allValues);
               var maxValue =  Math.max.apply(null, allValues);
-              var numberOfBins = config.colorRampFireHistory.length;
+              var numberOfBins = Config.colorRampFireHistory.length;
               var binsArray = [minValue];
-              config.colorRampFireHistory.forEach(function (item, index) {
+              Config.colorRampFireHistory.forEach(function (item, index) {
                 // binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
                 binsArray.push(parseInt(((maxValue - minValue) / numberOfBins) * (index + 1)) + minValue);
               });
@@ -1283,7 +1282,7 @@ define([
                 var dataValue = item.z;
                 binsArray.forEach(function (binItem, index) {
                   if (dataValue >= binsArray[index] && dataValue <= binsArray[index + 1]) {
-                    var color = config.colorRampFireHistory[index];
+                    var color = Config.colorRampFireHistory[index];
                     item.color = color;
                   }
                 })
@@ -1361,7 +1360,7 @@ define([
       queryFireCount: function(configKey) {
           var deferred = new Deferred(),
             self = this,
-            queryConfig = config[configKey];
+            queryConfig = Config[configKey];
 
           var aoiType = reportOptions.aoitype.toLowerCase();
 
@@ -1390,7 +1389,7 @@ define([
         },
 
         queryDistrictsFireCount: function(configKey, areaOfInterestType, districtLayerId) {
-          var queryConfig = config[configKey],
+          var queryConfig = Config[configKey],
             deferred = new Deferred(),
             query = new Query(),
             statdef = new StatisticDefinition(),
@@ -1403,21 +1402,21 @@ define([
             // Assign correct query url
             var url;
             if (districtLayerId === 8) {
-              url = config.firesLayer.global_viirs;
+              url = Config.firesLayer.global_viirs;
             }
             if (districtLayerId === 9) {
-              url = config.firesLayer.global_modis;
+              url = Config.firesLayer.global_modis;
             }
             queryTask = new QueryTask(url);
             // NAME_1 - STATES/PROVINCES
             // NAME_2 - DISTRICTS
-            fields = [config[configKey].fire_stats_global.onField, window.reportOptions.aoitype, config[configKey].fire_stats_global.outField];
-            query.outFields = [config[configKey].fire_stats_global.onField];
-            statdef.onStatisticField = config[configKey].fire_stats_global.onField;
-            statdef.outStatisticFieldName = config[configKey].fire_stats_global.outField;
+            fields = [Config[configKey].fire_stats_global.onField, window.reportOptions.aoitype, Config[configKey].fire_stats_global.outField];
+            query.outFields = [Config[configKey].fire_stats_global.onField];
+            statdef.onStatisticField = Config[configKey].fire_stats_global.onField;
+            statdef.outStatisticFieldName = Config[configKey].fire_stats_global.outField;
           // Indonesia Report
           } else {
-            queryTask = new QueryTask(config.queryUrl + "/" + districtLayerId);
+            queryTask = new QueryTask(Config.queryUrl + "/" + districtLayerId);
             fields = [queryConfig.fire_stats.onField, window.reportOptions.aoitype, queryConfig.fire_stats.outField];
             query.outFields = [queryConfig.fire_stats.onField];
             statdef.onStatisticField = queryConfig.fire_stats.onField;
@@ -1472,7 +1471,7 @@ define([
                     // table += self.generateTableRows(features, fields);
                 table += self.generateTableRows(filtered, ['type', 'fire_count'], 'rspo-cert-table');
                 table += "</table>";
-                var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + config.noFeatures[configKey] + '</div>';
+                var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + Config.noFeatures[configKey] + '</div>';
 
                 return finaltable;
             }
@@ -1482,12 +1481,12 @@ define([
                 var table;
                 var districtFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'district-fires-table';
                 var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
-                var districtLabel = config.reportOptions.countryAdminTypes && config.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && config.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction';
-                var subdistrictLabel = config.reportOptions.countryAdminTypes && config.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && config.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province';
+                var districtLabel = Config.reportOptions.countryAdminTypes && Config.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && Config.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction';
+                var subdistrictLabel = Config.reportOptions.countryAdminTypes && Config.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && Config.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province';
                 if (districtFireTable) {
                   table = '<table class="fires-table"><tr><th class="admin-type-1">' + districtLabel + '</th>';
                 } else if (subdistrictFireTable) {
-                  table = '<table class="fires-table"><tr><th class="admin-type-2">' + (config.reportOptions.countryAdminTypes ? config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>';
+                  table = '<table class="fires-table"><tr><th class="admin-type-2">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>';
                   table += '<th class="align-left admin-type-1">' + subdistrictLabel + '</th>';
                 } else {
                   table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
@@ -1556,7 +1555,7 @@ define([
                 table += self.generateTableRows(filtered, fields, queryConfig.tableId);
 
                 table += "</table>";
-                var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + config.noFeatures[configKey] + '</div>';
+                var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + Config.noFeatures[configKey] + '</div>';
                 return finaltable;
             }
 
@@ -1567,8 +1566,8 @@ define([
             }
 
             queryTask.execute(query, function(res) {
-              if (config.query_results[configKey] !== undefined) {
-                var queryResultFirst = config.query_results[configKey].slice(0); // Deep clone of first object
+              if (Config.query_results[configKey] !== undefined) {
+                var queryResultFirst = Config.query_results[configKey].slice(0); // Deep clone of first object
                 var queryResultSecond = res.features;
                 var queryResultKeys = [];
                 var combinedResults = [];
@@ -1623,12 +1622,12 @@ define([
                   return item.attributes.SUBDISTRIC != " ";
                 });
 
-                config.query_results[configKey] = sortCombinedResults;
+                Config.query_results[configKey] = sortCombinedResults;
                 if (sortCombinedResults.length > 0) {
                   var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
                   if (queryConfigField) {
                     self.getRegion(configKey).then(function() {
-                      var regmap = config.regionmap[configKey];
+                      var regmap = Config.regionmap[configKey];
                       arrayUtils.forEach(sortCombinedResults, function(feat) {
                         feat.attributes[window.reportOptions.aoitype] = regmap[feat.attributes[queryConfigField]];
                       });
@@ -1642,7 +1641,7 @@ define([
                   dom.byId('noFiresMsg').innerHTML = "No Fire Alerts for this AOI and time frame."
                 }
               } else {
-                config.query_results[configKey] = res.features;
+                Config.query_results[configKey] = res.features;
                 if (configKey == 'rspoQuery') {
                   dom.byId(queryConfig.tableId).innerHTML = buildRSPOTable(res.features);
                 } else if (configKey !== "subDistrictQuery") {
@@ -1657,8 +1656,8 @@ define([
         },
 
         queryDistrictsForFires: function(configKey) { // Remove this code
-            var queryConfig = config[configKey],
-                queryTask = new QueryTask(config.queryUrl + "/" + queryConfig.layerId),
+            var queryConfig = Config[configKey],
+                queryTask = new QueryTask(Config.queryUrl + "/" + queryConfig.layerId),
                 fields = queryConfig.outFields,
                 deferred = new Deferred(),
                 query = new Query(),
@@ -1931,9 +1930,9 @@ define([
 
               queryEndpointsIds.forEach(function (fireCountLayer) {
                 if (fireCountLayer === 'fire_id_global_viirs') {
-                  queryTask = new QueryTask(config.firesLayer.global_viirs);
+                  queryTask = new QueryTask(Config.firesLayer.global_viirs);
                 } else if (fireCountLayer === 'fire_id_global_modis') {
-                  queryTask = new QueryTask(config.firesLayer.global_modis);
+                  queryTask = new QueryTask(Config.firesLayer.global_modis);
                 }
 
                 queryForFiresCount(fireCountLayer);
@@ -1942,7 +1941,7 @@ define([
               var queryEndpointsIds = ['fire_id_island_viirs', 'fire_id_island_modis'];
               $('.fire-alert-count__year').text('2013');
               queryEndpointsIds.forEach(function (fireCountLayer) {
-                queryTask = new QueryTask(queryURL = config.queryUrl + "/" + config.firesLayer[fireCountLayer]);
+                queryTask = new QueryTask(queryURL = Config.queryUrl + "/" + Config.firesLayer[fireCountLayer]);
                 queryForFiresCount(fireCountLayer);
               });
             }
@@ -1950,27 +1949,27 @@ define([
             function queryForFiresCount(fireCountLayer) {
               query.where = self.get_aoi_definition();
               query.returnGeometry = false;
-              query.groupByFieldsForStatistics = [config.dailyFiresField];
+              query.groupByFieldsForStatistics = [Config.dailyFiresField];
               query.orderByFields = ['ACQ_DATE ASC'];
 
-              statdef.onStatisticField = config.dailyFiresField;
+              statdef.onStatisticField = Config.dailyFiresField;
               statdef.outStatisticFieldName = 'Count';
               statdef.statisticType = "count";
               query.outStatistics = [statdef];
               queryAll.where = self.get_layer_definition();
 
               queryTask.executeForCount(queryAll, function (count) {
-                config[fireCountLayer] = count;
+                Config[fireCountLayer] = count;
 
                 function numberWithCommas(globalFiresTotalCount) {
                   return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
 
-                if (config.fire_id_global_viirs && config.fire_id_global_modis){
-                  var globalFiresTotalCount = config.fire_id_global_viirs + config.fire_id_global_modis;
+                if (Config.fire_id_global_viirs && Config.fire_id_global_modis){
+                  var globalFiresTotalCount = Config.fire_id_global_viirs + Config.fire_id_global_modis;
                   $("#totalFireAlerts").html(numberWithCommas(globalFiresTotalCount));
-                } else if (config['fire_id_island_viirs'] && config['fire_id_island_modis']) {
-                  var islandFiresTotalCount = config['fire_id_island_viirs'] + config['fire_id_island_modis'];
+                } else if (Config['fire_id_island_viirs'] && Config['fire_id_island_modis']) {
+                  var islandFiresTotalCount = Config['fire_id_island_viirs'] + Config['fire_id_island_modis'];
                   $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
                 }
               }, function (error) {
@@ -1981,7 +1980,7 @@ define([
             success = function(res) {
                 var count = 0;
                 arrayUtils.forEach(res.features, function(feature) {
-                  fireDataLabels.push(moment(feature.attributes[config.dailyFiresField]).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
+                  fireDataLabels.push(moment(feature.attributes[Config.dailyFiresField]).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
                   fireData.push(feature.attributes.Count);
                   count += feature.attributes.Count;
                 });
@@ -2055,7 +2054,7 @@ define([
         },
 
         queryFireData: function(config, callback, errback) {
-            var queryTask = new QueryTask(config.queryUrl + "/" + config.confidenceFireId),
+            var queryTask = new QueryTask(Config.queryUrl + "/" + Config.confidenceFireId),
                 deferred = new Deferred(),
                 query = new Query(),
                 time = new Date(),
@@ -2156,16 +2155,17 @@ define([
 
             if (window.reportOptions.aoitype === 'ISLAND') {
               query.outFields = ["DISTRICT"];
-              queryTask = new QueryTask(config.queryUrl + "/" + config.adminQuery.layerId);
+              queryTask = new QueryTask(Config.queryUrl + "/" + Config.adminQuery.layerId);
             } else {
               query.outFields = ["NAME_1"];
               queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
             }
+            
             callback = function(results) {
                 var extent = graphicsUtils.graphicsExtent(results.features);
 
                 arrayUtils.forEach(mapkeys, function(key) {
-                  for (map in config.maps) {
+                  for (map in Config.maps) {
                     if (extent) {
                       if (query.where.includes("NAME_0 = 'United States'")) {
                         const unitedStatesExtent = new Extent();
@@ -2174,9 +2174,9 @@ define([
                         unitedStatesExtent.xmax = -2191679.23;
                         unitedStatesExtent.ymax = 12133002.21;
                         unitedStatesExtent.spatialReference = new SpatialReference({wkid: 102100});
-                        config.maps[map].setExtent(unitedStatesExtent, false);
+                        Config.maps[map].setExtent(unitedStatesExtent, false);
                       } else {
-                        config.maps[map].setExtent(extent, true);
+                        Config.maps[map].setExtent(extent, true);
                       }
                     }
                   }
@@ -2222,7 +2222,7 @@ define([
 
                       if (tableColorRange) {
                         tableColorRange.forEach(function (binItem, colorIndex) {
-                          var color = colorIndex >= 5 ? config.colorramp[colorIndex - 1] : config.colorramp[colorIndex];
+                          var color = colorIndex >= 5 ? Config.colorramp[colorIndex - 1] : Config.colorramp[colorIndex];
                           if (window.reportOptions.aoitype === 'ISLAND') {
                             if (colorValue > tableColorRange[colorIndex] && colorValue <= tableColorRange[colorIndex + 1]) {
                               cols += '<td class="table-cell table-cell__value">' + colorValue + '</td><td class="table-color-switch_cell"><span class="table-color-switch" style=\'background-color: rgba(' + (color ? color.toString() : '') + ')\'></span></td>';
@@ -2244,7 +2244,7 @@ define([
                       if (tableColorRange) {
                         tableColorRange.forEach(function (binItem, index) {
                           if (colorValue >= tableColorRange[index] && colorValue <= tableColorRange[index + 1]) {
-                            var color = config.colorramp[index];
+                            var color = Config.colorramp[index];
                             var includes = _.includes(cols, 'table-cell__value');
                             if(!includes){
                               cols += "<td class='table-cell table-cell__value'>" + colorValue + "</td><td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + color.toString() + ")'></span></td>";
