@@ -10,6 +10,7 @@ define([
     "dojo/promise/all",
     "dojo/_base/array",
     "dojo/io-query",
+    "dojo/request",
     "esri/map",
     "esri/Color",
     "esri/config",
@@ -33,7 +34,7 @@ define([
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
     "./Config"
-], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
+], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, request, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats, Config) {
 
@@ -71,6 +72,8 @@ define([
             var districtModisLayerId;
             var subDistrictViirsLayerId;
             var subDistrictModisLayerId;
+            var deferred = new Deferred();
+
             if (window.reportOptions.aoitype === 'GLOBAL') {
               districtViirsLayerId = Config.adminQuery.fire_stats_global.id_viirs;
               districtModisLayerId = Config.adminQuery.fire_stats_global.id_modis;
@@ -108,7 +111,10 @@ define([
             self.getFireCounts(selectedCountry);
             self.getFireHistoryCounts(selectedCountry);
 
+
             if (window.reportOptions.country === 'Indonesia') {
+              document.querySelector('.report-section__charts-container').style.display = 'none';
+
               all([
                 // Indonesia tables query --- START
                 self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id),
@@ -131,7 +137,16 @@ define([
               });
             } else {
               document.querySelector('.report-section__charts-container').style.display = 'none';
+              document.querySelector('.report-section__charts-container_countries').style.display = '';
               document.querySelector('#ConcessionRspoContainer').style.display = 'none';
+
+              request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+                handleAs: 'json'
+              }).then(function(response) {
+                Config.countryPieCharts.forEach(function(chartConfig) {
+                  self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+                });
+              });
 
               all([
                 self.getCountryAdminTypes(selectedCountry)
@@ -139,6 +154,44 @@ define([
                 self.printReport();
               });
             }
+        },
+
+        createPieChart: function(firesCount, chartConfig) {
+          var self = this;
+          var data = [];
+
+          request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            handleAs: 'json'
+          }).then(function(response) {
+            if (response.data.attributes.value !== null) {
+              document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
+            } else {
+              return;
+            }
+
+            var alerts = response.data.attributes.value[0].alerts;
+
+            data.push({
+              color: chartConfig.colors[0],
+              name: chartConfig.name1,
+              visible: true,
+              y: alerts
+            });
+
+            data.push({
+              color: chartConfig.colors[1],
+              name: chartConfig.name2,
+              visible: true,
+              y: firesCount - alerts
+            });
+
+            self.buildPieChart(chartConfig.domElement, {
+              data: data,
+              name: chartConfig.name3,
+              labelDistance: 5,
+              total: firesCount
+            });
+          });
         },
 
         getCountryAdminTypes: function (selectedCountry) {
@@ -153,9 +206,7 @@ define([
               deferred = new Deferred(),
               query = new Query();
 
-              var countryObjs = Config.countryFeatures;
-
-              query.where = "ID_0 = " + countryObjs[selectedCountry] + " AND Name_1 in ('" + aoiData + "')";
+              query.where = "ID_0 = " + this.countryObjId + " AND Name_1 in ('" + aoiData + "')";
               query.returnGeometry = false;
               query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
               query.returnDistinctValues = true;
@@ -208,9 +259,23 @@ define([
                 month: monthNames[dateobj.tMonth - 1].substring(0,3),
                 day: dateobj.tDay
             });
+
+            var startMonth = parseInt(dateobj.fMonth) < 10 ? '0' + dateobj.fMonth : dateobj.fMonth;
+            var endMonth = parseInt(dateobj.tMonth) < 10 ? '0' + dateobj.tMonth : dateobj.tMonth;
+            var startDay = parseInt(dateobj.fDay) < 10 ? '0' + dateobj.fDay : dateobj.fDay;
+            var endDay = parseInt(dateobj.tDay) < 10 ? '0' + dateobj.tDay : dateobj.tDay;
+
+
+            this.startDateRaw = dateobj.fYear + '-' + startMonth + '-' + startDay;
+            this.endDateRaw = dateobj.tYear + '-' + endMonth + '-' + startDay;
+
             this.aoilist = window.reportOptions.aois.join(', ');
             this.aoitype = window.reportOptions.aoitype;
             this.dataSource = window.reportOptions.dataSource;
+            this.currentCountry = window.reportOptions.country;
+            this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
+            this.countryObjId = Config.countryObjId[this.currentCountry];
+
             $('.fromDate').text(' ' + self.startdate);
             $('.toDate').text(' - ' + self.enddate);
             $('.interaction-type').text(document.ontouchstart === undefined ? 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in');
@@ -279,7 +344,6 @@ define([
           var country = window.reportOptions.country;
           var countryQueryGlobal;
           var aoiQueryGlobal;
-          var countryObjs = Config.countryFeatures;
 
           if (aoiType === 'ISLAND') {
             aoi = aoiType + " in ('" + aoiData + "')";
@@ -293,7 +357,7 @@ define([
             aoiQueryGlobal = "PROVINCE in ('" + aoiData + "')";
             aoi = aoiQueryGlobal;
           } else {
-            countryQueryGlobal = "ID_0 = " + countryObjs[country];
+            countryQueryGlobal = "ID_0 = " + this.countryObjId;
             aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
             aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
           }
@@ -317,7 +381,6 @@ define([
           var enddate = "ACQ_DATE <= date'" + this.enddate + "'";
           var countryQueryGlobal;
           var aoiQueryGlobal;
-          var countryObjs = Config.countryFeatures;
 
           if (aoiType === 'ISLAND') {
             aoi = aoiType + " in ('" + aoiData + "')";
@@ -331,7 +394,7 @@ define([
             aoiQueryGlobal = "PROVINCE in ('" + aoiData + "')";
             aoi = aoiQueryGlobal;
           } else {
-            countryQueryGlobal = "ID_0 = " + countryObjs[country];
+            countryQueryGlobal = "ID_0 = " + this.countryObjId;
             aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
             aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
           }
@@ -340,20 +403,19 @@ define([
         },
 
         get_aoi_definition: function(queryType) {
-            var aois = window.reportOptions.aois;
-            var aoi;
+          var aois = window.reportOptions.aois;
+          var aoi;
 
-            if (window.reportOptions.aoitype === 'GLOBAL' && queryType === 'REGION') {
-              aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
-            } else if (window.reportOptions.aoitype === 'GLOBAL') {
-              var countryObjs = Config.countryFeatures;
+          if (window.reportOptions.aoitype === 'GLOBAL' && queryType === 'REGION') {
+            aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
+          } else if (window.reportOptions.aoitype === 'GLOBAL') {
 
-              aoi = "ID_0 = " + countryObjs[window.reportOptions.country] + " AND NAME_1 in ('" + aois.join("','") + "')";
-            } else {
-              aoi = window.reportOptions.aoitype + " in ('" + aois.join("','") + "')";
-            }
+            aoi = "ID_0 = " + this.countryObjId + " AND NAME_1 in ('" + aois.join("','") + "')";
+          } else {
+            aoi = window.reportOptions.aoitype + " in ('" + aois.join("','") + "')";
+          }
 
-            return aoi;
+          return aoi;
         },
 
         buildDistributionOfFireAlertsMap: function() {
@@ -972,8 +1034,7 @@ define([
             data: [],
           };
 
-        var countryObjs = Config.countryFeatures;
-        query.where = "ID_0=" + countryObjs[selectedCountry] + ' AND 1=1';
+        query.where = "ID_0=" + this.countryObjId + ' AND 1=1';
         query.returnGeometry = false;
         query.outFields = ['*'];
 
@@ -1242,8 +1303,7 @@ define([
             data: []
           };
 
-        var countryObjs = Config.countryFeatures;
-        query.where = "ID_0=" + countryObjs[selectedCountry];
+        query.where = "ID_0=" + this.countryObjId;
         query.returnGeometry = false;
         query.outFields = ['*'];
 
@@ -1687,7 +1747,6 @@ define([
 
             return deferred.promise;
         },
-
         queryForPeatFires: function() {
             var deferred = new Deferred(),
                 peatData = [],
