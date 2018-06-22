@@ -390,7 +390,7 @@ define([
           var startDateQuery = `Date > date'${momentStart.format('YYYY-MM-DD HH:mm:ss')}'`;
           var endDateQuery = `Date < date'${momentEnd.format('YYYY-MM-DD HH:mm:ss')}'`;
           var limit = 'LIMIT 100'
-          var sql = [startDateQuery, endDateQuery, limit].join(' AND ');
+          var sql = [startDateQuery, endDateQuery].join(' AND ');
           return sql;
         },
 
@@ -527,9 +527,12 @@ define([
                 deferred.resolve(true);
               });
             } else if(window.reportOptions.aoitype === 'ALL') {
+              var viirsLayerDefs = [];
+              var modisLayerDefs = [];
               var viirs = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer';
               var modis = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer';
-              var layerDefs = self.get_all_layer_definition();
+              viirsLayerDefs[8] = self.get_all_layer_definition();
+              modisLayerDefs[9] = self.get_all_layer_definition();
 
               var viirsParams = new ImageParameters();
               viirsParams.format = 'png32';
@@ -555,8 +558,8 @@ define([
               });
               
               // Set layer definitions
-              viirsLayer.setLayerDefinitions([layerDefs]);
-              modisLayer.setLayerDefinitions([layerDefs]);
+              viirsLayer.setLayerDefinitions(viirsLayerDefs);
+              modisLayer.setLayerDefinitions(modisLayerDefs);
 
               // Add layers to map
               map.addLayers([viirsLayer, modisLayer]);
