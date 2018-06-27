@@ -2199,8 +2199,8 @@ module.exports = {
             name2: 'Fires outside of WDPA protected areas',
             name3: 'WDPA protecred areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(108, 157, 231, 1)"
+                "rgba(248, 137, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'wdpa-fires-chart'
         }, {
@@ -2209,8 +2209,8 @@ module.exports = {
             name2: 'Fires outside of peatlands',
             name3: 'Peatlands areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(229, 0, 23, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'peatland-fires-chart'
         }, {
@@ -2219,8 +2219,8 @@ module.exports = {
             name2: 'Fires outside of IFL areas',
             name3: 'IFL protected areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(209, 25, 43, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'ifl-fires-chart'
         }, {
@@ -2229,8 +2229,8 @@ module.exports = {
             name2: 'Fires outside of mining areas',
             name3: 'Mining areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(253, 240, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'mining-fires-chart'
         }, {
@@ -2239,8 +2239,8 @@ module.exports = {
             name2: 'Fires outside of primary forested areas',
             name3: 'Primary forested areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(255, 218, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'primary_forest-fires-chart'
         }, {
@@ -2249,8 +2249,8 @@ module.exports = {
             name2: 'Fires outside of plantations',
             name3: 'Plantations Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(255, 188, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'plantations-fires-chart'
         }, {
@@ -2259,8 +2259,8 @@ module.exports = {
             name2: 'Fires outside of peatlands areas',
             name3: 'Peatland Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(248, 137, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'idn_mys_peatlands-fires-chart'
         }, {
@@ -2269,8 +2269,8 @@ module.exports = {
             name2: 'Fires outside of forest moratoriums',
             name3: 'Forest moratorium Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(229, 0, 23, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'idn_forest_moratorium-fires-chart'
         }, {
@@ -2279,8 +2279,8 @@ module.exports = {
             name2: 'Fires outside of RSPOs',
             name3: 'RSPO Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(209, 25, 43, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'rspo-fires-chart'
         }, {
@@ -2289,8 +2289,8 @@ module.exports = {
             name2: 'Fires outside of wood fiber areas',
             name3: 'Wood fiber areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(253, 240, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'wood_fiber-fires-chart'
         }, {
@@ -2299,8 +2299,8 @@ module.exports = {
             name2: 'Fires outside of palm oil areas',
             name3: 'Palm oil areas Fires',
             colors: [
-                "rgba(15, 198, 184, 1)",
-                "rgba(64, 128, 224, 1)"
+                "rgba(255, 218, 0, 1)",
+                "rgba(216, 212, 212, 1)"
             ],
             domElement: 'oil_palm-fires-chart'
         }

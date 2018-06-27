@@ -113,39 +113,45 @@ define([
             self.getFireHistoryCounts(selectedCountry);
 
 
-            if (window.reportOptions.country === 'Indonesia') {
-              document.querySelector('.report-section__charts-container').style.display = 'none';
+            // if (window.reportOptions.country === 'Indonesia') {
+            //   document.querySelector('.report-section__charts-container').style.display = '';
 
-              all([
-                // Indonesia tables query --- START
-                self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id),
-                self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id),
-                self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id),
-                self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id),
-                // Indonesia tables query --- END
+            //   all([
+            //     // Indonesia tables query --- START
+            //     self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id),
+            //     self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id),
+            //     self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id),
+            //     self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id),
+            //     // Indonesia tables query --- END
 
-                // self.queryFiresBreakdown(),
-                // self.queryFireCount('concessionsQuery'),
+            //     // self.queryFiresBreakdown(),
+            //     // self.queryFireCount('concessionsQuery'),
 
-                // Indonesia charts query --- START
-                self.queryForPeatFires(areaOfInterestType),
-                self.queryForSumatraFires(areaOfInterestType),
-                self.queryForMoratoriumFires(areaOfInterestType),
-                // Indonesia charts query --- END
+            //     // Indonesia charts query --- START
+            //     self.queryForPeatFires(areaOfInterestType),
+            //     self.queryForSumatraFires(areaOfInterestType),
+            //     self.queryForMoratoriumFires(areaOfInterestType),
+            //     // Indonesia charts query --- END
 
-              ]).then(function(res) {
-                self.printReport();
-              });
-            } else {
-              document.querySelector('.report-section__charts-container').style.display = 'none';
+            //   ]).then(function(res) {
+            //     self.printReport();
+            //   });
+            // } else {
+              // document.querySelector('.report-section__charts-container').style.display = 'none';
               document.querySelector('.report-section__charts-container_countries').style.display = '';
               document.querySelector('#ConcessionRspoContainer').style.display = 'none';
 
               request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
                 handleAs: 'json'
               }).then(function(response) {
-                Config.countryPieCharts.forEach(function(chartConfig) {
-                  self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+                Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+                  return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+                })).then(() => {
+                  console.log('DONEEEEE');
+                  $(".chart-container-countries:odd").addClass('pull-right');
+                  $(".chart-container-countries:even").addClass('pull-left');
+                }).catch(e => {
+                  console.log(e);
                 });
               });
 
@@ -156,49 +162,52 @@ define([
                   self.printReport();
                 });
               }
-            }
+            // }
         },
 
         createPieChart: function(firesCount, chartConfig) {
-          var self = this;
-          // var side = false; // 0 = right, 1 = left
-          var data = [];
-
-          request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-            handleAs: 'json'
-          }).then(function(response) {
-            if (response.data.attributes.value !== null) {
-              document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
-              // $('#' + chartConfig.domElement + '-container').addClass(side ? 'pull-right' : 'pull-left');
-              side = !side;
-            } else {
-              $('#' + chartConfig.domElement + '-container').remove();
-              return;
-            }
-
-            var alerts = response.data.attributes.value[0].alerts;
-
-            data.push({
-              color: chartConfig.colors[0],
-              name: chartConfig.name1,
-              visible: true,
-              y: alerts
+          return new Promise((resolve, reject) => {
+            var self = this;
+            // var side = false; // 0 = right, 1 = left
+            var data = [];
+  
+            request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+              handleAs: 'json'
+            }).then((response) => {
+              if (response.data.attributes.value !== null) {
+                document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
+                // $('#' + chartConfig.domElement + '-container').addClass(side ? 'pull-right' : 'pull-left');
+                // side = !side;
+              } else {
+                $('#' + chartConfig.domElement + '-container').remove();
+                resolve();
+              }
+  
+              var alerts = response.data.attributes.value[0].alerts;
+  
+              data.push({
+                color: chartConfig.colors[0],
+                name: chartConfig.name1,
+                visible: true,
+                y: alerts
+              });
+  
+              data.push({
+                color: chartConfig.colors[1],
+                name: chartConfig.name2,
+                visible: true,
+                y: firesCount - alerts
+              });
+  
+              self.buildPieChart(chartConfig.domElement, {
+                data: data,
+                name: chartConfig.name3,
+                labelDistance: 5,
+                total: firesCount
+              });
+              resolve();
             });
-
-            data.push({
-              color: chartConfig.colors[1],
-              name: chartConfig.name2,
-              visible: true,
-              y: firesCount - alerts
-            });
-
-            self.buildPieChart(chartConfig.domElement, {
-              data: data,
-              name: chartConfig.name3,
-              labelDistance: 5,
-              total: firesCount
-            });
-          });
+          })
         },
 
         getCountryAdminTypes: function (selectedCountry) {
@@ -1245,9 +1254,6 @@ define([
                       marginRight: 20,
                       events:{
                         load:function(){
-                          console.log(self);
-                          console.log(this);
-                          debugger;
                           this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                             fill: '#555'
                           }).add();
@@ -1499,9 +1505,6 @@ define([
                     chart:{
                       events:{
                         load:function(){
-                          console.log(self);
-                          console.log(this);
-                          debugger;
                           this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                             fill: '#555'
                           }).add();
@@ -2280,6 +2283,7 @@ define([
         },
 
         buildPieChart: function(id, config) {
+          var self = this;
             // Config object needs the following
             //  - data: array of data objects with color, name, visible, and y
             //  - label distance
@@ -2289,60 +2293,78 @@ define([
             // "peat-fires-chart", {
             //   'name': 'Peat Fires', data: [], labelDistance: -30
             // }
-            $('#' + id).highcharts({
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                  text: null
-                },
-                yAxis: {
-                    title: {
-                        text: null
+          $('#' + id).highcharts({
+              chart: {
+                  type: 'pie'
+              },
+              title: {
+                text: null
+              },
+              yAxis: {
+                  title: {
+                      text: null
+                  }
+              },
+              plotOptions: {
+                  pie: {
+                      shadow: false,
+                      center: ['50%', '50%'],
+                      borderWidth: 0,
+                      dataLabels: {
+                        useHTML: true,
+                        format: ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>',
+                        //connectorColor: 'transparent',
+                        //connectorWidth: 0,
+                      },
+                      style: {
+                        fontSize: '.8em'
+                      }
+                  }
+              },
+              tooltip: {
+                  formatter: function() {
+                      return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+                  }
+              },
+              credits: {
+                  enabled: false
+              },
+              legend: {
+                  enabled: false
+              },
+              exporting:{
+                scale: 4,
+                chartOptions:{
+                  chart:{
+                    marginTop: 50,
+                    // marginRight: 20,
+                    events:{
+                      load:function(){
+                        this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                          fill: '#555'
+                        }).add();
+                        this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                        this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ config.name }</span>`, 56, 46, true).add();
+                      }
                     }
-                },
-                plotOptions: {
-                    pie: {
-                        shadow: false,
-                        center: ['50%', '50%'],
-                        borderWidth: 0,
-                        dataLabels: {
-                          useHTML: true,
-                          format: ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>',
-                          //connectorColor: 'transparent',
-                          //connectorWidth: 0,
-                        },
-                        style: {
-                          fontSize: '.8em'
-                        }
-                    }
-                },
-                tooltip: {
-                    formatter: function() {
-                        return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
-                    }
-                },
-                credits: {
-                    enabled: false
-                },
-                legend: {
-                    enabled: false
-                },
-                series: [{
-                    name: config.name,
-                    data: config.data,
-                    size: '70%',
-                    innerSize: '55%',
-                    dataLabels: {
-                        distance: config.labelDistance,
-                        color: 'black',
-                        formatter: function() {
-                            return Math.round((this.y / config.total) * 100) + "%";
-                        }
-                    }
-                }]
-            });
-
+                  }
+                }
+              },
+              series: [{
+                  name: config.name,
+                  data: config.data,
+                  size: '70%',
+                  innerSize: '55%',
+                  dataLabels: {
+                      distance: config.labelDistance,
+                      color: 'black',
+                      formatter: function() {
+                          return Math.round((this.y / config.total) * 100) + "%";
+                      }
+                  }
+              }]
+          });
         },
 
         get_extent: function(mapkeysItem) {
