@@ -2214,15 +2214,95 @@ module.exports = {
             ],
             domElement: 'peatland-fires-chart'
         }, {
-            type: 'ifl_2013',
-            name1: 'IFL protected areas',
-            name2: 'Fires outside of IFL protected areas',
-            name3: 'IFL protecred areas Fires',
+            type: 'ifl',
+            name1: 'IFL areas',
+            name2: 'Fires outside of IFL areas',
+            name3: 'IFL protected areas Fires',
             colors: [
                 "rgba(15, 198, 184, 1)",
                 "rgba(64, 128, 224, 1)"
             ],
             domElement: 'ifl-fires-chart'
+        }, {
+            type: 'mining',
+            name1: 'Mining areas',
+            name2: 'Fires outside of mining areas',
+            name3: 'Mining areas Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'mining-fires-chart'
+        }, {
+            type: 'primary_forest',
+            name1: 'Primary forested areas',
+            name2: 'Fires outside of primary forested areas',
+            name3: 'Primary forested areas Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'primary_forest-fires-chart'
+        }, {
+            type: 'plantations',
+            name1: 'Plantations',
+            name2: 'Fires outside of plantations',
+            name3: 'Plantations Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'plantations-fires-chart'
+        }, {
+            type: 'idn_mys_peatlands',
+            name1: 'Peatlands',
+            name2: 'Fires outside of peatlands areas',
+            name3: 'Peatland Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'idn_mys_peatlands-fires-chart'
+        }, {
+            type: 'idn_forest_moratorium',
+            name1: 'Forest moratorium',
+            name2: 'Fires outside of forest moratoriums',
+            name3: 'Forest moratorium Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'idn_forest_moratorium-fires-chart'
+        }, {
+            type: 'rspo',
+            name1: 'RSPO',
+            name2: 'Fires outside of RSPOs',
+            name3: 'RSPO Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'rspo-fires-chart'
+        }, {
+            type: 'wood_fiber',
+            name1: 'Wood Fiber',
+            name2: 'Fires outside of wood fiber areas',
+            name3: 'Wood fiber areas Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'wood_fiber-fires-chart'
+        }, {
+            type: 'oil_palm',
+            name1: 'Palm Oil areas',
+            name2: 'Fires outside of palm oil areas',
+            name3: 'Palm oil areas Fires',
+            colors: [
+                "rgba(15, 198, 184, 1)",
+                "rgba(64, 128, 224, 1)"
+            ],
+            domElement: 'oil_palm-fires-chart'
         }
     ],
     subDistrictQuery: {
