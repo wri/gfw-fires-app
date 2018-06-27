@@ -90,7 +90,7 @@ define([
 
             self.queryForDailyFireData(areaOfInterestType);
 
-            // Create the Distrubution of Fire Alerts Map
+            // Create the Distribution of Fire Alerts Map
             self.buildDistributionOfFireAlertsMap().then(function () {
               self.get_extent('fires');
             });
@@ -161,6 +161,7 @@ define([
 
         createPieChart: function(firesCount, chartConfig) {
           var self = this;
+          // var side = false; // 0 = right, 1 = left
           var data = [];
 
           request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
@@ -168,7 +169,10 @@ define([
           }).then(function(response) {
             if (response.data.attributes.value !== null) {
               document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
+              // $('#' + chartConfig.domElement + '-container').addClass(side ? 'pull-right' : 'pull-left');
+              side = !side;
             } else {
+              $('#' + chartConfig.domElement + '-container').remove();
               return;
             }
 
@@ -1101,6 +1105,8 @@ define([
           query = new Query(),
           series = [],
           index = 0,
+          self = this,
+          title = '',
           yearObject = {
             data: [],
           };
@@ -1187,12 +1193,18 @@ define([
               // Adding sum for year to window
               window['firesCountRegionCurrentYearSum'] = yearObject.data[yearObject.data.length - 1].y;
 
-              $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+              title = window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
+
+              $('#firesCountTitle').html(title);
 
               var firesCountChart = Highcharts.chart('firesCountChart', {
                 title: {
                   text: ''
                 },
+
+                // chart: {
+                  
+                // },
 
                 xAxis: {
                   labels: {
@@ -1223,6 +1235,29 @@ define([
 
                 credits: {
                   enabled: false
+                },
+
+                exporting:{
+                  scale: 4,
+                  chartOptions:{
+                    chart:{
+                      marginTop: 75,
+                      marginRight: 20,
+                      events:{
+                        load:function(){
+                          console.log(self);
+                          console.log(this);
+                          debugger;
+                          this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                            fill: '#555'
+                          }).add();
+                          this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                          this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                          this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
+                        }
+                      }
+                    }
+                  }
                 },
 
                 tooltip: {
@@ -1370,6 +1405,7 @@ define([
           series = {},
           index = 0,
           allValues = [],
+          self = this,
           yearObject = {
             data: []
           };
@@ -1454,6 +1490,27 @@ define([
                   bubble:{
                     minSize:'30%',
                     maxSize:'60%'
+                  }
+                },
+
+                exporting:{
+                  scale: 4,
+                  chartOptions:{
+                    chart:{
+                      events:{
+                        load:function(){
+                          console.log(self);
+                          console.log(this);
+                          debugger;
+                          this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                            fill: '#555'
+                          }).add();
+                          this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                          this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                          this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">Total MODIS fire alerts</span>`, 55, 46, true).add();
+                        }
+                      }
+                    }
                   }
                 },
 
@@ -2155,6 +2212,24 @@ define([
                             color: '#a90016'
                         }]
 
+                    },
+                    exporting:{
+                      scale: 4,
+                      chartOptions:{
+                        chart:{
+                          marginTop: 60,
+                          events:{
+                            load:function(){
+                              this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                                fill: '#555'
+                              }).add();
+                              this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                              this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                              this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">Fire Alert Count Jan 1, 2012 - Present</span>`, 55, 46, true).add();
+                            }
+                          }
+                        }
+                      }
                     },
                     tooltip: {
                         valueSuffix: ''
