@@ -141,6 +141,10 @@ define([
               document.querySelector('.report-section__charts-container_countries').style.display = '';
               document.querySelector('#ConcessionRspoContainer').style.display = 'none';
 
+
+              // REMOVE WHEN ALL AOITYPE IS DONE
+              if (this.currentCountry === 'ALL') this.currentISO = 'IDN';
+
               request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
                 handleAs: 'json'
               }).then(function(response) {
@@ -207,7 +211,7 @@ define([
               });
               resolve();
             });
-          })
+          });
         },
 
         getCountryAdminTypes: function (selectedCountry) {
@@ -2137,42 +2141,34 @@ define([
             }
 
             function queryForFiresCount(fireCountLayer) {
-              query.where = self.get_aoi_definition();
-              query.returnGeometry = false;
-              query.groupByFieldsForStatistics = [Config.dailyFiresField];
-              query.orderByFields = ['ACQ_DATE ASC'];
 
-              statdef.onStatisticField = Config.dailyFiresField;
-              statdef.outStatisticFieldName = 'Count';
-              statdef.statisticType = "count";
-              query.outStatistics = [statdef];
-              queryAll.where = self.get_layer_definition();
+              // REMOVE AFTER ALL IS DONE
+              if (this.currentISO === undefined) this.currentISO = 'IDN';
 
-              queryTask.executeForCount(queryAll, function (count) {
-                Config[fireCountLayer] = count;
+              // Get total fires count
+              request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO, {
+                handleAs: 'json'
+              }).then((response) => {
 
                 function numberWithCommas(globalFiresTotalCount) {
                   return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
 
-                if (Config.fire_id_global_viirs && Config.fire_id_global_modis){
-                  var globalFiresTotalCount = Config.fire_id_global_viirs + Config.fire_id_global_modis;
-                  $("#totalFireAlerts").html(numberWithCommas(globalFiresTotalCount));
-                } else if (Config['fire_id_island_viirs'] && Config['fire_id_island_modis']) {
-                  var islandFiresTotalCount = Config['fire_id_island_viirs'] + Config['fire_id_island_modis'];
-                  $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
-                }
-              }, function (error) {
-                console.log(error);
+                $("#totalFireAlerts").html(numberWithCommas(response.data.attributes.value.alerts));
               });
-            }
 
-            success = function(res) {
-                var count = 0;
-                arrayUtils.forEach(res.features, function(feature) {
-                  fireDataLabels.push(moment(feature.attributes[Config.dailyFiresField]).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
-                  fireData.push(feature.attributes.Count);
-                  count += feature.attributes.Count;
+              // Get total fires count aggregated by day
+              request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?aggregate_values=True&aggregate_by=day', {
+                handleAs: 'json'
+              }).then((response) => {
+
+                const values = response.data.attributes.value;
+
+                Config[fireCountLayer] = values.length;
+    
+                values.forEach(value => {
+                  fireDataLabels.push(moment(value.day).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
+                  fireData.push(value.alerts);
                 });
 
                 $("#totalFiresLabel").show()
@@ -2184,10 +2180,6 @@ define([
                     title: {
                         text: null
                     },
-                    // subtitle: {
-                    //     text: document.ontouchstart === undefined ?
-                    //         'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-                    // },
                     plotOptions: {
                         line: {
                             marker: {
@@ -2249,14 +2241,10 @@ define([
                         color: '#f49f2d'
                     }]
                 });
+    
+              });
+            }
 
-            };
-
-            failure = function(err) {
-                console.dir(err);
-            };
-
-            queryTask.execute(query, success, failure);
             deferred.resolve(true);
             return deferred.promise;
         },
