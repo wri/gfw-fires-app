@@ -42,6 +42,9 @@ export default class GlobalCountryReport extends React.Component {
     countriesList.unshift({
       value: '',
       label: 'Select a Country'
+    }, {
+      value: 'ALL',
+      label: 'Global Report'
     });
 
 
@@ -143,11 +146,11 @@ export default class GlobalCountryReport extends React.Component {
     app.debug('AnalysisTab >>> countryAnalysis');
 
     let reportType = 'globalcountryreport',
-      countries = this.state.selectedGlobalCoutry,
-      regions = this.state.selectedSubRegion,
-      reportdateFrom = this.state.analysisStartDate.split('/'),
-      reportdateTo = this.state.analysisEndDate.split('/'),
-      reportdates = {};
+    countries = this.state.selectedGlobalCoutry,
+    regions = this.state.selectedSubRegion,
+    reportdateFrom = this.state.analysisStartDate.split('/'),
+    reportdateTo = this.state.analysisEndDate.split('/'),
+    reportdates = {};
 
     if (!countries) {
       return;
@@ -180,7 +183,12 @@ export default class GlobalCountryReport extends React.Component {
     }
     dateString += dateArgs.join('!');
 
-    hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+    // global country report
+    if (country && country === 'ALL') {
+      hash += ['aoitype=ALL', reportTypeString, dateString].join('&');
+    } else {
+      hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+    }
     return hash;
   }
 }
