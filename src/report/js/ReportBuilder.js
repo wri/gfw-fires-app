@@ -185,6 +185,7 @@ define([
               } else {
                 $('#' + chartConfig.domElement + '-container').remove();
                 resolve();
+                return;
               }
   
               var alerts = response.data.attributes.value[0].alerts;
@@ -1112,6 +1113,77 @@ define([
         },
 
       getFireCounts: function (selectedCountry) {
+
+        // request.get(Config.pieChartDataEndpoint + 'admin/global?aggregate_values=True&aggregate_by=month', {
+        //   handleAs: 'json'
+        // }).then(function(response) {
+        //   let series = [];
+        //   let seriesTemp = { data: [], name: '' };
+        //   let index = 0;
+        //   const currentYear = new Date().getFullYear();
+        //   const currentMonth = new Date().getMonth();
+        //   let indexColor = 0;
+        //   const colorStep = 15;
+        //   const baseColor = '#777777';
+        //   var dataLabelsFormat = {
+        //     enabled: true,
+        //     align: 'left',
+        //     x: 0,
+        //     verticalAlign: 'middle',
+        //     overflow: true,
+        //     crop: false,
+        //     format: '{series.name}'
+        //   };
+        //   const values = response.data.attributes.value;
+
+        //   function shadeColor(color, percent) {
+        //     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+        //     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+        //   }
+
+        //   const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+        //   const dataLabelsFormatAction = function (yearObject, hexColor) {
+        //     if (yearObject.data.length !== 12) {
+        //       var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
+        //     }
+        //     var twelveMonthsData = yearObject['data'];
+        //     var lastMonthData = twelveMonthsData.pop();
+        //     yearObject['data'] = [].concat(twelveMonthsData, [{
+        //       dataLabels: dataLabelsFormat,
+        //       y: lastMonthData
+        //     }]);
+
+        //     yearObject['color'] = hexColor;
+        //   }
+
+        //   values.forEach((value, i) => {
+        //     if (i % 12 === 0 && i !== 0) {
+        //       seriesTemp.name = value.year;
+
+        //       var hexColor = shadeColor(baseColor, (indexColor / 100));
+        //       indexColor = indexColor + colorStep;
+        //       dataLabelsFormatAction(seriesTemp, hexColor);
+
+        //       series.push(seriesTemp);
+        //       seriesTemp = { data: [], name: '' };
+        //       seriesTemp.data.push(value.alerts);
+        //       index++;
+        //     } else {
+        //       array1.reduce(reducer) ///////////
+        //       seriesTemp.data.push(value.alerts);
+        //     }
+
+        //   });
+
+        //   window['firesCountRegionSeries'] = series;
+        //   window['firesCountRegionCurrentYear'] = currentYear;
+        //   window['firesCountRegionCurrentYearSum'] = console.log();
+        //   debugger;
+
+        // });
+
+
         // TODO URL move this to config
         var queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/2'),
           deferred = new Deferred(),
@@ -1206,7 +1278,7 @@ define([
               // Adding sum for year to window
               window['firesCountRegionCurrentYearSum'] = yearObject.data[yearObject.data.length - 1].y;
 
-              title = window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
+              title = window['firesCountRegionCurrentYear'] + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
 
               $('#firesCountTitle').html(title);
 
@@ -1214,11 +1286,6 @@ define([
                 title: {
                   text: ''
                 },
-
-                // chart: {
-                  
-                // },
-
                 xAxis: {
                   labels: {
                     style: {
@@ -1228,13 +1295,11 @@ define([
                     }
                   }
                 },
-
                 yAxis: {
                   title: {
                     text: ''
                   }
                 },
-
                 plotOptions: {
                   series: {
                     color: '#ccc',
@@ -1245,11 +1310,9 @@ define([
                     }
                   }
                 },
-
                 credits: {
                   enabled: false
                 },
-
                 exporting:{
                   scale: 4,
                   chartOptions:{
@@ -1269,7 +1332,6 @@ define([
                     }
                   }
                 },
-
                 tooltip: {
                   useHTML: true,
                   backgroundColor: '#ffbb07',
@@ -1278,16 +1340,14 @@ define([
                     return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
                   }
                 },
-
                 xAxis: {
                   categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                 },
-
                 series: series
-
               });
 
-              getFireCountsChartAction(firesCountChart, selectedCountry);
+              // This create the clickable legend to the right side of the fire history: fire season progression figure
+              // getFireCountsChartAction(firesCountChart, selectedCountry);
 
               function getFireCountsChartAction(firesCountChart, selectedCountry) {
                 var queryTask,
@@ -1326,7 +1386,7 @@ define([
 
                   $('#firesCountIslandsListContainer h3').click(function () {
                     $(this).addClass('selected');
-                    $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+                    $('#firesCountTitle').html(window['firesCountRegionCurrentYear'] + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
                     $('#firesCountIslandsList li').removeClass('selected');
 
                     if (firesCountChart.series) {
@@ -2120,17 +2180,7 @@ define([
                 failure;
 
             if (areaOfInterestType === 'GLOBAL' || areaOfInterestType === 'ALL') {
-              var queryEndpointsIds = ['fire_id_global_viirs', 'fire_id_global_modis'];
-
-              queryEndpointsIds.forEach(function (fireCountLayer) {
-                if (fireCountLayer === 'fire_id_global_viirs') {
-                  queryTask = new QueryTask(Config.firesLayer.global_viirs);
-                } else if (fireCountLayer === 'fire_id_global_modis') {
-                  queryTask = new QueryTask(Config.firesLayer.global_modis);
-                }
-
-                queryForFiresCount(fireCountLayer);
-              });
+                queryForFiresCount();
             } else {
               var queryEndpointsIds = ['fire_id_island_viirs', 'fire_id_island_modis'];
               $('.fire-alert-count__year').text('2013');
@@ -2143,10 +2193,10 @@ define([
             function queryForFiresCount(fireCountLayer) {
 
               // REMOVE AFTER ALL IS DONE
-              if (this.currentISO === undefined) this.currentISO = 'IDN';
+              if (self.currentISO === undefined) self.currentISO = 'IDN';
 
               // Get total fires count
-              request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO, {
+              request.get(Config.pieChartDataEndpoint + 'admin/' + self.currentISO + '?period=' + self.startDateRaw + ',' + self.endDateRaw, {
                 handleAs: 'json'
               }).then((response) => {
 
@@ -2154,17 +2204,15 @@ define([
                   return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
 
-                $("#totalFireAlerts").html(numberWithCommas(response.data.attributes.value.alerts));
+                $("#totalFireAlerts").html(numberWithCommas(response.data.attributes.value[0].alerts));
               });
 
               // Get total fires count aggregated by day
-              request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?aggregate_values=True&aggregate_by=day', {
+              request.get(Config.pieChartDataEndpoint + 'admin/' + self.currentISO + '?aggregate_values=True&aggregate_by=day', {
                 handleAs: 'json'
               }).then((response) => {
 
                 const values = response.data.attributes.value;
-
-                Config[fireCountLayer] = values.length;
     
                 values.forEach(value => {
                   fireDataLabels.push(moment(value.day).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
@@ -2175,38 +2223,37 @@ define([
 
                 $('#fire-line-chart').highcharts({
                     chart: {
-                        zoomType: 'x'
+                      zoomType: 'x'
                     },
                     title: {
-                        text: null
+                      text: null
                     },
                     plotOptions: {
-                        line: {
-                            marker: {
-                                enabled: false
-                            }
+                      line: {
+                        marker: {
+                          enabled: false
                         }
+                      }
                     },
                     xAxis: {
-                        categories: fireDataLabels,
-                        type: 'datetime',
-                        minTickInterval: 20,
-                        minRange: 30,
-                        labels: {
-                            rotation: -45
-                        }
+                      categories: fireDataLabels,
+                      // type: 'datetime',
+                      minTickInterval: 20,
+                      minRange: 30,
+                      labels: {
+                        rotation: -45
+                      }
                     },
                     yAxis: {
-                        min: 0,
-                        title: {
-                            text: null
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#a90016'
-                        }]
-
+                      min: 0,
+                      title: {
+                        text: null
+                      },
+                      plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#a90016'
+                      }]
                     },
                     exporting:{
                       scale: 4,
@@ -2227,18 +2274,18 @@ define([
                       }
                     },
                     tooltip: {
-                        valueSuffix: ''
+                      valueSuffix: ''
                     },
                     credits: {
-                        enabled: false
+                      enabled: false
                     },
                     legend: {
-                        enabled: false
+                      enabled: false
                     },
                     series: [{
-                        name: 'Daily Fires',
-                        data: fireData,
-                        color: '#f49f2d'
+                      name: 'Daily Fires',
+                      data: fireData,
+                      color: '#f49f2d'
                     }]
                 });
     
