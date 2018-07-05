@@ -88,42 +88,41 @@ define([
             var districtLayerIdsViirsModis = [districtViirsLayerId, districtModisLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
-            self.queryForDailyFireData(areaOfInterestType);
+            // self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
-            self.buildDistributionOfFireAlertsMap().then(function () {
-              if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
-            });
+            // self.buildDistributionOfFireAlertsMap().then(function () {
+            //   if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
+            // });
 
-            // Creates the second map starting from the top
-            districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-              self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
-                self.buildFireCountMap('adminBoundary', 'adminQuery');
-                if (window.reportOptions.aoitype !== 'ALL') self.get_extent('adminBoundary');
-              });
-            });
+            // // Creates the second map starting from the top
+            // districtLayerIdsViirsModis.forEach(function (districtLayerId) {
+            //   self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
+            //     self.buildFireCountMap('adminBoundary', 'adminQuery');
+            //     if (window.reportOptions.aoitype !== 'ALL') self.get_extent('adminBoundary');
+            //   });
+            // });
 
-            // Creates the third map starting from the top
-            subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-              self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-                self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-                if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
-              });
-            });
+            // // Creates the third map starting from the top
+            // subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+            //   self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+            //     self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+            //     if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
+            //   });
+            // });
 
             // Creates the Annual Fire History graph
-            self.getFireCounts(selectedCountry);
+            // self.getFireCounts(selectedCountry);
             // Creates the Fire History: Fire Season Progression graph
-            self.getFireHistoryCounts(selectedCountry);
+            self.getFireHistoryCounts()
+
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
 
+            const queryFor = self.currentISO ? self.currentISO : 'global';
 
-            // REMOVE WHEN ALL AOITYPE IS DONE
-            if (this.currentCountry === 'ALL') this.currentISO = 'IDN';
-
-            request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
               handleAs: 'json'
             }).then(function(response) {
               Promise.all(Config.countryPieCharts.map(function(chartConfig) {
@@ -150,8 +149,10 @@ define([
             var self = this;
             // var side = false; // 0 = right, 1 = left
             var data = [];
+
+            const queryFor = self.currentISO ? self.currentISO : 'global';
   
-            request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
               handleAs: 'json'
             }).then((response) => {
               if (response.data.attributes.value !== null) {
@@ -1122,9 +1123,11 @@ define([
 
       getFireCounts: function (selectedCountry) {
 
+        // const deferred = new Deferred();
+
         // request.get(Config.pieChartDataEndpoint + 'admin/global?aggregate_values=True&aggregate_by=month', {
         //   handleAs: 'json'
-        // }).then(function(response) {
+        // }).then((response) => {
         //   let series = [];
         //   let seriesTemp = { data: [], name: '' };
         //   let index = 0;
@@ -1186,8 +1189,74 @@ define([
 
         //   window['firesCountRegionSeries'] = series;
         //   window['firesCountRegionCurrentYear'] = currentYear;
-        //   window['firesCountRegionCurrentYearSum'] = console.log();
+        //   // window['firesCountRegionCurrentYearSum'] = console.log();
         //   debugger;
+
+        //   var firesCountChart = Highcharts.chart('firesCountChart', {
+        //     title: {
+        //       text: ''
+        //     },
+        //     xAxis: {
+        //       labels: {
+        //         style: {
+        //           color: '#000',
+        //           fontSize: '16px',
+        //           fontFamily: "'Fira Sans', Georgia, serif"
+        //         }
+        //       }
+        //     },
+        //     yAxis: {
+        //       title: {
+        //         text: ''
+        //       }
+        //     },
+        //     plotOptions: {
+        //       series: {
+        //         color: '#ccc',
+        //       },
+        //       line: {
+        //         marker: {
+        //           enabled: false
+        //         }
+        //       }
+        //     },
+        //     credits: {
+        //       enabled: false
+        //     },
+        //     exporting:{
+        //       scale: 4,
+        //       chartOptions:{
+        //         chart:{
+        //           marginTop: 75,
+        //           marginRight: 20,
+        //           events:{
+        //             load:function(){
+        //               this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+        //                 fill: '#555'
+        //               }).add();
+        //               this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+        //               this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+        //               // this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
+        //             }
+        //           }
+        //         }
+        //       }
+        //     },
+        //     tooltip: {
+        //       useHTML: true,
+        //       backgroundColor: '#ffbb07',
+        //       borderWidth: 0,
+        //       formatter: function () {
+        //         return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
+        //       }
+        //     },
+        //     xAxis: {
+        //       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        //     },
+        //     series: series
+        //   });
+
+        //   deferred.resolve(false);
 
         // });
 
@@ -1286,9 +1355,9 @@ define([
               // Adding sum for year to window
               window['firesCountRegionCurrentYearSum'] = yearObject.data[yearObject.data.length - 1].y;
 
-              title = window['firesCountRegionCurrentYear'] + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
+              // title = window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
 
-              $('#firesCountTitle').html(title);
+              // $('#firesCountTitle').html(title);
 
               var firesCountChart = Highcharts.chart('firesCountChart', {
                 title: {
@@ -1334,7 +1403,7 @@ define([
                           }).add();
                           this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
                           this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                          this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
+                          // this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
                         }
                       }
                     }
@@ -1475,151 +1544,124 @@ define([
         return deferred.promise;
       },
 
-      getFireHistoryCounts: function (selectedCountry) {
-        // TODO Move URL to config
-        var queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/2'),
-          deferred = new Deferred(),
-          query = new Query(),
-          series = {},
-          index = 0,
-          allValues = [],
-          self = this,
-          yearObject = {
-            data: []
-          };
+      getFireHistoryCounts: function() {
 
-        query.where = this.countryObjId ? "ID_0=" + this.countryObjId : '1=1';
-        query.returnGeometry = false;
-        query.outFields = ['*'];
+        const queryFor = this.currentISO ? this.currentISO : 'global';
+        const numberOfBins = Config.colorRampFireHistory.length
+        let data = [];
+        const deferred = new Deferred();
 
-        queryTask.execute(query, function (res) {
-          var currentYear = new Date().getFullYear();
-          var allFeatures = res.features;
-          if (allFeatures.length > 0) {
-            allFeatures.forEach(function (item) {
-              var obj = item.attributes;
-              Object.keys(obj).forEach(function(key) {
-                if (key.substring(0, 5) === 'Fire_') {
-                  index = index + 1;
-                  var yearFromData = parseInt(key.substring(5, 9));
-                  if (currentYear >= yearFromData) {
-                    allValues.push(obj[key]);
-                    yearObject['data'].push({
-                      x: yearFromData,
-                      y: 0,
-                      z: obj[key]
-                    });
-                  }
+        request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?aggregate_values=True&aggregate_by=year&fire_type=modis', {
+          handleAs: 'json'
+        }).then((response) => {
+          
+          let min, max;
+          for (var i = 0; i < response.data.attributes.value.length; i++) {
+            const { year: x, alerts: z } = response.data.attributes.value[i];
+            data.push({ x, z, y: 0 });
+            if (!min && !max) min = max = z;
+
+            if (z < min) min = z;
+            if (z > max) max = z;
+
+            let binsArray = [min];
+
+            Config.colorRampFireHistory.forEach(function (item, index) {
+              binsArray.push(parseInt(((max - min) / numberOfBins) * (index + 1)) + min);
+            });
+
+            data.forEach(function (item) {
+              const dataValue = item.z;
+              binsArray.forEach(function (binItem, index) {
+                if (dataValue >= binsArray[index] && dataValue <= binsArray[index + 1]) {
+                  var color = Config.colorRampFireHistory[index];
+                  item.color = color;
                 }
               });
-
-              series['data'] = yearObject['data'];
-              var minValue =  Math.min.apply(null, allValues);
-              var maxValue =  Math.max.apply(null, allValues);
-              var numberOfBins = Config.colorRampFireHistory.length;
-              var binsArray = [minValue];
-              Config.colorRampFireHistory.forEach(function (item, index) {
-                // binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
-                binsArray.push(parseInt(((maxValue - minValue) / numberOfBins) * (index + 1)) + minValue);
-              });
-
-              series.data.map(function (item) {
-                var dataValue = item.z;
-                binsArray.forEach(function (binItem, index) {
-                  if (dataValue >= binsArray[index] && dataValue <= binsArray[index + 1]) {
-                    var color = Config.colorRampFireHistory[index];
-                    item.color = color;
-                  }
-                })
-              });
-
-              $('.fire-history__chart').highcharts({
-                chart: {
-                  type: 'bubble'
-                },
-
-                title: {
-                  text: ''
-                },
-
-                legend: {
-                  enabled: false
-                },
-
-                credits: {
-                  enabled: false
-                },
-
-                xAxis: {
-                  labels: {
-                    style: {
-                      color: '#000',
-                      fontSize: '16px',
-                      fontFamily: "'Fira Sans', Georgia, serif"
-                    }
-                  }
-                },
-
-                yAxis: {
-                  visible: false
-                },
-
-                plotOptions: {
-                  bubble:{
-                    minSize:'30%',
-                    maxSize:'60%'
-                  }
-                },
-
-                exporting:{
-                  scale: 4,
-                  chartOptions:{
-                    chart:{
-                      events:{
-                        load:function(){
-                          this.renderer.rect(0, 0, this.chartWidth, 35).attr({
-                            fill: '#555'
-                          }).add();
-                          this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                          this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                          this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">Total MODIS fire alerts</span>`, 55, 46, true).add();
-                        }
-                      }
-                    }
-                  }
-                },
-
-                tooltip: {
-                  useHTML: true,
-                  backgroundColor: '#ffbb07',
-                  borderWidth: 0,
-                  formatter: function () {
-                    return (
-                      '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
-                      '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
-                      '</div>'
-                    )
-                  }
-                },
-
-                series: [{
-                  data: series['data'],
-                  marker: {
-                    fillOpacity: .85
-                  },
-                }]
-
-              });
-            })
+            });
           }
-        }, function (err) {
+
+          $('.fire-history__chart').highcharts({
+            chart: {
+              type: 'bubble'
+            },
+
+            title: {
+              text: ''
+            },
+
+            legend: {
+              enabled: false
+            },
+
+            credits: {
+              enabled: false
+            },
+
+            xAxis: {
+              labels: {
+                style: {
+                  color: '#000',
+                  fontSize: '16px',
+                  fontFamily: "'Fira Sans', Georgia, serif"
+                }
+              }
+            },
+
+            yAxis: {
+              visible: false
+            },
+
+            plotOptions: {
+              bubble:{
+                minSize:'30%',
+                maxSize:'60%'
+              }
+            },
+
+            exporting:{
+              scale: 4,
+              chartOptions:{
+                chart:{
+                  events:{
+                    load:function(){
+                      this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                        fill: '#555'
+                      }).add();
+                      this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                      this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                      this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">Total MODIS fire alerts</span>`, 55, 46, true).add();
+                    }
+                  }
+                }
+              }
+            },
+
+            tooltip: {
+              useHTML: true,
+              backgroundColor: '#ffbb07',
+              borderWidth: 0,
+              formatter: function () {
+                return (
+                  '<div class="history-chart-tooltip__container">' +
+                  '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
+                  '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
+                  '</div>'
+                )
+              }
+            },
+
+            series: [{
+              data: data,
+              marker: {
+                fillOpacity: .85
+              },
+            }]
+          });
           deferred.resolve(false);
         });
-
         return deferred.promise;
       },
-
       queryFireCount: function(configKey) {
           var deferred = new Deferred(),
             self = this,
@@ -2232,11 +2274,10 @@ define([
 
             function queryForFiresCount(fireCountLayer) {
 
-              // REMOVE AFTER ALL IS DONE
-              if (self.currentISO === undefined) self.currentISO = 'IDN';
+              const queryFor = self.currentISO ? self.currentISO : 'global';
 
               // Get total fires count
-              request.get(Config.pieChartDataEndpoint + 'admin/' + self.currentISO + '?period=' + self.startDateRaw + ',' + self.endDateRaw, {
+              request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw  + '&fire_type=modis', {
                 handleAs: 'json'
               }).then((response) => {
 
@@ -2248,7 +2289,7 @@ define([
               });
 
               // Get total fires count aggregated by day
-              request.get(Config.pieChartDataEndpoint + 'admin/' + self.currentISO + '?aggregate_values=True&aggregate_by=day', {
+              request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?aggregate_values=True&aggregate_by=day', {
                 handleAs: 'json'
               }).then((response) => {
 
