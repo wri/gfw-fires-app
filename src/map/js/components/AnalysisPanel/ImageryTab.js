@@ -37,11 +37,6 @@ export default class ImageryTab extends React.Component {
     } else {
       currImagery = clickedImagery;
     }
-    // if (activeImagery === KEYS.planetBasemap) {
-    //   currImagery = activeImagery === clickedImagery ? mapActions.changeBasemap(activeBasemap) : clickedImagery;
-    // } else if (activeImagery === KEYS.digitalGlobeBasemap) {
-    //   currImagery = activeImagery === clickedImagery ? LayersHelper.hideLayer(dgLayer.id) : clickedImagery;
-    // }
     
     this.setState({ activeImagery: currImagery });
   };
