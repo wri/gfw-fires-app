@@ -5,19 +5,19 @@ import { mapActions } from 'actions/MapActions';
 import { analysisActions } from 'actions/AnalysisActions';
 import { modalActions } from 'actions/ModalActions';
 
-const useSvg = '<use xlink:href="#shape-info" />';
-
 export default class PlanetImagery extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             checked: false,
             activeCategory: 'PLANET-MONTHLY',
-            activePlanetBasemap: ''
+            activePlanetBasemap: '',
+            activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly'}
         };
     }
 
     componentDidMount() {
+        const self = this;
         // Request XML page
         const xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -26,7 +26,6 @@ export default class PlanetImagery extends React.Component {
                     const basemaps = [];
 
                     const xmlParser = new DOMParser();
-                    const xmlString = xhttp.responseText;
                     const htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
 
                     const xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
@@ -55,6 +54,7 @@ export default class PlanetImagery extends React.Component {
 
                     analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
                     analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
+                    self.getPlanetBasemaps();
                 } else {
                     console.log('Error retrieving planet basemaps.');
                 }
@@ -63,36 +63,26 @@ export default class PlanetImagery extends React.Component {
         xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
         xhttp.send();
     }
-    
-    toggle() {
-        this.setState({
-            checked: !this.state.checked
-        }, () => {
-            if (!this.state.checked) {
-                mapActions.changeBasemap('topo');
-            } else if (this.state.checked) {
-                const defaultBasemap = this.createBasemapOptions().reverse()[0];
-                this.setState({
-                  activePlanetBasemap: defaultBasemap
-                }, () => {
-                  mapActions.changeBasemap({
-                    title: defaultBasemap.label,
-                    url: defaultBasemap.value
-                  });
-                });
-            }
-        });
-    }
 
-    setCategory(evt) {
-        const id = evt.target.id;
-        this.setState({ activeCategory: id }, () => {
+    setCategory(selected) {
+        const { value } = selected;
+        this.setState({ activeCategory: value }, () => {
             const defaultBasemap = this.createBasemapOptions().reverse()[0];
-            this.setState({ activePlanetBasemap: defaultBasemap }, () => {
+            this.setState({ activePlanetBasemap: defaultBasemap, activePlanetCategory: selected }, () => {
                 mapActions.changeBasemap({
                   title: defaultBasemap.label,
                   url: defaultBasemap.value
                 });
+            });
+        });
+    }
+
+    getPlanetBasemaps() {
+        const defaultBasemap = this.createBasemapOptions().reverse()[0];
+        this.setState({ activePlanetBasemap: defaultBasemap }, () => {
+            mapActions.changeBasemap({
+              title: defaultBasemap.label,
+              url: defaultBasemap.value
             });
         });
     }
@@ -126,15 +116,14 @@ export default class PlanetImagery extends React.Component {
             return title;
         } else {
             const [ year, quarter ] = yearQuarter.split('q');
-            // const label = `Quarter ${quarter} ${year}`;
-            const label = `${dict[1]} ${year}`;
+            const label = `${dict[quarter]} ${year}`;
             return label;
         }
     }
 
     createBasemapOptions () {
         const { monthlyBasemaps, quarterlyBasemaps } = this.props;
-        const { activeCategory, activePlanetBasemap } = this.state;
+        const { activeCategory } = this.state;
         const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
         return filterBasemaps.map(basemap => {
             const { url, title } = basemap;
@@ -147,7 +136,7 @@ export default class PlanetImagery extends React.Component {
     }
 
     handleBasemap = selected => {
-        const { label, value } = selected;
+        const { value } = selected;
         const { monthlyBasemaps, quarterlyBasemaps } = this.props;
         const { activeCategory } = this.state;
         const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
@@ -166,47 +155,36 @@ export default class PlanetImagery extends React.Component {
     }
 
     render () {
-        const { checked, activeCategory, activePlanetBasemap } = this.state;
+        const { activePlanetBasemap, activePlanetCategory } = this.state;
+        const { active } = this.props;
+
         return (
-            <div className={`layer-checkbox relative ${checked ? 'active' : ''}`}>
-                <span className='toggle-switch pointer' onClick={this.toggle.bind(this)}>
-                    <span/>
-                </span>
-                <span className='layer-checkbox-label pointer' onClick={this.toggle.bind(this)}>
-                    Planet Basemaps
-                </span>
-
-
-                <span className={`info-icon pointer`} onClick={this.showInfo.bind(this)}>
-                    <svg dangerouslySetInnerHTML={{ __html: useSvg }} />
-                </span>
-
-
-                <div className={`layer-content-container flex flex-column justify-center ${checked ? '' : 'hidden'}`}>
+            <div className={`relative ${active ? 'active' : 'hidden'}`} onClick={(evt) => evt.stopPropagation()}>
+                <div className={`layer-content-container flex select-container ${active ? '' : 'hidden'}`}>
                     <div className='flex imagery-category-container'>
-                        <div
-                            id='PLANET-MONTHLY'
-                            onClick={this.setCategory.bind(this)}
-                            className={`planet-category ${activeCategory === 'PLANET-MONTHLY' ? 'active' : ''}`}
-                        >
-                            Monthly
-                        </div>
-                        <div
-                            id='PLANET-QUARTERLY'
-                            onClick={this.setCategory.bind(this)}
-                            className={`planet-category ${activeCategory === 'PLANET-QUARTERLY' ? 'active' : '' }`}
-                        >
-                            Quarterly
-                        </div>
-                    </div>
-                    <div className='planet-small-margin flex'>
                         <Select
                             multi={false}
+                            clearable={false}
+                            value={activePlanetCategory}
+                            options={[
+                                { value: 'PLANET-MONTHLY', label: 'Monthly'},
+                                { value: 'PLANET-QUARTERLY', label: 'Quarterly'}
+                            ]}
+                            onChange={this.setCategory.bind(this)}
+                            style={{
+                                width: '175px'
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <Select
+                            multi={false}
+                            clearable={false}
                             value={activePlanetBasemap}
                             options={this.createBasemapOptions().reverse()}
                             onChange={this.handleBasemap.bind(this)}
                             style={{
-                                width: '200px'
+                                width: '175px'
                             }}
                         />
                     </div>
