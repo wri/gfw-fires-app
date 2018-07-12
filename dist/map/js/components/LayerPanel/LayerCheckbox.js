@@ -192,10 +192,4 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
   }(_react2.default.Component);
 
   exports.default = LayerCheckbox;
-
-
-  LayerCheckbox.propTypes = {
-    layer: _react2.default.PropTypes.object.isRequired,
-    checked: _react2.default.PropTypes.bool.isRequired
-  };
 });

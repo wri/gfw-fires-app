@@ -138,9 +138,4 @@ define(['exports', 'react'], function (exports, _react) {
   }(_react2.default.Component);
 
   exports.default = LayerGroup;
-
-
-  LayerGroup.propTypes = {
-    label: _react2.default.PropTypes.string.isRequired
-  };
 });

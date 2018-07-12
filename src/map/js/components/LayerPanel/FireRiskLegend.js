@@ -53,8 +53,3 @@ export default class FireRiskLegend extends React.Component {
   }
 
 }
-
-FireRiskLegend.propTypes = {
-  url: React.PropTypes.string.isRequired,
-  layerIds: React.PropTypes.array.isRequired
-};
