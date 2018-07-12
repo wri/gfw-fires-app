@@ -58,19 +58,19 @@ export default class ImageryTab extends React.Component {
     return (
       <div className={className}>
         <h3>{analysisPanelText.imageryArea}</h3>
-        <div data-basemap={KEYS.planetBasemap} className={`basemap-item basemap-item-center ${this.state.activeImagery === KEYS.planetBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
+        <div data-basemap={KEYS.planetBasemap} className={`basemap-item ${this.state.activeImagery === KEYS.planetBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
           <span className={`basemap-thumbnail dark-gray-basemap ${this.state.activeImagery === KEYS.planetBasemap ? 'active' : ''}`} />
-          <div className='imagery-label'>Planet Basemaps</div>
-          <span className={`info-icon pointer ${this.state.iconLoading === KEYS.planetBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
+          <div className='basemap-label'>Planet Basemaps</div>
+          <span className={`info-icon pointer info-icon-center ${this.state.iconLoading === KEYS.planetBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
           { this.state.activeImagery === KEYS.planetBasemap &&
           <PlanetImagery monthlyBasemaps={this.props.monthlyPlanetBasemaps} quarterlyBasemaps={this.props.quarterlyPlanetBasemaps} active={this.state.activeImagery === KEYS.planetBasemap}/> }
         </div>
-        <div data-basemap={KEYS.digitalGlobeBasemap} className={`basemap-item basemap-item-center ${this.state.activeImagery === KEYS.digitalGlobeBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
+        <div data-basemap={KEYS.digitalGlobeBasemap} className={`basemap-item ${this.state.activeImagery === KEYS.digitalGlobeBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
           <span className={`basemap-thumbnail dark-gray-basemap ${this.state.activeImagery === KEYS.digitalGlobeBasemap ? 'active' : ''}`} />
-          <div className='imagery-label'>DigitalGlobe - FirstLook</div>
-          <span className={`info-icon pointer ${this.state.iconLoading === KEYS.digitalGlobeBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
+          <div className='basemap-label'>DigitalGlobe - FirstLook</div>
+          <span className={`info-icon pointer info-icon-center ${this.state.iconLoading === KEYS.digitalGlobeBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
           { this.state.activeImagery === KEYS.digitalGlobeBasemap &&
