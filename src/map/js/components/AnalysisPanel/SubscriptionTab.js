@@ -11,9 +11,7 @@ import Loader from 'components/Loader';
 import Draw from 'esri/toolbars/draw';
 import request from 'utils/request';
 
-import React, {
-  PropTypes
-} from 'react';
+import React from 'react';
 
 const TYPE = {
   ZIP: 'application/zip',
@@ -29,10 +27,6 @@ const closeSymbolCode = 9660,
 let toolbar;
 
 export default class SubscriptionTab extends React.Component {
-
-  static contextTypes = {
-    map: PropTypes.object.isRequired
-  };
 
   constructor (props) {
     super(props);

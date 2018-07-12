@@ -48,6 +48,3 @@ export default class LayerGroup extends React.Component {
 
 }
 
-LayerGroup.propTypes = {
-  label: React.PropTypes.string.isRequired
-};

@@ -4,17 +4,12 @@ import {analysisStore} from 'stores/AnalysisStore';
 import {layerActions} from 'actions/LayerActions';
 import {analysisActions} from 'actions/AnalysisActions';
 import React, {
-  Component,
-  PropTypes
+  Component
 } from 'react';
 
 export default class MobileUnderlay extends Component {
   displayName: MobileUnderlay;
   state: any;
-
-  static childContextTypes = {
-    state: PropTypes.object
-  };
 
   constructor (props: any) {
     super(props);

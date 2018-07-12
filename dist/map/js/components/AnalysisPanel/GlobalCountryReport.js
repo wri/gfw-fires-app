@@ -324,10 +324,4 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
   }(_react2.default.Component);
 
   exports.default = GlobalCountryReport;
-
-
-  GlobalCountryReport.propTypes = {
-    customizeCountryOpen: _react2.default.PropTypes.bool.isRequired,
-    countries: _react2.default.PropTypes.array
-  };
 });

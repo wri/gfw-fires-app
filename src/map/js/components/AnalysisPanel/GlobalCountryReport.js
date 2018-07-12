@@ -184,8 +184,3 @@ export default class GlobalCountryReport extends React.Component {
     return hash;
   }
 }
-
-GlobalCountryReport.propTypes = {
-  customizeCountryOpen: React.PropTypes.bool.isRequired,
-  countries: React.PropTypes.array
-};
