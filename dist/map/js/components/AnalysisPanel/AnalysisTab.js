@@ -141,14 +141,4 @@ define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'component
   }(_react2.default.Component);
 
   exports.default = AnalysisTab;
-
-
-  AnalysisTab.propTypes = {
-    activeTab: _react2.default.PropTypes.string.isRequired,
-    areaIslandsActive: _react2.default.PropTypes.bool.isRequired,
-    analysisSourceGFW: _react2.default.PropTypes.bool.isRequired,
-    customizeOpen: _react2.default.PropTypes.bool.isRequired,
-    islands: _react2.default.PropTypes.array.isRequired,
-    provinces: _react2.default.PropTypes.array.isRequired
-  };
 });

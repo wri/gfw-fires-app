@@ -358,8 +358,5 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
     return SubscriptionTab;
   }(_react2.default.Component);
 
-  SubscriptionTab.contextTypes = {
-    map: _react.PropTypes.object.isRequired
-  };
   exports.default = SubscriptionTab;
 });

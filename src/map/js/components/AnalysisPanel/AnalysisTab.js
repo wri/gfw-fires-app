@@ -40,11 +40,3 @@ export default class AnalysisTab extends React.Component {
   }
 }
 
-AnalysisTab.propTypes = {
-  activeTab: React.PropTypes.string.isRequired,
-  areaIslandsActive: React.PropTypes.bool.isRequired,
-  analysisSourceGFW: React.PropTypes.bool.isRequired,
-  customizeOpen: React.PropTypes.bool.isRequired,
-  islands: React.PropTypes.array.isRequired,
-  provinces: React.PropTypes.array.isRequired
-};

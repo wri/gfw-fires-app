@@ -129,10 +129,4 @@ define(['exports', 'utils/request', 'react'], function (exports, _request, _reac
   }(_react2.default.Component);
 
   exports.default = DamsLegend;
-
-
-  DamsLegend.propTypes = {
-    url: _react2.default.PropTypes.string.isRequired,
-    layerIds: _react2.default.PropTypes.array.isRequired
-  };
 });

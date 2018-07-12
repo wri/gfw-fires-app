@@ -53,7 +53,3 @@ export default class WaterStressLegend extends React.Component {
 
 }
 
-WaterStressLegend.propTypes = {
-  url: React.PropTypes.string.isRequired,
-  layerIds: React.PropTypes.array.isRequired
-};

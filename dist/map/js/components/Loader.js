@@ -28,9 +28,5 @@ define(['exports', 'react'], function (exports, _react) {
     );
   };
 
-  Loader.propTypes = {
-    active: _react.PropTypes.bool.isRequired
-  };
-
   exports.default = Loader;
 });

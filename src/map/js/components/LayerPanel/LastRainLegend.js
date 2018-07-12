@@ -44,7 +44,3 @@ export default class LastRainLegend extends React.Component {
 
 }
 
-LastRainLegend.propTypes = {
-  url: React.PropTypes.string.isRequired,
-  layerIds: React.PropTypes.array.isRequired
-};
