@@ -88,17 +88,13 @@ export default class PlanetImagery extends React.Component {
     }
     
     parseMonthlyTitle(title) {
-        // ex. formats 'Global Monthly 2016 01 Mosaic' OR 'Latest Monthly'
+        // ex. formats 'Global Monthly 2016 01 Mosaic'
         const words = title.split(' ');
         const year = words[2];
         const month = words[3];
-        if (year === undefined || month === undefined) {
-            return title;
-        } else {
-            const yyyyMM = year + ' ' + month;
-            const label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
-            return label;
-        }
+        const yyyyMM = year + ' ' + month;
+        const label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
+        return label;
     }
 
     parseQuarterlyTitle(title) {
@@ -125,7 +121,15 @@ export default class PlanetImagery extends React.Component {
         const { monthlyBasemaps, quarterlyBasemaps } = this.props;
         const { activeCategory } = this.state;
         const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-        return filterBasemaps.map(basemap => {
+
+        // Filter out 'Latest Monthly' and 'Latest Quarterly'
+        return filterBasemaps.filter(basemap => {
+            if (basemap.title === 'Latest Monthly' || basemap.title === 'Latest Quarterly') {
+                return false;
+            } else {
+                return true;
+            }
+        }).map(basemap => {
             const { url, title } = basemap;
             const label = activeCategory === 'PLANET-MONTHLY' ? this.parseMonthlyTitle(title) : this.parseQuarterlyTitle(title);
             return {
