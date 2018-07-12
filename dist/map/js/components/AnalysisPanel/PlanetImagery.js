@@ -1,4 +1,4 @@
-define(['exports', 'react', 'react-select', 'js/constants', 'actions/MapActions', 'actions/AnalysisActions', 'actions/ModalActions'], function (exports, _react, _reactSelect, _constants, _MapActions, _AnalysisActions, _ModalActions) {
+define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/AnalysisActions'], function (exports, _react, _reactSelect, _MapActions, _AnalysisActions) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -8,8 +8,6 @@ define(['exports', 'react', 'react-select', 'js/constants', 'actions/MapActions'
     var _react2 = _interopRequireDefault(_react);
 
     var _reactSelect2 = _interopRequireDefault(_reactSelect);
-
-    var _constants2 = _interopRequireDefault(_constants);
 
     function _interopRequireDefault(obj) {
         return obj && obj.__esModule ? obj : {
@@ -131,10 +129,6 @@ define(['exports', 'react', 'react-select', 'js/constants', 'actions/MapActions'
                 }
             };
 
-            _this.showInfo = function () {
-                _ModalActions.modalActions.showLayerInfo(_constants2.default.planetBasemap);
-            };
-
             _this.state = {
                 checked: false,
                 activeCategory: 'PLANET-MONTHLY',
@@ -224,17 +218,13 @@ define(['exports', 'react', 'react-select', 'js/constants', 'actions/MapActions'
         }, {
             key: 'parseMonthlyTitle',
             value: function parseMonthlyTitle(title) {
-                // ex. formats 'Global Monthly 2016 01 Mosaic' OR 'Latest Monthly'
+                // ex. formats 'Global Monthly 2016 01 Mosaic'
                 var words = title.split(' ');
                 var year = words[2];
                 var month = words[3];
-                if (year === undefined || month === undefined) {
-                    return title;
-                } else {
-                    var yyyyMM = year + ' ' + month;
-                    var label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
-                    return label;
-                }
+                var yyyyMM = year + ' ' + month;
+                var label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
+                return label;
             }
         }, {
             key: 'parseQuarterlyTitle',
@@ -272,7 +262,15 @@ define(['exports', 'react', 'react-select', 'js/constants', 'actions/MapActions'
                 var activeCategory = this.state.activeCategory;
 
                 var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-                return filterBasemaps.map(function (basemap) {
+
+                // Filter out 'Latest Monthly' and 'Latest Quarterly'
+                return filterBasemaps.filter(function (basemap) {
+                    if (basemap.title === 'Latest Monthly' || basemap.title === 'Latest Quarterly') {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }).map(function (basemap) {
                     var url = basemap.url,
                         title = basemap.title;
 

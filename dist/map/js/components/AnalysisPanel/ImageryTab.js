@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actions/MapActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react', 'components/AnalysisPanel/PlanetImagery'], function (exports, _ImageryComponent, _config, _MapActions, _MapStore, _LayersHelper, _constants, _react, _PlanetImagery) {
+define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actions/ModalActions', 'actions/MapActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react', 'components/AnalysisPanel/PlanetImagery'], function (exports, _ImageryComponent, _config, _ModalActions, _MapActions, _MapStore, _LayersHelper, _constants, _react, _PlanetImagery) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -83,6 +83,8 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
     if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
   }
 
+  var useSvg = '<use xlink:href="#shape-info" />';
+
   var ImageryTab = function (_React$Component) {
     _inherits(ImageryTab, _React$Component);
 
@@ -112,6 +114,12 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
         }
 
         _this.setState({ activeImagery: currImagery });
+      };
+
+      _this.showInfo = function (evt) {
+        evt.stopPropagation();
+        var id = evt.currentTarget.parentElement.dataset.basemap === 'planetBasemap' ? evt.currentTarget.parentElement.dataset.basemap : 'dg-00';
+        _ModalActions.modalActions.showLayerInfo(id);
       };
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
@@ -154,6 +162,11 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
               { className: 'basemap-label' },
               'Planet Basemaps'
             ),
+            _react2.default.createElement(
+              'span',
+              { className: 'info-icon pointer info-icon-center ' + (this.state.iconLoading === _constants2.default.planetBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
+              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
+            ),
             this.state.activeImagery === _constants2.default.planetBasemap && _react2.default.createElement(_PlanetImagery2.default, { monthlyBasemaps: this.props.monthlyPlanetBasemaps, quarterlyBasemaps: this.props.quarterlyPlanetBasemaps, active: this.state.activeImagery === _constants2.default.planetBasemap })
           ),
           _react2.default.createElement(
@@ -164,6 +177,11 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
               'div',
               { className: 'basemap-label' },
               'DigitalGlobe - FirstLook'
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'info-icon pointer info-icon-center ' + (this.state.iconLoading === _constants2.default.digitalGlobeBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
+              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
             ),
             this.state.activeImagery === _constants2.default.digitalGlobeBasemap && _react2.default.createElement(_ImageryComponent2.default, _extends({}, this.state, { options: dgLayer.calendar, active: this.state.activeImagery === _constants2.default.digitalGlobeBasemap, layer: dgLayer }))
           )
