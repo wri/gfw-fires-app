@@ -169,6 +169,11 @@
     top inherit
     margin-right 20px
 
+.basemap-item-center
+  display flex
+  align-items center
+  padding-bottom 7px
+
 .basemap-label
   font-size 13px
   text-transform uppercase
@@ -176,6 +181,19 @@
   color gray
   display inline-block
   padding-top 15px
+  vertical-align top
+  &.narrow
+    text-align center
+    margin-top 0
+    padding-left 0
+    position relative
+
+.imagery-label
+  font-size 13px
+  text-transform uppercase
+  padding-left 20px
+  color gray
+  display inline-block
   vertical-align top
   &.narrow
     text-align center

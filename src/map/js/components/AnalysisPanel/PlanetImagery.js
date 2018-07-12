@@ -1,9 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
-import KEYS from 'js/constants';
 import { mapActions } from 'actions/MapActions';
 import { analysisActions } from 'actions/AnalysisActions';
-import { modalActions } from 'actions/ModalActions';
 
 export default class PlanetImagery extends React.Component {
     constructor(props) {
@@ -152,10 +150,6 @@ export default class PlanetImagery extends React.Component {
                 mapActions.changeBasemap(choice);
             });
         }
-    }
-
-    showInfo = () => {
-        modalActions.showLayerInfo(KEYS.planetBasemap);
     }
 
     render () {
