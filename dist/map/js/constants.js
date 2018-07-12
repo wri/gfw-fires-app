@@ -59,7 +59,8 @@ define(['exports'], function (exports) {
     twitter: 'twitter',
     fireStories: 'fireStories',
 
-    planetBasemap: 'planetBasemap'
+    planetBasemap: 'planetBasemap',
+    digitalGlobeBasemap: 'digitalGlobeBasemap'
   };
 
   exports.default = KEYS;

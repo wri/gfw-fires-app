@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'actions/ModalActions', 'react'], function (exports, _ImagerySettings, _MapStore, _MapActions, _DateHelper, _ModalActions, _react) {
+define(['exports', 'components/LayerPanel/ImagerySettings', 'actions/LayerActions', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'helpers/LayersHelper', 'js/constants', 'actions/ModalActions', 'react'], function (exports, _ImagerySettings, _LayerActions, _MapStore, _MapActions, _DateHelper, _LayersHelper, _constants, _ModalActions, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,10 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', '
   var _ImagerySettings2 = _interopRequireDefault(_ImagerySettings);
 
   var _DateHelper2 = _interopRequireDefault(_DateHelper);
+
+  var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
+
+  var _constants2 = _interopRequireDefault(_constants);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -79,6 +83,40 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', '
     }
 
     _createClass(ImageryComponent, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var _props = this.props,
+            layer = _props.layer,
+            active = _props.active;
+
+        if (layer.disabled) {
+          return;
+        }
+        if (!active) {
+          _LayerActions.layerActions.removeActiveLayer(layer.id);
+        } else {
+          _LayerActions.layerActions.addActiveLayer(layer.id);
+        }
+
+        if (active) {
+          var layerObj = {};
+          layerObj.layerId = layer.id;
+          layerObj.footprints = this.state.footprints;
+          layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
+          _LayersHelper2.default.showLayer(layerObj);
+        } else {
+          _LayersHelper2.default.hideLayer(layer.id);
+          if (layer.id === 'activeFires') {
+            console.log('removing....');
+            _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
+          }
+          if (layer.id === 'viirsFires') {
+            console.log('removing....');
+            _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
+          }
+        }
+      }
+    }, {
       key: 'storeUpdated',
       value: function storeUpdated() {
         this.setState(_MapStore.mapStore.getState());
@@ -89,12 +127,12 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', '
 
         var startDate = window.Kalendae.moment(this.state.dgStartDate);
         var endDate = window.Kalendae.moment(this.state.dgEndDate);
+        var active = this.props.active;
 
-        //<div className={`customize-options ${this.props.customizeOpen === true ? '' : 'hidden'}`}> --> on timeline container!
 
         return _react2.default.createElement(
           'div',
-          { className: 'timeline-container ' + this.props.options.domClass },
+          { className: 'timeline-container ' + this.props.options.domClass + ' ' + (active ? '' : 'hidden') },
           _react2.default.createElement(_ImagerySettings2.default, null),
           _react2.default.createElement(
             'div',
@@ -124,7 +162,8 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'stores/MapStore', '
       }
     }, {
       key: 'changeStart',
-      value: function changeStart() {
+      value: function changeStart(evt) {
+        evt.stopPropagation();
         _ModalActions.modalActions.showCalendarModal('start');
         _MapActions.mapActions.setCalendar('imageryStart');
       }

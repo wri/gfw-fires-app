@@ -4,7 +4,6 @@ import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
 import KEYS from 'js/constants';
 
-import PlanetBasemaps from 'js/components/AnalysisPanel/PlanetBasemaps';
 import React from 'react';
 
 export default class BasemapTab extends React.Component {

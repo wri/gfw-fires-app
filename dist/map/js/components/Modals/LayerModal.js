@@ -126,6 +126,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'stores/ModalStore', 'react
                 !this.state.layerInfo.date_of_content ? null : this.tableMap(this.state.layerInfo.date_of_content, 'DATE OF CONTENT'),
                 !this.state.layerInfo.cautions ? null : this.tableMap(this.state.layerInfo.cautions, 'cautions'),
                 !this.state.layerInfo.other ? null : this.tableMap(this.state.layerInfo.other, 'other'),
+                !this.state.layerInfo.learn_more ? null : this.tableMap(this.state.layerInfo.learn_more, 'learn more'),
                 !this.state.layerInfo.license ? null : this.tableMap(this.state.layerInfo.license, 'license')
               ),
               _react2.default.createElement(
