@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/MapActions', 'stores/MapStore', 'js/constants', 'js/components/AnalysisPanel/PlanetBasemaps', 'react'], function (exports, _config, _MapActions, _MapStore, _constants, _PlanetBasemaps, _react) {
+define(['exports', 'js/config', 'actions/MapActions', 'stores/MapStore', 'js/constants', 'react'], function (exports, _config, _MapActions, _MapStore, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6,8 +6,6 @@ define(['exports', 'js/config', 'actions/MapActions', 'stores/MapStore', 'js/con
   });
 
   var _constants2 = _interopRequireDefault(_constants);
-
-  var _PlanetBasemaps2 = _interopRequireDefault(_PlanetBasemaps);
 
   var _react2 = _interopRequireDefault(_react);
 
