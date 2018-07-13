@@ -25,12 +25,13 @@ export default class ImageryTab extends React.Component {
 
   clickedImagery = (evt) => {
     let currImagery = '';
-    const { activeImagery, activeBasemap } = this.state;
+    const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
     const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
+
     if (activeImagery === clickedImagery) {
       if (clickedImagery === KEYS.planetBasemap) {
-        mapActions.changeBasemap(activeBasemap);
+        mapActions.changeBasemap(app.map.getBasemap());
       } else {
         LayersHelper.hideLayer(dgLayer.id);
       }
@@ -38,11 +39,7 @@ export default class ImageryTab extends React.Component {
       currImagery = clickedImagery;
     }
 
-    // this.setState({ activePlanetBasemap: defaultBasemap }, () => {
       mapActions.setImagery(currImagery);
-  // });
-    
-    // this.setState({ activeImagery: currImagery });
   };
 
   showInfo = (evt) => {
