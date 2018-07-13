@@ -38,7 +38,7 @@ export default class BasemapModal extends Component {
                 <button className='gfw-btn white basemap-button pointer' onClick={this.switchBasemap}>Yes</button>
                 <button className='gfw-btn white basemap-button pointer' onClick={this.keepBasemap}>No</button>
                 <div id='basemap-checkbox-container'>
-                  <input id='basemap-cookie-checkbox' onChange={this.setCookie} type='checkbox'>Remember my decision</input>
+                  <input id='basemap-cookie-checkbox' onChange={this.setCookie} type='checkbox'></input>
                 </div>
               </div>
             </div>
