@@ -5,9 +5,12 @@ import * as params from 'utils/params';
 import KEYS from 'js/constants';
 import hash from 'dojo/hash';
 
+
 const ShareHelper = {
 
-  prepareStateForUrl (basemap) {
+  activeImagery: '',
+
+  prepareStateForUrl (basemap, imagery) {
     app.debug('ShareHelper >>> prepareStateForUrl');
     let shareObject = {}, activeLayers = [];
 
@@ -24,6 +27,7 @@ const ShareHelper = {
     });
 
     let activeBasemap = app.map.getBasemap();
+
     if (basemap) {
       activeBasemap = basemap;
     }
@@ -35,6 +39,8 @@ const ShareHelper = {
     }
 
     shareObject.activeBasemap = activeBasemap;
+
+    shareObject.activeImagery = imagery ? imagery : this.activeImagery;
 
     //- Set X, Y, and Zoom
     let centerPoint = app.map.extent.getCenter();
@@ -51,12 +57,17 @@ const ShareHelper = {
 
     let activeLayers = state.activeLayers;
     let activeBasemap = state.activeBasemap;
+    let activeImagery = state.activeImagery;
     let x = state.x;
     let y = state.y;
     let z = state.z;
 
     if (activeBasemap) {
       mapActions.setBasemap(activeBasemap);
+    }
+
+    if (activeImagery) {
+      mapActions.setImagery(activeImagery);
     }
 
     if (activeLayers) {
@@ -92,9 +103,10 @@ const ShareHelper = {
     hash(url);
   },
 
-  handleHashChange (basemap) {
+  handleHashChange (basemap, imagery) {
     app.debug('ShareHelper >>> handleHashChange');
-    let url = this.prepareStateForUrl(basemap);
+    let url = this.prepareStateForUrl(basemap, imagery);
+    this.imagery = imagery;
     hash(url);
   }
 
