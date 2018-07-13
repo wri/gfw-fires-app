@@ -153,6 +153,11 @@ class MapActions {
     this.dispatch(basemap);
   }
 
+  setImagery (imagery) {
+    app.debug('MapActions >>> setImagery');
+    this.dispatch(imagery);
+  }
+
   changeBasemap (basemap) {
     app.debug(`MapActions >>> changeBasemap - ${basemap}`);
     let layer, labelLayer, baseLayer, landsatLayer, planetLayer;
