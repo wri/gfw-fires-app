@@ -85,6 +85,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.activeDG = undefined;
       this.currentCustomGraphic = undefined;
       this.activeBasemap = _config.defaults.activeBasemap;
+      this.activeImagery = '';
       this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
@@ -98,6 +99,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
+        setImagery: _MapActions.mapActions.setImagery,
         showLoading: _LayerActions.layerActions.showLoading,
         hideLoading: _ModalActions.modalActions.showLayerInfo,
         connectLayerEvents: _MapActions.mapActions.connectLayerEvents,
@@ -139,21 +141,19 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     _createClass(MapStore, [{
       key: 'connectLayerEvents',
       value: function connectLayerEvents() {
+        var _this = this;
+
         // Enable Mouse Events for al graphics layers
         app.map.graphics.enableMouseEvents();
         // Set up Click Listener to Perform Identify
         app.map.on('click', _LayersHelper2.default.performIdentify.bind(_LayersHelper2.default));
 
         app.map.on('extent-change, basemap-change', function () {
-          _ShareHelper2.default.handleHashChange();
+          _ShareHelper2.default.handleHashChange(undefined, _this.activeImagery);
         });
+
         app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
-        //LayersHelper.updateFireHistoryDefinitions(0);
-
-        // //only do this for the layer
-        // LayersHelper.updateFireRisk(defaults.yesterday);
-        // LayersHelper.updateLastRain(defaults.yesterday);
       }
     }, {
       key: 'setCalendar',
@@ -445,6 +445,15 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           if (basemap === _constants2.default.wriBasemap) {
             _ShareHelper2.default.handleHashChange(basemap);
           }
+        }
+      }
+    }, {
+      key: 'setImagery',
+      value: function setImagery(imagery) {
+        if (imagery !== this.imagery) {
+          this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery on.');
+          this.activeImagery = imagery;
+          _ShareHelper2.default.handleHashChange(undefined, imagery);
         }
       }
     }, {
