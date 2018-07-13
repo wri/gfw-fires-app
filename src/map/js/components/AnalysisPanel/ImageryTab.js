@@ -16,10 +16,7 @@ export default class ImageryTab extends React.Component {
   constructor (props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
-    this.state = {
-      ...mapStore.getState(),
-      activeImagery: ''
-    };
+    this.state = mapStore.getState();
   }
 
   storeUpdated () {
@@ -27,7 +24,7 @@ export default class ImageryTab extends React.Component {
   }
 
   clickedImagery = (evt) => {
-    let currImagery;
+    let currImagery = '';
     const { activeImagery, activeBasemap } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
     const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
@@ -40,8 +37,12 @@ export default class ImageryTab extends React.Component {
     } else {
       currImagery = clickedImagery;
     }
+
+    // this.setState({ activePlanetBasemap: defaultBasemap }, () => {
+      mapActions.setImagery(currImagery);
+  // });
     
-    this.setState({ activeImagery: currImagery });
+    // this.setState({ activeImagery: currImagery });
   };
 
   showInfo = (evt) => {
