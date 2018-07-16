@@ -311,7 +311,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
             id: _constants2.default.planetBasemap,
             visible: true
           });
-          app.map.setBasemap('topo');
+          app.map.setBasemap(app.map.getBasemap());
           app.map.addLayer(planetBasemap, 3);
         } else {
           // Hide all other basemaps
