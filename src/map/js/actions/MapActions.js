@@ -208,7 +208,7 @@ class MapActions {
         id: KEYS.planetBasemap,
         visible: true
       });
-      app.map.setBasemap('topo');
+      app.map.setBasemap(app.map.getBasemap());
       app.map.addLayer(planetBasemap, 3);
     } else {
       // Hide all other basemaps
