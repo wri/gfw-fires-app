@@ -151,11 +151,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'actions/MapActions', 'acti
                 _react2.default.createElement(
                   'div',
                   { id: 'basemap-checkbox-container' },
-                  _react2.default.createElement(
-                    'input',
-                    { id: 'basemap-cookie-checkbox', onChange: this.setCookie, type: 'checkbox' },
-                    'Remember my decision'
-                  )
+                  _react2.default.createElement('input', { id: 'basemap-cookie-checkbox', onChange: this.setCookie, type: 'checkbox' })
                 )
               )
             )
