@@ -36,7 +36,10 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
   }
 
   var ShareHelper = {
-    prepareStateForUrl: function prepareStateForUrl(basemap) {
+
+    activeImagery: '',
+
+    prepareStateForUrl: function prepareStateForUrl(basemap, imagery) {
       app.debug('ShareHelper >>> prepareStateForUrl');
       var shareObject = {},
           activeLayers = [];
@@ -54,6 +57,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       });
 
       var activeBasemap = app.map.getBasemap();
+
       if (basemap) {
         activeBasemap = basemap;
       }
@@ -65,6 +69,8 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       }
 
       shareObject.activeBasemap = activeBasemap;
+
+      shareObject.activeImagery = imagery ? imagery : this.activeImagery;
 
       //- Set X, Y, and Zoom
       var centerPoint = app.map.extent.getCenter();
@@ -80,12 +86,17 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
 
       var activeLayers = state.activeLayers;
       var activeBasemap = state.activeBasemap;
+      var activeImagery = state.activeImagery;
       var x = state.x;
       var y = state.y;
       var z = state.z;
 
       if (activeBasemap) {
         _MapActions.mapActions.setBasemap(activeBasemap);
+      }
+
+      if (activeImagery) {
+        _MapActions.mapActions.setImagery(activeImagery);
       }
 
       if (activeLayers) {
@@ -119,9 +130,10 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var url = this.prepareStateForUrl();
       (0, _hash2.default)(url);
     },
-    handleHashChange: function handleHashChange(basemap) {
+    handleHashChange: function handleHashChange(basemap, imagery) {
       app.debug('ShareHelper >>> handleHashChange');
-      var url = this.prepareStateForUrl(basemap);
+      var url = this.prepareStateForUrl(basemap, imagery);
+      this.imagery = imagery;
       (0, _hash2.default)(url);
     }
   };

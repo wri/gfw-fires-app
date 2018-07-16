@@ -40,6 +40,7 @@ export default class BasemapTab extends React.Component {
   clickedBasemap = (evt) => {
     let id = evt.currentTarget.getAttribute('data-basemap');
     mapActions.changeBasemap(id);
+    mapActions.setImagery(''); // If there is a change in basemaps, deactivate the imagery
   };
 
   handleCheckToggle = (evt) => {

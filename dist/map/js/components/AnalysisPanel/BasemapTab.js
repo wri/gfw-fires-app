@@ -74,6 +74,7 @@ define(['exports', 'js/config', 'actions/MapActions', 'stores/MapStore', 'js/con
       _this.clickedBasemap = function (evt) {
         var id = evt.currentTarget.getAttribute('data-basemap');
         _MapActions.mapActions.changeBasemap(id);
+        _MapActions.mapActions.setImagery(''); // If there is a change in basemaps, deactivate the imagery
       };
 
       _this.handleCheckToggle = function (evt) {

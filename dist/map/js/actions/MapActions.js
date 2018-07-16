@@ -233,6 +233,12 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(basemap);
       }
     }, {
+      key: 'setImagery',
+      value: function setImagery(imagery) {
+        app.debug('MapActions >>> setImagery');
+        this.dispatch(imagery);
+      }
+    }, {
       key: 'changeBasemap',
       value: function changeBasemap(basemap) {
         app.debug('MapActions >>> changeBasemap - ' + basemap);

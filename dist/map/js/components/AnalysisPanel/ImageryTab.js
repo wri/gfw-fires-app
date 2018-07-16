@@ -94,18 +94,17 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
       var _this = _possibleConstructorReturn(this, (ImageryTab.__proto__ || Object.getPrototypeOf(ImageryTab)).call(this, props));
 
       _this.clickedImagery = function (evt) {
-        var currImagery = void 0;
-        var _this$state = _this.state,
-            activeImagery = _this$state.activeImagery,
-            activeBasemap = _this$state.activeBasemap;
+        var currImagery = '';
+        var activeImagery = _this.state.activeImagery;
         var clickedImagery = evt.currentTarget.dataset.basemap;
 
         var dgLayer = _config.layersConfig.filter(function (l) {
           return l.id === _constants2.default.digitalGlobe;
         })[0];
+
         if (activeImagery === clickedImagery) {
           if (clickedImagery === _constants2.default.planetBasemap) {
-            _MapActions.mapActions.changeBasemap(activeBasemap);
+            _MapActions.mapActions.changeBasemap(app.map.getBasemap());
           } else {
             _LayersHelper2.default.hideLayer(dgLayer.id);
           }
@@ -113,7 +112,7 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
           currImagery = clickedImagery;
         }
 
-        _this.setState({ activeImagery: currImagery });
+        _MapActions.mapActions.setImagery(currImagery);
       };
 
       _this.showInfo = function (evt) {
@@ -123,9 +122,7 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
       };
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
-      _this.state = _extends({}, _MapStore.mapStore.getState(), {
-        activeImagery: ''
-      });
+      _this.state = _MapStore.mapStore.getState();
       return _this;
     }
 

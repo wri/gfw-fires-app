@@ -43,6 +43,7 @@ class MapStore {
     this.activeDG = undefined;
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
+    this.activeImagery = '';
     this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
@@ -56,6 +57,7 @@ class MapStore {
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
+      setImagery: mapActions.setImagery,
       showLoading: layerActions.showLoading,
       hideLoading: modalActions.showLayerInfo,
       connectLayerEvents: mapActions.connectLayerEvents,
@@ -100,16 +102,12 @@ class MapStore {
     // Set up Click Listener to Perform Identify
     app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
 
-    app.map.on('extent-change, basemap-change', function(){
-      ShareHelper.handleHashChange();
+    app.map.on('extent-change, basemap-change', () => {
+      ShareHelper.handleHashChange(undefined, this.activeImagery);
     });
+
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
     LayersHelper.updateAirQDate(defaults.todaysDate);
-    //LayersHelper.updateFireHistoryDefinitions(0);
-
-    // //only do this for the layer
-    // LayersHelper.updateFireRisk(defaults.yesterday);
-    // LayersHelper.updateLastRain(defaults.yesterday);
   }
 
   setCalendar (calendar) {
@@ -374,6 +372,14 @@ class MapStore {
       if (basemap === KEYS.wriBasemap) {
         ShareHelper.handleHashChange(basemap);
       }
+    }
+  }
+
+  setImagery (imagery) {
+    if (imagery !== this.imagery) {
+      this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery on.');
+      this.activeImagery = imagery;
+      ShareHelper.handleHashChange(undefined, imagery);
     }
   }
 
