@@ -1,193 +1,122 @@
 import React from 'react';
 import Select from 'react-select';
+import { mapStore } from 'stores/MapStore';
 import { mapActions } from 'actions/MapActions';
-import { analysisActions } from 'actions/AnalysisActions';
 
 export default class PlanetImagery extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checked: false,
-            activeCategory: 'PLANET-MONTHLY',
-            activePlanetBasemap: '',
-            activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly'}
-        };
-    }
 
-    componentDidMount() {
-        const self = this;
-        // Request XML page
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState === 4) {
-                if (this.status === 200) {
-                    const basemaps = [];
+	constructor(props) {
+		super(props);
+		mapStore.listen(this.storeUpdated.bind(this));
 
-                    const xmlParser = new DOMParser();
-                    const htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+		this.state = {
+			...mapStore.getState(),
+			checked: false
+		};
+	}
 
-                    const xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+	storeUpdated () {
+    this.setState(mapStore.getState());
+  }
 
-                    const contents = xmlDoc.getElementsByTagName('Contents')[0];
-                    const layerCollection = contents.getElementsByTagName('Layer');
-                    const layerCollectionLength = layerCollection.length;
+	shouldComponentUpdate(nextProps, nextState) {
+		if(nextState.activePlanetBasemap === '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== '' && nextState.activePlanetPeriod !== 'null') {
+			this.getPlanetBasemaps(nextState.activePlanetPeriod);
+		}
 
-                    for (let i = 0; i < layerCollectionLength; i++) {
-                        const currentLayer = layerCollection[i];
-                        const title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
-                        const url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
-                        basemaps.push({ title, url });
-                    }
+		if (nextState.activePlanetPeriod !== '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== 'null' && this.state.activeCategory !== nextState.activeCategory) {
+			this.getPlanetBasemaps(nextState.activePlanetPeriod);
+			return true;
+		} else if (nextState.activeCategory !== '' && this.state.activeCategory !== nextState.activeCategory && nextState.activeCategory !== 'null' && nextState.activePlanetPeriod !== 'null' && nextState.activePlanetPeriod !== '') {
+			return true;
+		} else if (nextState.activePlanetPeriod !== '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== 'null') {
+			return true;
+		} else if (nextState.activePlanetBasemap !== '' && this.state.activePlanetBasemap !== nextState.activePlanetBasemap && nextState.activePlanetBasemap !== 'null') {
+			return true;
+		}
+		return false;
+	}
 
-                    const monthlyBasemaps = [];
-                    const quarterlyBasemaps = [];
-                    basemaps.forEach(function(basemap) {
-                        if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
-                            monthlyBasemaps.push(basemap);
-                        }
-                        if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
-                            quarterlyBasemaps.push(basemap);
-                        }
-                    });
+	setCategory = selected => {
+		const { value } = selected;
+		const { monthlyBasemaps, quarterlyBasemaps } = this.props;
 
-                    analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
-                    analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
-                    self.getPlanetBasemaps();
-                } else {
-                    console.log('Error retrieving planet basemaps.');
-                }
-            }
-        };
-        xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
-        xhttp.send();
-    }
+		const defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
 
-    setCategory(selected) {
-        const { value } = selected;
-        this.setState({ activeCategory: value }, () => {
-            const defaultBasemap = this.createBasemapOptions().reverse()[0];
-            this.setState({ activePlanetBasemap: defaultBasemap, activePlanetCategory: selected }, () => {
-                mapActions.changeBasemap({
-                  title: defaultBasemap.label,
-                  url: defaultBasemap.value
-                });
-            });
-        });
-    }
+		mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+		mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+		mapActions.setActivePlanetCategory.defer(value);
+	
+		mapActions.changeBasemap.defer(defaultBasemap);
+	}
 
-    getPlanetBasemaps() {
-        const defaultBasemap = this.createBasemapOptions().reverse()[0];
-        this.setState({ activePlanetBasemap: defaultBasemap }, () => {
-            mapActions.changeBasemap({
-              title: defaultBasemap.label,
-              url: defaultBasemap.value
-            });
-        });
-    }
-    
-    parseMonthlyTitle(title) {
-        // ex. formats 'Global Monthly 2016 01 Mosaic'
-        const words = title.split(' ');
-        const year = words[2];
-        const month = words[3];
-        const yyyyMM = year + ' ' + month;
-        const label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
-        return label;
-    }
+	getPlanetBasemaps(period) {
+		const { monthlyBasemaps, quarterlyBasemaps } = this.props;
 
-    parseQuarterlyTitle(title) {
-        const words = title.split(' ');
-        const yearQuarter = words[2];
+		const basemaps = this.state.activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
 
-        const dict = {
-            1: 'JAN-MAR',
-            2: 'APR-JUN',
-            3: 'JUL-SEP',
-            4: 'OCT-DEC'
-        };
+		const defaultBasemap = basemaps.find((item) => {
+			return item.label === period ? period : this.state.activePlanetPeriod;
+		});
 
-        if (yearQuarter === undefined) {
-            return title;
-        } else {
-            const [ year, quarter ] = yearQuarter.split('q');
-            const label = `${dict[quarter]} ${year}`;
-            return label;
-        }
-    }
+		mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+		mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+		mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
 
-    createBasemapOptions () {
-        const { monthlyBasemaps, quarterlyBasemaps } = this.props;
-        const { activeCategory } = this.state;
-        const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+		mapActions.changeBasemap.defer(defaultBasemap);
+	}
 
-        // Filter out 'Latest Monthly' and 'Latest Quarterly'
-        return filterBasemaps.filter(basemap => {
-            if (basemap.title === 'Latest Monthly' || basemap.title === 'Latest Quarterly') {
-                return false;
-            } else {
-                return true;
-            }
-        }).map(basemap => {
-            const { url, title } = basemap;
-            const label = activeCategory === 'PLANET-MONTHLY' ? this.parseMonthlyTitle(title) : this.parseQuarterlyTitle(title);
-            return {
-                value: url,
-                label: label
-            };
-        });
-    }
+	handleBasemap = selected => {
+		const { value } = selected;
+		const { monthlyBasemaps, quarterlyBasemaps } = this.props;
+		const { activeCategory } = this.state;
+		const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+		const choice = filterBasemaps.find(basemap => basemap.value === value);
 
-    handleBasemap = selected => {
-        const { value } = selected;
-        const { monthlyBasemaps, quarterlyBasemaps } = this.props;
-        const { activeCategory } = this.state;
-        const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-        const choice = filterBasemaps.find(basemap => basemap.url === value);
-        if (choice) {
-            this.setState({
-                activePlanetBasemap: selected
-            }, () => {
-                mapActions.changeBasemap(choice);
-            });
-        }
-    }
+		if (choice) {
+			mapActions.setActivePlanetBasemap.defer(selected);
+			mapActions.setActivePlanetPeriod.defer(selected.label);
+			mapActions.changeBasemap.defer(choice);
+		}
+	}
 
-    render () {
-        const { activePlanetBasemap, activePlanetCategory } = this.state;
-        const { active } = this.props;
+	render() {
+		let tmpActiveBasemap;
+		const { activePlanetBasemap, activeCategory } = this.state;
+		const { active, monthlyBasemaps, quarterlyBasemaps } = this.props;
 
-        return (
-            <div className={`relative ${active ? 'active' : 'hidden'}`} onClick={(evt) => evt.stopPropagation()}>
-                <div className={`layer-content-container flex select-container ${active ? '' : 'hidden'}`}>
-                    <div className='flex imagery-category-container'>
-                        <Select
-                            multi={false}
-                            clearable={false}
-                            value={activePlanetCategory}
-                            options={[
-                                { value: 'PLANET-MONTHLY', label: 'Monthly'},
-                                { value: 'PLANET-QUARTERLY', label: 'Quarterly'}
-                            ]}
-                            onChange={this.setCategory.bind(this)}
-                            style={{
-                                width: '175px'
-                            }}
-                        />
-                    </div>
-                    <div>
-                        <Select
-                            multi={false}
-                            clearable={false}
-                            value={activePlanetBasemap}
-                            options={this.createBasemapOptions().reverse()}
-                            onChange={this.handleBasemap.bind(this)}
-                            style={{
-                                width: '175px'
-                            }}
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
+		return (
+			<div className={`relative ${active ? 'active' : 'hidden'}`} onClick={(evt) => evt.stopPropagation()}>
+				<div className={`layer-content-container flex select-container ${active ? '' : 'hidden'}`}>
+					<div className='flex imagery-category-container'>
+						<Select
+							multi={false}
+							clearable={false}
+							value={activeCategory}
+							options={[
+								{ value: 'PLANET-MONTHLY', label: 'Monthly' },
+								{ value: 'PLANET-QUARTERLY', label: 'Quarterly' }
+							]}
+							onChange={this.setCategory.bind(this)}
+							style={{
+								width: '175px'
+							}}
+						/>
+					</div>
+					<div>
+						<Select
+							multi={false}
+							clearable={false}
+							value={activePlanetBasemap === '' ? tmpActiveBasemap : activePlanetBasemap}
+							options={activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps}
+							onChange={this.handleBasemap.bind(this)}
+							style={{
+								width: '175px'
+							}}
+						/>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
