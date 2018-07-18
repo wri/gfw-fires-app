@@ -137,11 +137,11 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 			key: 'shouldComponentUpdate',
 			value: function shouldComponentUpdate(nextProps, nextState) {
 				if (nextState.activePlanetBasemap === '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== '' && nextState.activePlanetPeriod !== 'null') {
-					this.getPlanetBasemaps(nextState.activePlanetPeriod);
+					this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
 				}
 
 				if (nextState.activePlanetPeriod !== '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== 'null' && this.state.activeCategory !== nextState.activeCategory) {
-					this.getPlanetBasemaps(nextState.activePlanetPeriod);
+					this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
 					return true;
 				} else if (nextState.activeCategory !== '' && this.state.activeCategory !== nextState.activeCategory && nextState.activeCategory !== 'null' && nextState.activePlanetPeriod !== 'null' && nextState.activePlanetPeriod !== '') {
 					return true;
@@ -154,7 +154,7 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 			}
 		}, {
 			key: 'getPlanetBasemaps',
-			value: function getPlanetBasemaps(period) {
+			value: function getPlanetBasemaps(period, updateStore) {
 				var _this2 = this;
 
 				var _props = this.props,
@@ -168,10 +168,11 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 					return item.label === period ? period : _this2.state.activePlanetPeriod;
 				});
 
-				_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
-				_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
-				_MapActions.mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
-
+				if (updateStore) {
+					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+					_MapActions.mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
+				}
 				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
 			}
 		}, {
@@ -186,6 +187,11 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 				    monthlyBasemaps = _props2.monthlyBasemaps,
 				    quarterlyBasemaps = _props2.quarterlyBasemaps;
 
+
+				if (activePlanetBasemap === '' && activeCategory !== 'null') {
+					tmpActiveBasemap = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
+					this.getPlanetBasemaps(tmpActiveBasemap.label, false);
+				}
 
 				return _react2.default.createElement(
 					'div',

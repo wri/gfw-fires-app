@@ -207,7 +207,6 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
 
               _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(parsedMonthly);
               _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(parsedQuarterly);
-              console.log(parsedMonthly);
             } else {
               console.log('Error retrieving planet basemaps.');
             }
