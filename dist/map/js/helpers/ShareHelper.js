@@ -39,7 +39,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
 
     activeImagery: '',
 
-    prepareStateForUrl: function prepareStateForUrl(basemap, imagery) {
+    prepareStateForUrl: function prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod) {
       app.debug('ShareHelper >>> prepareStateForUrl');
       var shareObject = {},
           activeLayers = [];
@@ -71,6 +71,8 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       shareObject.activeBasemap = activeBasemap;
 
       shareObject.activeImagery = imagery ? imagery : this.activeImagery;
+      shareObject.planetCategory = activeCategory ? activeCategory : null;
+      shareObject.planetPeriod = activePlanetPeriod ? activePlanetPeriod : null;
 
       //- Set X, Y, and Zoom
       var centerPoint = app.map.extent.getCenter();
@@ -87,16 +89,20 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var activeLayers = state.activeLayers;
       var activeBasemap = state.activeBasemap;
       var activeImagery = state.activeImagery;
+      var planetCategory = state.planetCategory;
+      var planetPeriod = state.planetPeriod;
       var x = state.x;
       var y = state.y;
       var z = state.z;
 
-      if (activeBasemap) {
-        _MapActions.mapActions.setBasemap(activeBasemap);
-      }
-
       if (activeImagery) {
         _MapActions.mapActions.setImagery(activeImagery);
+        _MapActions.mapActions.setActivePlanetCategory(planetCategory);
+        _MapActions.mapActions.setActivePlanetPeriod(planetPeriod);
+      }
+
+      if (activeBasemap) {
+        _MapActions.mapActions.setBasemap(activeBasemap);
       }
 
       if (activeLayers) {
@@ -130,9 +136,9 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var url = this.prepareStateForUrl();
       (0, _hash2.default)(url);
     },
-    handleHashChange: function handleHashChange(basemap, imagery) {
-      app.debug('ShareHelper >>> handleHashChange');
-      var url = this.prepareStateForUrl(basemap, imagery);
+    handleHashChange: function handleHashChange(basemap, imagery, activeCategory, activePlanetPeriod) {
+      console.log('ShareHelper >>> handleHashChange');
+      var url = this.prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod);
       this.imagery = imagery;
       (0, _hash2.default)(url);
     }

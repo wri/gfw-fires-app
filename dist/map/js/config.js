@@ -65,6 +65,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
       archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
       archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+      planetActiveCategory: 'PLANET-MONTHLY',
+      activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly' },
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?

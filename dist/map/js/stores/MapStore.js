@@ -86,6 +86,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.currentCustomGraphic = undefined;
       this.activeBasemap = _config.defaults.activeBasemap;
       this.activeImagery = '';
+      this.planetLabel = '';
+      this.activeCategory = _config.defaults.planetActiveCategory;
+      this.activePlanetBasemap = '';
+      this.activePlanetPeriod = '';
       this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
@@ -100,6 +104,9 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
         setImagery: _MapActions.mapActions.setImagery,
+        setActivePlanetBasemap: _MapActions.mapActions.setActivePlanetBasemap,
+        setActivePlanetPeriod: _MapActions.mapActions.setActivePlanetPeriod,
+        setActivePlanetCategory: _MapActions.mapActions.setActivePlanetCategory,
         showLoading: _LayerActions.layerActions.showLoading,
         hideLoading: _ModalActions.modalActions.showLayerInfo,
         connectLayerEvents: _MapActions.mapActions.connectLayerEvents,
@@ -149,7 +156,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         app.map.on('click', _LayersHelper2.default.performIdentify.bind(_LayersHelper2.default));
 
         app.map.on('extent-change, basemap-change', function () {
-          _ShareHelper2.default.handleHashChange(undefined, _this.activeImagery);
+          _ShareHelper2.default.handleHashChange(undefined, _this.activeImagery, _this.activeCategory, _this.activePlanetPeriod);
         });
 
         app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
@@ -455,6 +462,22 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           this.activeImagery = imagery;
           _ShareHelper2.default.handleHashChange(undefined, imagery);
         }
+      }
+    }, {
+      key: 'setActivePlanetCategory',
+      value: function setActivePlanetCategory(category) {
+        this.activeCategory = category;
+      }
+    }, {
+      key: 'setActivePlanetPeriod',
+      value: function setActivePlanetPeriod(period) {
+        console.log('setActivePlanetPeriod >>>>> DONE');
+        this.activePlanetPeriod = period;
+      }
+    }, {
+      key: 'setActivePlanetBasemap',
+      value: function setActivePlanetBasemap(basemap) {
+        this.activePlanetBasemap = basemap;
       }
     }, {
       key: 'changeFiresTimeline',
