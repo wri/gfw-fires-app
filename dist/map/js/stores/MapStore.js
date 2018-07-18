@@ -86,7 +86,6 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.currentCustomGraphic = undefined;
       this.activeBasemap = _config.defaults.activeBasemap;
       this.activeImagery = '';
-      this.planetLabel = '';
       this.activeCategory = _config.defaults.planetActiveCategory;
       this.activePlanetBasemap = '';
       this.activePlanetPeriod = '';
