@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actions/ModalActions', 'actions/MapActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react', 'components/AnalysisPanel/PlanetImagery'], function (exports, _ImageryComponent, _config, _ModalActions, _MapActions, _MapStore, _LayersHelper, _constants, _react, _PlanetImagery) {
+define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actions/AnalysisActions', 'actions/ModalActions', 'actions/MapActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react', 'components/AnalysisPanel/PlanetImagery'], function (exports, _ImageryComponent, _config, _AnalysisActions, _ModalActions, _MapActions, _MapStore, _LayersHelper, _constants, _react, _PlanetImagery) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -34,6 +34,44 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
 
     return target;
   };
+
+  var _slicedToArray = function () {
+    function sliceIterator(arr, i) {
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
+        try {
+          if (!_n && _i["return"]) _i["return"]();
+        } finally {
+          if (_d) throw _e;
+        }
+      }
+
+      return _arr;
+    }
+
+    return function (arr, i) {
+      if (Array.isArray(arr)) {
+        return arr;
+      } else if (Symbol.iterator in Object(arr)) {
+        return sliceIterator(arr, i);
+      } else {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+      }
+    };
+  }();
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -127,19 +165,142 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
     }
 
     _createClass(ImageryTab, [{
+      key: 'componentDidMount',
+      value: function componentDidMount() {
+        var self = this;
+        // Request XML page
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4) {
+            if (this.status === 200) {
+              var basemaps = [];
+
+              var xmlParser = new DOMParser();
+              var htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+
+              var xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+
+              var contents = xmlDoc.getElementsByTagName('Contents')[0];
+              var layerCollection = contents.getElementsByTagName('Layer');
+              var layerCollectionLength = layerCollection.length;
+
+              for (var i = 0; i < layerCollectionLength; i++) {
+                var currentLayer = layerCollection[i];
+                var title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
+                var url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
+                basemaps.push({ title: title, url: url });
+              }
+
+              var monthlyBasemaps = [];
+              var quarterlyBasemaps = [];
+              basemaps.forEach(function (basemap) {
+                if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
+                  monthlyBasemaps.push(basemap);
+                }
+                if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
+                  quarterlyBasemaps.push(basemap);
+                }
+              });
+
+              var parsedMonthly = self.parseTitles(monthlyBasemaps, true).reverse();
+              var parsedQuarterly = self.parseTitles(quarterlyBasemaps, false).reverse();
+
+              _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(parsedMonthly);
+              _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(parsedQuarterly);
+              console.log(parsedMonthly);
+            } else {
+              console.log('Error retrieving planet basemaps.');
+            }
+          }
+        };
+        xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
+        xhttp.send();
+      }
+    }, {
       key: 'storeUpdated',
       value: function storeUpdated() {
         this.setState(_MapStore.mapStore.getState());
       }
     }, {
+      key: 'parseTitles',
+      value: function parseTitles(planetBasemaps, isMonthly) {
+        var _this2 = this;
+
+        // Filter out 'Latest Monthly' and 'Latest Quarterly'
+        return planetBasemaps.filter(function (basemap) {
+          if (basemap.title === 'Latest Monthly' || basemap.title === 'Latest Quarterly') {
+            return false;
+          } else {
+            return true;
+          }
+        }).map(function (basemap) {
+          var url = basemap.url,
+              title = basemap.title;
+
+          var label = isMonthly ? _this2.parseMonthlyTitle(title) : _this2.parseQuarterlyTitle(title);
+          return {
+            value: url,
+            label: label
+          };
+        });
+      }
+    }, {
+      key: 'parseMonthlyTitle',
+      value: function parseMonthlyTitle(title) {
+        // ex. formats 'Global Monthly 2016 01 Mosaic'
+        var words = title.split(' ');
+        var year = words[2];
+        var month = words[3];
+        var yyyyMM = year + ' ' + month;
+        var label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
+        return label;
+      }
+    }, {
+      key: 'parseQuarterlyTitle',
+      value: function parseQuarterlyTitle(title) {
+        var words = title.split(' ');
+        var yearQuarter = words[2];
+
+        var dict = {
+          1: 'JAN-MAR',
+          2: 'APR-JUN',
+          3: 'JUL-SEP',
+          4: 'OCT-DEC'
+        };
+
+        if (yearQuarter === undefined) {
+          return title;
+        } else {
+          var _yearQuarter$split = yearQuarter.split('q'),
+              _yearQuarter$split2 = _slicedToArray(_yearQuarter$split, 2),
+              year = _yearQuarter$split2[0],
+              quarter = _yearQuarter$split2[1];
+
+          var label = dict[quarter] + ' ' + year;
+          return label;
+        }
+      }
+    }, {
       key: 'render',
       value: function render() {
+        var _state = this.state,
+            activeImagery = _state.activeImagery,
+            iconLoading = _state.iconLoading;
+        var _props = this.props,
+            monthlyPlanetBasemaps = _props.monthlyPlanetBasemaps,
+            quarterlyPlanetBasemaps = _props.quarterlyPlanetBasemaps,
+            activeTab = _props.activeTab;
+        var planetBasemap = _constants2.default.planetBasemap,
+            digitalGlobe = _constants2.default.digitalGlobe,
+            digitalGlobeBasemap = _constants2.default.digitalGlobeBasemap;
+
+
         var className = 'imagery-tab';
-        if (this.props.activeTab !== _config.analysisPanelText.imageryTabId) {
+        if (activeTab !== _config.analysisPanelText.imageryTabId) {
           className += ' hidden';
         }
         var dgLayer = _config.layersConfig.filter(function (l) {
-          return l.id === _constants2.default.digitalGlobe;
+          return l.id === digitalGlobe;
         })[0];
 
         return _react2.default.createElement(
@@ -152,8 +313,8 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
           ),
           _react2.default.createElement(
             'div',
-            { 'data-basemap': _constants2.default.planetBasemap, className: 'basemap-item ' + (this.state.activeImagery === _constants2.default.planetBasemap ? 'active' : ''), onClick: this.clickedImagery },
-            _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeImagery === _constants2.default.planetBasemap ? 'active' : '') }),
+            { 'data-basemap': planetBasemap, className: 'basemap-item ' + (activeImagery === planetBasemap ? 'active' : ''), onClick: this.clickedImagery },
+            _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (activeImagery === planetBasemap ? 'active' : '') }),
             _react2.default.createElement(
               'div',
               { className: 'basemap-label' },
@@ -161,15 +322,15 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
             ),
             _react2.default.createElement(
               'span',
-              { className: 'info-icon pointer info-icon-center ' + (this.state.iconLoading === _constants2.default.planetBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
+              { className: 'info-icon pointer info-icon-center ' + (iconLoading === planetBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
               _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
             ),
-            this.state.activeImagery === _constants2.default.planetBasemap && _react2.default.createElement(_PlanetImagery2.default, { monthlyBasemaps: this.props.monthlyPlanetBasemaps, quarterlyBasemaps: this.props.quarterlyPlanetBasemaps, active: this.state.activeImagery === _constants2.default.planetBasemap })
+            activeImagery === planetBasemap && _react2.default.createElement(_PlanetImagery2.default, { monthlyBasemaps: monthlyPlanetBasemaps, quarterlyBasemaps: quarterlyPlanetBasemaps, active: activeImagery === planetBasemap })
           ),
           _react2.default.createElement(
             'div',
-            { 'data-basemap': _constants2.default.digitalGlobeBasemap, className: 'basemap-item ' + (this.state.activeImagery === _constants2.default.digitalGlobeBasemap ? 'active' : ''), onClick: this.clickedImagery },
-            _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeImagery === _constants2.default.digitalGlobeBasemap ? 'active' : '') }),
+            { 'data-basemap': digitalGlobeBasemap, className: 'basemap-item ' + (activeImagery === digitalGlobeBasemap ? 'active' : ''), onClick: this.clickedImagery },
+            _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (activeImagery === digitalGlobeBasemap ? 'active' : '') }),
             _react2.default.createElement(
               'div',
               { className: 'basemap-label' },
@@ -177,10 +338,10 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
             ),
             _react2.default.createElement(
               'span',
-              { className: 'info-icon pointer info-icon-center ' + (this.state.iconLoading === _constants2.default.digitalGlobeBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
+              { className: 'info-icon pointer info-icon-center ' + (iconLoading === digitalGlobeBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
               _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
             ),
-            this.state.activeImagery === _constants2.default.digitalGlobeBasemap && _react2.default.createElement(_ImageryComponent2.default, _extends({}, this.state, { options: dgLayer.calendar, active: this.state.activeImagery === _constants2.default.digitalGlobeBasemap, layer: dgLayer }))
+            activeImagery === digitalGlobeBasemap && _react2.default.createElement(_ImageryComponent2.default, _extends({}, this.state, { options: dgLayer.calendar, active: activeImagery === digitalGlobeBasemap, layer: dgLayer }))
           )
         );
       }

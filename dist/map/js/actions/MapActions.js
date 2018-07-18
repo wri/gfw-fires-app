@@ -215,6 +215,24 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(date);
       }
     }, {
+      key: 'setActivePlanetPeriod',
+      value: function setActivePlanetPeriod(basemap) {
+        app.debug('MapActions >>> setActivePlanetPeriod');
+        this.dispatch(basemap);
+      }
+    }, {
+      key: 'setActivePlanetCategory',
+      value: function setActivePlanetCategory(category) {
+        app.debug('MapActions >>> setActivePlanetCategory');
+        this.dispatch(category);
+      }
+    }, {
+      key: 'setActivePlanetBasemap',
+      value: function setActivePlanetBasemap(basemap) {
+        app.debug('MapActions >>> setActivePlanetBasemap');
+        this.dispatch(basemap);
+      }
+    }, {
       key: 'setMasterDate',
       value: function setMasterDate(date) {
         app.debug('MapActions >>> setMasterDate');
@@ -301,12 +319,12 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
             app.map.removeLayer(planetLayer);
           }
           // Show the correct basemap
-          var url = basemap.url;
+          var value = basemap.value;
 
           // Note - we replace the url template with what the JS API 3.x API documents, it just works this way?
           // ex "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/{TileMatrix}/{TileCol}/{TileRow}.png"
           // ex  "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/${level}/${col}/${row}.png"
-          var slippyUrl = url.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
+          var slippyUrl = value.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
           var planetBasemap = new _WebTiledLayer2.default(slippyUrl, {
             id: _constants2.default.planetBasemap,
             visible: true

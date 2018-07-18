@@ -44,6 +44,9 @@ class MapStore {
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
     this.activeImagery = '';
+    this.activeCategory = defaults.planetActiveCategory;
+    this.activePlanetBasemap = '';
+    this.activePlanetPeriod = '';
     this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
@@ -58,6 +61,9 @@ class MapStore {
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
       setImagery: mapActions.setImagery,
+      setActivePlanetBasemap: mapActions.setActivePlanetBasemap,
+      setActivePlanetPeriod: mapActions.setActivePlanetPeriod,
+      setActivePlanetCategory: mapActions.setActivePlanetCategory,
       showLoading: layerActions.showLoading,
       hideLoading: modalActions.showLayerInfo,
       connectLayerEvents: mapActions.connectLayerEvents,
@@ -102,8 +108,8 @@ class MapStore {
     // Set up Click Listener to Perform Identify
     app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
 
-    app.map.on('extent-change, basemap-change', () => {
-      ShareHelper.handleHashChange(undefined, this.activeImagery);
+    app.map.on('extent-change, basemap-change', () => {      
+      ShareHelper.handleHashChange(undefined, this.activeImagery, this.activeCategory, this.activePlanetPeriod);
     });
 
     app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
@@ -381,6 +387,19 @@ class MapStore {
       this.activeImagery = imagery;
       ShareHelper.handleHashChange(undefined, imagery);
     }
+  }
+
+  setActivePlanetCategory (category) {
+    this.activeCategory = category;
+  }
+
+  setActivePlanetPeriod (period) {
+    console.log('setActivePlanetPeriod >>>>> DONE');
+    this.activePlanetPeriod = period;
+  }
+
+  setActivePlanetBasemap (basemap) {
+    this.activePlanetBasemap = basemap;
   }
 
   changeFiresTimeline (activeIndex) {
