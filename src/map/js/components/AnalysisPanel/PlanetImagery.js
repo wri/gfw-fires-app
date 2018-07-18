@@ -21,11 +21,11 @@ export default class PlanetImagery extends React.Component {
 
 	shouldComponentUpdate(nextProps, nextState) {
 		if(nextState.activePlanetBasemap === '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== '' && nextState.activePlanetPeriod !== 'null') {
-			this.getPlanetBasemaps(nextState.activePlanetPeriod);
+			this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
 		}
 
 		if (nextState.activePlanetPeriod !== '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== 'null' && this.state.activeCategory !== nextState.activeCategory) {
-			this.getPlanetBasemaps(nextState.activePlanetPeriod);
+			this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
 			return true;
 		} else if (nextState.activeCategory !== '' && this.state.activeCategory !== nextState.activeCategory && nextState.activeCategory !== 'null' && nextState.activePlanetPeriod !== 'null' && nextState.activePlanetPeriod !== '') {
 			return true;
@@ -50,7 +50,7 @@ export default class PlanetImagery extends React.Component {
 		mapActions.changeBasemap.defer(defaultBasemap);
 	}
 
-	getPlanetBasemaps(period) {
+	getPlanetBasemaps(period, updateStore) {
 		const { monthlyBasemaps, quarterlyBasemaps } = this.props;
 
 		const basemaps = this.state.activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
@@ -59,10 +59,11 @@ export default class PlanetImagery extends React.Component {
 			return item.label === period ? period : this.state.activePlanetPeriod;
 		});
 
-		mapActions.setActivePlanetBasemap.defer(defaultBasemap);
-		mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
-		mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
-
+		if (updateStore) {
+			mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+			mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+			mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
+		}
 		mapActions.changeBasemap.defer(defaultBasemap);
 	}
 
@@ -84,6 +85,11 @@ export default class PlanetImagery extends React.Component {
 		let tmpActiveBasemap;
 		const { activePlanetBasemap, activeCategory } = this.state;
 		const { active, monthlyBasemaps, quarterlyBasemaps } = this.props;
+
+		if (activePlanetBasemap === '' && activeCategory !== 'null') {
+			tmpActiveBasemap = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
+			this.getPlanetBasemaps(tmpActiveBasemap.label, false);
+		}
 
 		return (
 			<div className={`relative ${active ? 'active' : 'hidden'}`} onClick={(evt) => evt.stopPropagation()}>

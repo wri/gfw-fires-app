@@ -61,7 +61,6 @@ export default class ImageryTab extends React.Component {
 
           analysisActions.saveMonthlyPlanetBasemaps(parsedMonthly);
           analysisActions.saveQuarterlyPlanetBasemaps(parsedQuarterly);
-          console.log(parsedMonthly);
         } else {
           console.log('Error retrieving planet basemaps.');
         }
