@@ -136,6 +136,10 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 		}, {
 			key: 'shouldComponentUpdate',
 			value: function shouldComponentUpdate(nextProps, nextState) {
+				// if(this.props.monthlyBasemaps.length === 0) {
+				// 	return false;
+				// }
+
 				if (nextState.activePlanetBasemap === '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== '' && nextState.activePlanetPeriod !== 'null') {
 					this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
 				}
@@ -169,6 +173,7 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 				});
 
 				if (updateStore) {
+					debugger;
 					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
 					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
 					_MapActions.mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
@@ -188,7 +193,7 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 				    quarterlyBasemaps = _props2.quarterlyBasemaps;
 
 
-				if (activePlanetBasemap === '' && activeCategory !== 'null') {
+				if (activePlanetBasemap === '' && activeCategory !== 'null' && monthlyBasemaps.length > 0) {
 					tmpActiveBasemap = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
 					this.getPlanetBasemaps(tmpActiveBasemap.label, false);
 				}
