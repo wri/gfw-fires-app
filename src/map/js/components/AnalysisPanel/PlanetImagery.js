@@ -64,7 +64,6 @@ export default class PlanetImagery extends React.Component {
 		});
 
 		if (updateStore) {
-			debugger;
 			mapActions.setActivePlanetBasemap.defer(defaultBasemap);
 			mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
 			mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
