@@ -173,7 +173,6 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 				});
 
 				if (updateStore) {
-					debugger;
 					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
 					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
 					_MapActions.mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
