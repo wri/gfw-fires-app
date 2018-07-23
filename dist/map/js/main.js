@@ -1,4 +1,4 @@
-define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/SearchModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/ConfirmationModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'actions/AnalysisActions', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _ConfirmationModal, _SubscriptionModal, _FiresModal, _ShareModal, _AnalysisActions, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
+define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/SearchModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/ConfirmationModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'actions/MapActions', 'actions/AnalysisActions', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _ConfirmationModal, _SubscriptionModal, _FiresModal, _ShareModal, _MapActions, _AnalysisActions, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
   'use strict';
 
   var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
@@ -202,6 +202,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
           _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(parsedMonthly);
           _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(parsedQuarterly);
+          _MapActions.mapActions.setActivePlanetPeriod(parsedMonthly[0].label);
 
           resolve(true);
         } else {

@@ -102,14 +102,13 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
           return l.id === _constants2.default.digitalGlobe;
         })[0];
 
-        if (activeImagery === clickedImagery) {
-          if (clickedImagery === _constants2.default.planetBasemap) {
-            _MapActions.mapActions.changeBasemap(app.map.getBasemap());
-          } else {
-            _LayersHelper2.default.hideLayer(dgLayer.id);
-          }
+        if (activeImagery === clickedImagery && clickedImagery !== _constants2.default.planetBasemap) {
+          _LayersHelper2.default.hideLayer(dgLayer.id);
         } else {
           currImagery = clickedImagery;
+          if (clickedImagery === _constants2.default.planetBasemap && app.map.getLayer('planetBasemap')) {
+            app.map.removeLayer(app.map.getLayer('planetBasemap'));
+          }
         }
 
         _MapActions.mapActions.setImagery(currImagery);
@@ -136,7 +135,10 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
       value: function render() {
         var _state = this.state,
             activeImagery = _state.activeImagery,
-            iconLoading = _state.iconLoading;
+            iconLoading = _state.iconLoading,
+            activePlanetPeriod = _state.activePlanetPeriod,
+            activeCategory = _state.activeCategory,
+            activePlanetBasemap = _state.activePlanetBasemap;
         var _props = this.props,
             monthlyPlanetBasemaps = _props.monthlyPlanetBasemaps,
             quarterlyPlanetBasemaps = _props.quarterlyPlanetBasemaps,
@@ -176,7 +178,7 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
               { className: 'info-icon pointer info-icon-center ' + (iconLoading === planetBasemap ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
               _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
             ),
-            activeImagery === planetBasemap && _react2.default.createElement(_PlanetImagery2.default, { monthlyBasemaps: monthlyPlanetBasemaps, quarterlyBasemaps: quarterlyPlanetBasemaps, active: activeImagery === planetBasemap })
+            activeImagery === planetBasemap && _react2.default.createElement(_PlanetImagery2.default, { activeCategory: activeCategory, activePlanetBasemap: activePlanetBasemap, activeImagery: activeImagery, activePlanetPeriod: activePlanetPeriod, monthlyBasemaps: monthlyPlanetBasemaps, quarterlyBasemaps: quarterlyPlanetBasemaps, active: activeImagery === planetBasemap })
           ),
           _react2.default.createElement(
             'div',

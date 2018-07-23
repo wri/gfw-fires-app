@@ -84,7 +84,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       return params.toQuery(shareParams);
     },
     applyStateFromUrl: function applyStateFromUrl(state) {
-      app.debug('ShareHelper >>> applyStateFromUrl');
+      // console.log('ShareHelper >>> applyStateFromUrl');
 
       var activeLayers = state.activeLayers;
       var activeBasemap = state.activeBasemap;
@@ -95,10 +95,10 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var y = state.y;
       var z = state.z;
 
-      if (activeImagery) {
-        _MapActions.mapActions.setImagery(activeImagery);
+      if (activeImagery && planetPeriod !== 'null') {
         _MapActions.mapActions.setActivePlanetCategory(planetCategory);
         _MapActions.mapActions.setActivePlanetPeriod(planetPeriod);
+        _MapActions.mapActions.setImagery(activeImagery);
       }
 
       if (activeBasemap) {
@@ -137,7 +137,6 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       (0, _hash2.default)(url);
     },
     handleHashChange: function handleHashChange(basemap, imagery, activeCategory, activePlanetPeriod) {
-      console.log('ShareHelper >>> handleHashChange');
       var url = this.prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod);
       this.imagery = imagery;
       (0, _hash2.default)(url);

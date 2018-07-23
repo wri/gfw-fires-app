@@ -55,7 +55,7 @@ const ShareHelper = {
   },
 
   applyStateFromUrl (state) {
-    app.debug('ShareHelper >>> applyStateFromUrl');
+    // console.log('ShareHelper >>> applyStateFromUrl');
 
     let activeLayers = state.activeLayers;
     let activeBasemap = state.activeBasemap;
@@ -66,10 +66,10 @@ const ShareHelper = {
     let y = state.y;
     let z = state.z;
 
-    if (activeImagery) {
-      mapActions.setImagery(activeImagery);
+    if (activeImagery && planetPeriod !== 'null') {
       mapActions.setActivePlanetCategory(planetCategory);
       mapActions.setActivePlanetPeriod(planetPeriod);
+      mapActions.setImagery(activeImagery);
     }
 
     if (activeBasemap) {
@@ -110,7 +110,6 @@ const ShareHelper = {
   },
 
   handleHashChange (basemap, imagery, activeCategory, activePlanetPeriod) {
-    console.log('ShareHelper >>> handleHashChange');
     let url = this.prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod);
     this.imagery = imagery;
     hash(url);

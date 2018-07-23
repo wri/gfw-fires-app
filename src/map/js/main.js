@@ -8,6 +8,7 @@ import ConfirmationModal from 'components/Modals/ConfirmationModal';
 import SubscriptionModal from 'components/Modals/SubscriptionModal';
 import FiresModal from 'components/Modals/FiresModal';
 import ShareModal from 'components/Modals/ShareModal';
+import { mapActions } from 'actions/MapActions';
 import { analysisActions } from 'actions/AnalysisActions';
 import {defaults} from 'js/config';
 import { loadCSS } from 'utils/loaders';
@@ -138,6 +139,7 @@ const newPromise = new Promise((resolve, reject) => {
 
         analysisActions.saveMonthlyPlanetBasemaps(parsedMonthly);
         analysisActions.saveQuarterlyPlanetBasemaps(parsedQuarterly);
+        mapActions.setActivePlanetPeriod(parsedMonthly[0].label);
 
         resolve(true);
       } else {

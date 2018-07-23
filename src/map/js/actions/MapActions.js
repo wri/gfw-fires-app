@@ -210,8 +210,8 @@ class MapActions {
       layer = app.map.getLayer(KEYS.wriBasemap);
       landsatLayer = app.map.getLayer(KEYS.landsat8);
       planetLayer = app.map.getLayer(KEYS.planetBasemap);
-      if (layer) { layer.hide(); }
-      if (landsatLayer) { landsatLayer.hide(); }
+      // if (layer) { layer.hide(); }
+      // if (landsatLayer) { landsatLayer.hide(); }
       if (planetLayer) { app.map.removeLayer(planetLayer); }
       // Show the correct basemap
       const { value } = basemap;
@@ -223,7 +223,7 @@ class MapActions {
         id: KEYS.planetBasemap,
         visible: true
       });
-      app.map.setBasemap(app.map.getBasemap());
+      // app.map.setBasemap(app.map.getBasemap());
       app.map.addLayer(planetBasemap, 3);
     } else {
       // Hide all other basemaps
