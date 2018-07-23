@@ -29,17 +29,16 @@ export default class ImageryTab extends React.Component {
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
     const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
 
-    if (activeImagery === clickedImagery) {
-      if (clickedImagery === KEYS.planetBasemap) {
-        mapActions.changeBasemap(app.map.getBasemap());
-      } else {
-        LayersHelper.hideLayer(dgLayer.id);
-      }
+    if (activeImagery === clickedImagery && clickedImagery !== KEYS.planetBasemap) {
+      LayersHelper.hideLayer(dgLayer.id);
     } else {
       currImagery = clickedImagery;
+      if (clickedImagery === KEYS.planetBasemap && app.map.getLayer('planetBasemap')) {
+        app.map.removeLayer(app.map.getLayer('planetBasemap'));
+      }
     }
 
-      mapActions.setImagery(currImagery);
+    mapActions.setImagery(currImagery);
   };
 
   showInfo = (evt) => {
@@ -49,7 +48,7 @@ export default class ImageryTab extends React.Component {
   }
 
   render () {
-    const { activeImagery, iconLoading } = this.state;
+    const { activeImagery, iconLoading, activePlanetPeriod, activeCategory, activePlanetBasemap } = this.state;
     const { monthlyPlanetBasemaps, quarterlyPlanetBasemaps, activeTab } = this.props;
     const { planetBasemap, digitalGlobe, digitalGlobeBasemap } = KEYS;
 
@@ -67,7 +66,7 @@ export default class ImageryTab extends React.Component {
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
           { activeImagery === planetBasemap &&
-          <PlanetImagery monthlyBasemaps={monthlyPlanetBasemaps} quarterlyBasemaps={quarterlyPlanetBasemaps} active={activeImagery === planetBasemap}/> }
+          <PlanetImagery activeCategory={activeCategory} activePlanetBasemap={activePlanetBasemap} activeImagery={activeImagery} activePlanetPeriod={activePlanetPeriod} monthlyBasemaps={monthlyPlanetBasemaps} quarterlyBasemaps={quarterlyPlanetBasemaps} active={activeImagery === planetBasemap}/> }
         </div>
         <div data-basemap={digitalGlobeBasemap} className={`basemap-item ${activeImagery === digitalGlobeBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
           <span className={`basemap-thumbnail dark-gray-basemap ${activeImagery === digitalGlobeBasemap ? 'active' : ''}`} />
