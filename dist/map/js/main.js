@@ -105,6 +105,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
   var lazyloadAssets = function lazyloadAssets() {
     (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
+    (0, _loaders.loadCSS)('../vendors/react-select/dist/react-select.min.css');
     (0, _loaders.loadCSS)('https://js.arcgis.com/3.20/esri/css/esri.css');
   };
 
