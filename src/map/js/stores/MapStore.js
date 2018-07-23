@@ -108,7 +108,7 @@ class MapStore {
     // Set up Click Listener to Perform Identify
     app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
 
-    app.map.on('extent-change, basemap-change', () => {      
+    app.map.on('extent-change, basemap-change', () => {
       ShareHelper.handleHashChange(undefined, this.activeImagery, this.activeCategory, this.activePlanetPeriod);
     });
 
@@ -394,7 +394,6 @@ class MapStore {
   }
 
   setActivePlanetPeriod (period) {
-    console.log('setActivePlanetPeriod >>>>> DONE');
     this.activePlanetPeriod = period;
   }
 
