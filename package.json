@@ -37,7 +37,7 @@
   "homepage": "https://github.com/wri/gfw-fires-app#readme",
   "dependencies": {
     "babel-cli": "^6.1.18",
-    "babel-core": "^6.1.21",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^4.1.5",
     "babel-plugin-transform-es2015-modules-amd": "^6.1.18",
     "babel-plugin-transform-flow-strip-types": "^6.7.0",
@@ -46,7 +46,7 @@
     "babel-preset-react": "^6.1.18",
     "babel-preset-stage-0": "^6.1.18",
     "bower": "^1.6.5",
-    "browser-sync": "^2.10.0",
+    "browser-sync": "^2.24.6",
     "eslint": "^1.9.0",
     "eslint-plugin-react": "^3.8.0",
     "gulp": "^3.9.0",
@@ -72,6 +72,6 @@
     "rupture": "^0.6.1"
   },
   "devDependencies": {
-    "flow-bin": "^0.24.1"
+    "flow-bin": "^0.77.0"
   }
 }
