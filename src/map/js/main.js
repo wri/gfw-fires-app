@@ -48,6 +48,7 @@ let configureApp = () => {
 
 let lazyloadAssets = () => {
   loadCSS(`../vendors/kalendae/build/kalendae.css`);
+  loadCSS(`../vendors/react-select/dist/react-select.min.css`);
   loadCSS(`https://js.arcgis.com/3.20/esri/css/esri.css`);
  };
  
