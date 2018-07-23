@@ -1,4 +1,4 @@
-define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActions'], function (exports, _react, _reactSelect, _MapStore, _MapActions) {
+define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapActions'], function (exports, _react, _reactSelect, _ShareHelper, _MapActions) {
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -9,25 +9,13 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 
 	var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
+	var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
+
 	function _interopRequireDefault(obj) {
 		return obj && obj.__esModule ? obj : {
 			default: obj
 		};
 	}
-
-	var _extends = Object.assign || function (target) {
-		for (var i = 1; i < arguments.length; i++) {
-			var source = arguments[i];
-
-			for (var key in source) {
-				if (Object.prototype.hasOwnProperty.call(source, key)) {
-					target[key] = source[key];
-				}
-			}
-		}
-
-		return target;
-	};
 
 	function _classCallCheck(instance, Constructor) {
 		if (!(instance instanceof Constructor)) {
@@ -89,7 +77,8 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 				var value = selected.value;
 				var _this$props = _this.props,
 				    monthlyBasemaps = _this$props.monthlyBasemaps,
-				    quarterlyBasemaps = _this$props.quarterlyBasemaps;
+				    quarterlyBasemaps = _this$props.quarterlyBasemaps,
+				    activeImagery = _this$props.activeImagery;
 
 
 				var defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
@@ -99,14 +88,17 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 				_MapActions.mapActions.setActivePlanetCategory.defer(value);
 
 				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
+
+				_ShareHelper2.default.handleHashChange(undefined, activeImagery, value, defaultBasemap.label);
 			};
 
 			_this.handleBasemap = function (selected) {
 				var value = selected.value;
 				var _this$props2 = _this.props,
 				    monthlyBasemaps = _this$props2.monthlyBasemaps,
-				    quarterlyBasemaps = _this$props2.quarterlyBasemaps;
-				var activeCategory = _this.state.activeCategory;
+				    quarterlyBasemaps = _this$props2.quarterlyBasemaps,
+				    activeCategory = _this$props2.activeCategory,
+				    activeImagery = _this$props2.activeImagery;
 
 				var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
 				var choice = filterBasemaps.find(function (basemap) {
@@ -117,86 +109,68 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 					_MapActions.mapActions.setActivePlanetBasemap.defer(selected);
 					_MapActions.mapActions.setActivePlanetPeriod.defer(selected.label);
 					_MapActions.mapActions.changeBasemap.defer(choice);
+					_ShareHelper2.default.handleHashChange(undefined, activeImagery, activeCategory, selected.label);
 				}
 			};
 
-			_MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
-
-			_this.state = _extends({}, _MapStore.mapStore.getState(), {
-				checked: false
-			});
 			return _this;
 		}
 
 		_createClass(PlanetImagery, [{
-			key: 'storeUpdated',
-			value: function storeUpdated() {
-				this.setState(_MapStore.mapStore.getState());
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var activePlanetPeriod = this.props.activePlanetPeriod;
+
+				if (activePlanetPeriod && activePlanetPeriod !== '' && activePlanetPeriod !== 'null') {
+					this.getPlanetBasemaps(activePlanetPeriod, true);
+				}
 			}
 		}, {
-			key: 'shouldComponentUpdate',
-			value: function shouldComponentUpdate(nextProps, nextState) {
-				// if(this.props.monthlyBasemaps.length === 0) {
-				// 	return false;
-				// }
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate(prevProps) {
+				var _props = this.props,
+				    activePlanetPeriod = _props.activePlanetPeriod,
+				    activeCategory = _props.activeCategory;
 
-				if (nextState.activePlanetBasemap === '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== '' && nextState.activePlanetPeriod !== 'null') {
-					this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
+				if (prevProps.activePlanetBasemap === '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== '' && prevProps.activePlanetPeriod !== 'null' || prevProps.activePlanetPeriod !== '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== 'null' && activeCategory !== prevProps.activeCategory) {
+					this.getPlanetBasemaps(prevProps.activePlanetPeriod, true);
 				}
-
-				if (nextState.activePlanetPeriod !== '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== 'null' && this.state.activeCategory !== nextState.activeCategory) {
-					this.getPlanetBasemaps(nextState.activePlanetPeriod, true);
-					return true;
-				} else if (nextState.activeCategory !== '' && this.state.activeCategory !== nextState.activeCategory && nextState.activeCategory !== 'null' && nextState.activePlanetPeriod !== 'null' && nextState.activePlanetPeriod !== '') {
-					return true;
-				} else if (nextState.activePlanetPeriod !== '' && this.state.activePlanetPeriod !== nextState.activePlanetPeriod && nextState.activePlanetPeriod !== 'null') {
-					return true;
-				} else if (nextState.activePlanetBasemap !== '' && this.state.activePlanetBasemap !== nextState.activePlanetBasemap && nextState.activePlanetBasemap !== 'null') {
-					return true;
-				}
-				return false;
 			}
 		}, {
 			key: 'getPlanetBasemaps',
 			value: function getPlanetBasemaps(period, updateStore) {
-				var _this2 = this;
+				var _props2 = this.props,
+				    monthlyBasemaps = _props2.monthlyBasemaps,
+				    quarterlyBasemaps = _props2.quarterlyBasemaps,
+				    activeImagery = _props2.activeImagery,
+				    activeCategory = _props2.activeCategory,
+				    activePlanetPeriod = _props2.activePlanetPeriod;
 
-				var _props = this.props,
-				    monthlyBasemaps = _props.monthlyBasemaps,
-				    quarterlyBasemaps = _props.quarterlyBasemaps;
 
-
-				var basemaps = this.state.activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+				var basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
 
 				var defaultBasemap = basemaps.find(function (item) {
-					return item.label === period ? period : _this2.state.activePlanetPeriod;
+					return item.label === activePlanetPeriod;
 				});
 
 				if (updateStore) {
-					debugger;
 					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
 					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
-					_MapActions.mapActions.setActivePlanetCategory.defer(this.state.activeCategory);
+					_MapActions.mapActions.setActivePlanetCategory.defer(activeCategory);
 				}
 				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
+				_ShareHelper2.default.handleHashChange(undefined, activeImagery, activeCategory, defaultBasemap.label);
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var tmpActiveBasemap = void 0;
-				var _state = this.state,
-				    activePlanetBasemap = _state.activePlanetBasemap,
-				    activeCategory = _state.activeCategory;
-				var _props2 = this.props,
-				    active = _props2.active,
-				    monthlyBasemaps = _props2.monthlyBasemaps,
-				    quarterlyBasemaps = _props2.quarterlyBasemaps;
+				var _props3 = this.props,
+				    active = _props3.active,
+				    monthlyBasemaps = _props3.monthlyBasemaps,
+				    quarterlyBasemaps = _props3.quarterlyBasemaps,
+				    activeCategory = _props3.activeCategory,
+				    activePlanetBasemap = _props3.activePlanetBasemap;
 
-
-				if (activePlanetBasemap === '' && activeCategory !== 'null' && monthlyBasemaps.length > 0) {
-					tmpActiveBasemap = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
-					this.getPlanetBasemaps(tmpActiveBasemap.label, false);
-				}
 
 				return _react2.default.createElement(
 					'div',
@@ -226,7 +200,7 @@ define(['exports', 'react', 'react-select', 'stores/MapStore', 'actions/MapActio
 							_react2.default.createElement(_reactSelect2.default, {
 								multi: false,
 								clearable: false,
-								value: activePlanetBasemap === '' ? tmpActiveBasemap : activePlanetBasemap,
+								value: activePlanetBasemap,
 								options: activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps,
 								onChange: this.handleBasemap.bind(this),
 								style: {

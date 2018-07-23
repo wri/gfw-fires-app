@@ -309,12 +309,8 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
           layer = app.map.getLayer(_constants2.default.wriBasemap);
           landsatLayer = app.map.getLayer(_constants2.default.landsat8);
           planetLayer = app.map.getLayer(_constants2.default.planetBasemap);
-          if (layer) {
-            layer.hide();
-          }
-          if (landsatLayer) {
-            landsatLayer.hide();
-          }
+          // if (layer) { layer.hide(); }
+          // if (landsatLayer) { landsatLayer.hide(); }
           if (planetLayer) {
             app.map.removeLayer(planetLayer);
           }
@@ -329,7 +325,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
             id: _constants2.default.planetBasemap,
             visible: true
           });
-          app.map.setBasemap(app.map.getBasemap());
+          // app.map.setBasemap(app.map.getBasemap());
           app.map.addLayer(planetBasemap, 3);
         } else {
           // Hide all other basemaps

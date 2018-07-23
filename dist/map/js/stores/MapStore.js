@@ -470,7 +470,6 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }, {
       key: 'setActivePlanetPeriod',
       value: function setActivePlanetPeriod(period) {
-        console.log('setActivePlanetPeriod >>>>> DONE');
         this.activePlanetPeriod = period;
       }
     }, {
