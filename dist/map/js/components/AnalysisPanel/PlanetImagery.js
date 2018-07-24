@@ -1,353 +1,220 @@
-define(['exports', 'react', 'react-select', 'actions/MapActions', 'actions/AnalysisActions'], function (exports, _react, _reactSelect, _MapActions, _AnalysisActions) {
-    'use strict';
+define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapActions'], function (exports, _react, _reactSelect, _ShareHelper, _MapActions) {
+	'use strict';
 
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
 
-    var _react2 = _interopRequireDefault(_react);
+	var _react2 = _interopRequireDefault(_react);
 
-    var _reactSelect2 = _interopRequireDefault(_reactSelect);
+	var _reactSelect2 = _interopRequireDefault(_reactSelect);
 
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
+	var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
 
-    var _slicedToArray = function () {
-        function sliceIterator(arr, i) {
-            var _arr = [];
-            var _n = true;
-            var _d = false;
-            var _e = undefined;
+	function _interopRequireDefault(obj) {
+		return obj && obj.__esModule ? obj : {
+			default: obj
+		};
+	}
 
-            try {
-                for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-                    _arr.push(_s.value);
+	function _classCallCheck(instance, Constructor) {
+		if (!(instance instanceof Constructor)) {
+			throw new TypeError("Cannot call a class as a function");
+		}
+	}
 
-                    if (i && _arr.length === i) break;
-                }
-            } catch (err) {
-                _d = true;
-                _e = err;
-            } finally {
-                try {
-                    if (!_n && _i["return"]) _i["return"]();
-                } finally {
-                    if (_d) throw _e;
-                }
-            }
+	var _createClass = function () {
+		function defineProperties(target, props) {
+			for (var i = 0; i < props.length; i++) {
+				var descriptor = props[i];
+				descriptor.enumerable = descriptor.enumerable || false;
+				descriptor.configurable = true;
+				if ("value" in descriptor) descriptor.writable = true;
+				Object.defineProperty(target, descriptor.key, descriptor);
+			}
+		}
 
-            return _arr;
-        }
+		return function (Constructor, protoProps, staticProps) {
+			if (protoProps) defineProperties(Constructor.prototype, protoProps);
+			if (staticProps) defineProperties(Constructor, staticProps);
+			return Constructor;
+		};
+	}();
 
-        return function (arr, i) {
-            if (Array.isArray(arr)) {
-                return arr;
-            } else if (Symbol.iterator in Object(arr)) {
-                return sliceIterator(arr, i);
-            } else {
-                throw new TypeError("Invalid attempt to destructure non-iterable instance");
-            }
-        };
-    }();
+	function _possibleConstructorReturn(self, call) {
+		if (!self) {
+			throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+		}
 
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
+		return call && (typeof call === "object" || typeof call === "function") ? call : self;
+	}
 
-    var _createClass = function () {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
+	function _inherits(subClass, superClass) {
+		if (typeof superClass !== "function" && superClass !== null) {
+			throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+		}
 
-        return function (Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    }();
+		subClass.prototype = Object.create(superClass && superClass.prototype, {
+			constructor: {
+				value: subClass,
+				enumerable: false,
+				writable: true,
+				configurable: true
+			}
+		});
+		if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	}
 
-    function _possibleConstructorReturn(self, call) {
-        if (!self) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
+	var PlanetImagery = function (_React$Component) {
+		_inherits(PlanetImagery, _React$Component);
 
-        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-    }
+		function PlanetImagery(props) {
+			_classCallCheck(this, PlanetImagery);
 
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-        }
+			var _this = _possibleConstructorReturn(this, (PlanetImagery.__proto__ || Object.getPrototypeOf(PlanetImagery)).call(this, props));
 
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                enumerable: false,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-    }
+			_this.setCategory = function (selected) {
+				var value = selected.value;
+				var _this$props = _this.props,
+				    monthlyBasemaps = _this$props.monthlyBasemaps,
+				    quarterlyBasemaps = _this$props.quarterlyBasemaps,
+				    activeImagery = _this$props.activeImagery;
 
-    var PlanetImagery = function (_React$Component) {
-        _inherits(PlanetImagery, _React$Component);
 
-        function PlanetImagery(props) {
-            _classCallCheck(this, PlanetImagery);
+				var defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
 
-            var _this = _possibleConstructorReturn(this, (PlanetImagery.__proto__ || Object.getPrototypeOf(PlanetImagery)).call(this, props));
+				_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+				_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+				_MapActions.mapActions.setActivePlanetCategory.defer(value);
 
-            _this.handleBasemap = function (selected) {
-                var label = selected.label,
-                    value = selected.value;
-                var _this$props = _this.props,
-                    monthlyBasemaps = _this$props.monthlyBasemaps,
-                    quarterlyBasemaps = _this$props.quarterlyBasemaps;
-                var activeCategory = _this.state.activeCategory;
+				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
 
-                var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-                var choice = filterBasemaps.find(function (basemap) {
-                    return basemap.url === value;
-                });
-                if (choice) {
-                    _this.setState({
-                        activePlanetBasemap: selected
-                    }, function () {
-                        console.log(choice);
-                        _MapActions.mapActions.changeBasemap(choice);
-                    });
-                }
-            };
+				_ShareHelper2.default.handleHashChange(undefined, activeImagery, value, defaultBasemap.label);
+			};
 
-            _this.state = {
-                checked: false,
-                activeCategory: 'PLANET-MONTHLY',
-                activePlanetBasemap: ''
-            };
-            return _this;
-        }
+			_this.handleBasemap = function (selected) {
+				var value = selected.value;
+				var _this$props2 = _this.props,
+				    monthlyBasemaps = _this$props2.monthlyBasemaps,
+				    quarterlyBasemaps = _this$props2.quarterlyBasemaps,
+				    activeCategory = _this$props2.activeCategory,
+				    activeImagery = _this$props2.activeImagery;
 
-        _createClass(PlanetImagery, [{
-            key: 'componentDidMount',
-            value: function componentDidMount() {
-                // Request XML page
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function () {
-                    if (this.readyState === 4) {
-                        if (this.status === 200) {
-                            var basemaps = [];
+				var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+				var choice = filterBasemaps.find(function (basemap) {
+					return basemap.value === value;
+				});
 
-                            var xmlParser = new DOMParser();
-                            var xmlString = xhttp.responseText;
-                            var htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+				if (choice) {
+					_MapActions.mapActions.setActivePlanetBasemap.defer(selected);
+					_MapActions.mapActions.setActivePlanetPeriod.defer(selected.label);
+					_MapActions.mapActions.changeBasemap.defer(choice);
+					_ShareHelper2.default.handleHashChange(undefined, activeImagery, activeCategory, selected.label);
+				}
+			};
 
-                            var xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+			return _this;
+		}
 
-                            var contents = xmlDoc.getElementsByTagName('Contents')[0];
-                            var layerCollection = contents.getElementsByTagName('Layer');
-                            var layerCollectionLength = layerCollection.length;
+		_createClass(PlanetImagery, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var activePlanetPeriod = this.props.activePlanetPeriod;
 
-                            for (var i = 0; i < layerCollectionLength; i++) {
-                                var currentLayer = layerCollection[i];
-                                var title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
-                                var url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
-                                basemaps.push({ title: title, url: url });
-                            }
+				if (activePlanetPeriod && activePlanetPeriod !== '' && activePlanetPeriod !== 'null') {
+					this.getPlanetBasemaps(activePlanetPeriod, true);
+				}
+			}
+		}, {
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate(prevProps) {
+				var _props = this.props,
+				    activePlanetPeriod = _props.activePlanetPeriod,
+				    activeCategory = _props.activeCategory;
 
-                            var monthlyBasemaps = [];
-                            var quarterlyBasemaps = [];
-                            basemaps.forEach(function (basemap) {
-                                if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
-                                    monthlyBasemaps.push(basemap);
-                                }
-                                if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
-                                    quarterlyBasemaps.push(basemap);
-                                }
-                            });
+				if (prevProps.activePlanetBasemap === '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== '' && prevProps.activePlanetPeriod !== 'null' || prevProps.activePlanetPeriod !== '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== 'null' && activeCategory !== prevProps.activeCategory) {
+					this.getPlanetBasemaps(prevProps.activePlanetPeriod, true);
+				}
+			}
+		}, {
+			key: 'getPlanetBasemaps',
+			value: function getPlanetBasemaps(period, updateStore) {
+				var _props2 = this.props,
+				    monthlyBasemaps = _props2.monthlyBasemaps,
+				    quarterlyBasemaps = _props2.quarterlyBasemaps,
+				    activeImagery = _props2.activeImagery,
+				    activeCategory = _props2.activeCategory,
+				    activePlanetPeriod = _props2.activePlanetPeriod;
 
-                            _AnalysisActions.analysisActions.saveMonthlyPlanetBasemaps(monthlyBasemaps);
-                            _AnalysisActions.analysisActions.saveQuarterlyPlanetBasemaps(quarterlyBasemaps);
-                        } else {
-                            console.log('Error retrieving planet basemaps.');
-                        }
-                    }
-                };
-                xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
-                xhttp.send();
-            }
-        }, {
-            key: 'toggle',
-            value: function toggle() {
-                var _this2 = this;
 
-                this.setState({
-                    checked: !this.state.checked
-                }, function () {
-                    if (!_this2.state.checked) {
-                        _MapActions.mapActions.changeBasemap('topo');
-                    } else if (_this2.state.checked) {
-                        var defaultBasemap = _this2.createBasemapOptions().reverse()[0];
-                        _this2.setState({
-                            activePlanetBasemap: defaultBasemap
-                        }, function () {
-                            _MapActions.mapActions.changeBasemap({
-                                title: defaultBasemap.label,
-                                url: defaultBasemap.value
-                            });
-                        });
-                    }
-                });
-            }
-        }, {
-            key: 'setCategory',
-            value: function setCategory(evt) {
-                var _this3 = this;
+				var basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
 
-                var id = evt.target.id;
-                this.setState({ activeCategory: id }, function () {
-                    var defaultBasemap = _this3.createBasemapOptions().reverse()[0];
-                    _this3.setState({ activePlanetBasemap: defaultBasemap }, function () {
-                        _MapActions.mapActions.changeBasemap({
-                            title: defaultBasemap.label,
-                            url: defaultBasemap.value
-                        });
-                    });
-                });
-            }
-        }, {
-            key: 'parseMonthlyTitle',
-            value: function parseMonthlyTitle(title) {
-                // ex. formats 'Global Monthly 2016 01 Mosaic' OR 'Latest Monthly'
-                var words = title.split(' ');
-                var year = words[2];
-                var month = words[3];
-                if (year === undefined || month === undefined) {
-                    return title;
-                } else {
-                    var yyyyMM = year + ' ' + month;
-                    var label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
-                    return label;
-                }
-            }
-        }, {
-            key: 'parseQuarterlyTitle',
-            value: function parseQuarterlyTitle(title) {
-                var words = title.split(' ');
-                var yearQuarter = words[2];
-                if (yearQuarter === undefined) {
-                    return title;
-                } else {
-                    var _yearQuarter$split = yearQuarter.split('q'),
-                        _yearQuarter$split2 = _slicedToArray(_yearQuarter$split, 2),
-                        year = _yearQuarter$split2[0],
-                        quarter = _yearQuarter$split2[1];
+				var defaultBasemap = basemaps.find(function (item) {
+					return item.label === activePlanetPeriod;
+				});
 
-                    var label = 'Quarter ' + quarter + ' ' + year;
-                    return label;
-                }
-            }
-        }, {
-            key: 'createBasemapOptions',
-            value: function createBasemapOptions() {
-                var _this4 = this;
+				if (updateStore) {
+					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+					_MapActions.mapActions.setActivePlanetCategory.defer(activeCategory);
+				}
+				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
+				_ShareHelper2.default.handleHashChange(undefined, activeImagery, activeCategory, defaultBasemap.label);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _props3 = this.props,
+				    active = _props3.active,
+				    monthlyBasemaps = _props3.monthlyBasemaps,
+				    quarterlyBasemaps = _props3.quarterlyBasemaps,
+				    activeCategory = _props3.activeCategory,
+				    activePlanetBasemap = _props3.activePlanetBasemap;
 
-                var _props = this.props,
-                    monthlyBasemaps = _props.monthlyBasemaps,
-                    quarterlyBasemaps = _props.quarterlyBasemaps;
-                var _state = this.state,
-                    activeCategory = _state.activeCategory,
-                    activePlanetBasemap = _state.activePlanetBasemap;
 
-                var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
-                return filterBasemaps.map(function (basemap) {
-                    var url = basemap.url,
-                        title = basemap.title;
+				return _react2.default.createElement(
+					'div',
+					{ className: 'relative ' + (active ? 'active' : 'hidden'), onClick: function onClick(evt) {
+							return evt.stopPropagation();
+						} },
+					_react2.default.createElement(
+						'div',
+						{ className: 'layer-content-container flex select-container ' + (active ? '' : 'hidden') },
+						_react2.default.createElement(
+							'div',
+							{ className: 'flex imagery-category-container' },
+							_react2.default.createElement(_reactSelect2.default, {
+								multi: false,
+								clearable: false,
+								value: activeCategory,
+								options: [{ value: 'PLANET-MONTHLY', label: 'Monthly' }, { value: 'PLANET-QUARTERLY', label: 'Quarterly' }],
+								onChange: this.setCategory.bind(this),
+								style: {
+									width: '175px'
+								}
+							})
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							_react2.default.createElement(_reactSelect2.default, {
+								multi: false,
+								clearable: false,
+								value: activePlanetBasemap,
+								options: activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps,
+								onChange: this.handleBasemap.bind(this),
+								style: {
+									width: '175px'
+								}
+							})
+						)
+					)
+				);
+			}
+		}]);
 
-                    var label = activeCategory === 'PLANET-MONTHLY' ? _this4.parseMonthlyTitle(title) : _this4.parseQuarterlyTitle(title);
-                    return {
-                        value: url,
-                        label: label
-                    };
-                });
-            }
-        }, {
-            key: 'render',
-            value: function render() {
-                var _state2 = this.state,
-                    checked = _state2.checked,
-                    activeCategory = _state2.activeCategory,
-                    activePlanetBasemap = _state2.activePlanetBasemap;
+		return PlanetImagery;
+	}(_react2.default.Component);
 
-                return _react2.default.createElement(
-                    'div',
-                    { className: 'layer-checkbox relative ' + (checked ? 'active' : '') },
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'toggle-switch pointer', onClick: this.toggle.bind(this) },
-                        _react2.default.createElement('span', null)
-                    ),
-                    _react2.default.createElement(
-                        'span',
-                        { className: 'layer-checkbox-label pointer', onClick: this.toggle.bind(this) },
-                        'Planet Basemaps'
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'layer-content-container flex flex-column justify-center ' + (checked ? '' : 'hidden') },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'flex imagery-category-container' },
-                            _react2.default.createElement(
-                                'div',
-                                {
-                                    id: 'PLANET-MONTHLY',
-                                    onClick: this.setCategory.bind(this),
-                                    className: 'planet-category ' + (activeCategory === 'PLANET-MONTHLY' ? 'active' : '')
-                                },
-                                'Monthly'
-                            ),
-                            _react2.default.createElement(
-                                'div',
-                                {
-                                    id: 'PLANET-QUARTERLY',
-                                    onClick: this.setCategory.bind(this),
-                                    className: 'planet-category ' + (activeCategory === 'PLANET-QUARTERLY' ? 'active' : '')
-                                },
-                                'Quarterly'
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'planet-small-margin flex' },
-                            _react2.default.createElement(_reactSelect2.default, {
-                                multi: false,
-                                value: activePlanetBasemap,
-                                options: this.createBasemapOptions().reverse(),
-                                onChange: this.handleBasemap.bind(this),
-                                style: {
-                                    width: '200px'
-                                }
-                            })
-                        )
-                    )
-                );
-            }
-        }]);
-
-        return PlanetImagery;
-    }(_react2.default.Component);
-
-    exports.default = PlanetImagery;
+	exports.default = PlanetImagery;
 });

@@ -157,7 +157,7 @@ let WindHelper = {
 
     this.redraw();
 
-    ShareHelper.handleHashChange();
+    ShareHelper.applyInitialState();
 
   },
 
@@ -180,7 +180,7 @@ let WindHelper = {
         _handles[i].remove();
       }
     }
-    ShareHelper.handleHashChange();
+    ShareHelper.applyInitialState();
   },
 
   fetchDataForWindLayer: function(optionalURL) {

@@ -577,7 +577,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         if (footprints) {
           var footprintsLayer = app.map.getLayer(_constants2.default.boundingBoxes);
           footprintsLayer.show();
-          _ShareHelper2.default.handleHashChange();
+          _ShareHelper2.default.applyInitialState();
           return;
         } else {
           _request2.default.getBoundingBoxes().then(function (item) {
@@ -590,7 +590,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               _LayerActions.layerActions.setFootprints(tempGraphics);
             }
           });
-          _ShareHelper2.default.handleHashChange();
+          _ShareHelper2.default.applyInitialState();
           return;
         }
       } else if (layerObj.layerId === _constants2.default.protectedAreas || layerObj.layerId === _constants2.default.protectedAreasHelper) {
@@ -613,7 +613,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             helperLayer.hide();
           }
         }
-        _ShareHelper2.default.handleHashChange();
+        _ShareHelper2.default.applyInitialState();
         return;
       }
 
@@ -621,7 +621,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (layer) {
         layer.show();
       }
-      _ShareHelper2.default.handleHashChange();
+      _ShareHelper2.default.applyInitialState();
     },
     hideLayer: function hideLayer(layerId) {
       app.debug('LayersHelper >>> hideLayer - ' + layerId);
@@ -643,7 +643,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             sub.hide();
           }
         });
-        _ShareHelper2.default.handleHashChange();
+        _ShareHelper2.default.applyInitialState();
         return;
       } else if (layerId === _constants2.default.protectedAreas || layerId === _constants2.default.protectedAreasHelper) {
         var mainLayer = app.map.getLayer(_constants2.default.protectedAreas),
@@ -656,7 +656,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
           helperLayer.hide();
         }
 
-        _ShareHelper2.default.handleHashChange();
+        _ShareHelper2.default.applyInitialState();
         return;
       }
 
@@ -664,7 +664,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (layer) {
         layer.hide();
       }
-      _ShareHelper2.default.handleHashChange();
+      _ShareHelper2.default.applyInitialState();
     },
     toggleWind: function toggleWind(checked) {
       app.debug('LayersHelper >>> toggleWind - ' + checked);

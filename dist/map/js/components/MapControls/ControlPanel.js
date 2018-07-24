@@ -94,7 +94,7 @@ define(['exports', 'helpers/ShareHelper', 'actions/ModalActions', 'actions/Analy
 
       _this.share = function () {
         _this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
-        _ModalActions.modalActions.showShareModal(_ShareHelper2.default.prepareStateForUrl());
+        _ModalActions.modalActions.showShareModal(window.location.hash);
       };
 
       _this.printMap = function () {

@@ -36,7 +36,10 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
   }
 
   var ShareHelper = {
-    prepareStateForUrl: function prepareStateForUrl(basemap) {
+
+    activeImagery: '',
+
+    prepareStateForUrl: function prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod) {
       app.debug('ShareHelper >>> prepareStateForUrl');
       var shareObject = {},
           activeLayers = [];
@@ -54,6 +57,7 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       });
 
       var activeBasemap = app.map.getBasemap();
+
       if (basemap) {
         activeBasemap = basemap;
       }
@@ -66,6 +70,10 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
 
       shareObject.activeBasemap = activeBasemap;
 
+      shareObject.activeImagery = imagery ? imagery : this.activeImagery;
+      shareObject.planetCategory = activeCategory ? activeCategory : null;
+      shareObject.planetPeriod = activePlanetPeriod ? activePlanetPeriod : null;
+
       //- Set X, Y, and Zoom
       var centerPoint = app.map.extent.getCenter();
       shareObject.x = Math.round(centerPoint.getLongitude());
@@ -76,13 +84,22 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       return params.toQuery(shareParams);
     },
     applyStateFromUrl: function applyStateFromUrl(state) {
-      app.debug('ShareHelper >>> applyStateFromUrl');
+      // console.log('ShareHelper >>> applyStateFromUrl');
 
       var activeLayers = state.activeLayers;
       var activeBasemap = state.activeBasemap;
+      var activeImagery = state.activeImagery;
+      var planetCategory = state.planetCategory;
+      var planetPeriod = state.planetPeriod;
       var x = state.x;
       var y = state.y;
       var z = state.z;
+
+      if (activeImagery && planetPeriod !== 'null') {
+        _MapActions.mapActions.setActivePlanetCategory(planetCategory);
+        _MapActions.mapActions.setActivePlanetPeriod(planetPeriod);
+        _MapActions.mapActions.setImagery(activeImagery);
+      }
 
       if (activeBasemap) {
         _MapActions.mapActions.setBasemap(activeBasemap);
@@ -119,9 +136,9 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       var url = this.prepareStateForUrl();
       (0, _hash2.default)(url);
     },
-    handleHashChange: function handleHashChange(basemap) {
-      app.debug('ShareHelper >>> handleHashChange');
-      var url = this.prepareStateForUrl(basemap);
+    handleHashChange: function handleHashChange(basemap, imagery, activeCategory, activePlanetPeriod) {
+      var url = this.prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod);
+      this.imagery = imagery;
       (0, _hash2.default)(url);
     }
   };

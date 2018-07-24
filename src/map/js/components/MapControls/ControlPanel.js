@@ -74,7 +74,7 @@ export default class ControlPanel extends React.Component {
 
   share = () => {
     this.sendAnalytics('map', 'share', 'The is prepping the application to share.');
-    modalActions.showShareModal(ShareHelper.prepareStateForUrl());
+    modalActions.showShareModal(window.location.hash);
   }
 
   printMap = () => {

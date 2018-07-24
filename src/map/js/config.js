@@ -51,6 +51,8 @@ export const config = {
     archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
     archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
     archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+    planetActiveCategory: 'PLANET-MONTHLY',
+    activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly' },
     corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'wri-gfw-fires-staging.herokuapp.com',
@@ -951,7 +953,8 @@ export const config = {
       className: 'twitter',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
-    }, {
+    },
+    {
       id: KEYS.modisArchive,
       type: 'dynamic',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
@@ -967,7 +970,8 @@ export const config = {
           '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
-    }, {
+    },
+    {
       id: KEYS.viirsArchive,
       type: 'dynamic',
       layerIds: [8],
@@ -983,6 +987,10 @@ export const config = {
           '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
+    },
+    {
+      id: KEYS.planetBasemap,
+      metadataId: 'planet_basemaps'
     }
   ],
 

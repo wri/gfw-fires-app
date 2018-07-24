@@ -99,11 +99,16 @@ define(['exports', 'helpers/LayersHelper', 'stores/MapStore', 'actions/LayerActi
         }
       }
     }, {
+      key: 'handleValueClick',
+      value: function handleValueClick(evt) {
+        evt.stopPropagation();
+      }
+    }, {
       key: 'render',
       value: function render() {
         return _react2.default.createElement(
           'div',
-          { className: 'layer-checkbox indented relative ' + (this.state.footprintsVisible ? ' active' : '') },
+          { className: 'layer-checkbox indented relative ' + (this.state.footprintsVisible ? ' active' : ''), onClick: this.handleValueClick },
           _react2.default.createElement(
             'span',
             { onClick: this.toggleFootprints.bind(this), className: 'toggle-switch pointer' },
@@ -119,9 +124,6 @@ define(['exports', 'helpers/LayersHelper', 'stores/MapStore', 'actions/LayerActi
     }, {
       key: 'toggleFootprints',
       value: function toggleFootprints() {
-        // this.setState({
-        //   checked: evt.target.checked
-        // });
         _LayerActions.layerActions.toggleFootprintsVisibility();
       }
     }]);

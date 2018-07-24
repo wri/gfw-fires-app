@@ -65,6 +65,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
       archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
       archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+      planetActiveCategory: 'PLANET-MONTHLY',
+      activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly' },
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
@@ -835,6 +837,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
       }
+    }, {
+      id: _constants2.default.planetBasemap,
+      metadataId: 'planet_basemaps'
     }],
 
     symbol: {

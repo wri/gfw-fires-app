@@ -82,8 +82,8 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
       key: 'showShareModal',
       value: function showShareModal(params) {
         app.debug('ModalActions >>> showShareModal');
-        var url = document.location.href.split('?')[0];
-        this.dispatch(url + '?' + params);
+        var url = document.location.href.split('#')[0];
+        this.dispatch('' + url + params);
         _domClass2.default.remove('share-modal', 'hidden');
       }
     }, {
