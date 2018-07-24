@@ -32,8 +32,8 @@ class ModalActions {
 
   showShareModal (params) {
     app.debug('ModalActions >>> showShareModal');
-    let url = document.location.href.split('?')[0];
-    this.dispatch(`${url}?${params}`);
+    let url = document.location.href.split('#')[0];
+    this.dispatch(`${url}${params}`);
     domClass.remove('share-modal', 'hidden');
   }
 
