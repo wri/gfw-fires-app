@@ -3,6 +3,9 @@ RewriteEngine on
 RewriteCond %{REQUEST_URI} fires-staging.globalforestwatch.org/
 Redirect ^(.*)$ https://fires-staging.globalforestwatch.org/home/
 
+RewriteCond %{REQUEST_URI} fires-staging.globalforestwatch.org/about/
+Redirect ^(.*)$ https://fires-staging.globalforestwatch.org/about/
+
 RewriteCond %{REQUEST_URI} fires.globalforestwatch.org/
 Redirect ^(.*)$ https://fires.globalforestwatch.org/home/
 
