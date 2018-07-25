@@ -5,9 +5,12 @@ import * as params from 'utils/params';
 import KEYS from 'js/constants';
 import hash from 'dojo/hash';
 
+
 const ShareHelper = {
 
-  prepareStateForUrl (basemap) {
+  activeImagery: '',
+
+  prepareStateForUrl (basemap, imagery, activeCategory, activePlanetPeriod) {
     app.debug('ShareHelper >>> prepareStateForUrl');
     let shareObject = {}, activeLayers = [];
 
@@ -24,6 +27,7 @@ const ShareHelper = {
     });
 
     let activeBasemap = app.map.getBasemap();
+
     if (basemap) {
       activeBasemap = basemap;
     }
@@ -36,6 +40,10 @@ const ShareHelper = {
 
     shareObject.activeBasemap = activeBasemap;
 
+    shareObject.activeImagery = imagery ? imagery : this.activeImagery;
+    shareObject.planetCategory = activeCategory ? activeCategory : null;
+    shareObject.planetPeriod = activePlanetPeriod ? activePlanetPeriod : null;
+
     //- Set X, Y, and Zoom
     let centerPoint = app.map.extent.getCenter();
     shareObject.x = Math.round(centerPoint.getLongitude());
@@ -47,13 +55,22 @@ const ShareHelper = {
   },
 
   applyStateFromUrl (state) {
-    app.debug('ShareHelper >>> applyStateFromUrl');
+    // console.log('ShareHelper >>> applyStateFromUrl');
 
     let activeLayers = state.activeLayers;
     let activeBasemap = state.activeBasemap;
+    let activeImagery = state.activeImagery;
+    let planetCategory = state.planetCategory;
+    let planetPeriod = state.planetPeriod;
     let x = state.x;
     let y = state.y;
     let z = state.z;
+
+    if (activeImagery && planetPeriod !== 'null') {
+      mapActions.setActivePlanetCategory(planetCategory);
+      mapActions.setActivePlanetPeriod(planetPeriod);
+      mapActions.setImagery(activeImagery);
+    }
 
     if (activeBasemap) {
       mapActions.setBasemap(activeBasemap);
@@ -92,9 +109,9 @@ const ShareHelper = {
     hash(url);
   },
 
-  handleHashChange (basemap) {
-    app.debug('ShareHelper >>> handleHashChange');
-    let url = this.prepareStateForUrl(basemap);
+  handleHashChange (basemap, imagery, activeCategory, activePlanetPeriod) {
+    let url = this.prepareStateForUrl(basemap, imagery, activeCategory, activePlanetPeriod);
+    this.imagery = imagery;
     hash(url);
   }
 

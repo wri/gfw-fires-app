@@ -558,7 +558,7 @@ let LayersHelper = {
       if (footprints) {
         let footprintsLayer = app.map.getLayer(KEYS.boundingBoxes);
         footprintsLayer.show();
-        ShareHelper.handleHashChange();
+        ShareHelper.applyInitialState();
         return;
       } else {
         Request.getBoundingBoxes().then(item => {
@@ -571,7 +571,7 @@ let LayersHelper = {
             layerActions.setFootprints(tempGraphics);
           }
         });
-        ShareHelper.handleHashChange();
+        ShareHelper.applyInitialState();
         return;
       }
 
@@ -587,13 +587,13 @@ let LayersHelper = {
         if (mainLayer) { mainLayer.show(); }
         if (helperLayer) { helperLayer.hide(); }
       }
-      ShareHelper.handleHashChange();
+      ShareHelper.applyInitialState();
       return;
     }
 
     let layer = app.map.getLayer(layerObj.layerId);
     if (layer) { layer.show(); }
-    ShareHelper.handleHashChange();
+    ShareHelper.applyInitialState();
   },
 
   hideLayer (layerId) {
@@ -610,7 +610,7 @@ let LayersHelper = {
         let sub = app.map.getLayer(subLayer);
         if (sub) { sub.hide(); }
       });
-      ShareHelper.handleHashChange();
+      ShareHelper.applyInitialState();
       return;
     } else if (layerId === KEYS.protectedAreas || layerId === KEYS.protectedAreasHelper) {
       let mainLayer = app.map.getLayer(KEYS.protectedAreas),
@@ -619,13 +619,13 @@ let LayersHelper = {
       if (mainLayer) { mainLayer.hide(); }
       if (helperLayer) { helperLayer.hide(); }
 
-      ShareHelper.handleHashChange();
+      ShareHelper.applyInitialState();
       return;
     }
 
     let layer = app.map.getLayer(layerId);
     if (layer) { layer.hide(); }
-    ShareHelper.handleHashChange();
+    ShareHelper.applyInitialState();
   },
 
   toggleWind(checked) {

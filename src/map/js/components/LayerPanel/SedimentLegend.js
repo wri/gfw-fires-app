@@ -44,7 +44,3 @@ export default class SedimentLegend extends React.Component {
 
 }
 
-SedimentLegend.propTypes = {
-  url: React.PropTypes.string.isRequired,
-  layerIds: React.PropTypes.array.isRequired
-};

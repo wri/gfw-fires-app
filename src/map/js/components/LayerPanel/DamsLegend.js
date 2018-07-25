@@ -41,8 +41,3 @@ export default class DamsLegend extends React.Component {
   }
 
 }
-
-DamsLegend.propTypes = {
-  url: React.PropTypes.string.isRequired,
-  layerIds: React.PropTypes.array.isRequired
-};

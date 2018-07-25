@@ -93,7 +93,3 @@ export default class LayerCheckbox extends React.Component {
 
 }
 
-LayerCheckbox.propTypes = {
-  layer: React.PropTypes.object.isRequired,
-  checked: React.PropTypes.bool.isRequired
-};

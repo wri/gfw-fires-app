@@ -244,7 +244,7 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
 
       this.redraw();
 
-      _ShareHelper2.default.handleHashChange();
+      _ShareHelper2.default.applyInitialState();
     },
     promptAboutBasemap: function promptAboutBasemap() {
       var currentBM = app.map.getBasemap();
@@ -265,7 +265,7 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
           _handles[i].remove();
         }
       }
-      _ShareHelper2.default.handleHashChange();
+      _ShareHelper2.default.applyInitialState();
     },
 
     fetchDataForWindLayer: function fetchDataForWindLayer(optionalURL) {

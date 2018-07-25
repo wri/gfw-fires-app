@@ -1,6 +1,4 @@
-import React, {
-  PropTypes
-} from 'react';
+import React from 'react';
 
 const Loader = (props) => {
   return (
@@ -12,10 +10,6 @@ const Loader = (props) => {
       </div>
     </div>
   );
-};
-
-Loader.propTypes = {
-  active: PropTypes.bool.isRequired
 };
 
 export { Loader as default };

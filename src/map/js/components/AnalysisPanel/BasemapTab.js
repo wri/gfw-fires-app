@@ -4,7 +4,6 @@ import {controlPanelText} from 'js/config';
 import {mapStore} from 'stores/MapStore';
 import KEYS from 'js/constants';
 
-import PlanetBasemaps from 'js/components/AnalysisPanel/PlanetBasemaps';
 import React from 'react';
 
 export default class BasemapTab extends React.Component {
@@ -41,6 +40,8 @@ export default class BasemapTab extends React.Component {
   clickedBasemap = (evt) => {
     let id = evt.currentTarget.getAttribute('data-basemap');
     mapActions.changeBasemap(id);
+    mapActions.setBasemap(id);
+    mapActions.setImagery(''); // If there is a change in basemaps, deactivate the imagery
   };
 
   handleCheckToggle = (evt) => {

@@ -116,8 +116,5 @@ define(['exports', 'stores/MapStore', 'stores/AnalysisStore', 'actions/LayerActi
     return MobileUnderlay;
   }(_react.Component);
 
-  MobileUnderlay.childContextTypes = {
-    state: _react.PropTypes.object
-  };
   exports.default = MobileUnderlay;
 });

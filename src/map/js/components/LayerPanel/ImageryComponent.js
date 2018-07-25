@@ -1,8 +1,11 @@
 // import LayersHelper from 'helpers/LayersHelper';
 import ImagerySettings from 'components/LayerPanel/ImagerySettings';
+import {layerActions} from 'actions/LayerActions';
 import {mapStore} from 'stores/MapStore';
 import {mapActions} from 'actions/MapActions';
 import DateHelper from 'helpers/DateHelper';
+import LayersHelper from 'helpers/LayersHelper';
+import KEYS from 'js/constants';
 import {modalActions} from 'actions/ModalActions';
 import React from 'react';
 
@@ -14,6 +17,34 @@ export default class ImageryComponent extends React.Component {
     this.state = mapStore.getState();
   }
 
+  componentDidMount() {
+    let { layer, active } = this.props;
+    if (layer.disabled) { return; }
+    if (!active) {
+      layerActions.removeActiveLayer(layer.id);
+    } else {
+      layerActions.addActiveLayer(layer.id);
+    }
+
+    if (active) {
+      let layerObj = {};
+      layerObj.layerId = layer.id;
+      layerObj.footprints = this.state.footprints;
+      layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
+      LayersHelper.showLayer(layerObj);
+    } else {
+      LayersHelper.hideLayer(layer.id);
+      if (layer.id === 'activeFires') {
+        console.log('removing....');
+        LayersHelper.hideLayer(KEYS.modisArchive);
+      }
+      if (layer.id === 'viirsFires') {
+        console.log('removing....');
+        LayersHelper.hideLayer(KEYS.viirsArchive);
+      }
+    }
+  }
+
   storeUpdated () {
     this.setState(mapStore.getState());
   }
@@ -22,10 +53,9 @@ export default class ImageryComponent extends React.Component {
 
     let startDate = window.Kalendae.moment(this.state.dgStartDate);
     let endDate = window.Kalendae.moment(this.state.dgEndDate);
+    const { active } = this.props;
 
-    //<div className={`customize-options ${this.props.customizeOpen === true ? '' : 'hidden'}`}> --> on timeline container!
-
-    return <div className={`timeline-container ${this.props.options.domClass}`}>
+    return <div className={`timeline-container ${this.props.options.domClass} ${active ? '' : 'hidden'}`}>
       <ImagerySettings />
       <div id='imagery-date-ranges'>
         <span className='imagery-calendar-label'>{this.props.options.minLabel}</span>
@@ -36,7 +66,8 @@ export default class ImageryComponent extends React.Component {
     </div>;
   }
 
-  changeStart() {
+  changeStart(evt) {
+    evt.stopPropagation();
     modalActions.showCalendarModal('start');
     mapActions.setCalendar('imageryStart');
   }

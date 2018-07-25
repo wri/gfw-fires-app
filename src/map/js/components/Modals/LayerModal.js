@@ -69,6 +69,10 @@ export default class LayerModal extends Component {
                     this.tableMap(this.state.layerInfo.other, 'other')
                   }
                   {
+                    !this.state.layerInfo.learn_more ? null :
+                    this.tableMap(this.state.layerInfo.learn_more, 'learn more')
+                  }
+                  {
                     !this.state.layerInfo.license ? null :
                     this.tableMap(this.state.layerInfo.license, 'license')
                   }

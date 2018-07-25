@@ -141,10 +141,4 @@ define(['exports', 'react'], function (exports, _react) {
   }(_react2.default.Component);
 
   exports.default = LastRainLegend;
-
-
-  LastRainLegend.propTypes = {
-    url: _react2.default.PropTypes.string.isRequired,
-    layerIds: _react2.default.PropTypes.array.isRequired
-  };
 });

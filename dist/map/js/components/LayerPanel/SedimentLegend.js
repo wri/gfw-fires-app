@@ -134,10 +134,4 @@ define(['exports', 'js/config', 'utils/request', 'react'], function (exports, _c
   }(_react2.default.Component);
 
   exports.default = SedimentLegend;
-
-
-  SedimentLegend.propTypes = {
-    url: _react2.default.PropTypes.string.isRequired,
-    layerIds: _react2.default.PropTypes.array.isRequired
-  };
 });

@@ -138,6 +138,21 @@ class MapActions {
     this.dispatch(date);
   }
 
+  setActivePlanetPeriod (basemap) {
+    app.debug('MapActions >>> setActivePlanetPeriod');
+    this.dispatch(basemap);
+  }
+
+  setActivePlanetCategory (category) {
+    app.debug('MapActions >>> setActivePlanetCategory');
+    this.dispatch(category);
+  }
+
+  setActivePlanetBasemap (basemap) {
+    app.debug('MapActions >>> setActivePlanetBasemap');
+    this.dispatch(basemap);
+  }
+
   setMasterDate (date) {
     app.debug('MapActions >>> setMasterDate');
     this.dispatch(date);
@@ -151,6 +166,11 @@ class MapActions {
   setBasemap (basemap) {
     app.debug('MapActions >>> setBasemap');
     this.dispatch(basemap);
+  }
+
+  setImagery (imagery) {
+    app.debug('MapActions >>> setImagery');
+    this.dispatch(imagery);
   }
 
   changeBasemap (basemap) {
@@ -190,20 +210,20 @@ class MapActions {
       layer = app.map.getLayer(KEYS.wriBasemap);
       landsatLayer = app.map.getLayer(KEYS.landsat8);
       planetLayer = app.map.getLayer(KEYS.planetBasemap);
-      if (layer) { layer.hide(); }
-      if (landsatLayer) { landsatLayer.hide(); }
+      // if (layer) { layer.hide(); }
+      // if (landsatLayer) { landsatLayer.hide(); }
       if (planetLayer) { app.map.removeLayer(planetLayer); }
       // Show the correct basemap
-      const { url } = basemap;
+      const { value } = basemap;
       // Note - we replace the url template with what the JS API 3.x API documents, it just works this way?
       // ex "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/{TileMatrix}/{TileCol}/{TileRow}.png"
       // ex  "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/${level}/${col}/${row}.png"
-      const slippyUrl = url.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
+      const slippyUrl = value.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
       const planetBasemap = new WebTiledLayer(slippyUrl, {
         id: KEYS.planetBasemap,
         visible: true
       });
-      app.map.setBasemap('topo');
+      // app.map.setBasemap(app.map.getBasemap());
       app.map.addLayer(planetBasemap, 3);
     } else {
       // Hide all other basemaps

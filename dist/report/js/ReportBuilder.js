@@ -88,90 +88,426 @@ define([
             var districtLayerIdsViirsModis = [districtViirsLayerId, districtModisLayerId];
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
+            // Creates the first map
             self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
-            self.buildDistributionOfFireAlertsMap().then(function () {
-              self.get_extent('fires');
-            });
+            // self.buildDistributionOfFireAlertsMap().then(function () {
+            //   if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
+            // });
 
-            districtLayerIdsViirsModis.forEach(function (districtLayerId) {
-              self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
-                self.buildFireCountMap('adminBoundary', 'adminQuery');
-                self.get_extent('adminBoundary');
-              });
-            });
-
-            subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-              self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-                self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-                self.get_extent('subdistrictBoundary');
-              });
-            });
-
-            self.getFireCounts(selectedCountry);
-            self.getFireHistoryCounts(selectedCountry);
-
-
-            // if (window.reportOptions.country === 'Indonesia') {
-            //   document.querySelector('.report-section__charts-container').style.display = '';
-
-            //   all([
-            //     // Indonesia tables query --- START
-            //     self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id),
-            //     self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id),
-            //     self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id),
-            //     self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id),
-            //     // Indonesia tables query --- END
-
-            //     // self.queryFiresBreakdown(),
-            //     // self.queryFireCount('concessionsQuery'),
-
-            //     // Indonesia charts query --- START
-            //     self.queryForPeatFires(areaOfInterestType),
-            //     self.queryForSumatraFires(areaOfInterestType),
-            //     self.queryForMoratoriumFires(areaOfInterestType),
-            //     // Indonesia charts query --- END
-
-            //   ]).then(function(res) {
-            //     self.printReport();
+            // Creates the second map starting from the top
+            // districtLayerIdsViirsModis.forEach(function (districtLayerId) {
+            //   self.queryDistrictsFireCount("adminQuery", areaOfInterestType, districtLayerId).then(function () {
+            //     self.buildFireCountMap('adminBoundary', 'adminQuery');
+            //     // if (window.reportOptions.aoitype !== 'ALL') self.get_extent('adminBoundary');
             //   });
-            // } else {
-              // document.querySelector('.report-section__charts-container').style.display = 'none';
-              document.querySelector('.report-section__charts-container_countries').style.display = '';
-              document.querySelector('#ConcessionRspoContainer').style.display = 'none';
+            // });
 
-              request.get(Config.pieChartDataEndpoint + 'admin/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-                handleAs: 'json'
-              }).then(function(response) {
-                Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-                  return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
-                })).then(() => {
-                  console.log('DONEEEEE');
-                  $(".chart-container-countries:odd").addClass('pull-right');
-                  $(".chart-container-countries:even").addClass('pull-left');
-                }).catch(e => {
-                  console.log(e);
+            self.timQueryFireCount(areaOfInterestType, 'adminBoundary');
+
+            // // Creates the third map starting from the top
+            // subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+            //   self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+            //     self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+            //     if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
+            //   });
+            // });
+
+            // Creates the Annual Fire History graph
+            // self.getFireCounts(selectedCountry);
+            // Creates the Fire History: Fire Season Progression graph
+            self.getFireHistoryCounts()
+
+
+            document.querySelector('.report-section__charts-container_countries').style.display = '';
+            document.querySelector('#ConcessionRspoContainer').style.display = 'none';
+
+            const queryFor = self.currentISO ? self.currentISO : 'global';
+
+            request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+              handleAs: 'json'
+            }).then(function(response) {
+              Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+                return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+              })).then(() => {
+                $(".chart-container-countries:odd").addClass('pull-right');
+                $(".chart-container-countries:even").addClass('pull-left');
+              }).catch(e => {
+                console.log(e);
+              });
+            });
+
+            if (window.reportOptions.aois) {
+              all([
+                self.getCountryAdminTypes(selectedCountry)
+              ]).then(function(res) {
+                self.printReport();
+              });
+            }
+        },
+
+        timQueryFireCount: function(areaOfInterestType, configKey) {
+          var deferred = new Deferred(),
+            boundaryConfig = Config[configKey],
+            options = [],
+            otherFiresParams,
+            otherFiresLayer,
+            renderer,
+            legend,
+            keyRegion,
+            ldos,
+            map,
+            uniqueValueField,
+            queryUrl;
+
+          const queryFor = this.currentISO ? `${this.currentISO}?&aggregate_values=True&aggregate_by=adm1&` : 'global?&aggregate_values=True&aggregate_by=iso&';
+
+          if (areaOfInterestType === "GLOBAL") {
+            keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
+          } else if (areaOfInterestType === 'ALL') {
+            keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
+          } else {
+            keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
+          }
+  
+          request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            handleAs: 'json'
+          }).then((response) => {
+            let feat_stats = [];
+            response.data.attributes.value.forEach((res) => {
+              const attributes = { fire_count: res.alerts };
+              attributes[keyRegion] = res.iso;
+              feat_stats.push({ attributes });
+            });
+
+            // Config.query_results['adminQuery'] = feat_stats;
+
+            // var feat_stats = Config.query_results[queryKey];
+            if (!feat_stats || feat_stats.length == 0) {
+              return;
+            }
+
+            var arr = feat_stats.map(function(item) {
+              return item.attributes['fire_count']
+            }).sort(function(a, b) {
+              return a - b
+            });
+            sar = arr;
+
+            if (window.reportOptions.aoitype === 'ISLAND') {
+              queryUrl = boundaryConfig.urlIsland;
+              uniqueValueField = boundaryConfig.UniqueValueField;
+            } else if (window.reportOptions.aoitype === 'ALL') {
+              // TODO Move URL to config
+              uniqueValueField = boundaryConfig.UniqueValueFieldAlliso;
+              queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
+            } else {
+              // TODO Move URL to config
+              uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
+              queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
+            }
+
+            if (window.reportOptions.aoitype === 'ALL') {
+              var dist_names = feat_stats.map(function(item) {
+                if (item.attributes[boundaryConfig.UniqueValueFieldAll] != null) {
+                  return item.attributes[boundaryConfig.UniqueValueFieldAll].replace("'", "''");
+                }
+              }).filter(function(item) {
+                if (item != null) {
+                  return item;
+                }
+              });
+            } else {
+              var dist_names = feat_stats.map(function(item) {
+                if (item.attributes[uniqueValueField] != null) {
+                  return item.attributes[uniqueValueField].replace("'", "''");
+                }
+              }).filter(function(item) {
+                if (item != null) {
+                  return item;
+                }
+              });
+            }
+
+
+            var natural_breaks_renderer = function(feat_stats, dist_names, method) {
+              var nbks = [0, 10, 50, 100, 250, 5000];
+
+              if (geostats) {
+                geostats();
+                setSerie(arr);
+              }
+
+              if (arr.length < boundaryConfig.breakCount) {
+                  boundaryConfig.breakCount = arr.length - 1;
+              }
+              var brkCount = boundaryConfig.breakCount;
+              if (getClassJenks) {
+                switch (method) {
+                  case 'natural':
+                    nbks = getClassJenks(boundaryConfig.breakCount);
+                    break;
+                  case 'equal':
+                    nbks = getClassEqInterval(boundaryConfig.breakCount);
+                    break;
+                  case 'quantile':
+                    nbks = getClassQuantile(boundaryConfig.breakCount);
+                    break;
+                  case 'stddev':
+                    nbks = getClassStdDeviation(nbClass);
+                    break;
+                  case 'arithmetic':
+                    nbks = getClassArithmeticProgression(nbClass);
+                    break;
+                  case 'geometric':
+                    nbks = getClassGeometricProgression(nbClass);
+                    break;
+                  default:
+                    nbks = getClassJenks(boundaryConfig.breakCount);
+                }
+              }
+
+              var symbols = {};
+              for (var i = 0; i < brkCount; i += 1) {
+                var symbol = new SimpleFillSymbol();
+                var color = Config.colorramp[i];
+                symbol.setColor({
+                  a: 255,
+                  r: color[0],
+                  g: color[1],
+                  b: color[2]
                 });
+                // symbols[i] = {symbol:symbol,max:nbks[i+1],min:arr[i]};
+                symbols[i] = symbol;
+              }
+              var defaultSymbol = new SimpleFillSymbol();
+              defaultSymbol.setColor({
+                a: 255,
+                r: 255,
+                g: 255,
+                b: 255
               });
 
-              if (window.reportOptions.aois) {
-                all([
-                  self.getCountryAdminTypes(selectedCountry)
-                ]).then(function(res) {
-                  self.printReport();
+              var renderer = new UniqueValueRenderer(defaultSymbol, window.reportOptions.aoitype === 'ALL' ? boundaryConfig.UniqueValueFieldAlliso : uniqueValueField);
+              arrayUtils.forEach(feat_stats, function(feat) {
+                var count = feat.attributes['fire_count'];
+                var sym;
+
+                for (var i = 0; i < nbks.length; i++) {
+                  if (count <= nbks[i + 1]) {
+                    sym = symbols[i];
+                    break;
+                  }
+                }
+
+                // Checks for an undefined symbol AND if only 1 natural break,
+                // Catches error of single admin unit being unsymbolized
+                if (typeof sym === 'undefined' && nbks.length === 1) {
+                  const singleSymbol = new SimpleFillSymbol();
+                  singleSymbol.setColor({
+                    a: 1,
+                    r: 253,
+                    g: 237,
+                    b: 7
+                  });
+                  sym = singleSymbol;
+                }
+
+                renderer.addValue({
+                  value: feat.attributes[window.reportOptions.aoitype === 'ALL' ? boundaryConfig.UniqueValueFieldAll : uniqueValueField],
+                  symbol: sym
                 });
+              });
+              return {
+                r: renderer,
+                s: symbols,
+                b: nbks
+              };
+            };
+
+            var obj = natural_breaks_renderer(feat_stats, dist_names, 'natural');
+
+            var renderer = obj.r;
+            var symbols = obj.s;
+            var breaks = obj.b;
+
+            var relatedTableId = Config[configKey].relatedTableId + '-colorRange';
+            Config[relatedTableId] = breaks;
+
+            map = new Map(boundaryConfig.mapDiv, {
+              basemap: Config.basemap,
+              zoom: Config.zoom,
+              center: Config.mapcenter,
+              slider: Config.slider
+            });
+
+            Config.maps[configKey] = map;
+
+            otherFiresParams = new ImageParameters();
+            otherFiresParams.format = "png32";
+            otherFiresParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
+
+            if (window.reportOptions.aoitype === 'ISLAND') {
+              otherFiresParams.layerIds = boundaryConfig.defaultLayers;
+            } else if (window.reportOptions.aoitype === 'ALL') { 
+              otherFiresParams.layerIds = boundaryConfig.defaultLayersAll;
+            }else {
+              otherFiresParams.layerIds = boundaryConfig.defaultLayersGlobal;
+            }
+
+            otherFiresLayer = new ArcGISDynamicLayer(queryUrl, {
+              imageParameters: otherFiresParams,
+              id: boundaryConfig.id,
+              visible: true
+            });
+
+            function buildLegend(rendererInfo) {
+              var html = "<table>";
+              var rows = [];
+              for (var i = 0; i < Config[configKey].breakCount; i++) {
+                var item = symbols[i];
+                var row;
+                if (item) {
+                  var low = i < 1 ? breaks[i] : breaks[i] + 1;
+                  row = "<tr><td class='legend-swatch' style='background-color: rgb(" + item.color.r +
+                      "," + item.color.g + "," + item.color.b + ");'" + "></td>";
+                  row += "<td class='legend-label'>" + low + " - " + breaks[i + 1] + "</td></tr>";
+                  rows.push(row);
+                }
               }
-            // }
-        },
+              rows.reverse().forEach(function (row) {
+                  html += row;
+              });
+              html += "</table>";
+              dom.byId(boundaryConfig.legendId).innerHTML = html;
+            }
+
+            function buildRegionsTables() {
+              var tableResults = feat_stats;
+
+              let sortCombinedResults = _.sortByOrder(tableResults, function (element) {
+                return element.attributes.fire_count;
+              }, 'desc');
+
+              var firstTenTableResults = sortCombinedResults.slice(0, 10);
+              var tableColorBreakPoints = Config[relatedTableId];
+
+              if (configKey === "adminBoundary") {
+                $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
+              } else {
+                $('#subdistrict-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'subdistrict-fires-table', tableColorBreakPoints));
+              }
+
+              function buildDistrictSubDistrictTables(sortCombinedResults, queryConfigTableId, tableColorBreakPoints) {
+                var aoitype = window.reportOptions.aoitype.toLowerCase();
+                var tableRows;
+
+                if (queryConfigTableId === 'district-fires-table') {
+                  tableRows =
+                    '<tr><th class="admin-type-1">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>' +
+                    '<th class="number-column">#</th>' +
+                    '<th class="switch-color-column"></th></tr>';
+                } else {
+                  tableRows =
+                    '<tr><th class="admin-type-2">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>' +
+                    ('<th class="align-left admin-type-1">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>') +
+                    '<th class="number-column">#</th>' +
+                    '<th class="switch-color-column"></th></tr>';
+                }
+
+                tableRows += sortCombinedResults.map(function (feature) {
+                  var colorValue = feature.attributes.fire_count;
+                  var admin1 = feature.attributes.NAME_1 ? feature.attributes.NAME_1 : feature.attributes.NAME_0;
+                  var subDistrict1 = feature.attributes.NAME_1 ? feature.attributes.NAME_1 : feature.attributes.ISLAND;
+                  var subDistrict2 = feature.attributes.NAME_2 ? feature.attributes.NAME_2 : feature.attributes.SUBDISTRIC;
+                  var color;
+
+                  if (tableColorBreakPoints) {
+                    tableColorBreakPoints.forEach(function (binItem, colorIndex) {
+                      if (colorValue > tableColorBreakPoints[colorIndex] && colorValue <= tableColorBreakPoints[colorIndex + 1]){
+                        color = Config.colorramp[colorIndex];
+                      }
+                    });
+                  }
+
+                  if (queryConfigTableId === 'district-fires-table') {
+                    return(
+                      "<tr><td class=\"table-cell " + aoitype + "\">" + admin1 + "</td>" +
+                      ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
+                      ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : Config.colorramp[0]) + ")'></span></td></tr>")
+                    )
+                  } else {
+                    return(
+                      "<tr><td class=\"table-cell " + aoitype + "\">" + subDistrict2 + "</td>" +
+                      ("<td class=\"table-cell " + aoitype + "\">" + subDistrict1 + "</td>") +
+                      ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
+                      ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : Config.colorramp[0]) + ")'></span></td></tr>")
+                    )
+                  }
+                });
+                return tableRows;
+              }
+            };
+
+            function generateRenderer() {
+              buildLegend();
+              buildRegionsTables();
+              ldos = new LayerDrawingOptions();
+              ldos.renderer = renderer;
+              var layerdefs = [];
+              var aois = window.reportOptions.aois;
+
+              if (window.reportOptions.aoitype === 'ISLAND') {
+                options[boundaryConfig.layerId] = ldos;
+                layerdefs[boundaryConfig.layerId] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              } else if (window.reportOptions.aoitype === 'ALL') {
+                options[boundaryConfig.layerIdAll] = ldos;
+                layerdefs[boundaryConfig.layerIdAll] = boundaryConfig.UniqueValueFieldAlliso + " in ('" + dist_names.join("','") + "')";
+              } else if (configKey === "subdistrictBoundary"){
+                dist_names = dist_names.map(function (aoisItem) {
+                  var fixingApostrophe = aoisItem.replace(/'/g, "");
+                  return fixingApostrophe;
+                });
+                options[boundaryConfig.layerIdGlobal] = ldos;
+                layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois.join("','") + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              } else {
+                options[boundaryConfig.layerIdGlobal] = ldos;
+                layerdefs[boundaryConfig.layerIdGlobal] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              }
+
+              otherFiresLayer.setLayerDefinitions(layerdefs);
+              otherFiresLayer.setLayerDrawingOptions(options);
+
+              otherFiresLayer.on('update-end', function() {
+                  deferred.resolve(true);
+              });
+            }
+
+            otherFiresLayer.on('load', generateRenderer);
+
+            map.addLayer(otherFiresLayer);
+
+            map.on("update-start", function() {
+                esri.show(dom.byId(boundaryConfig['loaderId']));
+            });
+            map.on("update-end", function() {
+                esri.hide(dom.byId(boundaryConfig['loaderId']));
+            });
+
+            return deferred.promise;
+          });
+        }, // END //
 
         createPieChart: function(firesCount, chartConfig) {
           return new Promise((resolve, reject) => {
             var self = this;
             // var side = false; // 0 = right, 1 = left
             var data = [];
+
+            const queryFor = self.currentISO ? self.currentISO : 'global';
   
-            request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + this.currentISO + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
               handleAs: 'json'
             }).then((response) => {
               if (response.data.attributes.value !== null) {
@@ -181,6 +517,7 @@ define([
               } else {
                 $('#' + chartConfig.domElement + '-container').remove();
                 resolve();
+                return;
               }
   
               var alerts = response.data.attributes.value[0].alerts;
@@ -207,7 +544,7 @@ define([
               });
               resolve();
             });
-          })
+          });
         },
 
         getCountryAdminTypes: function (selectedCountry) {
@@ -632,6 +969,15 @@ define([
           if (window.reportOptions.aoitype === 'ISLAND') {
             queryUrl = boundaryConfig.urlIsland;
             uniqueValueField = boundaryConfig.UniqueValueField;
+          } else if (window.reportOptions.aoitype === 'ALL') {
+            // TODO Move URL to config
+            uniqueValueField = boundaryConfig.UniqueValueFieldAll;
+            if (uniqueValueField === 'NAME_0') {
+              queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
+            }
+            if (uniqueValueField === 'NAME_1') {
+              queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer'
+            }
           } else {
             // TODO Move URL to config
             uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
@@ -643,15 +989,28 @@ define([
             }
           }
 
-          var dist_names = feat_stats.map(function(item) {
-            if (item.attributes[uniqueValueField] != null) {
-              return item.attributes[uniqueValueField].replace("'", "''");
-            }
-          }).filter(function(item) {
-            if (item != null) {
-              return item;
-            }
-          });
+          if (window.reportOptions.aoitype === 'ALL') {
+            var dist_names = feat_stats.map(function(item) {
+              if (item.attributes[boundaryC] != null) {
+                return item.attributes[boundaryConfig.UniqueValueFieldAllEnglish].replace("'", "''");
+              }
+            }).filter(function(item) {
+              if (item != null) {
+                return item;
+              }
+            });
+          } else {
+            var dist_names = feat_stats.map(function(item) {
+              if (item.attributes[uniqueValueField] != null) {
+                return item.attributes[uniqueValueField].replace("'", "''");
+              }
+            }).filter(function(item) {
+              if (item != null) {
+                return item;
+              }
+            });
+          }
+
 
           var natural_breaks_renderer = function(feat_stats, dist_names, method) {
             var nbks = [0, 10, 50, 100, 250, 5000];
@@ -711,7 +1070,7 @@ define([
               b: 255
             });
 
-            var renderer = new UniqueValueRenderer(defaultSymbol, uniqueValueField);
+            var renderer = new UniqueValueRenderer(defaultSymbol, window.reportOptions.aoitype === 'ALL' ? boundaryConfig.UniqueValueFieldAllEnglish : uniqueValueField);
             arrayUtils.forEach(feat_stats, function(feat) {
               var count = feat.attributes['fire_count'];
               var sym;
@@ -737,7 +1096,7 @@ define([
               }
 
               renderer.addValue({
-                value: feat.attributes[uniqueValueField],
+                value: feat.attributes[window.reportOptions.aoitype === 'ALL' ? boundaryConfig.UniqueValueFieldAllEnglish : uniqueValueField],
                 symbol: sym
               });
             });
@@ -772,7 +1131,9 @@ define([
 
           if (window.reportOptions.aoitype === 'ISLAND') {
             otherFiresParams.layerIds = boundaryConfig.defaultLayers;
-          } else {
+          } else if (window.reportOptions.aoitype === 'ALL') { 
+            otherFiresParams.layerIds = boundaryConfig.defaultLayersAll;
+          }else {
             otherFiresParams.layerIds = boundaryConfig.defaultLayersGlobal;
           }
 
@@ -871,11 +1232,14 @@ define([
             ldos = new LayerDrawingOptions();
             ldos.renderer = renderer;
             var layerdefs = [];
-
             var aois = window.reportOptions.aois;
+
             if (window.reportOptions.aoitype === 'ISLAND') {
               options[boundaryConfig.layerId] = ldos;
               layerdefs[boundaryConfig.layerId] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
+            } else if (window.reportOptions.aoitype === 'ALL') {
+              options[boundaryConfig.layerIdAll] = ldos;
+              layerdefs[boundaryConfig.layerIdAll] = boundaryConfig.UniqueValueFieldAllEnglish + " in ('" + dist_names.join("','") + "')";
             } else if (configKey === "subdistrictBoundary"){
               dist_names = dist_names.map(function (aoisItem) {
                 var fixingApostrophe = aoisItem.replace(/'/g, "");
@@ -908,7 +1272,7 @@ define([
           });
 
           return deferred.promise;
-        },
+        }, //END
 
         getRegion: function(configKey) {
           var queryConfig = Config[configKey],
@@ -924,16 +1288,21 @@ define([
             regionField = window.reportOptions.aoitype;
             uniqueValueField = queryConfig.UniqueValueField;
             queryTask = new QueryTask(Config.queryUrl + "/" + queryConfig.layerId);
+          } else if (window.reportOptions.aoitype === 'ALL') {
+            regionField = 'NAME_0';
+            uniqueValueField = queryConfig.UniqueValueFieldAll;
+            queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
+            query.returnDistinctValues = true;
           } else {
             regionField = 'NAME_0';
             uniqueValueField = queryConfig.UniqueValueFieldGlobal;
             queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
-            // queryTask = new QueryTask(Config.queryUrlGlobal + "/" + queryConfig.layerIdGlobal);
           }
 
-          query.where = self.get_aoi_definition('REGION');
+          query.where = self.get_aoi_definition('REGION') === '' ? '1=1' : self.get_aoi_definition('REGION');
           query.returnGeometry = false;
           query.outFields = [regionField, uniqueValueField];
+          
 
           queryTask.execute(query, function(res) {
             if (res.features.length > 0) {
@@ -1108,25 +1477,20 @@ define([
         },
 
       getFireCounts: function (selectedCountry) {
-        // TODO URL move this to config
-        var queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/2'),
-          deferred = new Deferred(),
-          query = new Query(),
-          series = [],
-          index = 0,
-          self = this,
-          title = '',
-          yearObject = {
-            data: [],
-          };
 
-        query.where = "ID_0=" + this.countryObjId + ' AND 1=1';
-        query.returnGeometry = false;
-        query.outFields = ['*'];
+        const deferred = new Deferred();
 
-        queryTask.execute(query, function (res) {
-          var currentYear = new Date().getFullYear();
-          var currentMonth = new Date().getMonth();
+        request.get(Config.pieChartDataEndpoint + 'admin/global?aggregate_values=True&aggregate_by=month', {
+          handleAs: 'json'
+        }).then((response) => {
+          let series = [];
+          let seriesTemp = { data: [], name: '' };
+          let index = 0;
+          const currentYear = new Date().getFullYear();
+          const currentMonth = new Date().getMonth();
+          let indexColor = 0;
+          const colorStep = 15;
+          const baseColor = '#777777';
           var dataLabelsFormat = {
             enabled: true,
             align: 'left',
@@ -1136,17 +1500,16 @@ define([
             crop: false,
             format: '{series.name}'
           };
-          var allFeatures = res.features;
+          const values = response.data.attributes.value;
 
-          var indexColor = 0;
-          var colorStep = 15;
-          var baseColor = '#777777';
           function shadeColor(color, percent) {
             var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
             return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
           }
 
-          var dataLabelsFormatAction = function (yearObject, hexColor) {
+          const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+          const dataLabelsFormatAction = function (yearObject, hexColor) {
             if (yearObject.data.length !== 12) {
               var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
             }
@@ -1158,396 +1521,502 @@ define([
             }]);
 
             yearObject['color'] = hexColor;
-          };
-
-          // Remove current month data
-          var month = moment().format('MM');
-          var year = moment().format('YY');
-          var thisMonth = 'cf_' + year + '_' + month;
-          if (month !== '01') {
-            allFeatures["0"].attributes[thisMonth] = null;
           }
 
-          if (allFeatures.length > 0) {
-            allFeatures.forEach(function (item) {
-              var obj = item.attributes;
-              Object.keys(obj).forEach(function(key) {
-                if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
-                  index = index + 1;
-                  var yearFromData = '20' + key.substring(3, 5);
-                  if (currentYear >= yearFromData) {
-                    yearObject['name'] = yearFromData;
-                    yearObject['data'].push(obj[key]);
-                    if(index % 12 === 0){
-                      var hexColor = shadeColor(baseColor, (indexColor / 100));
-                      indexColor = indexColor + colorStep;
-                      dataLabelsFormatAction(yearObject, hexColor);
-                      series.push(yearObject);
-                      yearObject = {
-                        data: []
-                      };
-                    }
-                  }
+          values.forEach((value, i) => {
+            if (i % 12 === 0 && i !== 0) {
+              seriesTemp.name = value.year;
+
+              var hexColor = shadeColor(baseColor, (indexColor / 100));
+              indexColor = indexColor + colorStep;
+              dataLabelsFormatAction(seriesTemp, hexColor);
+
+              series.push(seriesTemp);
+              seriesTemp = { data: [], name: '' };
+              seriesTemp.data.push(value.alerts);
+              index++;
+            } else {
+              // array1.reduce(reducer) ///////////
+              seriesTemp.data.push(value.alerts);
+            }
+
+          });
+
+          window['firesCountRegionSeries'] = series;
+          window['firesCountRegionCurrentYear'] = currentYear;
+          // window['firesCountRegionCurrentYearSum'] = console.log();
+          debugger;
+
+          var firesCountChart = Highcharts.chart('firesCountChart', {
+            title: {
+              text: ''
+            },
+            xAxis: {
+              labels: {
+                style: {
+                  color: '#000',
+                  fontSize: '16px',
+                  fontFamily: "'Fira Sans', Georgia, serif"
                 }
-              });
-
-              indexColor = 10;
-              dataLabelsFormatAction(yearObject);
-              yearObject.color = '#D40000';
-              series.push(yearObject);
-
-              window['firesCountRegionSeries'] = series;
-              window['firesCountRegionCurrentYear'] = yearObject;
-
-              // Adding sum for year to window
-              window['firesCountRegionCurrentYearSum'] = yearObject.data[yearObject.data.length - 1].y;
-
-              title = window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
-
-              $('#firesCountTitle').html(title);
-
-              var firesCountChart = Highcharts.chart('firesCountChart', {
-                title: {
-                  text: ''
-                },
-
-                // chart: {
-                  
-                // },
-
-                xAxis: {
-                  labels: {
-                    style: {
-                      color: '#000',
-                      fontSize: '16px',
-                      fontFamily: "'Fira Sans', Georgia, serif"
-                    }
-                  }
-                },
-
-                yAxis: {
-                  title: {
-                    text: ''
-                  }
-                },
-
-                plotOptions: {
-                  series: {
-                    color: '#ccc',
-                  },
-                  line: {
-                    marker: {
-                      enabled: false
-                    }
-                  }
-                },
-
-                credits: {
-                  enabled: false
-                },
-
-                exporting:{
-                  scale: 4,
-                  chartOptions:{
-                    chart:{
-                      marginTop: 75,
-                      marginRight: 20,
-                      events:{
-                        load:function(){
-                          this.renderer.rect(0, 0, this.chartWidth, 35).attr({
-                            fill: '#555'
-                          }).add();
-                          this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                          this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                          this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
-                        }
-                      }
-                    }
-                  }
-                },
-
-                tooltip: {
-                  useHTML: true,
-                  backgroundColor: '#ffbb07',
-                  borderWidth: 0,
-                  formatter: function () {
-                    return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
-                  }
-                },
-
-                xAxis: {
-                  categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-                },
-
-                series: series
-
-              });
-
-              getFireCountsChartAction(firesCountChart, selectedCountry);
-
-              function getFireCountsChartAction(firesCountChart, selectedCountry) {
-                var queryTask,
-                  queryOptions;
-                  deferred = new Deferred(),
-                  query = new Query(),
-                  series = [],
-                  index = 0,
-                  yearObject = {
-                    data: [],
-                  };
-
-                if (window.reportOptions.aoitype !== 'GLOBAL') {
-                  queryTask = new QueryTask("https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
-                  query.where = "1=1";
-                  query.returnGeometry = false;
-                  query.outFields = ['*'];
-                  queryOptions = query;
-                } else {
-                  // TODO Move URL to config
-                  queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/3'),
-                  query.where = 'NAME_0=\'' + selectedCountry + '\'';
-                  query.returnGeometry = false;
-                  query.outFields = ['*'];
-                  queryOptions = query;
-                }
-
-                queryTask.execute(queryOptions, function (respons) {
-                  var islandOrRegionFeatures = respons.features;
-
-                  // Create list of regions
-                  $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
-                  window.reportOptions['aois'].forEach(function (item) {
-                    $('#firesCountIslandsList').append("<li>" + item.split("''").join("'") + "</li>");
-                  });
-
-                  $('#firesCountIslandsListContainer h3').click(function () {
-                    $(this).addClass('selected');
-                    $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
-                    $('#firesCountIslandsList li').removeClass('selected');
-
-                    if (firesCountChart.series) {
-                      firesCountChart.update({
-                        series: window.firesCountRegionSeries
-                      });
-                    } else {
-                      firesCountChart.addSeries(window.firesCountRegionSeries);
-                    }
-                  });
-
-                  $('#firesCountIslandsList li').click(function () {
-                    $('#firesCountIslandsListContainer h3').removeClass('selected');
-                    $('#firesCountIslandsList li').removeClass('selected');
-                    $(this).addClass('selected');
-                    var selectedIslandOrRegion = $(this).text(),
-                      index = 0,
-                      series = [],
-                      yearObject = {
-                        data: [],
-                      };
-                    // Get the current year + month attribute
-                    var month = moment().format('MM');
-                    var year = moment().format('YY');
-                    var thisMonth = 'cf_' + year + '_' + month;
-                    islandOrRegionFeatures.forEach(function (item) {
-                      // Set the current month to null - we only want the last completed month
-
-                      if (month !== '01') {
-                        item.attributes[thisMonth] = null;
-                      }
-                      if (item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion) {
-                        var obj = item.attributes;
-                        Object.keys(obj).forEach(function(key) {
-                          if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
-                            index = index + 1;
-                            yearObject['name'] = '20' + key.substring(3, 5);
-                            yearObject['data'].push(obj[key]);
-                            if(index % 12 === 0){
-
-                              var hexColor = shadeColor(baseColor, (indexColor / 100));
-                              indexColor = indexColor + colorStep;
-                              dataLabelsFormatAction(yearObject, hexColor);
-                              series.push(yearObject);
-                              yearObject = {
-                                data: [],
-                              };
-                            }
-                          }
-                        });
-
-                        indexColor = 10;
-                        dataLabelsFormatAction(yearObject);
-                        yearObject.color = '#D40000';
-                        series.push(yearObject);
-
-                        window['firesCountCurrentIslandYearSum'] = yearObject.data[yearObject.data.length - 1].y;
-                        $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountCurrentIslandYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
-                        firesCountChart.update({
-                          series: series
-                        });
-                      }
-
-                    });
-                  });
-                }, function (err) {
-                  deferred.resolve(false);
-                });
-
-                return deferred.promise;
               }
-            })
-          }
-        }, function (err) {
-          deferred.resolve(false);
-        });
-
-        return deferred.promise;
-      },
-
-      getFireHistoryCounts: function (selectedCountry) {
-        // TODO Move URL to config
-        var queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/2'),
-          deferred = new Deferred(),
-          query = new Query(),
-          series = {},
-          index = 0,
-          allValues = [],
-          self = this,
-          yearObject = {
-            data: []
-          };
-
-        query.where = "ID_0=" + this.countryObjId;
-        query.returnGeometry = false;
-        query.outFields = ['*'];
-
-        queryTask.execute(query, function (res) {
-          var currentYear = new Date().getFullYear();
-          var allFeatures = res.features;
-          if (allFeatures.length > 0) {
-            allFeatures.forEach(function (item) {
-              var obj = item.attributes;
-              Object.keys(obj).forEach(function(key) {
-                if (key.substring(0, 5) === 'Fire_') {
-                  index = index + 1;
-                  var yearFromData = parseInt(key.substring(5, 9));
-                  if (currentYear >= yearFromData) {
-                    allValues.push(obj[key]);
-                    yearObject['data'].push({
-                      x: yearFromData,
-                      y: 0,
-                      z: obj[key]
-                    });
+            },
+            yAxis: {
+              title: {
+                text: ''
+              }
+            },
+            plotOptions: {
+              series: {
+                color: '#ccc',
+              },
+              line: {
+                marker: {
+                  enabled: false
+                }
+              }
+            },
+            credits: {
+              enabled: false
+            },
+            exporting:{
+              scale: 4,
+              chartOptions:{
+                chart:{
+                  marginTop: 75,
+                  marginRight: 20,
+                  events:{
+                    load:function(){
+                      this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                        fill: '#555'
+                      }).add();
+                      this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                      this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                      // this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
+                    }
                   }
                 }
-              });
+              }
+            },
+            tooltip: {
+              useHTML: true,
+              backgroundColor: '#ffbb07',
+              borderWidth: 0,
+              formatter: function () {
+                return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
+              }
+            },
+            xAxis: {
+              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+            series: series
+          });
 
-              series['data'] = yearObject['data'];
-              var minValue =  Math.min.apply(null, allValues);
-              var maxValue =  Math.max.apply(null, allValues);
-              var numberOfBins = Config.colorRampFireHistory.length;
-              var binsArray = [minValue];
-              Config.colorRampFireHistory.forEach(function (item, index) {
-                // binsArray.push(parseInt((maxValue / numberOfBins) * (index + 1)));
-                binsArray.push(parseInt(((maxValue - minValue) / numberOfBins) * (index + 1)) + minValue);
-              });
-
-              series.data.map(function (item) {
-                var dataValue = item.z;
-                binsArray.forEach(function (binItem, index) {
-                  if (dataValue >= binsArray[index] && dataValue <= binsArray[index + 1]) {
-                    var color = Config.colorRampFireHistory[index];
-                    item.color = color;
-                  }
-                })
-              });
-
-              $('.fire-history__chart').highcharts({
-                chart: {
-                  type: 'bubble'
-                },
-
-                title: {
-                  text: ''
-                },
-
-                legend: {
-                  enabled: false
-                },
-
-                credits: {
-                  enabled: false
-                },
-
-                xAxis: {
-                  labels: {
-                    style: {
-                      color: '#000',
-                      fontSize: '16px',
-                      fontFamily: "'Fira Sans', Georgia, serif"
-                    }
-                  }
-                },
-
-                yAxis: {
-                  visible: false
-                },
-
-                plotOptions: {
-                  bubble:{
-                    minSize:'30%',
-                    maxSize:'60%'
-                  }
-                },
-
-                exporting:{
-                  scale: 4,
-                  chartOptions:{
-                    chart:{
-                      events:{
-                        load:function(){
-                          this.renderer.rect(0, 0, this.chartWidth, 35).attr({
-                            fill: '#555'
-                          }).add();
-                          this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                          this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                          this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">Total MODIS fire alerts</span>`, 55, 46, true).add();
-                        }
-                      }
-                    }
-                  }
-                },
-
-                tooltip: {
-                  useHTML: true,
-                  backgroundColor: '#ffbb07',
-                  borderWidth: 0,
-                  formatter: function () {
-                    return (
-                      '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
-                      '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
-                      '</div>'
-                    )
-                  }
-                },
-
-                series: [{
-                  data: series['data'],
-                  marker: {
-                    fillOpacity: .85
-                  },
-                }]
-
-              });
-            })
-          }
-        }, function (err) {
           deferred.resolve(false);
+
         });
+
+
+        // TODO URL move this to config
+        // var queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/2'),
+        //   deferred = new Deferred(),
+        //   query = new Query(),
+        //   series = [],
+        //   index = 0,
+        //   self = this,
+        //   title = '',
+        //   yearObject = {
+        //     data: [],
+        //   };
+
+        // query.where = this.countryObjId ? "ID_0=" + this.countryObjId + ' AND 1=1' : '1=1';
+        // query.returnGeometry = false;
+        // query.outFields = ['*'];
+
+        // queryTask.execute(query, function (res) {
+        //   var currentYear = new Date().getFullYear();
+        //   var currentMonth = new Date().getMonth();
+        //   var dataLabelsFormat = {
+        //     enabled: true,
+        //     align: 'left',
+        //     x: 0,
+        //     verticalAlign: 'middle',
+        //     overflow: true,
+        //     crop: false,
+        //     format: '{series.name}'
+        //   };
+        //   var allFeatures = res.features;
+
+        //   var indexColor = 0;
+        //   var colorStep = 15;
+        //   var baseColor = '#777777';
+        //   function shadeColor(color, percent) {
+        //     var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+        //     return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+        //   }
+
+        //   var dataLabelsFormatAction = function (yearObject, hexColor) {
+        //     if (yearObject.data.length !== 12) {
+        //       var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
+        //     }
+        //     var twelveMonthsData = yearObject['data'];
+        //     var lastMonthData = twelveMonthsData.pop();
+        //     yearObject['data'] = [].concat(twelveMonthsData, [{
+        //       dataLabels: dataLabelsFormat,
+        //       y: lastMonthData
+        //     }]);
+
+        //     yearObject['color'] = hexColor;
+        //   };
+
+        //   // Remove current month data
+        //   var month = moment().format('MM');
+        //   var year = moment().format('YY');
+        //   var thisMonth = 'cf_' + year + '_' + month;
+        //   if (month !== '01') {
+        //     allFeatures["0"].attributes[thisMonth] = null;
+        //   }
+
+        //   if (allFeatures.length > 0) {
+        //     allFeatures.forEach(function (item) {
+        //       var obj = item.attributes;
+        //       Object.keys(obj).forEach(function(key) {
+        //         if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
+        //           index = index + 1;
+        //           var yearFromData = '20' + key.substring(3, 5);
+        //           if (currentYear >= yearFromData) {
+        //             yearObject['name'] = yearFromData;
+        //             yearObject['data'].push(obj[key]);
+        //             if(index % 12 === 0){
+        //               var hexColor = shadeColor(baseColor, (indexColor / 100));
+        //               indexColor = indexColor + colorStep;
+        //               dataLabelsFormatAction(yearObject, hexColor);
+        //               series.push(yearObject);
+        //               yearObject = {
+        //                 data: []
+        //               };
+        //             }
+        //           }
+        //         }
+        //       });
+
+        //       indexColor = 10;
+        //       dataLabelsFormatAction(yearObject);
+        //       yearObject.color = '#D40000';
+        //       series.push(yearObject);
+
+        //       window['firesCountRegionSeries'] = series;
+        //       window['firesCountRegionCurrentYear'] = yearObject;
+
+        //       // Adding sum for year to window
+        //       window['firesCountRegionCurrentYearSum'] = yearObject.data[yearObject.data.length - 1].y;
+
+        //       // title = window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>';
+
+        //       // $('#firesCountTitle').html(title);
+
+        //       var firesCountChart = Highcharts.chart('firesCountChart', {
+        //         title: {
+        //           text: ''
+        //         },
+        //         xAxis: {
+        //           labels: {
+        //             style: {
+        //               color: '#000',
+        //               fontSize: '16px',
+        //               fontFamily: "'Fira Sans', Georgia, serif"
+        //             }
+        //           }
+        //         },
+        //         yAxis: {
+        //           title: {
+        //             text: ''
+        //           }
+        //         },
+        //         plotOptions: {
+        //           series: {
+        //             color: '#ccc',
+        //           },
+        //           line: {
+        //             marker: {
+        //               enabled: false
+        //             }
+        //           }
+        //         },
+        //         credits: {
+        //           enabled: false
+        //         },
+        //         exporting:{
+        //           scale: 4,
+        //           chartOptions:{
+        //             chart:{
+        //               marginTop: 75,
+        //               marginRight: 20,
+        //               events:{
+        //                 load:function(){
+        //                   this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+        //                     fill: '#555'
+        //                   }).add();
+        //                   this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+        //                   this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+        //                   // this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
+        //                 }
+        //               }
+        //             }
+        //           }
+        //         },
+        //         tooltip: {
+        //           useHTML: true,
+        //           backgroundColor: '#ffbb07',
+        //           borderWidth: 0,
+        //           formatter: function () {
+        //             return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
+        //           }
+        //         },
+        //         xAxis: {
+        //           categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        //         },
+        //         series: series
+        //       });
+
+              // This create the clickable legend to the right side of the fire history: fire season progression figure
+              // getFireCountsChartAction(firesCountChart, selectedCountry);
+
+        //       function getFireCountsChartAction(firesCountChart, selectedCountry) {
+        //         var queryTask,
+        //           queryOptions;
+        //           deferred = new Deferred(),
+        //           query = new Query(),
+        //           series = [],
+        //           index = 0,
+        //           yearObject = {
+        //             data: [],
+        //           };
+
+        //         if (window.reportOptions.aoitype !== 'GLOBAL') {
+        //           queryTask = new QueryTask("https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/12"),
+        //           query.where = "1=1";
+        //           query.returnGeometry = false;
+        //           query.outFields = ['*'];
+        //           queryOptions = query;
+        //         } else {
+        //           // TODO Move URL to config
+        //           queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/3'),
+        //           query.where = 'NAME_0=\'' + selectedCountry + '\'';
+        //           query.returnGeometry = false;
+        //           query.outFields = ['*'];
+        //           queryOptions = query;
+        //         }
+
+        //         queryTask.execute(queryOptions, function (respons) {
+        //           var islandOrRegionFeatures = respons.features;
+
+        //           // Create list of regions
+        //           $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
+        //           window.reportOptions['aois'].forEach(function (item) {
+        //             $('#firesCountIslandsList').append("<li>" + item.split("''").join("'") + "</li>");
+        //           });
+
+        //           $('#firesCountIslandsListContainer h3').click(function () {
+        //             $(this).addClass('selected');
+        //             $('#firesCountTitle').html(window['firesCountRegionCurrentYear'] + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountRegionCurrentYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+        //             $('#firesCountIslandsList li').removeClass('selected');
+
+        //             if (firesCountChart.series) {
+        //               firesCountChart.update({
+        //                 series: window.firesCountRegionSeries
+        //               });
+        //             } else {
+        //               firesCountChart.addSeries(window.firesCountRegionSeries);
+        //             }
+        //           });
+
+        //           $('#firesCountIslandsList li').click(function () {
+        //             $('#firesCountIslandsListContainer h3').removeClass('selected');
+        //             $('#firesCountIslandsList li').removeClass('selected');
+        //             $(this).addClass('selected');
+        //             var selectedIslandOrRegion = $(this).text(),
+        //               index = 0,
+        //               series = [],
+        //               yearObject = {
+        //                 data: [],
+        //               };
+        //             // Get the current year + month attribute
+        //             var month = moment().format('MM');
+        //             var year = moment().format('YY');
+        //             var thisMonth = 'cf_' + year + '_' + month;
+        //             islandOrRegionFeatures.forEach(function (item) {
+        //               // Set the current month to null - we only want the last completed month
+
+        //               if (month !== '01') {
+        //                 item.attributes[thisMonth] = null;
+        //               }
+        //               if (item.attributes.ISLAND === selectedIslandOrRegion || item.attributes.NAME_1 === selectedIslandOrRegion) {
+        //                 var obj = item.attributes;
+        //                 Object.keys(obj).forEach(function(key) {
+        //                   if (key.substring(0, 3) === 'cf_' && obj[key] !== null) {
+        //                     index = index + 1;
+        //                     yearObject['name'] = '20' + key.substring(3, 5);
+        //                     yearObject['data'].push(obj[key]);
+        //                     if(index % 12 === 0){
+
+        //                       var hexColor = shadeColor(baseColor, (indexColor / 100));
+        //                       indexColor = indexColor + colorStep;
+        //                       dataLabelsFormatAction(yearObject, hexColor);
+        //                       series.push(yearObject);
+        //                       yearObject = {
+        //                         data: [],
+        //                       };
+        //                     }
+        //                   }
+        //                 });
+
+        //                 indexColor = 10;
+        //                 dataLabelsFormatAction(yearObject);
+        //                 yearObject.color = '#D40000';
+        //                 series.push(yearObject);
+
+        //                 window['firesCountCurrentIslandYearSum'] = yearObject.data[yearObject.data.length - 1].y;
+        //                 $('#firesCountTitle').html(window['firesCountRegionCurrentYear'].name + ' MODIS Fire Alerts, Year to Date <span class="total_firecounts">' + window['firesCountCurrentIslandYearSum'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '</span>');
+        //                 firesCountChart.update({
+        //                   series: series
+        //                 });
+        //               }
+
+        //             });
+        //           });
+        //         }, function (err) {
+        //           deferred.resolve(false);
+        //         });
+
+        //         return deferred.promise;
+        //       }
+        //     })
+        //   }
+        // }, function (err) {
+        //   deferred.resolve(false);
+        // });
 
         return deferred.promise;
       },
 
+      getFireHistoryCounts: function() {
+
+        const queryFor = this.currentISO ? this.currentISO : 'global';
+        const numberOfBins = Config.colorRampFireHistory.length
+        let data = [];
+        const deferred = new Deferred();
+
+        request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?aggregate_values=True&aggregate_by=year&fire_type=modis', {
+          handleAs: 'json'
+        }).then((response) => {
+          
+          let min, max;
+          for (var i = 0; i < response.data.attributes.value.length; i++) {
+            const { year: x, alerts: z } = response.data.attributes.value[i];
+            data.push({ x, z, y: 0 });
+            if (!min && !max) min = max = z;
+
+            if (z < min) min = z;
+            if (z > max) max = z;
+
+            let binsArray = [min];
+
+            Config.colorRampFireHistory.forEach(function (item, index) {
+              binsArray.push(parseInt(((max - min) / numberOfBins) * (index + 1)) + min);
+            });
+
+            data.forEach(function (item) {
+              const dataValue = item.z;
+              binsArray.forEach(function (binItem, index) {
+                if (dataValue >= binsArray[index] && dataValue <= binsArray[index + 1]) {
+                  var color = Config.colorRampFireHistory[index];
+                  item.color = color;
+                }
+              });
+            });
+          }
+
+          $('.fire-history__chart').highcharts({
+            chart: {
+              type: 'bubble'
+            },
+
+            title: {
+              text: ''
+            },
+
+            legend: {
+              enabled: false
+            },
+
+            credits: {
+              enabled: false
+            },
+
+            xAxis: {
+              labels: {
+                style: {
+                  color: '#000',
+                  fontSize: '16px',
+                  fontFamily: "'Fira Sans', Georgia, serif"
+                }
+              }
+            },
+
+            yAxis: {
+              visible: false
+            },
+
+            plotOptions: {
+              bubble:{
+                minSize:'30%',
+                maxSize:'60%'
+              }
+            },
+
+            exporting:{
+              scale: 4,
+              chartOptions:{
+                chart:{
+                  events:{
+                    load:function(){
+                      this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                        fill: '#555'
+                      }).add();
+                      this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                      this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                      this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">Total MODIS fire alerts</span>`, 55, 46, true).add();
+                    }
+                  }
+                }
+              }
+            },
+
+            tooltip: {
+              useHTML: true,
+              backgroundColor: '#ffbb07',
+              borderWidth: 0,
+              formatter: function () {
+                return (
+                  '<div class="history-chart-tooltip__container">' +
+                  '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
+                  '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
+                  '</div>'
+                )
+              }
+            },
+
+            series: [{
+              data: data,
+              marker: {
+                fillOpacity: .85
+              },
+            }]
+          });
+          deferred.resolve(false);
+        });
+        return deferred.promise;
+      },
       queryFireCount: function(configKey) {
           var deferred = new Deferred(),
             self = this,
@@ -1589,7 +2058,7 @@ define([
               self = this;
 
           // Global Report
-          if (areaOfInterestType === 'GLOBAL' || areaOfInterestType === 'ALL') {
+          if (areaOfInterestType === 'GLOBAL') {
             // Assign correct query url
             var url;
             if (districtLayerId === 8) {
@@ -1605,8 +2074,23 @@ define([
             query.outFields = [Config[configKey].fire_stats_global.onField];
             statdef.onStatisticField = Config[configKey].fire_stats_global.onField;
             statdef.outStatisticFieldName = Config[configKey].fire_stats_global.outField;
-          // Indonesia Report
-          } else {
+          } else if (areaOfInterestType === 'ALL') {
+            // Assign correct query url
+            var url;
+            if (districtLayerId === 8) {
+              url = Config.firesLayer.global_viirs;
+            }
+            if (districtLayerId === 9) {
+              url = Config.firesLayer.global_modis;
+            }
+            queryTask = new QueryTask(url);
+            // NAME_ENGLISH - COUNTRIES
+            // NAME_1 - STATES/PROVINCES
+            fields = [Config[configKey].fire_stats_all.onField, window.reportOptions.aoitype, Config[configKey].fire_stats_all.outField];
+            query.outFields = [Config[configKey].fire_stats_all.onField];
+            statdef.onStatisticField = Config[configKey].fire_stats_all.onField;
+            statdef.outStatisticFieldName = Config[configKey].fire_stats_all.outField;
+          } else { // Indonesia Report
             queryTask = new QueryTask(Config.queryUrl + "/" + districtLayerId);
             fields = [queryConfig.fire_stats.onField, window.reportOptions.aoitype, queryConfig.fire_stats.outField];
             query.outFields = [queryConfig.fire_stats.onField];
@@ -1752,7 +2236,9 @@ define([
 
             if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
               query.groupByFieldsForStatistics.push("NAME_1");
-            } else if (configKey === "subDistrictQuery" && areaOfInterestType !== "GLOBAL"){
+            } else if(configKey === 'subDistrictQuery' && areaOfInterestType === 'ALL') {
+              query.groupByFieldsForStatistics.push("NAME_ENGLISH");
+            } else if (configKey === "subDistrictQuery" && areaOfInterestType !== "GLOBAL" && areaOfInterestType !== 'ALL'){
               query.groupByFieldsForStatistics.push("ISLAND");
             }
 
@@ -1767,6 +2253,8 @@ define([
 
                 if (areaOfInterestType === "GLOBAL") {
                   keyRegion = configKey === "adminQuery" ? 'NAME_1' : 'NAME_2';
+                } else if (areaOfInterestType === 'ALL') {
+                  keyRegion = configKey === 'adminQuery' ? 'NAME_ENGLISH' : 'NAME_1';
                 } else {
                   keyRegion = configKey === "adminQuery" ? 'DISTRICT' : 'SUBDISTRIC';
                 }
@@ -1776,6 +2264,8 @@ define([
                     queryResultKeys.push(item.attributes[keyRegion]);
                     if (areaOfInterestType === "GLOBAL") {
                       adminLevelOneTwoArray[item.attributes.NAME_2] = item.attributes.NAME_1;
+                    } else if (areaOfInterestType === 'ALL') {
+                      adminLevelOneTwoArray[item.attributes.NAME_1] = item.attributes.NAME_ENGLISH;
                     } else {
                       adminLevelOneTwoArray[item.attributes.SUBDISTRIC] = item.attributes.ISLAND;
                     }
@@ -1797,6 +2287,10 @@ define([
                     combinedResults.push(keyRegion === 'NAME_1' ?
                       {attributes: {NAME_1: key, fire_count: fireCount}} :
                       {attributes: {NAME_1: adminLevelOneTwoArray[key], NAME_2: key, fire_count: fireCount}});
+                  } else if (areaOfInterestType === "ALL") { 
+                    combinedResults.push(keyRegion === 'NAME_ENGLISH' ?
+                    {attributes: {NAME_ENGLISH: key, fire_count: fireCount}} :
+                    {attributes: {NAME_ENGLISH: adminLevelOneTwoArray[key], NAME_1: key, fire_count: fireCount}});
                   } else if (areaOfInterestType === "ISLAND") {
                     combinedResults.push(keyRegion === 'DISTRICT' ?
                       {attributes: {DISTRICT: key, fire_count: fireCount}} :
@@ -1815,7 +2309,14 @@ define([
 
                 Config.query_results[configKey] = sortCombinedResults;
                 if (sortCombinedResults.length > 0) {
-                  var queryConfigField = window.reportOptions.aoitype === 'ISLAND' ? queryConfig['UniqueValueField'] : queryConfig['UniqueValueFieldGlobal'];
+                  var queryConfigField;
+                  if(window.reportOptions.aoitype === 'ISLAND') {
+                    queryConfigField = queryConfig['UniqueValueField'];
+                  } else if(window.reportOptions.aoitype === 'ALL') { 
+                    queryConfigField = queryConfig['UniqueValueFieldAll'];
+                  } else {
+                    queryConfigField = queryConfig['UniqueValueFieldGlobal'];
+                  } 
                   if (queryConfigField) {
                     self.getRegion(configKey).then(function() {
                       var regmap = Config.regionmap[configKey];
@@ -2116,17 +2617,7 @@ define([
                 failure;
 
             if (areaOfInterestType === 'GLOBAL' || areaOfInterestType === 'ALL') {
-              var queryEndpointsIds = ['fire_id_global_viirs', 'fire_id_global_modis'];
-
-              queryEndpointsIds.forEach(function (fireCountLayer) {
-                if (fireCountLayer === 'fire_id_global_viirs') {
-                  queryTask = new QueryTask(Config.firesLayer.global_viirs);
-                } else if (fireCountLayer === 'fire_id_global_modis') {
-                  queryTask = new QueryTask(Config.firesLayer.global_modis);
-                }
-
-                queryForFiresCount(fireCountLayer);
-              });
+                queryForFiresCount();
             } else {
               var queryEndpointsIds = ['fire_id_island_viirs', 'fire_id_island_modis'];
               $('.fire-alert-count__year').text('2013');
@@ -2137,84 +2628,68 @@ define([
             }
 
             function queryForFiresCount(fireCountLayer) {
-              query.where = self.get_aoi_definition();
-              query.returnGeometry = false;
-              query.groupByFieldsForStatistics = [Config.dailyFiresField];
-              query.orderByFields = ['ACQ_DATE ASC'];
 
-              statdef.onStatisticField = Config.dailyFiresField;
-              statdef.outStatisticFieldName = 'Count';
-              statdef.statisticType = "count";
-              query.outStatistics = [statdef];
-              queryAll.where = self.get_layer_definition();
+              const queryFor = self.currentISO ? self.currentISO : 'global';
 
-              queryTask.executeForCount(queryAll, function (count) {
-                Config[fireCountLayer] = count;
+              // Get total fires count
+              request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw  + '&fire_type=modis', {
+                handleAs: 'json'
+              }).then((response) => {
 
                 function numberWithCommas(globalFiresTotalCount) {
                   return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 }
 
-                if (Config.fire_id_global_viirs && Config.fire_id_global_modis){
-                  var globalFiresTotalCount = Config.fire_id_global_viirs + Config.fire_id_global_modis;
-                  $("#totalFireAlerts").html(numberWithCommas(globalFiresTotalCount));
-                } else if (Config['fire_id_island_viirs'] && Config['fire_id_island_modis']) {
-                  var islandFiresTotalCount = Config['fire_id_island_viirs'] + Config['fire_id_island_modis'];
-                  $("#totalFireAlerts").html(numberWithCommas(islandFiresTotalCount));
-                }
-              }, function (error) {
-                console.log(error);
+                $("#totalFireAlerts").html(numberWithCommas(response.data.attributes.value[0].alerts));
               });
-            }
 
-            success = function(res) {
-                var count = 0;
-                arrayUtils.forEach(res.features, function(feature) {
-                  fireDataLabels.push(moment(feature.attributes[Config.dailyFiresField]).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
-                  fireData.push(feature.attributes.Count);
-                  count += feature.attributes.Count;
+              // Get total fires count aggregated by day
+              request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?aggregate_values=True&aggregate_by=day', {
+                handleAs: 'json'
+              }).then((response) => {
+
+                const values = response.data.attributes.value;
+    
+                values.forEach(value => {
+                  fireDataLabels.push(moment(value.day).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
+                  fireData.push(value.alerts);
                 });
 
                 $("#totalFiresLabel").show()
 
                 $('#fire-line-chart').highcharts({
                     chart: {
-                        zoomType: 'x'
+                      zoomType: 'x'
                     },
                     title: {
-                        text: null
+                      text: null
                     },
-                    // subtitle: {
-                    //     text: document.ontouchstart === undefined ?
-                    //         'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-                    // },
                     plotOptions: {
-                        line: {
-                            marker: {
-                                enabled: false
-                            }
+                      line: {
+                        marker: {
+                          enabled: false
                         }
+                      }
                     },
                     xAxis: {
-                        categories: fireDataLabels,
-                        type: 'datetime',
-                        minTickInterval: 20,
-                        minRange: 30,
-                        labels: {
-                            rotation: -45
-                        }
+                      categories: fireDataLabels,
+                      // type: 'datetime',
+                      minTickInterval: 20,
+                      minRange: 30,
+                      labels: {
+                        rotation: -45
+                      }
                     },
                     yAxis: {
-                        min: 0,
-                        title: {
-                            text: null
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#a90016'
-                        }]
-
+                      min: 0,
+                      title: {
+                        text: null
+                      },
+                      plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#a90016'
+                      }]
                     },
                     exporting:{
                       scale: 4,
@@ -2235,28 +2710,24 @@ define([
                       }
                     },
                     tooltip: {
-                        valueSuffix: ''
+                      valueSuffix: ''
                     },
                     credits: {
-                        enabled: false
+                      enabled: false
                     },
                     legend: {
-                        enabled: false
+                      enabled: false
                     },
                     series: [{
-                        name: 'Daily Fires',
-                        data: fireData,
-                        color: '#f49f2d'
+                      name: 'Daily Fires',
+                      data: fireData,
+                      color: '#f49f2d'
                     }]
                 });
+    
+              });
+            }
 
-            };
-
-            failure = function(err) {
-                console.dir(err);
-            };
-
-            queryTask.execute(query, success, failure);
             deferred.resolve(true);
             return deferred.promise;
         },
@@ -2376,7 +2847,7 @@ define([
                 mapkeys;
 
             mapkeys = [mapkeysItem];
-            query.where = self.get_aoi_definition('REGION');
+            query.where = self.get_aoi_definition('REGION') === "" ? '1=1' : self.get_aoi_definition('REGION') ;
             query.maxAllowableOffset = 10000;
             query.returnGeometry = true;
 
@@ -2412,8 +2883,8 @@ define([
                 deferred.resolve(true);
             }
 
-            errback = function(err) {
-                console.log(err);
+            errback = function() {
+                console.log('Cannot get the extent');
             };
             queryTask.execute(query, callback, errback);
             return deferred.promise;

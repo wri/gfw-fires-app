@@ -31,17 +31,18 @@ export default class ImagerySettings extends React.Component {
     }
   }
 
+  handleValueClick(evt) {
+    evt.stopPropagation();
+  }
+
   render () {
-    return <div className={`layer-checkbox indented relative ${this.state.footprintsVisible ? ' active' : ''}`} >
+    return <div className={`layer-checkbox indented relative ${this.state.footprintsVisible ? ' active' : ''}`} onClick={this.handleValueClick}>
       <span onClick={this.toggleFootprints.bind(this)} className='toggle-switch pointer'><span/></span>
       <span onClick={this.toggleFootprints.bind(this)} className='layer-checkbox-label pointer'>Display Footprints</span>
     </div>;
   }
 
   toggleFootprints() {
-    // this.setState({
-    //   checked: evt.target.checked
-    // });
     layerActions.toggleFootprintsVisibility();
   }
 
