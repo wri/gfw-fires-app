@@ -51,7 +51,7 @@ let lazyloadAssets = () => {
   loadCSS(`../vendors/react-select/dist/react-select.min.css`);
   loadCSS(`https://js.arcgis.com/3.20/esri/css/esri.css`);
  };
- 
+
 const parseTitles = (planetBasemaps, isMonthly) => {
   // Filter out 'Latest Monthly' and 'Latest Quarterly'
   return planetBasemaps.filter(basemap => {
@@ -100,7 +100,7 @@ const parseQuarterlyTitle = (title) => {
   }
 };
 
-const newPromise = new Promise((resolve, reject) => {
+const queryPlanet = new Promise((resolve, reject) => {
   // Request XML page
   const xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function () {
@@ -153,24 +153,24 @@ const newPromise = new Promise((resolve, reject) => {
   xhttp.send();
 });
 
-let initializeApp = () => {
-  newPromise.then((done) => {
-    if (done) {
-      app.debug('main >>> initializeApp');
-      ReactDOM.render(<Map />, document.getElementById('root'));
-      ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
-      ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
-      ReactDOM.render(<SearchModal />, document.getElementById('search-modal'));
-      ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
-      ReactDOM.render(<CalendarModal calendars={defaults.calendars}/>, document.getElementById('calendar-modal'));
-      ReactDOM.render(<SubscriptionModal />, document.getElementById('subscription-modal'));
-      ReactDOM.render(<ConfirmationModal />, document.getElementById('confirmation-modal'));
-      ReactDOM.render(<FiresModal />, document.getElementById('fires-modal'));
-      ReactDOM.render(<ShareModal />, document.getElementById('share-modal'));
-    }
-  });
+const initializeApp = () => {
+  app.debug('main >>> initializeApp');
+  ReactDOM.render(<Map />, document.getElementById('root'));
+  ReactDOM.render(<LayerModal />, document.getElementById('layer-modal'));
+  ReactDOM.render(<CanopyModal />, document.getElementById('canopy-modal'));
+  ReactDOM.render(<SearchModal />, document.getElementById('search-modal'));
+  ReactDOM.render(<BasemapModal />, document.getElementById('basemap-modal'));
+  ReactDOM.render(<CalendarModal calendars={defaults.calendars}/>, document.getElementById('calendar-modal'));
+  ReactDOM.render(<SubscriptionModal />, document.getElementById('subscription-modal'));
+  ReactDOM.render(<ConfirmationModal />, document.getElementById('confirmation-modal'));
+  ReactDOM.render(<FiresModal />, document.getElementById('fires-modal'));
+  ReactDOM.render(<ShareModal />, document.getElementById('share-modal'));
 };
 
 configureApp();
 lazyloadAssets();
-initializeApp();
+queryPlanet.then(() => {
+  initializeApp();
+}, () => {
+  initializeApp();
+});

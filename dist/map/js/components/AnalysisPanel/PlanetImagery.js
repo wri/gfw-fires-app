@@ -83,13 +83,15 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 
 				var defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
 
-				_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
-				_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
-				_MapActions.mapActions.setActivePlanetCategory.defer(value);
+				if (defaultBasemap) {
+					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+					_MapActions.mapActions.setActivePlanetCategory.defer(value);
 
-				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
+					_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
 
-				_ShareHelper2.default.handleHashChange(undefined, activeImagery, value, defaultBasemap.label);
+					_ShareHelper2.default.handleHashChange(undefined, activeImagery, value, defaultBasemap.label);
+				}
 			};
 
 			_this.handleBasemap = function (selected) {
@@ -122,7 +124,7 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 				var activePlanetPeriod = this.props.activePlanetPeriod;
 
 				if (activePlanetPeriod && activePlanetPeriod !== '' && activePlanetPeriod !== 'null') {
-					this.getPlanetBasemaps(activePlanetPeriod, true);
+					this.getPlanetBasemaps();
 				}
 			}
 		}, {
@@ -133,12 +135,12 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 				    activeCategory = _props.activeCategory;
 
 				if (prevProps.activePlanetBasemap === '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== '' && prevProps.activePlanetPeriod !== 'null' || prevProps.activePlanetPeriod !== '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== 'null' && activeCategory !== prevProps.activeCategory) {
-					this.getPlanetBasemaps(prevProps.activePlanetPeriod, true);
+					this.getPlanetBasemaps();
 				}
 			}
 		}, {
 			key: 'getPlanetBasemaps',
-			value: function getPlanetBasemaps(period, updateStore) {
+			value: function getPlanetBasemaps() {
 				var _props2 = this.props,
 				    monthlyBasemaps = _props2.monthlyBasemaps,
 				    quarterlyBasemaps = _props2.quarterlyBasemaps,
@@ -153,13 +155,15 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 					return item.label === activePlanetPeriod;
 				});
 
-				if (updateStore) {
+				if (defaultBasemap) {
 					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
 					_MapActions.mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
 					_MapActions.mapActions.setActivePlanetCategory.defer(activeCategory);
+
+					_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
+
+					_ShareHelper2.default.handleHashChange(undefined, activeImagery, activeCategory, defaultBasemap.label);
 				}
-				_MapActions.mapActions.changeBasemap.defer(defaultBasemap);
-				_ShareHelper2.default.handleHashChange(undefined, activeImagery, activeCategory, defaultBasemap.label);
 			}
 		}, {
 			key: 'render',
