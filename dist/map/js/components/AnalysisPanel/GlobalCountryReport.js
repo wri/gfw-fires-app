@@ -127,6 +127,9 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         countriesList.unshift({
           value: '',
           label: 'Select a Country'
+        }, {
+          value: 'ALL',
+          label: 'Global Report'
         });
 
         var countrySubRegions = this.props.adm1.filter(function (o) {
@@ -315,7 +318,12 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         }
         dateString += dateArgs.join('!');
 
-        hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+        // global country report
+        if (country && country === 'ALL') {
+          hash += ['aoitype=ALL', reportTypeString, dateString].join('&');
+        } else {
+          hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+        }
         return hash;
       }
     }]);

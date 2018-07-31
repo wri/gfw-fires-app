@@ -16,6 +16,8 @@ define([
     "esri/config",
     "esri/layers/ImageParameters",
     "esri/layers/ArcGISDynamicMapServiceLayer",
+    "esri/renderers/ClassBreaksRenderer",
+    "esri/layers/FeatureLayer",
     "esri/symbols/SimpleFillSymbol",
     "esri/tasks/AlgorithmicColorRamp",
     "esri/tasks/ClassBreaksDefinition",
@@ -34,7 +36,7 @@ define([
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig"
-], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, request, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer,
+], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, request, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats, Config) {
 
@@ -89,7 +91,7 @@ define([
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             // Creates the first map
-            self.queryForDailyFireData(areaOfInterestType);
+            // self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
             // self.buildDistributionOfFireAlertsMap().then(function () {
@@ -104,7 +106,7 @@ define([
             //   });
             // });
 
-            self.timQueryFireCount(areaOfInterestType, 'adminBoundary');
+            self.timNewCount(areaOfInterestType, 'adminBoundary');
 
             // // Creates the third map starting from the top
             // subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
@@ -117,7 +119,7 @@ define([
             // Creates the Annual Fire History graph
             // self.getFireCounts(selectedCountry);
             // Creates the Fire History: Fire Season Progression graph
-            self.getFireHistoryCounts()
+            // self.getFireHistoryCounts()
 
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
@@ -125,27 +127,387 @@ define([
 
             const queryFor = self.currentISO ? self.currentISO : 'global';
 
-            request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-              handleAs: 'json'
-            }).then(function(response) {
-              Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-                return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
-              })).then(() => {
-                $(".chart-container-countries:odd").addClass('pull-right');
-                $(".chart-container-countries:even").addClass('pull-left');
-              }).catch(e => {
-                console.log(e);
-              });
+            // request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            //   handleAs: 'json'
+            // }).then(function(response) {
+            //   Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+            //     return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+            //   })).then(() => {
+            //     $(".chart-container-countries:odd").addClass('pull-right');
+            //     $(".chart-container-countries:even").addClass('pull-left');
+            //   }).catch(e => {
+            //     console.log(e);
+            //   });
+            // });
+
+            // if (window.reportOptions.aois) {
+            //   all([
+            //     self.getCountryAdminTypes(selectedCountry)
+            //   ]).then(function(res) {
+            //     self.printReport();
+            //   });
+            // }
+        },
+
+        timNewCount: function(areaOfInterestType, configKey) {
+          var deferred = new Deferred(),
+              boundaryConfig = Config[configKey],
+              options = [],
+              adminLevel,
+              otherFiresParams,
+              otherFiresLayer,
+              renderer,
+              legend,
+              keyRegion,
+              ldos,
+              map,
+              uniqueValueField,
+              queryUrl;
+
+          const queryFor = this.currentISO ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : 'global?aggregate_values=True&aggregate_by=iso&';
+
+          if (areaOfInterestType === "GLOBAL") {
+            keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
+            adminLevel = configKey === "adminBoundary" ? 'adm1' : 'adm2';
+          } else if (areaOfInterestType === 'ALL') {
+            keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
+            adminLevel = configKey === "adminBoundary" ? 'iso' : 'adm1';
+          } else {
+            keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
+          }
+
+          request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            handleAs: 'json'
+          }).then((response) => {
+            let feat_stats = [];
+            response.data.attributes.value.forEach((res) => {
+              const attributes = { fire_count: res.alerts, id: res[adminLevel] };
+              attributes[keyRegion] = res.iso;
+              feat_stats.push({ attributes });
             });
 
-            if (window.reportOptions.aois) {
-              all([
-                self.getCountryAdminTypes(selectedCountry)
-              ]).then(function(res) {
-                self.printReport();
+            // var feat_stats = Config.query_results[queryKey];
+            if (!feat_stats || feat_stats.length == 0) {
+              return;
+            }
+
+            var arr = feat_stats.map(function(item) {
+              return item.attributes['fire_count']
+            }).sort(function(a, b) {
+              return a - b
+            });
+            sar = arr;
+
+            if (window.reportOptions.aoitype === 'ISLAND') {
+              queryUrl = boundaryConfig.urlIsland;
+              uniqueValueField = boundaryConfig.UniqueValueField;
+            } else if (window.reportOptions.aoitype === 'ALL') {
+              // TODO Move URL to config
+              uniqueValueField = boundaryConfig.UniqueValueFieldAlliso;
+              queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
+            } else {
+              // TODO Move URL to config
+              uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
+              queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
+            }
+
+            if (window.reportOptions.aoitype === 'ALL') {
+              var dist_names = feat_stats.map(function(item) {
+                if (item.attributes[boundaryConfig.UniqueValueFieldAll] != null) {
+                  return item.attributes[boundaryConfig.UniqueValueFieldAll].replace("'", "''");
+                }
+              }).filter(function(item) {
+                if (item != null) {
+                  return item;
+                }
+              });
+            } else {
+              var dist_names = feat_stats.map(function(item) {
+                if (item.attributes[uniqueValueField] != null) {
+                  return item.attributes[uniqueValueField].replace("'", "''");
+                }
+              }).filter(function(item) {
+                if (item != null) {
+                  return item;
+                }
               });
             }
-        },
+
+
+            var natural_breaks_renderer = function(feat_stats, dist_names, method) {
+              var nbks = [0, 10, 50, 100, 250, 5000];
+
+              if (geostats) {
+                geostats();
+                setSerie(arr);
+              }
+
+              if (arr.length < boundaryConfig.breakCount) {
+                  boundaryConfig.breakCount = arr.length - 1;
+              }
+              var brkCount = boundaryConfig.breakCount;
+              if (getClassJenks) {
+                switch (method) {
+                  case 'natural':
+                    nbks = getClassJenks(boundaryConfig.breakCount);
+                    break;
+                  case 'equal':
+                    nbks = getClassEqInterval(boundaryConfig.breakCount);
+                    break;
+                  case 'quantile':
+                    nbks = getClassQuantile(boundaryConfig.breakCount);
+                    break;
+                  case 'stddev':
+                    nbks = getClassStdDeviation(nbClass);
+                    break;
+                  case 'arithmetic':
+                    nbks = getClassArithmeticProgression(nbClass);
+                    break;
+                  case 'geometric':
+                    nbks = getClassGeometricProgression(nbClass);
+                    break;
+                  default:
+                    nbks = getClassJenks(boundaryConfig.breakCount);
+                }
+              }
+
+              var symbols = {};
+              for (var i = 0; i < brkCount; i += 1) {
+                var symbol = new SimpleFillSymbol();
+                var color = Config.colorramp[i];
+                symbol.setColor({
+                  a: 255,
+                  r: color[0],
+                  g: color[1],
+                  b: color[2]
+                });
+                symbols[i] = symbol;
+              }
+              var defaultSymbol = new SimpleFillSymbol();
+              defaultSymbol.setColor({
+                a: 255,
+                r: 255,
+                g: 255,
+                b: 255
+              });
+
+              const renderer = new ClassBreaksRenderer(defaultSymbol, function(graphic) {
+                console.log(feat_stats);
+                for(var i = 0; i < attributes.length; i++) {
+                  if(attributes[i].iso === graphic.attributes.iso) {
+                    return attributes[i].alerts;
+                  }
+                }
+                return attributes[0][graphic.attributes.iso];
+              });
+              
+              arrayUtils.forEach(feat_stats, function(feat, index) {
+                const count = feat.attributes['fire_count'];
+                let sym;
+
+                for (var i = 0; i < nbks.length; i++) {
+                  if (count <= nbks[i + 1]) {
+                    sym = symbols[i];
+                    break;
+                  }
+                }
+
+                // Checks for an undefined symbol AND if only 1 natural break,
+                // Catches error of single admin unit being unsymbolized
+                if (typeof sym === 'undefined' && nbks.length === 1) {
+                  const singleSymbol = new SimpleFillSymbol();
+                  singleSymbol.setColor({
+                    a: 1,
+                    r: 253,
+                    g: 237,
+                    b: 7
+                  });
+                  sym = singleSymbol;
+                }
+
+                renderer.addBreak(nbks[i], nbks[i + 1] ? nbks[i + 1] : Infinity, sym);
+              });
+              return {
+                r: renderer,
+                s: symbols,
+                b: nbks
+              };
+            };
+
+            var obj = natural_breaks_renderer(feat_stats, dist_names, 'natural');
+
+            var renderer = obj.r;
+            var symbols = obj.s;
+            var breaks = obj.b;
+
+            var relatedTableId = Config[configKey].relatedTableId + '-colorRange';
+            Config[relatedTableId] = breaks;
+
+            map = new Map(boundaryConfig.mapDiv, {
+              basemap: Config.basemap,
+              zoom: Config.zoom,
+              center: Config.mapcenter,
+              slider: Config.slider
+            });
+
+            Config.maps[configKey] = map;
+
+            let layerId;
+
+            if (window.reportOptions.aoitype === 'ISLAND') {
+              layerId = boundaryConfig.layerId;
+            } else if (window.reportOptions.aoitype === 'ALL') { 
+              layerId = boundaryConfig.layerIdAll;
+            }else {
+              layerId = boundaryConfig.layerIdGlobal;
+            }
+
+            const featureLayer = new FeatureLayer(`${queryUrl}/${layerId}`, {
+              mode: FeatureLayer.MODE_SNAPSHOT,
+              outFields: ["iso"]
+            });
+
+            function buildLegend(rendererInfo) {
+              var html = "<table>";
+              var rows = [];
+              for (var i = 0; i < Config[configKey].breakCount; i++) {
+                var item = symbols[i];
+                var row;
+                if (item) {
+                  var low = i < 1 ? breaks[i] : breaks[i] + 1;
+                  row = "<tr><td class='legend-swatch' style='background-color: rgb(" + item.color.r +
+                      "," + item.color.g + "," + item.color.b + ");'" + "></td>";
+                  row += "<td class='legend-label'>" + low + " - " + breaks[i + 1] + "</td></tr>";
+                  rows.push(row);
+                }
+              }
+              rows.reverse().forEach(function (row) {
+                  html += row;
+              });
+              html += "</table>";
+              dom.byId(boundaryConfig.legendId).innerHTML = html;
+            }
+
+            function buildRegionsTables() {
+              var tableResults = feat_stats;
+
+              let sortCombinedResults = _.sortByOrder(tableResults, function (element) {
+                return element.attributes.fire_count;
+              }, 'desc');
+
+              var firstTenTableResults = sortCombinedResults.slice(0, 10);
+              var tableColorBreakPoints = Config[relatedTableId];
+
+              if (configKey === "adminBoundary") {
+                $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
+              } else {
+                $('#subdistrict-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'subdistrict-fires-table', tableColorBreakPoints));
+              }
+
+              function buildDistrictSubDistrictTables(sortCombinedResults, queryConfigTableId, tableColorBreakPoints) {
+                var aoitype = window.reportOptions.aoitype.toLowerCase();
+                var tableRows;
+
+                if (queryConfigTableId === 'district-fires-table') {
+                  tableRows =
+                    '<tr><th class="admin-type-1">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction') + '</th>' +
+                    '<th class="number-column">#</th>' +
+                    '<th class="switch-color-column"></th></tr>';
+                } else {
+                  tableRows =
+                    '<tr><th class="admin-type-2">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>' +
+                    ('<th class="align-left admin-type-1">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province') + '</th>') +
+                    '<th class="number-column">#</th>' +
+                    '<th class="switch-color-column"></th></tr>';
+                }
+
+                tableRows += sortCombinedResults.map(function (feature) {
+                  var colorValue = feature.attributes.fire_count;
+                  var admin1 = feature.attributes.NAME_1 ? feature.attributes.NAME_1 : feature.attributes.NAME_0;
+                  var subDistrict1 = feature.attributes.NAME_1 ? feature.attributes.NAME_1 : feature.attributes.ISLAND;
+                  var subDistrict2 = feature.attributes.NAME_2 ? feature.attributes.NAME_2 : feature.attributes.SUBDISTRIC;
+                  var color;
+
+                  if (tableColorBreakPoints) {
+                    tableColorBreakPoints.forEach(function (binItem, colorIndex) {
+                      if (colorValue > tableColorBreakPoints[colorIndex] && colorValue <= tableColorBreakPoints[colorIndex + 1]){
+                        color = Config.colorramp[colorIndex];
+                      }
+                    });
+                  }
+
+                  if (queryConfigTableId === 'district-fires-table') {
+                    return(
+                      "<tr><td class=\"table-cell " + aoitype + "\">" + admin1 + "</td>" +
+                      ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
+                      ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : Config.colorramp[0]) + ")'></span></td></tr>")
+                    )
+                  } else {
+                    return(
+                      "<tr><td class=\"table-cell " + aoitype + "\">" + subDistrict2 + "</td>" +
+                      ("<td class=\"table-cell " + aoitype + "\">" + subDistrict1 + "</td>") +
+                      ("<td class='table-cell table-cell__value'>" + colorValue + "</td>") +
+                      ("<td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(" + (color ? color.toString() : Config.colorramp[0]) + ")'></span></td></tr>")
+                    )
+                  }
+                });
+                return tableRows;
+              }
+            };
+
+            function generateRenderer() {
+              buildLegend();
+              buildRegionsTables();
+              ldos = new LayerDrawingOptions();
+              ldos.renderer = renderer;
+              var layerdefs = [];
+              let defExp;
+              var aois = window.reportOptions.aois;
+
+              if (window.reportOptions.aoitype === 'ISLAND') {
+                options[boundaryConfig.layerId] = ldos;
+                layerdefs[boundaryConfig.layerId] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              } else if (window.reportOptions.aoitype === 'ALL') {
+                options[boundaryConfig.layerIdAll] = ldos;
+                // defExp = boundaryConfig.UniqueValueFieldAlliso + " in ('" + dist_names.join("','") + "')";
+                defExp = '1=1';
+              } else if (configKey === "subdistrictBoundary"){
+                dist_names = dist_names.map(function (aoisItem) {
+                  var fixingApostrophe = aoisItem.replace(/'/g, "");
+                  return fixingApostrophe;
+                });
+                options[boundaryConfig.layerIdGlobal] = ldos;
+                layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois.join("','") + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              } else {
+                options[boundaryConfig.layerIdGlobal] = ldos;
+                // layerdefs[boundaryConfig.layerIdGlobal] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
+                defExp = boundaryConfig.UniqueValueFieldAlliso + " in ('" + dist_names.join("','") + "')";
+              }
+
+              // otherFiresLayer.setLayerDefinitions(layerdefs);
+              // otherFiresLayer.setLayerDrawingOptions(options);
+              featureLayer.setDefinitionExpression(defExp);
+              featureLayer.setRenderer(renderer);
+
+              featureLayer.on('update-end', function() {
+                  deferred.resolve(true);
+              });
+            }
+
+            featureLayer.on('load', generateRenderer);
+
+            map.addLayer(featureLayer);
+
+            map.on("update-start", function() {
+                esri.show(dom.byId(boundaryConfig['loaderId']));
+            });
+            map.on("update-end", function() {
+                esri.hide(dom.byId(boundaryConfig['loaderId']));
+            });
+
+            return deferred.promise;
+          });
+        }, // END
 
         timQueryFireCount: function(areaOfInterestType, configKey) {
           var deferred = new Deferred(),
@@ -180,8 +542,6 @@ define([
               attributes[keyRegion] = res.iso;
               feat_stats.push({ attributes });
             });
-
-            // Config.query_results['adminQuery'] = feat_stats;
 
             // var feat_stats = Config.query_results[queryKey];
             if (!feat_stats || feat_stats.length == 0) {
@@ -288,6 +648,8 @@ define([
                 g: 255,
                 b: 255
               });
+
+              debugger;
 
               var renderer = new UniqueValueRenderer(defaultSymbol, window.reportOptions.aoitype === 'ALL' ? boundaryConfig.UniqueValueFieldAlliso : uniqueValueField);
               arrayUtils.forEach(feat_stats, function(feat) {
