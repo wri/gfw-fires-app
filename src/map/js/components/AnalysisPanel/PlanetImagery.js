@@ -12,7 +12,7 @@ export default class PlanetImagery extends React.Component {
 	componentDidMount() {
 		const { activePlanetPeriod } = this.props;
 		if(activePlanetPeriod && activePlanetPeriod !== '' && activePlanetPeriod !== 'null') {
-			this.getPlanetBasemaps(activePlanetPeriod, true);
+			this.getPlanetBasemaps(activePlanetPeriod);
 		}
 	}
 
@@ -20,7 +20,7 @@ export default class PlanetImagery extends React.Component {
 		const { activePlanetPeriod, activeCategory } = this.props;
 		if((prevProps.activePlanetBasemap === '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== '' && prevProps.activePlanetPeriod !== 'null') ||
 		(prevProps.activePlanetPeriod !== '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== 'null' && activeCategory !== prevProps.activeCategory)) {
-			this.getPlanetBasemaps(prevProps.activePlanetPeriod, true);
+			this.getPlanetBasemaps(prevProps.activePlanetPeriod);
 		}
 	}
 
@@ -30,16 +30,18 @@ export default class PlanetImagery extends React.Component {
 
 		const defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
 
-		mapActions.setActivePlanetBasemap.defer(defaultBasemap);
-		mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
-		mapActions.setActivePlanetCategory.defer(value);
+		if(defaultBasemap) {
+			mapActions.setActivePlanetBasemap.defer(defaultBasemap);
+			mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
+			mapActions.setActivePlanetCategory.defer(value);
 
-		mapActions.changeBasemap.defer(defaultBasemap);
+			mapActions.changeBasemap.defer(defaultBasemap);
 
-		ShareHelper.handleHashChange(undefined, activeImagery, value, defaultBasemap.label);
+			ShareHelper.handleHashChange(undefined, activeImagery, value, defaultBasemap.label);
+		}
 	}
 
-	getPlanetBasemaps(period, updateStore) {
+	getPlanetBasemaps(period) {
 		const { monthlyBasemaps, quarterlyBasemaps, activeImagery, activeCategory, activePlanetPeriod } = this.props;
 
 		const basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
@@ -48,13 +50,15 @@ export default class PlanetImagery extends React.Component {
 			return item.label === activePlanetPeriod;
 		});
 
-		if (updateStore) {
+		if (defaultBasemap) {
 			mapActions.setActivePlanetBasemap.defer(defaultBasemap);
 			mapActions.setActivePlanetPeriod.defer(defaultBasemap.label);
 			mapActions.setActivePlanetCategory.defer(activeCategory);
+
+			mapActions.changeBasemap.defer(defaultBasemap);
+
+			ShareHelper.handleHashChange(undefined, activeImagery, activeCategory, defaultBasemap.label);
 		}
-		mapActions.changeBasemap.defer(defaultBasemap);
-		ShareHelper.handleHashChange(undefined, activeImagery, activeCategory, defaultBasemap.label);
 	}
 
 	handleBasemap = selected => {
