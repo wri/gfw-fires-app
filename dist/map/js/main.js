@@ -163,7 +163,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     }
   };
 
-  var newPromise = new Promise(function (resolve, reject) {
+  var queryPlanet = new Promise(function (resolve, reject) {
     // Request XML page
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -217,24 +217,24 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   });
 
   var initializeApp = function initializeApp() {
-    newPromise.then(function (done) {
-      if (done) {
-        app.debug('main >>> initializeApp');
-        _reactDom2.default.render(_react2.default.createElement(_Map2.default, null), document.getElementById('root'));
-        _reactDom2.default.render(_react2.default.createElement(_LayerModal2.default, null), document.getElementById('layer-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_CanopyModal2.default, null), document.getElementById('canopy-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_SearchModal2.default, null), document.getElementById('search-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_BasemapModal2.default, null), document.getElementById('basemap-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById('calendar-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_ConfirmationModal2.default, null), document.getElementById('confirmation-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById('fires-modal'));
-        _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById('share-modal'));
-      }
-    });
+    app.debug('main >>> initializeApp');
+    _reactDom2.default.render(_react2.default.createElement(_Map2.default, null), document.getElementById('root'));
+    _reactDom2.default.render(_react2.default.createElement(_LayerModal2.default, null), document.getElementById('layer-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_CanopyModal2.default, null), document.getElementById('canopy-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_SearchModal2.default, null), document.getElementById('search-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_BasemapModal2.default, null), document.getElementById('basemap-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById('calendar-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_ConfirmationModal2.default, null), document.getElementById('confirmation-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById('fires-modal'));
+    _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById('share-modal'));
   };
 
   configureApp();
   lazyloadAssets();
-  initializeApp();
+  queryPlanet.then(function () {
+    initializeApp();
+  }, function () {
+    initializeApp();
+  });
 });
