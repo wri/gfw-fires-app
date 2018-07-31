@@ -17,6 +17,7 @@ define([
     "esri/layers/ImageParameters",
     "esri/layers/ArcGISDynamicMapServiceLayer",
     "esri/renderers/ClassBreaksRenderer",
+    "esri/renderers/SimpleRenderer",
     "esri/layers/FeatureLayer",
     "esri/symbols/SimpleFillSymbol",
     "esri/tasks/AlgorithmicColorRamp",
@@ -36,7 +37,7 @@ define([
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig"
-], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, request, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
+], function(dom, ready, on, Deferred, domStyle, domClass, registry, all, arrayUtils, ioQuery, request, Map, Color, esriConfig, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, SimpleRenderer, FeatureLayer,
     SimpleFillSymbol, AlgorithmicColorRamp, ClassBreaksDefinition, GenerateRendererParameters, UniqueValueRenderer, LayerDrawingOptions, GenerateRendererTask,
     Query, QueryTask, StatisticDefinition, graphicsUtils, esriDate, esriRequest, ReportConfig, Extent, SpatialReference, geostats, Config) {
 
@@ -119,7 +120,7 @@ define([
             // Creates the Annual Fire History graph
             // self.getFireCounts(selectedCountry);
             // Creates the Fire History: Fire Season Progression graph
-            // self.getFireHistoryCounts()
+            self.getFireHistoryCounts()
 
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
@@ -151,9 +152,9 @@ define([
 
         timNewCount: function(areaOfInterestType, configKey) {
           var deferred = new Deferred(),
+              self = this,
               boundaryConfig = Config[configKey],
               options = [],
-              adminLevel,
               otherFiresParams,
               otherFiresLayer,
               renderer,
@@ -168,10 +169,8 @@ define([
 
           if (areaOfInterestType === "GLOBAL") {
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
-            adminLevel = configKey === "adminBoundary" ? 'adm1' : 'adm2';
           } else if (areaOfInterestType === 'ALL') {
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
-            adminLevel = configKey === "adminBoundary" ? 'iso' : 'adm1';
           } else {
             keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
           }
@@ -180,9 +179,13 @@ define([
             handleAs: 'json'
           }).then((response) => {
             let feat_stats = [];
+            const adminLevel = response.data.aggregate_by;
+            const feature_id = adminLevel === 'adm1' ? 'id_1' : 'iso';
+
             response.data.attributes.value.forEach((res) => {
-              const attributes = { fire_count: res.alerts, id: res[adminLevel] };
-              attributes[keyRegion] = res.iso;
+              const attributes = { fire_count: res.alerts };
+              attributes[feature_id] = res[adminLevel];
+              if(adminLevel === 'iso') attributes[keyRegion] = res.iso;
               feat_stats.push({ attributes });
             });
 
@@ -207,7 +210,8 @@ define([
               queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
             } else {
               // TODO Move URL to config
-              uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
+              // uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
+              uniqueValueField = 'id_1';
               queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
             }
 
@@ -224,7 +228,8 @@ define([
             } else {
               var dist_names = feat_stats.map(function(item) {
                 if (item.attributes[uniqueValueField] != null) {
-                  return item.attributes[uniqueValueField].replace("'", "''");
+                  // return item.attributes[uniqueValueField].replace("'", "''");
+                  return item.attributes[uniqueValueField];
                 }
               }).filter(function(item) {
                 if (item != null) {
@@ -291,15 +296,18 @@ define([
                 b: 255
               });
 
-              const renderer = new ClassBreaksRenderer(defaultSymbol, function(graphic) {
-                console.log(feat_stats);
-                for(var i = 0; i < attributes.length; i++) {
-                  if(attributes[i].iso === graphic.attributes.iso) {
-                    return attributes[i].alerts;
+              var symbol = new SimpleFillSymbol();
+              symbol.setColor(new Color([150, 150, 150, 0.5]));
+
+              const renderer = new ClassBreaksRenderer(symbol, function(graphic) {
+                for(var i = 0; i < feat_stats.length; i++) {
+                  const attributes = feat_stats[i].attributes;
+                  if(attributes[feature_id] === graphic.attributes[feature_id]) {
+                    return attributes.fire_count;
                   }
-                }
-                return attributes[0][graphic.attributes.iso];
+                };
               });
+
               
               arrayUtils.forEach(feat_stats, function(feat, index) {
                 const count = feat.attributes['fire_count'];
@@ -324,9 +332,9 @@ define([
                   });
                   sym = singleSymbol;
                 }
-
-                renderer.addBreak(nbks[i], nbks[i + 1] ? nbks[i + 1] : Infinity, sym);
+                renderer.addBreak(nbks[i], nbks[i+1], sym);
               });
+ 
               return {
                 r: renderer,
                 s: symbols,
@@ -358,13 +366,14 @@ define([
               layerId = boundaryConfig.layerId;
             } else if (window.reportOptions.aoitype === 'ALL') { 
               layerId = boundaryConfig.layerIdAll;
-            }else {
+            } else {
               layerId = boundaryConfig.layerIdGlobal;
             }
 
             const featureLayer = new FeatureLayer(`${queryUrl}/${layerId}`, {
               mode: FeatureLayer.MODE_SNAPSHOT,
-              outFields: ["iso"]
+              outFields: ['*'],
+              maxAllowableOffset: 1000
             });
 
             function buildLegend(rendererInfo) {
@@ -394,6 +403,14 @@ define([
               let sortCombinedResults = _.sortByOrder(tableResults, function (element) {
                 return element.attributes.fire_count;
               }, 'desc');
+
+              featureLayer.graphics.forEach((graphic) => {
+                feat_stats.forEach((feature) => {
+                  if(feature.attributes[feature_id] === graphic.attributes[feature_id]) {
+                    feature.attributes[keyRegion] = graphic.attributes[keyRegion.toLowerCase()];
+                  }
+                });
+              })
 
               var firstTenTableResults = sortCombinedResults.slice(0, 10);
               var tableColorBreakPoints = Config[relatedTableId];
@@ -457,7 +474,6 @@ define([
 
             function generateRenderer() {
               buildLegend();
-              buildRegionsTables();
               ldos = new LayerDrawingOptions();
               ldos.renderer = renderer;
               var layerdefs = [];
@@ -480,21 +496,22 @@ define([
                 layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois.join("','") + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
               } else {
                 options[boundaryConfig.layerIdGlobal] = ldos;
-                // layerdefs[boundaryConfig.layerIdGlobal] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
-                defExp = boundaryConfig.UniqueValueFieldAlliso + " in ('" + dist_names.join("','") + "')";
+                defExp = 'id_1' + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
               }
 
-              // otherFiresLayer.setLayerDefinitions(layerdefs);
-              // otherFiresLayer.setLayerDrawingOptions(options);
               featureLayer.setDefinitionExpression(defExp);
               featureLayer.setRenderer(renderer);
-
-              featureLayer.on('update-end', function() {
-                  deferred.resolve(true);
-              });
             }
 
+            const currentISO = this.currentISO;
+
             featureLayer.on('load', generateRenderer);
+
+            featureLayer.on('update-end', function() {
+              buildRegionsTables();
+              if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
+              deferred.resolve(true);
+            });
 
             map.addLayer(featureLayer);
 
@@ -648,8 +665,6 @@ define([
                 g: 255,
                 b: 255
               });
-
-              debugger;
 
               var renderer = new UniqueValueRenderer(defaultSymbol, window.reportOptions.aoitype === 'ALL' ? boundaryConfig.UniqueValueFieldAlliso : uniqueValueField);
               arrayUtils.forEach(feat_stats, function(feat) {
@@ -1907,7 +1922,6 @@ define([
           window['firesCountRegionSeries'] = series;
           window['firesCountRegionCurrentYear'] = currentYear;
           // window['firesCountRegionCurrentYearSum'] = console.log();
-          debugger;
 
           var firesCountChart = Highcharts.chart('firesCountChart', {
             title: {
