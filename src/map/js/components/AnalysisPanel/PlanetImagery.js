@@ -12,7 +12,7 @@ export default class PlanetImagery extends React.Component {
 	componentDidMount() {
 		const { activePlanetPeriod } = this.props;
 		if(activePlanetPeriod && activePlanetPeriod !== '' && activePlanetPeriod !== 'null') {
-			this.getPlanetBasemaps(activePlanetPeriod);
+			this.getPlanetBasemaps();
 		}
 	}
 
@@ -20,7 +20,7 @@ export default class PlanetImagery extends React.Component {
 		const { activePlanetPeriod, activeCategory } = this.props;
 		if((prevProps.activePlanetBasemap === '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== '' && prevProps.activePlanetPeriod !== 'null') ||
 		(prevProps.activePlanetPeriod !== '' && activePlanetPeriod !== prevProps.activePlanetPeriod && prevProps.activePlanetPeriod !== 'null' && activeCategory !== prevProps.activeCategory)) {
-			this.getPlanetBasemaps(prevProps.activePlanetPeriod);
+			this.getPlanetBasemaps();
 		}
 	}
 
@@ -41,7 +41,7 @@ export default class PlanetImagery extends React.Component {
 		}
 	}
 
-	getPlanetBasemaps(period) {
+	getPlanetBasemaps() {
 		const { monthlyBasemaps, quarterlyBasemaps, activeImagery, activeCategory, activePlanetPeriod } = this.props;
 
 		const basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
