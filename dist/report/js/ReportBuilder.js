@@ -92,12 +92,12 @@ define([
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             // Creates the first map
-            // self.queryForDailyFireData(areaOfInterestType);
+            self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
-            // self.buildDistributionOfFireAlertsMap().then(function () {
-            //   if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
-            // });
+            self.buildDistributionOfFireAlertsMap().then(function () {
+              if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
+            });
 
             // Creates the second map starting from the top
             // districtLayerIdsViirsModis.forEach(function (districtLayerId) {
@@ -108,46 +108,49 @@ define([
             // });
 
             self.timNewCount(areaOfInterestType, 'adminBoundary');
-
-            // // Creates the third map starting from the top
-            // subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-            //   self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-            //     self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-            //     if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
-            //   });
-            // });
+            
+            if (areaOfInterestType === 'ALL') {
+              // Creates the third map starting from the top
+              subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+                  self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+                  if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
+                });
+              });
+            } else {
+              self.timNewCount(areaOfInterestType, 'subdistrictBoundary');
+            }
 
             // Creates the Annual Fire History graph
-            // self.getFireCounts(selectedCountry);
+            self.getFireCounts(selectedCountry);
             // Creates the Fire History: Fire Season Progression graph
             self.getFireHistoryCounts()
-
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
 
             const queryFor = self.currentISO ? self.currentISO : 'global';
 
-            // request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-            //   handleAs: 'json'
-            // }).then(function(response) {
-            //   Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-            //     return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
-            //   })).then(() => {
-            //     $(".chart-container-countries:odd").addClass('pull-right');
-            //     $(".chart-container-countries:even").addClass('pull-left');
-            //   }).catch(e => {
-            //     console.log(e);
-            //   });
-            // });
+            request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+              handleAs: 'json'
+            }).then(function(response) {
+              Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+                return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+              })).then(() => {
+                $(".chart-container-countries:odd").addClass('pull-right');
+                $(".chart-container-countries:even").addClass('pull-left');
+              }).catch(e => {
+                console.log(e);
+              });
+            });
 
-            // if (window.reportOptions.aois) {
-            //   all([
-            //     self.getCountryAdminTypes(selectedCountry)
-            //   ]).then(function(res) {
-            //     self.printReport();
-            //   });
-            // }
+            if (window.reportOptions.aois) {
+              all([
+                self.getCountryAdminTypes(selectedCountry)
+              ]).then(function(res) {
+                self.printReport();
+              });
+            }
         },
 
         timNewCount: function(areaOfInterestType, configKey) {
@@ -165,12 +168,14 @@ define([
               uniqueValueField,
               queryUrl;
 
-          const queryFor = this.currentISO ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : 'global?aggregate_values=True&aggregate_by=iso&';
+          // let queryFor = this.currentISO ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : 'global?aggregate_values=True&aggregate_by=iso&';
 
           if (areaOfInterestType === "GLOBAL") {
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
+            queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
+            queryFor = configKey === "adminBoundary" ? 'global?aggregate_values=True&aggregate_by=iso&' : 'global?aggregate_values=True&aggregate_by=adm1&';
           } else {
             keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
           }
@@ -179,8 +184,20 @@ define([
             handleAs: 'json'
           }).then((response) => {
             let feat_stats = [];
+            let feature_id;
             const adminLevel = response.data.aggregate_by;
-            const feature_id = adminLevel === 'adm1' ? 'id_1' : 'iso';
+
+            switch (adminLevel) {
+              case 'adm1':
+                feature_id = 'id_1';
+                break;
+              case 'adm2':
+                feature_id = 'id_2';
+                break;
+              case 'iso':
+                feature_id = 'iso';
+                break;
+            }
 
             response.data.attributes.value.forEach((res) => {
               const attributes = { fire_count: res.alerts };
@@ -211,14 +228,14 @@ define([
             } else {
               // TODO Move URL to config
               // uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
-              uniqueValueField = 'id_1';
+              uniqueValueField = feature_id;
               queryUrl = 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer';
             }
 
             if (window.reportOptions.aoitype === 'ALL') {
               var dist_names = feat_stats.map(function(item) {
-                if (item.attributes[boundaryConfig.UniqueValueFieldAll] != null) {
-                  return item.attributes[boundaryConfig.UniqueValueFieldAll].replace("'", "''");
+                if (item.attributes[feature_id] != null && item.attributes[feature_id] !== -9999) {
+                  return item.attributes[feature_id];//.replace("'", "''");
                 }
               }).filter(function(item) {
                 if (item != null) {
@@ -250,17 +267,20 @@ define([
               if (arr.length < boundaryConfig.breakCount) {
                   boundaryConfig.breakCount = arr.length - 1;
               }
+
               var brkCount = boundaryConfig.breakCount;
+              console.log(brkCount);
+
               if (getClassJenks) {
                 switch (method) {
                   case 'natural':
-                    nbks = getClassJenks(boundaryConfig.breakCount);
+                    nbks = getClassJenks(brkCount);
                     break;
                   case 'equal':
-                    nbks = getClassEqInterval(boundaryConfig.breakCount);
+                    nbks = getClassEqInterval(brkCount);
                     break;
                   case 'quantile':
-                    nbks = getClassQuantile(boundaryConfig.breakCount);
+                    nbks = getClassQuantile(brkCount);
                     break;
                   case 'stddev':
                     nbks = getClassStdDeviation(nbClass);
@@ -272,7 +292,7 @@ define([
                     nbks = getClassGeometricProgression(nbClass);
                     break;
                   default:
-                    nbks = getClassJenks(boundaryConfig.breakCount);
+                    nbks = getClassJenks(brkCount);
                 }
               }
 
@@ -362,18 +382,22 @@ define([
 
             let layerId;
 
-            if (window.reportOptions.aoitype === 'ISLAND') {
-              layerId = boundaryConfig.layerId;
-            } else if (window.reportOptions.aoitype === 'ALL') { 
-              layerId = boundaryConfig.layerIdAll;
-            } else {
-              layerId = boundaryConfig.layerIdGlobal;
+            switch (feature_id) {
+              case 'id_1':
+                layerId = 5;
+                break;
+              case 'id_2':
+                layerId = 4;
+                break;
+              case 'iso':
+                layerId = 6;
+                break;
             }
 
             const featureLayer = new FeatureLayer(`${queryUrl}/${layerId}`, {
               mode: FeatureLayer.MODE_SNAPSHOT,
               outFields: ['*'],
-              maxAllowableOffset: 1000
+              maxAllowableOffset: window.reportOptions.aoitype === 'ALL' ? 5000 : 0
             });
 
             function buildLegend(rendererInfo) {
@@ -483,20 +507,16 @@ define([
               if (window.reportOptions.aoitype === 'ISLAND') {
                 options[boundaryConfig.layerId] = ldos;
                 layerdefs[boundaryConfig.layerId] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              } else if (window.reportOptions.aoitype === 'ALL' && configKey === "subdistrictBoundary"){
+                options[boundaryConfig.layerIdGlobal] = ldos;
+                defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
               } else if (window.reportOptions.aoitype === 'ALL') {
                 options[boundaryConfig.layerIdAll] = ldos;
                 // defExp = boundaryConfig.UniqueValueFieldAlliso + " in ('" + dist_names.join("','") + "')";
                 defExp = '1=1';
-              } else if (configKey === "subdistrictBoundary"){
-                dist_names = dist_names.map(function (aoisItem) {
-                  var fixingApostrophe = aoisItem.replace(/'/g, "");
-                  return fixingApostrophe;
-                });
+              }  else {
                 options[boundaryConfig.layerIdGlobal] = ldos;
-                layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois.join("','") + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
-              } else {
-                options[boundaryConfig.layerIdGlobal] = ldos;
-                defExp = 'id_1' + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
+                defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
               }
 
               featureLayer.setDefinitionExpression(defExp);
@@ -1368,7 +1388,7 @@ define([
 
           if (window.reportOptions.aoitype === 'ALL') {
             var dist_names = feat_stats.map(function(item) {
-              if (item.attributes[boundaryC] != null) {
+              if (item.attributes[boundaryConfig.UniqueValueFieldAllEnglish] != null) {
                 return item.attributes[boundaryConfig.UniqueValueFieldAllEnglish].replace("'", "''");
               }
             }).filter(function(item) {
