@@ -2157,7 +2157,7 @@ module.exports = {
         id: 'subdistrict-bounds',
         defaultLayers: [5],
         defaultLayersGlobal: [4],
-        defaultLayersAll: [3],
+        defaultLayersAll: [4],
         UniqueValueField: 'SUBDISTRIC',
         UniqueValueFieldGlobal: 'NAME_2',
         UniqueValueFieldAll: 'NAME_1',
