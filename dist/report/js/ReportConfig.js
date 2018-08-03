@@ -1900,7 +1900,7 @@ define(["module"], function (module) {
             id: 'subdistrict-bounds',
             defaultLayers: [5],
             defaultLayersGlobal: [4],
-            defaultLayersAll: [3],
+            defaultLayersAll: [4],
             UniqueValueField: 'SUBDISTRIC',
             UniqueValueFieldGlobal: 'NAME_2',
             UniqueValueFieldAll: 'NAME_1',
@@ -1956,7 +1956,7 @@ define(["module"], function (module) {
                 onField: 'NAME_ENGLISH'
             }
         },
-        pieChartDataEndpoint: 'https://staging-api.globalforestwatch.org/fire-alerts/summary-stats/',
+        pieChartDataEndpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
         countryPieCharts: [{
             type: 'wdpa',
             name1: 'WDPA protected areas',
