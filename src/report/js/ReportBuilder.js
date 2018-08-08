@@ -2490,19 +2490,25 @@ define([
 
         buildPieChart: function(id, config) {
           var self = this;
-            // Config object needs the following
-            //  - data: array of data objects with color, name, visible, and y
-            //  - label distance
-            //  - series name
-            //  - total to be used for calculating %
-            // Example
-            // "peat-fires-chart", {
-            //   'name': 'Peat Fires', data: [], labelDistance: -30
-            // }
-          
-          if (config.total = 0) {
-            
-          }
+          // Config object needs the following
+          //  - data: array of data objects with color, name, visible, and y
+          //  - label distance
+          //  - series name
+          //  - total to be used for calculating %
+          // Example
+          // "peat-fires-chart", {
+          //   'name': 'Peat Fires', data: [], labelDistance: -30
+          // }
+
+          let hasData = true;
+
+          config.data.forEach((value) => {
+            if (value.y < 1) {
+              hasData = false;
+            } else {
+              hasData = true;
+            }
+          });
           
           $('#' + id).highcharts({
               chart: {
@@ -2541,7 +2547,7 @@ define([
               legend: {
                   enabled: false
               },
-              exporting: config.total === 0 ? false : {
+              exporting: !hasData ? false : {
                 scale: 4,
                 chartOptions:{
                   chart:{
@@ -2560,7 +2566,7 @@ define([
                   }
                 }
               },
-              series: config.total === 0 ? [] : [{
+              series: !hasData ? [] : [{
                   name: config.name,
                   data: config.data,
                   size: '70%',
@@ -2574,7 +2580,7 @@ define([
                   }
               }]
           }, function(chart) { // on complete
-            if (config.total === 0) { // check series is empty
+            if (!hasData) {
               chart.renderer.text('No Fires', 275, 120)
                 .attr({
                   class: 'no-data-pie'
