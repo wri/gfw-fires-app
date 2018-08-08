@@ -103,7 +103,7 @@ define([
             // Donut charts figures
             const queryFor = self.currentISO ? self.currentISO : 'global';
 
-            request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
               handleAs: 'json'
             }).then(function(response) {
               Promise.all(Config.countryPieCharts.map(function(chartConfig) {
@@ -140,7 +140,7 @@ define([
             keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
           }
 
-          request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+          request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
             handleAs: 'json'
           }).then((response) => {
             let feat_stats = [];
@@ -357,7 +357,7 @@ define([
             const featureLayer = new FeatureLayer(`${queryUrl}/${layerId}`, {
               mode: FeatureLayer.MODE_SNAPSHOT,
               outFields: ['*'],
-              maxAllowableOffset: window.reportOptions.aoitype === 'ALL' ? 5000 : 0
+              maxAllowableOffset: window.reportOptions.aoitype === 'ALL' ? 10000 : 0
             });
 
             function buildLegend() {
@@ -515,7 +515,7 @@ define([
 
             const queryFor = this.currentISO ? this.currentISO : 'global';
   
-            request.get(Config.pieChartDataEndpoint + chartConfig.type + '/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            request.get(Config.fires_api_endpoint + chartConfig.type + '/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
               handleAs: 'json'
             }).then((response) => {
               if (response.data.attributes.value !== null) {
@@ -1330,7 +1330,7 @@ define([
 
         const deferred = new Deferred();
 
-        request.get(`${Config.pieChartDataEndpoint}admin/global?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
+        request.get(`${Config.fires_api_endpoint}admin/global?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {
           let series = [];
@@ -1480,7 +1480,7 @@ define([
         let data = [];
         const deferred = new Deferred();
 
-        request.get(`${Config.pieChartDataEndpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
+        request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {
           
@@ -1764,17 +1764,10 @@ define([
         },
 
         queryForDailyFireData: function(areaOfInterestType) {
-            var queryTask,
-                deferred = new Deferred(),
-                query = new Query(),
-                queryAll = new Query(),
-                // queryHigh = new Query(),
+            var deferred = new Deferred(),
                 fireDataLabels = [],
                 fireData = [],
-                self = this,
-                statdef = new StatisticDefinition(),
-                success,
-                failure;
+                self = this;
 
             if (areaOfInterestType === 'GLOBAL' || areaOfInterestType === 'ALL') {
                 queryForFiresCount();
@@ -1783,28 +1776,23 @@ define([
               $('.fire-alert-count__year').text('2013');
               queryEndpointsIds.forEach(function (fireCountLayer) {
                 queryTask = new QueryTask(queryURL = Config.queryUrl + "/" + Config.firesLayer[fireCountLayer]);
-                queryForFiresCount(fireCountLayer);
+                queryForFiresCount();
               });
             }
 
-            function queryForFiresCount(fireCountLayer) {
+            function queryForFiresCount() {
 
               const queryFor = self.currentISO ? self.currentISO : 'global';
 
               // Get total fires count
-              request.get(Config.pieChartDataEndpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw, {
+              request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw, {
                 handleAs: 'json'
               }).then((response) => {
-
-                function numberWithCommas(globalFiresTotalCount) {
-                  return globalFiresTotalCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-
-                $("#totalFireAlerts").html(numberWithCommas(response.data.attributes.value[0].alerts));
+                $("#totalFireAlerts").html(self.numberWithCommas(response.data.attributes.value[0].alerts));
               });
 
               // Get total fires count aggregated by day
-              request.get(`${Config.pieChartDataEndpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
+              request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
                 handleAs: 'json'
               }).then((response) => {
 
@@ -2142,9 +2130,8 @@ define([
             });
             return rows;
         },
-
         numberWithCommas: function(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     };
 });

@@ -2212,7 +2212,7 @@ module.exports = {
             onField: 'NAME_ENGLISH'
         }
     },
-    pieChartDataEndpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
+    fires_api_endpoint: 'https://staging-api.globalforestwatch.org/fire-alerts/summary-stats/',
     countryPieCharts: [
         {
             type: 'wdpa',
