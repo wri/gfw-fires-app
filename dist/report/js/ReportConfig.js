@@ -1826,18 +1826,17 @@ define(["module"], function (module) {
             modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
             global_viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8',
             global_modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9',
+            admin_service: 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer',
             id: "Active_Fires",
             fire_id: 0,
             fire_id_global_viirs: 8,
             fire_id_global_modis: 9,
+            fire_id_all_viirs: 8,
+            fire_id_all_modis: 9,
             fire_id_island_modis: 0,
             fire_id_island_viirs: 11,
             defaultLayers: [8, 9],
-            // defaultLayersModis: [9],
             defaultLayersIsland: [0, 11],
-            // defaultLayersIslandModis: [0],
-            // defaultLayersIslandViirs: [11],
-            //report_fields:{islands:'ISLAND',provinces:'PROVINCE'},
             query: {
                 layerId: 0,
                 outfields: ["*"],
@@ -1956,7 +1955,7 @@ define(["module"], function (module) {
                 onField: 'NAME_ENGLISH'
             }
         },
-        pieChartDataEndpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
+        fires_api_endpoint: 'https://staging-api.globalforestwatch.org/fire-alerts/summary-stats/',
         countryPieCharts: [{
             type: 'wdpa',
             name1: 'WDPA protected areas',
