@@ -32,11 +32,15 @@ define([
         init: function() {
             var self = this;
             self.init_report_options();
+            
+            var areaOfInterestType = window.reportOptions['aoitype'];
 
             // Getting basic administrative area info
-            self.getCountryAdminTypes(selectedCountry);
+            if (areaOfInterestType !== 'ALL') {
+              self.getCountryAdminTypes(selectedCountry);
+            }
 
-            var areaOfInterestType = window.reportOptions['aoitype'];
+            
             var selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
             $('.selected-country').text(selectedCountry);
             $('.country-name').text(selectedCountry);
@@ -128,6 +132,8 @@ define([
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
             queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
+            $('.admin-type-1').text('Country');
+            $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
             queryFor = configKey === "adminBoundary" ? 'global?aggregate_values=True&aggregate_by=iso&' : 'global?aggregate_values=True&aggregate_by=adm1&';
           } else {
@@ -408,13 +414,13 @@ define([
 
                 if (queryConfigTableId === 'district-fires-table') {
                   tableRows =
-                    `<tr><th class="admin-type-1">${admin_text}</th>
+                    `<tr><th class="admin-type-1">Country</th>
                     <th class="number-column">#</th>
                     <th class="switch-color-column"></th></tr>`;
                 } else {
                   tableRows =
-                    `<tr><th class="admin-type-2">${Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City'}</th>
-                    <th class="align-left admin-type-1">${Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province'}</th>
+                    `<tr><th class="admin-type-2">Province</th>
+                    <th class="align-left admin-type-1">Province</th>
                     <th class="number-column">#</th>
                     <th class="switch-color-column"></th></tr>`;
                 }
@@ -2010,7 +2016,7 @@ define([
                 const uniqAreas = _.uniq(queryResultKeys);
 
                 uniqAreas.forEach(function (key) {
-                  const fireCount = 0;
+                  let fireCount = 0;
                   [queryResultFirst, queryResultSecond].forEach(function (queryResultItem) {
                     queryResultItem.forEach(function (item) {
                       if(item.attributes[keyRegion] === key){
@@ -2034,12 +2040,12 @@ define([
                   }
                 });
 
-                sortCombinedResults = _.sortByOrder(combinedResults, function (element) {
+                let sortCombinedResults = _.sortByOrder(combinedResults, function (element) {
                   return element.attributes.fire_count;
                 }, 'desc');
 
                 // Remove in case of nonexistent sub-district
-                const sortCombinedResults = $.grep(sortCombinedResults, function(item){
+                sortCombinedResults = $.grep(sortCombinedResults, function(item){
                   return item.attributes.SUBDISTRIC != " ";
                 });
 
