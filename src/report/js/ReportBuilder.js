@@ -2,7 +2,6 @@
 define([
     "dojo/dom",
     "dojo/Deferred",
-    "dojo/dom-class",
     "dojo/_base/array",
     "dojo/io-query",
     "dojo/request",
@@ -24,7 +23,7 @@ define([
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig",
-], function(dom, Deferred, domClass, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
+], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
     SimpleFillSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, ReportConfig, Extent, SpatialReference, geostats, Config) {
 
     return {
@@ -1330,7 +1329,7 @@ define([
 
         const deferred = new Deferred();
 
-        request.get(`${Config.fires_api_endpoint}admin/global?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
+        request.get(`${Config.fires_api_endpoint}admin/${this.currentISO ? this.currentISO : 'global'}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {
           let series = [];
@@ -1377,8 +1376,7 @@ define([
 
           values.forEach((value, i) => {
             if (i % 12 === 0 && i !== 0) {
-              console.log(tmpArr);
-              seriesTemp.name = value.year;
+              seriesTemp.name = value.year - 1;
 
               var hexColor = shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
@@ -1388,12 +1386,21 @@ define([
               seriesTemp = { data: [], name: '' };
               tmpArr = [];
               seriesTemp.data.push(value.alerts);
+              tmpArr.push(value.alerts);
               index++;
+            } else if (value.year === currentYear && value.month === currentMonth) {
+              seriesTemp.name = value.year;
+
+              tmpArr.push(value.alerts);
+              seriesTemp.data.push(tmpArr.reduce(reducer));
+
+              var hexColor = shadeColor(baseColor, (indexColor / 100));
+              indexColor = indexColor + colorStep;
+              dataLabelsFormatAction(seriesTemp, hexColor);
+
+              series.push(seriesTemp);
             } else {
               tmpArr.push(value.alerts);
-              // console.log(tmpArr);
-              if(value.year === 2013) console.log(tmpArr.reduce(reducer));
-              // console.log(tmpArr.reduce(reducer)); ///////////
               seriesTemp.data.push(tmpArr.reduce(reducer));
             }
           });
