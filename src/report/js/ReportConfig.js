@@ -2216,9 +2216,9 @@ module.exports = {
     countryPieCharts: [
         {
             type: 'wdpa',
-            name1: 'WDPA protected areas',
-            name2: 'Fires outside of WDPA protected areas',
-            name3: 'WDPA protecred areas Fires',
+            name1: 'WDPA PROTECTED AREAS',
+            name2: 'Fire alerts outside of WDPA PROTECTED AREAS',
+            name3: 'Fire alerts in WDPA PROTECTED AREAS',
             colors: [
                 "rgba(248, 137, 0, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2226,9 +2226,9 @@ module.exports = {
             domElement: 'wdpa-fires-chart'
         }, {
             type: 'idn_mys_peatlands',
-            name1: 'peatland fires',
-            name2: 'Fires outside of peatlands',
-            name3: 'Peatlands areas Fires',
+            name1: 'PEATLAND',
+            name2: 'Fire alerts outside of PEATLAND',
+            name3: 'Fire alerts on PEATLAND',
             colors: [
                 "rgba(229, 0, 23, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2236,9 +2236,9 @@ module.exports = {
             domElement: 'peatland-fires-chart'
         }, {
             type: 'ifl',
-            name1: 'IFL areas',
-            name2: 'Fires outside of IFL areas',
-            name3: 'IFL protected areas Fires',
+            name1: 'INTACT FOREST LANDSCAPE AREAS',
+            name2: 'Fire alerts outside of INTACT FOREST LANDSCAPE AREAS',
+            name3: 'Fire alerts in INTACT FOREST LANDSCAPE AREAS',
             colors: [
                 "rgba(209, 25, 43, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2246,9 +2246,9 @@ module.exports = {
             domElement: 'ifl-fires-chart'
         }, {
             type: 'mining',
-            name1: 'Mining areas',
-            name2: 'Fires outside of mining areas',
-            name3: 'Mining areas Fires',
+            name1: 'MINING AREAS',
+            name2: 'Fire alerts outside of MINING AREAS',
+            name3: 'Fire aerts in MINING AREAS',
             colors: [
                 "rgba(253, 240, 0, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2256,9 +2256,9 @@ module.exports = {
             domElement: 'mining-fires-chart'
         }, {
             type: 'primary_forest',
-            name1: 'Primary forested areas',
-            name2: 'Fires outside of primary forested areas',
-            name3: 'Primary forested areas Fires',
+            name1: 'PRIMARY FOREST AREAS',
+            name2: 'Fire alerts outside of PRIMARY FOREST AREAS',
+            name3: 'Fire alerts in PRIMARY FOREST AREAS',
             colors: [
                 "rgba(255, 218, 0, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2266,29 +2266,19 @@ module.exports = {
             domElement: 'primary_forest-fires-chart'
         }, {
             type: 'plantations',
-            name1: 'Plantations',
-            name2: 'Fires outside of plantations',
-            name3: 'Plantations Fires',
+            name1: 'PLANTATION AREAS',
+            name2: 'Fire alerts outside of PLANTATION AREAS',
+            name3: 'Fire alerts in PLANTATION AREAS',
             colors: [
                 "rgba(255, 188, 0, 1)",
                 "rgba(216, 212, 212, 1)"
             ],
             domElement: 'plantations-fires-chart'
         }, {
-            type: 'idn_mys_peatlands',
-            name1: 'Peatlands',
-            name2: 'Fires outside of peatlands areas',
-            name3: 'Peatland Fires',
-            colors: [
-                "rgba(248, 137, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'idn_mys_peatlands-fires-chart'
-        }, {
             type: 'idn_forest_moratorium',
-            name1: 'Forest moratorium',
-            name2: 'Fires outside of forest moratoriums',
-            name3: 'Forest moratorium Fires',
+            name1: 'FOREST MORATORIUM AREAS',
+            name2: 'Fire alerts outside of FOREST MORATORIUM AREAS',
+            name3: 'Fire alerts in FOREST MORATORIUM AREAS',
             colors: [
                 "rgba(229, 0, 23, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2296,9 +2286,9 @@ module.exports = {
             domElement: 'idn_forest_moratorium-fires-chart'
         }, {
             type: 'rspo',
-            name1: 'RSPO',
-            name2: 'Fires outside of RSPOs',
-            name3: 'RSPO Fires',
+            name1: 'RSPO PALM OIL CONCESSIONS',
+            name2: 'Fire alerts outside of RSPO PALM OIL CONCESSIONS',
+            name3: 'Fire alerts on RSPO PALM OIL CONCESSIONS',
             colors: [
                 "rgba(209, 25, 43, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2306,9 +2296,9 @@ module.exports = {
             domElement: 'rspo-fires-chart'
         }, {
             type: 'wood_fiber',
-            name1: 'Wood Fiber',
-            name2: 'Fires outside of wood fiber areas',
-            name3: 'Wood fiber areas Fires',
+            name1: 'WOOD FIBER AREAS',
+            name2: 'Fire alerts outside of WOOD FIBER AREAS',
+            name3: 'Fire alerts in WOOD FIBER AREAS',
             colors: [
                 "rgba(253, 240, 0, 1)",
                 "rgba(216, 212, 212, 1)"
@@ -2316,9 +2306,9 @@ module.exports = {
             domElement: 'wood_fiber-fires-chart'
         }, {
             type: 'oil_palm',
-            name1: 'Palm Oil areas',
-            name2: 'Fires outside of palm oil areas',
-            name3: 'Palm oil areas Fires',
+            name1: 'OIL PALM CONCESSIONS',
+            name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
+            name3: 'Fire alerts on OIL PALM CONCESSIONS',
             colors: [
                 "rgba(255, 218, 0, 1)",
                 "rgba(216, 212, 212, 1)"
