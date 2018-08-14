@@ -99,21 +99,23 @@ define([
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
 
-            // Donut charts figures
-            const queryFor = self.currentISO ? self.currentISO : 'global';
+            if (areaOfInterestType !== 'ALL') {
+              // Donut charts figures
+              const queryFor = self.currentISO ? self.currentISO : 'global';
 
-            request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-              handleAs: 'json'
-            }).then(function(response) {
-              Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-                return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
-              })).then(() => {
-                $(".chart-container-countries:odd").addClass('pull-right');
-                $(".chart-container-countries:even").addClass('pull-left');
-              }).catch(e => {
-                console.log(e);
+              request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+                handleAs: 'json'
+              }).then(function(response) {
+                Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+                  return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+                })).then(() => {
+                  $(".chart-container-countries:odd").addClass('pull-right');
+                  $(".chart-container-countries:even").addClass('pull-left');
+                }).catch(e => {
+                  console.log(e);
+                });
               });
-            });
+            }
         },
 
         querySecondMap: function(areaOfInterestType, configKey) {
@@ -1409,6 +1411,16 @@ define([
 
           window['firesCountRegionSeries'] = series;
           window['firesCountRegionCurrentYear'] = currentYear;
+
+          // Adding sum for year to window
+          window['firesCountRegionCurrentYearSum'] = a = series[series.length - 1].data;
+
+          debugger;
+
+          $('#firesCountTitle').html(
+            `${currentYear} MODIS Fire Alerts, Year to Date 
+            <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+          );
 
           var firesCountChart = Highcharts.chart('firesCountChart', {
             title: {
