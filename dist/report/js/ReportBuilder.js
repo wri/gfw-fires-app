@@ -61,12 +61,17 @@ define([
             var subDistrictViirsLayerId;
             var subDistrictModisLayerId;
 
-            if (areaOfInterestType === 'ALL') {
+            if (areaOfInterestType === 'GLOBAL') {
               districtViirsLayerId = Config.adminQuery.fire_stats_global.id_viirs;
               districtModisLayerId = Config.adminQuery.fire_stats_global.id_modis;
               subDistrictViirsLayerId = Config.subDistrictQuery.fire_stats_global.id_viirs;
               subDistrictModisLayerId = Config.subDistrictQuery.fire_stats_global.id_modis;
-            } 
+            } else if (areaOfInterestType === 'ALL') {
+              districtViirsLayerId = Config.adminQuery.fire_stats_all.id_viirs;
+              districtModisLayerId = Config.adminQuery.fire_stats_all.id_modis;
+              subDistrictViirsLayerId = Config.subDistrictQuery.fire_stats_all.id_viirs;
+              subDistrictModisLayerId = Config.subDistrictQuery.fire_stats_all.id_modis;
+            }
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             // Creates the first map and create the Fire Alert Count Jan 1, 2012 figure
@@ -91,6 +96,15 @@ define([
               self.querySecondMap(areaOfInterestType, 'subdistrictBoundary');
             }
 
+            if (selectedCountry === 'Indonesia') {
+              document.querySelector('#land-use-fires-container').style.display = 'inherit';
+              self.queryForSumatraFires(areaOfInterestType);
+              self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id);
+              self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id);
+              self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id);
+              self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id);
+            }
+
             // Creates the Fire History: Fire Season Progression graph
             self.getFireCounts();
             // Creates the Annual Fire History graph
@@ -99,21 +113,23 @@ define([
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
 
-            // Donut charts figures
-            const queryFor = self.currentISO ? self.currentISO : 'global';
+            if (areaOfInterestType !== 'ALL') {
+              // Donut charts figures
+              const queryFor = self.currentISO ? self.currentISO : 'global';
 
-            request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-              handleAs: 'json'
-            }).then(function(response) {
-              Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-                return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
-              })).then(() => {
-                $(".chart-container-countries:odd").addClass('pull-right');
-                $(".chart-container-countries:even").addClass('pull-left');
-              }).catch(e => {
-                console.log(e);
+              request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+                handleAs: 'json'
+              }).then(function(response) {
+                Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+                  return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+                })).then(() => {
+                  $(".chart-container-countries:odd").addClass('pull-right');
+                  $(".chart-container-countries:even").addClass('pull-left');
+                }).catch(e => {
+                  console.log(e);
+                });
               });
-            });
+            }
         },
 
         querySecondMap: function(areaOfInterestType, configKey) {
@@ -1262,7 +1278,7 @@ define([
             otherFiresLayer.setLayerDrawingOptions(options);
 
             otherFiresLayer.on('update-end', function() {
-              if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
+              // if (window.reportOptions.aoitype !== 'ALL') self.get_extent('subdistrictBoundary');
               deferred.resolve(true);
             });
           }
@@ -1409,6 +1425,14 @@ define([
 
           window['firesCountRegionSeries'] = series;
           window['firesCountRegionCurrentYear'] = currentYear;
+
+          // Adding sum for year to window
+          window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
+
+          $('#firesCountTitle').html(
+            `${currentYear} MODIS Fire Alerts, Year to Date 
+            <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+          );
 
           var firesCountChart = Highcharts.chart('firesCountChart', {
             title: {
@@ -1660,6 +1684,137 @@ define([
             statdef.statisticType = "count";
             query.outStatistics = [statdef];
 
+            function buildRSPOTable(features) {
+
+              var table = "<table class='fires-table'><tr>"
+              table += "<th>CONCESSION TYPE</th>";
+              table += "<th>#</th>";
+              table += "<th></th></tr>";
+
+              var po_cons = {};
+
+              var rspo_count = 0;
+              var palm_oil_count = 0;
+              arrayUtils.map(features, function(item, index, arr) {
+                  if (item.attributes.palm_oil === '1') {
+                      palm_oil_count += item.attributes.fire_count;
+                      if (item.attributes.CERT_SCHEM === 'RSPO') {
+                          rspo_count += item.attributes.fire_count;
+                      }
+                  }
+
+              });
+
+              var filtered = [{
+                attributes: {
+                  'type': "RSPO CERTIFIED PALM OIL CONCESSIONS",
+                  'fire_count': rspo_count
+                }
+              }, {
+                attributes: {
+                  'type': "ALL PALM OIL CONCESSIONS",
+                  'fire_count': palm_oil_count
+                }
+              }];
+
+                  // table += self.generateTableRows(features, fields);
+              table += self.generateTableRows(filtered, ['type', 'fire_count'], 'rspo-cert-table');
+              table += "</table>";
+              var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + Config.noFeatures[configKey] + '</div>';
+
+              return finaltable;
+          }
+
+          function buildTable(features) {
+              var aoiType = window.reportOptions.aoitype
+              var table;
+              var districtFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'district-fires-table';
+              var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
+              var districtLabel = Config.reportOptions.countryAdminTypes && Config.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && Config.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Jurisdiction';
+              var subdistrictLabel = Config.reportOptions.countryAdminTypes && Config.reportOptions.countryAdminTypes.hasOwnProperty('ENGTYPE_1') && Config.reportOptions.countryAdminTypes.ENGTYPE_1 !== null ? Config.reportOptions.countryAdminTypes.ENGTYPE_1 : 'Province';
+              if (districtFireTable) {
+                table = '<table class="fires-table"><tr><th class="admin-type-1">' + districtLabel + '</th>';
+              } else if (subdistrictFireTable) {
+                table = '<table class="fires-table"><tr><th class="admin-type-2">' + (Config.reportOptions.countryAdminTypes ? Config.reportOptions.countryAdminTypes.ENGTYPE_2 : 'Regency/City') + '</th>';
+                table += '<th class="align-left admin-type-1">' + subdistrictLabel + '</th>';
+              } else {
+                table = "<table class='fires-table'><tr><th>" + queryConfig.headerField[0] + "</th>";
+                fields = [fields[0], fields[2]];
+              }
+
+              var filtered = arrayUtils.filter(features, function(feature) {
+                  return feature.attributes.fire_count !== 0;
+              });
+
+              if (districtFireTable || subdistrictFireTable) {
+                table += "<th class='number-column'>#</th><th class='switch-color-column'></th></tr>";
+              } else {
+                table += "<th class='number-column'>#</th></tr>";
+              }
+
+              if (queryConfig.tableId === 'pulpwood-fires-table' ||
+                queryConfig.tableId === 'palmoil-fires-table' ||
+                queryConfig.tableId === 'logging-fires-table'
+              ) {
+                var concessionFiresCounts = window['concessionFiresCounts'];
+                filtered = filtered.filter(function(item){
+                  item['name'] = item.attributes[fields[0]];
+                  item['type'] = queryConfig.tableId === 'pulpwood-fires-table' ? 'Wood':
+                                 queryConfig.tableId === 'palmoil-fires-table'? 'Palm Oil':'Logging';
+                  return item.attributes[fields[0]] !== " ";
+                });
+
+                concessionFiresCounts.push(filtered);
+
+                if(concessionFiresCounts.length === 3){
+                  concessionTable = "<table class='concession-fires-counts__table'><thead><tr><th class='consession__name'>Name</th><th class='consession__type'>Type</th><th class='consession__number'>#</th><th class='consession__bar'></th></tr></thead>";
+                  var combineConcessionsArray = concessionFiresCounts[0].concat(concessionFiresCounts[1], concessionFiresCounts[2]);
+
+                  combineConcessionsArray.sort(function (a, b) {
+                    return a.attributes.fire_count - b.attributes.fire_count;
+                  });
+
+                  var concessionsFinalArray = [];
+                  combineConcessionsArray.map(function (item, index) {
+                    if (index > combineConcessionsArray.length - 10) {
+                      concessionsFinalArray.push(item);
+                    }
+                  });
+
+                  if (concessionsFinalArray.length > 0) {
+                    concessionsFinalArray = concessionsFinalArray.reverse();
+                    var maxValue = concessionsFinalArray[0].attributes.fire_count;
+                  }
+
+                  concessionsFinalArray.forEach(function (item) {
+                    var barSize = ((100 / maxValue) * item.attributes.fire_count).toString() + '%';
+                    var concessionType = item.type;
+                    if(concessionType === "Wood"){
+                      concessionType = concessionType.replace(/Wood/gi, 'Wood fiber');
+                    }
+                    concessionTable += "<tr><td class='concession__name'>" + item.name + "</td><td class='concession__type'>" + concessionType + "</td><td class='concession__count'>" + item.attributes.fire_count + "</td><td class='table-cell-bar__container'><span class='table-cell-bar__item' style='width: " + barSize + "'></span></td></tr>";
+                  });
+
+                  concessionTable += "</table>";
+                  dom.byId("finalConcessionsTable").innerHTML = (concessionsFinalArray.length > 0) ? concessionTable : '<div class="noFiresTable">no Concession Features</div>';
+                }
+              }
+
+              table += self.generateTableRows(filtered, fields, queryConfig.tableId);
+
+              table += "</table>";
+              var finaltable = (filtered.length > 0) ? table : '<div class="noFiresTable">' + Config.noFeatures[configKey] + '</div>';
+              document.querySelector('#ConcessionRspoContainer').style.display = 'flex';
+              return finaltable;
+          }
+
+          // if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
+          //   query.groupByFieldsForStatistics.push("NAME_1");
+          // } else if (configKey === "subDistrictQuery" && areaOfInterestType !== "GLOBAL"){
+          //   query.groupByFieldsForStatistics.push("ISLAND");
+          // }
+
+
             if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
               query.groupByFieldsForStatistics.push("NAME_1");
             } else if(configKey === 'subDistrictQuery' && areaOfInterestType === 'ALL') {
@@ -1762,6 +1917,11 @@ define([
                 }
               } else {
                 Config.query_results[configKey] = res.features;
+                if (configKey == 'rspoQuery') {
+                  dom.byId(queryConfig.tableId).innerHTML = buildRSPOTable(res.features);
+                } else if (configKey !== "subDistrictQuery") {
+                  dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
+                }
               }
             }, function() {
                 deferred.resolve(false);
@@ -1770,6 +1930,109 @@ define([
             return deferred.promise;
         },
 
+        queryForSumatraFires: function() {
+          var deferred = new Deferred(),
+              concessionData = [],
+              self = this,
+              pulpwood,
+              palmoil,
+              logging,
+              success,
+              failure,
+              total;
+
+          success = function(res) {
+              total = res.features.length;
+              protectedarea = 0;
+              unprotected = 0;
+              pulpwood = 0;
+              palmoil = 0;
+              logging = 0;
+              arrayUtils.forEach(res.features, function(feature) {
+                  if (feature.attributes.wdpa === 1) {
+                      protectedarea++;
+                  } else {
+                      unprotected++;
+                  }
+
+                  if (feature.attributes.logging === '1') {
+                      logging++;
+                  }
+
+                  if (feature.attributes.palm_oil === '1') {
+                      palmoil++;
+                  }
+
+                  if (feature.attributes.pulpwood === '1') {
+                      pulpwood++;
+                  }
+
+              });
+
+              // -------------
+              // LAND USE AREA
+              // -------------
+              concessionData.push({
+                  color: "rgba(253, 240, 0, 1)",
+                  name: "Pulpwood plantations",
+                  visible: true,
+                  y: pulpwood
+              });
+              concessionData.push({
+                  color: "rgba(255, 218, 0, 1)",
+                  name: "Palm oil concessions",
+                  visible: true,
+                  y: palmoil
+              });
+              concessionData.push({
+                  color: "rgba(255, 188, 0, 1)",
+                  name: "Logging concessions",
+                  visible: true,
+                  y: logging
+              });
+              concessionData.push({
+                  color: "rgba(216, 212, 212, 1)",
+                  name: "Outside concessions",
+                  visible: true,
+                  y: total - (logging + palmoil + pulpwood)
+              });
+              self.buildPieChart("land-use-fires-chart", {
+                  data: concessionData,
+                  name: 'Fires in concessions',
+                  labelDistance: 5,
+                  total: total
+              });
+              deferred.resolve(true);
+          };
+
+          failure = function() {
+              deferred.resolve(false);
+          };
+
+          self.queryFireData({
+              outFields: ["wdpa", "pulpwood", "palm_oil", "logging"],
+          }, success, failure);
+
+          return deferred.promise;
+        },
+        queryFireData: function(config, callback, errback) {
+          var queryTask = new QueryTask(Config.queryUrl + "/" + Config.confidenceFireId),
+              query = new Query(),
+              time = new Date(),
+              self = this;
+
+          // Make Time Relative to Last Week
+          time = new Date(time.getFullYear(), time.getMonth(), time.getDate() - 8);
+
+          dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
+              time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
+          var layerdef = self.get_layer_definition('queryFireData');
+          query.where = (config.where === undefined) ? layerdef : layerdef + " AND " + config.where;
+
+          query.returnGeometry = config.returnGeometry || false;
+          query.outFields = config.outFields || ["*"];
+          queryTask.execute(query, callback, errback);
+        },
         queryForDailyFireData: function(areaOfInterestType) {
             var deferred = new Deferred(),
                 fireDataLabels = [],
