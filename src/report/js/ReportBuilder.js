@@ -457,12 +457,14 @@ define([
                   }
 
                   if (queryConfigTableId === 'district-fires-table') {
+                    if(!admin1) return;
                     return(
                       `<tr><td class="table-cell ${aoitype}">${admin1}</td>
                       <td class='table-cell table-cell__value'>${colorValue}</td>")
                       <td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${ color ? color.toString() : Config.colorramp[0] });'></span></td></tr>`
                     );
                   } else {
+                    if((!subDistrict2 || !subDistrict1)) return;
                     return(
                       `<tr><td class="table-cell ${aoitype}">${subDistrict2}</td>
                       <td class="table-cell ${aoitype}">${subDistrict1}</td>
@@ -494,7 +496,7 @@ define([
                 defExp = '1=1';
               }  else {
                 options[boundaryConfig.layerIdGlobal] = ldos;
-                defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
+                defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois.join("','") + "') AND iso = '" + currentISO + "'";
               }
 
               featureLayer.setDefinitionExpression(defExp);
@@ -2035,6 +2037,7 @@ define([
         },
         queryForDailyFireData: function(areaOfInterestType) {
             var deferred = new Deferred(),
+                query = new Query(),
                 fireDataLabels = [],
                 fireData = [],
                 self = this;
@@ -2054,24 +2057,66 @@ define([
 
               const queryFor = self.currentISO ? self.currentISO : 'global';
 
-              // Get total fires count
-              request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw, {
-                handleAs: 'json'
-              }).then((response) => {
-                $("#totalFireAlerts").html(self.numberWithCommas(response.data.attributes.value[0].alerts));
-              });
+              queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
 
-              // Get total fires count aggregated by day
-              request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
-                handleAs: 'json'
-              }).then((response) => {
+              query.where = `NAME_1 IN ('${window.reportOptions.aois.join("','")}')`;
 
-                const values = response.data.attributes.value;
-    
-                values.forEach(value => {
-                  fireDataLabels.push(moment(value.day).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
-                  fireData.push(value.alerts);
+              query.returnGeometry = false;
+              query.outFields = ["id_1"];
+
+              success = function(data) {
+                // Get total fires count
+                const dataURLs = data.features.map((feature) => {
+                  return `${Config.fires_api_endpoint}admin/${queryFor}/${feature.attributes.id_1}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
                 });
+
+                const promises = dataURLs.map((url) => {
+                  return new Promise(resolve => {
+                    request.get(url, {
+                      handleAs: 'json'
+                    }).then((res) => {
+                      resolve(res)
+                    })
+                  })
+                });
+
+                Promise.all(promises).then((res) => {
+
+                  let allData = [];
+
+                  if (res.length > 1) {
+                    for(let i = 1; i < res.length; i++) {
+                      allData = res[0].data.attributes.value.concat(res[i].data.attributes.value);
+                    }
+                  } else {
+                    allData = res[0].data.attributes.value;
+                  }
+
+                  // sort the data
+                  const sortCombinedResults = _.sortByOrder(allData, function (element) {
+                    return element.day;
+                  }, 'asc');
+
+                  const dates = [];
+                  const tmpFireAlerts = {};
+
+                  for(let j = 0; j < sortCombinedResults.length; j++) {
+                    const data = sortCombinedResults[j];
+                    if(dates.indexOf(data.day) > 0) {
+                      tmpFireAlerts[data.day] += data.alerts;
+                    } else {
+                      dates.push(data.day);
+                      tmpFireAlerts[data.day] = data.alerts;
+                    }
+                  }
+
+                  createFigure(_.values(tmpFireAlerts), dates);
+                });
+              }
+
+              function createFigure(fireData, fireDataLabels) {
+                console.log('fireData: ', fireData);
+                console.log('fireDataLabels: ', fireDataLabels);
 
                 $("#totalFiresLabel").show()
 
@@ -2142,12 +2187,13 @@ define([
                       color: '#f49f2d'
                     }]
                 });
-    
+                deferred.resolve(true);
+                return deferred.promise;
+              }
+              queryTask.execute(query, success, function() {
+                console.log('err');
               });
             }
-
-            deferred.resolve(true);
-            return deferred.promise;
         },
 
         buildPieChart: function(id, config) {
