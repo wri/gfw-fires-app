@@ -31,7 +31,7 @@ define([
       init: function() {
           var self = this;
           self.init_report_options();
-          
+
           var areaOfInterestType = window.reportOptions['aoitype'];
 
           // Getting basic administrative area info
@@ -121,8 +121,9 @@ define([
             }).then(function(response) {
               queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
 
-              query.where = `NAME_1 IN ('${window.reportOptions.aois.join("','")}')`;
-      
+
+              query.where = `NAME_1 IN ('${window.reportOptions.aois}')`;
+              console.log('query.where --> are we querying the right AOI-level service?!', query.where);
               query.returnGeometry = false;
               query.outFields = ["id_1"];
 
@@ -207,7 +208,7 @@ define([
             }).sort(function(a, b) {
               return a - b
             });
-            
+
             if (window.reportOptions.aoitype === 'ISLAND') {
               queryUrl = boundaryConfig.urlIsland;
               uniqueValueField = boundaryConfig.UniqueValueField;
@@ -314,7 +315,7 @@ define([
                 };
               });
 
-              
+
               arrayUtils.forEach(feat_stats, (feat) => {
                 const count = feat.attributes['fire_count'];
                 let sym;
@@ -340,7 +341,7 @@ define([
                 }
                 renderer.addBreak(breaks[i], breaks[i+1], sym);
               });
- 
+
               return {
                 renderer,
                 symbols,
@@ -507,7 +508,7 @@ define([
                 defExp = '1=1';
               }  else {
                 options[boundaryConfig.layerIdGlobal] = ldos;
-                defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois.join("','") + "') AND iso = '" + currentISO + "'";
+                defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
               }
 
               featureLayer.setDefinitionExpression(defExp);
@@ -541,10 +542,13 @@ define([
           return new Promise(resolve => {
             const data = [];
 
+            console.log('features', features);
+
             // Get total fires count
             const dataURLs = features.map((feature) => {
               return `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${feature.attributes.id_1}?period=${this.startDateRaw},${this.endDateRaw}`;
             });
+            console.log('dataURLs', dataURLs);
 
             const promises = dataURLs.map((url) => {
               return new Promise(resolve => {
@@ -556,16 +560,23 @@ define([
               })
             });
 
-            
+
             Promise.all(promises).then((res) => {
               let allData = [];
 
+              console.log('res', res);
               if (res.length > 1) {
-                for(let i = 1; i < res.length; i++) {
+                for (let i = 1; i < res.length; i++) {
+                  console.log('res[0].data.attributes.value concatable??', res[0].data.attributes.value);
+                  // debugger
+                  // if (res[0].data.attributes.value === null) {
+                  //   res[0].data.attributes.value = 0;
+                  // }
+                  // console.log('res[0].data.attributes.value', res[0].data.attributes.value);
                   allData = res[0].data.attributes.value.concat(res[i].data.attributes.value);
                 }
               } else {
-                allData = res[0].data.attributes.value;
+                allData = res[0].data.attributes.value ? res[0].data.attributes.value : 0;
               }
 
               if (allData !== null) {
@@ -575,23 +586,25 @@ define([
                 resolve();
                 return;
               }
-  
-              const alerts = allData[0].alerts;
-  
+
+              console.log('allData', allData);
+
+              // const alerts = allData[0].alerts;
+
               data.push({
                 color: chartConfig.colors[0],
                 name: chartConfig.name1,
                 visible: true,
-                y: alerts
+                y: allData
               });
-  
+
               data.push({
                 color: chartConfig.colors[1],
                 name: chartConfig.name2,
                 visible: true,
-                y: firesCount - alerts
+                y: firesCount - allData
               });
-  
+
               this.buildPieChart(chartConfig.domElement, {
                 data: data,
                 name: chartConfig.name3,
@@ -605,18 +618,15 @@ define([
 
         getCountryAdminTypes: function () {
           // Get admin type 1 and admin type 2 for country
-          let queryTask, queryConfig, aoiData;
+          let queryTask, queryConfig;
           const aois = window.reportOptions.aois;
-          if (aois) {
-            aoiData = aois.join('\',\'');
-          }
 
           // TODO move this to config
           queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/10'),
             deferred = new Deferred(),
             query = new Query();
 
-            query.where = "ID_0 = " + this.countryObjId + " AND Name_1 in ('" + aoiData + "')";
+            query.where = "ID_0 = " + this.countryObjId + " AND Name_1 in ('" + aois + "')";
             query.returnGeometry = false;
             query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
             query.returnDistinctValues = true;
@@ -687,7 +697,7 @@ define([
             this.countryObjId = Config.countryObjId[this.currentCountry];
 
             if (aois) {
-              this.aoilist = aois.join(', ');
+              this.aoilist = aois;
               this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
               document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
             }
@@ -736,12 +746,10 @@ define([
               window.reportOptions.country = _initialState.country;
             }
 
+            console.log('_initialState.aois', _initialState.aois);
+
             if (_initialState.aois) {
-              window.reportOptions.aois = _initialState.aois.split('!').sort();
-              window.reportOptions.aois = window.reportOptions.aois.map(function (aoisItem) {
-                const fixingApostrophe = aoisItem.replace(/'/g, "''");
-                return fixingApostrophe;
-              });
+              window.reportOptions.aois = _initialState.aois.replace(/'/g, "''");
             }
 
             window.reportOptions.dates = dateObj;
@@ -758,9 +766,9 @@ define([
         },
 
         get_global_layer_definition: function () {
-          const aois = window.reportOptions.aois;
+
           const aoiType = window.reportOptions.aoitype;
-          const aoiData = aois.join('\',\'');
+          const aoiData = window.reportOptions.aois;
           let countryQueryGlobal;
           let aoiQueryGlobal;
 
@@ -792,9 +800,8 @@ define([
         },
 
         get_layer_definition: function(queryType) {
-          const aois = window.reportOptions.aois;
           const aoiType = window.reportOptions.aoitype;
-          const aoiData = aois ? aois.join('\',\'') : '';
+          const aoiData = window.reportOptions.aois;
           const startdate = "ACQ_DATE >= date'" + this.startdate + "'";
           const enddate = "ACQ_DATE <= date'" + this.enddate + "'";
           let countryQueryGlobal;
@@ -820,24 +827,23 @@ define([
           }
 
           let sql;
-          if (aois) sql = [startdate, enddate, aoi].join(' AND ');
+          if (window.reportOptions.aois) sql = [startdate, enddate, aoi].join(' AND ');
           else sql = [startdate, enddate].join(' AND ');
-          
+
           return sql;
         },
 
         get_aoi_definition: function(queryType) {
-          const aois = window.reportOptions.aois;
           let aoi;
 
           if (window.reportOptions.aoitype === 'GLOBAL' && queryType === 'REGION') {
-            aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
+            aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aoi + "')";
           } else if (window.reportOptions.aoitype === 'GLOBAL') {
-            aoi = "ID_0 = " + this.countryObjId + " AND NAME_1 in ('" + aois.join("','") + "')";
+            aoi = "ID_0 = " + this.countryObjId + " AND NAME_1 in ('" + aoi + "')";
           } else if (window.reportOptions.aoitype === 'ALL') {
             aoi = "";
           } else {
-            aoi = `${window.reportOptions.aoitype} in (' ${aois.join("','")} ')`;
+            aoi = `${window.reportOptions.aoitype} in (' ${aoi} ')`;
           }
 
           return aoi;
@@ -954,7 +960,7 @@ define([
                 id: 'modis',
                 visible: true
               });
-              
+
               // Set layer definitions
               viirsLayer.setLayerDefinitions(viirsLayerDefs);
               modisLayer.setLayerDefinitions(modisLayerDefs);
@@ -1181,7 +1187,7 @@ define([
 
           if (window.reportOptions.aoitype === 'ISLAND') {
             otherFiresParams.layerIds = boundaryConfig.defaultLayers;
-          } else if (window.reportOptions.aoitype === 'ALL') { 
+          } else if (window.reportOptions.aoitype === 'ALL') {
             otherFiresParams.layerIds = boundaryConfig.defaultLayers;
           } else {
             otherFiresParams.layerIds = boundaryConfig.defaultLayersGlobal;
@@ -1286,6 +1292,7 @@ define([
             ldos.renderer = renderer;
             const layerdefs = [];
             const aois = window.reportOptions.aois;
+            console.log('aois5', aois);
 
             if (window.reportOptions.aoitype === 'ISLAND') {
               options[boundaryConfig.layerId] = ldos;
@@ -1303,7 +1310,7 @@ define([
                 return fixingApostrophe;
               });
               options[boundaryConfig.layerIdGlobal] = ldos;
-              layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois.join("','") + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
             } else {
               options[boundaryConfig.layerIdGlobal] = ldos;
               layerdefs[boundaryConfig.layerIdGlobal] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
@@ -1360,7 +1367,7 @@ define([
           query.where = self.get_aoi_definition('REGION') === '' ? '1=1' : self.get_aoi_definition('REGION');
           query.returnGeometry = false;
           query.outFields = [regionField, uniqueValueField];
-          
+
 
           queryTask.execute(query, function(res) {
             if (res.features.length > 0) {
@@ -1377,19 +1384,19 @@ define([
         },
 
       getFireCounts: function () {
-
         const self = this;
 
         queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
 
-        query.where = `NAME_1 IN ('${window.reportOptions.aois.join("','")}')`;
-
+        query.where = `NAME_1 IN ('${window.reportOptions.aois}')`;
         query.returnGeometry = false;
         query.outFields = ["id_1"];
 
         success = function(data) {
 
           const queryFor = self.currentISO ? self.currentISO : 'global';
+
+          console.log('data.features', data.features);
 
           // Get total fires count
           const dataURLs = data.features.map((feature) => {
@@ -1399,7 +1406,7 @@ define([
           const promises = dataURLs.map((url) => {
             return new Promise(resolve => {
               request.get(url, {
-          handleAs: 'json'
+                handleAs: 'json'
               }).then((res) => {
                 resolve(res)
               })
@@ -1505,7 +1512,7 @@ define([
           window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
 
           $('#firesCountTitle').html(
-            `${currentYear} MODIS Fire Alerts, Year to Date 
+            `${currentYear} MODIS Fire Alerts, Year to Date
             <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
           );
 
@@ -1591,7 +1598,7 @@ define([
         request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {
-          
+
           let min, max;
           for (var i = 0; i < response.data.attributes.value.length; i++) {
             const { year: x, alerts: z } = response.data.attributes.value[i];
@@ -1948,7 +1955,7 @@ define([
                     combinedResults.push(keyRegion === 'NAME_1' ?
                       {attributes: {NAME_1: key, fire_count: fireCount}} :
                       {attributes: {NAME_1: adminLevelOneTwoArray[key], NAME_2: key, fire_count: fireCount}});
-                  } else if (areaOfInterestType === "ALL") { 
+                  } else if (areaOfInterestType === "ALL") {
                     combinedResults.push(keyRegion === 'NAME_ENGLISH' ?
                     {attributes: {NAME_ENGLISH: key, fire_count: fireCount}} :
                     {attributes: {NAME_ENGLISH: adminLevelOneTwoArray[key], NAME_1: key, fire_count: fireCount}});
@@ -1973,11 +1980,11 @@ define([
                   let queryConfigField;
                   if(window.reportOptions.aoitype === 'ISLAND') {
                     queryConfigField = queryConfig.UniqueValueField;
-                  } else if(window.reportOptions.aoitype === 'ALL') { 
+                  } else if(window.reportOptions.aoitype === 'ALL') {
                     queryConfigField = queryConfig.UniqueValueFieldAll;
                   } else {
                     queryConfigField = queryConfig.UniqueValueFieldGlobal;
-                  } 
+                  }
                   if (queryConfigField) {
                     self.getRegion(configKey).then(function() {
                       var regmap = Config.regionmap[configKey];
@@ -2133,60 +2140,57 @@ define([
               const queryFor = self.currentISO ? self.currentISO : 'global';
 
               queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
+              console.log('self.currentISO', self.currentISO, queryFor);
+              console.log('queryTask', queryTask);
 
-              query.where = `NAME_1 IN ('${window.reportOptions.aois.join("','")}')`;
+              query.where = `NAME_1 IN ('${window.reportOptions.aois}')`;
+              console.log(query.where);
+              // debugger
 
               query.returnGeometry = false;
               query.outFields = ["id_1"];
 
               success = function(data) {
                 // Get total fires count
-                const dataURLs = data.features.map((feature) => {
-                  return `${Config.fires_api_endpoint}admin/${queryFor}/${feature.attributes.id_1}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
-                });
+                // console.log('data', data);
+                // debugger
 
-                const promises = dataURLs.map((url) => {
-                  return new Promise(resolve => {
-                    request.get(url, {
-                      handleAs: 'json'
-                    }).then((res) => {
-                      resolve(res)
-                    })
+                const feat = data.features && data.features.length > 0 ? data.features[0] : '';
+                const dataURL = feat ? `${Config.fires_api_endpoint}admin/${queryFor}/${feat.attributes.id_1}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}` : '';
+                console.log(dataURL);
+
+                if (dataURL) {
+                  request.get(dataURL, {
+                    handleAs: 'json'
+                  }).then((res) => {
+                    const allData = res.data.attributes.value;
+
+                    // sort the data
+                    const sortCombinedResults = _.sortByOrder(allData, function (element) {
+                      return element.day;
+                    }, 'asc');
+
+                    let total = 0;
+
+                    const dates = [];
+                    const tmpFireAlerts = {};
+
+                    for (let j = 0; j < sortCombinedResults.length; j++) {
+                      const data = sortCombinedResults[j];
+                      total += data.alerts;
+                      if (dates.indexOf(data.day) > 0) {
+                        tmpFireAlerts[data.day] += data.alerts;
+                      } else {
+                        dates.push(data.day);
+                        tmpFireAlerts[data.day] = data.alerts;
+                      }
+                    }
+
+                     $("#totalFireAlerts").html(self.numberWithCommas(total));
+
+                    createFigure(_.values(tmpFireAlerts), dates);
                   })
-                });
-
-                Promise.all(promises).then((res) => {
-
-                  let allData = [];
-
-                  if (res.length > 1) {
-                    for(let i = 1; i < res.length; i++) {
-                      allData = res[0].data.attributes.value.concat(res[i].data.attributes.value);
-                    }
-                  } else {
-                    allData = res[0].data.attributes.value;
-                  }
-
-                  // sort the data
-                  const sortCombinedResults = _.sortByOrder(allData, function (element) {
-                    return element.day;
-                  }, 'asc');
-
-                  const dates = [];
-                  const tmpFireAlerts = {};
-
-                  for(let j = 0; j < sortCombinedResults.length; j++) {
-                    const data = sortCombinedResults[j];
-                    if(dates.indexOf(data.day) > 0) {
-                      tmpFireAlerts[data.day] += data.alerts;
-                    } else {
-                      dates.push(data.day);
-                      tmpFireAlerts[data.day] = data.alerts;
-                    }
-                  }
-
-                  createFigure(_.values(tmpFireAlerts), dates);
-                });
+                }
               }
 
               function createFigure(fireData, fireDataLabels) {
@@ -2289,7 +2293,7 @@ define([
               hasData = true;
             }
           });
-          
+
           $('#' + id).highcharts({
               chart: {
                   type: 'pie'
@@ -2392,7 +2396,7 @@ define([
               query.outFields = ["NAME_1"];
               queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
             }
-            
+
             callback = function(results) {
                 var extent = graphicsUtils.graphicsExtent(results.features);
 
@@ -2448,7 +2452,7 @@ define([
 
                 arrayUtils.forEach(fieldNames, function(field, index) {
                     var numberOfElements = fieldNames.length - 1;
-                    
+
                     if (queryConfigTableId === 'district-fires-table' && numberOfElements === index) {
                       var colorValue = feature.attributes[field];
                       var tableColorRange = window[queryConfigTableId + '-colorRange'];
