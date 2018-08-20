@@ -1,6 +1,6 @@
 {
   "name": "gfw-fires-app",
-  "version": "3.3.88",
+  "version": "3.3.93",
   "engines": {
     "node": "6.11.1"
   },

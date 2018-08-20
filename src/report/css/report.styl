@@ -70,6 +70,7 @@ input.share-link-input {
 
 .report-title__container
   display: flex
+  flex-direction column
   align-items: baseline;
   color: #fff
   padding 1.1em 0.5em 0.25em 0.5em
@@ -83,8 +84,11 @@ input.share-link-input {
     margin: 0
 
   .report-date-range__container {
-    padding-left: .5em;
+    padding-left: 0.2em;
     font-size: 1.15em;
+    -webkit-font-smoothing: antialiased;
+    margin-top: 0.5em;
+    color: black;
   }
 
 .report-date-range__map-container {
@@ -101,6 +105,7 @@ input.share-link-input {
   line-height: 1.5em
   min-height 1.5em
   font-size: 1em
+  text-align center
 }
 
 .border-top-separator
@@ -400,6 +405,9 @@ input.share-link-input {
   display flex
   justify-content: center;
 
+.country-pie-chart
+  display none
+
 .chart-wrapper
 //margin 0 auto
   height 240px
@@ -449,6 +457,9 @@ input.share-link-input {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+.pie-chart-title-higher
+  margin-top -25px !important
 
 .fire-line-chart
   margin 0 auto
@@ -541,6 +552,23 @@ input.share-link-input {
   border-top: 1px solid #ffcecb;
 //background: rgba(255, 0, 0, 0.02);
 }
+
+.report-section__charts-container_countries {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #ffcecb;
+  display: flex;
+  flex-direction: column;
+//background: rgba(255, 0, 0, 0.02);
+}
+
+// .report-section__charts-container_countries div:nth-of-type(even) {
+//   justify-content: flex-start;
+// }
+
+// .report-section__charts-container_countries div:nth-of-type(odd) {
+//   justify-content: flex-end;
+// }
 
 tspan {
   font-family: 'Fira Sans', Georgia, serif
@@ -653,6 +681,10 @@ tspan {
 
   .pie-chart-title br {
     display: none
+  }
+
+  .pie-chart-title-higher {
+    margin-top: -10px;
   }
 
   #firesCountContainer #firesCountChart {
@@ -935,3 +967,6 @@ tspan {
 .map .esriSimpleSlider {
   border-radius 0
 }
+
+.no-data-pie tspan
+  font-size 24px !important

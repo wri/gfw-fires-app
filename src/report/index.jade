@@ -186,29 +186,66 @@ html(lang="en")
             div(class='no-break')
               div#rspo-cert-table
         div#section-seven(class='page-break')
-          div.report-section__charts-container
-            div#land-use-fires-chart-container(class='chart-container pull-right')
+          div.report-section__charts-container_countries
+            div#land-use-fires-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
-                h3.pie-chart-title Fire alerts by</br> LAND USE AREA
-                div#land-use-fires-chart(class='chart small-legend-text')
+                h3.pie-chart-title.pie-chart-title-higher Fire alerts by</br> LAND USE AREA
+                div#land-use-fires-chart(class='chart')
 
-            div#breakdown-fires-chart-container(class='chart-container')
-              div#breakdown-fires-chart(class='chart')
-
-            div#protected-areas-fires-chart-container(class='chart-container pull-left')
+            div#wdpa-fires-chart-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
-                h3.pie-chart-title Fire alerts in</br> PROTECTED AREAS
-                div#protected-areas-fires-chart(class='chart small-legend-text')
+                h3.pie-chart-title Fire alerts in</br> WDPA PROTECTED AREAS
+                div#wdpa-fires-chart(class='chart')
 
-            div#moratorium-fires-chart-container(class='chart-container pull-right')
+            div#peatland-fires-chart-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
-                h3.pie-chart-title.indicative-moratorium-area Fire alerts in FOREST</br> MORATORIUM AREAS
-                div#moratorium-fires-chart(class='chart')
-
-            div#peat-fires-chart-container(class='chart-container pull-left')
+                h3.pie-chart-title Fire alerts on PEATLAND</br>
+                div#peatland-fires-chart(class='chart')
+                
+            div#ifl-fires-chart-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
-                h3.pie-chart-title Portion of fire alerts</br> ON PEATLAND
-                div#peat-fires-chart(class='chart')
+                h3.pie-chart-title Fire alerts in</br> INTACT FOREST LANDSCAPE AREAS
+                div#ifl-fires-chart(class='chart')
+                
+            div#mining-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts in</br> MINING AREAS
+                div#mining-fires-chart(class='chart')
+                
+            div#primary_forest-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts in</br> PRIMARY FOREST AREAS
+                div#primary_forest-fires-chart(class='chart')
+                
+            div#plantations-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts in</br> PLANTATION AREAS
+                div#plantations-fires-chart(class='chart')
+                
+            //- div#idn_mys_peatlands-fires-chart-container(class='chart-container-countries country-pie-chart')
+            //-   div.chart-wrapper
+            //-     h3.pie-chart-title Fire alerts in Peatlands</br>
+            //-     div#idn_mys_peatlands-fires-chart(class='chart')
+                
+            div#idn_forest_moratorium-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts in</br> FOREST MORATORIUM AREAS
+                div#idn_forest_moratorium-fires-chart(class='chart')
+                
+            div#rspo-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts on</br> RSPO PALM OIL CONCESSIONS
+                div#rspo-fires-chart(class='chart')
+                
+            div#wood_fiber-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts in</br> WOOD FIBER AREAS
+                div#wood_fiber-fires-chart(class='chart')
+                
+            div#oil_palm-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper
+                h3.pie-chart-title Fire alerts on</br> OIL PALM CONCESSIONS
+                div#oil_palm-fires-chart(class='chart')
 
         div#firesCountContainerSection.border-top-separator
           h3#firesCountTitleMain.report-section__title Fire History: Fire Season Progression
