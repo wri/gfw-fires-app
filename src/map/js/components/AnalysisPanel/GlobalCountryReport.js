@@ -87,7 +87,7 @@ export default class GlobalCountryReport extends React.Component {
               placeholder='Select a Country'
               onChange={this.handleSubRegionChange.bind(this)}
               options={countrySubRegionsList}
-              multi={true}
+              multi={false}
               value={this.state.selectedSubRegion}
             />
           </div>
@@ -147,7 +147,7 @@ export default class GlobalCountryReport extends React.Component {
 
     let reportType = 'globalcountryreport',
     countries = this.state.selectedGlobalCoutry,
-    regions = this.state.selectedSubRegion,
+    region = this.state.selectedSubRegion,
     reportdateFrom = this.state.analysisStartDate.split('/'),
     reportdateTo = this.state.analysisEndDate.split('/'),
     reportdates = {};
@@ -163,16 +163,16 @@ export default class GlobalCountryReport extends React.Component {
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
 
-    const hash = this.reportDataToHash(reportType, reportdates, countries, regions);
+    const hash = this.reportDataToHash(reportType, reportdates, countries, region);
     window.open('../report/index.html' + hash, '_blank', '');
   }
 
-  reportDataToHash (reportType, dates, country, countryRegions) {
+  reportDataToHash (reportType, dates, country, countryRegion) {
     let hash = '#';
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
 
-    const countryRegionString = `aois=${countryRegions.map(region => region.value).join('!')}`;
+    const countryRegionString = `aois=${countryRegion.value}`;
 
     let dateArgs = [];
     let dateString = 'dates=';
