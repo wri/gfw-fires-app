@@ -1305,7 +1305,6 @@ define([
             var tableColorBreakPoints = Config[relatedTableId];
 
             console.log('where2??', sortCombinedResults);
-            // debugger
 
             if (configKey === "adminBoundary") {
               $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
