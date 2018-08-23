@@ -172,7 +172,11 @@ export default class GlobalCountryReport extends React.Component {
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
 
-    const countryRegionString = `aois=${countryRegion.value}`;
+    // console.log('we here??!', countryRegion);
+    // debugger
+
+    const countryRegionString = countryRegion.length ? '' : `aois=${countryRegion.value}`;
+    console.log('countryRegionString', countryRegionString);
 
     let dateArgs = [];
     let dateString = 'dates=';
@@ -189,6 +193,7 @@ export default class GlobalCountryReport extends React.Component {
     } else {
       hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
     }
+    console.log('hash', hash);
     return hash;
   }
 }

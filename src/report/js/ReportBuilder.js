@@ -40,7 +40,6 @@ define([
             // Getting basic administrative area info
             if (areaOfInterestType !== 'ALL') {
               self.getCountryAdminTypes(selectedCountry);
-              //TODO: How are we referencing this before we create it in 3 lines?! //Is 'areaOfInterestType' never === 'ALL'??
             }
 
             var selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
@@ -120,53 +119,27 @@ define([
               // Donut charts figures
               const queryFor = self.currentISO ? self.currentISO : 'global';
 
-              // console.log(self);
-              // console.log(self.aoilist);
-              // console.log('');
-              // console.log('HERE');
-              // // console.log(Config.fires_api_endpoint + 'admin/${queryFor}/${feature.attributes.id_1}?period=' + this.startDateRaw + ',' + this.endDateRaw)}`);
-              // console.log(Config.fires_api_endpoint + 'admin/' + queryFor + '/' + self.aoilist + '?period=' + this.startDateRaw + ',' + this.endDateRaw);
-              // console.log('');
+              let url;
 
-              // request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '/' + self.aoilist + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
-              //aggregate_by
-              //queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
-              // console.log(Config.fires_api_endpoint + 'admin/' + queryFor + '?aggregate_values=True&aggregate_by=adm1&period=' + this.startDateRaw + ',' + this.endDateRaw);
-              // request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?aggregate_values=True&aggregate_by=adm1&period=' + this.startDateRaw + ',' + this.endDateRaw, {
-              // const url2 = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
-              const url = Config.fires_api_endpoint + 'admin/' + queryFor + '?&period=' + this.startDateRaw + ',' + this.endDateRaw;
-              const url2 = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '/' + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
-              console.log('url please, ', url);
-              console.log('url2, instead ', url2);
-              request.get(url2, {
+              if (window.reportOptions.aoiId) {
+                url = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+              } else {
+                url = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+              }
+
+              request.get(url, {
                 handleAs: 'json'
               }).then(function(response) {
-                // console.log('response', response);
-                // debugger
-                // queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
-                //
-                // query.where = `NAME_1 IN ('${window.reportOptions.aois}')`;
-                // // console.log('WHERE?!?!', query.where);
-                // // console.log('query.where --> are we querying the right AOI-level service?!', query.where);
-                // query.returnGeometry = false;
-                // query.outFields = ["id_1"];
-                //
-                // success = function(data) {
-                  // console.log('');
-                  // console.log('data', data);
-                  // console.log('Config.countryPieCharts', Config.countryPieCharts);
-                  Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-                    return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
-                  })).then(() => {
-                    $(".chart-container-countries:odd").addClass('pull-right');
-                    $(".chart-container-countries:even").addClass('pull-left');
-                  }).catch(e => {
-                    console.log(e);
-                  });
-                // }
-                // queryTask.execute(query, success, function() {
-                //   console.log('err');
-                // });
+
+                Promise.all(Config.countryPieCharts.map(function(chartConfig) {
+                  return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
+                })).then(() => {
+                  $(".chart-container-countries:odd").addClass('pull-right');
+                  $(".chart-container-countries:even").addClass('pull-left');
+                }).catch(e => {
+                  console.log(e);
+                });
+
               });
             }
           });
@@ -176,6 +149,7 @@ define([
         getIdOne: function() {
 
           const deferred = new Deferred();
+          console.log('window.reportOptions', window.reportOptions);
 
           if (window.reportOptions.aois) {
             const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
@@ -194,6 +168,7 @@ define([
               deferred.resolve(false);
             });
           } else {
+            console.log('we falsee');
             deferred.resolve(false);
           }
           return deferred.promise;
@@ -316,7 +291,12 @@ define([
               if (getClassJenks) {
                 switch (method) {
                   case 'natural':
-                    breaks = getClassJenks(brkCount);
+                    try {
+                      breaks = getClassJenks(brkCount);
+
+                    } catch (e) {
+                      breaks = [0, 1, 2, 3, 4];
+                    }
                     break;
                   case 'equal':
                     breaks = getClassEqInterval(brkCount);
@@ -601,13 +581,17 @@ define([
           return new Promise(resolve => {
             const data = [];
 
-            //TODO: Update this if we do Not have a "reportOptions.aoiId}"!
-            const url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
+            let url;
+
+            if (window.reportOptions.aoiId) {
+              url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
+            } else {
+              url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}?period=${this.startDateRaw},${this.endDateRaw}`;
+            }
 
             request.get(url, {
               handleAs: 'json'
             }).then((res) => {
-              // console.log('res', res);
               const allData = res.data.attributes.value;
 
               if (allData !== null) {
@@ -725,9 +709,14 @@ define([
             this.currentCountry = country;
             this.countryObjId = Config.countryObjId[this.currentCountry];
 
+            console.log('initing with this currentCountry: ', this.currentCountry);
+
+            if (this.currentCountry) {
+              this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
+            }
+
             if (aois) {
               this.aoilist = aois;
-              this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
               document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
             }
 
@@ -1422,7 +1411,15 @@ define([
         const queryFor = self.currentISO ? self.currentISO : 'global';
 
         //TODO: Update this if we do Not have a "reportOptions.aoiId}"!
-        const url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        console.log('queryFor', queryFor);
+        // const url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        let url;
+
+        if (window.reportOptions.aoiId) {
+          url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        } else {
+          url = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        }
 
         request.get(url, {
           handleAs: 'json'
@@ -1507,11 +1504,13 @@ define([
           window['firesCountRegionSeries'] = series;
           window['firesCountRegionCurrentYear'] = currentYear;
 
-          // console.log('series', series);
-          // console.log('series[series.length - 1]', series[series.length - 1]);
-
           // Adding sum for year to window
           window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
+
+
+          if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
+            window['firesCountRegionCurrentYearSum'].pop();
+          }
 
           $('#firesCountTitle').html(
             `${currentYear} MODIS Fire Alerts, Year to Date
@@ -2138,7 +2137,14 @@ define([
 
                 const queryFor = self.currentISO ? self.currentISO : 'global';
 
-                const fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                let fireAlertCountUrl;
+
+                if (window.reportOptions.aoiId) {
+                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                } else {
+                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                }
+
                 request.get(fireAlertCountUrl, {
                   handleAs: 'json'
                 }).then((res) => {
@@ -2168,7 +2174,14 @@ define([
                   createFigure(_.values(tmpFireAlerts), dates);
                 });
 
-                const totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '/' + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                let totalFireAlertsUrl;
+
+                if (window.reportOptions.aoiId) {
+                  totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                } else {
+                  totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                }
+
                 request.get(totalFireAlertsUrl, {
                   handleAs: 'json'
                 }).then((res) => {
