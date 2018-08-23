@@ -18,7 +18,6 @@ define([
     "esri/tasks/QueryTask",
     "esri/tasks/StatisticDefinition",
     "esri/graphicsUtils",
-    "js/config",
     "esri/geometry/Extent",
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
