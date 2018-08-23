@@ -24,7 +24,7 @@ define([
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig",
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
-    SimpleFillSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, ReportConfig, Extent, SpatialReference, geostats, Config) {
+    SimpleFillSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
     return {
 
@@ -789,7 +789,8 @@ define([
             if (hasHash) {
                 _initialState = ioQuery.queryToObject(url.split("#")[1]);
             } else {
-                _initialState = ReportConfig.defaultState;
+                // _initialState = ReportConfig.defaultState;
+                _initialState = {};
             }
 
             const dateObj = {};
