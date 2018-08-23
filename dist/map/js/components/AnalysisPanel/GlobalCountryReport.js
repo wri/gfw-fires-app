@@ -197,7 +197,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
                 placeholder: 'Select a Country',
                 onChange: this.handleSubRegionChange.bind(this),
                 options: countrySubRegionsList,
-                multi: true,
+                multi: false,
                 value: this.state.selectedSubRegion
               })
             ),
@@ -279,7 +279,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         var reportType = 'globalcountryreport',
             countries = this.state.selectedGlobalCoutry,
-            regions = this.state.selectedSubRegion,
+            region = this.state.selectedSubRegion,
             reportdateFrom = this.state.analysisStartDate.split('/'),
             reportdateTo = this.state.analysisEndDate.split('/'),
             reportdates = {};
@@ -295,19 +295,21 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         reportdates.tMonth = Number(reportdateTo[0]);
         reportdates.tDay = Number(reportdateTo[1]);
 
-        var hash = this.reportDataToHash(reportType, reportdates, countries, regions);
+        var hash = this.reportDataToHash(reportType, reportdates, countries, region);
         window.open('../report/index.html' + hash, '_blank', '');
       }
     }, {
       key: 'reportDataToHash',
-      value: function reportDataToHash(reportType, dates, country, countryRegions) {
+      value: function reportDataToHash(reportType, dates, country, countryRegion) {
         var hash = '#';
         var reportTypeString = 'reporttype=' + reportType;
         var countryString = 'country=' + country;
 
-        var countryRegionString = 'aois=' + countryRegions.map(function (region) {
-          return region.value;
-        }).join('!');
+        // console.log('we here??!', countryRegion);
+        // debugger
+
+        var countryRegionString = countryRegion.length ? '' : 'aois=' + countryRegion.value;
+        console.log('countryRegionString', countryRegionString);
 
         var dateArgs = [];
         var dateString = 'dates=';
@@ -322,8 +324,13 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         if (country && country === 'ALL') {
           hash += ['aoitype=ALL', reportTypeString, dateString].join('&');
         } else {
-          hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+          if (countryRegionString) {
+            hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+          } else {
+            hash += ['aoitype=GLOBAL', reportTypeString, countryString, dateString].join('&');
+          }
         }
+        console.log('hash', hash);
         return hash;
       }
     }]);

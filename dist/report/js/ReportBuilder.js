@@ -28,10 +28,13 @@ define([
 
     return {
 
-        init: function() {
-            var self = this;
-            self.init_report_options();
-            
+      init: function() {
+          var self = this;
+          self.init_report_options();
+
+          this.getIdOne().then(id_1 => {
+            // in getFireCounts, in queryForFiresCount, right before self.createPieChart
+
             var areaOfInterestType = window.reportOptions['aoitype'];
 
             // Getting basic administrative area info
@@ -39,7 +42,6 @@ define([
               self.getCountryAdminTypes(selectedCountry);
             }
 
-            
             var selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
             $('.selected-country').text(selectedCountry);
             $('.country-name').text(selectedCountry);
@@ -117,9 +119,18 @@ define([
               // Donut charts figures
               const queryFor = self.currentISO ? self.currentISO : 'global';
 
-              request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+              let url;
+
+              if (window.reportOptions.aoiId) {
+                url = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+              } else {
+                url = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+              }
+
+              request.get(url, {
                 handleAs: 'json'
               }).then(function(response) {
+
                 Promise.all(Config.countryPieCharts.map(function(chartConfig) {
                   return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
                 })).then(() => {
@@ -128,8 +139,40 @@ define([
                 }).catch(e => {
                   console.log(e);
                 });
+
               });
             }
+          });
+
+        },
+
+        getIdOne: function() {
+
+          const deferred = new Deferred();
+          console.log('window.reportOptions', window.reportOptions);
+
+          if (window.reportOptions.aois) {
+            const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
+            const query = new Query();
+
+            query.where = `NAME_1 IN ('${window.reportOptions.aois}')`;
+            query.returnGeometry = false;
+            query.outFields = ['id_1'];
+
+            queryTask.execute(query, (response) => {
+              if (response.features.length > 0) {
+                window.reportOptions.aoiId = response.features[0].attributes.id_1;
+                deferred.resolve(true);
+              }
+            }, (err) => {
+              deferred.resolve(false);
+            });
+          } else {
+            console.log('we falsee');
+            deferred.resolve(false);
+          }
+          return deferred.promise;
+
         },
 
         querySecondMap: function(areaOfInterestType, configKey) {
@@ -144,20 +187,44 @@ define([
               queryUrl;
 
           if (areaOfInterestType === "GLOBAL") {
+            console.log(1);
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
+            const subregion = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
+
             queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
+            // queryFor = configKey === "adminBoundary" ? `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
+            console.log(2);
             $('.admin-type-1').text('Country');
             $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
             queryFor = configKey === "adminBoundary" ? 'global?aggregate_values=True&aggregate_by=iso&' : 'global?aggregate_values=True&aggregate_by=adm1&';
           } else {
+            console.log(3);
             keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
           }
 
-          request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+          let adminCountUrl = '';
+
+          console.log('keyRegion', keyRegion);
+          console.log('queryFor', queryFor);
+
+          console.log('window.reportOptions.aoiId', window.reportOptions.aoiId);
+          if (window.reportOptions.aoiId) {
+            // debugger
+            adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
+          } else {
+            adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
+          }
+          console.log('her e where we need the 3nd admin maybe', adminCountUrl);
+
+          // request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+          request.get(adminCountUrl, {
             handleAs: 'json'
           }).then((response) => {
+            console.log('response', response);
+            //TODO: We have all the values we need here!
+            // debugger
             let feat_stats = [];
             let feature_id, dist_names;
             const regency = 'Regency/City';
@@ -178,14 +245,28 @@ define([
                 break;
             }
 
+            console.log('');
+            console.log('adminLevel', adminLevel);
+            console.log('');
+
             response.data.attributes.value.forEach((res) => {
               const attributes = { fire_count: res.alerts };
               attributes[feature_id] = res[adminLevel];
               if (adminLevel === 'iso') {
                 attributes[keyRegion] = res.iso;
               }
+              if (res['adm1']) {
+                attributes['adm1'] = res['adm1'];
+              }
+              if (res['adm2']) {
+                attributes['adm2'] = res['adm2'];
+              }
+              console.log('ew', res);
               feat_stats.push({ attributes });
             });
+
+            console.log('feat_stats', feat_stats);
+            // debugger
 
             if (!feat_stats || feat_stats.length == 0) {
               return;
@@ -196,7 +277,7 @@ define([
             }).sort(function(a, b) {
               return a - b
             });
-            
+
             if (window.reportOptions.aoitype === 'ISLAND') {
               queryUrl = boundaryConfig.urlIsland;
               uniqueValueField = boundaryConfig.UniqueValueField;
@@ -248,7 +329,12 @@ define([
               if (getClassJenks) {
                 switch (method) {
                   case 'natural':
-                    breaks = getClassJenks(brkCount);
+                    try {
+                      breaks = getClassJenks(brkCount);
+
+                    } catch (e) {
+                      breaks = [0, 1, 2, 3, 4];
+                    }
                     break;
                   case 'equal':
                     breaks = getClassEqInterval(brkCount);
@@ -303,7 +389,7 @@ define([
                 };
               });
 
-              
+
               arrayUtils.forEach(feat_stats, (feat) => {
                 const count = feat.attributes['fire_count'];
                 let sym;
@@ -329,7 +415,7 @@ define([
                 }
                 renderer.addBreak(breaks[i], breaks[i+1], sym);
               });
- 
+
               return {
                 renderer,
                 symbols,
@@ -398,6 +484,7 @@ define([
 
             function buildRegionsTables() {
               let tableResults = feat_stats;
+              console.log('tableResults', tableResults);
 
               const sortCombinedResults = _.sortByOrder(tableResults, function (element) {
                 return element.attributes.fire_count;
@@ -405,17 +492,28 @@ define([
 
               featureLayer.graphics.forEach((graphic) => {
                 feat_stats.forEach((feature) => {
-                  if(feature.attributes[feature_id] === graphic.attributes[feature_id]) {
+                  if (feature.attributes[feature_id] === graphic.attributes[feature_id]) {
                     if (keyRegion === 'NAME_2') {
                       feature.attributes.NAME_1 = graphic.attributes.name_1;
                     }
                     feature.attributes[keyRegion] = graphic.attributes[keyRegion.toLowerCase()];
                   }
                 });
-              })
+              });
 
-              const firstTenTableResults = sortCombinedResults.slice(0, 10);
+              console.log('featureLayer.graphics', featureLayer.graphics);
+
+              console.log('feat_stats', feat_stats);
+
+              let firstTenTableResults = sortCombinedResults.slice(0, 10);
               const tableColorBreakPoints = Config[relatedTableId];
+
+
+              console.log('where??', sortCombinedResults);
+              // if (window.reportOptions.aoiId && configKey === "adminBoundary") {
+              //   // debugger
+              //   firstTenTableResults = sortCombinedResults.filter(aoi => aoi.attributes.id_1 === window.reportOptions.aoiId);
+              // }
 
               if (configKey === "adminBoundary") {
                 $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
@@ -441,11 +539,13 @@ define([
                 }
 
                 tableRows += sortCombinedResults.map(function (feature) {
-                  const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
+                  // const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
+                  const { fire_count, id_0, id_1, id_2, NAME_1, ISLAND, SUBDISTRIC } = feature.attributes;
+                  console.log('feature', feature.attributes);
                   const colorValue = fire_count;
-                  const admin1 = NAME_1 ? NAME_1 : NAME_0;
-                  const subDistrict1 = NAME_1 ? NAME_1 : ISLAND;
-                  const subDistrict2 = NAME_2 ? NAME_2 : SUBDISTRIC;
+                  const admin1 = NAME_1 ? NAME_1 : id_1 ? id_1 : id_0;
+                  const subDistrict1 = id_1 ? id_1 : ISLAND;
+                  const subDistrict2 = id_2 ? id_2 : SUBDISTRIC;
                   let color;
 
                   if (tableColorBreakPoints) {
@@ -457,12 +557,16 @@ define([
                   }
 
                   if (queryConfigTableId === 'district-fires-table') {
+                    if(!admin1) return;
                     return(
                       `<tr><td class="table-cell ${aoitype}">${admin1}</td>
                       <td class='table-cell table-cell__value'>${colorValue}</td>")
                       <td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${ color ? color.toString() : Config.colorramp[0] });'></span></td></tr>`
                     );
                   } else {
+                    // console.log('subDistrict2', subDistrict2);
+                    // console.log('subDistrict1', subDistrict1);
+                    if((!subDistrict2 || !subDistrict1)) return;
                     return(
                       `<tr><td class="table-cell ${aoitype}">${subDistrict2}</td>
                       <td class="table-cell ${aoitype}">${subDistrict1}</td>
@@ -494,7 +598,7 @@ define([
                 defExp = '1=1';
               }  else {
                 options[boundaryConfig.layerIdGlobal] = ldos;
-                defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
+                defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
               }
 
               featureLayer.setDefinitionExpression(defExp);
@@ -506,6 +610,8 @@ define([
             featureLayer.on('load', generateRenderer);
 
             featureLayer.on('update-end', function() {
+              // console.log('updete');
+              // debugger
               buildRegionsTables();
               if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
               deferred.resolve(true);
@@ -528,35 +634,43 @@ define([
           return new Promise(resolve => {
             const data = [];
 
-            const queryFor = this.currentISO ? this.currentISO : 'global';
-  
-            request.get(Config.fires_api_endpoint + chartConfig.type + '/' + queryFor + '?period=' + this.startDateRaw + ',' + this.endDateRaw, {
+            let url;
+
+            if (window.reportOptions.aoiId) {
+              url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
+            } else {
+              url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}?period=${this.startDateRaw},${this.endDateRaw}`;
+            }
+
+            request.get(url, {
               handleAs: 'json'
-            }).then((response) => {
-              if (response.data.attributes.value !== null) {
+            }).then((res) => {
+              const allData = res.data.attributes.value;
+
+              if (allData !== null) {
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
               } else {
                 $('#' + chartConfig.domElement + '-container').remove();
                 resolve();
                 return;
               }
-  
-              const alerts = response.data.attributes.value[0].alerts;
-  
+
+              const alerts = allData[0].alerts;
+
               data.push({
                 color: chartConfig.colors[0],
                 name: chartConfig.name1,
                 visible: true,
                 y: alerts
               });
-  
+
               data.push({
                 color: chartConfig.colors[1],
                 name: chartConfig.name2,
                 visible: true,
                 y: firesCount - alerts
               });
-  
+
               this.buildPieChart(chartConfig.domElement, {
                 data: data,
                 name: chartConfig.name3,
@@ -570,18 +684,15 @@ define([
 
         getCountryAdminTypes: function () {
           // Get admin type 1 and admin type 2 for country
-          let queryTask, queryConfig, aoiData;
+          let queryTask, queryConfig;
           const aois = window.reportOptions.aois;
-          if (aois) {
-            aoiData = aois.join('\',\'');
-          }
 
           // TODO move this to config
           queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/10'),
             deferred = new Deferred(),
             query = new Query();
 
-            query.where = "ID_0 = " + this.countryObjId + " AND Name_1 in ('" + aoiData + "')";
+            query.where = "ID_0 = " + this.countryObjId + " AND Name_1 in ('" + aois + "')";
             query.returnGeometry = false;
             query.outFields = ['ENGTYPE_1, ENGTYPE_2'];
             query.returnDistinctValues = true;
@@ -651,9 +762,14 @@ define([
             this.currentCountry = country;
             this.countryObjId = Config.countryObjId[this.currentCountry];
 
-            if (aois) {
-              this.aoilist = aois.join(', ');
+            console.log('initing with this currentCountry: ', this.currentCountry);
+
+            if (this.currentCountry) {
               this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
+            }
+
+            if (aois) {
+              this.aoilist = aois;
               document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
             }
 
@@ -702,11 +818,7 @@ define([
             }
 
             if (_initialState.aois) {
-              window.reportOptions.aois = _initialState.aois.split('!').sort();
-              window.reportOptions.aois = window.reportOptions.aois.map(function (aoisItem) {
-                const fixingApostrophe = aoisItem.replace(/'/g, "''");
-                return fixingApostrophe;
-              });
+              window.reportOptions.aois = _initialState.aois.replace(/'/g, "''");
             }
 
             window.reportOptions.dates = dateObj;
@@ -723,9 +835,9 @@ define([
         },
 
         get_global_layer_definition: function () {
-          const aois = window.reportOptions.aois;
+
           const aoiType = window.reportOptions.aoitype;
-          const aoiData = aois.join('\',\'');
+          const aoiData = window.reportOptions.aois;
           let countryQueryGlobal;
           let aoiQueryGlobal;
 
@@ -757,9 +869,8 @@ define([
         },
 
         get_layer_definition: function(queryType) {
-          const aois = window.reportOptions.aois;
           const aoiType = window.reportOptions.aoitype;
-          const aoiData = aois ? aois.join('\',\'') : '';
+          const aoiData = window.reportOptions.aois;
           const startdate = "ACQ_DATE >= date'" + this.startdate + "'";
           const enddate = "ACQ_DATE <= date'" + this.enddate + "'";
           let countryQueryGlobal;
@@ -785,24 +896,31 @@ define([
           }
 
           let sql;
-          if (aois) sql = [startdate, enddate, aoi].join(' AND ');
+          if (window.reportOptions.aois) sql = [startdate, enddate, aoi].join(' AND ');
           else sql = [startdate, enddate].join(' AND ');
-          
+
           return sql;
         },
 
         get_aoi_definition: function(queryType) {
-          const aois = window.reportOptions.aois;
           let aoi;
 
           if (window.reportOptions.aoitype === 'GLOBAL' && queryType === 'REGION') {
-            aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + aois.join("','") + "')";
+            if (window.reportOptions.aois) {
+              aoi = "NAME_0 = '" + window.reportOptions.country + "' AND NAME_1 in ('" + window.reportOptions.aois + "')";
+            } else {
+              aoi = "NAME_0 = '" + window.reportOptions.country + "'";
+            }
           } else if (window.reportOptions.aoitype === 'GLOBAL') {
-            aoi = "ID_0 = " + this.countryObjId + " AND NAME_1 in ('" + aois.join("','") + "')";
+            if (window.reportOptions.aois) {
+              aoi = "ID_0 = " + this.countryObjId + " AND NAME_1 in ('" + window.reportOptions.aois + "')";
+            } else {
+              aoi = "ID_0 = " + this.countryObjId;
+            }
           } else if (window.reportOptions.aoitype === 'ALL') {
             aoi = "";
           } else {
-            aoi = `${window.reportOptions.aoitype} in (' ${aois.join("','")} ')`;
+            aoi = `${window.reportOptions.aoitype} in (' ${window.reportOptions.aois} ')`;
           }
 
           return aoi;
@@ -919,7 +1037,7 @@ define([
                 id: 'modis',
                 visible: true
               });
-              
+
               // Set layer definitions
               viirsLayer.setLayerDefinitions(viirsLayerDefs);
               modisLayer.setLayerDefinitions(modisLayerDefs);
@@ -1146,7 +1264,7 @@ define([
 
           if (window.reportOptions.aoitype === 'ISLAND') {
             otherFiresParams.layerIds = boundaryConfig.defaultLayers;
-          } else if (window.reportOptions.aoitype === 'ALL') { 
+          } else if (window.reportOptions.aoitype === 'ALL') {
             otherFiresParams.layerIds = boundaryConfig.defaultLayers;
           } else {
             otherFiresParams.layerIds = boundaryConfig.defaultLayersGlobal;
@@ -1185,6 +1303,9 @@ define([
             var tableResults = configKey === 'adminBoundary' ? Config.query_results['adminQuery'] : Config.query_results['subDistrictQuery'];
             var firstTenTableResults = tableResults.slice(0, 10);
             var tableColorBreakPoints = Config[relatedTableId];
+
+            console.log('where2??', sortCombinedResults);
+            // debugger
 
             if (configKey === "adminBoundary") {
               $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
@@ -1268,7 +1389,7 @@ define([
                 return fixingApostrophe;
               });
               options[boundaryConfig.layerIdGlobal] = ldos;
-              layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois.join("','") + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
+              layerdefs[boundaryConfig.layerIdGlobal] = "NAME_1 in ('" + aois + "') AND " + uniqueValueField + " in ('" + dist_names.join("','") + "')";
             } else {
               options[boundaryConfig.layerIdGlobal] = ldos;
               layerdefs[boundaryConfig.layerIdGlobal] = uniqueValueField + " in ('" + dist_names.join("','") + "')";
@@ -1325,7 +1446,7 @@ define([
           query.where = self.get_aoi_definition('REGION') === '' ? '1=1' : self.get_aoi_definition('REGION');
           query.returnGeometry = false;
           query.outFields = [regionField, uniqueValueField];
-          
+
 
           queryTask.execute(query, function(res) {
             if (res.features.length > 0) {
@@ -1342,12 +1463,25 @@ define([
         },
 
       getFireCounts: function () {
+        const self = this;
+        const queryFor = self.currentISO ? self.currentISO : 'global';
 
-        const deferred = new Deferred();
+        //TODO: Update this if we do Not have a "reportOptions.aoiId}"!
+        console.log('queryFor', queryFor);
+        // const url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        let url;
 
-        request.get(`${Config.fires_api_endpoint}admin/${this.currentISO ? this.currentISO : 'global'}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
+        if (window.reportOptions.aoiId) {
+          url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        } else {
+          url = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+        }
+
+        request.get(url, {
           handleAs: 'json'
-        }).then((response) => {
+        }).then((res) => {
+
+
           let series = [];
           let seriesTemp = { data: [], name: '' };
           let index = 0;
@@ -1365,7 +1499,7 @@ define([
             crop: false,
             format: '{series.name}'
           };
-          const values = response.data.attributes.value;
+          const values = res.data.attributes.value;
 
           function shadeColor(color, percent) {
             var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
@@ -1429,8 +1563,13 @@ define([
           // Adding sum for year to window
           window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
 
+
+          if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
+            window['firesCountRegionCurrentYearSum'].pop();
+          }
+
           $('#firesCountTitle').html(
-            `${currentYear} MODIS Fire Alerts, Year to Date 
+            `${currentYear} MODIS Fire Alerts, Year to Date
             <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
           );
 
@@ -1498,10 +1637,8 @@ define([
             series: series
           });
 
-          deferred.resolve(false);
-
         });
-        return deferred.promise;
+
       },
 
       getFireHistoryCounts: function() {
@@ -1514,7 +1651,7 @@ define([
         request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {
-          
+
           let min, max;
           for (var i = 0; i < response.data.attributes.value.length; i++) {
             const { year: x, alerts: z } = response.data.attributes.value[i];
@@ -1871,7 +2008,7 @@ define([
                     combinedResults.push(keyRegion === 'NAME_1' ?
                       {attributes: {NAME_1: key, fire_count: fireCount}} :
                       {attributes: {NAME_1: adminLevelOneTwoArray[key], NAME_2: key, fire_count: fireCount}});
-                  } else if (areaOfInterestType === "ALL") { 
+                  } else if (areaOfInterestType === "ALL") {
                     combinedResults.push(keyRegion === 'NAME_ENGLISH' ?
                     {attributes: {NAME_ENGLISH: key, fire_count: fireCount}} :
                     {attributes: {NAME_ENGLISH: adminLevelOneTwoArray[key], NAME_1: key, fire_count: fireCount}});
@@ -1896,11 +2033,11 @@ define([
                   let queryConfigField;
                   if(window.reportOptions.aoitype === 'ISLAND') {
                     queryConfigField = queryConfig.UniqueValueField;
-                  } else if(window.reportOptions.aoitype === 'ALL') { 
+                  } else if(window.reportOptions.aoitype === 'ALL') {
                     queryConfigField = queryConfig.UniqueValueFieldAll;
                   } else {
                     queryConfigField = queryConfig.UniqueValueFieldGlobal;
-                  } 
+                  }
                   if (queryConfigField) {
                     self.getRegion(configKey).then(function() {
                       var regmap = Config.regionmap[configKey];
@@ -2035,6 +2172,7 @@ define([
         },
         queryForDailyFireData: function(areaOfInterestType) {
             var deferred = new Deferred(),
+                query = new Query(),
                 fireDataLabels = [],
                 fireData = [],
                 self = this;
@@ -2051,28 +2189,64 @@ define([
             }
 
             function queryForFiresCount() {
+              // This query gets both our totalFireAlerts count for the Header & the daily fire alerts counts for the MODIS fire alerts chart
 
-              const queryFor = self.currentISO ? self.currentISO : 'global';
+                const queryFor = self.currentISO ? self.currentISO : 'global';
 
-              // Get total fires count
-              request.get(Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw, {
-                handleAs: 'json'
-              }).then((response) => {
-                $("#totalFireAlerts").html(self.numberWithCommas(response.data.attributes.value[0].alerts));
-              });
+                let fireAlertCountUrl;
 
-              // Get total fires count aggregated by day
-              request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
-                handleAs: 'json'
-              }).then((response) => {
+                if (window.reportOptions.aoiId) {
+                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                } else {
+                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                }
 
-                const values = response.data.attributes.value;
-    
-                values.forEach(value => {
-                  fireDataLabels.push(moment(value.day).utcOffset('Asia/Jakarta').format("D-MMM-YYYY"));
-                  fireData.push(value.alerts);
+                request.get(fireAlertCountUrl, {
+                  handleAs: 'json'
+                }).then((res) => {
+                  const allData = res.data.attributes.value;
+
+                  // sort the data
+                  const sortCombinedResults = _.sortByOrder(allData, function (element) {
+                    return element.day;
+                  }, 'asc');
+
+                  let total = 0;
+
+                  const dates = [];
+                  const tmpFireAlerts = {};
+
+                  for (let j = 0; j < sortCombinedResults.length; j++) {
+                    const data = sortCombinedResults[j];
+                    total += data.alerts;
+                    if (dates.indexOf(data.day) > 0) {
+                      tmpFireAlerts[data.day] += data.alerts;
+                    } else {
+                      dates.push(data.day);
+                      tmpFireAlerts[data.day] = data.alerts;
+                    }
+                  }
+
+                  createFigure(_.values(tmpFireAlerts), dates);
                 });
 
+                let totalFireAlertsUrl;
+
+                if (window.reportOptions.aoiId) {
+                  totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                } else {
+                  totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                }
+
+                request.get(totalFireAlertsUrl, {
+                  handleAs: 'json'
+                }).then((res) => {
+                  const total = res.data.attributes.value[0].alerts;
+                  $("#totalFireAlerts").html(self.numberWithCommas(total));
+                });
+
+
+              function createFigure(fireData, fireDataLabels) {
                 $("#totalFiresLabel").show()
 
                 $('#fire-line-chart').highcharts({
@@ -2142,12 +2316,13 @@ define([
                       color: '#f49f2d'
                     }]
                 });
-    
-              });
+                deferred.resolve(true);
+                return deferred.promise;
+              }
+              // queryTask.execute(query, success, function() {
+              //   console.log('err');
+              // });
             }
-
-            deferred.resolve(true);
-            return deferred.promise;
         },
 
         buildPieChart: function(id, config) {
@@ -2163,6 +2338,7 @@ define([
           // }
 
           let hasData = true;
+          // console.log('config', config);
 
           config.data.forEach((value) => {
             if (value.y < 1) {
@@ -2171,7 +2347,7 @@ define([
               hasData = true;
             }
           });
-          
+
           $('#' + id).highcharts({
               chart: {
                   type: 'pie'
@@ -2263,6 +2439,7 @@ define([
                 mapkeys;
 
             mapkeys = [mapkeysItem];
+
             query.where = self.get_aoi_definition('REGION') === "" ? '1=1' : self.get_aoi_definition('REGION') ;
             query.maxAllowableOffset = 10000;
             query.returnGeometry = true;
@@ -2274,7 +2451,9 @@ define([
               query.outFields = ["NAME_1"];
               queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
             }
-            
+
+            // console.log('query.where', query.where);
+
             callback = function(results) {
                 var extent = graphicsUtils.graphicsExtent(results.features);
 
@@ -2330,7 +2509,7 @@ define([
 
                 arrayUtils.forEach(fieldNames, function(field, index) {
                     var numberOfElements = fieldNames.length - 1;
-                    
+
                     if (queryConfigTableId === 'district-fires-table' && numberOfElements === index) {
                       var colorValue = feature.attributes[field];
                       var tableColorRange = window[queryConfigTableId + '-colorRange'];

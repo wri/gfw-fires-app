@@ -225,7 +225,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
               _react2.default.createElement(_reactSelect2.default, {
                 onChange: this.handleIslandChange.bind(this),
                 options: islands,
-                multi: true,
+                multi: false,
                 value: this.state.selectedIsland
               })
             ),
@@ -267,10 +267,10 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       value: function beginAnalysis() {
         app.debug('AnalysisTab >>> beginAnalysis');
 
-        var aoiType = this.props.areaIslandsActive ? 'ISLAND' : 'PROVINCE';
-        var provinces = this.props.areaIslandsActive ? this.state.selectedIsland : this.state.selectedIsland;
+        var aoiType = 'PROVINCE';
+        var province = this.state.selectedIsland;
 
-        if (!provinces) {
+        if (!province) {
           this.setState({
             localErrors: true
           });
@@ -295,13 +295,13 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         var dataSource = this.props.analysisSourceGFW ? 'gfw' : 'greenpeace';
 
-        var hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
+        var hash = this.reportDataToHash(aoiType, reportdates, province, dataSource);
         var win = window.open('../report/index.html' + hash, '_blank', '');
 
         win.report = true;
         win.reportOptions = {
           'dates': reportdates,
-          'aois': provinces,
+          'aois': province,
           'aoitype': aoiType,
           'dataSource': dataSource
         };
@@ -310,7 +310,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       }
     }, {
       key: 'reportDataToHash',
-      value: function reportDataToHash(aoitype, dates, aois, dataSource) {
+      value: function reportDataToHash(aoitype, dates, aoi, dataSource) {
         var hash = '#',
             dateargs = [],
             datestring = void 0,
@@ -325,9 +325,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         }
 
         datestring = 'dates=' + dateargs.join('!');
-        aoistring = 'aois=' + aois.map(function (aoi) {
-          return aoi.value;
-        }).join('!');
+        aoistring = 'aois=' + aoi.value;
 
         dataSourceString = 'dataSource=' + dataSource;
 
