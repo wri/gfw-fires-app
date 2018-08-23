@@ -11,7 +11,6 @@ import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
 import BurnScarsLegend from 'components/LayerPanel/BurnScarsLegend';
-import RiskControls from 'components/LayerPanel/RiskControls';
 import RainControls from 'components/LayerPanel/RainControls';
 import AirControls from 'components/LayerPanel/AirControls';
 import WindControls from 'components/LayerPanel/WindControls';
@@ -83,9 +82,6 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
-          break;
-        case KEYS.fireWeather:
-          childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.fireHistory:
           childComponent = <FireHistoryTimeline {...this.state} loaded={this.props.loaded} />;

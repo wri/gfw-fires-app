@@ -191,7 +191,11 @@ export default class GlobalCountryReport extends React.Component {
     if (country && country === 'ALL') {
       hash += ['aoitype=ALL', reportTypeString, dateString].join('&');
     } else {
-      hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+      if (countryRegionString) {
+        hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+      } else {
+        hash += ['aoitype=GLOBAL', reportTypeString, countryString, dateString].join('&');
+      }
     }
     console.log('hash', hash);
     return hash;

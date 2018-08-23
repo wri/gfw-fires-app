@@ -187,20 +187,44 @@ define([
               queryUrl;
 
           if (areaOfInterestType === "GLOBAL") {
+            console.log(1);
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
+            const subregion = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
+
             queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
+            // queryFor = configKey === "adminBoundary" ? `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
+            console.log(2);
             $('.admin-type-1').text('Country');
             $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
             queryFor = configKey === "adminBoundary" ? 'global?aggregate_values=True&aggregate_by=iso&' : 'global?aggregate_values=True&aggregate_by=adm1&';
           } else {
+            console.log(3);
             keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
           }
 
-          request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+          let adminCountUrl = '';
+
+          console.log('keyRegion', keyRegion);
+          console.log('queryFor', queryFor);
+
+          console.log('window.reportOptions.aoiId', window.reportOptions.aoiId);
+          if (window.reportOptions.aoiId) {
+            // debugger
+            adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
+          } else {
+            adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
+          }
+          console.log('her e where we need the 3nd admin maybe', adminCountUrl);
+
+          // request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
+          request.get(adminCountUrl, {
             handleAs: 'json'
           }).then((response) => {
+            console.log('response', response);
+            //TODO: We have all the values we need here!
+            // debugger
             let feat_stats = [];
             let feature_id, dist_names;
             const regency = 'Regency/City';
@@ -221,14 +245,28 @@ define([
                 break;
             }
 
+            console.log('');
+            console.log('adminLevel', adminLevel);
+            console.log('');
+
             response.data.attributes.value.forEach((res) => {
               const attributes = { fire_count: res.alerts };
               attributes[feature_id] = res[adminLevel];
               if (adminLevel === 'iso') {
                 attributes[keyRegion] = res.iso;
               }
+              if (res['adm1']) {
+                attributes['adm1'] = res['adm1'];
+              }
+              if (res['adm2']) {
+                attributes['adm2'] = res['adm2'];
+              }
+              console.log('ew', res);
               feat_stats.push({ attributes });
             });
+
+            console.log('feat_stats', feat_stats);
+            // debugger
 
             if (!feat_stats || feat_stats.length == 0) {
               return;
@@ -446,7 +484,7 @@ define([
 
             function buildRegionsTables() {
               let tableResults = feat_stats;
-              // console.log('tableResults', tableResults);
+              console.log('tableResults', tableResults);
 
               const sortCombinedResults = _.sortByOrder(tableResults, function (element) {
                 return element.attributes.fire_count;
@@ -454,17 +492,28 @@ define([
 
               featureLayer.graphics.forEach((graphic) => {
                 feat_stats.forEach((feature) => {
-                  if(feature.attributes[feature_id] === graphic.attributes[feature_id]) {
+                  if (feature.attributes[feature_id] === graphic.attributes[feature_id]) {
                     if (keyRegion === 'NAME_2') {
                       feature.attributes.NAME_1 = graphic.attributes.name_1;
                     }
                     feature.attributes[keyRegion] = graphic.attributes[keyRegion.toLowerCase()];
                   }
                 });
-              })
+              });
 
-              const firstTenTableResults = sortCombinedResults.slice(0, 10);
+              console.log('featureLayer.graphics', featureLayer.graphics);
+
+              console.log('feat_stats', feat_stats);
+
+              let firstTenTableResults = sortCombinedResults.slice(0, 10);
               const tableColorBreakPoints = Config[relatedTableId];
+
+
+              console.log('where??', sortCombinedResults);
+              // if (window.reportOptions.aoiId && configKey === "adminBoundary") {
+              //   // debugger
+              //   firstTenTableResults = sortCombinedResults.filter(aoi => aoi.attributes.id_1 === window.reportOptions.aoiId);
+              // }
 
               if (configKey === "adminBoundary") {
                 $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
@@ -490,11 +539,13 @@ define([
                 }
 
                 tableRows += sortCombinedResults.map(function (feature) {
-                  const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
+                  // const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
+                  const { fire_count, id_0, id_1, id_2, NAME_1, ISLAND, SUBDISTRIC } = feature.attributes;
+                  console.log('feature', feature.attributes);
                   const colorValue = fire_count;
-                  const admin1 = NAME_1 ? NAME_1 : NAME_0;
-                  const subDistrict1 = NAME_1 ? NAME_1 : ISLAND;
-                  const subDistrict2 = NAME_2 ? NAME_2 : SUBDISTRIC;
+                  const admin1 = NAME_1 ? NAME_1 : id_1 ? id_1 : id_0;
+                  const subDistrict1 = id_1 ? id_1 : ISLAND;
+                  const subDistrict2 = id_2 ? id_2 : SUBDISTRIC;
                   let color;
 
                   if (tableColorBreakPoints) {
@@ -513,6 +564,8 @@ define([
                       <td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${ color ? color.toString() : Config.colorramp[0] });'></span></td></tr>`
                     );
                   } else {
+                    // console.log('subDistrict2', subDistrict2);
+                    // console.log('subDistrict1', subDistrict1);
                     if((!subDistrict2 || !subDistrict1)) return;
                     return(
                       `<tr><td class="table-cell ${aoitype}">${subDistrict2}</td>
@@ -1250,6 +1303,9 @@ define([
             var tableResults = configKey === 'adminBoundary' ? Config.query_results['adminQuery'] : Config.query_results['subDistrictQuery'];
             var firstTenTableResults = tableResults.slice(0, 10);
             var tableColorBreakPoints = Config[relatedTableId];
+
+            console.log('where2??', sortCombinedResults);
+            // debugger
 
             if (configKey === "adminBoundary") {
               $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
