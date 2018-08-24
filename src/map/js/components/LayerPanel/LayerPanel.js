@@ -6,6 +6,7 @@ import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import FireHistoryTimeline from 'components/LayerPanel/FireHistoryTimeline';
 import ForestControls from 'components/LayerPanel/ForestControls';
+import RiskControls from 'components/LayerPanel/RiskControls';
 import PlantationControls from 'components/LayerPanel/PlantationControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
@@ -85,6 +86,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.fireHistory:
           childComponent = <FireHistoryTimeline {...this.state} loaded={this.props.loaded} />;
+          break;
+        case KEYS.fireWeather: //fireRisk ??
+          childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.lastRainfall:
           childComponent = <RainControls options={layer.calendar} loaded={this.props.loaded} />;
