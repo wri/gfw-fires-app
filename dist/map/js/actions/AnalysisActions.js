@@ -147,17 +147,16 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
             countries = [],
             adm1 = [];
         // There is some very wrong with WRI's AGS servers - it seems as if it cannot handle simultaneous requests, promises chaining for now
-        (0, _request2.default)(_config.analysisConfig.requests.islands).then(function (result) {
-          islands = result.features.map(function (f) {
-            return f.attributes.ISLAND;
-          }).sort();
-          return (0, _request2.default)(_config.analysisConfig.requests.provinces);
-        }).then(function (result) {
-          provinces = result.features.map(function (f) {
-            return f.attributes.PROVINCE;
-          }).sort();
-          return (0, _request2.default)(_config.analysisConfig.requests.countries);
-        }).then(function (result) {
+        // esriRequest(analysisConfig.requests.islands)
+        // .then(result => {
+        //   islands = result.features.map((f) => f.attributes.ISLAND).sort();
+        //   return esriRequest(analysisConfig.requests.provinces);
+        // })
+        // .then(result => {
+        //   provinces = result.features.map((f) => f.attributes.PROVINCE).sort();
+        //   return esriRequest(analysisConfig.requests.countries);
+        // })
+        (0, _request2.default)(_config.analysisConfig.requests.countries).then(function (result) {
           countries = result.features.map(function (f) {
             return f.attributes.NAME_0;
           }).sort();
@@ -167,8 +166,8 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
             return f.attributes;
           });
           _this.dispatch({
-            islands: islands,
-            provinces: provinces,
+            // islands,
+            // provinces,
             countries: countries,
             adm1: adm1
           });

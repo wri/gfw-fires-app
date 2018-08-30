@@ -188,8 +188,8 @@ define(['exports', 'actions/AnalysisActions', 'js/config', 'js/alt'], function (
     }, {
       key: 'initAreas',
       value: function initAreas(areas) {
-        this.islands = areas.islands;
-        this.provinces = areas.provinces;
+        // this.islands = areas.islands;
+        // this.provinces = areas.provinces;
         this.countries = areas.countries;
         this.adm1 = areas.adm1;
       }
