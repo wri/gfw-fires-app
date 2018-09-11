@@ -36,27 +36,27 @@ export default class CalendarModal extends Component {
 	componentDidMount() {
 		this.props.calendars.forEach(calendar => {
 			if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
-				this.getLatest(calendar.method).then((res) => {
-					if (calendar.date.isAfter(res)) {
-						calendar.date = res;
-						if (calendar.method === 'changeRisk') {
-							mapActions.setRiskDate({
-								date: res,
-								dest: 'riskDate'
-							});
-						} else {
-							mapActions.setRainDate({
-								date: res,
-								dest: 'rainDate'
-							});
-						}
-					} else {
+				// this.getLatest(calendar.method).then((res) => {
+					// if (calendar.date.isAfter(res)) {
+					// 	calendar.date = res;
+					// 	if (calendar.method === 'changeRisk') {
+					// 		mapActions.setRiskDate({
+					// 			date: res,
+					// 			dest: 'riskDate'
+					// 		});
+					// 	} else {
+					// 		mapActions.setRainDate({
+					// 			date: res,
+					// 			dest: 'rainDate'
+					// 		});
+					// 	}
+					// } else {
 						if (calendar.method === 'changeRisk') {
 							LayersHelper.updateFireRisk(defaults.yesterday);
 						} else {
 							LayersHelper.updateLastRain(defaults.yesterday);
 						}
-					}
+					// }
 
 					let calendar_obj = new window.Kalendae(calendar.domId, {
 						months: 1,
@@ -69,7 +69,7 @@ export default class CalendarModal extends Component {
 					});
 					calendar_obj.subscribe('change', this[calendar.method].bind(this));
 
-				});
+				// });
 
 			} else {
 				let calendar_obj = new window.Kalendae(calendar.domId, {
