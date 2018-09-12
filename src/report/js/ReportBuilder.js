@@ -36,12 +36,12 @@ define([
 
             var areaOfInterestType = window.reportOptions['aoitype'];
 
+            var selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
             // Getting basic administrative area info
             if (areaOfInterestType !== 'ALL') {
               self.getCountryAdminTypes(selectedCountry);
             }
 
-            var selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
             $('.selected-country').text(selectedCountry);
             $('.country-name').text(selectedCountry);
 
@@ -154,7 +154,7 @@ define([
             const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
             const query = new Query();
 
-            query.where = `NAME_1 IN ('${window.reportOptions.aois}')`;
+            query.where = `NAME_1 = '${window.reportOptions.aois}'`;
             query.returnGeometry = false;
             query.outFields = ['id_1'];
 
@@ -186,14 +186,14 @@ define([
               queryUrl;
 
           if (areaOfInterestType === "GLOBAL") {
-            console.log(1);
+            // console.log(1);
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
             const subregion = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
 
             queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
             // queryFor = configKey === "adminBoundary" ? `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
-            console.log(2);
+            // console.log(2);
             $('.admin-type-1').text('Country');
             $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
@@ -227,7 +227,15 @@ define([
             let feat_stats = [];
             let feature_id, dist_names;
             const regency = 'Regency/City';
-            const adminLevel = response.data.aggregate_by;
+            // const adminLevel = response.data.aggregate_by;
+
+            let adminLevel;
+
+            if (areaOfInterestType === 'GLOBAL') {
+              adminLevel = configKey === 'adminBoundary' ? 'adm1' : 'adm2';
+            } else if (areaOfInterestType === 'ALL') {
+              adminLevel = configKey === 'adminBoundary' ? 'iso' : 'adm1';
+            }
 
             switch (adminLevel) {
               case 'adm1':
@@ -244,9 +252,9 @@ define([
                 break;
             }
 
-            console.log('');
-            console.log('adminLevel', adminLevel);
-            console.log('');
+            // console.log('');
+            // console.log('adminLevel', adminLevel);
+            // console.log('');
 
             response.data.attributes.value.forEach((res) => {
               const attributes = { fire_count: res.alerts };
@@ -260,7 +268,7 @@ define([
               if (res['adm2']) {
                 attributes['adm2'] = res['adm2'];
               }
-              console.log('ew', res);
+              // console.log('ew', res);
               feat_stats.push({ attributes });
             });
 
@@ -483,7 +491,7 @@ define([
 
             function buildRegionsTables() {
               let tableResults = feat_stats;
-              console.log('tableResults', tableResults);
+              // console.log('tableResults', tableResults);
 
               const sortCombinedResults = _.sortByOrder(tableResults, function (element) {
                 return element.attributes.fire_count;
@@ -1554,13 +1562,17 @@ define([
             }
           });
 
-          series[series.length-1].color = "#d40000";
+          console.log('series', series);
+
+          if (series.length > 0) {
+            series[series.length-1].color = "#d40000";
+          }
 
           window['firesCountRegionSeries'] = series;
           window['firesCountRegionCurrentYear'] = currentYear;
 
           // Adding sum for year to window
-          window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
+          window['firesCountRegionCurrentYearSum'] = series[series.length - 1] ? series[series.length - 1].data : [];
 
 
           if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
