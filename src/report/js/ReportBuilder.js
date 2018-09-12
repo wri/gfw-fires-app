@@ -190,17 +190,14 @@ define([
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
             const subregion = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
 
-            queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
-            // queryFor = configKey === "adminBoundary" ? `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
+            // queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
+            queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
             // console.log(2);
             $('.admin-type-1').text('Country');
             $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
             queryFor = configKey === "adminBoundary" ? 'global?aggregate_values=True&aggregate_by=iso&' : 'global?aggregate_values=True&aggregate_by=adm1&';
-          } else {
-            console.log(3);
-            keyRegion = configKey === "adminBoundary" ? 'DISTRICT' : 'SUBDISTRIC';
           }
 
           let adminCountUrl = '';
@@ -209,13 +206,12 @@ define([
           console.log('queryFor', queryFor);
 
           console.log('window.reportOptions.aoiId', window.reportOptions.aoiId);
-          if (window.reportOptions.aoiId) {
+          if (window.reportOptions.aoiId && keyRegion === 'NAME_2') {
             // debugger
-            adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
+            adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
           } else {
             adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
           }
-          console.log('her e where we need the 3nd admin maybe', adminCountUrl);
 
           // request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
           request.get(adminCountUrl, {
@@ -279,24 +275,22 @@ define([
               return;
             }
 
+            if (window.reportOptions.aoitype === 'GLOBAL' && adminLevel === 'adm1') {
+              feat_stats = feat_stats.filter(function(item) {
+                return item.attributes.adm1 === window.reportOptions.aoiId;
+              });
+            }
+
             const arr = feat_stats.map(function(item) {
               return item.attributes['fire_count']
             }).sort(function(a, b) {
               return a - b
             });
 
-            if (window.reportOptions.aoitype === 'ISLAND') {
-              queryUrl = boundaryConfig.urlIsland;
-              uniqueValueField = boundaryConfig.UniqueValueField;
-            } else if (window.reportOptions.aoitype === 'ALL') {
+            if (window.reportOptions.aoitype === 'ALL') {
               uniqueValueField = boundaryConfig.UniqueValueFieldAlliso;
               queryUrl = Config.firesLayer.admin_service;
-            } else {
-              uniqueValueField = feature_id;
-              queryUrl = Config.firesLayer.admin_service;
-            }
 
-            if (window.reportOptions.aoitype === 'ALL') {
               dist_names = feat_stats.map(function(item) {
                 if (item.attributes[feature_id] != null && item.attributes[feature_id] !== -9999) {
                   return item.attributes[feature_id];
@@ -307,6 +301,9 @@ define([
                 }
               });
             } else {
+              uniqueValueField = feature_id;
+              queryUrl = Config.firesLayer.admin_service;
+
               dist_names = feat_stats.map(function(item) {
                 if (item.attributes[uniqueValueField] != null) {
                   return item.attributes[uniqueValueField];
@@ -318,7 +315,6 @@ define([
               });
             }
 
-
             var natural_breaks_renderer = function(feat_stats, dist_names, method) {
               let breaks = [0, 10, 50, 100, 250, 5000];
 
@@ -328,7 +324,7 @@ define([
               }
 
               if (arr.length < boundaryConfig.breakCount) {
-                boundaryConfig.breakCount = arr.length - 1;
+                boundaryConfig.breakCount = arr.length > 1 ? arr.length - 1 : 1;
               }
 
               const brkCount = boundaryConfig.breakCount;
