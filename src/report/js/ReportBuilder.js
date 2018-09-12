@@ -268,9 +268,6 @@ define([
               feat_stats.push({ attributes });
             });
 
-            console.log('feat_stats', feat_stats);
-            // debugger
-
             if (!feat_stats || feat_stats.length == 0) {
               return;
             }
@@ -286,6 +283,9 @@ define([
             }).sort(function(a, b) {
               return a - b
             });
+
+            console.log('feat_stats', feat_stats);
+
 
             if (window.reportOptions.aoitype === 'ALL') {
               uniqueValueField = boundaryConfig.UniqueValueFieldAlliso;
@@ -543,7 +543,7 @@ define([
 
                 tableRows += sortCombinedResults.map(function (feature) {
                   // const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
-                  const { fire_count, id_0, id_1, id_2, NAME_1, ISLAND, SUBDISTRIC } = feature.attributes;
+                  const { fire_count, id_0, id_1, id_2, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
                   console.log('feature', feature.attributes);
                   const colorValue = fire_count;
                   const admin1 = NAME_1 ? NAME_1 : id_1 ? id_1 : id_0;
@@ -569,10 +569,10 @@ define([
                   } else {
                     // console.log('subDistrict2', subDistrict2);
                     // console.log('subDistrict1', subDistrict1);
-                    if((!subDistrict2 || !subDistrict1)) return;
+                    if((!subDistrict2 && !subDistrict1)) return;
                     return(
-                      `<tr><td class="table-cell ${aoitype}">${subDistrict2}</td>
-                      <td class="table-cell ${aoitype}">${subDistrict1}</td>
+                      `<tr><td class="table-cell ${aoitype}">${NAME_2}</td>
+                      <td class="table-cell ${aoitype}">${NAME_1}</td>
                       <td class='table-cell table-cell__value'>${colorValue}</td>
                       <td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${ color ? color.toString() : Config.colorramp[0] });'></span></td></tr>`
                     );
