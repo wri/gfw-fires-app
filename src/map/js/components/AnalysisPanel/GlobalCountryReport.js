@@ -84,7 +84,7 @@ export default class GlobalCountryReport extends React.Component {
           <div className='padding'>
             <p>Select {this.state.currentCountry}&#39;s subregions: </p>
             <Select
-              placeholder='Select a Country'
+              placeholder='Select a subregion'
               onChange={this.handleSubRegionChange.bind(this)}
               options={countrySubRegionsList}
               multi={false}
@@ -103,7 +103,11 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   handleSubRegionChange (selected) {
-    this.setState({ selectedSubRegion: selected });
+    if (selected === null) {
+      this.setState({ selectedSubRegion: '' });
+    } else {
+      this.setState({ selectedSubRegion: selected });
+    }
   }
 
   handleGlobalCountryChange (selected) {
@@ -168,6 +172,7 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   reportDataToHash (reportType, dates, country, countryRegion) {
+    console.log('countryRegion: ', countryRegion);
     let hash = '#';
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
