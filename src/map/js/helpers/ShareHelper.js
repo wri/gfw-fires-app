@@ -46,8 +46,8 @@ const ShareHelper = {
 
     //- Set X, Y, and Zoom
     let centerPoint = app.map.extent.getCenter();
-    shareObject.x = Math.round(centerPoint.getLongitude());
-    shareObject.y = Math.round(centerPoint.getLatitude());
+    shareObject.x = centerPoint.getLongitude().toFixed(6);
+    shareObject.y = centerPoint.getLatitude().toFixed(6);
     shareObject.z = app.map.getLevel();
     shareParams = shareObject;
 
