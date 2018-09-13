@@ -138,7 +138,6 @@ define([
                 }).catch(e => {
                   console.log(e);
                 });
-
               });
             }
           });
@@ -148,7 +147,6 @@ define([
         getIdOne: function() {
 
           const deferred = new Deferred();
-          console.log('window.reportOptions', window.reportOptions);
 
           if (window.reportOptions.aois) {
             const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
@@ -167,7 +165,6 @@ define([
               deferred.resolve(false);
             });
           } else {
-            console.log('we falsee');
             deferred.resolve(false);
           }
           return deferred.promise;
@@ -186,14 +183,10 @@ define([
               queryUrl;
 
           if (areaOfInterestType === "GLOBAL") {
-            // console.log(1);
             keyRegion = configKey === "adminBoundary" ? 'NAME_1' : 'NAME_2';
             const subregion = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
-
-            // queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}?aggregate_values=True&aggregate_by=adm2&`;
             queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
-            // console.log(2);
             $('.admin-type-1').text('Country');
             $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
@@ -202,28 +195,19 @@ define([
 
           let adminCountUrl = '';
 
-          console.log('keyRegion', keyRegion);
-          console.log('queryFor', queryFor);
-
-          console.log('window.reportOptions.aoiId', window.reportOptions.aoiId);
           if (window.reportOptions.aoiId && keyRegion === 'NAME_2') {
-            // debugger
             adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
           } else {
             adminCountUrl = Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw;
           }
 
-          // request.get(Config.fires_api_endpoint + 'admin/' + queryFor + 'period=' + this.startDateRaw + ',' + this.endDateRaw, {
           request.get(adminCountUrl, {
             handleAs: 'json'
           }).then((response) => {
-            console.log('response', response);
             //TODO: We have all the values we need here!
-            // debugger
             let feat_stats = [];
             let feature_id, dist_names;
             const regency = 'Regency/City';
-            // const adminLevel = response.data.aggregate_by;
 
             let adminLevel;
 
@@ -248,10 +232,6 @@ define([
                 break;
             }
 
-            // console.log('');
-            // console.log('adminLevel', adminLevel);
-            // console.log('');
-
             response.data.attributes.value.forEach((res) => {
               const attributes = { fire_count: res.alerts };
               attributes[feature_id] = res[adminLevel];
@@ -264,7 +244,6 @@ define([
               if (res['adm2']) {
                 attributes['adm2'] = res['adm2'];
               }
-              // console.log('ew', res);
               feat_stats.push({ attributes });
             });
 
@@ -283,9 +262,6 @@ define([
             }).sort(function(a, b) {
               return a - b
             });
-
-            console.log('feat_stats', feat_stats);
-
 
             if (window.reportOptions.aoitype === 'ALL') {
               uniqueValueField = boundaryConfig.UniqueValueFieldAlliso;
@@ -392,7 +368,6 @@ define([
                 };
               });
 
-
               arrayUtils.forEach(feat_stats, (feat) => {
                 const count = feat.attributes['fire_count'];
                 let sym;
@@ -487,7 +462,6 @@ define([
 
             function buildRegionsTables() {
               let tableResults = feat_stats;
-              // console.log('tableResults', tableResults);
 
               const sortCombinedResults = _.sortByOrder(tableResults, function (element) {
                 return element.attributes.fire_count;
@@ -504,19 +478,9 @@ define([
                 });
               });
 
-              console.log('featureLayer.graphics', featureLayer.graphics);
-
-              console.log('feat_stats', feat_stats);
-
               let firstTenTableResults = sortCombinedResults.slice(0, 10);
               const tableColorBreakPoints = Config[relatedTableId];
 
-
-              console.log('where??', sortCombinedResults);
-              // if (window.reportOptions.aoiId && configKey === "adminBoundary") {
-              //   // debugger
-              //   firstTenTableResults = sortCombinedResults.filter(aoi => aoi.attributes.id_1 === window.reportOptions.aoiId);
-              // }
 
               if (configKey === "adminBoundary") {
                 $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
@@ -544,7 +508,6 @@ define([
                 tableRows += sortCombinedResults.map(function (feature) {
                   // const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
                   const { fire_count, id_0, id_1, id_2, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
-                  console.log('feature', feature.attributes);
                   const colorValue = fire_count;
                   const admin1 = NAME_1 ? NAME_1 : id_1 ? id_1 : id_0;
                   const subDistrict1 = id_1 ? id_1 : ISLAND;
@@ -567,8 +530,6 @@ define([
                       <td class='table-color-switch_cell'><span class='table-color-switch' style='background-color: rgba(${ color ? color.toString() : Config.colorramp[0] });'></span></td></tr>`
                     );
                   } else {
-                    // console.log('subDistrict2', subDistrict2);
-                    // console.log('subDistrict1', subDistrict1);
                     if((!subDistrict2 && !subDistrict1)) return;
                     return(
                       `<tr><td class="table-cell ${aoitype}">${NAME_2}</td>
@@ -613,8 +574,6 @@ define([
             featureLayer.on('load', generateRenderer);
 
             featureLayer.on('update-end', function() {
-              // console.log('updete');
-              // debugger
               buildRegionsTables();
               if (window.reportOptions.aoitype !== 'ALL') self.get_extent('fires');
               deferred.resolve(true);
@@ -709,7 +668,7 @@ define([
               Config.reportOptions.countryAdminTypes = countryAdminTypes;
             }
           }, (err) => {
-            console.log('Country Admin Types error: ', err);
+            console.error('Country Admin Types error: ', err);
             deferred.resolve(false);
           });
 
@@ -764,8 +723,6 @@ define([
             this.dataSource = dataSource;
             this.currentCountry = country;
             this.countryObjId = Config.countryObjId[this.currentCountry];
-
-            console.log('initing with this currentCountry: ', this.currentCountry);
 
             if (this.currentCountry) {
               this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
@@ -1308,8 +1265,6 @@ define([
             var firstTenTableResults = tableResults.slice(0, 10);
             var tableColorBreakPoints = Config[relatedTableId];
 
-            console.log('where2??', sortCombinedResults);
-
             if (configKey === "adminBoundary") {
               $('#district-fires-table tbody').html(buildDistrictSubDistrictTables(firstTenTableResults, 'district-fires-table', tableColorBreakPoints));
             } else {
@@ -1450,7 +1405,6 @@ define([
           query.returnGeometry = false;
           query.outFields = [regionField, uniqueValueField];
 
-
           queryTask.execute(query, function(res) {
             if (res.features.length > 0) {
               arrayUtils.forEach(res.features, function (feat) {
@@ -1464,35 +1418,12 @@ define([
           });
           return deferred.promise;
         },
-
-      getFireCounts: function () {
-        const self = this;
-        const queryFor = self.currentISO ? self.currentISO : 'global';
-
-        //TODO: Update this if we do Not have a "reportOptions.aoiId}"!
-        console.log('queryFor', queryFor);
-        // const url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
-        let url;
-
-        if (window.reportOptions.aoiId) {
-          url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
-        } else {
-          url = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
-        }
-
-        request.get(url, {
-          handleAs: 'json'
-        }).then((res) => {
-
-
-          let series = [];
-          let seriesTemp = { data: [], name: '' };
-          let index = 0;
-          const currentYear = new Date().getFullYear();
-          const currentMonth = new Date().getMonth();
-          let indexColor = 0;
-          const colorStep = 15;
-          const baseColor = '#777777';
+        shadeColor: function (color, percent) {
+          var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
+          return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+        },
+  
+        dataLabelsFormatAction: function (yearObject, hexColor) {
           var dataLabelsFormat = {
             enabled: true,
             align: 'left',
@@ -1502,151 +1433,344 @@ define([
             crop: false,
             format: '{series.name}'
           };
-          const values = res.data.attributes.value;
-
-          function shadeColor(color, percent) {
-            var f=parseInt(color.slice(1),16),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=f>>16,G=f>>8&0x00FF,B=f&0x0000FF;
-            return "#"+(0x1000000+(Math.round((t-R)*p)+R)*0x10000+(Math.round((t-G)*p)+G)*0x100+(Math.round((t-B)*p)+B)).toString(16).slice(1);
+  
+          const currentMonth = new Date().getMonth();
+  
+          if (yearObject.data.length !== 12) {
+            var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
           }
+          var twelveMonthsData = yearObject['data'];
+          var lastMonthData = twelveMonthsData.pop();
+          yearObject['data'] = [].concat(twelveMonthsData, [{
+            dataLabels: dataLabelsFormat,
+            y: lastMonthData
+          }]);
+  
+          yearObject['color'] = hexColor;
+        },
 
-          const reducer = (accumulator, currentValue) => accumulator + currentValue;
+        getFireCounts: function () {
+          const self = this;
+          const queryFor = self.currentISO ? self.currentISO : 'global';
+          const handleAs = {handleAs: 'json'};
+          const countryUrl = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+          let url;
 
-          const dataLabelsFormatAction = function (yearObject, hexColor) {
-            if (yearObject.data.length !== 12) {
-              var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
-            }
-            var twelveMonthsData = yearObject['data'];
-            var lastMonthData = twelveMonthsData.pop();
-            yearObject['data'] = [].concat(twelveMonthsData, [{
-              dataLabels: dataLabelsFormat,
-              y: lastMonthData
-            }]);
-
-            yearObject['color'] = hexColor;
-          }
-
-          let tmpArr = [];
-
-          values.forEach((value, i) => {
-            if (i % 12 === 0 && i !== 0) {
-              seriesTemp.name = value.year - 1;
-
-              var hexColor = shadeColor(baseColor, (indexColor / 100));
-              indexColor = indexColor + colorStep;
-              dataLabelsFormatAction(seriesTemp, hexColor);
-
-              series.push(seriesTemp);
-              seriesTemp = { data: [], name: '' };
-              tmpArr = [];
-              seriesTemp.data.push(value.alerts);
-              tmpArr.push(value.alerts);
-              index++;
-            } else if (value.year === currentYear && value.month === currentMonth) {
-              seriesTemp.name = value.year;
-
-              tmpArr.push(value.alerts);
-              seriesTemp.data.push(tmpArr.reduce(reducer));
-
-              var hexColor = shadeColor(baseColor, (indexColor / 100));
-              indexColor = indexColor + colorStep;
-              dataLabelsFormatAction(seriesTemp, hexColor);
-
-              series.push(seriesTemp);
+          const promiseUrls = [countryUrl];
+  
+          if (window.reportOptions.aoiId) {
+            url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+            promiseUrls.push(url);
+          } 
+  
+          Promise.all(promiseUrls.map((promiseUrl) => {
+            return request.get(promiseUrl, handleAs);
+          })).then(responses => {
+            let series = [];
+            let seriesTemp = { data: [], name: '' };
+            let index = 0;
+            const currentYear = new Date().getFullYear();
+            const currentMonth = new Date().getMonth();
+            let indexColor = 0;
+            const colorStep = 15;
+            const baseColor = '#777777';
+  
+            let values;
+            const backupValues = [];
+  
+            if (window.reportOptions.aoiId && responses.length > 0) {
+              values = responses[1].data.attributes.value;
+              backupValues.push(responses[0].data.attributes.value);
             } else {
-              tmpArr.push(value.alerts);
-              seriesTemp.data.push(tmpArr.reduce(reducer));
-            }
-          });
-
-          console.log('series', series);
-
-          if (series.length > 0) {
-            series[series.length-1].color = "#d40000";
-          }
-
-          window['firesCountRegionSeries'] = series;
-          window['firesCountRegionCurrentYear'] = currentYear;
-
-          // Adding sum for year to window
-          window['firesCountRegionCurrentYearSum'] = series[series.length - 1] ? series[series.length - 1].data : [];
-
-
-          if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
-            window['firesCountRegionCurrentYearSum'].pop();
-          }
-
-          $('#firesCountTitle').html(
-            `${currentYear} MODIS Fire Alerts, Year to Date
-            <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
-          );
-
-          var firesCountChart = Highcharts.chart('firesCountChart', {
-            title: {
-              text: ''
-            },
-            xAxis: {
-              labels: {
-                style: {
-                  color: '#000',
-                  fontSize: '16px',
-                  fontFamily: "'Fira Sans', Georgia, serif"
+              values = responses[0].data.attributes.value;
+              responses.forEach((result, i) => {
+                if (i > 0) {
+                  backupValues.push(result.data.attributes.value);
                 }
+              });
+            }
+  
+            const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+            //TODO: add a 'NAME' property to each of these somehow!
+            backupValues.forEach((backupValue, backupIndex) => {  
+              let backupSeries = [], tmpArr = [];;
+              let backupTempSeries = { data: [], name: '' };
+  
+              window.backupSeries = {};
+  
+              if (window.reportOptions.aoiId) { //these are country-wide!
+                backupValue.forEach((bValue, i) => {
+                  if (i % 12 === 0 && i !== 0) {
+                    backupTempSeries.name = bValue.year - 1;
+  
+                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                    indexColor = indexColor + colorStep;
+                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
+  
+                    backupSeries.push(backupTempSeries);
+                    backupTempSeries = { data: [], name: '' };
+                    tmpArr = [];
+                    backupTempSeries.data.push(bValue.alerts);
+                    tmpArr.push(bValue.alerts);
+  
+                  } else if (bValue.year === currentYear && bValue.month === currentMonth) {
+                    backupTempSeries.name = bValue.year;
+  
+                    tmpArr.push(bValue.alerts);
+                    backupTempSeries.data.push(tmpArr.reduce(reducer));
+  
+                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                    indexColor = indexColor + colorStep;
+                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
+  
+                    backupSeries.push(backupTempSeries);
+                  } else {
+                    tmpArr.push(bValue.alerts);
+                    backupTempSeries.data.push(tmpArr.reduce(reducer));
+                  }
+                });
+  
+                backupSeries[backupSeries.length-1].color = "#d40000";
+  
+                window.backupSeries[window.reportOptions.country] = backupSeries;
+              } else {
+                let year = 2012;
+                let monthCount = 0;
+
+                backupValue.forEach((bValue, i) => {
+                  if (i % 12 === 0 && i !== 0) { //maybe instead just use month === 12???
+                    backupTempSeries.name = bValue.year - 1;
+  
+                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                    indexColor = indexColor + colorStep;
+                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
+  
+                    backupSeries.push(backupTempSeries);
+                    backupTempSeries = { data: [], name: '' };
+                    tmpArr = [];
+                    backupTempSeries.data.push(bValue.alerts);
+                    tmpArr.push(bValue.alerts);
+                  } else if (bValue.year === currentYear && bValue.month === currentMonth) {
+                    backupTempSeries.name = bValue.year;
+  
+                    tmpArr.push(bValue.alerts);
+                    backupTempSeries.data.push(tmpArr.reduce(reducer));
+  
+                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                    indexColor = indexColor + colorStep;
+                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
+  
+                    backupSeries.push(backupTempSeries);
+                  } else {
+                    const monthsInYear = tmpArr.length;
+                    const month = bValue.month;
+                    for (let k = 1; k < month - monthsInYear; k++) {
+                      tmpArr.push(0);
+                    }
+                    tmpArr.push(bValue.alerts);
+                    backupTempSeries.data.push(tmpArr.reduce(reducer));
+                    if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
+                      backupTempSeries.name = bValue.year - 1;
+  
+                      var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                      indexColor = indexColor + colorStep;
+                      self.dataLabelsFormatAction(backupTempSeries, hexColor);
+  
+                      backupSeries.push(backupTempSeries);
+                      backupTempSeries = { data: [], name: '' };
+                      tmpArr = [];
+                      backupTempSeries.data.push(bValue.alerts);
+                    }
+                  }
+                });
+  
+                backupSeries[backupSeries.length-1].color = "#d40000";  
+  
+                const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
+                const aoiName = allAois[backupIndex];
+                window.backupSeries[aoiName] = backupSeries;
+  
               }
-            },
-            yAxis: {
+  
+            });
+
+            tmpArr = [];
+  
+            values.forEach((value, i) => {
+              if (i % 12 === 0 && i !== 0) {
+                seriesTemp.name = value.year - 1;
+  
+                var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                indexColor = indexColor + colorStep;
+                self.dataLabelsFormatAction(seriesTemp, hexColor);
+  
+                series.push(seriesTemp);
+                seriesTemp = { data: [], name: '' };
+                tmpArr = [];
+                seriesTemp.data.push(value.alerts);
+                tmpArr.push(value.alerts);
+                index++;
+              } else if (value.year === currentYear && value.month === currentMonth) {
+                seriesTemp.name = value.year;
+  
+                tmpArr.push(value.alerts);
+                seriesTemp.data.push(tmpArr.reduce(reducer));
+  
+                var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                indexColor = indexColor + colorStep;
+                self.dataLabelsFormatAction(seriesTemp, hexColor);
+  
+                series.push(seriesTemp);
+              } else {
+                tmpArr.push(value.alerts);
+                seriesTemp.data.push(tmpArr.reduce(reducer));
+              }
+            });
+  
+            series[series.length-1].color = "#d40000";
+  
+            window['firesCountRegionSeries'] = series;
+            window['firesCountRegionCurrentYear'] = currentYear;
+  
+            // Adding sum for year to window
+            window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
+  
+  
+            if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
+              window['firesCountRegionCurrentYearSum'].pop();
+            }
+  
+            $('#firesCountTitle').html(
+              `${currentYear} MODIS Fire Alerts, Year to Date
+              <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+            );  
+  
+            var firesCountChart = Highcharts.chart('firesCountChart', {
               title: {
                 text: ''
-              }
-            },
-            plotOptions: {
-              series: {
-                color: '#ccc',
               },
-              line: {
-                marker: {
-                  enabled: false
+              xAxis: {
+                labels: {
+                  style: {
+                    color: '#000',
+                    fontSize: '16px',
+                    fontFamily: "'Fira Sans', Georgia, serif"
+                  }
                 }
-              }
-            },
-            credits: {
-              enabled: false
-            },
-            exporting:{
-              scale: 4,
-              chartOptions:{
-                chart:{
-                  marginTop: 75,
-                  marginRight: 20,
-                  events:{
-                    load:function(){
-                      this.renderer.rect(0, 0, this.chartWidth, 35).attr({
-                        fill: '#555'
-                      }).add();
-                      this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                      this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                      // this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ title }</span>`, 55, 46, true).add();
+              },
+              yAxis: {
+                title: {
+                  text: ''
+                }
+              },
+              plotOptions: {
+                series: {
+                  color: '#ccc',
+                },
+                line: {
+                  marker: {
+                    enabled: false
+                  }
+                }
+              },
+              credits: {
+                enabled: false
+              },
+              exporting:{
+                scale: 4,
+                chartOptions:{
+                  chart:{
+                    marginTop: 75,
+                    marginRight: 20,
+                    events:{
+                      load:function(){
+                        this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                          fill: '#555'
+                        }).add();
+                        this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                      }
                     }
                   }
                 }
-              }
-            },
-            tooltip: {
-              useHTML: true,
-              backgroundColor: '#ffbb07',
-              borderWidth: 0,
-              formatter: function () {
-                return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
-              }
-            },
-            xAxis: {
-              categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-            },
-            series: series
+              },
+              tooltip: {
+                useHTML: true,
+                backgroundColor: '#ffbb07',
+                borderWidth: 0,
+                formatter: function () {
+                  return '<p class="firesCountChart__popup"> ' + this.x + ' ' + this.series.name + ': ' + Highcharts.numberFormat(this.y, 0, '.', ',') + '</p>';
+                }
+              },
+              xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              },
+              series: series
+            });
+  
+            const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
+  
+            // Create list of regions
+            $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
+            if (window.reportOptions.aoiId) {
+              $('#firesCountIslandsList').append("<li>" + window.reportOptions.aois.split("''").join("'") + "</li>");
+              $('#firesCountIslandsList li').addClass('selected');
+              $('#firesCountIslandsListContainer h3').removeClass('selected');
+            } else if (window.reportOptions.stateObjects) {
+              const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
+              allAois.forEach(aoiStr => {
+                $('#firesCountIslandsList').append("<li>" + aoiStr + "</li>");
+              });
+            }
+  
+           $('#firesCountIslandsListContainer h3').click(function () {
+             $(this).addClass('selected');
+  
+             $('#firesCountIslandsList li').removeClass('selected');
+  
+             const countryData = window.backupSeries[selectedCountry] ? window.backupSeries[selectedCountry] : window.firesCountRegionSeries;
+             firesCountChart.update({
+               series: countryData
+             });
+    
+             const total = countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
+             $('#firesCountTitle').html(
+               `${currentYear} MODIS Fire Alerts, Year to Date
+               <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+             );
+  
+           });
+  
+           $('#firesCountIslandsList li').click(function () {
+             $('#firesCountIslandsListContainer h3').removeClass('selected');
+             $('#firesCountIslandsList li').removeClass('selected');
+             $(this).addClass('selected');
+  
+             const selectedIslandOrRegion = $(this).text();
+             let regionData;
+             if (backupSeries[selectedIslandOrRegion]) {
+               regionData = backupSeries[selectedIslandOrRegion];
+             } else {
+               regionData = window.firesCountRegionSeries;
+             }
+  
+             firesCountChart.update({
+               series: regionData
+             });
+    
+             let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
+  
+             if (typeof total === 'object') {
+               total = total.y;
+             }
+             $('#firesCountTitle').html(
+               `${currentYear} MODIS Fire Alerts, Year to Date
+               <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+             );
+           });
           });
-
-        });
-
-      },
+        },
 
       getFireHistoryCounts: function() {
 
@@ -2326,9 +2450,6 @@ define([
                 deferred.resolve(true);
                 return deferred.promise;
               }
-              // queryTask.execute(query, success, function() {
-              //   console.log('err');
-              // });
             }
         },
 
@@ -2345,7 +2466,6 @@ define([
           // }
 
           let hasData = true;
-          // console.log('config', config);
 
           config.data.forEach((value) => {
             if (value.y < 1) {
@@ -2458,8 +2578,6 @@ define([
               query.outFields = ["NAME_1"];
               queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/4');
             }
-
-            // console.log('query.where', query.where);
 
             callback = function(results) {
                 var extent = graphicsUtils.graphicsExtent(results.features);
