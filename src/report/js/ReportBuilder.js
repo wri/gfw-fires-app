@@ -76,7 +76,7 @@ define([
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             // Creates the first map and create the Fire Alert Count Jan 1, 2012 figure
-            self.queryForDailyFireData(areaOfInterestType);
+            // self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
             self.buildDistributionOfFireAlertsMap().then(function () {
@@ -87,15 +87,15 @@ define([
             self.querySecondMap(areaOfInterestType, 'adminBoundary');
 
             // 3rd map logic
-            if (areaOfInterestType === 'ALL') {
-              subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-                  self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-                });
-              });
-            } else {
-              self.querySecondMap(areaOfInterestType, 'subdistrictBoundary');
-            }
+            // if (areaOfInterestType === 'ALL') {
+            //   subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+            //     self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+            //       self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+            //     });
+            //   });
+            // } else {
+            //   self.querySecondMap(areaOfInterestType, 'subdistrictBoundary');
+            // }
 
             if (selectedCountry === 'Indonesia') {
               document.querySelector('#land-use-fires-container').style.display = 'inherit';
@@ -107,9 +107,9 @@ define([
             }
 
             // Creates the Fire History: Fire Season Progression graph
-            self.getFireCounts();
+            // self.getFireCounts();
             // Creates the Annual Fire History graph
-            self.getFireHistoryCounts()
+            // self.getFireHistoryCounts()
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
@@ -147,11 +147,11 @@ define([
         getIdOne: function() {
 
           const deferred = new Deferred();
+          const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
+          const query = new Query();
+          query.returnGeometry = false;
 
           if (window.reportOptions.aois) {
-            const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
-            const query = new Query();
-
             query.where = `NAME_1 = '${window.reportOptions.aois}'`;
             query.returnGeometry = false;
             query.outFields = ['id_1'];
@@ -164,8 +164,26 @@ define([
             }, (err) => {
               deferred.resolve(false);
             });
+          } else if (window.reportOptions.aoitype === 'ALL') {
+            deferred.resolve(true);
           } else {
-            deferred.resolve(false);
+            query.where = `NAME_0 = '${window.reportOptions.country}'`;
+            query.outFields = ['id_1', 'name_1'];
+
+            queryTask.execute(query, (response) => {
+              if (response.features.length > 0) {
+                const stateObjects = response.features.map(feat => {
+                  return {
+                    id_1: feat.attributes.id_1,
+                    name_1: feat.attributes.name_1
+                  }
+                });
+                window.reportOptions.stateObjects = stateObjects;
+                deferred.resolve(true);
+              }
+            }, (err) => {
+              deferred.resolve(false);
+            });
           }
           return deferred.promise;
 
@@ -251,7 +269,7 @@ define([
               return;
             }
 
-            if (window.reportOptions.aoitype === 'GLOBAL' && adminLevel === 'adm1') {
+            if (window.reportOptions.aoitype === 'GLOBAL' && adminLevel === 'adm1' && window.reportOptions.aoiId) {
               feat_stats = feat_stats.filter(function(item) {
                 return item.attributes.adm1 === window.reportOptions.aoiId;
               });
@@ -299,7 +317,7 @@ define([
                 setSerie(arr);
               }
 
-              if (arr.length < boundaryConfig.breakCount) {
+              if (arr.length <= boundaryConfig.breakCount) {
                 boundaryConfig.breakCount = arr.length > 1 ? arr.length - 1 : 1;
               }
 
@@ -310,9 +328,8 @@ define([
                   case 'natural':
                     try {
                       breaks = getClassJenks(brkCount);
-
-                    } catch (e) {
-                      breaks = [0, 1, 2, 3, 4];
+                    } catch (error) {
+                      breaks = arr;
                     }
                     break;
                   case 'equal':
@@ -436,8 +453,12 @@ define([
             const featureLayer = new FeatureLayer(`${queryUrl}/${layerId}`, {
               mode: FeatureLayer.MODE_SNAPSHOT,
               outFields: ['*'],
-              maxAllowableOffset: window.reportOptions.aoitype === 'ALL' ? 10000 : 0
+              maxAllowableOffset: window.reportOptions.aoitype === 'ALL' ? 10000 : 1000,
+              defaultDefinitionExpression: '1 = 2'
             });
+
+            featureLayer.setDefinitionExpression("OBJECTID < 10");
+
 
             function buildLegend() {
               let html = '<table>';
@@ -449,7 +470,7 @@ define([
                 if (item) {
                   const low = i < 1 ? breaks[i] : breaks[i] + 1;
                   row = `<tr><td class='legend-swatch' style='background-color: rgb( ${item.color.r}, ${item.color.g}, ${item.color.b} );'></td>`;
-                  row += `<td class='legend-label'>${low} - ${breaks[i + 1]}</td></tr>`;
+                  row += `<td class='legend-label'>${low} - ${ breaks[i + 1] }</td></tr>`;
                   rows.push(row);
                 }
               }
@@ -463,20 +484,20 @@ define([
             function buildRegionsTables() {
               let tableResults = feat_stats;
 
-              const sortCombinedResults = _.sortByOrder(tableResults, function (element) {
-                return element.attributes.fire_count;
-              }, 'desc');
-
               featureLayer.graphics.forEach((graphic) => {
                 feat_stats.forEach((feature) => {
                   if (feature.attributes[feature_id] === graphic.attributes[feature_id]) {
                     if (keyRegion === 'NAME_2') {
                       feature.attributes.NAME_1 = graphic.attributes.name_1;
-                    }
+                    } 
                     feature.attributes[keyRegion] = graphic.attributes[keyRegion.toLowerCase()];
                   }
                 });
               });
+
+              const sortCombinedResults = _.sortByOrder(tableResults, function (element) {
+                return element.attributes.fire_count;
+              }, 'desc');
 
               let firstTenTableResults = sortCombinedResults.slice(0, 10);
               const tableColorBreakPoints = Config[relatedTableId];
@@ -507,9 +528,9 @@ define([
 
                 tableRows += sortCombinedResults.map(function (feature) {
                   // const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
-                  const { fire_count, id_0, id_1, id_2, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
+                  const { fire_count, id_0, id_1, id_2, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
                   const colorValue = fire_count;
-                  const admin1 = NAME_1 ? NAME_1 : id_1 ? id_1 : id_0;
+                  const admin1 = NAME_1 ? NAME_1 : NAME_0;
                   const subDistrict1 = id_1 ? id_1 : ISLAND;
                   const subDistrict2 = id_2 ? id_2 : SUBDISTRIC;
                   let color;
@@ -544,6 +565,7 @@ define([
             };
 
             function generateRenderer() {
+              // debugger;
               buildLegend();
               ldos = new LayerDrawingOptions();
               ldos.renderer = renderer;
@@ -560,10 +582,18 @@ define([
               } else if (aoitype === 'ALL') {
                 options[boundaryConfig.layerIdAll] = ldos;
                 defExp = '1=1';
-              }  else {
+              } else if (feature_id === 'id_2') { // if they chose a country and a subregion from fires ui
                 options[boundaryConfig.layerIdGlobal] = ldos;
-                defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
+                defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
+                // defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
+              } else { // if only country selected without subregion
+                options[boundaryConfig.layerIdGlobal] = ldos;
+                const ids = window.reportOptions.stateObjects.map((adm) => {
+                  return adm.id_1;
+                });
+                defExp = feature_id + " in (" + ids.join(",") + ") AND iso = '" + currentISO + "'";
               }
+
 
               featureLayer.setDefinitionExpression(defExp);
               featureLayer.setRenderer(renderer);
@@ -724,7 +754,7 @@ define([
             this.currentCountry = country;
             this.countryObjId = Config.countryObjId[this.currentCountry];
 
-            if (this.currentCountry) {
+            if (this.currentCountry && this.currentCountry !== 'ALL') {
               this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
             }
 
@@ -1453,15 +1483,21 @@ define([
           const self = this;
           const queryFor = self.currentISO ? self.currentISO : 'global';
           const handleAs = {handleAs: 'json'};
-          const countryUrl = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
-          let url;
-
-          const promiseUrls = [countryUrl];
+          const promiseUrls = [];
   
           if (window.reportOptions.aoiId) {
-            url = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
-            promiseUrls.push(url);
-          } 
+            const urls = [
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+            ];
+            promiseUrls.push(...urls);
+          } else {
+            const urls = [
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
+            ];
+            promiseUrls.push(...urls);
+          }
   
           Promise.all(promiseUrls.map((promiseUrl) => {
             return request.get(promiseUrl, handleAs);
@@ -1492,8 +1528,15 @@ define([
   
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
+            // var flags = [], output = [], l = backupValues[0].length, i;
+            // for( i=0; i<l; i++) {
+            //     if( flags[backupValues[0][i].year]) continue;
+            //     flags[backupValues[0][i].year] = true;
+            //     output.push(backupValues[0][i].year);
+            // }
+
             //TODO: add a 'NAME' property to each of these somehow!
-            backupValues.forEach((backupValue, backupIndex) => {  
+            backupValues.forEach((backupValue, backupIndex) => {
               let backupSeries = [], tmpArr = [];;
               let backupTempSeries = { data: [], name: '' };
   
@@ -1537,62 +1580,63 @@ define([
               } else {
                 let year = 2012;
                 let monthCount = 0;
-
-                backupValue.forEach((bValue, i) => {
-                  if (i % 12 === 0 && i !== 0) { //maybe instead just use month === 12???
-                    backupTempSeries.name = bValue.year - 1;
-  
-                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
-                    indexColor = indexColor + colorStep;
-                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
-  
-                    backupSeries.push(backupTempSeries);
-                    backupTempSeries = { data: [], name: '' };
-                    tmpArr = [];
-                    backupTempSeries.data.push(bValue.alerts);
-                    tmpArr.push(bValue.alerts);
-                  } else if (bValue.year === currentYear && bValue.month === currentMonth) {
-                    backupTempSeries.name = bValue.year;
-  
-                    tmpArr.push(bValue.alerts);
-                    backupTempSeries.data.push(tmpArr.reduce(reducer));
-  
-                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
-                    indexColor = indexColor + colorStep;
-                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
-  
-                    backupSeries.push(backupTempSeries);
-                  } else {
-                    const monthsInYear = tmpArr.length;
-                    const month = bValue.month;
-                    for (let k = 1; k < month - monthsInYear; k++) {
-                      tmpArr.push(0);
-                    }
-                    tmpArr.push(bValue.alerts);
-                    backupTempSeries.data.push(tmpArr.reduce(reducer));
-                    if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
+                
+                window.reportOptions.stateObjects.forEach((adm) => {
+                  backupValue.filter((value) => {
+                    return value.adm1 == adm.id_1;
+                  }).forEach((bValue, i) => {
+                    if (i % 12 === 0 && i !== 0) { //maybe instead just use month === 12???
                       backupTempSeries.name = bValue.year - 1;
-  
+    
                       var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                       indexColor = indexColor + colorStep;
                       self.dataLabelsFormatAction(backupTempSeries, hexColor);
-  
+    
                       backupSeries.push(backupTempSeries);
                       backupTempSeries = { data: [], name: '' };
                       tmpArr = [];
                       backupTempSeries.data.push(bValue.alerts);
+                      tmpArr.push(bValue.alerts);
+                    } else if (bValue.year === currentYear && bValue.month === currentMonth) {
+                      backupTempSeries.name = bValue.year;
+    
+                      tmpArr.push(bValue.alerts);
+                      backupTempSeries.data.push(tmpArr.reduce(reducer));
+    
+                      var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                      indexColor = indexColor + colorStep;
+                      self.dataLabelsFormatAction(backupTempSeries, hexColor);
+    
+                      backupSeries.push(backupTempSeries);
+                    } else {
+                      const monthsInYear = tmpArr.length;
+                      const month = bValue.month;
+                      for (let k = 1; k < month - monthsInYear; k++) {
+                        tmpArr.push(0);
+                      }
+                      tmpArr.push(bValue.alerts);
+                      backupTempSeries.data.push(tmpArr.reduce(reducer));
+                      if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
+                        backupTempSeries.name = bValue.year - 1;
+    
+                        var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                        indexColor = indexColor + colorStep;
+                        self.dataLabelsFormatAction(backupTempSeries, hexColor);
+    
+                        backupSeries.push(backupTempSeries);
+                        backupTempSeries = { data: [], name: '' };
+                        tmpArr = [];
+                        backupTempSeries.data.push(bValue.alerts);
+                      }
                     }
-                  }
+                  });
+                  backupSeries[backupSeries.length-1].color = "#d40000";  
+  
+                  const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
+                  const aoiName = adm.name_1;
+                  window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
                 });
-  
-                backupSeries[backupSeries.length-1].color = "#d40000";  
-  
-                const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
-                const aoiName = allAois[backupIndex];
-                window.backupSeries[aoiName] = backupSeries;
-  
               }
-  
             });
 
             tmpArr = [];
@@ -1754,6 +1798,8 @@ define([
              } else {
                regionData = window.firesCountRegionSeries;
              }
+
+             console.log(regionData);
   
              firesCountChart.update({
                series: regionData
