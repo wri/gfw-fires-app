@@ -76,7 +76,7 @@ define([
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
             // Creates the first map and create the Fire Alert Count Jan 1, 2012 figure
-            // self.queryForDailyFireData(areaOfInterestType);
+            self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
             self.buildDistributionOfFireAlertsMap().then(function () {
@@ -87,15 +87,15 @@ define([
             self.querySecondMap(areaOfInterestType, 'adminBoundary');
 
             // 3rd map logic
-            // if (areaOfInterestType === 'ALL') {
-            //   subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
-            //     self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
-            //       self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
-            //     });
-            //   });
-            // } else {
-            //   self.querySecondMap(areaOfInterestType, 'subdistrictBoundary');
-            // }
+            if (areaOfInterestType === 'ALL') {
+              subDistrictLayerIdsViirsModis.forEach(function (subDistrictLayerId) {
+                self.queryDistrictsFireCount("subDistrictQuery", areaOfInterestType, subDistrictLayerId).then(function (result) {
+                  self.buildFireCountMap('subdistrictBoundary', 'subDistrictQuery');
+                });
+              });
+            } else {
+              self.querySecondMap(areaOfInterestType, 'subdistrictBoundary');
+            }
 
             if (selectedCountry === 'Indonesia') {
               document.querySelector('#land-use-fires-container').style.display = 'inherit';
@@ -107,9 +107,9 @@ define([
             }
 
             // Creates the Fire History: Fire Season Progression graph
-            // self.getFireCounts();
+            self.getFireCounts();
             // Creates the Annual Fire History graph
-            // self.getFireHistoryCounts()
+            self.getFireHistoryCounts()
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
