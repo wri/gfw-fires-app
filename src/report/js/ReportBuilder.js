@@ -582,7 +582,7 @@ define([
               } else if (aoitype === 'ALL') {
                 options[boundaryConfig.layerIdAll] = ldos;
                 defExp = '1=1';
-              } else if (feature_id === 'id_2') { // if they chose a country and a subregion from fires ui
+              } else if (feature_id === 'id_2' || window.reportOptions.aoiId) { // if they chose a country and a subregion from fires ui
                 options[boundaryConfig.layerIdGlobal] = ldos;
                 defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
                 // defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
