@@ -98,11 +98,11 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
         var activeImagery = _this.state.activeImagery;
         var clickedImagery = evt.currentTarget.dataset.basemap;
 
-        var dgLayer = _config.layersConfig.filter(function (l) {
-          return l.id === _constants2.default.digitalGlobe;
-        })[0];
 
         if (activeImagery === clickedImagery && clickedImagery !== _constants2.default.planetBasemap) {
+          var dgLayer = _config.layersConfig.filter(function (l) {
+            return l.id === _constants2.default.digitalGlobe;
+          })[0];
           _LayersHelper2.default.hideLayer(dgLayer.id);
         } else {
           currImagery = clickedImagery;
@@ -167,11 +167,16 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
           _react2.default.createElement(
             'div',
             { 'data-basemap': planetBasemap, className: 'basemap-item ' + (activeImagery === planetBasemap ? 'active' : ''), onClick: this.clickedImagery },
-            _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (activeImagery === planetBasemap ? 'active' : '') }),
+            _react2.default.createElement('span', { className: 'basemap-thumbnail planet-basemap-image ' + (activeImagery === planetBasemap ? 'active' : '') }),
             _react2.default.createElement(
               'div',
               { className: 'basemap-label' },
-              'Planet Basemaps'
+              'Planet Basemaps',
+              _react2.default.createElement(
+                'div',
+                { className: 'layer-checkbox-sublabel basemap-sublabel' },
+                '(Monthly/quarterly, 4.77m, global)'
+              )
             ),
             _react2.default.createElement(
               'span',
@@ -183,11 +188,16 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
           _react2.default.createElement(
             'div',
             { 'data-basemap': digitalGlobeBasemap, className: 'basemap-item ' + (activeImagery === digitalGlobeBasemap ? 'active' : ''), onClick: this.clickedImagery },
-            _react2.default.createElement('span', { className: 'basemap-thumbnail dark-gray-basemap ' + (activeImagery === digitalGlobeBasemap ? 'active' : '') }),
+            _react2.default.createElement('span', { className: 'basemap-thumbnail digital-globe-basemap ' + (activeImagery === digitalGlobeBasemap ? 'active' : '') }),
             _react2.default.createElement(
               'div',
               { className: 'basemap-label' },
-              'DigitalGlobe - FirstLook'
+              'DigitalGlobe',
+              _react2.default.createElement(
+                'div',
+                { className: 'layer-checkbox-sublabel basemap-sublabel' },
+                '(2014-15, 0.3-1m, selected Indonesia locations)'
+              )
             ),
             _react2.default.createElement(
               'span',

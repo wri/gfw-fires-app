@@ -1,4 +1,4 @@
-define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerPanel/LandCoverLegend', 'components/LayerPanel/SedimentLegend', 'components/LayerPanel/DensityDisplay', 'components/LayerPanel/LayerCheckbox', 'components/LayerPanel/FiresControls', 'components/LayerPanel/FireHistoryTimeline', 'components/LayerPanel/ForestControls', 'components/LayerPanel/PlantationControls', 'components/LayerPanel/ViirsControls', 'components/LayerPanel/ArchiveControls', 'components/LayerPanel/NoaaControls', 'components/LayerPanel/BurnScarsLegend', 'components/LayerPanel/RiskControls', 'components/LayerPanel/RainControls', 'components/LayerPanel/AirControls', 'components/LayerPanel/WindControls', 'components/LayerPanel/LayerTransparency', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerGroup', 'components/LayerPanel/DamsLegend', 'js/config', 'stores/MapStore', 'actions/MapActions', 'js/constants', 'react'], function (exports, _WaterStressLegend, _LandCoverLegend, _SedimentLegend, _DensityDisplay, _LayerCheckbox, _FiresControls, _FireHistoryTimeline, _ForestControls, _PlantationControls, _ViirsControls, _ArchiveControls, _NoaaControls, _BurnScarsLegend, _RiskControls, _RainControls, _AirControls, _WindControls, _LayerTransparency, _ImageryComponent, _LayerGroup, _DamsLegend, _config, _MapStore, _MapActions, _constants, _react) {
+define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerPanel/LandCoverLegend', 'components/LayerPanel/RSPOLegend', 'components/LayerPanel/SedimentLegend', 'components/LayerPanel/DensityDisplay', 'components/LayerPanel/LayerCheckbox', 'components/LayerPanel/FiresControls', 'components/LayerPanel/FireHistoryTimeline', 'components/LayerPanel/ForestControls', 'components/LayerPanel/PlantationControls', 'components/LayerPanel/ViirsControls', 'components/LayerPanel/ArchiveControls', 'components/LayerPanel/NoaaControls', 'components/LayerPanel/BurnScarsLegend', 'components/LayerPanel/RiskControls', 'components/LayerPanel/RainControls', 'components/LayerPanel/AirControls', 'components/LayerPanel/WindControls', 'components/LayerPanel/LayerTransparency', 'components/LayerPanel/ImageryComponent', 'components/LayerPanel/LayerGroup', 'components/LayerPanel/DamsLegend', 'js/config', 'stores/MapStore', 'actions/MapActions', 'js/constants', 'react'], function (exports, _WaterStressLegend, _LandCoverLegend, _RSPOLegend, _SedimentLegend, _DensityDisplay, _LayerCheckbox, _FiresControls, _FireHistoryTimeline, _ForestControls, _PlantationControls, _ViirsControls, _ArchiveControls, _NoaaControls, _BurnScarsLegend, _RiskControls, _RainControls, _AirControls, _WindControls, _LayerTransparency, _ImageryComponent, _LayerGroup, _DamsLegend, _config, _MapStore, _MapActions, _constants, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,8 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
   var _WaterStressLegend2 = _interopRequireDefault(_WaterStressLegend);
 
   var _LandCoverLegend2 = _interopRequireDefault(_LandCoverLegend);
+
+  var _RSPOLegend2 = _interopRequireDefault(_RSPOLegend);
 
   var _SedimentLegend2 = _interopRequireDefault(_SedimentLegend);
 
@@ -187,6 +189,9 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
               break;
             case _constants2.default.primaryForests:
               childComponent = _react2.default.createElement(_ForestControls2.default, _extends({ loaded: _this2.props.loaded }, _this2.state));
+              break;
+            case _constants2.default.rspoOilPalm:
+              childComponent = _react2.default.createElement(_RSPOLegend2.default, { url: layer.url, layerIds: layer.layerIds });
               break;
             case _constants2.default.peatlands:
               childComponent = _react2.default.createElement(_LandCoverLegend2.default, { url: layer.url, layerIds: layer.layerIds });

@@ -3,7 +3,7 @@
 */
 const KEYS = {
   wriBasemap: 'wri-basemap',
-  imageryBasemap: 'satellite',
+  imageryBasemap: 'hybrid',
   topoBasemap: 'topo',
   osmBasemap: 'osm',
   darkGrayBasemap: 'dark-gray',

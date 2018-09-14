@@ -382,10 +382,13 @@ class MapStore {
   }
 
   setImagery (imagery) {
-    if (imagery !== this.imagery) {
+    if (imagery !== this.activeImagery) {
       this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery on.');
       this.activeImagery = imagery;
       ShareHelper.handleHashChange(undefined, imagery);
+    } else {
+      this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery off.');
+      this.activeImagery = '';
     }
   }
 

@@ -27,9 +27,9 @@ export default class ImageryTab extends React.Component {
     let currImagery = '';
     const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
-    const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
 
     if (activeImagery === clickedImagery && clickedImagery !== KEYS.planetBasemap) {
+      const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
       LayersHelper.hideLayer(dgLayer.id);
     } else {
       currImagery = clickedImagery;
@@ -60,8 +60,10 @@ export default class ImageryTab extends React.Component {
       <div className={className}>
         <h3>{analysisPanelText.imageryArea}</h3>
         <div data-basemap={planetBasemap} className={`basemap-item ${activeImagery === planetBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
-          <span className={`basemap-thumbnail dark-gray-basemap ${activeImagery === planetBasemap ? 'active' : ''}`} />
-          <div className='basemap-label'>Planet Basemaps</div>
+          <span className={`basemap-thumbnail planet-basemap-image ${activeImagery === planetBasemap ? 'active' : ''}`} />
+          <div className='basemap-label'>Planet Basemaps
+            <div className='layer-checkbox-sublabel basemap-sublabel'>(Monthly/quarterly, 4.77m, global)</div>
+          </div>
           <span className={`info-icon pointer info-icon-center ${iconLoading === planetBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
@@ -69,8 +71,10 @@ export default class ImageryTab extends React.Component {
           <PlanetImagery activeCategory={activeCategory} activePlanetBasemap={activePlanetBasemap} activeImagery={activeImagery} activePlanetPeriod={activePlanetPeriod} monthlyBasemaps={monthlyPlanetBasemaps} quarterlyBasemaps={quarterlyPlanetBasemaps} active={activeImagery === planetBasemap}/> }
         </div>
         <div data-basemap={digitalGlobeBasemap} className={`basemap-item ${activeImagery === digitalGlobeBasemap ? 'active' : ''}`} onClick={this.clickedImagery}>
-          <span className={`basemap-thumbnail dark-gray-basemap ${activeImagery === digitalGlobeBasemap ? 'active' : ''}`} />
-          <div className='basemap-label'>DigitalGlobe - FirstLook</div>
+          <span className={`basemap-thumbnail digital-globe-basemap ${activeImagery === digitalGlobeBasemap ? 'active' : ''}`} />
+          <div className='basemap-label'>DigitalGlobe
+            <div className='layer-checkbox-sublabel basemap-sublabel'>(2014-15, 0.3-1m, selected Indonesia locations)</div>
+          </div>
           <span className={`info-icon pointer info-icon-center ${iconLoading === digitalGlobeBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
