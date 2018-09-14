@@ -194,7 +194,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
                 '\'s subregions: '
               ),
               _react2.default.createElement(_reactSelect2.default, {
-                placeholder: 'Select a Country',
+                placeholder: 'Select a subregion',
                 onChange: this.handleSubRegionChange.bind(this),
                 options: countrySubRegionsList,
                 multi: false,
@@ -227,7 +227,11 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'handleSubRegionChange',
       value: function handleSubRegionChange(selected) {
-        this.setState({ selectedSubRegion: selected });
+        if (selected === null) {
+          this.setState({ selectedSubRegion: '' });
+        } else {
+          this.setState({ selectedSubRegion: selected });
+        }
       }
     }, {
       key: 'handleGlobalCountryChange',
@@ -301,6 +305,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'reportDataToHash',
       value: function reportDataToHash(reportType, dates, country, countryRegion) {
+        console.log('countryRegion: ', countryRegion);
         var hash = '#';
         var reportTypeString = 'reporttype=' + reportType;
         var countryString = 'country=' + country;
