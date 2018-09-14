@@ -27,9 +27,9 @@ export default class ImageryTab extends React.Component {
     let currImagery = '';
     const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
-    const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
 
     if (activeImagery === clickedImagery && clickedImagery !== KEYS.planetBasemap) {
+      const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
       LayersHelper.hideLayer(dgLayer.id);
     } else {
       currImagery = clickedImagery;
