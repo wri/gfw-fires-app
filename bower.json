@@ -4,7 +4,7 @@
     "alt": "~0.17.8",
     "babel-polyfill": "~0.0.1",
     "chosen": "~1.5.1",
-    "geostats": "~1.5.0",
+    "geostats": "~1.6.0",
     "intl-tel-input": "^9.0.2",
     "ion.rangeslider": "ionrangeslider#2.1.2",
     "kalendae": "~0.4.1",
