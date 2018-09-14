@@ -85,14 +85,14 @@
         title: 'Learn More | Global Forest Watch Fires'
       },
       title: 'Learn More',
-      description: 'Global Forest Watch Fires (GFW Fires) is an online platform for monitoring and responding to forest and land fires in the ASEAN region using near real-time information. GFW Fires can empower people to better combat harmful fires before they burn out of control and hold accountable those who may have burned forests illegally.',
+      description: 'Global Forest Watch Fires (GFW Fires) is an online platform for monitoring and responding to forest and land fires using near real-time information. GFW Fires can empower people to better combat harmful fires before they burn out of control and hold accountable those who may have burned forests illegally.',
       content: {
         about: [
           'About GFW Fires',
-          'Global Forest Watch Fires (GFW Fires) is an online platform for monitoring and responding to forest and land fires in the ASEAN region using near real-time information. GFW Fires can empower people to better combat harmful fires before they burn out of control and hold accountable those who may have burned forests illegally.',
+          'Global Forest Watch Fires (GFW Fires) is an online platform for monitoring and responding to forest and land fires using near real-time information. GFW Fires can empower people to better combat harmful fires before they burn out of control and hold accountable those who may have burned forests illegally.',
           'GFW Fires combines real-time satellite data from NASA’s Active Fires system, high resolution satellite imagery, detailed maps of land cover and concessions for key commodities such as palm oil and wood pulp, weather conditions and air quality data to track fire activity and related impacts in the South East Asia region. GFW Fires also offers on-the-fly analysis to show where fires occur, and help understand who might be responsible.',
           'By working with national and local governments, NGOs, corporations, and individuals, GFW Fires is working to quicken fire response time, ramp up enforcement against illegal fires, help ensure those who are illegally burning are held accountable, and coordinate relationships between government agencies.',
-          'GFW Fires builds on the groundbreaking platform, Global Forest Watch, but with a specific focus on mitigating harmful fire activity in the ASEAN region. GFW Fires is free to use and follows an open data approach in putting decision-relevant information in the hands of all who want to minimize the impacts of fires on forests and human health and livelihoods.',
+          'GFW Fires builds on the groundbreaking platform, Global Forest Watch, but with a specific focus on mitigating harmful fire activity. GFW Fires is free to use and follows an open data approach in putting decision-relevant information in the hands of all who want to minimize the impacts of fires on forests and human health and livelihoods.',
           'GFW Fires is supported by a diverse partnership of organizations that contribute data, technical capabilities, funding, and expertise. The partnership is convened by the World Resources Institute. See a full list of partners below.'
         ],
         fires: [

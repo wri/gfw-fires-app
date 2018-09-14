@@ -98,11 +98,11 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
         var activeImagery = _this.state.activeImagery;
         var clickedImagery = evt.currentTarget.dataset.basemap;
 
-        var dgLayer = _config.layersConfig.filter(function (l) {
-          return l.id === _constants2.default.digitalGlobe;
-        })[0];
 
         if (activeImagery === clickedImagery && clickedImagery !== _constants2.default.planetBasemap) {
+          var dgLayer = _config.layersConfig.filter(function (l) {
+            return l.id === _constants2.default.digitalGlobe;
+          })[0];
           _LayersHelper2.default.hideLayer(dgLayer.id);
         } else {
           currImagery = clickedImagery;

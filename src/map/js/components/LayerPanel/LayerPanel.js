@@ -1,5 +1,6 @@
 import WaterStressLegend from 'components/LayerPanel/WaterStressLegend';
 import LandCoverLegend from 'components/LayerPanel/LandCoverLegend';
+import RSPOLegend from 'components/LayerPanel/RSPOLegend';
 import SedimentLegend from 'components/LayerPanel/SedimentLegend';
 import DensityDisplay from 'components/LayerPanel/DensityDisplay';
 import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
@@ -80,6 +81,9 @@ export default class LayerPanel extends React.Component {
           break;
         case KEYS.primaryForests:
           childComponent = <ForestControls loaded={this.props.loaded} {...this.state} />;
+          break;
+        case KEYS.rspoOilPalm:
+          childComponent = <RSPOLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
         case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;

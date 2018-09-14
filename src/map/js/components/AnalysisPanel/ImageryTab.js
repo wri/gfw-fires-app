@@ -27,9 +27,9 @@ export default class ImageryTab extends React.Component {
     let currImagery = '';
     const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
-    const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
 
     if (activeImagery === clickedImagery && clickedImagery !== KEYS.planetBasemap) {
+      const dgLayer = layersConfig.filter((l) => l.id === KEYS.digitalGlobe)[0];
       LayersHelper.hideLayer(dgLayer.id);
     } else {
       currImagery = clickedImagery;
@@ -75,7 +75,6 @@ export default class ImageryTab extends React.Component {
           <div className='basemap-label'>DigitalGlobe
             <div className='layer-checkbox-sublabel basemap-sublabel'>(2014-15, 0.3-1m, selected Indonesia locations)</div>
           </div>
-
           <span className={`info-icon pointer info-icon-center ${iconLoading === digitalGlobeBasemap ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
