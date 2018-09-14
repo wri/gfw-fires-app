@@ -431,9 +431,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       sublabel: '(May 2013, select countries)',
       group: 'forestUse',
       className: 'rspo-palm',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/commodities/MapServer/',
       metadataId: 'rspo_oil_palm',
-      layerIds: [0],
+      layerIds: [36],
       infoTemplate: {
         content: '<table><span class="name-field">${name}</span></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${area_ha}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${country}</td></tr>' + '<tr><td class="field-name">COMPANY: </td><td class="field-value">${group_comp}</td></tr>' + '<tr><td class="field-name">CERTIFICATION STATUS: </td><td class="field-value">${certificat}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${source}</td></tr>'
       }

@@ -456,10 +456,13 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }, {
       key: 'setImagery',
       value: function setImagery(imagery) {
-        if (imagery !== this.imagery) {
+        if (imagery !== this.activeImagery) {
           this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery on.');
           this.activeImagery = imagery;
           _ShareHelper2.default.handleHashChange(undefined, imagery);
+        } else {
+          this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery off.');
+          this.activeImagery = '';
         }
       }
     }, {
