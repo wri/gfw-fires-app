@@ -582,7 +582,7 @@ define([
               } else if (aoitype === 'ALL') {
                 options[boundaryConfig.layerIdAll] = ldos;
                 defExp = '1=1';
-              } else if (feature_id === 'id_2') { // if they chose a country and a subregion from fires ui
+              } else if (feature_id === 'id_2' || window.reportOptions.aoiId) { // if they chose a country and a subregion from fires ui
                 options[boundaryConfig.layerIdGlobal] = ldos;
                 defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
                 // defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
@@ -1464,7 +1464,7 @@ define([
             format: '{series.name}'
           };
   
-          const currentMonth = new Date().getMonth();
+          const currentMonth = new Date().getMonth(); // getMonth() method returns the month (from 0 to 11) for the specified date
   
           if (yearObject.data.length !== 12) {
             var yearObjectKeepValuesUpToCurrentMonth = yearObject.data.splice(currentMonth + 1, 12);
@@ -1487,14 +1487,14 @@ define([
   
           if (window.reportOptions.aoiId) {
             const urls = [
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
-              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
             ];
             promiseUrls.push(...urls);
           } else {
             const urls = [
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
             ];
             promiseUrls.push(...urls);
           }
@@ -1506,7 +1506,7 @@ define([
             let seriesTemp = { data: [], name: '' };
             let index = 0;
             const currentYear = new Date().getFullYear();
-            const currentMonth = new Date().getMonth();
+            const currentMonth = new Date().getMonth() + 1;
             let indexColor = 0;
             const colorStep = 15;
             const baseColor = '#777777';
@@ -1527,13 +1527,6 @@ define([
             }
   
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
-            // var flags = [], output = [], l = backupValues[0].length, i;
-            // for( i=0; i<l; i++) {
-            //     if( flags[backupValues[0][i].year]) continue;
-            //     flags[backupValues[0][i].year] = true;
-            //     output.push(backupValues[0][i].year);
-            // }
 
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
@@ -1578,26 +1571,11 @@ define([
   
                 window.backupSeries[window.reportOptions.country] = backupSeries;
               } else {
-                let year = 2012;
-                let monthCount = 0;
-                
-                window.reportOptions.stateObjects.forEach((adm) => {
+                  window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
                     return value.adm1 == adm.id_1;
                   }).forEach((bValue, i) => {
-                    if (i % 12 === 0 && i !== 0) { //maybe instead just use month === 12???
-                      backupTempSeries.name = bValue.year - 1;
-    
-                      var hexColor = self.shadeColor(baseColor, (indexColor / 100));
-                      indexColor = indexColor + colorStep;
-                      self.dataLabelsFormatAction(backupTempSeries, hexColor);
-    
-                      backupSeries.push(backupTempSeries);
-                      backupTempSeries = { data: [], name: '' };
-                      tmpArr = [];
-                      backupTempSeries.data.push(bValue.alerts);
-                      tmpArr.push(bValue.alerts);
-                    } else if (bValue.year === currentYear && bValue.month === currentMonth) {
+                    if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
     
                       tmpArr.push(bValue.alerts);
@@ -1617,7 +1595,7 @@ define([
                       tmpArr.push(bValue.alerts);
                       backupTempSeries.data.push(tmpArr.reduce(reducer));
                       if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
-                        backupTempSeries.name = bValue.year - 1;
+                        backupTempSeries.name = bValue.year; // - 1;
     
                         var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                         indexColor = indexColor + colorStep;
@@ -1626,15 +1604,16 @@ define([
                         backupSeries.push(backupTempSeries);
                         backupTempSeries = { data: [], name: '' };
                         tmpArr = [];
-                        backupTempSeries.data.push(bValue.alerts);
                       }
                     }
                   });
+                  backupTempSeries = { data: [], name: '' };
+                  tmpArr = [];
                   backupSeries[backupSeries.length-1].color = "#d40000";  
   
-                  const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
                   const aoiName = adm.name_1;
                   window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
+                  backupSeries = [];
                 });
               }
             });
@@ -1825,7 +1804,7 @@ define([
         let data = [];
         const deferred = new Deferred();
 
-        request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
+        request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {
 
@@ -2373,9 +2352,9 @@ define([
                 let fireAlertCountUrl;
 
                 if (window.reportOptions.aoiId) {
-                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
                 } else {
-                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2012-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
+                  fireAlertCountUrl = `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=day&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`;
                 }
 
                 request.get(fireAlertCountUrl, {
