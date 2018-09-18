@@ -116,7 +116,11 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   }
 
   handleIslandChange(selected) {
-    this.setState({ selectedIsland: selected });
+    if (selected) {
+      this.setState({ selectedIsland: selected });
+    } else {
+      this.selectAllProvinces();
+    }
   }
 
   beginAnalysis () {
@@ -124,17 +128,6 @@ export default class IndonesiaSpecialtyReport extends React.Component {
 
     const aoiType = 'PROVINCE';
     const province = this.state.selectedIsland;
-
-    if (!province) {
-      this.setState({
-        localErrors: true
-      });
-      return;
-    } else {
-      this.setState({
-        localErrors: false
-      });
-    }
 
     let reportdateFrom = this.state.analysisStartDate.split('/');
     let reportdateTo = this.state.analysisEndDate.split('/');
