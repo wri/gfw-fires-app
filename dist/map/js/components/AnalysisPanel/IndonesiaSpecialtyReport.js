@@ -260,7 +260,11 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'handleIslandChange',
       value: function handleIslandChange(selected) {
-        this.setState({ selectedIsland: selected });
+        if (selected) {
+          this.setState({ selectedIsland: selected });
+        } else {
+          this.selectAllProvinces();
+        }
       }
     }, {
       key: 'beginAnalysis',
@@ -269,17 +273,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         var aoiType = 'PROVINCE';
         var province = this.state.selectedIsland;
-
-        if (!province) {
-          this.setState({
-            localErrors: true
-          });
-          return;
-        } else {
-          this.setState({
-            localErrors: false
-          });
-        }
 
         var reportdateFrom = this.state.analysisStartDate.split('/');
         var reportdateTo = this.state.analysisEndDate.split('/');
@@ -325,7 +318,8 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         }
 
         datestring = 'dates=' + dateargs.join('!');
-        aoistring = 'aois=' + aoi.value;
+
+        aoistring = aoi.value ? 'aois=' + aoi.value : '';
 
         dataSourceString = 'dataSource=' + dataSource;
 

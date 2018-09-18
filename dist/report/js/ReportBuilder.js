@@ -205,8 +205,6 @@ define([
             const subregion = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
             queryFor = configKey === "adminBoundary" ? `${this.currentISO}?aggregate_values=True&aggregate_by=adm1&` : `${this.currentISO}${subregion}?aggregate_values=True&aggregate_by=adm2&`;
           } else if (areaOfInterestType === 'ALL') {
-            $('.admin-type-1').text('Country');
-            $('.admin-type-2').text('Province');
             keyRegion = configKey === 'adminBoundary' ? 'NAME_0' : 'NAME_1';
             queryFor = configKey === "adminBoundary" ? 'global?aggregate_values=True&aggregate_by=iso&' : 'global?aggregate_values=True&aggregate_by=adm1&';
           }
@@ -515,13 +513,13 @@ define([
 
                 if (queryConfigTableId === 'district-fires-table') {
                   tableRows =
-                    `<tr><th class="admin-type-1">Country</th>
+                    `<tr><th class="admin-type-1">${window.reportOptions.aoitype === 'GLOBAL' ? 'Province' : 'Country'}</th>
                     <th class="number-column">#</th>
                     <th class="switch-color-column"></th></tr>`;
                 } else {
                   tableRows =
-                    `<tr><th class="admin-type-2">Province</th>
-                    <th class="align-left admin-type-1">Province</th>
+                    `<tr><th class="admin-type-2">${window.reportOptions.aoitype === 'GLOBAL' ? 'Subregion' : 'Province'}</th>
+                    <th class="align-left admin-type-1">${window.reportOptions.aoitype === 'GLOBAL' ? 'Province' : 'Country'}</th>
                     <th class="number-column">#</th>
                     <th class="switch-color-column"></th></tr>`;
                 }
@@ -1599,6 +1597,7 @@ define([
     
                         var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                         indexColor = indexColor + colorStep;
+                        console.log(indexColor);
                         self.dataLabelsFormatAction(backupTempSeries, hexColor);
     
                         backupSeries.push(backupTempSeries);
@@ -1609,7 +1608,12 @@ define([
                   });
                   backupTempSeries = { data: [], name: '' };
                   tmpArr = [];
-                  backupSeries[backupSeries.length-1].color = "#d40000";  
+                  try {
+                    backupSeries[backupSeries.length-1].color = "#d40000";  
+                  } catch (error) {
+                    console.error('error line 1615')
+                  }
+                  
   
                   const aoiName = adm.name_1;
                   window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
@@ -2407,7 +2411,7 @@ define([
 
                 $('#fire-line-chart').highcharts({
                     chart: {
-                      zoomType: 'x'
+                      zoomType: 'x',
                     },
                     title: {
                       text: null
