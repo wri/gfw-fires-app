@@ -153,12 +153,13 @@ html(lang="en")
         div#section-four.page-break.border-top-separator
           h3.report-section__title
             | FIRE ALERT COUNT JAN 1,&nbsp;
-            span.fire-alert-count__year 2012
+            span.fire-alert-count__year 2001
             |  - PRESENT
           h4.report-section__subtitle.fire-alert-count__subtitle MODIS fire alerts
           i.section-description.fire-history__description.interaction-type
           div#fire-alert-count-sumatra
             div#fire-line-chart(class='fire-line-chart')
+              div.loading-chart
         div#ConcessionRspoContainer(class='page-break')
           div#section-five(class='page-break')
             h3.report-section__title CONCESSIONS
@@ -250,9 +251,10 @@ html(lang="en")
         div#firesCountContainerSection.border-top-separator
           h3#firesCountTitleMain.report-section__title Fire History: Fire Season Progression
           h4#firesCountTitle.report-section__subtitle
-          i.section-description Fire history analyses use MODIS fires data only for 2012 to present.
+          i.section-description Fire history analyses use MODIS fires data only for 2001 to present.
           div#firesCountContainer
             div#firesCountChart
+              div.loading-chart
             div#firesCountIslandsListContainer
               h3.selected
               ul#firesCountIslandsList
@@ -262,8 +264,9 @@ html(lang="en")
           h3.report-section__title Annual Fire History
           h4.report-section__subtitle Region: <strong class="country-name">Indonesia</strong>
           h4.report-section__subtitle Total MODIS fire alerts
-          i.section-description.fire-history__description Fire history analyses use MODIS fires data only for 2012 to present.
+          i.section-description.fire-history__description Fire history analyses use MODIS fires data only for 2001 to present.
           div.fire-history__chart
+            div.loading-chart
 
         div#section-eight(class='page-break')
           div(id='disclaimer' class='no-break')
