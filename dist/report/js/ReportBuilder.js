@@ -1501,12 +1501,13 @@ define([
             return request.get(promiseUrl, handleAs);
           })).then(responses => {
             let series = [];
+            const colors = {};
             let seriesTemp = { data: [], name: '' };
             let index = 0;
             const currentYear = new Date().getFullYear();
             const currentMonth = new Date().getMonth() + 1;
             let indexColor = 0;
-            const colorStep = 15;
+            const colorStep = 5;
             const baseColor = '#777777';
   
             let values;
@@ -1525,6 +1526,11 @@ define([
             }
   
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+            for (var i = 2001; i <= currentYear; i++) {
+              colors[i] = self.shadeColor(baseColor, (indexColor / 100));
+              indexColor = indexColor + colorStep;
+            }
 
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
@@ -1566,6 +1572,8 @@ define([
                 });
   
                 backupSeries[backupSeries.length-1].color = "#d40000";
+                backupSeries[backupSeries.length-1].lineWidth = 5;
+
   
                 window.backupSeries[window.reportOptions.country] = backupSeries;
               } else {
@@ -1595,9 +1603,7 @@ define([
                       if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
                         backupTempSeries.name = bValue.year; // - 1;
     
-                        var hexColor = self.shadeColor(baseColor, (indexColor / 100));
-                        indexColor = indexColor + colorStep;
-                        console.log(indexColor);
+                        var hexColor = colors[bValue.year];
                         self.dataLabelsFormatAction(backupTempSeries, hexColor);
     
                         backupSeries.push(backupTempSeries);
@@ -1608,12 +1614,11 @@ define([
                   });
                   backupTempSeries = { data: [], name: '' };
                   tmpArr = [];
-                  try {
+                  try { // REMOVE ONCE NEW API CALL IS DONE
                     backupSeries[backupSeries.length-1].color = "#d40000";  
                   } catch (error) {
                     console.error('error line 1615')
                   }
-                  
   
                   const aoiName = adm.name_1;
                   window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
@@ -1626,12 +1631,12 @@ define([
   
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
-                seriesTemp.name = value.year - 1;
+                seriesTemp.name = value.year;
   
                 var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                 indexColor = indexColor + colorStep;
                 self.dataLabelsFormatAction(seriesTemp, hexColor);
-  
+                
                 series.push(seriesTemp);
                 seriesTemp = { data: [], name: '' };
                 tmpArr = [];
@@ -1643,6 +1648,7 @@ define([
   
                 tmpArr.push(value.alerts);
                 seriesTemp.data.push(tmpArr.reduce(reducer));
+                seriesTemp.lineWidth = 5;
   
                 var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                 indexColor = indexColor + colorStep;
