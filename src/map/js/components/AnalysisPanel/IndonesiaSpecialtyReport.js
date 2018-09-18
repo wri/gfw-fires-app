@@ -179,7 +179,8 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     }
 
     datestring = 'dates=' + dateargs.join('!');
-    aoistring = `aois=${aoi.value}`;
+
+    aoistring = aoi.value ? `aois=${aoi.value}` : '';
 
     dataSourceString = 'dataSource=' + dataSource;
 
