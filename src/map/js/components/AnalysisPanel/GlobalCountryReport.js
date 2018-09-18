@@ -104,7 +104,25 @@ export default class GlobalCountryReport extends React.Component {
 
   handleSubRegionChange (selected) {
     if (selected === null) {
-      this.setState({ selectedSubRegion: '' });
+      const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCoutry);
+      countrySubRegions.sort((a, b) => {
+        if (a.NAME_1 < b.NAME_1) {
+          return -1;
+        }
+        if (a.NAME_1 > b.NAME_1) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const countrySubRegionsList = countrySubRegions.map(state => {
+        return {
+          value: state.NAME_1,
+          label: state.NAME_1
+        };
+      });
+
+      this.setState({ selectedSubRegion: countrySubRegionsList });
     } else {
       this.setState({ selectedSubRegion: selected });
     }
@@ -172,6 +190,7 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   reportDataToHash (reportType, dates, country, countryRegion) {
+    debugger;
     console.log('countryRegion: ', countryRegion);
     let hash = '#';
     let reportTypeString = 'reporttype=' + reportType;
