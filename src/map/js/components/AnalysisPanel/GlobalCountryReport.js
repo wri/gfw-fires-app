@@ -190,14 +190,10 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   reportDataToHash (reportType, dates, country, countryRegion) {
-    debugger;
     console.log('countryRegion: ', countryRegion);
     let hash = '#';
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
-
-    // console.log('we here??!', countryRegion);
-    // debugger
 
     const countryRegionString = countryRegion.length ? '' : `aois=${countryRegion.value}`;
     console.log('countryRegionString', countryRegionString);
