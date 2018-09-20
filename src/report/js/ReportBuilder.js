@@ -824,19 +824,17 @@ define([
         },
 
         get_global_layer_definition: function () {
-
-          const aoiType = window.reportOptions.aoitype;
-          const aoiData = window.reportOptions.aois;
           let countryQueryGlobal;
           let aoiQueryGlobal;
 
-          if (aoiType === 'ISLAND') {
-            aoi = aoiType + " in ('" + aoiData + "')";
-          } else {
-            countryQueryGlobal = "ID_0 = " + this.countryObjId;
-            aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
-            aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
-          }
+          const adm1Names = window.reportOptions.stateObjects.map(adm1 => {
+            return adm1.name_1;
+          }).join("','");
+
+          countryQueryGlobal = "ID_0 = " + this.countryObjId;
+          aoiQueryGlobal = "NAME_1 in ('" + adm1Names + "')";
+          aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
+          
           // NEW - manipulate date here
           // ex. 24 Oct 2017
           const momentStart = moment(this.startdate, 'D MMM YYYY');
