@@ -1571,6 +1571,7 @@ define([
   
                 backupSeries[backupSeries.length-1].color = "#d40000";
                 backupSeries[backupSeries.length-1].lineWidth = 5;
+                backupSeries[backupSeries.length-1].lineWidth = 1;
 
   
                 window.backupSeries[window.reportOptions.country] = backupSeries;
@@ -1626,14 +1627,16 @@ define([
             });
 
             tmpArr = [];
+            let year;
   
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
-                seriesTemp.name = value.year;
+                seriesTemp.name = year;
   
                 var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                 indexColor = indexColor + colorStep;
                 self.dataLabelsFormatAction(seriesTemp, hexColor);
+                seriesTemp.lineWidth = 1;
                 
                 series.push(seriesTemp);
                 seriesTemp = { data: [], name: '' };
@@ -1654,6 +1657,7 @@ define([
   
                 series.push(seriesTemp);
               } else {
+                year = value.year;
                 tmpArr.push(value.alerts);
                 seriesTemp.data.push(tmpArr.reduce(reducer));
               }
