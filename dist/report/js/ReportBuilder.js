@@ -12,6 +12,7 @@ define([
     "esri/renderers/ClassBreaksRenderer",
     "esri/layers/FeatureLayer",
     "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
     "esri/renderers/UniqueValueRenderer",
     "esri/layers/LayerDrawingOptions",
     "esri/tasks/query",
@@ -23,7 +24,7 @@ define([
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig",
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
-    SimpleFillSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
+    SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
     return {
 
@@ -85,7 +86,7 @@ define([
             }
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
-            // Creates the first map and create the Fire Alert Count Jan 1, 2012 figure
+            // Fire Alert Count Jan 1, 2001 figure
             self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
@@ -363,6 +364,8 @@ define([
                 }
               }
 
+              var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0]), 1);
+
               const symbols = {};
               for (let i = 0; i < brkCount; i += 1) {
                 const symbol = new SimpleFillSymbol();
@@ -373,6 +376,7 @@ define([
                   g: color[1],
                   b: color[2]
                 });
+                symbol.setOutline(sls)
                 symbols[i] = symbol;
               }
 
@@ -383,6 +387,7 @@ define([
                 g: 255,
                 b: 255
               });
+
 
               const symbol = new SimpleFillSymbol();
               symbol.setColor(new Color([150, 150, 150, 0.5]));
@@ -834,10 +839,15 @@ define([
         get_global_layer_definition: function () {
           let countryQueryGlobal;
           let aoiQueryGlobal;
+          let adm1Names;
 
-          const adm1Names = window.reportOptions.stateObjects.map(adm1 => {
-            return adm1.name_1;
-          }).join("','");
+          if (window.reportOptions.aois) {
+            adm1Names = window.reportOptions.aois;
+          } else {
+            adm1Names = window.reportOptions.stateObjects.map(adm1 => {
+              return adm1.name_1;
+            }).join("','");
+          }
 
           countryQueryGlobal = "ID_0 = " + this.countryObjId;
           aoiQueryGlobal = "NAME_1 in ('" + adm1Names + "')";
@@ -922,7 +932,7 @@ define([
         },
 
         /**
-         * Initializes the Distribution of Fire Alerts map (FIRT MAP)
+         * Initializes the Distribution of Fire Alerts map (FIRST MAP)
          */
         buildDistributionOfFireAlertsMap: function() {
           const self = this;
@@ -1777,7 +1787,7 @@ define([
                series: countryData
              });
     
-             const total = countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
+             const total = countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y;
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
@@ -1814,6 +1824,8 @@ define([
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
              );
            });
+          }).catch(err => {
+            document.getElementById('firesCountChartLoading').remove(); 
           });
         },
 
@@ -1932,6 +1944,8 @@ define([
             }]
           });
           deferred.resolve(false);
+        }, (err) => {
+          document.getElementById('fireHistoryChartLoading').remove(); 
         });
         return deferred.promise;
       },
@@ -2406,6 +2420,8 @@ define([
                   }
 
                   createFigure(_.values(tmpFireAlerts), dates);
+                }, (err) => {
+                  document.getElementById('firesLineChartLoading').remove();
                 });
 
                 let totalFireAlertsUrl;
