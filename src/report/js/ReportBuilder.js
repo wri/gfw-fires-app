@@ -1891,7 +1891,8 @@ define([
                   fontSize: '16px',
                   fontFamily: "'Fira Sans', Georgia, serif"
                 }
-              }
+              },
+              min: 1998,
             },
 
             yAxis: {
