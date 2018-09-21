@@ -1868,7 +1868,8 @@ define([
 
           $('.fire-history__chart').highcharts({
             chart: {
-              type: 'bubble'
+              type: 'bubble',
+              // marginLeft: 500
             },
 
             title: {
