@@ -12,6 +12,7 @@ define([
     "esri/renderers/ClassBreaksRenderer",
     "esri/layers/FeatureLayer",
     "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
     "esri/renderers/UniqueValueRenderer",
     "esri/layers/LayerDrawingOptions",
     "esri/tasks/query",
@@ -23,7 +24,7 @@ define([
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig",
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
-    SimpleFillSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
+    SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
     return {
 
@@ -363,6 +364,8 @@ define([
                 }
               }
 
+              var sls = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0]), 1);
+
               const symbols = {};
               for (let i = 0; i < brkCount; i += 1) {
                 const symbol = new SimpleFillSymbol();
@@ -373,6 +376,7 @@ define([
                   g: color[1],
                   b: color[2]
                 });
+                symbol.setOutline(sls)
                 symbols[i] = symbol;
               }
 
@@ -383,6 +387,7 @@ define([
                 g: 255,
                 b: 255
               });
+
 
               const symbol = new SimpleFillSymbol();
               symbol.setColor(new Color([150, 150, 150, 0.5]));
