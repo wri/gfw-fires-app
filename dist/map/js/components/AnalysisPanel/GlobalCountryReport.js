@@ -327,14 +327,10 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'reportDataToHash',
       value: function reportDataToHash(reportType, dates, country, countryRegion) {
-        debugger;
         console.log('countryRegion: ', countryRegion);
         var hash = '#';
         var reportTypeString = 'reporttype=' + reportType;
         var countryString = 'country=' + country;
-
-        // console.log('we here??!', countryRegion);
-        // debugger
 
         var countryRegionString = countryRegion.length ? '' : 'aois=' + countryRegion.value;
         console.log('countryRegionString', countryRegionString);

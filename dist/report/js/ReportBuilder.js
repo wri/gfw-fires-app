@@ -31,8 +31,18 @@ define([
           var self = this;
           self.init_report_options();
 
-          this.getIdOne().then(id_1 => {
+          this.getIdOne().then(() => {
             // in getFireCounts, in queryForFiresCount, right before self.createPieChart
+
+            if (window.reportOptions.aois) {
+              this.aoilist = window.reportOptions.aois;
+              document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
+            } else if (window.reportOptions.stateObjects) {
+              document.querySelector('#aoiList').innerHTML = window.reportOptions.stateObjects.map(adm1 => {
+                return adm1.name_1;
+              }).join(', ');
+            }
+
 
             var areaOfInterestType = window.reportOptions['aoitype'];
 
@@ -100,10 +110,13 @@ define([
             if (selectedCountry === 'Indonesia') {
               document.querySelector('#land-use-fires-container').style.display = 'inherit';
               self.queryForSumatraFires(areaOfInterestType);
-              self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id);
-              self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id);
-              self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id);
-              self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id);
+              self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id).then(() => {
+                self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id).then(() => {
+                  self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id).then(() => {
+                    self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id);
+                  })
+                });
+              });
             }
 
             // Creates the Fire History: Fire Season Progression graph
@@ -756,11 +769,6 @@ define([
               this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
             }
 
-            if (aois) {
-              this.aoilist = aois;
-              document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
-            }
-
             $('.fromDate').text(' ' + self.startdate);
             $('.toDate').text(' - ' + self.enddate);
             $('.interaction-type').text(document.ontouchstart === undefined ? 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in');
@@ -824,19 +832,17 @@ define([
         },
 
         get_global_layer_definition: function () {
-
-          const aoiType = window.reportOptions.aoitype;
-          const aoiData = window.reportOptions.aois;
           let countryQueryGlobal;
           let aoiQueryGlobal;
 
-          if (aoiType === 'ISLAND') {
-            aoi = aoiType + " in ('" + aoiData + "')";
-          } else {
-            countryQueryGlobal = "ID_0 = " + this.countryObjId;
-            aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
-            aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
-          }
+          const adm1Names = window.reportOptions.stateObjects.map(adm1 => {
+            return adm1.name_1;
+          }).join("','");
+
+          countryQueryGlobal = "ID_0 = " + this.countryObjId;
+          aoiQueryGlobal = "NAME_1 in ('" + adm1Names + "')";
+          aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
+          
           // NEW - manipulate date here
           // ex. 24 Oct 2017
           const momentStart = moment(this.startdate, 'D MMM YYYY');
@@ -876,7 +882,7 @@ define([
             queryType === 'palmoilQuery' ||
             queryType === 'pulpwoodQuery'
           ) {
-            aoiQueryGlobal = "PROVINCE in ('" + aoiData + "')";
+            aoiQueryGlobal = "PROVINCE in ('" + window.reportOptions.stateObjects.map(adm1 => { return adm1.name_1; }).join("','") + "')";
             aoi = aoiQueryGlobal;
           } else {
             countryQueryGlobal = "ID_0 = " + this.countryObjId;
@@ -885,7 +891,7 @@ define([
           }
 
           let sql;
-          if (window.reportOptions.aois) sql = [startdate, enddate, aoi].join(' AND ');
+          if (window.reportOptions.aois || window.reportOptions.stateObjects) sql = [startdate, enddate, aoi].join(' AND ');
           else sql = [startdate, enddate].join(' AND ');
 
           return sql;
@@ -1573,6 +1579,7 @@ define([
   
                 backupSeries[backupSeries.length-1].color = "#d40000";
                 backupSeries[backupSeries.length-1].lineWidth = 5;
+                backupSeries[backupSeries.length-1].lineWidth = 1;
 
   
                 window.backupSeries[window.reportOptions.country] = backupSeries;
@@ -1628,14 +1635,16 @@ define([
             });
 
             tmpArr = [];
+            let year;
   
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
-                seriesTemp.name = value.year;
+                seriesTemp.name = year;
   
                 var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                 indexColor = indexColor + colorStep;
                 self.dataLabelsFormatAction(seriesTemp, hexColor);
+                seriesTemp.lineWidth = 1;
                 
                 series.push(seriesTemp);
                 seriesTemp = { data: [], name: '' };
@@ -1656,6 +1665,7 @@ define([
   
                 series.push(seriesTemp);
               } else {
+                year = value.year;
                 tmpArr.push(value.alerts);
                 seriesTemp.data.push(tmpArr.reduce(reducer));
               }
@@ -2046,7 +2056,7 @@ define([
               }
 
               var filtered = arrayUtils.filter(features, function(feature) {
-                  return feature.attributes.fire_count !== 0;
+                return feature.attributes.fire_count !== 0;
               });
 
               if (districtFireTable || subdistrictFireTable) {
@@ -2075,14 +2085,16 @@ define([
 
                   combineConcessionsArray.sort(function (a, b) {
                     return a.attributes.fire_count - b.attributes.fire_count;
-                  });
+                  }).reverse();
 
                   var concessionsFinalArray = [];
-                  combineConcessionsArray.map(function (item, index) {
-                    if (index > combineConcessionsArray.length - 10) {
-                      concessionsFinalArray.push(item);
-                    }
-                  });
+
+                  concessionsFinalArray = combineConcessionsArray.slice(0, 9);
+                  // combineConcessionsArray.map(function (item, index) {
+                  //   if (index > combineConcessionsArray.length - 10) {
+                  //     concessionsFinalArray.push(item);
+                  //   }
+                  // });
 
                   if (concessionsFinalArray.length > 0) {
                     concessionsFinalArray = concessionsFinalArray.reverse();
