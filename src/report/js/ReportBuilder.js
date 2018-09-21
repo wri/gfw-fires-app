@@ -1782,7 +1782,7 @@ define([
                series: countryData
              });
     
-             const total = countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
+             const total = countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y;
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
@@ -1939,7 +1939,7 @@ define([
             }]
           });
           deferred.resolve(false);
-        }).catch(err => {
+        }, (err) => {
           document.getElementById('fireHistoryChartLoading').remove(); 
         });
         return deferred.promise;
@@ -2415,7 +2415,7 @@ define([
                   }
 
                   createFigure(_.values(tmpFireAlerts), dates);
-                }).catch(err => {
+                }, (err) => {
                   document.getElementById('firesLineChartLoading').remove();
                 });
 
