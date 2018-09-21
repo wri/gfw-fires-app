@@ -31,8 +31,18 @@ define([
           var self = this;
           self.init_report_options();
 
-          this.getIdOne().then(id_1 => {
+          this.getIdOne().then(() => {
             // in getFireCounts, in queryForFiresCount, right before self.createPieChart
+
+            if (window.reportOptions.aois) {
+              this.aoilist = window.reportOptions.aois;
+              document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
+            } else if (window.reportOptions.stateObjects) {
+              document.querySelector('#aoiList').innerHTML = window.reportOptions.stateObjects.map(adm1 => {
+                return adm1.name_1;
+              }).join(', ');
+            }
+
 
             var areaOfInterestType = window.reportOptions['aoitype'];
 
@@ -75,7 +85,7 @@ define([
             }
             var subDistrictLayerIdsViirsModis = [subDistrictViirsLayerId, subDistrictModisLayerId];
 
-            // Creates the first map and create the Fire Alert Count Jan 1, 2012 figure
+            // Fire Alert Count Jan 1, 2001 figure
             self.queryForDailyFireData(areaOfInterestType);
 
             // Create the Distribution of Fire Alerts Map
@@ -100,10 +110,13 @@ define([
             if (selectedCountry === 'Indonesia') {
               document.querySelector('#land-use-fires-container').style.display = 'inherit';
               self.queryForSumatraFires(areaOfInterestType);
-              self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id);
-              self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id);
-              self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id);
-              self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id);
+              self.queryDistrictsFireCount("rspoQuery", null, Config.rspoQuery.fire_stats.id).then(() => {
+                self.queryDistrictsFireCount("loggingQuery", null, Config.loggingQuery.fire_stats.id).then(() => {
+                  self.queryDistrictsFireCount("palmoilQuery", null, Config.palmoilQuery.fire_stats.id).then(() => {
+                    self.queryDistrictsFireCount("pulpwoodQuery", null, Config.pulpwoodQuery.fire_stats.id);
+                  })
+                });
+              });
             }
 
             // Creates the Fire History: Fire Season Progression graph
@@ -756,11 +769,6 @@ define([
               this.currentISO = Config.countryFeatures[Config.countryFeatures.findIndex(function(feature) { return feature.gcr ? feature.gcr === self.currentCountry : feature['English short name'] === self.currentCountry })]['Alpha-3 code'];
             }
 
-            if (aois) {
-              this.aoilist = aois;
-              document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
-            }
-
             $('.fromDate').text(' ' + self.startdate);
             $('.toDate').text(' - ' + self.enddate);
             $('.interaction-type').text(document.ontouchstart === undefined ? 'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in');
@@ -826,10 +834,15 @@ define([
         get_global_layer_definition: function () {
           let countryQueryGlobal;
           let aoiQueryGlobal;
+          let adm1Names;
 
-          const adm1Names = window.reportOptions.stateObjects.map(adm1 => {
-            return adm1.name_1;
-          }).join("','");
+          if (window.reportOptions.aois) {
+            adm1Names = window.reportOptions.aois;
+          } else {
+            adm1Names = window.reportOptions.stateObjects.map(adm1 => {
+              return adm1.name_1;
+            }).join("','");
+          }
 
           countryQueryGlobal = "ID_0 = " + this.countryObjId;
           aoiQueryGlobal = "NAME_1 in ('" + adm1Names + "')";
@@ -874,7 +887,7 @@ define([
             queryType === 'palmoilQuery' ||
             queryType === 'pulpwoodQuery'
           ) {
-            aoiQueryGlobal = "PROVINCE in ('" + aoiData + "')";
+            aoiQueryGlobal = "PROVINCE in ('" + window.reportOptions.stateObjects.map(adm1 => { return adm1.name_1; }).join("','") + "')";
             aoi = aoiQueryGlobal;
           } else {
             countryQueryGlobal = "ID_0 = " + this.countryObjId;
@@ -883,7 +896,7 @@ define([
           }
 
           let sql;
-          if (window.reportOptions.aois) sql = [startdate, enddate, aoi].join(' AND ');
+          if (window.reportOptions.aois || window.reportOptions.stateObjects) sql = [startdate, enddate, aoi].join(' AND ');
           else sql = [startdate, enddate].join(' AND ');
 
           return sql;
@@ -914,7 +927,7 @@ define([
         },
 
         /**
-         * Initializes the Distribution of Fire Alerts map (FIRT MAP)
+         * Initializes the Distribution of Fire Alerts map (FIRST MAP)
          */
         buildDistributionOfFireAlertsMap: function() {
           const self = this;
@@ -1806,6 +1819,8 @@ define([
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
              );
            });
+          }).catch(err => {
+            document.getElementById('firesCountChartLoading').remove(); 
           });
         },
 
@@ -1924,6 +1939,8 @@ define([
             }]
           });
           deferred.resolve(false);
+        }).catch(err => {
+          document.getElementById('fireHistoryChartLoading').remove(); 
         });
         return deferred.promise;
       },
@@ -2048,7 +2065,7 @@ define([
               }
 
               var filtered = arrayUtils.filter(features, function(feature) {
-                  return feature.attributes.fire_count !== 0;
+                return feature.attributes.fire_count !== 0;
               });
 
               if (districtFireTable || subdistrictFireTable) {
@@ -2077,14 +2094,16 @@ define([
 
                   combineConcessionsArray.sort(function (a, b) {
                     return a.attributes.fire_count - b.attributes.fire_count;
-                  });
+                  }).reverse();
 
                   var concessionsFinalArray = [];
-                  combineConcessionsArray.map(function (item, index) {
-                    if (index > combineConcessionsArray.length - 10) {
-                      concessionsFinalArray.push(item);
-                    }
-                  });
+
+                  concessionsFinalArray = combineConcessionsArray.slice(0, 9);
+                  // combineConcessionsArray.map(function (item, index) {
+                  //   if (index > combineConcessionsArray.length - 10) {
+                  //     concessionsFinalArray.push(item);
+                  //   }
+                  // });
 
                   if (concessionsFinalArray.length > 0) {
                     concessionsFinalArray = concessionsFinalArray.reverse();
@@ -2396,6 +2415,8 @@ define([
                   }
 
                   createFigure(_.values(tmpFireAlerts), dates);
+                }).catch(err => {
+                  document.getElementById('firesLineChartLoading').remove();
                 });
 
                 let totalFireAlertsUrl;
