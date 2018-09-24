@@ -373,9 +373,9 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 					var newest = results.features[results.features.length - 1];
 					var date = void 0;
 					if (method === 'changeRisk') {
-						date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+						date = newest.attributes.Name.split('_HEMI_FireRisk')[0];
 					} else {
-						date = newest.attributes.Name.split('_IDN')[0];
+						date = newest.attributes.Name.split('_HEMI')[0];
 						date = date.split('DSLR_')[1];
 					}
 
