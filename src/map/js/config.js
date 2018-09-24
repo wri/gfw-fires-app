@@ -412,7 +412,7 @@ export const config = {
       group: 'fireRisk',
       className: 'fire-risk',
       // disabled: true,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/fire_risk/ImageServer',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/image_services/fire_risk_pantropics/ImageServer',
       metadataId: 'fire_risk',
       calendar: {
         domClass: 'risk-settings',
@@ -430,7 +430,7 @@ export const config = {
       group: 'fireRisk',
       className: 'last-rainfall',
       // disabled: true,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/DSLR/ImageServer',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/image_services/DSLR_pantropics/ImageServer',
       metadataId: 'idn_mys_days_since_last_rainfall', //todo: find correct
       calendar: {
         domClass: 'rainfall-settings',
