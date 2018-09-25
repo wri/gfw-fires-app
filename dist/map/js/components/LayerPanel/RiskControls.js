@@ -71,7 +71,7 @@ define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapAction
     function RiskControls(props) {
       _classCallCheck(this, RiskControls);
 
-      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RiskControls).call(this, props));
+      var _this = _possibleConstructorReturn(this, (RiskControls.__proto__ || Object.getPrototypeOf(RiskControls)).call(this, props));
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
       _this.state = _MapStore.mapStore.getState();
@@ -86,9 +86,7 @@ define(['exports', 'actions/ModalActions', 'stores/MapStore', 'actions/MapAction
     }, {
       key: 'render',
       value: function render() {
-
         var date = window.Kalendae.moment(this.state.riskDate);
-
         return _react2.default.createElement(
           'div',
           null,

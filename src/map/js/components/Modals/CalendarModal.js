@@ -266,9 +266,9 @@ export default class CalendarModal extends Component {
 			let newest = results.features[results.features.length - 1];
 			let date;
 			if (method === 'changeRisk') {
-				date = newest.attributes.Name.split('_IDN_FireRisk')[0];
+				date = newest.attributes.Name.split('_HEMI_FireRisk')[0];
 			} else {
-				date = newest.attributes.Name.split('_IDN')[0];
+				date = newest.attributes.Name.split('_HEMI')[0];
 				date = date.split('DSLR_')[1];
 			}
 

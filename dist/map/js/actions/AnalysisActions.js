@@ -128,11 +128,6 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
         this.dispatch();
       }
     }, {
-      key: 'toggleAreaIslandsActive',
-      value: function toggleAreaIslandsActive() {
-        this.dispatch();
-      }
-    }, {
       key: 'saveMonthlyPlanetBasemaps',
       value: function saveMonthlyPlanetBasemaps(basemaps) {
         this.dispatch(basemaps);

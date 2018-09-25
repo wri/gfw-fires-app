@@ -99,7 +99,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
           <Select
             onChange={this.handleIslandChange.bind(this)}
             options={islands}
-            multi={true}
+            multi={false}
             value={this.state.selectedIsland}
           />
           </div>
@@ -116,25 +116,18 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   }
 
   handleIslandChange(selected) {
-    this.setState({ selectedIsland: selected });
+    if (selected) {
+      this.setState({ selectedIsland: selected });
+    } else {
+      this.selectAllProvinces();
+    }
   }
 
   beginAnalysis () {
     app.debug('AnalysisTab >>> beginAnalysis');
 
-    const aoiType = this.props.areaIslandsActive ? 'ISLAND' : 'PROVINCE';
-    const provinces = this.props.areaIslandsActive ? this.state.selectedIsland : this.state.selectedIsland;
-
-    if (!provinces) {
-      this.setState({
-        localErrors: true
-      });
-      return;
-    } else {
-      this.setState({
-        localErrors: false
-      });
-    }
+    const aoiType = 'PROVINCE';
+    const province = this.state.selectedIsland;
 
     let reportdateFrom = this.state.analysisStartDate.split('/');
     let reportdateTo = this.state.analysisEndDate.split('/');
@@ -150,13 +143,13 @@ export default class IndonesiaSpecialtyReport extends React.Component {
 
     const dataSource = this.props.analysisSourceGFW ? 'gfw' : 'greenpeace';
 
-    let hash = this.reportDataToHash(aoiType, reportdates, provinces, dataSource);
+    let hash = this.reportDataToHash(aoiType, reportdates, province, dataSource);
     let win = window.open('../report/index.html' + hash, '_blank', '');
 
     win.report = true;
     win.reportOptions = {
       'dates': reportdates,
-      'aois': provinces,
+      'aois': province,
       'aoitype': aoiType,
       'dataSource': dataSource
     };
@@ -164,7 +157,7 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     this.sendAnalytics('analysis', 'request', 'The user ran the Fires Analysis.');
   }
 
-  reportDataToHash (aoitype, dates, aois, dataSource) {
+  reportDataToHash (aoitype, dates, aoi, dataSource) {
     let hash = '#',
       dateargs = [],
       datestring,
@@ -179,7 +172,8 @@ export default class IndonesiaSpecialtyReport extends React.Component {
     }
 
     datestring = 'dates=' + dateargs.join('!');
-    aoistring = `aois=${aois.map(aoi => aoi.value).join('!')}`;
+
+    aoistring = aoi.value ? `aois=${aoi.value}` : '';
 
     dataSourceString = 'dataSource=' + dataSource;
 
@@ -189,4 +183,3 @@ export default class IndonesiaSpecialtyReport extends React.Component {
   }
 
 }
-

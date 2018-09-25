@@ -972,7 +972,7 @@ let LayersHelper = {
       julian = julian.toString();
     }
 
-    let defQuery = year.toString() + julian + '_IDN_FireRisk';
+    let defQuery = year.toString() + julian + '_HEMI_FireRisk';
 
     let riskLayer = app.map.getLayer(KEYS.fireWeather);
 
@@ -1005,7 +1005,7 @@ let LayersHelper = {
       julian = julian.toString();
     }
 
-    let defQuery = 'DSLR_' + year.toString() + julian + '_IDN';
+    let defQuery = 'DSLR_' + year.toString() + julian + '_HEMI';
     let rainLayer = app.map.getLayer(KEYS.lastRainfall);
 
     if (rainLayer) {

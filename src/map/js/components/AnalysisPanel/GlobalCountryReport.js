@@ -13,7 +13,7 @@ export default class GlobalCountryReport extends React.Component {
     this.state = {
       localErrors: false,
       currentCountry: null,
-      selectedGlobalCoutry: '',
+      selectedGlobalCountry: '',
       selectedSubRegion: '',
       ...mapStore.getState() };
   }
@@ -42,10 +42,13 @@ export default class GlobalCountryReport extends React.Component {
     countriesList.unshift({
       value: '',
       label: 'Select a Country'
+    }, {
+      value: 'ALL',
+      label: 'Global Report'
     });
 
 
-    const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCoutry);
+    const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCountry);
     countrySubRegions.sort((a, b) => {
       if (a.NAME_1 < b.NAME_1) {
         return -1;
@@ -68,7 +71,7 @@ export default class GlobalCountryReport extends React.Component {
         <h4 className="country-report__title">{analysisPanelText.globalReportTitle}</h4>
         <div className={'padding'}>
           <Select
-            value={this.state.selectedGlobalCoutry}
+            value={this.state.selectedGlobalCountry}
             onChange={this.handleGlobalCountryChange.bind(this)}
             multi={false}
             options={countriesList}
@@ -81,10 +84,10 @@ export default class GlobalCountryReport extends React.Component {
           <div className='padding'>
             <p>Select {this.state.currentCountry}&#39;s subregions: </p>
             <Select
-              placeholder='Select a Country'
+              placeholder='Select a subregion'
               onChange={this.handleSubRegionChange.bind(this)}
               options={countrySubRegionsList}
-              multi={true}
+              multi={false}
               value={this.state.selectedSubRegion}
             />
           </div>
@@ -100,12 +103,34 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   handleSubRegionChange (selected) {
-    this.setState({ selectedSubRegion: selected });
+    if (selected === null) {
+      const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCountry);
+      countrySubRegions.sort((a, b) => {
+        if (a.NAME_1 < b.NAME_1) {
+          return -1;
+        }
+        if (a.NAME_1 > b.NAME_1) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const countrySubRegionsList = countrySubRegions.map(state => {
+        return {
+          value: state.NAME_1,
+          label: state.NAME_1
+        };
+      });
+
+      this.setState({ selectedSubRegion: countrySubRegionsList });
+    } else {
+      this.setState({ selectedSubRegion: selected });
+    }
   }
 
   handleGlobalCountryChange (selected) {
     if (selected) {
-      this.setState({ selectedGlobalCoutry: selected.value }, () => {
+      this.setState({ selectedGlobalCountry: selected.value }, () => {
         const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === selected.value);
         countrySubRegions.sort((a, b) => {
           if (a.NAME_1 < b.NAME_1) {
@@ -127,7 +152,7 @@ export default class GlobalCountryReport extends React.Component {
         this.setState({ selectedSubRegion: countrySubRegionsList });
       });
     } else {
-      this.setState({ selectedGlobalCoutry: '' });
+      this.setState({ selectedGlobalCountry: '' });
     }
   }
 
@@ -143,11 +168,11 @@ export default class GlobalCountryReport extends React.Component {
     app.debug('AnalysisTab >>> countryAnalysis');
 
     let reportType = 'globalcountryreport',
-      countries = this.state.selectedGlobalCoutry,
-      regions = this.state.selectedSubRegion,
-      reportdateFrom = this.state.analysisStartDate.split('/'),
-      reportdateTo = this.state.analysisEndDate.split('/'),
-      reportdates = {};
+    countries = this.state.selectedGlobalCountry,
+    region = this.state.selectedSubRegion,
+    reportdateFrom = this.state.analysisStartDate.split('/'),
+    reportdateTo = this.state.analysisEndDate.split('/'),
+    reportdates = {};
 
     if (!countries) {
       return;
@@ -160,16 +185,16 @@ export default class GlobalCountryReport extends React.Component {
     reportdates.tMonth = Number(reportdateTo[0]);
     reportdates.tDay = Number(reportdateTo[1]);
 
-    const hash = this.reportDataToHash(reportType, reportdates, countries, regions);
+    const hash = this.reportDataToHash(reportType, reportdates, countries, region);
     window.open('../report/index.html' + hash, '_blank', '');
   }
 
-  reportDataToHash (reportType, dates, country, countryRegions) {
+  reportDataToHash (reportType, dates, country, countryRegion) {
     let hash = '#';
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
 
-    const countryRegionString = `aois=${countryRegions.map(region => region.value).join('!')}`;
+    const countryRegionString = countryRegion.length ? '' : `aois=${countryRegion.value}`;
 
     let dateArgs = [];
     let dateString = 'dates=';
@@ -180,7 +205,16 @@ export default class GlobalCountryReport extends React.Component {
     }
     dateString += dateArgs.join('!');
 
-    hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+    // global country report
+    if (country && country === 'ALL') {
+      hash += ['aoitype=ALL', reportTypeString, dateString].join('&');
+    } else {
+      if (countryRegionString) {
+        hash += ['aoitype=GLOBAL', reportTypeString, countryString, countryRegionString, dateString].join('&');
+      } else {
+        hash += ['aoitype=GLOBAL', reportTypeString, countryString, dateString].join('&');
+      }
+    }
     return hash;
   }
 }

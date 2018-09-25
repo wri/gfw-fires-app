@@ -7,12 +7,12 @@ import LayerCheckbox from 'components/LayerPanel/LayerCheckbox';
 import FiresControls from 'components/LayerPanel/FiresControls';
 import FireHistoryTimeline from 'components/LayerPanel/FireHistoryTimeline';
 import ForestControls from 'components/LayerPanel/ForestControls';
+import RiskControls from 'components/LayerPanel/RiskControls';
 import PlantationControls from 'components/LayerPanel/PlantationControls';
 import ViirsControls from 'components/LayerPanel/ViirsControls';
 import ArchiveControls from 'components/LayerPanel/ArchiveControls';
 import NoaaControls from 'components/LayerPanel/NoaaControls';
 import BurnScarsLegend from 'components/LayerPanel/BurnScarsLegend';
-import RiskControls from 'components/LayerPanel/RiskControls';
 import RainControls from 'components/LayerPanel/RainControls';
 import AirControls from 'components/LayerPanel/AirControls';
 import WindControls from 'components/LayerPanel/WindControls';
@@ -88,11 +88,11 @@ export default class LayerPanel extends React.Component {
         case KEYS.peatlands:
           childComponent = <LandCoverLegend url={layer.url} layerIds={layer.layerIds} />;
           break;
-        case KEYS.fireWeather:
-          childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
-          break;
         case KEYS.fireHistory:
           childComponent = <FireHistoryTimeline {...this.state} loaded={this.props.loaded} />;
+          break;
+        case KEYS.fireWeather: //fireRisk ??
+          childComponent = <RiskControls options={layer.calendar} loaded={this.props.loaded} />;
           break;
         case KEYS.lastRainfall:
           childComponent = <RainControls options={layer.calendar} loaded={this.props.loaded} />;

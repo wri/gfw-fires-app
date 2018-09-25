@@ -23,7 +23,6 @@ class AnalysisStore {
     this.subscribeToolsExpanded = false;
     this.timelineVisible = false;
     this.analysisSourceGFW = true;
-    this.areaIslandsActive = false;
     this.islands = [];
     this.provinces = [];
     this.countries = [];
@@ -49,8 +48,6 @@ class AnalysisStore {
       toggleTimelineVisibility: analysisActions.toggleTimelineVisibility,
       toggleAnalysisSource: analysisActions.toggleAnalysisSource,
       initAreas: analysisActions.initAreas,
-      toggleAreaIslandsActive: analysisActions.toggleAreaIslandsActive,
-
       saveMonthlyPlanetBasemaps: analysisActions.saveMonthlyPlanetBasemaps,
       saveQuarterlyPlanetBasemaps: analysisActions.saveQuarterlyPlanetBasemaps
     });
@@ -142,10 +139,6 @@ class AnalysisStore {
     this.countries = areas.countries;
     this.adm1 = areas.adm1;
 
-  }
-
-  toggleAreaIslandsActive() {
-    this.areaIslandsActive = !this.areaIslandsActive;
   }
 
   savePlanetBasemaps (basemaps) {

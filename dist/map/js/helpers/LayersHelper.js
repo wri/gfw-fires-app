@@ -946,7 +946,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         julian = julian.toString();
       }
 
-      var defQuery = year.toString() + julian + '_IDN_FireRisk';
+      var defQuery = year.toString() + julian + '_HEMI_FireRisk';
 
       var riskLayer = app.map.getLayer(_constants2.default.fireWeather);
 
@@ -978,7 +978,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         julian = julian.toString();
       }
 
-      var defQuery = 'DSLR_' + year.toString() + julian + '_IDN';
+      var defQuery = 'DSLR_' + year.toString() + julian + '_HEMI';
       var rainLayer = app.map.getLayer(_constants2.default.lastRainfall);
 
       if (rainLayer) {

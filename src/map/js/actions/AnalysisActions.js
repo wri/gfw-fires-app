@@ -69,10 +69,6 @@ class AnalysisActions {
     this.dispatch();
   }
 
-  toggleAreaIslandsActive () {
-    this.dispatch();
-  }
-
   saveMonthlyPlanetBasemaps (basemaps) {
     this.dispatch(basemaps);
   }
