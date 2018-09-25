@@ -13,7 +13,7 @@ export default class GlobalCountryReport extends React.Component {
     this.state = {
       localErrors: false,
       currentCountry: null,
-      selectedGlobalCoutry: '',
+      selectedGlobalCountry: '',
       selectedSubRegion: '',
       ...mapStore.getState() };
   }
@@ -48,7 +48,7 @@ export default class GlobalCountryReport extends React.Component {
     });
 
 
-    const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCoutry);
+    const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCountry);
     countrySubRegions.sort((a, b) => {
       if (a.NAME_1 < b.NAME_1) {
         return -1;
@@ -71,7 +71,7 @@ export default class GlobalCountryReport extends React.Component {
         <h4 className="country-report__title">{analysisPanelText.globalReportTitle}</h4>
         <div className={'padding'}>
           <Select
-            value={this.state.selectedGlobalCoutry}
+            value={this.state.selectedGlobalCountry}
             onChange={this.handleGlobalCountryChange.bind(this)}
             multi={false}
             options={countriesList}
@@ -104,7 +104,7 @@ export default class GlobalCountryReport extends React.Component {
 
   handleSubRegionChange (selected) {
     if (selected === null) {
-      const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCoutry);
+      const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCountry);
       countrySubRegions.sort((a, b) => {
         if (a.NAME_1 < b.NAME_1) {
           return -1;
@@ -130,7 +130,7 @@ export default class GlobalCountryReport extends React.Component {
 
   handleGlobalCountryChange (selected) {
     if (selected) {
-      this.setState({ selectedGlobalCoutry: selected.value }, () => {
+      this.setState({ selectedGlobalCountry: selected.value }, () => {
         const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === selected.value);
         countrySubRegions.sort((a, b) => {
           if (a.NAME_1 < b.NAME_1) {
@@ -152,7 +152,7 @@ export default class GlobalCountryReport extends React.Component {
         this.setState({ selectedSubRegion: countrySubRegionsList });
       });
     } else {
-      this.setState({ selectedGlobalCoutry: '' });
+      this.setState({ selectedGlobalCountry: '' });
     }
   }
 
@@ -168,7 +168,7 @@ export default class GlobalCountryReport extends React.Component {
     app.debug('AnalysisTab >>> countryAnalysis');
 
     let reportType = 'globalcountryreport',
-    countries = this.state.selectedGlobalCoutry,
+    countries = this.state.selectedGlobalCountry,
     region = this.state.selectedSubRegion,
     reportdateFrom = this.state.analysisStartDate.split('/'),
     reportdateTo = this.state.analysisEndDate.split('/'),
@@ -190,13 +190,11 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   reportDataToHash (reportType, dates, country, countryRegion) {
-    console.log('countryRegion: ', countryRegion);
     let hash = '#';
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
 
     const countryRegionString = countryRegion.length ? '' : `aois=${countryRegion.value}`;
-    console.log('countryRegionString', countryRegionString);
 
     let dateArgs = [];
     let dateString = 'dates=';
@@ -217,7 +215,6 @@ export default class GlobalCountryReport extends React.Component {
         hash += ['aoitype=GLOBAL', reportTypeString, countryString, dateString].join('&');
       }
     }
-    console.log('hash', hash);
     return hash;
   }
 }
