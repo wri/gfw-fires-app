@@ -91,7 +91,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       _this.state = _extends({
         localErrors: false,
         currentCountry: null,
-        selectedGlobalCoutry: '',
+        selectedGlobalCountry: '',
         selectedSubRegion: ''
       }, _MapStore.mapStore.getState());
       return _this;
@@ -133,7 +133,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         });
 
         var countrySubRegions = this.props.adm1.filter(function (o) {
-          return o.NAME_0 === _this2.state.selectedGlobalCoutry;
+          return o.NAME_0 === _this2.state.selectedGlobalCountry;
         });
         countrySubRegions.sort(function (a, b) {
           if (a.NAME_1 < b.NAME_1) {
@@ -164,7 +164,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             'div',
             { className: 'padding' },
             _react2.default.createElement(_reactSelect2.default, {
-              value: this.state.selectedGlobalCoutry,
+              value: this.state.selectedGlobalCountry,
               onChange: this.handleGlobalCountryChange.bind(this),
               multi: false,
               options: countriesList
@@ -231,7 +231,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
 
         if (selected === null) {
           var countrySubRegions = this.props.adm1.filter(function (o) {
-            return o.NAME_0 === _this3.state.selectedGlobalCoutry;
+            return o.NAME_0 === _this3.state.selectedGlobalCountry;
           });
           countrySubRegions.sort(function (a, b) {
             if (a.NAME_1 < b.NAME_1) {
@@ -261,7 +261,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         var _this4 = this;
 
         if (selected) {
-          this.setState({ selectedGlobalCoutry: selected.value }, function () {
+          this.setState({ selectedGlobalCountry: selected.value }, function () {
             var countrySubRegions = _this4.props.adm1.filter(function (o) {
               return o.NAME_0 === selected.value;
             });
@@ -285,7 +285,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             _this4.setState({ selectedSubRegion: countrySubRegionsList });
           });
         } else {
-          this.setState({ selectedGlobalCoutry: '' });
+          this.setState({ selectedGlobalCountry: '' });
         }
       }
     }, {
@@ -304,7 +304,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         app.debug('AnalysisTab >>> countryAnalysis');
 
         var reportType = 'globalcountryreport',
-            countries = this.state.selectedGlobalCoutry,
+            countries = this.state.selectedGlobalCountry,
             region = this.state.selectedSubRegion,
             reportdateFrom = this.state.analysisStartDate.split('/'),
             reportdateTo = this.state.analysisEndDate.split('/'),
@@ -327,13 +327,11 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'reportDataToHash',
       value: function reportDataToHash(reportType, dates, country, countryRegion) {
-        console.log('countryRegion: ', countryRegion);
         var hash = '#';
         var reportTypeString = 'reporttype=' + reportType;
         var countryString = 'country=' + country;
 
         var countryRegionString = countryRegion.length ? '' : 'aois=' + countryRegion.value;
-        console.log('countryRegionString', countryRegionString);
 
         var dateArgs = [];
         var dateString = 'dates=';
@@ -354,7 +352,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             hash += ['aoitype=GLOBAL', reportTypeString, countryString, dateString].join('&');
           }
         }
-        console.log('hash', hash);
         return hash;
       }
     }]);

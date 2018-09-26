@@ -1787,7 +1787,10 @@ define([
                series: countryData
              });
     
-             const total = countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y;
+             const total =  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y ?
+                            countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y :
+                            countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
+
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
