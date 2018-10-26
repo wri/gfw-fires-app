@@ -716,9 +716,9 @@ let LayersHelper = {
 
   updateViirsDefinitions (optionIndex, dontRefresh) {
     let value = layerPanelText.firesOptions[optionIndex].value || 1;
-    let queryString = utils.generateFiresQuery(value);
+    let queryString = utils.generateFiresQuery(value, value === 3 ? false : true);
 
-    let viirs = app.map.getLayer(KEYS.viirsFires);
+    let viirs = app.map.getLayer(`${KEYS.viirsFires}${value === 1 ? '' : value}`);
     let defs;
 
     if (!viirs) {
