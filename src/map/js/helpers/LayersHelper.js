@@ -685,9 +685,9 @@ let LayersHelper = {
     app.debug('LayersHelper >>> updateFiresLayerDefinitions');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires expression.');
     let value = layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
-    let queryString = utils.generateFiresQuery(value);
+    let queryString = utils.generateFiresQuery(value, value === 3 ? false : true);
 
-    let firesLayer = app.map.getLayer(KEYS.activeFires);
+    let firesLayer = app.map.getLayer(`${KEYS.activeFires}${value === 1 ? '' : value}`);
     let defs;
     if (!firesLayer) {
       defs = [];
