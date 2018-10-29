@@ -146,12 +146,12 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
-  identifyActive: mapPoint => {
+  identifyActive: (mapPoint, layerId) => {
     let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let config = utils.getObject(layersConfig, 'id', layerId);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
-    let layer = app.map.getLayer(KEYS.activeFires);
+    let layer = app.map.getLayer(layerId);
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
@@ -168,7 +168,7 @@ const request = {
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
         deferred.resolve({
-          layer: KEYS.activeFires,
+          layer: layerId,
           features: features
         });
       } else {
@@ -221,12 +221,12 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
-  identifyViirs: mapPoint => {
+  identifyViirs: (mapPoint, layerId) => {
     let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
+    let config = utils.getObject(layersConfig, 'id', layerId);
     let identifyTask = new IdentifyTask(config.url);
     let params = new IdentifyParameters();
-    let layer = app.map.getLayer(KEYS.viirsFires);
+    let layer = app.map.getLayer(layerId);
     let layerDefinitions = [];
     layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
@@ -243,7 +243,7 @@ const request = {
     identifyTask.execute(params, function(features) {
       if (features.length > 0) {
         deferred.resolve({
-          layer: KEYS.viirsFires,
+          layer: layerId,
           features: features
         });
       } else {

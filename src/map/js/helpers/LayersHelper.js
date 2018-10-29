@@ -75,7 +75,56 @@ let LayersHelper = {
     layer = app.map.getLayer(KEYS.activeFires);
     if (layer) {
       if (layer.visible) {
-        deferreds.push(Request.identifyActive(mapPoint));
+        deferreds.push(Request.identifyActive(mapPoint, KEYS.activeFires));
+      }
+    }
+
+    layer = app.map.getLayer(`${KEYS.activeFires}2`);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyActive(mapPoint, `${KEYS.activeFires}2`));
+      }
+    }
+
+    layer = app.map.getLayer(`${KEYS.activeFires}3`);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyActive(mapPoint, `${KEYS.activeFires}3`));
+      }
+    }
+
+    layer = app.map.getLayer(`${KEYS.activeFires}7`);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyActive(mapPoint, `${KEYS.activeFires}7`));
+      }
+    }
+
+    layer = app.map.getLayer(KEYS.viirsFires);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirs(mapPoint, KEYS.viirsFires));
+      }
+    }
+
+    layer = app.map.getLayer(`${KEYS.viirsFires}2`);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirs(mapPoint, `${KEYS.viirsFires}2`));
+      }
+    }
+
+    layer = app.map.getLayer(`${KEYS.viirsFires}3`);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirs(mapPoint, `${KEYS.viirsFires}3`));
+      }
+    }
+
+    layer = app.map.getLayer(`${KEYS.activeFires}7`);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyViirs(mapPoint, `${KEYS.viirsFires}7`));
       }
     }
 
@@ -83,13 +132,6 @@ let LayersHelper = {
     if (layer) {
       if (layer.visible) {
         deferreds.push(Request.identifyModisArchive(mapPoint));
-      }
-    }
-
-    layer = app.map.getLayer(KEYS.viirsFires);
-    if (layer) {
-      if (layer.visible) {
-        deferreds.push(Request.identifyViirs(mapPoint));
       }
     }
 
@@ -227,11 +269,29 @@ let LayersHelper = {
           case KEYS.activeFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
             break;
-          case KEYS.modisArchive:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.modisArchive));
+          case `${KEYS.activeFires}2`:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
+            break;
+          case `${KEYS.activeFires}3`:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
+            break;
+          case `${KEYS.activeFires}7`:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.activeFires));
             break;
           case KEYS.viirsFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
+            break;
+          case `${KEYS.viirsFires}2`:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
+            break;
+          case `${KEYS.viirsFires}3`:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
+            break;
+          case `${KEYS.viirsFires}7`:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
+            break;
+          case KEYS.modisArchive:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.modisArchive));
             break;
           case KEYS.viirsArchive:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsArchive));
