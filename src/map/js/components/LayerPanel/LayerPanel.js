@@ -114,11 +114,22 @@ export default class LayerPanel extends React.Component {
       }
 
       return (
-        <LayerCheckbox disabled={layer.disabled} key={layer.id} layer={layer} checked={activeLayers.indexOf(layer.id) > -1}>
+        <LayerCheckbox disabled={layer.disabled} key={layer.id} layer={layer} checked={this.isLayerChecked(layer.id)} activeLayers={activeLayers}>
           {childComponent}
         </LayerCheckbox>
       );
     };
+  }
+
+  /**
+   * Checking if the layer is checked even in cases where the name only partially matches
+   * @param {string} layerId the layer id
+   */
+  isLayerChecked (layerId) {
+    let activeLayers = this.state.activeLayers;
+    return activeLayers.some(layer => {
+      return Boolean(layer.indexOf(layerId) > -1);
+    });
   }
 
   render() {

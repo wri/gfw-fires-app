@@ -83,10 +83,11 @@ export default class ViirsControls extends React.Component {
   changeViirsTimeline (evt) {
     let layerObj = {};
     const layerIndex = layerPanelText.firesOptions[this.props.viiirsSelectIndex].value;
+    const hideLayer = `${KEYS.viirsFires}${layerIndex === 1 ? '' : layerIndex}`;
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.viirsArchive);
-    LayersHelper.hideLayer(`${KEYS.viirsFires}${layerIndex === 1 ? '' : layerIndex}`);
-    console.log(`${KEYS.viirsFires}${layerIndex === 1 ? '' : layerIndex}`)
+    LayersHelper.hideLayer(hideLayer);
+    layerActions.removeActiveLayer(hideLayer);
 
     switch (evt.target.selectedIndex) {
       case 0:
@@ -103,6 +104,7 @@ export default class ViirsControls extends React.Component {
         break;
     }
 
+    layerActions.addActiveLayer(layerObj.layerId);
 		LayersHelper.showLayer(layerObj);
 
     if (this.state.viirsArchiveVisible === true) {

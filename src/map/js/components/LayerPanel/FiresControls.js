@@ -86,9 +86,11 @@ export default class FiresControls extends React.Component {
   changeFiresTimeline (evt) {
     let layerObj = {};
     const layerIndex = layerPanelText.firesOptions[this.props.firesSelectIndex].value;
+    const hideLayer = `${KEYS.activeFires}${layerIndex === 1 ? '' : layerIndex}`;
     layerActions.changeFiresTimeline(evt.target.selectedIndex);
     LayersHelper.hideLayer(KEYS.modisArchive);
-    LayersHelper.hideLayer(`${KEYS.activeFires}${layerIndex === 0 ? '' : layerIndex}`);
+    LayersHelper.hideLayer(hideLayer);
+    layerActions.removeActiveLayer(hideLayer);
 
     switch (evt.target.selectedIndex) {
       case 0:
@@ -105,7 +107,8 @@ export default class FiresControls extends React.Component {
         break;
     }
 
-		LayersHelper.showLayer(layerObj);
+    layerActions.addActiveLayer(layerObj.layerId);
+    LayersHelper.showLayer(layerObj);
 
     if (this.state.modisArchiveVisible === true) {
       this.setState({ modisArchiveVisible: false });

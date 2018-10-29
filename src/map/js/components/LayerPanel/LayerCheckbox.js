@@ -4,6 +4,7 @@ import {mapStore} from 'stores/MapStore';
 import LayersHelper from 'helpers/LayersHelper';
 import KEYS from 'js/constants';
 import React from 'react';
+import { layerPanelText } from 'js/config';
 
 // Info Icon Markup for innerHTML
 let useSvg = '<use xlink:href="#shape-info" />';
@@ -29,20 +30,24 @@ export default class LayerCheckbox extends React.Component {
 
       if (this.props.checked) {
         let layerObj = {};
-        layerObj.layerId = this.props.layer.id;
-        layerObj.footprints = this.state.footprints;
-        layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
+
+        if (this.props.layer.id === 'activeFires' || this.props.layer.id === 'viirsFires') {
+          this.props.activeLayers.forEach(activeLayer => {
+            if (activeLayer.indexOf(this.props.layer.id) > -1) {
+              layerObj.layerId = activeLayer;
+              layerObj.footprints = this.state.footprints;
+              layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
+            }
+          });
+        } else {
+          layerObj.layerId = this.props.layer.id;
+          layerObj.footprints = this.state.footprints;
+          layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
+        }
+
         LayersHelper.showLayer(layerObj);
       } else {
         LayersHelper.hideLayer(this.props.layer.id);
-        if (this.props.layer.id === 'activeFires') {
-          console.log('removing....')
-          LayersHelper.hideLayer(KEYS.modisArchive);
-        }
-        if (this.props.layer.id === 'viirsFires') {
-          console.log('removing....')
-          LayersHelper.hideLayer(KEYS.viirsArchive);
-        }
       }
     }
   }
@@ -53,6 +58,7 @@ export default class LayerCheckbox extends React.Component {
 
   render() {
     let layer = this.props.layer;
+
     return (
       <div className={`layer-checkbox relative ${layer.className}${this.props.checked ? ' active' : ''}${layer.disabled ? ' disabled' : ''}`}>
         {!layer.disabled ? null : <span className='tooltipmap fire'>Coming Soon!</span>}
@@ -82,12 +88,31 @@ export default class LayerCheckbox extends React.Component {
   }
 
   toggleLayer () {
-    let layer = this.props.layer;
+    let { layer, activeLayers } = this.props;
     if (layer.disabled) { return; }
+
     if (this.props.checked) {
-      layerActions.removeActiveLayer(layer.id);
+      if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
+        activeLayers.forEach(activeLayer => {
+          if (activeLayer.indexOf(layer.id) > -1) {
+            LayersHelper.hideLayer(activeLayer);
+            layerActions.removeActiveLayer(activeLayer);
+          }
+        });
+      } else {
+        layerActions.removeActiveLayer(layer.id);
+      }
     } else {
-      layerActions.addActiveLayer(layer.id);
+      if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
+        debugger;
+        const layerIndex = layerPanelText.firesOptions[layer.id === 'activeFires' ? this.state.firesSelectIndex : this.state.viiirsSelectIndex].value;
+        const addLayer = `${layer.id}${layerIndex === 1 ? '' : layerIndex}`;
+        console.log('adding layer: ', addLayer);
+        layerActions.addActiveLayer(addLayer);
+        LayersHelper.showLayer(addLayer);
+      } else {
+        layerActions.addActiveLayer(layer.id);
+      }
     }
   }
 
