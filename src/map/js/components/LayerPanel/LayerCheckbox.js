@@ -35,16 +35,13 @@ export default class LayerCheckbox extends React.Component {
           this.props.activeLayers.forEach(activeLayer => {
             if (activeLayer.indexOf(this.props.layer.id) > -1) {
               layerObj.layerId = activeLayer;
-              layerObj.footprints = this.state.footprints;
-              layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
             }
           });
         } else {
           layerObj.layerId = this.props.layer.id;
-          layerObj.footprints = this.state.footprints;
-          layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
         }
-
+        layerObj.footprints = this.state.footprints;
+        layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
         LayersHelper.showLayer(layerObj);
       } else {
         LayersHelper.hideLayer(this.props.layer.id);
