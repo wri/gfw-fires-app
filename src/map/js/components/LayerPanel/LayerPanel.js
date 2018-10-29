@@ -128,7 +128,7 @@ export default class LayerPanel extends React.Component {
   isLayerChecked (layerId) {
     let activeLayers = this.state.activeLayers;
     return activeLayers.some(layer => {
-      return Boolean(layer.indexOf(layerId) > -1);
+      return layer.indexOf(layerId) > -1;
     });
   }
 

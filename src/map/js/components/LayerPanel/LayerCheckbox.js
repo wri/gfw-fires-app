@@ -104,10 +104,9 @@ export default class LayerCheckbox extends React.Component {
       }
     } else {
       if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
-        debugger;
         const layerIndex = layerPanelText.firesOptions[layer.id === 'activeFires' ? this.state.firesSelectIndex : this.state.viiirsSelectIndex].value;
         const addLayer = `${layer.id}${layerIndex === 1 ? '' : layerIndex}`;
-        console.log('adding layer: ', addLayer);
+
         layerActions.addActiveLayer(addLayer);
         LayersHelper.showLayer(addLayer);
       } else {
