@@ -224,10 +224,18 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
 
           return _react2.default.createElement(
             _LayerCheckbox2.default,
-            { disabled: layer.disabled, key: layer.id, layer: layer, checked: activeLayers.indexOf(layer.id) > -1 },
+            { disabled: layer.disabled, key: layer.id, layer: layer, checked: _this2.isLayerChecked(layer.id), activeLayers: activeLayers },
             childComponent
           );
         };
+      }
+    }, {
+      key: 'isLayerChecked',
+      value: function isLayerChecked(layerId) {
+        var activeLayers = this.state.activeLayers;
+        return activeLayers.some(function (layer) {
+          return layer.indexOf(layerId) > -1;
+        });
       }
     }, {
       key: 'render',
