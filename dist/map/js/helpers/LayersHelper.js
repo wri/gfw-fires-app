@@ -93,7 +93,56 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       layer = app.map.getLayer(_constants2.default.activeFires);
       if (layer) {
         if (layer.visible) {
-          deferreds.push(_request2.default.identifyActive(mapPoint));
+          deferreds.push(_request2.default.identifyActive(mapPoint, _constants2.default.activeFires));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.activeFires + '2');
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyActive(mapPoint, _constants2.default.activeFires + '2'));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.activeFires + '3');
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyActive(mapPoint, _constants2.default.activeFires + '3'));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.activeFires + '7');
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyActive(mapPoint, _constants2.default.activeFires + '7'));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.viirsFires);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirs(mapPoint, _constants2.default.viirsFires));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.viirsFires + '2');
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirs(mapPoint, _constants2.default.viirsFires + '2'));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.viirsFires + '3');
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirs(mapPoint, _constants2.default.viirsFires + '3'));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.activeFires + '7');
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyViirs(mapPoint, _constants2.default.viirsFires + '7'));
         }
       }
 
@@ -101,13 +150,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       if (layer) {
         if (layer.visible) {
           deferreds.push(_request2.default.identifyModisArchive(mapPoint));
-        }
-      }
-
-      layer = app.map.getLayer(_constants2.default.viirsFires);
-      if (layer) {
-        if (layer.visible) {
-          deferreds.push(_request2.default.identifyViirs(mapPoint));
         }
       }
 
@@ -246,11 +288,29 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             case _constants2.default.activeFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
               break;
-            case _constants2.default.modisArchive:
-              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.modisArchive));
+            case _constants2.default.activeFires + '2':
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
+              break;
+            case _constants2.default.activeFires + '3':
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
+              break;
+            case _constants2.default.activeFires + '7':
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
               break;
             case _constants2.default.viirsFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
+              break;
+            case _constants2.default.viirsFires + '2':
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
+              break;
+            case _constants2.default.viirsFires + '3':
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
+              break;
+            case _constants2.default.viirsFires + '7':
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
+              break;
+            case _constants2.default.modisArchive:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.modisArchive));
               break;
             case _constants2.default.viirsArchive:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsArchive));
@@ -708,9 +768,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> updateFiresLayerDefinitions');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires expression.');
       var value = _config.layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
-      var queryString = _AppUtils2.default.generateFiresQuery(value);
+      var queryString = _AppUtils2.default.generateFiresQuery(value, value === 3 ? false : true);
 
-      var firesLayer = app.map.getLayer(_constants2.default.activeFires);
+      var firesLayer = app.map.getLayer('' + _constants2.default.activeFires + (value === 1 ? '' : value));
       var defs = void 0;
       if (!firesLayer) {
         defs = [];
@@ -738,9 +798,9 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     },
     updateViirsDefinitions: function updateViirsDefinitions(optionIndex, dontRefresh) {
       var value = _config.layerPanelText.firesOptions[optionIndex].value || 1;
-      var queryString = _AppUtils2.default.generateFiresQuery(value);
+      var queryString = _AppUtils2.default.generateFiresQuery(value, value === 3 ? false : true);
 
-      var viirs = app.map.getLayer(_constants2.default.viirsFires);
+      var viirs = app.map.getLayer('' + _constants2.default.viirsFires + (value === 1 ? '' : value));
       var defs = void 0;
 
       if (!viirs) {

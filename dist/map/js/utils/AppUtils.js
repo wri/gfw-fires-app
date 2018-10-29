@@ -10,7 +10,10 @@ define(['exports'], function (exports) {
     * @param {number} filterValue - Numeric value representing the number of days to show in the output query
     * @return {string} Query String to use for Fires Filter
     */
-    generateFiresQuery: function generateFiresQuery(filterValue) {
+    generateFiresQuery: function generateFiresQuery(filterValue, returnAll) {
+      if (returnAll) {
+        return '1=1';
+      }
       var date = new Date();
       // Set the date to filterValue amount of days before today
       date.setDate(date.getDate() - filterValue);

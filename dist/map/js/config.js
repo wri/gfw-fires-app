@@ -256,10 +256,73 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [8],
+      layerIds: [13],
       className: 'viirs-fires',
-      defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
+      defaultDefinitionExpression: '1=1',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs_test/MapServer/',
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
+      }
+    }, {
+      id: _constants2.default.viirsFires + '2',
+      order: 13,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires-hidden',
+      visible: false,
+      layerIds: [16],
+      className: 'viirs-fires',
+      defaultDefinitionExpression: '1=1',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
+      }
+    }, {
+      id: _constants2.default.viirsFires + '3',
+      order: 13,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires-hidden',
+      visible: false,
+      layerIds: [13],
+      className: 'viirs-fires',
+      defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
+      }
+    }, {
+      id: _constants2.default.viirsFires + '7',
+      order: 13,
+      type: 'dynamic',
+      label: 'VIIRS active fires',
+      group: 'fires-hidden',
+      visible: false,
+      layerIds: [13],
+      className: 'viirs-fires',
+      defaultDefinitionExpression: '1=1',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
@@ -277,10 +340,73 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [9],
-      defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
+      layerIds: [21],
+      defaultDefinitionExpression: '1=1',
       className: 'active-fires',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/',
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'modis-archive-settings',
+        childDomClass: 'modis-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
+      }
+    }, {
+      id: _constants2.default.activeFires + '2',
+      order: 12,
+      type: 'dynamic',
+      label: 'MODIS active fires',
+      group: 'fires-hidden',
+      visible: false,
+      layerIds: [16],
+      defaultDefinitionExpression: '1=1',
+      className: 'active-fires',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'modis-archive-settings',
+        childDomClass: 'modis-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
+      }
+    }, {
+      id: _constants2.default.activeFires + '3',
+      order: 12,
+      type: 'dynamic',
+      label: 'MODIS active fires',
+      group: 'fires-hidden',
+      visible: false,
+      layerIds: [19],
+      defaultDefinitionExpression: 'Date > date\'' + new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'',
+      className: 'active-fires',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'modis-archive-settings',
+        childDomClass: 'modis-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
+      }
+    }, {
+      id: _constants2.default.activeFires + '7',
+      order: 12,
+      type: 'dynamic',
+      label: 'MODIS active fires',
+      group: 'fires-hidden',
+      visible: false,
+      layerIds: [19],
+      defaultDefinitionExpression: '1=1',
+      className: 'active-fires',
+      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' + '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' + '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' + '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' + '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' + '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'

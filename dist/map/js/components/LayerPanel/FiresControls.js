@@ -181,10 +181,30 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     }, {
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(evt) {
+        var layerObj = {};
+        var layerIndex = _config.layerPanelText.firesOptions[this.props.firesSelectIndex].value;
+        var hideLayer = '' + _constants2.default.activeFires + (layerIndex === 1 ? '' : layerIndex);
         _LayerActions.layerActions.changeFiresTimeline(evt.target.selectedIndex);
         _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
-        var layerObj = {};
-        layerObj.layerId = _constants2.default.activeFires;
+        _LayersHelper2.default.hideLayer(hideLayer);
+        _LayerActions.layerActions.removeActiveLayer(hideLayer);
+
+        switch (evt.target.selectedIndex) {
+          case 0:
+            layerObj.layerId = _constants2.default.activeFires;
+            break;
+          case 1:
+            layerObj.layerId = _constants2.default.activeFires + '2';
+            break;
+          case 2:
+            layerObj.layerId = _constants2.default.activeFires + '3';
+            break;
+          case 3:
+            layerObj.layerId = _constants2.default.activeFires + '7';
+            break;
+        }
+
+        _LayerActions.layerActions.addActiveLayer(layerObj.layerId);
         _LayersHelper2.default.showLayer(layerObj);
 
         if (this.state.modisArchiveVisible === true) {

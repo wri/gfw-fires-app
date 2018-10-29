@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react'], function (exports, _LayerActions, _ModalActions, _MapStore, _LayersHelper, _constants, _react) {
+define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react', 'js/config'], function (exports, _LayerActions, _ModalActions, _MapStore, _LayersHelper, _constants, _react, _config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -89,6 +89,8 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
     }, {
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
+        var _this2 = this;
+
         if (prevProps.checked !== this.props.checked) {
           if (this.props.layer.id === _constants2.default.windDirection) {
             _LayersHelper2.default.toggleWind(this.props.checked);
@@ -97,20 +99,21 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
 
           if (this.props.checked) {
             var layerObj = {};
-            layerObj.layerId = this.props.layer.id;
+
+            if (this.props.layer.id === 'activeFires' || this.props.layer.id === 'viirsFires') {
+              this.props.activeLayers.forEach(function (activeLayer) {
+                if (activeLayer.indexOf(_this2.props.layer.id) > -1) {
+                  layerObj.layerId = activeLayer;
+                }
+              });
+            } else {
+              layerObj.layerId = this.props.layer.id;
+            }
             layerObj.footprints = this.state.footprints;
             layerObj.fireHistorySelectIndex = this.state.fireHistorySelectIndex;
             _LayersHelper2.default.showLayer(layerObj);
           } else {
             _LayersHelper2.default.hideLayer(this.props.layer.id);
-            if (this.props.layer.id === 'activeFires') {
-              console.log('removing....');
-              _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
-            }
-            if (this.props.layer.id === 'viirsFires') {
-              console.log('removing....');
-              _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
-            }
           }
         }
       }
@@ -123,6 +126,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
       key: 'render',
       value: function render() {
         var layer = this.props.layer;
+
         return _react2.default.createElement(
           'div',
           { className: 'layer-checkbox relative ' + layer.className + (this.props.checked ? ' active' : '') + (layer.disabled ? ' disabled' : '') },
@@ -176,14 +180,35 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
     }, {
       key: 'toggleLayer',
       value: function toggleLayer() {
-        var layer = this.props.layer;
+        var _props = this.props,
+            layer = _props.layer,
+            activeLayers = _props.activeLayers;
+
         if (layer.disabled) {
           return;
         }
+
         if (this.props.checked) {
-          _LayerActions.layerActions.removeActiveLayer(layer.id);
+          if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
+            activeLayers.forEach(function (activeLayer) {
+              if (activeLayer.indexOf(layer.id) > -1) {
+                _LayersHelper2.default.hideLayer(activeLayer);
+                _LayerActions.layerActions.removeActiveLayer(activeLayer);
+              }
+            });
+          } else {
+            _LayerActions.layerActions.removeActiveLayer(layer.id);
+          }
         } else {
-          _LayerActions.layerActions.addActiveLayer(layer.id);
+          if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
+            var layerIndex = _config.layerPanelText.firesOptions[layer.id === 'activeFires' ? this.state.firesSelectIndex : this.state.viiirsSelectIndex].value;
+            var addLayer = '' + layer.id + (layerIndex === 1 ? '' : layerIndex);
+
+            _LayerActions.layerActions.addActiveLayer(addLayer);
+            _LayersHelper2.default.showLayer(addLayer);
+          } else {
+            _LayerActions.layerActions.addActiveLayer(layer.id);
+          }
         }
       }
     }]);

@@ -181,10 +181,30 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     }, {
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(evt) {
+        var layerObj = {};
+        var layerIndex = _config.layerPanelText.firesOptions[this.props.viiirsSelectIndex].value;
+        var hideLayer = '' + _constants2.default.viirsFires + (layerIndex === 1 ? '' : layerIndex);
         _LayerActions.layerActions.changeViirsTimeline(evt.target.selectedIndex);
         _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
-        var layerObj = {};
-        layerObj.layerId = _constants2.default.viirsFires;
+        _LayersHelper2.default.hideLayer(hideLayer);
+        _LayerActions.layerActions.removeActiveLayer(hideLayer);
+
+        switch (evt.target.selectedIndex) {
+          case 0:
+            layerObj.layerId = _constants2.default.viirsFires;
+            break;
+          case 1:
+            layerObj.layerId = _constants2.default.viirsFires + '2';
+            break;
+          case 2:
+            layerObj.layerId = _constants2.default.viirsFires + '3';
+            break;
+          case 3:
+            layerObj.layerId = _constants2.default.viirsFires + '7';
+            break;
+        }
+
+        _LayerActions.layerActions.addActiveLayer(layerObj.layerId);
         _LayersHelper2.default.showLayer(layerObj);
 
         if (this.state.viirsArchiveVisible === true) {

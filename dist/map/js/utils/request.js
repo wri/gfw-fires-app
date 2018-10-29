@@ -166,12 +166,12 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
-    identifyActive: function identifyActive(mapPoint) {
+    identifyActive: function identifyActive(mapPoint, layerId) {
       var deferred = new _Deferred2.default();
-      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', layerId);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
-      var layer = app.map.getLayer(_constants2.default.activeFires);
+      var layer = app.map.getLayer(layerId);
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
@@ -188,7 +188,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       identifyTask.execute(params, function (features) {
         if (features.length > 0) {
           deferred.resolve({
-            layer: _constants2.default.activeFires,
+            layer: layerId,
             features: features
           });
         } else {
@@ -241,12 +241,12 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
-    identifyViirs: function identifyViirs(mapPoint) {
+    identifyViirs: function identifyViirs(mapPoint, layerId) {
       var deferred = new _Deferred2.default();
-      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', layerId);
       var identifyTask = new _IdentifyTask2.default(config.url);
       var params = new _IdentifyParameters2.default();
-      var layer = app.map.getLayer(_constants2.default.viirsFires);
+      var layer = app.map.getLayer(layerId);
       var layerDefinitions = [];
       layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
 
@@ -263,7 +263,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       identifyTask.execute(params, function (features) {
         if (features.length > 0) {
           deferred.resolve({
-            layer: _constants2.default.viirsFires,
+            layer: layerId,
             features: features
           });
         } else {
