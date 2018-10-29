@@ -121,7 +121,7 @@ let LayersHelper = {
       }
     }
 
-    layer = app.map.getLayer(`${KEYS.activeFires}7`);
+    layer = app.map.getLayer(`${KEYS.viirsFires}7`);
     if (layer) {
       if (layer.visible) {
         deferreds.push(Request.identifyViirs(mapPoint, `${KEYS.viirsFires}7`));
