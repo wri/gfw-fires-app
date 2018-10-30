@@ -183,6 +183,11 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
         var _props = this.props,
             layer = _props.layer,
             activeLayers = _props.activeLayers;
+        var activeFires = _constants2.default.activeFires,
+            viirsFires = _constants2.default.viirsFires,
+            modisArchive = _constants2.default.modisArchive,
+            viirsArchive = _constants2.default.viirsArchive;
+
 
         if (layer.disabled) {
           return;
@@ -192,6 +197,13 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
           if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
             activeLayers.forEach(function (activeLayer) {
               if (activeLayer.indexOf(layer.id) > -1) {
+                if (activeLayer === activeFires + '0') {
+                  _LayersHelper2.default.hideLayer(modisArchive);
+                  _LayerActions.layerActions.removeActiveLayer(modisArchive);
+                } else if (activeLayer === viirsFires + '0') {
+                  _LayersHelper2.default.hideLayer(viirsArchive);
+                  _LayerActions.layerActions.removeActiveLayer(viirsArchive);
+                }
                 _LayersHelper2.default.hideLayer(activeLayer);
                 _LayerActions.layerActions.removeActiveLayer(activeLayer);
               }
@@ -200,10 +212,21 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
             _LayerActions.layerActions.removeActiveLayer(layer.id);
           }
         } else {
+          var layerObj = {};
+
           if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
             var layerIndex = _config.layerPanelText.firesOptions[layer.id === 'activeFires' ? this.state.firesSelectIndex : this.state.viiirsSelectIndex].value;
             var addLayer = '' + layer.id + (layerIndex === 1 ? '' : layerIndex);
 
+            if (addLayer === activeFires + '0') {
+              layerObj.layerId = modisArchive;
+              _LayersHelper2.default.showLayer(layerObj);
+              _LayerActions.layerActions.addActiveLayer(modisArchive);
+            } else if (addLayer === viirsFires + '0') {
+              layerObj.layerId = viirsArchive;
+              _LayersHelper2.default.showLayer(layerObj);
+              _LayerActions.layerActions.addActiveLayer(viirsArchive);
+            }
             _LayerActions.layerActions.addActiveLayer(addLayer);
             _LayersHelper2.default.showLayer(addLayer);
           } else {

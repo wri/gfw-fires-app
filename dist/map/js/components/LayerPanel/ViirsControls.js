@@ -157,9 +157,17 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     }, {
       key: 'toggleViirsArchive',
       value: function toggleViirsArchive() {
-        this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
         _LayerActions.layerActions.changeViirsTimeline(firesOptions.length - 1); //change to disabled option of Viirs fires
-        document.getElementById('viirs-select').selectedIndex = firesOptions.length - 1;
+        var layerIndex = _config.layerPanelText.firesOptions[this.props.viiirsSelectIndex].value;
+        var hideLayer = '' + _constants2.default.viirsFires + (layerIndex === 1 ? '' : layerIndex);
+
+        if (!this.state.viirsArchiveVisible === true) {
+          _LayerActions.layerActions.removeActiveLayer(hideLayer);
+          _LayerActions.layerActions.addActiveLayer(_constants2.default.viirsFires + '0');
+        }
+
+        document.getElementById('viirs-select').selectedIndexz = firesOptions.length - 1;
+        this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
       }
     }, {
       key: 'optionsMap',
