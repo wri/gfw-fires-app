@@ -85,13 +85,23 @@ export default class LayerCheckbox extends React.Component {
   }
 
   toggleLayer () {
+
     let { layer, activeLayers } = this.props;
+    const { activeFires, viirsFires, modisArchive, viirsArchive } = KEYS;
+
     if (layer.disabled) { return; }
 
     if (this.props.checked) {
       if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
         activeLayers.forEach(activeLayer => {
           if (activeLayer.indexOf(layer.id) > -1) {
+            if (activeLayer === `${activeFires}0`) {
+              LayersHelper.hideLayer(modisArchive);
+              layerActions.removeActiveLayer(modisArchive);
+            } else if (activeLayer === `${viirsFires}0`) {
+              LayersHelper.hideLayer(viirsArchive);
+              layerActions.removeActiveLayer(viirsArchive);
+            }
             LayersHelper.hideLayer(activeLayer);
             layerActions.removeActiveLayer(activeLayer);
           }
@@ -100,10 +110,21 @@ export default class LayerCheckbox extends React.Component {
         layerActions.removeActiveLayer(layer.id);
       }
     } else {
+      let layerObj = {};
+
       if (layer.id === 'activeFires' || layer.id === 'viirsFires') {
         const layerIndex = layerPanelText.firesOptions[layer.id === 'activeFires' ? this.state.firesSelectIndex : this.state.viiirsSelectIndex].value;
         const addLayer = `${layer.id}${layerIndex === 1 ? '' : layerIndex}`;
 
+        if (addLayer === `${activeFires}0`) {
+          layerObj.layerId = modisArchive;
+          LayersHelper.showLayer(layerObj);
+          layerActions.addActiveLayer(modisArchive);
+        } else if (addLayer === `${viirsFires}0`) {
+          layerObj.layerId = viirsArchive;
+          LayersHelper.showLayer(layerObj);
+          layerActions.addActiveLayer(viirsArchive);
+        }
         layerActions.addActiveLayer(addLayer);
         LayersHelper.showLayer(addLayer);
       } else {

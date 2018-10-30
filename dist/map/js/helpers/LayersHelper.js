@@ -139,7 +139,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
-      layer = app.map.getLayer(_constants2.default.activeFires + '7');
+      layer = app.map.getLayer(_constants2.default.viirsFires + '7');
       if (layer) {
         if (layer.visible) {
           deferreds.push(_request2.default.identifyViirs(mapPoint, _constants2.default.viirsFires + '7'));

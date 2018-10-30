@@ -1265,7 +1265,7 @@ export const config = {
         {label: 'Past 48 hours', value: 2},
         {label: 'Past 72 hours', value: 3},
         {label: 'Past Week', value: 7},
-        {label: 'Active Fires', value: null}
+        {label: 'Active Fires', value: 0}
       ],
       plantationOptions: [
         {label: 'by Species', value: 8},

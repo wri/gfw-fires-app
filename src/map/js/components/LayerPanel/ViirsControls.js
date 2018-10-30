@@ -67,9 +67,17 @@ export default class ViirsControls extends React.Component {
   }
 
   toggleViirsArchive () {
-    this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
     layerActions.changeViirsTimeline(firesOptions.length - 1); //change to disabled option of Viirs fires
-    document.getElementById('viirs-select').selectedIndex = firesOptions.length - 1;
+    const layerIndex = layerPanelText.firesOptions[this.props.viiirsSelectIndex].value;
+    const hideLayer = `${KEYS.viirsFires}${layerIndex === 1 ? '' : layerIndex}`;
+
+    if (!this.state.viirsArchiveVisible === true) {
+      layerActions.removeActiveLayer(hideLayer);
+      layerActions.addActiveLayer(`${KEYS.viirsFires}0`);
+    }
+
+    document.getElementById('viirs-select').selectedIndexz = firesOptions.length - 1;
+    this.setState({ viirsArchiveVisible: !this.state.viirsArchiveVisible });
   }
 
   optionsMap (item, index) {
