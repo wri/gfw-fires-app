@@ -274,7 +274,7 @@ export const config = {
       layerIds: [13],
       className: 'viirs-fires',
       defaultDefinitionExpression: '1=1',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs_test/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs_test/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -301,7 +301,7 @@ export const config = {
       layerIds: [16],
       className: 'viirs-fires',
       defaultDefinitionExpression: '1=1',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -328,7 +328,7 @@ export const config = {
       layerIds: [13],
       className: 'viirs-fires',
       defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -355,7 +355,7 @@ export const config = {
       layerIds: [13],
       className: 'viirs-fires',
       defaultDefinitionExpression: '1=1',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -382,7 +382,7 @@ export const config = {
       layerIds: [21],
       defaultDefinitionExpression: '1=1',
       className: 'active-fires',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -409,7 +409,7 @@ export const config = {
       layerIds: [16],
       defaultDefinitionExpression: '1=1',
       className: 'active-fires',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -436,7 +436,7 @@ export const config = {
       layerIds: [19],
       defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
       className: 'active-fires',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -463,7 +463,7 @@ export const config = {
       layerIds: [19],
       defaultDefinitionExpression: '1=1',
       className: 'active-fires',
-      url: 'http://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
