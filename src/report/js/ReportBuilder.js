@@ -1550,7 +1550,7 @@ define([
 
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
-              let backupSeries = [], tmpArr = [];;
+              let backupSeries = [], tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
   
               window.backupSeries = {};
