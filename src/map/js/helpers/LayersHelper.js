@@ -917,7 +917,7 @@ let LayersHelper = {
 
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
       let layerDefs = [];
-      layerDefs[8] = string;
+      layerDefs[20] = string;
 
       archiveLayer.setLayerDefinitions(layerDefs);
     }
@@ -931,7 +931,7 @@ let LayersHelper = {
 
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
       let layerDefs = [];
-      layerDefs[9] = string;
+      layerDefs[13] = string;
 
       archiveLayer.setLayerDefinitions(layerDefs);
     }

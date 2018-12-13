@@ -87,7 +87,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(8, 'd'),
         method: 'changeAnalysisStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisStart',
         domClass: 'analysis-start'
       },
@@ -95,7 +95,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeAnalysisEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisEnd',
         domClass: 'analysis-end'
       },
@@ -119,7 +119,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeViirsArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/08/2016'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveViirsStart',
         domClass: 'viirs-archive-start'
       },
@@ -127,7 +127,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeViirsArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/08/2016'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveViirsEnd',
         domClass: 'viirs-archive-end'
       },
@@ -135,7 +135,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeModisArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/02/2012'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveModisStart',
         domClass: 'modis-archive-start'
       },
@@ -143,7 +143,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeModisArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/02/2012'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveModisEnd',
         domClass: 'modis-archive-end'
       },
@@ -1119,10 +1119,10 @@ export const config = {
       id: KEYS.modisArchive,
       type: 'dynamic',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      layerIds: [9],
+      layerIds: [13],
       opacity: 1,
       className: 'modis-archive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_short_term/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
@@ -1135,11 +1135,11 @@ export const config = {
     {
       id: KEYS.viirsArchive,
       type: 'dynamic',
-      layerIds: [8],
+      layerIds: [20],
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
       opacity: 1,
       className: 'viirs-achive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_short_term/MapServer',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +

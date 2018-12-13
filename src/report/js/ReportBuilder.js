@@ -857,19 +857,19 @@ define([
           // ex. 24 Oct 2017
           const momentStart = moment(this.startdate, 'D MMM YYYY');
           const momentEnd = moment(this.enddate, 'D MMM YYYY');
-          const startDateQuery = `Date > date'${momentStart.format('YYYY-MM-DD HH:mm:ss')}'`;
-          const endDateQuery = `Date < date'${momentEnd.format('YYYY-MM-DD HH:mm:ss')}'`;
+          const startDateQuery = `ACQ_DATE >= date'${momentStart.format('MM/DD/YYYY')}'`;
+          const endDateQuery = `ACQ_DATE <= date'${momentEnd.format('MM/DD/YYYY')}'`;
 
-          const sql = [startDateQuery, endDateQuery, aoi].join(' AND ');
+          const sql = [endDateQuery, startDateQuery, aoi].join(' AND ');
           return sql;
         },
 
         get_all_layer_definition: function() {
           const momentStart = moment(this.startdate, 'D MMM YYYY');
           const momentEnd = moment(this.enddate, 'D MMM YYYY');
-          const startDateQuery = `Date > date'${momentStart.format('YYYY-MM-DD HH:mm:ss')}'`;
-          const endDateQuery = `Date < date'${momentEnd.format('YYYY-MM-DD HH:mm:ss')}'`;
-          const sql = [startDateQuery, endDateQuery].join(' AND ');
+          const startDateQuery = `ACQ_DATE >= date'${momentStart.format('MM/DD/YYYY')}'`;
+          const endDateQuery = `ACQ_DATE <= date'${momentEnd.format('MM/DD/YYYY')}'`;
+          const sql = [endDateQuery, startDateQuery].join(' AND ');
           return sql;
         },
 
