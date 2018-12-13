@@ -1550,7 +1550,7 @@ define([
 
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
-              let backupSeries = [], tmpArr = [];;
+              let backupSeries = [], tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
   
               window.backupSeries = {};
@@ -1683,7 +1683,7 @@ define([
   
             series[series.length-1].color = "#d40000";
   
-            window['firesCountRegionSeries'] = series;
+            window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
   
             // Adding sum for year to window
