@@ -1683,7 +1683,7 @@ define([
   
             series[series.length-1].color = "#d40000";
   
-            window['firesCountRegionSeries'] = series;
+            window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
   
             // Adding sum for year to window
