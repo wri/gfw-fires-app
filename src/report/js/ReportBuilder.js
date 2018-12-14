@@ -1690,9 +1690,9 @@ define([
             window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
   
   
-            if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
-              window['firesCountRegionCurrentYearSum'].pop();
-            }
+            // if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
+            //   window['firesCountRegionCurrentYearSum'].pop();
+            // }
   
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
