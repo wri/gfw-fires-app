@@ -1695,7 +1695,6 @@ define([
             // }
 
             const currYearFireCount = window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].y;
-            debugger
   
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
