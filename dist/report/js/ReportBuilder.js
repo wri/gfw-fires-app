@@ -1502,7 +1502,7 @@ define([
           if (window.reportOptions.aoiId) {
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
-              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
             ];
             promiseUrls.push(...urls);
           } else {
@@ -1690,13 +1690,15 @@ define([
             window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
   
   
-            if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
-              window['firesCountRegionCurrentYearSum'].pop();
-            }
+            // if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
+            //   window['firesCountRegionCurrentYearSum'].pop();
+            // }
+
+            const currYearFireCount = window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].y;
   
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
-              <span class="total_firecounts">${window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+              <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
             );  
   
             var firesCountChart = Highcharts.chart('firesCountChart', {
