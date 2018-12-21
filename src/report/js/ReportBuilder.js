@@ -26,8 +26,6 @@ define([
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
     SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
-      const something = 'somestring';
-      const stateFires = {};
     return {
 
       init: function() {
@@ -1496,7 +1494,6 @@ define([
         },
 
         getFireCounts: function () {
-
           const self = this;
           const queryFor = self.currentISO ? self.currentISO : 'global';
           const handleAs = {handleAs: 'json'};
@@ -1556,7 +1553,8 @@ define([
               let backupSeries = [], tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
   
-              // window.backupSeries = {};
+              window.backupSeries = {};
+  
               if (window.reportOptions.aoiId) { //these are country-wide!
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
@@ -1593,9 +1591,8 @@ define([
                 backupSeries[backupSeries.length-1].lineWidth = 5;
                 backupSeries[backupSeries.length-1].lineWidth = 1;
 
-
-                // window.backupSeries[window.reportOptions.country] = backupSeries;
-                stateFires[window.reportOptions.country] = backupSeries;
+  
+                window.backupSeries[window.reportOptions.country] = backupSeries;
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
@@ -1641,9 +1638,7 @@ define([
                   }
   
                   const aoiName = adm.name_1;
-                  // window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
-                  stateFires[aoiName] = JSON.parse(JSON.stringify(backupSeries));
-                  console.log(stateFires);
+                  window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
                   backupSeries = [];
                 });
               }
@@ -1706,7 +1701,6 @@ define([
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
             );  
   
-            console.log(series);
             var firesCountChart = Highcharts.chart('firesCountChart', {
               title: {
                 text: ''
@@ -1769,7 +1763,7 @@ define([
               },
               series: series
             });
-
+  
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
   
             // Create list of regions
@@ -1790,8 +1784,7 @@ define([
   
              $('#firesCountIslandsList li').removeClass('selected');
   
-            //  const countryData = window.backupSeries[selectedCountry] ? window.backupSeries[selectedCountry] : window.firesCountRegionSeries;
-             const countryData = stateFires[selectedCountry] ? stateFires[selectedCountry] : window.firesCountRegionSeries;
+             const countryData = window.backupSeries[selectedCountry] ? window.backupSeries[selectedCountry] : window.firesCountRegionSeries;
              firesCountChart.update({
                series: countryData
              });
@@ -1813,27 +1806,20 @@ define([
              $(this).addClass('selected');
   
              const selectedIslandOrRegion = $(this).text();
-            
              let regionData;
              
-             if (stateFires[selectedIslandOrRegion]) {
-               regionData = stateFires[selectedIslandOrRegion];
-              //  console.log(regionData);
+             if (backupSeries[selectedIslandOrRegion]) {
+               regionData = backupSeries[selectedIslandOrRegion];
             } else {
               regionData = window.firesCountRegionSeries;
             }
-             // is the problem when data series are overriding one another wiht same length?
-            //  console.log('data', regionData, regionData.length);
-             // problem is with backupSeries
-              // console.log('data', selectedIslandOrRegion, backupSeries[selectedIslandOrRegion]);
-              // console.log('Alabama - 34', window.backupSeries.Alabama.data); 
-              // backup seriesdata never changes?
 
-              const newRegionData = [];
+
              firesCountChart.update({
-               series: newRegionData
-             });
-    
+               series: regionData
+             }, true);
+
+            // firesCountChart.series.setData(regionData, true);
              let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
   
              if (typeof total === 'object') {
