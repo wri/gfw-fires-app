@@ -581,7 +581,7 @@ define([
             };
 
             function generateRenderer() {
-              // debugger;
+
               buildLegend();
               ldos = new LayerDrawingOptions();
               ldos.renderer = renderer;
@@ -1552,9 +1552,10 @@ define([
             backupValues.forEach((backupValue, backupIndex) => {
               let backupSeries = [], tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
-  
+              let newSeriesData = [];
+              window.newSeriesData = {};
               window.backupSeries = {};
-  
+
               if (window.reportOptions.aoiId) { //these are country-wide!
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
@@ -1565,11 +1566,12 @@ define([
                     self.dataLabelsFormatAction(backupTempSeries, hexColor);
   
                     backupSeries.push(backupTempSeries);
+                    newSeriesData.push(backupTempSeries);
                     backupTempSeries = { data: [], name: '' };
                     tmpArr = [];
                     backupTempSeries.data.push(bValue.alerts);
                     tmpArr.push(bValue.alerts);
-  
+
                   } else if (bValue.year === currentYear && bValue.month === currentMonth) {
                     backupTempSeries.name = bValue.year;
   
@@ -1581,6 +1583,8 @@ define([
                     self.dataLabelsFormatAction(backupTempSeries, hexColor);
   
                     backupSeries.push(backupTempSeries);
+                    newSeriesData.push(backupTempSeries);
+
                   } else {
                     tmpArr.push(bValue.alerts);
                     backupTempSeries.data.push(tmpArr.reduce(reducer));
@@ -1590,9 +1594,13 @@ define([
                 backupSeries[backupSeries.length-1].color = "#d40000";
                 backupSeries[backupSeries.length-1].lineWidth = 5;
                 backupSeries[backupSeries.length-1].lineWidth = 1;
+                newSeriesData[newSeriesData.length-1].color = "#d40000";
+                newSeriesData[newSeriesData.length-1].lineWidth = 5;
+                newSeriesData[newSeriesData.length-1].lineWidth = 1;
 
   
                 window.backupSeries[window.reportOptions.country] = backupSeries;
+                // window.newSeriesData[window.reportOptions.country] = newSeriesData;
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
@@ -1609,6 +1617,8 @@ define([
                       self.dataLabelsFormatAction(backupTempSeries, hexColor);
     
                       backupSeries.push(backupTempSeries);
+                      newSeriesData.push(backupTempSeries);
+
                     } else {
                       const monthsInYear = tmpArr.length;
                       const month = bValue.month;
@@ -1624,6 +1634,8 @@ define([
                         self.dataLabelsFormatAction(backupTempSeries, hexColor);
     
                         backupSeries.push(backupTempSeries);
+                        newSeriesData.push(backupTempSeries);
+
                         backupTempSeries = { data: [], name: '' };
                         tmpArr = [];
                       }
@@ -1633,13 +1645,16 @@ define([
                   tmpArr = [];
                   try { // REMOVE ONCE NEW API CALL IS DONE
                     backupSeries[backupSeries.length-1].color = "#d40000";  
+                    newSeriesData[newSeriesData.length-1].color = "#d40000";  
                   } catch (error) {
                     console.error('error line 1615')
                   }
   
                   const aoiName = adm.name_1;
                   window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
+                  window.newSeriesData[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
                   backupSeries = [];
+                  newSeriesData = [];
                 });
               }
             });
@@ -1689,11 +1704,6 @@ define([
             // Adding sum for year to window
             window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
   
-  
-            // if (typeof window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1] === 'object') {
-            //   window['firesCountRegionCurrentYearSum'].pop();
-            // }
-
             const currYearFireCount = window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].y;
   
             $('#firesCountTitle').html(
@@ -1807,19 +1817,28 @@ define([
   
              const selectedIslandOrRegion = $(this).text();
              let regionData;
-             
+             let newData;
              if (backupSeries[selectedIslandOrRegion]) {
                regionData = backupSeries[selectedIslandOrRegion];
+               newData = newSeriesData[selectedIslandOrRegion];
             } else {
               regionData = window.firesCountRegionSeries;
             }
 
-
-             firesCountChart.update({
-               series: regionData
-             }, true);
-
+            console.log(regionData);
+            console.log(newData);
+            firesCountChart.update({
+              series: newData
+            }, true);
+            
             // firesCountChart.series.setData(regionData, true);
+            // HERE
+            // Ideas:
+            // create a new chart each time
+            // remove the specific data sets 
+            // use .setData() and override the specific data that is being pulled into the series
+            // console.log(firesCountChart.series[0].data[0].series.data[0].series.data[0].series.data[0].data.options.y);
+
              let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
   
              if (typeof total === 'object') {
