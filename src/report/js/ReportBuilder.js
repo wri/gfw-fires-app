@@ -1797,7 +1797,6 @@ define([
 
            $('#firesCountIslandsListContainer h3').click(function () {
              $(this).addClass('selected');
-
              $('#firesCountIslandsList li').removeClass('selected');
 
              // const countryData = window.backupSeries[selectedCountry] ? window.backupSeries[selectedCountry] : window.firesCountRegionSeries;
@@ -1821,32 +1820,37 @@ define([
              $('#firesCountIslandsListContainer h3').removeClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
              $(this).addClass('selected');
-
+             
              const selectedIslandOrRegion = $(this).text();
+
              let regionData;
-             let newData;
+             let newData = [];
              if (newSeriesDataObj[selectedIslandOrRegion]) {
                // regionData = backupSeries[selectedIslandOrRegion];
                // newData = newSeriesData[selectedIslandOrRegion];
-               newData = newSeriesDataObj[selectedIslandOrRegion];
+              //  newData = newSeriesDataObj[selectedIslandOrRegion];
+              let dataObject = newSeriesDataObj[selectedIslandOrRegion]
+               for (let i = 0; i < dataObject.length; i++) {
+                 const yearObject = {
+                   color: dataObject[i].color,
+                   name: dataObject[i].name,
+                   data: []
+                 };
+                 for (let j = 0; j < dataObject[i].data.length; j++) {
+                   yearObject.data.push(dataObject[i].data[j])
+                 }
+                 newData.push(yearObject);
+               }
             } else {
               regionData = window.firesCountRegionSeries;
               console.log('else??');
             }
+            
+            firesCountChart.update({
+              series: newData
+            }, true);
+            
 
-            // console.log(regionData);
-            console.log(newData[5].data);
-            // firesCountChart.update({
-            //   series: newData
-            // }, true);
-
-            // firesCountChart.series.setData(newData, true);
-            // HERE
-            // Ideas:
-            // create a new chart each time
-            // remove the specific data sets
-            // use .setData() and override the specific data that is being pulled into the series
-            // console.log(firesCountChart.series[0].data[0].series.data[0].series.data[0].series.data[0].data.options.y);
 
              // let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
              let total = newData[newData.length - 1].data[newData[newData.length - 1].data.length - 1];
