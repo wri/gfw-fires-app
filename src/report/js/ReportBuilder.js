@@ -888,6 +888,8 @@ define([
             aoi = aoiType + " in ('" + aoiData + "')";
           } else if (aoiType === 'ALL') {
             aoi = "";
+          } else if (aoiType === 'GLOBAL') {
+            console.log("aoi type is global we don't know what to do");
           } else if (
             queryType === 'queryFireData' ||
             queryType === 'rspoQuery' ||
@@ -1815,6 +1817,7 @@ define([
              **************************************************/
 
              let updatedSeries = [];
+             let regionData;
              if (newSeriesDataObj[selectedIslandOrRegion]) {
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
               for (let i = 0; i < dataObject.length; i++) {
@@ -1828,21 +1831,31 @@ define([
                 }
                 updatedSeries.push(yearObject);
               }
+            } else {
+              regionData = window.firesCountRegionSeries;
             }
             
             firesCountChart.update({
               series: updatedSeries
             }, true);
-            
-             let total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
 
-             if (typeof total === 'object') {
-               total = total.y;
-             }
-             $('#firesCountTitle').html(
-               `${currentYear} MODIS Fire Alerts, Year to Date
-               <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
-             );
+            let total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
+
+            
+            if (typeof total === 'object') {
+              if (regionData) {
+                console.log(regionData);
+                let regionTotal = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
+                total = regionTotal.y;
+              } else {
+                total = total.y;
+              }
+            }
+
+            $('#firesCountTitle').html(
+              `${currentYear} MODIS Fire Alerts, Year to Date
+              <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+            );
            });
           }).catch(err => {
             document.getElementById('firesCountChartLoading').remove();
