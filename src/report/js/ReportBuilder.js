@@ -1639,7 +1639,6 @@ define([
                     console.log('try successful!');
                   } catch (error) {
                     console.error('error line 1615')
-                    debugger
                   }
 
                   const aoiName = adm.name_1;
