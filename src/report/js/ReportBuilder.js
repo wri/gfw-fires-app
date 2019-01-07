@@ -1553,11 +1553,9 @@ define([
 
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
-              let backupSeries = [], tmpArr = [];
+              let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
-              // window.newSeriesDataObj = {};
-              // window.backupSeries = {};
 
               if (window.reportOptions.aoiId) { //these are country-wide!
                 backupValue.forEach((bValue, i) => {
@@ -1568,7 +1566,6 @@ define([
                     indexColor = indexColor + colorStep;
                     self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
-                    backupSeries.push(backupTempSeries);
                     newSeriesData.push(backupTempSeries);
                     backupTempSeries = { data: [], name: '' };
                     tmpArr = [];
@@ -1585,7 +1582,6 @@ define([
                     indexColor = indexColor + colorStep;
                     self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
-                    backupSeries.push(backupTempSeries);
                     newSeriesData.push(backupTempSeries);
 
                   } else {
@@ -1594,9 +1590,6 @@ define([
                   }
                 });
 
-                backupSeries[backupSeries.length-1].color = "#d40000";
-                backupSeries[backupSeries.length-1].lineWidth = 5;
-                backupSeries[backupSeries.length-1].lineWidth = 1;
                 newSeriesData[newSeriesData.length-1].color = "#d40000";
                 newSeriesData[newSeriesData.length-1].lineWidth = 5;
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
@@ -1616,7 +1609,6 @@ define([
                       indexColor = indexColor + colorStep;
                       self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
-                      backupSeries.push(backupTempSeries);
                       newSeriesData.push(backupTempSeries);
 
                     } else {
@@ -1633,7 +1625,6 @@ define([
                         var hexColor = colors[bValue.year];
                         self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
-                        backupSeries.push(backupTempSeries);
                         newSeriesData.push(backupTempSeries);
 
                         backupTempSeries = { data: [], name: '' };
@@ -1644,7 +1635,6 @@ define([
                   backupTempSeries = { data: [], name: '' };
                   tmpArr = [];
                   try { // REMOVE ONCE NEW API CALL IS DONE
-                    backupSeries[backupSeries.length-1].color = "#d40000";
                     newSeriesData[newSeriesData.length-1].color = "#d40000";
                     console.log('try successful!');
                   } catch (error) {
@@ -1653,10 +1643,7 @@ define([
                   }
 
                   const aoiName = adm.name_1;
-                  // window.backupSeries[aoiName] = JSON.parse(JSON.stringify(backupSeries));
-                  // window.newSeriesData[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
                   newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
-                  backupSeries = [];
                   newSeriesData = [];
                 });
               }
@@ -1822,19 +1809,14 @@ define([
              /**********************COMMENT**********************
              We noticed a bug with our production build where the data would mutate after clicking on a second region. 
              Once mutated, clicking back to that region would cause the chart data to not update.
-             We do not believe this was a problem with the code, but a problem with the way highcharts was accessing the reference data.
+             We do not believe this was a problem with the code, but a problem with the way highcharts was accessing the reference data of newSeriesData.
              We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
              We resolved this by manually recreating the data object, and passing the recreated object to Highcharts.
              The code below contains the logic we used to manually pass the data to the new objects. We utilized nested for loops to be as explicit as possible. 
              **************************************************/
 
-             let regionData;
-             let newData = [];
+             let updatedSeries = [];
              if (newSeriesDataObj[selectedIslandOrRegion]) {
-               
-               // regionData = backupSeries[selectedIslandOrRegion];
-               // newData = newSeriesData[selectedIslandOrRegion];
-              //  newData = newSeriesDataObj[selectedIslandOrRegion];
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
                for (let i = 0; i < dataObject.length; i++) {
                  const yearObject = {
@@ -1845,12 +1827,12 @@ define([
                  for (let j = 0; j < dataObject[i].data.length; j++) {
                    yearObject.data.push(dataObject[i].data[j])
                  }
-                 newData.push(yearObject);
+                 updatedSeries.push(yearObject);
                }
             }
             
             firesCountChart.update({
-              series: newData
+              series: updatedSeries
             }, true);
             
              let total = newData[newData.length - 1].data[newData[newData.length - 1].data.length - 1];
