@@ -1799,7 +1799,6 @@ define([
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
 
-             // const countryData = window.backupSeries[selectedCountry] ? window.backupSeries[selectedCountry] : window.firesCountRegionSeries;
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
              firesCountChart.update({
                series: countryData
@@ -1823,9 +1822,19 @@ define([
              
              const selectedIslandOrRegion = $(this).text();
 
+             /**********************COMMENT**********************
+             We noticed a bug with our production build where the data would mutate after clicking on a second region. 
+             Once mutated, clicking back to that region would cause the chart data to not update.
+             We do not believe this was a problem with the code, but a problem with the way highcharts was accessing the reference data.
+             We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
+             We resolved this by manually recreating the data object, and passing the recreated object to Highcharts.
+             The code below contains the logic we used to manually pass the data to the new objects. We utilized nested for loops to be as explicit as possible. 
+             **************************************************/
+
              let regionData;
              let newData = [];
              if (newSeriesDataObj[selectedIslandOrRegion]) {
+               
                // regionData = backupSeries[selectedIslandOrRegion];
                // newData = newSeriesData[selectedIslandOrRegion];
               //  newData = newSeriesDataObj[selectedIslandOrRegion];
@@ -1852,7 +1861,7 @@ define([
             
 
 
-             // let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
+            //  let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
              let total = newData[newData.length - 1].data[newData[newData.length - 1].data.length - 1];
 
              if (typeof total === 'object') {
