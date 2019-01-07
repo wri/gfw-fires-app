@@ -1817,24 +1817,24 @@ define([
              let updatedSeries = [];
              if (newSeriesDataObj[selectedIslandOrRegion]) {
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
-               for (let i = 0; i < dataObject.length; i++) {
-                 const yearObject = {
-                   color: dataObject[i].color,
-                   name: dataObject[i].name,
-                   data: []
-                 };
-                 for (let j = 0; j < dataObject[i].data.length; j++) {
-                   yearObject.data.push(dataObject[i].data[j])
-                 }
-                 updatedSeries.push(yearObject);
-               }
+              for (let i = 0; i < dataObject.length; i++) {
+                const yearObject = {
+                  color: dataObject[i].color,
+                  name: dataObject[i].name,
+                  data: []
+                };
+                for (let j = 0; j < dataObject[i].data.length; j++) {
+                  yearObject.data.push(dataObject[i].data[j])
+                }
+                updatedSeries.push(yearObject);
+              }
             }
             
             firesCountChart.update({
               series: updatedSeries
             }, true);
             
-             let total = newData[newData.length - 1].data[newData[newData.length - 1].data.length - 1];
+             let total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
 
              if (typeof total === 'object') {
                total = total.y;
