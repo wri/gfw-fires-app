@@ -1601,9 +1601,6 @@ define([
                 newSeriesData[newSeriesData.length-1].lineWidth = 5;
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
 
-
-                // window.backupSeries[window.reportOptions.country] = backupSeries;
-
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
@@ -1850,18 +1847,12 @@ define([
                  }
                  newData.push(yearObject);
                }
-            } else {
-              regionData = window.firesCountRegionSeries;
-              console.log('else??');
             }
             
             firesCountChart.update({
               series: newData
             }, true);
             
-
-
-            //  let total = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
              let total = newData[newData.length - 1].data[newData[newData.length - 1].data.length - 1];
 
              if (typeof total === 'object') {
