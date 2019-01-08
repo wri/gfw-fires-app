@@ -1530,7 +1530,8 @@ define([
             let indexColor = 0;
             const colorStep = 5;
             const baseColor = '#777777';
-
+            console.log('current yr', currentYear);
+            console.log(responses);
             let values;
             const backupValues = [];
 
@@ -1545,34 +1546,61 @@ define([
                 }
               });
             }
-
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
-
+            
             for (var i = 2001; i <= currentYear; i++) {
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
-
+            console.log('backupvalues', backupValues);
+            
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
+              console.log('backupvalues', backupValues);
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
-
               if (window.reportOptions.aoiId) { //these are country-wide!
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
-                    backupTempSeries.name = bValue.year - 1;
 
-                    var hexColor = self.shadeColor(baseColor, (indexColor / 100));
-                    indexColor = indexColor + colorStep;
-                    self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
-                    newSeriesData.push(backupTempSeries);
-                    backupTempSeries = { data: [], name: '' };
-                    tmpArr = [];
-                    backupTempSeries.data.push(bValue.alerts);
-                    tmpArr.push(bValue.alerts);
+                    // if (bValue.year === currentYear && bValue.month === currentMonth) {
+                    //   console.log('iiiii', bValue)
+                    //   console.log('newSeriesDatanewSeriesData', newSeriesData)
+
+                    //   // newSeriesData.push({
+                    //   //   name: 2019,
+                    //   //   color: 'green', 
+                    //   //   data: [bValue]
+                    //   // });
+                    // } else {
+                      backupTempSeries.name = bValue.year - 1;
+
+                      var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                      indexColor = indexColor + colorStep;
+                      self.dataLabelsFormatAction(backupTempSeries, hexColor);
+
+                      newSeriesData.push(backupTempSeries);
+                      backupTempSeries = { data: [], name: '' };
+                      tmpArr = [];
+                      backupTempSeries.data.push(bValue.alerts);
+                      tmpArr.push(bValue.alerts);
+
+                      if (bValue.year === currentYear && bValue.month === currentMonth) {
+                        
+                        
+                        newSeriesData.push({
+                          name: 2019,
+                          color: 'green', 
+                          data: [bValue.alerts] // is this bValue.alerts?!
+                        });
+                        console.log('iiiii', bValue)
+                        console.log('newSeriesDatanewSeriesData', newSeriesData)
+                      }
+                    // }
+                    
+                    
 
                   } else if (bValue.year === currentYear && bValue.month === currentMonth) {
                     backupTempSeries.name = bValue.year;
@@ -1628,7 +1656,6 @@ define([
                         self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
                         newSeriesData.push(backupTempSeries);
-
                         backupTempSeries = { data: [], name: '' };
                         tmpArr = [];
                       }
@@ -1642,7 +1669,7 @@ define([
                   } catch (error) {
                     console.error('error line 1615')
                   }
-
+                  console.log('data', newSeriesData);
                   const aoiName = adm.name_1;
                   newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
                   newSeriesData = [];
@@ -1652,6 +1679,8 @@ define([
 
             tmpArr = [];
             let year;
+
+            console.log('valuuuuues', values)
 
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
@@ -1668,6 +1697,29 @@ define([
                 seriesTemp.data.push(value.alerts);
                 tmpArr.push(value.alerts);
                 index++;
+                // console.log(value)
+
+                if (value.year === currentYear && value.month === currentMonth) {
+                        
+                        
+                  series.push({
+                    data: [ value.alerts,
+                      {y : 0, align: "left",
+                      crop: false,
+                      enabled: true,
+                      format: "{series.name}",
+                      overflow: true,
+                      verticalAlign: "middle"}
+                    ],
+                    // data: [value.alerts],
+                    name: 2019,
+                    color: '#e0e0df', 
+                    lineWidth: 1
+                    // data: [value.alerts]
+                  });
+                  console.log('jjjjj', value)
+                  console.log('seriiie', series)
+                }
               } else if (value.year === currentYear && value.month === currentMonth) {
                 seriesTemp.name = value.year;
 
@@ -1819,6 +1871,7 @@ define([
              let updatedSeries = [];
              let regionData;
              if (newSeriesDataObj[selectedIslandOrRegion]) {
+               console.log('inside the if');
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
@@ -1832,9 +1885,10 @@ define([
                 updatedSeries.push(yearObject);
               }
             } else {
-              regionData = window.firesCountRegionSeries;
+              updatedSeries = window.firesCountRegionSeries;
+              console.log('inside the else', updatedSeries);
             }
-            
+            console.log('updated series', updatedSeries);
             firesCountChart.update({
               series: updatedSeries
             }, true);
@@ -1842,10 +1896,20 @@ define([
             let total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
 
             
+            // if (typeof total === 'object') {
+            //   if (regionData) {
+            //     console.log(regionData);
+            //     let regionTotal = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
+            //     total = regionTotal.y;
+            //   } else {
+            //     total = total.y;
+            //   }
+            // }
+            
             if (typeof total === 'object') {
-              if (regionData) {
-                console.log(regionData);
-                let regionTotal = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
+              if (updatedSeries) {
+                console.log(updatedSeries);
+                let regionTotal = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
                 total = regionTotal.y;
               } else {
                 total = total.y;
