@@ -1834,22 +1834,12 @@ define([
              firesCountChart.update({
                series: countryData
              });
+             // How total was calculated previously
              //  const total =  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y ?
             //  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y :
             //  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
 
             let count = 0;
-            // This takes all region data across all years for the total.
-            // for (let i = 0; i < countryData.length; i++) {
-            //   console.log(i, count);
-            //   if (countryData[i].data.length === 12) {
-            //     count += countryData[i].data[11].y;
-            //   } else {
-            //     for (let j = 0; j < countryData[i].data.length - 2; j++ ) {
-            //       count += countryData[i].data[j];
-            //     }
-            //   }
-            // }
             // This takes all region data for the current year
             countryData[countryData.length - 1].data.forEach(month => {
               console.log(month);
@@ -1860,7 +1850,18 @@ define([
               }
             })
             console.log(count);
-            const total = count;
+            // This takes all region data across all years for the aggregate total. Kept here for reference
+            // for (let i = 0; i < countryData.length; i++) {
+            //   console.log(i, count);
+            //   if (countryData[i].data.length === 12) {
+            //     count += countryData[i].data[11].y;
+            //   } else {
+            //     for (let j = 0; j < countryData[i].data.length - 2; j++ ) {
+              //       count += countryData[i].data[j];
+              //     }
+              //   }
+              // }
+              const total = count;
 
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
