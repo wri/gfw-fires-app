@@ -1700,7 +1700,7 @@ define([
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
             );  
-  
+            
             var firesCountChart = Highcharts.chart('firesCountChart', {
               title: {
                 text: ''
@@ -1840,7 +1840,7 @@ define([
         const numberOfBins = Config.colorRampFireHistory.length
         let data = [];
         const deferred = new Deferred();
-
+        console.log('copy the request')
         request.get(`${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, {
           handleAs: 'json'
         }).then((response) => {

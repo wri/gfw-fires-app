@@ -1860,18 +1860,14 @@ define([
               }
             })
             console.log(count);
-            // This takes all region data across all years for the aggregate total. Kept here for reference
-            // for (let i = 0; i < countryData.length; i++) {
-            //   console.log(i, count);
-            //   if (countryData[i].data.length === 12) {
-            //     count += countryData[i].data[11].y;
-            //   } else {
-            //     for (let j = 0; j < countryData[i].data.length - 2; j++ ) {
-              //       count += countryData[i].data[j];
-              //     }
-              //   }
-              // }
-              const total = count;
+            
+            // const total = count;
+            console.log(backupValues.length);
+            console.log(backupValues[0].length);
+            console.log(backupValues[0][backupValues[0].length - 1].alerts);
+            // take all region data for current year off backupValues
+            const total = backupValues[0][backupValues[0].length - 1].alerts;
+
 
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1936,9 +1932,17 @@ define([
             
             if (typeof total === 'object') {
               if (updatedSeries) {
-                let regionTotal = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
-                total = regionTotal.y;
+                console.log('inside update', updatedSeries[updatedSeries.length - 1].name)
+                if (updatedSeries[updatedSeries.length - 1].name === currentYear) {
+                  console.log('current year');
+                  total = updatedSeries[updatedSeries.length - 1].data[0];
+                  console.log(total);
+                } else {
+                  let regionTotal = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
+                  total = regionTotal.y;
+                }
               } else {
+                console.log('inside other else')
                 total = total.y;
               }
             }
