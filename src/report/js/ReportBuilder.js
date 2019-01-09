@@ -1736,10 +1736,25 @@ define([
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
 
+            console.log(series);
             // Adding sum for year to window
-            window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data;
-
-            const currYearFireCount = window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].y;
+            // window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data.data[0];
+            // const currYearFireCount = window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].y;
+            const currYearFireCount = series[series.length - 1].data[0];
+            console.log(currYearFireCount);
+            // let currentFireCount = 0;
+            // // This takes all region data for the current year
+            // console.log(countryData);
+            // countryData[countryData.length - 1].data.forEach(month => {
+            //   console.log(month);
+            //   if (typeof month === 'number') {
+            //     currentFireCount += month;
+            //   } else {
+            //     currentFireCount += month.y;
+            //   }
+            // })
+            // console.log(count);
+            // const currYearFireCount = currentFireCount;
 
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1812,7 +1827,6 @@ define([
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
 
             // Create list of regions
-            // i think this is broken
             $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
             if (window.reportOptions.aoiId) {
               $('#firesCountIslandsList').append("<li>" + window.reportOptions.aois.split("''").join("'") + "</li>");
@@ -1834,10 +1848,6 @@ define([
              firesCountChart.update({
                series: countryData
              });
-             // How total was calculated previously
-             //  const total =  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y ?
-            //  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y :
-            //  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
 
             let count = 0;
             // This takes all region data for the current year
