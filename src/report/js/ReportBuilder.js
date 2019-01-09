@@ -1669,7 +1669,6 @@ define([
                   } catch (error) {
                     console.error('error line 1615')
                   }
-                  console.log('data', newSeriesData);
                   const aoiName = adm.name_1;
                   newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
                   newSeriesData = [];
@@ -1679,8 +1678,6 @@ define([
 
             tmpArr = [];
             let year;
-
-            console.log('valuuuuues', values)
 
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
@@ -1697,7 +1694,6 @@ define([
                 seriesTemp.data.push(value.alerts);
                 tmpArr.push(value.alerts);
                 index++;
-                // console.log(value)
 
                 if (value.year === currentYear && value.month === currentMonth) {
                         
@@ -1711,14 +1707,10 @@ define([
                       overflow: true,
                       verticalAlign: "middle"}
                     ],
-                    // data: [value.alerts],
                     name: 2019,
                     color: '#e0e0df', 
                     lineWidth: 1
-                    // data: [value.alerts]
                   });
-                  console.log('jjjjj', value)
-                  console.log('seriiie', series)
                 }
               } else if (value.year === currentYear && value.month === currentMonth) {
                 seriesTemp.name = value.year;
@@ -1820,6 +1812,7 @@ define([
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
 
             // Create list of regions
+            // i think this is broken
             $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
             if (window.reportOptions.aoiId) {
               $('#firesCountIslandsList').append("<li>" + window.reportOptions.aois.split("''").join("'") + "</li>");
@@ -1835,15 +1828,39 @@ define([
            $('#firesCountIslandsListContainer h3').click(function () {
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
-
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
+             console.log('inside h3, thisis countryData:', countryData);
+             
              firesCountChart.update({
                series: countryData
              });
+             //  const total =  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y ?
+            //  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y :
+            //  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
 
-             const total =  countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y ?
-                            countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1].y :
-                            countryData[countryData.length - 1].data[countryData[countryData.length - 1].data.length - 1];
+            let count = 0;
+            // This takes all region data across all years for the total.
+            // for (let i = 0; i < countryData.length; i++) {
+            //   console.log(i, count);
+            //   if (countryData[i].data.length === 12) {
+            //     count += countryData[i].data[11].y;
+            //   } else {
+            //     for (let j = 0; j < countryData[i].data.length - 2; j++ ) {
+            //       count += countryData[i].data[j];
+            //     }
+            //   }
+            // }
+            // This takes all region data for the current year
+            countryData[countryData.length - 1].data.forEach(month => {
+              console.log(month);
+              if (typeof month === 'number') {
+                count += month;
+              } else {
+                count += month.y;
+              }
+            })
+            console.log(count);
+            const total = count;
 
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1908,7 +1925,6 @@ define([
             
             if (typeof total === 'object') {
               if (updatedSeries) {
-                console.log(updatedSeries);
                 let regionTotal = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
                 total = regionTotal.y;
               } else {
