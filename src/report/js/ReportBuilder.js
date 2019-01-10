@@ -1530,8 +1530,6 @@ define([
             let indexColor = 0;
             const colorStep = 5;
             const baseColor = '#777777';
-            console.log('current yr', currentYear);
-            console.log(responses);
             let values;
             const backupValues = [];
 
@@ -1552,11 +1550,9 @@ define([
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
-            console.log('backupvalues', backupValues);
             
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
-              console.log('backupvalues', backupValues);
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
@@ -1564,17 +1560,6 @@ define([
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
 
-
-                    // if (bValue.year === currentYear && bValue.month === currentMonth) {
-                    //   console.log('iiiii', bValue)
-                    //   console.log('newSeriesDatanewSeriesData', newSeriesData)
-
-                    //   // newSeriesData.push({
-                    //   //   name: 2019,
-                    //   //   color: 'green', 
-                    //   //   data: [bValue]
-                    //   // });
-                    // } else {
                       backupTempSeries.name = bValue.year - 1;
 
                       var hexColor = self.shadeColor(baseColor, (indexColor / 100));
@@ -1588,20 +1573,13 @@ define([
                       tmpArr.push(bValue.alerts);
 
                       if (bValue.year === currentYear && bValue.month === currentMonth) {
-                        
-                        
+                         
                         newSeriesData.push({
                           name: 2019,
                           color: 'green', 
-                          data: [bValue.alerts] // is this bValue.alerts?!
+                          data: [bValue.alerts]
                         });
-                        console.log('iiiii', bValue)
-                        console.log('newSeriesDatanewSeriesData', newSeriesData)
                       }
-                    // }
-                    
-                    
-                    
 
                   } else if (bValue.year === currentYear && bValue.month === currentMonth) {
                     backupTempSeries.name = bValue.year;
@@ -1625,8 +1603,6 @@ define([
                 newSeriesData[newSeriesData.length-1].lineWidth = 5;
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
                 const aoiName = window.reportOptions.country;
-                console.log(aoiName);
-                console.log(window.reportOptions);
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
                 
               } else {
@@ -1741,25 +1717,7 @@ define([
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
 
-            console.log(series);
-            // Adding sum for year to window
-            // window['firesCountRegionCurrentYearSum'] = series[series.length - 1].data.data[0];
-            // const currYearFireCount = window['firesCountRegionCurrentYearSum'][window['firesCountRegionCurrentYearSum'].length - 1].y;
             const currYearFireCount = series[series.length - 1].data[0];
-            console.log(currYearFireCount);
-            // let currentFireCount = 0;
-            // // This takes all region data for the current year
-            // console.log(countryData);
-            // countryData[countryData.length - 1].data.forEach(month => {
-            //   console.log(month);
-            //   if (typeof month === 'number') {
-            //     currentFireCount += month;
-            //   } else {
-            //     currentFireCount += month.y;
-            //   }
-            // })
-            // console.log(count);
-            // const currYearFireCount = currentFireCount;
 
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1847,10 +1805,7 @@ define([
            $('#firesCountIslandsListContainer h3').click(function () {
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
-             console.log(newSeriesDataObj)
-             console.log(selectedCountry)
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
-             console.log('inside h3, thisis countryData:', countryData);
              
              firesCountChart.update({
                series: countryData
@@ -1858,14 +1813,10 @@ define([
 
              let total;
              if (newSeriesDataObj[selectedCountry]) {
-               console.log('incomplete counry');
-               total = backupValues[0][backupValues[0].length - 1].alerts; // correct if any subsect of regions loads.
+               total = backupValues[0][backupValues[0].length - 1].alerts; 
               } else {
-               console.log('full country');
                let count = 0;
-               // This takes all region data for the current year
                countryData[countryData.length - 1].data.forEach(month => {
-                  console.log(month);
                   if (typeof month === 'number') {
                     count += month;
                   } else {
@@ -1879,7 +1830,6 @@ define([
                `${currentYear} MODIS Fire Alerts, Year to Date
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
              );
-
            });
 
            $('#firesCountIslandsList li').click(function () {
@@ -1900,11 +1850,8 @@ define([
 
              let updatedSeries = [], total;
              let regionData;
-             if (newSeriesDataObj[selectedIslandOrRegion]) { // if all provinces, it plugs here
-               console.log('inside the if, newseriesDataobj', newSeriesDataObj);
-               // goes to the country data
-               console.log(newSeriesDataObj[selectedIslandOrRegion]);
-               console.log(newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']); // this is what we need for count total
+             if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
+              // newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y'] is what we need for count total
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
@@ -1915,13 +1862,11 @@ define([
                 for (let j = 0; j < dataObject[i].data.length; j++) {
                   yearObject.data.push(dataObject[i].data[j])
                 }
-                console.log(yearObject);
                 updatedSeries.push(yearObject)
                 total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
               }
-            } else { // if selected provinces, it plugs here
+            } else { // if any specific provinces are selected, it plugs here
               updatedSeries = window.firesCountRegionSeries;
-              console.log('inside the else', updatedSeries);
               total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
             }
 
@@ -1932,17 +1877,13 @@ define([
             
             if (typeof total === 'object') {
               if (updatedSeries) {
-                console.log('inside update', updatedSeries[updatedSeries.length - 1].name)
                 if (updatedSeries[updatedSeries.length - 1].name === currentYear) {
-                  console.log('current year');
                   total = updatedSeries[updatedSeries.length - 1].data[0];
-                  console.log(total);
                 } else {
                   let regionTotal = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
                   total = regionTotal.y;
                 }
               } else {
-                console.log('inside other else')
                 total = total.y;
               }
             }
