@@ -1912,7 +1912,7 @@ define([
               updatedSeries = window.firesCountRegionSeries;
               console.log('inside the else', updatedSeries);
             }
-            console.log('updated series', updatedSeries);
+
             firesCountChart.update({
               series: updatedSeries
             }, true);
