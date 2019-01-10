@@ -1601,6 +1601,7 @@ define([
                     // }
                     
                     
+                    
 
                   } else if (bValue.year === currentYear && bValue.month === currentMonth) {
                     backupTempSeries.name = bValue.year;
@@ -1623,7 +1624,11 @@ define([
                 newSeriesData[newSeriesData.length-1].color = "#d40000";
                 newSeriesData[newSeriesData.length-1].lineWidth = 5;
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
-
+                const aoiName = window.reportOptions.country;
+                console.log(aoiName);
+                console.log(window.reportOptions);
+                newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
+                
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
@@ -1842,6 +1847,8 @@ define([
            $('#firesCountIslandsListContainer h3').click(function () {
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
+             console.log(newSeriesDataObj)
+             console.log(selectedCountry)
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
              console.log('inside h3, thisis countryData:', countryData);
              
@@ -1849,25 +1856,24 @@ define([
                series: countryData
              });
 
-            let count = 0;
-            // This takes all region data for the current year
-            countryData[countryData.length - 1].data.forEach(month => {
-              console.log(month);
-              if (typeof month === 'number') {
-                count += month;
+             let total;
+             if (newSeriesDataObj[selectedCountry]) {
+               console.log('incomplete counry');
+               total = backupValues[0][backupValues[0].length - 1].alerts; // correct if any subsect of regions loads.
               } else {
-                count += month.y;
-              }
-            })
-            console.log(count);
-            
-            // const total = count;
-            console.log(backupValues.length);
-            console.log(backupValues[0].length);
-            console.log(backupValues[0][backupValues[0].length - 1].alerts);
-            // take all region data for current year off backupValues
-            const total = backupValues[0][backupValues[0].length - 1].alerts;
-
+               console.log('full country');
+               let count = 0;
+               // This takes all region data for the current year
+               countryData[countryData.length - 1].data.forEach(month => {
+                  console.log(month);
+                  if (typeof month === 'number') {
+                    count += month;
+                  } else {
+                    count += month.y;
+                  }
+                })
+             total = count;
+            }
 
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1892,10 +1898,13 @@ define([
              The code below contains the logic we used to manually pass the data to the new objects. We utilized nested for loops to be as explicit as possible. 
              **************************************************/
 
-             let updatedSeries = [];
+             let updatedSeries = [], total;
              let regionData;
-             if (newSeriesDataObj[selectedIslandOrRegion]) {
-               console.log('inside the if');
+             if (newSeriesDataObj[selectedIslandOrRegion]) { // if all provinces, it plugs here
+               console.log('inside the if, newseriesDataobj', newSeriesDataObj);
+               // goes to the country data
+               console.log(newSeriesDataObj[selectedIslandOrRegion]);
+               console.log(newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']); // this is what we need for count total
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
@@ -1906,29 +1915,20 @@ define([
                 for (let j = 0; j < dataObject[i].data.length; j++) {
                   yearObject.data.push(dataObject[i].data[j])
                 }
-                updatedSeries.push(yearObject);
+                console.log(yearObject);
+                updatedSeries.push(yearObject)
+                total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
               }
-            } else {
+            } else { // if selected provinces, it plugs here
               updatedSeries = window.firesCountRegionSeries;
               console.log('inside the else', updatedSeries);
+              total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
             }
 
             firesCountChart.update({
               series: updatedSeries
             }, true);
 
-            let total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
-
-            
-            // if (typeof total === 'object') {
-            //   if (regionData) {
-            //     console.log(regionData);
-            //     let regionTotal = regionData[regionData.length - 1].data[regionData[regionData.length - 1].data.length - 1];
-            //     total = regionTotal.y;
-            //   } else {
-            //     total = total.y;
-            //   }
-            // }
             
             if (typeof total === 'object') {
               if (updatedSeries) {
