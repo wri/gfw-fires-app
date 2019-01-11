@@ -1719,6 +1719,14 @@ define([
 
             const currYearFireCount = series[series.length - 1].data[0];
 
+            let tempSeries = [];
+            for (let i = 0; i < series[series.length - 1].data.length; i++) {
+             if (typeof series[18].data[i] !== 'object' && i !== 11) {
+              tempSeries.push(series[series.length - 1].data[i]);
+             }
+            }
+            series[series.length - 1].data = tempSeries;
+
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
@@ -1806,16 +1814,14 @@ define([
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
-            //  console.log(newSeriesDataObj[selectedCountry]); // when selecting all regions in a country, this is null
-             console.log(countryData);
              let temp = [];
              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
               if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
                 temp.push(countryData[countryData.length - 1].data[i]);
               }
-            }
-            
-            countryData[countryData.length - 1].data = temp;
+             }
+             countryData[countryData.length - 1].data = temp;
+             
              firesCountChart.update({
                series: countryData
              });
