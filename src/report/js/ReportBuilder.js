@@ -1875,7 +1875,6 @@ define([
                 for (let j = 0; j < dataObject[i].data.length; j++) {
                   yearObject.data.push(dataObject[i].data[j])
                 }
-                console.log();
                 updatedSeries.push(yearObject)
                 total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
               }
@@ -1884,10 +1883,17 @@ define([
               total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
             }
 
+            let tempDataSeries = [];
+            for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) {
+             if (typeof updatedSeries[18].data[i] !== 'object' && i !== 11) {
+              tempDataSeries.push(updatedSeries[updatedSeries.length - 1].data[i]);
+             }
+            }
+            updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
+
             firesCountChart.update({
               series: updatedSeries
             }, true);
-
             
             if (typeof total === 'object') {
               if (updatedSeries) {
