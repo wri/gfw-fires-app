@@ -1892,9 +1892,7 @@ define([
             }
             updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
-              console.log('here');
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
-              console.log(updatedSeries);
             }
             firesCountChart.update({
               series: updatedSeries
