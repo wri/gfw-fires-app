@@ -1806,11 +1806,19 @@ define([
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
-             
+            //  console.log(newSeriesDataObj[selectedCountry]); // when selecting all regions in a country, this is null
+             console.log(countryData);
+             let temp = [];
+             for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
+              if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
+                temp.push(countryData[countryData.length - 1].data[i]);
+              }
+            }
+            
+            countryData[countryData.length - 1].data = temp;
              firesCountChart.update({
                series: countryData
              });
-
              let total;
              if (newSeriesDataObj[selectedCountry]) {
                total = backupValues[0][backupValues[0].length - 1].alerts; 
@@ -1851,7 +1859,6 @@ define([
              let updatedSeries = [], total;
              let regionData;
              if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
-              // newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y'] is what we need for count total
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
@@ -1862,6 +1869,7 @@ define([
                 for (let j = 0; j < dataObject[i].data.length; j++) {
                   yearObject.data.push(dataObject[i].data[j])
                 }
+                console.log();
                 updatedSeries.push(yearObject)
                 total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
               }
