@@ -1604,7 +1604,7 @@ define([
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
                 const aoiName = window.reportOptions.country;
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
-                
+
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
@@ -1726,6 +1726,7 @@ define([
              }
             }
             series[series.length - 1].data = tempSeries;
+
 
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1890,7 +1891,11 @@ define([
              }
             }
             updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
-
+            if (updatedSeries[updatedSeries.length-1].data.length === 0) {
+              console.log('here');
+              updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
+              console.log(updatedSeries);
+            }
             firesCountChart.update({
               series: updatedSeries
             }, true);
@@ -1958,7 +1963,6 @@ define([
           $('.fire-history__chart').highcharts({
             chart: {
               type: 'bubble',
-              // marginLeft: 500
             },
 
             title: {
