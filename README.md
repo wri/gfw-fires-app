@@ -6,9 +6,9 @@ Please read this before beginning development to learn how to get started and ho
 - install [node.js](http://nodejs.org/)
 - clone this repo `git clone git@github.com:wri/gfw-fires-app.git`
 - cd into repo folder `> cd gfw-fires-app`
-- install dependencies `> npm install`, bower dependencies will automatically install
+- install dependencies `> npm install`
 - start serving and build `> npm run start`
-- visit `localhost:3000/en/home`
+- visit `localhost:3000/home`
 
 ## Development
 TODO
