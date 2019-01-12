@@ -1604,7 +1604,7 @@ define([
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
                 const aoiName = window.reportOptions.country;
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
-                
+
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
                   backupValue.filter((value) => {
@@ -1719,6 +1719,15 @@ define([
 
             const currYearFireCount = series[series.length - 1].data[0];
 
+            let tempSeries = [];
+            for (let i = 0; i < series[series.length - 1].data.length; i++) {
+             if (typeof series[18].data[i] !== 'object' && i !== 11) {
+              tempSeries.push(series[series.length - 1].data[i]);
+             }
+            }
+            series[series.length - 1].data = tempSeries;
+
+
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
@@ -1806,11 +1815,17 @@ define([
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
+             let temp = [];
+             for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
+              if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
+                temp.push(countryData[countryData.length - 1].data[i]);
+              }
+             }
+             countryData[countryData.length - 1].data = temp;
              
              firesCountChart.update({
                series: countryData
              });
-
              let total;
              if (newSeriesDataObj[selectedCountry]) {
                total = backupValues[0][backupValues[0].length - 1].alerts; 
@@ -1851,7 +1866,6 @@ define([
              let updatedSeries = [], total;
              let regionData;
              if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
-              // newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y'] is what we need for count total
               let dataObject = newSeriesDataObj[selectedIslandOrRegion]
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
@@ -1870,10 +1884,19 @@ define([
               total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
             }
 
+            let tempDataSeries = [];
+            for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) {
+             if (typeof updatedSeries[18].data[i] !== 'object' && i !== 11) {
+              tempDataSeries.push(updatedSeries[updatedSeries.length - 1].data[i]);
+             }
+            }
+            updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
+            if (updatedSeries[updatedSeries.length-1].data.length === 0) {
+              updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
+            }
             firesCountChart.update({
               series: updatedSeries
             }, true);
-
             
             if (typeof total === 'object') {
               if (updatedSeries) {
@@ -1938,7 +1961,6 @@ define([
           $('.fire-history__chart').highcharts({
             chart: {
               type: 'bubble',
-              // marginLeft: 500
             },
 
             title: {
