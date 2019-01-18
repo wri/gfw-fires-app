@@ -30,7 +30,7 @@ export default class AnalysisComponent extends React.Component {
           <button className={`gfw-btn no-pad white pointer ${this.props.calendarVisible === 'analysisEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
         </div>
       </div>
-      { new Date(this.props.analysisEndDate) < new Date(this.props.analysisStartDate) ? <p className="error-message">{analysisPanelText.analysisInvalidDatesErrorMessage}</p> : ( this.props.diffDays > 365 ? <p className="error-message">{analysisPanelText.analysisDateRangeErrorMessage}</p> : '')}
+      { new Date(this.props.analysisEndDate) < new Date(this.props.analysisStartDate) ? <p className="error-message">{analysisPanelText.analysisInvalidDatesErrorMessage}</p> : ''}
     </div>;
   }
 
