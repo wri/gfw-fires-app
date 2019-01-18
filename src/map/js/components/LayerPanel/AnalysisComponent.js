@@ -1,5 +1,3 @@
-// import LayersHelper from 'helpers/LayersHelper';
-// import {mapStore} from 'stores/MapStore';
 import {analysisPanelText} from 'js/config';
 import {mapActions} from 'actions/MapActions';
 import DateHelper from 'helpers/DateHelper';

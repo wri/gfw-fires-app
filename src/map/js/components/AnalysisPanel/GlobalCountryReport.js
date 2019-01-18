@@ -68,9 +68,6 @@ export default class GlobalCountryReport extends React.Component {
       label: 'All Subregions'
     });
 
-    let timeDiff = Math.abs(new Date(this.state.analysisEndDate) - new Date(this.state.analysisStartDate));
-    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
     return (
       <div className='report-width'>
         <div className={'padding'}>
@@ -96,9 +93,9 @@ export default class GlobalCountryReport extends React.Component {
             <div onClick={this.clearSubregions.bind(this)} className={`clear-selection ${this.state.selectedSubRegion ? 'active' : 'inactive'}`}>{analysisPanelText.analysisButtonClear}</div>
           </div>
         }
-        <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} diffDays={diffDays} />
+        <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
         <div className='no-shrink analysis-footer text-center'>
-          <button onClick={this.countryAnalysis.bind(this)} className='gfw-btn blue' disabled={!this.state.selectedGlobalCountry || new Date(this.state.analysisEndDate) < new Date(this.state.analysisStartDate) || diffDays > 365}>{analysisPanelText.analysisButtonLabel}</button>
+          <button onClick={this.countryAnalysis.bind(this)} className='gfw-btn blue' disabled={!this.state.selectedGlobalCountry || new Date(this.state.analysisEndDate) < new Date(this.state.analysisStartDate)}>{analysisPanelText.analysisButtonLabel}</button>
         </div>
       </div>
     );
