@@ -1,5 +1,6 @@
 // import LayersHelper from 'helpers/LayersHelper';
-import {mapStore} from 'stores/MapStore';
+// import {mapStore} from 'stores/MapStore';
+import {analysisPanelText} from 'js/config';
 import {mapActions} from 'actions/MapActions';
 import DateHelper from 'helpers/DateHelper';
 import {modalActions} from 'actions/ModalActions';
@@ -14,27 +15,22 @@ export default class AnalysisComponent extends React.Component {
   props: AnalysisProps;
   displayName: 'AnalysisComponent';
 
-  constructor (props) {
-    super(props);
-    mapStore.listen(this.storeUpdated.bind(this));
-    this.state = mapStore.getState();
-  }
-
-  storeUpdated () {
-    this.setState(mapStore.getState());
-  }
-
   render () {
-    let startDate = window.Kalendae.moment(this.state.analysisStartDate);
-    let endDate = window.Kalendae.moment(this.state.analysisEndDate);
+    let startDate = window.Kalendae.moment(this.props.analysisStartDate);
+    let endDate = window.Kalendae.moment(this.props.analysisEndDate);
 
     return <div className={`timeline-container ${this.props.options.domClass}`}>
       <div id='analysis-date-ranges'>
-        <span className='imagery-calendar-label'>{this.props.options.minLabelPlus}</span>
-        <button className={`gfw-btn no-pad white pointer ${this.state.calendarVisible === 'analysisStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
-        <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
-        <button className={`gfw-btn no-pad white pointer ${this.state.calendarVisible === 'analysisEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        <div className='analysis-date-ranges__range-container'>
+          <span className='imagery-calendar-label'>{this.props.options.minLabelPlus}</span>
+          <button className={`gfw-btn no-pad white pointer ${this.props.calendarVisible === 'analysisStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
+        </div>
+        <div className='analysis-date-ranges__range-container'>
+          <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
+          <button className={`gfw-btn no-pad white pointer ${this.props.calendarVisible === 'analysisEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        </div>
       </div>
+      { new Date(this.props.analysisEndDate) < new Date(this.props.analysisStartDate) ? <p className="error-message">{analysisPanelText.analysisInvalidDatesErrorMessage}</p> : ( this.props.diffDays > 365 ? <p className="error-message">{analysisPanelText.analysisDateRangeErrorMessage}</p> : '')}
     </div>;
   }
 

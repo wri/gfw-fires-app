@@ -38,11 +38,8 @@ export default class GlobalCountryReport extends React.Component {
         label: country
       };
     });
-    // A default select option
+    // Add Global Report option to top
     countriesList.unshift({
-      value: '',
-      label: 'Select a Country'
-    }, {
       value: 'ALL',
       label: 'Global Report'
     });
@@ -66,37 +63,42 @@ export default class GlobalCountryReport extends React.Component {
       };
     });
 
+    countrySubRegionsList.unshift({
+      value: 'ALL',
+      label: 'All Subregions'
+    });
+
+    let timeDiff = Math.abs(new Date(this.state.analysisEndDate) - new Date(this.state.analysisStartDate));
+    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
     return (
       <div className='report-width'>
-        <h4 className="country-report__title">{analysisPanelText.globalReportTitle}</h4>
         <div className={'padding'}>
           <Select
+            placeholder='Select a country'
             value={this.state.selectedGlobalCountry}
             onChange={this.handleGlobalCountryChange.bind(this)}
             multi={false}
             options={countriesList}
           />
         </div>
-        <p className='customize-report-label' onClick={this.toggleCustomize}>{analysisPanelText.analysisCustomize}
-          <span className='analysis-toggle'>{this.props.customizeCountryOpen ? ' ▼' : ' ►'}</span>
-        </p>
-        <div className={`customize-options ${this.props.customizeCountryOpen === true ? '' : 'hidden'}`}>
-          <div className='padding'>
-            <p>Select {this.state.currentCountry}&#39;s subregions: </p>
-            <Select
-              placeholder='Select a subregion'
-              onChange={this.handleSubRegionChange.bind(this)}
-              options={countrySubRegionsList}
-              multi={false}
-              value={this.state.selectedSubRegion}
-            />
+        { (this.state.selectedGlobalCountry && this.state.selectedGlobalCountry !== 'ALL') &&
+          <div>
+            <div className='padding'>
+                <Select
+                  placeholder='Select a subregion'
+                  onChange={this.handleSubRegionChange.bind(this)}
+                  options={countrySubRegionsList}
+                  multi={false}
+                  value={this.state.selectedSubRegion}
+                />
+            </div>
+            <div onClick={this.clearSubregions.bind(this)} className={`clear-selection ${this.state.selectedSubRegion ? 'active' : 'inactive'}`}>{analysisPanelText.analysisButtonClear}</div>
           </div>
-          <button onClick={this.clearSubregions.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonClear}</button>
-          <p>{analysisPanelText.analysisTimeframeHeader}</p>
-          <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
-        </div>
+        }
+        <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} diffDays={diffDays} />
         <div className='no-shrink analysis-footer text-center'>
-          <button onClick={this.countryAnalysis.bind(this)} className='gfw-btn blue'>{analysisPanelText.analysisButtonLabel}</button>
+          <button onClick={this.countryAnalysis.bind(this)} className='gfw-btn blue' disabled={!this.state.selectedGlobalCountry || new Date(this.state.analysisEndDate) < new Date(this.state.analysisStartDate) || diffDays > 365}>{analysisPanelText.analysisButtonLabel}</button>
         </div>
       </div>
     );
@@ -104,25 +106,7 @@ export default class GlobalCountryReport extends React.Component {
 
   handleSubRegionChange (selected) {
     if (selected === null) {
-      const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === this.state.selectedGlobalCountry);
-      countrySubRegions.sort((a, b) => {
-        if (a.NAME_1 < b.NAME_1) {
-          return -1;
-        }
-        if (a.NAME_1 > b.NAME_1) {
-          return 1;
-        }
-        return 0;
-      });
-
-      const countrySubRegionsList = countrySubRegions.map(state => {
-        return {
-          value: state.NAME_1,
-          label: state.NAME_1
-        };
-      });
-
-      this.setState({ selectedSubRegion: countrySubRegionsList });
+      this.setState({ selectedSubRegion: { value: 'ALL', label: 'All Subregions' } });
     } else {
       this.setState({ selectedSubRegion: selected });
     }
@@ -130,27 +114,7 @@ export default class GlobalCountryReport extends React.Component {
 
   handleGlobalCountryChange (selected) {
     if (selected) {
-      this.setState({ selectedGlobalCountry: selected.value }, () => {
-        const countrySubRegions = this.props.adm1.filter(o => o.NAME_0 === selected.value);
-        countrySubRegions.sort((a, b) => {
-          if (a.NAME_1 < b.NAME_1) {
-            return -1;
-          }
-          if (a.NAME_1 > b.NAME_1) {
-            return 1;
-          }
-          return 0;
-        });
-
-        const countrySubRegionsList = countrySubRegions.map(state => {
-          return {
-            value: state.NAME_1,
-            label: state.NAME_1
-          };
-        });
-
-        this.setState({ selectedSubRegion: countrySubRegionsList });
-      });
+      this.setState({ selectedGlobalCountry: selected.value, selectedSubRegion: { value: 'ALL', label: 'All Subregions' } });
     } else {
       this.setState({ selectedGlobalCountry: '' });
     }
@@ -161,7 +125,7 @@ export default class GlobalCountryReport extends React.Component {
   }
 
   clearSubregions () {
-    this.setState({selectedSubRegion: ''});
+    this.setState({selectedSubRegion: { value: 'ALL', label: 'All Subregions' }});
   }
 
   countryAnalysis () {
@@ -194,8 +158,7 @@ export default class GlobalCountryReport extends React.Component {
     let reportTypeString = 'reporttype=' + reportType;
     let countryString = 'country=' + country;
 
-    const countryRegionString = countryRegion.length ? '' : `aois=${countryRegion.value}`;
-
+    const countryRegionString = countryRegion.value === 'ALL' ? '' : `aois=${countryRegion.value}`;
     let dateArgs = [];
     let dateString = 'dates=';
     for (let val in dates) {
