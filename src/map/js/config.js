@@ -87,7 +87,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(8, 'd'),
         method: 'changeAnalysisStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisStart',
         domClass: 'analysis-start'
       },
@@ -95,7 +95,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeAnalysisEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisEnd',
         domClass: 'analysis-end'
       },
