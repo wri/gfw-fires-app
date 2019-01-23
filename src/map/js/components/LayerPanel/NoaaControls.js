@@ -4,6 +4,7 @@ import {modalActions} from 'actions/ModalActions';
 import {mapStore} from 'stores/MapStore';
 import {mapActions} from 'actions/MapActions';
 import DateHelper from 'helpers/DateHelper';
+import {layerPanelText} from 'js/config';
 import React from 'react';
 
 export default class NoaaControls extends React.Component {
@@ -43,6 +44,7 @@ export default class NoaaControls extends React.Component {
         <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'noaaStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
         <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
         <button className={`gfw-btn white pointer ${this.state.calendarVisible === 'noaaEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        { new Date(this.state.noaaEndDate) < new Date(this.state.noaaStartDate) ? <p className="error-message">{layerPanelText.calendarValidation}</p> : '' }
       </div>
     </div>;
   }

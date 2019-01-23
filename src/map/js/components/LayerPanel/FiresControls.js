@@ -65,6 +65,7 @@ export default class FiresControls extends React.Component {
         <button className={`gfw-btn white pointer ${this.props.calendarVisible === 'archiveStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
         <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
         <button className={`gfw-btn white pointer ${this.props.calendarVisible === 'archiveEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        { new Date(this.props.archiveModisEndDate) < new Date(this.props.archiveModisStartDate) ? <p className="error-message">{layerPanelText.calendarValidation}</p> : '' }
       </div>
     </div>;
   }

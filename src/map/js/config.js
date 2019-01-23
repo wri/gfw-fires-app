@@ -119,7 +119,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeViirsArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/08/2016'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveViirsStart',
         domClass: 'viirs-archive-start'
       },
@@ -127,7 +127,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeViirsArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/08/2016'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveViirsEnd',
         domClass: 'viirs-archive-end'
       },
@@ -135,7 +135,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeModisArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/02/2012'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveModisStart',
         domClass: 'modis-archive-start'
       },
@@ -143,7 +143,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeModisArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/02/2012'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveModisEnd',
         domClass: 'modis-archive-end'
       },
@@ -1135,7 +1135,8 @@ export const config = {
       treeCover: {
         densityFirst: 'Displaying',
         densitySecond: 'canopy density.'
-      }
+      },
+      calendarValidation: 'Start date cannot be before end date'
     },
     analysisPanel: {
       searchWidgetId: 'esri-search-widget',
