@@ -1859,14 +1859,14 @@ define([
              Once mutated, clicking back to that region would cause the chart data to not update.
              We do not believe this was a problem with the code, but a problem with the way highcharts was accessing the reference data of newSeriesData.
              We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
-             We resolved this by manually recreating the data object, and passing the recreated object to Highcharts.
+             We resolved this by manually recreating the data object as the "updatedSeries", and passing the updatedSeries object to Highcharts.
              The code below contains the logic we used to manually pass the data to the new objects. We utilized nested for loops to be as explicit as possible. 
              **************************************************/
 
-             let updatedSeries = [], total;
-             let regionData;
-             if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
-              let dataObject = newSeriesDataObj[selectedIslandOrRegion]
+            let updatedSeries = [], total;
+            let regionData;
+            if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
+              let dataObject = newSeriesDataObj[selectedIslandOrRegion] // Collection of all the data per month, per year for a specific state/region.
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
                   color: dataObject[i].color,
@@ -1874,7 +1874,12 @@ define([
                   data: []
                 };
                 for (let j = 0; j < dataObject[i].data.length; j++) {
-                  yearObject.data.push(dataObject[i].data[j])
+                  // The last index (11) of each year's data object is an object with 2 keys: DataLabels and a Y value. We need to extract the Y value and push that, without the data labels. 
+                  if (j === 11) {
+                    yearObject.data.push(dataObject[i].data[j].y)
+                  } else {
+                    yearObject.data.push(dataObject[i].data[j]) // Every other month/index on the data object is a numeric value, so we can push it as it is.
+                  }
                 }
                 updatedSeries.push(yearObject)
                 total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
@@ -1885,15 +1890,17 @@ define([
             }
 
             let tempDataSeries = [];
-            for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) {
-             if (typeof updatedSeries[18].data[i] !== 'object' && i !== 11) {
-              tempDataSeries.push(updatedSeries[updatedSeries.length - 1].data[i]);
-             }
+            for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) { // iterate over the months in the current year, which is the last key of the updatedSeries object
+              if (typeof updatedSeries[updatedSeries.length - 1].data[i] !== 'object' && i !== 11) {
+                tempDataSeries.push(updatedSeries[updatedSeries.length - 1].data[i]);
+              }
             }
+            
             updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
             }
+            
             firesCountChart.update({
               series: updatedSeries
             }, true);
