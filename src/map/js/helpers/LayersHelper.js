@@ -1,4 +1,4 @@
-import {layerPanelText, layersConfig, uploadConfig} from 'js/config';
+import {layerPanelText, layersConfig, uploadConfig, shortTermServices} from 'js/config';
 import rasterFuncs from 'utils/rasterFunctions';
 import Request from 'utils/request';
 import utils from 'utils/AppUtils';
@@ -714,30 +714,39 @@ let LayersHelper = {
     }
   },
 
-  updateViirsDefinitions (optionIndex, dontRefresh) {
-    let value = layerPanelText.firesOptions[optionIndex].value || 1;
-    let queryString = utils.generateFiresQuery(value);
-
+  updateViirsDefinitions (optionIndex) {
     let viirs = app.map.getLayer(KEYS.viirsFires);
-    let defs;
-
-    if (!viirs) {
-      defs = [];
-    } else {
-      defs = viirs.layerDefinitions;
-    }
 
     if (viirs) {
-      viirs.visibleLayers.forEach(val => {
-        let currentString = defs[val];
-        if (currentString) {
-          defs[val] = queryString;
-        } else {
-          defs[val] = queryString;
-        }
-      });
-
-      viirs.setLayerDefinitions(defs, dontRefresh);
+      const layaDefs = [];
+      switch(optionIndex) {
+        case 0: //past 24 hours
+          viirs.url = shortTermServices.viirs24HR.url;
+          viirs._url.path = shortTermServices.viirs24HR.url;
+          viirs.setVisibleLayers([shortTermServices.viirs24HR.id]);
+          break;
+        case 1: //past 48 hours
+          viirs.url = shortTermServices.viirs48HR.url;
+          viirs._url.path = shortTermServices.viirs48HR.url;
+          viirs.setVisibleLayers([shortTermServices.viirs48HR.id]);
+          break;
+        case 2: //past 72 hours
+          viirs.url = shortTermServices.viirs7D.url;
+          viirs._url.path = shortTermServices.viirs7D.url;
+          viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
+          layaDefs[shortTermServices.viirs7D.id] = `Date > date'${new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss')}'`;
+          break;
+        case 3: //past 7 days
+          viirs.url = shortTermServices.viirs7D.url;
+          viirs._url.path = shortTermServices.viirs7D.url;
+          viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
+          break;
+        default:
+          console.log('default');
+          break;
+      }
+      viirs.setLayerDefinitions(layaDefs);
+      viirs.refresh();
     }
   },
 

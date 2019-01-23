@@ -263,6 +263,42 @@ export const config = {
   * - Add any extra layer params as needed, check LayerFactory to see which ones are supported and feel free to add more if necessary
   * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
   */
+
+  shortTermServices: {
+    modis24HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
+      id: 21
+    },
+    modis48HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer',
+      id: 21
+    },
+    modis7D: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer',
+      id: 21
+    },
+    modis1YR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer',
+      id: 21
+    },
+    viirs24HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
+      id: 21
+    },
+    viirs48HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer',
+      id: 21
+    },
+    viirs7D: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer',
+      id: 21
+    },
+    viirs1YR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
+      id: 0
+    },
+  },
+
   layers: [
     {
       id: KEYS.viirsFires,
@@ -271,10 +307,12 @@ export const config = {
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [8],
+      // layerIds: [8],
+      layerIds: [21],
       className: 'viirs-fires',
-      defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
+      // defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
+      // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -299,10 +337,12 @@ export const config = {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [9],
-      defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
+      // layerIds: [9],
+      layerIds: [21],
+      // defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
       className: 'active-fires',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/',
+      // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -958,10 +998,12 @@ export const config = {
       id: KEYS.modisArchive,
       type: 'dynamic',
       defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      layerIds: [9],
+      // layerIds: [9],
+      layerIds: [21],
       opacity: 1,
       className: 'modis-archive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
+      // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
           '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
@@ -1462,3 +1504,4 @@ export const metadataUrl = config.text.metadataUrl;
 export const alertsModalConfig = config.alertsModal;
 export const fireModalConfig = config.firesModal;
 export const layerInformation = config.text.layerInformation;
+export const shortTermServices = config.shortTermServices;
