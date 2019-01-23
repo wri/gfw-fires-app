@@ -1822,7 +1822,7 @@ define([
               }
              }
              countryData[countryData.length - 1].data = temp;
-             
+             console.log(countryData);
              firesCountChart.update({
                series: countryData
              });
@@ -1863,6 +1863,39 @@ define([
              The code below contains the logic we used to manually pass the data to the new objects. We utilized nested for loops to be as explicit as possible. 
              **************************************************/
 
+
+            // series accepts an array of objects
+          //   yAxis: [{ // Primary yAxis
+          //     labels: {
+          //         format: '{value}°C',
+          //         style: {
+          //             color: Highcharts.getOptions().colors[2]
+          //         }
+          //     },
+          //     title: {
+          //         text: 'Temperature',
+          //         style: {
+          //             color: Highcharts.getOptions().colors[2]
+          //         }
+          //     },
+          //     opposite: true
+      
+          // }, { // Secondary yAxis
+          //     gridLineWidth: 0,
+          //     title: {
+          //         text: 'Rainfall',
+          //         style: {
+          //             color: Highcharts.getOptions().colors[0]
+          //         }
+          //     },
+          //     labels: {
+          //         format: '{value} mm',
+          //         style: {
+          //             color: Highcharts.getOptions().colors[0]
+          //         }
+          //     }
+      
+          // }, 
             let updatedSeries = [], total;
             let regionData;
             if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
@@ -1871,7 +1904,8 @@ define([
                 const yearObject = {
                   color: dataObject[i].color,
                   name: dataObject[i].name,
-                  data: []
+                  data: [],
+                  lineWidth: 1
                 };
                 for (let j = 0; j < dataObject[i].data.length; j++) {
                   // The last index (11) of each year's data object is an object with 2 keys: DataLabels and a Y value. We need to extract the Y value and push that, without the data labels. 
@@ -1900,7 +1934,8 @@ define([
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
             }
-            
+            console.log(typeof updatedSeries);
+            console.log(updatedSeries);
             firesCountChart.update({
               series: updatedSeries
             }, true);
