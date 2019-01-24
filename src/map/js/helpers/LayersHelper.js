@@ -93,12 +93,6 @@ let LayersHelper = {
       }
     }
 
-    layer = app.map.getLayer(KEYS.viirsArchive);
-    if (layer) {
-      if (layer.visible) {
-        deferreds.push(Request.identifyViirsArchive(mapPoint));
-      }
-    }
 
     layer = app.map.getLayer(KEYS.archiveFires);
     if (layer) {
@@ -232,9 +226,6 @@ let LayersHelper = {
             break;
           case KEYS.viirsFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsFires));
-            break;
-          case KEYS.viirsArchive:
-            features = features.concat(this.setActiveTemplates(item.features, KEYS.viirsArchive));
             break;
           case KEYS.archiveFires:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.archiveFires));
@@ -861,14 +852,19 @@ let LayersHelper = {
   updateViirsArchiveDates (clauseArray) {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-    let archiveLayer = app.map.getLayer(KEYS.viirsArchive);
+    let archiveLayer = app.map.getLayer(KEYS.viirsFires);
+    archiveLayer.hide();
     if (archiveLayer) {
-
+      archiveLayer.url = shortTermServices.viirs1YR.url;
+      archiveLayer._url.path = shortTermServices.viirs1YR.url;
+      archiveLayer.setVisibleLayers([shortTermServices.viirs1YR.id]);
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
       let layerDefs = [];
-      layerDefs[8] = string;
+      layerDefs[shortTermServices.viirs1YR.id] = string;
 
       archiveLayer.setLayerDefinitions(layerDefs);
+      archiveLayer.refresh();
+      archiveLayer.show();
     }
   },
 

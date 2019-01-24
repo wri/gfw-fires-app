@@ -38,10 +38,6 @@ export default class ImageryComponent extends React.Component {
         console.log('removing....');
         LayersHelper.hideLayer(KEYS.modisArchive);
       }
-      if (layer.id === 'viirsFires') {
-        console.log('removing....');
-        LayersHelper.hideLayer(KEYS.viirsArchive);
-      }
     }
   }
 

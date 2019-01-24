@@ -223,12 +223,11 @@ const request = {
   */
   identifyViirs: mapPoint => {
     let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
-    let identifyTask = new IdentifyTask(config.url);
-    let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.viirsFires);
+    let identifyTask = new IdentifyTask(layer.url);
+    let params = new IdentifyParameters();
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[layer.visibleLayers[0]] = layer.layerDefinitions[layer.visibleLayers[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -236,50 +235,15 @@ const request = {
     params.height = app.map.height;
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
-    params.layerIds = config.layerIds;
+    params.layerIds = layer.layerIds;
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
+      console.log('feature', features);
       if (features.length > 0) {
         deferred.resolve({
           layer: KEYS.viirsFires,
-          features: features
-        });
-      } else {
-        deferred.resolve(false);
-      }
-    }, function(error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
-
-    return deferred.promise;
-  },
-
-  identifyViirsArchive: mapPoint => {
-    let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.viirsArchive);
-    let identifyTask = new IdentifyTask(config.url);
-    let params = new IdentifyParameters();
-    let layer = app.map.getLayer(KEYS.viirsArchive);
-    let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
-
-    params.tolerance = 2;
-    params.returnGeometry = true;
-    params.width = app.map.width;
-    params.height = app.map.height;
-    params.geometry = mapPoint;
-    params.mapExtent = app.map.extent;
-    params.layerIds = config.layerIds;
-    params.layerDefinitions = layerDefinitions;
-    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-
-    identifyTask.execute(params, function(features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.viirsArchive,
           features: features
         });
       } else {

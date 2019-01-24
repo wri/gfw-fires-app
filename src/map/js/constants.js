@@ -12,7 +12,6 @@ const KEYS = {
   viirsFires: 'viirsFires',
   activeFires: 'activeFires',
   modisArchive: 'modisArchive',
-  viirsArchive: 'viirsArchive',
   archiveFires: 'archiveFires',
   noaa18Fires: 'noaa18Fires',
   burnScars: 'burnScars',

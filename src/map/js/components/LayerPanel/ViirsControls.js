@@ -83,10 +83,6 @@ export default class ViirsControls extends React.Component {
 
   changeViirsTimeline (evt) {
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
-    LayersHelper.hideLayer(KEYS.viirsArchive);
-    let layerObj = {};
-		layerObj.layerId = KEYS.viirsFires;
-		LayersHelper.showLayer(layerObj);
 
     if (this.state.viirsArchiveVisible === true) {
       this.setState({ viirsArchiveVisible: false });

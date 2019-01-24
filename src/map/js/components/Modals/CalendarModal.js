@@ -160,10 +160,6 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveViirsStartDate'
 		});
-		LayersHelper.hideLayer(KEYS.viirsFires);
-		let layerObj = {};
-		layerObj.layerId = KEYS.viirsArchive;
-		LayersHelper.showLayer(layerObj);
 	}
 	changeViirsArchiveEnd(date: any) {
 		this.close();
@@ -171,10 +167,6 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveViirsEndDate'
 		});
-		LayersHelper.hideLayer(KEYS.viirsFires);
-		let layerObj = {};
-		layerObj.layerId = KEYS.viirsArchive;
-		LayersHelper.showLayer(layerObj);
 	}
 	changeModisArchiveStart(date: any) {
 		this.close();
