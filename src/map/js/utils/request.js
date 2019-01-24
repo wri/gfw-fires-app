@@ -240,7 +240,6 @@ const request = {
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
     identifyTask.execute(params, function(features) {
-      console.log('feature', features);
       if (features.length > 0) {
         deferred.resolve({
           layer: KEYS.viirsFires,
