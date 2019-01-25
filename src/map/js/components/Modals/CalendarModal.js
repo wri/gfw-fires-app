@@ -174,10 +174,6 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveModisStartDate'
 		});
-		LayersHelper.hideLayer(KEYS.activeFires);
-		let layerObj = {};
-		layerObj.layerId = KEYS.modisArchive;
-		LayersHelper.showLayer(layerObj);
 	}
 	changeModisArchiveEnd(date: any) {
 		this.close();
@@ -185,10 +181,6 @@ export default class CalendarModal extends Component {
 			date: date,
 			dest: 'archiveModisEndDate'
 		});
-		LayersHelper.hideLayer(KEYS.activeFires);
-		let layerObj = {};
-		layerObj.layerId = KEYS.modisArchive;
-		LayersHelper.showLayer(layerObj);
 	}
 	changeNoaaStart(date: any) {
 		this.close();

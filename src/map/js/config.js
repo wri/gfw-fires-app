@@ -307,11 +307,8 @@ export const config = {
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      // layerIds: [8],
       layerIds: [21],
       className: 'viirs-fires',
-      // defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
-      // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
       url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
@@ -337,12 +334,9 @@ export const config = {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      // layerIds: [9],
       layerIds: [21],
-      // defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
       className: 'active-fires',
-      // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/',
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -993,25 +987,6 @@ export const config = {
       className: 'twitter',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
       metadataId: 'firms_active_fires'
-    },
-    {
-      id: KEYS.modisArchive,
-      type: 'dynamic',
-      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      // layerIds: [9],
-      layerIds: [21],
-      opacity: 1,
-      className: 'modis-archive',
-      // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
-          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
-          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
-          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
-          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
     },
     {
       id: KEYS.planetBasemap,

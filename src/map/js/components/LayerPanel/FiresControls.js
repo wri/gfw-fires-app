@@ -86,11 +86,7 @@ export default class FiresControls extends React.Component {
 
   changeFiresTimeline (evt) {
     layerActions.changeFiresTimeline(evt.target.selectedIndex);
-    LayersHelper.hideLayer(KEYS.modisArchive);
-    let layerObj = {};
-		layerObj.layerId = KEYS.activeFires;
-		LayersHelper.showLayer(layerObj);
-    
+
     if (this.state.modisArchiveVisible === true) {
       this.setState({ modisArchiveVisible: false });
     }

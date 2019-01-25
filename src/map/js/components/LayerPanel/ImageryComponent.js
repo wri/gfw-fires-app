@@ -34,10 +34,6 @@ export default class ImageryComponent extends React.Component {
       LayersHelper.showLayer(layerObj);
     } else {
       LayersHelper.hideLayer(layer.id);
-      if (layer.id === 'activeFires') {
-        console.log('removing....');
-        LayersHelper.hideLayer(KEYS.modisArchive);
-      }
     }
   }
 
