@@ -1,4 +1,3 @@
-import { shortTermServices } from 'js/config';
 /* eslint-disable */
 define([
     "dojo/dom",
@@ -2063,9 +2062,9 @@ define([
           if (areaOfInterestType === 'GLOBAL') {
             // Assign correct query url
             var url;
-            if (districtLayerId === shortTermServices.viirs1YR.id) {
+            if (districtLayerId === 0) {
               url = Config.firesLayer.global_viirs;
-            } else if (districtLayerId === shortTermServices.modis1YR.id) {
+            } else if (districtLayerId === 21) {
               url = Config.firesLayer.global_modis;
             }
             queryTask = new QueryTask(url);
@@ -2078,9 +2077,9 @@ define([
           } else if (areaOfInterestType === 'ALL') {
             // Assign correct query url
             var url;
-            if (districtLayerId === shortTermServices.viirs1YR.id) {
+            if (districtLayerId === 0) {
               url = Config.firesLayer.global_viirs;
-            } else if (districtLayerId === shortTermServices.modis1YR.id) {
+            } else if (districtLayerId === 21) {
               url = Config.firesLayer.global_modis;
             }
             queryTask = new QueryTask(url);
