@@ -268,9 +268,25 @@
 
 .report-width
   width 50%
+  margin 0 auto
   +below($mq-mobile) {
-    width 100%
+    width 75%
   }
+
+.clear-selection
+  font-size 12px
+  text-decoration underline
+
+.active
+  color #e7002f
+  cursor pointer
+
+.active:hover
+  color #ad0023
+
+.inactive
+  color #eee
+  cursor not-allowed
 
 .analysis-toggle
   cursor pointer
@@ -440,6 +456,13 @@
   position relative
   text-align left
   font-size 11px
+  text-align center
+
+.error-message
+  color #e7002f
+  text-align center !important
+  font-size 12px
+  padding 5px 0 0 0 !important
 
 .error-message
   color #e7002f
@@ -453,6 +476,13 @@
 
 .customize-options span
   font-size 14px
+
+#analysis-date-ranges 
+  display flex
+  justify-content space-between
+
+.analysis-date-ranges__range-container
+  width 100px
 
 #imagery-date-ranges button, #analysis-date-ranges button, #areaTab button
   width 100%

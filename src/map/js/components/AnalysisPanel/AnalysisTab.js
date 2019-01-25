@@ -3,7 +3,6 @@ import {mapStore} from 'stores/MapStore';
 import React from 'react';
 import chosen from 'chosen';
 
-import IndonesiaSpecialtyReport from 'components/AnalysisPanel/IndonesiaSpecialtyReport';
 import GlobalCountryReport from 'components/AnalysisPanel/GlobalCountryReport';
 
 export default class AnalysisTab extends React.Component {
@@ -33,7 +32,6 @@ export default class AnalysisTab extends React.Component {
         <div>{analysisPanelText.analysisAreaHeader}</div>
         <div className='reports-container'>
           <GlobalCountryReport {...this.props} />
-          <IndonesiaSpecialtyReport {...this.props} />
         </div>
       </div>
     );

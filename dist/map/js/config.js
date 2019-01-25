@@ -90,14 +90,14 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         date: new window.Kalendae.moment().subtract(8, 'd'),
         method: 'changeAnalysisStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisStart',
         domClass: 'analysis-start'
       }, {
         date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeAnalysisEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisEnd',
         domClass: 'analysis-end'
       }, {
@@ -955,7 +955,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           domClass: 'analysisLegend',
           childDomClass: 'analysis-child',
           minLabel: 'START DATE',
-          minLabelPlus: 'START DATE: Available from 1 January 2013',
+          minLabelPlus: 'START DATE',
           maxLabel: 'END DATE'
         },
         imageryTabId: 'imageryTab',
@@ -963,17 +963,19 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
         analysisButtonLabel: 'GENERATE',
-        analysisButtonClear: 'CLEAR ALL',
+        analysisButtonClear: 'clear selection',
         analysisAreaTitle: 'Fire Report',
         indonesiaReportTitle: 'Indonesia Specialty Report',
         globalReportTitle: 'Country Report',
-        analysisAreaHeader: 'View fire statistics for the last 7 days for any country',
+        analysisAreaHeader: 'View global and country fire statistics',
         analysisTimeframeHeader: 'Select any time frame of interest:',
         analysisTabLabel: 'Fire Report',
         analysisCustomize: 'CUSTOMIZE',
         analysisChoose: 'Choose your own custom time period and geographic area.',
         analysisIndonesiaChooseData: 'Analyze concession data from:',
         analysisCountryChooseData: 'Pick a country:',
+        analysisInvalidDatesErrorMessage: 'Start date cannot be before end date',
+        analysisDateRangeErrorMessage: 'Fire report is available for the last 12 months',
         subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
         subscriptionButtonLabel: 'START DRAWING',
         subscriptionInstructionsOne: 'Sign up to receive ',
