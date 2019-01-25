@@ -103,14 +103,6 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
             _LayersHelper2.default.showLayer(layerObj);
           } else {
             _LayersHelper2.default.hideLayer(this.props.layer.id);
-            if (this.props.layer.id === 'activeFires') {
-              console.log('removing....');
-              _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
-            }
-            if (this.props.layer.id === 'viirsFires') {
-              console.log('removing....');
-              _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
-            }
           }
         }
       }

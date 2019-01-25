@@ -97,24 +97,10 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
-      layer = app.map.getLayer(_constants2.default.modisArchive);
-      if (layer) {
-        if (layer.visible) {
-          deferreds.push(_request2.default.identifyModisArchive(mapPoint));
-        }
-      }
-
       layer = app.map.getLayer(_constants2.default.viirsFires);
       if (layer) {
         if (layer.visible) {
           deferreds.push(_request2.default.identifyViirs(mapPoint));
-        }
-      }
-
-      layer = app.map.getLayer(_constants2.default.viirsArchive);
-      if (layer) {
-        if (layer.visible) {
-          deferreds.push(_request2.default.identifyViirsArchive(mapPoint));
         }
       }
 
@@ -246,14 +232,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             case _constants2.default.activeFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.activeFires));
               break;
-            case _constants2.default.modisArchive:
-              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.modisArchive));
-              break;
             case _constants2.default.viirsFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsFires));
-              break;
-            case _constants2.default.viirsArchive:
-              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.viirsArchive));
               break;
             case _constants2.default.archiveFires:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.archiveFires));
@@ -704,62 +684,92 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     updateImageryEnd: function updateImageryEnd(date) {
       app.debug('LayersHelper >>> updateImageryEnd - ' + date);
     },
-    updateFiresLayerDefinitions: function updateFiresLayerDefinitions(optionIndex, dontRefresh) {
+    updateFiresLayerDefinitions: function updateFiresLayerDefinitions(optionIndex) {
       app.debug('LayersHelper >>> updateFiresLayerDefinitions');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires expression.');
-      var value = _config.layerPanelText.firesOptions[optionIndex].value || 1; // 1 is the default value, means last 24 hours
-      var queryString = _AppUtils2.default.generateFiresQuery(value);
 
       var firesLayer = app.map.getLayer(_constants2.default.activeFires);
-      var defs = void 0;
-      if (!firesLayer) {
-        defs = [];
-      } else {
-        defs = firesLayer.layerDefinitions;
-      }
-
       if (firesLayer) {
-        firesLayer.visibleLayers.forEach(function (val) {
-          var currentString = defs[val];
-          if (currentString) {
-            if (currentString.indexOf('CONFIDENCE >= 30') > -1) {
-              var string = currentString.split('>= 30')[0];
-              defs[val] = string + '>= 30 AND ' + queryString;
-            } else {
-              defs[val] = queryString;
-            }
-          } else {
-            defs[val] = queryString;
-          }
-        });
-
-        firesLayer.setLayerDefinitions(defs, dontRefresh);
+        // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
+        // We are hiding and showing the layer to avoid calling the service multiple times.
+        firesLayer.hide();
+        var layaDefs = [];
+        switch (optionIndex) {
+          case 0:
+            //past 24 hours
+            firesLayer.url = _config.shortTermServices.modis24HR.url;
+            firesLayer._url.path = _config.shortTermServices.modis24HR.url;
+            firesLayer.setVisibleLayers([_config.shortTermServices.modis24HR.id]);
+            break;
+          case 1:
+            //past 48 hours
+            firesLayer.url = _config.shortTermServices.modis48HR.url;
+            firesLayer._url.path = _config.shortTermServices.modis48HR.url;
+            firesLayer.setVisibleLayers([_config.shortTermServices.modis48HR.id]);
+            break;
+          case 2:
+            //past 72 hours
+            firesLayer.url = _config.shortTermServices.modis7D.url;
+            firesLayer._url.path = _config.shortTermServices.modis7D.url;
+            firesLayer.setVisibleLayers([_config.shortTermServices.modis7D.id]);
+            layaDefs[_config.shortTermServices.modis7D.id] = 'Date > date\'' + new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'';
+            break;
+          case 3:
+            //past 7 days
+            firesLayer.url = _config.shortTermServices.modis7D.url;
+            firesLayer._url.path = _config.shortTermServices.modis7D.url;
+            firesLayer.setVisibleLayers([_config.shortTermServices.modis7D.id]);
+            break;
+          default:
+            console.log('default');
+            break;
+        }
+        firesLayer.setLayerDefinitions(layaDefs);
+        firesLayer.refresh();
+        firesLayer.show();
       }
     },
-    updateViirsDefinitions: function updateViirsDefinitions(optionIndex, dontRefresh) {
-      var value = _config.layerPanelText.firesOptions[optionIndex].value || 1;
-      var queryString = _AppUtils2.default.generateFiresQuery(value);
-
+    updateViirsDefinitions: function updateViirsDefinitions(optionIndex) {
       var viirs = app.map.getLayer(_constants2.default.viirsFires);
-      var defs = void 0;
-
-      if (!viirs) {
-        defs = [];
-      } else {
-        defs = viirs.layerDefinitions;
-      }
 
       if (viirs) {
-        viirs.visibleLayers.forEach(function (val) {
-          var currentString = defs[val];
-          if (currentString) {
-            defs[val] = queryString;
-          } else {
-            defs[val] = queryString;
-          }
-        });
-
-        viirs.setLayerDefinitions(defs, dontRefresh);
+        // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
+        // We are hiding and showing the layer to avoid calling the service multiple times.
+        viirs.hide();
+        var layaDefs = [];
+        switch (optionIndex) {
+          case 0:
+            //past 24 hours
+            viirs.url = _config.shortTermServices.viirs24HR.url;
+            viirs._url.path = _config.shortTermServices.viirs24HR.url;
+            viirs.setVisibleLayers([_config.shortTermServices.viirs24HR.id]);
+            break;
+          case 1:
+            //past 48 hours
+            viirs.url = _config.shortTermServices.viirs48HR.url;
+            viirs._url.path = _config.shortTermServices.viirs48HR.url;
+            viirs.setVisibleLayers([_config.shortTermServices.viirs48HR.id]);
+            break;
+          case 2:
+            //past 72 hours
+            viirs.url = _config.shortTermServices.viirs7D.url;
+            viirs._url.path = _config.shortTermServices.viirs7D.url;
+            viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
+            layaDefs[_config.shortTermServices.viirs7D.id] = 'Date > date\'' + new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'';
+            break;
+          case 3:
+            //past 7 days
+            viirs.url = _config.shortTermServices.viirs7D.url;
+            viirs._url.path = _config.shortTermServices.viirs7D.url;
+            viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
+            break;
+          default:
+            console.log('default');
+            break;
+        }
+        viirs.setLayerDefinitions(layaDefs);
+        viirs.refresh();
+        viirs.show();
       }
     },
     updatePlantationLayerDefinitions: function updatePlantationLayerDefinitions(optionIndex) {
@@ -836,27 +846,41 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
     updateViirsArchiveDates: function updateViirsArchiveDates(clauseArray) {
       app.debug('LayersHelper >>> updateArchiveDates');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-      var archiveLayer = app.map.getLayer(_constants2.default.viirsArchive);
+      var archiveLayer = app.map.getLayer(_constants2.default.viirsFires);
       if (archiveLayer) {
-
+        // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
+        // We are hiding and showing the layer to avoid calling the service multiple times.
+        archiveLayer.hide();
+        archiveLayer.url = _config.shortTermServices.viirs1YR.url;
+        archiveLayer._url.path = _config.shortTermServices.viirs1YR.url;
+        archiveLayer.setVisibleLayers([_config.shortTermServices.viirs1YR.id]);
         var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
         var layerDefs = [];
-        layerDefs[8] = string;
+        layerDefs[_config.shortTermServices.viirs1YR.id] = string;
 
         archiveLayer.setLayerDefinitions(layerDefs);
+        archiveLayer.refresh();
+        archiveLayer.show();
       }
     },
     updateModisArchiveDates: function updateModisArchiveDates(clauseArray) {
       app.debug('LayersHelper >>> updateArchiveDates');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
-      var archiveLayer = app.map.getLayer(_constants2.default.modisArchive);
+      var archiveLayer = app.map.getLayer(_constants2.default.activeFires);
       if (archiveLayer) {
-
+        // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
+        // We are hiding and showing the layer to avoid calling the service multiple times.
+        archiveLayer.hide();
+        archiveLayer.url = _config.shortTermServices.modis1YR.url;
+        archiveLayer._url.path = _config.shortTermServices.modis1YR.url;
+        archiveLayer.setVisibleLayers([_config.shortTermServices.modis1YR.id]);
         var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
         var layerDefs = [];
-        layerDefs[9] = string;
+        layerDefs[_config.shortTermServices.modis1YR.id] = string;
 
         archiveLayer.setLayerDefinitions(layerDefs);
+        archiveLayer.refresh();
+        archiveLayer.show();
       }
     },
     updateNoaaDates: function updateNoaaDates(clauseArray) {

@@ -106,14 +106,6 @@ define(['exports', 'components/LayerPanel/ImagerySettings', 'actions/LayerAction
           _LayersHelper2.default.showLayer(layerObj);
         } else {
           _LayersHelper2.default.hideLayer(layer.id);
-          if (layer.id === 'activeFires') {
-            console.log('removing....');
-            _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
-          }
-          if (layer.id === 'viirsFires') {
-            console.log('removing....');
-            _LayersHelper2.default.hideLayer(_constants2.default.viirsArchive);
-          }
         }
       }
     }, {

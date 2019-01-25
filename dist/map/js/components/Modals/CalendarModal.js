@@ -242,10 +242,6 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 					date: date,
 					dest: 'archiveViirsStartDate'
 				});
-				_LayersHelper2.default.hideLayer(_constants2.default.viirsFires);
-				var layerObj = {};
-				layerObj.layerId = _constants2.default.viirsArchive;
-				_LayersHelper2.default.showLayer(layerObj);
 			}
 		}, {
 			key: 'changeViirsArchiveEnd',
@@ -255,10 +251,6 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 					date: date,
 					dest: 'archiveViirsEndDate'
 				});
-				_LayersHelper2.default.hideLayer(_constants2.default.viirsFires);
-				var layerObj = {};
-				layerObj.layerId = _constants2.default.viirsArchive;
-				_LayersHelper2.default.showLayer(layerObj);
 			}
 		}, {
 			key: 'changeModisArchiveStart',
@@ -268,10 +260,6 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 					date: date,
 					dest: 'archiveModisStartDate'
 				});
-				_LayersHelper2.default.hideLayer(_constants2.default.activeFires);
-				var layerObj = {};
-				layerObj.layerId = _constants2.default.modisArchive;
-				_LayersHelper2.default.showLayer(layerObj);
 			}
 		}, {
 			key: 'changeModisArchiveEnd',
@@ -281,10 +269,6 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 					date: date,
 					dest: 'archiveModisEndDate'
 				});
-				_LayersHelper2.default.hideLayer(_constants2.default.activeFires);
-				var layerObj = {};
-				layerObj.layerId = _constants2.default.modisArchive;
-				_LayersHelper2.default.showLayer(layerObj);
 			}
 		}, {
 			key: 'changeNoaaStart',
