@@ -852,8 +852,11 @@ define([
             }).join("','");
           }
 
+          // Land Use Donut Chart works for Indonesia when we use ISO and Province but it breaks the points on the map. TODO TO FIX THIS.
           countryQueryGlobal = "ID_0 = " + this.countryObjId;
+          // countryQueryGlobal = "ISO = '" + this.countryObjId + "'";
           aoiQueryGlobal = "NAME_1 in ('" + adm1Names + "')";
+          // aoiQueryGlobal = "PROVINCE in ('" + adm1Names + "')";
           aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
 
           // NEW - manipulate date here
@@ -2062,10 +2065,9 @@ define([
           if (areaOfInterestType === 'GLOBAL') {
             // Assign correct query url
             var url;
-            if (districtLayerId === 8) {
+            if (districtLayerId === 0) {
               url = Config.firesLayer.global_viirs;
-            }
-            if (districtLayerId === 9) {
+            } else if (districtLayerId === 21) {
               url = Config.firesLayer.global_modis;
             }
             queryTask = new QueryTask(url);
@@ -2078,10 +2080,9 @@ define([
           } else if (areaOfInterestType === 'ALL') {
             // Assign correct query url
             var url;
-            if (districtLayerId === 8) {
+            if (districtLayerId === 0) {
               url = Config.firesLayer.global_viirs;
-            }
-            if (districtLayerId === 9) {
+            } else if (districtLayerId === 21) {
               url = Config.firesLayer.global_modis;
             }
             queryTask = new QueryTask(url);

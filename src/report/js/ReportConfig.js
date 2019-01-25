@@ -1970,6 +1970,8 @@ module.exports = {
         'Bermuda': 26,
         'Taiwan': 225,
         'Indonesia': 106,
+        // Land Use Donut Chart works for Indonesia when we use ISO and Province but it breaks the points on the map. TODO TO FIX THIS.
+        // 'Indonesia': 'IDN',
         'Saint-Barthélemy': 190,
         'Barbados': 21,
         'Republic of Congo': 185,

@@ -1719,6 +1719,8 @@ define(["module"], function (module) {
             'Bermuda': 26,
             'Taiwan': 225,
             'Indonesia': 106,
+            // Land Use Donut Chart works for Indonesia when we use ISO and Province but it breaks the points on the map. TODO TO FIX THIS.
+            // 'Indonesia': 'IDN',
             'Saint-Barthélemy': 190,
             'Barbados': 21,
             'Republic of Congo': 185,
@@ -1822,20 +1824,20 @@ define(["module"], function (module) {
         firesLayer: {
             urlIsland: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
             urlGlobal: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
-            viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
-            modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
-            global_viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/8',
-            global_modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/9',
+            viirs: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer/',
+            modis: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/',
+            global_viirs: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer/0',
+            global_modis: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/21',
             admin_service: 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer',
             id: "Active_Fires",
             fire_id: 0,
-            fire_id_global_viirs: 8,
-            fire_id_global_modis: 9,
-            fire_id_all_viirs: 8,
-            fire_id_all_modis: 9,
+            fire_id_global_viirs: 0,
+            fire_id_global_modis: 21,
+            fire_id_all_viirs: 0,
+            fire_id_all_modis: 21,
             fire_id_island_modis: 0,
             fire_id_island_viirs: 11,
-            defaultLayers: [8, 9],
+            defaultLayers: [0, 21],
             defaultLayersIsland: [0, 11],
             query: {
                 layerId: 0,
@@ -1942,15 +1944,15 @@ define(["module"], function (module) {
             },
             fire_stats_global: {
                 id: 0,
-                id_viirs: 8,
-                id_modis: 9,
+                id_viirs: 0,
+                id_modis: 21,
                 outField: 'fire_count',
                 onField: 'NAME_1'
             },
             fire_stats_all: {
                 id: 0,
-                id_viirs: 8,
-                id_modis: 9,
+                id_viirs: 0,
+                id_modis: 21,
                 outField: 'fire_count',
                 onField: 'NAME_ENGLISH'
             }
@@ -2050,15 +2052,15 @@ define(["module"], function (module) {
             },
             fire_stats_global: {
                 id: 0,
-                id_viirs: 8,
-                id_modis: 9,
+                id_viirs: 0,
+                id_modis: 21,
                 outField: 'fire_count',
                 onField: 'NAME_2'
             },
             fire_stats_all: {
                 id: 0,
-                id_viirs: 8,
-                id_modis: 9,
+                id_viirs: 0,
+                id_modis: 21,
                 outField: 'fire_count',
                 onField: 'NAME_1'
             },
