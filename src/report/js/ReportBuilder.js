@@ -852,11 +852,8 @@ define([
             }).join("','");
           }
 
-          // Land Use Donut Chart works for Indonesia when we use ISO and Province but it breaks the points on the map. TODO TO FIX THIS.
           countryQueryGlobal = "ID_0 = " + this.countryObjId;
-          // countryQueryGlobal = "ISO = '" + this.countryObjId + "'";
           aoiQueryGlobal = "NAME_1 in ('" + adm1Names + "')";
-          // aoiQueryGlobal = "PROVINCE in ('" + adm1Names + "')";
           aoi = [countryQueryGlobal, aoiQueryGlobal].join(' AND ');
 
           // NEW - manipulate date here
@@ -886,13 +883,10 @@ define([
           const enddate = "ACQ_DATE <= date'" + this.enddate + "'";
           let countryQueryGlobal;
           let aoiQueryGlobal;
-
           if (aoiType === 'ISLAND') {
             aoi = aoiType + " in ('" + aoiData + "')";
           } else if (aoiType === 'ALL') {
             aoi = "";
-          } else if (aoiType === 'GLOBAL') {
-            console.log("aoi type is global we don't know what to do");
           } else if (
             queryType === 'queryFireData' ||
             queryType === 'rspoQuery' ||
@@ -900,8 +894,12 @@ define([
             queryType === 'palmoilQuery' ||
             queryType === 'pulpwoodQuery'
           ) {
-            aoiQueryGlobal = "PROVINCE in ('" + window.reportOptions.stateObjects.map(adm1 => { return adm1.name_1; }).join("','") + "')";
-            aoi = aoiQueryGlobal;
+            if (window.reportOptions.stateObjects) {
+              aoiQueryGlobal = "PROVINCE in ('" + window.reportOptions.stateObjects.map(adm1 => { return adm1.name_1; }).join("','") + "')";
+              aoi = aoiQueryGlobal;
+            } else {
+              aoi = `PROVINCE in ('${window.reportOptions.aois}')`;
+            }
           } else {
             countryQueryGlobal = "ID_0 = " + this.countryObjId;
             aoiQueryGlobal = "NAME_1 in ('" + aoiData + "')";
@@ -909,9 +907,11 @@ define([
           }
 
           let sql;
-          if (window.reportOptions.aois || window.reportOptions.stateObjects) sql = [startdate, enddate, aoi].join(' AND ');
-          else sql = [startdate, enddate].join(' AND ');
-
+          if (window.reportOptions.aois || window.reportOptions.stateObjects) {
+            sql = [startdate, enddate, aoi].join(' AND ');
+          } else {
+            sql = [startdate, enddate].join(' AND ');
+          }
           return sql;
         },
 
@@ -977,8 +977,6 @@ define([
             addFirePoints(defaultLayers, 'globalFires');
           } else if (aoitype === 'ALL') {
             addFirePoints(defaultLayers, 'allFires');
-          } else {
-            addFirePoints(defaultLayersIsland, 'indonesianFires');
           }
 
           function addFirePoints(ids, layerId) {
@@ -991,25 +989,25 @@ define([
             // Need to handle global reports differently than before
             if (aoitype === 'GLOBAL') {
               // Set Image Parameters
-              var viirsParams = new ImageParameters();
+              const viirsParams = new ImageParameters();
               viirsParams.format = 'png32';
               viirsParams.layerIds = [fire_id_global_viirs];
               viirsParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
               viirsLayerDefs[fire_id_global_viirs] = self.get_global_layer_definition();
 
-              var modisParams = new ImageParameters();
+              const modisParams = new ImageParameters();
               modisParams.format = 'png32';
               modisParams.layerIds = [fire_id_global_modis];
               modisParams.layerOption = ImageParameters.LAYER_OPTION_SHOW;
               modisLayerDefs[fire_id_global_modis] = self.get_global_layer_definition();
 
               // Create Layer
-              var viirsLayer = new ArcGISDynamicLayer(viirs, {
+              const viirsLayer = new ArcGISDynamicLayer(viirs, {
                 imageParameters: viirsParams,
                 id: 'viirs',
                 visible: true
               });
-              var modisLayer = new ArcGISDynamicLayer(modis, {
+              const modisLayer = new ArcGISDynamicLayer(modis, {
                 imageParameters: modisParams,
                 id: 'modis',
                 visible: true
@@ -1024,7 +1022,7 @@ define([
               modisLayer.on('load', () => {
                 deferred.resolve(true);
               });
-            } else if(window.reportOptions.aoitype === 'ALL') {
+            } else if (aoitype === 'ALL') {
               viirsLayerDefs[fire_id_all_viirs] = self.get_all_layer_definition();
               modisLayerDefs[fire_id_all_modis] = self.get_all_layer_definition();
 
@@ -2456,7 +2454,7 @@ define([
 
           dateString = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + (time.getDate()) + " " +
               time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds();
-          var layerdef = self.get_layer_definition('queryFireData');
+          const layerdef = self.get_layer_definition('queryFireData');
           query.where = (config.where === undefined) ? layerdef : layerdef + " AND " + config.where;
 
           query.returnGeometry = config.returnGeometry || false;
