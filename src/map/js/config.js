@@ -87,7 +87,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(8, 'd'),
         method: 'changeAnalysisStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisStart',
         domClass: 'analysis-start'
       },
@@ -95,7 +95,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(1, 'd'),
         method: 'changeAnalysisEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/01/2013'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'analysisEnd',
         domClass: 'analysis-end'
       },
@@ -119,7 +119,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeViirsArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/08/2016'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveViirsStart',
         domClass: 'viirs-archive-start'
       },
@@ -127,7 +127,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeViirsArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/08/2016'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveViirsEnd',
         domClass: 'viirs-archive-end'
       },
@@ -135,7 +135,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(14, 'd'),
         method: 'changeModisArchiveStart',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/02/2012'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveModisStart',
         domClass: 'modis-archive-start'
       },
@@ -143,7 +143,7 @@ export const config = {
         date: new window.Kalendae.moment().subtract(7, 'd'),
         method: 'changeModisArchiveEnd',
         direction: 'past',
-        startDate: new window.Kalendae.moment('01/02/2012'),
+        startDate: new window.Kalendae.moment().subtract(1, 'y'),
         domId: 'archiveModisEnd',
         domClass: 'modis-archive-end'
       },
@@ -263,6 +263,42 @@ export const config = {
   * - Add any extra layer params as needed, check LayerFactory to see which ones are supported and feel free to add more if necessary
   * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
   */
+
+  shortTermServices: {
+    modis24HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
+      id: 21
+    },
+    modis48HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer',
+      id: 21
+    },
+    modis7D: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer',
+      id: 21
+    },
+    modis1YR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer',
+      id: 21
+    },
+    viirs24HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
+      id: 21
+    },
+    viirs48HR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer',
+      id: 21
+    },
+    viirs7D: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer',
+      id: 21
+    },
+    viirs1YR: {
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
+      id: 0
+    },
+  },
+
   layers: [
     {
       id: KEYS.viirsFires,
@@ -271,10 +307,9 @@ export const config = {
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [8],
+      layerIds: [21],
       className: 'viirs-fires',
-      defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -299,10 +334,9 @@ export const config = {
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,
-      layerIds: [9],
-      defaultDefinitionExpression: `Date > date'${new window.Kalendae.moment().subtract(1, 'd').format('YYYY-MM-DD HH:mm:ss')}'`,
+      layerIds: [21],
       className: 'active-fires',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
@@ -955,40 +989,6 @@ export const config = {
       metadataId: 'firms_active_fires'
     },
     {
-      id: KEYS.modisArchive,
-      type: 'dynamic',
-      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      layerIds: [9],
-      opacity: 1,
-      className: 'modis-archive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
-          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
-          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
-          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
-          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
-    },
-    {
-      id: KEYS.viirsArchive,
-      type: 'dynamic',
-      layerIds: [8],
-      defaultDefinitionExpression: "ACQ_DATE < date'" + new window.Kalendae.moment().subtract(1, 'w').format('M/D/YYYY') + "' AND ACQ_DATE > date'" + new window.Kalendae.moment().subtract(2, 'w').format('M/D/YYYY') + "'",
-      opacity: 1,
-      className: 'viirs-achive',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS/MapServer',
-      infoTemplate: {
-        content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI4}</td></tr>' +
-          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
-          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
-          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
-          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-      }
-    },
-    {
       id: KEYS.planetBasemap,
       metadataId: 'planet_basemaps'
     }
@@ -1135,7 +1135,8 @@ export const config = {
       treeCover: {
         densityFirst: 'Displaying',
         densitySecond: 'canopy density.'
-      }
+      },
+      calendarValidation: 'Start date cannot be before end date'
     },
     analysisPanel: {
       searchWidgetId: 'esri-search-widget',
@@ -1148,7 +1149,7 @@ export const config = {
         domClass: 'analysisLegend',
         childDomClass: 'analysis-child',
         minLabel: 'START DATE',
-        minLabelPlus: 'START DATE: Available from 1 January 2013',
+        minLabelPlus: 'START DATE',
         maxLabel: 'END DATE'
       },
       imageryTabId: 'imageryTab',
@@ -1156,17 +1157,19 @@ export const config = {
       // TODO: separate below text out of config for simple locale swapping
       searchPlaceholder: 'Search for a location',
       analysisButtonLabel: 'GENERATE',
-      analysisButtonClear: 'CLEAR ALL',
+      analysisButtonClear: 'clear selection',
       analysisAreaTitle: 'Fire Report',
       indonesiaReportTitle: 'Indonesia Specialty Report',
       globalReportTitle: 'Country Report',
-      analysisAreaHeader: 'View fire statistics for the last 7 days for any country',
+      analysisAreaHeader: 'View global and country fire statistics',
       analysisTimeframeHeader: 'Select any time frame of interest:',
       analysisTabLabel: 'Fire Report',
       analysisCustomize: 'CUSTOMIZE',
       analysisChoose: 'Choose your own custom time period and geographic area.',
       analysisIndonesiaChooseData: 'Analyze concession data from:',
       analysisCountryChooseData: 'Pick a country:',
+      analysisInvalidDatesErrorMessage: 'Start date cannot be before end date',
+      analysisDateRangeErrorMessage: 'Fire report is available for the last 12 months',
       subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',
@@ -1461,3 +1464,4 @@ export const metadataUrl = config.text.metadataUrl;
 export const alertsModalConfig = config.alertsModal;
 export const fireModalConfig = config.firesModal;
 export const layerInformation = config.text.layerInformation;
+export const shortTermServices = config.shortTermServices;

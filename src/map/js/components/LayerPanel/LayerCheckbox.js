@@ -35,17 +35,10 @@ export default class LayerCheckbox extends React.Component {
         LayersHelper.showLayer(layerObj);
       } else {
         LayersHelper.hideLayer(this.props.layer.id);
-        if (this.props.layer.id === 'activeFires') {
-          console.log('removing....')
-          LayersHelper.hideLayer(KEYS.modisArchive);
-        }
-        if (this.props.layer.id === 'viirsFires') {
-          console.log('removing....')
-          LayersHelper.hideLayer(KEYS.viirsArchive);
-        }
       }
     }
   }
+
 
   shouldComponentUpdate(nextProps) {
     return nextProps.checked !== this.props.checked || this.props.children;

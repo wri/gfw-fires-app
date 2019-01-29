@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'components/AnalysisPanel/IndonesiaSpecialtyReport', 'components/AnalysisPanel/GlobalCountryReport'], function (exports, _config, _MapStore, _react, _chosen, _IndonesiaSpecialtyReport, _GlobalCountryReport) {
+define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'components/AnalysisPanel/GlobalCountryReport'], function (exports, _config, _MapStore, _react, _chosen, _GlobalCountryReport) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,8 +8,6 @@ define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'component
   var _react2 = _interopRequireDefault(_react);
 
   var _chosen2 = _interopRequireDefault(_chosen);
-
-  var _IndonesiaSpecialtyReport2 = _interopRequireDefault(_IndonesiaSpecialtyReport);
 
   var _GlobalCountryReport2 = _interopRequireDefault(_GlobalCountryReport);
 
@@ -130,8 +128,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'react', 'chosen', 'component
           _react2.default.createElement(
             'div',
             { className: 'reports-container' },
-            _react2.default.createElement(_GlobalCountryReport2.default, this.props),
-            _react2.default.createElement(_IndonesiaSpecialtyReport2.default, this.props)
+            _react2.default.createElement(_GlobalCountryReport2.default, this.props)
           )
         );
       }

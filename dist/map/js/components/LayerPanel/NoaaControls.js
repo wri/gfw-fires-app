@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _MapStore, _MapActions, _DateHelper, _react) {
+define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'js/config', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _MapStore, _MapActions, _DateHelper, _config, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -115,7 +115,12 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
               'button',
               { className: 'gfw-btn white pointer ' + (this.state.calendarVisible === 'noaaEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
               _DateHelper2.default.getDate(endDate)
-            )
+            ),
+            new Date(this.state.noaaEndDate) < new Date(this.state.noaaStartDate) ? _react2.default.createElement(
+              'p',
+              { className: 'error-message' },
+              _config.layerPanelText.calendarValidation
+            ) : ''
           )
         );
       }

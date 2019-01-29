@@ -150,7 +150,12 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
               'button',
               { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
               _DateHelper2.default.getDate(endDate)
-            )
+            ),
+            new Date(this.props.archiveModisEndDate) < new Date(this.props.archiveModisStartDate) ? _react2.default.createElement(
+              'p',
+              { className: 'error-message' },
+              _config.layerPanelText.calendarValidation
+            ) : ''
           )
         );
       }
@@ -182,10 +187,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
       key: 'changeFiresTimeline',
       value: function changeFiresTimeline(evt) {
         _LayerActions.layerActions.changeFiresTimeline(evt.target.selectedIndex);
-        _LayersHelper2.default.hideLayer(_constants2.default.modisArchive);
-        var layerObj = {};
-        layerObj.layerId = _constants2.default.activeFires;
-        _LayersHelper2.default.showLayer(layerObj);
 
         if (this.state.modisArchiveVisible === true) {
           this.setState({ modisArchiveVisible: false });

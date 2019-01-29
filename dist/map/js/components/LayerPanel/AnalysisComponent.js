@@ -1,4 +1,4 @@
-define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper', 'actions/ModalActions', 'react'], function (exports, _MapStore, _MapActions, _DateHelper, _ModalActions, _react) {
+define(['exports', 'js/config', 'actions/MapActions', 'helpers/DateHelper', 'actions/ModalActions', 'react'], function (exports, _config, _MapActions, _DateHelper, _ModalActions, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -66,26 +66,17 @@ define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper'
   var AnalysisComponent = function (_React$Component) {
     _inherits(AnalysisComponent, _React$Component);
 
-    function AnalysisComponent(props) {
+    function AnalysisComponent() {
       _classCallCheck(this, AnalysisComponent);
 
-      var _this = _possibleConstructorReturn(this, (AnalysisComponent.__proto__ || Object.getPrototypeOf(AnalysisComponent)).call(this, props));
-
-      _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
-      _this.state = _MapStore.mapStore.getState();
-      return _this;
+      return _possibleConstructorReturn(this, (AnalysisComponent.__proto__ || Object.getPrototypeOf(AnalysisComponent)).apply(this, arguments));
     }
 
     _createClass(AnalysisComponent, [{
-      key: 'storeUpdated',
-      value: function storeUpdated() {
-        this.setState(_MapStore.mapStore.getState());
-      }
-    }, {
       key: 'render',
       value: function render() {
-        var startDate = window.Kalendae.moment(this.state.analysisStartDate);
-        var endDate = window.Kalendae.moment(this.state.analysisEndDate);
+        var startDate = window.Kalendae.moment(this.props.analysisStartDate);
+        var endDate = window.Kalendae.moment(this.props.analysisEndDate);
 
         return _react2.default.createElement(
           'div',
@@ -94,26 +85,39 @@ define(['exports', 'stores/MapStore', 'actions/MapActions', 'helpers/DateHelper'
             'div',
             { id: 'analysis-date-ranges' },
             _react2.default.createElement(
-              'span',
-              { className: 'imagery-calendar-label' },
-              this.props.options.minLabelPlus
+              'div',
+              { className: 'analysis-date-ranges__range-container' },
+              _react2.default.createElement(
+                'span',
+                { className: 'imagery-calendar-label' },
+                this.props.options.minLabelPlus
+              ),
+              _react2.default.createElement(
+                'button',
+                { className: 'gfw-btn no-pad white pointer ' + (this.props.calendarVisible === 'analysisStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
+                _DateHelper2.default.getDate(startDate)
+              )
             ),
             _react2.default.createElement(
-              'button',
-              { className: 'gfw-btn no-pad white pointer ' + (this.state.calendarVisible === 'analysisStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
-              _DateHelper2.default.getDate(startDate)
-            ),
-            _react2.default.createElement(
-              'span',
-              { className: 'imagery-calendar-label' },
-              this.props.options.maxLabel
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'gfw-btn no-pad white pointer ' + (this.state.calendarVisible === 'analysisEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
-              _DateHelper2.default.getDate(endDate)
+              'div',
+              { className: 'analysis-date-ranges__range-container' },
+              _react2.default.createElement(
+                'span',
+                { className: 'imagery-calendar-label' },
+                this.props.options.maxLabel
+              ),
+              _react2.default.createElement(
+                'button',
+                { className: 'gfw-btn no-pad white pointer ' + (this.props.calendarVisible === 'analysisEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
+                _DateHelper2.default.getDate(endDate)
+              )
             )
-          )
+          ),
+          new Date(this.props.analysisEndDate) < new Date(this.props.analysisStartDate) ? _react2.default.createElement(
+            'p',
+            { className: 'error-message' },
+            _config.analysisPanelText.analysisInvalidDatesErrorMessage
+          ) : ''
         );
       }
     }, {

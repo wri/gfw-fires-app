@@ -62,6 +62,7 @@ export default class ViirsControls extends React.Component {
         <button className={`gfw-btn white pointer ${this.props.calendarVisible === 'archiveStart' ? ' current' : ''}`} onClick={this.changeStart.bind(this)}>{DateHelper.getDate(startDate)}</button>
         <span className='imagery-calendar-label'>{this.props.options.maxLabel}</span>
         <button className={`gfw-btn white pointer ${this.props.calendarVisible === 'archiveEnd' ? ' current' : ''}`} onClick={this.changeEnd.bind(this)}>{DateHelper.getDate(endDate)}</button>
+        { new Date(this.props.archiveViirsEndDate) < new Date(this.props.archiveViirsStartDate) ? <p className="error-message">{layerPanelText.calendarValidation}</p> : '' }
       </div>
     </div>;
   }
@@ -82,10 +83,6 @@ export default class ViirsControls extends React.Component {
 
   changeViirsTimeline (evt) {
     layerActions.changeViirsTimeline(evt.target.selectedIndex);
-    LayersHelper.hideLayer(KEYS.viirsArchive);
-    let layerObj = {};
-		layerObj.layerId = KEYS.viirsFires;
-		LayersHelper.showLayer(layerObj);
 
     if (this.state.viirsArchiveVisible === true) {
       this.setState({ viirsArchiveVisible: false });

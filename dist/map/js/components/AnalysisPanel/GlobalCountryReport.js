@@ -123,11 +123,8 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
             label: country
           };
         });
-        // A default select option
+        // Add Global Report option to top
         countriesList.unshift({
-          value: '',
-          label: 'Select a Country'
-        }, {
           value: 'ALL',
           label: 'Global Report'
         });
@@ -152,47 +149,31 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
           };
         });
 
+        countrySubRegionsList.unshift({
+          value: 'ALL',
+          label: 'All Subregions'
+        });
+
         return _react2.default.createElement(
           'div',
           { className: 'report-width' },
           _react2.default.createElement(
-            'h4',
-            { className: 'country-report__title' },
-            _config.analysisPanelText.globalReportTitle
-          ),
-          _react2.default.createElement(
             'div',
             { className: 'padding' },
             _react2.default.createElement(_reactSelect2.default, {
+              placeholder: 'Select a country',
               value: this.state.selectedGlobalCountry,
               onChange: this.handleGlobalCountryChange.bind(this),
               multi: false,
               options: countriesList
             })
           ),
-          _react2.default.createElement(
-            'p',
-            { className: 'customize-report-label', onClick: this.toggleCustomize },
-            _config.analysisPanelText.analysisCustomize,
-            _react2.default.createElement(
-              'span',
-              { className: 'analysis-toggle' },
-              this.props.customizeCountryOpen ? ' ▼' : ' ►'
-            )
-          ),
-          _react2.default.createElement(
+          this.state.selectedGlobalCountry && this.state.selectedGlobalCountry !== 'ALL' && _react2.default.createElement(
             'div',
-            { className: 'customize-options ' + (this.props.customizeCountryOpen === true ? '' : 'hidden') },
+            null,
             _react2.default.createElement(
               'div',
               { className: 'padding' },
-              _react2.default.createElement(
-                'p',
-                null,
-                'Select ',
-                this.state.currentCountry,
-                '\'s subregions: '
-              ),
               _react2.default.createElement(_reactSelect2.default, {
                 placeholder: 'Select a subregion',
                 onChange: this.handleSubRegionChange.bind(this),
@@ -202,23 +183,18 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
               })
             ),
             _react2.default.createElement(
-              'button',
-              { onClick: this.clearSubregions.bind(this), className: 'gfw-btn blue' },
+              'div',
+              { onClick: this.clearSubregions.bind(this), className: 'clear-selection ' + (this.state.selectedSubRegion ? 'active' : 'inactive') },
               _config.analysisPanelText.analysisButtonClear
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              _config.analysisPanelText.analysisTimeframeHeader
-            ),
-            _react2.default.createElement(_AnalysisComponent2.default, _extends({}, this.state, { options: _config.analysisPanelText.analysisCalendar }))
+            )
           ),
+          _react2.default.createElement(_AnalysisComponent2.default, _extends({}, this.state, { options: _config.analysisPanelText.analysisCalendar })),
           _react2.default.createElement(
             'div',
             { className: 'no-shrink analysis-footer text-center' },
             _react2.default.createElement(
               'button',
-              { onClick: this.countryAnalysis.bind(this), className: 'gfw-btn blue' },
+              { onClick: this.countryAnalysis.bind(this), className: 'gfw-btn blue', disabled: !this.state.selectedGlobalCountry || new Date(this.state.analysisEndDate) < new Date(this.state.analysisStartDate) },
               _config.analysisPanelText.analysisButtonLabel
             )
           )
@@ -227,30 +203,8 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'handleSubRegionChange',
       value: function handleSubRegionChange(selected) {
-        var _this3 = this;
-
         if (selected === null) {
-          var countrySubRegions = this.props.adm1.filter(function (o) {
-            return o.NAME_0 === _this3.state.selectedGlobalCountry;
-          });
-          countrySubRegions.sort(function (a, b) {
-            if (a.NAME_1 < b.NAME_1) {
-              return -1;
-            }
-            if (a.NAME_1 > b.NAME_1) {
-              return 1;
-            }
-            return 0;
-          });
-
-          var countrySubRegionsList = countrySubRegions.map(function (state) {
-            return {
-              value: state.NAME_1,
-              label: state.NAME_1
-            };
-          });
-
-          this.setState({ selectedSubRegion: countrySubRegionsList });
+          this.setState({ selectedSubRegion: { value: 'ALL', label: 'All Subregions' } });
         } else {
           this.setState({ selectedSubRegion: selected });
         }
@@ -258,32 +212,8 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'handleGlobalCountryChange',
       value: function handleGlobalCountryChange(selected) {
-        var _this4 = this;
-
         if (selected) {
-          this.setState({ selectedGlobalCountry: selected.value }, function () {
-            var countrySubRegions = _this4.props.adm1.filter(function (o) {
-              return o.NAME_0 === selected.value;
-            });
-            countrySubRegions.sort(function (a, b) {
-              if (a.NAME_1 < b.NAME_1) {
-                return -1;
-              }
-              if (a.NAME_1 > b.NAME_1) {
-                return 1;
-              }
-              return 0;
-            });
-
-            var countrySubRegionsList = countrySubRegions.map(function (state) {
-              return {
-                value: state.NAME_1,
-                label: state.NAME_1
-              };
-            });
-
-            _this4.setState({ selectedSubRegion: countrySubRegionsList });
-          });
+          this.setState({ selectedGlobalCountry: selected.value, selectedSubRegion: { value: 'ALL', label: 'All Subregions' } });
         } else {
           this.setState({ selectedGlobalCountry: '' });
         }
@@ -296,7 +226,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
     }, {
       key: 'clearSubregions',
       value: function clearSubregions() {
-        this.setState({ selectedSubRegion: '' });
+        this.setState({ selectedSubRegion: { value: 'ALL', label: 'All Subregions' } });
       }
     }, {
       key: 'countryAnalysis',
@@ -331,8 +261,7 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
         var reportTypeString = 'reporttype=' + reportType;
         var countryString = 'country=' + country;
 
-        var countryRegionString = countryRegion.length ? '' : 'aois=' + countryRegion.value;
-
+        var countryRegionString = countryRegion.value === 'ALL' ? '' : 'aois=' + countryRegion.value;
         var dateArgs = [];
         var dateString = 'dates=';
         for (var val in dates) {
