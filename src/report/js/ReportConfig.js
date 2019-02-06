@@ -2089,15 +2089,15 @@ module.exports = {
         global_modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/21',
         admin_service: 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer',
         id: "Active_Fires",
-        fire_id: 0, // Not part of short term services. Don't config. 
+        fire_id: 0,
         fire_id_global_viirs: shortTermServices.viirs1YR.id,
         fire_id_global_modis: shortTermServices.modis1YR.id,
         fire_id_all_viirs: shortTermServices.viirs1YR.id,
         fire_id_all_modis: shortTermServices.modis1YR.id,
-        fire_id_island_modis: 0, // Not part of short term services. Don't config.
+        fire_id_island_modis: 0,
         fire_id_island_viirs: 11,
         defaultLayers: [shortTermServices.viirs1YR.id, shortTermServices.modis1YR.id],
-        defaultLayersIsland: [0, 11], // Not part of short term services. Don't config.
+        defaultLayersIsland: [0, 11],
         query: {
             layerId: 0,
             outfields: ["*"],
@@ -2178,7 +2178,7 @@ module.exports = {
         legendId: "SubDistrict-legend",
         queryKey: 'subDistrictQuery',
         loaderId: 'subdistmapload',
-        relatedTableId: "subdistrict-fires-table",
+        relatedTableId: "subdistrict-fires-table"
     },
     adminQuery: {
         outFields: ['DISTRICT', 'fire_count'],
@@ -2202,16 +2202,16 @@ module.exports = {
             onField: 'DISTRICT'
         },
         fire_stats_global: {
-            id: 0,
-            id_viirs: 0,
-            id_modis: 21,
+            id: shortTermServices.viirs1YR.id,
+            id_viirs: shortTermServices.viirs1YR.id,
+            id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
             onField: 'NAME_1'
         },
         fire_stats_all: {
-            id: 0,
-            id_viirs: 0,
-            id_modis: 21,
+            id: shortTermServices.viirs1YR.id,
+            id_viirs: shortTermServices.viirs1YR.id,
+            id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
             onField: 'NAME_ENGLISH'
         }
@@ -2342,16 +2342,16 @@ module.exports = {
             onField: 'SUBDISTRIC'
         },
         fire_stats_global: {
-            id: 0,
-            id_viirs: 0,
-            id_modis: 21,
+            id: shortTermServices.viirs1YR.id,
+            id_viirs: shortTermServices.viirs1YR.id,
+            id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
             onField: 'NAME_2'
         },
         fire_stats_all: {
-            id: 0,
-            id_viirs: 0,
-            id_modis: 21,
+            id: shortTermServices.viirs1YR.id,
+            id_viirs: shortTermServices.viirs1YR.id,
+            id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
             onField: 'NAME_1'
         },
