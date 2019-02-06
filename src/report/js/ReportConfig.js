@@ -1,3 +1,5 @@
+import { shortTermServices } from '.config.js';
+
 module.exports = {
     zoom: 1,
     basemap: 'dark-gray',
@@ -2081,21 +2083,21 @@ module.exports = {
     firesLayer: {
         urlIsland: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         urlGlobal: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
-        viirs: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer/',
-        modis: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/',
-        global_viirs: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer/0',
-        global_modis: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/21',
+        viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
+        modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer',
+        global_viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer/0',
+        global_modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/21',
         admin_service: 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer',
         id: "Active_Fires",
-        fire_id: 0,
-        fire_id_global_viirs: 0,
-        fire_id_global_modis: 21,
-        fire_id_all_viirs: 0,
-        fire_id_all_modis: 21,
-        fire_id_island_modis: 0,
+        fire_id: 0, // Not part of short term services. Don't config. 
+        fire_id_global_viirs: shortTermServices.viirs1YR.id,
+        fire_id_global_modis: shortTermServices.modis1YR.id,
+        fire_id_all_viirs: shortTermServices.viirs1YR.id,
+        fire_id_all_modis: shortTermServices.modis1YR.id,
+        fire_id_island_modis: 0, // Not part of short term services. Don't config.
         fire_id_island_viirs: 11,
-        defaultLayers: [0, 21],
-        defaultLayersIsland: [0, 11],
+        defaultLayers: [shortTermServices.viirs1YR.id, shortTermServices.modis1YR.id],
+        defaultLayersIsland: [0, 11], // Not part of short term services. Don't config.
         query: {
             layerId: 0,
             outfields: ["*"],

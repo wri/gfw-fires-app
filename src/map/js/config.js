@@ -264,8 +264,6 @@ export const config = {
   * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
   */
 
-
-  // check if we hardcoded and if so, swap for config reference.
   shortTermServices: {
     modis24HR: {
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
@@ -311,7 +309,7 @@ export const config = {
       visible: true,
       layerIds: [21],
       className: 'viirs-fires',
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -338,7 +336,7 @@ export const config = {
       visible: true,
       layerIds: [21],
       className: 'active-fires',
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
