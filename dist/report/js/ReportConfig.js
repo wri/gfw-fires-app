@@ -1,3 +1,5 @@
+import { shortTermServices } from '.config.js';
+
 define(["module"], function (module) {
     "use strict";
 
@@ -1388,7 +1390,7 @@ define(["module"], function (module) {
             "Alpha-2 code": "TK",
             "Alpha-3 code": "TKL",
             "Numeric": 772
-        }, {
+        }, {  
             "English short name": "Tonga",
             "French short name": "Tonga (les)",
             "Alpha-2 code": "TO",
@@ -1831,13 +1833,13 @@ define(["module"], function (module) {
             admin_service: 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer',
             id: "Active_Fires",
             fire_id: 0,
-            fire_id_global_viirs: 0,
-            fire_id_global_modis: 21,
-            fire_id_all_viirs: 0,
-            fire_id_all_modis: 21,
+            fire_id_global_viirs: shortTermServices.viirs1YR.id,
+            fire_id_global_modis: shortTermServices.modis1YR.id,
+            fire_id_all_viirs: shortTermServices.viirs1YR.id,
+            fire_id_all_modis: shortTermServices.modis1YR.id,
             fire_id_island_modis: 0,
             fire_id_island_viirs: 11,
-            defaultLayers: [0, 21],
+            defaultLayers: [shortTermServices.viirs1YR.id, shortTermServices.modis1YR.id],
             defaultLayersIsland: [0, 11],
             query: {
                 layerId: 0,
