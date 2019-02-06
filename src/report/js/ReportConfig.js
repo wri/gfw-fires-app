@@ -2083,10 +2083,10 @@ module.exports = {
     firesLayer: {
         urlIsland: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer",
         urlGlobal: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global/MapServer/",
-        viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
-        modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer',
-        global_viirs: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer/0',
-        global_modis: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer/21',
+        viirs: shortTermServices.viirs1YR.url,
+        modis: shortTermServices.modis1YR.url,
+        global_viirs: `${shortTermServices.viirs1YR.url}/${shortTermServices.viirs1YR.id}`,
+        global_modis: `${shortTermServices.modis1YR.url}/${shortTermServices.modis1YR.id}`,
         admin_service: 'https://gis-gfw.wri.org/arcgis/rest/services/admin/MapServer',
         id: "Active_Fires",
         fire_id: 0,
@@ -2202,14 +2202,14 @@ module.exports = {
             onField: 'DISTRICT'
         },
         fire_stats_global: {
-            id: shortTermServices.viirs1YR.id,
+            id: 0,
             id_viirs: shortTermServices.viirs1YR.id,
             id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
             onField: 'NAME_1'
         },
         fire_stats_all: {
-            id: shortTermServices.viirs1YR.id,
+            id: 0,
             id_viirs: shortTermServices.viirs1YR.id,
             id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
@@ -2342,14 +2342,14 @@ module.exports = {
             onField: 'SUBDISTRIC'
         },
         fire_stats_global: {
-            id: shortTermServices.viirs1YR.id,
+            id: 0,
             id_viirs: shortTermServices.viirs1YR.id,
             id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
             onField: 'NAME_2'
         },
         fire_stats_all: {
-            id: shortTermServices.viirs1YR.id,
+            id: 0,
             id_viirs: shortTermServices.viirs1YR.id,
             id_modis: shortTermServices.modis1YR.id,
             outField: 'fire_count',
