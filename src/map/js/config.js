@@ -264,39 +264,43 @@ export const config = {
   * - type should be what the layer contructor expects, these are directly passed to Esri JavaScript layer constructors
   */
 
+
+  // check if we hardcoded and if so, swap for config reference.
+  // check the layer id is the same
+  
   shortTermServices: {
     modis24HR: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
       id: 21
     },
     modis48HR: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer',
       id: 21
     },
     modis7D: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer',
       id: 21
     },
     modis1YR: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer',
       id: 21
     },
     viirs24HR: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
       id: 21
     },
     viirs48HR: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer',
       id: 21
     },
     viirs7D: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer',
       id: 21
     },
     viirs1YR: {
-      url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
       id: 0
-    },
+    }
   },
 
   layers: [
