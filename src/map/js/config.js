@@ -266,8 +266,6 @@ export const config = {
 
 
   // check if we hardcoded and if so, swap for config reference.
-  // check the layer id is the same
-  
   shortTermServices: {
     modis24HR: {
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
