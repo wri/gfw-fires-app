@@ -296,7 +296,7 @@ export const config = {
     viirs1YR: {
       url: 'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer',
       id: 0
-    },
+    }
   },
 
   layers: [
@@ -1041,10 +1041,6 @@ export const config = {
   analysis: {
     searchZoomDefault: 10,
     requests: {
-      provinces: {
-        url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer/7/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=PROVINCE',
-        callback: 'callback'
-      },
       countries: {
         url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/3/query?returnDistinctValues=true&f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=NAME_0',
         callback: 'callback'
