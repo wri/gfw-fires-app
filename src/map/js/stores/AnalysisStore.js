@@ -23,8 +23,6 @@ class AnalysisStore {
     this.subscribeToolsExpanded = false;
     this.timelineVisible = false;
     this.analysisSourceGFW = true;
-    this.islands = [];
-    this.provinces = [];
     this.countries = [];
     this.adm1 = [];
 
@@ -134,8 +132,6 @@ class AnalysisStore {
   }
 
   initAreas (areas) {
-    this.islands = areas.islands;
-    this.provinces = areas.provinces;
     this.countries = areas.countries;
     this.adm1 = areas.adm1;
 
