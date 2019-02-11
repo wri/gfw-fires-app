@@ -1,4 +1,4 @@
-define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/promise/all', 'js/alt'], function (exports, _GraphicsHelper, _config, _request, _all, _alt) {
+define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'js/alt'], function (exports, _GraphicsHelper, _config, _request, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,8 +9,6 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
   var _GraphicsHelper2 = _interopRequireDefault(_GraphicsHelper);
 
   var _request2 = _interopRequireDefault(_request);
-
-  var _all2 = _interopRequireDefault(_all);
 
   var _alt2 = _interopRequireDefault(_alt);
 
@@ -142,22 +140,10 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
       value: function initAreas() {
         var _this = this;
 
-        var islands = [],
-            provinces = [],
-            countries = [],
+        var countries = [],
             adm1 = [];
-        // There is some very wrong with WRI's AGS servers - it seems as if it cannot handle simultaneous requests, promises chaining for now
-        (0, _request2.default)(_config.analysisConfig.requests.islands).then(function (result) {
-          islands = result.features.map(function (f) {
-            return f.attributes.ISLAND;
-          }).sort();
-          return (0, _request2.default)(_config.analysisConfig.requests.provinces);
-        }).then(function (result) {
-          provinces = result.features.map(function (f) {
-            return f.attributes.PROVINCE;
-          }).sort();
-          return (0, _request2.default)(_config.analysisConfig.requests.countries);
-        }).then(function (result) {
+
+        (0, _request2.default)(_config.analysisConfig.requests.countries).then(function (result) {
           countries = result.features.map(function (f) {
             return f.attributes.NAME_0;
           }).sort();
@@ -167,8 +153,6 @@ define(['exports', 'helpers/GraphicsHelper', 'js/config', 'esri/request', 'dojo/
             return f.attributes;
           });
           _this.dispatch({
-            islands: islands,
-            provinces: provinces,
             countries: countries,
             adm1: adm1
           });
