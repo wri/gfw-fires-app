@@ -41,12 +41,14 @@ define([
             if (window.reportOptions.aois) {
               this.aoilist = window.reportOptions.aois;
               document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
+              console.log('in');
             } else if (window.reportOptions.stateObjects) {
+              console.log('out');
               document.querySelector('#aoiList').innerHTML = window.reportOptions.stateObjects.map(adm1 => {
                 return adm1.name_1;
               }).join(', ');
             }
-
+            // Execute when running a Global Report:
 
             var areaOfInterestType = window.reportOptions['aoitype'];
 
@@ -161,18 +163,18 @@ define([
 
         },
 
-        getIdOne: function() {
+          getIdOne: function() {
 
           const deferred = new Deferred();
           const queryTask = new QueryTask(queryURL = `${Config.firesLayer.admin_service}/5`);
           const query = new Query();
           query.returnGeometry = false;
-
           if (window.reportOptions.aois) {
+            console.log('??');
             query.where = `NAME_1 = '${window.reportOptions.aois}'`;
             query.returnGeometry = false;
             query.outFields = ['id_1'];
-
+            
             queryTask.execute(query, (response) => {
               if (response.features.length > 0) {
                 window.reportOptions.aoiId = response.features[0].attributes.id_1;
@@ -182,8 +184,10 @@ define([
               deferred.resolve(false);
             });
           } else if (window.reportOptions.aoitype === 'ALL') {
+            // Global Report
             deferred.resolve(true);
           } else {
+            console.log('yyyy');
             query.where = `NAME_0 = '${window.reportOptions.country}'`;
             query.outFields = ['id_1', 'name_1'];
 
@@ -1499,6 +1503,7 @@ define([
           yearObject['color'] = hexColor;
         },
 
+        // Create the Progression Chart
         getFireCounts: function () {
           const self = this;
           const queryFor = self.currentISO ? self.currentISO : 'global';
@@ -1516,7 +1521,7 @@ define([
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2018-12-25`,
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2018-12-20,2018-12-25`
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2018-12-15,2018-12-30`
             ];
             promiseUrls.push(...urls);
           }
@@ -1524,6 +1529,7 @@ define([
           Promise.all(promiseUrls.map((promiseUrl) => {
             return request.get(promiseUrl, handleAs);
           })).then(responses => {
+            console.log('responses', responses[1].data.attributes.value); // what we want
             let series = [];
             const colors = {};
             let seriesTemp = { data: [], name: '' };
@@ -1535,11 +1541,12 @@ define([
             const baseColor = '#777777';
             let values;
             const backupValues = [];
-
             if (window.reportOptions.aoiId && responses.length > 0) {
+              console.log('??');
               values = responses[1].data.attributes.value;
               backupValues.push(responses[0].data.attributes.value);
             } else {
+              // Global Report
               values = responses[0].data.attributes.value;
               responses.forEach((result, i) => {
                 if (i > 0) {
@@ -1547,19 +1554,24 @@ define([
                 }
               });
             }
+            console.log(backupValues[0]);
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             
             for (var i = 2001; i <= currentYear; i++) {
+              console.log('!!');
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
             
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
+              console.log('???');
+
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
               if (window.reportOptions.aoiId) { //these are country-wide!
+                console.log('wasup');
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
 
@@ -1607,12 +1619,104 @@ define([
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
                 const aoiName = window.reportOptions.country;
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
-
               } else {
-                  window.reportOptions.stateObjects.forEach((adm) => {
+                // Global Report
+                console.log('inside else');
+                const allYearsData = [];
+                const data2001 = [], data2002 = [], data2003 = [], data2004 = [], data2005 = [], data2006 = [], data2007 = [], data2008 = [], data2009 = [], data2010 = [], data2011 = [], data2012 = [], data2013 = [], data2014 = [], data2015 = [], data2016 = [], data2017 = [], data2018 = [], data2019 = [];
+                console.log('backupValue', backupValue);
+                backupValue.forEach((resultObject, i) => {
+                  // check the year
+                  switch (resultObject.year) {
+                    case 2001:
+                      data2001.push(resultObject.alerts);
+                      break;
+                    
+                    case 2002:
+                      data2002.push(resultObject.alerts);
+                      break;
+                    
+                    case 2003:
+                      data2003.push(resultObject.alerts);
+                      break;
+                    
+                    case 2004:
+                      data2004.push(resultObject.alerts);
+                      break;
+                    
+                    case 2005:
+                      data2005.push(resultObject.alerts);
+                      break;
+                    
+                    case 2006:
+                      data2006.push(resultObject.alerts);
+                      break;
+                    
+                    case 2007:
+                      data2007.push(resultObject.alerts);
+                      break;
+                    
+                    case 2008:
+                      data2008.push(resultObject.alerts);
+                      break;
+                    
+                    case 2009:
+                      data2009.push(resultObject.alerts);
+                      break;
+                    
+                    case 2010:
+                      data2010.push(resultObject.alerts);
+                      break;
+                    
+                    case 2011:
+                      data2011.push(resultObject.alerts);
+                      break;
+                    
+                    case 2012:
+                      data2012.push(resultObject.alerts);
+                      break;
+                    
+                    case 2013:
+                      data2013.push(resultObject.alerts);
+                      break;
+                    
+                    case 2014:
+                      data2014.push(resultObject.alerts);
+                      break;
+                    
+                    case 2015:
+                      data2015.push(resultObject.alerts);
+                      break;
+                    
+                    case 2016:
+                      data2016.push(resultObject.alerts);
+                      break;
+                    
+                    case 2017:
+                      data2017.push(resultObject.alerts);
+                      break;                      
+
+                    case 2018:
+                      data2018.push(resultObject.alerts);
+                      break;
+
+                    case 2019:
+                      data2019.push(resultObject.alerts);
+                      break;
+
+                    default:
+                      break;
+                  }
+                })
+                  // push the alerts value to that array at a specific index
+                allYearsData.push(data2001, data2002, data2003, data2004, data2005, data2006, data2007, data2008, data2009, data2010, data2011, data2012, data2013, data2014, data2015, data2016, data2017, data2018, data2019);
+                console.log('allYearsData', allYearsData); // limited to ~40k results before timeout
+                console.log('windowReportOptions', window.reportOptions.stateObjects);
+                window.reportOptions.stateObjects.forEach((adm) => { // There are no stateObjects anyway!
                   backupValue.filter((value) => {
                     return value.adm1 == adm.id_1;
                   }).forEach((bValue, i) => {
+                    console.log('bvalue', bValue);
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
 
@@ -1662,7 +1766,7 @@ define([
 
             tmpArr = [];
             let year;
-
+            console.log(values);
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
                 seriesTemp.name = year;
@@ -1729,13 +1833,15 @@ define([
              }
             }
             series[series.length - 1].data = tempSeries;
-
+            console.log('series', series);
+            console.log('tmpseries', tempSeries);
 
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
             );
 
+            console.log('were inside', series);
             var firesCountChart = Highcharts.chart('firesCountChart', {
               title: {
                 text: ''
