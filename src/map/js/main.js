@@ -44,6 +44,11 @@ let configureApp = () => {
     proxyUrl: '/map/php/proxy.php'
   });
 
+  urlUtils.addProxyRule({
+    urlPrefix: 'https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2019_01_mosaic',
+    proxyUrl: '/map/php/proxy.php'
+  });
+
 };
 
 let lazyloadAssets = () => {
