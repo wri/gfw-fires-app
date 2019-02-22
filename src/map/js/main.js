@@ -45,7 +45,7 @@ let configureApp = () => {
   });
 
   urlUtils.addProxyRule({
-    urlPrefix: 'https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2019_01_mosaic',
+    urlPrefix: 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233',
     proxyUrl: '/map/php/proxy.php'
   });
 
@@ -154,7 +154,7 @@ const queryPlanet = new Promise((resolve, reject) => {
       }
     }
   };
-  xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?', true);
+  xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
   xhttp.send();
 });
 
