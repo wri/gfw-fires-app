@@ -217,7 +217,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
         }
       }
     };
-    xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
+    xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts', true);
     xhttp.send();
   });
 
