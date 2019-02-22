@@ -101,6 +101,11 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
       urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
       proxyUrl: '/map/php/proxy.php'
     });
+
+    _urlUtils2.default.addProxyRule({
+      urlPrefix: 'https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2019_01_mosaic',
+      proxyUrl: '/map/php/proxy.php'
+    });
   };
 
   var lazyloadAssets = function lazyloadAssets() {
