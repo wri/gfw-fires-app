@@ -103,7 +103,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
     });
 
     _urlUtils2.default.addProxyRule({
-      urlPrefix: 'https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2019_01_mosaic',
+      urlPrefix: 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233',
       proxyUrl: '/map/php/proxy.php'
     });
   };
@@ -217,7 +217,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
         }
       }
     };
-    xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?', true);
+    xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233', true);
     xhttp.send();
   });
 
