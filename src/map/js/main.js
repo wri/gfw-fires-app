@@ -45,7 +45,7 @@ let configureApp = () => {
   });
 
   urlUtils.addProxyRule({
-    urlPrefix: 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=d4d25171b85b4f7f8fde459575cba233',
+    urlPrefix: 'https://api.planet.com/basemaps/v1/mosaics',
     proxyUrl: '/map/php/proxy.php'
   });
 
