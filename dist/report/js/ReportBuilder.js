@@ -734,8 +734,9 @@ define([
             const baseURI = fullURIArray[0];
             const hashString = encodeURIComponent('#' + fullURIArray[1]);
             const longURIParsed = baseURI + hashString;
-            // $.getJSON("https://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
-            $.getJSON("https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer", function (response) {
+            console.log('???',longURIParsed);
+            $.getJSON("https://api.bit.ly/v3/shorten?login=gfwfires&api_key=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
+              console.log('!!!');
               const bitlyShortLink = response.data.url;
               $('.share-link')
                 .on('click', function () {
