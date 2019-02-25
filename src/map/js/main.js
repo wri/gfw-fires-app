@@ -49,6 +49,11 @@ let configureApp = () => {
     proxyUrl: '/map/php/proxy.php'
   });
 
+  urlUtils.addProxyRule({
+    urlPrefix: 'https://api.bit.ly/v3/shorten',
+    proxyUrl: '/map/php/proxy.php'
+  });
+
 };
 
 let lazyloadAssets = () => {
