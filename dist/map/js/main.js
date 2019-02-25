@@ -106,6 +106,11 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
       urlPrefix: 'https://api.planet.com/basemaps/v1/mosaics',
       proxyUrl: '/map/php/proxy.php'
     });
+
+    _urlUtils2.default.addProxyRule({
+      urlPrefix: 'https://api.bit.ly/v3/shorten',
+      proxyUrl: '/map/php/proxy.php'
+    });
   };
 
   var lazyloadAssets = function lazyloadAssets() {
