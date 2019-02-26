@@ -742,7 +742,6 @@ define([
                 $('.share-link-input').val(bitlyShortLink);
                 let copyText = document.querySelector('.share-link-input');
                 copyToClip(copyText);
-                console.log('???');
               });
 
             self.read_hash();
