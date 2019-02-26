@@ -37,16 +37,16 @@ define([
         // Add proxy rules
         // console.log('???', urlUtils.getProxyRule('https://api.bit.ly/v3/shorten')); // undefined
         urlUtils.addProxyRule({
-          urlPrefix: 'https://api.bit.ly/v3/shorten',
+          urlPrefix: 'http://api.bit.ly/v3/shorten',
           // proxyUrl: '../../map/php/proxy.php'
-          proxyUrl: 'https://fires-staging.globalforestwatch.org/map/php/proxy.php'
+          proxyUrl: 'http://fires-staging.globalforestwatch.org/map/php/proxy.php'
           // https://fires-staging.globalforestwatch.org/map/php/proxy.php
         });
         
         urlUtils.addProxyRule({
           urlPrefix: 'http://api.bit.ly/v3/shorten',
           // proxyUrl: '../../map/php/proxy.php'
-          proxyUrl: 'https://fires-staging.globalforestwatch.org/map/php/proxy.php'
+          proxyUrl: 'http://fires-staging.globalforestwatch.org/map/php/proxy.php'
         });
         
         console.log('???', urlUtils.getProxyRule('https://api.bit.ly/v3/shorten')); // defined
