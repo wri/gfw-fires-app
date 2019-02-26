@@ -34,23 +34,7 @@ define([
 
       init: function() {
         var self = this;
-        // Add proxy rules
-        // console.log('???', urlUtils.getProxyRule('https://api.bit.ly/v3/shorten')); // undefined
-        urlUtils.addProxyRule({
-          urlPrefix: 'http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=',
-          // proxyUrl: '../../map/php/proxy.php'
-          proxyUrl: 'http://fires-staging.globalforestwatch.org/map/php/proxy.php'
-          // https://fires-staging.globalforestwatch.org/map/php/proxy.php
-        });
-        
-        urlUtils.addProxyRule({
-          urlPrefix: 'http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=',
-          // proxyUrl: '../../map/php/proxy.php'
-          proxyUrl: 'http://fires-staging.globalforestwatch.org/map/php/proxy.php'
-        });
-        
-        console.log('???', urlUtils.getProxyRule('https://api.bitly.com/v3/shorten?login=gfwfires&longUrl=')); // defined
-        console.log('???', urlUtils.getProxyRule('http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=')); // defined
+
           self.init_report_options();
 
           this.getIdOne().then(() => {
@@ -758,6 +742,7 @@ define([
                 $('.share-link-input').val(bitlyShortLink);
                 let copyText = document.querySelector('.share-link-input');
                 copyToClip(copyText);
+                console.log('???');
               });
 
             self.read_hash();
