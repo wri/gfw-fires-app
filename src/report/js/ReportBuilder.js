@@ -1520,8 +1520,8 @@ define([
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2018-12-25`,
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2018-12-20,2018-12-25`
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2017-06-01,2018-12-25`
             ];
             promiseUrls.push(...urls);
           }
@@ -1529,7 +1529,8 @@ define([
           Promise.all(promiseUrls.map((promiseUrl) => {
             return request.get(promiseUrl, handleAs);
           })).then(responses => {
-            console.log('responses', responses[1].data.attributes.value); // what we want
+            console.log('???', responses);
+            // console.log('responses', responses[1].data.attributes.value); // what we want
             let series = [];
             const colors = {};
             let seriesTemp = { data: [], name: '' };
@@ -1542,11 +1543,11 @@ define([
             let values;
             const backupValues = [];
             if (window.reportOptions.aoiId && responses.length > 0) {
-              console.log('??');
+              // Country View w/ subregion
               values = responses[1].data.attributes.value;
               backupValues.push(responses[0].data.attributes.value);
             } else {
-              // Global Report
+              // Global Report or Country View w/o subregion
               values = responses[0].data.attributes.value;
               responses.forEach((result, i) => {
                 if (i > 0) {
@@ -1554,24 +1555,23 @@ define([
                 }
               });
             }
-            console.log(backupValues[0]);
+            // backupValues for Global Report is an array with a single index 
+            // backupValues for Country Views are arrays with a multiple indecies. 
+
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             
             for (var i = 2001; i <= currentYear; i++) {
-              console.log('!!');
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
             
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
-              console.log('???');
-
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
-              if (window.reportOptions.aoiId) { //these are country-wide!
-                console.log('wasup');
+              if (window.reportOptions.aoiId) { // Country View w/ subregion
+                // Iterate over the backupValues and grab their month and associated fires-alert count.
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
 
@@ -1598,16 +1598,16 @@ define([
 
                   } else if (bValue.year === currentYear && bValue.month === currentMonth) {
                     backupTempSeries.name = bValue.year;
-
+                    
                     tmpArr.push(bValue.alerts);
                     backupTempSeries.data.push(tmpArr.reduce(reducer));
-
+                    
                     var hexColor = self.shadeColor(baseColor, (indexColor / 100));
                     indexColor = indexColor + colorStep;
                     self.dataLabelsFormatAction(backupTempSeries, hexColor);
-
+                    
                     newSeriesData.push(backupTempSeries);
-
+                    
                   } else {
                     tmpArr.push(bValue.alerts);
                     backupTempSeries.data.push(tmpArr.reduce(reducer));
@@ -1621,7 +1621,6 @@ define([
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
               } else {
                 // Global Report
-                console.log('inside else');
                 const allYearsData = [];
                 const data2001 = [], data2002 = [], data2003 = [], data2004 = [], data2005 = [], data2006 = [], data2007 = [], data2008 = [], data2009 = [], data2010 = [], data2011 = [], data2012 = [], data2013 = [], data2014 = [], data2015 = [], data2016 = [], data2017 = [], data2018 = [], data2019 = [];
                 console.log('backupValue', backupValue);
@@ -1712,7 +1711,8 @@ define([
                 allYearsData.push(data2001, data2002, data2003, data2004, data2005, data2006, data2007, data2008, data2009, data2010, data2011, data2012, data2013, data2014, data2015, data2016, data2017, data2018, data2019);
                 console.log('allYearsData', allYearsData); // limited to ~40k results before timeout
                 console.log('windowReportOptions', window.reportOptions.stateObjects);
-                window.reportOptions.stateObjects.forEach((adm) => { // There are no stateObjects anyway!
+                window.reportOptions.stateObjects.forEach((adm) => { //  Stateobjects only exist while looking at a specific country. They are unavailable on the Global Report view.
+                  console.log('adm', adm);
                   backupValue.filter((value) => {
                     return value.adm1 == adm.id_1;
                   }).forEach((bValue, i) => {
