@@ -157,6 +157,10 @@ class MapActions {
     app.debug('MapActions >>> setMasterDate');
     this.dispatch(date);
   }
+  setSentinalDate (date) {
+    app.debug('MapActions >>> setSentinalDate');
+    this.dispatch(date);
+  }
 
   togglePanels () {
     app.debug('MapActions >>> togglePanels');

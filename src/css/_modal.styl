@@ -329,17 +329,17 @@
     display none
 
 
- .imagery-modal__wrapper
+.imagery-modal__wrapper
   width 500px
   height 285px
   -webkit-box-shadow 0 1px 3px rgba(85,85,85,0.25)
   box-shadow 0 1px 3px rgba(85,85,85,0.25)
 
-   .flex
+  .flex
     display flex
     align-items center
 
-   .fa-button.white
+  .fa-button.white
     border 1px solid #f0ab00
 
   select
@@ -353,7 +353,7 @@
     &:hover + div
       background darken(white, 10%)
 
- .imagery-modal__title
+.imagery-modal__title
   font-size 12px
   font-weight bold
   line-height 21px
@@ -361,21 +361,21 @@
   text-transform uppercase
   margin 10px 20px 10px 20px
 
- .imagery-modal__section
+.imagery-modal__section
   padding 0px 20px 10px 20px
   font-size 11px
   color #999
   justify-content space-between
 
-   &.filters
+  &.filters
     position relative
     z-index 5
 
-  &.secondary-filters
+ &.secondary-filters
     align-items flex-start
     min-height 60px
 
-   &.thumbnail_container
+  &.thumbnail_container
     width 100%
     max-height 102px
     overflow-y auto
@@ -383,14 +383,14 @@
     justify-content flex-start
     flex-wrap wrap
 
-   .thumbnail-text
+  .thumbnail-text
     width 50%
     p
       color #555
       line-height 1.4
       margin 0
 
-   .thumbnail
+  .thumbnail
     width 88px
     height 88px
     overflow hidden
@@ -400,72 +400,65 @@
     background #999
     display flex
 
-     &.disabled
+    &.disabled
       cursor default
 
-       &:hover
+      &:hover
         border transparent solid 4px;
     .svg-icon
       fill #c1c1c1
 
-     img
+    img
       width 85px
       height auto
 
-     &:hover
+    &:hover
       border #555 solid 4px;
 
-     &.selected
+    &.selected
       border #f0ab00 solid 4px;
 
- .imagery-modal__error
+.imagery-modal__error
   display flex
   align-items center
   flex-direction column
   width 100%
 
- hr
+hr
   margin 8px 0px 8px 0px
   border $lightGrayBorder 0.5px solid
 
- .imagery-modal_section-title
+.imagery-modal_section-title
   text-transform uppercase
   font-weight bold
   margin-bottom 10px
 
- .imagery-modal_section-text
+.imagery-modal_section-text
   margin 0 10px
 
- @media (max-width: 600px)
+@media (max-width: 600px)
 
-   .imagery-modal-container
+  .imagery-modal-container
     &.collapse
       display none
 
-       .imagery-modal__wrapper
+      .imagery-modal__wrapper
         height 0px
         transition all 1s
 
-   .imagery-modal__wrapper
+  .imagery-modal__wrapper
     width 100vw
     height 400px
     transition all 1s
 
-     .imagery-modal__section
+    .imagery-modal__section
       flex-wrap wrap
       justify-content space-between
 
-       &.thumbnail_container
+      &.thumbnail_container
         width 100%
         max-height 150px
 
-       .imagery-modal__item
+      .imagery-modal__item
         margin 0 0 15 0
         min-width 80vw
-
-   .modal.draggable
-    top unset
-    cursor default
-    bottom 0px
-    transform none
-    left unset

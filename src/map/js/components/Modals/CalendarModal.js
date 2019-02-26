@@ -231,6 +231,13 @@ export default class CalendarModal extends Component {
 			dest: 'masterDate'
 		});
 	}
+	changeSentinal(date: any) {
+		this.close();
+		mapActions.setSentinalDate({
+			date: date,
+			dest: 'sentinalDate'
+		});
+	}
 
 	getLatest (method: string) {
 		let deferred = new Deferred();

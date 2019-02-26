@@ -118,7 +118,7 @@ export default class ImageryTab extends React.Component {
         <div data-basemap={sentinalImagery} className={`basemap-item ${activeImagery === sentinalImagery ? 'active' : ''}`} onClick={this.clickedImagery}>
           <span className={`basemap-thumbnail digital-globe-basemap ${activeImagery === sentinalImagery ? 'active' : ''}`} />
           <div className='basemap-label'>SentinalImagery
-            <div className='layer-checkbox-sublabel basemap-sublabel'>(2014-15, 0.3-1m, selected Indonesia locations)</div>
+            <div className='layer-checkbox-sublabel basemap-sublabel'>(THIS NEEDS TO MATCH GFW MAPBUILDER)</div>
           </div>
           <span className={`info-icon pointer info-icon-center ${iconLoading === sentinalImagery ? 'iconLoading' : ''}`} onClick={() => console.log('clicked')}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>

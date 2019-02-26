@@ -17,7 +17,7 @@ import Polygon from 'esri/geometry/Polygon';
 import ProjectParameters from 'esri/tasks/ProjectParameters';
 import GeometryService from 'esri/tasks/GeometryService';
 import SpatialReference from 'esri/SpatialReference';
-// import { modalText } from 'js/config';
+import { modalText } from 'js/config';
 
 export default class ImageryModal extends Component {
 
@@ -25,18 +25,18 @@ export default class ImageryModal extends Component {
   //   map: PropTypes.object.isRequired
   // };
 
-  //  constructor (props) {
-  //   super(props);
-  //   this.state = {
-  //     monthsVal: modalText.imagery.monthsOptions[1].label,
-  //     imageStyleVal: modalText.imagery.imageStyleOptions[0].label,
-  //     cloudScore: [0, 25],
-  //     start: null,
-  //     end: null,
-  //     selectedThumb: null,
-  //     hoveredThumb: null,
-  //   };
-  // }
+   constructor (props) {
+    super(props);
+    this.state = {
+      monthsVal: modalText.imagery.monthsOptions[1].label,
+      imageStyleVal: modalText.imagery.imageStyleOptions[0].label,
+      cloudScore: [0, 25],
+      // start: null,
+      // end: null,
+      // selectedThumb: null,
+      // hoveredThumb: null,
+    };
+  }
 
   //  componentWillReceiveProps(nextProps) {
   //   if (nextProps.imageryModalVisible && !this.props.imageryModalVisible && !nextProps.imageryData.length) {
@@ -135,9 +135,9 @@ export default class ImageryModal extends Component {
   //   this.setState({ hoveredThumb: tileObj });
   // }
 
-  //  renderDropdownOptions = (option, index) => {
-  //   return <option key={index} value={option.label}>{option.label}</option>;
-  // }
+   renderDropdownOptions = (option, index) => {
+    return <option key={index} value={option.label}>{option.label}</option>;
+  }
 
   //  renderThumbnails = (tileObj, i) => {
 
@@ -197,15 +197,37 @@ export default class ImageryModal extends Component {
     mapActions.toggleImageryVisible(false);
   };
 
-  //  onChangeStart = (event) => {
-  //   const value = parseInt(event.target.value.split(' ')[0]);
-  //   const type = value === 4 ? 'weeks' : 'months';
+   onChangeStart = (event) => {
+    if (event.currentTarget.dataset.type === 'cloudMin') {
+      const cloudScoreCloned = [...this.state.cloudScore];
+      if (Number(event.target.value) > cloudScoreCloned[1]) {
+        cloudScoreCloned.splice(0, 1);
+        cloudScoreCloned.push(Number(event.target.value));
+      } else {
+        cloudScoreCloned[0] = Number(event.target.value);
+      }
+      this.setState({ cloudScore: cloudScoreCloned }, this.updateImagery);
+    } else if (event.currentTarget.dataset.type === 'cloudMax') {
+      const cloudScoreCloned = [...this.state.cloudScore];
+      if (Number(event.target.value) < cloudScoreCloned[0]) {
+        cloudScoreCloned.splice(1, 1);
+        cloudScoreCloned.unshift(Number(event.target.value));
+      } else {
+        cloudScoreCloned[1] = Number(event.target.value);
+      }
+      this.setState({ cloudScore: cloudScoreCloned }, this.updateImagery);
+    } else {
+      const value = parseInt(event.target.value.split(' ')[0]);
+      const type = value === 4 ? 'weeks' : 'months';
 
-  //    const end = this.state.end ? moment(this.state.end) : moment();
-  //   const start = end.subtract(value, type).format('YYYY-MM-DD');
+      const end = this.state.end ? window.Kalendae.moment(this.state.end) : window.Kalendae.moment();
+      const start = end.subtract(value, type).format('YYYY-MM-DD');
 
-  //    this.setState({ start, monthsVal: event.target.value, selectedThumb: null }, this.updateImagery);
-  // }
+      console.log('start', start, 'end', end);
+
+      this.setState({ start, monthsVal: event.target.value, selectedThumb: null }, this.updateImagery);
+    }
+  }
 
   //  onChangeEnd = (end) => {
   //   this.setState({ end, selectedThumb: null }, this.updateImagery);
@@ -226,7 +248,8 @@ export default class ImageryModal extends Component {
     event.target.style.left = event.clientX;
   };
 
-  //  updateImagery = () => {
+   updateImagery = () => {
+     console.log('fire updateImagery');
   //   const { map } = this.context;
 
   //    if (map.toMap === undefined) { return; }
@@ -261,10 +284,10 @@ export default class ImageryModal extends Component {
   //     selectedThumb: null,
   //     hoveredThumb: null
   //   });
-  // };
+  };
 
   render() {
-    //   const { monthsVal, imageStyleVal, cloudScore, hoveredThumb, selectedThumb } = this.state;
+      const { monthsVal, imageStyleVal, cloudScore, hoveredThumb, selectedThumb } = this.state;
     //   const { imageryData, loadingImagery, imageryError} = this.props;
     //   const filteredImageryData = imageryData.filter((data) => {
     //     return data.attributes.cloud_score >= cloudScore[0] && data.attributes.cloud_score <= cloudScore[1];
@@ -279,11 +302,12 @@ export default class ImageryModal extends Component {
               <div className='flex'>
                 <div className='relative'>
                   <select
-                    // value={monthsVal}
+                    data-type='date'
+                    value={monthsVal}
                     onChange={this.onChangeStart}>
-                    {/* {modalText.imagery.monthsOptions.map(this.renderDropdownOptions)} */}
+                    {modalText.imagery.monthsOptions.map(this.renderDropdownOptions)}
                   </select>
-                  {/* <div className='fa-button sml white'>{monthsVal}</div> */}
+                  <div className='gfw-btn sml white pointer'>{monthsVal}</div>
                 </div>
 
                 <div className='imagery-modal_section-text'>before</div>
@@ -293,16 +317,36 @@ export default class ImageryModal extends Component {
                   calendarCallback={this.onChangeEnd} />
               </div>
             </div>
-
             <div className='imagery-modal__item'>
               <div className='imagery-modal_section-title'>Maximum Cloud Cover Percentage</div>
-
-              <ImageryModalSlider
+              <div className='flex'>
+                <div className='imagery-modal_section-text'>Min</div>
+                <div className='relative'>
+                  <select
+                    data-type='cloudMin'
+                    value={cloudScore[0]}
+                    onChange={this.onChangeStart}>
+                    {modalText.imagery.cloudCoverageOptions.map(this.renderDropdownOptions)}
+                  </select>
+                  <div className='gfw-btn sml white pointer'>{cloudScore[0]}</div>
+                </div>
+                <div className='imagery-modal_section-text'>Max</div>
+                <div className='relative'>
+                  <select
+                    data-type='cloudMax'
+                    value={cloudScore[1]}
+                    onChange={this.onChangeStart}>
+                    {modalText.imagery.cloudCoverageOptions.map(this.renderDropdownOptions)}
+                  </select>
+                  <div className='gfw-btn sml white pointer'>{cloudScore[1]}</div>
+                </div>
+              </div>
+              {/* <ImageryModalSlider
                 rangeSliderCallback={this.rangeSliderCallback}
                 bounds={[0, 100]}
                 initialStartValue={0}
                 initialEndValue={25}
-                step={25} />
+                step={25} /> */}
             </div>
           </div>
           <hr />

@@ -38,6 +38,7 @@ class MapStore {
     this.rainDate = this.getDate(defaults.yesterday);
     this.airQDate = this.getDate(defaults.todaysDate); //airQStartDate);
     this.windDate = this.getDate(defaults.todaysDate); //windStartDate);
+    this.sentinalDate = this.getDate(defaults.todaysDate);
     this.masterDate = this.getDate(defaults.todaysDate);
     this.panelsHidden = false;
     this.activeDG = undefined;
@@ -79,6 +80,7 @@ class MapStore {
       setAirQDate: mapActions.setAirQDate,
       setWindDate: mapActions.setWindDate,
       setMasterDate: mapActions.setMasterDate,
+      setSentinalDate: mapActions.setSentinalDate,
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
@@ -245,6 +247,12 @@ class MapStore {
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
     LayersHelper.updateWindDate(this.windDate);
+  }
+
+  setSentinalDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
   }
 
   setMasterDate (dateObj) {
