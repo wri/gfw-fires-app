@@ -19,13 +19,12 @@ define([
     "esri/tasks/QueryTask",
     "esri/tasks/StatisticDefinition",
     "esri/graphicsUtils",
-    "esri/urlUtils",
     "esri/geometry/Extent",
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig",
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
-    SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, urlUtils, Extent, SpatialReference, geostats, Config) {
+    SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
       let newSeriesDataObj = {};
 
@@ -727,10 +726,27 @@ define([
         },
 
         init_report_options: function() {
-            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+          const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+          
+          const self = this;
+          
+          /********************** NOTE **********************
+            * A previous version was trying to mask the apiKey for the bitly link behind a proxy, but it was causing an issue with the share button's functionality on HTTPS/HTTP.
+            * We decided that the apiKey can be exposed because no serious damage can come from it.
+            * The code below is related to the bitly api documentation in case we decide to use a URL shortener in the future. 
+              const fullURI = window.location.href;
+              const fullURIArray = fullURI.split("#");
+              const baseURI = fullURIArray[0];
+              const hashString = encodeURIComponent('#' + fullURIArray[1]);
+              const longURIParsed = baseURI + hashString;
+              $.getJSON("http://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
+                const bitlyShortLink = response.data.url;
+              }) 
+          ***************************************************/
+            
+            const currentURL = window.location.href; // Save the current URL; if implementing bitly, replace with `bitlyShortLink`
 
-            const self = this;
-            const bitlyShortLink = window.location.href;
+            // Create a function to select a text-box and copy its contents to the clipboard.
             const copyToClip = (element) => {
               element.select();
               document.execCommand("copy");
@@ -738,10 +754,10 @@ define([
 
             $('.share-link')
               .on('click', function () {
-                document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                $('.share-link-input').val(bitlyShortLink);
-                let copyText = document.querySelector('.share-link-input');
-                copyToClip(copyText);
+                document.querySelector('.share-link-input__container').classList.toggle("hidden"); // Toggle the text-box containing the share link
+                $('.share-link-input').val(currentURL); // Set the text value equal to the currentURL above
+                let copyText = document.querySelector('.share-link-input'); // grab the text from the DOM element
+                copyToClip(copyText); // execute the function to select the text-box and copy its contents.
               });
 
             self.read_hash();
