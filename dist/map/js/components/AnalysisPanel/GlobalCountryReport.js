@@ -181,11 +181,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
                 multi: false,
                 value: this.state.selectedSubRegion
               })
-            ),
-            _react2.default.createElement(
-              'div',
-              { onClick: this.clearSubregions.bind(this), className: 'clear-selection ' + (this.state.selectedSubRegion ? 'active' : 'inactive') },
-              _config.analysisPanelText.analysisButtonClear
             )
           ),
           _react2.default.createElement(_AnalysisComponent2.default, _extends({}, this.state, { options: _config.analysisPanelText.analysisCalendar })),
@@ -222,11 +217,6 @@ define(['exports', 'js/config', 'actions/AnalysisActions', 'stores/MapStore', 'c
       key: 'toggleCustomize',
       value: function toggleCustomize() {
         _AnalysisActions.analysisActions.toggleCountryCustomize();
-      }
-    }, {
-      key: 'clearSubregions',
-      value: function clearSubregions() {
-        this.setState({ selectedSubRegion: { value: 'ALL', label: 'All Subregions' } });
       }
     }, {
       key: 'countryAnalysis',

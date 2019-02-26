@@ -968,7 +968,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
         analysisButtonLabel: 'GENERATE',
-        analysisButtonClear: 'clear selection',
         analysisAreaTitle: 'Fire Report',
         indonesiaReportTitle: 'Indonesia Specialty Report',
         globalReportTitle: 'Country Report',
