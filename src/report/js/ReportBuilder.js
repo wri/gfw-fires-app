@@ -743,27 +743,22 @@ define([
         },
 
         init_report_options: function() {
-          console.log('???');
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             const self = this;
+            const bitlyShortLink = window.location.href;
+            const copyToClip = (element) => {
+              element.select();
+              document.execCommand("copy");
+            }
 
-            const fullURI = window.location.href;
-            const fullURIArray = fullURI.split("#");
-            const baseURI = fullURIArray[0];
-            const hashString = encodeURIComponent('#' + fullURIArray[1]);
-            const longURIParsed = baseURI + hashString;
-            $.getJSON("http://fires-staging.globalforestwatch.org/map/php/proxy.php?http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=" + longURIParsed, function(response) {
-              console.log('response', response);
-              // const bitlyShortLink = response.data.url;
-              const bitlyShortLink = window.location.href;
-              $('.share-link')
-                .on('click', function () {
-                  console.log('!!!');
-                  document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                  $('.share-link-input').val(bitlyShortLink);
-                });
-            });
+            $('.share-link')
+              .on('click', function () {
+                document.querySelector('.share-link-input__container').classList.toggle("hidden");
+                $('.share-link-input').val(bitlyShortLink);
+                let copyText = document.querySelector('.share-link-input');
+                copyToClip(copyText);
+              });
 
             self.read_hash();
 
