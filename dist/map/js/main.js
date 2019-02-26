@@ -111,6 +111,11 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
       urlPrefix: 'https://api.bit.ly/v3/shorten',
       proxyUrl: '/map/php/proxy.php'
     });
+
+    _urlUtils2.default.addProxyRule({
+      urlPrefix: 'http://api.bit.ly/v3/shorten',
+      proxyUrl: '/map/php/proxy.php'
+    });
   };
 
   var lazyloadAssets = function lazyloadAssets() {
