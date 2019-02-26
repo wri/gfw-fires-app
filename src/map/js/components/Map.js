@@ -5,7 +5,9 @@ import MobileControls from 'components/Mobile/MobileControls';
 import ControlPanel from 'components/MapControls/ControlPanel';
 import LayerPanel from 'components/LayerPanel/LayerPanel';
 import Timeline from 'components/Timeline/Timeline';
+import SentinalImagery from 'components/AnalysisPanel/SentinalImagery';
 import {mapActions} from 'actions/MapActions';
+import {mapStore} from 'stores/MapStore';
 import {getUrlParams} from 'utils/params';
 import {mapConfig} from 'js/config';
 import ShareHelper from 'helpers/ShareHelper';
@@ -21,11 +23,13 @@ export default class Map extends Component {
     super(props);
     this.state = {
       loaded: false,
-      map: {}
+      map: {},
+      ...mapStore.getState()
      };
   }
 
   componentDidMount() {
+    mapStore.listen(this.storeDidUpdate);
     let urlParams = getUrlParams(window.location.hash);
     //- Mixin the map config with the url params, make sure to create a new object and not
     //- overwrite the mapConfig, again so reset sets the state back to default and not shared,
@@ -47,17 +51,30 @@ export default class Map extends Component {
       }
     });
   }
+  storeDidUpdate = () => {
+    this.setState(mapStore.getState());
+  };
 
   render () {
+    const { imageryModalVisible } = this.state;
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
 
-        <AnalysisTools />
+        <AnalysisTools imageryModalVisible={imageryModalVisible} />
         <ControlPanel map={this.state.map} />
         <Timeline />
         <MobileUnderlay />
         <MobileControls />
+        <div className={`imagery-modal-container ${imageryModalVisible ? '' : 'collapse'}`}>
+          <SentinalImagery
+            imageryData={this.state.imageryData}
+            loadingImagery={this.state.loadingImagery}
+            imageryModalVisible={imageryModalVisible}
+            // imageryError={imageryError}
+            imageryHoverVisible={this.state.imageryHoverVisible}
+          />
+        </div>
       </div>
     );
   }

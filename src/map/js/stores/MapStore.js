@@ -57,6 +57,7 @@ class MapStore {
     this.lat = undefined;
     this.lng = undefined;
     this.iconLoading = '';
+    this.imageryModalVisible = false;
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
@@ -98,7 +99,8 @@ class MapStore {
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
       toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
-      toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
+      toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility,
+      toggleImageryVisible: mapActions.toggleImageryVisible
     });
   }
 
@@ -454,6 +456,12 @@ class MapStore {
 
   toggleLayerPanelVisibility () {
     this.layerPanelVisible = !this.layerPanelVisible;
+  }
+
+  toggleImageryVisible(bool) {
+    console.log('clicked', bool);
+    this.imageryModalVisible = bool;
+    // this.imageryError = false;
   }
 
 }

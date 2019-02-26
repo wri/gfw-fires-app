@@ -265,6 +265,10 @@ class MapActions {
     app.map.centerAndZoom(mapConfig.options.center, mapConfig.options.zoom);
   }
 
+  toggleImageryVisible(bool) {
+    return bool;
+  }
+
 }
 
 export const mapActions = alt.createActions(MapActions);

@@ -52,7 +52,8 @@ const KEYS = {
   fireStories: 'fireStories',
 
   planetBasemap: 'planetBasemap',
-  digitalGlobeBasemap: 'digitalGlobeBasemap'
+  digitalGlobeBasemap: 'digitalGlobeBasemap',
+  sentinalImagery: 'sentinalImagery'
 };
 
 export { KEYS as default };
