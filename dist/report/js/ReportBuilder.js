@@ -19,12 +19,13 @@ define([
     "esri/tasks/QueryTask",
     "esri/tasks/StatisticDefinition",
     "esri/graphicsUtils",
+    "esri/urlUtils",
     "esri/geometry/Extent",
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
     "./ReportConfig",
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
-    SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
+    SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, urlUtils, Extent, SpatialReference, geostats, Config) {
 
       let newSeriesDataObj = {};
 
@@ -32,7 +33,24 @@ define([
     return {
 
       init: function() {
-          var self = this;
+        var self = this;
+        // Add proxy rules
+        // console.log('???', urlUtils.getProxyRule('https://api.bit.ly/v3/shorten')); // undefined
+        urlUtils.addProxyRule({
+          urlPrefix: 'https://api.bit.ly/v3/shorten',
+          // proxyUrl: '../../map/php/proxy.php'
+          proxyUrl: 'https://fires-staging.globalforestwatch.org/map/php/proxy.php'
+          // https://fires-staging.globalforestwatch.org/map/php/proxy.php
+        });
+        
+        urlUtils.addProxyRule({
+          urlPrefix: 'http://api.bit.ly/v3/shorten',
+          // proxyUrl: '../../map/php/proxy.php'
+          proxyUrl: 'https://fires-staging.globalforestwatch.org/map/php/proxy.php'
+        });
+        
+        console.log('???', urlUtils.getProxyRule('https://api.bit.ly/v3/shorten')); // defined
+        console.log('???', urlUtils.getProxyRule('http://api.bit.ly/v3/shorten')); // defined
           self.init_report_options();
 
           this.getIdOne().then(() => {
@@ -725,6 +743,7 @@ define([
         },
 
         init_report_options: function() {
+          console.log('???');
             const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             const self = this;

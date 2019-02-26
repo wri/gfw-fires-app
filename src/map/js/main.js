@@ -10,7 +10,7 @@ import FiresModal from 'components/Modals/FiresModal';
 import ShareModal from 'components/Modals/ShareModal';
 import { mapActions } from 'actions/MapActions';
 import { analysisActions } from 'actions/AnalysisActions';
-import {defaults} from 'js/config';
+import { defaults } from 'js/config';
 import { loadCSS } from 'utils/loaders';
 import Map from 'components/Map';
 import esriConfig from 'esri/config';
