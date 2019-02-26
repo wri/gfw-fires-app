@@ -734,11 +734,12 @@ define([
             const baseURI = fullURIArray[0];
             const hashString = encodeURIComponent('#' + fullURIArray[1]);
             const longURIParsed = baseURI + hashString;
-            $.getJSON("http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=" + longURIParsed, function (response) {
-              console.log('???');
+            $.getJSON("http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=" + longURIParsed, function(response) {
+              console.log('response', response);
               const bitlyShortLink = response.data.url;
               $('.share-link')
                 .on('click', function () {
+                  console.log('!!!');
                   document.querySelector('.share-link-input__container').classList.toggle("hidden");
                   $('.share-link-input').val(bitlyShortLink);
                 });
