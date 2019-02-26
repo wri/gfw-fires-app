@@ -10,7 +10,7 @@
 
 $version = "1.1.2";
 
-error_reporting(1);
+error_reporting(0);
 
 class Proxy {
 
@@ -285,14 +285,7 @@ class Proxy {
 
     public function redirect($sourceUrl, $sessionUrl, $targetUrl)
     {
-        if (strpos($targetUrl, 'bitly') !== false)
-        {
-          $this->proxyLog->log($targetUrl . substr($sourceUrl, (strlen($sessionUrl) + 1)));
-          return $targetUrl . substr($sourceUrl, (strlen($sessionUrl) + 1));
-          die();
-        }
-        // $this->proxyLog->log($targetUrl . substr($sourceUrl, strlen($sessionUrl)));
-        return $targetUrl . substr($sourceUrl, strlen($sessionUrl));
+      return $targetUrl . substr($sourceUrl, strlen($sessionUrl));
     }
 
     public function setupSession()
