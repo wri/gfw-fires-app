@@ -734,7 +734,7 @@ define([
             const baseURI = fullURIArray[0];
             const hashString = encodeURIComponent('#' + fullURIArray[1]);
             const longURIParsed = baseURI + hashString;
-            $.getJSON("http://api.bitly.com/v3/shorten?login=gfwfires&longUrl=" + longURIParsed, function (response) {
+            $.getJSON("https://api.bitly.com/v3/shorten?login=gfwfires&longUrl=" + longURIParsed, function (response) {
               console.log('???');
               const bitlyShortLink = response.data.url;
               $('.share-link')
