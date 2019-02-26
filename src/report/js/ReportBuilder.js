@@ -1,4 +1,6 @@
 /* eslint-disable */
+import {defaults} from 'js/config';
+import urlUtils from 'esri/urlUtils';
 define([
     "dojo/dom",
     "dojo/Deferred",
@@ -33,6 +35,38 @@ define([
 
       init: function() {
           var self = this;
+          // Add proxy rules
+          let configureApp = () => {
+            app.debug('main >>> configureApp');
+            defaults.corsEnabledServers.forEach((server) => { esriConfig.defaults.io.corsEnabledServers.push(server); });
+          
+            urlUtils.addProxyRule({
+              urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
+              proxyUrl: '/map/php/proxy.php'
+            });
+          
+            urlUtils.addProxyRule({
+              urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
+              proxyUrl: '/map/php/proxy.php'
+            });
+          
+            urlUtils.addProxyRule({
+              urlPrefix: 'https://api.planet.com/basemaps/v1/mosaics',
+              proxyUrl: '/map/php/proxy.php'
+            });
+          
+            urlUtils.addProxyRule({
+              urlPrefix: 'https://api.bit.ly/v3/shorten',
+              proxyUrl: '/map/php/proxy.php'
+            });
+          
+            urlUtils.addProxyRule({
+              urlPrefix: 'http://api.bit.ly/v3/shorten',
+              proxyUrl: '/map/php/proxy.php'
+            });
+          
+          };
+
           self.init_report_options();
 
           this.getIdOne().then(() => {
