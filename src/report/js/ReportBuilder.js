@@ -738,7 +738,7 @@ define([
             $.getJSON("https://api-ssl.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
               $('.share-link')
               .on('click', function () {
-                const bitlyShortLink = response.data.url;
+                let bitlyShortLink = response.data.url;
                 console.log('link', bitlyShortLink)
                 if (bitlyShortLink && bitlyShortLink[4] !== 's') {
                   console.log('http');
