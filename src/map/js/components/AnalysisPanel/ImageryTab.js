@@ -49,7 +49,6 @@ export default class ImageryTab extends React.Component {
         this.toggleSentinal(!this.state.imageryModalVisible);
       }
     } else if (clickedImagery === KEYS.sentinalImagery) {
-      // debugger;
       this.toggleSentinal(!this.state.imageryModalVisible);
       if (app.map.getLayer(KEYS.RECENT_IMAGERY)) {
         if (this.state.imageryModalVisible) {

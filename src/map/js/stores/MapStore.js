@@ -364,7 +364,6 @@ class MapStore {
       let layers = this.activeLayers.slice();
       layers.push(layerId);
       if (layerId === 'plantationTypes') {
-        // debugger
         this.removeActiveLayer('plantationSpecies');
       } else if (layerId === 'plantationSpecies') {
         this.removeActiveLayer('plantationTypes');
