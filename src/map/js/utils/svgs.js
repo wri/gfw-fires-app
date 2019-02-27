@@ -12,3 +12,4 @@ export const ImagerySvg = () => createSvgById('icon-tab-highresolution');
 export const TimelineSvg = () => createSvgById('icon-timeline');
 export const BasemapSvg = () => createSvgById('icon-basemap');
 export const CalendarSvg = () => createSvgById('icon-calendar');
+export const ViewFinderSvg = () => createSvgById('shape-crosshairs');

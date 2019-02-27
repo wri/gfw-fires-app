@@ -23,7 +23,8 @@ export default class ImageryTab extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery) {
       console.log('should be in here');
-      this.setState({ activeImagery: '' });
+      mapActions.setImagery('');
+      app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
     }
   }
 
@@ -32,6 +33,7 @@ export default class ImageryTab extends React.Component {
   }
 
   clickedImagery = (evt) => {
+    console.log('layerConfig', layersConfig);
     // let currImagery = '';
     // const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
@@ -47,7 +49,15 @@ export default class ImageryTab extends React.Component {
         this.toggleSentinal(!this.state.imageryModalVisible);
       }
     } else if (clickedImagery === KEYS.sentinalImagery) {
+      // debugger;
       this.toggleSentinal(!this.state.imageryModalVisible);
+      if (app.map.getLayer(KEYS.RECENT_IMAGERY)) {
+        if (this.state.imageryModalVisible) {
+          app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
+        } else {
+          app.map.getLayer(KEYS.RECENT_IMAGERY).show();
+        }
+      }
       if (app.map.getLayer('planetBasemap')) {
         app.map.removeLayer(app.map.getLayer('planetBasemap'));
       }
@@ -69,6 +79,7 @@ export default class ImageryTab extends React.Component {
     }
 
     mapActions.setImagery(currImagery);
+    console.log('state', this.state);
   };
 
   showInfo = (evt) => {

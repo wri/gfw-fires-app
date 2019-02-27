@@ -325,9 +325,20 @@
 // Imagery Modal specific styling
 .imagery-modal-container
   display block
+
   &.collapse
     display none
 
+  .map__viewfinder
+    margin -8px 0 0 -8px
+    pointer-events none
+    position absolute
+    fill #555
+    height 16px
+    width 16px
+    z-index 4
+    left 50%
+    top 50%
 
 .imagery-modal__wrapper
   width 500px
@@ -371,7 +382,7 @@
     position relative
     z-index 5
 
- &.secondary-filters
+  &.secondary-filters
     align-items flex-start
     min-height 60px
 
@@ -402,6 +413,17 @@
 
     &.disabled
       cursor default
+
+      .garbage
+        width 100%
+        display flex
+        justify-content center
+        align-items center
+        
+        svg
+          height 20px
+          width 20px
+          fill #c1c1c1
 
       &:hover
         border transparent solid 4px;

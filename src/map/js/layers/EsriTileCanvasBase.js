@@ -195,23 +195,23 @@ export default declare('EsriTileCanvasBase', [Layer], {
       var tileId = this._container.children[c].id;
       tileId = tileId.split('_');
       if (tileId.length > 0) {
-        if (this.id === KEYS.TREE_COVER_LOSS) {
-          let tileIdLevel = tileId[3];
-          if (tileIdLevel) {
-            tileIdLevel = parseInt(tileIdLevel);
-            if (tileIdLevel !== level) {
-              // this._container.children[c].remove();
-              tilesToDelete.push(this._container.children[c]);
-            }
-          }
-          let tileIdThresh = tileId[0];
-          if (tileIdThresh) {
-            tileIdThresh = parseInt(tileIdThresh);
-            if (tileIdThresh !== parseInt(this.options.url.split('tc')[1].substr(0, 2))) {
-              tilesToDelete.push(this._container.children[c]);
-            }
-          }
-        } else {
+        // if (this.id === KEYS.TREE_COVER_LOSS) {
+        //   let tileIdLevel = tileId[3];
+        //   if (tileIdLevel) {
+        //     tileIdLevel = parseInt(tileIdLevel);
+        //     if (tileIdLevel !== level) {
+        //       // this._container.children[c].remove();
+        //       tilesToDelete.push(this._container.children[c]);
+        //     }
+        //   }
+        //   let tileIdThresh = tileId[0];
+        //   if (tileIdThresh) {
+        //     tileIdThresh = parseInt(tileIdThresh);
+        //     if (tileIdThresh !== parseInt(this.options.url.split('tc')[1].substr(0, 2))) {
+        //       tilesToDelete.push(this._container.children[c]);
+        //     }
+        //   }
+        // } else {
           tileId = tileId[2];
           if (tileId) {
             tileId = parseInt(tileId);
@@ -219,7 +219,7 @@ export default declare('EsriTileCanvasBase', [Layer], {
               tilesToDelete.push(this._container.children[c]);
             }
           }
-        }
+        // }
       }
     }
     tilesToDelete.forEach(tile => {

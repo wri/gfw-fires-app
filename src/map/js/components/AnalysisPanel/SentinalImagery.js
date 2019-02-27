@@ -5,7 +5,7 @@ import ImageryDatePicker from 'components/AnalysisPanel/ImageryDatePicker';
 import ScreenPoint from 'esri/geometry/ScreenPoint';
 import Loader from 'components/Loader';
 import GFWImageryLayer from 'js/layers/GFWImageryLayer';
-// import SVGIcon from 'utils/svgIcon';
+import { AlertsSvg } from 'utils/svgs';
 import Graphic from 'esri/graphic';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import Polygon from 'esri/geometry/Polygon';
@@ -59,7 +59,7 @@ export default class ImageryModal extends Component {
   }
 
   selectThumbnail(tileObj, i) {
-    const map = window.app.map;
+    const map = app.map;
     let imageryLayer = map.getLayer(KEYS.RECENT_IMAGERY);
 
     if (imageryLayer) {
@@ -159,8 +159,8 @@ export default class ImageryModal extends Component {
         <div
           className='thumbnail disabled'
           key={`thumb-${i}`}>
-          <Loader active={this.props.loadingImagery} type={'imagery'} />
-          {/* {!this.props.loadingImagery && <SVGIcon id={'icon-alerts'} />} */}
+            <Loader active={this.props.loadingImagery} type={'imagery'} />
+            {!this.props.loadingImagery && <AlertsSvg />}
         </div>
       );
     } else {
@@ -239,15 +239,13 @@ export default class ImageryModal extends Component {
   // }
 
 
-  onDragEnd = (event) => {
-    event.target.style.top = event.clientY;
-    event.target.style.left = event.clientX;
-  };
+  // onDragEnd = (event) => {
+  //   event.target.style.top = event.clientY;
+  //   event.target.style.left = event.clientX;
+  // };
 
   updateImagery = () => {
-    console.log('fire updateImagery');
-    // const { map } = this.context;
-    const map = window.app.map;
+    const map = app.map;
 
     if (map.toMap === undefined) { return; }
 
@@ -364,7 +362,7 @@ export default class ImageryModal extends Component {
           <div className='imagery-modal__section thumbnail_container flex'>
             {imageryError &&
               <div className='imagery-modal__error'>
-                {/* <SVGIcon id={'icon-alerts'} /> */}
+                <AlertsSvg />
                 <p>Error loading recent imagery.</p>
               </div>
             }

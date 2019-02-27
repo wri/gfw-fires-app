@@ -11,6 +11,7 @@ import {mapStore} from 'stores/MapStore';
 import {getUrlParams} from 'utils/params';
 import {mapConfig} from 'js/config';
 import ShareHelper from 'helpers/ShareHelper';
+import { ViewFinderSvg } from 'utils/svgs';
 import React, {
   Component
 } from 'react';
@@ -67,6 +68,9 @@ export default class Map extends Component {
         <MobileUnderlay />
         <MobileControls />
         <div className={`imagery-modal-container ${imageryModalVisible ? '' : 'collapse'}`}>
+          <svg className='map__viewfinder'>
+            <ViewFinderSvg />
+          </svg>
           <SentinalImagery
             imageryData={this.state.imageryData}
             loadingImagery={this.state.loadingImagery}
