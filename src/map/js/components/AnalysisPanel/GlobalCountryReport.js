@@ -90,7 +90,6 @@ export default class GlobalCountryReport extends React.Component {
                   value={this.state.selectedSubRegion}
                 />
             </div>
-            <div onClick={this.clearSubregions.bind(this)} className={`clear-selection ${this.state.selectedSubRegion ? 'active' : 'inactive'}`}>{analysisPanelText.analysisButtonClear}</div>
           </div>
         }
         <AnalysisComponent {...this.state} options={analysisPanelText.analysisCalendar} />
@@ -119,10 +118,6 @@ export default class GlobalCountryReport extends React.Component {
 
   toggleCustomize () {
     analysisActions.toggleCountryCustomize();
-  }
-
-  clearSubregions () {
-    this.setState({selectedSubRegion: { value: 'ALL', label: 'All Subregions' }});
   }
 
   countryAnalysis () {
