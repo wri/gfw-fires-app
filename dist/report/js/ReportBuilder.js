@@ -734,13 +734,17 @@ define([
             const baseURI = fullURIArray[0];
             const hashString = encodeURIComponent('#' + fullURIArray[1]);
             const longURIParsed = baseURI + hashString;
-            $.getJSON("http://api.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
-              const bitlyShortLink = response.data.url;
+
+            $.getJSON("https://api-ssl.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
+              let bitlyShortLink = response.data.url;
+              if (bitlyShortLink && bitlyShortLink[4] !== 's') {
+                bitlyShortLink = bitlyShortLink.slice(0,4) + 's' + bitlyShortLink.slice(4);
+              }
               $('.share-link')
-                .on('click', function () {
-                  document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                  $('.share-link-input').val(bitlyShortLink);
-                });
+              .on('click', function () {
+                document.querySelector('.share-link-input__container').classList.toggle("hidden");
+                $('.share-link-input').val(bitlyShortLink);
+              });
             });
 
             self.read_hash();
