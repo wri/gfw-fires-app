@@ -740,16 +740,10 @@ define([
               .on('click', function () {
                 let bitlyShortLink = response.data.url;
                 console.log('link', bitlyShortLink)
-                if (bitlyShortLink && bitlyShortLink[4] !== 's') {
-                  console.log('http');
-                  bitlyShortLink = bitlyShortLink.slice(0,4) + 's' + bitlyShortLink.slice(4);
-                  console.log('convertToHTTPS', bitlyShortLink);
-                } else {
-                  console.log('https');
-                }
-                  document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                  $('.share-link-input').val('ssss');
-                });
+                if (bitlyShortLink && bitlyShortLink[4] !== 's') bitlyShortLink = bitlyShortLink.slice(0,4) + 's' + bitlyShortLink.slice(4);
+                document.querySelector('.share-link-input__container').classList.toggle("hidden");
+                $('.share-link-input').val(bitlyShortLink);
+              });
             });
 
             self.read_hash();
