@@ -273,6 +273,18 @@ class MapActions {
     return bool;
   }
 
+  getSatelliteImagery(params) {
+    return params;
+  }
+
+  setSelectedImagery(obj) {
+    return obj;
+  }
+
+  setImageryHoverInfo(obj) {
+    return obj;
+  }
+
 }
 
 export const mapActions = alt.createActions(MapActions);

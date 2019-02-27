@@ -56,7 +56,7 @@ export default class Map extends Component {
   };
 
   render () {
-    const { imageryModalVisible } = this.state;
+    const { imageryModalVisible, imageryError } = this.state;
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
@@ -71,7 +71,7 @@ export default class Map extends Component {
             imageryData={this.state.imageryData}
             loadingImagery={this.state.loadingImagery}
             imageryModalVisible={imageryModalVisible}
-            // imageryError={imageryError}
+            imageryError={imageryError}
             imageryHoverVisible={this.state.imageryHoverVisible}
           />
         </div>

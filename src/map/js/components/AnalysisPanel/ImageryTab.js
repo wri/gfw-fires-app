@@ -77,7 +77,6 @@ export default class ImageryTab extends React.Component {
   }
 
   toggleSentinal = (sentinalToggled) => {
-    console.log('toggleSentinal clicked', sentinalToggled);
     mapActions.toggleImageryVisible(sentinalToggled);
   }
 
@@ -117,7 +116,7 @@ export default class ImageryTab extends React.Component {
         </div>
         <div data-basemap={sentinalImagery} className={`basemap-item ${activeImagery === sentinalImagery ? 'active' : ''}`} onClick={this.clickedImagery}>
           <span className={`basemap-thumbnail digital-globe-basemap ${activeImagery === sentinalImagery ? 'active' : ''}`} />
-          <div className='basemap-label'>SentinalImagery
+          <div className='basemap-label'>Sentinal Imagery
             <div className='layer-checkbox-sublabel basemap-sublabel'>(THIS NEEDS TO MATCH GFW MAPBUILDER)</div>
           </div>
           <span className={`info-icon pointer info-icon-center ${iconLoading === sentinalImagery ? 'iconLoading' : ''}`} onClick={() => console.log('clicked')}>

@@ -4,6 +4,7 @@ import {modalActions} from 'actions/ModalActions';
 import {mapActions} from 'actions/MapActions';
 import LayersHelper from 'helpers/LayersHelper';
 import ShareHelper from 'helpers/ShareHelper';
+import request from 'utils/request';
 import KEYS from 'js/constants';
 import alt from 'js/alt';
 
@@ -59,6 +60,12 @@ class MapStore {
     this.lng = undefined;
     this.iconLoading = '';
     this.imageryModalVisible = false;
+    this.imageryData = [];
+    this.loadingImagery = false;
+    this.imageryError = false;
+    this.selectedImagery = null;
+    this.imageryParams = null;
+    this.imageryHoverInfo = null;
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
@@ -102,7 +109,10 @@ class MapStore {
       showFootprints: layerActions.showFootprints,
       toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
       toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility,
-      toggleImageryVisible: mapActions.toggleImageryVisible
+      toggleImageryVisible: mapActions.toggleImageryVisible,
+      getSatelliteImagery: mapActions.getSatelliteImagery,
+      setSelectedImagery: mapActions.setSelectedImagery,
+      setImageryHoverInfo: mapActions.setImageryHoverInfo
     });
   }
 
@@ -467,9 +477,77 @@ class MapStore {
   }
 
   toggleImageryVisible(bool) {
-    console.log('clicked', bool);
     this.imageryModalVisible = bool;
-    // this.imageryError = false;
+    this.imageryError = false;
+  }
+
+  getSatelliteImagery(params) {
+    // Confirm the imagery data isn't already being loaded.
+    if (this.loadingImagery) { return; }
+
+     this.imageryError = false;
+    this.loadingImagery = true;
+
+     // First make a reqest to the recent tiles metadata endpoint
+    request.getRecentTiles(params).then(response => {
+      // Only the first tile url is returned with the metadata response from the
+      // recent tiles endpoint. We can add this to state and show it on the map
+      // while the requests are made for the other tiles and the thumbnails.
+      const tiles = response.data.tiles;
+      this.imageryData = response.data.tiles;
+      this.imageryParams = params;
+      this.emitChange();
+
+       const tileArrays = [];
+
+       response.data.tiles.forEach((tile, i) => {
+        const index = i;
+        if ((index % 5 === 0) || (i === 0)) {
+          const tileArr = tiles.slice(index, index + 5);
+          tileArrays.push(tileArr);
+        }
+      });
+
+       let responseCount = 0;
+      tileArrays.forEach((tileArr, i) => {
+        const index = i * 5;
+
+         request.getImageryData(params, tileArr).then(data => {
+          data.forEach((d, pos) => {
+            this.imageryData[pos + index] = d;
+          });
+          responseCount++;
+
+           if (responseCount === tileArrays.length) {
+            this.loadingImagery = false;
+          }
+          this.emitChange();
+        }, () => {
+          responseCount++;
+          if (responseCount === tileArrays.length) {
+            this.loadingImagery = false;
+          }
+        });
+
+       });
+
+     }, () => {
+      this.imageryParams = null;
+      this.selectedImagery = null;
+      this.loadingImagery = false;
+      this.imageryError = true;
+      this.imageryData = [];
+      this.emitChange();
+    });
+  }
+
+   setSelectedImagery(obj) {
+    this.selectedImagery = obj;
+
+   }
+
+   setImageryHoverInfo(obj) {
+    this.imageryHoverInfo = obj;
   }
 
 }

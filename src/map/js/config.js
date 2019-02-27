@@ -254,6 +254,10 @@ export const config = {
     chosen: '../vendors/chosen/chosen.jquery.js'
   },
 
+  urls: {
+    satelliteImageService: 'https://production-api.globalforestwatch.org/recent-tiles'
+  },
+
   /**
   * Layer Config Options, brackets are optional
   * if type is anything other than graphic and the layer is not disabled, it must have a url
@@ -1487,3 +1491,4 @@ export const alertsModalConfig = config.alertsModal;
 export const fireModalConfig = config.firesModal;
 export const layerInformation = config.text.layerInformation;
 export const shortTermServices = config.shortTermServices;
+export const urls = config.urls;
