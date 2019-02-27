@@ -736,19 +736,19 @@ define([
             const longURIParsed = baseURI + hashString;
 
             $.getJSON("https://api-ssl.bit.ly/v3/shorten?login=gfwfires&apiKey=R_d64306e31d1c4ae489441b715ced7848&longUrl=" + longURIParsed, function (response) {
-              const bitlyShortLink = response.data.url;
-              console.log('link', bitlyShortLink)
-              if (bitlyShortLink && bitlyShortLink[4] !== 's') {
-                console.log('http');
-                bitlyShortLink = bitlyShortLink.slice(0,4) + 's' + bitlyShortLink.slice(4);
-                console.log('convertToHTTPS', bitlyShortLink);
-              } else {
-                console.log('https');
-              }
               $('.share-link')
-                .on('click', function () {
+              .on('click', function () {
+                const bitlyShortLink = response.data.url;
+                console.log('link', bitlyShortLink)
+                if (bitlyShortLink && bitlyShortLink[4] !== 's') {
+                  console.log('http');
+                  bitlyShortLink = bitlyShortLink.slice(0,4) + 's' + bitlyShortLink.slice(4);
+                  console.log('convertToHTTPS', bitlyShortLink);
+                } else {
+                  console.log('https');
+                }
                   document.querySelector('.share-link-input__container').classList.toggle("hidden");
-                  $('.share-link-input').val(bitlyShortLink);
+                  $('.share-link-input').val('ssss');
                 });
             });
 
