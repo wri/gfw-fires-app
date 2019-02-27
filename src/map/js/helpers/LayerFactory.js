@@ -5,6 +5,7 @@ import ImageParameters from 'esri/layers/ImageParameters';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import FeatureLayer from 'esri/layers/FeatureLayer';
 import WMSLayer from 'esri/layers/WMSLayer';
+import GFWImageryLayer from 'js/layers/GFWImageryLayer';
 import {errors} from 'js/config';
 
 /**
@@ -82,6 +83,13 @@ export default (layer) => {
       options.visible = layer.visible || false;
       esriLayer = new GraphicsLayer(options);
       break;
+    case 'imagery':
+      options.id = layer.id;
+      options.url = layer.url;
+      options.visible = false;
+      esriLayer = new GFWImageryLayer(options);
+      esriLayer.order = layer.order;
+    break;
     default:
       throw new Error(errors.incorrectLayerConfig(layer.type));
   }

@@ -1,18 +1,16 @@
 import DraggableModalWrapper from 'components/Modals/DraggableModalWrapper';
 import { mapActions } from 'actions/MapActions';
 import React, { Component, PropTypes } from 'react';
-import ImageryModalSlider from 'components/AnalysisPanel/ImageryModalSlider';
 import ImageryDatePicker from 'components/AnalysisPanel/ImageryDatePicker';
 import ScreenPoint from 'esri/geometry/ScreenPoint';
 import Loader from 'components/Loader';
-// import GFWImageryLayer from 'js/layers/GFWImageryLayer';
+import GFWImageryLayer from 'js/layers/GFWImageryLayer';
 // import SVGIcon from 'utils/svgIcon';
 import Graphic from 'esri/graphic';
-// import moment from 'moment';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import Polygon from 'esri/geometry/Polygon';
-// import symbols from 'utils/symbols';
-// import layerKeys from 'constants/LayerConstants';
+import symbols from 'utils/symbols';
+import KEYS from 'js/constants';
 
 import ProjectParameters from 'esri/tasks/ProjectParameters';
 import GeometryService from 'esri/tasks/GeometryService';
@@ -33,105 +31,105 @@ export default class ImageryModal extends Component {
       cloudScore: [0, 25],
       // start: null,
       // end: null,
-      // selectedThumb: null,
+      selectedThumb: null,
       hoveredThumb: null,
     };
   }
 
-   componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.imageryModalVisible && !this.props.imageryModalVisible && !nextProps.imageryData.length) {
       this.updateImagery();
     }
     // Load first tile in imageryData array only if the tile_url does not equal the tile_url from the previous props.
     // or if this the first time the imagery data array has length.
     if ((nextProps.imageryData.length &&
-        nextProps.imageryData[0] &&
-        this.props.imageryData[0] &&
-        nextProps.imageryData[0].attributes.tile_url !== this.props.imageryData[0].attributes.tile_url) ||
-        (nextProps.imageryData.length && !this.props.imageryData.length)) {
+      nextProps.imageryData[0] &&
+      this.props.imageryData[0] &&
+      nextProps.imageryData[0].attributes.tile_url !== this.props.imageryData[0].attributes.tile_url) ||
+      (nextProps.imageryData.length && !this.props.imageryData.length)) {
       // filterImagery data based on the selected cloud score.
       const filteredImageryData = nextProps.imageryData.filter((data) => {
         return data.attributes.cloud_score >= this.state.cloudScore[0] && data.attributes.cloud_score <= this.state.cloudScore[1];
       });
       // Select first tile in the filteredImageryData array to display.
-      // if (filteredImageryData[0]) {
-      //   this.selectThumbnail(filteredImageryData[0], 0);
-      // }
+      if (filteredImageryData[0]) {
+        this.selectThumbnail(filteredImageryData[0], 0);
+      }
     }
   }
 
-  //  selectThumbnail (tileObj, i) {
-  //   const { map } = this.context;
-  //   let imageryLayer = map.getLayer(layerKeys.RECENT_IMAGERY);
+  selectThumbnail(tileObj, i) {
+    const map = window.app.map;
+    let imageryLayer = map.getLayer(KEYS.RECENT_IMAGERY);
 
-  //    if (imageryLayer) {
-  //     imageryLayer.setUrl(tileObj.tileUrl || tileObj.attributes.tile_url);
-  //   } else {
-  //     const options = {
-  //       id: layerKeys.RECENT_IMAGERY,
-  //       url: tileObj.tileUrl || tileObj.attributes.tile_url,
-  //       visible: true
-  //     };
+    if (imageryLayer) {
+      imageryLayer.setUrl(tileObj.tileUrl || tileObj.attributes.tile_url);
+    } else {
+      const options = {
+        id: KEYS.RECENT_IMAGERY,
+        url: tileObj.tileUrl || tileObj.attributes.tile_url,
+        visible: true
+      };
 
-  //      imageryLayer = new GFWImageryLayer(options);
-  //     map.addLayer(imageryLayer);
-  //     map.reorderLayer(layerKeys.RECENT_IMAGERY, 1); // Should be underneath all other layers
-  //     imageryLayer._extentChanged();
-  //   }
+      imageryLayer = new GFWImageryLayer(options);
+      map.addLayer(imageryLayer);
+      map.reorderLayer(KEYS.RECENT_IMAGERY, 1); // Should be underneath all other layers
+      imageryLayer._extentChanged();
+    }
 
-  //    this.setState({ selectedThumb: {index: i, tileObj} });
-  //   mapActions.setSelectedImagery(tileObj);
+    this.setState({ selectedThumb: { index: i, tileObj } });
+    mapActions.setSelectedImagery.defer(tileObj);
 
 
-  //    // Add graphic to the map for hover effect on tile.
-  //   let imageryGraphicsLayer = map.getLayer('imageryGraphicsLayer');
+    // Add graphic to the map for hover effect on tile.
+    let imageryGraphicsLayer = map.getLayer('imageryGraphicsLayer');
 
-  //    if (imageryGraphicsLayer) {
-  //     imageryGraphicsLayer.clear();
-  //   } else {
-  //     imageryGraphicsLayer = new GraphicsLayer({
-  //       id: 'imageryGraphicsLayer',
-  //       visible: true
-  //     });
-  //     map.addLayer(imageryGraphicsLayer);
+    if (imageryGraphicsLayer) {
+      imageryGraphicsLayer.clear();
+    } else {
+      imageryGraphicsLayer = new GraphicsLayer({
+        id: 'imageryGraphicsLayer',
+        visible: true
+      });
+      map.addLayer(imageryGraphicsLayer);
 
-  //      imageryGraphicsLayer.on('mouse-out', () => {
-  //       mapActions.setImageryHoverInfo({ visible: false });
-  //     });
+      imageryGraphicsLayer.on('mouse-out', () => {
+        mapActions.setImageryHoverInfo({ visible: false });
+      });
 
-  //      imageryGraphicsLayer.on('mouse-move', (evt) => {
-  //       if (imageryGraphicsLayer.graphics.length) {
-  //         mapActions.setImageryHoverInfo({ visible: true, top: evt.clientY, left: evt.clientX });
-  //       }
-  //     });
+      imageryGraphicsLayer.on('mouse-move', (evt) => {
+        if (imageryGraphicsLayer.graphics.length) {
+          mapActions.setImageryHoverInfo({ visible: true, top: evt.clientY, left: evt.clientX });
+        }
+      });
 
-  //    }
+    }
 
-  //    const geometry = new Polygon({ rings: [tileObj.attributes.bbox.geometry.coordinates], type: 'polygon' });
-  //   const registeredGraphic = new Graphic(
-  //     new Polygon(geometry),
-  //     symbols.getImagerySymbol()
-  //   );
-  //   const geometryService = new GeometryService('https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
-  //   var params = new ProjectParameters();
+    const geometry = new Polygon({ rings: [tileObj.attributes.bbox.geometry.coordinates], type: 'polygon' });
+    const registeredGraphic = new Graphic(
+      new Polygon(geometry),
+      symbols.getImagerySymbol()
+    );
+    const geometryService = new GeometryService('https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
+    var params = new ProjectParameters();
 
-  //    // Set the projection of the geometry for the image server
-  //   params.outSR = new SpatialReference(102100);
-  //   params.geometries = [geometry];
+    // // Set the projection of the geometry for the image server
+    params.outSR = new SpatialReference(102100);
+    params.geometries = [geometry];
 
-  //    // update the graphics geometry with the new projected geometry
-  //   const successfullyProjected = (geometries) => {
-  //       registeredGraphic.geometry = geometries[0];
-  //       imageryGraphicsLayer.add(registeredGraphic);
-  //   };
-  //   const failedToProject = (err) => {
-  //     console.log('Failed to project the geometry: ', err);
-  //   };
-  //   geometryService.project(params).then(successfullyProjected, failedToProject);
+    // // update the graphics geometry with the new projected geometry
+    const successfullyProjected = (geometries) => {
+      registeredGraphic.geometry = geometries[0];
+      imageryGraphicsLayer.add(registeredGraphic);
+    };
+    const failedToProject = (err) => {
+      console.log('Failed to project the geometry: ', err);
+    };
+    geometryService.project(params).then(successfullyProjected, failedToProject);
 
-  //  }
+  }
 
-   hoverThumbnail (tileObj) {
+  hoverThumbnail(tileObj) {
     this.setState({ hoveredThumb: tileObj });
   }
 
@@ -139,52 +137,52 @@ export default class ImageryModal extends Component {
     return <option key={index} value={option.label}>{option.label}</option>;
   }
 
-   renderThumbnails = (tileObj, i) => {
+  renderThumbnails = (tileObj, i) => {
 
-       let reloadCount = 0;
+    let reloadCount = 0;
 
-       const handleError = (event) => {
-        if (reloadCount < 20) {
-          event.persist();
-          event.target.src = '';
-          reloadCount++;
-          setTimeout(() => {
-            event.target.src = tileObj.thumbUrl;
-            event.target.classList.remove('hidden');
-          }, 1000);
-        } else {
-          event.target.classList.add('hidden');
-        }
-      };
-      if (!tileObj.tileUrl) {
-        return (
-          <div
-            className='thumbnail disabled'
-            key={`thumb-${i}`}>
-              <Loader active={this.props.loadingImagery} type={'imagery'}/>
-              {/* {!this.props.loadingImagery && <SVGIcon id={'icon-alerts'} />} */}
-          </div>
-        );
+    const handleError = (event) => {
+      if (reloadCount < 20) {
+        event.persist();
+        event.target.src = '';
+        reloadCount++;
+        setTimeout(() => {
+          event.target.src = tileObj.thumbUrl;
+          event.target.classList.remove('hidden');
+        }, 1000);
       } else {
-        return (
-          <div
-            onClick={() => this.selectThumbnail(tileObj, i)}
-            onMouseEnter={() => this.hoverThumbnail(tileObj)}
-            onMouseLeave={() => this.hoverThumbnail(null)}
-            className={`thumbnail ${this.state.selectedThumb && this.state.selectedThumb.index === i ? 'selected' : ''}`}
-            key={`thumb-${i}`}>
-              <img src={tileObj.thumbUrl} onError={handleError} />
-          </div>
-        );
+        event.target.classList.add('hidden');
       }
+    };
+    if (!tileObj.tileUrl) {
+      return (
+        <div
+          className='thumbnail disabled'
+          key={`thumb-${i}`}>
+          <Loader active={this.props.loadingImagery} type={'imagery'} />
+          {/* {!this.props.loadingImagery && <SVGIcon id={'icon-alerts'} />} */}
+        </div>
+      );
+    } else {
+      return (
+        <div
+          onClick={() => this.selectThumbnail(tileObj, i)}
+          onMouseEnter={() => this.hoverThumbnail(tileObj)}
+          onMouseLeave={() => this.hoverThumbnail(null)}
+          className={`thumbnail ${this.state.selectedThumb && this.state.selectedThumb.index === i ? 'selected' : ''}`}
+          key={`thumb-${i}`}>
+          <img src={tileObj.thumbUrl} onError={handleError} />
+        </div>
+      );
+    }
   }
 
-   renderThumbText = () => {
+  renderThumbText = () => {
     const { hoveredThumb, selectedThumb } = this.state;
 
-     const thumbnailText = hoveredThumb || selectedThumb.tileObj;
+    const thumbnailText = hoveredThumb || selectedThumb.tileObj;
 
-     return (
+    return (
       <div>
         <p>{window.Kalendae.moment(thumbnailText.attributes.date_time).format('DD MMM YYYY')}</p>
         <p>{`${thumbnailText.attributes.cloud_score.toFixed(0)}% cloud coverage`}</p>
@@ -231,7 +229,7 @@ export default class ImageryModal extends Component {
   //   this.setState({ end, selectedThumb: null }, this.updateImagery);
   // }
 
-   onChangeImageStyle = (event) => {
+  onChangeImageStyle = (event) => {
     const value = event.target.value;
     this.setState({ imageStyleVal: value, selectedThumb: null }, this.updateImagery);
   }
@@ -287,10 +285,10 @@ export default class ImageryModal extends Component {
 
   render() {
     const { monthsVal, imageStyleVal, cloudScore, hoveredThumb, selectedThumb } = this.state;
-      const { imageryData, loadingImagery, imageryError} = this.props;
-      const filteredImageryData = imageryData.filter((data) => {
-        return data.attributes.cloud_score >= cloudScore[0] && data.attributes.cloud_score <= cloudScore[1];
-      });
+    const { imageryData, loadingImagery, imageryError } = this.props;
+    const filteredImageryData = imageryData.filter((data) => {
+      return data.attributes.cloud_score >= cloudScore[0] && data.attributes.cloud_score <= cloudScore[1];
+    });
     return (
       <DraggableModalWrapper onClose={this.close} onDragEnd={this.onDragEnd}>
         <div className='imagery-modal__wrapper'>

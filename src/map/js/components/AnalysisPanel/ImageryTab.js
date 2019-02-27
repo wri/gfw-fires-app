@@ -22,6 +22,7 @@ export default class ImageryTab extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery) {
+      console.log('should be in here');
       this.setState({ activeImagery: '' });
     }
   }

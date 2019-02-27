@@ -53,7 +53,9 @@ const KEYS = {
 
   planetBasemap: 'planetBasemap',
   digitalGlobeBasemap: 'digitalGlobeBasemap',
-  sentinalImagery: 'sentinalImagery'
+  sentinalImagery: 'sentinalImagery',
+  EXTRA_LAYERS: 'extraLayers',
+  RECENT_IMAGERY: 'RECENT_IMAGERY'
 };
 
 export { KEYS as default };
