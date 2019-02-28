@@ -160,7 +160,7 @@ export default class ImageryModal extends Component {
           className='thumbnail disabled'
           key={`thumb-${i}`}>
             <Loader active={this.props.loadingImagery} type={'imagery'} />
-            {!this.props.loadingImagery && <AlertsSvg />}
+            {!this.props.loadingImagery && <div className='imagery-alert-thumb'><AlertsSvg /></div>}
         </div>
       );
     } else {
