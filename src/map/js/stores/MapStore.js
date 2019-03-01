@@ -484,7 +484,7 @@ class MapStore {
     // Confirm the imagery data isn't already being loaded.
     if (this.loadingImagery) { return; }
 
-     this.imageryError = false;
+    this.imageryError = false;
     this.loadingImagery = true;
 
      // First make a reqest to the recent tiles metadata endpoint
@@ -499,7 +499,7 @@ class MapStore {
 
        const tileArrays = [];
 
-       response.data.tiles.forEach((tile, i) => {
+      response.data.tiles.forEach((tile, i) => {
         const index = i;
         if ((index % 5 === 0) || (i === 0)) {
           const tileArr = tiles.slice(index, index + 5);
@@ -507,7 +507,7 @@ class MapStore {
         }
       });
 
-       let responseCount = 0;
+      let responseCount = 0;
       tileArrays.forEach((tileArr, i) => {
         const index = i * 5;
 
@@ -519,6 +519,7 @@ class MapStore {
 
            if (responseCount === tileArrays.length) {
             this.loadingImagery = false;
+            // this.emitChange();
           }
           this.emitChange();
         }, () => {
@@ -528,7 +529,7 @@ class MapStore {
           }
         });
 
-       });
+      });
 
      }, () => {
       this.imageryParams = null;
@@ -542,7 +543,6 @@ class MapStore {
 
    setSelectedImagery(obj) {
     this.selectedImagery = obj;
-
    }
 
    setImageryHoverInfo(obj) {

@@ -17,6 +17,9 @@ import GeometryService from 'esri/tasks/GeometryService';
 import SpatialReference from 'esri/SpatialReference';
 import { modalText } from 'js/config';
 
+
+import on from 'dojo/on';
+
 export default class ImageryModal extends Component {
 
   //  static contextTypes = {
@@ -36,6 +39,13 @@ export default class ImageryModal extends Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // When panning while modal is open, we want to update selectedThumb state if no imagery is there
+    if (prevProps.selectedImagery && !this.props.selectedImagery) {
+      this.setState({ selectedThumb: null });
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.imageryModalVisible && !this.props.imageryModalVisible && !nextProps.imageryData.length) {
       this.updateImagery();
@@ -43,17 +53,17 @@ export default class ImageryModal extends Component {
     // Load first tile in imageryData array only if the tile_url does not equal the tile_url from the previous props.
     // or if this the first time the imagery data array has length.
     if ((nextProps.imageryData.length &&
-      nextProps.imageryData[0] &&
-      this.props.imageryData[0] &&
-      nextProps.imageryData[0].attributes.tile_url !== this.props.imageryData[0].attributes.tile_url) ||
-      (nextProps.imageryData.length && !this.props.imageryData.length)) {
+    nextProps.imageryData[0] &&
+    this.props.imageryData[0] &&
+    nextProps.imageryData[0].attributes.tile_url !== this.props.imageryData[0].attributes.tile_url) ||
+    (nextProps.imageryData.length && !this.props.imageryData.length)) {
       // filterImagery data based on the selected cloud score.
       const filteredImageryData = nextProps.imageryData.filter((data) => {
         return data.attributes.cloud_score >= this.state.cloudScore[0] && data.attributes.cloud_score <= this.state.cloudScore[1];
       });
       // Select first tile in the filteredImageryData array to display.
       if (filteredImageryData[0]) {
-        this.selectThumbnail(filteredImageryData[0], 0);
+        // this.selectThumbnail(filteredImageryData[0], 0);
       }
     }
   }
@@ -78,8 +88,8 @@ export default class ImageryModal extends Component {
     }
 
     this.setState({ selectedThumb: { index: i, tileObj } });
-    mapActions.setSelectedImagery.defer(tileObj);
-
+    // setTimeout(() => mapActions.setSelectedImagery(tileObj), 1000);
+    mapActions.setSelectedImagery(tileObj);
 
     // Add graphic to the map for hover effect on tile.
     let imageryGraphicsLayer = map.getLayer('imageryGraphicsLayer');
@@ -362,7 +372,7 @@ export default class ImageryModal extends Component {
           <div className='imagery-modal__section thumbnail_container flex'>
             {imageryError &&
               <div className='imagery-modal__error'>
-                <AlertsSvg />
+                <div className='imagery-alert-thumb'><AlertsSvg /></div>
                 <p>Error loading recent imagery.</p>
               </div>
             }

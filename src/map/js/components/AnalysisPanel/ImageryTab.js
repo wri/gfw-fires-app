@@ -22,7 +22,6 @@ export default class ImageryTab extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery) {
-      console.log('should be in here');
       mapActions.setImagery('');
       app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
     }
@@ -33,7 +32,6 @@ export default class ImageryTab extends React.Component {
   }
 
   clickedImagery = (evt) => {
-    console.log('layerConfig', layersConfig);
     // let currImagery = '';
     // const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
@@ -78,12 +76,12 @@ export default class ImageryTab extends React.Component {
     }
 
     mapActions.setImagery(currImagery);
-    console.log('state', this.state);
   };
 
   showInfo = (evt) => {
     evt.stopPropagation();
-    const id = evt.currentTarget.parentElement.dataset.basemap === 'planetBasemap' ? evt.currentTarget.parentElement.dataset.basemap : 'dg-00';
+    console.log('evt', evt.currentTarget.parentElement.dataset.basemap);
+    const id = evt.currentTarget.parentElement.dataset.basemap === 'digitalGlobeBasemap' ? 'dg-00' : evt.currentTarget.parentElement.dataset.basemap;
     modalActions.showLayerInfo(id);
   }
 
@@ -92,13 +90,17 @@ export default class ImageryTab extends React.Component {
   }
 
   render () {
-    const { activeImagery, iconLoading, activePlanetPeriod, activeCategory, activePlanetBasemap } = this.state;
+    const { activeImagery, iconLoading, activePlanetPeriod, activeCategory, activePlanetBasemap, selectedImagery } = this.state;
     const { monthlyPlanetBasemaps, quarterlyPlanetBasemaps, activeTab } = this.props;
     const { planetBasemap, digitalGlobe, digitalGlobeBasemap, sentinalImagery } = KEYS;
 
     let className = 'imagery-tab';
     if (activeTab !== analysisPanelText.imageryTabId) { className += ' hidden'; }
     let dgLayer = layersConfig.filter((l) => l.id === digitalGlobe)[0];
+    let imageryString;
+    if (selectedImagery) {
+      imageryString = `${window.Kalendae.moment(selectedImagery.attributes.date_time).format('DD MMM YYYY')}, ${Math.round(selectedImagery.attributes.cloud_score)}% cloud coverage, ${selectedImagery.attributes.instrument}`;
+    }
 
     return (
       <div className={className}>
@@ -126,11 +128,11 @@ export default class ImageryTab extends React.Component {
           <ImageryComponent {...this.state} options={dgLayer.calendar} active={activeImagery === digitalGlobeBasemap} layer={dgLayer} /> }
         </div>
         <div data-basemap={sentinalImagery} className={`basemap-item ${activeImagery === sentinalImagery ? 'active' : ''}`} onClick={this.clickedImagery}>
-          <span className={`basemap-thumbnail digital-globe-basemap ${activeImagery === sentinalImagery ? 'active' : ''}`} />
+          <span className={`basemap-thumbnail sentinal-imagery-basemap ${activeImagery === sentinalImagery ? 'active' : ''}`} />
           <div className='basemap-label'>Sentinal Imagery
-            <div className='layer-checkbox-sublabel basemap-sublabel'>(THIS NEEDS TO MATCH GFW MAPBUILDER)</div>
+            {selectedImagery && <div className='layer-checkbox-sublabel basemap-sublabel'>({imageryString})</div>}
           </div>
-          <span className={`info-icon pointer info-icon-center ${iconLoading === sentinalImagery ? 'iconLoading' : ''}`} onClick={() => console.log('clicked')}>
+          <span className={`info-icon pointer info-icon-center ${iconLoading === sentinalImagery ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
           {/* { activeImagery === sentinalImagery &&

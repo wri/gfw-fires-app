@@ -63,7 +63,9 @@ export const config = {
       'https://gis-gfw.wri.org/',
       'https://production-api.globalforestwatch.org/v1/gfw-metadata/',
       'https://fires.globalforestwatch.org/map/php/proxy.php',
-      'https://gis-gfw.wri.org'
+      'https://gis-gfw.wri.org',
+      'https://production-api.globalforestwatch.org/recent-tiles/thumbs',
+      'production-api.globalforestwatch.org/recent-tiles/thumbs'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [
@@ -1003,7 +1005,13 @@ export const config = {
     {
       id: KEYS.planetBasemap,
       metadataId: 'planet_basemaps'
-    }
+    },
+    // {
+    //   id: 'imageryGraphicsLayer',
+    //   type: 'imagery',
+    //   url: 'https://earthengine.googleapis.com/map/',
+    //   metadataId: ''
+    // }
   ],
 
   symbol: {

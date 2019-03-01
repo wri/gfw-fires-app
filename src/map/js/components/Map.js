@@ -4,14 +4,18 @@ import MobileUnderlay from 'components/Mobile/MobileUnderlay';
 import MobileControls from 'components/Mobile/MobileControls';
 import ControlPanel from 'components/MapControls/ControlPanel';
 import LayerPanel from 'components/LayerPanel/LayerPanel';
+import ImageryHoverModal from 'components/AnalysisPanel/ImageryHoverModal';
 import Timeline from 'components/Timeline/Timeline';
 import SentinalImagery from 'components/AnalysisPanel/SentinalImagery';
 import {mapActions} from 'actions/MapActions';
 import {mapStore} from 'stores/MapStore';
 import {getUrlParams} from 'utils/params';
+import KEYS from 'js/constants';
 import {mapConfig} from 'js/config';
 import ShareHelper from 'helpers/ShareHelper';
 import { ViewFinderSvg } from 'utils/svgs';
+import ScreenPoint from 'esri/geometry/ScreenPoint';
+import on from 'dojo/on';
 import React, {
   Component
 } from 'react';
@@ -50,6 +54,34 @@ export default class Map extends Component {
       } else {
         ShareHelper.applyInitialState();
       }
+
+      on.once(app.map, 'update-end', () => {
+        app.map.on('extent-change', (evt) => {
+          const imageryLayer = app.map.getLayer(KEYS.RECENT_IMAGERY);
+          if (!imageryLayer || !imageryLayer.visible || evt.lod.level > 9) { return; }
+          if (imageryLayer) {
+            imageryLayer.setUrl('');
+            mapActions.setSelectedImagery(null);
+
+            const { imageryParams } = this.state;
+            const params = imageryParams ? imageryParams : {};
+
+            const xVal = window.innerWidth / 2;
+            const yVal = window.innerHeight / 2;
+
+            // Create new screen point at center;
+            const screenPt = new ScreenPoint(xVal, yVal);
+            // Convert screen point to map point and zoom to point;
+            const mapPt = app.map.toMap(screenPt);
+            // Note: Lat and lon are intentionally reversed until imagery api is fixed.
+            // The imagery API only returns the correct image for that lat/lon if they are reversed.
+            params.lon = mapPt.getLatitude();
+            params.lat = mapPt.getLongitude();
+
+            mapActions.getSatelliteImagery(params);
+          }
+        });
+      });
     });
   }
   storeDidUpdate = () => {
@@ -77,7 +109,15 @@ export default class Map extends Component {
             imageryModalVisible={imageryModalVisible}
             imageryError={imageryError}
             imageryHoverVisible={this.state.imageryHoverVisible}
+            selectedImagery={this.state.selectedImagery}
           />
+          { this.state.imageryHoverInfo && this.state.imageryHoverInfo.visible && this.state.selectedImagery &&
+            <ImageryHoverModal
+              selectedImagery={this.state.selectedImagery}
+              top={this.state.imageryHoverInfo.top}
+              left={this.state.imageryHoverInfo.left}
+            />
+          }
         </div>
       </div>
     );

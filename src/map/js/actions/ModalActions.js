@@ -11,10 +11,37 @@ class ModalActions {
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
 
-    let metadataId = layersConfig.filter((l) => l.id === layerId)[0].metadataId;
+    // if (layerId === 'sentinalImagery') {
+    //   esriRequest({
+    //     url: `https://gis-gfw.wri.org/metadata/recent_satellite_imagery`,
+    //     handleAs: 'json',
+    //     callbackParamName: 'callback',
+    //     content: { f: 'json' }
+    //   // fetch('https://gis-gfw.wri.org/metadata/recent_satellite_imagery', {
+    //     // method: "POST", // *GET, POST, PUT, DELETE, etc.
+    //     // mode: "cors", // no-cors, cors, *same-origin
+    //     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    //     // credentials: "same-origin", // include, *same-origin, omit
+    //     // headers: {
+    //     //     "Content-Type": "application/json",
+    //     //     // "Content-Type": "application/x-www-form-urlencoded",
+    //     // },
+    //     // redirect: "follow", // manual, *follow, error
+    //     // referrer: "no-referrer", // no-referrer, *client
+    //     // body: JSON.stringify(data), // body data type must match "Content-Type" header
+    //   }).then(res => console.log('res', res));
+    //   return;
+    // }
+    let url;
+    if (layerId === 'sentinalImagery') {
+      url = 'https://gis-gfw.wri.org/metadata/recent_satellite_imagery';
+    } else {
+      let metadataId = layersConfig.filter((l) => l.id === layerId)[0].metadataId;
+      url = metadataUrl + metadataId;
+    }
 
     esriRequest({
-      url: metadataUrl + metadataId,
+      url: url,
       handleAs: 'json',
       callbackParamName: 'callback'
     }, {
