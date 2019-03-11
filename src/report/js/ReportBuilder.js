@@ -1518,9 +1518,11 @@ define([
             promiseUrls.push(...urls);
           } else {
             const urls = [
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, // old aggregate
+              'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/admin/global?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2019-03-01',
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2018-12-25`,
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}` // admin 1
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`// request for heat map below
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2017-06-01,2018-12-25`
             ];
             promiseUrls.push(...urls);
@@ -1621,96 +1623,8 @@ define([
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
               } else {
                 // Global Report
-                const allYearsData = [];
-                const data2001 = [], data2002 = [], data2003 = [], data2004 = [], data2005 = [], data2006 = [], data2007 = [], data2008 = [], data2009 = [], data2010 = [], data2011 = [], data2012 = [], data2013 = [], data2014 = [], data2015 = [], data2016 = [], data2017 = [], data2018 = [], data2019 = [];
                 console.log('backupValue', backupValue);
-                backupValue.forEach((resultObject, i) => {
-                  // check the year
-                  switch (resultObject.year) {
-                    case 2001:
-                      data2001.push(resultObject.alerts);
-                      break;
-                    
-                    case 2002:
-                      data2002.push(resultObject.alerts);
-                      break;
-                    
-                    case 2003:
-                      data2003.push(resultObject.alerts);
-                      break;
-                    
-                    case 2004:
-                      data2004.push(resultObject.alerts);
-                      break;
-                    
-                    case 2005:
-                      data2005.push(resultObject.alerts);
-                      break;
-                    
-                    case 2006:
-                      data2006.push(resultObject.alerts);
-                      break;
-                    
-                    case 2007:
-                      data2007.push(resultObject.alerts);
-                      break;
-                    
-                    case 2008:
-                      data2008.push(resultObject.alerts);
-                      break;
-                    
-                    case 2009:
-                      data2009.push(resultObject.alerts);
-                      break;
-                    
-                    case 2010:
-                      data2010.push(resultObject.alerts);
-                      break;
-                    
-                    case 2011:
-                      data2011.push(resultObject.alerts);
-                      break;
-                    
-                    case 2012:
-                      data2012.push(resultObject.alerts);
-                      break;
-                    
-                    case 2013:
-                      data2013.push(resultObject.alerts);
-                      break;
-                    
-                    case 2014:
-                      data2014.push(resultObject.alerts);
-                      break;
-                    
-                    case 2015:
-                      data2015.push(resultObject.alerts);
-                      break;
-                    
-                    case 2016:
-                      data2016.push(resultObject.alerts);
-                      break;
-                    
-                    case 2017:
-                      data2017.push(resultObject.alerts);
-                      break;                      
-
-                    case 2018:
-                      data2018.push(resultObject.alerts);
-                      break;
-
-                    case 2019:
-                      data2019.push(resultObject.alerts);
-                      break;
-
-                    default:
-                      break;
-                  }
-                })
-                  // push the alerts value to that array at a specific index
-                allYearsData.push(data2001, data2002, data2003, data2004, data2005, data2006, data2007, data2008, data2009, data2010, data2011, data2012, data2013, data2014, data2015, data2016, data2017, data2018, data2019);
-                console.log('allYearsData', allYearsData); // limited to ~40k results before timeout
-                console.log('windowReportOptions', window.reportOptions.stateObjects);
+                // backupValue.forEach((resultObject, i) => {
                 window.reportOptions.stateObjects.forEach((adm) => { //  Stateobjects only exist while looking at a specific country. They are unavailable on the Global Report view.
                   console.log('adm', adm);
                   backupValue.filter((value) => {
@@ -1842,7 +1756,7 @@ define([
             );
 
             console.log('were inside', series);
-            var firesCountChart = Highcharts.chart('firesCountChart', {
+            var firesCountChart = Highcharts.chart('firesCountChart', { // progression
               title: {
                 text: ''
               },
@@ -2074,7 +1988,7 @@ define([
             });
           }
 
-          $('.fire-history__chart').highcharts({
+          $('.fire-history__chart').highcharts({ // red bubble heat fire map
             chart: {
               type: 'bubble',
             },
