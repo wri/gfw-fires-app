@@ -1746,7 +1746,13 @@ define([
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
 
-            const currYearFireCount = series[series.length - 1].data[0];
+            let accurateTotal = 0;
+            series.forEach(dataObject => {
+              accurateTotal += dataObject.data[0];
+            })
+            console.log('accurateTotal', accurateTotal);
+            // const currYearFireCount = series[series.length - 1].data[0]; old, only got first month of current year's data for total.
+            const currYearFireCount = accurateTotal;
 
             let tempSeries = [];
             for (let i = 0; i < series[series.length - 1].data.length; i++) {
