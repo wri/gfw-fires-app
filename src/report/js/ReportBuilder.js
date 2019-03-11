@@ -1759,7 +1759,8 @@ define([
             
             let accurateTotal = 0;
             series[series.length - 1].data.forEach(monthInCurrentYear => {
-              accurateTotal += monthInCurrentYear.data[0];
+              console.log('monthInCurrentYear', monthInCurrentYear);
+              accurateTotal += monthInCurrentYear;
             })
             console.log('accurateTotal', accurateTotal);
             const currYearFireCount = accurateTotal;
