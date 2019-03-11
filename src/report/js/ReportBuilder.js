@@ -1745,24 +1745,24 @@ define([
 
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
-
-            let accurateTotal = 0;
-            series.forEach(dataObject => {
-              accurateTotal += dataObject.data[0];
-            })
-            console.log('accurateTotal', accurateTotal);
+            
             // const currYearFireCount = series[series.length - 1].data[0]; old, only got first month of current year's data for total.
-            const currYearFireCount = accurateTotal;
-
+            
             let tempSeries = [];
             for (let i = 0; i < series[series.length - 1].data.length; i++) {
-             if (typeof series[18].data[i] !== 'object' && i !== 11) {
-              tempSeries.push(series[series.length - 1].data[i]);
-             }
+              if (typeof series[18].data[i] !== 'object' && i !== 11) {
+                tempSeries.push(series[series.length - 1].data[i]);
+              }
             }
             series[series.length - 1].data = tempSeries;
             console.log('series', series);
-            console.log('tmpseries', tempSeries);
+            
+            let accurateTotal = 0;
+            series[series.length - 1].data.forEach(monthInCurrentYear => {
+              accurateTotal += monthInCurrentYear.data[0];
+            })
+            console.log('accurateTotal', accurateTotal);
+            const currYearFireCount = accurateTotal;
 
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
