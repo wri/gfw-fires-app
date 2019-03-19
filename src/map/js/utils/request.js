@@ -1008,42 +1008,6 @@ const request = {
   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
   * @return {Deferred} deferred
   */
-  identifyTwitter: mapPoint => {
-    let deferred = new Deferred();
-    let config = utils.getObject(layersConfig, 'id', KEYS.twitter);
-    let identifyTask = new IdentifyTask(config.url);
-    let params = new IdentifyParameters();
-
-    params.tolerance = 2;
-    params.returnGeometry = true;
-    params.width = app.map.width;
-    params.height = app.map.height;
-    params.geometry = mapPoint;
-    params.mapExtent = app.map.extent;
-    params.layerIds = config.layerIds;
-    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
-
-    identifyTask.execute(params, function(features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.twitter,
-          features: features
-        });
-      } else {
-        deferred.resolve(false);
-      }
-    }, function(error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
-
-    return deferred.promise;
-  },
-
-  /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
   identifyArchive: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.archiveFires);
