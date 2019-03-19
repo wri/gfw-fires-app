@@ -824,6 +824,21 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       'minScale': 0,
       'maxScale': 10000,
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer'
+    }, {
+      id: _constants2.default.fireStories,
+      order: 11,
+      type: 'feature',
+      label: 'Fire stories',
+      group: 'stories',
+      layerIds: [10],
+      className: 'fire-stories',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+      metadataId: 'user_stories',
+      infoTemplate: app.mobile() === true ? {
+        content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
+      } : {
+        content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
+      }
     }],
 
     symbol: {
