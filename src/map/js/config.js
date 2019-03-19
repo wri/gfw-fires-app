@@ -976,21 +976,6 @@ export const config = {
         '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
         '<tr><td class="field-value wide">${Date}</td></tr>'
       }
-    },
-    {
-      id: KEYS.twitter,
-      order: 11,
-      type: 'feature',
-      label: 'Twitter',
-      group: 'stories',
-      layerIds: [3],
-      className: 'twitter',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
-    },
-    {
-      id: KEYS.planetBasemap,
-      metadataId: 'planet_basemaps'
     }
   ],
 
