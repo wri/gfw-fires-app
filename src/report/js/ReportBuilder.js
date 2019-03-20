@@ -1515,14 +1515,9 @@ define([
             ];
             promiseUrls.push(...urls);
           } else {
+            // Queries to use if the report is for a country-wide or global report
             const urls = [
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2019-03-01`, // thru 3/1
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`,
-
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2018-12-25`,
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2017-06-01,2018-12-25`
             ];
             promiseUrls.push(...urls);
           }
@@ -1554,8 +1549,6 @@ define([
                 }
               });
             }
-            // backupValues for Global Report is an array with a single index 
-            // backupValues for Country Views are arrays with a multiple indecies. 
 
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             
