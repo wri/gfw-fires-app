@@ -976,6 +976,10 @@ export const config = {
         '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
         '<tr><td class="field-value wide">${Date}</td></tr>'
       }
+    },
+    {
+      id: KEYS.planetBasemap,
+      metadataId: 'planet_basemaps'
     }
   ],
 
