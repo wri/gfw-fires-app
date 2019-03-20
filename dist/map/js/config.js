@@ -839,6 +839,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       } : {
         content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
       }
+    }, {
+      id: _constants2.default.planetBasemap,
+      metadataId: 'planet_basemaps'
     }],
 
     symbol: {
