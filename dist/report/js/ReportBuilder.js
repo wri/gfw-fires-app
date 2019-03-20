@@ -41,9 +41,7 @@ define([
             if (window.reportOptions.aois) {
               this.aoilist = window.reportOptions.aois;
               document.querySelector('#aoiList').innerHTML = self.aoilist.replace(/''/g, "'");
-              console.log('in');
             } else if (window.reportOptions.stateObjects) {
-              console.log('out');
               document.querySelector('#aoiList').innerHTML = window.reportOptions.stateObjects.map(adm1 => {
                 return adm1.name_1;
               }).join(', ');
@@ -170,7 +168,6 @@ define([
           const query = new Query();
           query.returnGeometry = false;
           if (window.reportOptions.aois) {
-            console.log('??');
             query.where = `NAME_1 = '${window.reportOptions.aois}'`;
             query.returnGeometry = false;
             query.outFields = ['id_1'];
@@ -187,7 +184,7 @@ define([
             // Global Report
             deferred.resolve(true);
           } else {
-            console.log('yyyy');
+
             query.where = `NAME_0 = '${window.reportOptions.country}'`;
             query.outFields = ['id_1', 'name_1'];
 
@@ -1518,14 +1515,13 @@ define([
             ];
             promiseUrls.push(...urls);
           } else {
-            console.log('???', 'using the new query');
             const urls = [
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2019-03-01`, // thru 3/1
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // thru today
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`,
 
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2018-12-25`,
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}` // admin 1; 2
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`// request for heat map below
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_by=year&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD
               // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2017-06-01,2018-12-25`
             ];
             promiseUrls.push(...urls);
@@ -1534,8 +1530,6 @@ define([
           Promise.all(promiseUrls.map((promiseUrl) => {
             return request.get(promiseUrl, handleAs);
           })).then(responses => {
-            console.log('???', responses);
-            // console.log('responses', responses[1].data.attributes.value); // what we want
             let series = [];
             const colors = {};
             let seriesTemp = { data: [], name: '' };
@@ -1626,14 +1620,10 @@ define([
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
               } else {
                 // Global Report
-                console.log('backupValue', backupValue);
-                // backupValue.forEach((resultObject, i) => {
                 window.reportOptions.stateObjects.forEach((adm) => { //  Stateobjects only exist while looking at a specific country. They are unavailable on the Global Report view.
-                  console.log('adm', adm);
                   backupValue.filter((value) => {
                     return value.adm1 == adm.id_1;
                   }).forEach((bValue, i) => {
-                    console.log('bvalue', bValue);
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
 
@@ -1683,7 +1673,7 @@ define([
 
             tmpArr = [];
             let year;
-            console.log(values);
+
             values.forEach((value, i) => {
               if (i % 12 === 0 && i !== 0) {
                 seriesTemp.name = year;
@@ -1730,19 +1720,15 @@ define([
 
                 series.push(seriesTemp);
               } else {
-                console.log('???', 'inside');
                 year = value.year;
                 tmpArr.push(value.alerts);
                 seriesTemp.data.push(tmpArr.reduce(reducer));
               }
             });
-            console.log('???');
             series[series.length-1].color = "#d40000";
             
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
-            console.log('???');
             window['firesCountRegionCurrentYear'] = currentYear;
-            console.log('series', series[series.length - 1].data[0]);
 
             // const currYearFireCount = series[series.length - 1].data[0];
 
@@ -1758,13 +1744,11 @@ define([
             // For each index, sum the totals
             const currYearFireCount = tempSeries.reduce((accumulator, currentValue) => accumulator + currentValue);
             
-            console.log('currYearFireCount', currYearFireCount);
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
             );
 
-            console.log('were inside', series);
             var firesCountChart = Highcharts.chart('firesCountChart', { // progression
               title: {
                 text: ''
