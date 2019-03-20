@@ -1518,7 +1518,7 @@ define([
           } else {
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
+              'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/admin/global?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2019-03-01'
             ];
             promiseUrls.push(...urls);
           }
@@ -1612,9 +1612,7 @@ define([
 
               } else {
                   window.reportOptions.stateObjects.forEach((adm) => {
-                  backupValue.filter((value) => {
-                    return value.adm1 == adm.id_1;
-                  }).forEach((bValue, i) => {
+                  backupValue.forEach((bValue, i) => { // I think the filter doesn't need to be here inthe new query
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
 
