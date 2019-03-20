@@ -180,13 +180,6 @@ let LayersHelper = {
       }
     }
 
-    layer = app.map.getLayer(KEYS.twitter);
-    if (layer) {
-      if (layer.visible) {
-        deferreds.push(Request.identifyTwitter(mapPoint));
-      }
-    }
-
     layer = app.map.getLayer(KEYS.boundingBoxes);
     if (layer) {
       if (layer.visible) {
@@ -257,9 +250,6 @@ let LayersHelper = {
           case KEYS.fireStories:
             features = features.concat(this.setStoryTemplates(item.features, KEYS.fireStories));
             // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
-            break;
-          case KEYS.twitter:
-            features = features.concat(this.setTweetTemplates(item.features, mapPoint));
             break;
           case KEYS.overlays:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
@@ -414,44 +404,6 @@ let LayersHelper = {
     return [features[0]];
   },
 
-  setTweetTemplates: function(features, mapPoint) {
-    let template, htmlContent, tweetId;
-    features.forEach(item => {
-      let url = item.feature.attributes.link;
-      let indexId = url.lastIndexOf('/') + 1;
-      tweetId = url.substring(indexId);
-
-      if (app.mobile() === true) {
-        htmlContent = '<div class="tweet-container mobile">';
-        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-        htmlContent += '<div id="tweet"></div>';
-        htmlContent += '</div>';
-      } else {
-        htmlContent = '<div class="tweet-container">';
-        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-        htmlContent += '<div id="tweet"></div>';
-        htmlContent += '</div>';
-      }
-    });
-
-    template = new InfoTemplate('Twitter', htmlContent);
-    features[0].feature.setInfoTemplate(template);
-
-    on.once(app.map.infoWindow, 'show', () => {
-      app.map.infoWindow.hide();
-      app.map.infoWindow.resize(500, 200);
-      twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
-        cards: 'hidden',
-        align: 'center'
-      }).then((el) => {
-        if (el) {
-          app.map.infoWindow.show(mapPoint);
-        }
-      });
-    });
-
-    return [features[0].feature];
-  },
   setStoryTemplates: function(features) {
     let template, htmlContent;
 
@@ -772,37 +724,6 @@ let LayersHelper = {
     let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
     if (firesHistory) { firesHistory.setDefinitionExpression("Name = '" + value + "'"); }
   },
-
-  // toggleConfidence (checked) {
-  //   app.debug('LayersHelper >>> toggleConfidence');
-  //   let firesLayer = app.map.getLayer(KEYS.activeFires);
-  //   let defs = firesLayer.layerDefinitions;
-  //
-  //   if (firesLayer) {
-  //     firesLayer.visibleLayers.forEach(val => {
-  //       let currentString = defs[val];
-  //       if (currentString) {
-  //         if (currentString.indexOf('ACQ_DATE') > -1) {
-  //           if (checked) {
-  //             defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-  //           } else {
-  //             let string = currentString.split('ACQ_DATE')[1];
-  //             defs[val] = 'ACQ_DATE' + string;
-  //           }
-  //         } else {
-  //           if (checked) {
-  //             defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-  //           } else {
-  //             defs[val] = '1=1';
-  //           }
-  //         }
-  //       } else {
-  //         defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-  //       }
-  //     });
-  //     firesLayer.setLayerDefinitions(defs);
-  //   }
-  // },
 
   toggleArchiveConfidence (checked) {
     app.debug('LayersHelper >>> toggleArchiveConfidence');
