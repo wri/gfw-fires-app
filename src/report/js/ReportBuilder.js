@@ -1724,7 +1724,7 @@ define([
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
 
-            // const currYearFireCount = series[series.length - 1].data[0];
+            const currYearFireCount = series[series.length - 1].data[0];
 
             let tempSeries = [];
             for (let i = 0; i < series[series.length - 1].data.length; i++) {
@@ -1736,7 +1736,7 @@ define([
 
             // Iterate over all indecies on tempSeries
             // For each index, sum the totals
-            const currYearFireCount = tempSeries.reduce((accumulator, currentValue) => accumulator + currentValue);
+            // const currYearFireCount = tempSeries.reduce((accumulator, currentValue) => accumulator + currentValue);
             
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
@@ -1831,6 +1831,7 @@ define([
                 temp.push(countryData[countryData.length - 1].data[i]);
               }
              }
+             
              countryData[countryData.length - 1].data = temp;
 
              firesCountChart.update({
@@ -1875,7 +1876,8 @@ define([
 
             let updatedSeries = [], total;
             let regionData;
-            if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
+
+            if (newSeriesDataObj[selectedIslandOrRegion].length > 0) { // if all regions are selected within a country, it goes in here 
               let dataObject = newSeriesDataObj[selectedIslandOrRegion] // Collection of all the data per month, per year for a specific state/region.
               for (let i = 0; i < dataObject.length; i++) {
                 const yearObject = {
@@ -1898,14 +1900,18 @@ define([
               updatedSeries = window.firesCountRegionSeries;
               total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
             }
-
+            console.log(updatedSeries)
             let tempDataSeries = [];
             for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) { // iterate over the months in the current year, which is the last key of the updatedSeries object
-              if (typeof updatedSeries[updatedSeries.length - 1].data[i] !== 'object' && i !== 11) {
+              if (i === updatedSeries[updatedSeries.length - 1].data.length - 1) {
+                // Push the object
+                tempDataSeries.push({y:updatedSeries[updatedSeries.length - 1].data[i], dataLabels: {align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 }})
+              } else if (typeof updatedSeries[updatedSeries.length - 1].data[i] !== 'object' && i !== 11) {
+                // Push the value
                 tempDataSeries.push(updatedSeries[updatedSeries.length - 1].data[i]);
               }
             }
-            
+            console.log(tempDataSeries)
             updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
