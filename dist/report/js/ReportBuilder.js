@@ -1735,19 +1735,22 @@ define([
 
                 series.push(seriesTemp);
               } else {
+                console.log('???', 'inside');
                 year = value.year;
                 tmpArr.push(value.alerts);
                 seriesTemp.data.push(tmpArr.reduce(reducer));
               }
             });
-
+            console.log('???');
             series[series.length-1].color = "#d40000";
-
+            
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
+            console.log('???');
             window['firesCountRegionCurrentYear'] = currentYear;
-            
-            // const currYearFireCount = series[series.length - 1].data[0]; old, only got first month of current year's data for total.
-            
+            console.log('series', series[series.length - 1].data[0]);
+
+            // const currYearFireCount = series[series.length - 1].data[0];
+
             let tempSeries = [];
             for (let i = 0; i < series[series.length - 1].data.length; i++) {
               if (typeof series[18].data[i] !== 'object' && i !== 11) {
@@ -1755,16 +1758,12 @@ define([
               }
             }
             series[series.length - 1].data = tempSeries;
-            console.log('series', series);
-            
-            let accurateTotal = 0;
-            series[series.length - 1].data.forEach(monthInCurrentYear => {
-              console.log('monthInCurrentYear', monthInCurrentYear);
-              accurateTotal += monthInCurrentYear;
-            })
-            console.log('accurateTotal', accurateTotal);
-            const currYearFireCount = accurateTotal;
 
+            // Iterate over all indecies on tempSeries
+            // For each index, sum the totals
+            const currYearFireCount = tempSeries.reduce((accumulator, currentValue) => accumulator + currentValue);
+            
+            console.log('currYearFireCount', currYearFireCount);
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${currYearFireCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
