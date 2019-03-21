@@ -1845,7 +1845,8 @@ define([
                 })
              total = count;
             }
-
+            debugger;
+            console.log(total);
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
                <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
@@ -1922,6 +1923,8 @@ define([
                 total = total.y;
               }
             }
+            debugger;
+            console.log(total);
 
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date

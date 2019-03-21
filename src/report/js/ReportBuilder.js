@@ -1843,10 +1843,42 @@ define([
                 })
              total = count;
             }
+            /********************** NOTE **********************
+            ***************************************************/
+            let updatedSeriesTotal = [] // Series of data to be given to Highcharts
+            let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
 
+            if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
+              // we shouldn't have to do anything
+            } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
+              console.log(window.firesCountRegionSeries) 
+            } else if (window.reportOptions.country !== 'ALL') { // If we're viewing all subregions in a specific country
+              const historicalRegionDataTotal = window.firesCountRegionSeries; // pull data into the function's scope
+
+              historicalRegionDataTotal.forEach((yearOfData, i) => {// iterate over each year's index.
+                const yearObject = { // create a year object to hold our data
+                  color: historicalRegionDataTotal[0].color,
+                  year: historicalRegionDataTotal[i].name,
+                  data: [],
+                  lineWidth: 1
+                };
+                updatedSeriesTotal.push(yearObject); // For each year of data we need an object on the updatedSeriesTotal array
+              });
+
+              historicalRegionDataTotal.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
+                yearOfData.data.forEach(monthlyFiresCount => {
+                  updatedSeriesTotal[i].data.push(monthlyFiresCount);
+                })
+              })
+              updatedSeriesTotal[updatedSeriesTotal.length - 1].data.forEach(monthlyFireCount => {
+                totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y;
+              });
+            }
+            /********************** NOTE **********************
+            ***************************************************/
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
-               <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+               <span class="total_firecounts">${totalRegion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
              );
            });
 
@@ -1854,44 +1886,91 @@ define([
              $('#firesCountIslandsListContainer h3').removeClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
              $(this).addClass('selected');
-             
              const selectedIslandOrRegion = $(this).text();
-
+             
              /**********************COMMENT**********************
-             We noticed a bug with our production build where the data would mutate after clicking on a second region. 
-             Once mutated, clicking back to that region would cause the chart data to not update.
-             We do not believe this was a problem with the code, but a problem with the way highcharts was accessing the reference data of newSeriesData.
-             We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
-             We resolved this by manually recreating the data object as the "updatedSeries", and passing the updatedSeries object to Highcharts.
-             The code below contains the logic we used to manually pass the data to the new objects. We utilized nested for loops to be as explicit as possible. 
+              * This function fires off when a user clicks on a specific region within the "FIRE HISTORY: FIRE SEASON PROGRESSION" Chart.
+              * This function will update the series data on Highcharts to only display the historical data for a specific region, and update the current year-to-date total in the header
+              * In early testing, we noticed a bug where the data would mutate after clicking on a second region, and clicking back to the previous region would cause the chart data to not update.
+              * This was a problem with the way highcharts was accessing the reference data of newSeriesData.
+              * We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
+              * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
              **************************************************/
 
-            let updatedSeries = [], total;
-            let regionData;
-            if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, it goes in here
-              let dataObject = newSeriesDataObj[selectedIslandOrRegion] // Collection of all the data per month, per year for a specific state/region.
-              for (let i = 0; i < dataObject.length; i++) {
-                const yearObject = {
-                  color: dataObject[i].color,
-                  name: dataObject[i].name,
+            let updatedSeries = [] // Series of data to be given to Highcharts
+            let total = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
+
+            if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
+              // we shouldn't have to do anything
+            } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
+              console.log(window.firesCountRegionSeries) 
+            } else if (window.reportOptions.country !== 'ALL') { // If we're viewing all subregions in a specific country
+              const historicalRegionData = window.firesCountRegionSeries; // pull data into the function's scope
+
+              historicalRegionData.forEach((yearOfData, i) => {// iterate over each year's index.
+                const yearObject = { // create a year object to hold our data
+                  color: historicalRegionData[0].color,
+                  year: historicalRegionData[i].name,
                   data: [],
                   lineWidth: 1
                 };
-                for (let j = 0; j < dataObject[i].data.length; j++) {
-                  if (j === 11) { // The last index of each year's data object (11) is an object with 2 keys: DataLabels and a Y value. We need to push both the Y value and the data labels. 
-                    yearObject.data.push({y: dataObject[i].data[j].y, dataLabels: dataObject[i].data[j].dataLabels})
-                  } else { // Every other month/index on the data object is a numeric value, so we can push it as it is.
-                    yearObject.data.push(dataObject[i].data[j]) 
-                  }
-                }
-                updatedSeries.push(yearObject)
-                total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
-              }
-            } else { // if any specific provinces are selected, it plugs here
-              updatedSeries = window.firesCountRegionSeries;
-              total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
-            }
+                updatedSeries.push(yearObject); // For each year of data we need an object on the updatedSeries array
+              });
 
+              historicalRegionData.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
+                yearOfData.data.forEach(monthlyFiresCount => {
+                  updatedSeries[i].data.push(monthlyFiresCount);
+                })
+              })
+              console.log(updatedSeries); // contains all regional data. Grab the total from this
+              updatedSeries[updatedSeries.length - 1].data.pop(); // There's a ghost item being pushed 
+              console.log(updatedSeries[updatedSeries.length - 1].data); // contains all regional data. Grab the total from this
+              updatedSeries[updatedSeries.length - 1].data.forEach(monthlyFireCount => {
+                console.log(monthlyFireCount);
+                total += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y;
+              });
+            }
+            // for each region
+
+            // yearOfData.data.forEach(monthOfData => { //
+            //   // Find out the index of updatedSeries where the year of the year object == month of data's year
+            //   // console.log('monthOfData', monthOfData) // value to push
+            //   console.log(updatedSeries.map(x => x.name).indexOf('2015'));
+            //   // // updatedSeries[updatedSeries.map((x) => x.name).indexOf(yearOfData.name)]
+
+
+            
+            //   })
+            // })
+            // newSeriesDataObj[selectedIslandOrRegion]
+            // if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, data comes from here
+            //   let historicalDataForEachRegion = newSeriesDataObj[selectedIslandOrRegion] // Get each region's historical data by month
+            //   for (let i = 0; i < historicalDataForEachRegion.length; i++) { // for each region
+            //     // Go through each region
+            //     // Take each month's data and push it to a year object
+            //     // for the last index of each year, make it an object
+            //     const yearObject = {
+            //       color: historicalDataForEachRegion[i].color,
+            //       name: historicalDataForEachRegion[i].name,
+            //       data: [],
+            //       lineWidth: 1
+            //     };
+            //     for (let j = 0; j < historicalDataForEachRegion[i].data.length; j++) {
+            //       if (j === 11) { // The last index of each year's data object (11) is an object with 2 keys: DataLabels and a Y value. We need to push both the Y value and the data labels. 
+            //         yearObject.data.push({y: historicalDataForEachRegion[i].data[j].y, dataLabels: historicalDataForEachRegion[i].data[j].dataLabels})
+            //       } else { // Every other month/index on the data object is a numeric value, so we can push it as it is.
+            //         yearObject.data.push(historicalDataForEachRegion[i].data[j]) 
+            //       }
+            //     }
+            //     updatedSeries.push(yearObject)
+            //     // total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
+            //   }
+            // } else { // if any specific provinces are selected, it plugs here
+            //   updatedSeries = window.firesCountRegionSeries;
+            //   // total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
+            // }
+            
+            console.log(updatedSeries)
             let tempDataSeries = [];
             for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) { // iterate over the months in the current year, which is the last key of the updatedSeries object
               if (typeof updatedSeries[updatedSeries.length - 1].data[i] !== 'object' && i !== 11) {
@@ -1903,24 +1982,19 @@ define([
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
             }
-            console.log('clicky');
+            console.log('clicky', updatedSeries[updatedSeries.length - 1].data);
             firesCountChart.update({
               series: updatedSeries
             }, true);
             
-            if (typeof total === 'object') {
-              if (updatedSeries) {
-                if (updatedSeries[updatedSeries.length - 1].name === currentYear) {
-                  total = updatedSeries[updatedSeries.length - 1].data[0];
-                } else {
-                  let regionTotal = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
-                  total = regionTotal.y;
-                }
-              } else {
-                total = total.y;
-              }
-            }
-
+            // updatedSeries[updatedSeries.length - 1].data.forEach(monthOfData => {
+            //   if (typeof monthOfData === 'number') {
+            //     total += monthOfData;
+            //   } else if (typeof monthOfData === 'object') {
+            //     total += monthOfData.y;
+            //   }
+            // });
+            console.log(newSeriesDataObj);
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
               <span class="total_firecounts">${total}</span>`
