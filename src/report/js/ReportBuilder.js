@@ -1887,7 +1887,7 @@ define([
             let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
 
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
-              // we shouldn't have to do anything
+              // we shouldn't have to do anything, because the data is the same for both the region and the aggregate.
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               console.log(window.firesCountRegionSeries) 
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
@@ -1928,7 +1928,6 @@ define([
              $('#firesCountIslandsListContainer h3').removeClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
              $(this).addClass('selected');
-             const selectedIslandOrRegion = $(this).text();
              
              /**********************COMMENT**********************
               * This function fires off when a user clicks on a specific region within the "FIRE HISTORY: FIRE SEASON PROGRESSION" Chart.
@@ -1937,94 +1936,17 @@ define([
               * This was a problem with the way highcharts was accessing the reference data of newSeriesData.
               * We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
-             **************************************************/
-
+              **************************************************/
+             
+            const selectedIslandOrRegion = $(this).text();
             let updatedSeries = [] // Series of data to be given to Highcharts
             let total = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
 
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
-              // we shouldn't have to do anything
+              // we shouldn't have to do anything, because the data is the same for both the region and the aggregate.
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               console.log(window.firesCountRegionSeries) 
-            } else if (window.reportOptions.country !== 'ALL') { // If we're viewing all subregions in a specific country
-              const historicalDataForSelectedRegion = newSeriesDataObj[selectedIslandOrRegion]; // pull data into the function's scope
-              console.log('newSeriesDataObj', newSeriesDataObj[selectedIslandOrRegion]);
-              historicalDataForSelectedRegion.forEach((yearOfData, i) => {// iterate over each year's index.
-                const yearObject = { // create a year object to hold our data
-                  color: historicalDataForSelectedRegion[0].color,
-                  year: historicalDataForSelectedRegion[i].name,
-                  data: [],
-                  lineWidth: 1
-                };
-                updatedSeries.push(yearObject); // For each year of data we need an object on the updatedSeries array
-              });
-
-              historicalDataForSelectedRegion.forEach((yearOfData, i) => { // for each year, push the data from the specific region to the respective year object on updated series
-                console.log('selectedIslandOrRegion', historicalDataForSelectedRegion);
-                yearOfData.data.forEach(monthlyFiresCount => {
-                  updatedSeries[i].data.push(monthlyFiresCount);
-                })
-              })
-              console.log(updatedSeries); // contains all regional data. Grab the total from this
-              updatedSeries[updatedSeries.length - 1].data.pop(); // There's a ghost item being pushed 
-              console.log(updatedSeries[updatedSeries.length - 1].data); // contains all regional data. Grab the total from this
-              updatedSeries[updatedSeries.length - 1].data.forEach(monthlyFireCount => {
-                console.log(monthlyFireCount);
-                total += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y;
-              });
-            }
-            // for each region
-
-            // yearOfData.data.forEach(monthOfData => { //
-            //   // Find out the index of updatedSeries where the year of the year object == month of data's year
-            //   // console.log('monthOfData', monthOfData) // value to push
-            //   console.log(updatedSeries.map(x => x.name).indexOf('2015'));
-            //   // // updatedSeries[updatedSeries.map((x) => x.name).indexOf(yearOfData.name)]
-
-
-            
-            //   })
-            // })
-            // newSeriesDataObj[selectedIslandOrRegion]
-            // if (newSeriesDataObj[selectedIslandOrRegion]) { // if all regions are selected within a country, data comes from here
-            //   let historicalDataForEachRegion = newSeriesDataObj[selectedIslandOrRegion] // Get each region's historical data by month
-            //   for (let i = 0; i < historicalDataForEachRegion.length; i++) { // for each region
-            //     // Go through each region
-            //     // Take each month's data and push it to a year object
-            //     // for the last index of each year, make it an object
-            //     const yearObject = {
-            //       color: historicalDataForEachRegion[i].color,
-            //       name: historicalDataForEachRegion[i].name,
-            //       data: [],
-            //       lineWidth: 1
-            //     };
-            //     for (let j = 0; j < historicalDataForEachRegion[i].data.length; j++) {
-            //       if (j === 11) { // The last index of each year's data object (11) is an object with 2 keys: DataLabels and a Y value. We need to push both the Y value and the data labels. 
-            //         yearObject.data.push({y: historicalDataForEachRegion[i].data[j].y, dataLabels: historicalDataForEachRegion[i].data[j].dataLabels})
-            //       } else { // Every other month/index on the data object is a numeric value, so we can push it as it is.
-            //         yearObject.data.push(historicalDataForEachRegion[i].data[j]) 
-            //       }
-            //     }
-            //     updatedSeries.push(yearObject)
-            //     // total = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
-            //   }
-            // } else { // if any specific provinces are selected, it plugs here
-            //   updatedSeries = window.firesCountRegionSeries;
-            //   // total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
-            // }
-            let tempDataSeries = [];
-            for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) { // iterate over the months in the current year, which is the last key of the updatedSeries object
-              if (typeof updatedSeries[updatedSeries.length - 1].data[i] !== 'object' && i !== 11) {
-                tempDataSeries.push(updatedSeries[updatedSeries.length - 1].data[i]);
-              }
-            }
-            
-            updatedSeries[updatedSeries.length - 1].data = tempDataSeries;
-            if (updatedSeries[updatedSeries.length-1].data.length === 0) {
-              updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
-            }
-
-            if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) {
+            } else if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
               /********************** NOTE **********************
                * Calculate data and current year total for a report on a specific subregion in a country
                ***************************************************/
