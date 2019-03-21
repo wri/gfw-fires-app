@@ -1650,12 +1650,7 @@ define([
                   });
                   backupTempSeries = { data: [], name: '' };
                   tmpArr = [];
-                  try { // REMOVE ONCE NEW API CALL IS DONE
-                    newSeriesData[newSeriesData.length-1].color = "#d40000";
-                    // console.log('try successful!');
-                  } catch (error) {
-                    console.error('error line 1615')
-                  }
+
                   const aoiName = adm.name_1;
                   newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
                   newSeriesData = [];
