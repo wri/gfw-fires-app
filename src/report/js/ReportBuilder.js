@@ -1515,12 +1515,15 @@ define([
               `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
             ];
             promiseUrls.push(...urls);
+          }  else if(window.reportOptions.country !== 'ALL') {
+            const urls = [
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // should have total country data
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}` // should have regional data
+            ];
+            promiseUrls.push(...urls);
           } else {
             const urls = [
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // old query is the same as new
-              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}` // old query we replaced
-
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, // new query
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // old query is the same as new
             ];
             promiseUrls.push(...urls);
           }
@@ -1549,8 +1552,6 @@ define([
                   backupValues.push(result.data.attributes.value);
                 }
               });
-              console.log('0', values); // values for Afghanistan
-              console.log('1', backupValues); // aggregate values for global
             }
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             
@@ -1558,9 +1559,9 @@ define([
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
-            
+
             //TODO: add a 'NAME' property to each of these somehow!
-            values.forEach((backupValue, backupIndex) => {
+            backupValues.forEach((backupValue, backupIndex) => {
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
@@ -1614,8 +1615,50 @@ define([
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
 
               } else { //country with all subregions
+                console.log(window.reportOptions.stateObjects.length); // should be 34 for afghan
+                console.log(backupValues[0]); // contains 7000 indecies. Each index = alerts for a specific month in a specific year of a specific region
+                let historicalDataForSelectedRegion = [];
+                // iterate over all of backupValues
+                window.reportOptions.stateObjects.forEach(region => {
+                  const object = {};
+                  object[region.name_1] = [];
+                  historicalDataForSelectedRegion.push(object);
+                });
+                console.log(historicalDataForSelectedRegion) // should contain 34 empty arrays with each region's name
+                console.log(currentYear);
+                backupValues[0].forEach((monthOfData, i) => {
+                  // for each backupValue, create an index for each adm1 number (should be 34 indexes, 1 for each region) in placeholderArray1
+                  if (i % 12 === 0) {
+                    const regionYearObject = {};
+                    regionYearObject['color'] = '';
+                    regionYearObject['data'] = [];
+                    regionYearObject['lineWidth'] = 1;
+                    regionYearObject['year'] = monthOfData.year;
+                    historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1].push(regionYearObject); // adds 1 for each month, need to rmeove duplicates from years
+                  }
+                })
+                console.log(historicalDataForSelectedRegion); // 1 index per region, each region has 1 object for each year since 2001.
+                historicalDataForSelectedRegion.sort((a, b) => Object.keys(a) > Object.keys(b) ? 1 : -1); // sort historicalData
+                // iterate over all of backupVAlues 
+                backupValues[0].forEach(monthOfData => {
+                  const itemToPush = monthOfData.month === 12 ? {'y': monthOfData.alerts, 'dataLabels': ''} : monthOfData.alerts; // ??? Update datalabel
+                  const yearIndex = monthOfData.year - 2001;
+                  const countryIndex = window.reportOptions.stateObjects.filter(x => x.id_1 === monthOfData.adm1)[0].name_1;
+                  if (historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex] !== undefined) {
+                    historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data.push(itemToPush)
+                  }
+                  // if (historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data) {
+                    //   historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data.push(itemToPush)
+                  // }
+                  // console.log(historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex]); 
+                  // console.log([window.reportOptions.stateObjects.filter(x => x.id_1 === monthOfData.adm1)[0].name_1]); // region names
+                  // historicalDataForSelectedRegion[monthOfData.adm1 - 1][historicalDataForSelectedRegion[monthOfData.adm1 - 1].map(x => x.year).indexOf(monthOfData.year)].data.push(itemToPush);
+                  // historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1]
+                  // .map(x => x.year).indexOf(monthOfData.year)
+                })
+                console.log('done', historicalDataForSelectedRegion);
                   window.reportOptions.stateObjects.forEach((adm, i) => {
-                  values.forEach((bValue, i) => { // I think the filter doesn't need to be here inthe new query
+                    backupValues[0].forEach((bValue, i) => { // ??? FIX SPACING
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
 
@@ -1657,7 +1700,7 @@ define([
                 });
               }
             });
-            console.log(newSeriesDataObj[aoiName]);
+            console.log(newSeriesDataObj); // contains the regional data, but not enough
             tmpArr = [];
             let year;
 
