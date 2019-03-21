@@ -1542,8 +1542,6 @@ define([
             if (window.reportOptions.aoiId && responses.length > 0) {
               values = responses[1].data.attributes.value;
               backupValues.push(responses[0].data.attributes.value);
-              console.log('0', values);
-              console.log('1', backupValues);
             } else {
               values = responses[0].data.attributes.value;
               responses.forEach((result, i) => {
@@ -1562,7 +1560,7 @@ define([
             }
             
             //TODO: add a 'NAME' property to each of these somehow!
-            backupValues.forEach((backupValue, backupIndex) => {
+            values.forEach((backupValue, backupIndex) => {
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
@@ -1615,9 +1613,9 @@ define([
                 const aoiName = window.reportOptions.country;
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
 
-              } else {
-                  window.reportOptions.stateObjects.forEach((adm) => {
-                  backupValue.forEach((bValue, i) => { // I think the filter doesn't need to be here inthe new query
+              } else { //country with all subregions
+                  window.reportOptions.stateObjects.forEach((adm, i) => {
+                  values.forEach((bValue, i) => { // I think the filter doesn't need to be here inthe new query
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
 
@@ -1654,7 +1652,7 @@ define([
                   tmpArr = [];
                   try { // REMOVE ONCE NEW API CALL IS DONE
                     newSeriesData[newSeriesData.length-1].color = "#d40000";
-                    console.log('try successful!');
+                    // console.log('try successful!');
                   } catch (error) {
                     console.error('error line 1615')
                   }
@@ -1664,7 +1662,7 @@ define([
                 });
               }
             });
-
+            console.log(newSeriesDataObj[aoiName]);
             tmpArr = [];
             let year;
 
