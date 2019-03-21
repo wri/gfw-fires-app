@@ -1517,8 +1517,10 @@ define([
             promiseUrls.push(...urls);
           } else {
             const urls = [
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
-              'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/admin/global?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,2019-03-01'
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // old query is the same as new
+              // `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}` // old query we replaced
+
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`, // new query
             ];
             promiseUrls.push(...urls);
           }
@@ -1537,10 +1539,11 @@ define([
             const baseColor = '#777777';
             let values;
             const backupValues = [];
-
             if (window.reportOptions.aoiId && responses.length > 0) {
               values = responses[1].data.attributes.value;
               backupValues.push(responses[0].data.attributes.value);
+              console.log('0', values);
+              console.log('1', backupValues);
             } else {
               values = responses[0].data.attributes.value;
               responses.forEach((result, i) => {
@@ -1548,6 +1551,8 @@ define([
                   backupValues.push(result.data.attributes.value);
                 }
               });
+              console.log('0', values); // values for Afghanistan
+              console.log('1', backupValues); // aggregate values for global
             }
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
             
@@ -1817,6 +1822,7 @@ define([
            $('#firesCountIslandsListContainer h3').click(function () {
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
+             console.log(window.firesCountRegionSeries)
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
              let temp = [];
              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
@@ -1905,19 +1911,20 @@ define([
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               console.log(window.firesCountRegionSeries) 
             } else if (window.reportOptions.country !== 'ALL') { // If we're viewing all subregions in a specific country
-              const historicalRegionData = window.firesCountRegionSeries; // pull data into the function's scope
-
-              historicalRegionData.forEach((yearOfData, i) => {// iterate over each year's index.
+              const historicalDataForSelectedRegion = newSeriesDataObj[selectedIslandOrRegion]; // pull data into the function's scope
+              console.log('newSeriesDataObj', newSeriesDataObj[selectedIslandOrRegion]);
+              historicalDataForSelectedRegion.forEach((yearOfData, i) => {// iterate over each year's index.
                 const yearObject = { // create a year object to hold our data
-                  color: historicalRegionData[0].color,
-                  year: historicalRegionData[i].name,
+                  color: historicalDataForSelectedRegion[0].color,
+                  year: historicalDataForSelectedRegion[i].name,
                   data: [],
                   lineWidth: 1
                 };
                 updatedSeries.push(yearObject); // For each year of data we need an object on the updatedSeries array
               });
 
-              historicalRegionData.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
+              historicalDataForSelectedRegion.forEach((yearOfData, i) => { // for each year, push the data from the specific region to the respective year object on updated series
+                console.log('selectedIslandOrRegion', historicalDataForSelectedRegion);
                 yearOfData.data.forEach(monthlyFiresCount => {
                   updatedSeries[i].data.push(monthlyFiresCount);
                 })
