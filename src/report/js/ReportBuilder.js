@@ -27,7 +27,7 @@ define([
     SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
       let newSeriesDataObj = {};
-
+      let historicalDataByRegion = {};
 
     return {
 
@@ -1637,9 +1637,7 @@ define([
                     historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1].push(regionYearObject); // adds 1 for each month, need to rmeove duplicates from years
                   }
                 })
-                console.log(historicalDataForSelectedRegion); // 1 index per region, each region has 1 object for each year since 2001.
                 historicalDataForSelectedRegion.sort((a, b) => Object.keys(a) > Object.keys(b) ? 1 : -1); // sort historicalData
-                // iterate over all of backupVAlues 
                 backupValues[0].forEach(monthOfData => {
                   const itemToPush = monthOfData.month === 12 ? {'y': monthOfData.alerts, 'dataLabels': ''} : monthOfData.alerts; // ??? Update datalabel
                   const yearIndex = monthOfData.year - 2001;
@@ -1647,16 +1645,9 @@ define([
                   if (historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex] !== undefined) {
                     historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data.push(itemToPush)
                   }
-                  // if (historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data) {
-                    //   historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data.push(itemToPush)
-                  // }
-                  // console.log(historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex]); 
-                  // console.log([window.reportOptions.stateObjects.filter(x => x.id_1 === monthOfData.adm1)[0].name_1]); // region names
-                  // historicalDataForSelectedRegion[monthOfData.adm1 - 1][historicalDataForSelectedRegion[monthOfData.adm1 - 1].map(x => x.year).indexOf(monthOfData.year)].data.push(itemToPush);
-                  // historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1]
-                  // .map(x => x.year).indexOf(monthOfData.year)
                 })
-                console.log('done', historicalDataForSelectedRegion);
+                console.log('done', historicalDataForSelectedRegion); // all region data, sorted alphabetically, with 
+                historicalDataByRegion = historicalDataForSelectedRegion;
                   window.reportOptions.stateObjects.forEach((adm, i) => {
                     backupValues[0].forEach((bValue, i) => { // ??? FIX SPACING
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
@@ -2025,22 +2016,35 @@ define([
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
             }
-            console.log('clicky', updatedSeries[updatedSeries.length - 1].data);
+            
+            let index;
+            for (let i = 0; i < historicalDataByRegion.length; i++) {
+              // console.log(Object.keys(historicalDataByRegion[i]).toString());
+              // console.log(selectedIslandOrRegion);
+              if (Object.keys(historicalDataByRegion[i]).toString() === selectedIslandOrRegion) {
+                index = i;
+              }
+            }
+            /********************** NOTE **********************
+             * Get the current year total
+             ***************************************************/
+            // console.log(historicalDataByRegion[index][selectedIslandOrRegion]); // the array with all years data
+            let zzz = 0;
+            console.log(historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1]); // the array with current years data
+            if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
+              historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
+                zzz += typeof x === 'number' ? x : x.y;
+              });
+            }
+            console.log('clicky', historicalDataByRegion[index][selectedIslandOrRegion]);
+
             firesCountChart.update({
-              series: updatedSeries
+              series: historicalDataByRegion[index][selectedIslandOrRegion]
             }, true);
             
-            // updatedSeries[updatedSeries.length - 1].data.forEach(monthOfData => {
-            //   if (typeof monthOfData === 'number') {
-            //     total += monthOfData;
-            //   } else if (typeof monthOfData === 'object') {
-            //     total += monthOfData.y;
-            //   }
-            // });
-            console.log(newSeriesDataObj);
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
-              <span class="total_firecounts">${total}</span>`
+              <span class="total_firecounts">${zzz}</span>`
               // <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
             );
            });
