@@ -1891,7 +1891,7 @@ define([
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               console.log(window.firesCountRegionSeries) 
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
-              const historicalRegionDataTotal = window.firesCountRegionSeries; // pull data into the function's scope
+            const historicalRegionDataTotal = window.firesCountRegionSeries; // pull data into the function's scope - aggregated data of all the regions from the historicalDataByRegion object
 
               historicalRegionDataTotal.forEach((yearOfData, i) => { // iterate over each year's index.
                 const yearObject = { // create a year object to hold our data
@@ -1900,6 +1900,7 @@ define([
                   data: [],
                   lineWidth: 1
                 };
+                console.log(yearObject);
                 updatedSeriesTotal.push(yearObject); // For each year of data we need an object on the updatedSeriesTotal array
               });
 
@@ -1913,7 +1914,7 @@ define([
               });
               updatedSeries = updatedSeriesTotal; // update series with our data
             }
-           console.log('clicky');
+
            firesCountChart.update({
              series: updatedSeries
            });
@@ -1938,6 +1939,7 @@ define([
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
               **************************************************/
              
+              // ??? Todo: Update color to #0ccccad
             const selectedIslandOrRegion = $(this).text();
             let updatedSeries = [] // Series of data to be given to Highcharts
             let total = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
@@ -1950,14 +1952,14 @@ define([
               /********************** NOTE **********************
                * Calculate data and current year total for a report on a specific subregion in a country
                ***************************************************/
-              let index; // Find the index on our historicalDataByRegion array that matches our selected region
+              let index; // Find the index on our global historicalDataByRegion object that matches our selected region
               for (let i = 0; i < historicalDataByRegion.length; i++) {
                 if (Object.keys(historicalDataByRegion[i]).toString() === selectedIslandOrRegion) {
                   index = i;
                 }
               }
               updatedSeries = historicalDataByRegion[index][selectedIslandOrRegion]; // update the series we pass to highcharts with the specific region's data
-              
+              console.log(updatedSeries);
               total = 0; // reset total
               if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
                 historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
