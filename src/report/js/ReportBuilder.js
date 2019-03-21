@@ -1849,7 +1849,15 @@ define([
            $('#firesCountIslandsListContainer h3').click(function () {
              $(this).addClass('selected');
              $('#firesCountIslandsList li').removeClass('selected');
-             console.log(window.firesCountRegionSeries)
+            /**********************COMMENT**********************
+              * This function fires off when a user clicks on a specific region within the "FIRE HISTORY: FIRE SEASON PROGRESSION" Chart.
+              * This function will update the series data on Highcharts to only display the historical data for a specific region, and update the current year-to-date total in the header
+              * In early testing, we noticed a bug where the data would mutate after clicking on a second region, and clicking back to the previous region would cause the chart data to not update.
+              * This was a problem with the way highcharts was accessing the reference data of newSeriesData.
+              * We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
+              * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
+             **************************************************/
+             let updatedSeries = []; // 
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
              let temp = [];
              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
@@ -1858,10 +1866,7 @@ define([
               }
              }
              countryData[countryData.length - 1].data = temp;
-             console.log('clicky');
-             firesCountChart.update({
-               series: countryData
-             });
+
              let total;
              if (newSeriesDataObj[selectedCountry]) {
                total = backupValues[0][backupValues[0].length - 1].alerts; 
@@ -1885,10 +1890,10 @@ define([
               // we shouldn't have to do anything
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               console.log(window.firesCountRegionSeries) 
-            } else if (window.reportOptions.country !== 'ALL') { // If we're viewing all subregions in a specific country
+            } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
               const historicalRegionDataTotal = window.firesCountRegionSeries; // pull data into the function's scope
 
-              historicalRegionDataTotal.forEach((yearOfData, i) => {// iterate over each year's index.
+              historicalRegionDataTotal.forEach((yearOfData, i) => { // iterate over each year's index.
                 const yearObject = { // create a year object to hold our data
                   color: historicalRegionDataTotal[0].color,
                   year: historicalRegionDataTotal[i].name,
@@ -1906,9 +1911,13 @@ define([
               updatedSeriesTotal[updatedSeriesTotal.length - 1].data.forEach(monthlyFireCount => {
                 totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y;
               });
+              updatedSeries = updatedSeriesTotal; // update series with our data
             }
-            /********************** NOTE **********************
-            ***************************************************/
+           console.log('clicky');
+           firesCountChart.update({
+             series: updatedSeries
+           });
+
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
                <span class="total_firecounts">${totalRegion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
@@ -2003,8 +2012,6 @@ define([
             //   updatedSeries = window.firesCountRegionSeries;
             //   // total = updatedSeries[updatedSeries.length - 1].data[updatedSeries[updatedSeries.length - 1].data.length - 1];
             // }
-            
-            console.log(updatedSeries)
             let tempDataSeries = [];
             for (let i = 0; i < updatedSeries[updatedSeries.length - 1].data.length; i++) { // iterate over the months in the current year, which is the last key of the updatedSeries object
               if (typeof updatedSeries[updatedSeries.length - 1].data[i] !== 'object' && i !== 11) {
@@ -2016,36 +2023,34 @@ define([
             if (updatedSeries[updatedSeries.length-1].data.length === 0) {
               updatedSeries[updatedSeries.length - 1].data[0] = newSeriesDataObj[selectedIslandOrRegion][newSeriesDataObj[selectedIslandOrRegion].length - 1].data[0]['y']
             }
-            
-            let index;
-            for (let i = 0; i < historicalDataByRegion.length; i++) {
-              // console.log(Object.keys(historicalDataByRegion[i]).toString());
-              // console.log(selectedIslandOrRegion);
-              if (Object.keys(historicalDataByRegion[i]).toString() === selectedIslandOrRegion) {
-                index = i;
+
+            if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) {
+              /********************** NOTE **********************
+               * Calculate data and current year total for a report on a specific subregion in a country
+               ***************************************************/
+              let index; // Find the index on our historicalDataByRegion array that matches our selected region
+              for (let i = 0; i < historicalDataByRegion.length; i++) {
+                if (Object.keys(historicalDataByRegion[i]).toString() === selectedIslandOrRegion) {
+                  index = i;
+                }
+              }
+              updatedSeries = historicalDataByRegion[index][selectedIslandOrRegion]; // update the series we pass to highcharts with the specific region's data
+              
+              total = 0; // reset total
+              if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
+                historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
+                  total += typeof x === 'number' ? x : x.y; // Get the current year total depending on the index. The last index usually is an object, thus this check.
+                });
               }
             }
-            /********************** NOTE **********************
-             * Get the current year total
-             ***************************************************/
-            // console.log(historicalDataByRegion[index][selectedIslandOrRegion]); // the array with all years data
-            let zzz = 0;
-            console.log(historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1]); // the array with current years data
-            if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
-              historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
-                zzz += typeof x === 'number' ? x : x.y;
-              });
-            }
-            console.log('clicky', historicalDataByRegion[index][selectedIslandOrRegion]);
 
             firesCountChart.update({
-              series: historicalDataByRegion[index][selectedIslandOrRegion]
+              series: updatedSeries
             }, true);
             
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
-              <span class="total_firecounts">${zzz}</span>`
-              // <span class="total_firecounts">${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+              <span class="total_firecounts">${total}</span>`
             );
            });
           }).catch(err => {
