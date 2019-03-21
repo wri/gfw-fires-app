@@ -1554,12 +1554,22 @@ define([
               });
             }
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
-            
+
             for (var i = 2001; i <= currentYear; i++) {
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
-
+            let aa = 0;
+            const xx = [];
+            backupValues[0].forEach(x => {
+              if (x.year === 2019) {
+                aa += x.alerts;
+                if (x.alerts > 0) {
+                  xx.push(x);
+                }
+              };
+            });
+            console.log(xx);
             //TODO: add a 'NAME' property to each of these somehow!
             backupValues.forEach((backupValue, backupIndex) => {
               let tmpArr = [];
@@ -1616,7 +1626,7 @@ define([
 
               } else { //country with all subregions
                 console.log(window.reportOptions.stateObjects.length); // should be 34 for afghan
-                console.log(backupValues[0]); // contains 7000 indecies. Each index = alerts for a specific month in a specific year of a specific region
+                console.log(backupValues[0].length); // contains 7000 indecies. Each index = alerts for a specific month in a specific year of a specific region
                 let historicalDataForSelectedRegion = [];
                 // iterate over all of backupValues
                 window.reportOptions.stateObjects.forEach(region => {
@@ -1625,7 +1635,11 @@ define([
                   historicalDataForSelectedRegion.push(object);
                 });
                 console.log(historicalDataForSelectedRegion) // should contain 34 empty arrays with each region's name
-                console.log(currentYear);
+
+                /********************** NOTE **********************
+                 * Somewhere in the following log, I'm failing to pick up the current year data for certain regions
+                 * For afghanistan, it's about half, but the total should sum to 22, which it's not doing.
+                ***************************************************/
                 backupValues[0].forEach((monthOfData, i) => {
                   // for each backupValue, create an index for each adm1 number (should be 34 indexes, 1 for each region) in placeholderArray1
                   if (i % 12 === 0) {
@@ -1637,6 +1651,7 @@ define([
                     historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1].push(regionYearObject); // adds 1 for each month, need to rmeove duplicates from years
                   }
                 })
+                console.log(historicalDataForSelectedRegion) // should contain 34 empty arrays with each region's name
                 historicalDataForSelectedRegion.sort((a, b) => Object.keys(a) > Object.keys(b) ? 1 : -1); // sort historicalData
                 backupValues[0].forEach(monthOfData => {
                   const itemToPush = monthOfData.month === 12 ? {'y': monthOfData.alerts, 'dataLabels': ''} : monthOfData.alerts; // ??? Update datalabel
