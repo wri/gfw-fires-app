@@ -1655,7 +1655,7 @@ define([
                 })
 
                 historicalDataForSelectedRegion.sort((a, b) => Object.keys(a) > Object.keys(b) ? 1 : -1); // sort the historicalData array alphabetically 
-                console.log('historicalDataForSelectedRegion',historicalDataForSelectedRegion);
+
                 backupValues[0].forEach(monthOfData => {
                   const itemToPush = monthOfData.month === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
                   {'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } : monthOfData.alerts;
@@ -1665,52 +1665,51 @@ define([
                     historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data.push(itemToPush)
                   }
                 })
-                console.log('done', historicalDataForSelectedRegion); // all region data, sorted alphabetically 
+
                 historicalDataByRegion = historicalDataForSelectedRegion;
                   window.reportOptions.stateObjects.forEach((adm, i) => {
-                    backupValues[0].forEach((bValue, i) => { // ??? Todo: FIX SPACING
-                    if (bValue.year === currentYear && bValue.month === currentMonth) {
-                      backupTempSeries.name = bValue.year;
+                    backupValues[0].forEach((bValue, i) => {
+                      if (bValue.year === currentYear && bValue.month === currentMonth) {
+                        backupTempSeries.name = bValue.year;
 
-                      tmpArr.push(bValue.alerts);
-                      backupTempSeries.data.push(tmpArr.reduce(reducer));
+                        tmpArr.push(bValue.alerts);
+                        backupTempSeries.data.push(tmpArr.reduce(reducer));
 
-                      var hexColor = self.shadeColor(baseColor, (indexColor / 100));
-                      indexColor = indexColor + colorStep;
-                      self.dataLabelsFormatAction(backupTempSeries, hexColor);
-
-                      newSeriesData.push(backupTempSeries);
-
-                    } else {
-                      const monthsInYear = tmpArr.length;
-                      const month = bValue.month;
-                      for (let k = 1; k < month - monthsInYear; k++) {
-                        tmpArr.push(0);
-                      }
-                      tmpArr.push(bValue.alerts);
-                      backupTempSeries.data.push(tmpArr.reduce(reducer));
-                      if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
-                        backupTempSeries.name = bValue.year; // - 1;
-
-                        var hexColor = colors[bValue.year];
+                        var hexColor = self.shadeColor(baseColor, (indexColor / 100));
+                        indexColor = indexColor + colorStep;
                         self.dataLabelsFormatAction(backupTempSeries, hexColor);
 
                         newSeriesData.push(backupTempSeries);
-                        backupTempSeries = { data: [], name: '' };
-                        tmpArr = [];
-                      }
-                    }
-                  });
-                  backupTempSeries = { data: [], name: '' };
-                  tmpArr = [];
 
-                  const aoiName = adm.name_1;
-                  newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
-                  newSeriesData = [];
+                      } else {
+                        const monthsInYear = tmpArr.length;
+                        const month = bValue.month;
+                        for (let k = 1; k < month - monthsInYear; k++) {
+                          tmpArr.push(0);
+                        }
+                        tmpArr.push(bValue.alerts);
+                        backupTempSeries.data.push(tmpArr.reduce(reducer));
+                        if (month === 12 || (backupValue[i + 1] && backupValue[i + 1].year !== bValue.year)) {
+                          backupTempSeries.name = bValue.year; // - 1;
+
+                          var hexColor = colors[bValue.year];
+                          self.dataLabelsFormatAction(backupTempSeries, hexColor);
+
+                          newSeriesData.push(backupTempSeries);
+                          backupTempSeries = { data: [], name: '' };
+                          tmpArr = [];
+                        }
+                      }
+                    });
+                    backupTempSeries = { data: [], name: '' };
+                    tmpArr = [];
+
+                    const aoiName = adm.name_1;
+                    newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
+                    newSeriesData = [];
                 });
               }
             });
-            console.log(newSeriesDataObj); // contains the regional data, but not enough
             tmpArr = [];
             let year;
 
@@ -1873,42 +1872,24 @@ define([
               * This function will update the series data on Highcharts to only display the historical data for a specific region, and update the current year-to-date total in the header
               * In early testing, we noticed a bug where the data would mutate after clicking on a second region, and clicking back to the previous region would cause the chart data to not update.
               * This was a problem with the way highcharts was accessing the reference data of newSeriesData.
-              * We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
+              * We reached out to Highcharts support and performed testing to try to resolve the issue, which was unsuccessful.
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
              **************************************************/
-             let updatedSeries = []; // 
+             let updatedSeriesTotal = [] // Series of data to be given to Highcharts
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
-             let temp = [];
-             for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
-              if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
-                temp.push(countryData[countryData.length - 1].data[i]);
-              }
-             }
-             countryData[countryData.length - 1].data = temp;
-
-             let total;
-             if (newSeriesDataObj[selectedCountry]) {
-               total = backupValues[0][backupValues[0].length - 1].alerts; 
-              } else {
-               let count = 0;
-               countryData[countryData.length - 1].data.forEach(month => {
-                  if (typeof month === 'number') {
-                    count += month;
-                  } else {
-                    count += month.y;
-                  }
-                })
-             total = count;
-            }
-            /********************** NOTE **********************
-            ***************************************************/
-            let updatedSeriesTotal = [] // Series of data to be given to Highcharts
-            let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
+             let currentYearMonthlyCounts = []; // Contains monthly data for current year
+             let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
 
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
               // we shouldn't have to do anything, because the data is the same for both the region and the aggregate.
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
-              console.log(window.firesCountRegionSeries) 
+              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) { // calculate year-to-date total
+                if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
+                  currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
+                }
+               }
+               countryData[countryData.length - 1].data = currentYearMonthlyCounts;
+               currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y);
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
             const historicalRegionDataTotal = window.firesCountRegionSeries; // pull data into the function's scope - aggregated data of all the regions from the historicalDataByRegion object
 
@@ -1919,8 +1900,7 @@ define([
                   data: [],
                   lineWidth: 1
                 };
-                console.log(yearObject);
-                updatedSeriesTotal.push(yearObject); // For each year of data we need an object on the updatedSeriesTotal array
+                updatedSeriesTotal.push(yearObject); // For each year of data we need a year-object on the updatedSeriesTotal array since that's how highcharts accepts data.
               });
 
               historicalRegionDataTotal.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
@@ -1929,13 +1909,12 @@ define([
                 })
               })
               updatedSeriesTotal[updatedSeriesTotal.length - 1].data.forEach(monthlyFireCount => {
-                totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y;
+                totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : 0;
               });
-              updatedSeries = updatedSeriesTotal; // update series with our data
             }
 
-           firesCountChart.update({
-             series: updatedSeries
+           firesCountChart.update({ // Update highcharts' data and rerender the chart
+             series: updatedSeriesTotal
            });
 
              $('#firesCountTitle').html(
