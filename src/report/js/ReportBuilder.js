@@ -28,6 +28,8 @@ define([
 
       let newSeriesDataObj = {};
       let historicalDataByRegion = {};
+      let specificSubRegionData = {};
+      let specificCountryData = {};
 
     return {
 
@@ -1565,6 +1567,8 @@ define([
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
               if (window.reportOptions.aoiId) { // aoiIds are only when viewing a country report with a single subregion selected.
+                specificCountryData = backupValues[0];
+                specificSubregionData = values; // place the specific subregion's historical data in a global object. 
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
 
@@ -1612,6 +1616,8 @@ define([
                 newSeriesData[newSeriesData.length-1].lineWidth = 1;
                 const aoiName = window.reportOptions.country;
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
+                historicalDataByRegion = newSeriesDataObj[aoiName]
+                console.log(newSeriesDataObj[aoiName])
 
               } else { // Otherwise, we are dealing with a single country with all of its subregions
 
@@ -1623,26 +1629,6 @@ define([
                   historicalDataForSelectedRegion.push(object);
                 });
 
-
-                /********************** NOTE **********************
-                 * Somewhere in the following log, I'm failing to pick up the current year data for certain regions
-                 * For afghanistan, it's about half, but the total should sum to 22, which it's not doing.
-                ***************************************************/
-                let aa = 0;
-                const xx = [];
-                console.log(backupValues[0]);
-                
-                backupValues[0].forEach(x => {
-                  if (x.year === 2019) {
-                    aa += x.alerts;
-                    console.log(aa);
-                    if (x.alerts > 0) {
-                      xx.push(x);
-                    }
-                  };
-                });
-                
-                console.log(xx);
                 /********************** NOTE **********************
                  * backupValues[0] contains 1 index per month, for each year since 2001, for each subregion in the selected country.
                  * Each backupValue contains an adm1 number which corresponds with a subregion Id. We iterate over each backupValue and update our historicalData array with each subregion's information.
@@ -1679,7 +1665,6 @@ define([
                     // debugger
                   }
                 })
-                console.log(historicalDataForSelectedRegion)
                 historicalDataByRegion = historicalDataForSelectedRegion;
                   window.reportOptions.stateObjects.forEach((adm, i) => {
                     backupValues[0].forEach((bValue, i) => {
@@ -1905,6 +1890,13 @@ define([
                currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : 0);
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               // We need to calculate year-to-date total for the country
+              console.log(specificCountryData);
+
+              totalRegion = 0;
+              let currentYearMonths = [];
+              specificCountryData.forEach(x => x.year === currentYear ? currentYearMonths.push(x) : null); // ??? make this a filter instead of a new array
+              currentYearMonths.forEach(x => totalRegion += x.alerts);
+              console.log(currentYearMonths)
               for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
                 if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
                   currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
@@ -1974,27 +1966,38 @@ define([
               * We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
               **************************************************/
+             const selectedIslandOrRegion = $(this).text();
+             console.log(specificSubregionData)
+            //  `background-color: blue`
              let updatedSeriesTotal = [] // Series of data to be given to Highcharts
-             const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
+             const countryData = historicalDataByRegion;
              let currentYearMonthlyCounts = []; // Contains monthly data for current year
-             let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
-             
-            const selectedIslandOrRegion = $(this).text();
+             let totalRegionFiresYTD = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
             let updatedSeries = [] // Series of data to be given to Highcharts
-            let total = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
+
 
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
               // we shouldn't have to do anything, because the data is the same for both the region and the aggregate.
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
-              console.log(window.firesCountRegionSeries) 
               // We need to calculate year-to-date total for the country
-              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
-                if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
-                  currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
-                }
-               }
+              // for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
+              //   if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
+              //     currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
+              //   }
+              //  }
+               countryData[countryData.length - 1].data.forEach(month => {
+                 if (typeof month === 'number') {
+                   totalRegionFiresYTD += month
+                 }
+               }) 
+               console.log(totalRegionFiresYTD);
                countryData[countryData.length - 1].data = currentYearMonthlyCounts;
-               currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y);
+               currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegionFiresYTD += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y);
+
+               totalRegionFiresYTD = 0;
+               let currentYearMonths = [];
+               specificSubregionData.forEach(x => x.year === currentYear ? currentYearMonths.push(x) : null); // ??? make this a filter instead of a new array
+               currentYearMonths.forEach(x => totalRegionFiresYTD += x.alerts);
 
                const historicalRegionDataTotal = window.firesCountRegionSeries; // Aggregate data of all the regions from the historicalDataByRegion object
                historicalRegionDataTotal.forEach((yearOfData, i) => { // We iterate over each year's index and create a year object to hold our data
@@ -2032,10 +2035,10 @@ define([
               }
               updatedSeries = historicalDataByRegion[index][selectedIslandOrRegion]; // update the series we pass to highcharts with the specific region's data
               console.log(updatedSeries);
-              total = 0; // reset total
+              totalRegionFiresYTD = 0; // reset total ??? shouldn;'t be necessary
               if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
                 historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
-                  total += typeof x === 'number' ? x : x.y; // Get the current year total depending on the index. The last index usually is an object, thus this check.
+                  totalRegionFiresYTD += typeof x === 'number' ? x : x.y; // Get the current year total depending on the index. The last index usually is an object, thus this check.
                 });
               }
             }
@@ -2044,9 +2047,10 @@ define([
               series: updatedSeries
             }, true);
             
+            console.log(totalRegionFiresYTD);
             $('#firesCountTitle').html(
               `${currentYear} MODIS Fire Alerts, Year to Date
-              <span class="total_firecounts">${total}</span>`
+              <span class="total_firecounts">${totalRegionFiresYTD}</span>`
             );
            });
           }).catch(err => {
