@@ -1559,23 +1559,12 @@ define([
               colors[i] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
-            let aa = 0;
-            const xx = [];
-            backupValues[0].forEach(x => {
-              if (x.year === 2019) {
-                aa += x.alerts;
-                if (x.alerts > 0) {
-                  xx.push(x);
-                }
-              };
-            });
-            console.log(xx);
-            //TODO: add a 'NAME' property to each of these somehow!
+
             backupValues.forEach((backupValue, backupIndex) => {
               let tmpArr = [];
               let backupTempSeries = { data: [], name: '' };
               let newSeriesData = [];
-              if (window.reportOptions.aoiId) { //these are country-wide!
+              if (window.reportOptions.aoiId) { // aoiIds are only when viewing a country report with a single subregion selected.
                 backupValue.forEach((bValue, i) => {
                   if (i % 12 === 0 && i !== 0) {
 
@@ -1624,47 +1613,62 @@ define([
                 const aoiName = window.reportOptions.country;
                 newSeriesDataObj[aoiName] = JSON.parse(JSON.stringify(newSeriesData));
 
-              } else { //country with all subregions
-                console.log(window.reportOptions.stateObjects.length); // should be 34 for afghan
-                console.log(backupValues[0].length); // contains 7000 indecies. Each index = alerts for a specific month in a specific year of a specific region
-                let historicalDataForSelectedRegion = [];
-                // iterate over all of backupValues
-                window.reportOptions.stateObjects.forEach(region => {
+              } else { // Otherwise, we are dealing with a single country with all of its subregions
+
+                let historicalDataForSelectedRegion = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
+
+                window.reportOptions.stateObjects.forEach(region => { // A listing of subregions is available on the window object. We iterate over this and create a placerholder object for each subregion.
                   const object = {};
                   object[region.name_1] = [];
                   historicalDataForSelectedRegion.push(object);
                 });
-                console.log(historicalDataForSelectedRegion) // should contain 34 empty arrays with each region's name
 
                 /********************** NOTE **********************
                  * Somewhere in the following log, I'm failing to pick up the current year data for certain regions
                  * For afghanistan, it's about half, but the total should sum to 22, which it's not doing.
                 ***************************************************/
+                let aa = 0;
+                const xx = [];
+                backupValues[0].forEach(x => {
+                  if (x.year === 2019) {
+                    aa += x.alerts;
+                    if (x.alerts > 0) {
+                      xx.push(x);
+                    }
+                  };
+                });
+                console.log(xx);
+                /********************** NOTE **********************
+                 * backupValues[0] contains 1 index per month, for each year since 2001, for each subregion in the selected country.
+                 * Each backupValue contains an adm1 number which corresponds with a subregion Id. We iterate over each backupValue and update our historicalData array with each subregion's information.
+                 * Because each subregion contains 12 months of data, we only need to make 1 placeholder object on every 12th iteration. 
+                **************************************************/
                 backupValues[0].forEach((monthOfData, i) => {
-                  // for each backupValue, create an index for each adm1 number (should be 34 indexes, 1 for each region) in placeholderArray1
                   if (i % 12 === 0) {
                     const regionYearObject = {};
-                    regionYearObject['color'] = '';
+                    regionYearObject['color'] = '#e0e0df';
                     regionYearObject['data'] = [];
                     regionYearObject['lineWidth'] = 1;
                     regionYearObject['year'] = monthOfData.year;
-                    historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1].push(regionYearObject); // adds 1 for each month, need to rmeove duplicates from years
+                    historicalDataForSelectedRegion[monthOfData.adm1 - 1][window.reportOptions.stateObjects[monthOfData.adm1 - 1].name_1].push(regionYearObject);
                   }
                 })
-                console.log(historicalDataForSelectedRegion) // should contain 34 empty arrays with each region's name
-                historicalDataForSelectedRegion.sort((a, b) => Object.keys(a) > Object.keys(b) ? 1 : -1); // sort historicalData
+
+                historicalDataForSelectedRegion.sort((a, b) => Object.keys(a) > Object.keys(b) ? 1 : -1); // sort the historicalData array alphabetically 
+                console.log('historicalDataForSelectedRegion',historicalDataForSelectedRegion);
                 backupValues[0].forEach(monthOfData => {
-                  const itemToPush = monthOfData.month === 12 ? {'y': monthOfData.alerts, 'dataLabels': ''} : monthOfData.alerts; // ??? Update datalabel
+                  const itemToPush = monthOfData.month === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
+                  {'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } : monthOfData.alerts;
                   const yearIndex = monthOfData.year - 2001;
                   const countryIndex = window.reportOptions.stateObjects.filter(x => x.id_1 === monthOfData.adm1)[0].name_1;
                   if (historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex] !== undefined) {
                     historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex].data.push(itemToPush)
                   }
                 })
-                console.log('done', historicalDataForSelectedRegion); // all region data, sorted alphabetically, with 
+                console.log('done', historicalDataForSelectedRegion); // all region data, sorted alphabetically 
                 historicalDataByRegion = historicalDataForSelectedRegion;
                   window.reportOptions.stateObjects.forEach((adm, i) => {
-                    backupValues[0].forEach((bValue, i) => { // ??? FIX SPACING
+                    backupValues[0].forEach((bValue, i) => { // ??? Todo: FIX SPACING
                     if (bValue.year === currentYear && bValue.month === currentMonth) {
                       backupTempSeries.name = bValue.year;
 
@@ -1954,7 +1958,6 @@ define([
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
               **************************************************/
              
-              // ??? Todo: Update color to #0ccccad
             const selectedIslandOrRegion = $(this).text();
             let updatedSeries = [] // Series of data to be given to Highcharts
             let total = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
