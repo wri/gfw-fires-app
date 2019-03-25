@@ -1987,31 +1987,15 @@ define([
               })
               console.log(firesCount);
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
-              // Per our note above, we need to pull data into the function's scope 
-              // const historicalRegionDataTotal = window.firesCountRegionSeries; // Aggregate data of all the regions from the historicalDataByRegion object
-              // historicalRegionDataTotal.forEach((yearOfData, i) => { // We iterate over each year's index and create a year object to hold our data
-              //   const currentYearColor = historicalRegionDataTotal[i].name === currentYear ? 'red' : '#e0e0df';
-              //   const yearObject = {
-              //     color: currentYearColor,
-              //     year: historicalRegionDataTotal[i].name,
-              //     data: [],
-              //     lineWidth: 1
-              //   };
-              //   updatedSeriesTotal.push(yearObject); // For each year of data we need a year-object on the updatedSeriesTotal array since that's how highcharts accepts data.
-              // });
-              // console.log('updatedSeriesTotal', updatedSeriesTotal);
-              // historicalRegionDataTotal.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
-              //   yearOfData.data.forEach(monthlyFiresCount => {
-              //     updatedSeriesTotal[i].data.push(monthlyFiresCount);
-              //   })
-              // })
-              // updatedSeriesTotal[updatedSeriesTotal.length - 1].data.forEach(monthlyFireCount => {
-              //   totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : 0;
-              // });
+              // console.log(countryTotalWithAllSubregions);
+              // console.log(countryTotal);
+              // update series
+              updatedSeriesTotal = countryTotal;
 
-              // if this works, delete above
-              console.log(countryTotalWithAllSubregions);
-              updatedSeriesTotal = countryTotalWithAllSubregions;
+              // Updated firesCount total
+              firesCount = 0;
+              countryTotal[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
+              console.log(firesCount);
             }
 
            firesCountChart.update({ // Update highcharts' data and rerender the chart
@@ -2053,11 +2037,11 @@ define([
               // Updated firesCount total on click
               firesCount = 0;
               subregionTotal[subregionTotal.length - 1].data.forEach(month => {
-              if (typeof month === 'number'){
-                firesCount += month
-              } else {
-                firesCount += month.y;
-              }
+                if (typeof month === 'number'){
+                  firesCount += month
+                } else {
+                  firesCount += month.y;
+                }
               })
             } else if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
               /********************** NOTE **********************
