@@ -2036,7 +2036,6 @@ define([
               // Per our note above, we need to pull data into the function's scope 
               const historicalRegionDataTotal = window.firesCountRegionSeries; // Aggregate data of all the regions from the historicalDataByRegion object
               historicalRegionDataTotal.forEach((yearOfData, i) => { // We iterate over each year's index and create a year object to hold our data
-              console.log('yearOfData', yearOfData);
                 const currentYearColor = historicalRegionDataTotal[i].name === currentYear ? 'red' : '#e0e0df';
                 const yearObject = {
                   color: currentYearColor,
@@ -2144,6 +2143,11 @@ define([
               }
               updatedSeries = historicalDataByRegion[index][selectedIslandOrRegion]; // update the series we pass to highcharts with the specific region's data
               console.log(updatedSeries);
+              updatedSeries[updatedSeries.length - 1].color = 'red';
+              console.log(updatedSeries);
+              
+
+
               totalRegionFiresYTD = 0; // reset total ??? shouldn;'t be necessary
               if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
                 historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
