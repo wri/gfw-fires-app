@@ -1745,24 +1745,6 @@ define([
                 let yearCounter = 2001;
                 let currentState = 0;
                 backupValues[0].forEach((monthData, i) => {
-                  
-                  // backupValues[0][0]: {
-                    // adm1: 1 // index begins at 1, not zero
-                    // alerts: 58
-                    // fire_type: "MODIS"
-                    // iso: "USA"
-                    // month: 1
-                    // polyname: "admin"
-                    // year: 2001
-                  // }
-
-                  // if (i < 2) {
-                  //   console.log(stateNames[monthData.adm1 - 1]); // {id_1: 1, name_1: "Alabama"}
-                  //   console.log(statesArray[monthData.adm1 - 1]); // {Alabama: Array(0)}
-                  //   console.log(statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]]); // push 1 object for each year to this point
-                  //   debugger
-                  //   console.log(statesArray);
-                  // }
                   if (monthData.year === currentYear && monthData.month === currentMonth) {
                     const yearObject = {
                       year: yearCounter,
@@ -1772,10 +1754,6 @@ define([
                     };
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]].push(yearObject); // works!
                   } else if (monthData.month === 12) {
-                    // alabam 12/01, 12/02, 12/03, 12/04
-                    // alaska 12/01, 12/02, 12/03
-                    // for (let x = 0; x <= (currentYear - 2001); x++) {
-                      // console.log('x', x, 'yearcounter', yearCounter);
                       const yearObject = {
                         year: yearCounter,
                         data: [],
@@ -1784,108 +1762,64 @@ define([
                       };
                       statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]].push(yearObject); // works!
                       yearCounter++;
-                    // };
                   } else if(currentState !== monthData.adm1) {
                     yearCounter = 2001;
                   }
                   currentState = monthData.adm1;
-                  // statesArray[monthData.adm1 - 1][window.reportOptions.stateObjects[monthData.adm1 - 1].push(x)]
-                  
-                  // if (statesArray[monthData.adm1 - 1].length === 0) {
-                  // console.log('something before');
-                  //   // statesArray[monthData.adm1 - 1] {'alabama' : []}
-                  //   const object = {};
-                  //   // statesArray[monthData.adm1 - 1][window.reportOptions.stateObjects.keys][Object.keys(statesArray[monthData.adm1 - 1])].push(object);
-                  //   console.log(statesArray[monthData.adm1 - 1][window.reportOptions.stateObjects[monthData.adm1 - 1]].name_1);
-                  //   statesArray[monthData.adm1 - 1][window.reportOptions.stateObjects[monthData.adm1 - 1].name_1].push(object);
-                  //   console.log('something after');
-                  // }
-                    // monthData goes to statesArray[monthData.adm1 - 1]
-                })
-                console.log(statesArray); // placeholders for 34 regions
-                // for the united states = [
-                // { 'Alabama': [
-                    // {
-                      // year: 2001
-                      // data: [
-                        // 8,
-                        // 55,
-                        // ...
-                        // {
-                            // y: 6, // december OR the last month of the current year has an object.
-                            // dataLabels: { 
-                              // y: monthOfData.alerts, 
-                              // dataLabels: { 
-                                // align: "left", 
-                                // crop: false, 
-                                // enabled: true, 
-                                // format: "{series.name}", 
-                                // overflow: true, 
-                                // verticalAlign: "middle", 
-                                // x: 0 // always 0
-                              // } 
-                            // }
-                        // }
-                      // ],
-                      // color: '####',
-                      // lineWidth: 1
-                    // },
-                    // {
-                      // year: 2002,
-                      // data: [],
-                      // color: '####',
-                      // lineWidth: 1
-                    // },
-                  // ] 
-                // ]
-                
-                console.log(backupValues[0]);
-                // h
-                // values.forEach((monthOfData, i) => { // get aggregate country data
-                //   const currentYearColor = monthOfData.year === currentYear ? '#d40000' : '#e0e0df';
-                //   if (i % 12 === 0) {
-                //     const regionYearObject = {};
-                //     regionYearObject['color'] = currentYearColor;
-                //     regionYearObject['data'] = [];
-                //     regionYearObject['lineWidth'] = 1;
-                //     regionYearObject['year'] = monthOfData.year;
-                //     historicalDataForSelectedRegion.push(regionYearObject);
-                //   }
-                // })
-                console.log('???', historicalDataForSelectedRegion);
+                });
 
-                backupValues[0].forEach(monthOfData => {
-                  console.log(monthOfData);
-                  let itemToPush;
-                  if (monthOfData.year === currentYear && monthOfData.month === currentMonth) { // if it's the last month of the current year...
-                    itemToPush = { y: monthOfData.alerts, dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
+
+                console.log(statesArray); // placeholders for all states
+                backupValues[0].forEach((monthData, i) => {
+                  if (i < 10) {
+                    console.log(monthData);
+                    console.log(statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data);
+                  }
+
+                  if (monthData.month === 12 || (monthData.month === currentMonth & monthData.year === currentYear)) {
+                    const object = {// december OR the last month of the current year has an object.
+                      y: monthData.alerts, 
+                      dataLabels: { 
+                        align: "left", 
+                        crop: false, 
+                        enabled: true, 
+                        format: "{series.name}", 
+                        overflow: true, 
+                        verticalAlign: "middle", 
+                        x: 0
+                      } 
+                    }
+                    statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(object);
                   } else {
-                    itemToPush = (monthOfData.month) === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
-                    {y: monthOfData.alerts, dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
-                    monthOfData.alerts;
+                    statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(monthData.alerts);
                   }
-                  
-                  const yearIndex = monthOfData.year - 2001;
-                  const countryIndex = historicalDataForSelectedRegion.map(x => x.year).indexOf(monthOfData.year);
-                  console.log(countryIndex);
-                  if (countryIndex !== -1) {
-                    console.log(historicalDataForSelectedRegion[countryIndex]);
-                    historicalDataForSelectedRegion[countryIndex].data.push(itemToPush)
-                  } else { // This serves as a check to ensure that all current year data is included in our historicalData array. 
-                    historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex] = {
-                      color: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].color,
-                      lineWidth: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].lineWidth,
-                      year: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].year + 1,
-                      data: [monthOfData.alerts]
-                    };
-                  }
-                  console.log('done');
-                })
+                });
 
-                historicalDataByRegion = historicalDataForSelectedRegion;
+
+                console.log(statesArray); // placeholders for all states
+                
+
+
+                countryTotalWithAllSubregions = statesArray;
                 // assign series on load
-                series = historicalDataForSelectedRegion;
-                console.log(historicalDataForSelectedRegion);
+                series = countryTotalWithAllSubregions;
+                console.log(countryTotalWithAllSubregions);
+                
+                // firesCount total on load
+                firesCount = 0;
+                countryTotalWithAllSubregions.forEach((state, index) => {
+                  // console.log(state[stateNames[index]]);
+                  state[stateNames[index]][currentYear - 2001].data.forEach(month => {
+                    if (typeof month === 'number') {
+                      console.log(month);
+                      firesCount += month;
+                    } else {
+                      console.log(month.y);
+                      firesCount += month.y;
+                    }
+                  })
+                })
+                console.log(firesCount);
               }
 
 
