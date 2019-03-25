@@ -2047,21 +2047,17 @@ define([
               /********************** NOTE **********************
                * Calculate data and current year total for a report on a specific subregion in a country
                ***************************************************/
-              let index; // Find the index on our global historicalDataByRegion object that matches our selected region
-              for (let i = 0; i < historicalDataByRegion.length; i++) {
-                if (Object.keys(historicalDataByRegion[i]).toString() === selectedIslandOrRegion) {
-                  index = i;
+              console.log(countryTotalWithAllSubregions);
+              countryTotalWithAllSubregions.forEach(state => {
+                if (Object.keys(state).join() === selectedIslandOrRegion) {
+                  updatedSeries = state[Object.keys(state)];
                 }
-              }
-              updatedSeries = historicalDataByRegion[index][selectedIslandOrRegion]; // update the series we pass to highcharts with the specific region's data
-              updatedSeries[updatedSeries.length - 1].color = 'red';
+              })
 
-              totalRegionFiresYTD = 0; // reset total ??? shouldn;'t be necessary
-              if (historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].year === currentYear) {
-                historicalDataByRegion[index][selectedIslandOrRegion][historicalDataByRegion[index][selectedIslandOrRegion].length - 1].data.forEach(x => {
-                  totalRegionFiresYTD += typeof x === 'number' ? x : x.y; // Get the current year total depending on the index. The last index usually is an object, thus this check.
-                });
-              }
+              // Update firesCount
+              firesCount = 0;
+              updatedSeries[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
+              console.log(firesCount);
             }
 
             firesCountChart.update({
