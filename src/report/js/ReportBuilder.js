@@ -1927,15 +1927,7 @@ define([
             console.log('countryData', countryData);
             console.log('window.firesCountRegionSeries', window.firesCountRegionSeries);
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
-            // ??? countryData = window.firesCountRegionSeries in global report
-              // We only need to calculate year-to-date total because there are no subregions to select.
-              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
-                if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
-                  currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
-                }
-               }
-               countryData[countryData.length - 1].data = currentYearMonthlyCounts;
-               currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : 0);
+              // We don't do anything
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               // We need to calculate year-to-date total for the country
               // console.log(specificCountryData);
