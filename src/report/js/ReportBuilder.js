@@ -1670,7 +1670,7 @@ define([
                 historicalDataByRegion = newSeriesDataObj[aoiName]
                 console.log(newSeriesDataObj[aoiName])
 
-              } else { // Otherwise, we are dealing with a single country with all of its subregions
+              } else { // Otherwise, we are dealing with a single country with all of its subregions, or a Global Report
 
                 let historicalDataForSelectedRegion = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
 
@@ -1712,8 +1712,6 @@ define([
                       year: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].year + 1,
                       data: [monthOfData.alerts]
                     };
-
-                    // debugger
                   }
                 })
                 historicalDataByRegion = historicalDataForSelectedRegion;
@@ -1820,7 +1818,8 @@ define([
             window['firesCountRegionSeries'] = JSON.parse(JSON.stringify(series));
             window['firesCountRegionCurrentYear'] = currentYear;
 
-            const currYearFireCount = series[series.length - 1].data[0];
+            let currYearFireCount = 0;
+            window.firesCountRegionSeries[window.firesCountRegionSeries.length - 1].data.forEach(month => currYearFireCount += typeof month === 'number' ? month : 0);
 
             let tempSeries = [];
             for (let i = 0; i < series[series.length - 1].data.length; i++) {
@@ -1929,8 +1928,10 @@ define([
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
              let currentYearMonthlyCounts = []; // Contains monthly data for current year
              let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart 
-
+            console.log('countryData', countryData);
+            console.log('window.firesCountRegionSeries', window.firesCountRegionSeries);
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
+            // ??? countryData = window.firesCountRegionSeries in global report
               // We only need to calculate year-to-date total because there are no subregions to select.
               for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
                 if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
