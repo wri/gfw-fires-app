@@ -1614,7 +1614,6 @@ define([
                     }
                   }
                 })
-                console.log(regionDataByYear); // everything we need for a specific subregion
                 subregionTotal = regionDataByYear; // assign specific subregion data to a global object
                 subregionDataINeed = regionDataByYear;
 
@@ -1631,8 +1630,6 @@ define([
                     historicalDataForSelectedRegion.push(regionYearObject);
                   }
                 })
-
-                console.log('historicalDataForSelectedRegion', historicalDataForSelectedRegion); // everything we need for a country
 
                 backupValues[0].forEach(monthOfData => {
                   let itemToPush;
@@ -1664,12 +1661,8 @@ define([
                 aoiDataSpecificRegion = historicalDataForSelectedRegion;
 
                 series = countryTotalWith1Subregion; // assign country data on load.
-                console.log('country', countryTotalWith1Subregion);
-                console.log('region', subregionTotal)
-
 
                 // firesCount total on load
-                const lastIndex = countryTotalWith1Subregion.length - 1;
                 countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.forEach(month => {
                   if (typeof month === 'number'){
                     firesCount += month
@@ -1871,6 +1864,8 @@ define([
               * We reached out to Highcharts support and performed testing to try to resolve the issue, which was unsuccessful.
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
              **************************************************/
+            console.log('countryTotalWith1Subregion', countryTotalWith1Subregion);
+
              let updatedSeriesTotal = [] // Series of data to be given to Highcharts
              const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
              let currentYearMonthlyCounts = []; // Contains monthly data for current year
@@ -1889,36 +1884,50 @@ define([
                currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : 0);
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
               // We need to calculate year-to-date total for the country
-              console.log(specificCountryData);
+              // console.log(specificCountryData);
 
-              totalRegion = 0;
-              let currentYearMonths = [];
-              specificCountryData.forEach(x => x.year === currentYear ? currentYearMonths.push(x) : null); // ??? make this a filter instead of a new array
-              currentYearMonths.forEach(x => totalRegion += x.alerts);
+              // totalRegion = 0;
+              // let currentYearMonths = [];
+              // specificCountryData.forEach(x => x.year === currentYear ? currentYearMonths.push(x) : null); // ??? make this a filter instead of a new array
+              // currentYearMonths.forEach(x => totalRegion += x.alerts);
 
-              for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
-                if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
-                  currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
+              // for (let i = 0; i < countryData[countryData.length - 1].data.length; i++) {
+              //   if (typeof countryData[18].data[i] !== 'object' && i !== 11) {
+              //     currentYearMonthlyCounts.push(countryData[countryData.length - 1].data[i]);
+              //   }
+              //  }
+              //  countryData[countryData.length - 1].data = currentYearMonthlyCounts;
+              //  currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y);
+
+              //  const historicalRegionDataTotal = window.firesCountRegionSeries; // Aggregate data of all the regions from the historicalDataByRegion object
+              //  historicalRegionDataTotal.forEach((yearOfData, i) => { // We iterate over each year's index and create a year object to hold our data
+              //    const yearObject = {
+              //      color: historicalRegionDataTotal[0].color,
+              //      year: historicalRegionDataTotal[i].name,
+              //      data: [],
+              //      lineWidth: 1
+              //    };
+              //    updatedSeriesTotal.push(yearObject); // For each year of data we need a year-object on the updatedSeriesTotal array since that's how highcharts accepts data.
+              //  });
+              //  historicalRegionDataTotal.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
+              //    yearOfData.data.forEach(monthlyFiresCount => {
+              //      updatedSeriesTotal[i].data.push(monthlyFiresCount);
+              //    })
+              //  })
+
+               // if this works, delete things above
+               updatedSeriesTotal = countryTotalWith1Subregion;
+               console.log(updatedSeriesTotal);
+               
+               // Updated firesCount total on click
+               firesCount = 0;
+               countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.forEach(month => {
+                if (typeof month === 'number'){
+                  firesCount += month
+                } else {
+                  firesCount += month.y;
                 }
-               }
-               countryData[countryData.length - 1].data = currentYearMonthlyCounts;
-               currentYearMonthlyCounts.forEach(monthlyFireCount => totalRegion += typeof monthlyFireCount === 'number' ? monthlyFireCount : monthlyFireCount.y);
-
-               const historicalRegionDataTotal = window.firesCountRegionSeries; // Aggregate data of all the regions from the historicalDataByRegion object
-               historicalRegionDataTotal.forEach((yearOfData, i) => { // We iterate over each year's index and create a year object to hold our data
-                 const yearObject = {
-                   color: historicalRegionDataTotal[0].color,
-                   year: historicalRegionDataTotal[i].name,
-                   data: [],
-                   lineWidth: 1
-                 };
-                 updatedSeriesTotal.push(yearObject); // For each year of data we need a year-object on the updatedSeriesTotal array since that's how highcharts accepts data.
-               });
-               historicalRegionDataTotal.forEach((yearOfData, i) => { // for each year, push the data to the respective year object on updated series
-                 yearOfData.data.forEach(monthlyFiresCount => {
-                   updatedSeriesTotal[i].data.push(monthlyFiresCount);
-                 })
-               })
+              })
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
               // Per our note above, we need to pull data into the function's scope 
               const historicalRegionDataTotal = window.firesCountRegionSeries; // Aggregate data of all the regions from the historicalDataByRegion object
@@ -1949,7 +1958,7 @@ define([
 
              $('#firesCountTitle').html(
                `${currentYear} MODIS Fire Alerts, Year to Date
-               <span class="total_firecounts">${totalRegion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+               <span class="total_firecounts">${firesCount}</span>`
              );
            });
 
@@ -1965,6 +1974,7 @@ define([
               * We reached out to Highcharts support and performed testing to try to resolve the issue, but were unsuccessful.
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
               **************************************************/
+             console.log('subregionTotal', subregionTotal);
              const selectedIslandOrRegion = $(this).text();
              let updatedSeriesTotal = [] // Series of data to be given to Highcharts
              const countryData = historicalDataByRegion;
