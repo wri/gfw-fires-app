@@ -1748,10 +1748,6 @@ define([
                 let yearCounter = 2001;
                 let currentState = 0;
                 backupValues[0].forEach((monthData, i) => {
-                  console.log(backupValues[0]);
-                  console.log(monthData);
-                  console.log(statesArray);
-                  debugger;
                     if (monthData.year === currentYear && monthData.month === currentMonth) {
                       const yearObject = {
                         year: yearCounter,
