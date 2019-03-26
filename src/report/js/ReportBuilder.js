@@ -1671,13 +1671,15 @@ define([
                 console.log(historicalDataForSelectedRegion);
                 console.log(countryTotalWith1Subregion);
                 // firesCount total on load
-                countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.forEach(month => {
-                  if (typeof month === 'number'){
-                    firesCount += month
-                  } else {
-                    firesCount += month.y;
-                  }
-                })
+                firesCount = countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data[countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.length - 1].y;
+                console.log(countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data);
+                // countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.forEach(month => {
+                //   if (typeof month === 'number'){
+                //     firesCount += month
+                //   } else {
+                //     firesCount += month.y;
+                //   }
+                // })
               } else if (window.reportOptions.country === 'ALL') { // , or a Global Report
                 console.log('hi');
                 let historicalDataForSelectedRegion = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
@@ -1729,13 +1731,15 @@ define([
                 series = historicalDataForSelectedRegion;
 
                 // firesCount total on load
-                historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.forEach(month => {
-                  if (typeof month === 'number'){
-                    firesCount += month
-                  } else {
-                    firesCount += month.y;
-                  }
-                })
+                firesCount = historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data[historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.length - 1];
+                console.log(historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data[historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.length - 1].y);
+                // historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.forEach(month => {
+                //   if (typeof month === 'number'){
+                //     firesCount += month
+                //   } else {
+                //     firesCount += month.y;
+                //   }
+                // })
                 console.log(firesCount);
               } else { // Otherwise, we are dealing with a single country with all of its subregions
                 /********************** NOTE **********************
@@ -1875,16 +1879,16 @@ define([
                 console.log(countryTotalWithAllSubregions);
 
                 // firesCount total on load
-                firesCount = 0;
-                console.log('countryTotal[currentYear - 2001]', countryTotal[currentYear - 2001]);
-                countryTotal[currentYear - 2001].data.forEach(month => {
-                  console.log(month);
-                    if (typeof month === 'number') {
-                      firesCount += month;
-                    } else {
-                      firesCount += month.y;
-                    }
-                  })
+                firesCount = countryTotal[currentYear - 2001].data[countryTotal[currentYear - 2001].data.length - 1].y;
+                console.log(countryTotal[currentYear - 2001].data[countryTotal[currentYear - 2001].data.length - 1].y);
+                // countryTotal[currentYear - 2001].data.forEach(month => {
+                //   console.log(month);
+                //     if (typeof month === 'number') {
+                //       firesCount += month;
+                //     } else {
+                //       firesCount += month.y;
+                //     }
+                //   })
                 console.log(firesCount);
               }
 
@@ -2047,14 +2051,15 @@ define([
                 updatedSeriesTotal = historicalDataForSelectedRegion;
 
                // Updated firesCount total on click
-               firesCount = 0;
-               historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.forEach(month => {
-                if (typeof month === 'number'){
-                  firesCount += month
-                } else {
-                  firesCount += month.y;
-                }
-              })
+               firesCount = historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data[historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.length - 1].y;
+               console.log(historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data[historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.length - 1]);
+              //  historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.forEach(month => {
+              //   if (typeof month === 'number'){
+              //     firesCount += month
+              //   } else {
+              //     firesCount += month.y;
+              //   }
+              // })
               console.log(firesCount);
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
               values.forEach(value => console.log(value));
@@ -2113,8 +2118,9 @@ define([
               // update series
               updatedSeriesTotal = placeHolderArray; // there was a bug where the countryTotal global was getting reset when going between regions and country. weird ???
               // Updated firesCount total
-              firesCount = 0;
-              placeHolderArray[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
+              firesCount = placeHolderArray[currentYear - 2001].data[placeHolderArray[currentYear - 2001].data.length - 1].y;
+              console.log(placeHolderArray[currentYear - 2001].data[placeHolderArray[currentYear - 2001].data.length - 1].y);
+              // placeHolderArray[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
               console.log(firesCount);
             }
 
