@@ -1593,24 +1593,29 @@ define([
                 for (let i = 0; i <= yearsToAdd; i++) {
                   const currentYearColor = i === yearsToAdd ? '#d40000' : '#e0e0df';
                   const regionYearObject = {};
-                  regionYearObject['color'] = '#e0e0df';
+                  regionYearObject['color'] = currentYearColor;
                   regionYearObject['data'] = [];
                   regionYearObject['lineWidth'] = 1;
                   regionYearObject['year'] = 2001 + i;
                   regionYearObject['name'] = 2001 + i;
                   regionDataByYear.push(regionYearObject)
                 }
+                let runningTotal3 = 0;
                 values.forEach((monthOfData) => {
                   for (let x = 0; x < regionDataByYear.length; x++) {
                     if (regionDataByYear[x].year === monthOfData.year) {
                       if (monthOfData.month === 12) {
-                        regionDataByYear[x].data.push({'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
+                        regionDataByYear[x].data.push({'y': (runningTotal3 + monthOfData.alerts), 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
                       } else if (monthOfData.year === currentYear && monthOfData.month === currentMonth) {
-                        regionDataByYear[x].data.push({'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
+                        regionDataByYear[x].data.push({'y': (runningTotal3 + monthOfData.alerts), 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
                       } else {
-                        regionDataByYear[x].data.push(monthOfData.alerts);
+                        regionDataByYear[x].data.push((runningTotal3 + monthOfData.alerts));
                       }
                     }
+                  }
+                  runningTotal3 += monthOfData.alerts;
+                  if (monthOfData.month === 12) {
+                    runningTotal3 = 0;
                   }
                 })
                 console.log(regionDataByYear);
@@ -1667,19 +1672,24 @@ define([
                 countryTotalWith1Subregion = historicalDataForSelectedRegion // assign country data to a global object
                 aoiDataSpecificRegion = historicalDataForSelectedRegion;
 
-                series = countryTotalWith1Subregion; // assign country data on load.
+                series = regionDataByYear; // assign specific region data on load.
                 console.log(historicalDataForSelectedRegion);
                 console.log(countryTotalWith1Subregion);
-                // firesCount total on load
-                firesCount = countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data[countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.length - 1].y;
-                console.log(countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data);
                 // countryTotalWith1Subregion[countryTotalWith1Subregion.length - 1].data.forEach(month => {
-                //   if (typeof month === 'number'){
-                //     firesCount += month
-                //   } else {
-                //     firesCount += month.y;
-                //   }
-                // })
+                  //   if (typeof month === 'number'){
+                    //     firesCount += month
+                    //   } else {
+                      //     firesCount += month.y;
+                      //   }
+                      // })
+                      
+                      
+                // firesCount total on load
+                firesCount = regionDataByYear[regionDataByYear.length - 1].data[regionDataByYear[regionDataByYear.length - 1].data.length - 1].y;
+
+
+
+                
               } else if (window.reportOptions.country === 'ALL') { // , or a Global Report
                 console.log('hi');
                 let historicalDataForSelectedRegion = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
@@ -1885,14 +1895,7 @@ define([
                 // firesCount total on load
                 firesCount = countryTotal[currentYear - 2001].data[countryTotal[currentYear - 2001].data.length - 1].y;
                 console.log(countryTotal[currentYear - 2001].data[countryTotal[currentYear - 2001].data.length - 1].y);
-                // countryTotal[currentYear - 2001].data.forEach(month => {
-                //   console.log(month);
-                //     if (typeof month === 'number') {
-                //       firesCount += month;
-                //     } else {
-                //       firesCount += month.y;
-                //     }
-                //   })
+
                 console.log(firesCount);
               }
 
@@ -1970,12 +1973,12 @@ define([
             // Todo: ??? NAME MUST BE A PART OF THE OBJECTS IN ORDER TO SET THE SERIES NAMES
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
 
-            // Create list of regions
+            // Create list of regions on load
             $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
             if (window.reportOptions.aoiId) {
               $('#firesCountIslandsList').append("<li>" + window.reportOptions.aois.split("''").join("'") + "</li>");
-              // $('#firesCountIslandsList li').addClass('selected');
-              // $('#firesCountIslandsListContainer h3').removeClass('selected');
+              $('#firesCountIslandsList li').addClass('selected');
+              $('#firesCountIslandsListContainer h3').removeClass('selected');
             } else if (window.reportOptions.stateObjects) {
               const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
               allAois.sort();
