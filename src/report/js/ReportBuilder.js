@@ -1767,7 +1767,7 @@ define([
                   object[state.name_1] = [];
                   statesArray.push(object);
                 });
-                // instead of {alabama: []} what if we do {1: [] }
+
                 const stateNames = window.reportOptions.stateObjects.map(x => x.name_1);
                 stateNames.sort();
                 console.log(statesArray); // placeholders for 51 states
@@ -1775,12 +1775,21 @@ define([
                 // each region needs to have an array of object taken from the backupValues[0]
                 statesArray.sort((a, b) => {
                   // return (Object.keys(a)[0] > Object.keys(b)[0] - 0.5);
-                  return Object.keys(a)[0] > Object.keys(b)[0] ? 1 : -1;
+                  return Object.keys(a)[0].localeCompare(Object.keys(b)[0]);
                 });
+                // const countryArray = ['Équateur', 'Bandundu', 'Bas-Congo', 'Kasaï-Occidental', 'Kasaï-Oriental', 'Katanga', 'Kinshasa City', 'Kivu', 'Orientale'];
+                // const countryArray = ['France', 'Bermuda', 'Nicuragua', 'Maldieves', 'Catalona', 'Montigo', 'Kansas City'];
+                // console.log(countryArray.sort());
+                // console.log(countryArray.sort((a, b) => {
+                //   // return Object.keys(a)[0].localeCompare(Object.keys(b)[0]);
+                //   return a.localeCompare(b);
+                // }));
+                
                 console.log(statesArray);
                 let yearCounter = 2001;
                 let currentState = 0;
                 backupValues[0].forEach((monthData, i) => {
+                  console.log('monthData', monthData);
                   if (monthData.year === currentYear && monthData.month === currentMonth) {
                     const yearObject = {
                       year: yearCounter,
@@ -1789,6 +1798,7 @@ define([
                       lineWidth: 1
                     };
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]].push(yearObject); // works!
+                    console.log(statesArray);
                   } else if (monthData.month === 12) {
                       const yearObject = {
                         year: yearCounter,
@@ -1798,6 +1808,7 @@ define([
                       };
                       statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]].push(yearObject); // works!
                       yearCounter++;
+                      console.log(statesArray);
                   } else if(currentState !== monthData.adm1) {
                     yearCounter = 2001;
                   }
