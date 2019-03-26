@@ -2211,6 +2211,9 @@ define([
               console.log(countryTotal);
 
               console.log(countryTotalWithAllSubregions);
+              countryTotalWithAllSubregions.sort((a, b) => {
+                return Object.keys(a)[0] > Object.keys(b)[0] ? 1 : -1;
+              });
               countryTotalWithAllSubregions.forEach(state => {
                 if (Object.keys(state).join() === selectedIslandOrRegion) {
                   console.log(state[Object.keys(state)]);
