@@ -1788,11 +1788,11 @@ define([
 
 
                 console.log(statesArray); // placeholders for all states
-
+                let runningTotal = 0;
                 backupValues[0].forEach((monthData, i) => {
                   if (monthData.month === 12 || (monthData.month === currentMonth && monthData.year === currentYear)) {
                     const object = {// december OR the last month of the current year has an object.
-                      y: monthData.alerts, 
+                      y: (monthData.alerts + runningTotal), 
                       dataLabels: { 
                         align: "left", 
                         crop: false, 
@@ -1806,8 +1806,12 @@ define([
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(object);
                     console.log(statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001]);
                   } else {
-                    statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(monthData.alerts);
+                    statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push((monthData.alerts + runningTotal));
                   }
+                  if (monthData.month === 12) {
+                    runningTotal = 0;
+                  }
+                  runningTotal += monthData.alerts;
                 });
 
 
@@ -1816,6 +1820,7 @@ define([
                 countryTotalWithAllSubregions = statesArray; // store all state data on global variable
                 // Massage the data frm values
                 const placeHolderCountryTotal = [];
+                
                 values.forEach(monthOfData => {
                   if (monthOfData.month === 12) {
                     const yearObject = {
@@ -1839,12 +1844,11 @@ define([
                 })
                 console.log(placeHolderCountryTotal); // get 1 year object on global variable
                 // populate the data
-                let placeholder = 0;
-                console.log(values[218]);
+                let runningTotal2 = 0;
                 values.forEach((monthOfData, i) => {
                   if (monthOfData.year === 12 || (monthOfData.year === currentYear && monthOfData.month === currentMonth)) {
                     const object = {// december OR the last month of the current year has an object.
-                      y: monthOfData.alerts, 
+                      y: (monthOfData.alerts + runningTotal2), 
                       dataLabels: { 
                         align: "left", 
                         crop: false, 
@@ -1857,7 +1861,11 @@ define([
                     };
                     placeHolderCountryTotal[monthOfData.year - 2001].data.push(object);
                   } else {
-                    placeHolderCountryTotal[monthOfData.year - 2001].data.push(monthOfData.alerts);
+                    placeHolderCountryTotal[monthOfData.year - 2001].data.push((monthOfData.alerts + runningTotal2));
+                  }
+                  runningTotal2 += monthOfData.alerts;
+                  if (monthOfData.month === 12) {
+                    runningTotal2 = 0;
                   }
                 })
                 console.log(placeHolderCountryTotal);
