@@ -31,7 +31,7 @@ define([
       
       // All Subregions for a country objects
       let countryTotalWithAllSubregions = {}; // total per subregion
-      let countryTotal = []; // countryTotal
+      let countryTotal = {}; // countryTotal
       // clicking a region pulls the item based on the window.reportOptions
 
       // 1 Subregion for a country object
@@ -1754,7 +1754,6 @@ define([
                       year: yearCounter,
                       name: yearCounter,
                       data: [],
-                      color: '#e0e0df',
                       lineWidth: 1
                     };
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]].push(yearObject); // works!
@@ -1763,7 +1762,6 @@ define([
                         year: yearCounter,
                         name: yearCounter,
                         data: [],
-                        color: '#e0e0df',
                         lineWidth: 1
                       };
                       statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]].push(yearObject); // works!
@@ -1776,9 +1774,9 @@ define([
 
 
                 console.log(statesArray); // placeholders for all states
-                backupValues[0].forEach((monthData, i) => {
 
-                  if (monthData.month === 12 || (monthData.month === currentMonth & monthData.year === currentYear)) {
+                backupValues[0].forEach((monthData, i) => {
+                  if (monthData.month === 12 || (monthData.month === currentMonth && monthData.year === currentYear)) {
                     const object = {// december OR the last month of the current year has an object.
                       y: monthData.alerts, 
                       dataLabels: { 
@@ -1792,6 +1790,7 @@ define([
                       } 
                     }
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(object);
+                    console.log(statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001]);
                   } else {
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(monthData.alerts);
                   }
@@ -1799,39 +1798,37 @@ define([
 
 
                 console.log(statesArray); // placeholders for all states
-                console.log(values);
-
 
                 countryTotalWithAllSubregions = statesArray; // store all state data on global variable
                 // Massage the data frm values
+                const placeHolderCountryTotal = [];
                 values.forEach(monthOfData => {
-                  console.log(monthOfData);
                   if (monthOfData.month === 12) {
                     const yearObject = {
                       year: monthOfData.year,
                       name: monthOfData.year,
                       data: [],
-                      color: '#d40000',
+                      color: '#e0e0df', // ??? controls non YTD color
                       lineWidth: 1
                     };
-                    countryTotal.push(yearObject);
+                    placeHolderCountryTotal.push(yearObject);
                   } else if (monthOfData.month === currentMonth && monthOfData.year === currentYear) {
                     const yearObject = {
                       year: monthOfData.year,
                       name: monthOfData.year,
                       data: [],
-                      color: '#e0e0df',
+                      color: '#d40000', // ??? controls YTD color
                       lineWidth: 1
                     };
-                    countryTotal.push(yearObject);
+                    placeHolderCountryTotal.push(yearObject);
                   }
                 })
-                console.log(countryTotal); // get 1 year object on global variable
-
+                console.log(placeHolderCountryTotal); // get 1 year object on global variable
                 // populate the data
                 let placeholder = 0;
+                console.log(values[218]);
                 values.forEach((monthOfData, i) => {
-                  if (i % 11 === 0 && i !== 0) {
+                  if (monthOfData.year === 12 || (monthOfData.year === currentYear && monthOfData.month === currentMonth)) {
                     const object = {// december OR the last month of the current year has an object.
                       y: monthOfData.alerts, 
                       dataLabels: { 
@@ -1844,16 +1841,17 @@ define([
                         x: 0
                       }
                     };
-                    countryTotal[monthOfData.year - 2001].data.push(object);
+                    placeHolderCountryTotal[monthOfData.year - 2001].data.push(object);
                   } else {
-                    countryTotal[monthOfData.year - 2001].data.push(monthOfData.alerts);
+                    placeHolderCountryTotal[monthOfData.year - 2001].data.push(monthOfData.alerts);
                   }
                 })
-                console.log(countryTotal);
+                console.log(placeHolderCountryTotal);
+                countryTotal = placeHolderCountryTotal;
                 // assign series on load
                 series = countryTotal;
                 console.log(countryTotalWithAllSubregions);
-                
+
                 // firesCount total on load
                 firesCount = 0;
                 console.log('countryTotal[currentYear - 2001]', countryTotal[currentYear - 2001]);
@@ -1991,14 +1989,58 @@ define([
               })
               console.log(firesCount);
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
-              // console.log(countryTotalWithAllSubregions);
-              // console.log(countryTotal);
-              // update series
-              updatedSeriesTotal = countryTotal;
+              values.forEach(value => console.log(value));
+              const placeHolderArray = [];
+              values.forEach(monthOfData => {
+                if (monthOfData.month === 12) {
+                  const yearObject = {
+                    year: monthOfData.year,
+                    name: monthOfData.year,
+                    data: [],
+                    color: '#e0e0df', // ??? controls non YTD color
+                    lineWidth: 1
+                  };
+                  placeHolderArray.push(yearObject);
+                } else if (monthOfData.month === currentMonth && monthOfData.year === currentYear) {
+                  const yearObject = {
+                    year: monthOfData.year,
+                    name: monthOfData.year,
+                    data: [],
+                    color: '#d40000', // ??? controls YTD color
+                    lineWidth: 1
+                  };
+                  placeHolderArray.push(yearObject);
+                }
+              })
+              console.log(placeHolderArray); // get 1 year object on global variable
+              // populate the data
+              let placeholder = 0;
+              console.log(values[218]);
+              values.forEach((monthOfData, i) => {
+                if (monthOfData.year === 12 || (monthOfData.year === currentYear && monthOfData.month === currentMonth)) {
+                  const object = {// december OR the last month of the current year has an object.
+                    y: monthOfData.alerts, 
+                    dataLabels: { 
+                      align: "left", 
+                      crop: false, 
+                      enabled: true, 
+                      format: "{series.name}", 
+                      overflow: true, 
+                      verticalAlign: "middle", 
+                      x: 0
+                    }
+                  };
+                  placeHolderArray[monthOfData.year - 2001].data.push(object);
+                } else {
+                  placeHolderArray[monthOfData.year - 2001].data.push(monthOfData.alerts);
+                }
+              })
 
+              // update series
+              updatedSeriesTotal = placeHolderArray; // there was a bug where the countryTotal global was getting reset when going between regions and country. weird ???
               // Updated firesCount total
               firesCount = 0;
-              countryTotal[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
+              placeHolderArray[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
               console.log(firesCount);
             }
 
@@ -2047,15 +2089,20 @@ define([
                   firesCount += month.y;
                 }
               })
-            } else if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
+            } else if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) { 
+              countryTotal[18].data.forEach(x => typeof x === 'number' ? console.log(x) : console.log(x.y));
               /********************** NOTE **********************
+               * If we're viewing ALL subregions in ONE specific country
                * Calculate data and current year total for a report on a specific subregion in a country
                ***************************************************/
+              console.log(countryTotal);
 
               console.log(countryTotalWithAllSubregions);
               countryTotalWithAllSubregions.forEach(state => {
                 if (Object.keys(state).join() === selectedIslandOrRegion) {
+                  console.log(state[Object.keys(state)]);
                   updatedSeries = state[Object.keys(state)];
+                  console.log(updatedSeries);
                 }
               })
 
