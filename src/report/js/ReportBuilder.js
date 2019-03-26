@@ -2014,16 +2014,20 @@ define([
                   }
                 })
                 console.log(historicalDataForSelectedRegion)
+                let runningTotal = 0;
                 backupValues[0].forEach(monthOfData => {
                   let itemToPush;
                   if (monthOfData.year === currentYear && monthOfData.month === currentMonth) { // if it's the last month of the current year...
-                    itemToPush = { y: monthOfData.alerts, dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
+                    itemToPush = { y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
                   } else {
                     itemToPush = (monthOfData.month) === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
-                    {y: monthOfData.alerts, dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
-                    monthOfData.alerts;
+                    {y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
+                    (monthOfData.alerts + runningTotal);
                   }
-                  
+                  runningTotal += monthOfData.alerts;
+                  if (monthOfData.month === 12) {
+                    runningTotal = 0;
+                  }
                   const yearIndex = monthOfData.year - 2001;
                   // const countryIndex = historicalDataForSelectedRegion.filter(x => x.year === monthOfData.year);
                   const countryIndex = historicalDataForSelectedRegion.map(x => x.year).indexOf(monthOfData.year);
@@ -2055,6 +2059,7 @@ define([
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
               values.forEach(value => console.log(value));
               const placeHolderArray = [];
+             
               values.forEach(monthOfData => {
                 if (monthOfData.month === 12) {
                   const yearObject = {
@@ -2080,10 +2085,11 @@ define([
               // populate the data
               let placeholder = 0;
               console.log(values[218]);
+              let runningTotal = 0;
               values.forEach((monthOfData, i) => {
                 if (monthOfData.year === 12 || (monthOfData.year === currentYear && monthOfData.month === currentMonth)) {
                   const object = {// december OR the last month of the current year has an object.
-                    y: monthOfData.alerts, 
+                    y: (monthOfData.alerts + runningTotal), 
                     dataLabels: { 
                       align: "left", 
                       crop: false, 
@@ -2096,7 +2102,11 @@ define([
                   };
                   placeHolderArray[monthOfData.year - 2001].data.push(object);
                 } else {
-                  placeHolderArray[monthOfData.year - 2001].data.push(monthOfData.alerts);
+                  placeHolderArray[monthOfData.year - 2001].data.push((monthOfData.alerts + runningTotal));
+                }
+                runningTotal += monthOfData.alerts;
+                if (monthOfData.month === 12) {
+                  runningTotal = 0;
                 }
               })
 
@@ -2154,15 +2164,18 @@ define([
               regionYearObject['name'] = 2001 + i;
               regionDataByYear.push(regionYearObject)
             }
+            let runningTotal = 0;
             values.forEach((monthOfData) => {
               for (let x = 0; x < regionDataByYear.length; x++) {
                 if (regionDataByYear[x].year === monthOfData.year) {
                   if (monthOfData.month === 12) {
-                    regionDataByYear[x].data.push({'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
+                    regionDataByYear[x].data.push({'y': (monthOfData.alerts + runningTotal), 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
+                    runningTotal = 0;
                   } else if (monthOfData.year === currentYear && monthOfData.month === currentMonth) {
-                    regionDataByYear[x].data.push({'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
+                    regionDataByYear[x].data.push({'y': (monthOfData.alerts + runningTotal), 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } });
                   } else {
-                    regionDataByYear[x].data.push(monthOfData.alerts);
+                    regionDataByYear[x].data.push((monthOfData.alerts + runningTotal));
+                    runningTotal += monthOfData.alerts;
                   }
                 }
               }
