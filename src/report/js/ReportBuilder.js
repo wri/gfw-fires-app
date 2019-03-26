@@ -1970,8 +1970,8 @@ define([
             $('#firesCountIslandsListContainer h3').html("<p class=\"fires-count__label\">Region:</p> <strong> " + selectedCountry + " </strong>");
             if (window.reportOptions.aoiId) {
               $('#firesCountIslandsList').append("<li>" + window.reportOptions.aois.split("''").join("'") + "</li>");
-              $('#firesCountIslandsList li').addClass('selected');
-              $('#firesCountIslandsListContainer h3').removeClass('selected');
+              // $('#firesCountIslandsList li').addClass('selected');
+              // $('#firesCountIslandsListContainer h3').removeClass('selected');
             } else if (window.reportOptions.stateObjects) {
               const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
               allAois.sort();
