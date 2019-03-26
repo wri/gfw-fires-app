@@ -2183,14 +2183,15 @@ define([
               updatedSeries = regionDataByYear; // update Series
                 
               // Updated firesCount total on click
-              firesCount = 0;
-              regionDataByYear[regionDataByYear.length - 1].data.forEach(month => {
-                if (typeof month === 'number'){
-                  firesCount += month
-                } else {
-                  firesCount += month.y;
-                }
-              })
+              firesCount = regionDataByYear[regionDataByYear.length - 1].data[regionDataByYear[regionDataByYear.length - 1].data.length - 1].y;
+              console.log(regionDataByYear[regionDataByYear.length - 1].data[regionDataByYear[regionDataByYear.length - 1].data.length - 1].y);
+              // regionDataByYear[regionDataByYear.length - 1].data.forEach(month => {
+              //   if (typeof month === 'number'){
+              //     firesCount += month
+              //   } else {
+              //     firesCount += month.y;
+              //   }
+              // })
               console.log(firesCount);
             } else if (window.reportOptions !== 'ALL' && window.reportOptions.aois === undefined) { 
               /********************** NOTE **********************
@@ -2209,8 +2210,7 @@ define([
               })
 
               // Update firesCount
-              firesCount = 0;
-              updatedSeries[currentYear - 2001].data.forEach(month => firesCount += typeof month === 'number' ? month : month.y);
+              firesCount = updatedSeries[currentYear - 2001].data[updatedSeries[currentYear - 2001].data.length - 1].y;
               console.log(firesCount);
             }
 
