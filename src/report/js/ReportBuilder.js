@@ -1662,7 +1662,7 @@ define([
                   }
                 })
                 historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].color = '#d40000';
-                countryTotalWith1Subregion = historicalDataForSelectedRegion // assign country data to a global object
+                countryTotalWith1Subregion = historicalDataForSelectedRegion; // assign country data to a global object
                 aoiDataSpecificRegion = historicalDataForSelectedRegion;
 
                 series = regionDataByYear; // assign specific region data on load.
@@ -1796,7 +1796,6 @@ define([
                     runningTotal = 0;
                   }
                 });
-                console.log(statesArray);
                 countryTotalWithAllSubregions = statesArray; // store all state data on global variable
                 // Massage the data frm values
                 const placeHolderCountryTotal = [];
@@ -2007,7 +2006,7 @@ define([
                // Updated firesCount total on click
                firesCount = historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data[historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].data.length - 1].y;
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois === undefined) { // If we're viewing all subregions in a specific country
-              values.forEach(value => console.log(value));
+
               const placeHolderArray = [];
 
               values.forEach(monthOfData => {
@@ -2132,11 +2131,9 @@ define([
                * If we're viewing ALL subregions in ONE specific country
                * Calculate data and current year total for a report on a specific subregion in a country
                ***************************************************/
-              console.log(countryTotalWithAllSubregions);
               countryTotalWithAllSubregions.sort((a, b) => {
                 return Object.keys(a)[0].localeCompare(Object.keys(b)[0]);
               });
-              console.log(countryTotalWithAllSubregions);
               countryTotalWithAllSubregions.forEach(state => {
                 if (Object.keys(state).join() === selectedIslandOrRegion) {
                   updatedSeries = state[Object.keys(state)];
