@@ -1701,10 +1701,11 @@ define([
                   }
                 })
                 console.log('historicalDataForSelectedRegion', historicalDataForSelectedRegion);
-
+                
+                let runningTotal = 0;
                 values.forEach(monthOfData => {
                   const itemToPush = monthOfData.month === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
-                  {'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{'series.name'}", overflow: true, verticalAlign: "middle", x: 0 } } : monthOfData.alerts;
+                  {'y': (monthOfData.alerts + runningTotal), 'dataLabels': { align: "left", crop: false, enabled: true, format: "{'series.name'}", overflow: true, verticalAlign: "middle", x: 0 } } : (monthOfData.alerts + runningTotal);
                   const yearIndex = monthOfData.year - 2001;
                   const countryIndex = historicalDataForSelectedRegion.map(x => x.year).indexOf(monthOfData.year);
                   if (countryIndex !== -1) {
@@ -1718,6 +1719,10 @@ define([
                       data: [monthOfData.alerts]
                     };
                   }
+                  runningTotal += monthOfData.alerts;
+                  if (monthOfData.month === 12) {
+                    runningTotal = 0;
+                  };
                 })
                 console.log('historicalDataForSelectedRegion', historicalDataForSelectedRegion);
                 // assign series on load
