@@ -1571,6 +1571,7 @@ define([
                 if (i > 0) {
                   backupValues.push(result.data.attributes.value);
                 }
+                console.log(backupValues);
               });
             }
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
@@ -1630,14 +1631,18 @@ define([
                   }
                 })
 
+                let runningTotal = 0;
                 backupValues[0].forEach(monthOfData => {
                   let itemToPush;
                   if (monthOfData.year === currentYear && monthOfData.month === currentMonth) { // if it's the last month of the current year...
-                    itemToPush = { y: monthOfData.alerts, dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
+                    itemToPush = { y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
                   } else {
-                    itemToPush = (monthOfData.month) === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
-                    {y: monthOfData.alerts, dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
-                    monthOfData.alerts;
+                    itemToPush = monthOfData.month === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
+                    {y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
+                    (monthOfData.alerts + runningTotal);
+                  }
+                  if (monthOfData.month === 12) {
+                    runningTotal = 0;
                   }
                   
                   const yearIndex = monthOfData.year - 2001;
@@ -1655,6 +1660,8 @@ define([
                       data: [monthOfData.alerts]
                     };
                   }
+                  runningTotal += monthOfData.alerts;
+                  console.log(runningTotal, monthOfData.alerts);
                 })
                 historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].color = '#d40000';  
                 countryTotalWith1Subregion = historicalDataForSelectedRegion // assign country data to a global object
@@ -1743,8 +1750,9 @@ define([
                 });
                 
                 const stateNames = window.reportOptions.stateObjects.map(x => x.name_1);
-                console.log(stateNames);
+                // stateNames.sort();
                 console.log(statesArray); // placeholders for 51 states
+                console.log(statesArray.sort()); // placeholders for 51 states
                 // each region needs to have an array of object taken from the backupValues[0]
 
                 let yearCounter = 2001;
@@ -1949,6 +1957,7 @@ define([
               $('#firesCountIslandsListContainer h3').removeClass('selected');
             } else if (window.reportOptions.stateObjects) {
               const allAois = window.reportOptions.stateObjects.map(stateObj => stateObj.name_1);
+              allAois.sort();
               allAois.forEach(aoiStr => {
                 $('#firesCountIslandsList').append("<li>" + aoiStr + "</li>");
               });
