@@ -1526,7 +1526,7 @@ define([
           const queryFor = self.currentISO ? self.currentISO : 'global';
           const handleAs = {handleAs: 'json'};
           const promiseUrls = [];
-
+          
           if (window.reportOptions.aoiId) {
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
