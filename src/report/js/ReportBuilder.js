@@ -1597,6 +1597,7 @@ define([
                   regionYearObject['data'] = [];
                   regionYearObject['lineWidth'] = 1;
                   regionYearObject['year'] = 2001 + i;
+                  regionYearObject['name'] = 2001 + i;
                   regionDataByYear.push(regionYearObject)
                 }
                 values.forEach((monthOfData) => {
@@ -1624,7 +1625,7 @@ define([
                     regionYearObject['data'] = [];
                     regionYearObject['lineWidth'] = 1;
                     regionYearObject['year'] = monthOfData.year;
-
+                    regionYearObject['name'] = monthOfData.year;
                     historicalDataForSelectedRegion.push(regionYearObject);
                   }
                 })
@@ -1650,6 +1651,7 @@ define([
                       color: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].color,
                       lineWidth: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].lineWidth,
                       year: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].year + 1,
+                      name: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].year + 1,
                       data: [monthOfData.alerts]
                     };
                   }
@@ -1686,6 +1688,7 @@ define([
                     regionYearObject['data'] = [];
                     regionYearObject['lineWidth'] = 1;
                     regionYearObject['year'] = monthOfData.year;
+                    regionYearObject['name'] = monthOfData.year;
                     historicalDataForSelectedRegion.push(regionYearObject);
                   }
                 })
@@ -1693,7 +1696,7 @@ define([
 
                 values.forEach(monthOfData => {
                   const itemToPush = monthOfData.month === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
-                  {'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } : monthOfData.alerts;
+                  {'y': monthOfData.alerts, 'dataLabels': { align: "left", crop: false, enabled: true, format: "{'series.name'}", overflow: true, verticalAlign: "middle", x: 0 } } : monthOfData.alerts;
                   const yearIndex = monthOfData.year - 2001;
                   const countryIndex = historicalDataForSelectedRegion.map(x => x.year).indexOf(monthOfData.year);
                   if (countryIndex !== -1) {
@@ -1703,6 +1706,7 @@ define([
                       color: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].color,
                       lineWidth: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].lineWidth,
                       year: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].year + 1,
+                      name: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].year + 1,
                       data: [monthOfData.alerts]
                     };
                   }
@@ -1748,6 +1752,7 @@ define([
                   if (monthData.year === currentYear && monthData.month === currentMonth) {
                     const yearObject = {
                       year: yearCounter,
+                      name: yearCounter,
                       data: [],
                       color: '#e0e0df',
                       lineWidth: 1
@@ -1756,6 +1761,7 @@ define([
                   } else if (monthData.month === 12) {
                       const yearObject = {
                         year: yearCounter,
+                        name: yearCounter,
                         data: [],
                         color: '#e0e0df',
                         lineWidth: 1
@@ -1771,10 +1777,6 @@ define([
 
                 console.log(statesArray); // placeholders for all states
                 backupValues[0].forEach((monthData, i) => {
-                  if (i < 10) {
-                    console.log(monthData);
-                    console.log(statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data);
-                  }
 
                   if (monthData.month === 12 || (monthData.month === currentMonth & monthData.year === currentYear)) {
                     const object = {// december OR the last month of the current year has an object.
@@ -1807,6 +1809,7 @@ define([
                   if (monthOfData.month === 12) {
                     const yearObject = {
                       year: monthOfData.year,
+                      name: monthOfData.year,
                       data: [],
                       color: '#d40000',
                       lineWidth: 1
@@ -1815,6 +1818,7 @@ define([
                   } else if (monthOfData.month === currentMonth && monthOfData.year === currentYear) {
                     const yearObject = {
                       year: monthOfData.year,
+                      name: monthOfData.year,
                       data: [],
                       color: '#e0e0df',
                       lineWidth: 1
@@ -1935,7 +1939,7 @@ define([
               },
               series: series
             });
-
+            // Todo: ??? NAME MUST BE A PART OF THE OBJECTS IN ORDER TO SET THE SERIES NAMES
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
 
             // Create list of regions
@@ -2047,6 +2051,7 @@ define([
               /********************** NOTE **********************
                * Calculate data and current year total for a report on a specific subregion in a country
                ***************************************************/
+
               console.log(countryTotalWithAllSubregions);
               countryTotalWithAllSubregions.forEach(state => {
                 if (Object.keys(state).join() === selectedIslandOrRegion) {
