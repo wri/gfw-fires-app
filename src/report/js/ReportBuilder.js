@@ -1641,9 +1641,6 @@ define([
                     {y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
                     (monthOfData.alerts + runningTotal);
                   }
-                  if (monthOfData.month === 12) {
-                    runningTotal = 0;
-                  }
                   
                   const yearIndex = monthOfData.year - 2001;
                   // const countryIndex = historicalDataForSelectedRegion.filter(x => x.year === monthOfData.year);
@@ -1661,6 +1658,9 @@ define([
                     };
                   }
                   runningTotal += monthOfData.alerts;
+                  if (monthOfData.month === 12) {
+                    runningTotal = 0;
+                  }
                   console.log(runningTotal, monthOfData.alerts);
                 })
                 historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].color = '#d40000';  
