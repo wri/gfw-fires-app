@@ -1816,10 +1816,10 @@ define([
                   } else {
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push((monthData.alerts + runningTotal));
                   }
+                  runningTotal += monthData.alerts;
                   if (monthData.month === 12) {
                     runningTotal = 0;
                   }
-                  runningTotal += monthData.alerts;
                 });
 
 

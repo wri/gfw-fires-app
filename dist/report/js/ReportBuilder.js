@@ -1757,13 +1757,17 @@ define([
                   object[state.name_1] = [];
                   statesArray.push(object);
                 });
-                
+                // instead of {alabama: []} what if we do {1: [] }
                 const stateNames = window.reportOptions.stateObjects.map(x => x.name_1);
-                // stateNames.sort();
+                stateNames.sort();
                 console.log(statesArray); // placeholders for 51 states
-                console.log(statesArray.sort()); // placeholders for 51 states
+                console.log(stateNames); // placeholders for 51 states
                 // each region needs to have an array of object taken from the backupValues[0]
-
+                statesArray.sort((a, b) => {
+                  // return (Object.keys(a)[0] > Object.keys(b)[0] - 0.5);
+                  return Object.keys(a)[0] > Object.keys(b)[0] ? 1 : -1;
+                });
+                console.log(statesArray);
                 let yearCounter = 2001;
                 let currentState = 0;
                 backupValues[0].forEach((monthData, i) => {
@@ -1812,10 +1816,10 @@ define([
                   } else {
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push((monthData.alerts + runningTotal));
                   }
+                  runningTotal += monthData.alerts;
                   if (monthData.month === 12) {
                     runningTotal = 0;
                   }
-                  runningTotal += monthData.alerts;
                 });
 
 
