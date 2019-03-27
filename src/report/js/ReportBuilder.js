@@ -143,6 +143,9 @@ define([
 
             // Creates the Fire History: Fire Season Progression graph
             self.getFireCounts();
+            
+            // Creates the Fire History: Fire Season Progression graph
+            self.buildUnusualFireCountsChart();
             // Creates the Annual Fire History graph
             self.getFireHistoryCounts()
 
@@ -2157,7 +2160,64 @@ define([
           });
         },
 
-      getFireHistoryCounts: function() {
+        buildUnusualFireCountsChart: () => {
+          const self = this; // Don't know why I'm adding this, but we did it above
+          const handleAs = { handleAs: 'json' };
+          const promiseUrls = [];
+          const queryUrl = 'https://production-api.globalforestwatch.org/query/ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27IDN%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27VIIRS%27';
+          promiseUrls.push(queryUrl);
+          let responseContainer = {};
+          const currentYear = new Date().getFullYear();
+          // determine the type of report, global, state, or regional
+
+          // Run a query
+          Promise.all(promiseUrls.map(promiseUrl => {
+            return request.get(promiseUrl, handleAs);
+          })).then(response => {
+            responseContainer = response[0].data;
+            console.log(responseContainer);
+          }).then(() => {
+            // We only need 2019 data, so we filter it down for 2019 data.
+            // const x = responseContainer.filter(a => {
+            //   console.log(a.year);
+            //   return a.year === 2019;
+            // })
+
+            // Create an array of 52 objects, one for each week. 
+            const dataByWeek = [];
+            for (let i = 1; i < 53; i++) {
+              const weekObject = {
+                week: i,
+                currentYearAlerts: 0,
+                previousYearsAlerts: [],
+                mean: 0,
+                standardDeviation: 0,
+                standardDeviation1: 0,
+                standardDeviation2: 0,
+                name: i,
+                color: '#d40000',
+                lineWidth: 1,
+              }
+              dataByWeek.push(weekObject);
+            };
+            console.log(dataByWeek);
+            
+            responseContainer.forEach(weekOfData => {
+              if (weekOfData.year === currentYear) {
+                // We need to push the week Data to that databyweek index
+                console.log(dataByWeek[weekOfData.week]);
+                console.log('alerts', weekOfData.alerts); // 
+                console.log('year', weekOfData.year);
+              }
+            })
+
+            // For each item in our responseObject, push the alerts to the proper data set
+
+            // Create a chart out of it.
+          });
+        },
+
+        getFireHistoryCounts: function() {
 
         const queryFor = this.currentISO ? this.currentISO : 'global';
         const numberOfBins = Config.colorRampFireHistory.length
