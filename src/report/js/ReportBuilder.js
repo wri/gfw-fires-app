@@ -27,11 +27,7 @@ define([
 
       let countryTotalWithAllSubregions = {}; // total per subregion
       let countryTotal = {}; // countryTotal
-      let countryTotalWith1Subregion = {}; // should contain aggregated data for the country for load and on h3 click
-
       let firesCount = 0;
-      let newSeriesDataObj = {};
-      let historicalDataByRegion = {};
 
     return {
 
@@ -1513,19 +1509,19 @@ define([
           const handleAs = {handleAs: 'json'};
           const promiseUrls = [];
 
-          if (window.reportOptions.aoiId) {
+          if (window.reportOptions.aoiId) { // 1 Subregion + country
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
               `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
             ];
             promiseUrls.push(...urls);
-          } else if (window.reportOptions.country !== 'ALL') {
+          } else if (window.reportOptions.country !== 'ALL') { // All subregions in a country
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`,
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
             ];
             promiseUrls.push(...urls);
-          } else {
+          } else { // Global Report
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`
             ];
@@ -1556,8 +1552,8 @@ define([
               });
             }
 
-            for (var i = 2001; i <= currentYear; i++) {
-              colors[i] = self.shadeColor(baseColor, (indexColor / 100));
+            for (let j = 2001; j <= currentYear; j++) {
+              colors[j] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
 
