@@ -2220,7 +2220,7 @@ define([
               highchartsSeriesXPosition += 0.25;
               return [highchartsSeriesXPosition, weekObject.alerts];
             });
-            
+
             // if the most recent week with data is less than the current week, we need to adjust the current week.
             if (currentYearData[currentYearData.length - 1].week < currentWeek) currentWeek = currentYearData[currentYearData.length - 1].week;
             
@@ -2317,6 +2317,18 @@ define([
               },
               xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              },
+              plotOptions: {
+                spline: {
+                    marker: {
+                        enabled: false
+                    }
+                },
+                areaspline: {
+                    marker: {
+                        enabled: false
+                    }
+                }
               },
               series: [
                 {
