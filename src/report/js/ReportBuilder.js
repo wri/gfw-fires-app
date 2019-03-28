@@ -2163,7 +2163,7 @@ define([
         buildUnusualFireCountsChart: () => {
           const handleAs = { handleAs: 'json' };
           const promiseUrls = [];
-          
+
           // Make the query dynamic by pulling in the countryCode using the window options and our config file.
           const currentCountry = window.reportOptions.country;
           let countryCode = ''; // ??? Make this a succint filter function
@@ -2176,10 +2176,10 @@ define([
           let sourceOfData = 'MODIS' // modis by default, can change to 'VIIRS'
           const queryPrefix = 'https://production-api.globalforestwatch.org/query';
           const stateQuerySuffix = `9b9e56fc-270e-486d-8db5-e0a839c9a1a9?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20adm1%20=%201%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
-          const regionQuerySuffix = `ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
+          const subRegionQuerySuffix = `ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
 
           if (window.reportOptions.aois) { // Viewing a Report for a specific subregion in a country (adm0)
-            var queryUrl = `${queryPrefix}/${regionQuerySuffix}`;
+            var queryUrl = `${queryPrefix}/${subRegionQuerySuffix}`;
           } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
             var queryUrl = `${queryPrefix}/${stateQuerySuffix}`;
           } else { // Viewing a global report
@@ -2191,7 +2191,7 @@ define([
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
           const currentYear = new Date().getFullYear();
-          
+
           // Calculate the current Week of the current year
           const today = new Date();
           const startDateOfCurrentYear = new Date(today.getFullYear(), 0, 0);
@@ -2205,6 +2205,11 @@ define([
             }
           }
 
+          // Declarting variables used below
+          let unusualFiresCount = 0;
+          let earliestYearOfData = currentYear;
+          let seriesData, standardDeviationSeries, standardDeviation2Series;
+
           // determine the type of report, global, state, or regional
           // Run a query
           Promise.all(promiseUrls.map(promiseUrl => {
@@ -2213,117 +2218,124 @@ define([
             dataFromRequest = response[0].data;
             console.log(dataFromRequest);
           }).then(() => {
-            dataFromRequest.sort((a, b) => a.week > b.week ? 1 : -1); // Sort the data by week
 
-            let latestWeekOfData = 1;
-            dataFromRequest.forEach(week => week.week > latestWeekOfData ? latestWeekOfData = week.week : null);
+            if (window.reportOptions.aois) { //Viewing a Report for a specific subregion in a country (adm0)
+              dataFromRequest.sort((a, b) => a.week > b.week ? 1 : -1); // Sort the data by week
 
-            console.log('dataFromRequest', dataFromRequest);
-
-            // Create an array of 52 objects, one for each week, sorted chronologically. 
-            const currentYearDataByWeek = [];
-            for (let i = 1; i < 53; i++) {
-              const weekObject = {
-                week: i,
-                currentYearAlerts: 0,
-              }
-              currentYearDataByWeek.push(weekObject);
-            };
-            
-            console.log('currentYearDataByWeek', currentYearDataByWeek);
-            // Get the current year data for the line chart
-            // Update the seriesData in highcharts to show 4 weeks of data per month
-            // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
-            // 4 values per category means each unit is spaced out by quarter-units. 
-            // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
-            let highchartsSeriesXPosition = -0.5;
-            const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear));
-            const seriesData = currentYearData.map(weekObject => {
-              highchartsSeriesXPosition += 0.25;
-              return [highchartsSeriesXPosition, weekObject.alerts];
-            });
-            console.log('seriesData', seriesData);
-            // if the most recent week with data is less than the current week, we need to adjust the current week.
-            if (currentYearData[currentYearData.length - 1].week < currentWeek) currentWeek = currentYearData[currentYearData.length - 1].week;
-            
-            // Get the historical data for the standard deviation area charts
-            // Create an array of 52 objects, one for each historical week, sorted chronologically. Each object is an array, and we are to push the data and calculate the mean and sd 1 and sd2. 
-            const historicalDataByWeek = [];
-            for (let i = 1; i < 53; i++) {
-              const historicalWeekObject = {
-                week: i,
-                historicalAlerts: [],
-                baseStandardDeviation: 0,
-                sd1: 0,
-                sd2: 0,
-              }
-              historicalDataByWeek.push(historicalWeekObject);
-            };
-            console.log('historicalDataByWeek',historicalDataByWeek);
-            // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
-            dataFromRequest.forEach(weekOfData => {
-              historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
-            });
-
-            // calculate average for each week
-            historicalDataByWeek.forEach((weekObject, i) => {
-              let sumOfAlerts = 0; 
-              let average = 0;
-              historicalDataByWeek[i].historicalAlerts.forEach(alert => {
-                sumOfAlerts += alert;
+              let latestWeekOfData = 1;
+              dataFromRequest.forEach(week => week.week > latestWeekOfData ? latestWeekOfData = week.week : null);
+  
+              console.log('dataFromRequest', dataFromRequest);
+  
+              // Create an array of 52 objects, one for each week, sorted chronologically. 
+              const currentYearDataByWeek = [];
+              for (let i = 1; i < 53; i++) {
+                const weekObject = {
+                  week: i,
+                  currentYearAlerts: 0,
+                }
+                currentYearDataByWeek.push(weekObject);
+              };
+              
+              console.log('currentYearDataByWeek', currentYearDataByWeek);
+              // Get the current year data for the line chart
+              // Update the seriesData in highcharts to show 4 weeks of data per month
+              // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+              // 4 values per category means each unit is spaced out by quarter-units. 
+              // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
+              let highchartsSeriesXPosition = -0.5;
+              const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear));
+              seriesData = currentYearData.map(weekObject => {
+                highchartsSeriesXPosition += 0.25;
+                return [highchartsSeriesXPosition, weekObject.alerts];
               });
-              average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
-              sumOfAlerts = 0;
-            
-              // calculate deviance for each week
-              let deviations = [];
-              historicalDataByWeek[i].historicalAlerts.forEach(alert => {
-                deviations.push(alert - average);
+              console.log('seriesData', seriesData);
+              console.log('currentYearData', currentYearData);
+              // if the most recent week with data is less than the current week, we need to adjust the current week.
+              if (currentYearData[currentYearData.length - 1].week < currentWeek) currentWeek = currentYearData[currentYearData.length - 1].week;
+              
+              // Get the historical data for the standard deviation area charts
+              // Create an array of 52 objects, one for each historical week, sorted chronologically. Each object is an array, and we are to push the data and calculate the mean and sd 1 and sd2. 
+              const historicalDataByWeek = [];
+              for (let i = 0; i < 53; i++) {
+                const historicalWeekObject = {
+                  week: i,
+                  historicalAlerts: [],
+                  baseStandardDeviation: 0,
+                  sd1: 0,
+                  sd2: 0,
+                }
+                historicalDataByWeek.push(historicalWeekObject);
+              };
+              console.log('historicalDataByWeek',historicalDataByWeek);
+              // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
+              dataFromRequest.forEach((weekOfData, i) => {
+                historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
+              });
+  
+              // calculate average for each week
+              historicalDataByWeek.forEach((weekObject, i) => {
+                let sumOfAlerts = 0; 
+                let average = 0;
+                historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                  sumOfAlerts += alert;
+                });
+                average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
+                sumOfAlerts = 0;
+              
+                // calculate deviance for each week
+                let deviations = [];
+                historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                  deviations.push(alert - average);
+                });
+                
+                // square all of deviations
+                const squaredDeviations = [];
+                deviations.forEach(deviation => {
+                  squaredDeviations.push(deviation * deviation);
+                })
+  
+                // sum deviations
+                if (squaredDeviations.length === 0) {
+                  // there is no data to calculate a standard deviation
+                  historicalDataByWeek[i].baseStandardDeviation = 0;
+                  historicalDataByWeek[i].sd1 = 0;
+                  historicalDataByWeek[i].sd2 = 0;
+                } else {
+                  const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
+                  // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
+                  // Calculate the square root of the resulting value. This is the sample standard deviation. 
+                  const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
+                  historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
+                  historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
+                  historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
+                };
+              });
+  
+              // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
+              // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+              // 4 values per category means each unit is spaced out by quarter-units. 
+              // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
+              highchartsSeriesXPosition = -0.5;
+              standardDeviationSeries = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
+                highchartsSeriesXPosition += 0.25;
+                return [highchartsSeriesXPosition, weekObject.sd1];
               });
               
-              // square all of deviations
-              const squaredDeviations = [];
-              deviations.forEach(deviation => {
-                squaredDeviations.push(deviation * deviation);
-              })
-
-              // sum deviations
-              if (squaredDeviations.length === 0) {
-                // there is no data to calculate a standard deviation
-                historicalDataByWeek[i].baseStandardDeviation = 0;
-                historicalDataByWeek[i].sd1 = 0;
-                historicalDataByWeek[i].sd2 = 0;
-              } else {
-                const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
-                // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
-                // Calculate the square root of the resulting value. This is the sample standard deviation. 
-                const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
-                historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
-                historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
-                historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
-              };
-            });
-
-            // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
-            // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
-            // 4 values per category means each unit is spaced out by quarter-units. 
-            // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
-            highchartsSeriesXPosition = -0.5;
-            const standardDeviationSeries = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
-              highchartsSeriesXPosition += 0.25;
-              return [highchartsSeriesXPosition, weekObject.sd1];
-            });
+              highchartsSeriesXPosition = -0.5;
+              standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
+                highchartsSeriesXPosition += 0.25;
+                return [highchartsSeriesXPosition, weekObject.sd2];
+              });
+              console.log('down here');
+              // Update Chart Text
+              unusualFiresCount = 0;
+              earliestYearOfData = currentYear;
+              dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : null);
+            } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
+              // 
+            }
             
-            highchartsSeriesXPosition = -0.5;
-            const standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
-              highchartsSeriesXPosition += 0.25;
-              return [highchartsSeriesXPosition, weekObject.sd2];
-            });
-            console.log('down here');
-            // Update Chart Text
-            let unusualFiresCount = 0;
-            let earliestYearOfData = currentYear;
-            dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : null);
 
             $('#unusualFiresCountTitle').html(
               `There were <span style='color: red'>${unusualFiresCount}</span> MODIS fire alerts reported in the week of the 14th of March 2019. This was <span style='color: red'>average</span> compared to the same week in previous years.`
