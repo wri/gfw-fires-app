@@ -2168,6 +2168,25 @@ define([
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
           const currentYear = new Date().getFullYear();
+          // Calculate the current Week of the current year
+          const today = new Date();
+          const startDate = new Date(today.getFullYear(), 0, 0);
+          const diff = today - startDate;
+          const oneDay = 1000 * 60 * 60 * 24;
+          const day = Math.floor(diff / oneDay);
+          let currentWeek = 1;
+          for (let i = 1; i < day; i++) {
+            if (i % 7 === 0) {
+              currentWeek += 1;
+            }
+          }
+          console.log('currentWeek is: ', currentWeek);
+
+
+
+
+
+
           // determine the type of report, global, state, or regional
 
           // Run a query
@@ -2200,7 +2219,7 @@ define([
               }
             })
             console.log(currentYearDataByWeek);
-            const seriesData = currentYearDataByWeek.map(week => week.currentYearAlerts);
+            const seriesData = currentYearDataByWeek.filter(x => x.week <= currentWeek).map(week => week.currentYearAlerts);
             console.log(seriesData);
             
             $('.unusual-fires-history__chart').highcharts({
@@ -2220,7 +2239,7 @@ define([
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
               },
               series: [{ // try passing in the full object with data instea 
-                data: seriesData
+                data: [[-0.25, 1], [0, 2], [0.25, 3], [0.5, 4], [0.75, 5], [1, 5], [1.25, 6], [1.5,7], [1.75, 8], [2, 9], [2.25, 10], [2.5, 3]]
               }]
             })
 
