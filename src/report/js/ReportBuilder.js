@@ -2221,6 +2221,8 @@ define([
               return [highchartsSeriesXPosition, weekObject.alerts];
             });
             
+            // if the most recent week with data is less than the current week, we need to adjust the current week.
+            if (currentYearData[currentYearData.length - 1].week < currentWeek) currentWeek = currentYearData[currentYearData.length - 1].week;
             
             // Get the historical data for the standard deviation area charts
             // Create an array of 52 objects, one for each historical week, sorted chronologically. Each object is an array, and we are to push the data and calculate the mean and sd 1 and sd2. 
@@ -2275,6 +2277,7 @@ define([
               historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
             })
             console.log(historicalDataByWeek);
+            console.log(historicalDataByWeek.filter(x => x.week <= currentWeek));
 
             // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
             // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
@@ -2294,11 +2297,9 @@ define([
             });
             console.log(standardDeviation2Series);
 
-            // console.log(seriesData);
-            // Create a chart out of it.
             /********************** NOTE **********************
              * HighCharts allows us to combine charts to get the desired output. 
-             * We utilize area charts for the two standard deviation thresholds and a line chart for the current year data.
+             * We utilize areaspline charts for the two standard deviation thresholds and a spline chart for the current year data.
              * The last chart to be passed into the series array will be the one on top of the others. Because of this, we put the broadest data set (sd2) first, and current year data last.
             ***************************************************/
             $('.unusual-fires-history__chart').highcharts({
@@ -2322,14 +2323,12 @@ define([
                   // Standard deviation 2
                   type: 'areaspline',
                   color: '#E0E0E0', 
-                  // data: [[-0.25, 18000], [0, 16000], [0.25, 10000], [0.5, 15000], [0.75, 12000], [1, 14000], [1.25, 10000], [1.5, 15000], [1.75, 12000], [2, 14000]]
                   data: standardDeviation2Series
                 },
                 {
                   // Standard deviation 1
                   type: 'areaspline',
                   color: '#F8F8F8', 
-                  // data: [[-0.25, 9000], [0, 8000], [0.25, 5000], [0.5, 7500], [0.75, 6000], [1, 7000],[1.25, 5000], [1.5, 7500], [1.75, 6000], [2, 7000]]
                   data: standardDeviationSeries
                 },
                 {
