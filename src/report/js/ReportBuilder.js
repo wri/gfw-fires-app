@@ -2205,22 +2205,18 @@ define([
                 week: i,
                 currentYearAlerts: 0,
                 name: i,
-                color: '#d40000',
-                lineWidth: 1,
               }
               currentYearDataByWeek.push(weekObject);
             };
             // Get the current year data for the line chart
             
-            // Set the currentYear Data to that currentYearDatabyweek index
-            dataFromRequest.forEach(weekOfData => {
-              if (weekOfData.year === currentYear) {
-                currentYearDataByWeek[weekOfData.week - 1].currentYearAlerts = weekOfData.alerts;
-              }
-            })
-            console.log(currentYearDataByWeek);
-            const seriesData = currentYearDataByWeek.filter(x => x.week <= currentWeek).map(week => week.currentYearAlerts);
-            console.log(seriesData);
+            // Update the seriesData in highcharts to show 4 weeks of data per month
+            let monthCounter = -0.5;
+            const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear)); 
+            const seriesData = currentYearData.map(weekObject => {
+              monthCounter += 0.25;
+              return [monthCounter, weekObject.alerts];
+            });
             
             $('.unusual-fires-history__chart').highcharts({
               chart: {
@@ -2238,8 +2234,9 @@ define([
               xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
               },
-              series: [{ // try passing in the full object with data instea 
-                data: [[-0.25, 1], [0, 2], [0.25, 3], [0.5, 4], [0.75, 5], [1, 5], [1.25, 6], [1.5,7], [1.75, 8], [2, 9], [2.25, 10], [2.5, 3]]
+              series: [{
+                color: '#d40000', 
+                data: seriesData
               }]
             })
 
