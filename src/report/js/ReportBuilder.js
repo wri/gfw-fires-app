@@ -2297,6 +2297,18 @@ define([
             });
             console.log(standardDeviation2Series);
 
+
+            // Update Chart Text
+            let unusualFiresCount = 0;
+            let earliestYearOfData = currentYear;
+            dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : null);
+            $('#unusualFiresCountTitle').html(
+              `There were <span style='color: red'>${unusualFiresCount}</span> MODIS fire alerts reported in the week of the 14th of March 2019. This was <span style='color: red'>average</span> compared to the same week in previous years.`
+            );
+            $('#unusualFiresCountSubtitle').html(
+              `Unusual fire history analyses use MODIS fires data only for ${earliestYearOfData} to present.`
+            );
+
             /********************** NOTE **********************
              * HighCharts allows us to combine charts to get the desired output. 
              * We utilize areaspline charts for the two standard deviation thresholds and a spline chart for the current year data.
@@ -2350,9 +2362,7 @@ define([
                   data: seriesData
                 },
               ]
-            })
-
-
+            });
           });
         },
 
