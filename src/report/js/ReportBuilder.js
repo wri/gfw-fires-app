@@ -2381,6 +2381,12 @@ define([
           // Create list of time on load
           let timeOptions = ['3 months', '6 months', '12 months'];
           timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
+
+          // On click of a time option, highlight it and remove highlights from others
+          $('#unusualFiresOptions ul').click(function() {
+              $('#unusualFiresOptions ul').removeClass('selected');
+              $(this).addClass('selected');
+          });
         },
 
         getFireHistoryCounts: function() {
