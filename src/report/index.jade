@@ -273,8 +273,12 @@ html(lang="en")
           h4.report-section__subtitle Region: <strong class="country-name">Indonesia</strong>
           h4#unusualFiresCountTitle.report-section__subtitle There were 0 MODIS fire alerts reported in the week of the 14th of March 2019. This was average compared to the same week in previous years
           i#unusualFiresCountSubtitle.section-description.fire-history__description Unusual fire history analyses use MODIS fires data only for 2016 to present.
-          div.unusual-fires-history__chart
-            div#fireHistoryChartLoading.loading-chart
+          div#unusualFiresChartContainer
+            div#unusualFiresCountOptionsContainer
+              h3.selected
+              ul#unusualFiresOptions
+            div.unusual-fires-history__chart
+              div#fireHistoryChartLoading.loading-chart
 
         div#section-eight(class='page-break')
           div(id='disclaimer' class='no-break')

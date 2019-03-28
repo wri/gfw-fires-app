@@ -2164,14 +2164,15 @@ define([
           const self = this; // Don't know why I'm adding this, but we did it above
           const handleAs = { handleAs: 'json' };
           const promiseUrls = [];
+          // ??? todo: make the query dynamic by pulling in the ISO. Maybe this can be done with country name? Unsure.
           const queryUrl = 'https://production-api.globalforestwatch.org/query/ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27IDN%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27VIIRS%27';
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
           const currentYear = new Date().getFullYear();
           // Calculate the current Week of the current year
           const today = new Date();
-          const startDate = new Date(today.getFullYear(), 0, 0);
-          const diff = today - startDate;
+          const startDateOfCurrentYear = new Date(today.getFullYear(), 0, 0);
+          const diff = today - startDateOfCurrentYear;
           const oneDay = 1000 * 60 * 60 * 24;
           const day = Math.floor(diff / oneDay);
           let currentWeek = 1;
@@ -2183,12 +2184,7 @@ define([
           console.log('currentWeek is: ', currentWeek);
 
 
-
-
-
-
           // determine the type of report, global, state, or regional
-
           // Run a query
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
@@ -2197,6 +2193,19 @@ define([
             console.log(dataFromRequest);
           }).then(() => {
             dataFromRequest.sort((a, b) => a.week > b.week ? 1 : -1); // Sort the data by week
+
+
+
+            let latestWeekOfData = 1;
+            dataFromRequest.forEach(week => week.week > latestWeekOfData ? latestWeekOfData = week.week : null);
+            // Show previous weeks to get to 3 months. 4 weeks per month * 3 months = 12 weeks
+            
+            console.log('latestWeekOfData', latestWeekOfData);
+          // const 
+          // Show previous weeks to get to 6 months. 4 weeks per month * 6 months = 24 weeks
+          // Show previous weeks to get to 12 months. 4 weeks per month * 12 months = 48 weeks
+
+
 
             // Create an array of 52 objects, one for each week, sorted chronologically. 
             const currentYearDataByWeek = [];
@@ -2276,8 +2285,6 @@ define([
               historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
               historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
             })
-            console.log(historicalDataByWeek);
-            console.log(historicalDataByWeek.filter(x => x.week <= currentWeek));
 
             // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
             // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
@@ -2288,20 +2295,18 @@ define([
               highchartsSeriesXPosition += 0.25;
               return [highchartsSeriesXPosition, weekObject.sd1];
             });
-            console.log(standardDeviationSeries);
             
             highchartsSeriesXPosition = -0.5;
             const standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
               highchartsSeriesXPosition += 0.25;
               return [highchartsSeriesXPosition, weekObject.sd2];
             });
-            console.log(standardDeviation2Series);
-
 
             // Update Chart Text
             let unusualFiresCount = 0;
             let earliestYearOfData = currentYear;
             dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : null);
+
             $('#unusualFiresCountTitle').html(
               `There were <span style='color: red'>${unusualFiresCount}</span> MODIS fire alerts reported in the week of the 14th of March 2019. This was <span style='color: red'>average</span> compared to the same week in previous years.`
             );
@@ -2364,6 +2369,18 @@ define([
               ]
             });
           });
+
+          // ??? Todo: On-hover, update the chart test
+          // $('.share-link')
+          //     .on('click', function () {
+          //       document.querySelector('.share-link-input__container').classList.toggle("hidden");
+          //       $('.share-link-input').val(bitlyShortLink);
+          //     });
+
+
+          // Create list of time on load
+          let timeOptions = ['3 months', '6 months', '12 months'];
+          timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
         },
 
         getFireHistoryCounts: function() {
