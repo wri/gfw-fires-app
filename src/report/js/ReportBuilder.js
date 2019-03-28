@@ -2166,7 +2166,7 @@ define([
           const promiseUrls = [];
           const queryUrl = 'https://production-api.globalforestwatch.org/query/ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27IDN%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27VIIRS%27';
           promiseUrls.push(queryUrl);
-          let responseContainer = {};
+          let dataFromRequest = {};
           const currentYear = new Date().getFullYear();
           // determine the type of report, global, state, or regional
 
@@ -2174,44 +2174,57 @@ define([
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => {
-            responseContainer = response[0].data;
-            console.log(responseContainer);
+            dataFromRequest = response[0].data;
+            console.log(dataFromRequest);
           }).then(() => {
-            // We only need 2019 data, so we filter it down for 2019 data.
-            // const x = responseContainer.filter(a => {
-            //   console.log(a.year);
-            //   return a.year === 2019;
-            // })
+            dataFromRequest.sort((a, b) => a.week > b.week ? 1 : -1); // Sort the data by week
 
-            // Create an array of 52 objects, one for each week. 
-            const dataByWeek = [];
+            // Create an array of 52 objects, one for each week, sorted chronologically. 
+            const currentYearDataByWeek = [];
             for (let i = 1; i < 53; i++) {
               const weekObject = {
                 week: i,
                 currentYearAlerts: 0,
-                previousYearsAlerts: [],
-                mean: 0,
-                standardDeviation: 0,
-                standardDeviation1: 0,
-                standardDeviation2: 0,
                 name: i,
                 color: '#d40000',
                 lineWidth: 1,
               }
-              dataByWeek.push(weekObject);
+              currentYearDataByWeek.push(weekObject);
             };
-            console.log(dataByWeek);
+            // Get the current year data for the line chart
             
-            responseContainer.forEach(weekOfData => {
+            // Set the currentYear Data to that currentYearDatabyweek index
+            dataFromRequest.forEach(weekOfData => {
               if (weekOfData.year === currentYear) {
-                // We need to push the week Data to that databyweek index
-                console.log(dataByWeek[weekOfData.week]);
-                console.log('alerts', weekOfData.alerts); // 
-                console.log('year', weekOfData.year);
+                currentYearDataByWeek[weekOfData.week - 1].currentYearAlerts = weekOfData.alerts;
               }
             })
+            console.log(currentYearDataByWeek);
+            const seriesData = currentYearDataByWeek.map(week => week.currentYearAlerts);
+            console.log(seriesData);
+            
+            $('.unusual-fires-history__chart').highcharts({
+              chart: {
+                type: 'line',
+              },
+              title: {
+                text: ''
+              },
+              legend: {
+                enabled: false
+              },
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+              },
+              series: [{ // try passing in the full object with data instea 
+                data: seriesData
+              }]
+            })
 
-            // For each item in our responseObject, push the alerts to the proper data set
+            // Get the historical data for the standard deviation area charts
 
             // Create a chart out of it.
           });
