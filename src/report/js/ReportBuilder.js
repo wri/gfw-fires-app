@@ -2161,14 +2161,24 @@ define([
         },
 
         buildUnusualFireCountsChart: () => {
-          const self = this; // Don't know why I'm adding this, but we did it above
           const handleAs = { handleAs: 'json' };
           const promiseUrls = [];
-          // ??? todo: make the query dynamic by pulling in the ISO. Maybe this can be done with country name? Unsure.
-          const queryUrl = 'https://production-api.globalforestwatch.org/query/ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27IDN%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27VIIRS%27';
+
+          // Make the query dynamic by pulling in the countryCode using the window options and our config file.
+          const currentCountry = window.reportOptions.country;
+          let countryCode = ''; // ??? Make this a succint filter function
+          Config.countryFeatures.forEach(countryObject => {
+            if (countryObject['English short name'].includes(currentCountry)) {
+              countryCode = countryObject['Alpha-3 code'];
+            };
+          })
+          
+          const queryUrl = `https://production-api.globalforestwatch.org/query/ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27VIIRS%27`;
+          
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
           const currentYear = new Date().getFullYear();
+          
           // Calculate the current Week of the current year
           const today = new Date();
           const startDateOfCurrentYear = new Date(today.getFullYear(), 0, 0);
@@ -2181,8 +2191,6 @@ define([
               currentWeek += 1;
             }
           }
-          console.log('currentWeek is: ', currentWeek);
-
 
           // determine the type of report, global, state, or regional
           // Run a query
@@ -2194,18 +2202,10 @@ define([
           }).then(() => {
             dataFromRequest.sort((a, b) => a.week > b.week ? 1 : -1); // Sort the data by week
 
-
-
             let latestWeekOfData = 1;
             dataFromRequest.forEach(week => week.week > latestWeekOfData ? latestWeekOfData = week.week : null);
-            // Show previous weeks to get to 3 months. 4 weeks per month * 3 months = 12 weeks
-            
-            console.log('latestWeekOfData', latestWeekOfData);
-          // const 
-          // Show previous weeks to get to 6 months. 4 weeks per month * 6 months = 24 weeks
-          // Show previous weeks to get to 12 months. 4 weeks per month * 12 months = 48 weeks
 
-
+            console.log('dataFromRequest', dataFromRequest);
 
             // Create an array of 52 objects, one for each week, sorted chronologically. 
             const currentYearDataByWeek = [];
@@ -2213,12 +2213,12 @@ define([
               const weekObject = {
                 week: i,
                 currentYearAlerts: 0,
-                name: i,
               }
               currentYearDataByWeek.push(weekObject);
             };
-            // Get the current year data for the line chart
             
+            console.log('currentYearDataByWeek', currentYearDataByWeek);
+            // Get the current year data for the line chart
             // Update the seriesData in highcharts to show 4 weeks of data per month
             // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
             // 4 values per category means each unit is spaced out by quarter-units. 
@@ -2229,7 +2229,7 @@ define([
               highchartsSeriesXPosition += 0.25;
               return [highchartsSeriesXPosition, weekObject.alerts];
             });
-
+            console.log('seriesData', seriesData);
             // if the most recent week with data is less than the current week, we need to adjust the current week.
             if (currentYearData[currentYearData.length - 1].week < currentWeek) currentWeek = currentYearData[currentYearData.length - 1].week;
             
@@ -2246,7 +2246,7 @@ define([
               }
               historicalDataByWeek.push(historicalWeekObject);
             };
-
+            console.log('historicalDataByWeek',historicalDataByWeek);
             // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
             dataFromRequest.forEach(weekOfData => {
               historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
@@ -2275,16 +2275,21 @@ define([
               })
 
               // sum deviations
-              const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
-
-              // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
-              // Calculate the square root of the resulting value. This is the sample standard deviation. 
-              const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
-              historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
-              // Each standard deviation is equal to the 
-              historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
-              historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
-            })
+              if (squaredDeviations.length === 0) {
+                // there is no data to calculate a standard deviation
+                historicalDataByWeek[i].baseStandardDeviation = 0;
+                historicalDataByWeek[i].sd1 = 0;
+                historicalDataByWeek[i].sd2 = 0;
+              } else {
+                const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
+                // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
+                // Calculate the square root of the resulting value. This is the sample standard deviation. 
+                const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
+                historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
+                historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
+                historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
+              };
+            });
 
             // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
             // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
@@ -2301,7 +2306,7 @@ define([
               highchartsSeriesXPosition += 0.25;
               return [highchartsSeriesXPosition, weekObject.sd2];
             });
-
+            console.log('down here');
             // Update Chart Text
             let unusualFiresCount = 0;
             let earliestYearOfData = currentYear;
@@ -2370,6 +2375,16 @@ define([
             });
           });
 
+          // Create list of time on load
+          let timeOptions = ['3 months', '6 months', '12 months'];
+          timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
+
+          // On click of a time option, highlight it and remove highlights
+          $('#unusualFiresOptions ul').click(function() {
+              $('#unusualFiresOptions ul').removeClass('selected');
+              $(this).addClass('selected');
+          });
+
           // ??? Todo: On-hover, update the chart test
           // $('.share-link')
           //     .on('click', function () {
@@ -2377,16 +2392,6 @@ define([
           //       $('.share-link-input').val(bitlyShortLink);
           //     });
 
-
-          // Create list of time on load
-          let timeOptions = ['3 months', '6 months', '12 months'];
-          timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
-
-          // On click of a time option, highlight it and remove highlights from others
-          $('#unusualFiresOptions ul').click(function() {
-              $('#unusualFiresOptions ul').removeClass('selected');
-              $(this).addClass('selected');
-          });
         },
 
         getFireHistoryCounts: function() {
