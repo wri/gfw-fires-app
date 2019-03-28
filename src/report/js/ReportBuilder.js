@@ -2226,9 +2226,6 @@ define([
               const historicalWeekObject = {
                 week: i,
                 historicalAlerts: [],
-                average: 0,
-                deviances: [],
-                squaredDeviations: [],
                 standardDeviation: 0,
                 standardDeviation2: 0,
               }
@@ -2239,42 +2236,45 @@ define([
             dataFromRequest.forEach(weekOfData => {
               historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
             });
-            console.log(historicalDataByWeek);
+
             // calculate average for each week
             historicalDataByWeek.forEach((weekObject, i) => {
               let sumOfAlerts = 0; 
+              let average = 0;
               historicalDataByWeek[i].historicalAlerts.forEach(alert => {
                 sumOfAlerts += alert;
               });
-              historicalDataByWeek[i].average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
+              average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
               sumOfAlerts = 0;
-            })
-            console.log(historicalDataByWeek);
             
-            // calculate deviance for each week
-            historicalDataByWeek.forEach((weekObject, i) => {
-              let average = historicalDataByWeek[i].average;
+              // calculate deviance for each week
+              let deviations = [];
               historicalDataByWeek[i].historicalAlerts.forEach(alert => {
-                historicalDataByWeek[i].deviances.push(alert - average);
+                deviations.push(alert - average);
               });
+              
               // square all of deviations
               const squaredDeviations = [];
-              historicalDataByWeek[i].deviances.forEach(deviation => {
+              deviations.forEach(deviation => {
                 squaredDeviations.push(deviation * deviation);
               })
-              console.log(squaredDeviations);
+
               // sum deviations
               const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
-              console.log(sumOfSquaredDeviations);
+
               // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
               // Calculate the square root of the resulting value. This is the sample standard deviation. 
               const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
-              console.log(simpleStandardDeviation);
               historicalDataByWeek[i].standardDeviation = simpleStandardDeviation;
             })
             console.log(historicalDataByWeek);
-
+            console.log(seriesData);
             // Create a chart out of it.
+            /********************** NOTE **********************
+             * HighCharts allows us to combine charts to get the desired output. 
+             * We utilize area charts for the two standard deviation thresholds and a line chart for the current year data.
+             * The last chart to be passed into the series array will be the one on top of the others. Because of this, we put the broadest data set (sd2) first, and current year data last.
+            ***************************************************/
             $('.unusual-fires-history__chart').highcharts({
               chart: {
                 type: 'line',
@@ -2291,10 +2291,26 @@ define([
               xAxis: {
                 categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
               },
-              series: [{
-                color: '#d40000', 
-                data: seriesData
-              }]
+              series: [
+                {
+                  // Standard deviation 2
+                  type: 'area',
+                  color: '#E0E0E0', 
+                  data: [10000, 15000, 12000, 14000]
+                },
+                {
+                  // Standard deviation 1
+                  type: 'area',
+                  color: '#F8F8F8', 
+                  data: [5000, 75000, 6000, 7000]
+                },
+                {
+                  // Current Year Data
+                  type: 'line',
+                  color: '#d40000', 
+                  data: seriesData
+                },
+              ]
             })
 
 
