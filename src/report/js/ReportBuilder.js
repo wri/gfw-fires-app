@@ -2212,12 +2212,69 @@ define([
             
             // Update the seriesData in highcharts to show 4 weeks of data per month
             let monthCounter = -0.5;
-            const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear)); 
+            const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear));
             const seriesData = currentYearData.map(weekObject => {
               monthCounter += 0.25;
               return [monthCounter, weekObject.alerts];
             });
             
+            
+            // Get the historical data for the standard deviation area charts
+            // Create an array of 52 objects, one for each historical week, sorted chronologically. Each object is an array, and we are to push the data and calculate the mean and sd 1 and sd2. 
+            const historicalDataByWeek = [];
+            for (let i = 1; i < 53; i++) {
+              const historicalWeekObject = {
+                week: i,
+                historicalAlerts: [],
+                average: 0,
+                deviances: [],
+                squaredDeviations: [],
+                standardDeviation: 0,
+                standardDeviation2: 0,
+              }
+              historicalDataByWeek.push(historicalWeekObject);
+            };
+
+            // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
+            dataFromRequest.forEach(weekOfData => {
+              historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
+            });
+            console.log(historicalDataByWeek);
+            // calculate average for each week
+            historicalDataByWeek.forEach((weekObject, i) => {
+              let sumOfAlerts = 0; 
+              historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                sumOfAlerts += alert;
+              });
+              historicalDataByWeek[i].average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
+              sumOfAlerts = 0;
+            })
+            console.log(historicalDataByWeek);
+            
+            // calculate deviance for each week
+            historicalDataByWeek.forEach((weekObject, i) => {
+              let average = historicalDataByWeek[i].average;
+              historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                historicalDataByWeek[i].deviances.push(alert - average);
+              });
+              // square all of deviations
+              const squaredDeviations = [];
+              historicalDataByWeek[i].deviances.forEach(deviation => {
+                squaredDeviations.push(deviation * deviation);
+              })
+              console.log(squaredDeviations);
+              // sum deviations
+              const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
+              console.log(sumOfSquaredDeviations);
+              // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
+              // Calculate the square root of the resulting value. This is the sample standard deviation. 
+              const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
+              console.log(simpleStandardDeviation);
+              historicalDataByWeek[i].standardDeviation = simpleStandardDeviation;
+            })
+            console.log(historicalDataByWeek);
+
+            // Create a chart out of it.
             $('.unusual-fires-history__chart').highcharts({
               chart: {
                 type: 'line',
@@ -2240,9 +2297,7 @@ define([
               }]
             })
 
-            // Get the historical data for the standard deviation area charts
 
-            // Create a chart out of it.
           });
         },
 
