@@ -2211,11 +2211,14 @@ define([
             // Get the current year data for the line chart
             
             // Update the seriesData in highcharts to show 4 weeks of data per month
-            let monthCounter = -0.5;
+            // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+            // 4 values per category means each unit is spaced out by quarter-units. 
+            // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
+            let highchartsSeriesXPosition = -0.5;
             const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear));
             const seriesData = currentYearData.map(weekObject => {
-              monthCounter += 0.25;
-              return [monthCounter, weekObject.alerts];
+              highchartsSeriesXPosition += 0.25;
+              return [highchartsSeriesXPosition, weekObject.alerts];
             });
             
             
@@ -2226,8 +2229,9 @@ define([
               const historicalWeekObject = {
                 week: i,
                 historicalAlerts: [],
-                standardDeviation: 0,
-                standardDeviation2: 0,
+                baseStandardDeviation: 0,
+                sd1: 0,
+                sd2: 0,
               }
               historicalDataByWeek.push(historicalWeekObject);
             };
@@ -2265,10 +2269,32 @@ define([
               // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
               // Calculate the square root of the resulting value. This is the sample standard deviation. 
               const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
-              historicalDataByWeek[i].standardDeviation = simpleStandardDeviation;
+              historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
+              // Each standard deviation is equal to the 
+              historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
+              historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
             })
             console.log(historicalDataByWeek);
-            console.log(seriesData);
+
+            // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
+            // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+            // 4 values per category means each unit is spaced out by quarter-units. 
+            // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
+            highchartsSeriesXPosition = -0.5;
+            const standardDeviationSeries = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
+              highchartsSeriesXPosition += 0.25;
+              return [highchartsSeriesXPosition, weekObject.sd1];
+            });
+            console.log(standardDeviationSeries);
+            
+            highchartsSeriesXPosition = -0.5;
+            const standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
+              highchartsSeriesXPosition += 0.25;
+              return [highchartsSeriesXPosition, weekObject.sd2];
+            });
+            console.log(standardDeviation2Series);
+
+            // console.log(seriesData);
             // Create a chart out of it.
             /********************** NOTE **********************
              * HighCharts allows us to combine charts to get the desired output. 
@@ -2294,19 +2320,21 @@ define([
               series: [
                 {
                   // Standard deviation 2
-                  type: 'area',
+                  type: 'areaspline',
                   color: '#E0E0E0', 
-                  data: [10000, 15000, 12000, 14000]
+                  // data: [[-0.25, 18000], [0, 16000], [0.25, 10000], [0.5, 15000], [0.75, 12000], [1, 14000], [1.25, 10000], [1.5, 15000], [1.75, 12000], [2, 14000]]
+                  data: standardDeviation2Series
                 },
                 {
                   // Standard deviation 1
-                  type: 'area',
+                  type: 'areaspline',
                   color: '#F8F8F8', 
-                  data: [5000, 75000, 6000, 7000]
+                  // data: [[-0.25, 9000], [0, 8000], [0.25, 5000], [0.5, 7500], [0.75, 6000], [1, 7000],[1.25, 5000], [1.5, 7500], [1.75, 6000], [2, 7000]]
+                  data: standardDeviationSeries
                 },
                 {
                   // Current Year Data
-                  type: 'line',
+                  type: 'spline',
                   color: '#d40000', 
                   data: seriesData
                 },
