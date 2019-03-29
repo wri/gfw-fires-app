@@ -2441,7 +2441,11 @@ define([
                 enabled: false
               },
               xAxis: {
-                categories: updatedCategoriesArray
+                labels: {
+                  formatter: function() {
+                      return updatedCategoriesArray[this.value];
+                  }
+                },
               },
               plotOptions: {
                 spline: {
@@ -2515,7 +2519,11 @@ define([
                 // Actually update Highcharts data
                 unusualFires.update({
                   xAxis: {
-                    categories: updatedCategoriesArray
+                    labels: {
+                      formatter: function() {
+                        return updatedCategoriesArray[this.value];
+                      }
+                    }
                   },
                   series: [
                     {
