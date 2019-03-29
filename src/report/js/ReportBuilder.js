@@ -2193,7 +2193,11 @@ define([
           let threeMonthData = [];
           let sixMonthData = [];
           let twelveMonthData = [];
+          let categoriesArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          let updatedCategoriesArray = [];
+          let rangeOfMonths = 3;
           const currentYear = new Date().getFullYear();
+          const currentMonth = new Date().getMonth();
 
           // Calculate the current Week of the current year
           const today = new Date();
@@ -2369,10 +2373,15 @@ define([
               dataFromRequest.forEach(weekOfData => {
                 if (weekOfData.year === currentYear) unusualFiresCount += weekOfData.alerts;
               });
-              console.log(unusualFiresCount);
 
               earliestYearOfData = currentYear;
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
+
+              // Pull the month categories based on the current month and the rangeOfMonths selected
+              let currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
+              updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
+              currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
+              updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
 
             } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
               // 
@@ -2405,7 +2414,7 @@ define([
                 enabled: false
               },
               xAxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                categories: updatedCategoriesArray
               },
               plotOptions: {
                 spline: {
