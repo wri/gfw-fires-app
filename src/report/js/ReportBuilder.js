@@ -2241,14 +2241,15 @@ define([
               }; 
 
               dataFromRequest.sort(sortByWeekAndYear);
-              console.log('dataFromRequest', dataFromRequest);
+
               /********************** NOTE **********************
                * On our inital load, we show the previous 3 months of data starting at the current week and going back 12 other weeks
                * We start by grabbing the most recent 13 weeks of data
                * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
               ***************************************************/
-             const placeholderArray = [];
-             // Grab 12 months of data
+
+              const placeholderArray = [];
+              // Grab 12 months of data
               for (let l = 0; l < 52; l++) {
                // Check for weeks of zero data and plug a zero value
                if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
@@ -2290,7 +2291,6 @@ define([
 
               // Do it for 6
               sixMonthData = twelveMonthData.slice(26);
-              console.log(sixMonthData);
               highchartsSeriesXPosition = -0.75;
               sixMonthData = sixMonthData.map(weekObject => {
                 highchartsSeriesXPosition += 0.25;
@@ -2299,15 +2299,13 @@ define([
 
               // Do it for 3
               threeMonthData = twelveMonthData.slice(39);
-              
               highchartsSeriesXPosition = -0.75;
               threeMonthData = threeMonthData.map(weekObject => {
                 highchartsSeriesXPosition += 0.25;
                 return [highchartsSeriesXPosition, weekObject[1]];
               });
               
-              seriesData = threeMonthData;
-              console.log('seriesData',seriesData);
+              seriesData = threeMonthData.slice(0); // If we set it equal, the data may mutate later on.
               // Below we calculate the standard deviation for each week. 
               // We store 12 months of data in the historicalDataByWeek array, and pull off the indecies we need based on whether it is 12, 6, or 3 months.
               const historicalDataByWeek = [];
@@ -2428,7 +2426,7 @@ define([
              * We utilize areaspline charts for the two standard deviation thresholds and a spline chart for the current year data.
              * The last chart to be passed into the series array will be the one on top of the others. Because of this, we put the broadest data set (sd2) first, and current year data last.
             ***************************************************/
-            $('.unusual-fires-history__chart').highcharts({
+            var unusualFires = Highcharts.chart('unusualFires', {
               chart: {
                 type: 'line',
               },
@@ -2490,41 +2488,43 @@ define([
                 },
               ]
             });
+         
+
+            // Create list of time on load
+            let timeOptions = ['3 months', '6 months', '12 months'];
+            timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
+            // On select, update the modis data and the viirs data and the months const selectedIslandOrRegion = $(this).text();
+
+            // On click of a time option, highlight it and update the series accordingly
+            $('#unusualFiresOptions ul').click(function() {
+                $('#unusualFiresOptions ul').removeClass('selected');
+                $(this).addClass('selected');
+                let selection = $(this).text();
+                rangeOfMonths = selection.includes('12') ? 12 : selection.includes('6') ? 6 : 3; 
+                updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
+                if (selection.includes('12')) {
+                  seriesData = twelveMonthData;
+                } else if (selection.includes('6')) {
+                  seriesData = sixMonthData;
+                } else if (selection.includes('3')) {
+                  seriesData = threeMonthData;
+                }  
+                console.log(seriesData);
+                unusualFires.series[2].update({
+                  // Current Year Data
+                  type: 'spline',
+                  color: '#d40000', 
+                  data: seriesData
+                }, true);
+                
+                unusualFires.update({
+                  xAxis: {
+                    categories: updatedCategoriesArray
+                  }
+                }, true);
+            });
+
           });
-
-          // Create list of time on load
-          let timeOptions = ['3 months', '6 months', '12 months'];
-          timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
-          // On select, update the modis data and the viirs data and the months const selectedIslandOrRegion = $(this).text();
-
-          // On click of a time option, highlight it and update the series accordingly
-          $('#unusualFiresOptions ul').click(function() {
-              $('#unusualFiresOptions ul').removeClass('selected');
-              $(this).addClass('selected');
-              let selection = $(this).text();
-              rangeOfMonths = selection.includes('12') ? 12 : selection.includes('6') ? 6 : 3; 
-              console.log(seriesData);
-
-              // firesCountChart.update({
-              //   series: updatedSeries
-              // }, true);
-  
-              // $('#firesCountTitle').html(
-              //   `${currentYear} MODIS Fire Alerts, Year to Date
-              //   <span class="total_firecounts">${firesCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
-              // );
-
-
-
-          });
-
-          // ??? Todo: On-hover, update the chart test
-          // $('.share-link')
-          //     .on('click', function () {
-          //       document.querySelector('.share-link-input__container').classList.toggle("hidden");
-          //       $('.share-link-input').val(bitlyShortLink);
-          //     });
-
         },
 
         getFireHistoryCounts: function() {
