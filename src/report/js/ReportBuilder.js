@@ -2247,25 +2247,32 @@ define([
                * We start by grabbing the most recent 13 weeks of data
                * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
               ***************************************************/
-
-             // Grab most recent 3 months of data
-             for (let l = 0; l < 13; l++) {
+             const placeholderArray = [];
+             // Grab 12 months of data
+              for (let l = 0; l < 52; l++) {
                // Check for weeks of zero data and plug a zero value
                if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
-                 let object = {};
-                  object.alerts = 0;
-                  object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - 1;
-                  object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
-                  threeMonthData.push(object);
+                 let gap = dataFromRequest[dataFromRequest.length - 1 - l].week - dataFromRequest[dataFromRequest.length - 2 - l].week;
+                 for (let p = 0; p < gap; p++) {
+                   let object = {};
+                   object.alerts = 0;
+                   object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - p;
+                   object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
+                   placeholderArray.push(object);
+                 }
+                } else {
+                  twelveMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
                 }
-                threeMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
               }
+              placeholderArray.forEach(x => twelveMonthData.push(x));
+              twelveMonthData.sort(sortByWeekAndYear);
+              console.log('twelveMonthData', twelveMonthData);
 
-              // threeMonthData may now have placeholder data and more than 13 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
-              threeMonthData.sort(sortByWeekAndYear);
-              const indeciesToRemove = threeMonthData.length - 13;
-              threeMonthData.splice(0, indeciesToRemove);
-  
+              // twelveMonthData may now have placeholder data and more than 52 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
+              const indeciesToRemove = twelveMonthData.length - 52;
+              twelveMonthData.splice(0, indeciesToRemove);
+              console.log('should be a sorted array of 52 weeks', twelveMonthData);
+
               /********************** NOTE **********************
                * Once we have our data, we need to make a new array of data to pass into highcharts. The data must be an array of arrays, each with an [x, y] value
                * Our x axis is an array of months. Since we want 4 weeks of data per month, each week is spaced out by quarter-units. 
@@ -2274,12 +2281,33 @@ define([
                * The series needs to begin a half-unit below the first index of 0, so we start the counter at -0.75, increment it by .25, and then pass it, each time incrementing by .25.
               ***************************************************/
                
+              // Do it for 12 months
               let highchartsSeriesXPosition = -0.75;
-              seriesData = threeMonthData.map(weekObject => {
+              twelveMonthData = twelveMonthData.map(weekObject => {
                 highchartsSeriesXPosition += 0.25;
                 return [highchartsSeriesXPosition, weekObject.alerts];
               });
+
+              // Do it for 6
+              sixMonthData = twelveMonthData.slice(26);
+              console.log(sixMonthData);
+              highchartsSeriesXPosition = -0.75;
+              sixMonthData = sixMonthData.map(weekObject => {
+                highchartsSeriesXPosition += 0.25;
+                return [highchartsSeriesXPosition, weekObject[1]];
+              });
+
+              // Do it for 3
+              threeMonthData = twelveMonthData.slice(39);
               
+              highchartsSeriesXPosition = -0.75;
+              threeMonthData = threeMonthData.map(weekObject => {
+                highchartsSeriesXPosition += 0.25;
+                return [highchartsSeriesXPosition, weekObject[1]];
+              });
+              
+              seriesData = threeMonthData;
+              console.log('seriesData',seriesData);
               // Below we calculate the standard deviation for each week. 
               // We store 12 months of data in the historicalDataByWeek array, and pull off the indecies we need based on whether it is 12, 6, or 3 months.
               const historicalDataByWeek = [];
