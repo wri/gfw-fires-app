@@ -2217,12 +2217,11 @@ define([
           // Run a query
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
-          })).then(response => {
-            dataFromRequest = response[0].data;
-            console.log(dataFromRequest);
-          }).then(() => {
+          })).then(response => dataFromRequest = response[0].data).then(() => {
 
             if (window.reportOptions.aois) { //Viewing a Report for a specific subregion in a country (adm0)
+              // The data we get back are objects containing the fire counts for a specific week in a specific year. 
+              // This is a sorting function we can re use to sort any subsect of this data chronologically
               const sortByWeekAndYear = (a, b) => {
                 if (a.year > b.year) {
                   return 1;
@@ -2239,15 +2238,17 @@ define([
 
               dataFromRequest.sort(sortByWeekAndYear);
               console.log('dataFromRequest', dataFromRequest);
-
-              // Check for weeks of zero data, and plug a zero value
-
-              // 13 weeks of data
-              // Grab most recent 3 months of data to show on load and on click
-              
-              for (let l = 0; l < 13; l++) {
-                if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
-                  let object = {};
+              /********************** NOTE **********************
+               * On our inital load, we show the previous 3 months of data starting at the current week and going back 12 other weeks
+               * We start by grabbing the most recent 13 weeks of data
+               * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
+              ***************************************************/
+             
+             // Grab most recent 3 months of data
+             for (let l = 0; l < 13; l++) {
+               // Check for weeks of zero data and plug a zero value
+               if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
+                 let object = {};
                   object.alerts = 0;
                   object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - 1;
                   object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
@@ -2255,42 +2256,28 @@ define([
                 }
                 threeMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
               }
-              // threeMonthData may now have placeholder data and more than 13 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
 
+              // threeMonthData may now have placeholder data and more than 13 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
               threeMonthData.sort(sortByWeekAndYear);
               const indeciesToRemove = threeMonthData.length - 13;
               threeMonthData.splice(0, indeciesToRemove);
-              console.log('threeMonthData', threeMonthData);
   
-              // Create an array of 52 objects, one for each week, sorted chronologically. 
-              const currentYearDataByWeek = [];
-              for (let i = 1; i < 53; i++) {
-                const weekObject = {
-                  week: i,
-                  currentYearAlerts: 0,
-                }
-                currentYearDataByWeek.push(weekObject);
-              };
-              
-              console.log('currentYearDataByWeek', currentYearDataByWeek);
-              // Get the current year data for the line chart
-              // Update the seriesData in highcharts to show 4 weeks of data per month
-              // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
-              // 4 values per category means each unit is spaced out by quarter-units. 
-              // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
-              let highchartsSeriesXPosition = -0.5;
-              const currentYearData = dataFromRequest.filter(x => (x.week <= currentWeek && x.year === currentYear));
-              seriesData = currentYearData.map(weekObject => {
+              /********************** NOTE **********************
+               * Once we have our data, we need to make a new array of data to pass into highcharts. The data must be an array of arrays, each with an [x, y] value
+               * Our x axis is an array of months. Since we want 4 weeks of data per month, each week is spaced out by quarter-units. 
+               * E.G. If our x axis is ['January', 'February', 'March'], the 4 points we want to appear above the February category must be structured as:
+               * seriesData = [ [.5, week1], [.75, week2], [1, week3], [1.25, week4] ]
+               * The series needs to begin a half-unit below the first index of 0, so we start the counter at -0.75, increment it by .25, and then pass it, each time incrementing by .25.
+              ***************************************************/
+               
+              let highchartsSeriesXPosition = -0.75;
+              seriesData = threeMonthData.map(weekObject => {
                 highchartsSeriesXPosition += 0.25;
                 return [highchartsSeriesXPosition, weekObject.alerts];
               });
-              console.log('seriesData', seriesData);
-              console.log('currentYearData', currentYearData);
-              // if the most recent week with data is less than the current week, we need to adjust the current week.
-              if (currentYearData[currentYearData.length - 1].week < currentWeek) currentWeek = currentYearData[currentYearData.length - 1].week;
               
-              // Get the historical data for the standard deviation area charts
-              // Create an array of 52 objects, one for each historical week, sorted chronologically. Each object is an array, and we are to push the data and calculate the mean and sd 1 and sd2. 
+              // Below we calculate the standard deviation for each week. 
+              // We store 12 months of data in the historicalDataByWeek array, and pull off the indecies we need based on whether it is 12, 6, or 3 months.
               const historicalDataByWeek = [];
               for (let i = 0; i < 53; i++) {
                 const historicalWeekObject = {
@@ -2302,7 +2289,9 @@ define([
                 }
                 historicalDataByWeek.push(historicalWeekObject);
               };
-              console.log('historicalDataByWeek',historicalDataByWeek);
+              
+              // Todo: ??? We need to add placeholder data for null weeks
+              
               // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
               dataFromRequest.forEach((weekOfData, i) => {
                 historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
@@ -2347,22 +2336,32 @@ define([
                 };
               });
   
-              // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation
-              // Our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
-              // 4 values per category means each unit is spaced out by quarter-units. 
-              // The series needs to begin a quarter-unit below the first index of 0, so we start the counter at -0.5, increment it by .25, and then pass it, each time incrementing by .25.
-              highchartsSeriesXPosition = -0.5;
+              // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation (1 sigma)
+              // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+              highchartsSeriesXPosition = -0.75;
               standardDeviationSeries = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
                 highchartsSeriesXPosition += 0.25;
                 return [highchartsSeriesXPosition, weekObject.sd1];
               });
               
-              highchartsSeriesXPosition = -0.5;
+              // Update the seriesData in highcharts to show 4 weeks of data per month for each second standard deviation (2 sigma)
+              // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+              highchartsSeriesXPosition = -0.75;
               standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
                 highchartsSeriesXPosition += 0.25;
                 return [highchartsSeriesXPosition, weekObject.sd2];
               });
+              console.log('historicalDataByWeek',historicalDataByWeek);
               console.log('down here');
+              
+              /********************** NOTE **********************
+               * An unusual fire is any fires that occur in excess of the first standard deviation. Below, we sum these and update the chart header text.
+               * Additionally, the client provided us a framework for determining a subject measurement of unusual fires: 
+                * "Average" means that total fires is within 1 sigma
+                * "High" means that total fires > 1 sigma and < 2 sigma
+                * "Low" means that total fires < -1 sigma and > -2 sigma
+                * "Unusually High/Low" means that total fires > +/- 2 sigma
+              ***************************************************/
               // Update Chart Text
               unusualFiresCount = 0;
               earliestYearOfData = currentYear;
