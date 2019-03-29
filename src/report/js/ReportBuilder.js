@@ -2247,7 +2247,7 @@ define([
                * We start by grabbing the most recent 13 weeks of data
                * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
               ***************************************************/
-             
+
              // Grab most recent 3 months of data
              for (let l = 0; l < 13; l++) {
                // Check for weeks of zero data and plug a zero value
@@ -2469,10 +2469,25 @@ define([
           timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
           // On select, update the modis data and the viirs data and the months const selectedIslandOrRegion = $(this).text();
 
-          // On click of a time option, highlight it and remove highlights
+          // On click of a time option, highlight it and update the series accordingly
           $('#unusualFiresOptions ul').click(function() {
               $('#unusualFiresOptions ul').removeClass('selected');
               $(this).addClass('selected');
+              let selection = $(this).text();
+              rangeOfMonths = selection.includes('12') ? 12 : selection.includes('6') ? 6 : 3; 
+              console.log(seriesData);
+
+              // firesCountChart.update({
+              //   series: updatedSeries
+              // }, true);
+  
+              // $('#firesCountTitle').html(
+              //   `${currentYear} MODIS Fire Alerts, Year to Date
+              //   <span class="total_firecounts">${firesCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>`
+              // );
+
+
+
           });
 
           // ??? Todo: On-hover, update the chart test
