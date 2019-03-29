@@ -2362,10 +2362,18 @@ define([
                 * "Low" means that total fires < -1 sigma and > -2 sigma
                 * "Unusually High/Low" means that total fires > +/- 2 sigma
               ***************************************************/
-              // Update Chart Text
+
+              // Calculate unuusal fire counts
+              // Todo: ??? This needs to be updated once we determine which standard deviation values to compare against.
               unusualFiresCount = 0;
+              dataFromRequest.forEach(weekOfData => {
+                if (weekOfData.year === currentYear) unusualFiresCount += weekOfData.alerts;
+              });
+              console.log(unusualFiresCount);
+
               earliestYearOfData = currentYear;
-              dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : null);
+              dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
+
             } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
               // 
             }
@@ -2410,6 +2418,19 @@ define([
                         enabled: false
                     }
                 }
+              },
+              tooltip: {
+                useHTML: true,
+                backgroundColor: '#ffbb07',
+                borderWidth: 0,
+                formatter: function () {
+                  return (
+                    '<div class="history-chart-tooltip__container">' +
+                    '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
+                    '<p class="firesCountChart__popup">Unusually High</p>' +
+                    '</div>'
+                  )
+                },
               },
               series: [
                 {
