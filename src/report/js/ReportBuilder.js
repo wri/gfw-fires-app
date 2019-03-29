@@ -2190,6 +2190,9 @@ define([
           
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
+          let threeMonthData = [];
+          let sixMonthData = [];
+          let twelveMonthData = [];
           const currentYear = new Date().getFullYear();
 
           // Calculate the current Week of the current year
@@ -2220,12 +2223,44 @@ define([
           }).then(() => {
 
             if (window.reportOptions.aois) { //Viewing a Report for a specific subregion in a country (adm0)
-              dataFromRequest.sort((a, b) => a.week > b.week ? 1 : -1); // Sort the data by week
+              const sortByWeekAndYear = (a, b) => {
+                if (a.year > b.year) {
+                  return 1;
+                } else if (a.year < b.year) {
+                  return -1;
+                } else if(a.year === b.year) {
+                  if (a.week >= b.week) {
+                    return 1
+                  } else {
+                    return -1
+                  }
+                }
+              }; 
 
-              let latestWeekOfData = 1;
-              dataFromRequest.forEach(week => week.week > latestWeekOfData ? latestWeekOfData = week.week : null);
-  
+              dataFromRequest.sort(sortByWeekAndYear);
               console.log('dataFromRequest', dataFromRequest);
+
+              // Check for weeks of zero data, and plug a zero value
+
+              // 13 weeks of data
+              // Grab most recent 3 months of data to show on load and on click
+              
+              for (let l = 0; l < 13; l++) {
+                if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
+                  let object = {};
+                  object.alerts = 0;
+                  object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - 1;
+                  object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
+                  threeMonthData.push(object);
+                }
+                threeMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
+              }
+              // threeMonthData may now have placeholder data and more than 13 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
+
+              threeMonthData.sort(sortByWeekAndYear);
+              const indeciesToRemove = threeMonthData.length - 13;
+              threeMonthData.splice(0, indeciesToRemove);
+              console.log('threeMonthData', threeMonthData);
   
               // Create an array of 52 objects, one for each week, sorted chronologically. 
               const currentYearDataByWeek = [];
@@ -2403,6 +2438,7 @@ define([
           // Create list of time on load
           let timeOptions = ['3 months', '6 months', '12 months'];
           timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
+          // On select, update the modis data and the viirs data and the months const selectedIslandOrRegion = $(this).text();
 
           // On click of a time option, highlight it and remove highlights
           $('#unusualFiresOptions ul').click(function() {
