@@ -2196,6 +2196,7 @@ define([
           let categoriesArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           let updatedCategoriesArray = [];
           let rangeOfMonths = 3;
+          let currentYearToDate;
           const currentYear = new Date().getFullYear();
           const currentMonth = new Date().getMonth();
 
@@ -2404,11 +2405,11 @@ define([
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
               // Pull the month categories based on the current month and the rangeOfMonths selected
-              let currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
+              currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
               updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
               currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
               updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
-
+              console.log(updatedCategoriesArray);
             } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
               // 
             }
@@ -2499,28 +2500,43 @@ define([
             $('#unusualFiresOptions ul').click(function() {
                 $('#unusualFiresOptions ul').removeClass('selected');
                 $(this).addClass('selected');
+                
+                // Update the categories based on whether it's 3, 6, or 12 months selected.
                 let selection = $(this).text();
                 rangeOfMonths = selection.includes('12') ? 12 : selection.includes('6') ? 6 : 3; 
+                currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
+                updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
+                currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
                 updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
-                if (selection.includes('12')) {
-                  seriesData = twelveMonthData;
-                } else if (selection.includes('6')) {
-                  seriesData = sixMonthData;
-                } else if (selection.includes('3')) {
-                  seriesData = threeMonthData;
-                }  
-                console.log(seriesData);
-                unusualFires.series[2].update({
-                  // Current Year Data
-                  type: 'spline',
-                  color: '#d40000', 
-                  data: seriesData
-                }, true);
-                
+
+                // Update the series data based on whether it's 3, 6, or 12 months selected.
+                seriesData = selection.includes('12') ? twelveMonthData : selection.includes('6') ? sixMonthData : threeMonthData;
+
+                // Actually update Highcharts data
                 unusualFires.update({
                   xAxis: {
                     categories: updatedCategoriesArray
-                  }
+                  },
+                  series: [
+                    {
+                      // Standard deviation 2
+                      type: 'areaspline',
+                      color: '#E0E0E0', 
+                      data: standardDeviation2Series
+                    },
+                    {
+                      // Standard deviation 1
+                      type: 'areaspline',
+                      color: '#F8F8F8', 
+                      data: standardDeviationSeries
+                    },
+                    {
+                      // Current Year Data
+                      type: 'spline',
+                      color: '#d40000', 
+                      data: seriesData
+                    },
+                  ]
                 }, true);
             });
 
