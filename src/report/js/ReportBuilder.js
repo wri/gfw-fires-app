@@ -2238,178 +2238,208 @@ define([
             }; 
             if (window.reportOptions.aois) { //Viewing a Report for a specific subregion in a country (adm0)
               // The data we get back are objects containing the fire counts for a specific week in a specific year. 
-              // This is a sorting function we can re use to sort any subsect of this data chronologically
-
-
-              dataFromRequest.sort(sortByWeekAndYear);
-
-              /********************** NOTE **********************
-               * On our inital load, we show the previous 3 months of data starting at the current week and going back 12 other weeks
-               * We start by grabbing the most recent 13 weeks of data
-               * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
-              ***************************************************/
-
-              const placeholderArray = [];
-              // Grab 12 months of data
-              for (let l = 0; l < 52; l++) {
-               // Check for weeks of zero data and plug a zero value
-               if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
-                 let gap = dataFromRequest[dataFromRequest.length - 1 - l].week - dataFromRequest[dataFromRequest.length - 2 - l].week;
-                 for (let p = 0; p < gap; p++) {
-                   let object = {};
-                   object.alerts = 0;
-                   object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - p;
-                   object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
-                   placeholderArray.push(object);
-                 }
-                } else {
-                  twelveMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
+              // if dataFromRequest has no 2019 data, just pass an array of zeros.
+              if (dataFromRequest.findIndex(x => x.year === 2019) === -1) {
+                // Create an array for the series that's all zero values
+                let highchartsSeriesXPosition = -0.75;
+                for (let z = 0; z < 52; z++) {
+                  highchartsSeriesXPosition += 0.25;
+                  twelveMonthData.push([highchartsSeriesXPosition, 0]);
                 }
-              }
-              placeholderArray.forEach(x => twelveMonthData.push(x));
-              twelveMonthData.sort(sortByWeekAndYear);
-              console.log('twelveMonthData', twelveMonthData);
-
-              // twelveMonthData may now have placeholder data and more than 52 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
-              const indeciesToRemove = twelveMonthData.length - 52;
-              twelveMonthData.splice(0, indeciesToRemove);
-              console.log('should be a sorted array of 52 weeks', twelveMonthData);
-
-              /********************** NOTE **********************
-               * Once we have our data, we need to make a new array of data to pass into highcharts. The data must be an array of arrays, each with an [x, y] value
-               * Our x axis is an array of months. Since we want 4 weeks of data per month, each week is spaced out by quarter-units. 
-               * E.G. If our x axis is ['January', 'February', 'March'], the 4 points we want to appear above the February category must be structured as:
-               * seriesData = [ [.5, week1], [.75, week2], [1, week3], [1.25, week4] ]
-               * The series needs to begin a half-unit below the first index of 0, so we start the counter at -0.75, increment it by .25, and then pass it, each time incrementing by .25.
-              ***************************************************/
-               
-              // Do it for 12 months
-              let highchartsSeriesXPosition = -0.75;
-              twelveMonthData = twelveMonthData.map(weekObject => {
-                highchartsSeriesXPosition += 0.25;
-                return [highchartsSeriesXPosition, weekObject.alerts];
-              });
-
-              // Do it for 6
-              sixMonthData = twelveMonthData.slice(26);
-              highchartsSeriesXPosition = -0.75;
-              sixMonthData = sixMonthData.map(weekObject => {
-                highchartsSeriesXPosition += 0.25;
-                return [highchartsSeriesXPosition, weekObject[1]];
-              });
-
-              // Do it for 3
-              threeMonthData = twelveMonthData.slice(39);
-              highchartsSeriesXPosition = -0.75;
-              threeMonthData = threeMonthData.map(weekObject => {
-                highchartsSeriesXPosition += 0.25;
-                return [highchartsSeriesXPosition, weekObject[1]];
-              });
-              
-              seriesData = threeMonthData.slice(0); // If we set it equal, the data may mutate later on.
-              // Below we calculate the standard deviation for each week. 
-              // We store 12 months of data in the historicalDataByWeek array, and pull off the indecies we need based on whether it is 12, 6, or 3 months.
-              const historicalDataByWeek = [];
-              for (let i = 0; i < 53; i++) {
-                const historicalWeekObject = {
-                  week: i,
-                  historicalAlerts: [],
-                  baseStandardDeviation: 0,
-                  sd1: 0,
-                  sd2: 0,
+                
+                highchartsSeriesXPosition = -0.75;
+                for (let z = 0; z < 26; z++) {
+                  highchartsSeriesXPosition += 0.25;
+                  sixMonthData.push([highchartsSeriesXPosition, 0]);
                 }
-                historicalDataByWeek.push(historicalWeekObject);
-              };
-              
-              // Todo: ??? We need to add placeholder data for null weeks
-              
-              // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
-              dataFromRequest.forEach((weekOfData, i) => {
-                historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
-              });
-  
-              // calculate average for each week
-              historicalDataByWeek.forEach((weekObject, i) => {
-                let sumOfAlerts = 0; 
-                let average = 0;
-                historicalDataByWeek[i].historicalAlerts.forEach(alert => {
-                  sumOfAlerts += alert;
+                
+                highchartsSeriesXPosition = -0.75;
+                for (let z = 0; z < 13; z++) {
+                  highchartsSeriesXPosition += 0.25;
+                  threeMonthData.push([highchartsSeriesXPosition, 0]);
+                }
+                // updatedSeries = threeMonthData;
+                
+                // Leaving Off:
+                // WE have to make placeholder dummy data for all the subregions that don't have 2019 data - which is most of them. 
+                // We ogtta do this for the12, 6, and 3 month data sets
+              } else {
+                // Do litrally everything below
+
+
+
+
+
+                dataFromRequest.sort(sortByWeekAndYear);
+
+                /********************** NOTE **********************
+                 * On our inital load, we show the previous 3 months of data starting at the current week and going back 12 other weeks
+                 * We start by grabbing the most recent 13 weeks of data
+                 * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
+                ***************************************************/
+                console.log(dataFromRequest);
+                const placeholderArray = [];
+                // Grab 12 months of data
+                for (let l = 0; l < 52; l++) {
+                // Check for weeks of zero data and plug a zero value
+                if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
+                  let gap = dataFromRequest[dataFromRequest.length - 1 - l].week - dataFromRequest[dataFromRequest.length - 2 - l].week;
+                  for (let p = 0; p < gap; p++) {
+                    let object = {};
+                    object.alerts = 0;
+                    object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - p;
+                    object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
+                    placeholderArray.push(object);
+                  }
+                  } else {
+                    twelveMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
+                  }
+                }
+                placeholderArray.forEach(x => twelveMonthData.push(x));
+                twelveMonthData.sort(sortByWeekAndYear);
+                console.log('twelveMonthData', twelveMonthData);
+
+                // twelveMonthData may now have placeholder data and more than 52 points of data. We need to sort the array chronologically and remove the oldest data until we are left with 13
+                const indeciesToRemove = twelveMonthData.length - 52;
+                twelveMonthData.splice(0, indeciesToRemove);
+                console.log('should be a sorted array of 52 weeks', twelveMonthData);
+
+                /********************** NOTE **********************
+                 * Once we have our data, we need to make a new array of data to pass into highcharts. The data must be an array of arrays, each with an [x, y] value
+                 * Our x axis is an array of months. Since we want 4 weeks of data per month, each week is spaced out by quarter-units. 
+                 * E.G. If our x axis is ['January', 'February', 'March'], the 4 points we want to appear above the February category must be structured as:
+                 * seriesData = [ [.5, week1], [.75, week2], [1, week3], [1.25, week4] ]
+                 * The series needs to begin a half-unit below the first index of 0, so we start the counter at -0.75, increment it by .25, and then pass it, each time incrementing by .25.
+                ***************************************************/
+                
+                // Do it for 12 months
+                let highchartsSeriesXPosition = -0.75;
+                twelveMonthData = twelveMonthData.map(weekObject => {
+                  highchartsSeriesXPosition += 0.25;
+                  return [highchartsSeriesXPosition, weekObject.alerts];
                 });
-                average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
-                sumOfAlerts = 0;
-              
-                // calculate deviance for each week
-                let deviations = [];
-                historicalDataByWeek[i].historicalAlerts.forEach(alert => {
-                  deviations.push(alert - average);
+
+                // Do it for 6
+                sixMonthData = twelveMonthData.slice(26);
+                highchartsSeriesXPosition = -0.75;
+                sixMonthData = sixMonthData.map(weekObject => {
+                  highchartsSeriesXPosition += 0.25;
+                  return [highchartsSeriesXPosition, weekObject[1]];
+                });
+
+                // Do it for 3
+                threeMonthData = twelveMonthData.slice(39);
+                highchartsSeriesXPosition = -0.75;
+                threeMonthData = threeMonthData.map(weekObject => {
+                  highchartsSeriesXPosition += 0.25;
+                  return [highchartsSeriesXPosition, weekObject[1]];
                 });
                 
-                // square all of deviations
-                const squaredDeviations = [];
-                deviations.forEach(deviation => {
-                  squaredDeviations.push(deviation * deviation);
-                })
-  
-                // sum deviations
-                if (squaredDeviations.length === 0) {
-                  // there is no data to calculate a standard deviation
-                  historicalDataByWeek[i].baseStandardDeviation = 0;
-                  historicalDataByWeek[i].sd1 = 0;
-                  historicalDataByWeek[i].sd2 = 0;
-                } else {
-                  const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
-                  // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
-                  // Calculate the square root of the resulting value. This is the sample standard deviation. 
-                  const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
-                  historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
-                  historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
-                  historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
+                seriesData = threeMonthData.slice(0); // If we set it equal, the data may mutate later on.
+                // Below we calculate the standard deviation for each week. 
+                // We store 12 months of data in the historicalDataByWeek array, and pull off the indecies we need based on whether it is 12, 6, or 3 months.
+                const historicalDataByWeek = [];
+                for (let i = 0; i < 53; i++) {
+                  const historicalWeekObject = {
+                    week: i,
+                    historicalAlerts: [],
+                    baseStandardDeviation: 0,
+                    sd1: 0,
+                    sd2: 0,
+                  }
+                  historicalDataByWeek.push(historicalWeekObject);
                 };
-              });
-  
-              // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation (1 sigma)
-              // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
-              highchartsSeriesXPosition = -0.75;
-              standardDeviationSeries = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
-                highchartsSeriesXPosition += 0.25;
-                return [highchartsSeriesXPosition, weekObject.sd1];
-              });
-              
-              // Update the seriesData in highcharts to show 4 weeks of data per month for each second standard deviation (2 sigma)
-              // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
-              highchartsSeriesXPosition = -0.75;
-              standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
-                highchartsSeriesXPosition += 0.25;
-                return [highchartsSeriesXPosition, weekObject.sd2];
-              });
-              console.log('historicalDataByWeek',historicalDataByWeek);
-              console.log('down here');
-              
-              /********************** NOTE **********************
-               * An unusual fire is any fires that occur in excess of the first standard deviation. Below, we sum these and update the chart header text.
-               * Additionally, the client provided us a framework for determining a subject measurement of unusual fires: 
-                * "Average" means that total fires is within 1 sigma
-                * "High" means that total fires > 1 sigma and < 2 sigma
-                * "Low" means that total fires < -1 sigma and > -2 sigma
-                * "Unusually High/Low" means that total fires > +/- 2 sigma
-              ***************************************************/
+                
+                // Todo: ??? We need to add placeholder data for null weeks
+                
+                // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
+                dataFromRequest.forEach((weekOfData, i) => {
+                  historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
+                });
+    
+                // calculate average for each week
+                historicalDataByWeek.forEach((weekObject, i) => {
+                  let sumOfAlerts = 0; 
+                  let average = 0;
+                  historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                    sumOfAlerts += alert;
+                  });
+                  average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
+                  sumOfAlerts = 0;
+                
+                  // calculate deviance for each week
+                  let deviations = [];
+                  historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                    deviations.push(alert - average);
+                  });
+                  
+                  // square all of deviations
+                  const squaredDeviations = [];
+                  deviations.forEach(deviation => {
+                    squaredDeviations.push(deviation * deviation);
+                  })
+    
+                  // sum deviations
+                  if (squaredDeviations.length === 0) {
+                    // there is no data to calculate a standard deviation
+                    historicalDataByWeek[i].baseStandardDeviation = 0;
+                    historicalDataByWeek[i].sd1 = 0;
+                    historicalDataByWeek[i].sd2 = 0;
+                  } else {
+                    const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
+                    // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
+                    // Calculate the square root of the resulting value. This is the sample standard deviation. 
+                    const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
+                    historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
+                    historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
+                    historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
+                  };
+                });
+    
+                // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation (1 sigma)
+                // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+                highchartsSeriesXPosition = -0.75;
+                standardDeviationSeries = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
+                  highchartsSeriesXPosition += 0.25;
+                  return [highchartsSeriesXPosition, weekObject.sd1];
+                });
+                
+                // Update the seriesData in highcharts to show 4 weeks of data per month for each second standard deviation (2 sigma)
+                // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
+                highchartsSeriesXPosition = -0.75;
+                standardDeviation2Series = historicalDataByWeek.filter(x => x.week <= currentWeek).map(weekObject => {
+                  highchartsSeriesXPosition += 0.25;
+                  return [highchartsSeriesXPosition, weekObject.sd2];
+                });
+                console.log('historicalDataByWeek',historicalDataByWeek);
+                console.log('down here');
+                
+                /********************** NOTE **********************
+                 * An unusual fire is any fires that occur in excess of the first standard deviation. Below, we sum these and update the chart header text.
+                 * Additionally, the client provided us a framework for determining a subject measurement of unusual fires: 
+                  * "Average" means that total fires is within 1 sigma
+                  * "High" means that total fires > 1 sigma and < 2 sigma
+                  * "Low" means that total fires < -1 sigma and > -2 sigma
+                  * "Unusually High/Low" means that total fires > +/- 2 sigma
+                ***************************************************/
 
-              // Calculate unuusal fire counts
-              // Todo: ??? This needs to be updated once we determine which standard deviation values to compare against.
-              unusualFiresCount = 0;
-              dataFromRequest.forEach(weekOfData => {
-                if (weekOfData.year === currentYear) unusualFiresCount += weekOfData.alerts;
-              });
+                // Calculate unuusal fire counts
+                // Todo: ??? This needs to be updated once we determine which standard deviation values to compare against.
+                unusualFiresCount = 0;
+                dataFromRequest.forEach(weekOfData => {
+                  if (weekOfData.year === currentYear) unusualFiresCount += weekOfData.alerts;
+                });
 
-              earliestYearOfData = currentYear;
-              dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
+                earliestYearOfData = currentYear;
+                dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
-              // Pull the month categories based on the current month and the rangeOfMonths selected
-              currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
-              updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
-              currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
-              updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
-              console.log(updatedCategoriesArray);
+                // Pull the month categories based on the current month and the rangeOfMonths selected
+                currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
+                updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
+                currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
+                updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
+                console.log(updatedCategoriesArray);
+              }
             } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
               console.log('here');
               // The data we get back are objects containing the fire counts for a specific week in a specific year. 
