@@ -2259,6 +2259,20 @@ define([
                   threeMonthData.push([highchartsSeriesXPosition, 0]);
                 }
                 // updatedSeries = threeMonthData;
+                console.log('threeMonthData', threeMonthData);
+                seriesData = threeMonthData.slice(0); // If we set it equal, the data may mutate later on.
+
+                // Do it for 6
+                sixMonthData = twelveMonthData.slice(26);
+                highchartsSeriesXPosition = -0.75;
+                sixMonthData = sixMonthData.map(weekObject => { // todo: ??? Turn this into a reusable function
+                  highchartsSeriesXPosition += 0.25;
+                  return [highchartsSeriesXPosition, weekObject[1]];
+                });
+
+                console.log('sixmonth', sixMonthData);
+                console.log('twelvemonth', twelveMonthData);
+
                 
                 // Leaving Off:
                 // WE have to make placeholder dummy data for all the subregions that don't have 2019 data - which is most of them. 
@@ -2322,7 +2336,7 @@ define([
                 // Do it for 6
                 sixMonthData = twelveMonthData.slice(26);
                 highchartsSeriesXPosition = -0.75;
-                sixMonthData = sixMonthData.map(weekObject => {
+                sixMonthData = sixMonthData.map(weekObject => { // todo: ??? Turn this into a reusable function
                   highchartsSeriesXPosition += 0.25;
                   return [highchartsSeriesXPosition, weekObject[1]];
                 });
@@ -2330,7 +2344,7 @@ define([
                 // Do it for 3
                 threeMonthData = twelveMonthData.slice(39);
                 highchartsSeriesXPosition = -0.75;
-                threeMonthData = threeMonthData.map(weekObject => {
+                threeMonthData = threeMonthData.map(weekObject => { // todo: ??? Turn this into a reusable function
                   highchartsSeriesXPosition += 0.25;
                   return [highchartsSeriesXPosition, weekObject[1]];
                 });
