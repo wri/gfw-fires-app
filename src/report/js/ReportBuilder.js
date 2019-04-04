@@ -2280,31 +2280,28 @@ define([
               } else {
                 // Do litrally everything below
 
-
-
-
-
-                dataFromRequest.sort(sortByWeekAndYear);
-
                 /********************** NOTE **********************
                  * On our inital load, we show the previous 3 months of data starting at the current week and going back 12 other weeks
-                 * We start by grabbing the most recent 13 weeks of data
-                 * Then, we check if any weeks are missing (because they had null data). We add placeholder week objects and cut out the weeks we no longer need.
+                 * We start by grabbing all of the data from the past 12 months, sorting it, and incrementally slicing off the data we need for the 3 and 6 month windows.
+                 * For each week, we check if any weeks are missing. We add placeholder week objects and cut out the weeks we no longer need.
                 ***************************************************/
+
+                dataFromRequest.sort(sortByWeekAndYear);
+                
                 console.log(dataFromRequest);
                 const placeholderArray = [];
                 // Grab 12 months of data
                 for (let l = 0; l < 52; l++) {
-                // Check for weeks of zero data and plug a zero value
-                if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
-                  let gap = dataFromRequest[dataFromRequest.length - 1 - l].week - dataFromRequest[dataFromRequest.length - 2 - l].week;
-                  for (let p = 0; p < gap; p++) {
-                    let object = {};
-                    object.alerts = 0;
-                    object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - p;
-                    object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
-                    placeholderArray.push(object);
-                  }
+                  // Check for weeks of zero data and plug a zero value
+                  if (dataFromRequest[dataFromRequest.length - 1 - l].week - 1 !== dataFromRequest[dataFromRequest.length - 2 - l].week && dataFromRequest[dataFromRequest.length - 1 - l].week !== 1) {
+                    let gap = dataFromRequest[dataFromRequest.length - 1 - l].week - dataFromRequest[dataFromRequest.length - 2 - l].week;
+                    for (let p = 0; p < gap; p++) {
+                      let object = {};
+                      object.alerts = 0;
+                      object.week = dataFromRequest[dataFromRequest.length - 1 - l].week - p;
+                      object.year = dataFromRequest[dataFromRequest.length - 1 - l].year;
+                      placeholderArray.push(object);
+                    };
                   } else {
                     twelveMonthData.push(dataFromRequest[dataFromRequest.length - 1 - l]);
                   }
@@ -2358,6 +2355,7 @@ define([
                     week: i,
                     historicalAlerts: [],
                     baseStandardDeviation: 0,
+                    average: 0,
                     sd1: 0,
                     sd2: 0,
                   }
@@ -2372,15 +2370,34 @@ define([
                 });
     
                 // calculate average for each week
+                console.log('historicalDataByWeek', historicalDataByWeek);
+                debugger;
+                let totalSum = 0;
+                let totalWeeks = 0;
+                let totalAvg = 0;
+                let totalSD = 0;
                 historicalDataByWeek.forEach((weekObject, i) => {
                   let sumOfAlerts = 0; 
-                  let average = 0;
+                  let average = 0;// Week-by-week
                   historicalDataByWeek[i].historicalAlerts.forEach(alert => {
                     sumOfAlerts += alert;
+                    totalSum += alert
+                    totalWeeks++;
                   });
                   average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
-                  sumOfAlerts = 0;
+                  // average = 23.18;
                 
+                  // // 13 week window
+                  // let average = 0;
+                  // historicalDataByWeek[i].historicalAlerts.forEach(alert => {
+                  //   sumOfAlerts += alert;
+                  // });
+                  // average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
+                  // sumOfAlerts = 0;
+
+
+
+
                   // calculate deviance for each week
                   let deviations = [];
                   historicalDataByWeek[i].historicalAlerts.forEach(alert => {
@@ -2405,11 +2422,18 @@ define([
                     // Calculate the square root of the resulting value. This is the sample standard deviation. 
                     const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
                     historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
+                    historicalDataByWeek[i].average = average;
                     historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
                     historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
                   };
                 });
-    
+                console.log('historicalDataByWeek',historicalDataByWeek);
+                console.log('totalSum', totalSum);
+                console.log('totalWeeks', totalWeeks);
+                const abc = (totalSum / totalWeeks);
+                console.log('historicalAvg', abc);
+
+                
                 // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation (1 sigma)
                 // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
                 highchartsSeriesXPosition = -0.75;
@@ -2417,7 +2441,16 @@ define([
                   highchartsSeriesXPosition += 0.25;
                   return [highchartsSeriesXPosition, weekObject.sd1];
                 });
+                // console.log('standardDeviationSeries', standardDeviationSeries)
+                // let newSum = 0;
+                // let countTotal = standardDeviationSeries.length;
+                // standardDeviationSeries.map(x => newSum += x[1]);
+                // let something = newSum / countTotal;
+                // console.log('some', something);
+                // standardDeviationSeries = standardDeviationSeries.map(x => [x[0], something]);
+                // console.log(standardDeviationSeries);
                 
+                // debugger
                 // Update the seriesData in highcharts to show 4 weeks of data per month for each second standard deviation (2 sigma)
                 // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
                 highchartsSeriesXPosition = -0.75;
@@ -2428,6 +2461,16 @@ define([
                 console.log('historicalDataByWeek',historicalDataByWeek);
                 console.log('down here');
                 
+                // SD 2
+                // console.log('standardDeviationSeries', standardDeviation2Series)
+                // let newSum2 = 0;
+                // let countTotal2 = standardDeviation2Series.length;
+                // standardDeviation2Series.map(x => newSum2 += x[1]);
+                // let something2 = newSum2 / countTotal2;
+                // console.log('some', something2);
+                // standardDeviation2Series = standardDeviation2Series.map(x => [x[0], something2]);
+                // console.log(standardDeviation2Series);
+                // debugger;
                 /********************** NOTE **********************
                  * An unusual fire is any fires that occur in excess of the first standard deviation. Below, we sum these and update the chart header text.
                  * Additionally, the client provided us a framework for determining a subject measurement of unusual fires: 
