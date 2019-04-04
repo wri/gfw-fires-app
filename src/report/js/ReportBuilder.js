@@ -2355,48 +2355,32 @@ define([
                     week: i,
                     historicalAlerts: [],
                     baseStandardDeviation: 0,
-                    average: 0,
+                    historicalAverage: 0,
                     sd1: 0,
                     sd2: 0,
                   }
                   historicalDataByWeek.push(historicalWeekObject);
                 };
                 
-                // Todo: ??? We need to add placeholder data for null weeks
-                
-                // Iterate over dataFromRequest. For each item, push the alerts to the corresponding week index on historicalDataByWeek
+                // historicalDataByWeek contains 52 objects, each containing an array of all historical alerts from that week in the past.
                 dataFromRequest.forEach((weekOfData, i) => {
                   historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
                 });
     
+                // Now that we have our 52 week objects, we need to calculate the standard deviation for each week using a "statistical smoothing function."
+                // Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.
+                // To resolve this, we are to calculate a window-average for a week. A "window" starts at 6 weeks prior to a week and extends 6 weeks beyond, for a total of 13 weeks.
+                // Once we have an average for a window, we calculate the standard deviation for that week by taking the absolute value of the specific week's fires less the window mean.
+                // We eventually will plot 3 series: A series of the current year fires, a series of 1 standard deviation from each week's mean, and a series of 2 standard deviations from each week's mean.
+                
                 // calculate average for each week
-                console.log('historicalDataByWeek', historicalDataByWeek);
-                debugger;
-                let totalSum = 0;
-                let totalWeeks = 0;
-                let totalAvg = 0;
-                let totalSD = 0;
                 historicalDataByWeek.forEach((weekObject, i) => {
                   let sumOfAlerts = 0; 
-                  let average = 0;// Week-by-week
+                  let average = 0;
                   historicalDataByWeek[i].historicalAlerts.forEach(alert => {
                     sumOfAlerts += alert;
-                    totalSum += alert
-                    totalWeeks++;
                   });
                   average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
-                  // average = 23.18;
-                
-                  // // 13 week window
-                  // let average = 0;
-                  // historicalDataByWeek[i].historicalAlerts.forEach(alert => {
-                  //   sumOfAlerts += alert;
-                  // });
-                  // average = Math.round(sumOfAlerts / historicalDataByWeek[i].historicalAlerts.length);
-                  // sumOfAlerts = 0;
-
-
-
 
                   // calculate deviance for each week
                   let deviations = [];
@@ -2410,30 +2394,98 @@ define([
                     squaredDeviations.push(deviation * deviation);
                   })
     
-                  // sum deviations
                   if (squaredDeviations.length === 0) {
                     // there is no data to calculate a standard deviation
                     historicalDataByWeek[i].baseStandardDeviation = 0;
+                    historicalDataByWeek[i].historicalAverage = 0;
                     historicalDataByWeek[i].sd1 = 0;
                     historicalDataByWeek[i].sd2 = 0;
                   } else {
-                    const sumOfSquaredDeviations = squaredDeviations.reduce((sum, currentValue) => sum + currentValue);
-                    // Divide sumOfSquaredDeviations by one less than the number of items in the data set. For example, if you had 4 numbers, divide by 3.
-                    // Calculate the square root of the resulting value. This is the sample standard deviation. 
-                    const simpleStandardDeviation = Math.round(Math.sqrt((sumOfSquaredDeviations / (squaredDeviations.length - 1))));
+                    const simpleStandardDeviation = Math.round(Math.sqrt((squaredDeviations.reduce((sum, currentValue) => sum + currentValue) / (squaredDeviations.length - 1))));
+
                     historicalDataByWeek[i].baseStandardDeviation = simpleStandardDeviation;
-                    historicalDataByWeek[i].average = average;
-                    historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
-                    historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
+                    historicalDataByWeek[i].historicalAverage = average;
+                    // historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
+                    // historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
                   };
                 });
+                // historicalDataByWeek[i].sd1 = average + historicalDataByWeek[i].baseStandardDeviation;
+                // historicalDataByWeek[i].sd2 = historicalDataByWeek[i].sd1 + historicalDataByWeek[i].baseStandardDeviation;
                 console.log('historicalDataByWeek',historicalDataByWeek);
-                console.log('totalSum', totalSum);
-                console.log('totalWeeks', totalWeeks);
-                const abc = (totalSum / totalWeeks);
-                console.log('historicalAvg', abc);
+                console.log(currentWeek);
+                const windowAverages = [];
+                // For each week in our window (0 - 13 weeks), get the previous 6 historical week avgs and the next 6, sum with 
+                for (let i = currentWeek; i > currentWeek - 13; i--) {
+                  const windowAveragesForAGivenWeek = [];
+                  for (let x = i - 6; x <= i; x++) {
+                    console.log(historicalDataByWeek[x]);
+                    console.log(x, i);
+                    if (x < 0) {
+                      windowAveragesForAGivenWeek.push(historicalDataByWeek[53 + x].historicalAverage);
+                    } else {
+                      windowAveragesForAGivenWeek.push(historicalDataByWeek[x].historicalAverage);
+                    }
+                  }
+                  for (let x = i; x < i + 6; x++) {
+                    windowAveragesForAGivenWeek.push(historicalDataByWeek[x].historicalAverage);
+                  }
+                  // console.log(windowAveragesForAGivenWeek);
+                  const sumOfWindowAveragesForThisWeek = windowAveragesForAGivenWeek.reduce((x, y) => x + y);
+                  windowAverages.push(Math.round(sumOfWindowAveragesForThisWeek / 13));
+                }
+                console.log(windowAverages); // average of each week in the window
+                // actual week's fires less window sq root for that week
+                // calculate deviance for each week
+                // take the current year alerts and subtract it from the historical average window for that week
+                let windowDeviations = [];
+                const currentYearDataObjects = dataFromRequest.filter(x => x.year === currentYear);
+                console.log(currentYearDataObjects);
 
+                for (let i = 0; i < windowAverages.length; i++) {
+                  if (currentYearDataObjects[currentYear - i] === undefined) {
+                    windowDeviations.push(0 - windowAverages[i]);
+                  } else {
+                    windowDeviations.push(currentYearDataObjects[currentYear - i].alerts - windowAverages[i]);
+                  }
+                }
+                console.log(windowDeviations);
+                debugger
+                const windowDeviationsSquared = windowDeviations.map(weekDeviation => weekDeviation * weekDeviation);
+                console.log(windowDeviationsSquared);
+
+                const windowSD =  windowDeviationsSquared.map(x => Math.round(Math.sqrt(x))); // window sq root for that week
+                // historicalDataByWeek[week][historicalAlerts][historicalAlers.length - 1] === current year's week alerts
+
+                const standardDeviationSeriesOne = currentYearDataObjects.map((x, i) => x.alerts + windowSD[i]);
+                // console.log(standardDeviationSeriesOne);
+                const standardDeviationSeriesTwo = currentYearDataObjects.map(x => x.alerts + windowSD * 2);
+
+                console.log(historicalDataByWeek[1].historicalAlerts[historicalDataByWeek[1].historicalAlerts.length - 1]);
+                const actualWeekFires = [];
+                const arrayOfWeekAlerts = [];
+                const arrayOfWeekAlerts2 = [];
+                let i = 0;
+                for (let x = currentWeek - 13; x < currentWeek; x++) {
+                  if (historicalDataByWeek[x].historicalAlerts[historicalDataByWeek[x].historicalAlerts.length - 1] === undefined) {
+                    actualWeekFires.push(0);
+                    arrayOfWeekAlerts.push(0 - windowSD[i]);
+                    arrayOfWeekAlerts2.push(0 - windowSD[i] * 2);
+                    i++;
+                  } else {
+                    actualWeekFires.push(historicalDataByWeek[x].historicalAlerts[historicalDataByWeek[x].historicalAlerts.length - 1]);
+                    arrayOfWeekAlerts.push(historicalDataByWeek[x].historicalAlerts[historicalDataByWeek[x].historicalAlerts.length - 1] - windowSD[i]);
+                    arrayOfWeekAlerts2.push(historicalDataByWeek[x].historicalAlerts[historicalDataByWeek[x].historicalAlerts.length - 1] - windowSD[i] * 2);
+                    i++;
+                  }
+                }
                 
+                console.log(actualWeekFires); // this is the standard deviation series!
+                console.log(arrayOfWeekAlerts); // this is the standard deviation series!
+                console.log(arrayOfWeekAlerts2); // this is the standard deviation series!
+                debugger;
+
+
+
                 // Update the seriesData in highcharts to show 4 weeks of data per month for each standard deviation (1 sigma)
                 // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
                 highchartsSeriesXPosition = -0.75;
@@ -2450,7 +2502,7 @@ define([
                 // standardDeviationSeries = standardDeviationSeries.map(x => [x[0], something]);
                 // console.log(standardDeviationSeries);
                 
-                // debugger
+
                 // Update the seriesData in highcharts to show 4 weeks of data per month for each second standard deviation (2 sigma)
                 // Similar to above, our chart will have 4 weeks shown per month. In order to make this work, each data point we pass to highcharts needs an x and y value.
                 highchartsSeriesXPosition = -0.75;
@@ -2461,6 +2513,29 @@ define([
                 console.log('historicalDataByWeek',historicalDataByWeek);
                 console.log('down here');
                 
+
+                // Thursday's CODE THAT WORKS PROPERLY
+                xPos = -0.75;
+                seriesData = actualWeekFires.map(x => {
+                  xPos += 0.25;
+                  return [xPos, x];
+                });
+                xPos = -0.75;
+                standardDeviationSeries = arrayOfWeekAlerts.map(x => {
+                  xPos += 0.25;
+                  return [xPos, Math.round(Math.sqrt(x * x))];
+                });
+                xPos = -0.75;
+                standardDeviation2Series = arrayOfWeekAlerts2.map(x => {
+                  xPos += 0.25;
+                  return [xPos, Math.round(Math.sqrt(x * x))];
+                });
+                console.log(seriesData);
+                console.log(standardDeviationSeries)
+                console.log(standardDeviation2Series)
+                debugger;
+
+
                 // SD 2
                 // console.log('standardDeviationSeries', standardDeviation2Series)
                 // let newSum2 = 0;
