@@ -2385,22 +2385,68 @@ define([
                     weekObject.sd2 = standardDeviation * 2;
                   };
                 });
-                console.log('historicalDataByWeek',historicalDataByWeek); // weekly data with historical data, averages, SD, SD1, and current year data.
-
+                console.log('historicalDataByWeek', historicalDataByWeek); // weekly data with historical data, averages, SD, SD1, and current year data.
+                debugger;
                 /********************** NOTE **********************
                  * Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.
                  * To resolve this, we are to calculate a "window-average" for a week. A "window" begins 6 weeks prior to a specific week and extends 6 weeks beyond, for a total of 13 weeks.
                  * Once we have an average for a window, we calculate the standard deviation for that week by taking the absolute value of the specific week's fires less the window meanfor that week.
                  * We eventually plot 3 series: A series of the current year fires; a series of 1 standard deviation from each week's mean; and a series of 2 standard deviations from each week's mean.
                 ***************************************************/
+                //Calculate the 'window average' for a specific week:
+                  // Take the historical averages from the previous 6 weeks
+                  // Take the average for that week
+                  // Take the historical averages from the next 6 weeks
+                  // Sum them and divide by 13.
                 
+                historicalDataByWeek.forEach((week, weekIndex) => {
+                  console.log(weekIndex);
+                  // let sumOfWindowAverages = week.historicalAverage;
+                  let sumOfWindowAverages = 0;
+                  if (weekIndex > 5 && weekIndex <= 46) {
+                    for (let w = weekIndex - 6; w < weekIndex; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    for (let w = weekIndex; w < weekIndex + 7; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    historicalDataByWeek[weekIndex].windowAverage = Math.round((sumOfWindowAverages / 13));
+                  } else if (weekIndex <= 5) {
+                    let startingWeek = 52 - 5 + weekIndex;
+                    for (let w = startingWeek; w < 53; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    for (let w = 0; w < weekIndex; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    for (let w = weekIndex; w < weekIndex + 7; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    historicalDataByWeek[weekIndex].windowAverage = Math.round((sumOfWindowAverages / 13));
+                  } else if (weekIndex > 46) {
+                    for (let w = weekIndex - 6; w < 53; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    let endingWeek = weekIndex - 52 + 6;
+                    for (let w = 0; w < endingWeek; w++) {
+                      sumOfWindowAverages += historicalDataByWeek[w].historicalAverage;
+                    }
+                    historicalDataByWeek[weekIndex].windowAverage = Math.round((sumOfWindowAverages / 13));
+                  }
+                })  
+                
+                console.log(historicalDataByWeek);
+                debugger;
+                  // Calculate the week's standard deviation
                 const windowAverages = []; // calculate a "window-average" for each week in our view. Our initial view is 3 months, so 13 weeks.
+                let counter1 = 0;
                 for (let i = currentWeek; i > currentWeek - 13; i--) {
                   const windowAveragesForAGivenWeek = [];
                   for (let x = i - 6; x <= i; x++) { // Get the average for each of the previous 6 weeks & the current week.
                     const weekDataToPush = x < 0 ? historicalDataByWeek[53 + x].historicalAverage : historicalDataByWeek[x].historicalAverage;
                     console.log(weekDataToPush);
-                    debugger
+                    counter1++;
+                    // debugger
                     windowAveragesForAGivenWeek.push(weekDataToPush);
                   }
                   for (let x = i; x < i + 6; x++) { // Get the averages for each of the next 6 weeks for a total of 13.
@@ -2419,8 +2465,8 @@ define([
                   counter++;
                 };
                 console.log(variances);
-
-
+                console.log(counter1);
+                debugger;
                 let windowDeviations = [];
                 const currentYearDataObjects = dataFromRequest.filter(x => x.year === currentYear);
                 console.log(currentYearDataObjects);
