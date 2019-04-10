@@ -2956,9 +2956,14 @@ define([
                 updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
                 currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
                 updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
-
+              console.log(sixMonthDataObject);
                 // Update the series data based on whether it's 3, 6, or 12 months selected.
-                seriesData = selection.includes('12') ? twelveMonthData : selection.includes('6') ? sixMonthData : threeMonthData;
+                seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : selection.includes('6') ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0);
+                windowAverages = selection.includes('12') ? twelveMonthDataObject.windowMean.slice(0) : selection.includes('6') ? sixMonthDataObject.windowMean.slice(0) : threeMonthDataObject.windowMean.slice(0);
+                standardDeviationSeries = selection.includes('12') ? twelveMonthDataObject.windowSD1.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSD1.slice(0) : threeMonthDataObject.windowSD1.slice(0);
+                standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0);
+                standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0);
+                standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0);
 
                 // Actually update Highcharts data
                 unusualFires.update({
@@ -2987,6 +2992,24 @@ define([
                       type: 'spline',
                       color: '#d40000', 
                       data: seriesData
+                    },
+                    {
+                      // Current Year Average Data
+                      type: 'spline',
+                      color: '#d40000', 
+                      data: windowAverages
+                    },
+                    {
+                      // Current Year -sd 1Data
+                      type: 'spline',
+                      color: '#d40000', 
+                      data: standardDeviationMinus1Series
+                    },
+                    {
+                      // Current Year -sd2 Data
+                      type: 'spline',
+                      color: '#d40000', 
+                      data: standardDeviationMinus2Series
                     },
                   ]
                 }, true);
