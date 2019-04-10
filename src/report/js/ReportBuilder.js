@@ -2893,12 +2893,30 @@ define([
                 backgroundColor: '#ffbb07',
                 borderWidth: 0,
                 formatter: function () {
-                  return (
-                    '<div class="history-chart-tooltip__container">' +
-                    '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
-                    '<p class="firesCountChart__popup">Unusually High</p>' +
-                    '</div>'
-                  )
+                  if (this.series.name === 'currentYear') {
+                    // Determine if 3 6 or 12 months
+                    let indexIneed = -1;
+                    threeMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? indexIneed = i : null);
+
+                    const sd2 = threeMonthDataObject.windowSD2[indexIneed]['1'];
+                    const sd1 = threeMonthDataObject.windowSD1[indexIneed]['1'];
+                    const sdMinus1 = threeMonthDataObject.windowSDMinus1[indexIneed]['1'];
+                    const sdMinus2 = threeMonthDataObject.windowSDMinus2[indexIneed]['1'];
+                    const usuality = this.point.y  > sd2 ? 'Unusually High' : this.point.y  > sd1 ? 'High' : this.point.y  < sdMinus1 ? 'Low' : this.point.y  < sdMinus2 ? 'Unusually Low' : 'Average';
+
+                    return (
+                      '<div class="history-chart-tooltip__container">' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires This Year</span></h3>' +
+                      `<p class="firesCountChart__popup">${usuality}</p>` +
+                      '</div>'
+                    )
+                  } else if (this.series.name === 'mean') {
+                    return (
+                      '<div class="history-chart-tooltip__container">' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires On Average</span></h3>' +
+                      '</div>'
+                    )
+                  }
                 },
               },
               series: [
@@ -2920,14 +2938,16 @@ define([
                   // Current Year Data
                   type: 'spline',
                   color: '#d40000', 
-                  data: seriesData
+                  data: seriesData,
+                  name: 'currentYear'
                 },
                 {
                   // Current Year Average Data
                   type: 'spline',
                   color: '#e56666', 
                   data: windowAverages,
-                  dashStyle: 'longdash'
+                  dashStyle: 'longdash',
+                  name: 'mean'
                 },
                 {
                   // Current Year -sd 1Data
