@@ -2873,6 +2873,9 @@ define([
                   }
                 },
               },
+              yAxis: {
+                min: 0
+              },
               plotOptions: {
                 spline: {
                     marker: {
