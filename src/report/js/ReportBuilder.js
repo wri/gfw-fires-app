@@ -2894,14 +2894,13 @@ define([
                 borderWidth: 0,
                 formatter: function () {
                   if (this.series.name === 'currentYear') {
-                    // Determine if 3 6 or 12 months
                     let indexIneed = -1;
-                    threeMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? indexIneed = i : null);
+                    twelveMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? indexIneed = i : null);
 
-                    const sd2 = threeMonthDataObject.windowSD2[indexIneed]['1'];
-                    const sd1 = threeMonthDataObject.windowSD1[indexIneed]['1'];
-                    const sdMinus1 = threeMonthDataObject.windowSDMinus1[indexIneed]['1'];
-                    const sdMinus2 = threeMonthDataObject.windowSDMinus2[indexIneed]['1'];
+                    const sd2 = twelveMonthDataObject.windowSD2[indexIneed]['1'];
+                    const sd1 = twelveMonthDataObject.windowSD1[indexIneed]['1'];
+                    const sdMinus1 = twelveMonthDataObject.windowSDMinus1[indexIneed]['1'];
+                    const sdMinus2 = twelveMonthDataObject.windowSDMinus2[indexIneed]['1'];
                     const usuality = this.point.y  > sd2 ? 'Unusually High' : this.point.y  > sd1 ? 'High' : this.point.y  < sdMinus1 ? 'Low' : this.point.y  < sdMinus2 ? 'Unusually Low' : 'Average';
 
                     return (
