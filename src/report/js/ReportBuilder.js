@@ -2371,8 +2371,9 @@ define([
                   const average = Math.round(weekObject.historicalAlerts.reduce((a, b) => a + b) / weekObject.historicalAlerts.length); // calculate the average for each week
                   const deviations = weekObject.historicalAlerts.map(alert => alert - average); // calculate deviance for each week
                   const squaredDeviations = deviations.map(deviation => deviation * deviation); // square all of deviations
-                  const standardDeviation = Math.round(Math.sqrt(squaredDeviations.reduce((a, b) => a + b) / (squaredDeviations.length - 1))); // Calculate Standard deviation
-    
+                  const denomenator = squaredDeviations.length > 1 ? squaredDeviations.length - 1 : 1; // check the count of deviations because we shouldn't divide by zero
+                  const standardDeviation = Math.round(Math.sqrt(squaredDeviations.reduce((a, b) => a + b) / denomenator)); // Calculate Standard deviation
+                  
                   // Assign the values to our week object
                   if (squaredDeviations.length === 0) { // If there is no data, plug empty zeros for null data.
                     weekObject.historicalAverage = 0;
@@ -2393,6 +2394,7 @@ define([
                  * Once we have an average for a window, we calculate the standard deviation for that week by taking the absolute value of the specific week's fires less the window meanfor that week.
                  * We eventually plot 3 series: A series of the current year fires; a series of 1 standard deviation from each week's mean; and a series of 2 standard deviations from each week's mean.
                 ***************************************************/
+                
                 //Calculate the 'window average' for a specific week:
                   // Take the historical averages from the previous 6 weeks
                   // Take the average for that week
@@ -2400,8 +2402,6 @@ define([
                   // Sum them and divide by 13.
                 
                 historicalDataByWeek.forEach((week, weekIndex) => {
-                  console.log(weekIndex);
-                  // let sumOfWindowAverages = week.historicalAverage;
                   let sumOfWindowAverages = 0;
                   if (weekIndex > 5 && weekIndex <= 46) {
                     for (let w = weekIndex - 6; w < weekIndex; w++) {
@@ -2434,63 +2434,52 @@ define([
                     historicalDataByWeek[weekIndex].windowAverage = Math.round((sumOfWindowAverages / 13));
                   }
                 })  
+
+                // Window averages have been properly calculated.
+                // For each week in our window, subtract the window avg from the current week's window avg, square it, and push it to a temp array.
+                historicalDataByWeek.forEach((week, weekIndex) => {
+                  const arrayOfWindowVariances = [];
+                  if (weekIndex > 5 && weekIndex <= 46) {
+                    for (let w = weekIndex - 6; w < weekIndex; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    for (let w = weekIndex; w < weekIndex + 7; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    const sumOfSquaredWindowVariances = arrayOfWindowVariances.reduce((a, b) => a + b);
+                    historicalDataByWeek[weekIndex].windowStandardDeviation1 = Math.round(Math.sqrt(sumOfSquaredWindowVariances / 13));
+                    historicalDataByWeek[weekIndex].windowStandardDeviation2 = historicalDataByWeek[weekIndex].windowStandardDeviation1 * 2;
+                  } else if (weekIndex <= 5) {
+                    let startingWeek = 52 - 5 + weekIndex;
+                    for (let w = startingWeek; w < 53; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    for (let w = 0; w < weekIndex; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    for (let w = weekIndex; w < weekIndex + 7; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    const sumOfSquaredWindowVariances = arrayOfWindowVariances.reduce((a, b) => a + b);
+                    historicalDataByWeek[weekIndex].windowStandardDeviation1 = Math.round(Math.sqrt(sumOfSquaredWindowVariances / 13));
+                    historicalDataByWeek[weekIndex].windowStandardDeviation2 = historicalDataByWeek[weekIndex].windowStandardDeviation1 * 2;
+                  } else if (weekIndex > 46) {
+                    for (let w = weekIndex - 6; w < 53; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    let endingWeek = weekIndex - 52 + 6;
+                    for (let w = 0; w < endingWeek; w++) {
+                      arrayOfWindowVariances.push((historicalDataByWeek[w].historicalAverage - week.windowAverage) ** 2);
+                    }
+                    const sumOfSquaredWindowVariances = arrayOfWindowVariances.reduce((a, b) => a + b);
+                    historicalDataByWeek[weekIndex].windowStandardDeviation1 = Math.round(Math.sqrt(sumOfSquaredWindowVariances / 13));
+                    historicalDataByWeek[weekIndex].windowStandardDeviation2 = historicalDataByWeek[weekIndex].windowStandardDeviation1 * 2;
+                  }
+                })  
                 
                 console.log(historicalDataByWeek);
                 debugger;
-                  // Calculate the week's standard deviation
-                const windowAverages = []; // calculate a "window-average" for each week in our view. Our initial view is 3 months, so 13 weeks.
-                let counter1 = 0;
-                for (let i = currentWeek; i > currentWeek - 13; i--) {
-                  const windowAveragesForAGivenWeek = [];
-                  for (let x = i - 6; x <= i; x++) { // Get the average for each of the previous 6 weeks & the current week.
-                    const weekDataToPush = x < 0 ? historicalDataByWeek[53 + x].historicalAverage : historicalDataByWeek[x].historicalAverage;
-                    console.log(weekDataToPush);
-                    counter1++;
-                    // debugger
-                    windowAveragesForAGivenWeek.push(weekDataToPush);
-                  }
-                  for (let x = i; x < i + 6; x++) { // Get the averages for each of the next 6 weeks for a total of 13.
-                    windowAveragesForAGivenWeek.push(historicalDataByWeek[x].historicalAverage);
-                  }
 
-                  const sumOfWindowAverages = windowAveragesForAGivenWeek.reduce((x, y) => x + y);
-                  windowAverages.push(Math.round(sumOfWindowAverages / 13));
-                }
-                console.log(windowAverages); // average of each week in the window
-                const variances = [];
-                let counter = 0;
-                for (let y = currentWeek - 13; y < currentWeek; y++) {
-                  // find the deviation between the current week's SD and the window mean for that week.
-                  variances.push(Math.sqrt((windowAverages[counter] - historicalDataByWeek[y].sd1) ** 2));
-                  counter++;
-                };
-                console.log(variances);
-                console.log(counter1);
-                debugger;
-                let windowDeviations = [];
-                const currentYearDataObjects = dataFromRequest.filter(x => x.year === currentYear);
-                console.log(currentYearDataObjects);
-
-                for (let i = 0; i < windowAverages.length; i++) {
-                  if (currentYearDataObjects[currentYear - i] === undefined) {
-                    windowDeviations.push(0 - windowAverages[i]);
-                  } else {
-                    windowDeviations.push(currentYearDataObjects[currentYear - i].alerts - windowAverages[i]);
-                  }
-                }
-                console.log(windowDeviations);
-
-                const windowDeviationsSquared = windowDeviations.map(weekDeviation => weekDeviation * weekDeviation);
-                console.log(windowDeviationsSquared);
-
-                const windowSD =  windowDeviationsSquared.map(x => Math.round(Math.sqrt(x))); // window sq root for that week
-                // historicalDataByWeek[week][historicalAlerts][historicalAlers.length - 1] === current year's week alerts
-
-                const standardDeviationSeriesOne = currentYearDataObjects.map((x, i) => x.alerts + windowSD[i]);
-                // console.log(standardDeviationSeriesOne);
-                const standardDeviationSeriesTwo = currentYearDataObjects.map(x => x.alerts + windowSD * 2);
-
-                console.log(historicalDataByWeek[1].historicalAlerts[historicalDataByWeek[1].historicalAlerts.length - 1]);
                 const actualWeekFires = [];
                 const arrayOfWeekAlerts = [];
                 const arrayOfWeekAlerts2 = [];
