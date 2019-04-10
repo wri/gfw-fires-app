@@ -2925,20 +2925,21 @@ define([
                 {
                   // Current Year Average Data
                   type: 'spline',
-                  color: '#d40000', 
-                  data: windowAverages
+                  color: '#e56666', 
+                  data: windowAverages,
+                  dashStyle: 'longdash'
                 },
                 {
                   // Current Year -sd 1Data
-                  type: 'spline',
-                  color: '#d40000', 
+                  type: 'areaspline',
+                  color: '#E0E0E0', 
                   data: standardDeviationMinus1Series,
                   enableMouseTracking: false
                 },
                 {
                   // Current Year -sd2 Data
-                  type: 'spline',
-                  color: '#d40000', 
+                  type: 'areaspline',
+                  color: '#E0E0E0', 
                   data: standardDeviationMinus2Series,
                   enableMouseTracking: false
                 },
@@ -2986,13 +2987,15 @@ define([
                       // Standard deviation 2
                       type: 'areaspline',
                       color: '#E0E0E0', 
-                      data: standardDeviation2Series
+                      data: standardDeviation2Series,
+                      enableMouseTracking: false
                     },
                     {
                       // Standard deviation 1
                       type: 'areaspline',
                       color: '#F8F8F8', 
-                      data: standardDeviationSeries
+                      data: standardDeviationSeries,
+                      enableMouseTracking: false
                     },
                     {
                       // Current Year Data
@@ -3003,20 +3006,23 @@ define([
                     {
                       // Current Year Average Data
                       type: 'spline',
-                      color: '#d40000', 
-                      data: windowAverages
+                      color: '#e56666', 
+                      data: windowAverages,
+                      dashStyle: 'longdash'
                     },
                     {
                       // Current Year -sd 1Data
-                      type: 'spline',
-                      color: '#d40000', 
-                      data: standardDeviationMinus1Series
+                      type: 'areaspline',
+                      color: '#E0E0E0', 
+                      data: standardDeviationMinus1Series,
+                      enableMouseTracking: false
                     },
                     {
                       // Current Year -sd2 Data
-                      type: 'spline',
-                      color: '#d40000', 
-                      data: standardDeviationMinus2Series
+                      type: 'areaspline',
+                      color: '#E0E0E0', 
+                      data: standardDeviationMinus2Series,
+                      enableMouseTracking: false
                     },
                   ]
                 }, true);
