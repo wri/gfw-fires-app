@@ -2938,7 +2938,8 @@ define([
                   type: 'spline',
                   color: '#d40000', 
                   data: seriesData,
-                  name: 'currentYear'
+                  name: 'currentYear',
+                  zIndex: 10
                 },
                 {
                   // Current Year Average Data
@@ -2946,7 +2947,8 @@ define([
                   color: '#e56666', 
                   data: windowAverages,
                   dashStyle: 'longdash',
-                  name: 'mean'
+                  name: 'mean',
+                  zIndex: 10
                 },
                 {
                   // Current Year -sd 1Data
