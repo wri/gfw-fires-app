@@ -2308,7 +2308,7 @@ define([
                   }
                   historicalDataByWeek.push(historicalWeekObject);
                 };
-                
+
                 // historicalDataByWeek contains 52 objects, each containing an array of all historical alerts from that week in the past.
                 dataFromRequest.forEach((weekOfData, i) => {
                   historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
@@ -2985,7 +2985,7 @@ define([
                 updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
                 currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
                 updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
-              console.log(sixMonthDataObject);
+
                 // Update the series data based on whether it's 3, 6, or 12 months selected.
                 seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : selection.includes('6') ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0);
                 windowAverages = selection.includes('12') ? twelveMonthDataObject.windowMean.slice(0) : selection.includes('6') ? sixMonthDataObject.windowMean.slice(0) : threeMonthDataObject.windowMean.slice(0);
@@ -3041,9 +3041,11 @@ define([
                     {
                       // Current Year -sd2 Data
                       type: 'areaspline',
-                      color: '#E0E0E0', 
+                      color: '#ffffff',
+                      fillColor: '#ffffff',
                       data: standardDeviationMinus2Series,
-                      enableMouseTracking: false
+                      enableMouseTracking: false,
+                      zIndex: 5
                     },
                   ]
                 }, true);
