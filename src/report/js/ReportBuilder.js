@@ -2161,25 +2161,28 @@ define([
         },
 
         buildUnusualFireCountsChart: () => {
-          const handleAs = { handleAs: 'json' };
-          const promiseUrls = [];
+          /********************** NOTE **********************
+           * This function is where we build out our unusual fires chart for country and subregion reports. There is no support for global reports.
+           * The function has the following flow:
+            * We initialize our query object and endpoints and then execute the query, which returns all historical alerts for each week (0-52) since 2001.
+            * We parse the query results and organize all of the data into an array of week-objects.
+            * The week-objects are used to calculate averages and standard deviations, and are formatted so that we can plot the data into highcharts.
+          ***************************************************/
 
+         
           // Make the query dynamic by pulling in the countryCode using the window options and our config file.
           const currentCountry = window.reportOptions.country;
           const countryCode = Config.countryFeatures.filter(countryObject => countryObject['English short name'].includes(currentCountry))[0]['Alpha-3 code'];
-          
-          let sourceOfData = 'MODIS' // modis by default, can change to 'VIIRS'
+         
+          const handleAs = { handleAs: 'json' };
+          const promiseUrls = [];
+          let sourceOfData = 'MODIS' || 'VIIRS';
           const queryPrefix = 'https://production-api.globalforestwatch.org/query';
           const stateQuerySuffix = `9b9e56fc-270e-486d-8db5-e0a839c9a1a9?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20adm1%20=%201%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
           const countrySuffix = `ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
-
-          if (window.reportOptions.aois) { // Viewing a Report for a specific subregion in a country (adm0)
-            var queryUrl = `${queryPrefix}/${stateQuerySuffix}`;
-          } else if (window.reportOptions.country !== 'ALL') { // Viewing all subregions in a country (adm1)
-            var queryUrl = `${queryPrefix}/${countrySuffix}`;
-          } else { // Viewing a global report
-            console.log('No queries are executed for Global Reports');
-          }
+          const subregionReport = window.reportOptions.aois;
+          const countryReport = window.reportOptions.country !== 'ALL';
+          const queryUrl = subregionReport ?  `${queryPrefix}/${stateQuerySuffix}` : countryReport ? `${queryPrefix}/${countrySuffix}` : null;
           
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
@@ -2200,11 +2203,7 @@ define([
           const oneDay = 1000 * 60 * 60 * 24;
           const day = Math.floor(diff / oneDay);
           let currentWeek = 1;
-          for (let i = 1; i < day; i++) {
-            if (i % 7 === 0) {
-              currentWeek += 1;
-            }
-          }
+          for (let i = 1; i < day; i++) i % 7 === 0 ? currentWeek += 1 : null;
 
           // Declarting variables used below
           let unusualFiresCount = 0;
@@ -2215,23 +2214,25 @@ define([
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
-            const sortByWeekAndYear = (a, b) => {
-              if (a.year > b.year) {
-                return 1;
-              } else if (a.year < b.year) {
-                return -1;
-              } else if(a.year === b.year) {
-                if (a.week >= b.week) {
-                  return 1
-                } else {
-                  return -1
-                }
-              }
-            }; 
-            if (window.reportOptions.aois || window.reportOptions.country !== 'ALL') { // Viewing a Report for a specific subregion in a country (adm0)
+            // const sortByWeekAndYear = (a, b) => {
+            //   if (a.year > b.year) {
+            //     return 1;
+            //   } else if (a.year < b.year) {
+            //     return -1;
+            //   } else if(a.year === b.year) {
+            //     if (a.week >= b.week) {
+            //       return 1
+            //     } else {
+            //       return -1
+            //     }
+            //   }
+            // }; 
+            if (subregionReport || countryReport) {
               // The data we get back are objects containing the fire counts for a specific week in a specific year. 
-              // if dataFromRequest has no 2019 data, just pass an array of zeros.
+              // If no 2019, and the week is > currentWeek, take the 2018 data, otherwise, pass zero.
               if (dataFromRequest.findIndex(x => x.year === 2019) === -1) {
+
+
                 // Create an array for the series that's all zero values
                 let highchartsSeriesXPosition = -0.75;
                 for (let z = 0; z < 52; z++) {
@@ -2291,7 +2292,7 @@ define([
                     historicalAverage: 0,
                     sd1: 0,
                     sd2: 0,
-                    currentYearAlerts: 0,
+                    currentYearAlerts: 0
                   }
                   historicalDataByWeek.push(historicalWeekObject);
                 };
@@ -2300,8 +2301,6 @@ define([
                 dataFromRequest.forEach(weekOfData => {
                   historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
                 });
-                console.log(historicalDataByWeek);
-                debugger;
                 // Now that we have our 52 week objects, we need to calculate the standard deviation for each week. See https://www.wikihow.com/Calculate-Standard-Deviation for our algorithm.
                 historicalDataByWeek.forEach(weekObject => {
                   const average = Math.round(weekObject.historicalAlerts.reduce((a, b) => a + b) / weekObject.historicalAlerts.length); // calculate the average for each week
@@ -2316,10 +2315,9 @@ define([
                   weekObject.historicalAverage = noSquaredDeviations ? 0 : average;
                   weekObject.sd1 = noSquaredDeviations ? 0 : standardDeviation;
                   weekObject.sd2 = noSquaredDeviations ? 0 : standardDeviation * 2;
-                  const currentWeekData = dataFromRequest.filter(data => data.year === currentYear).filter(data => data.week === weekObject.week);
-                  weekObject.currentYearAlerts = currentWeekData.length === 0 ? 0 : currentWeekData[0].alerts;                  
+                  const currentWeekData = dataFromRequest.filter(data => data.year >= currentYear - 1).filter(data => data.week === weekObject.week);
+                  weekObject.currentYearAlerts = currentWeekData.length > 1 ? currentWeekData[0].alerts : currentWeekData.length === 1 && weekObject.week > currentWeek ? currentWeekData[0].alerts : 0;                  
                 });
-
                 /********************** NOTE **********************
                  * Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.
                  * To resolve this, we are to calculate a "window-average" for a week. A "window" begins 6 weeks prior to a specific week and extends 6 weeks beyond, for a total of 13 weeks.
@@ -3041,8 +3039,7 @@ define([
                   ]
                 }, true);
             });
-
-          });
+          }).catch(err => console.log('Error processing response. ', err));
         },
 
         getFireHistoryCounts: function() {
