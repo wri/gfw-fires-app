@@ -2169,7 +2169,6 @@ define([
             * We parse the query results and organize all of the data into an array of week-objects.
             * The week-objects are used to calculate averages and standard deviations, and are formatted so that we can plot the data into highcharts.
           ***************************************************/
-
          
           // Make the query dynamic by pulling in the countryCode using the window options and our config file.
           const currentCountry = window.reportOptions.country;
@@ -2728,7 +2727,7 @@ define([
 
             // Create list of time options on load
             let timeOptions = ['3 months', '6 months', '12 months'];
-            timeOptions.forEach(period => $('#unusualFiresOptions').append("<ul>" + period + "</ul>"));
+            timeOptions.forEach(period => $('#unusualFiresOptions').append(`<ul class=${period === '3 months'  ? 'selected' : ''}>` + period + "</ul>"));
 
             // On click of a time option, we highlight it and update the series accordingly
             $('#unusualFiresOptions ul').click(function() {
