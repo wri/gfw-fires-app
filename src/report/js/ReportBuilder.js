@@ -2301,6 +2301,7 @@ define([
                 dataFromRequest.forEach(weekOfData => {
                   historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts);
                 });
+
                 // Now that we have our 52 week objects, we need to calculate the standard deviation for each week. See https://www.wikihow.com/Calculate-Standard-Deviation for our algorithm.
                 historicalDataByWeek.forEach(weekObject => {
                   const average = Math.round(weekObject.historicalAlerts.reduce((a, b) => a + b) / weekObject.historicalAlerts.length); // calculate the average for each week
@@ -2318,6 +2319,7 @@ define([
                   const currentWeekData = dataFromRequest.filter(data => data.year >= currentYear - 1).filter(data => data.week === weekObject.week);
                   weekObject.currentYearAlerts = currentWeekData.length > 1 ? currentWeekData[0].alerts : currentWeekData.length === 1 && weekObject.week > currentWeek ? currentWeekData[0].alerts : 0;                  
                 });
+
                 /********************** NOTE **********************
                  * Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.
                  * To resolve this, we are to calculate a "window-average" for a week. A "window" begins 6 weeks prior to a specific week and extends 6 weeks beyond, for a total of 13 weeks.
@@ -2886,22 +2888,25 @@ define([
                     let indexIneed = -1;
                     twelveMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? indexIneed = i : null);
 
+                    const fires = this.point.y;
+                    const avg = twelveMonthDataObject.windowMean[indexIneed]['1'];
                     const sd2 = twelveMonthDataObject.windowSD2[indexIneed]['1'];
                     const sd1 = twelveMonthDataObject.windowSD1[indexIneed]['1'];
                     const sdMinus1 = twelveMonthDataObject.windowSDMinus1[indexIneed]['1'];
                     const sdMinus2 = twelveMonthDataObject.windowSDMinus2[indexIneed]['1'];
-                    const usuality = this.point.y  > sd2 ? 'Unusually High' : this.point.y  > sd1 ? 'High' : this.point.y  < sdMinus1 ? 'Low' : this.point.y  < sdMinus2 ? 'Unusually Low' : 'Average';
+
+                    const usuality = fires  > sd2 ? 'Unusually High' : fires  > sd1 ? 'High' : (fires  < sd1 && fires > sdMinus1) ? 'Average' : fires  < sdMinus2 ? 'Unusually Low' : 'Low';
 
                     return (
                       '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires This Year</span></h3>' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(fires, 0, '.', ',') + '<span class="firesCountChart__text"> Fires This Year</span></h3>' +
                       `<p class="firesCountChart__popup">${usuality}</p>` +
                       '</div>'
                     )
                   } else if (this.series.name === 'mean') {
                     return (
                       '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires On Average</span></h3>' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(fires, 0, '.', ',') + '<span class="firesCountChart__text"> Fires On Average</span></h3>' +
                       '</div>'
                     )
                   }
