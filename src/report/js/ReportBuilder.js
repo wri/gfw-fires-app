@@ -2240,10 +2240,10 @@ define([
                 historicalDataByWeek.push(historicalWeekObject);
               };
 
-              // historicalDataByWeek now contains 52 placeholderobjects, so we push an array of all historical alerts from that week to each from our query response.
+              // historicalDataByWeek now contains 53 placeholderobjects, so we push an array of all historical alerts from that week to each from our query response.
               dataFromRequest.forEach(weekOfData => historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts));
 
-              // Now that we have our 52 week objects, we need to calculate the standard deviation for each week.
+              // Now that we have our 53 week objects, we need to calculate the standard deviation for each week.
               historicalDataByWeek.forEach(weekObject => {
                 const average = Math.round(weekObject.historicalAlerts.reduce((a, b) => a + b) / weekObject.historicalAlerts.length); // calculate the average for each week
                 const deviations = weekObject.historicalAlerts.map(alert => alert - average); // calculate deviance for each week
@@ -2370,6 +2370,7 @@ define([
               let isolatedStandardDeviationMinus2 = isolated13Weeks.map(week => week.windowAverage - week.windowStandardDeviation2);
               
               // Now, we need to add an x value to each of the data points so that our data is in the format highcharts wants.
+              // Todo: Add a comment explaining why it's .75 and why we increment this way.
               let xPosition = -0.75;
               seriesData = isolatedAlerts.map(x => {
                 xPosition += 0.25;
@@ -2417,7 +2418,6 @@ define([
               // We repeat the process above for 6 months (26 weeks).
               const isolated26Weeks = [];
               if (currentWeek > 24) {
-                debugger;
                 for (let i = currentWeek - 25; i <= currentWeek; i++) {
                   isolated26Weeks.push(historicalDataByWeek[i]);
                 }
@@ -2490,7 +2490,6 @@ define([
               //  We repeat the process above 12 months (52 weeks).
               const isolated52Weeks = [];
               if (currentWeek > 50) {
-                debugger;
                 for (let i = currentWeek - 51; i <= currentWeek; i++) {
                   isolated52Weeks.push(historicalDataByWeek[i]);
                 }
