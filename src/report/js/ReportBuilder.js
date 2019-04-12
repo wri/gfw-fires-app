@@ -2166,12 +2166,7 @@ define([
 
           // Make the query dynamic by pulling in the countryCode using the window options and our config file.
           const currentCountry = window.reportOptions.country;
-          let countryCode = ''; // ??? Make this a succint filter function
-          Config.countryFeatures.forEach(countryObject => {
-            if (countryObject['English short name'].includes(currentCountry)) {
-              countryCode = countryObject['Alpha-3 code'];
-            };
-          });
+          const countryCode = Config.countryFeatures.filter(countryObject => countryObject['English short name'].includes(currentCountry))[0]['Alpha-3 code'];
           
           let sourceOfData = 'MODIS' // modis by default, can change to 'VIIRS'
           const queryPrefix = 'https://production-api.globalforestwatch.org/query';
@@ -2185,8 +2180,6 @@ define([
           } else { // Viewing a global report
             console.log('No queries are executed for Global Reports');
           }
-
-          // const queryUrl = `https://production-api.globalforestwatch.org/query/ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27VIIRS%27`;
           
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
@@ -2218,8 +2211,7 @@ define([
           let earliestYearOfData = currentYear;
           let seriesData, standardDeviationSeries, standardDeviation2Series;
 
-          // determine the type of report, global, state, or regional
-          // Run a query
+          // determine the type of report, global, state, or regional and run a query
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
