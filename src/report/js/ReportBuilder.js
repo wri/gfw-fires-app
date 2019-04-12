@@ -2635,13 +2635,9 @@ define([
                   * "Unusually High/Low" means that total fires > +/- 2 sigma
                 ***************************************************/
 
-                // Calculate unuusal fire counts
-                // Todo: ??? This needs to be updated once we determine which standard deviation values to compare against.
-                unusualFiresCount = 0;
-                dataFromRequest.forEach(weekOfData => {
-                  if (weekOfData.year === currentYear) unusualFiresCount += weekOfData.alerts;
-                });
-
+                // Calculate unusal fire counts
+                arrayToFindFiresCount = dataFromRequest.filter(weekOfData => weekOfData.week === currentWeek).filter(weekOfData => weekOfData.year === currentYear);
+                unusualFiresCount = arrayToFindFiresCount.length > 0 ? arrayToFindFiresCount['0'].alerts : 0;
                 earliestYearOfData = currentYear;
                 dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
@@ -2650,8 +2646,6 @@ define([
                 updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
                 currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
                 updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
-                console.log(updatedCategoriesArray);
-                console.log(dataFromRequest);
               }
             } 
             // else if (window.reportOptions.country === 'ALL') { // Viewing all subregions in a country (adm1)
@@ -2830,10 +2824,21 @@ define([
             //   updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
             //   console.log(updatedCategoriesArray);
             // }
-            
+            const stringifiedMonth = new Date().toLocaleString('en-us', { month: 'long' });;
+
+            const stndrdDev2 = twelveMonthDataObject.windowSD2[currentMonth - 1]['1'];
+            const stndrdDev1 = twelveMonthDataObject.windowSD1[currentMonth - 1]['1'];
+            const stndrdDevMin1 = twelveMonthDataObject.windowSDMinus1[currentMonth - 1]['1'];
+            const stndrdDevMin2 = twelveMonthDataObject.windowSDMinus2[currentMonth - 1]['1'];
+
+            let currentWeekUsuality = unusualFiresCount  > stndrdDev2 ? 'Unusually High' : unusualFiresCount  > stndrdDev1 ? 'High' : (unusualFiresCount  < stndrdDev1 && unusualFiresCount > stndrdDevMin1) ? 'Average' : unusualFiresCount  < stndrdDevMin2 ? 'Unusually Low' : 'Low';
+
+            console.log(threeMonthDataObject);
+            // console.log(sixMonthDataObject);
+            console.log(twelveMonthDataObject);
 
             $('#unusualFiresCountTitle').html(
-              `There were <span style='color: red'>${unusualFiresCount}</span> MODIS fire alerts reported in the week of the 14th of March 2019. This was <span style='color: red'>average</span> compared to the same week in previous years.`
+              `There were <span style='color: red'>${unusualFiresCount}</span> MODIS fire alerts reported in the current week of ${stringifiedMonth} ${currentYear}. This was <span style='color: red'>${currentWeekUsuality}</span> compared to the same week in previous years.`
             );
             $('#unusualFiresCountSubtitle').html(
               `Unusual fire history analyses use MODIS fires data only for ${earliestYearOfData} to present.`
@@ -2885,11 +2890,13 @@ define([
                 borderWidth: 0,
                 formatter: function () {
                   if (this.series.name === 'currentYear') {
+                    // Because our series can shift between 3, 6, and 12 months, we always reference the 12 month data set and dynamically set the index based on the current selection.
                     let indexIneed = -1;
                     twelveMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? indexIneed = i : null);
+                    indexIneed = rangeOfMonths === 3 ? indexIneed * 4 + 3 : rangeOfMonths === 6 ? indexIneed * 2 + 1 : indexIneed;
 
                     const fires = this.point.y;
-                    const avg = twelveMonthDataObject.windowMean[indexIneed]['1'];
+                    const fireOrFires = fires > 1 || fires === 0 ? 'Fires' : 'Fire';
                     const sd2 = twelveMonthDataObject.windowSD2[indexIneed]['1'];
                     const sd1 = twelveMonthDataObject.windowSD1[indexIneed]['1'];
                     const sdMinus1 = twelveMonthDataObject.windowSDMinus1[indexIneed]['1'];
@@ -2899,14 +2906,14 @@ define([
 
                     return (
                       '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(fires, 0, '.', ',') + '<span class="firesCountChart__text"> Fires This Year</span></h3>' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + `<span class="firesCountChart__text"> ${fireOrFires} This Year</span></h3>` +
                       `<p class="firesCountChart__popup">${usuality}</p>` +
                       '</div>'
                     )
                   } else if (this.series.name === 'mean') {
                     return (
                       '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(fires, 0, '.', ',') + '<span class="firesCountChart__text"> Fires On Average</span></h3>' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires On Average</span></h3>' +
                       '</div>'
                     )
                   }
