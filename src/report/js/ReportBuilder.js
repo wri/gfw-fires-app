@@ -2587,8 +2587,30 @@ define([
             const stndrdDev1 = twelveMonthDataObject.windowSD1[currentMonth - 1]['1'];
             const stndrdDevMin1 = twelveMonthDataObject.windowSDMinus1[currentMonth - 1]['1'];
             const stndrdDevMin2 = twelveMonthDataObject.windowSDMinus2[currentMonth - 1]['1'];
-            
-            let currentWeekUsuality = unusualFiresCount > stndrdDev2 ? 'Unusually High' : unusualFiresCount  > stndrdDev1 ? 'High' : (unusualFiresCount  < stndrdDev1 && unusualFiresCount > stndrdDevMin1) ? 'Average' : unusualFiresCount  < stndrdDevMin2 ? 'Unusually Low' : 'Low';
+
+            let currentWeekUsuality;
+
+            switch (unusualFiresCount) {
+              case unusualFiresCount > stndrdDev2:
+                currentWeekUsuality = 'Unusually High';
+                break;
+
+              case unusualFiresCount > stndrdDev1:
+                currentWeekUsuality = 'High';
+                break;
+
+              case unusualFiresCount  < stndrdDev1 && unusualFiresCount > stndrdDevMin1:
+                currentWeekUsuality = 'Average';
+                break;
+
+              case unusualFiresCount  < stndrdDevMin2:
+                currentWeekUsuality = 'Unusually Low';
+                break;
+
+              default:
+                currentWeekUsuality = 'Low';
+                break;
+            }
             
             const stringifiedMonth = new Date().toLocaleString('en-us', { month: 'long' });
 
@@ -2660,8 +2682,30 @@ define([
                     const sd1 = twelveMonthDataObject.windowSD1[adjustedIndex]['1'];
                     const sdMinus1 = twelveMonthDataObject.windowSDMinus1[adjustedIndex]['1'];
                     const sdMinus2 = twelveMonthDataObject.windowSDMinus2[adjustedIndex]['1'];
+                    
+                    let usuality;
 
-                    const usuality = fires  > sd2 ? 'Unusually High' : fires  > sd1 ? 'High' : (fires  < sd1 && fires > sdMinus1) ? 'Average' : fires  < sdMinus2 ? 'Unusually Low' : 'Low';
+                    switch (fires) {
+                      case fires > stndrdDev2:
+                        usuality = 'Unusually High';
+                        break;
+        
+                      case fires > stndrdDev1:
+                        usuality = 'High';
+                        break;
+        
+                      case fires  < stndrdDev1 && fires > stndrdDevMin1:
+                        usuality = 'Average';
+                        break;
+        
+                      case fires  < stndrdDevMin2:
+                        usuality = 'Unusually Low';
+                        break;
+        
+                      default:
+                        usuality = 'Low';
+                        break;
+                    }
 
                     return (
                       '<div class="history-chart-tooltip__container">' +
@@ -2738,19 +2782,19 @@ define([
                 
                 // Update the categories based on whether it's 3, 6, or 12 months selected.
                 let selection = $(this).text();
-                rangeOfMonths = selection.includes('12') ? 12 : selection.includes('6') ? 6 : 3; 
+                rangeOfMonths = selection.includes('12') ? 12 : (selection.includes('6')) ? 6 : 3; 
                 updatedCategoriesArray = [...categoriesArray];
                 currentYearToDateArray = updatedCategoriesArray.splice(0, currentMonth + 1);
                 currentYearToDateArray.unshift(...updatedCategoriesArray)
                 currentYearToDateArray = currentYearToDateArray.slice(12 - rangeOfMonths);
 
                 // Update the series data based on whether it's 3, 6, or 12 months selected.
-                seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : selection.includes('6') ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0);
-                windowAverages = selection.includes('12') ? twelveMonthDataObject.windowMean.slice(0) : selection.includes('6') ? sixMonthDataObject.windowMean.slice(0) : threeMonthDataObject.windowMean.slice(0);
-                standardDeviationSeries = selection.includes('12') ? twelveMonthDataObject.windowSD1.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSD1.slice(0) : threeMonthDataObject.windowSD1.slice(0);
-                standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0);
-                standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0);
-                standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : selection.includes('6') ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0);
+                seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : (selection.includes('6')) ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0);
+                windowAverages = selection.includes('12') ? twelveMonthDataObject.windowMean.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowMean.slice(0) : threeMonthDataObject.windowMean.slice(0);
+                standardDeviationSeries = selection.includes('12') ? twelveMonthDataObject.windowSD1.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSD1.slice(0) : threeMonthDataObject.windowSD1.slice(0);
+                standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0);
+                standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0);
+                standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0);
 
                 // Pass in the updated series to Highcharts, and force an update.
                 unusualFires.update({
