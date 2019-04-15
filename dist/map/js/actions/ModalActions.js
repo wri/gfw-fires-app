@@ -72,7 +72,8 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
           _this.dispatch(res);
           _domClass2.default.remove('layer-modal', 'hidden');
         }, function (err) {
-          _this.dispatch(layerId);
+          // this.dispatch({});
+          _this.dispatch(layerId); //todo: show config's template based on this layerId
           _domClass2.default.remove('layer-modal', 'hidden');
           console.error(err);
         });
