@@ -2190,7 +2190,7 @@ define([
           let sixMonthDataObject = {};
           let twelveMonthDataObject = {};
           let categoriesArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-          let updatedCategoriesArray = [];
+          let currentYearToDateArray = [];
           let rangeOfMonths = 3;
           let currentYearToDate;
           const currentYear = new Date().getFullYear();
@@ -2570,10 +2570,10 @@ define([
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
               // Since the current month should be last, we need to slice and reorder the months based on the current month and the rangeOfMonths selected.
-              currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
-              updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
-              currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
-              updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
+              updatedCategoriesArray = [...categoriesArray];
+              currentYearToDateArray = updatedCategoriesArray.splice(0, currentMonth + 1);
+              currentYearToDateArray.unshift(...updatedCategoriesArray)
+              currentYearToDateArray = currentYearToDateArray.slice(12 - rangeOfMonths);
             }
             /********************** NOTE **********************
              * An unusual fire is any fire(s) that occur in excess of the first standard deviation. Below, we sum these and update the chart header text.
@@ -2624,7 +2624,7 @@ define([
               xAxis: {
                 labels: {
                   formatter: function() {
-                      return updatedCategoriesArray[this.value];
+                      return currentYearToDateArray[this.value];
                   }
                 },
               },
@@ -2739,10 +2739,10 @@ define([
                 // Update the categories based on whether it's 3, 6, or 12 months selected.
                 let selection = $(this).text();
                 rangeOfMonths = selection.includes('12') ? 12 : selection.includes('6') ? 6 : 3; 
-                currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
-                updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
-                currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
-                updatedCategoriesArray = updatedCategoriesArray.slice(12 - rangeOfMonths);
+                updatedCategoriesArray = [...categoriesArray];
+                currentYearToDateArray = updatedCategoriesArray.splice(0, currentMonth + 1);
+                currentYearToDateArray.unshift(...updatedCategoriesArray)
+                currentYearToDateArray = currentYearToDateArray.slice(12 - rangeOfMonths);
 
                 // Update the series data based on whether it's 3, 6, or 12 months selected.
                 seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : selection.includes('6') ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0);
@@ -2757,7 +2757,7 @@ define([
                   xAxis: {
                     labels: {
                       formatter: function() {
-                        return updatedCategoriesArray[this.value];
+                        return currentYearToDateArray[this.value];
                       }
                     }
                   },
