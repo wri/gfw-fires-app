@@ -2470,7 +2470,6 @@ define([
                 // We repeat the process above for 6 months (26 weeks).
                 const isolated26Weeks = [];
                 if (currentWeek > 24) {
-                  debugger;
                   for (let i = currentWeek - 25; i <= currentWeek; i++) {
                     isolated26Weeks.push(historicalDataByWeek[i]);
                   }
@@ -2543,7 +2542,6 @@ define([
                 //  We repeat the process above 12 months (52 weeks).
                 const isolated52Weeks = [];
                 if (currentWeek > 50) {
-                  debugger;
                   for (let i = currentWeek - 51; i <= currentWeek; i++) {
                     isolated52Weeks.push(historicalDataByWeek[i]);
                   }

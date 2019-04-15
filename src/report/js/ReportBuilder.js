@@ -2182,7 +2182,7 @@ define([
           const countrySuffix = `ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
           const subregionReport = window.reportOptions.aois;
           const countryReport = window.reportOptions.country !== 'ALL';
-          const queryUrl = subregionReport ?  `${queryPrefix}/${stateQuerySuffix}` : countryReport ? `${queryPrefix}/${countrySuffix}` : null;
+          const queryUrl = subregionReport ?  `${queryPrefix}/${stateQuerySuffix}` : countryReport ? (`${queryPrefix}/${countrySuffix}`) : null;
           
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
@@ -2203,7 +2203,11 @@ define([
           const oneDay = 1000 * 60 * 60 * 24;
           const day = Math.floor(diff / oneDay);
           let currentWeek = 1;
-          for (let i = 1; i < day; i++) i % 7 === 0 ? currentWeek += 1 : null;
+          for (let i = 1; i < day; i++) {
+            if (i % 7 === 0) {
+              currentWeek += 1;
+            };
+          };
 
           let unusualFiresCount = 0;
           let earliestYearOfData = currentYear;
@@ -2559,13 +2563,13 @@ define([
               twelveMonthDataObject.windowSDMinus1 = twelveMonthStandardDeviationMinus1Series.slice(0);
               twelveMonthDataObject.windowSDMinus2 = twelveMonthStandardDeviationMinus2Series.slice(0);
 
-              // Calculate unusual fire counts
-              arrayToFindFiresCount = dataFromRequest.filter(weekOfData => weekOfData.week === currentWeek).filter(weekOfData => weekOfData.year === currentYear);
+              // Calculate unusual fire counts. We need isolate all of the current week and current year data from the historical data.
+              arrayToFindFiresCount = dataFromRequest.filter(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
               unusualFiresCount = arrayToFindFiresCount.length > 0 ? arrayToFindFiresCount['0'].alerts : 0;
               earliestYearOfData = currentYear;
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
-              // Since the current month is always last, we need to organize the months based on the current month and the rangeOfMonths selected.
+              // Since the current month should be last, we need to slice and reorder the months based on the current month and the rangeOfMonths selected.
               currentYearToDate = categoriesArray.slice(0, (currentMonth + 1));
               updatedCategoriesArray = categoriesArray.slice(currentMonth + 1);
               currentYearToDate.forEach(index => updatedCategoriesArray.push(index));
@@ -2574,9 +2578,9 @@ define([
             /********************** NOTE **********************
              * An unusual fire is any fire(s) that occur in excess of the first standard deviation. Below, we sum these and update the chart header text.
              * Additionally, the client provided us a framework for determining a subject measurement of unusual fires: 
-              * "Average" means that total fires is within +/- 1 SD
-              * "High/Low" means that total fires > +/- 1 SD
-              * "Unusually High/Low" means that total fires > +/- 2 SD
+              * "Average" means that total fires are within +/- 1 SD
+              * "High/Low" means that total fires are beyond +/- 1 SD
+              * "Unusually High/Low" means that total fires are beyond +/- 2 SD
             ***************************************************/
 
             const stndrdDev2 = twelveMonthDataObject.windowSD2[currentMonth - 1]['1'];
@@ -2600,7 +2604,7 @@ define([
              * We create our unusual fires chart below.
              * HighCharts allows us to combine series with different chart types.
              * We utilize areaspline charts for 4 standard deviation thresholds and spline charts for the current week fires and mean fires lines.
-               * Spline charts are essentially smoothed out line charts. Since we only care about the points on these lines, we use the spline type.
+               * Spline charts are smoothed out line charts. Since we only care about the points on these lines, we use the spline type.
                * Areaspline charts are smoothed out bar charts. Because we want to show the area underneath these series, we use the areaspline type..
             ***************************************************/
 
@@ -2645,18 +2649,17 @@ define([
                 borderWidth: 0,
                 formatter: function () {
                   if (this.series.name === 'currentYear') {
-                    // Because our series can shift between 3, 6, and 12 months, we always reference the 12 month data set and dynamically set the index based on the current selection.
-                    let indexIneed = -1;
-                    twelveMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? indexIneed = i : null);
-                    indexIneed = rangeOfMonths === 3 ? indexIneed + 39 : rangeOfMonths === 6 ? indexIneed + 26 : indexIneed;
+                    // Because our series can shift between 3, 6, and 12 months, we always reference the 12 month data set and dynamically adjust the index based on the current selection.
+                    let adjustedIndex = 0;
+                    twelveMonthDataObject.currentYearFires.filter((x, i) => x[0] === this.point.x ? adjustedIndex = i : null);
+                    adjustedIndex = rangeOfMonths === 3 ? adjustedIndex + 39 : rangeOfMonths === 6 ? adjustedIndex + 26 : adjustedIndex;
 
                     const fires = this.point.y;
-                    const fireOrFires = fires > 1 || fires === 0 ? 'Fires' : 'Fire';
-                    const avg = twelveMonthDataObject.windowMean[indexIneed]['1'];
-                    const sd2 = twelveMonthDataObject.windowSD2[indexIneed]['1'];
-                    const sd1 = twelveMonthDataObject.windowSD1[indexIneed]['1'];
-                    const sdMinus1 = twelveMonthDataObject.windowSDMinus1[indexIneed]['1'];
-                    const sdMinus2 = twelveMonthDataObject.windowSDMinus2[indexIneed]['1'];
+                    const fireOrFires = fires === 1 ? 'Fire' : 'Fires';
+                    const sd2 = twelveMonthDataObject.windowSD2[adjustedIndex]['1'];
+                    const sd1 = twelveMonthDataObject.windowSD1[adjustedIndex]['1'];
+                    const sdMinus1 = twelveMonthDataObject.windowSDMinus1[adjustedIndex]['1'];
+                    const sdMinus2 = twelveMonthDataObject.windowSDMinus2[adjustedIndex]['1'];
 
                     const usuality = fires  > sd2 ? 'Unusually High' : fires  > sd1 ? 'High' : (fires  < sd1 && fires > sdMinus1) ? 'Average' : fires  < sdMinus2 ? 'Unusually Low' : 'Low';
 
@@ -2805,7 +2808,7 @@ define([
                   ]
                 }, true);
             });
-          }).catch(err => console.log('Error processing response. ', err));
+          }).catch(err => console.log('Error processing response. Error message: ', err));
         },
 
         getFireHistoryCounts: function() {
