@@ -262,10 +262,9 @@ define([
           request.get(adminCountUrl, {
             handleAs: 'json'
           }).then((response) => {
-            //TODO: We have all the values we need here!
+
             let feat_stats = [];
             let feature_id, dist_names;
-            const regency = 'Regency/City';
 
             let adminLevel;
 
@@ -723,7 +722,6 @@ define([
           let queryTask, queryConfig;
           const aois = window.reportOptions.aois;
 
-          // TODO move this to config
           queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/10'),
             deferred = new Deferred(),
             query = new Query();
@@ -1152,7 +1150,6 @@ define([
               queryUrl = admin_service;
             }
           } else {
-            // TODO Move URL to config
             uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
             if (uniqueValueField === 'NAME_1') {
               queryUrl = viirs;
@@ -1931,7 +1928,7 @@ define([
               },
               series: series
             });
-            // Todo: ??? NAME MUST BE A PART OF THE OBJECTS IN ORDER TO SET THE SERIES NAMES
+
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
 
             // Create list of regions on load
