@@ -144,11 +144,14 @@ define([
             // Creates the Fire History: Fire Season Progression graph
             self.getFireCounts();
             
-            // Creates the Unusual Fires Chart. Not accessible on Global Reports.
-            // Todo: Why won't this prevent the highcharts loading icon?
+            // Creates the Unusual Fires Chart. The chart should not be visibile on Global Reports.
             if (window.reportOptions.country !== 'ALL') {
               self.buildUnusualFireCountsChart();
-            };
+            } else {
+               // The DOM does not allow an element to remove itself, it must be removed from it's parent.
+              const unusualFiresChart = document.getElementById('unusualFiresHistory'); 
+              unusualFiresChart.parentNode.removeChild(unusualFiresChart);
+            }
 
             // Creates the Annual Fire History graph
             self.getFireHistoryCounts()
