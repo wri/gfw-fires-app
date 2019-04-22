@@ -2665,6 +2665,26 @@ define([
                     }
                 }
               },
+              exporting: { // To add export functionaltiy to new charts, copy the entire exporting object.
+                scale: 4,
+                chartOptions:{
+                  chart:{
+                    marginTop: 75,
+                    marginRight: 20,
+                    events:{
+                      load:function(){
+                        // This function loads the actual content that appears when a user downloads something from the highcharts-contextbutton
+                        const countryOrRegion = window.reportOptions.aois ? window.reportOptions.aois : window.reportOptions.country;
+                        this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                          fill: '#555'
+                        }).add();
+                        this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Unusual Fires Report for ${countryOrRegion}</span>`, 55, 28, true).add();
+                      }
+                    }
+                  }
+                }
+              },
               tooltip: {
                 useHTML: true,
                 backgroundColor: '#ffbb07',
