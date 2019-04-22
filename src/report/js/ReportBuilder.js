@@ -2679,7 +2679,7 @@ define([
                           fill: '#555'
                         }).add();
                         this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${countryOrRegion}</span>`, 55, 28, true).add();
+                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Unusual Fires Report for ${countryOrRegion}</span>`, 55, 28, true).add();
                       }
                     }
                   }
