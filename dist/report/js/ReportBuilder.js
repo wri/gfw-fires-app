@@ -144,8 +144,15 @@ define([
             // Creates the Fire History: Fire Season Progression graph
             self.getFireCounts();
             
-            // Creates the Fire History: Fire Season Progression graph
-            self.buildUnusualFireCountsChart();
+            // Creates the Unusual Fires Chart. The chart should not be visibile on Global Reports.
+            if (window.reportOptions.country !== 'ALL') {
+              self.buildUnusualFireCountsChart();
+            } else {
+               // The DOM does not allow an element to remove itself, it must be removed from it's parent.
+              const unusualFiresChart = document.getElementById('unusualFiresHistory'); 
+              unusualFiresChart.parentNode.removeChild(unusualFiresChart);
+            }
+
             // Creates the Annual Fire History graph
             self.getFireHistoryCounts()
 
@@ -258,10 +265,9 @@ define([
           request.get(adminCountUrl, {
             handleAs: 'json'
           }).then((response) => {
-            //TODO: We have all the values we need here!
+
             let feat_stats = [];
             let feature_id, dist_names;
-            const regency = 'Regency/City';
 
             let adminLevel;
 
@@ -719,7 +725,6 @@ define([
           let queryTask, queryConfig;
           const aois = window.reportOptions.aois;
 
-          // TODO move this to config
           queryTask = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS/MapServer/10'),
             deferred = new Deferred(),
             query = new Query();
@@ -1148,7 +1153,6 @@ define([
               queryUrl = admin_service;
             }
           } else {
-            // TODO Move URL to config
             uniqueValueField = boundaryConfig.UniqueValueFieldGlobal;
             if (uniqueValueField === 'NAME_1') {
               queryUrl = viirs;
@@ -1927,7 +1931,7 @@ define([
               },
               series: series
             });
-            // Todo: ??? NAME MUST BE A PART OF THE OBJECTS IN ORDER TO SET THE SERIES NAMES
+
             const selectedCountry = window.reportOptions['country'] ? window.reportOptions['country'] : 'Indonesia';
 
             // Create list of regions on load
@@ -2182,7 +2186,7 @@ define([
           const countrySuffix = `ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
           const subregionReport = window.reportOptions.aois;
           const countryReport = window.reportOptions.country !== 'ALL';
-          const queryUrl = subregionReport ?  `${queryPrefix}/${stateQuerySuffix}` : countryReport ? (`${queryPrefix}/${countrySuffix}`) : null;
+          const queryUrl = subregionReport ?  `${queryPrefix}/${stateQuerySuffix}` : (countryReport ? `${queryPrefix}/${countrySuffix}` : null);
           
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
@@ -2192,7 +2196,6 @@ define([
           let categoriesArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
           let currentYearToDateArray = [];
           let rangeOfMonths = 3;
-          let currentYearToDate;
           const currentYear = new Date().getFullYear();
           const currentMonth = new Date().getMonth();
 
@@ -2218,7 +2221,6 @@ define([
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
             if (subregionReport || countryReport) { // We don't have an unusual fires chart when viewing the "Global Reports".
-            
             /********************** NOTE **********************
               * The data we get back are objects containing the fire counts for a specific week in a specific year. 
               * For each week, we check if any weeks are missing, and if so, we add placeholder objects with zero-values.
@@ -2249,14 +2251,17 @@ define([
 
               // Now that we have our 53 week objects, we need to calculate the standard deviation for each week.
               historicalDataByWeek.forEach(weekObject => {
-                const average = Math.round(weekObject.historicalAlerts.reduce((a, b) => a + b) / weekObject.historicalAlerts.length); // calculate the average for each week
-                const deviations = weekObject.historicalAlerts.map(alert => alert - average); // calculate deviance for each week
-                const squaredDeviations = deviations.map(deviation => deviation * deviation); // square all of deviations
-                const denomenator = squaredDeviations.length > 1 ? squaredDeviations.length - 1 : 1; // check the count of deviations because we shouldn't divide by zero
-                const standardDeviation = Math.round(Math.sqrt(squaredDeviations.reduce((a, b) => a + b) / denomenator)); // Calculate standard deviation
-                  
+                let average, deviations, squaredDeviations, denomenator, standardDeviation;
+                if (weekObject.historicalAlerts.length > 0) {
+                  average = Math.round(weekObject.historicalAlerts.reduce((a, b) => a + b) / weekObject.historicalAlerts.length); // calculate the average for each week
+                  deviations = weekObject.historicalAlerts.map(alert => alert - average); // calculate deviance for each week
+                  squaredDeviations = deviations.map(deviation => deviation * deviation); // square all of deviations
+                  denomenator = squaredDeviations.length > 1 ? squaredDeviations.length - 1 : 1; // check the count of deviations because we shouldn't divide by zero
+                  standardDeviation = Math.round(Math.sqrt(squaredDeviations.reduce((a, b) => a + b) / denomenator)); // Calculate standard deviation
+                }
+
                 // Assign the values to our week object. If there is no data, plug empty arrays or zeros.
-                const noSquaredDeviations = squaredDeviations.length === 0;
+                const noSquaredDeviations = (squaredDeviations && squaredDeviations.length === 0) ? true : false;
                 weekObject.deviations = noSquaredDeviations ? [] : deviations;
                 weekObject.historicalAverage = noSquaredDeviations ? 0 : average;
                 weekObject.sd1 = noSquaredDeviations ? 0 : standardDeviation;
@@ -2264,6 +2269,7 @@ define([
                 const currentWeekData = dataFromRequest.filter(data => data.year >= currentYear - 1).filter(data => data.week === weekObject.week);
                 weekObject.currentYearAlerts = currentWeekData.length > 1 ? currentWeekData[0].alerts : currentWeekData.length === 1 && weekObject.week > currentWeek ? currentWeekData[0].alerts : 0;                  
               });
+              console.log(historicalDataByWeek); // Todo: Data must be at least *2 different* values or it breaks.
 
               /********************** NOTE **********************
                * Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.
@@ -2373,8 +2379,15 @@ define([
               let isolatedStandardDeviationMinus1 = isolated13Weeks.map(week => week.windowAverage - week.windowStandardDeviation1);
               let isolatedStandardDeviationMinus2 = isolated13Weeks.map(week => week.windowAverage - week.windowStandardDeviation2);
               
-              // Now, we need to add an x value to each of the data points so that our data is in the format highcharts wants.
-              // Todo: Add a comment explaining why it's .75 and why we increment this way.
+              /********************** NOTE **********************
+               * Now, we need to add an x value to each of the data points so that our data is in the format highcharts wants.
+               * Highcharts allows us to break up multiple points within a single category on the x axis using decimals: (0.25, 0.5, 0.75, 1)
+               * Since we're showing 4 weeks per month, there are 4 quarter-units between each point on the x axis.
+               * Highcharts adds an extra half-unit (0.50) of padding between the lowest x-axis and the point where the x and y axis cross.
+               * To remove this, we must begin our quarter-units at -0.5, and increment each time by .25.
+               * Because we are using the `map` methods, we need to reset the xPosition to -0.75, otherwise we can't increment within the function.
+              ***************************************************/
+              
               let xPosition = -0.75;
               seriesData = isolatedAlerts.map(x => {
                 xPosition += 0.25;
@@ -2588,30 +2601,20 @@ define([
             const stndrdDevMin1 = twelveMonthDataObject.windowSDMinus1[currentMonth - 1]['1'];
             const stndrdDevMin2 = twelveMonthDataObject.windowSDMinus2[currentMonth - 1]['1'];
 
+            // Update our usuality based on where the current week fires are in relation to the standard deviation.
             let currentWeekUsuality;
-
-            switch (unusualFiresCount) {
-              case unusualFiresCount > stndrdDev2:
-                currentWeekUsuality = 'Unusually High';
-                break;
-
-              case unusualFiresCount > stndrdDev1:
-                currentWeekUsuality = 'High';
-                break;
-
-              case unusualFiresCount  < stndrdDev1 && unusualFiresCount > stndrdDevMin1:
-                currentWeekUsuality = 'Average';
-                break;
-
-              case unusualFiresCount  < stndrdDevMin2:
-                currentWeekUsuality = 'Unusually Low';
-                break;
-
-              default:
-                currentWeekUsuality = 'Low';
-                break;
+            if (unusualFiresCount > stndrdDev2) {
+              currentWeekUsuality = 'Unusually High';
+            } else if (unusualFiresCount > stndrdDev1) {
+              currentWeekUsuality = 'High';
+            } else if (unusualFiresCount  < stndrdDev1 && unusualFiresCount > stndrdDevMin1) {
+              currentWeekUsuality = 'Average';
+            } else if (unusualFiresCount  < stndrdDevMin2) {
+              currentWeekUsuality = 'Unusually Low';
+            } else {
+              currentWeekUsuality = 'Low';
             }
-            
+
             const stringifiedMonth = new Date().toLocaleString('en-us', { month: 'long' });
 
             // Here is where we create the subtext of the Unusual Fires Chart
@@ -2665,6 +2668,26 @@ define([
                     }
                 }
               },
+              exporting: { // To add export functionaltiy to new charts, copy the entire exporting object.
+                scale: 4,
+                chartOptions:{
+                  chart:{
+                    marginTop: 75,
+                    marginRight: 20,
+                    events:{
+                      load:function(){
+                        // This function loads the actual content that appears when a user downloads something from the highcharts-contextbutton
+                        const countryOrRegion = window.reportOptions.aois ? window.reportOptions.aois : window.reportOptions.country;
+                        this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                          fill: '#555'
+                        }).add();
+                        this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Unusual Fires Report for ${countryOrRegion}</span>`, 55, 28, true).add();
+                      }
+                    }
+                  }
+                }
+              },
               tooltip: {
                 useHTML: true,
                 backgroundColor: '#ffbb07',
@@ -2683,30 +2706,20 @@ define([
                     const sdMinus1 = twelveMonthDataObject.windowSDMinus1[adjustedIndex]['1'];
                     const sdMinus2 = twelveMonthDataObject.windowSDMinus2[adjustedIndex]['1'];
                     
+                    // Update our usuality based on where the current week fires are in relation to the standard deviation.
                     let usuality;
-
-                    switch (fires) {
-                      case fires > stndrdDev2:
-                        usuality = 'Unusually High';
-                        break;
-        
-                      case fires > stndrdDev1:
-                        usuality = 'High';
-                        break;
-        
-                      case fires  < stndrdDev1 && fires > stndrdDevMin1:
-                        usuality = 'Average';
-                        break;
-        
-                      case fires  < stndrdDevMin2:
-                        usuality = 'Unusually Low';
-                        break;
-        
-                      default:
-                        usuality = 'Low';
-                        break;
+                    if (fires > sd2) {
+                      usuality = 'Unusually High';
+                    } else if (fires > sd1) {
+                      usuality = 'High';
+                    } else if (fires  < sd1 && fires > sdMinus1) {
+                      usuality = 'Average';
+                    } else if (fires  < sdMinus2) {
+                      usuality = 'Unusually Low';
+                    } else {
+                      usuality = 'Low';
                     }
-
+        
                     return (
                       '<div class="history-chart-tooltip__container">' +
                       '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + `<span class="firesCountChart__text"> ${fireOrFires} This Week</span></h3>` +
@@ -2789,12 +2802,12 @@ define([
                 currentYearToDateArray = currentYearToDateArray.slice(12 - rangeOfMonths);
 
                 // Update the series data based on whether it's 3, 6, or 12 months selected.
-                seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : (selection.includes('6')) ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0);
-                windowAverages = selection.includes('12') ? twelveMonthDataObject.windowMean.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowMean.slice(0) : threeMonthDataObject.windowMean.slice(0);
-                standardDeviationSeries = selection.includes('12') ? twelveMonthDataObject.windowSD1.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSD1.slice(0) : threeMonthDataObject.windowSD1.slice(0);
-                standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0);
-                standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0);
-                standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : (selection.includes('6')) ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0);
+                seriesData = selection.includes('12') ? twelveMonthDataObject.currentYearFires.slice(0) : (selection.includes('6') ? sixMonthDataObject.currentYearFires.slice(0) : threeMonthDataObject.currentYearFires.slice(0));
+                windowAverages = selection.includes('12') ? twelveMonthDataObject.windowMean.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowMean.slice(0) : threeMonthDataObject.windowMean.slice(0));
+                standardDeviationSeries = selection.includes('12') ? twelveMonthDataObject.windowSD1.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSD1.slice(0) : threeMonthDataObject.windowSD1.slice(0));
+                standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0));
+                standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0));
+                standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0));
 
                 // Pass in the updated series to Highcharts, and force an update.
                 unusualFires.update({
