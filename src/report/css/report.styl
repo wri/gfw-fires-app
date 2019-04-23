@@ -153,6 +153,19 @@ input.share-link-input {
   }
 }
 
+#unusualFiresOptions
+  width: 50%;
+  display: flex
+  justify-content: space-between;
+  cursor: pointer;
+
+  .selected
+    color: #f88900
+
+.highcharts-areaspline-series 
+  opacity: 1 !important; // Prevents onHover action which grays-out the other series in the unusual fires charts.
+
+
 .map-container
   margin 0 auto
   height 375px
