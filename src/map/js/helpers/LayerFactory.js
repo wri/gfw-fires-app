@@ -4,6 +4,8 @@ import ImageLayer from 'esri/layers/ArcGISImageServiceLayer';
 import ImageParameters from 'esri/layers/ImageParameters';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import FeatureLayer from 'esri/layers/FeatureLayer';
+import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
+import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 import WMSLayer from 'esri/layers/WMSLayer';
 import {errors} from 'js/config';
 
@@ -81,6 +83,21 @@ export default (layer) => {
       options.id = layer.id;
       options.visible = layer.visible || false;
       esriLayer = new GraphicsLayer(options);
+      break;
+    case 'firefly':
+      options.id = layer.id;
+      options.visible = layer.visible || false;
+      var symbol =  new PictureMarkerSymbol({
+        'url': 'https://static.arcgis.com/images/Symbols/Firefly/FireflyB3.png',
+        'height': 20,
+        'width': 20,
+        'type': 'esriPMS',
+        'angle': -30,
+      });
+
+      var renderer = new SimpleRenderer(symbol);
+      esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0]);
+      esriLayer.setRenderer(renderer);
       break;
     default:
       throw new Error(errors.incorrectLayerConfig(layer.type));
