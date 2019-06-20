@@ -1,4 +1,4 @@
-define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'esri/layers/WMSLayer', 'js/config'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _WMSLayer, _config) {
+define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'esri/symbols/PictureMarkerSymbol', 'esri/layers/LayerDrawingOptions', 'esri/renderers/SimpleRenderer', 'js/config'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _PictureMarkerSymbol, _LayerDrawingOptions, _SimpleRenderer, _config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -17,7 +17,11 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
 
   var _FeatureLayer2 = _interopRequireDefault(_FeatureLayer);
 
-  var _WMSLayer2 = _interopRequireDefault(_WMSLayer);
+  var _PictureMarkerSymbol2 = _interopRequireDefault(_PictureMarkerSymbol);
+
+  var _LayerDrawingOptions2 = _interopRequireDefault(_LayerDrawingOptions);
+
+  var _SimpleRenderer2 = _interopRequireDefault(_SimpleRenderer);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -57,8 +61,6 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         imageParameters.format = 'png32';
         if (layer.defaultDefinitionExpression) {
           var layerDefs = [];
-          // layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
-          // imageParameters.layerDefinitions = layerDefs;
 
           layer.layerIds.forEach(function (val) {
             layerDefs[val] = layer.defaultDefinitionExpression;
@@ -73,6 +75,22 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.minScale = layer.minScale; // || 1.0;
         options.imageParameters = imageParameters;
         esriLayer = new _ArcGISDynamicMapServiceLayer2.default(layer.url, options);
+        if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
+          // These two layers get firefly points placed on them.
+          // We use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
+
+          var layerDrawingOptions = [];
+          var layerDrawingOption = new _LayerDrawingOptions2.default();
+
+          // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
+          var imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+
+          var symbol = new _PictureMarkerSymbol2.default(imageUrl, 20, 20);
+
+          layerDrawingOption.renderer = new _SimpleRenderer2.default(symbol);
+          layerDrawingOptions[layer.layerIds[0]] = layerDrawingOption;
+          esriLayer.setLayerDrawingOptions(layerDrawingOptions);
+        }
         break;
       case 'feature':
         options.id = layer.id;

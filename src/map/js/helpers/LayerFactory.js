@@ -4,8 +4,10 @@ import ImageLayer from 'esri/layers/ArcGISImageServiceLayer';
 import ImageParameters from 'esri/layers/ImageParameters';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import FeatureLayer from 'esri/layers/FeatureLayer';
-import WMSLayer from 'esri/layers/WMSLayer';
-import {errors} from 'js/config';
+import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
+import LayerDrawingOptions from 'esri/layers/LayerDrawingOptions';
+import SimpleRenderer from 'esri/renderers/SimpleRenderer';
+import { errors } from 'js/config';
 
 /**
 * Map Function that gets called for each entry in the provided layers config and returns an array of ArcGIS Layers
@@ -45,8 +47,6 @@ export default (layer) => {
       imageParameters.format = 'png32';
       if (layer.defaultDefinitionExpression) {
         let layerDefs = [];
-        // layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
-        // imageParameters.layerDefinitions = layerDefs;
 
         layer.layerIds.forEach(val => {
           layerDefs[val] = layer.defaultDefinitionExpression;
@@ -61,6 +61,24 @@ export default (layer) => {
       options.minScale = layer.minScale; // || 1.0;
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
+      if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
+        // These two layers get firefly points placed on them.
+        // We use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
+
+        const layerDrawingOptions = [];
+        const layerDrawingOption = new LayerDrawingOptions();
+
+        // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
+        const imageUrl = layer.id === 'viirsFires' ?
+          'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' :
+          'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+
+        const symbol = new PictureMarkerSymbol(imageUrl, 20, 20);
+
+        layerDrawingOption.renderer = new SimpleRenderer(symbol);
+        layerDrawingOptions[layer.layerIds[0]] = layerDrawingOption;
+        esriLayer.setLayerDrawingOptions(layerDrawingOptions);
+      }
       break;
     case 'feature':
       options.id = layer.id;

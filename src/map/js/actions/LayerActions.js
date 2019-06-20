@@ -4,18 +4,10 @@ class LayerActions {
 
   addActiveLayer (layerId) {
     this.dispatch(layerId);
-    // TODO: Remove once current layer panel design is approved
-    // if (kids) {
-    //   kids.forEach(childLayer => this.dispatch(childLayer));
-    // }
   }
 
   removeActiveLayer (layerId) {
     this.dispatch(layerId);
-    // TODO: Remove once current layer panel design is approved
-    // if (kids) {
-    //   kids.forEach(childLayer => this.dispatch(childLayer));
-    // }
   }
 
   showLoading (layerId) {

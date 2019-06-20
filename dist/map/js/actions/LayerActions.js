@@ -47,19 +47,11 @@ define(['exports', 'js/alt'], function (exports, _alt) {
       key: 'addActiveLayer',
       value: function addActiveLayer(layerId) {
         this.dispatch(layerId);
-        // TODO: Remove once current layer panel design is approved
-        // if (kids) {
-        //   kids.forEach(childLayer => this.dispatch(childLayer));
-        // }
       }
     }, {
       key: 'removeActiveLayer',
       value: function removeActiveLayer(layerId) {
         this.dispatch(layerId);
-        // TODO: Remove once current layer panel design is approved
-        // if (kids) {
-        //   kids.forEach(childLayer => this.dispatch(childLayer));
-        // }
       }
     }, {
       key: 'showLoading',
