@@ -88,7 +88,10 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           var symbol = new _PictureMarkerSymbol2.default(imageUrl, 20, 20);
 
           layerDrawingOption.renderer = new _SimpleRenderer2.default(symbol);
-          layerDrawingOptions[21] = layerDrawingOption; // This is the layerId of each layer.
+          var layerIndex = _config.config.layers.filter(function (configLayer) {
+            return configLayer.id === layer.id;
+          })[0].layerIds[0];
+          layerDrawingOptions[layerIndex] = layerDrawingOption;
           esriLayer.setLayerDrawingOptions(layerDrawingOptions);
         }
         break;
@@ -105,9 +108,6 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
             featureSet: null
           };
           esriLayer = new _FeatureLayer2.default(featureCollection, options);
-          if (layer.renderer) {
-            esriLayer.setRenderer(layer.renderer);
-          }
         }
         break;
       case 'graphic':
