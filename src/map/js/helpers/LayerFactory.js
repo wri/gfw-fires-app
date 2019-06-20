@@ -7,7 +7,6 @@ import FeatureLayer from 'esri/layers/FeatureLayer';
 import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import LayerDrawingOptions from 'esri/layers/LayerDrawingOptions';
 import SimpleRenderer from 'esri/renderers/SimpleRenderer';
-import WMSLayer from 'esri/layers/WMSLayer';
 import {errors} from 'js/config';
 
 /**
@@ -23,7 +22,7 @@ export default (layer) => {
   if ((!layer.url && (layer.type !== 'graphic' && layer.type !== 'feature')) || !layer.type) { throw new Error(errors.missingLayerConfig); }
 
   let esriLayer, options = {};
-  console.log('inside layerfactory', layer);
+
   switch (layer.type) {
     case 'tiled':
       options.id = layer.id;
@@ -48,8 +47,6 @@ export default (layer) => {
       imageParameters.format = 'png32';
       if (layer.defaultDefinitionExpression) {
         let layerDefs = [];
-        // layerDefs[layer.layerIds[0]] = layer.defaultDefinitionExpression;
-        // imageParameters.layerDefinitions = layerDefs;
 
         layer.layerIds.forEach(val => {
           layerDefs[val] = layer.defaultDefinitionExpression;
@@ -65,7 +62,9 @@ export default (layer) => {
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
       if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
-        // These two layers get firefly points placed on them, so we have to use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
+        // These two layers get firefly points placed on them.
+        // We use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
+
         const layerDrawingOptions = [];
         const layerDrawingOption = new LayerDrawingOptions();
 
@@ -103,15 +102,6 @@ export default (layer) => {
       options.id = layer.id;
       options.visible = layer.visible || false;
       esriLayer = new GraphicsLayer(options);
-      break;
-    case 'firefly':
-      options.id = layer.id;
-      options.visible = layer.visible || false;
-      options.definitionExpression = layer.defaultDefinitionExpression || '';
-      
-      var renderer = new SimpleRenderer(symbol);
-      esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
-      esriLayer.setRenderer(renderer);
       break;
     default:
       throw new Error(errors.incorrectLayerConfig(layer.type));

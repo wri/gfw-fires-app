@@ -1,6 +1,4 @@
 import {layersConfig, errors, mapConfig} from 'js/config';
-// import {analysisActions} from 'actions/AnalysisActions';
-import FeatureLayer from 'esri/layers/FeatureLayer';
 import WebTiledLayer from 'esri/layers/WebTiledLayer';
 import layerFactory from 'helpers/LayerFactory';
 import Point from 'esri/geometry/Point';
@@ -40,31 +38,12 @@ class MapActions {
 
   createLayers () {
     app.debug('MapActions >>> createLayers');
-    console.log('inside create layers', app.map);
 
     //- Remove layers from config that have no url unless they are of type graphic(which have no url)
     //- sort by order from the layer config
     //- return an arcgis layer for each config object
     let layers = layersConfig.filter(layer => layer && !layer.disabled && (layer.url || layer.type === 'graphic' || layer.type === 'feature')).sort((a, b) => a.order - b.order).map(layerFactory);
     app.map.addLayers(layers);
-    // var featureLayer = new FeatureLayer({
-    //   url: "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/21",
-    //   type: 'feature'
-      
-    // });
-    // featureLayer.renderer = {
-    //   type: "simple",
-    //   symbol: {
-    //     type: "picture-marker",
-    //     url: "https://static.arcgis.com/images/Symbols/Firefly/FireflyB3.png",
-    //     width: 24,
-    //     height: 24
-    //   }
-    // };
-    // let layers = layerFactory(featureLayer);
-    // app.map.addLayers(layers);
-    console.log('after create layers', layers);
-
 
     // If there is an error with a particular layer, handle that here
     app.map.on('layers-add-result', result => {

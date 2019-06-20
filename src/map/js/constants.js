@@ -16,7 +16,6 @@ const KEYS = {
   burnScars: 'burnScars',
   fireWeather: 'fireWeather',
   fireHistory: 'fireHistory',
-  fireFly: 'fireFly',
   lastRainfall: 'lastRainfall',
   crowdsourcedFires: 'crowdsourcedFires',
   loggingConcessions: 'loggingConcessions',
