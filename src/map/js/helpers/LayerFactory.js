@@ -5,6 +5,7 @@ import ImageParameters from 'esri/layers/ImageParameters';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import FeatureLayer from 'esri/layers/FeatureLayer';
 import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
+import LayerDrawingOptions from 'esri/layers/LayerDrawingOptions';
 import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 import WMSLayer from 'esri/layers/WMSLayer';
 import {errors} from 'js/config';
@@ -63,6 +64,16 @@ export default (layer) => {
       options.minScale = layer.minScale; // || 1.0;
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
+      if (layer.id === 'fireFly') {
+        const layerDrawingOptions = [];
+        const layerDrawingOption = new LayerDrawingOptions();
+        const symbol = new PictureMarkerSymbol(
+          'https://static.arcgis.com/images/Symbols/Firefly/FireflyB20.png', 20, 20
+        );
+        layerDrawingOption.renderer = new SimpleRenderer(symbol);
+        layerDrawingOptions[21] = layerDrawingOption;
+        esriLayer.setLayerDrawingOptions(layerDrawingOptions);
+      }
       break;
     case 'feature':
       options.id = layer.id;
@@ -91,13 +102,7 @@ export default (layer) => {
       options.id = layer.id;
       options.visible = layer.visible || false;
       options.definitionExpression = layer.defaultDefinitionExpression || '';
-      var symbol =  new PictureMarkerSymbol({
-        'url': 'https://static.arcgis.com/images/Symbols/Firefly/FireflyB20.png',
-        'height': 20,
-        'width': 20,
-        'type': 'esriPMS',
-        'angle': -30,
-      });
+      
       var renderer = new SimpleRenderer(symbol);
       esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
       esriLayer.setRenderer(renderer);
