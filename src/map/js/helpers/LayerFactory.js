@@ -65,15 +65,19 @@ export default (layer) => {
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
       if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
+        // These two layers get firefly points placed on them, so we have to use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
         const layerDrawingOptions = [];
         const layerDrawingOption = new LayerDrawingOptions();
-        // Possible colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
-        const imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
-        const symbol = new PictureMarkerSymbol(
-          imageUrl, 20, 20
-        );
+
+        // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
+        const imageUrl = layer.id === 'viirsFires' ?
+          'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' :
+          'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+
+        const symbol = new PictureMarkerSymbol(imageUrl, 20, 20);
+
         layerDrawingOption.renderer = new SimpleRenderer(symbol);
-        layerDrawingOptions[21] = layerDrawingOption;
+        layerDrawingOptions[21] = layerDrawingOption; // This is the layerId of each layer.
         esriLayer.setLayerDrawingOptions(layerDrawingOptions);
       }
       break;
