@@ -1,4 +1,3 @@
-/* eslint-disable */
 define([
     "dojo/dom",
     "dojo/Deferred",
@@ -22,30 +21,13 @@ define([
     "esri/geometry/Extent",
     "esri/SpatialReference",
     "vendors/geostats/lib/geostats.min",
-    "./ReportConfig",
+    "./ReportConfig"
 ], function(dom, Deferred, arrayUtils, ioQuery, request, Map, Color, ImageParameters, ArcGISDynamicLayer, ClassBreaksRenderer, FeatureLayer,
     SimpleFillSymbol, SimpleLineSymbol, UniqueValueRenderer, LayerDrawingOptions, Query, QueryTask, StatisticDefinition, graphicsUtils, Extent, SpatialReference, geostats, Config) {
 
-      // Global Report Object
-      let globalReportObjectForProgressionChart = {};
-
-      // All Subregions for a country objects
       let countryTotalWithAllSubregions = {}; // total per subregion
       let countryTotal = {}; // countryTotal
-      // clicking a region pulls the item based on the window.reportOptions
-
-      // 1 Subregion for a country object
-      let countryTotalWith1Subregion = {}; // should contain aggregated data for the country for load and on h3 click
-      let subregionTotal = {}; // clicking a subregion has its total
-
-      // global fires count object
       let firesCount = 0;
-      let newSeriesDataObj = {};
-      let historicalDataByRegion = {};
-      let specificSubRegionData = {};
-      let specificCountryData = {};
-      let subregionDataINeed = {};
-      let aoiDataSpecificRegion = {};
 
     return {
 
@@ -1534,21 +1516,21 @@ define([
           const handleAs = {handleAs: 'json'};
           const promiseUrls = [];
 
-          if (window.reportOptions.aoiId) {
+          if (window.reportOptions.aoiId) { // 1 Subregion + country
             const urls = [
               `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
-              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
             ];
             promiseUrls.push(...urls);
-          }  else if(window.reportOptions.country !== 'ALL') {
+          } else if (window.reportOptions.country !== 'ALL') { // All subregions in a country
             const urls = [
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // should have total country data
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}` // should have regional data
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`,
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&aggregate_admin=adm1&fire_type=modis&period=2001-01-01,${moment().utcOffset('Asia/Jakarta').format("YYYY-MM-DD")}`
             ];
             promiseUrls.push(...urls);
-          } else {
+          } else { // Global Report
             const urls = [
-              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`, // old query is the same as new
+              `${Config.fires_api_endpoint}admin/${queryFor}?aggregate_values=True&aggregate_time=month&fire_type=modis&period=2001-01-01,${moment().format("YYYY-MM-DD")}`
             ];
             promiseUrls.push(...urls);
           }
@@ -1558,8 +1540,6 @@ define([
           })).then(responses => {
             let series = [];
             const colors = {};
-            let seriesTemp = { data: [], name: '' };
-            let index = 0;
             const currentYear = new Date().getFullYear();
             const currentMonth = new Date().getMonth() + 1;
             let indexColor = 0;
@@ -1578,17 +1558,13 @@ define([
                 }
               });
             }
-            const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-            for (var i = 2001; i <= currentYear; i++) {
-              colors[i] = self.shadeColor(baseColor, (indexColor / 100));
+            for (let j = 2001; j <= currentYear; j++) {
+              colors[j] = self.shadeColor(baseColor, (indexColor / 100));
               indexColor = indexColor + colorStep;
             }
 
             if (window.reportOptions.aoiId) { // aoiIds are only when viewing a country report with a single subregion selected.
-                countryTotalWith1Subregion;
-                specificCountryData = backupValues[0];
-                specificSubregionData = values; // place the specific subregion's historical data in a global object.
 
                 let regionDataByYear = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
                 const yearsToAdd = currentYear - 2001;
@@ -1600,7 +1576,7 @@ define([
                   regionYearObject['lineWidth'] = 1;
                   regionYearObject['year'] = 2001 + i;
                   regionYearObject['name'] = 2001 + i;
-                  regionDataByYear.push(regionYearObject)
+                  regionDataByYear.push(regionYearObject);
                 }
                 let runningTotal3 = 0;
                 values.forEach((monthOfData) => {
@@ -1619,11 +1595,9 @@ define([
                   if (monthOfData.month === 12) {
                     runningTotal3 = 0;
                   }
-                })
-                subregionTotal = regionDataByYear; // assign specific subregion data to a global object
-                subregionDataINeed = regionDataByYear;
+                });
 
-                let historicalDataForSelectedRegion = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
+                let historicalDataForSelectedRegion = [];
                 backupValues[0].forEach((monthOfData, i) => {
                   const currentYearColor = monthOfData.year === currentYear ? '#d40000' : '#e0e0df';
                   if (i % 12 === 0) {
@@ -1635,16 +1609,16 @@ define([
                     regionYearObject['name'] = monthOfData.year;
                     historicalDataForSelectedRegion.push(regionYearObject);
                   }
-                })
+                });
 
                 let runningTotal = 0;
                 backupValues[0].forEach(monthOfData => {
                   let itemToPush;
                   if (monthOfData.year === currentYear && monthOfData.month === currentMonth) { // if it's the last month of the current year...
-                    itemToPush = { y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
+                    itemToPush = { y: (monthOfData.alerts + runningTotal), dataLabels: { align: 'left', crop: false, enabled: true, format: '{series.name}', overflow: true, verticalAlign: 'middle', x: 0 } };
                   } else {
                     itemToPush = monthOfData.month === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
-                    {y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
+                    {y: (monthOfData.alerts + runningTotal), dataLabels: { align: 'left', crop: false, enabled: true, format: '{series.name}', overflow: true, verticalAlign: 'middle', x: 0 } } :
                     (monthOfData.alerts + runningTotal);
                   }
 
@@ -1667,21 +1641,13 @@ define([
                   if (monthOfData.month === 12) {
                     runningTotal = 0;
                   }
-                })
+                });
                 historicalDataForSelectedRegion[historicalDataForSelectedRegion.length - 1].color = '#d40000';
-                countryTotalWith1Subregion = historicalDataForSelectedRegion; // assign country data to a global object
-                aoiDataSpecificRegion = historicalDataForSelectedRegion;
-
-                series = regionDataByYear; // assign specific region data on load.
-
+                countryTotalWith1Subregion = historicalDataForSelectedRegion;
+                series = regionDataByYear;
                 firesCount = regionDataByYear[regionDataByYear.length - 1].data[regionDataByYear[regionDataByYear.length - 1].data.length - 1].y;
-
-
-
-
               } else if (window.reportOptions.country === 'ALL') { // , or a Global Report
                 let historicalDataForSelectedRegion = []; // This array will contain 1 index for each subregion in the country. Each of these arrays will contain all historical fires data grouped by year.
-
                 /********************** NOTE **********************
                  * backupValues[0] contains 1 index per month, for each year since 2001, for each subregion in the selected country.
                  * Each backupValue contains an adm1 number which corresponds with a subregion Id. We iterate over each backupValue and update our historicalData array with each subregion's information.
@@ -1698,7 +1664,7 @@ define([
                     regionYearObject['name'] = monthOfData.year;
                     historicalDataForSelectedRegion.push(regionYearObject);
                   }
-                })
+                });
 
                 let runningTotal = 0;
                 values.forEach(monthOfData => {
@@ -1707,7 +1673,7 @@ define([
                   const yearIndex = monthOfData.year - 2001;
                   const countryIndex = historicalDataForSelectedRegion.map(x => x.year).indexOf(monthOfData.year);
                   if (countryIndex !== -1) {
-                    historicalDataForSelectedRegion[countryIndex].data.push(itemToPush)
+                    historicalDataForSelectedRegion[countryIndex].data.push(itemToPush);
                   } else { // This serves as a check to ensure that all current year data is included in our historicalData array.
                     historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex] = {
                       color: historicalDataForSelectedRegion[monthOfData.adm1 - 1][countryIndex][yearIndex - 1].color,
@@ -1720,8 +1686,8 @@ define([
                   runningTotal += monthOfData.alerts;
                   if (monthOfData.month === 12) {
                     runningTotal = 0;
-                  };
-                })
+                  }
+                });
 
                 // assign series on load
                 series = historicalDataForSelectedRegion;
@@ -1754,7 +1720,7 @@ define([
                 });
                 let yearCounter = 2001;
                 let currentState = 0;
-                backupValues[0].forEach((monthData, i) => {
+                backupValues[0].forEach(monthData => {
                     if (monthData.year === currentYear && monthData.month === currentMonth) {
                       const yearObject = {
                         year: yearCounter,
@@ -1780,7 +1746,7 @@ define([
                 });
 
                 let runningTotal = 0;
-                backupValues[0].forEach((monthData, i) => {
+                backupValues[0].forEach(monthData => {
                   if (monthData.month === 12 || (monthData.month === currentMonth && monthData.year === currentYear)) {
                     const object = {// december OR the last month of the current year has an object.
                       y: (monthData.alerts + runningTotal),
@@ -1793,7 +1759,7 @@ define([
                         verticalAlign: "middle",
                         x: 0
                       }
-                    }
+                    };
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push(object);
                   } else {
                     statesArray[monthData.adm1 - 1][stateNames[monthData.adm1 - 1]][monthData.year - 2001].data.push((monthData.alerts + runningTotal));
@@ -1827,11 +1793,11 @@ define([
                     };
                     placeHolderCountryTotal.push(yearObject);
                   }
-                })
+                });
 
                 // populate the data
                 let runningTotal2 = 0;
-                values.forEach((monthOfData, i) => {
+                values.forEach(monthOfData => {
                   if (monthOfData.year === 12 || (monthOfData.year === currentYear && monthOfData.month === currentMonth)) {
                     const object = {// december OR the last month of the current year has an object.
                       y: (monthOfData.alerts + runningTotal2),
@@ -1853,7 +1819,7 @@ define([
                   if (monthOfData.month === 12) {
                     runningTotal2 = 0;
                   }
-                })
+                });
                 countryTotal = placeHolderCountryTotal;
                 // assign series on load
                 series = countryTotal;
@@ -1900,14 +1866,14 @@ define([
               credits: {
                 enabled: false
               },
-              exporting:{
+              exporting: {
                 scale: 4,
-                chartOptions:{
-                  chart:{
+                chartOptions: {
+                  chart: {
                     marginTop: 75,
                     marginRight: 20,
-                    events:{
-                      load:function(){
+                    events: {
+                      load: function() {
                         this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                           fill: '#555'
                         }).add();
@@ -1957,10 +1923,7 @@ define([
               * We reached out to Highcharts support and performed testing to try to resolve the issue, which was unsuccessful.
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
              **************************************************/
-             let updatedSeriesTotal = [] // Series of data to be given to Highcharts
-             const countryData = newSeriesDataObj[selectedCountry] ? newSeriesDataObj[selectedCountry] : window.firesCountRegionSeries;
-             let currentYearMonthlyCounts = []; // Contains monthly data for current year
-             let totalRegion = 0; // Year-To-Date Total to be displayed in the subheader of the chart
+             let updatedSeriesTotal = []; // Series of data to be given to Highcharts
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
               // We don't do anything
             } else if (window.reportOptions.country !== 'ALL' && window.reportOptions.aois) { // If we're viewing a report for a specific subregion in a specific country
@@ -1977,13 +1940,13 @@ define([
                     regionYearObject['name'] = monthOfData.year;
                     historicalDataForSelectedRegion.push(regionYearObject);
                   }
-                })
+                });
 
                 let runningTotal = 0;
                 backupValues[0].forEach(monthOfData => {
                   let itemToPush;
                   if (monthOfData.year === currentYear && monthOfData.month === currentMonth) { // if it's the last month of the current year...
-                    itemToPush = { y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } }
+                    itemToPush = { y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } };
                   } else {
                     itemToPush = (monthOfData.month) === 12 ? // The last index of each data array needs to be an object containing the alerts and a dataLabels object for Highcharts.
                     {y: (monthOfData.alerts + runningTotal), dataLabels: { align: "left", crop: false, enabled: true, format: "{series.name}", overflow: true, verticalAlign: "middle", x: 0 } } :
@@ -2007,7 +1970,7 @@ define([
                       data: [monthOfData.alerts]
                     };
                   }
-                })
+                });
                 updatedSeriesTotal = historicalDataForSelectedRegion;
 
                // Updated firesCount total on click
@@ -2036,10 +1999,10 @@ define([
                   };
                   placeHolderArray.push(yearObject);
                 }
-              })
+              });
               // populate the data
               let runningTotal = 0;
-              values.forEach((monthOfData, i) => {
+              values.forEach(monthOfData => {
                 if (monthOfData.year === 12 || (monthOfData.year === currentYear && monthOfData.month === currentMonth)) {
                   const object = {// december OR the last month of the current year has an object.
                     y: (monthOfData.alerts + runningTotal),
@@ -2061,7 +2024,7 @@ define([
                 if (monthOfData.month === 12) {
                   runningTotal = 0;
                 }
-              })
+              });
 
               // update series
               updatedSeriesTotal = placeHolderArray; // there was a bug where the countryTotal global was getting reset when going between regions and country. weird ???
@@ -2092,11 +2055,7 @@ define([
               * We resolved this by recreating all of the data objects within the scope of this function and passing the objects to Highcharts.
               **************************************************/
             const selectedIslandOrRegion = $(this).text();
-            let updatedSeriesTotal = [] // Series of data to be given to Highcharts
-            const countryData = historicalDataByRegion;
-            let currentYearMonthlyCounts = []; // Contains monthly data for current year
-            let totalRegionFiresYTD = 0; // Year-To-Date Total to be displayed in the subheader of the chart
-            let updatedSeries = [] // Series of data to be given to Highcharts
+            let updatedSeries = []; // Series of data to be given to Highcharts
 
             if (window.reportOptions.country === 'ALL') { // If we're viewing a global report
               // we shouldn't have to do anything, because the data is the same for both the region and the aggregate.
@@ -2111,7 +2070,7 @@ define([
               regionYearObject['lineWidth'] = 1;
               regionYearObject['year'] = 2001 + i;
               regionYearObject['name'] = 2001 + i;
-              regionDataByYear.push(regionYearObject)
+              regionDataByYear.push(regionYearObject);
             }
             let runningTotal = 0;
             values.forEach((monthOfData) => {
@@ -2128,7 +2087,7 @@ define([
                   }
                 }
               }
-            })
+            });
               updatedSeries = regionDataByYear; // update Series
 
               // Updated firesCount total on click
@@ -2145,7 +2104,7 @@ define([
                 if (Object.keys(state).join() === selectedIslandOrRegion) {
                   updatedSeries = state[Object.keys(state)];
                 }
-              })
+              });
               // Update firesCount
               firesCount = updatedSeries[currentYear - 2001].data[updatedSeries[currentYear - 2001].data.length - 1].y;
             }
@@ -2871,7 +2830,7 @@ define([
         getFireHistoryCounts: function() {
 
         const queryFor = this.currentISO ? this.currentISO : 'global';
-        const numberOfBins = Config.colorRampFireHistory.length
+        const numberOfBins = Config.colorRampFireHistory.length;
         let data = [];
         const deferred = new Deferred();
 
@@ -2907,7 +2866,7 @@ define([
 
           $('.fire-history__chart').highcharts({
             chart: {
-              type: 'bubble',
+              type: 'bubble'
             },
 
             title: {
@@ -2930,7 +2889,7 @@ define([
                   fontFamily: "'Fira Sans', Georgia, serif"
                 }
               },
-              min: 1998,
+              min: 1998
             },
 
             yAxis: {
@@ -2938,18 +2897,18 @@ define([
             },
 
             plotOptions: {
-              bubble:{
-                minSize:'30%',
-                maxSize:'60%'
+              bubble: {
+                minSize: '30%',
+                maxSize: '60%'
               }
             },
 
-            exporting:{
+            exporting: {
               scale: 4,
-              chartOptions:{
-                chart:{
-                  events:{
-                    load:function(){
+              chartOptions: {
+                chart: {
+                  events: {
+                    load: function () {
                       this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                         fill: '#555'
                       }).add();
@@ -2972,7 +2931,7 @@ define([
                   '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
                   '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
                   '</div>'
-                )
+                );
               }
             },
 
@@ -2980,7 +2939,7 @@ define([
               data: data,
               marker: {
                 fillOpacity: .85
-              },
+              }
             }]
           });
           deferred.resolve(false);
@@ -3051,12 +3010,10 @@ define([
 
             function buildRSPOTable(features) {
 
-              var table = "<table class='fires-table'><tr>"
+              var table = "<table class='fires-table'><tr>";
               table += "<th>CONCESSION TYPE</th>";
               table += "<th>#</th>";
               table += "<th></th></tr>";
-
-              var po_cons = {};
 
               var rspo_count = 0;
               var palm_oil_count = 0;
@@ -3091,7 +3048,7 @@ define([
           }
 
           function buildTable(features) {
-              var aoiType = window.reportOptions.aoitype
+              var aoiType = window.reportOptions.aoitype;
               var table;
               var districtFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'district-fires-table';
               var subdistrictFireTable = queryConfig.headerField.length >= 1 && queryConfig.tableId === 'subdistrict-fires-table';
@@ -3219,7 +3176,7 @@ define([
                     } else {
                       adminLevelOneTwoArray[item.attributes.SUBDISTRIC] = item.attributes.ISLAND;
                     }
-                  })
+                  });
                 });
 
                 const uniqAreas = _.uniq(queryResultKeys);
@@ -3231,7 +3188,7 @@ define([
                       if(item.attributes[keyRegion] === key){
                         fireCount = fireCount + item.attributes.fire_count;
                       }
-                    })
+                    });
                   });
 
                   if (areaOfInterestType === "GLOBAL") {
@@ -3255,7 +3212,7 @@ define([
 
                 // Remove in case of nonexistent sub-district
                 sortCombinedResults = $.grep(sortCombinedResults, function(item){
-                  return item.attributes.SUBDISTRIC != " ";
+                  return item.attributes.SUBDISTRIC != ' ';
                 });
 
                 Config.query_results[configKey] = sortCombinedResults;
@@ -3280,13 +3237,13 @@ define([
 
                 } else {
                   deferred.resolve(false);
-                  dom.byId('noFiresMsg').innerHTML = "No Fire Alerts for this AOI and time frame."
+                  dom.byId('noFiresMsg').innerHTML = 'No Fire Alerts for this AOI and time frame.';
                 }
               } else {
                 Config.query_results[configKey] = res.features;
                 if (configKey == 'rspoQuery') {
                   dom.byId(queryConfig.tableId).innerHTML = buildRSPOTable(res.features);
-                } else if (configKey !== "subDistrictQuery") {
+                } else if (configKey !== 'subDistrictQuery') {
                   dom.byId(queryConfig.tableId).innerHTML = buildTable(res.features.slice(0, 10));
                 }
               }
@@ -3377,7 +3334,7 @@ define([
           };
 
           self.queryFireData({
-              outFields: ["wdpa", "pulpwood", "palm_oil", "logging"],
+              outFields: ['wdpa', 'pulpwood', 'palm_oil', 'logging']
           }, success, failure);
 
           return deferred.promise;
@@ -3479,11 +3436,11 @@ define([
 
 
               function createFigure(fireData, fireDataLabels) {
-                $("#totalFiresLabel").show()
+                $("#totalFiresLabel").show();
 
                 $('#fire-line-chart').highcharts({
                     chart: {
-                      zoomType: 'x',
+                      zoomType: 'x'
                     },
                     title: {
                       text: null
@@ -3515,13 +3472,13 @@ define([
                         color: '#a90016'
                       }]
                     },
-                    exporting:{
+                    exporting: {
                       scale: 4,
-                      chartOptions:{
-                        chart:{
+                      chartOptions: {
+                        chart: {
                           marginTop: 60,
                           events:{
-                            load:function(){
+                            load: function() {
                               this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                                 fill: '#555'
                               }).add();

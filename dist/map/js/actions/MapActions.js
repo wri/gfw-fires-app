@@ -92,6 +92,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
       key: 'createLayers',
       value: function createLayers() {
         app.debug('MapActions >>> createLayers');
+
         //- Remove layers from config that have no url unless they are of type graphic(which have no url)
         //- sort by order from the layer config
         //- return an arcgis layer for each config object
