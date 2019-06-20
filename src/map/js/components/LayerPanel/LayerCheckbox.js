@@ -75,14 +75,11 @@ export default class LayerCheckbox extends React.Component {
   }
 
   toggleLayer () {
-    console.log('sup');
     let layer = this.props.layer;
     if (layer.disabled) { return; }
     if (this.props.checked) {
-      console.log('end', layer.id);
       layerActions.removeActiveLayer(layer.id);
     } else {
-      console.log('end2');
       layerActions.addActiveLayer(layer.id);
     }
   }
