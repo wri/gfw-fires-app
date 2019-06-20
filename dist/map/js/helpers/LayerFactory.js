@@ -88,10 +88,7 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           var symbol = new _PictureMarkerSymbol2.default(imageUrl, 20, 20);
 
           layerDrawingOption.renderer = new _SimpleRenderer2.default(symbol);
-          var layerIndex = _config.config.layers.filter(function (configLayer) {
-            return configLayer.id === layer.id;
-          })[0].layerIds[0];
-          layerDrawingOptions[layerIndex] = layerDrawingOption;
+          layerDrawingOptions[layer.layerIds[0]] = layerDrawingOption;
           esriLayer.setLayerDrawingOptions(layerDrawingOptions);
         }
         break;
