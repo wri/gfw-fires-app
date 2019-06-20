@@ -22,7 +22,7 @@ export default (layer) => {
   if ((!layer.url && (layer.type !== 'graphic' && layer.type !== 'feature')) || !layer.type) { throw new Error(errors.missingLayerConfig); }
 
   let esriLayer, options = {};
-
+  console.log('inside layerfactory', layer);
   switch (layer.type) {
     case 'tiled':
       options.id = layer.id;
@@ -77,6 +77,9 @@ export default (layer) => {
           featureSet: null
         };
         esriLayer = new FeatureLayer(featureCollection, options);
+        if (layer.renderer) {
+          esriLayer.setRenderer(layer.renderer);
+        }
       }
       break;
     case 'graphic':
@@ -87,16 +90,16 @@ export default (layer) => {
     case 'firefly':
       options.id = layer.id;
       options.visible = layer.visible || false;
+      options.definitionExpression = layer.defaultDefinitionExpression || '';
       var symbol =  new PictureMarkerSymbol({
-        'url': 'https://static.arcgis.com/images/Symbols/Firefly/FireflyB3.png',
+        'url': 'https://static.arcgis.com/images/Symbols/Firefly/FireflyB20.png',
         'height': 20,
         'width': 20,
         'type': 'esriPMS',
         'angle': -30,
       });
-
       var renderer = new SimpleRenderer(symbol);
-      esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0]);
+      esriLayer = new FeatureLayer(layer.url + '/' + layer.layerIds[0], options);
       esriLayer.setRenderer(renderer);
       break;
     default:

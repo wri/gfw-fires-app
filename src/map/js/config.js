@@ -309,17 +309,7 @@ export const config = {
       visible: true,
       layerIds: [21],
       className: 'fireFly',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
-      renderer: {
-        type: "simple",
-        symbol: {
-          'url': 'https://static.arcgis.com/images/Symbols/Firefly/FireflyB3.png',
-          'type': 'simple',
-          'height': 20,
-          'width': 20,
-          'angle': -30
-        }
-      }
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer'
       // metadataId: 'viirs_fires',
       // infoTemplate: {
       //   content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
@@ -366,7 +356,7 @@ export const config = {
       visible: true,
       layerIds: [21],
       className: 'active-fires',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer', // 29
       metadataId: 'firms_active_fires',
       infoTemplate: {
         content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
