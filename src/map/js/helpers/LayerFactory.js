@@ -64,11 +64,13 @@ export default (layer) => {
       options.minScale = layer.minScale; // || 1.0;
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
-      if (layer.id === 'fireFly') {
+      if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
         const layerDrawingOptions = [];
         const layerDrawingOption = new LayerDrawingOptions();
+        // Possible colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
+        const imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
         const symbol = new PictureMarkerSymbol(
-          'https://static.arcgis.com/images/Symbols/Firefly/FireflyB20.png', 20, 20
+          imageUrl, 20, 20
         );
         layerDrawingOption.renderer = new SimpleRenderer(symbol);
         layerDrawingOptions[21] = layerDrawingOption;

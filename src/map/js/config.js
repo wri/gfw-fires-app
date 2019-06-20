@@ -301,14 +301,14 @@ export const config = {
 
   layers: [
     {
-      id: KEYS.fireFly,
-      order: 14,
+      id: KEYS.viirsFires,
+      order: 13,
       type: 'dynamic',
-      label: 'fireFly',
+      label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
       layerIds: [21],
-      className: 'fireFly',
+      className: 'viirs-fires',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
       metadataId: 'viirs_fires',
       infoTemplate: {
@@ -318,34 +318,14 @@ export const config = {
           '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
           '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      },
+      calendar: {
+        domClass: 'viirs-archive-settings',
+        childDomClass: 'viirs-archive-subsettings',
+        minLabel: 'From',
+        maxLabel: 'To'
       }
     },
-    // {
-    //   id: KEYS.viirsFires,
-    //   order: 13,
-    //   type: 'dynamic',
-    //   label: 'VIIRS active fires',
-    //   group: 'fires',
-    //   visible: true,
-    //   layerIds: [21],
-    //   className: 'viirs-fires',
-    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
-    //   metadataId: 'viirs_fires',
-    //   infoTemplate: {
-    //     content: '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
-    //       '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
-    //       '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
-    //       '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
-    //       '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
-    //       '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
-    //   },
-    //   calendar: {
-    //     domClass: 'viirs-archive-settings',
-    //     childDomClass: 'viirs-archive-subsettings',
-    //     minLabel: 'From',
-    //     maxLabel: 'To'
-    //   }
-    // },
 
     {
       id: KEYS.activeFires,
