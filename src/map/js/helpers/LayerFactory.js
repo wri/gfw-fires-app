@@ -7,7 +7,7 @@ import FeatureLayer from 'esri/layers/FeatureLayer';
 import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import LayerDrawingOptions from 'esri/layers/LayerDrawingOptions';
 import SimpleRenderer from 'esri/renderers/SimpleRenderer';
-import {errors} from 'js/config';
+import { errors, config } from 'js/config';
 
 /**
 * Map Function that gets called for each entry in the provided layers config and returns an array of ArcGIS Layers
@@ -76,7 +76,8 @@ export default (layer) => {
         const symbol = new PictureMarkerSymbol(imageUrl, 20, 20);
 
         layerDrawingOption.renderer = new SimpleRenderer(symbol);
-        layerDrawingOptions[21] = layerDrawingOption; // This is the layerId of each layer.
+        const layerIndex = config.layers.filter(configLayer => configLayer.id === layer.id)[0].layerIds[0];
+        layerDrawingOptions[layerIndex] = layerDrawingOption;
         esriLayer.setLayerDrawingOptions(layerDrawingOptions);
       }
       break;
@@ -93,9 +94,6 @@ export default (layer) => {
           featureSet: null
         };
         esriLayer = new FeatureLayer(featureCollection, options);
-        if (layer.renderer) {
-          esriLayer.setRenderer(layer.renderer);
-        }
       }
       break;
     case 'graphic':
