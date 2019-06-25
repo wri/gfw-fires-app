@@ -424,7 +424,7 @@ export const config = {
       order: 8,
       type: 'image',
       label: 'Fire history',
-      sublabel: '(Indonesia, 2001-2015)',
+      sublabel: '(Indonesia, 2001-2018)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
