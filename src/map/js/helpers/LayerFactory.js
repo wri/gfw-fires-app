@@ -73,7 +73,7 @@ export default (layer) => {
           'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
           'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
 
-        const symbol = new PictureMarkerSymbol(imageUrl, 20, 20);
+        const symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
 
         layerDrawingOption.renderer = new SimpleRenderer(symbol);
         layerDrawingOptions[layer.layerIds[0]] = layerDrawingOption;
