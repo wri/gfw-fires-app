@@ -414,6 +414,7 @@ class MapStore {
   }
 
   changeViirsTimeline (activeIndex) {
+    console.log(activeIndex);
     this.viiirsSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
   }

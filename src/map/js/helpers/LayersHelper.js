@@ -665,22 +665,28 @@ let LayersHelper = {
       // We are hiding and showing the layer to avoid calling the service multiple times.
       viirs.hide();
       const layaDefs = [];
+
       switch(optionIndex) {
         case 0: //past 24 hours
           viirs.url = shortTermServices.viirs24HR.url;
           viirs._url.path = shortTermServices.viirs24HR.url;
           viirs.setVisibleLayers([shortTermServices.viirs24HR.id]);
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs24HR.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs24HR.id;
           break;
         case 1: //past 48 hours
           viirs.url = shortTermServices.viirs48HR.url;
           viirs._url.path = shortTermServices.viirs48HR.url;
           viirs.setVisibleLayers([shortTermServices.viirs48HR.id]);
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs48HR.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs48HR.id;
           break;
         case 2: //past 72 hours
           viirs.url = shortTermServices.viirs7D.url;
           viirs._url.path = shortTermServices.viirs7D.url;
           viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
-          layaDefs[shortTermServices.viirs7D.id] = `Date > date'${new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss')}'`;
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs7D.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs7D.id;
           break;
         case 3: //past 7 days
           viirs.url = shortTermServices.viirs7D.url;
@@ -780,20 +786,20 @@ let LayersHelper = {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
     let archiveLayer = app.map.getLayer(KEYS.viirsFires);
+    console.log(archiveLayer);
     if (archiveLayer) {
       // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
       // We are hiding and showing the layer to avoid calling the service multiple times.
       archiveLayer.hide();
-
       archiveLayer.url = shortTermServices.viirs1YR.url;
       archiveLayer._url.path = shortTermServices.viirs1YR.url;
       archiveLayer.setVisibleLayers([shortTermServices.viirs1YR.id]);
       archiveLayer.layerDrawingOptions[0] = archiveLayer.layerDrawingOptions[layersConfig.filter(index => index.id === 'viirsFires')[0].layerIds[0]];
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
-      archiveLayer.dynamicLayerInfos[0].id = shortTermServices.viirs1YR.id;
-      archiveLayer.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs1YR.id;
-      archiveLayer.dynamicLayerInfos[0].definitionExpression = string;
-      
+      archiveLayer.dynamicLayerInfos[shortTermServices.viirs1YR.id].id = shortTermServices.viirs1YR.id;
+      archiveLayer.dynamicLayerInfos[shortTermServices.viirs1YR.id].source.mapLayerId = shortTermServices.viirs1YR.id;
+      archiveLayer.dynamicLayerInfos[shortTermServices.viirs1YR.id].definitionExpression = string;
+
       let layerDefs = [];
       layerDefs[shortTermServices.viirs1YR.id] = string;
 
