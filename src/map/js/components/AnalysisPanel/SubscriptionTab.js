@@ -47,6 +47,8 @@ export default class SubscriptionTab extends React.Component {
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
       toolbar.on('draw-end', (evt) => {
+        console.log('polygon extent', evt.target.map.extent);
+        console.log('polygon extent', evt.target.map.extent);
         toolbar.deactivate();
         this.setState({ drawButtonActive: false });
         if (app.mobile() === false) {
