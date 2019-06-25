@@ -83,7 +83,7 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           var layerDrawingOption = new _LayerDrawingOptions2.default();
 
           // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
-          var imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+          var imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
 
           var symbol = new _PictureMarkerSymbol2.default(imageUrl, 20, 20);
 
