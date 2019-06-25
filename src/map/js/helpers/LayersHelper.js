@@ -779,19 +779,40 @@ let LayersHelper = {
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
     let archiveLayer = app.map.getLayer(KEYS.viirsFires);
     if (archiveLayer) {
+      // console.log('archiveLayer');
+      // console.log(archiveLayer);
+      // debugger
       // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
       // We are hiding and showing the layer to avoid calling the service multiple times.
       archiveLayer.hide();
+      console.log('dynamicLayerInfos');
+      console.log(archiveLayer);
+      console.log(archiveLayer.dynamicLayerInfos);
+      console.log('archiveLayer.layerDrawingOptions[21].renderer', archiveLayer.layerDrawingOptions[21].renderer);
+      // debugger
       archiveLayer.url = shortTermServices.viirs1YR.url;
       archiveLayer._url.path = shortTermServices.viirs1YR.url;
       archiveLayer.setVisibleLayers([shortTermServices.viirs1YR.id]);
+      archiveLayer.layerDrawingOptions[0] = archiveLayer.layerDrawingOptions[21];
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      archiveLayer.dynamicLayerInfos[0].id = 0;
+      archiveLayer.dynamicLayerInfos[0].source.mapLayerId = 0;
+      archiveLayer.dynamicLayerInfos[0].definitionExpression = string;
+      // archiveLayer.dynamicLayerInfos[0].drawingInfo = {
+      //   // type: 'simple',
+      //   renderer: archiveLayer.layerDrawingOptions[21].renderer
+      // };
+      // archiveLayer.dynamicLayerInfos[0].drawingInfo.renderer.type = 'simple';
       let layerDefs = [];
       layerDefs[shortTermServices.viirs1YR.id] = string;
 
       archiveLayer.setLayerDefinitions(layerDefs);
       archiveLayer.refresh();
       archiveLayer.show();
+
+      console.log('dynamicLayerInfos');
+      console.log(archiveLayer);
+      // debugger
     }
   },
 
