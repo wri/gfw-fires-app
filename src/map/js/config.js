@@ -1157,6 +1157,8 @@ export const config = {
       subscriptionInstructionsThree: ' when fires occur.',
       subscriptionShapefile: 'Or drop a zipped shapefile here',
       subscriptionClick: 'Click on drawn or uploaded shapes on the map to subscribe to the area.',
+      numberOfViirsPointsInPolygons: ' VIIRS Alerts in ',
+      numberOfModisPointsInPolygons: ' MODIS Alerts in ',
       imageryTabLabel: 'VIEW HIGH-RES IMAGERY',
       imageryArea: 'Imagery',
       basemapTabLabel: 'CHANGE BASE MAP',

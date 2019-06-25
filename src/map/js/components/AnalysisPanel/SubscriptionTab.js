@@ -37,7 +37,9 @@ export default class SubscriptionTab extends React.Component {
       fieldSelectionShown: false,
       showFields: false,
       fields: [],
-      graphics: []
+      graphics: [],
+      numberOfViirsPointsInPolygons: 0,
+      numberOfModisPointsInPolygons: 0
     };
   }
 
@@ -135,25 +137,6 @@ export default class SubscriptionTab extends React.Component {
           uploadedGraphics: graphics
         });
 
-        // new ComboBox({
-        //   id: 'upload-fields-input',
-        //   value: '-- Choose name field --',
-        //   store: store,
-        //   searchAttr: 'name',
-        //   onChange: (name) => {
-        //     if (name) {
-        //       self.addFeaturesToMap(name, response.featureCollection.layers[0].featureSet);
-        //       this.resetView();
-        //     }
-        //   }
-        // }, 'upload-fields-input');
-
-        // app.map.setExtent(graphicsExtent, true);
-        // graphics.forEach((graphic) => {
-        //   graphic.attributes.Layer = 'custom';
-        //   graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
-        //   app.map.graphics.add(graphic);
-        // });
       } else {
         this.setState({
           fieldSelectionShown: false,
@@ -190,7 +173,6 @@ export default class SubscriptionTab extends React.Component {
     app.map.setExtent(graphicsExtent, true);
     this.state.uploadedGraphics.forEach((graphic) => {
       graphic.attributes.Layer = 'custom';
-      // graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
       graphic.attributes.featureName = graphic.attributes[nameField];
       app.map.graphics.add(graphic);
     });
@@ -205,7 +187,7 @@ export default class SubscriptionTab extends React.Component {
   render () {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
-
+    const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons } = this.state;
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}
@@ -213,6 +195,9 @@ export default class SubscriptionTab extends React.Component {
           {analysisPanelText.subscriptionInstructionsThree}
         </p>
         <p>{analysisPanelText.subscriptionClick}</p>
+        <p>{numberOfViirsPointsInPolygons > 0 ? `${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons}` : ''}</p>
+        <p>{numberOfModisPointsInPolygons > 0 ? `${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons}` : ''}</p>
+
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
         </div>
