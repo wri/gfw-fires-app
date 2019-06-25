@@ -786,7 +786,7 @@ let LayersHelper = {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
     let archiveLayer = app.map.getLayer(KEYS.viirsFires);
-    console.log(archiveLayer);
+
     if (archiveLayer) {
       // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
       // We are hiding and showing the layer to avoid calling the service multiple times.
