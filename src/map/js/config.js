@@ -428,7 +428,7 @@ export const config = {
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
       calendar: {
         domClass: 'risk-settings',
@@ -1078,7 +1078,10 @@ export const config = {
         {label: 2012, value: 2012},
         {label: 2013, value: 2013},
         {label: 2014, value: 2014},
-        {label: 2015, value: 2015}
+        {label: 2015, value: 2015},
+        {label: 2016, value: 2016},
+        {label: 2017, value: 2017},
+        {label: 2018, value: 2018}
       ],
       firesOptions: [
         {label: 'Past 24 hours', value: 1},

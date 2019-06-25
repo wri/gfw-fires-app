@@ -722,7 +722,9 @@ let LayersHelper = {
   updateFireHistoryDefinitions (index) {
     let firesHistory = app.map.getLayer(KEYS.fireHistory);
     let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
-    if (firesHistory) { firesHistory.setDefinitionExpression("Name = '" + value + "'"); }
+    if (firesHistory) {
+      firesHistory.setDefinitionExpression("Name = '" + value + "'");
+    }
   },
 
   toggleArchiveConfidence (checked) {
