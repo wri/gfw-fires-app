@@ -685,6 +685,7 @@ let LayersHelper = {
           viirs.url = shortTermServices.viirs7D.url;
           viirs._url.path = shortTermServices.viirs7D.url;
           viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
+          layaDefs[shortTermServices.viirs7D.id] = `Date > date'${new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss')}'`;
           viirs.dynamicLayerInfos[0].id = shortTermServices.viirs7D.id;
           viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs7D.id;
           break;
