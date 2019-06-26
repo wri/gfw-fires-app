@@ -693,6 +693,8 @@ let LayersHelper = {
           viirs.url = shortTermServices.viirs7D.url;
           viirs._url.path = shortTermServices.viirs7D.url;
           viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs7D.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs7D.id;
           break;
         default:
           console.log('default');
