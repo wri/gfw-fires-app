@@ -430,6 +430,7 @@ export const config = {
       className: 'fire-history',
       url: 'https://gfw-staging.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
+      definitionExpression: "Name = 'kd2018'",
       calendar: {
         domClass: 'risk-settings',
         childDomClass: 'risk-subsettings',
