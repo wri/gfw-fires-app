@@ -719,6 +719,8 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             viirs.url = _config.shortTermServices.viirs7D.url;
             viirs._url.path = _config.shortTermServices.viirs7D.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs7D.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs7D.id;
             break;
           default:
             console.log('default');
