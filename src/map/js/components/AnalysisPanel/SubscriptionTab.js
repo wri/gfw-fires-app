@@ -2,10 +2,11 @@ import {analysisPanelText} from 'js/config';
 import {DrawSvg} from 'utils/svgs';
 import scaleUtils from 'esri/geometry/scaleUtils';
 import geometryUtils from 'utils/geometryUtils';
+import Query from 'esri/tasks/query';
+import QueryTask from 'esri/tasks/QueryTask';
 import graphicsUtils from 'esri/graphicsUtils';
 import {analysisActions} from 'actions/AnalysisActions';
 import {modalActions} from 'actions/ModalActions';
-// import keys from 'constants/StringKeys';
 import {uploadConfig} from 'js/config';
 import Loader from 'components/Loader';
 import Draw from 'esri/toolbars/draw';
@@ -49,7 +50,27 @@ export default class SubscriptionTab extends React.Component {
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
       toolbar.on('draw-end', (evt) => {
-        console.log('polygon extent', evt.target.map.extent);
+        console.log('polygon extent', evt);
+
+        // Run a new query
+        const query = new Query();
+        query.geometry = evt.geometry;
+        query.returnGeometry = false;
+
+        const viirsQuery = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/21');
+        const modisQuery = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/21');
+        Promise.all([
+          viirsQuery.execute(query),
+          modisQuery.execute(query)
+        ]).then(res => {
+          this.setState({
+            numberOfModisPointsInPolygons: res[1].features.length,
+            numberOfViirsPointsInPolygons: res[0].features.length
+          });
+        });
+        // setLayerDefs on the dynamic map image layer to the query for modis/viirs.
+        // assign the counts with .length;
+
 
         toolbar.deactivate();
         this.setState({ drawButtonActive: false });
