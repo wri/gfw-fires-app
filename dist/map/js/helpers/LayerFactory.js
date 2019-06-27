@@ -50,6 +50,9 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.maxScale = layer.maxScale || null;
         options.minScale = layer.minScale || null;
         esriLayer = new _ArcGISImageServiceLayer2.default(layer.url, options);
+        if (layer.definitionExpression) {
+          esriLayer.setDefinitionExpression(layer.definitionExpression);
+        }
         break;
       case 'wind':
         break;
