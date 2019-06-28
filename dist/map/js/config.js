@@ -977,6 +977,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         subscriptionInstructionsThree: ' when fires occur.',
         subscriptionShapefile: 'Or drop a zipped shapefile here',
         subscriptionClick: 'Click on drawn or uploaded shapes on the map to subscribe to the area.',
+        numberOfViirsPointsInPolygons: ' VIIRS Alerts ',
+        numberOfModisPointsInPolygons: ' MODIS Alerts ',
         imageryTabLabel: 'VIEW HIGH-RES IMAGERY',
         imageryArea: 'Imagery',
         basemapTabLabel: 'CHANGE BASE MAP',

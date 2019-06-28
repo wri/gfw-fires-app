@@ -92,7 +92,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
-      this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+      this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
       this.fireHistorySelectIndex = 14;
       this.layerPanelVisible = app.mobile === false;
@@ -494,7 +494,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }, {
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(activeIndex) {
-        this.viiirsSelectIndex = activeIndex;
+        this.viirsSelectIndex = activeIndex;
         this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
       }
     }, {

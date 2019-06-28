@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils/geometryUtils', 'esri/graphicsUtils', 'actions/AnalysisActions', 'actions/ModalActions', 'components/Loader', 'esri/toolbars/draw', 'utils/request', 'react'], function (exports, _config, _svgs, _scaleUtils, _geometryUtils, _graphicsUtils, _AnalysisActions, _ModalActions, _Loader, _draw, _request, _react) {
+define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', 'utils/geometryUtils', 'esri/tasks/query', 'esri/tasks/QueryTask', 'esri/graphicsUtils', 'actions/AnalysisActions', 'actions/ModalActions', 'components/Loader', 'esri/toolbars/draw', 'utils/request', 'react'], function (exports, _config, _MapStore, _scaleUtils, _geometryUtils, _query, _QueryTask, _graphicsUtils, _AnalysisActions, _ModalActions, _Loader, _draw, _request, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,6 +8,10 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
   var _scaleUtils2 = _interopRequireDefault(_scaleUtils);
 
   var _geometryUtils2 = _interopRequireDefault(_geometryUtils);
+
+  var _query2 = _interopRequireDefault(_query);
+
+  var _QueryTask2 = _interopRequireDefault(_QueryTask);
 
   var _graphicsUtils2 = _interopRequireDefault(_graphicsUtils);
 
@@ -99,7 +103,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         _this.setState({ drawButtonActive: true });
         //- If the analysis modal is visible, hide it
         _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
-        // mapActions.toggleAnalysisModal({ visible: false });
       };
 
       _this.prevent = function (evt) {
@@ -132,10 +135,9 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         });
 
         //- If the analysis modal is visible, hide it
-        // mapActions.toggleAnalysisModal({ visible: false });
 
         var extent = _scaleUtils2.default.getExtentForScale(app.map, 40000);
-        // const type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
+
         var type = TYPE.SHAPEFILE;
         var params = _config.uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
         var content = _config.uploadConfig.shapefileContent(JSON.stringify(params), type);
@@ -147,7 +149,7 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         _request2.default.upload(_config.uploadConfig.portal, content, _this.refs.upload).then(function (response) {
           if (response.featureCollection) {
             var graphics = _geometryUtils2.default.generatePolygonsFromUpload(response.featureCollection);
-            // const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
+
             var uploadedFeats = [];
 
             response.featureCollection.layers[0].layerDefinition.fields.forEach(function (field) {
@@ -163,26 +165,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
               fields: uploadedFeats,
               uploadedGraphics: graphics
             });
-
-            // new ComboBox({
-            //   id: 'upload-fields-input',
-            //   value: '-- Choose name field --',
-            //   store: store,
-            //   searchAttr: 'name',
-            //   onChange: (name) => {
-            //     if (name) {
-            //       self.addFeaturesToMap(name, response.featureCollection.layers[0].featureSet);
-            //       this.resetView();
-            //     }
-            //   }
-            // }, 'upload-fields-input');
-
-            // app.map.setExtent(graphicsExtent, true);
-            // graphics.forEach((graphic) => {
-            //   graphic.attributes.Layer = 'custom';
-            //   graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
-            //   app.map.graphics.add(graphic);
-            // });
           } else {
             _this.setState({
               fieldSelectionShown: false,
@@ -212,7 +194,6 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         app.map.setExtent(graphicsExtent, true);
         _this.state.uploadedGraphics.forEach(function (graphic) {
           graphic.attributes.Layer = 'custom';
-          // graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
           graphic.attributes.featureName = graphic.attributes[nameField];
           app.map.graphics.add(graphic);
         });
@@ -231,7 +212,11 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         fieldSelectionShown: false,
         showFields: false,
         fields: [],
-        graphics: []
+        graphics: [],
+        numberOfViirsPointsInPolygons: 0,
+        numberOfModisPointsInPolygons: 0,
+        modisTimePeriod: null,
+        viirsTimePeriod: null
       };
       return _this;
     }
@@ -246,6 +231,65 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         if (!toolbar && app.map.loaded) {
           toolbar = new _draw2.default(app.map);
           toolbar.on('draw-end', function (evt) {
+            /******************************************** NOTE ********************************************
+              * When a user draws a polygon, we want to capture the following data:
+                * The number of Viirs and Modis Fires contained within the polygon
+                * The time period which is being displayed for Viirs and Modis.
+              * We will query the Viirs and Modis REST endpoints and pass in the geometry of the polygon as the input geometry.
+              * We will then save the count of features returned from each query, and save the counts on state.
+              * We also save the phrase associated with the time period based on the index selected from the dropdown options.
+            ***********************************************************************************************/
+
+            // Run a new query
+            var query = new _query2.default();
+            query.geometry = evt.geometry;
+            query.returnGeometry = false;
+
+            var viirsQuery = new _QueryTask2.default('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/21');
+            var modisQuery = new _QueryTask2.default('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/21');
+            Promise.all([viirsQuery.execute(query), modisQuery.execute(query)]).then(function (res) {
+
+              // To determine the Viirs period, we look at the selected index.
+              var viirsTimePeriod = void 0;
+              if (_MapStore.mapStore.state.viirsSelectIndex === 4) {
+                // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+                viirsTimePeriod = 'from ' + _MapStore.mapStore.state.archiveViirsStartDate + ' to ' + _MapStore.mapStore.state.archiveViirsEndDate + '.';
+              } else if (_MapStore.mapStore.state.viirsSelectIndex === 3) {
+                viirsTimePeriod = 'in the past week.';
+              } else if (_MapStore.mapStore.state.viirsSelectIndex === 2) {
+                viirsTimePeriod = 'in the past 72 hours.';
+              } else if (_MapStore.mapStore.state.viirsSelectIndex === 1) {
+                viirsTimePeriod = 'in the past 48 hours.';
+              } else if (_MapStore.mapStore.state.viirsSelectIndex === 0) {
+                viirsTimePeriod = 'in the past 24 hours.';
+              }
+
+              // To determine the Modis period, we look at the selected index.
+              var modisTimePeriod = void 0;
+              if (_MapStore.mapStore.state.firesSelectIndex === 4) {
+                // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+                modisTimePeriod = 'from ' + _MapStore.mapStore.state.archiveModisStartDate + ' to ' + _MapStore.mapStore.state.archiveModisEndDate + '.';
+              } else if (_MapStore.mapStore.state.firesSelectIndex === 3) {
+                modisTimePeriod = 'in the past week.';
+              } else if (_MapStore.mapStore.state.firesSelectIndex === 2) {
+                modisTimePeriod = 'in the past 72 hours.';
+              } else if (_MapStore.mapStore.state.firesSelectIndex === 1) {
+                modisTimePeriod = 'in the past 48 hours.';
+              } else if (_MapStore.mapStore.state.firesSelectIndex === 0) {
+                modisTimePeriod = 'in the past 24 hours.';
+              }
+
+              _this2.setState({
+                numberOfModisPointsInPolygons: res[1].features.length,
+                numberOfViirsPointsInPolygons: res[0].features.length,
+                modisTimePeriod: modisTimePeriod,
+                viirsTimePeriod: viirsTimePeriod
+              });
+            });
+
+            // setLayerDefs on the dynamic map image layer to the query for modis/viirs.
+            // assign the counts with .length;
+
             toolbar.deactivate();
             _this2.setState({ drawButtonActive: false });
             if (app.mobile() === false) {
@@ -274,6 +318,11 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
         if (this.props.activeTab !== _config.analysisPanelText.subscriptionTabId) {
           className += ' hidden';
         }
+        var _state = this.state,
+            numberOfViirsPointsInPolygons = _state.numberOfViirsPointsInPolygons,
+            numberOfModisPointsInPolygons = _state.numberOfModisPointsInPolygons,
+            viirsTimePeriod = _state.viirsTimePeriod,
+            modisTimePeriod = _state.modisTimePeriod;
 
         return _react2.default.createElement(
           'div',
@@ -293,6 +342,16 @@ define(['exports', 'js/config', 'utils/svgs', 'esri/geometry/scaleUtils', 'utils
             'p',
             null,
             _config.analysisPanelText.subscriptionClick
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _MapStore.mapStore.state.activeLayers.includes('viirsFires') ? numberOfViirsPointsInPolygons + ' ' + _config.analysisPanelText.numberOfViirsPointsInPolygons + ' ' + viirsTimePeriod : ''
+          ),
+          _react2.default.createElement(
+            'p',
+            null,
+            _MapStore.mapStore.state.activeLayers.includes('activeFires') ? numberOfModisPointsInPolygons + ' ' + _config.analysisPanelText.numberOfModisPointsInPolygons + ' ' + modisTimePeriod : ''
           ),
           _react2.default.createElement(
             'div',

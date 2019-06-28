@@ -86,8 +86,8 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     _createClass(ViirsControls, [{
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex && this.props.viiirsSelectIndex !== firesOptions.length - 1) {
-          _LayersHelper2.default.updateViirsDefinitions(this.props.viiirsSelectIndex);
+        if (prevProps.viirsSelectIndex !== this.props.viirsSelectIndex && this.props.viirsSelectIndex !== firesOptions.length - 1) {
+          _LayersHelper2.default.updateViirsDefinitions(this.props.viirsSelectIndex);
         }
       }
     }, {
@@ -95,13 +95,13 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
       value: function componentWillReceiveProps(nextProps) {
         // Set the default layer definition when the map has been loaded
         if (!this.props.loaded && nextProps.loaded) {
-          _LayersHelper2.default.updateViirsDefinitions(nextProps.viiirsSelectIndex);
+          _LayersHelper2.default.updateViirsDefinitions(nextProps.viirsSelectIndex);
         }
       }
     }, {
       key: 'render',
       value: function render() {
-        var activeItem = firesOptions[this.props.viiirsSelectIndex];
+        var activeItem = firesOptions[this.props.viirsSelectIndex];
         var startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
         var showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';
