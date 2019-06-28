@@ -50,7 +50,7 @@ class MapStore {
     this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
-    this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+    this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.fireHistorySelectIndex = 14;
     this.layerPanelVisible = app.mobile === false;
@@ -414,7 +414,7 @@ class MapStore {
   }
 
   changeViirsTimeline (activeIndex) {
-    this.viiirsSelectIndex = activeIndex;
+    this.viirsSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
   }
 

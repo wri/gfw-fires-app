@@ -12,7 +12,7 @@ let firesOptions = layerPanelText.firesOptions;
 export type ViirsProps = {
   loaded: bool,
   options: Object,
-  viiirsSelectIndex: Number,
+  viirsSelectIndex: Number,
   archiveViirsStartDate: string,
   archiveViirsEndDate: string,
   calendarVisible: string
@@ -31,20 +31,20 @@ export default class ViirsControls extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if ((prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex) && (this.props.viiirsSelectIndex !== firesOptions.length - 1)) {
-      LayersHelper.updateViirsDefinitions(this.props.viiirsSelectIndex);
+    if ((prevProps.viirsSelectIndex !== this.props.viirsSelectIndex) && (this.props.viirsSelectIndex !== firesOptions.length - 1)) {
+      LayersHelper.updateViirsDefinitions(this.props.viirsSelectIndex);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     // Set the default layer definition when the map has been loaded
     if (!this.props.loaded && nextProps.loaded) {
-      LayersHelper.updateViirsDefinitions(nextProps.viiirsSelectIndex);
+      LayersHelper.updateViirsDefinitions(nextProps.viirsSelectIndex);
     }
   }
 
   render () {
-    let activeItem = firesOptions[this.props.viiirsSelectIndex];
+    let activeItem = firesOptions[this.props.viirsSelectIndex];
     let startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
     let endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
     let showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';

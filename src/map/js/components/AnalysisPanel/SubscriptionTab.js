@@ -1,5 +1,5 @@
 import {analysisPanelText} from 'js/config';
-import {DrawSvg} from 'utils/svgs';
+import {mapStore} from 'stores/MapStore';
 import scaleUtils from 'esri/geometry/scaleUtils';
 import geometryUtils from 'utils/geometryUtils';
 import Query from 'esri/tasks/query';
@@ -40,7 +40,9 @@ export default class SubscriptionTab extends React.Component {
       fields: [],
       graphics: [],
       numberOfViirsPointsInPolygons: 0,
-      numberOfModisPointsInPolygons: 0
+      numberOfModisPointsInPolygons: 0,
+      modisTimePeriod: null,
+      viirsTimePeriod: null
     };
   }
 
@@ -50,7 +52,14 @@ export default class SubscriptionTab extends React.Component {
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
       toolbar.on('draw-end', (evt) => {
-        console.log('polygon extent', evt);
+        /******************************************** NOTE ********************************************
+          * When a user draws a polygon, we want to capture the following data:
+            * The number of Viirs and Modis Fires contained within the polygon
+            * The time period which is being displayed for Viirs and Modis.
+          * We will query the Viirs and Modis REST endpoints and pass in the geometry of the polygon as the input geometry.
+          * We will then save the count of features returned from each query, and save the counts on state.
+          * We also save the phrase associated with the time period based on the index selected from the dropdown options.
+        ***********************************************************************************************/
 
         // Run a new query
         const query = new Query();
@@ -63,14 +72,47 @@ export default class SubscriptionTab extends React.Component {
           viirsQuery.execute(query),
           modisQuery.execute(query)
         ]).then(res => {
+          console.log('store', mapStore.state);
+
+          // To determine the Viirs period, we look at the selected index.
+          let viirsTimePeriod;
+          if (mapStore.state.viirsSelectIndex === 4) {
+            // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+            viirsTimePeriod = `from ${mapStore.state.archiveViirsStartDate} to ${mapStore.state.archiveViirsEndDate}.`;
+          } else if (mapStore.state.viirsSelectIndex === 3) {
+            viirsTimePeriod = 'in the past week.';
+          } else if (mapStore.state.viirsSelectIndex === 2) {
+            viirsTimePeriod = 'in the past 72 hours.';
+          } else if (mapStore.state.viirsSelectIndex === 1) {
+            viirsTimePeriod = 'in the past 48 hours.';
+          } else if (mapStore.state.viirsSelectIndex === 0) {
+            viirsTimePeriod = 'in the past 24 hours.';
+          }
+
+          // To determine the Modis period, we look at the selected index.
+          let modisTimePeriod;
+          if (mapStore.state.firesSelectIndex === 4) {
+            // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+            modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
+          } else if (mapStore.state.firesSelectIndex === 3) {
+            modisTimePeriod = 'in the past week.';
+          } else if (mapStore.state.firesSelectIndex === 2) {
+            modisTimePeriod = 'in the past 72 hours.';
+          } else if (mapStore.state.firesSelectIndex === 1) {
+            modisTimePeriod = 'in the past 48 hours.';
+          } else if (mapStore.state.firesSelectIndex === 0) {
+            modisTimePeriod = 'in the past 24 hours.';
+          }
+
           this.setState({
             numberOfModisPointsInPolygons: res[1].features.length,
-            numberOfViirsPointsInPolygons: res[0].features.length
+            numberOfViirsPointsInPolygons: res[0].features.length,
+            modisTimePeriod: modisTimePeriod,
+            viirsTimePeriod: viirsTimePeriod
           });
         });
         // setLayerDefs on the dynamic map image layer to the query for modis/viirs.
         // assign the counts with .length;
-
 
         toolbar.deactivate();
         this.setState({ drawButtonActive: false });
@@ -90,7 +132,6 @@ export default class SubscriptionTab extends React.Component {
     this.setState({ drawButtonActive: true });
     //- If the analysis modal is visible, hide it
     analysisActions.toggleAnalysisToolsVisibility();
-    // mapActions.toggleAnalysisModal({ visible: false });
   };
 
   //- DnD Functions
@@ -126,10 +167,9 @@ export default class SubscriptionTab extends React.Component {
     });
 
     //- If the analysis modal is visible, hide it
-    // mapActions.toggleAnalysisModal({ visible: false });
 
     const extent = scaleUtils.getExtentForScale(app.map, 40000);
-    // const type = file.type === TYPE.ZIP ? TYPE.SHAPEFILE : TYPE.GEOJSON;
+
     const type = TYPE.SHAPEFILE;
     const params = uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
     const content = uploadConfig.shapefileContent(JSON.stringify(params), type);
@@ -141,7 +181,7 @@ export default class SubscriptionTab extends React.Component {
     request.upload(uploadConfig.portal, content, this.refs.upload).then((response) => {
       if (response.featureCollection) {
         const graphics = geometryUtils.generatePolygonsFromUpload(response.featureCollection);
-        // const graphicsExtent = graphicsUtils.graphicsExtent(graphics);
+
         let uploadedFeats = [];
 
         response.featureCollection.layers[0].layerDefinition.fields.forEach((field) => {
@@ -208,7 +248,7 @@ export default class SubscriptionTab extends React.Component {
   render () {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
-    const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons } = this.state;
+    const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons, viirsTimePeriod, modisTimePeriod } = this.state;
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}
@@ -216,8 +256,8 @@ export default class SubscriptionTab extends React.Component {
           {analysisPanelText.subscriptionInstructionsThree}
         </p>
         <p>{analysisPanelText.subscriptionClick}</p>
-        <p>{numberOfViirsPointsInPolygons > 0 ? `${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons}` : ''}</p>
-        <p>{numberOfModisPointsInPolygons > 0 ? `${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons}` : ''}</p>
+        <p>{numberOfViirsPointsInPolygons > 0 && mapStore.state.activeLayers.includes('viirsFires') ? `${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons} ${viirsTimePeriod}` : ''}</p>
+        <p>{numberOfModisPointsInPolygons > 0 && mapStore.state.activeLayers.includes('activeFires') ? `${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons} ${modisTimePeriod}` : ''}</p>
 
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
