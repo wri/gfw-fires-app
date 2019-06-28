@@ -72,7 +72,6 @@ export default class SubscriptionTab extends React.Component {
           viirsQuery.execute(query),
           modisQuery.execute(query)
         ]).then(res => {
-          console.log('store', mapStore.state);
 
           // To determine the Viirs period, we look at the selected index.
           let viirsTimePeriod;
@@ -111,6 +110,7 @@ export default class SubscriptionTab extends React.Component {
             viirsTimePeriod: viirsTimePeriod
           });
         });
+
         // setLayerDefs on the dynamic map image layer to the query for modis/viirs.
         // assign the counts with .length;
 
@@ -256,8 +256,18 @@ export default class SubscriptionTab extends React.Component {
           {analysisPanelText.subscriptionInstructionsThree}
         </p>
         <p>{analysisPanelText.subscriptionClick}</p>
-        <p>{numberOfViirsPointsInPolygons > 0 && mapStore.state.activeLayers.includes('viirsFires') ? `${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons} ${viirsTimePeriod}` : ''}</p>
-        <p>{numberOfModisPointsInPolygons > 0 && mapStore.state.activeLayers.includes('activeFires') ? `${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons} ${modisTimePeriod}` : ''}</p>
+        <p>
+          {
+            mapStore.state.activeLayers.includes('viirsFires') ?
+              `${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons} ${viirsTimePeriod}` : ''
+          }
+        </p>
+        <p>
+          {
+            mapStore.state.activeLayers.includes('activeFires') ?
+              `${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons} ${modisTimePeriod}` : ''
+          }
+        </p>
 
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
