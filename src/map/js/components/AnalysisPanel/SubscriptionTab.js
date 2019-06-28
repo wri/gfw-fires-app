@@ -68,42 +68,61 @@ export default class SubscriptionTab extends React.Component {
         query.geometry = evt.geometry;
         query.returnGeometry = false;
 
-        const viirsQuery = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/21');
-        const modisQuery = new QueryTask('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/21');
+        // To determine the Viirs period, we look at the selected index.
+        let viirsTimePeriod, viirsDate, viirsId;
+        if (mapStore.state.viirsSelectIndex === 4) {
+          // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+          viirsTimePeriod = `from ${mapStore.state.archiveViirsStartDate} to ${mapStore.state.archiveViirsEndDate}.`;
+          viirsDate = '1yr';
+          viirsId = 0;
+        } else if (mapStore.state.viirsSelectIndex === 3) {
+          viirsTimePeriod = 'in the past week.';
+          viirsDate = '7d';
+          viirsId = 21;
+        } else if (mapStore.state.viirsSelectIndex === 2) {
+          viirsTimePeriod = 'in the past 72 hours.';
+          viirsDate = '7d';
+          viirsId = 21;
+        } else if (mapStore.state.viirsSelectIndex === 1) {
+          viirsTimePeriod = 'in the past 48 hours.';
+          viirsDate = '48hrs';
+          viirsId = 21;
+        } else if (mapStore.state.viirsSelectIndex === 0) {
+          viirsTimePeriod = 'in the past 24 hours.';
+          viirsDate = '24hrs';
+          viirsId = 21;
+        }
+
+        const viirsURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_${viirsDate}/MapServer/${viirsId}`;
+        // To determine the Modis period, we look at the selected index.
+        let modisTimePeriod, modisDate;
+        if (mapStore.state.firesSelectIndex === 4) {
+          // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+          modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
+          modisDate = '1yr';
+        } else if (mapStore.state.firesSelectIndex === 3) {
+          modisTimePeriod = 'in the past week.';
+          modisDate = '7d';
+        } else if (mapStore.state.firesSelectIndex === 2) {
+          modisTimePeriod = 'in the past 72 hours.';
+          modisDate = '7d';
+        } else if (mapStore.state.firesSelectIndex === 1) {
+          modisTimePeriod = 'in the past 48 hours.';
+          modisDate = '48hrs';
+        } else if (mapStore.state.firesSelectIndex === 0) {
+          modisTimePeriod = 'in the past 24 hours.';
+          modisDate = '24hrs';
+        }
+
+        const modisURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_${modisDate}/MapServer/21`;
+        console.log('modisUR', modisURL);
+        console.log('viirsUR', viirsURL);
+        const viirsQuery = new QueryTask(viirsURL);
+        const modisQuery = new QueryTask(modisURL);
         Promise.all([
           viirsQuery.execute(query),
           modisQuery.execute(query)
         ]).then(res => {
-
-          // To determine the Viirs period, we look at the selected index.
-          let viirsTimePeriod;
-          if (mapStore.state.viirsSelectIndex === 4) {
-            // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-            viirsTimePeriod = `from ${mapStore.state.archiveViirsStartDate} to ${mapStore.state.archiveViirsEndDate}.`;
-          } else if (mapStore.state.viirsSelectIndex === 3) {
-            viirsTimePeriod = 'in the past week.';
-          } else if (mapStore.state.viirsSelectIndex === 2) {
-            viirsTimePeriod = 'in the past 72 hours.';
-          } else if (mapStore.state.viirsSelectIndex === 1) {
-            viirsTimePeriod = 'in the past 48 hours.';
-          } else if (mapStore.state.viirsSelectIndex === 0) {
-            viirsTimePeriod = 'in the past 24 hours.';
-          }
-
-          // To determine the Modis period, we look at the selected index.
-          let modisTimePeriod;
-          if (mapStore.state.firesSelectIndex === 4) {
-            // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-            modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
-          } else if (mapStore.state.firesSelectIndex === 3) {
-            modisTimePeriod = 'in the past week.';
-          } else if (mapStore.state.firesSelectIndex === 2) {
-            modisTimePeriod = 'in the past 72 hours.';
-          } else if (mapStore.state.firesSelectIndex === 1) {
-            modisTimePeriod = 'in the past 48 hours.';
-          } else if (mapStore.state.firesSelectIndex === 0) {
-            modisTimePeriod = 'in the past 24 hours.';
-          }
 
           this.setState({
             numberOfModisPointsInPolygons: res[1].features.length,
