@@ -262,18 +262,16 @@ export default class SubscriptionTab extends React.Component {
           {analysisPanelText.subscriptionInstructionsThree}
         </p>
         <p>{analysisPanelText.subscriptionClick}</p>
-        <p>
           {
+            numberOfViirsPointsInPolygons > 0 &&
             mapStore.state.activeLayers.includes('viirsFires') ?
-              `${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons} ${viirsTimePeriod}` : ''
+              <p>`${numberOfViirsPointsInPolygons} ${analysisPanelText.numberOfViirsPointsInPolygons} ${viirsTimePeriod}` </p> : null
           }
-        </p>
-        <p>
           {
+            numberOfModisPointsInPolygons > 0 &&
             mapStore.state.activeLayers.includes('activeFires') ?
-              `${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons} ${modisTimePeriod}` : ''
+              <p>`${numberOfModisPointsInPolygons} ${analysisPanelText.numberOfModisPointsInPolygons} ${modisTimePeriod}`</p> : null
           }
-        </p>
 
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
