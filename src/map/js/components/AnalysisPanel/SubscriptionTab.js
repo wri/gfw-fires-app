@@ -51,7 +51,7 @@ export default class SubscriptionTab extends React.Component {
 
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
-      toolbar.on('draw-end', (evt) => {
+      toolbar.on('draw-complete', (evt) => {
         // app.map.graphics.graphics.remove(app.map.graphics.graphics[0])
 
         /******************************************** NOTE ********************************************
@@ -130,9 +130,9 @@ export default class SubscriptionTab extends React.Component {
   }
 
   draw = () => {
-    if (app.map.graphics.graphics.length > 0) {
-      app.map.graphics.graphics.remove(app.map.graphics.graphics[0]);
-    }
+    // if (app.map.graphics.graphics.length > 0) {
+    //   app.map.graphics.graphics.remove(app.map.graphics.graphics[0]);
+    // }
 
     toolbar.activate(Draw.FREEHAND_POLYGON);
     this.setState({ drawButtonActive: true });
