@@ -52,7 +52,7 @@ class MapStore {
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
-    this.fireHistorySelectIndex = 14;
+    this.fireHistorySelectIndex = layerPanelText.fireHistoryOptions.length - 1;
     this.layerPanelVisible = app.mobile === false;
     this.lat = undefined;
     this.lng = undefined;

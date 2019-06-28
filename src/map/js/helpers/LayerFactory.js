@@ -36,6 +36,9 @@ export default (layer) => {
       options.maxScale = layer.maxScale || null;
       options.minScale = layer.minScale || null;
       esriLayer = new ImageLayer(layer.url, options);
+      if (layer.definitionExpression) {
+        esriLayer.setDefinitionExpression(layer.definitionExpression);
+      }
       break;
     case 'wind':
       break;
@@ -70,10 +73,10 @@ export default (layer) => {
 
         // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
         const imageUrl = layer.id === 'viirsFires' ?
-          'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' :
+          'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
           'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
 
-        const symbol = new PictureMarkerSymbol(imageUrl, 20, 20);
+        const symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
 
         layerDrawingOption.renderer = new SimpleRenderer(symbol);
         layerDrawingOptions[layer.layerIds[0]] = layerDrawingOption;

@@ -50,6 +50,9 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.maxScale = layer.maxScale || null;
         options.minScale = layer.minScale || null;
         esriLayer = new _ArcGISImageServiceLayer2.default(layer.url, options);
+        if (layer.definitionExpression) {
+          esriLayer.setDefinitionExpression(layer.definitionExpression);
+        }
         break;
       case 'wind':
         break;
@@ -83,9 +86,9 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           var layerDrawingOption = new _LayerDrawingOptions2.default();
 
           // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
-          var imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyE20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+          var imageUrl = layer.id === 'viirsFires' ? 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' : 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
 
-          var symbol = new _PictureMarkerSymbol2.default(imageUrl, 20, 20);
+          var symbol = new _PictureMarkerSymbol2.default(imageUrl, 16, 16);
 
           layerDrawingOption.renderer = new _SimpleRenderer2.default(symbol);
           layerDrawingOptions[layer.layerIds[0]] = layerDrawingOption;

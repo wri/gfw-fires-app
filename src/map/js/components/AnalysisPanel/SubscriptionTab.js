@@ -52,6 +52,8 @@ export default class SubscriptionTab extends React.Component {
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
       toolbar.on('draw-end', (evt) => {
+        // app.map.graphics.graphics.remove(app.map.graphics.graphics[0])
+
         /******************************************** NOTE ********************************************
           * When a user draws a polygon, we want to capture the following data:
             * The number of Viirs and Modis Fires contained within the polygon
@@ -128,6 +130,10 @@ export default class SubscriptionTab extends React.Component {
   }
 
   draw = () => {
+    if (app.map.graphics.graphics.length > 0) {
+      app.map.graphics.graphics.remove(app.map.graphics.graphics[0]);
+    }
+
     toolbar.activate(Draw.FREEHAND_POLYGON);
     this.setState({ drawButtonActive: true });
     //- If the analysis modal is visible, hide it

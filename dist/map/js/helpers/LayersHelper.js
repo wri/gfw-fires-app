@@ -687,18 +687,23 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         // We are hiding and showing the layer to avoid calling the service multiple times.
         viirs.hide();
         var layaDefs = [];
+
         switch (optionIndex) {
           case 0:
             //past 24 hours
             viirs.url = _config.shortTermServices.viirs24HR.url;
             viirs._url.path = _config.shortTermServices.viirs24HR.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs24HR.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs24HR.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs24HR.id;
             break;
           case 1:
             //past 48 hours
             viirs.url = _config.shortTermServices.viirs48HR.url;
             viirs._url.path = _config.shortTermServices.viirs48HR.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs48HR.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs48HR.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs48HR.id;
             break;
           case 2:
             //past 72 hours
@@ -706,12 +711,16 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             viirs._url.path = _config.shortTermServices.viirs7D.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
             layaDefs[_config.shortTermServices.viirs7D.id] = 'Date > date\'' + new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'';
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs7D.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs7D.id;
             break;
           case 3:
             //past 7 days
             viirs.url = _config.shortTermServices.viirs7D.url;
             viirs._url.path = _config.shortTermServices.viirs7D.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs7D.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs7D.id;
             break;
           default:
             console.log('default');
@@ -797,6 +806,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> updateArchiveDates');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
       var archiveLayer = app.map.getLayer(_constants2.default.viirsFires);
+
       if (archiveLayer) {
         // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
         // We are hiding and showing the layer to avoid calling the service multiple times.
@@ -804,7 +814,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         archiveLayer.url = _config.shortTermServices.viirs1YR.url;
         archiveLayer._url.path = _config.shortTermServices.viirs1YR.url;
         archiveLayer.setVisibleLayers([_config.shortTermServices.viirs1YR.id]);
+        archiveLayer.layerDrawingOptions[0] = archiveLayer.layerDrawingOptions[_config.layersConfig.filter(function (index) {
+          return index.id === 'viirsFires';
+        })[0].layerIds[0]];
         var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+        archiveLayer.dynamicLayerInfos[_config.shortTermServices.viirs1YR.id].id = _config.shortTermServices.viirs1YR.id;
+        archiveLayer.dynamicLayerInfos[_config.shortTermServices.viirs1YR.id].source.mapLayerId = _config.shortTermServices.viirs1YR.id;
+        archiveLayer.dynamicLayerInfos[_config.shortTermServices.viirs1YR.id].definitionExpression = string;
+
         var layerDefs = [];
         layerDefs[_config.shortTermServices.viirs1YR.id] = string;
 
