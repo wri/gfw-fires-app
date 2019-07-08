@@ -44,11 +44,15 @@ export default class SubscriptionTab extends React.Component {
       numberOfModisPointsInPolygons: 0,
       modisTimePeriod: null,
       viirsTimePeriod: null,
-      modisTimeIndex: 0,
-      viirsTimeIndex: 0,
+      modisTimeIndex: mapStore.getState().firesSelectIndex,
+      viirsTimeIndex: mapStore.getState().viirsSelectIndex,
       geometryOfDrawnShape: null,
       showModisCount: true,
-      activeLayers: mapStore.getState().activeLayers
+      activeLayers: mapStore.getState().activeLayers,
+      viirsStartDate: mapStore.getState().archiveViirsStartDate,
+      viirsEndDate: mapStore.getState().archiveViirsEndDate,
+      modisStartDate: mapStore.getState().archiveModisStartDate,
+      modisEndDate: mapStore.getState().archiveModisEndDate
     };
   }
 
@@ -70,7 +74,7 @@ export default class SubscriptionTab extends React.Component {
     let viirsTimePeriod, viirsDate, viirsId;
     if (store.viirsSelectIndex === 4) {
       // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-      viirsTimePeriod = `from ${store.archiveViirsStartDate} to ${store.archiveViirsEndDate}.`;
+      viirsTimePeriod = `from ${this.state.viirsStartDate} to ${this.state.viirsEndDate}.`;
       viirsDate = '1yr';
       viirsId = shortTermServices.viirs1YR.id;
     } else if (mapStore.state.viirsSelectIndex === 3) {
@@ -97,7 +101,7 @@ export default class SubscriptionTab extends React.Component {
     let modisTimePeriod, modisDate, modisID;
     if (store.firesSelectIndex === 4) {
       // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-      modisTimePeriod = `from ${store.archiveModisStartDate} to ${store.archiveModisEndDate}.`;
+      modisTimePeriod = `from ${this.state.modisStartDate} to ${this.state.modisEndDate}.`;
       modisDate = '1yr';
       modisID = shortTermServices.modis1YR.id;
     } else if (mapStore.state.firesSelectIndex === 3) {
@@ -122,8 +126,11 @@ export default class SubscriptionTab extends React.Component {
 
     const viirsQuery = new QueryTask(viirsURL);
     const modisQuery = new QueryTask(modisURL);
-
-    if (store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires')) { // both layers on
+    
+    if (geometry
+      // store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires') &&
+      // (this.state.modisTimeIndex !== mapStore.getState().firesSelectIndex || this.state.viirsTimeIndex !== mapStore.getState().viirsSelectIndex)
+      ) { // both layers on
       Promise.all([
         viirsQuery.execute(query),
         modisQuery.execute(query)
@@ -138,7 +145,7 @@ export default class SubscriptionTab extends React.Component {
           geometryOfDrawnShape: queryGeometry
         });
       });
-    } else if (store.activeLayers.includes('viirsFires')) { // viirs layer on, modis layer off
+    } else if (store.activeLayers.includes('viirsFires') && store.viirsSelectIndex !== this.state.viirsTimeIndex) { // viirs layer on, modis layer off
       viirsQuery.execute(query).then(res => {
         this.setState({
           numberOfViirsPointsInPolygons: res.features.length,
@@ -147,7 +154,7 @@ export default class SubscriptionTab extends React.Component {
           geometryOfDrawnShape: queryGeometry
         });
       });
-    } else if (store.activeLayers.includes('activeFires')) { // modis layer on, viirs layer off
+    } else if (store.activeLayers.includes('activeFires') && store.firesSelectIndex !== this.state.modisTimeIndex) { // modis layer on, viirs layer off
       modisQuery.execute(query).then(res => {
         this.setState({
           numberOfModisPointsInPolygons: res.features.length,
@@ -160,23 +167,40 @@ export default class SubscriptionTab extends React.Component {
   }
 
   storeUpdated () {
-    // When the dates update, we fire off new viirs/modis queries based on the updated date range.
-    if (
-      (mapStore.getState().firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
-      mapStore.getState().viirsSelectIndex !== this.state.viirsTimeIndex) && // Checks if the viirs dates changed
-      (mapStore.getState().activeLayers.includes('activeFires') === true || mapStore.getState().activeLayers.includes('viirsFires') === true) && // Checks if the modis or viirs layers were toggled (and at least one is on)
-      mapStore.getState().drawnMapGraphics === true // Checks if a shape has been drawn on the map.
+    const state = mapStore.getState();
+    // If a user selects the calendar. Only fire off the query function once the dates have changed.
+    if (state.firesSelectIndex === 4 && this.state.modisTimeIndex !== 4) {
+      if (state.archiveModisStartDate !== this.state.modisStartDate || state.archiveModisEndDate !== this.state.modisEndDate) {
+        this.setState({
+          modisStartDate: state.archiveModisStartDate,
+          modisEndDate: state.archiveModisEndDate
+        });
+        this.queryForFires();
+      }
+    } else if (state.viirsSelectIndex === 4 && this.state.viirsTimeIndex !== 4) {
+      if (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate) {
+        this.setState({
+          viirsStartDate: state.archiveViirsStartDate,
+          viirsEndDate: state.archiveViirsEndDate
+        });
+        this.queryForFires();
+      }
+    } else if (
+      // If the user changed either the Modis or Viirs date, and there is a shape on the map, fire off new queries
+      (state.firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
+      state.viirsSelectIndex !== this.state.viirsTimeIndex) && // Checks if the viirs dates changed
+      (state.activeLayers.includes('activeFires') === true || state.activeLayers.includes('viirsFires') === true) && // Checks if the modis or viirs layers were toggled (and at least one is on)
+      state.drawnMapGraphics === true // Checks if a shape has been drawn on the map.
       ) {
       this.queryForFires();
     }
 
-    if (mapStore.getState().activeLayers !== this.state.activeLayers) {
+    // If only the activeLayers changed, we update state but don't run new queries.
+    if (state.activeLayers !== this.state.activeLayers) {
       this.setState({
-        activeLayers: mapStore.getState().activeLayers
+        activeLayers: state.activeLayers
       });
     }
-    // Todo - make sure that we only query for modis if modis changes and viirs if viirs changes
-    // Thinking that if either index is 4 (calendar view), we figure out the date range here before firing off the queryForFires. Run this by Lucas.
   }
 
   componentWillReceiveProps() {
