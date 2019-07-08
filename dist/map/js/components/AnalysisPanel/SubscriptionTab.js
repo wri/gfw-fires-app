@@ -301,6 +301,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           viirsDate = '7d';
           viirsId = _config.shortTermServices.viirs7D.id;
         } else if (_MapStore.mapStore.state.viirsSelectIndex === 2) {
+          query.where = 'ACQ_DATE <= date\'' + this.state.viirsEndDate + '\' AND ACQ_DATE >= date\'' + this.state.viirsStartDate + '\'';
           viirsTimePeriod = 'in the past 72 hours.';
           viirsDate = '7d';
           viirsId = _config.shortTermServices.viirs7D.id;
@@ -332,6 +333,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           modisID = _config.shortTermServices.modis7D.id;
         } else if (_MapStore.mapStore.state.firesSelectIndex === 2) {
           modisTimePeriod = 'in the past 72 hours.';
+          query.where = 'ACQ_DATE <= date\'' + this.state.modisEndDate + '\' AND ACQ_DATE >= date\'' + this.state.modisStartDate + '\'';
           modisDate = '7d';
           modisID = _config.shortTermServices.modis7D.id;
         } else if (_MapStore.mapStore.state.firesSelectIndex === 1) {
