@@ -47,12 +47,12 @@ export default class SubscriptionTab extends React.Component {
       modisTimeIndex: mapStore.getState().firesSelectIndex,
       viirsTimeIndex: mapStore.getState().viirsSelectIndex,
       geometryOfDrawnShape: null,
-      showModisCount: true,
       activeLayers: mapStore.getState().activeLayers,
       viirsStartDate: mapStore.getState().archiveViirsStartDate,
       viirsEndDate: mapStore.getState().archiveViirsEndDate,
       modisStartDate: mapStore.getState().archiveModisStartDate,
-      modisEndDate: mapStore.getState().archiveModisEndDate
+      modisEndDate: mapStore.getState().archiveModisEndDate,
+      showDrawnMapGraphics: false
     };
   }
 
@@ -126,11 +126,8 @@ export default class SubscriptionTab extends React.Component {
 
     const viirsQuery = new QueryTask(viirsURL);
     const modisQuery = new QueryTask(modisURL);
-    
-    if (geometry
-      // store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires') &&
-      // (this.state.modisTimeIndex !== mapStore.getState().firesSelectIndex || this.state.viirsTimeIndex !== mapStore.getState().viirsSelectIndex)
-      ) { // both layers on
+
+    if (geometry && store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires')) { // both layers on for the initial drawing
       Promise.all([
         viirsQuery.execute(query),
         modisQuery.execute(query)
@@ -145,7 +142,7 @@ export default class SubscriptionTab extends React.Component {
           geometryOfDrawnShape: queryGeometry
         });
       });
-    } else if (store.activeLayers.includes('viirsFires') && store.viirsSelectIndex !== this.state.viirsTimeIndex) { // viirs layer on, modis layer off
+    } else if (store.activeLayers.includes('viirsFires') && (store.viirsSelectIndex !== this.state.viirsTimeIndex || (this.state.viirsTimeIndex === 4 && this.state.viirsTimePeriod !== viirsTimePeriod))) { // viirs layer on, modis layer off
       viirsQuery.execute(query).then(res => {
         this.setState({
           numberOfViirsPointsInPolygons: res.features.length,
@@ -154,7 +151,7 @@ export default class SubscriptionTab extends React.Component {
           geometryOfDrawnShape: queryGeometry
         });
       });
-    } else if (store.activeLayers.includes('activeFires') && store.firesSelectIndex !== this.state.modisTimeIndex) { // modis layer on, viirs layer off
+    } else if (store.activeLayers.includes('activeFires') && (store.firesSelectIndex !== this.state.modisTimeIndex || (this.state.modisTimeIndex === 4 && this.state.modisTimePeriod !== modisTimePeriod))) { // modis layer on, viirs layer off
       modisQuery.execute(query).then(res => {
         this.setState({
           numberOfModisPointsInPolygons: res.features.length,
@@ -185,6 +182,20 @@ export default class SubscriptionTab extends React.Component {
         });
         this.queryForFires();
       }
+    } else if (this.state.modisTimeIndex === 4 && (state.archiveModisStartDate !== this.state.modisStartDate || state.archiveModisEndDate !== this.state.modisEndDate)) {
+      // If the user is changing one of the dates of the modis calendar while still on the calendar...
+      this.setState({
+        modisStartDate: state.archiveModisStartDate,
+        modisEndDate: state.archiveModisEndDate
+      });
+      this.queryForFires();
+    } else if (this.state.viirsTimeIndex === 4 && (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate)) {
+      // If the user is changing one of the dates of the viirs calendar while still on the calendar...
+      this.setState({
+        viirsStartDate: state.archiveViirsStartDate,
+        viirsEndDate: state.archiveViirsEndDate
+      });
+      this.queryForFires();
     } else if (
       // If the user changed either the Modis or Viirs date, and there is a shape on the map, fire off new queries
       (state.firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
@@ -200,6 +211,10 @@ export default class SubscriptionTab extends React.Component {
       this.setState({
         activeLayers: state.activeLayers
       });
+    }
+
+    if (state.drawnMapGraphics !== this.state.drawnMapGraphics) {
+      this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
     }
   }
 
@@ -241,6 +256,13 @@ export default class SubscriptionTab extends React.Component {
     this.setState({ drawButtonActive: true });
     //- If the analysis modal is visible, hide it
     analysisActions.toggleAnalysisToolsVisibility();
+  };
+
+  removeDrawing = () => {
+    if (app.map.graphics.graphics.length > 0) {
+      app.map.graphics.clear();
+      this.setState({ showDrawnMapGraphics: !this.state.showDrawnMapGraphics});
+    }
   };
 
   //- DnD Functions
@@ -358,7 +380,8 @@ export default class SubscriptionTab extends React.Component {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
     const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons, viirsTimePeriod, modisTimePeriod } = this.state;
-    const mapStoreState = mapStore.getState();
+    const state = mapStore.getState();
+    console.log(state.drawnMapGraphics);
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}
@@ -369,20 +392,30 @@ export default class SubscriptionTab extends React.Component {
           {
             numberOfViirsPointsInPolygons > 0 &&
             this.state.activeLayers.includes('viirsFires') &&
-            mapStoreState.drawnMapGraphics === true ?
+            this.state.showDrawnMapGraphics === true ?
               <p>{numberOfViirsPointsInPolygons} {analysisPanelText.numberOfViirsPointsInPolygons} {viirsTimePeriod} </p> : null
           }
           {
             numberOfModisPointsInPolygons > 0 &&
             this.state.activeLayers.includes('activeFires') &&
-            mapStoreState.drawnMapGraphics === true ?
+            this.state.showDrawnMapGraphics === true ?
               <p>{numberOfModisPointsInPolygons} {analysisPanelText.numberOfModisPointsInPolygons} {modisTimePeriod}</p> : null
           }
 
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
         </div>
-        <button onClick={this.draw} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>{analysisPanelText.subscriptionButtonLabel}</button>
+        
+        {
+          this.state.showDrawnMapGraphics ?
+          <button onClick={this.removeDrawing} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>
+            {analysisPanelText.subscriptionButtonLabelRemove}
+          </button> :
+          <button onClick={this.draw} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>
+            {analysisPanelText.subscriptionButtonLabel}
+          </button>
+        }
+        
 
         <div id='upload-fields-input' className={`subscription-field-container ${this.state.fieldSelectionShown ? '' : ' hidden'}`}>
           <span className='upload-fields-label'>Choose name field </span><span onClick={this.toggleFields} className='layer-category-caret red'>{String.fromCharCode(!this.state.showFields ? closeSymbolCode : openSymbolCode)}</span>
