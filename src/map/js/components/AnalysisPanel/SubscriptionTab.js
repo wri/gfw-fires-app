@@ -31,6 +31,7 @@ export default class SubscriptionTab extends React.Component {
 
   constructor (props) {
     super(props);
+    mapStore.listen(this.storeUpdated.bind(this));
     this.state = {
       dndActive: false,
       drawButtonActive: false,
@@ -42,12 +43,74 @@ export default class SubscriptionTab extends React.Component {
       numberOfViirsPointsInPolygons: 0,
       numberOfModisPointsInPolygons: 0,
       modisTimePeriod: null,
-      viirsTimePeriod: null
+      viirsTimePeriod: null,
+      geometryOfDrawnShape: null
     };
   }
 
-  componentDidUpdate() {
-    console.log('cwrp!', this.props);
+  storeUpdated () {
+    console.log('sup');
+    // When the store updates:
+    // Fire off another query based on the updated date range
+      // Run a new query
+      const query = new Query();
+      query.geometry = this.state.geometryOfDrawnShape;
+      query.returnGeometry = false;
+
+      const viirsQuery = new QueryTask(viirsURL);
+      const modisQuery = new QueryTask(modisURL);
+        Promise.all([
+          viirsQuery.execute(query),
+          modisQuery.execute(query)
+        ]).then(res => {
+
+          this.setState({
+            numberOfModisPointsInPolygons: res[1].features.length,
+            numberOfViirsPointsInPolygons: res[0].features.length,
+            modisTimePeriod: modisTimePeriod,
+            viirsTimePeriod: viirsTimePeriod,
+            geometryOfDrawnShape: evt.geometry
+          });
+        });
+    // Save the new count of fires on state
+    // Save the new period on state.
+
+    // console.log(mapStore.state.archiveModisStartDate);
+
+    // let modisTimePeriod, modisDate, modisID;
+    // if (mapStore.state.firesSelectIndex === 4) {
+    //   // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+    //   modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
+    //   modisDate = '1yr';
+    //   modisID = shortTermServices.modis1YR.id;
+    // } else if (mapStore.state.firesSelectIndex === 3) {
+    //   modisTimePeriod = 'in the past week.';
+    //   modisDate = '7d';
+    //   modisID = shortTermServices.modis7D.id;
+    // } else if (mapStore.state.firesSelectIndex === 2) {
+    //   modisTimePeriod = 'in the past 72 hours.';
+    //   modisDate = '7d';
+    //   modisID = shortTermServices.modis7D.id;
+    // } else if (mapStore.state.firesSelectIndex === 1) {
+    //   modisTimePeriod = 'in the past 48 hours.';
+    //   modisDate = '48hrs';
+    //   modisID = shortTermServices.modis48HR.id;
+    // } else if (mapStore.state.firesSelectIndex === 0) {
+    //   console.log('yoooo');
+    //   modisTimePeriod = 'in the past 24 hours.';
+    //   modisDate = '24hrs';
+    //   modisID = shortTermServices.modis24HR.id;
+    // }
+    // // // firesSelectIndex = modis
+    // this.setState({
+
+    // })
+
+    // this.setState(mapStore.getState());
+  }
+
+  queryForFires(queryObject) {
+
   }
 
   componentWillReceiveProps() {
@@ -134,7 +197,8 @@ export default class SubscriptionTab extends React.Component {
             numberOfModisPointsInPolygons: res[1].features.length,
             numberOfViirsPointsInPolygons: res[0].features.length,
             modisTimePeriod: modisTimePeriod,
-            viirsTimePeriod: viirsTimePeriod
+            viirsTimePeriod: viirsTimePeriod,
+            geometryOfDrawnShape: evt.geometry
           });
         });
 

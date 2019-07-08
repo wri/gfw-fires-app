@@ -4,7 +4,6 @@ import {modalActions} from 'actions/ModalActions';
 import {layerPanelText} from 'js/config';
 import DateHelper from 'helpers/DateHelper';
 import {mapActions} from 'actions/MapActions';
-import KEYS from 'js/constants';
 import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
