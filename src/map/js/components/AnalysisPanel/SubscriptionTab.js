@@ -228,7 +228,7 @@ export default class SubscriptionTab extends React.Component {
       });
     }
 
-    if (state.drawnMapGraphics !== this.state.drawnMapGraphics) {
+    if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
       this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
     }
   }
