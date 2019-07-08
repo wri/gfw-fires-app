@@ -48,76 +48,104 @@ export default class SubscriptionTab extends React.Component {
     };
   }
 
+  queryForFires(geometry) {
+    let queryGeometry;
+    if (geometry !== undefined) {
+      queryGeometry = geometry;
+    } else {
+      queryGeometry = this.state.geometryOfDrawnShape;
+    }
+
+    // Run a new query
+    const query = new Query();
+    query.returnGeometry = false;
+    query.geometry = queryGeometry;
+
+    // To determine the Viirs period, we look at the selected index.
+    let viirsTimePeriod, viirsDate, viirsId;
+    if (mapStore.state.viirsSelectIndex === 4) {
+      // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+      viirsTimePeriod = `from ${mapStore.state.archiveViirsStartDate} to ${mapStore.state.archiveViirsEndDate}.`;
+      viirsDate = '1yr';
+      viirsId = shortTermServices.viirs1YR.id;
+    } else if (mapStore.state.viirsSelectIndex === 3) {
+      viirsTimePeriod = 'in the past week.';
+      viirsDate = '7d';
+      viirsId = shortTermServices.viirs7D.id;
+    } else if (mapStore.state.viirsSelectIndex === 2) {
+      viirsTimePeriod = 'in the past 72 hours.';
+      viirsDate = '7d';
+      viirsId = shortTermServices.viirs7D.id;
+    } else if (mapStore.state.viirsSelectIndex === 1) {
+      viirsTimePeriod = 'in the past 48 hours.';
+      viirsDate = '48hrs';
+      viirsId = shortTermServices.viirs48HR.id;
+    } else if (mapStore.state.viirsSelectIndex === 0) {
+      viirsTimePeriod = 'in the past 24 hours.';
+      viirsDate = '24hrs';
+      viirsId = shortTermServices.viirs24HR.id;
+    }
+
+    const viirsURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_${viirsDate}/MapServer/${viirsId}`;
+
+    // To determine the Modis period, we look at the selected index.
+    let modisTimePeriod, modisDate, modisID;
+    if (mapStore.state.firesSelectIndex === 4) {
+      // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+      modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
+      modisDate = '1yr';
+      modisID = shortTermServices.modis1YR.id;
+    } else if (mapStore.state.firesSelectIndex === 3) {
+      modisTimePeriod = 'in the past week.';
+      modisDate = '7d';
+      modisID = shortTermServices.modis7D.id;
+    } else if (mapStore.state.firesSelectIndex === 2) {
+      modisTimePeriod = 'in the past 72 hours.';
+      modisDate = '7d';
+      modisID = shortTermServices.modis7D.id;
+    } else if (mapStore.state.firesSelectIndex === 1) {
+      modisTimePeriod = 'in the past 48 hours.';
+      modisDate = '48hrs';
+      modisID = shortTermServices.modis48HR.id;
+    } else if (mapStore.state.firesSelectIndex === 0) {
+      modisTimePeriod = 'in the past 24 hours.';
+      modisDate = '24hrs';
+      modisID = shortTermServices.modis24HR.id;
+    }
+
+    const modisURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_${modisDate}/MapServer/${modisID}`;
+    console.log('modisUR', modisURL);
+    console.log('viirsUR', viirsURL);
+    const viirsQuery = new QueryTask(viirsURL);
+    const modisQuery = new QueryTask(modisURL);
+    Promise.all([
+      viirsQuery.execute(query),
+      modisQuery.execute(query)
+    ]).then(res => {
+      console.log(res[0].features.length);
+      console.log(res[1].features.length);
+      this.setState({
+        numberOfModisPointsInPolygons: res[1].features.length,
+        numberOfViirsPointsInPolygons: res[0].features.length,
+        modisTimePeriod: modisTimePeriod,
+        viirsTimePeriod: viirsTimePeriod,
+        geometryOfDrawnShape: queryGeometry
+      });
+    });
+  }
+
   storeUpdated () {
     console.log('sup');
     // When the store updates:
     // Fire off another query based on the updated date range
-      // Run a new query
-      const query = new Query();
-      query.geometry = this.state.geometryOfDrawnShape;
-      query.returnGeometry = false;
-
-      const viirsQuery = new QueryTask(viirsURL);
-      const modisQuery = new QueryTask(modisURL);
-        Promise.all([
-          viirsQuery.execute(query),
-          modisQuery.execute(query)
-        ]).then(res => {
-
-          this.setState({
-            numberOfModisPointsInPolygons: res[1].features.length,
-            numberOfViirsPointsInPolygons: res[0].features.length,
-            modisTimePeriod: modisTimePeriod,
-            viirsTimePeriod: viirsTimePeriod,
-            geometryOfDrawnShape: evt.geometry
-          });
-        });
-    // Save the new count of fires on state
-    // Save the new period on state.
-
-    // console.log(mapStore.state.archiveModisStartDate);
-
-    // let modisTimePeriod, modisDate, modisID;
-    // if (mapStore.state.firesSelectIndex === 4) {
-    //   // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-    //   modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
-    //   modisDate = '1yr';
-    //   modisID = shortTermServices.modis1YR.id;
-    // } else if (mapStore.state.firesSelectIndex === 3) {
-    //   modisTimePeriod = 'in the past week.';
-    //   modisDate = '7d';
-    //   modisID = shortTermServices.modis7D.id;
-    // } else if (mapStore.state.firesSelectIndex === 2) {
-    //   modisTimePeriod = 'in the past 72 hours.';
-    //   modisDate = '7d';
-    //   modisID = shortTermServices.modis7D.id;
-    // } else if (mapStore.state.firesSelectIndex === 1) {
-    //   modisTimePeriod = 'in the past 48 hours.';
-    //   modisDate = '48hrs';
-    //   modisID = shortTermServices.modis48HR.id;
-    // } else if (mapStore.state.firesSelectIndex === 0) {
-    //   console.log('yoooo');
-    //   modisTimePeriod = 'in the past 24 hours.';
-    //   modisDate = '24hrs';
-    //   modisID = shortTermServices.modis24HR.id;
-    // }
-    // // // firesSelectIndex = modis
-    // this.setState({
-
-    // })
-
-    // this.setState(mapStore.getState());
-  }
-
-  queryForFires(queryObject) {
-
+    this.queryForFires();
   }
 
   componentWillReceiveProps() {
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
       toolbar.on('draw-complete', (evt) => {
-        
+
         /******************************************** NOTE ********************************************
           * When a user draws a polygon, we want to capture the following data:
             * The number of Viirs and Modis Fires contained within the polygon
@@ -127,80 +155,81 @@ export default class SubscriptionTab extends React.Component {
           * We also save the phrase associated with the time period based on the index selected from the dropdown options.
         ***********************************************************************************************/
 
-        // Run a new query
-        const query = new Query();
-        query.geometry = evt.geometry;
-        query.returnGeometry = false;
+        // // Run a new query
+        // const query = new Query();
+        // query.geometry = evt.geometry;
+        // query.returnGeometry = false;
 
-        // To determine the Viirs period, we look at the selected index.
-        let viirsTimePeriod, viirsDate, viirsId;
-        if (mapStore.state.viirsSelectIndex === 4) {
-          // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-          viirsTimePeriod = `from ${mapStore.state.archiveViirsStartDate} to ${mapStore.state.archiveViirsEndDate}.`;
-          viirsDate = '1yr';
-          viirsId = shortTermServices.viirs1YR.id;
-        } else if (mapStore.state.viirsSelectIndex === 3) {
-          viirsTimePeriod = 'in the past week.';
-          viirsDate = '7d';
-          viirsId = shortTermServices.viirs7D.id;
-        } else if (mapStore.state.viirsSelectIndex === 2) {
-          viirsTimePeriod = 'in the past 72 hours.';
-          viirsDate = '7d';
-          viirsId = shortTermServices.viirs7D.id;
-        } else if (mapStore.state.viirsSelectIndex === 1) {
-          viirsTimePeriod = 'in the past 48 hours.';
-          viirsDate = '48hrs';
-          viirsId = shortTermServices.viirs48HR.id;
-        } else if (mapStore.state.viirsSelectIndex === 0) {
-          viirsTimePeriod = 'in the past 24 hours.';
-          viirsDate = '24hrs';
-          viirsId = shortTermServices.viirs24HR.id;
-        }
+        this.queryForFires(evt.geometry);
+        // // To determine the Viirs period, we look at the selected index.
+        // let viirsTimePeriod, viirsDate, viirsId;
+        // if (mapStore.state.viirsSelectIndex === 4) {
+        //   // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+        //   viirsTimePeriod = `from ${mapStore.state.archiveViirsStartDate} to ${mapStore.state.archiveViirsEndDate}.`;
+        //   viirsDate = '1yr';
+        //   viirsId = shortTermServices.viirs1YR.id;
+        // } else if (mapStore.state.viirsSelectIndex === 3) {
+        //   viirsTimePeriod = 'in the past week.';
+        //   viirsDate = '7d';
+        //   viirsId = shortTermServices.viirs7D.id;
+        // } else if (mapStore.state.viirsSelectIndex === 2) {
+        //   viirsTimePeriod = 'in the past 72 hours.';
+        //   viirsDate = '7d';
+        //   viirsId = shortTermServices.viirs7D.id;
+        // } else if (mapStore.state.viirsSelectIndex === 1) {
+        //   viirsTimePeriod = 'in the past 48 hours.';
+        //   viirsDate = '48hrs';
+        //   viirsId = shortTermServices.viirs48HR.id;
+        // } else if (mapStore.state.viirsSelectIndex === 0) {
+        //   viirsTimePeriod = 'in the past 24 hours.';
+        //   viirsDate = '24hrs';
+        //   viirsId = shortTermServices.viirs24HR.id;
+        // }
 
-        const viirsURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_${viirsDate}/MapServer/${viirsId}`;
-        // To determine the Modis period, we look at the selected index.
-        let modisTimePeriod, modisDate, modisID;
-        if (mapStore.state.firesSelectIndex === 4) {
-          // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-          modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
-          modisDate = '1yr';
-          modisID = shortTermServices.modis1YR.id;
-        } else if (mapStore.state.firesSelectIndex === 3) {
-          modisTimePeriod = 'in the past week.';
-          modisDate = '7d';
-          modisID = shortTermServices.modis7D.id;
-        } else if (mapStore.state.firesSelectIndex === 2) {
-          modisTimePeriod = 'in the past 72 hours.';
-          modisDate = '7d';
-          modisID = shortTermServices.modis7D.id;
-        } else if (mapStore.state.firesSelectIndex === 1) {
-          modisTimePeriod = 'in the past 48 hours.';
-          modisDate = '48hrs';
-          modisID = shortTermServices.modis48HR.id;
-        } else if (mapStore.state.firesSelectIndex === 0) {
-          modisTimePeriod = 'in the past 24 hours.';
-          modisDate = '24hrs';
-          modisID = shortTermServices.modis24HR.id;
-        }
+        // const viirsURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_${viirsDate}/MapServer/${viirsId}`;
+        // // To determine the Modis period, we look at the selected index.
+        // let modisTimePeriod, modisDate, modisID;
+        // if (mapStore.state.firesSelectIndex === 4) {
+        //   // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+        //   modisTimePeriod = `from ${mapStore.state.archiveModisStartDate} to ${mapStore.state.archiveModisEndDate}.`;
+        //   modisDate = '1yr';
+        //   modisID = shortTermServices.modis1YR.id;
+        // } else if (mapStore.state.firesSelectIndex === 3) {
+        //   modisTimePeriod = 'in the past week.';
+        //   modisDate = '7d';
+        //   modisID = shortTermServices.modis7D.id;
+        // } else if (mapStore.state.firesSelectIndex === 2) {
+        //   modisTimePeriod = 'in the past 72 hours.';
+        //   modisDate = '7d';
+        //   modisID = shortTermServices.modis7D.id;
+        // } else if (mapStore.state.firesSelectIndex === 1) {
+        //   modisTimePeriod = 'in the past 48 hours.';
+        //   modisDate = '48hrs';
+        //   modisID = shortTermServices.modis48HR.id;
+        // } else if (mapStore.state.firesSelectIndex === 0) {
+        //   modisTimePeriod = 'in the past 24 hours.';
+        //   modisDate = '24hrs';
+        //   modisID = shortTermServices.modis24HR.id;
+        // }
 
-        const modisURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_${modisDate}/MapServer/${modisID}`;
-        console.log('modisUR', modisURL);
-        console.log('viirsUR', viirsURL);
-        const viirsQuery = new QueryTask(viirsURL);
-        const modisQuery = new QueryTask(modisURL);
-        Promise.all([
-          viirsQuery.execute(query),
-          modisQuery.execute(query)
-        ]).then(res => {
+        // const modisURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_${modisDate}/MapServer/${modisID}`;
+        // console.log('modisUR', modisURL);
+        // console.log('viirsUR', viirsURL);
+        // const viirsQuery = new QueryTask(viirsURL);
+        // const modisQuery = new QueryTask(modisURL);
+        // Promise.all([
+        //   viirsQuery.execute(query),
+        //   modisQuery.execute(query)
+        // ]).then(res => {
 
-          this.setState({
-            numberOfModisPointsInPolygons: res[1].features.length,
-            numberOfViirsPointsInPolygons: res[0].features.length,
-            modisTimePeriod: modisTimePeriod,
-            viirsTimePeriod: viirsTimePeriod,
-            geometryOfDrawnShape: evt.geometry
-          });
-        });
+        //   this.setState({
+        //     numberOfModisPointsInPolygons: res[1].features.length,
+        //     numberOfViirsPointsInPolygons: res[0].features.length,
+        //     modisTimePeriod: modisTimePeriod,
+        //     viirsTimePeriod: viirsTimePeriod,
+        //     geometryOfDrawnShape: evt.geometry
+        //   });
+        // });
 
         // setLayerDefs on the dynamic map image layer to the query for modis/viirs.
         // assign the counts with .length;
