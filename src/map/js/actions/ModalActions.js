@@ -107,6 +107,11 @@ class ModalActions {
     this.dispatch(newDensity);
   }
 
+  addCustomFeature () {
+    app.debug('ModalActions >>> addCustomFeature');
+    this.dispatch();
+  }
+
   removeCustomFeature (graphic) {
     app.debug('ModalActions >>> removeCustomFeature');
     this.dispatch(graphic);

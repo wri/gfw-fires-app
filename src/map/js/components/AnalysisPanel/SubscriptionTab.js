@@ -51,6 +51,8 @@ export default class SubscriptionTab extends React.Component {
   }
 
   queryForFires(geometry) {
+    if (this.state.geometryOfDrawnShape === null && geometry === null) return;
+
     const store = mapStore.getState();
 
     const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
@@ -139,10 +141,14 @@ export default class SubscriptionTab extends React.Component {
     if (
       mapStore.getState().firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
       mapStore.getState().viirsSelectIndex !== this.state.viirsTimeIndex || // Checks if the viirs dates changed
-      mapStore.getState().activeLayers.length !== this.state.countOfActiveLayers // Checks if the modis or viirs layers were toggled
+      mapStore.getState().activeLayers.length !== this.state.countOfActiveLayers && // Checks if the modis or viirs layers were toggled
+      mapStore.getState().drawnMapGraphics === true
       ) {
       this.queryForFires();
     }
+    // Todo - make sure that we only query for modis if modis changes and viirs if viirs changes
+    // Todo - clear the state geometry when the feature is deleted.
+
     // Thinking that if either index is 4 (calendar view), we figure out the date range here before firing off the queryForFires. Run this by Lucas.
   }
 
@@ -161,6 +167,7 @@ export default class SubscriptionTab extends React.Component {
 
         this.queryForFires(evt.geometry);
 
+        modalActions.addCustomFeature();
         toolbar.deactivate();
         this.setState({ drawButtonActive: false });
         if (app.mobile() === false) {

@@ -19,6 +19,7 @@ class MapStore {
     this.footprintsVisible = true;
     this.footprints = undefined;
     this.overlaysVisible = [];
+    this.drawnMapGraphics = false;
     this.date = this.getDate(defaults.todaysDate);
     this.dgStartDate = this.getDate(defaults.dgStartDate);
     this.dgEndDate = this.getDate(defaults.todaysDate);
@@ -86,6 +87,7 @@ class MapStore {
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
+      addCustomFeature: modalActions.addCustomFeature,
       removeCustomFeature: modalActions.removeCustomFeature,
       togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
@@ -366,8 +368,13 @@ class MapStore {
     }
   }
 
+  addCustomFeature () {
+    this.drawnMapGraphics = true;
+  }
+
   removeCustomFeature (graphic) {
     LayersHelper.removeCustomFeature(graphic);
+    this.drawnMapGraphics = false;
   }
 
   setBasemap (basemap) {
