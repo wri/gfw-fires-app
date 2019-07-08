@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
+define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,8 +8,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
   var _DateHelper2 = _interopRequireDefault(_DateHelper);
-
-  var _constants2 = _interopRequireDefault(_constants);
 
   var _react2 = _interopRequireDefault(_react);
 

@@ -61,6 +61,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.footprintsVisible = true;
       this.footprints = undefined;
       this.overlaysVisible = [];
+      this.drawnMapGraphics = false;
       this.date = this.getDate(_config.defaults.todaysDate);
       this.dgStartDate = this.getDate(_config.defaults.dgStartDate);
       this.dgEndDate = this.getDate(_config.defaults.todaysDate);
@@ -128,6 +129,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         addActiveLayer: _LayerActions.layerActions.addActiveLayer,
         removeActiveLayer: _LayerActions.layerActions.removeActiveLayer,
         setFootprints: _LayerActions.layerActions.setFootprints,
+        addCustomFeature: _ModalActions.modalActions.addCustomFeature,
         removeCustomFeature: _ModalActions.modalActions.removeCustomFeature,
         togglePanels: _MapActions.mapActions.togglePanels,
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
@@ -437,9 +439,15 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
       }
     }, {
+      key: 'addCustomFeature',
+      value: function addCustomFeature() {
+        this.drawnMapGraphics = true;
+      }
+    }, {
       key: 'removeCustomFeature',
       value: function removeCustomFeature(graphic) {
         _LayersHelper2.default.removeCustomFeature(graphic);
+        this.drawnMapGraphics = false;
       }
     }, {
       key: 'setBasemap',

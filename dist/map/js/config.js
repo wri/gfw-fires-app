@@ -970,6 +970,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         analysisDateRangeErrorMessage: 'Fire report is available for the last 12 months',
         subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
         subscriptionButtonLabel: 'START DRAWING',
+        subscriptionButtonLabelRemove: 'CLEAR DRAWING',
         subscriptionInstructionsOne: 'Sign up to receive ',
         subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
         subscriptionInstructionsThree: ' when fires occur.',
