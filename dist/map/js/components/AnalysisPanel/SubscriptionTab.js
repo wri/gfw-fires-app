@@ -294,6 +294,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
           viirsTimePeriod = 'from ' + this.state.viirsStartDate + ' to ' + this.state.viirsEndDate + '.';
           viirsDate = '1yr';
+          query.where = 'ACQ_DATE <= date\'' + this.state.viirsEndDate + '\' AND ACQ_DATE >= date\'' + this.state.viirsStartDate + '\'';
           viirsId = _config.shortTermServices.viirs1YR.id;
         } else if (_MapStore.mapStore.state.viirsSelectIndex === 3) {
           viirsTimePeriod = 'in the past week.';
@@ -323,6 +324,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
           modisTimePeriod = 'from ' + this.state.modisStartDate + ' to ' + this.state.modisEndDate + '.';
           modisDate = '1yr';
+          query.where = 'ACQ_DATE <= date\'' + this.state.modisEndDate + '\' AND ACQ_DATE >= date\'' + this.state.modisStartDate + '\'';
           modisID = _config.shortTermServices.modis1YR.id;
         } else if (_MapStore.mapStore.state.firesSelectIndex === 3) {
           modisTimePeriod = 'in the past week.';
@@ -426,7 +428,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           });
         }
 
-        if (state.drawnMapGraphics !== this.state.drawnMapGraphics) {
+        if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
           this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
         }
       }
@@ -484,8 +486,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             viirsTimePeriod = _state.viirsTimePeriod,
             modisTimePeriod = _state.modisTimePeriod;
 
-        var state = _MapStore.mapStore.getState();
-        console.log(state.drawnMapGraphics);
+
         return _react2.default.createElement(
           'div',
           { id: _config.analysisPanelText.subscriptionTabId, className: 'analysis-instructions__draw ' + className },
