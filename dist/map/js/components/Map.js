@@ -119,6 +119,9 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
     }, {
       key: 'render',
       value: function render() {
+        console.log('mapsstate', this.state);
+        // Don't need this.
+        // mapStore.listen(this.storeUpdated.bind(this));
         return _react2.default.createElement(
           'div',
           { id: _config.mapConfig.id, className: 'map' },

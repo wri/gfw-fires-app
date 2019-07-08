@@ -99,6 +99,10 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
       var _this = _possibleConstructorReturn(this, (SubscriptionTab.__proto__ || Object.getPrototypeOf(SubscriptionTab)).call(this, props));
 
       _this.draw = function () {
+        if (app.map.graphics.graphics.length > 0) {
+          app.map.graphics.clear();
+        }
+
         toolbar.activate(_draw2.default.FREEHAND_POLYGON);
         _this.setState({ drawButtonActive: true });
         //- If the analysis modal is visible, hide it
@@ -222,15 +226,19 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
     }
 
     _createClass(SubscriptionTab, [{
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate() {
+        console.log('cwrp!', this.props);
+      }
+    }, {
       key: 'componentWillReceiveProps',
       value: function componentWillReceiveProps() {
         var _this2 = this;
 
-        // const {map} = this.context;
-
         if (!toolbar && app.map.loaded) {
           toolbar = new _draw2.default(app.map);
-          toolbar.on('draw-end', function (evt) {
+          toolbar.on('draw-complete', function (evt) {
+
             /******************************************** NOTE ********************************************
               * When a user draws a polygon, we want to capture the following data:
                 * The number of Viirs and Modis Fires contained within the polygon
@@ -245,39 +253,67 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             query.geometry = evt.geometry;
             query.returnGeometry = false;
 
-            var viirsQuery = new _QueryTask2.default('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer/21');
-            var modisQuery = new _QueryTask2.default('https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer/21');
+            // To determine the Viirs period, we look at the selected index.
+            var viirsTimePeriod = void 0,
+                viirsDate = void 0,
+                viirsId = void 0;
+            if (_MapStore.mapStore.state.viirsSelectIndex === 4) {
+              // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+              viirsTimePeriod = 'from ' + _MapStore.mapStore.state.archiveViirsStartDate + ' to ' + _MapStore.mapStore.state.archiveViirsEndDate + '.';
+              viirsDate = '1yr';
+              viirsId = _config.shortTermServices.viirs1YR.id;
+            } else if (_MapStore.mapStore.state.viirsSelectIndex === 3) {
+              viirsTimePeriod = 'in the past week.';
+              viirsDate = '7d';
+              viirsId = _config.shortTermServices.viirs7D.id;
+            } else if (_MapStore.mapStore.state.viirsSelectIndex === 2) {
+              viirsTimePeriod = 'in the past 72 hours.';
+              viirsDate = '7d';
+              viirsId = _config.shortTermServices.viirs7D.id;
+            } else if (_MapStore.mapStore.state.viirsSelectIndex === 1) {
+              viirsTimePeriod = 'in the past 48 hours.';
+              viirsDate = '48hrs';
+              viirsId = _config.shortTermServices.viirs48HR.id;
+            } else if (_MapStore.mapStore.state.viirsSelectIndex === 0) {
+              viirsTimePeriod = 'in the past 24 hours.';
+              viirsDate = '24hrs';
+              viirsId = _config.shortTermServices.viirs24HR.id;
+            }
+
+            var viirsURL = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_' + viirsDate + '/MapServer/' + viirsId;
+            // To determine the Modis period, we look at the selected index.
+            var modisTimePeriod = void 0,
+                modisDate = void 0,
+                modisID = void 0;
+            if (_MapStore.mapStore.state.firesSelectIndex === 4) {
+              // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
+              modisTimePeriod = 'from ' + _MapStore.mapStore.state.archiveModisStartDate + ' to ' + _MapStore.mapStore.state.archiveModisEndDate + '.';
+              modisDate = '1yr';
+              modisID = _config.shortTermServices.modis1YR.id;
+            } else if (_MapStore.mapStore.state.firesSelectIndex === 3) {
+              modisTimePeriod = 'in the past week.';
+              modisDate = '7d';
+              modisID = _config.shortTermServices.modis7D.id;
+            } else if (_MapStore.mapStore.state.firesSelectIndex === 2) {
+              modisTimePeriod = 'in the past 72 hours.';
+              modisDate = '7d';
+              modisID = _config.shortTermServices.modis7D.id;
+            } else if (_MapStore.mapStore.state.firesSelectIndex === 1) {
+              modisTimePeriod = 'in the past 48 hours.';
+              modisDate = '48hrs';
+              modisID = _config.shortTermServices.modis48HR.id;
+            } else if (_MapStore.mapStore.state.firesSelectIndex === 0) {
+              modisTimePeriod = 'in the past 24 hours.';
+              modisDate = '24hrs';
+              modisID = _config.shortTermServices.modis24HR.id;
+            }
+
+            var modisURL = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_' + modisDate + '/MapServer/' + modisID;
+            console.log('modisUR', modisURL);
+            console.log('viirsUR', viirsURL);
+            var viirsQuery = new _QueryTask2.default(viirsURL);
+            var modisQuery = new _QueryTask2.default(modisURL);
             Promise.all([viirsQuery.execute(query), modisQuery.execute(query)]).then(function (res) {
-
-              // To determine the Viirs period, we look at the selected index.
-              var viirsTimePeriod = void 0;
-              if (_MapStore.mapStore.state.viirsSelectIndex === 4) {
-                // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-                viirsTimePeriod = 'from ' + _MapStore.mapStore.state.archiveViirsStartDate + ' to ' + _MapStore.mapStore.state.archiveViirsEndDate + '.';
-              } else if (_MapStore.mapStore.state.viirsSelectIndex === 3) {
-                viirsTimePeriod = 'in the past week.';
-              } else if (_MapStore.mapStore.state.viirsSelectIndex === 2) {
-                viirsTimePeriod = 'in the past 72 hours.';
-              } else if (_MapStore.mapStore.state.viirsSelectIndex === 1) {
-                viirsTimePeriod = 'in the past 48 hours.';
-              } else if (_MapStore.mapStore.state.viirsSelectIndex === 0) {
-                viirsTimePeriod = 'in the past 24 hours.';
-              }
-
-              // To determine the Modis period, we look at the selected index.
-              var modisTimePeriod = void 0;
-              if (_MapStore.mapStore.state.firesSelectIndex === 4) {
-                // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-                modisTimePeriod = 'from ' + _MapStore.mapStore.state.archiveModisStartDate + ' to ' + _MapStore.mapStore.state.archiveModisEndDate + '.';
-              } else if (_MapStore.mapStore.state.firesSelectIndex === 3) {
-                modisTimePeriod = 'in the past week.';
-              } else if (_MapStore.mapStore.state.firesSelectIndex === 2) {
-                modisTimePeriod = 'in the past 72 hours.';
-              } else if (_MapStore.mapStore.state.firesSelectIndex === 1) {
-                modisTimePeriod = 'in the past 48 hours.';
-              } else if (_MapStore.mapStore.state.firesSelectIndex === 0) {
-                modisTimePeriod = 'in the past 24 hours.';
-              }
 
               _this2.setState({
                 numberOfModisPointsInPolygons: res[1].features.length,
@@ -343,16 +379,25 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             null,
             _config.analysisPanelText.subscriptionClick
           ),
-          _react2.default.createElement(
+          numberOfViirsPointsInPolygons > 0 && _MapStore.mapStore.state.activeLayers.includes('viirsFires') ? _react2.default.createElement(
             'p',
             null,
-            _MapStore.mapStore.state.activeLayers.includes('viirsFires') ? numberOfViirsPointsInPolygons + ' ' + _config.analysisPanelText.numberOfViirsPointsInPolygons + ' ' + viirsTimePeriod : ''
-          ),
-          _react2.default.createElement(
+            numberOfViirsPointsInPolygons,
+            ' ',
+            _config.analysisPanelText.numberOfViirsPointsInPolygons,
+            ' ',
+            viirsTimePeriod,
+            ' '
+          ) : null,
+          numberOfModisPointsInPolygons > 0 && _MapStore.mapStore.state.activeLayers.includes('activeFires') ? _react2.default.createElement(
             'p',
             null,
-            _MapStore.mapStore.state.activeLayers.includes('activeFires') ? numberOfModisPointsInPolygons + ' ' + _config.analysisPanelText.numberOfModisPointsInPolygons + ' ' + modisTimePeriod : ''
-          ),
+            numberOfModisPointsInPolygons,
+            ' ',
+            _config.analysisPanelText.numberOfModisPointsInPolygons,
+            ' ',
+            modisTimePeriod
+          ) : null,
           _react2.default.createElement(
             'div',
             { className: 'analysis-instructions__draw-icon-container' },
