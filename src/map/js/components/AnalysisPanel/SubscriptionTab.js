@@ -56,14 +56,34 @@ export default class SubscriptionTab extends React.Component {
     };
   }
 
-  queryForFires(geometry) {
-    // if (this.state.geometryOfDrawnShape === null && geometry === null) return;
+  singleViirsQuery(query, url, timePeriod, index, queryGeometry) {
+    const viirsQuery = new QueryTask(url);
+    viirsQuery.execute(query).then(res => {
+      this.setState({
+        numberOfViirsPointsInPolygons: res.features.length,
+        viirsTimePeriod: timePeriod,
+        viirsTimeIndex: index,
+        geometryOfDrawnShape: queryGeometry
+      });
+    });
+  }
 
+  singleModisQuery(query, url, timePeriod, index, queryGeometry) {
+    const modisQuery = new QueryTask(url);
+    modisQuery.execute(query).then(res => {
+      this.setState({
+        numberOfmodisPointsInPolygons: res.features.length,
+        modisTimePeriod: timePeriod,
+        modisTimeIndex: index,
+        geometryOfDrawnShape: queryGeometry
+      });
+    });
+  }
+
+  queryForFires(geometry) {
     const store = mapStore.getState();
 
     const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
-    console.log('queryGeo', queryGeometry);
-    console.log('Geo', geometry);
 
     // Setup a query object
     const query = new Query();
@@ -127,7 +147,8 @@ export default class SubscriptionTab extends React.Component {
     const viirsQuery = new QueryTask(viirsURL);
     const modisQuery = new QueryTask(modisURL);
 
-    if (geometry && store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires')) { // both layers on for the initial drawing
+    if (geometry && store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires')) {
+      // If both layers on when the initial drawing is made, we want to fire off 2 queries.
       Promise.all([
         viirsQuery.execute(query),
         modisQuery.execute(query)
@@ -142,24 +163,18 @@ export default class SubscriptionTab extends React.Component {
           geometryOfDrawnShape: queryGeometry
         });
       });
-    } else if (store.activeLayers.includes('viirsFires') && (store.viirsSelectIndex !== this.state.viirsTimeIndex || (this.state.viirsTimeIndex === 4 && this.state.viirsTimePeriod !== viirsTimePeriod))) { // viirs layer on, modis layer off
-      viirsQuery.execute(query).then(res => {
-        this.setState({
-          numberOfViirsPointsInPolygons: res.features.length,
-          viirsTimePeriod: viirsTimePeriod,
-          viirsTimeIndex: store.viirsSelectIndex,
-          geometryOfDrawnShape: queryGeometry
-        });
-      });
-    } else if (store.activeLayers.includes('activeFires') && (store.firesSelectIndex !== this.state.modisTimeIndex || (this.state.modisTimeIndex === 4 && this.state.modisTimePeriod !== modisTimePeriod))) { // modis layer on, viirs layer off
-      modisQuery.execute(query).then(res => {
-        this.setState({
-          numberOfModisPointsInPolygons: res.features.length,
-          modisTimePeriod: modisTimePeriod,
-          modisTimeIndex: store.firesSelectIndex,
-          geometryOfDrawnShape: queryGeometry
-        });
-      });
+    } else if (geometry && store.activeLayers.includes('viirsFires')) {
+      // If viirs layer is on and modis layer is off when the initial drawing is made
+      this.singleViirsQuery(query, viirsURL, viirsTimePeriod, store.viirsSelectIndex, queryGeometry);
+    } else if (geometry && store.activeLayers.includes('activeFires')) {
+      // If modis layer is on and viirs layer is off when the initial drawing is made, we want to fire off 1 query.
+      this.singleModisQuery(query, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
+    } else if (store.activeLayers.includes('viirsFires') && (store.viirsSelectIndex !== this.state.viirsTimeIndex || (this.state.viirsTimeIndex === 4 && this.state.viirsTimePeriod !== viirsTimePeriod))) {
+      // viirs layer on, modis layer off
+      this.singleViirsQuery(query, viirsURL, viirsTimePeriod, store.viirsSelectIndex, queryGeometry);
+    } else if (store.activeLayers.includes('activeFires') && (store.firesSelectIndex !== this.state.modisTimeIndex || (this.state.modisTimeIndex === 4 && this.state.modisTimePeriod !== modisTimePeriod))) {
+      // modis layer on, viirs layer off
+      this.singleModisQuery(query, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
     }
   }
 
@@ -183,7 +198,7 @@ export default class SubscriptionTab extends React.Component {
         this.queryForFires();
       }
     } else if (this.state.modisTimeIndex === 4 && (state.archiveModisStartDate !== this.state.modisStartDate || state.archiveModisEndDate !== this.state.modisEndDate)) {
-      // If the user is changing one of the dates of the modis calendar while still on the calendar...
+      // If the user is changing one of the dates of the modis calendar while still on the calendar.
       this.setState({
         modisStartDate: state.archiveModisStartDate,
         modisEndDate: state.archiveModisEndDate
