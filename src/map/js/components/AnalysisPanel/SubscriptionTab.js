@@ -395,8 +395,7 @@ export default class SubscriptionTab extends React.Component {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
     const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons, viirsTimePeriod, modisTimePeriod } = this.state;
-    const state = mapStore.getState();
-    console.log(state.drawnMapGraphics);
+
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}
