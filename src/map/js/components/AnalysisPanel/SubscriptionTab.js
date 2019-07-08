@@ -72,7 +72,7 @@ export default class SubscriptionTab extends React.Component {
     const modisQuery = new QueryTask(url);
     modisQuery.execute(query).then(res => {
       this.setState({
-        numberOfmodisPointsInPolygons: res.features.length,
+        numberOfModisPointsInPolygons: res.features.length,
         modisTimePeriod: timePeriod,
         modisTimeIndex: index,
         geometryOfDrawnShape: queryGeometry

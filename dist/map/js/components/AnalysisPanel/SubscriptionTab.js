@@ -265,7 +265,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
         var modisQuery = new _QueryTask2.default(url);
         modisQuery.execute(query).then(function (res) {
           _this3.setState({
-            numberOfmodisPointsInPolygons: res.features.length,
+            numberOfModisPointsInPolygons: res.features.length,
             modisTimePeriod: timePeriod,
             modisTimeIndex: index,
             geometryOfDrawnShape: queryGeometry
