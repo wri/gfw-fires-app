@@ -46,16 +46,20 @@ export default class SubscriptionTab extends React.Component {
       viirsTimePeriod: null,
       modisTimeIndex: 0,
       viirsTimeIndex: 0,
-      geometryOfDrawnShape: null
+      geometryOfDrawnShape: null,
+      showModisCount: true,
+      activeLayers: mapStore.getState().activeLayers
     };
   }
 
   queryForFires(geometry) {
-    if (this.state.geometryOfDrawnShape === null && geometry === null) return;
+    // if (this.state.geometryOfDrawnShape === null && geometry === null) return;
 
     const store = mapStore.getState();
 
     const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
+    console.log('queryGeo', queryGeometry);
+    console.log('Geo', geometry);
 
     // Setup a query object
     const query = new Query();
@@ -119,36 +123,59 @@ export default class SubscriptionTab extends React.Component {
     const viirsQuery = new QueryTask(viirsURL);
     const modisQuery = new QueryTask(modisURL);
 
-    Promise.all([
-      viirsQuery.execute(query),
-      modisQuery.execute(query)
-    ]).then(res => {
-      this.setState({
-        numberOfModisPointsInPolygons: res[1].features.length,
-        numberOfViirsPointsInPolygons: res[0].features.length,
-        modisTimePeriod: modisTimePeriod,
-        viirsTimePeriod: viirsTimePeriod,
-        modisTimeIndex: store.firesSelectIndex,
-        viirsTimeIndex: store.viirsSelectIndex,
-        countOfActiveLayers: store.activeLayers.length,
-        geometryOfDrawnShape: queryGeometry
+    if (store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires')) { // both layers on
+      Promise.all([
+        viirsQuery.execute(query),
+        modisQuery.execute(query)
+      ]).then(res => {
+        this.setState({
+          numberOfModisPointsInPolygons: res[1].features.length,
+          numberOfViirsPointsInPolygons: res[0].features.length,
+          modisTimePeriod: modisTimePeriod,
+          viirsTimePeriod: viirsTimePeriod,
+          modisTimeIndex: store.firesSelectIndex,
+          viirsTimeIndex: store.viirsSelectIndex,
+          geometryOfDrawnShape: queryGeometry
+        });
       });
-    });
+    } else if (store.activeLayers.includes('viirsFires')) { // viirs layer on, modis layer off
+      viirsQuery.execute(query).then(res => {
+        this.setState({
+          numberOfViirsPointsInPolygons: res.features.length,
+          viirsTimePeriod: viirsTimePeriod,
+          viirsTimeIndex: store.viirsSelectIndex,
+          geometryOfDrawnShape: queryGeometry
+        });
+      });
+    } else if (store.activeLayers.includes('activeFires')) { // modis layer on, viirs layer off
+      modisQuery.execute(query).then(res => {
+        this.setState({
+          numberOfModisPointsInPolygons: res.features.length,
+          modisTimePeriod: modisTimePeriod,
+          modisTimeIndex: store.firesSelectIndex,
+          geometryOfDrawnShape: queryGeometry
+        });
+      });
+    }
   }
 
   storeUpdated () {
     // When the dates update, we fire off new viirs/modis queries based on the updated date range.
     if (
-      mapStore.getState().firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
-      mapStore.getState().viirsSelectIndex !== this.state.viirsTimeIndex || // Checks if the viirs dates changed
-      mapStore.getState().activeLayers.length !== this.state.countOfActiveLayers && // Checks if the modis or viirs layers were toggled
-      mapStore.getState().drawnMapGraphics === true
+      (mapStore.getState().firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
+      mapStore.getState().viirsSelectIndex !== this.state.viirsTimeIndex) && // Checks if the viirs dates changed
+      (mapStore.getState().activeLayers.includes('activeFires') === true || mapStore.getState().activeLayers.includes('viirsFires') === true) && // Checks if the modis or viirs layers were toggled (and at least one is on)
+      mapStore.getState().drawnMapGraphics === true // Checks if a shape has been drawn on the map.
       ) {
       this.queryForFires();
     }
-    // Todo - make sure that we only query for modis if modis changes and viirs if viirs changes
-    // Todo - clear the state geometry when the feature is deleted.
 
+    if (mapStore.getState().activeLayers !== this.state.activeLayers) {
+      this.setState({
+        activeLayers: mapStore.getState().activeLayers
+      });
+    }
+    // Todo - make sure that we only query for modis if modis changes and viirs if viirs changes
     // Thinking that if either index is 4 (calendar view), we figure out the date range here before firing off the queryForFires. Run this by Lucas.
   }
 
@@ -307,6 +334,7 @@ export default class SubscriptionTab extends React.Component {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
     const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons, viirsTimePeriod, modisTimePeriod } = this.state;
+    const mapStoreState = mapStore.getState();
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}
@@ -316,12 +344,14 @@ export default class SubscriptionTab extends React.Component {
         <p>{analysisPanelText.subscriptionClick}</p>
           {
             numberOfViirsPointsInPolygons > 0 &&
-            mapStore.state.activeLayers.includes('viirsFires') ?
+            this.state.activeLayers.includes('viirsFires') &&
+            mapStoreState.drawnMapGraphics === true ?
               <p>{numberOfViirsPointsInPolygons} {analysisPanelText.numberOfViirsPointsInPolygons} {viirsTimePeriod} </p> : null
           }
           {
             numberOfModisPointsInPolygons > 0 &&
-            mapStore.state.activeLayers.includes('activeFires') ?
+            this.state.activeLayers.includes('activeFires') &&
+            mapStoreState.drawnMapGraphics === true ?
               <p>{numberOfModisPointsInPolygons} {analysisPanelText.numberOfModisPointsInPolygons} {modisTimePeriod}</p> : null
           }
 
