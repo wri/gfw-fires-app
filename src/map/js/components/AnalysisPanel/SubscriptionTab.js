@@ -96,6 +96,7 @@ export default class SubscriptionTab extends React.Component {
       // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
       viirsTimePeriod = `from ${this.state.viirsStartDate} to ${this.state.viirsEndDate}.`;
       viirsDate = '1yr';
+      query.where = `ACQ_DATE <= date'${this.state.viirsEndDate}' AND ACQ_DATE >= date'${this.state.viirsStartDate}'`;
       viirsId = shortTermServices.viirs1YR.id;
     } else if (mapStore.state.viirsSelectIndex === 3) {
       viirsTimePeriod = 'in the past week.';
@@ -123,6 +124,7 @@ export default class SubscriptionTab extends React.Component {
       // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
       modisTimePeriod = `from ${this.state.modisStartDate} to ${this.state.modisEndDate}.`;
       modisDate = '1yr';
+      query.where = `ACQ_DATE <= date'${this.state.modisEndDate}' AND ACQ_DATE >= date'${this.state.modisStartDate}'`;
       modisID = shortTermServices.modis1YR.id;
     } else if (mapStore.state.firesSelectIndex === 3) {
       modisTimePeriod = 'in the past week.';
