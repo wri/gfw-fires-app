@@ -46,14 +46,15 @@ export default class SubscriptionTab extends React.Component {
     };
   }
 
-  componentWillReceiveProps() {
-    // const {map} = this.context;
+  componentDidUpdate() {
+    console.log('cwrp!', this.props);
+  }
 
+  componentWillReceiveProps() {
     if (!toolbar && app.map.loaded) {
       toolbar = new Draw(app.map);
       toolbar.on('draw-complete', (evt) => {
-        // app.map.graphics.graphics.remove(app.map.graphics.graphics[0])
-
+        
         /******************************************** NOTE ********************************************
           * When a user draws a polygon, we want to capture the following data:
             * The number of Viirs and Modis Fires contained within the polygon

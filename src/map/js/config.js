@@ -54,9 +54,8 @@ export const config = {
     planetActiveCategory: 'PLANET-MONTHLY',
     activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly' },
     corsEnabledServers: [
-      //'https://services.digitalglobe.com/mapservice/gis/',
       'wri-gfw-fires-staging.herokuapp.com',
-      'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
+      'fires.globalforestwatch.org',
       'gfw-fires.wri.org',
       'gis-gfw.wri.org',
       'gfw-staging.wri.org',
