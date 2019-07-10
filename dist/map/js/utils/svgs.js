@@ -21,7 +21,7 @@ define(['exports', 'react'], function (exports, _react) {
   }
 
   var AlertsSvg = exports.AlertsSvg = function AlertsSvg() {
-    return createSvgById('icon-alerts');
+    return createSvgById('icon-analysis-draw');
   };
   var AnalysisSvg = exports.AnalysisSvg = function AnalysisSvg() {
     return createSvgById('icon-analysis');

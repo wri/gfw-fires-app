@@ -428,6 +428,13 @@ export default class SubscriptionTab extends React.Component {
             this.state.showDrawnMapGraphics === true ?
               <p className='analysis-instructions__content'><span className='analysis-instructions__bold'>{numberOfModisPointsInPolygons}</span> <span className='analysis-instructions__modis-color'>{analysisPanelText.numberOfModisPointsInPolygons}</span> <span className='analysis-instructions__bold'>{modisTimePeriod}</span></p> : null
           }
+          {
+            (numberOfModisPointsInPolygons > 0 && this.state.activeLayers.includes('activeFires')) ||
+            (numberOfViirsPointsInPolygons > 0 && this.state.activeLayers.includes('viirsFires')) &&
+            this.state.showDrawnMapGraphics === true ?
+              <p style={{ fontSize: '12px'}}>{analysisPanelText.drawingDisclaimer}</p> : null
+          }
+
 
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />

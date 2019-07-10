@@ -519,22 +519,46 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           ),
           numberOfViirsPointsInPolygons > 0 && this.state.activeLayers.includes('viirsFires') && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
             'p',
-            null,
-            numberOfViirsPointsInPolygons,
+            { className: 'analysis-instructions__content' },
+            _react2.default.createElement(
+              'span',
+              { className: 'analysis-instructions__bold' },
+              numberOfViirsPointsInPolygons
+            ),
             ' ',
-            _config.analysisPanelText.numberOfViirsPointsInPolygons,
+            _react2.default.createElement(
+              'span',
+              { className: 'analysis-instructions__viirs-color' },
+              _config.analysisPanelText.numberOfViirsPointsInPolygons
+            ),
             ' ',
-            viirsTimePeriod,
+            _react2.default.createElement(
+              'span',
+              { className: 'analysis-instructions__bold' },
+              viirsTimePeriod
+            ),
             ' '
           ) : null,
           numberOfModisPointsInPolygons > 0 && this.state.activeLayers.includes('activeFires') && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
             'p',
-            null,
-            numberOfModisPointsInPolygons,
+            { className: 'analysis-instructions__content' },
+            _react2.default.createElement(
+              'span',
+              { className: 'analysis-instructions__bold' },
+              numberOfModisPointsInPolygons
+            ),
             ' ',
-            _config.analysisPanelText.numberOfModisPointsInPolygons,
+            _react2.default.createElement(
+              'span',
+              { className: 'analysis-instructions__modis-color' },
+              _config.analysisPanelText.numberOfModisPointsInPolygons
+            ),
             ' ',
-            modisTimePeriod
+            _react2.default.createElement(
+              'span',
+              { className: 'analysis-instructions__bold' },
+              modisTimePeriod
+            )
           ) : null,
           _react2.default.createElement(
             'div',
