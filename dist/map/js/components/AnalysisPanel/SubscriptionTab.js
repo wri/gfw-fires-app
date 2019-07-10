@@ -560,6 +560,11 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
               modisTimePeriod
             )
           ) : null,
+          numberOfModisPointsInPolygons > 0 && this.state.activeLayers.includes('activeFires') || numberOfViirsPointsInPolygons > 0 && this.state.activeLayers.includes('viirsFires') && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
+            'p',
+            { style: { fontSize: '12px' } },
+            _config.analysisPanelText.drawingDisclaimer
+          ) : null,
           _react2.default.createElement(
             'div',
             { className: 'analysis-instructions__draw-icon-container' },

@@ -971,6 +971,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         subscriptionTabLabel: 'Draw or Upload Shape',
         subscriptionButtonLabel: 'START DRAWING',
         subscriptionButtonLabelRemove: 'CLEAR DRAWING',
+        drawingDisclaimer: 'Maximum fires returned are 10,000. Reduce the size, shape, or time range to refine your analysis.',
         subscriptionInstructionsOne: 'Draw or upload a shape to calculate fire counts and subscribe to alerts.',
         // subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
         subscriptionInstructionsThree: ' when fires occur.',
