@@ -27,11 +27,6 @@ const closeSymbolCode = 9660,
 
 let toolbar;
 
-// Todo: Ensure dates update propelry across all map services.
-// Custom range data picker does not necessarily fire off a new query.
-// Active range dates are not necessarily grabbing the correct date.
-// Spinner while waiting for queries to return.
-
 export default class SubscriptionTab extends React.Component {
 
   constructor (props) {
