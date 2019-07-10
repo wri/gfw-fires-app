@@ -420,13 +420,13 @@ export default class SubscriptionTab extends React.Component {
             numberOfViirsPointsInPolygons > 0 &&
             this.state.activeLayers.includes('viirsFires') &&
             this.state.showDrawnMapGraphics === true ?
-              <p>{numberOfViirsPointsInPolygons} {analysisPanelText.numberOfViirsPointsInPolygons} {viirsTimePeriod} </p> : null
+              <p className='analysis-instructions__content'><span className='analysis-instructions__bold'>{numberOfViirsPointsInPolygons}</span> <span className='analysis-instructions__viirs-color'>{analysisPanelText.numberOfViirsPointsInPolygons}</span> <span className='analysis-instructions__bold'>{viirsTimePeriod}</span> </p> : null
           }
           {
             numberOfModisPointsInPolygons > 0 &&
             this.state.activeLayers.includes('activeFires') &&
             this.state.showDrawnMapGraphics === true ?
-              <p>{numberOfModisPointsInPolygons} {analysisPanelText.numberOfModisPointsInPolygons} {modisTimePeriod}</p> : null
+              <p className='analysis-instructions__content'><span className='analysis-instructions__bold'>{numberOfModisPointsInPolygons}</span> <span className='analysis-instructions__modis-color'>{analysisPanelText.numberOfModisPointsInPolygons}</span> <span className='analysis-instructions__bold'>{modisTimePeriod}</span></p> : null
           }
 
         <div className='analysis-instructions__draw-icon-container'>
