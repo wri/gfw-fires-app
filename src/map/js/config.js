@@ -48,9 +48,9 @@ export const config = {
     windStartDate: new window.Kalendae.moment('10/19/2014'),
     analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
     archiveViirsStartDate: new window.Kalendae.moment().subtract(14, 'd'),
-    archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+    archiveViirsEndDate: new window.Kalendae.moment(),
     archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
-    archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+    archiveModisEndDate: new window.Kalendae.moment(),
     planetActiveCategory: 'PLANET-MONTHLY',
     activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly' },
     corsEnabledServers: [

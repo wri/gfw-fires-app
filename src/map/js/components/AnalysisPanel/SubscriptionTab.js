@@ -27,6 +27,11 @@ const closeSymbolCode = 9660,
 
 let toolbar;
 
+// Todo: Ensure dates update propelry across all map services.
+// Custom range data picker does not necessarily fire off a new query.
+// Active range dates are not necessarily grabbing the correct date.
+// Spinner while waiting for queries to return.
+
 export default class SubscriptionTab extends React.Component {
 
   constructor (props) {
@@ -90,6 +95,12 @@ export default class SubscriptionTab extends React.Component {
     query.returnGeometry = false;
     query.geometry = queryGeometry;
 
+    // Setup the time periods for each range
+    const today = new window.Kalendae.moment().format('MM/DD/YYYY');
+    const threeDaysAgo = new window.Kalendae.moment().subtract(3, 'days').format('MM/DD/YYYY');
+    console.log('today', today);
+    console.log('threeDaysAgo', threeDaysAgo);
+
     // To determine the Viirs period, we look at the selected index.
     let viirsTimePeriod, viirsDate, viirsId;
     if (store.viirsSelectIndex === 4) {
@@ -103,7 +114,9 @@ export default class SubscriptionTab extends React.Component {
       viirsDate = '7d';
       viirsId = shortTermServices.viirs7D.id;
     } else if (mapStore.state.viirsSelectIndex === 2) {
-      query.where = `ACQ_DATE <= date'${this.state.viirsEndDate}' AND ACQ_DATE >= date'${this.state.viirsStartDate}'`;
+      // query.where = `ACQ_DATE <= date'${this.state.viirsEndDate}' AND ACQ_DATE >= date'${this.state.viirsStartDate}'`;
+
+      query.where = `ACQ_DATE <= date'${today}' AND ACQ_DATE >= date'${threeDaysAgo}'`;
       viirsTimePeriod = 'in the past 72 hours.';
       viirsDate = '7d';
       viirsId = shortTermServices.viirs7D.id;
@@ -133,7 +146,8 @@ export default class SubscriptionTab extends React.Component {
       modisID = shortTermServices.modis7D.id;
     } else if (mapStore.state.firesSelectIndex === 2) {
       modisTimePeriod = 'in the past 72 hours.';
-      query.where = `ACQ_DATE <= date'${this.state.modisEndDate}' AND ACQ_DATE >= date'${this.state.modisStartDate}'`;
+      // query.where = `ACQ_DATE <= date'${this.state.modisEndDate}' AND ACQ_DATE >= date'${this.state.modisStartDate}'`;
+      query.where = `ACQ_DATE <= date'${today}' AND ACQ_DATE >= date'${threeDaysAgo}'`;
       modisDate = '7d';
       modisID = shortTermServices.modis7D.id;
     } else if (mapStore.state.firesSelectIndex === 1) {

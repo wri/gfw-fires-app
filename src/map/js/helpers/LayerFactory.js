@@ -37,7 +37,8 @@ export default (layer) => {
       options.minScale = layer.minScale || null;
       esriLayer = new ImageLayer(layer.url, options);
       if (layer.definitionExpression) {
-        esriLayer.setDefinitionExpression(layer.definitionExpression);
+        // esriLayer.setDefinitionExpression(layer.definitionExpression);
+        esriLayer.setDefinitionExpression('layer.definitionExpression');
       }
       break;
     case 'wind':
