@@ -43,7 +43,9 @@ export default class SubscriptionTab extends React.Component {
       numberOfViirsPointsInPolygons: 0,
       numberOfModisPointsInPolygons: 0,
       modisTimePeriod: null,
+      modisTimePeriodPrefix: null,
       viirsTimePeriod: null,
+      viirsTimePeriodPrefix: null,
       modisTimeIndex: mapStore.getState().firesSelectIndex,
       viirsTimeIndex: mapStore.getState().viirsSelectIndex,
       geometryOfDrawnShape: null,
@@ -100,28 +102,33 @@ export default class SubscriptionTab extends React.Component {
     const threeDaysAgo = new window.Kalendae.moment().subtract(3, 'days').format('MM/DD/YYYY');
 
     // To determine the Viirs period, we look at the selected index.
-    let viirsTimePeriod, viirsDate, viirsId;
+    let viirsTimePeriod, viirsTimePeriodPrefix, viirsDate, viirsId;
     if (store.viirsSelectIndex === 4) {
       // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-      viirsTimePeriod = `from ${store.archiveViirsStartDate} to ${store.archiveViirsEndDate}.`;
+      viirsTimePeriodPrefix = 'from ';
+      viirsTimePeriod = `${store.archiveViirsStartDate} to ${store.archiveViirsEndDate}.`;
       viirsDate = '1yr';
       viirsQuery.where = `ACQ_DATE <= date'${store.archiveViirsEndDate}' AND ACQ_DATE >= date'${store.archiveViirsStartDate}'`;
       viirsId = shortTermServices.viirs1YR.id;
     } else if (mapStore.state.viirsSelectIndex === 3) {
-      viirsTimePeriod = 'in the past week.';
+      viirsTimePeriodPrefix = 'in the ';
+      viirsTimePeriod = 'past week.';
       viirsDate = '7d';
       viirsId = shortTermServices.viirs7D.id;
     } else if (mapStore.state.viirsSelectIndex === 2) {
       viirsQuery.where = `ACQ_DATE <= date'${today}' AND ACQ_DATE >= date'${threeDaysAgo}'`;
-      viirsTimePeriod = 'in the past 72 hours.';
+      viirsTimePeriodPrefix = 'in the ';
+      viirsTimePeriod = 'past 72 hours.';
       viirsDate = '7d';
       viirsId = shortTermServices.viirs7D.id;
     } else if (mapStore.state.viirsSelectIndex === 1) {
-      viirsTimePeriod = 'in the past 48 hours.';
+      viirsTimePeriodPrefix = 'in the ';
+      viirsTimePeriod = 'past 48 hours.';
       viirsDate = '48hrs';
       viirsId = shortTermServices.viirs48HR.id;
     } else if (mapStore.state.viirsSelectIndex === 0) {
-      viirsTimePeriod = 'in the past 24 hours.';
+      viirsTimePeriodPrefix = 'in the ';
+      viirsTimePeriod = 'past 24 hours.';
       viirsDate = '24hrs';
       viirsId = shortTermServices.viirs24HR.id;
     }
@@ -129,28 +136,33 @@ export default class SubscriptionTab extends React.Component {
     const viirsURL = `https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_${viirsDate}/MapServer/${viirsId}`;
 
     // To determine the Modis period, we look at the selected index.
-    let modisTimePeriod, modisDate, modisID;
+    let modisTimePeriod, modisTimePeriodPrefix, modisDate, modisID;
     if (store.firesSelectIndex === 4) {
       // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-      modisTimePeriod = `from ${store.archiveModisStartDate} to ${store.archiveModisEndDate}.`;
+      modisTimePeriodPrefix = 'from ';
+      modisTimePeriod = `${store.archiveModisStartDate} to ${store.archiveModisEndDate}.`;
       modisDate = '1yr';
       modisQuery.where = `ACQ_DATE <= date'${store.archiveModisEndDate}' AND ACQ_DATE >= date'${store.archiveModisStartDate}'`;
       modisID = shortTermServices.modis1YR.id;
     } else if (mapStore.state.firesSelectIndex === 3) {
-      modisTimePeriod = 'in the past week.';
+      modisTimePeriodPrefix = 'in the ';
+      modisTimePeriod = 'past week.';
       modisDate = '7d';
       modisID = shortTermServices.modis7D.id;
     } else if (mapStore.state.firesSelectIndex === 2) {
-      modisTimePeriod = 'in the past 72 hours.';
+      modisTimePeriodPrefix = 'in the ';
+      modisTimePeriod = 'past 72 hours.';
       modisQuery.where = `ACQ_DATE <= date'${today}' AND ACQ_DATE >= date'${threeDaysAgo}'`;
       modisDate = '7d';
       modisID = shortTermServices.modis7D.id;
     } else if (mapStore.state.firesSelectIndex === 1) {
-      modisTimePeriod = 'in the past 48 hours.';
+      modisTimePeriodPrefix = 'in the ';
+      modisTimePeriod = 'past 48 hours.';
       modisDate = '48hrs';
       modisID = shortTermServices.modis48HR.id;
     } else if (mapStore.state.firesSelectIndex === 0) {
-      modisTimePeriod = 'in the past 24 hours.';
+      modisTimePeriodPrefix = 'in the ';
+      modisTimePeriod = 'past 24 hours.';
       modisDate = '24hrs';
       modisID = shortTermServices.modis24HR.id;
     }
@@ -167,6 +179,8 @@ export default class SubscriptionTab extends React.Component {
         modisQueryTask.execute(modisQuery)
       ]).then(res => {
         this.setState({
+          viirsTimePeriodPrefix,
+          modisTimePeriodPrefix,
           numberOfModisPointsInPolygons: res[1].features.length,
           numberOfViirsPointsInPolygons: res[0].features.length,
           modisTimePeriod: modisTimePeriod,
@@ -189,6 +203,11 @@ export default class SubscriptionTab extends React.Component {
       // modis layer on, viirs layer off
       this.singleModisQuery(modisQuery, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
     }
+
+    this.setState({
+      viirsTimePeriodPrefix,
+      modisTimePeriodPrefix
+    });
   }
 
   storeUpdated () {
@@ -407,26 +426,33 @@ export default class SubscriptionTab extends React.Component {
   render () {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
-    const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons, viirsTimePeriod, modisTimePeriod } = this.state;
+    const { numberOfViirsPointsInPolygons, numberOfModisPointsInPolygons, viirsTimePeriod, modisTimePeriod, modisTimePeriodPrefix, viirsTimePeriodPrefix } = this.state;
 
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
-        <p>{analysisPanelText.subscriptionInstructionsOne}
-          <span className='subscribe-link' onClick={this.signUp}>{analysisPanelText.subscriptionInstructionsTwo}</span>
-          {analysisPanelText.subscriptionInstructionsThree}
-        </p>
+        <p>{analysisPanelText.subscriptionInstructionsOne}</p>
         <p>{analysisPanelText.subscriptionClick}</p>
           {
             numberOfViirsPointsInPolygons > 0 &&
             this.state.activeLayers.includes('viirsFires') &&
             this.state.showDrawnMapGraphics === true ?
-              <p className='analysis-instructions__content'><span className='analysis-instructions__bold'>{numberOfViirsPointsInPolygons}</span> <span className='analysis-instructions__viirs-color'>{analysisPanelText.numberOfViirsPointsInPolygons}</span> <span className='analysis-instructions__bold'>{viirsTimePeriod}</span> </p> : null
+              <p className='analysis-instructions__content'>
+                <span className='analysis-instructions__bold'>{numberOfViirsPointsInPolygons}</span>
+                <span className='analysis-instructions__viirs-color'>{analysisPanelText.numberOfViirsPointsInPolygons}</span>
+                <span>{viirsTimePeriodPrefix}</span>
+                <span className='analysis-instructions__bold'>{viirsTimePeriod}</span>
+              </p> : null
           }
           {
             numberOfModisPointsInPolygons > 0 &&
             this.state.activeLayers.includes('activeFires') &&
             this.state.showDrawnMapGraphics === true ?
-              <p className='analysis-instructions__content'><span className='analysis-instructions__bold'>{numberOfModisPointsInPolygons}</span> <span className='analysis-instructions__modis-color'>{analysisPanelText.numberOfModisPointsInPolygons}</span> <span className='analysis-instructions__bold'>{modisTimePeriod}</span></p> : null
+              <p className='analysis-instructions__content'>
+                <span className='analysis-instructions__bold'>{numberOfModisPointsInPolygons}</span>
+                <span className='analysis-instructions__modis-color'>{analysisPanelText.numberOfModisPointsInPolygons}</span>
+                <span>{modisTimePeriodPrefix}</span>
+                <span className='analysis-instructions__bold'>{modisTimePeriod}</span>
+              </p> : null
           }
           {
             (numberOfModisPointsInPolygons > 0 && this.state.activeLayers.includes('activeFires')) ||
