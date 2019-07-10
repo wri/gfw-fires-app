@@ -90,6 +90,11 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
 
   var toolbar = void 0;
 
+  // Todo: Ensure dates update propelry across all map services.
+  // Custom range data picker does not necessarily fire off a new query.
+  // Active range dates are not necessarily grabbing the correct date.
+  // Spinner while waiting for queries to return.
+
   var SubscriptionTab = function (_React$Component) {
     _inherits(SubscriptionTab, _React$Component);
 
@@ -281,10 +286,19 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
 
         var queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
 
-        // Setup a query object
-        var query = new _query2.default();
-        query.returnGeometry = false;
-        query.geometry = queryGeometry;
+        // Setup a query object for Viirs
+        var viirsQuery = new _query2.default();
+        viirsQuery.returnGeometry = false;
+        viirsQuery.geometry = queryGeometry;
+
+        // Setup a query object for Modis
+        var modisQuery = new _query2.default();
+        modisQuery.returnGeometry = false;
+        modisQuery.geometry = queryGeometry;
+
+        // Setup the time periods for 72 hours
+        var today = new window.Kalendae.moment().format('MM/DD/YYYY');
+        var threeDaysAgo = new window.Kalendae.moment().subtract(3, 'days').format('MM/DD/YYYY');
 
         // To determine the Viirs period, we look at the selected index.
         var viirsTimePeriod = void 0,
@@ -292,16 +306,16 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             viirsId = void 0;
         if (store.viirsSelectIndex === 4) {
           // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-          viirsTimePeriod = 'from ' + this.state.viirsStartDate + ' to ' + this.state.viirsEndDate + '.';
+          viirsTimePeriod = 'from ' + store.archiveViirsStartDate + ' to ' + store.archiveViirsEndDate + '.';
           viirsDate = '1yr';
-          query.where = 'ACQ_DATE <= date\'' + this.state.viirsEndDate + '\' AND ACQ_DATE >= date\'' + this.state.viirsStartDate + '\'';
+          viirsQuery.where = 'ACQ_DATE <= date\'' + store.archiveViirsEndDate + '\' AND ACQ_DATE >= date\'' + store.archiveViirsStartDate + '\'';
           viirsId = _config.shortTermServices.viirs1YR.id;
         } else if (_MapStore.mapStore.state.viirsSelectIndex === 3) {
           viirsTimePeriod = 'in the past week.';
           viirsDate = '7d';
           viirsId = _config.shortTermServices.viirs7D.id;
         } else if (_MapStore.mapStore.state.viirsSelectIndex === 2) {
-          query.where = 'ACQ_DATE <= date\'' + this.state.viirsEndDate + '\' AND ACQ_DATE >= date\'' + this.state.viirsStartDate + '\'';
+          viirsQuery.where = 'ACQ_DATE <= date\'' + today + '\' AND ACQ_DATE >= date\'' + threeDaysAgo + '\'';
           viirsTimePeriod = 'in the past 72 hours.';
           viirsDate = '7d';
           viirsId = _config.shortTermServices.viirs7D.id;
@@ -323,9 +337,9 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             modisID = void 0;
         if (store.firesSelectIndex === 4) {
           // If the index is 4, the user is in the calendar mode and selecting a custom range of dates.
-          modisTimePeriod = 'from ' + this.state.modisStartDate + ' to ' + this.state.modisEndDate + '.';
+          modisTimePeriod = 'from ' + store.archiveModisStartDate + ' to ' + store.archiveModisEndDate + '.';
           modisDate = '1yr';
-          query.where = 'ACQ_DATE <= date\'' + this.state.modisEndDate + '\' AND ACQ_DATE >= date\'' + this.state.modisStartDate + '\'';
+          modisQuery.where = 'ACQ_DATE <= date\'' + store.archiveModisEndDate + '\' AND ACQ_DATE >= date\'' + store.archiveModisStartDate + '\'';
           modisID = _config.shortTermServices.modis1YR.id;
         } else if (_MapStore.mapStore.state.firesSelectIndex === 3) {
           modisTimePeriod = 'in the past week.';
@@ -333,7 +347,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           modisID = _config.shortTermServices.modis7D.id;
         } else if (_MapStore.mapStore.state.firesSelectIndex === 2) {
           modisTimePeriod = 'in the past 72 hours.';
-          query.where = 'ACQ_DATE <= date\'' + this.state.modisEndDate + '\' AND ACQ_DATE >= date\'' + this.state.modisStartDate + '\'';
+          modisQuery.where = 'ACQ_DATE <= date\'' + today + '\' AND ACQ_DATE >= date\'' + threeDaysAgo + '\'';
           modisDate = '7d';
           modisID = _config.shortTermServices.modis7D.id;
         } else if (_MapStore.mapStore.state.firesSelectIndex === 1) {
@@ -348,12 +362,12 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
 
         var modisURL = 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_' + modisDate + '/MapServer/' + modisID;
 
-        var viirsQuery = new _QueryTask2.default(viirsURL);
-        var modisQuery = new _QueryTask2.default(modisURL);
+        var viirsQueryTask = new _QueryTask2.default(viirsURL);
+        var modisQueryTask = new _QueryTask2.default(modisURL);
 
         if (geometry && store.activeLayers.includes('viirsFires') && store.activeLayers.includes('activeFires')) {
           // If both layers on when the initial drawing is made, we want to fire off 2 queries.
-          Promise.all([viirsQuery.execute(query), modisQuery.execute(query)]).then(function (res) {
+          Promise.all([viirsQueryTask.execute(viirsQuery), modisQueryTask.execute(modisQuery)]).then(function (res) {
             _this4.setState({
               numberOfModisPointsInPolygons: res[1].features.length,
               numberOfViirsPointsInPolygons: res[0].features.length,
@@ -366,16 +380,16 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           });
         } else if (geometry && store.activeLayers.includes('viirsFires')) {
           // If viirs layer is on and modis layer is off when the initial drawing is made
-          this.singleViirsQuery(query, viirsURL, viirsTimePeriod, store.viirsSelectIndex, queryGeometry);
+          this.singleViirsQuery(viirsQuery, viirsURL, viirsTimePeriod, store.viirsSelectIndex, queryGeometry);
         } else if (geometry && store.activeLayers.includes('activeFires')) {
           // If modis layer is on and viirs layer is off when the initial drawing is made, we want to fire off 1 query.
-          this.singleModisQuery(query, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
+          this.singleModisQuery(modisQuery, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
         } else if (store.activeLayers.includes('viirsFires') && (store.viirsSelectIndex !== this.state.viirsTimeIndex || this.state.viirsTimeIndex === 4 && this.state.viirsTimePeriod !== viirsTimePeriod)) {
           // viirs layer on, modis layer off
-          this.singleViirsQuery(query, viirsURL, viirsTimePeriod, store.viirsSelectIndex, queryGeometry);
+          this.singleViirsQuery(viirsQuery, viirsURL, viirsTimePeriod, store.viirsSelectIndex, queryGeometry);
         } else if (store.activeLayers.includes('activeFires') && (store.firesSelectIndex !== this.state.modisTimeIndex || this.state.modisTimeIndex === 4 && this.state.modisTimePeriod !== modisTimePeriod)) {
           // modis layer on, viirs layer off
-          this.singleModisQuery(query, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
+          this.singleModisQuery(modisQuery, modisURL, modisTimePeriod, store.firesSelectIndex, queryGeometry);
         }
       }
     }, {
