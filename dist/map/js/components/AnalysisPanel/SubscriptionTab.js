@@ -90,11 +90,6 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
 
   var toolbar = void 0;
 
-  // Todo: Ensure dates update propelry across all map services.
-  // Custom range data picker does not necessarily fire off a new query.
-  // Active range dates are not necessarily grabbing the correct date.
-  // Spinner while waiting for queries to return.
-
   var SubscriptionTab = function (_React$Component) {
     _inherits(SubscriptionTab, _React$Component);
 
