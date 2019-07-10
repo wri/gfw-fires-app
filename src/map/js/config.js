@@ -1153,7 +1153,7 @@ export const config = {
       analysisCountryChooseData: 'Pick a country:',
       analysisInvalidDatesErrorMessage: 'Start date cannot be before end date',
       analysisDateRangeErrorMessage: 'Fire report is available for the last 12 months',
-      subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
+      subscriptionTabLabel: 'Draw or Upload Shape',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionButtonLabelRemove: 'CLEAR DRAWING',
       subscriptionInstructionsOne: 'Sign up to receive ',
