@@ -484,6 +484,20 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' + '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
       }
     }, {
+      id: _constants2.default.mining,
+      order: 10,
+      type: 'dynamic',
+      label: 'Mining',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'mining',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      metadataId: 'gfw_mining',
+      layerIds: [2],
+      infoTemplate: {
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' + '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
+      }
+    }, {
       id: _constants2.default.loggingConcessions,
       order: 10,
       type: 'dynamic',
@@ -971,9 +985,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         subscriptionTabLabel: 'Draw or Upload Shape',
         subscriptionButtonLabel: 'START DRAWING',
         subscriptionButtonLabelRemove: 'CLEAR DRAWING',
-        drawingDisclaimer: 'Maximum fires returned are 10,000. Reduce the size, shape, or time range to refine your analysis.',
+        drawingDisclaimer: 'Maximum fires returned are 10,000. Reduce the size of your shape or the time range to refine your analysis.',
         subscriptionInstructionsOne: 'Draw or upload a shape to calculate fire counts and subscribe to alerts.',
-        // subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
+        subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
         subscriptionInstructionsThree: ' when fires occur.',
         subscriptionShapefile: 'Or drop a zipped shapefile here',
         subscriptionClick: 'Click on drawn or uploaded shapes on the map to subscribe to the area.',
