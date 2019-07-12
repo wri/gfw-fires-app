@@ -330,67 +330,72 @@ export default class SubscriptionTab extends React.Component {
 
   drop = (evt) => {
     evt.preventDefault();
-    const file = evt.dataTransfer &&
-                 evt.dataTransfer.files &&
-                 evt.dataTransfer.files[0];
-
-    if (!file) {
+    if (evt.dataTransfer.files.length > 0) {
+      console.log('Please upload a single polygon for fire count analysis');
+      alert('Please upload a single polygon for fire count analysis');
       return;
-    }
+    } else {
+      const file = evt.dataTransfer &&
+                  evt.dataTransfer.files &&
+                  evt.dataTransfer.files[0];
 
-    //- Update the view
-    this.setState({
-      dndActive: false,
-      isUploading: true
-    });
+      if (!file) {
+        return;
+      }
 
-    //- If the analysis modal is visible, hide it
+      //- Update the view
+      this.setState({
+        dndActive: false,
+        isUploading: true
+      });
 
-    const extent = scaleUtils.getExtentForScale(app.map, 40000);
+      //- If the analysis modal is visible, hide it
 
-    const type = TYPE.SHAPEFILE;
-    const params = uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
-    const content = uploadConfig.shapefileContent(JSON.stringify(params), type);
+      const extent = scaleUtils.getExtentForScale(app.map, 40000);
 
-    // the upload input needs to have the file associated to it
-    let input = this.refs.fileInput;
-    input.files = evt.dataTransfer.files;
+      const type = TYPE.SHAPEFILE;
+      const params = uploadConfig.shapefileParams(file.name, app.map.spatialReference, extent.getWidth(), app.map.width);
+      const content = uploadConfig.shapefileContent(JSON.stringify(params), type);
 
-    request.upload(uploadConfig.portal, content, this.refs.upload).then((response) => {
-      if (response.featureCollection) {
-        const graphics = geometryUtils.generatePolygonsFromUpload(response.featureCollection);
+      // the upload input needs to have the file associated to it
+      let input = this.refs.fileInput;
+      input.files = evt.dataTransfer.files;
 
-        let uploadedFeats = [];
+      request.upload(uploadConfig.portal, content, this.refs.upload).then((response) => {
+        if (response.featureCollection) {
+          const graphics = geometryUtils.generatePolygonsFromUpload(response.featureCollection);
 
-        response.featureCollection.layers[0].layerDefinition.fields.forEach((field) => {
-            uploadedFeats.push({
-                name: field.name,
-                id: field.alias
-            });
-        });
+          let uploadedFeats = [];
 
+          response.featureCollection.layers[0].layerDefinition.fields.forEach((field) => {
+              uploadedFeats.push({
+                  name: field.name,
+                  id: field.alias
+              });
+          });
+
+          this.setState({
+            isUploading: false,
+            fieldSelectionShown: true,
+            fields: uploadedFeats,
+            uploadedGraphics: graphics
+          });
+
+        } else {
+          this.setState({
+            fieldSelectionShown: false,
+            isUploading: false
+          });
+          console.error('No feature collection present in the file');
+        }
+      }, (error) => {
         this.setState({
           isUploading: false,
-          fieldSelectionShown: true,
-          fields: uploadedFeats,
-          uploadedGraphics: graphics
+          fieldSelectionShown: false
         });
-
-      } else {
-        this.setState({
-          fieldSelectionShown: false,
-          isUploading: false
-        });
-        console.error('No feature collection present in the file');
-      }
-    }, (error) => {
-      this.setState({
-        isUploading: false,
-        fieldSelectionShown: false
+        console.error(error);
       });
-      console.error(error);
-    });
-
+    }
   };
 
   fieldMap (field) {
