@@ -34,6 +34,7 @@ export default class SubscriptionTab extends React.Component {
     mapStore.listen(this.storeUpdated.bind(this));
     this.state = {
       dndActive: false,
+      loader: false,
       drawButtonActive: false,
       isUploading: false,
       fieldSelectionShown: false,
@@ -59,30 +60,37 @@ export default class SubscriptionTab extends React.Component {
   }
 
   singleViirsQuery(query, url, timePeriod, index, queryGeometry) {
+    this.setState({ loader: true });
+
     const viirsQuery = new QueryTask(url);
     viirsQuery.execute(query).then(res => {
       this.setState({
         numberOfViirsPointsInPolygons: res.features.length,
         viirsTimePeriod: timePeriod,
         viirsTimeIndex: index,
-        geometryOfDrawnShape: queryGeometry
+        geometryOfDrawnShape: queryGeometry,
+        loader: false
       });
     });
   }
 
   singleModisQuery(query, url, timePeriod, index, queryGeometry) {
+    this.setState({ loader: true });
+    
     const modisQuery = new QueryTask(url);
     modisQuery.execute(query).then(res => {
       this.setState({
         numberOfModisPointsInPolygons: res.features.length,
         modisTimePeriod: timePeriod,
         modisTimeIndex: index,
-        geometryOfDrawnShape: queryGeometry
+        geometryOfDrawnShape: queryGeometry,
+        loader: false
       });
     });
   }
 
   queryForFires(geometry) {
+    console.log('???');
     const store = mapStore.getState();
 
     const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
@@ -206,7 +214,8 @@ export default class SubscriptionTab extends React.Component {
 
     this.setState({
       viirsTimePeriodPrefix,
-      modisTimePeriodPrefix
+      modisTimePeriodPrefix,
+      isUploading: false
     });
   }
 
@@ -308,8 +317,8 @@ export default class SubscriptionTab extends React.Component {
   removeDrawing = () => {
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
-      this.setState({ showDrawnMapGraphics: !this.state.showDrawnMapGraphics});
     }
+    this.setState({ showDrawnMapGraphics: false });
   };
 
   //- DnD Functions
@@ -381,7 +390,6 @@ export default class SubscriptionTab extends React.Component {
             fields: uploadedFeats,
             uploadedGraphics: graphics
           });
-          
 
         } else {
           this.setState({
@@ -422,6 +430,7 @@ export default class SubscriptionTab extends React.Component {
       graphic.attributes.Layer = 'custom';
       graphic.attributes.featureName = graphic.attributes[nameField];
       app.map.graphics.add(graphic);
+      this.queryForFires(graphic.geometry);
     });
   }
 
@@ -431,6 +440,7 @@ export default class SubscriptionTab extends React.Component {
     });
   }
 
+
   render () {
     let className = ' text-center';
     if (this.props.activeTab !== analysisPanelText.subscriptionTabId) { className += ' hidden'; }
@@ -439,6 +449,7 @@ export default class SubscriptionTab extends React.Component {
     return (
       <div id={analysisPanelText.subscriptionTabId} className={`analysis-instructions__draw ${className}`}>
         <p>{analysisPanelText.subscriptionInstructionsOne}</p>
+        <Loader active={this.state.loader} />
         <p>{analysisPanelText.subscriptionClick}</p>
           {
             numberOfViirsPointsInPolygons > 0 &&
@@ -462,9 +473,9 @@ export default class SubscriptionTab extends React.Component {
                 <span className='analysis-instructions__bold'>{modisTimePeriod}</span>
               </p> : null
           }
+
           {
-            (numberOfModisPointsInPolygons > 0 && this.state.activeLayers.includes('activeFires')) ||
-            (numberOfViirsPointsInPolygons > 0 && this.state.activeLayers.includes('viirsFires')) &&
+            (numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0) &&
             this.state.showDrawnMapGraphics === true ?
               <p style={{ fontSize: '12px'}}>{analysisPanelText.drawingDisclaimer}</p> : null
           }
@@ -473,7 +484,7 @@ export default class SubscriptionTab extends React.Component {
         <div className='analysis-instructions__draw-icon-container'>
           <svg className='analysis-instructions__draw-icon' dangerouslySetInnerHTML={{ __html: drawSvg }} />
         </div>
-        
+
         {
           this.state.showDrawnMapGraphics ?
           <button onClick={this.removeDrawing} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>
