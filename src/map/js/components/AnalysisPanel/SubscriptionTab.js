@@ -330,7 +330,8 @@ export default class SubscriptionTab extends React.Component {
 
   drop = (evt) => {
     evt.preventDefault();
-    if (evt.dataTransfer.files.length > 0) {
+
+    if (evt.dataTransfer.files.length > 1) {
       console.log('Please upload a single polygon for fire count analysis');
       alert('Please upload a single polygon for fire count analysis');
       return;
@@ -368,10 +369,10 @@ export default class SubscriptionTab extends React.Component {
           let uploadedFeats = [];
 
           response.featureCollection.layers[0].layerDefinition.fields.forEach((field) => {
-              uploadedFeats.push({
-                  name: field.name,
-                  id: field.alias
-              });
+            uploadedFeats.push({
+              name: field.name,
+              id: field.alias
+            });
           });
 
           this.setState({
@@ -380,6 +381,7 @@ export default class SubscriptionTab extends React.Component {
             fields: uploadedFeats,
             uploadedGraphics: graphics
           });
+          
 
         } else {
           this.setState({
@@ -405,6 +407,7 @@ export default class SubscriptionTab extends React.Component {
   }
 
   selectField = (evt) => {
+    app.map.graphics.clear();
     this.setState({
       showFields: false,
       fieldSelectionShown: false

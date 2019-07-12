@@ -548,6 +548,27 @@ export const config = {
       }
     },
     {
+      id: KEYS.mining,
+      order: 10,
+      type: 'dynamic',
+      label: 'Mining',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'mining',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      metadataId: 'gfw_mining',
+      layerIds: [2],
+      infoTemplate: {
+        content: '<table><span class="name-field">${Name}</span></tr>' +
+        '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' +
+        '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' +
+        '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' +
+        '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' +
+        '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' +
+        '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
+      }
+    },
+    {
       id: KEYS.loggingConcessions,
       order: 10,
       type: 'dynamic',
