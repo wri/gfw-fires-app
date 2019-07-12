@@ -76,7 +76,7 @@ export default class SubscriptionTab extends React.Component {
 
   singleModisQuery(query, url, timePeriod, index, queryGeometry) {
     this.setState({ loader: true });
-    
+
     const modisQuery = new QueryTask(url);
     modisQuery.execute(query).then(res => {
       this.setState({
@@ -90,7 +90,6 @@ export default class SubscriptionTab extends React.Component {
   }
 
   queryForFires(geometry) {
-    console.log('???');
     const store = mapStore.getState();
 
     const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
