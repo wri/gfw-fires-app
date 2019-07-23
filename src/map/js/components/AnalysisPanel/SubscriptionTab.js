@@ -49,19 +49,16 @@ export default class SubscriptionTab extends React.Component {
       viirsTimePeriodPrefix: null,
       modisTimeIndex: mapStore.getState().firesSelectIndex,
       viirsTimeIndex: mapStore.getState().viirsSelectIndex,
-      geometryOfDrawnShape: null,
+      geometryOfDrawnShape: mapStore.getState().geometryOfDrawnShape,
       activeLayers: mapStore.getState().activeLayers,
       viirsStartDate: mapStore.getState().archiveViirsStartDate,
       viirsEndDate: mapStore.getState().archiveViirsEndDate,
       modisStartDate: mapStore.getState().archiveModisStartDate,
       modisEndDate: mapStore.getState().archiveModisEndDate,
-      showDrawnMapGraphics: false
+      showDrawnMapGraphics: mapStore.getState().showDrawnMapGraphics
     };
   }
 
-  componentDidUpdate() {
-    console.log('state', this.state);
-  }
   singleViirsQuery(query, url, timePeriod, index, queryGeometry) {
     this.setState({ loader: true });
 
@@ -74,6 +71,7 @@ export default class SubscriptionTab extends React.Component {
         geometryOfDrawnShape: queryGeometry,
         loader: false
       });
+      // Todo: Update mapstore geometryOfDrawnShape
     });
   }
 
@@ -89,13 +87,15 @@ export default class SubscriptionTab extends React.Component {
         geometryOfDrawnShape: queryGeometry,
         loader: false
       });
+      // Todo: Update mapstore geometryOfDrawnShape
     });
   }
 
   queryForFires(geometry) {
     const store = mapStore.getState();
 
-    const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
+    // const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
+    const queryGeometry = geometry === undefined ? store.geometryOfDrawnShape : geometry;
 
     // Setup a query object for Viirs
     const viirsQuery = new Query();
@@ -199,6 +199,7 @@ export default class SubscriptionTab extends React.Component {
           viirsTimeIndex: store.viirsSelectIndex,
           geometryOfDrawnShape: queryGeometry
         });
+        // Todo: Update mapstore geometryOfDrawnShape
       });
     } else if (geometry && store.activeLayers.includes('viirsFires')) {
       // If viirs layer is on and modis layer is off when the initial drawing is made
@@ -222,6 +223,7 @@ export default class SubscriptionTab extends React.Component {
   }
 
   storeUpdated () {
+    console.log('???', 'fire');
     const state = mapStore.getState();
     // If a user selects the calendar. Only fire off the query function once the dates have changed.
     if (state.firesSelectIndex === 4 && this.state.modisTimeIndex !== 4) {
@@ -320,10 +322,9 @@ export default class SubscriptionTab extends React.Component {
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
-    console.log('???', 'remove!');
-    console.log('???', this.state.geometryOfDrawnShape);
+    // Todo: Update mapstore geometryOfDrawnShape
+    
     this.setState({ geometryOfDrawnShape: null, showDrawnMapGraphics: false });
-    console.log('???', this.state.geometryOfDrawnShape);
   };
 
   //- DnD Functions
@@ -388,8 +389,7 @@ export default class SubscriptionTab extends React.Component {
               id: field.alias
             });
           });
-          // Update state here
-          console.log('???', 'suppp!');
+          // Todo: Update mapstore geometryOfDrawnShape
           this.setState({
             isUploading: false,
             fieldSelectionShown: true,
@@ -500,7 +500,6 @@ export default class SubscriptionTab extends React.Component {
             {analysisPanelText.subscriptionButtonLabel}
           </button>
         }
-        
 
         <div id='upload-fields-input' className={`subscription-field-container ${this.state.fieldSelectionShown ? '' : ' hidden'}`}>
           <span className='upload-fields-label'>Choose name field </span><span onClick={this.toggleFields} className='layer-category-caret red'>{String.fromCharCode(!this.state.showFields ? closeSymbolCode : openSymbolCode)}</span>
