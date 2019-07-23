@@ -59,6 +59,9 @@ export default class SubscriptionTab extends React.Component {
     };
   }
 
+  componentDidUpdate() {
+    console.log('state', this.state);
+  }
   singleViirsQuery(query, url, timePeriod, index, queryGeometry) {
     this.setState({ loader: true });
 
@@ -317,7 +320,10 @@ export default class SubscriptionTab extends React.Component {
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
-    this.setState({ showDrawnMapGraphics: false });
+    console.log('???', 'remove!');
+    console.log('???', this.state.geometryOfDrawnShape);
+    this.setState({ geometryOfDrawnShape: null, showDrawnMapGraphics: false });
+    console.log('???', this.state.geometryOfDrawnShape);
   };
 
   //- DnD Functions
@@ -382,7 +388,8 @@ export default class SubscriptionTab extends React.Component {
               id: field.alias
             });
           });
-
+          // Update state here
+          console.log('???', 'suppp!');
           this.setState({
             isUploading: false,
             fieldSelectionShown: true,
@@ -485,7 +492,7 @@ export default class SubscriptionTab extends React.Component {
         </div>
 
         {
-          this.state.showDrawnMapGraphics ?
+          this.state.showDrawnMapGraphics || this.state.geometryOfDrawnShape ?
           <button onClick={this.removeDrawing} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>
             {analysisPanelText.subscriptionButtonLabelRemove}
           </button> :
