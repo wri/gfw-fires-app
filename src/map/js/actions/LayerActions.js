@@ -26,6 +26,10 @@ class LayerActions {
     this.dispatch();
   }
 
+  changeUserUploadedGeometry (geo) {
+    this.dispatch(geo);
+  }
+
   changeViirsTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
   }

@@ -7,6 +7,7 @@ import QueryTask from 'esri/tasks/QueryTask';
 import graphicsUtils from 'esri/graphicsUtils';
 import {analysisActions} from 'actions/AnalysisActions';
 import {modalActions} from 'actions/ModalActions';
+import { layerActions } from 'actions/LayerActions';
 import {uploadConfig} from 'js/config';
 import Loader from 'components/Loader';
 import Draw from 'esri/toolbars/draw';
@@ -68,10 +69,12 @@ export default class SubscriptionTab extends React.Component {
         numberOfViirsPointsInPolygons: res.features.length,
         viirsTimePeriod: timePeriod,
         viirsTimeIndex: index,
-        geometryOfDrawnShape: queryGeometry,
+        // geometryOfDrawnShape: queryGeometry,
         loader: false
       });
       // Todo: Update mapstore geometryOfDrawnShape
+      layerActions.changeUserUploadedGeometry(queryGeometry);
+
     });
   }
 
@@ -84,16 +87,17 @@ export default class SubscriptionTab extends React.Component {
         numberOfModisPointsInPolygons: res.features.length,
         modisTimePeriod: timePeriod,
         modisTimeIndex: index,
-        geometryOfDrawnShape: queryGeometry,
+        // geometryOfDrawnShape: queryGeometry,
         loader: false
       });
       // Todo: Update mapstore geometryOfDrawnShape
+      layerActions.changeUserUploadedGeometry(queryGeometry);
     });
   }
 
   queryForFires(geometry) {
     const store = mapStore.getState();
-
+    console.log('thisis the geo in the query for fires', geometry);
     // const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
     const queryGeometry = geometry === undefined ? store.geometryOfDrawnShape : geometry;
 
@@ -196,10 +200,9 @@ export default class SubscriptionTab extends React.Component {
           modisTimePeriod: modisTimePeriod,
           viirsTimePeriod: viirsTimePeriod,
           modisTimeIndex: store.firesSelectIndex,
-          viirsTimeIndex: store.viirsSelectIndex,
-          geometryOfDrawnShape: queryGeometry
+          viirsTimeIndex: store.viirsSelectIndex
         });
-        // Todo: Update mapstore geometryOfDrawnShape
+        layerActions.changeUserUploadedGeometry(queryGeometry);
       });
     } else if (geometry && store.activeLayers.includes('viirsFires')) {
       // If viirs layer is on and modis layer is off when the initial drawing is made
@@ -223,7 +226,7 @@ export default class SubscriptionTab extends React.Component {
   }
 
   storeUpdated () {
-    console.log('???', 'fire');
+    console.log('store updated!');
     const state = mapStore.getState();
     // If a user selects the calendar. Only fire off the query function once the dates have changed.
     if (state.firesSelectIndex === 4 && this.state.modisTimeIndex !== 4) {
@@ -276,6 +279,11 @@ export default class SubscriptionTab extends React.Component {
     if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
       this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
     }
+
+    // Update the geometry if it has changed
+    if (state.geometryOfDrawnShape !== this.state.geometryOfDrawnShape) {
+    this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape});
+    }
   }
 
   componentWillReceiveProps() {
@@ -299,6 +307,7 @@ export default class SubscriptionTab extends React.Component {
         if (app.mobile() === false) {
           analysisActions.toggleAnalysisToolsVisibility();
         }
+        layerActions.changeUserUploadedGeometry(evt.geometry);
         let graphic = geometryUtils.generateDrawnPolygon(evt.geometry);
         graphic.attributes.Layer = 'custom';
         graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
@@ -319,12 +328,14 @@ export default class SubscriptionTab extends React.Component {
   };
 
   removeDrawing = () => {
+    debugger;
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
-    // Todo: Update mapstore geometryOfDrawnShape
-    
-    this.setState({ geometryOfDrawnShape: null, showDrawnMapGraphics: false });
+    layerActions.changeUserUploadedGeometry(null);
+    this.setState({ showDrawnMapGraphics: false });
+    console.log('???', 'after dispatch');
+
   };
 
   //- DnD Functions
@@ -389,7 +400,6 @@ export default class SubscriptionTab extends React.Component {
               id: field.alias
             });
           });
-          // Todo: Update mapstore geometryOfDrawnShape
           this.setState({
             isUploading: false,
             fieldSelectionShown: true,
