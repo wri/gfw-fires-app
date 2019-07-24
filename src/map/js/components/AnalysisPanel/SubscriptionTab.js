@@ -57,7 +57,7 @@ export default class SubscriptionTab extends React.Component {
       viirsEndDate: mapStore.getState().archiveViirsEndDate,
       modisStartDate: mapStore.getState().archiveModisStartDate,
       modisEndDate: mapStore.getState().archiveModisEndDate,
-      showDrawnMapGraphics: mapStore.getState().showDrawnMapGraphics
+      showDrawnMapGraphics: false
     };
   }
 

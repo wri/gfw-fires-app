@@ -52,7 +52,6 @@ class MapStore {
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
-    this.showDrawnMapGraphics = false;
     this.geometryOfDrawnShape = null;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.fireHistorySelectIndex = layerPanelText.fireHistoryOptions.length - 1;
