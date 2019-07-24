@@ -272,11 +272,11 @@ export default class SubscriptionTab extends React.Component {
     if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
       this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
     }
-
     // Update the geometry if it has changed
     if (state.geometryOfDrawnShape !== this.state.geometryOfDrawnShape) {
-    this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape});
+      this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape});
     }
+
   }
 
   componentWillReceiveProps() {
@@ -324,8 +324,10 @@ export default class SubscriptionTab extends React.Component {
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
+    // Update the mapstore graphic and drawnMapGraphics properties.
     layerActions.changeUserUploadedGeometry(null);
-    this.setState({ showDrawnMapGraphics: false });
+    modalActions.removeCustomFeature(app.map.graphics.graphics);
+    this.setState({ showDrawnMapGraphics: false, drawnMapGraphics: false });
 
   };
 
