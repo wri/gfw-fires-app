@@ -69,10 +69,8 @@ export default class SubscriptionTab extends React.Component {
         numberOfViirsPointsInPolygons: res.features.length,
         viirsTimePeriod: timePeriod,
         viirsTimeIndex: index,
-        // geometryOfDrawnShape: queryGeometry,
         loader: false
       });
-      // Todo: Update mapstore geometryOfDrawnShape
       layerActions.changeUserUploadedGeometry(queryGeometry);
 
     });
@@ -87,18 +85,14 @@ export default class SubscriptionTab extends React.Component {
         numberOfModisPointsInPolygons: res.features.length,
         modisTimePeriod: timePeriod,
         modisTimeIndex: index,
-        // geometryOfDrawnShape: queryGeometry,
         loader: false
       });
-      // Todo: Update mapstore geometryOfDrawnShape
       layerActions.changeUserUploadedGeometry(queryGeometry);
     });
   }
 
   queryForFires(geometry) {
     const store = mapStore.getState();
-    console.log('thisis the geo in the query for fires', geometry);
-    // const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
     const queryGeometry = geometry === undefined ? store.geometryOfDrawnShape : geometry;
 
     // Setup a query object for Viirs
@@ -328,13 +322,11 @@ export default class SubscriptionTab extends React.Component {
   };
 
   removeDrawing = () => {
-    debugger;
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
     layerActions.changeUserUploadedGeometry(null);
     this.setState({ showDrawnMapGraphics: false });
-    console.log('???', 'after dispatch');
 
   };
 
