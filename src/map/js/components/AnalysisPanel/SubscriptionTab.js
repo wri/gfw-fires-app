@@ -220,7 +220,6 @@ export default class SubscriptionTab extends React.Component {
   }
 
   storeUpdated () {
-    console.log('store updated!');
     const state = mapStore.getState();
     // If a user selects the calendar. Only fire off the query function once the dates have changed.
     if (state.firesSelectIndex === 4 && this.state.modisTimeIndex !== 4) {
