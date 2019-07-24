@@ -57,7 +57,7 @@ export default class SubscriptionTab extends React.Component {
       viirsEndDate: mapStore.getState().archiveViirsEndDate,
       modisStartDate: mapStore.getState().archiveModisStartDate,
       modisEndDate: mapStore.getState().archiveModisEndDate,
-      showDrawnMapGraphics: mapStore.getState().showDrawnMapGraphics
+      showDrawnMapGraphics: false
     };
   }
 
@@ -332,10 +332,9 @@ export default class SubscriptionTab extends React.Component {
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
-
-    // Remove the geometry from the mapstore
+    // Update the mapstore graphic and drawnMapGraphics properties.
     layerActions.changeUserUploadedGeometry(null);
-
+    modalActions.removeCustomFeature(app.map.graphics.graphics);
     this.setState({ showDrawnMapGraphics: false });
   };
 
