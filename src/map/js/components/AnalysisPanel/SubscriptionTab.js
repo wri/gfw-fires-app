@@ -431,16 +431,19 @@ export default class SubscriptionTab extends React.Component {
   }
 
   selectField = (evt) => {
+    // This is where a user selects the type of name field for their uploaded file. Doing so will fire off a query using the uploaded shape geometry.
     app.map.graphics.clear();
     this.setState({
       showFields: false,
-      fieldSelectionShown: false
+      fieldSelectionShown: false,
+      showDrawnMapGraphics: true
     });
 
     let nameField = evt.target.id;
 
     const graphicsExtent = graphicsUtils.graphicsExtent(this.state.uploadedGraphics);
 
+    modalActions.addCustomFeature(true);
     app.map.setExtent(graphicsExtent, true);
     this.state.uploadedGraphics.forEach((graphic) => {
       graphic.attributes.Layer = 'custom';
@@ -491,7 +494,7 @@ export default class SubscriptionTab extends React.Component {
           }
 
           {
-            (numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0) &&
+            numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0 &&
             this.state.showDrawnMapGraphics === true ?
               <p style={{ fontSize: '12px'}}>{analysisPanelText.drawingDisclaimer}</p> : null
           }
