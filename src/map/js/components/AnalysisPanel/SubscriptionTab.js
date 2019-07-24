@@ -336,8 +336,6 @@ export default class SubscriptionTab extends React.Component {
     layerActions.changeUserUploadedGeometry(null);
     modalActions.removeCustomFeature(app.map.graphics.graphics);
     this.setState({ showDrawnMapGraphics: false, drawnMapGraphics: false });
-
-    this.setState({ showDrawnMapGraphics: false });
   };
 
   //- DnD Functions
