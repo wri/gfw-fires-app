@@ -7,6 +7,7 @@ import QueryTask from 'esri/tasks/QueryTask';
 import graphicsUtils from 'esri/graphicsUtils';
 import {analysisActions} from 'actions/AnalysisActions';
 import {modalActions} from 'actions/ModalActions';
+import { layerActions } from 'actions/LayerActions';
 import {uploadConfig} from 'js/config';
 import Loader from 'components/Loader';
 import Draw from 'esri/toolbars/draw';
@@ -32,6 +33,7 @@ export default class SubscriptionTab extends React.Component {
   constructor (props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
+    // MapStore is stored in the `mapstore.js` component.
     this.state = {
       dndActive: false,
       loader: false,
@@ -49,7 +51,7 @@ export default class SubscriptionTab extends React.Component {
       viirsTimePeriodPrefix: null,
       modisTimeIndex: mapStore.getState().firesSelectIndex,
       viirsTimeIndex: mapStore.getState().viirsSelectIndex,
-      geometryOfDrawnShape: null,
+      geometryOfDrawnShape: mapStore.getState().geometryOfDrawnShape,
       activeLayers: mapStore.getState().activeLayers,
       viirsStartDate: mapStore.getState().archiveViirsStartDate,
       viirsEndDate: mapStore.getState().archiveViirsEndDate,
@@ -68,9 +70,10 @@ export default class SubscriptionTab extends React.Component {
         numberOfViirsPointsInPolygons: res.features.length,
         viirsTimePeriod: timePeriod,
         viirsTimeIndex: index,
-        geometryOfDrawnShape: queryGeometry,
         loader: false
       });
+      //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
+      layerActions.changeUserUploadedGeometry(queryGeometry);
     });
   }
 
@@ -83,16 +86,16 @@ export default class SubscriptionTab extends React.Component {
         numberOfModisPointsInPolygons: res.features.length,
         modisTimePeriod: timePeriod,
         modisTimeIndex: index,
-        geometryOfDrawnShape: queryGeometry,
         loader: false
       });
+      //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
+      layerActions.changeUserUploadedGeometry(queryGeometry);
     });
   }
 
   queryForFires(geometry) {
     const store = mapStore.getState();
-
-    const queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
+    const queryGeometry = geometry === undefined ? store.geometryOfDrawnShape : geometry;
 
     // Setup a query object for Viirs
     const viirsQuery = new Query();
@@ -193,9 +196,10 @@ export default class SubscriptionTab extends React.Component {
           modisTimePeriod: modisTimePeriod,
           viirsTimePeriod: viirsTimePeriod,
           modisTimeIndex: store.firesSelectIndex,
-          viirsTimeIndex: store.viirsSelectIndex,
-          geometryOfDrawnShape: queryGeometry
+          viirsTimeIndex: store.viirsSelectIndex
         });
+        //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
+        layerActions.changeUserUploadedGeometry(queryGeometry);
       });
     } else if (geometry && store.activeLayers.includes('viirsFires')) {
       // If viirs layer is on and modis layer is off when the initial drawing is made
@@ -227,7 +231,9 @@ export default class SubscriptionTab extends React.Component {
           modisStartDate: state.archiveModisStartDate,
           modisEndDate: state.archiveModisEndDate
         });
-        this.queryForFires();
+        if (this.state.showDrawnMapGraphics) {
+          this.queryForFires();
+        }
       }
     } else if (state.viirsSelectIndex === 4 && this.state.viirsTimeIndex !== 4) {
       if (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate) {
@@ -235,7 +241,9 @@ export default class SubscriptionTab extends React.Component {
           viirsStartDate: state.archiveViirsStartDate,
           viirsEndDate: state.archiveViirsEndDate
         });
-        this.queryForFires();
+        if (this.state.showDrawnMapGraphics) {
+          this.queryForFires();
+        }
       }
     } else if (this.state.modisTimeIndex === 4 && (state.archiveModisStartDate !== this.state.modisStartDate || state.archiveModisEndDate !== this.state.modisEndDate)) {
       // If the user is changing one of the dates of the modis calendar while still on the calendar.
@@ -243,14 +251,18 @@ export default class SubscriptionTab extends React.Component {
         modisStartDate: state.archiveModisStartDate,
         modisEndDate: state.archiveModisEndDate
       });
-      this.queryForFires();
+      if (this.state.showDrawnMapGraphics) {
+        this.queryForFires();
+      }
     } else if (this.state.viirsTimeIndex === 4 && (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate)) {
       // If the user is changing one of the dates of the viirs calendar while still on the calendar...
       this.setState({
         viirsStartDate: state.archiveViirsStartDate,
         viirsEndDate: state.archiveViirsEndDate
       });
-      this.queryForFires();
+      if (this.state.showDrawnMapGraphics) {
+        this.queryForFires();
+      }
     } else if (
       // If the user changed either the Modis or Viirs date, and there is a shape on the map, fire off new queries
       (state.firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
@@ -258,7 +270,9 @@ export default class SubscriptionTab extends React.Component {
       (state.activeLayers.includes('activeFires') === true || state.activeLayers.includes('viirsFires') === true) && // Checks if the modis or viirs layers were toggled (and at least one is on)
       state.drawnMapGraphics === true // Checks if a shape has been drawn on the map.
       ) {
-      this.queryForFires();
+      if (this.state.showDrawnMapGraphics) {
+        this.queryForFires();
+      }
     }
 
     // If only the activeLayers changed, we update state but don't run new queries.
@@ -268,8 +282,15 @@ export default class SubscriptionTab extends React.Component {
       });
     }
 
+    // This is a boolean value to determine if a graphic is drawn on the map.
+    // Update the local state's if it has changed in the mapstore.
     if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
       this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
+    }
+
+    // Update the local state's geometry if it has changed in the mapstore.
+    if (state.geometryOfDrawnShape !== this.state.geometryOfDrawnShape) {
+      this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape});
     }
   }
 
@@ -294,6 +315,10 @@ export default class SubscriptionTab extends React.Component {
         if (app.mobile() === false) {
           analysisActions.toggleAnalysisToolsVisibility();
         }
+
+        // Update the mapstore's geometry
+        layerActions.changeUserUploadedGeometry(evt.geometry);
+
         let graphic = geometryUtils.generateDrawnPolygon(evt.geometry);
         graphic.attributes.Layer = 'custom';
         graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
@@ -317,6 +342,9 @@ export default class SubscriptionTab extends React.Component {
     if (app.map.graphics.graphics.length > 0) {
       app.map.graphics.clear();
     }
+    // Update the mapstore graphic and drawnMapGraphics properties.
+    layerActions.changeUserUploadedGeometry(null);
+    modalActions.removeCustomFeature(app.map.graphics.graphics);
     this.setState({ showDrawnMapGraphics: false });
   };
 
@@ -382,7 +410,6 @@ export default class SubscriptionTab extends React.Component {
               id: field.alias
             });
           });
-
           this.setState({
             isUploading: false,
             fieldSelectionShown: true,
@@ -414,15 +441,20 @@ export default class SubscriptionTab extends React.Component {
   }
 
   selectField = (evt) => {
+    // This is where a user selects the type of name field for their uploaded file. Doing so will fire off a query using the uploaded shape geometry.
     app.map.graphics.clear();
     this.setState({
       showFields: false,
-      fieldSelectionShown: false
+      fieldSelectionShown: false,
+      showDrawnMapGraphics: true
     });
 
     let nameField = evt.target.id;
 
     const graphicsExtent = graphicsUtils.graphicsExtent(this.state.uploadedGraphics);
+
+    // Add the graphic to the mapstore
+    modalActions.addCustomFeature(true);
 
     app.map.setExtent(graphicsExtent, true);
     this.state.uploadedGraphics.forEach((graphic) => {
@@ -450,7 +482,7 @@ export default class SubscriptionTab extends React.Component {
         <p>{analysisPanelText.subscriptionInstructionsOne}</p>
         <Loader active={this.state.loader} />
         <p>{analysisPanelText.subscriptionClick}</p>
-          {
+          { // If there is a polygon on the map, there are viirs points in our polygon, and the viirs layer is active, show the counts.
             numberOfViirsPointsInPolygons > 0 &&
             this.state.activeLayers.includes('viirsFires') &&
             this.state.showDrawnMapGraphics === true ?
@@ -461,7 +493,7 @@ export default class SubscriptionTab extends React.Component {
                 <span className='analysis-instructions__bold'>{viirsTimePeriod}</span>
               </p> : null
           }
-          {
+          { // If there is a polygon on the map, there are modis points in our polygon, and the modis layer is active, show the counts.
             numberOfModisPointsInPolygons > 0 &&
             this.state.activeLayers.includes('activeFires') &&
             this.state.showDrawnMapGraphics === true ?
@@ -474,7 +506,7 @@ export default class SubscriptionTab extends React.Component {
           }
 
           {
-            (numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0) &&
+            numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0 &&
             this.state.showDrawnMapGraphics === true ?
               <p style={{ fontSize: '12px'}}>{analysisPanelText.drawingDisclaimer}</p> : null
           }
@@ -485,7 +517,7 @@ export default class SubscriptionTab extends React.Component {
         </div>
 
         {
-          this.state.showDrawnMapGraphics ?
+          this.state.showDrawnMapGraphics || this.state.geometryOfDrawnShape ?
           <button onClick={this.removeDrawing} className={`gfw-btn blue subscription-draw ${this.state.drawButtonActive ? 'active' : ''}`}>
             {analysisPanelText.subscriptionButtonLabelRemove}
           </button> :
@@ -493,7 +525,6 @@ export default class SubscriptionTab extends React.Component {
             {analysisPanelText.subscriptionButtonLabel}
           </button>
         }
-        
 
         <div id='upload-fields-input' className={`subscription-field-container ${this.state.fieldSelectionShown ? '' : ' hidden'}`}>
           <span className='upload-fields-label'>Choose name field </span><span onClick={this.toggleFields} className='layer-category-caret red'>{String.fromCharCode(!this.state.showFields ? closeSymbolCode : openSymbolCode)}</span>

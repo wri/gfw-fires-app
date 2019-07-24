@@ -52,6 +52,7 @@ class MapStore {
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
     this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+    this.geometryOfDrawnShape = null;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.fireHistorySelectIndex = layerPanelText.fireHistoryOptions.length - 1;
     this.layerPanelVisible = app.mobile === false;
@@ -96,6 +97,7 @@ class MapStore {
       incrementFireHistoryYear: layerActions.incrementFireHistoryYear,
       decrementFireHistoryYear: layerActions.decrementFireHistoryYear,
       changeViirsTimeline: layerActions.changeViirsTimeline,
+      changeGeometryOfDrawnShape: layerActions.changeUserUploadedGeometry,
       changePlantations: layerActions.changePlantations,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
@@ -418,6 +420,10 @@ class MapStore {
   changePlantations (activeIndex) {
     this.plantationSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
+  }
+
+  changeGeometryOfDrawnShape (geo) {
+    this.geometryOfDrawnShape = geo;
   }
 
   changeViirsTimeline (activeIndex) {
