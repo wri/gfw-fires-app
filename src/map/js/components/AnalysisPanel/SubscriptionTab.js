@@ -231,7 +231,9 @@ export default class SubscriptionTab extends React.Component {
           modisStartDate: state.archiveModisStartDate,
           modisEndDate: state.archiveModisEndDate
         });
-        this.queryForFires();
+        if (this.state.showDrawnMapGraphics) {
+          this.queryForFires();
+        }
       }
     } else if (state.viirsSelectIndex === 4 && this.state.viirsTimeIndex !== 4) {
       if (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate) {
@@ -239,7 +241,9 @@ export default class SubscriptionTab extends React.Component {
           viirsStartDate: state.archiveViirsStartDate,
           viirsEndDate: state.archiveViirsEndDate
         });
-        this.queryForFires();
+        if (this.state.showDrawnMapGraphics) {
+          this.queryForFires();
+        }
       }
     } else if (this.state.modisTimeIndex === 4 && (state.archiveModisStartDate !== this.state.modisStartDate || state.archiveModisEndDate !== this.state.modisEndDate)) {
       // If the user is changing one of the dates of the modis calendar while still on the calendar.
@@ -247,14 +251,18 @@ export default class SubscriptionTab extends React.Component {
         modisStartDate: state.archiveModisStartDate,
         modisEndDate: state.archiveModisEndDate
       });
-      this.queryForFires();
+      if (this.state.showDrawnMapGraphics) {
+        this.queryForFires();
+      }
     } else if (this.state.viirsTimeIndex === 4 && (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate)) {
       // If the user is changing one of the dates of the viirs calendar while still on the calendar...
       this.setState({
         viirsStartDate: state.archiveViirsStartDate,
         viirsEndDate: state.archiveViirsEndDate
       });
-      this.queryForFires();
+      if (this.state.showDrawnMapGraphics) {
+        this.queryForFires();
+      }
     } else if (
       // If the user changed either the Modis or Viirs date, and there is a shape on the map, fire off new queries
       (state.firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
@@ -262,7 +270,9 @@ export default class SubscriptionTab extends React.Component {
       (state.activeLayers.includes('activeFires') === true || state.activeLayers.includes('viirsFires') === true) && // Checks if the modis or viirs layers were toggled (and at least one is on)
       state.drawnMapGraphics === true // Checks if a shape has been drawn on the map.
       ) {
-      this.queryForFires();
+      if (this.state.showDrawnMapGraphics) {
+        this.queryForFires();
+      }
     }
 
     // If only the activeLayers changed, we update state but don't run new queries.
