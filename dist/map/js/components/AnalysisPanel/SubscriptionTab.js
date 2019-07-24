@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', 'utils/geometryUtils', 'esri/tasks/query', 'esri/tasks/QueryTask', 'esri/graphicsUtils', 'actions/AnalysisActions', 'actions/ModalActions', 'components/Loader', 'esri/toolbars/draw', 'utils/request', 'react'], function (exports, _config, _MapStore, _scaleUtils, _geometryUtils, _query, _QueryTask, _graphicsUtils, _AnalysisActions, _ModalActions, _Loader, _draw, _request, _react) {
+define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', 'utils/geometryUtils', 'esri/tasks/query', 'esri/tasks/QueryTask', 'esri/graphicsUtils', 'actions/AnalysisActions', 'actions/ModalActions', 'actions/LayerActions', 'components/Loader', 'esri/toolbars/draw', 'utils/request', 'react'], function (exports, _config, _MapStore, _scaleUtils, _geometryUtils, _query, _QueryTask, _graphicsUtils, _AnalysisActions, _ModalActions, _LayerActions, _Loader, _draw, _request, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -113,6 +113,9 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
         if (app.map.graphics.graphics.length > 0) {
           app.map.graphics.clear();
         }
+        // Update the mapstore graphic and drawnMapGraphics properties.
+        _LayerActions.layerActions.changeUserUploadedGeometry(null);
+        _ModalActions.modalActions.removeCustomFeature(app.map.graphics.graphics);
         _this.setState({ showDrawnMapGraphics: false });
       };
 
@@ -175,7 +178,6 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
                   id: field.alias
                 });
               });
-
               _this.setState({
                 isUploading: false,
                 fieldSelectionShown: true,
@@ -200,15 +202,20 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
       };
 
       _this.selectField = function (evt) {
+        // This is where a user selects the type of name field for their uploaded file. Doing so will fire off a query using the uploaded shape geometry.
         app.map.graphics.clear();
         _this.setState({
           showFields: false,
-          fieldSelectionShown: false
+          fieldSelectionShown: false,
+          showDrawnMapGraphics: true
         });
 
         var nameField = evt.target.id;
 
         var graphicsExtent = _graphicsUtils2.default.graphicsExtent(_this.state.uploadedGraphics);
+
+        // Add the graphic to the mapstore
+        _ModalActions.modalActions.addCustomFeature(true);
 
         app.map.setExtent(graphicsExtent, true);
         _this.state.uploadedGraphics.forEach(function (graphic) {
@@ -226,6 +233,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
       };
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
+      // MapStore is stored in the `mapstore.js` component.
       _this.state = {
         dndActive: false,
         loader: false,
@@ -243,7 +251,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
         viirsTimePeriodPrefix: null,
         modisTimeIndex: _MapStore.mapStore.getState().firesSelectIndex,
         viirsTimeIndex: _MapStore.mapStore.getState().viirsSelectIndex,
-        geometryOfDrawnShape: null,
+        geometryOfDrawnShape: _MapStore.mapStore.getState().geometryOfDrawnShape,
         activeLayers: _MapStore.mapStore.getState().activeLayers,
         viirsStartDate: _MapStore.mapStore.getState().archiveViirsStartDate,
         viirsEndDate: _MapStore.mapStore.getState().archiveViirsEndDate,
@@ -267,9 +275,10 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             numberOfViirsPointsInPolygons: res.features.length,
             viirsTimePeriod: timePeriod,
             viirsTimeIndex: index,
-            geometryOfDrawnShape: queryGeometry,
             loader: false
           });
+          //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
+          _LayerActions.layerActions.changeUserUploadedGeometry(queryGeometry);
         });
       }
     }, {
@@ -285,9 +294,10 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             numberOfModisPointsInPolygons: res.features.length,
             modisTimePeriod: timePeriod,
             modisTimeIndex: index,
-            geometryOfDrawnShape: queryGeometry,
             loader: false
           });
+          //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
+          _LayerActions.layerActions.changeUserUploadedGeometry(queryGeometry);
         });
       }
     }, {
@@ -296,8 +306,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
         var _this4 = this;
 
         var store = _MapStore.mapStore.getState();
-
-        var queryGeometry = geometry === undefined ? this.state.geometryOfDrawnShape : geometry;
+        var queryGeometry = geometry === undefined ? store.geometryOfDrawnShape : geometry;
 
         // Setup a query object for Viirs
         var viirsQuery = new _query2.default();
@@ -401,9 +410,10 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
               modisTimePeriod: modisTimePeriod,
               viirsTimePeriod: viirsTimePeriod,
               modisTimeIndex: store.firesSelectIndex,
-              viirsTimeIndex: store.viirsSelectIndex,
-              geometryOfDrawnShape: queryGeometry
+              viirsTimeIndex: store.viirsSelectIndex
             });
+            //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
+            _LayerActions.layerActions.changeUserUploadedGeometry(queryGeometry);
           });
         } else if (geometry && store.activeLayers.includes('viirsFires')) {
           // If viirs layer is on and modis layer is off when the initial drawing is made
@@ -436,7 +446,9 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
               modisStartDate: state.archiveModisStartDate,
               modisEndDate: state.archiveModisEndDate
             });
-            this.queryForFires();
+            if (this.state.showDrawnMapGraphics) {
+              this.queryForFires();
+            }
           }
         } else if (state.viirsSelectIndex === 4 && this.state.viirsTimeIndex !== 4) {
           if (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate) {
@@ -444,7 +456,9 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
               viirsStartDate: state.archiveViirsStartDate,
               viirsEndDate: state.archiveViirsEndDate
             });
-            this.queryForFires();
+            if (this.state.showDrawnMapGraphics) {
+              this.queryForFires();
+            }
           }
         } else if (this.state.modisTimeIndex === 4 && (state.archiveModisStartDate !== this.state.modisStartDate || state.archiveModisEndDate !== this.state.modisEndDate)) {
           // If the user is changing one of the dates of the modis calendar while still on the calendar.
@@ -452,14 +466,18 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             modisStartDate: state.archiveModisStartDate,
             modisEndDate: state.archiveModisEndDate
           });
-          this.queryForFires();
+          if (this.state.showDrawnMapGraphics) {
+            this.queryForFires();
+          }
         } else if (this.state.viirsTimeIndex === 4 && (state.archiveViirsStartDate !== this.state.viirsStartDate || state.archiveViirsEndDate !== this.state.viirsEndDate)) {
           // If the user is changing one of the dates of the viirs calendar while still on the calendar...
           this.setState({
             viirsStartDate: state.archiveViirsStartDate,
             viirsEndDate: state.archiveViirsEndDate
           });
-          this.queryForFires();
+          if (this.state.showDrawnMapGraphics) {
+            this.queryForFires();
+          }
         } else if (
         // If the user changed either the Modis or Viirs date, and there is a shape on the map, fire off new queries
         (state.firesSelectIndex !== this.state.modisTimeIndex || // Checks if the modis dates changed
@@ -467,7 +485,9 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
         state.activeLayers.includes('activeFires') === true || state.activeLayers.includes('viirsFires') === true) && // Checks if the modis or viirs layers were toggled (and at least one is on)
         state.drawnMapGraphics === true // Checks if a shape has been drawn on the map.
         ) {
-            this.queryForFires();
+            if (this.state.showDrawnMapGraphics) {
+              this.queryForFires();
+            }
           }
 
         // If only the activeLayers changed, we update state but don't run new queries.
@@ -477,8 +497,15 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
           });
         }
 
+        // This is a boolean value to determine if a graphic is drawn on the map.
+        // Update the local state's if it has changed in the mapstore.
         if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
           this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
+        }
+
+        // Update the local state's geometry if it has changed in the mapstore.
+        if (state.geometryOfDrawnShape !== this.state.geometryOfDrawnShape) {
+          this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape });
         }
       }
     }, {
@@ -506,6 +533,10 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             if (app.mobile() === false) {
               _AnalysisActions.analysisActions.toggleAnalysisToolsVisibility();
             }
+
+            // Update the mapstore's geometry
+            _LayerActions.layerActions.changeUserUploadedGeometry(evt.geometry);
+
             var graphic = _geometryUtils2.default.generateDrawnPolygon(evt.geometry);
             graphic.attributes.Layer = 'custom';
             graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
@@ -552,6 +583,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             null,
             _config.analysisPanelText.subscriptionClick
           ),
+          // If there is a polygon on the map, there are viirs points in our polygon, and the viirs layer is active, show the counts.
           numberOfViirsPointsInPolygons > 0 && this.state.activeLayers.includes('viirsFires') && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
             'p',
             { className: 'analysis-instructions__content' },
@@ -576,6 +608,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
               viirsTimePeriod
             )
           ) : null,
+          // If there is a polygon on the map, there are modis points in our polygon, and the modis layer is active, show the counts.
           numberOfModisPointsInPolygons > 0 && this.state.activeLayers.includes('activeFires') && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
             'p',
             { className: 'analysis-instructions__content' },
@@ -600,7 +633,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
               modisTimePeriod
             )
           ) : null,
-          (numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0) && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
+          numberOfModisPointsInPolygons > 0 || numberOfViirsPointsInPolygons > 0 && this.state.showDrawnMapGraphics === true ? _react2.default.createElement(
             'p',
             { style: { fontSize: '12px' } },
             _config.analysisPanelText.drawingDisclaimer
@@ -610,7 +643,7 @@ define(['exports', 'js/config', 'stores/MapStore', 'esri/geometry/scaleUtils', '
             { className: 'analysis-instructions__draw-icon-container' },
             _react2.default.createElement('svg', { className: 'analysis-instructions__draw-icon', dangerouslySetInnerHTML: { __html: drawSvg } })
           ),
-          this.state.showDrawnMapGraphics ? _react2.default.createElement(
+          this.state.showDrawnMapGraphics || this.state.geometryOfDrawnShape ? _react2.default.createElement(
             'button',
             { onClick: this.removeDrawing, className: 'gfw-btn blue subscription-draw ' + (this.state.drawButtonActive ? 'active' : '') },
             _config.analysisPanelText.subscriptionButtonLabelRemove

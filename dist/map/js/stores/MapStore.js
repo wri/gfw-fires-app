@@ -94,6 +94,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
       this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+      this.geometryOfDrawnShape = null;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
       this.fireHistorySelectIndex = _config.layerPanelText.fireHistoryOptions.length - 1;
       this.layerPanelVisible = app.mobile === false;
@@ -138,6 +139,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         incrementFireHistoryYear: _LayerActions.layerActions.incrementFireHistoryYear,
         decrementFireHistoryYear: _LayerActions.layerActions.decrementFireHistoryYear,
         changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
+        changeGeometryOfDrawnShape: _LayerActions.layerActions.changeUserUploadedGeometry,
         changePlantations: _LayerActions.layerActions.changePlantations,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
         showFootprints: _LayerActions.layerActions.showFootprints,
@@ -498,6 +500,11 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       value: function changePlantations(activeIndex) {
         this.plantationSelectIndex = activeIndex;
         this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
+      }
+    }, {
+      key: 'changeGeometryOfDrawnShape',
+      value: function changeGeometryOfDrawnShape(geo) {
+        this.geometryOfDrawnShape = geo;
       }
     }, {
       key: 'changeViirsTimeline',
