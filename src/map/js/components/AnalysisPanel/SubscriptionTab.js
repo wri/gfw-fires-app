@@ -335,7 +335,7 @@ export default class SubscriptionTab extends React.Component {
     // Update the mapstore graphic and drawnMapGraphics properties.
     layerActions.changeUserUploadedGeometry(null);
     modalActions.removeCustomFeature(app.map.graphics.graphics);
-    this.setState({ showDrawnMapGraphics: false, drawnMapGraphics: false });
+    this.setState({ showDrawnMapGraphics: false });
   };
 
   //- DnD Functions
