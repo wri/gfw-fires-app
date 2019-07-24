@@ -282,7 +282,6 @@ export default class SubscriptionTab extends React.Component {
     if (state.geometryOfDrawnShape !== this.state.geometryOfDrawnShape) {
       this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape});
     }
-
   }
 
   componentWillReceiveProps() {
