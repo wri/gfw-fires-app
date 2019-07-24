@@ -70,6 +70,11 @@ export default class SubscriptionTab extends React.Component {
         viirsTimePeriod: timePeriod,
         viirsTimeIndex: index,
         loader: false
+      })
+      .catch(err => {
+        console.log('Error processing request: ', err);
+        alert('Error processing request: ', err);
+        this.setState({ loader: false });
       });
       layerActions.changeUserUploadedGeometry(queryGeometry);
 
@@ -86,6 +91,11 @@ export default class SubscriptionTab extends React.Component {
         modisTimePeriod: timePeriod,
         modisTimeIndex: index,
         loader: false
+      })
+      .catch(err => {
+        console.log('Error processing request: ', err);
+        alert('Error processing request: ', err);
+        this.setState({ loader: false });
       });
       layerActions.changeUserUploadedGeometry(queryGeometry);
     });
