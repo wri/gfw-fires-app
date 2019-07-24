@@ -33,6 +33,7 @@ export default class SubscriptionTab extends React.Component {
   constructor (props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
+    // MapStore is stored in the `mapstore.js` component.
     this.state = {
       dndActive: false,
       loader: false,
@@ -71,8 +72,8 @@ export default class SubscriptionTab extends React.Component {
         viirsTimeIndex: index,
         loader: false
       });
+      //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
       layerActions.changeUserUploadedGeometry(queryGeometry);
-
     });
   }
 
@@ -87,6 +88,7 @@ export default class SubscriptionTab extends React.Component {
         modisTimeIndex: index,
         loader: false
       });
+      //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
       layerActions.changeUserUploadedGeometry(queryGeometry);
     });
   }
@@ -196,6 +198,7 @@ export default class SubscriptionTab extends React.Component {
           modisTimeIndex: store.firesSelectIndex,
           viirsTimeIndex: store.viirsSelectIndex
         });
+        //  We also need to update the mapstore's geometry, so we use the layerAction to do this.
         layerActions.changeUserUploadedGeometry(queryGeometry);
       });
     } else if (geometry && store.activeLayers.includes('viirsFires')) {
@@ -269,10 +272,13 @@ export default class SubscriptionTab extends React.Component {
       });
     }
 
+    // This is a boolean value to determine if a graphic is drawn on the map.
+    // Update the local state's if it has changed in the mapstore.
     if (state.drawnMapGraphics !== this.state.showDrawnMapGraphics) {
       this.setState({ showDrawnMapGraphics: state.drawnMapGraphics });
     }
-    // Update the geometry if it has changed
+
+    // Update the local state's geometry if it has changed in the mapstore.
     if (state.geometryOfDrawnShape !== this.state.geometryOfDrawnShape) {
       this.setState({ geometryOfDrawnShape: state.geometryOfDrawnShape});
     }
@@ -300,7 +306,10 @@ export default class SubscriptionTab extends React.Component {
         if (app.mobile() === false) {
           analysisActions.toggleAnalysisToolsVisibility();
         }
+
+        // Update the mapstore's geometry
         layerActions.changeUserUploadedGeometry(evt.geometry);
+
         let graphic = geometryUtils.generateDrawnPolygon(evt.geometry);
         graphic.attributes.Layer = 'custom';
         graphic.attributes.featureName = 'Custom Feature ' + app.map.graphics.graphics.length;
@@ -329,6 +338,7 @@ export default class SubscriptionTab extends React.Component {
     modalActions.removeCustomFeature(app.map.graphics.graphics);
     this.setState({ showDrawnMapGraphics: false, drawnMapGraphics: false });
 
+    this.setState({ showDrawnMapGraphics: false });
   };
 
   //- DnD Functions
@@ -436,7 +446,9 @@ export default class SubscriptionTab extends React.Component {
 
     const graphicsExtent = graphicsUtils.graphicsExtent(this.state.uploadedGraphics);
 
+    // Add the graphic to the mapstore
     modalActions.addCustomFeature(true);
+
     app.map.setExtent(graphicsExtent, true);
     this.state.uploadedGraphics.forEach((graphic) => {
       graphic.attributes.Layer = 'custom';
@@ -463,7 +475,7 @@ export default class SubscriptionTab extends React.Component {
         <p>{analysisPanelText.subscriptionInstructionsOne}</p>
         <Loader active={this.state.loader} />
         <p>{analysisPanelText.subscriptionClick}</p>
-          {
+          { // If there is a polygon on the map, there are viirs points in our polygon, and the viirs layer is active, show the counts.
             numberOfViirsPointsInPolygons > 0 &&
             this.state.activeLayers.includes('viirsFires') &&
             this.state.showDrawnMapGraphics === true ?
@@ -474,7 +486,7 @@ export default class SubscriptionTab extends React.Component {
                 <span className='analysis-instructions__bold'>{viirsTimePeriod}</span>
               </p> : null
           }
-          {
+          { // If there is a polygon on the map, there are modis points in our polygon, and the modis layer is active, show the counts.
             numberOfModisPointsInPolygons > 0 &&
             this.state.activeLayers.includes('activeFires') &&
             this.state.showDrawnMapGraphics === true ?
