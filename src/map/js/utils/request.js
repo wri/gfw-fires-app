@@ -10,7 +10,7 @@ import IdentifyParameters from 'esri/tasks/IdentifyParameters';
 import Query from 'esri/tasks/query';
 import Deferred from 'dojo/Deferred';
 import utils from 'utils/AppUtils';
-import FeatureLayer from 'esri/layers/FeatureLayer';
+// import FeatureLayer from 'esri/layers/FeatureLayer';
 import KEYS from 'js/constants';
 
 const request = {
@@ -225,6 +225,7 @@ const request = {
   * @return {Deferred} deferred
   */
   identifyOilPalm: mapPoint => {
+    console.log('oil');
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalm);
     let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
@@ -451,6 +452,88 @@ const request = {
         //   layer: KEYS.woodFiber,
         //   features: features
         // });
+      } else {
+        deferred.resolve(false);
+      }
+    }, function(error) {
+      console.log(error);
+      deferred.resolve(false);
+    });
+
+    return deferred.promise;
+  },
+
+
+  /**
+  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+  * @return {Deferred} deferred
+  */
+  identifyMining: mapPoint => {
+    let deferred = new Deferred();
+    let config = utils.getObject(layersConfig, 'id', KEYS.mining);
+    let firesConfig = utils.getObject(layersConfig, 'id', KEYS.activeFires);
+    let viirsConfig = utils.getObject(layersConfig, 'id', KEYS.viirsFires);
+    let identifyTask = new IdentifyTask(config.url);
+    let params = new IdentifyParameters();
+    let layer = app.map.getLayer(KEYS.mining);
+    const viirsLayer = app.map.getLayer(KEYS.viirsFires);
+    const modisLayer = app.map.getLayer(KEYS.activeFires);
+    let layerDefinitions = [];
+    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+    params.tolerance = 2;
+    params.returnGeometry = true;
+    params.width = app.map.width;
+    params.height = app.map.height;
+    params.geometry = mapPoint;
+    params.mapExtent = app.map.extent;
+    params.layerIds = config.layerIds;
+    params.layerDefinitions = layerDefinitions;
+    params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
+
+    identifyTask.execute(params, function(features) {
+      if (features.length > 0) {
+        let queries = features.map(function(feature){
+          let qDeferred = new Deferred();
+          let queryTask = new QueryTask(modisLayer.url + '/' + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsLayer.url + '/' + viirsConfig.layerIds[0]);
+          let query = new Query();
+          let viirsQuery = new Query();
+          query.geometry = feature.feature.geometry;
+          viirsQuery.geometry = feature.feature.geometry;
+          const queryString = utils.generateFiresQuery(7);
+          const viirsQueryString = utils.generateViirsQuery(7);
+          query.where = queryString;
+          query.outFields = ['ACQ_DATE'];
+          viirsQuery.where = viirsQueryString;
+          viirsQuery.outFields = ['ACQ_DATE'];
+          const deferreds = [];
+          deferreds.push(queryTask.execute(query));
+          deferreds.push(viirsQueryTask.execute(viirsQuery));
+          all(deferreds).then(results => {
+            if (results[0].features && results[1].features) {
+              feature.fires = results[0].features.concat(results[1].features);
+            } else if (results[0].features) {
+              feature.fires = results[0].features;
+            } else if (results[1].features) {
+              feature.fires = results[1].features;
+            }
+            console.log('results', feature.fires);
+            setTimeout(function() {
+              qDeferred.resolve(false);
+            }, 3000);
+            qDeferred.resolve(feature);
+          });
+
+          return qDeferred;
+        });
+        all(queries).then(function(qResults){
+          console.log('qresults', qResults);
+          deferred.resolve({
+            layer: KEYS.mining,
+            features: qResults
+          });
+        });
       } else {
         deferred.resolve(false);
       }
