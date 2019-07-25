@@ -21,10 +21,9 @@ export default class ImageryTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('app.map.layers', app.map);
-    if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery && app.map.layers.includes('RECENT_IMAGERY')) {
+    if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery && app.map.layerIds.includes('RECENT_IMAGERY')) {
       mapActions.setImagery('');
-      // app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
+      app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
     }
   }
 
@@ -33,8 +32,6 @@ export default class ImageryTab extends React.Component {
   }
 
   clickedImagery = (evt) => {
-    // let currImagery = '';
-    // const { activeImagery } = this.state;
     const { basemap: clickedImagery } = evt.currentTarget.dataset;
     const currImagery = clickedImagery;
 
@@ -81,7 +78,7 @@ export default class ImageryTab extends React.Component {
 
   showInfo = (evt) => {
     evt.stopPropagation();
-    console.log('evt', evt.currentTarget.parentElement.dataset.basemap);
+
     const id = evt.currentTarget.parentElement.dataset.basemap === 'digitalGlobeBasemap' ? 'dg-00' : evt.currentTarget.parentElement.dataset.basemap;
     modalActions.showLayerInfo(id);
   }
@@ -136,8 +133,6 @@ export default class ImageryTab extends React.Component {
           <span className={`info-icon pointer info-icon-center ${iconLoading === sentinalImagery ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
             <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
           </span>
-          {/* { activeImagery === sentinalImagery &&
-          <SentinalImagery {...this.state} active={activeImagery === sentinalImagery} /> } */}
         </div>
       </div>
     );
