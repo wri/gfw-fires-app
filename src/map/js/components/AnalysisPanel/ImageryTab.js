@@ -6,9 +6,7 @@ import { mapStore } from 'stores/MapStore';
 import LayersHelper from 'helpers/LayersHelper';
 import KEYS from 'js/constants';
 import React from 'react';
-
 import PlanetImagery from 'components/AnalysisPanel/PlanetImagery';
-import SentinalImagery from 'components/AnalysisPanel/SentinalImagery';
 
 let useSvg = '<use xlink:href="#shape-info" />';
 
