@@ -61,6 +61,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.footprintsVisible = true;
       this.footprints = undefined;
       this.overlaysVisible = [];
+      this.drawnMapGraphics = false;
       this.date = this.getDate(_config.defaults.todaysDate);
       this.dgStartDate = this.getDate(_config.defaults.dgStartDate);
       this.dgEndDate = this.getDate(_config.defaults.todaysDate);
@@ -92,7 +93,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
-      this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+      this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+      this.geometryOfDrawnShape = null;
       this.lossToSelectIndex = _config.layerPanelText.lossOptions.length - 1;
       this.fireHistorySelectIndex = _config.layerPanelText.fireHistoryOptions.length - 1;
       this.layerPanelVisible = app.mobile === false;
@@ -128,6 +130,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         addActiveLayer: _LayerActions.layerActions.addActiveLayer,
         removeActiveLayer: _LayerActions.layerActions.removeActiveLayer,
         setFootprints: _LayerActions.layerActions.setFootprints,
+        addCustomFeature: _ModalActions.modalActions.addCustomFeature,
         removeCustomFeature: _ModalActions.modalActions.removeCustomFeature,
         togglePanels: _MapActions.mapActions.togglePanels,
         changeFiresTimeline: _LayerActions.layerActions.changeFiresTimeline,
@@ -136,6 +139,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         incrementFireHistoryYear: _LayerActions.layerActions.incrementFireHistoryYear,
         decrementFireHistoryYear: _LayerActions.layerActions.decrementFireHistoryYear,
         changeViirsTimeline: _LayerActions.layerActions.changeViirsTimeline,
+        changeGeometryOfDrawnShape: _LayerActions.layerActions.changeUserUploadedGeometry,
         changePlantations: _LayerActions.layerActions.changePlantations,
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
         showFootprints: _LayerActions.layerActions.showFootprints,
@@ -437,9 +441,15 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
       }
     }, {
+      key: 'addCustomFeature',
+      value: function addCustomFeature() {
+        this.drawnMapGraphics = true;
+      }
+    }, {
       key: 'removeCustomFeature',
       value: function removeCustomFeature(graphic) {
         _LayersHelper2.default.removeCustomFeature(graphic);
+        this.drawnMapGraphics = false;
       }
     }, {
       key: 'setBasemap',
@@ -492,9 +502,14 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
       }
     }, {
+      key: 'changeGeometryOfDrawnShape',
+      value: function changeGeometryOfDrawnShape(geo) {
+        this.geometryOfDrawnShape = geo;
+      }
+    }, {
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(activeIndex) {
-        this.viiirsSelectIndex = activeIndex;
+        this.viirsSelectIndex = activeIndex;
         this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
       }
     }, {

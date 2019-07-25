@@ -22,6 +22,7 @@ const KEYS = {
   oilPalm: 'oilPalm',
   rspoOilPalm: 'rspoOilPalm',
   woodFiber: 'woodFiber',
+  mining: 'mining',
 
   loggingGreenpeace: 'loggingGreenpeace',
   oilPalmGreenpeace: 'oilPalmGreenpeace',
