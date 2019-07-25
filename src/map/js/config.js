@@ -438,12 +438,13 @@ export const config = {
       order: 8,
       type: 'image',
       label: 'Fire history',
-      sublabel: '(Indonesia, 2001-2015)',
+      sublabel: '(Indonesia, 2001-2018)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
+      definitionExpression: "Name = 'kd2018'",
       calendar: {
         domClass: 'risk-settings',
         childDomClass: 'risk-subsettings',
@@ -992,17 +993,6 @@ export const config = {
       }
     },
     {
-      id: KEYS.twitter,
-      order: 11,
-      type: 'feature',
-      label: 'Twitter',
-      group: 'stories',
-      layerIds: [3],
-      className: 'twitter',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
-    },
-    {
       id: KEYS.planetBasemap,
       metadataId: 'planet_basemaps'
     },
@@ -1109,7 +1099,10 @@ export const config = {
         {label: 2012, value: 2012},
         {label: 2013, value: 2013},
         {label: 2014, value: 2014},
-        {label: 2015, value: 2015}
+        {label: 2015, value: 2015},
+        {label: 2016, value: 2016},
+        {label: 2017, value: 2017},
+        {label: 2018, value: 2018}
       ],
       firesOptions: [
         {label: 'Past 24 hours', value: 1},
@@ -1169,7 +1162,6 @@ export const config = {
       // TODO: separate below text out of config for simple locale swapping
       searchPlaceholder: 'Search for a location',
       analysisButtonLabel: 'GENERATE',
-      analysisButtonClear: 'clear selection',
       analysisAreaTitle: 'Fire Report',
       indonesiaReportTitle: 'Indonesia Specialty Report',
       globalReportTitle: 'Country Report',

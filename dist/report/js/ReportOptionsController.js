@@ -56,23 +56,11 @@ define([], function () {
 
                 var currentDate = $('#firesDateFrom').datepicker('getDate');
                 var dateFrom = ('0' + (currentDate.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + currentDate.getDate().toString()).substr(-2) + '/' + currentDate.getFullYear().toString();
-                // var observedDate = new Date(MapModel.vm.firesObservFrom());
-
-                // var observedDate2 = ('0' + (observedDate.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + observedDate.getDate().toString()).substr(-2) + '/' + (observedDate.getFullYear().toString());
-
-                // if (dateFrom != observedDate2) {
-                //     observedDate2 = dateFrom;
-                // }
 
                 var currentDateTo = $('#firesDateTo').datepicker('getDate');
                 var dateTo = ('0' + (currentDateTo.getMonth() + 1).toString()).substr(-2) + '/' + ('0' + currentDateTo.getDate().toString()).substr(-2) + '/' + currentDateTo.getFullYear().toString();
-                // if (dateTo != MapModel.vm.firesObservTo()) {
-                //     debugger;
-                // }
 
-                //var reportdateFrom = MapModel.vm.firesObservFrom().split('/');
                 var reportdateFrom = dateFrom.split('/');
-                //var reportdateTo = MapModel.vm.firesObservTo().split('/');
                 var reportdateTo = dateTo.split('/');
                 var reportdates = {};
 

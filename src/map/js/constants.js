@@ -48,7 +48,6 @@ const KEYS = {
   digitalGlobe3: 'dg-04',
   digitalGlobe4: 'dg-05',
   boundingBoxes: 'boundingBoxes',
-  twitter: 'twitter',
   fireStories: 'fireStories',
 
   planetBasemap: 'planetBasemap',

@@ -36,41 +36,22 @@ export default class CalendarModal extends Component {
 	componentDidMount() {
 		this.props.calendars.forEach(calendar => {
 			if (calendar.method === 'changeRisk' || calendar.method === 'changeRain') {
-				// this.getLatest(calendar.method).then((res) => {
-					// if (calendar.date.isAfter(res)) {
-					// 	calendar.date = res;
-					// 	if (calendar.method === 'changeRisk') {
-					// 		mapActions.setRiskDate({
-					// 			date: res,
-					// 			dest: 'riskDate'
-					// 		});
-					// 	} else {
-					// 		mapActions.setRainDate({
-					// 			date: res,
-					// 			dest: 'rainDate'
-					// 		});
-					// 	}
-					// } else {
-						if (calendar.method === 'changeRisk') {
-							LayersHelper.updateFireRisk(defaults.yesterday);
-						} else {
-							LayersHelper.updateLastRain(defaults.yesterday);
-						}
-					// }
-
-					let calendar_obj = new window.Kalendae(calendar.domId, {
-						months: 1,
-						mode: 'single',
-						direction: calendar.direction,
-						blackout: function (date) {
-							return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
-						},
-						selected: calendar.date
-					});
+				this.getLatest(calendar.method).then((res) => {
+					calendar.date = res;
+					if (calendar.method === 'changeRisk') {
+						mapActions.setRiskDate({
+							date: res,
+							dest: 'riskDate'
+						});
+					} else {
+						mapActions.setRainDate({
+							date: res,
+							dest: 'rainDate'
+						});
+					}
+					const calendar_obj = this.createCalendar(calendar);
 					calendar_obj.subscribe('change', this[calendar.method].bind(this));
-
-				// });
-
+				});
 			} else {
 				let calendar_obj = new window.Kalendae(calendar.domId, {
 					months: 1,
@@ -87,7 +68,18 @@ export default class CalendarModal extends Component {
 				});
 				calendar_obj.subscribe('change', this[calendar.method].bind(this));
 			}
+		});
+	}
 
+	createCalendar(calendar) {
+		return new window.Kalendae(calendar.domId, {
+			months: 1,
+			mode: 'single',
+			direction: calendar.direction,
+			blackout: function (date) {
+				return date > calendar.date || date.yearDay() < calendar.startDate.yearDay();
+			},
+			selected: calendar.date
 		});
 	}
 
@@ -252,9 +244,11 @@ export default class CalendarModal extends Component {
 		query.where = '1=1';
 		query.returnGeometry = false;
 		query.outFields = ['OBJECTID', 'Name'];
+		// We sort by OBJECTID because we want to get the most recent image as the first returned feature
+		query.orderByFields = ['OBJECTID DESC'];
 
 		queryTask.execute(query, (results) => {
-			let newest = results.features[results.features.length - 1];
+			let newest = results.features[0];
 			let date;
 			if (method === 'changeRisk') {
 				date = newest.attributes.Name.split('_HEMI_FireRisk')[0];

@@ -196,13 +196,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
-      layer = app.map.getLayer(_constants2.default.twitter);
-      if (layer) {
-        if (layer.visible) {
-          deferreds.push(_request2.default.identifyTwitter(mapPoint));
-        }
-      }
-
       layer = app.map.getLayer(_constants2.default.boundingBoxes);
       if (layer) {
         if (layer.visible) {
@@ -274,9 +267,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             case _constants2.default.fireStories:
               features = features.concat(_this.setStoryTemplates(item.features, _constants2.default.fireStories));
               // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
-              break;
-            case _constants2.default.twitter:
-              features = features.concat(_this.setTweetTemplates(item.features, mapPoint));
               break;
             case _constants2.default.overlays:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.overlays));
@@ -429,46 +419,6 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       return [features[0]];
     },
 
-    setTweetTemplates: function setTweetTemplates(features, mapPoint) {
-      var template = void 0,
-          htmlContent = void 0,
-          tweetId = void 0;
-      features.forEach(function (item) {
-        var url = item.feature.attributes.link;
-        var indexId = url.lastIndexOf('/') + 1;
-        tweetId = url.substring(indexId);
-
-        if (app.mobile() === true) {
-          htmlContent = '<div class="tweet-container mobile">';
-          htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-          htmlContent += '<div id="tweet"></div>';
-          htmlContent += '</div>';
-        } else {
-          htmlContent = '<div class="tweet-container">';
-          htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-          htmlContent += '<div id="tweet"></div>';
-          htmlContent += '</div>';
-        }
-      });
-
-      template = new _InfoTemplate2.default('Twitter', htmlContent);
-      features[0].feature.setInfoTemplate(template);
-
-      _on2.default.once(app.map.infoWindow, 'show', function () {
-        app.map.infoWindow.hide();
-        app.map.infoWindow.resize(500, 200);
-        twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
-          cards: 'hidden',
-          align: 'center'
-        }).then(function (el) {
-          if (el) {
-            app.map.infoWindow.show(mapPoint);
-          }
-        });
-      });
-
-      return [features[0].feature];
-    },
     setStoryTemplates: function setStoryTemplates(features) {
       var template = void 0,
           htmlContent = void 0;
@@ -737,18 +687,23 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         // We are hiding and showing the layer to avoid calling the service multiple times.
         viirs.hide();
         var layaDefs = [];
+
         switch (optionIndex) {
           case 0:
             //past 24 hours
             viirs.url = _config.shortTermServices.viirs24HR.url;
             viirs._url.path = _config.shortTermServices.viirs24HR.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs24HR.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs24HR.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs24HR.id;
             break;
           case 1:
             //past 48 hours
             viirs.url = _config.shortTermServices.viirs48HR.url;
             viirs._url.path = _config.shortTermServices.viirs48HR.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs48HR.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs48HR.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs48HR.id;
             break;
           case 2:
             //past 72 hours
@@ -756,12 +711,16 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
             viirs._url.path = _config.shortTermServices.viirs7D.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
             layaDefs[_config.shortTermServices.viirs7D.id] = 'Date > date\'' + new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss') + '\'';
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs7D.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs7D.id;
             break;
           case 3:
             //past 7 days
             viirs.url = _config.shortTermServices.viirs7D.url;
             viirs._url.path = _config.shortTermServices.viirs7D.url;
             viirs.setVisibleLayers([_config.shortTermServices.viirs7D.id]);
+            viirs.dynamicLayerInfos[0].id = _config.shortTermServices.viirs7D.id;
+            viirs.dynamicLayerInfos[0].source.mapLayerId = _config.shortTermServices.viirs7D.id;
             break;
           default:
             console.log('default');
@@ -847,6 +806,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
       app.debug('LayersHelper >>> updateArchiveDates');
       this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
       var archiveLayer = app.map.getLayer(_constants2.default.viirsFires);
+
       if (archiveLayer) {
         // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
         // We are hiding and showing the layer to avoid calling the service multiple times.
@@ -854,7 +814,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         archiveLayer.url = _config.shortTermServices.viirs1YR.url;
         archiveLayer._url.path = _config.shortTermServices.viirs1YR.url;
         archiveLayer.setVisibleLayers([_config.shortTermServices.viirs1YR.id]);
+        archiveLayer.layerDrawingOptions[0] = archiveLayer.layerDrawingOptions[_config.layersConfig.filter(function (index) {
+          return index.id === 'viirsFires';
+        })[0].layerIds[0]];
         var string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+        archiveLayer.dynamicLayerInfos[_config.shortTermServices.viirs1YR.id].id = _config.shortTermServices.viirs1YR.id;
+        archiveLayer.dynamicLayerInfos[_config.shortTermServices.viirs1YR.id].source.mapLayerId = _config.shortTermServices.viirs1YR.id;
+        archiveLayer.dynamicLayerInfos[_config.shortTermServices.viirs1YR.id].definitionExpression = string;
+
         var layerDefs = [];
         layerDefs[_config.shortTermServices.viirs1YR.id] = string;
 

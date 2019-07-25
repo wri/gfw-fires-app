@@ -1,5 +1,4 @@
 import {layersConfig, errors, mapConfig} from 'js/config';
-// import {analysisActions} from 'actions/AnalysisActions';
 import WebTiledLayer from 'esri/layers/WebTiledLayer';
 import layerFactory from 'helpers/LayerFactory';
 import Point from 'esri/geometry/Point';
@@ -39,6 +38,7 @@ class MapActions {
 
   createLayers () {
     app.debug('MapActions >>> createLayers');
+
     //- Remove layers from config that have no url unless they are of type graphic(which have no url)
     //- sort by order from the layer config
     //- return an arcgis layer for each config object

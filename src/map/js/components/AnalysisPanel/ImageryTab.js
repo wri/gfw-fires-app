@@ -21,9 +21,10 @@ export default class ImageryTab extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery) {
+    console.log('app.map.layers', app.map);
+    if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === KEYS.sentinalImagery && app.map.layers.includes('RECENT_IMAGERY')) {
       mapActions.setImagery('');
-      app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
+      // app.map.getLayer(KEYS.RECENT_IMAGERY).hide();
     }
   }
 

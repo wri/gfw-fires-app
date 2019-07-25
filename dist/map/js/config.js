@@ -385,12 +385,13 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       order: 8,
       type: 'image',
       label: 'Fire history',
-      sublabel: '(Indonesia, 2001-2015)',
+      sublabel: '(Indonesia, 2001-2018)',
       opacity: 0.8,
       group: 'fireRisk',
       className: 'fire-history',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
+      url: 'https://gfw-staging.wri.org/arcgis/rest/services/image_services/idn_annual_fire_frequency/ImageServer',
       metadataId: 'idn_fire_history',
+      definitionExpression: "Name = 'kd2018'",
       calendar: {
         domClass: 'risk-settings',
         childDomClass: 'risk-subsettings',
@@ -840,16 +841,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' + '<tr><td class="field-value wide">${Details}</td></tr>' + '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' + '<tr><td class="field-value wide">${Date}</td></tr>'
       }
     }, {
-      id: _constants2.default.twitter,
-      order: 11,
-      type: 'feature',
-      label: 'Twitter',
-      group: 'stories',
-      layerIds: [3],
-      className: 'twitter',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'firms_active_fires'
-    }, {
       id: _constants2.default.planetBasemap,
       metadataId: 'planet_basemaps'
     }],
@@ -938,7 +929,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           min: 'Low',
           max: 'Extreme'
         },
-        fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }],
+        fireHistoryOptions: [{ label: 2001, value: 2001 }, { label: 2002, value: 2002 }, { label: 2003, value: 2003 }, { label: 2004, value: 2004 }, { label: 2005, value: 2005 }, { label: 2006, value: 2006 }, { label: 2007, value: 2007 }, { label: 2008, value: 2008 }, { label: 2009, value: 2009 }, { label: 2010, value: 2010 }, { label: 2011, value: 2011 }, { label: 2012, value: 2012 }, { label: 2013, value: 2013 }, { label: 2014, value: 2014 }, { label: 2015, value: 2015 }, { label: 2016, value: 2016 }, { label: 2017, value: 2017 }, { label: 2018, value: 2018 }],
         firesOptions: [{ label: 'Past 24 hours', value: 1 }, { label: 'Past 48 hours', value: 2 }, { label: 'Past 72 hours', value: 3 }, { label: 'Past Week', value: 7 }, { label: 'Active Fires', value: null }],
         plantationOptions: [{ label: 'by Species', value: 8 }, { label: 'by Type', value: 5 }],
         forestOptions: [{ label: '2000', value: 0 }, { label: '2005', value: 1 }, { label: '2010', value: 2 }, { label: '2012', value: 3 }],
@@ -968,7 +959,6 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         // TODO: separate below text out of config for simple locale swapping
         searchPlaceholder: 'Search for a location',
         analysisButtonLabel: 'GENERATE',
-        analysisButtonClear: 'clear selection',
         analysisAreaTitle: 'Fire Report',
         indonesiaReportTitle: 'Indonesia Specialty Report',
         globalReportTitle: 'Country Report',

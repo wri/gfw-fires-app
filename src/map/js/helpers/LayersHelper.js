@@ -180,13 +180,6 @@ let LayersHelper = {
       }
     }
 
-    layer = app.map.getLayer(KEYS.twitter);
-    if (layer) {
-      if (layer.visible) {
-        deferreds.push(Request.identifyTwitter(mapPoint));
-      }
-    }
-
     layer = app.map.getLayer(KEYS.boundingBoxes);
     if (layer) {
       if (layer.visible) {
@@ -257,9 +250,6 @@ let LayersHelper = {
           case KEYS.fireStories:
             features = features.concat(this.setStoryTemplates(item.features, KEYS.fireStories));
             // features = features.concat(this.setActiveTemplates(item.features, KEYS.fireStories));
-            break;
-          case KEYS.twitter:
-            features = features.concat(this.setTweetTemplates(item.features, mapPoint));
             break;
           case KEYS.overlays:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.overlays));
@@ -414,44 +404,6 @@ let LayersHelper = {
     return [features[0]];
   },
 
-  setTweetTemplates: function(features, mapPoint) {
-    let template, htmlContent, tweetId;
-    features.forEach(item => {
-      let url = item.feature.attributes.link;
-      let indexId = url.lastIndexOf('/') + 1;
-      tweetId = url.substring(indexId);
-
-      if (app.mobile() === true) {
-        htmlContent = '<div class="tweet-container mobile">';
-        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-        htmlContent += '<div id="tweet"></div>';
-        htmlContent += '</div>';
-      } else {
-        htmlContent = '<div class="tweet-container">';
-        htmlContent += '<div title="close" class="infoWindow-close close-tweet-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
-        htmlContent += '<div id="tweet"></div>';
-        htmlContent += '</div>';
-      }
-    });
-
-    template = new InfoTemplate('Twitter', htmlContent);
-    features[0].feature.setInfoTemplate(template);
-
-    on.once(app.map.infoWindow, 'show', () => {
-      app.map.infoWindow.hide();
-      app.map.infoWindow.resize(500, 200);
-      twttr.widgets.createTweet(tweetId, document.getElementById('tweet'), {
-        cards: 'hidden',
-        align: 'center'
-      }).then((el) => {
-        if (el) {
-          app.map.infoWindow.show(mapPoint);
-        }
-      });
-    });
-
-    return [features[0].feature];
-  },
   setStoryTemplates: function(features) {
     let template, htmlContent;
 
@@ -713,27 +665,36 @@ let LayersHelper = {
       // We are hiding and showing the layer to avoid calling the service multiple times.
       viirs.hide();
       const layaDefs = [];
+
       switch(optionIndex) {
         case 0: //past 24 hours
           viirs.url = shortTermServices.viirs24HR.url;
           viirs._url.path = shortTermServices.viirs24HR.url;
           viirs.setVisibleLayers([shortTermServices.viirs24HR.id]);
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs24HR.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs24HR.id;
           break;
         case 1: //past 48 hours
           viirs.url = shortTermServices.viirs48HR.url;
           viirs._url.path = shortTermServices.viirs48HR.url;
           viirs.setVisibleLayers([shortTermServices.viirs48HR.id]);
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs48HR.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs48HR.id;
           break;
         case 2: //past 72 hours
           viirs.url = shortTermServices.viirs7D.url;
           viirs._url.path = shortTermServices.viirs7D.url;
           viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
           layaDefs[shortTermServices.viirs7D.id] = `Date > date'${new window.Kalendae.moment().subtract(3, 'd').format('YYYY-MM-DD HH:mm:ss')}'`;
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs7D.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs7D.id;
           break;
         case 3: //past 7 days
           viirs.url = shortTermServices.viirs7D.url;
           viirs._url.path = shortTermServices.viirs7D.url;
           viirs.setVisibleLayers([shortTermServices.viirs7D.id]);
+          viirs.dynamicLayerInfos[0].id = shortTermServices.viirs7D.id;
+          viirs.dynamicLayerInfos[0].source.mapLayerId = shortTermServices.viirs7D.id;
           break;
         default:
           console.log('default');
@@ -770,39 +731,10 @@ let LayersHelper = {
   updateFireHistoryDefinitions (index) {
     let firesHistory = app.map.getLayer(KEYS.fireHistory);
     let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
-    if (firesHistory) { firesHistory.setDefinitionExpression("Name = '" + value + "'"); }
+    if (firesHistory) {
+      firesHistory.setDefinitionExpression("Name = '" + value + "'");
+    }
   },
-
-  // toggleConfidence (checked) {
-  //   app.debug('LayersHelper >>> toggleConfidence');
-  //   let firesLayer = app.map.getLayer(KEYS.activeFires);
-  //   let defs = firesLayer.layerDefinitions;
-  //
-  //   if (firesLayer) {
-  //     firesLayer.visibleLayers.forEach(val => {
-  //       let currentString = defs[val];
-  //       if (currentString) {
-  //         if (currentString.indexOf('ACQ_DATE') > -1) {
-  //           if (checked) {
-  //             defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-  //           } else {
-  //             let string = currentString.split('ACQ_DATE')[1];
-  //             defs[val] = 'ACQ_DATE' + string;
-  //           }
-  //         } else {
-  //           if (checked) {
-  //             defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30 AND ' + currentString;
-  //           } else {
-  //             defs[val] = '1=1';
-  //           }
-  //         }
-  //       } else {
-  //         defs[val] = 'BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
-  //       }
-  //     });
-  //     firesLayer.setLayerDefinitions(defs);
-  //   }
-  // },
 
   toggleArchiveConfidence (checked) {
     app.debug('LayersHelper >>> toggleArchiveConfidence');
@@ -857,6 +789,7 @@ let LayersHelper = {
     app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics('widget', 'timeline', 'The user updated the Archive Fires expression.');
     let archiveLayer = app.map.getLayer(KEYS.viirsFires);
+
     if (archiveLayer) {
       // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
       // We are hiding and showing the layer to avoid calling the service multiple times.
@@ -864,7 +797,12 @@ let LayersHelper = {
       archiveLayer.url = shortTermServices.viirs1YR.url;
       archiveLayer._url.path = shortTermServices.viirs1YR.url;
       archiveLayer.setVisibleLayers([shortTermServices.viirs1YR.id]);
+      archiveLayer.layerDrawingOptions[0] = archiveLayer.layerDrawingOptions[layersConfig.filter(index => index.id === 'viirsFires')[0].layerIds[0]];
       let string = "ACQ_DATE <= date'" + new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') + "' AND ACQ_DATE >= date'" + new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') + "'";
+      archiveLayer.dynamicLayerInfos[shortTermServices.viirs1YR.id].id = shortTermServices.viirs1YR.id;
+      archiveLayer.dynamicLayerInfos[shortTermServices.viirs1YR.id].source.mapLayerId = shortTermServices.viirs1YR.id;
+      archiveLayer.dynamicLayerInfos[shortTermServices.viirs1YR.id].definitionExpression = string;
+
       let layerDefs = [];
       layerDefs[shortTermServices.viirs1YR.id] = string;
 
