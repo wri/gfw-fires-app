@@ -410,8 +410,8 @@ const request = {
       if (features.length > 0) {
         let queries = features.map(function(feature){
           let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + viirsConfig.layerIds[0]);
+          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
+          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
           let query = new Query();
           let viirsQuery = new Query();
           query.geometry = feature.feature.geometry;
