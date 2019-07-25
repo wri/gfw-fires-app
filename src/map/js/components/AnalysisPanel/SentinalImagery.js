@@ -47,7 +47,9 @@ export default class ImageryModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log('cwrp');
     if (nextProps.imageryModalVisible && !this.props.imageryModalVisible && !nextProps.imageryData.length) {
+      console.log('updateImagery');
       this.updateImagery();
     }
     // Load first tile in imageryData array only if the tile_url does not equal the tile_url from the previous props.
@@ -206,6 +208,7 @@ export default class ImageryModal extends Component {
   };
 
   onChangeStart = (event) => {
+    console.log('???', 'changestart');
     if (event.currentTarget.dataset.type === 'cloudMin') {
       const cloudScoreCloned = [...this.state.cloudScore];
       if (Number(event.target.value) > cloudScoreCloned[1]) {
@@ -214,6 +217,7 @@ export default class ImageryModal extends Component {
       } else {
         cloudScoreCloned[0] = Number(event.target.value);
       }
+      console.log('???', 'test');
       this.setState({ cloudScore: cloudScoreCloned }, this.updateImagery);
     } else if (event.currentTarget.dataset.type === 'cloudMax') {
       const cloudScoreCloned = [...this.state.cloudScore];
@@ -223,6 +227,7 @@ export default class ImageryModal extends Component {
       } else {
         cloudScoreCloned[1] = Number(event.target.value);
       }
+      console.log('???', 'test');
       this.setState({ cloudScore: cloudScoreCloned }, this.updateImagery);
     } else {
       const value = parseInt(event.target.value.split(' ')[0]);
@@ -231,30 +236,24 @@ export default class ImageryModal extends Component {
       const end = this.state.end ? window.Kalendae.moment(this.state.end) : window.Kalendae.moment();
       const start = end.subtract(value, type).format('YYYY-MM-DD');
 
+      console.log('???', 'test');
       this.setState({ start, monthsVal: event.target.value, selectedThumb: null }, this.updateImagery);
     }
   }
 
-  //  onChangeEnd = (end) => {
-  //   this.setState({ end, selectedThumb: null }, this.updateImagery);
-  // }
 
   onChangeImageStyle = (event) => {
     const value = event.target.value;
+    console.log('???', 'test');
     this.setState({ imageStyleVal: value, selectedThumb: null }, this.updateImagery);
   }
 
-  //  rangeSliderCallback = (range) => {
-  //   this.setState({ cloudScore: range, selectedThumb: null });
-  // }
-
-
-  // onDragEnd = (event) => {
-  //   event.target.style.top = event.clientY;
-  //   event.target.style.left = event.clientX;
-  // };
+  getSatelliteImagery = (params) => {
+    mapActions.getSatelliteImagery(params);
+  }
 
   updateImagery = () => {
+    console.log('???', 'firing updateImagery');
     const map = app.map;
 
     if (map.toMap === undefined) { return; }
@@ -282,7 +281,8 @@ export default class ImageryModal extends Component {
     if (map.getZoom() < 8) {
       map.setZoom(8);
     }
-    mapActions.getSatelliteImagery(params);
+
+    this.getSatelliteImagery(params);
 
     //Reset state
     this.setState({
