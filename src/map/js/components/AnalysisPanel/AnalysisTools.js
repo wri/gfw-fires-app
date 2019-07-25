@@ -3,7 +3,6 @@ import AnalysisTab from 'components/AnalysisPanel/AnalysisTab';
 import SubscriptionTab from 'components/AnalysisPanel/SubscriptionTab';
 import ImageryTab from 'components/AnalysisPanel/ImageryTab';
 import BasemapTab from 'components/AnalysisPanel/BasemapTab';
-import {mapStore} from 'stores/MapStore';
 import {analysisActions} from 'actions/AnalysisActions';
 import {analysisPanelText as text} from 'js/config';
 import {analysisStore} from 'stores/AnalysisStore';

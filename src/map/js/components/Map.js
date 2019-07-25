@@ -49,9 +49,6 @@ export default class Map extends Component {
   }
 
   render () {
-    console.log('mapsstate', this.state);
-    // Don't need this.
-    // mapStore.listen(this.storeUpdated.bind(this));
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
