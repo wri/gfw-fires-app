@@ -57,7 +57,10 @@ define(['exports'], function (exports) {
     fireStories: 'fireStories',
 
     planetBasemap: 'planetBasemap',
-    digitalGlobeBasemap: 'digitalGlobeBasemap'
+    digitalGlobeBasemap: 'digitalGlobeBasemap',
+    sentinalImagery: 'sentinalImagery',
+    EXTRA_LAYERS: 'extraLayers',
+    RECENT_IMAGERY: 'RECENT_IMAGERY'
   };
 
   exports.default = KEYS;

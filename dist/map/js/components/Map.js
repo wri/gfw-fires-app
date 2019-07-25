@@ -1,4 +1,4 @@
-define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/Timeline/Timeline', 'actions/MapActions', 'utils/params', 'js/config', 'helpers/ShareHelper', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _ControlPanel, _LayerPanel, _Timeline, _MapActions, _params, _config, _ShareHelper, _react) {
+define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/AnalysisPanel/ImageryHoverModal', 'components/Timeline/Timeline', 'components/AnalysisPanel/SentinalImagery', 'actions/MapActions', 'stores/MapStore', 'utils/params', 'js/constants', 'js/config', 'helpers/ShareHelper', 'utils/svgs', 'esri/geometry/ScreenPoint', 'dojo/on', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _ControlPanel, _LayerPanel, _ImageryHoverModal, _Timeline, _SentinalImagery, _MapActions, _MapStore, _params, _constants, _config, _ShareHelper, _svgs, _ScreenPoint, _on, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -15,9 +15,19 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
 
   var _LayerPanel2 = _interopRequireDefault(_LayerPanel);
 
+  var _ImageryHoverModal2 = _interopRequireDefault(_ImageryHoverModal);
+
   var _Timeline2 = _interopRequireDefault(_Timeline);
 
+  var _SentinalImagery2 = _interopRequireDefault(_SentinalImagery);
+
+  var _constants2 = _interopRequireDefault(_constants);
+
   var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
+
+  var _ScreenPoint2 = _interopRequireDefault(_ScreenPoint);
+
+  var _on2 = _interopRequireDefault(_on);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -26,6 +36,20 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
       default: obj
     };
   }
+
+  var _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -83,10 +107,14 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
 
       var _this = _possibleConstructorReturn(this, (Map.__proto__ || Object.getPrototypeOf(Map)).call(this, props));
 
-      _this.state = {
+      _this.storeDidUpdate = function () {
+        _this.setState(_MapStore.mapStore.getState());
+      };
+
+      _this.state = _extends({
         loaded: false,
         map: {}
-      };
+      }, _MapStore.mapStore.getState());
       return _this;
     }
 
@@ -95,6 +123,7 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
       value: function componentDidMount() {
         var _this2 = this;
 
+        _MapStore.mapStore.listen(this.storeDidUpdate);
         var urlParams = (0, _params.getUrlParams)(window.location.hash);
         //- Mixin the map config with the url params, make sure to create a new object and not
         //- overwrite the mapConfig, again so reset sets the state back to default and not shared,
@@ -114,20 +143,77 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
           } else {
             _ShareHelper2.default.applyInitialState();
           }
+
+          _on2.default.once(app.map, 'update-end', function () {
+            app.map.on('extent-change', function (evt) {
+              var imageryLayer = app.map.getLayer(_constants2.default.RECENT_IMAGERY);
+              if (!imageryLayer || !imageryLayer.visible || evt.lod.level > 9) {
+                return;
+              }
+              if (imageryLayer) {
+                imageryLayer.setUrl('');
+                _MapActions.mapActions.setSelectedImagery(null);
+
+                var imageryParams = _this2.state.imageryParams;
+
+                var params = imageryParams ? imageryParams : {};
+
+                var xVal = window.innerWidth / 2;
+                var yVal = window.innerHeight / 2;
+
+                // Create new screen point at center;
+                var screenPt = new _ScreenPoint2.default(xVal, yVal);
+                // Convert screen point to map point and zoom to point;
+                var mapPt = app.map.toMap(screenPt);
+                // Note: Lat and lon are intentionally reversed until imagery api is fixed.
+                // The imagery API only returns the correct image for that lat/lon if they are reversed.
+                params.lon = mapPt.getLatitude();
+                params.lat = mapPt.getLongitude();
+
+                _MapActions.mapActions.getSatelliteImagery(params);
+              }
+            });
+          });
         });
       }
     }, {
       key: 'render',
       value: function render() {
+        var _state = this.state,
+            imageryModalVisible = _state.imageryModalVisible,
+            imageryError = _state.imageryError;
+
         return _react2.default.createElement(
           'div',
           { id: _config.mapConfig.id, className: 'map' },
           _react2.default.createElement(_LayerPanel2.default, { loaded: this.state.loaded }),
-          _react2.default.createElement(_AnalysisTools2.default, null),
+          _react2.default.createElement(_AnalysisTools2.default, { imageryModalVisible: imageryModalVisible }),
           _react2.default.createElement(_ControlPanel2.default, { map: this.state.map }),
           _react2.default.createElement(_Timeline2.default, null),
           _react2.default.createElement(_MobileUnderlay2.default, null),
-          _react2.default.createElement(_MobileControls2.default, null)
+          _react2.default.createElement(_MobileControls2.default, null),
+          _react2.default.createElement(
+            'div',
+            { className: 'imagery-modal-container ' + (imageryModalVisible ? '' : 'collapse') },
+            _react2.default.createElement(
+              'svg',
+              { className: 'map__viewfinder' },
+              _react2.default.createElement(_svgs.ViewFinderSvg, null)
+            ),
+            _react2.default.createElement(_SentinalImagery2.default, {
+              imageryData: this.state.imageryData,
+              loadingImagery: this.state.loadingImagery,
+              imageryModalVisible: imageryModalVisible,
+              imageryError: imageryError,
+              imageryHoverVisible: this.state.imageryHoverVisible,
+              selectedImagery: this.state.selectedImagery
+            }),
+            this.state.imageryHoverInfo && this.state.imageryHoverInfo.visible && this.state.selectedImagery && _react2.default.createElement(_ImageryHoverModal2.default, {
+              selectedImagery: this.state.selectedImagery,
+              top: this.state.imageryHoverInfo.top,
+              left: this.state.imageryHoverInfo.left
+            })
+          )
         );
       }
     }]);

@@ -17,7 +17,8 @@ define(['exports', 'esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleLineSymb
     };
   }
 
-  var customSymbol = void 0;
+  var customSymbol = void 0,
+      imagerySymbol = void 0;
 
   exports.default = {
 
@@ -27,7 +28,14 @@ define(['exports', 'esri/symbols/SimpleFillSymbol', 'esri/symbols/SimpleLineSymb
       }
       customSymbol = new _SimpleFillSymbol2.default(_SimpleLineSymbol2.default.STYLE_SOLID, new _SimpleLineSymbol2.default(_SimpleLineSymbol2.default.STYLE_SOLID, new _Color2.default([3, 188, 255]), 3), new _Color2.default([210, 210, 210, 0.0]));
       return customSymbol;
-    }
+    },
 
+    getImagerySymbol: function getImagerySymbol() {
+      if (imagerySymbol) {
+        return imagerySymbol;
+      }
+      imagerySymbol = new _SimpleFillSymbol2.default(_SimpleLineSymbol2.default.STYLE_SOLID, new _SimpleLineSymbol2.default(_SimpleLineSymbol2.default.STYLE_SOLID, new _Color2.default([210, 210, 210, 0]), 1), new _Color2.default([210, 210, 210, 0.0]));
+      return imagerySymbol;
+    }
   };
 });

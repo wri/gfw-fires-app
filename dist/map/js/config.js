@@ -4,7 +4,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.shortTermServices = exports.layerInformation = exports.fireModalConfig = exports.alertsModalConfig = exports.metadataUrl = exports.metadataIds = exports.analysisConfig = exports.symbolConfig = exports.mapConfig = exports.errors = exports.assetUrls = exports.layersConfig = exports.uploadConfig = exports.defaults = exports.modalText = exports.controlPanelText = exports.analysisPanelText = exports.layerPanelText = exports.config = undefined;
+  exports.urls = exports.shortTermServices = exports.layerInformation = exports.fireModalConfig = exports.alertsModalConfig = exports.metadataUrl = exports.metadataIds = exports.analysisConfig = exports.symbolConfig = exports.mapConfig = exports.errors = exports.assetUrls = exports.layersConfig = exports.uploadConfig = exports.defaults = exports.modalText = exports.controlPanelText = exports.analysisPanelText = exports.layerPanelText = exports.config = undefined;
 
   var _constants2 = _interopRequireDefault(_constants);
 
@@ -70,7 +70,7 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       corsEnabledServers: [
       //'https://services.digitalglobe.com/mapservice/gis/',
       'wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', //todo: necessary for Edge w/ Modis Fires?
-      'gfw-fires.wri.org', 'gis-gfw.wri.org', 'gfw-staging.wri.org', 'https://gis-gfw.wri.org/', 'https://production-api.globalforestwatch.org/v1/gfw-metadata/', 'https://fires.globalforestwatch.org/map/php/proxy.php', 'https://gis-gfw.wri.org'],
+      'gfw-fires.wri.org', 'gis-gfw.wri.org', 'gfw-staging.wri.org', 'https://gis-gfw.wri.org/', 'https://production-api.globalforestwatch.org/v1/gfw-metadata/', 'https://fires.globalforestwatch.org/map/php/proxy.php', 'https://gis-gfw.wri.org', 'https://production-api.globalforestwatch.org/recent-tiles/thumbs', 'production-api.globalforestwatch.org/recent-tiles/thumbs'],
       initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
       calendars: [{
         date: new window.Kalendae.moment(), //('10/19/2015'),
@@ -191,6 +191,13 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'masterDay',
         domClass: 'master-day'
+      }, {
+        date: new window.Kalendae.moment(),
+        method: 'changeSentinal',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2012'),
+        domId: 'sentinal',
+        domClass: 'sentinal'
       }]
     },
 
@@ -230,6 +237,10 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
       // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
       chosen: '../vendors/chosen/chosen.jquery.js'
+    },
+
+    urls: {
+      satelliteImageService: 'https://production-api.globalforestwatch.org/recent-tiles'
     },
 
     /**
@@ -1060,6 +1071,14 @@ define(['exports', 'js/constants'], function (exports, _constants) {
           facebookUrl: function facebookUrl(url) {
             return 'https://www.facebook.com/sharer.php?u=' + url;
           }
+        },
+        imagery: {
+
+          monthsOptions: [{ label: '4 weeks', value: 4 }, { label: '3 months', value: 3 }, { label: '6 months', value: 6 }, { label: '12 months', value: 12 }],
+
+          cloudCoverageOptions: [{ label: '0', value: 0 }, { label: '25', value: 25 }, { label: '50', value: 50 }, { label: '75', value: 75 }, { label: '100', value: 100 }],
+
+          imageStyleOptions: [{ label: 'Natural Color' }, { label: 'Vegetation Health' }]
         }
       },
       metadataIds: {
@@ -1194,4 +1213,5 @@ define(['exports', 'js/constants'], function (exports, _constants) {
   var fireModalConfig = exports.fireModalConfig = config.firesModal;
   var layerInformation = exports.layerInformation = config.text.layerInformation;
   var shortTermServices = exports.shortTermServices = config.shortTermServices;
+  var urls = exports.urls = config.urls;
 });

@@ -1,4 +1,4 @@
-define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'helpers/LayersHelper', 'helpers/ShareHelper', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _LayersHelper, _ShareHelper, _constants, _alt) {
+define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'helpers/LayersHelper', 'helpers/ShareHelper', 'utils/request', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _LayersHelper, _ShareHelper, _request, _constants, _alt) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -9,6 +9,8 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
   var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
+
+  var _request2 = _interopRequireDefault(_request);
 
   var _constants2 = _interopRequireDefault(_constants);
 
@@ -80,6 +82,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.rainDate = this.getDate(_config.defaults.yesterday);
       this.airQDate = this.getDate(_config.defaults.todaysDate); //airQStartDate);
       this.windDate = this.getDate(_config.defaults.todaysDate); //windStartDate);
+      this.sentinalDate = this.getDate(_config.defaults.todaysDate);
       this.masterDate = this.getDate(_config.defaults.todaysDate);
       this.panelsHidden = false;
       this.activeDG = undefined;
@@ -99,6 +102,13 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.lat = undefined;
       this.lng = undefined;
       this.iconLoading = '';
+      this.imageryModalVisible = false;
+      this.imageryData = [];
+      this.loadingImagery = false;
+      this.imageryError = false;
+      this.selectedImagery = null;
+      this.imageryParams = null;
+      this.imageryHoverInfo = null;
 
       this.bindListeners({
         setBasemap: [_MapActions.mapActions.setBasemap, _ModalActions.modalActions.showBasemapModal],
@@ -120,6 +130,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         setAirQDate: _MapActions.mapActions.setAirQDate,
         setWindDate: _MapActions.mapActions.setWindDate,
         setMasterDate: _MapActions.mapActions.setMasterDate,
+        setSentinalDate: _MapActions.mapActions.setSentinalDate,
         setGlobe: _ModalActions.modalActions.showCalendarModal,
         setCurrentCustomGraphic: _ModalActions.modalActions.showSubscribeModal,
         setCalendar: _MapActions.mapActions.setCalendar,
@@ -140,7 +151,11 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         updateCanopyDensity: _ModalActions.modalActions.updateCanopyDensity,
         showFootprints: _LayerActions.layerActions.showFootprints,
         toggleFootprintsVisibility: _LayerActions.layerActions.toggleFootprintsVisibility,
-        toggleLayerPanelVisibility: _LayerActions.layerActions.toggleLayerPanelVisibility
+        toggleLayerPanelVisibility: _LayerActions.layerActions.toggleLayerPanelVisibility,
+        toggleImageryVisible: _MapActions.mapActions.toggleImageryVisible,
+        getSatelliteImagery: _MapActions.mapActions.getSatelliteImagery,
+        setSelectedImagery: _MapActions.mapActions.setSelectedImagery,
+        setImageryHoverInfo: _MapActions.mapActions.setImageryHoverInfo
       });
     }
 
@@ -308,6 +323,13 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
 
         this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
         _LayersHelper2.default.updateWindDate(this.windDate);
+      }
+    }, {
+      key: 'setSentinalDate',
+      value: function setSentinalDate(dateObj) {
+        this.calendarVisible = '';
+
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
       }
     }, {
       key: 'setMasterDate',
@@ -541,6 +563,86 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       key: 'toggleLayerPanelVisibility',
       value: function toggleLayerPanelVisibility() {
         this.layerPanelVisible = !this.layerPanelVisible;
+      }
+    }, {
+      key: 'toggleImageryVisible',
+      value: function toggleImageryVisible(bool) {
+        this.imageryModalVisible = bool;
+        this.imageryError = false;
+      }
+    }, {
+      key: 'getSatelliteImagery',
+      value: function getSatelliteImagery(params) {
+        var _this2 = this;
+
+        // Confirm the imagery data isn't already being loaded.
+        if (this.loadingImagery) {
+          return;
+        }
+
+        this.imageryError = false;
+        this.loadingImagery = true;
+
+        // First make a reqest to the recent tiles metadata endpoint
+        _request2.default.getRecentTiles(params).then(function (response) {
+          // Only the first tile url is returned with the metadata response from the
+          // recent tiles endpoint. We can add this to state and show it on the map
+          // while the requests are made for the other tiles and the thumbnails.
+          var tiles = response.data.tiles;
+          _this2.imageryData = response.data.tiles;
+          _this2.imageryParams = params;
+          _this2.emitChange();
+
+          var tileArrays = [];
+
+          response.data.tiles.forEach(function (tile, i) {
+            var index = i;
+            if (index % 5 === 0 || i === 0) {
+              var tileArr = tiles.slice(index, index + 5);
+              tileArrays.push(tileArr);
+            }
+          });
+
+          var responseCount = 0;
+          tileArrays.forEach(function (tileArr, i) {
+            var index = i * 5;
+
+            _request2.default.getImageryData(params, tileArr).then(function (data) {
+              data.forEach(function (d, pos) {
+                _this2.imageryData[pos + index] = d;
+              });
+              responseCount++;
+
+              if (responseCount === tileArrays.length) {
+                _this2.loadingImagery = false;
+                // this.emitChange();
+              }
+              _this2.emitChange();
+            }, function () {
+              responseCount++;
+              if (responseCount === tileArrays.length) {
+                _this2.loadingImagery = false;
+              }
+            });
+          });
+        }, function () {
+          _this2.imageryParams = null;
+          _this2.selectedImagery = null;
+          _this2.loadingImagery = false;
+          _this2.imageryError = true;
+          _this2.imageryData = [];
+          _this2.emitChange();
+        });
+      }
+    }, {
+      key: 'setSelectedImagery',
+      value: function setSelectedImagery(obj) {
+        this.selectedImagery = obj;
+      }
+    }, {
+      key: 'setImageryHoverInfo',
+      value: function setImageryHoverInfo(obj) {
+        this.imageryHoverInfo = obj;
       }
     }]);
 

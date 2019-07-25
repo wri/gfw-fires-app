@@ -109,12 +109,8 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
           return;
         }
 
-        // if (!this.state.currentCustomGraphic) {
-        //   return;
-        // }
-
         var validPoint = _this.state.currentCustomGraphic ? true : false;
-        console.log('validPoint', validPoint);
+
         var validEmail = _this.validateEmail(_this.state.email);
         var validPhone = _this.validatePhone(_this.state.phoneNumber);
 

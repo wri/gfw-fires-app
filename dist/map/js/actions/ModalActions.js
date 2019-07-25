@@ -58,12 +58,18 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
 
         app.debug('ModalActions >>> showLayerInfo');
 
-        var metadataId = _config.layersConfig.filter(function (l) {
-          return l.id === layerId;
-        })[0].metadataId;
+        var url = void 0;
+        if (layerId === 'sentinalImagery') {
+          url = 'https://gis-gfw.wri.org/metadata/recent_satellite_imagery';
+        } else {
+          var metadataId = _config.layersConfig.filter(function (l) {
+            return l.id === layerId;
+          })[0].metadataId;
+          url = _config.metadataUrl + metadataId;
+        }
 
         (0, _request2.default)({
-          url: _config.metadataUrl + metadataId,
+          url: url,
           handleAs: 'json',
           callbackParamName: 'callback'
         }, {
