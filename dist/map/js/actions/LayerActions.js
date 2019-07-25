@@ -74,6 +74,12 @@ define(['exports', 'js/alt'], function (exports, _alt) {
         this.dispatch();
       }
     }, {
+      key: 'changeUserUploadedGeometry',
+      value: function changeUserUploadedGeometry(geo) {
+        // This updates the mapstore with whatever geometry a user uploads or draws
+        this.dispatch(geo);
+      }
+    }, {
       key: 'changeViirsTimeline',
       value: function changeViirsTimeline(selectedIndex) {
         this.dispatch(selectedIndex);

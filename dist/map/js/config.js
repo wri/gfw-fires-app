@@ -62,9 +62,9 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       windStartDate: new window.Kalendae.moment('10/19/2014'),
       analysisStartDate: new window.Kalendae.moment().subtract(8, 'd'),
       archiveViirsStartDate: new window.Kalendae.moment().subtract(14, 'd'),
-      archiveViirsEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+      archiveViirsEndDate: new window.Kalendae.moment(),
       archiveModisStartDate: new window.Kalendae.moment().subtract(14, 'd'),
-      archiveModisEndDate: new window.Kalendae.moment().subtract(7, 'd'),
+      archiveModisEndDate: new window.Kalendae.moment(),
       planetActiveCategory: 'PLANET-MONTHLY',
       activePlanetCategory: { value: 'PLANET-MONTHLY', label: 'Monthly' },
       corsEnabledServers: ['wri-gfw-fires-staging.herokuapp.com', 'fires.globalforestwatch.org', 'gfw-fires.wri.org', 'gis-gfw.wri.org', 'gfw-staging.wri.org', 'https://gis-gfw.wri.org/', 'https://production-api.globalforestwatch.org/v1/gfw-metadata/', 'https://fires.globalforestwatch.org/map/php/proxy.php', 'https://gis-gfw.wri.org'],
@@ -480,6 +480,20 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
       metadataId: 'gfw_wood_fiber',
       layerIds: [0],
+      infoTemplate: {
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' + '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
+      }
+    }, {
+      id: _constants2.default.mining,
+      order: 10,
+      type: 'dynamic',
+      label: 'Mining',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'mining',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      metadataId: 'gfw_mining',
+      layerIds: [2],
       infoTemplate: {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' + '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
       }
@@ -968,10 +982,11 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         analysisCountryChooseData: 'Pick a country:',
         analysisInvalidDatesErrorMessage: 'Start date cannot be before end date',
         analysisDateRangeErrorMessage: 'Fire report is available for the last 12 months',
-        subscriptionTabLabel: 'SUBSCRIBE TO ALERTS',
+        subscriptionTabLabel: 'Draw or Upload Shape',
         subscriptionButtonLabel: 'START DRAWING',
         subscriptionButtonLabelRemove: 'CLEAR DRAWING',
-        subscriptionInstructionsOne: 'Sign up to receive ',
+        drawingDisclaimer: 'Maximum fires returned are 10,000. Reduce the size of your shape or the time range to refine your analysis.',
+        subscriptionInstructionsOne: 'Draw or upload a shape to calculate fire counts and subscribe to alerts.',
         subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
         subscriptionInstructionsThree: ' when fires occur.',
         subscriptionShapefile: 'Or drop a zipped shapefile here',
