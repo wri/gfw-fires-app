@@ -1211,7 +1211,7 @@ const request = {
 
   getRecentTiles(params) {
     const deferred = new Deferred();
-
+    console.log('getRecentTiles', params);
 
     if (!params.start || !params.end) {
       // If no date, use the default.
@@ -1221,7 +1221,7 @@ const request = {
 
     const recentTilesUrl = new URL(urls.satelliteImageService);
     Object.keys(params).forEach(key => recentTilesUrl.searchParams.append(key, params[key]));
-
+    console.log('recentTilesUrl', recentTilesUrl);
     this.fetchTiles(recentTilesUrl).then(response => {
       if (response.errors) {
         deferred.reject(response);

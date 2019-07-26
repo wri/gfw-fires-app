@@ -582,12 +582,15 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
 
         this.imageryError = false;
         this.loadingImagery = true;
-
+        console.log('third step getSatImages params', params);
         // First make a reqest to the recent tiles metadata endpoint
         _request2.default.getRecentTiles(params).then(function (response) {
           // Only the first tile url is returned with the metadata response from the
           // recent tiles endpoint. We can add this to state and show it on the map
           // while the requests are made for the other tiles and the thumbnails.
+          console.log('response', response);
+          console.log('request', _request2.default);
+          console.log('requestGetRecentTiles', _request2.default.getRecentTiles(params));
           var tiles = response.data.tiles;
           _this2.imageryData = response.data.tiles;
           _this2.imageryParams = params;

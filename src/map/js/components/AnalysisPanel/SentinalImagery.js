@@ -320,7 +320,7 @@ export default class ImageryModal extends Component {
             <div
               onClick={() => this.props.getNewSatelliteImages()}
               className='imagery-modal__update-images'>
-              Retreive Updated Imagery
+              Search Area For Imagery
             </div>
             <div className='thumbnail-text'>
               {hoveredThumb || selectedThumb ? this.renderThumbText() : null}

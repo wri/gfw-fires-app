@@ -1231,6 +1231,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
     getRecentTiles: function getRecentTiles(params) {
       var deferred = new _Deferred2.default();
+      console.log('getRecentTiles', params);
 
       if (!params.start || !params.end) {
         // If no date, use the default.
@@ -1242,7 +1243,7 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       Object.keys(params).forEach(function (key) {
         return recentTilesUrl.searchParams.append(key, params[key]);
       });
-
+      console.log('recentTilesUrl', recentTilesUrl);
       this.fetchTiles(recentTilesUrl).then(function (response) {
         if (response.errors) {
           deferred.reject(response);

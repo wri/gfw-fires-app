@@ -519,7 +519,7 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
                     return _this2.props.getNewSatelliteImages();
                   },
                   className: 'imagery-modal__update-images' },
-                'Retreive Updated Imagery'
+                'Search Area For Imagery'
               ),
               _react2.default.createElement(
                 'div',

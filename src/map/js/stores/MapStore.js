@@ -486,12 +486,15 @@ class MapStore {
 
     this.imageryError = false;
     this.loadingImagery = true;
-
+    console.log('third step getSatImages params', params);
      // First make a reqest to the recent tiles metadata endpoint
     request.getRecentTiles(params).then(response => {
       // Only the first tile url is returned with the metadata response from the
       // recent tiles endpoint. We can add this to state and show it on the map
       // while the requests are made for the other tiles and the thumbnails.
+      console.log('response', response);
+      console.log('request', request);
+      console.log('requestGetRecentTiles', request.getRecentTiles(params));
       const tiles = response.data.tiles;
       this.imageryData = response.data.tiles;
       this.imageryParams = params;

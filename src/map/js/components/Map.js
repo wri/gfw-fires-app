@@ -82,8 +82,11 @@ export default class Map extends Component {
 
     // Note: Lat and lon are intentionally reversed until imagery api is fixed.
     // The imagery API only returns the correct image for that lat/lon if they are reversed.
-    params.lon = mapPt.getLatitude();
-    params.lat = mapPt.getLongitude();
+    // params.lon = mapPt.getLatitude();
+    // params.lat = mapPt.getLongitude();
+    params.lon = mapPt.getLongitude();
+    params.lat = mapPt.getLatitude();
+    console.log('lat/long', params.lat, params.lon);
 
     mapActions.getSatelliteImagery(params);
   }

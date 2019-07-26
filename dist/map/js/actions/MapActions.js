@@ -395,6 +395,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
     }, {
       key: 'getSatelliteImagery',
       value: function getSatelliteImagery(params) {
+        console.log('second step in mapactions', params);
         return params;
       }
     }, {
