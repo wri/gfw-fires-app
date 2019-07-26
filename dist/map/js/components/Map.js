@@ -1,4 +1,4 @@
-define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/AnalysisPanel/ImageryHoverModal', 'components/Timeline/Timeline', 'components/AnalysisPanel/SentinalImagery', 'actions/MapActions', 'stores/MapStore', 'utils/params', 'js/constants', 'js/config', 'helpers/ShareHelper', 'utils/svgs', 'esri/geometry/ScreenPoint', 'dojo/on', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _ControlPanel, _LayerPanel, _ImageryHoverModal, _Timeline, _SentinalImagery, _MapActions, _MapStore, _params, _constants, _config, _ShareHelper, _svgs, _ScreenPoint, _on, _react) {
+define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/MobileUnderlay', 'components/Mobile/MobileControls', 'components/MapControls/ControlPanel', 'components/LayerPanel/LayerPanel', 'components/AnalysisPanel/ImageryHoverModal', 'components/Timeline/Timeline', 'components/AnalysisPanel/SentinalImagery', 'actions/MapActions', 'stores/MapStore', 'utils/params', 'js/constants', 'js/config', 'helpers/ShareHelper', 'utils/svgs', 'esri/geometry/ScreenPoint', 'react'], function (exports, _AnalysisTools, _MobileUnderlay, _MobileControls, _ControlPanel, _LayerPanel, _ImageryHoverModal, _Timeline, _SentinalImagery, _MapActions, _MapStore, _params, _constants, _config, _ShareHelper, _svgs, _ScreenPoint, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -26,8 +26,6 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
   var _ShareHelper2 = _interopRequireDefault(_ShareHelper);
 
   var _ScreenPoint2 = _interopRequireDefault(_ScreenPoint);
-
-  var _on2 = _interopRequireDefault(_on);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -111,6 +109,35 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
         _this.setState(_MapStore.mapStore.getState());
       };
 
+      _this.getUpdatedSatelliteImagery = function () {
+        var imageryLayer = app.map.getLayer(_constants2.default.RECENT_IMAGERY);
+
+        if (imageryLayer) {
+          imageryLayer.setUrl('');
+        }
+        _MapActions.mapActions.setSelectedImagery(null);
+
+        var imageryParams = _this.state.imageryParams;
+
+        var params = imageryParams ? imageryParams : {};
+
+        var xVal = window.innerWidth / 2;
+        var yVal = window.innerHeight / 2;
+
+        // Create new screen point at center;
+        var screenPt = new _ScreenPoint2.default(xVal, yVal);
+
+        // Convert screen point to map point and zoom to point;
+        var mapPt = app.map.toMap(screenPt);
+
+        // Note: Lat and lon are intentionally reversed until imagery api is fixed.
+        // The imagery API only returns the correct image for that lat/lon if they are reversed.
+        params.lon = mapPt.getLatitude();
+        params.lat = mapPt.getLongitude();
+
+        _MapActions.mapActions.getSatelliteImagery(params);
+      };
+
       _this.state = _extends({
         loaded: false,
         map: {}
@@ -143,37 +170,6 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
           } else {
             _ShareHelper2.default.applyInitialState();
           }
-
-          _on2.default.once(app.map, 'update-end', function () {
-            app.map.on('extent-change', function (evt) {
-              var imageryLayer = app.map.getLayer(_constants2.default.RECENT_IMAGERY);
-              if (!imageryLayer || !imageryLayer.visible || evt.lod.level > 9) {
-                return;
-              }
-              if (imageryLayer) {
-                imageryLayer.setUrl('');
-                _MapActions.mapActions.setSelectedImagery(null);
-
-                var imageryParams = _this2.state.imageryParams;
-
-                var params = imageryParams ? imageryParams : {};
-
-                var xVal = window.innerWidth / 2;
-                var yVal = window.innerHeight / 2;
-
-                // Create new screen point at center;
-                var screenPt = new _ScreenPoint2.default(xVal, yVal);
-                // Convert screen point to map point and zoom to point;
-                var mapPt = app.map.toMap(screenPt);
-                // Note: Lat and lon are intentionally reversed until imagery api is fixed.
-                // The imagery API only returns the correct image for that lat/lon if they are reversed.
-                params.lon = mapPt.getLatitude();
-                params.lat = mapPt.getLongitude();
-
-                _MapActions.mapActions.getSatelliteImagery(params);
-              }
-            });
-          });
         });
       }
     }, {
@@ -205,6 +201,7 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
               loadingImagery: this.state.loadingImagery,
               imageryModalVisible: imageryModalVisible,
               imageryError: imageryError,
+              getNewSatelliteImages: this.getUpdatedSatelliteImagery,
               imageryHoverVisible: this.state.imageryHoverVisible,
               selectedImagery: this.state.selectedImagery
             }),

@@ -317,7 +317,11 @@ export default class ImageryModal extends Component {
           </div>
           <hr />
           <div className='imagery-modal__section flex secondary-filters'>
-            <div onClick={() => this.props.getNewSatelliteImages()} className='imagery-modal__update-images'>Retreive Updated Imagery</div>
+            <div
+              onClick={() => this.props.getNewSatelliteImages()}
+              className='imagery-modal__update-images'>
+              Retreive Updated Imagery
+            </div>
             <div className='thumbnail-text'>
               {hoveredThumb || selectedThumb ? this.renderThumbText() : null}
             </div>

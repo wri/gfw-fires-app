@@ -63,7 +63,6 @@ export default class Map extends Component {
   getUpdatedSatelliteImagery = () => {
     const imageryLayer = app.map.getLayer(KEYS.RECENT_IMAGERY);
 
-    // if (!imageryLayer || !imageryLayer.visible) { return; }
     if (imageryLayer) {
       imageryLayer.setUrl('');
     }

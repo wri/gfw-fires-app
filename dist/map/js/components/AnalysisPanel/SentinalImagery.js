@@ -1,4 +1,4 @@
-define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapActions', 'react', 'components/AnalysisPanel/ImageryDatePicker', 'esri/geometry/ScreenPoint', 'components/Loader', 'js/layers/GFWImageryLayer', 'utils/svgs', 'esri/graphic', 'esri/layers/GraphicsLayer', 'esri/geometry/Polygon', 'utils/symbols', 'js/constants', 'esri/tasks/ProjectParameters', 'esri/tasks/GeometryService', 'esri/SpatialReference', 'js/config', 'dojo/on'], function (exports, _DraggableModalWrapper, _MapActions, _react, _ImageryDatePicker, _ScreenPoint, _Loader, _GFWImageryLayer, _svgs, _graphic, _GraphicsLayer, _Polygon, _symbols, _constants, _ProjectParameters, _GeometryService, _SpatialReference, _config, _on) {
+define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapActions', 'react', 'components/AnalysisPanel/ImageryDatePicker', 'esri/geometry/ScreenPoint', 'components/Loader', 'js/layers/GFWImageryLayer', 'utils/svgs', 'esri/graphic', 'esri/layers/GraphicsLayer', 'esri/geometry/Polygon', 'utils/symbols', 'js/constants', 'esri/tasks/ProjectParameters', 'esri/tasks/GeometryService', 'esri/SpatialReference', 'js/config'], function (exports, _DraggableModalWrapper, _MapActions, _react, _ImageryDatePicker, _ScreenPoint, _Loader, _GFWImageryLayer, _svgs, _graphic, _GraphicsLayer, _Polygon, _symbols, _constants, _ProjectParameters, _GeometryService, _SpatialReference, _config) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -32,8 +32,6 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
   var _GeometryService2 = _interopRequireDefault(_GeometryService);
 
   var _SpatialReference2 = _interopRequireDefault(_SpatialReference);
-
-  var _on2 = _interopRequireDefault(_on);
 
   function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
@@ -103,10 +101,6 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
 
   var ImageryModal = function (_Component) {
     _inherits(ImageryModal, _Component);
-
-    //  static contextTypes = {
-    //   map: PropTypes.object.isRequired
-    // };
 
     function ImageryModal(props) {
       _classCallCheck(this, ImageryModal);
@@ -239,6 +233,10 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
         _this.setState({ imageStyleVal: value, selectedThumb: null }, _this.updateImagery);
       };
 
+      _this.getSatelliteImagery = function (params) {
+        _MapActions.mapActions.getSatelliteImagery(params);
+      };
+
       _this.updateImagery = function () {
         var map = app.map;
 
@@ -260,6 +258,7 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
 
         // Convert screen point to map point and zoom to point;
         var mapPt = map.toMap(screenPt);
+
         // Note: Lat and lon are intentionally reversed until imagery api is fixed.
         // The imagery API only returns the correct image for that lat/lon if they are reversed.
         var lon = mapPt.getLatitude();
@@ -273,7 +272,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
         if (map.getZoom() < 8) {
           map.setZoom(8);
         }
-        _MapActions.mapActions.getSatelliteImagery(params);
+
+        _this.getSatelliteImagery(params);
 
         //Reset state
         _this.setState({
@@ -286,8 +286,7 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
         monthsVal: _config.modalText.imagery.monthsOptions[1].label,
         imageStyleVal: _config.modalText.imagery.imageStyleOptions[0].label,
         cloudScore: [0, 25],
-        // start: null,
-        // end: null,
+
         selectedThumb: null,
         hoveredThumb: null
       };
@@ -305,22 +304,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
     }, {
       key: 'componentWillReceiveProps',
       value: function componentWillReceiveProps(nextProps) {
-        var _this2 = this;
-
         if (nextProps.imageryModalVisible && !this.props.imageryModalVisible && !nextProps.imageryData.length) {
           this.updateImagery();
-        }
-        // Load first tile in imageryData array only if the tile_url does not equal the tile_url from the previous props.
-        // or if this the first time the imagery data array has length.
-        if (nextProps.imageryData.length && nextProps.imageryData[0] && this.props.imageryData[0] && nextProps.imageryData[0].attributes.tile_url !== this.props.imageryData[0].attributes.tile_url || nextProps.imageryData.length && !this.props.imageryData.length) {
-          // filterImagery data based on the selected cloud score.
-          var filteredImageryData = nextProps.imageryData.filter(function (data) {
-            return data.attributes.cloud_score >= _this2.state.cloudScore[0] && data.attributes.cloud_score <= _this2.state.cloudScore[1];
-          });
-          // Select first tile in the filteredImageryData array to display.
-          if (filteredImageryData[0]) {
-            // this.selectThumbnail(filteredImageryData[0], 0);
-          }
         }
       }
     }, {
@@ -345,7 +330,6 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
         }
 
         this.setState({ selectedThumb: { index: i, tileObj: tileObj } });
-        // setTimeout(() => mapActions.setSelectedImagery(tileObj), 1000);
         _MapActions.mapActions.setSelectedImagery(tileObj);
 
         // Add graphic to the map for hover effect on tile.
@@ -376,11 +360,11 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
         var geometryService = new _GeometryService2.default('https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
         var params = new _ProjectParameters2.default();
 
-        // // Set the projection of the geometry for the image server
+        // Set the projection of the geometry for the image server
         params.outSR = new _SpatialReference2.default(102100);
         params.geometries = [geometry];
 
-        // // update the graphics geometry with the new projected geometry
+        // update the graphics geometry with the new projected geometry
         var successfullyProjected = function successfullyProjected(geometries) {
           registeredGraphic.geometry = geometries[0];
           imageryGraphicsLayer.add(registeredGraphic);
@@ -398,6 +382,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
     }, {
       key: 'render',
       value: function render() {
+        var _this2 = this;
+
         var _state = this.state,
             monthsVal = _state.monthsVal,
             imageStyleVal = _state.imageStyleVal,
@@ -528,6 +514,15 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
               { className: 'imagery-modal__section flex secondary-filters' },
               _react2.default.createElement(
                 'div',
+                {
+                  onClick: function onClick() {
+                    return _this2.props.getNewSatelliteImages();
+                  },
+                  className: 'imagery-modal__update-images' },
+                'Retreive Updated Imagery'
+              ),
+              _react2.default.createElement(
+                'div',
                 { className: 'thumbnail-text' },
                 hoveredThumb || selectedThumb ? this.renderThumbText() : null
               ),
@@ -537,7 +532,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
                 _react2.default.createElement(
                   'select',
                   {
-                    value: imageStyleVal,
+                    style: { cursor: 'pointer' } // Needs inline styling to override defaults
+                    , value: imageStyleVal,
                     onChange: this.onChangeImageStyle },
                   _config.modalText.imagery.imageStyleOptions.map(this.renderDropdownOptions)
                 ),
