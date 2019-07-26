@@ -89,9 +89,6 @@ function addToMap(evt) {
     storyAffectedArea = new Graphic(evt.geometry, symbol, {});
     storiesLayer.clear();
     storiesLayer.add(storyAffectedArea);
-    console.log(storiesLayer);
-    // map.graphics.clear();
-    // map.graphics.add(storyAffectedArea);
 
     domClass.remove('story-affected-areas-label', 'field-required');
   }
