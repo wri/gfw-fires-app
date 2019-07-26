@@ -429,7 +429,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
                     _react2.default.createElement(
                       'select',
                       {
-                        'data-type': 'date',
+                        style: { cursor: 'pointer' } // Needs inline styling to override defaults
+                        , 'data-type': 'date',
                         value: monthsVal,
                         onChange: this.onChangeStart },
                       _config.modalText.imagery.monthsOptions.map(this.renderDropdownOptions)
@@ -472,7 +473,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
                     _react2.default.createElement(
                       'select',
                       {
-                        'data-type': 'cloudMin',
+                        style: { cursor: 'pointer' } // Needs inline styling to override defaults
+                        , 'data-type': 'cloudMin',
                         value: cloudScore[0],
                         onChange: this.onChangeStart },
                       _config.modalText.imagery.cloudCoverageOptions.map(this.renderDropdownOptions)
@@ -495,7 +497,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
                       'select',
                       {
                         'data-type': 'cloudMax',
-                        value: cloudScore[1],
+                        style: { cursor: 'pointer' } // Needs inline styling to override defaults
+                        , value: cloudScore[1],
                         onChange: this.onChangeStart },
                       _config.modalText.imagery.cloudCoverageOptions.map(this.renderDropdownOptions)
                     ),

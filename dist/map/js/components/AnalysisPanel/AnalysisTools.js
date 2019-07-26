@@ -1,4 +1,4 @@
-define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisPanel/AnalysisTab', 'components/AnalysisPanel/SubscriptionTab', 'components/AnalysisPanel/ImageryTab', 'components/AnalysisPanel/BasemapTab', 'stores/MapStore', 'actions/AnalysisActions', 'js/config', 'stores/AnalysisStore', 'react'], function (exports, _TabControls, _AnalysisTab, _SubscriptionTab, _ImageryTab, _BasemapTab, _MapStore, _AnalysisActions, _config, _AnalysisStore, _react) {
+define(['exports', 'components/AnalysisPanel/TabControls', 'components/AnalysisPanel/AnalysisTab', 'components/AnalysisPanel/SubscriptionTab', 'components/AnalysisPanel/ImageryTab', 'components/AnalysisPanel/BasemapTab', 'actions/AnalysisActions', 'js/config', 'stores/AnalysisStore', 'react'], function (exports, _TabControls, _AnalysisTab, _SubscriptionTab, _ImageryTab, _BasemapTab, _AnalysisActions, _config, _AnalysisStore, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
