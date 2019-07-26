@@ -1,4 +1,4 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
+define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _react) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8,8 +8,6 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
   var _LayersHelper2 = _interopRequireDefault(_LayersHelper);
 
   var _DateHelper2 = _interopRequireDefault(_DateHelper);
-
-  var _constants2 = _interopRequireDefault(_constants);
 
   var _react2 = _interopRequireDefault(_react);
 
@@ -86,8 +84,8 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     _createClass(ViirsControls, [{
       key: 'componentDidUpdate',
       value: function componentDidUpdate(prevProps) {
-        if (prevProps.viiirsSelectIndex !== this.props.viiirsSelectIndex && this.props.viiirsSelectIndex !== firesOptions.length - 1) {
-          _LayersHelper2.default.updateViirsDefinitions(this.props.viiirsSelectIndex);
+        if (prevProps.viirsSelectIndex !== this.props.viirsSelectIndex && this.props.viirsSelectIndex !== firesOptions.length - 1) {
+          _LayersHelper2.default.updateViirsDefinitions(this.props.viirsSelectIndex);
         }
       }
     }, {
@@ -95,13 +93,13 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
       value: function componentWillReceiveProps(nextProps) {
         // Set the default layer definition when the map has been loaded
         if (!this.props.loaded && nextProps.loaded) {
-          _LayersHelper2.default.updateViirsDefinitions(nextProps.viiirsSelectIndex);
+          _LayersHelper2.default.updateViirsDefinitions(nextProps.viirsSelectIndex);
         }
       }
     }, {
       key: 'render',
       value: function render() {
-        var activeItem = firesOptions[this.props.viiirsSelectIndex];
+        var activeItem = firesOptions[this.props.viirsSelectIndex];
         var startDate = window.Kalendae.moment(this.props.archiveViirsStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveViirsEndDate);
         var showViirsArchive = this.state.viirsArchiveVisible ? '' : 'hidden';

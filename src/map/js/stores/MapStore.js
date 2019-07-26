@@ -20,6 +20,7 @@ class MapStore {
     this.footprintsVisible = true;
     this.footprints = undefined;
     this.overlaysVisible = [];
+    this.drawnMapGraphics = false;
     this.date = this.getDate(defaults.todaysDate);
     this.dgStartDate = this.getDate(defaults.dgStartDate);
     this.dgEndDate = this.getDate(defaults.todaysDate);
@@ -52,7 +53,8 @@ class MapStore {
     this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
-    this.viiirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+    this.viirsSelectIndex = 0; //layerPanelText.firesOptions.length - 1; //0;
+    this.geometryOfDrawnShape = null;
     this.lossToSelectIndex = layerPanelText.lossOptions.length - 1;
     this.fireHistorySelectIndex = layerPanelText.fireHistoryOptions.length - 1;
     this.layerPanelVisible = app.mobile === false;
@@ -96,6 +98,7 @@ class MapStore {
       addActiveLayer: layerActions.addActiveLayer,
       removeActiveLayer: layerActions.removeActiveLayer,
       setFootprints: layerActions.setFootprints,
+      addCustomFeature: modalActions.addCustomFeature,
       removeCustomFeature: modalActions.removeCustomFeature,
       togglePanels: mapActions.togglePanels,
       changeFiresTimeline: layerActions.changeFiresTimeline,
@@ -104,6 +107,7 @@ class MapStore {
       incrementFireHistoryYear: layerActions.incrementFireHistoryYear,
       decrementFireHistoryYear: layerActions.decrementFireHistoryYear,
       changeViirsTimeline: layerActions.changeViirsTimeline,
+      changeGeometryOfDrawnShape: layerActions.changeUserUploadedGeometry,
       changePlantations: layerActions.changePlantations,
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
@@ -386,8 +390,13 @@ class MapStore {
     }
   }
 
+  addCustomFeature () {
+    this.drawnMapGraphics = true;
+  }
+
   removeCustomFeature (graphic) {
     LayersHelper.removeCustomFeature(graphic);
+    this.drawnMapGraphics = false;
   }
 
   setBasemap (basemap) {
@@ -433,8 +442,12 @@ class MapStore {
     this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
   }
 
+  changeGeometryOfDrawnShape (geo) {
+    this.geometryOfDrawnShape = geo;
+  }
+
   changeViirsTimeline (activeIndex) {
-    this.viiirsSelectIndex = activeIndex;
+    this.viirsSelectIndex = activeIndex;
     this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
   }
 

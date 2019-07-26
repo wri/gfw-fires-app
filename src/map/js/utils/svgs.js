@@ -5,7 +5,7 @@ export function createSvgById (svgId) {
   return <svg dangerouslySetInnerHTML={{ __html }}></svg>;
 }
 
-export const AlertsSvg = () => createSvgById('icon-alerts');
+export const AlertsSvg = () => createSvgById('icon-analysis-draw');
 export const AnalysisSvg = () => createSvgById('icon-analysis');
 export const DrawSvg = () => createSvgById('icon-analysis-draw');
 export const ImagerySvg = () => createSvgById('icon-tab-highresolution');

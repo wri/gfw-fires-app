@@ -176,6 +176,12 @@ define(['exports', 'js/config', 'esri/request', 'dojo/cookie', 'esri/urlUtils', 
         this.dispatch(newDensity);
       }
     }, {
+      key: 'addCustomFeature',
+      value: function addCustomFeature() {
+        app.debug('ModalActions >>> addCustomFeature');
+        this.dispatch();
+      }
+    }, {
       key: 'removeCustomFeature',
       value: function removeCustomFeature(graphic) {
         app.debug('ModalActions >>> removeCustomFeature');

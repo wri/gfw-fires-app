@@ -26,6 +26,11 @@ class LayerActions {
     this.dispatch();
   }
 
+  changeUserUploadedGeometry (geo) {
+    // This updates the mapstore with whatever geometry a user uploads or draws
+    this.dispatch(geo);
+  }
+
   changeViirsTimeline (selectedIndex) {
     this.dispatch(selectedIndex);
   }
