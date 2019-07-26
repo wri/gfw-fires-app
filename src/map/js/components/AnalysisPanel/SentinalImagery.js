@@ -274,6 +274,7 @@ export default class ImageryModal extends Component {
               <div className='flex'>
                 <div className='relative'>
                   <select
+                    style={{ cursor: 'pointer'}} // Needs inline styling to override defaults
                     data-type='date'
                     value={monthsVal}
                     onChange={this.onChangeStart}>
@@ -295,6 +296,7 @@ export default class ImageryModal extends Component {
                 <div className='imagery-modal_section-text'>Min</div>
                 <div className='relative'>
                   <select
+                    style={{ cursor: 'pointer'}} // Needs inline styling to override defaults
                     data-type='cloudMin'
                     value={cloudScore[0]}
                     onChange={this.onChangeStart}>
@@ -306,6 +308,7 @@ export default class ImageryModal extends Component {
                 <div className='relative'>
                   <select
                     data-type='cloudMax'
+                    style={{ cursor: 'pointer'}} // Needs inline styling to override defaults
                     value={cloudScore[1]}
                     onChange={this.onChangeStart}>
                     {modalText.imagery.cloudCoverageOptions.map(this.renderDropdownOptions)}
