@@ -240,6 +240,12 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         this.dispatch(date);
       }
     }, {
+      key: 'setSentinalDate',
+      value: function setSentinalDate(date) {
+        app.debug('MapActions >>> setSentinalDate');
+        this.dispatch(date);
+      }
+    }, {
       key: 'togglePanels',
       value: function togglePanels() {
         app.debug('MapActions >>> togglePanels');
@@ -380,6 +386,26 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         app.map.graphics.clear();
         //- Reset the Map to its original zoom and location
         app.map.centerAndZoom(_config.mapConfig.options.center, _config.mapConfig.options.zoom);
+      }
+    }, {
+      key: 'toggleImageryVisible',
+      value: function toggleImageryVisible(bool) {
+        return bool;
+      }
+    }, {
+      key: 'getSatelliteImagery',
+      value: function getSatelliteImagery(params) {
+        return params;
+      }
+    }, {
+      key: 'setSelectedImagery',
+      value: function setSelectedImagery(obj) {
+        return obj;
+      }
+    }, {
+      key: 'setImageryHoverInfo',
+      value: function setImageryHoverInfo(obj) {
+        return obj;
       }
     }]);
 

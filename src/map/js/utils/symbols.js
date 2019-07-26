@@ -2,7 +2,7 @@ import SimpleFillSymbol from 'esri/symbols/SimpleFillSymbol';
 import SimpleLineSymbol from 'esri/symbols/SimpleLineSymbol';
 import Color from 'esri/Color';
 
-let customSymbol;
+let customSymbol, imagerySymbol;
 
 export default {
 
@@ -14,6 +14,15 @@ export default {
       new Color([210, 210, 210, 0.0])
     );
     return customSymbol;
-  }
+  },
 
+  getImagerySymbol: () => {
+    if (imagerySymbol) { return imagerySymbol; }
+    imagerySymbol = new SimpleFillSymbol(
+      SimpleLineSymbol.STYLE_SOLID,
+      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([210, 210, 210, 0]), 1),
+      new Color([210, 210, 210, 0.0])
+    );
+    return imagerySymbol;
+  }
 };

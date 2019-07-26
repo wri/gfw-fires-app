@@ -84,7 +84,6 @@ define(['exports', 'actions/LayerActions', 'actions/MapActions', 'js/config', 'u
       return params.toQuery(shareParams);
     },
     applyStateFromUrl: function applyStateFromUrl(state) {
-      // console.log('ShareHelper >>> applyStateFromUrl');
 
       var activeLayers = state.activeLayers;
       var activeBasemap = state.activeBasemap;

@@ -2228,7 +2228,6 @@ define([
                 const currentWeekData = dataFromRequest.filter(data => data.year >= currentYear - 1).filter(data => data.week === weekObject.week);
                 weekObject.currentYearAlerts = currentWeekData.length > 1 ? currentWeekData[0].alerts : currentWeekData.length === 1 && weekObject.week > currentWeek ? currentWeekData[0].alerts : 0;                  
               });
-              console.log(historicalDataByWeek); // Todo: Data must be at least *2 different* values or it breaks.
 
               /********************** NOTE **********************
                * Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.

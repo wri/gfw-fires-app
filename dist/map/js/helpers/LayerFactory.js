@@ -1,4 +1,4 @@
-define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'esri/symbols/PictureMarkerSymbol', 'esri/layers/LayerDrawingOptions', 'esri/renderers/SimpleRenderer', 'js/config'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _PictureMarkerSymbol, _LayerDrawingOptions, _SimpleRenderer, _config) {
+define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'js/layers/GFWImageryLayer', 'js/config', 'esri/symbols/PictureMarkerSymbol', 'esri/layers/LayerDrawingOptions', 'esri/renderers/SimpleRenderer'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _GFWImageryLayer, _config, _PictureMarkerSymbol, _LayerDrawingOptions, _SimpleRenderer) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -16,6 +16,8 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
   var _GraphicsLayer2 = _interopRequireDefault(_GraphicsLayer);
 
   var _FeatureLayer2 = _interopRequireDefault(_FeatureLayer);
+
+  var _GFWImageryLayer2 = _interopRequireDefault(_GFWImageryLayer);
 
   var _PictureMarkerSymbol2 = _interopRequireDefault(_PictureMarkerSymbol);
 
@@ -114,6 +116,13 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.id = layer.id;
         options.visible = layer.visible || false;
         esriLayer = new _GraphicsLayer2.default(options);
+        break;
+      case 'imagery':
+        options.id = layer.id;
+        options.url = layer.url;
+        options.visible = false;
+        esriLayer = new _GFWImageryLayer2.default(options);
+        esriLayer.order = layer.order;
         break;
       default:
         throw new Error(_config.errors.incorrectLayerConfig(layer.type));

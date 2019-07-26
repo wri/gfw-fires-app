@@ -329,6 +329,15 @@ define(['exports', 'components/Modals/CalendarWrapper', 'stores/MapStore', 'acti
 				});
 			}
 		}, {
+			key: 'changeSentinal',
+			value: function changeSentinal(date) {
+				this.close();
+				_MapActions.mapActions.setSentinalDate({
+					date: date,
+					dest: 'sentinalDate'
+				});
+			}
+		}, {
 			key: 'getLatest',
 			value: function getLatest(method) {
 				var deferred = new _Deferred2.default();

@@ -94,20 +94,51 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
       var _this = _possibleConstructorReturn(this, (ImageryTab.__proto__ || Object.getPrototypeOf(ImageryTab)).call(this, props));
 
       _this.clickedImagery = function (evt) {
-        var currImagery = '';
-        var activeImagery = _this.state.activeImagery;
         var clickedImagery = evt.currentTarget.dataset.basemap;
 
+        var currImagery = clickedImagery;
 
-        if (activeImagery === clickedImagery && clickedImagery !== _constants2.default.planetBasemap) {
+        if (clickedImagery === _constants2.default.digitalGlobeBasemap) {
           var dgLayer = _config.layersConfig.filter(function (l) {
             return l.id === _constants2.default.digitalGlobe;
           })[0];
           _LayersHelper2.default.hideLayer(dgLayer.id);
+          if (app.map.getLayer('planetBasemap')) {
+            app.map.removeLayer(app.map.getLayer('planetBasemap'));
+          }
+          if (_this.state.imageryModalVisible) {
+            _this.toggleSentinal(!_this.state.imageryModalVisible);
+          }
+        } else if (clickedImagery === _constants2.default.sentinalImagery) {
+          _this.toggleSentinal(!_this.state.imageryModalVisible);
+          if (app.map.getLayer(_constants2.default.RECENT_IMAGERY)) {
+            if (_this.state.imageryModalVisible) {
+              app.map.getLayer(_constants2.default.RECENT_IMAGERY).hide();
+            } else {
+              app.map.getLayer(_constants2.default.RECENT_IMAGERY).show();
+            }
+          }
+          if (app.map.getLayer('planetBasemap')) {
+            app.map.removeLayer(app.map.getLayer('planetBasemap'));
+          }
+          var _dgLayer = _config.layersConfig.filter(function (l) {
+            return l.id === _constants2.default.digitalGlobe;
+          })[0];
+          if (_dgLayer) {
+            _LayersHelper2.default.hideLayer(_dgLayer.id);
+          }
         } else {
-          currImagery = clickedImagery;
           if (clickedImagery === _constants2.default.planetBasemap && app.map.getLayer('planetBasemap')) {
             app.map.removeLayer(app.map.getLayer('planetBasemap'));
+          }
+          var _dgLayer2 = _config.layersConfig.filter(function (l) {
+            return l.id === _constants2.default.digitalGlobe;
+          })[0];
+          if (_dgLayer2) {
+            _LayersHelper2.default.hideLayer(_dgLayer2.id);
+          }
+          if (_this.state.imageryModalVisible) {
+            _this.toggleSentinal(!_this.state.imageryModalVisible);
           }
         }
 
@@ -116,8 +147,13 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
 
       _this.showInfo = function (evt) {
         evt.stopPropagation();
-        var id = evt.currentTarget.parentElement.dataset.basemap === 'planetBasemap' ? evt.currentTarget.parentElement.dataset.basemap : 'dg-00';
+
+        var id = evt.currentTarget.parentElement.dataset.basemap === 'digitalGlobeBasemap' ? 'dg-00' : evt.currentTarget.parentElement.dataset.basemap;
         _ModalActions.modalActions.showLayerInfo(id);
+      };
+
+      _this.toggleSentinal = function (sentinalToggled) {
+        _MapActions.mapActions.toggleImageryVisible(sentinalToggled);
       };
 
       _MapStore.mapStore.listen(_this.storeUpdated.bind(_this));
@@ -126,6 +162,14 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
     }
 
     _createClass(ImageryTab, [{
+      key: 'componentDidUpdate',
+      value: function componentDidUpdate(prevProps, prevState) {
+        if (prevState.imageryModalVisible && !this.state.imageryModalVisible && this.state.activeImagery === _constants2.default.sentinalImagery && app.map.layerIds.includes('RECENT_IMAGERY')) {
+          _MapActions.mapActions.setImagery('');
+          app.map.getLayer(_constants2.default.RECENT_IMAGERY).hide();
+        }
+      }
+    }, {
       key: 'storeUpdated',
       value: function storeUpdated() {
         this.setState(_MapStore.mapStore.getState());
@@ -138,14 +182,16 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
             iconLoading = _state.iconLoading,
             activePlanetPeriod = _state.activePlanetPeriod,
             activeCategory = _state.activeCategory,
-            activePlanetBasemap = _state.activePlanetBasemap;
+            activePlanetBasemap = _state.activePlanetBasemap,
+            selectedImagery = _state.selectedImagery;
         var _props = this.props,
             monthlyPlanetBasemaps = _props.monthlyPlanetBasemaps,
             quarterlyPlanetBasemaps = _props.quarterlyPlanetBasemaps,
             activeTab = _props.activeTab;
         var planetBasemap = _constants2.default.planetBasemap,
             digitalGlobe = _constants2.default.digitalGlobe,
-            digitalGlobeBasemap = _constants2.default.digitalGlobeBasemap;
+            digitalGlobeBasemap = _constants2.default.digitalGlobeBasemap,
+            sentinalImagery = _constants2.default.sentinalImagery;
 
 
         var className = 'imagery-tab';
@@ -155,6 +201,10 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
         var dgLayer = _config.layersConfig.filter(function (l) {
           return l.id === digitalGlobe;
         })[0];
+        var imageryString = void 0;
+        if (selectedImagery) {
+          imageryString = window.Kalendae.moment(selectedImagery.attributes.date_time).format('DD MMM YYYY') + ', ' + Math.round(selectedImagery.attributes.cloud_score) + '% cloud coverage, ' + selectedImagery.attributes.instrument;
+        }
 
         return _react2.default.createElement(
           'div',
@@ -205,6 +255,28 @@ define(['exports', 'components/LayerPanel/ImageryComponent', 'js/config', 'actio
               _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
             ),
             activeImagery === digitalGlobeBasemap && _react2.default.createElement(_ImageryComponent2.default, _extends({}, this.state, { options: dgLayer.calendar, active: activeImagery === digitalGlobeBasemap, layer: dgLayer }))
+          ),
+          _react2.default.createElement(
+            'div',
+            { 'data-basemap': sentinalImagery, className: 'basemap-item ' + (activeImagery === sentinalImagery ? 'active' : ''), onClick: this.clickedImagery },
+            _react2.default.createElement('span', { className: 'basemap-thumbnail sentinal-imagery-basemap ' + (activeImagery === sentinalImagery ? 'active' : '') }),
+            _react2.default.createElement(
+              'div',
+              { className: 'basemap-label' },
+              'Sentinal Imagery',
+              selectedImagery && _react2.default.createElement(
+                'div',
+                { className: 'layer-checkbox-sublabel basemap-sublabel' },
+                '(',
+                imageryString,
+                ')'
+              )
+            ),
+            _react2.default.createElement(
+              'span',
+              { className: 'info-icon pointer info-icon-center ' + (iconLoading === sentinalImagery ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
+              _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
+            )
           )
         );
       }

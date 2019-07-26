@@ -4,7 +4,7 @@ define(['exports', 'react'], function (exports, _react) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.CalendarSvg = exports.BasemapSvg = exports.TimelineSvg = exports.ImagerySvg = exports.DrawSvg = exports.AnalysisSvg = exports.AlertsSvg = undefined;
+  exports.ViewFinderSvg = exports.CalendarSvg = exports.BasemapSvg = exports.TimelineSvg = exports.ImagerySvg = exports.DrawSvg = exports.AnalysisSvg = exports.AlertsSvg = undefined;
   exports.createSvgById = createSvgById;
 
   var _react2 = _interopRequireDefault(_react);
@@ -40,5 +40,8 @@ define(['exports', 'react'], function (exports, _react) {
   };
   var CalendarSvg = exports.CalendarSvg = function CalendarSvg() {
     return createSvgById('icon-calendar');
+  };
+  var ViewFinderSvg = exports.ViewFinderSvg = function ViewFinderSvg() {
+    return createSvgById('shape-crosshairs');
   };
 });

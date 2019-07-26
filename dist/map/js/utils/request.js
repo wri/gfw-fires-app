@@ -305,10 +305,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.oilPalm,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -386,10 +382,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.rspoOilPalm,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -467,10 +459,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.woodFiber,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -548,10 +536,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.loggingConcessions,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -1028,6 +1012,42 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
+    identifyTwitter: function identifyTwitter(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.twitter);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+
+      params.tolerance = 2;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: _constants2.default.twitter,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
     identifyArchive: function identifyArchive(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.archiveFires);
@@ -1151,11 +1171,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       for (var i = 0; i < graphic._layer.graphics.length; i++) {
         var tempExtent = graphic._layer.graphics[i].geometry.getExtent();
 
-        //if the graphic clicked touches any other graphic, show those as well
-        // if (featureExtent.intersects(tempExtent)) {
-        //   overlaps.push(graphic._layer.graphics[i]);
-        // }
-
         //if the mapPoint is within the footprint - show
         if (tempExtent.contains(mapPoint)) {
           overlaps.push(graphic._layer.graphics[i]);
@@ -1166,8 +1181,154 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         layer: _constants2.default.boundingBoxes,
         features: overlaps
       };
-    }
+    },
 
+    fetchTiles: function fetchTiles(url) {
+      var _this = this;
+
+      var count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+      return fetch(url, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        return new Promise(function (resolve) {
+          setTimeout(function () {
+            if (res.errors && res.errors[0].status !== 200 && count < 25) {
+              count++;
+              resolve(_this.fetchTiles(url, count));
+            }
+            resolve(res);
+          }, 100);
+        });
+      });
+    },
+    getRecentTiles: function getRecentTiles(params) {
+      var deferred = new _Deferred2.default();
+
+      if (!params.start || !params.end) {
+        // If no date, use the default.
+        params.start = window.Kalendae.moment().subtract(3, 'months').format('YYYY-MM-DD');
+        params.end = window.Kalendae.moment().format('YYYY-MM-DD');
+      }
+
+      var recentTilesUrl = new URL(_config.urls.satelliteImageService);
+      Object.keys(params).forEach(function (key) {
+        return recentTilesUrl.searchParams.append(key, params[key]);
+      });
+      this.fetchTiles(recentTilesUrl).then(function (response) {
+        if (response.errors) {
+          deferred.reject(response);
+          return;
+        }
+        deferred.resolve(response);
+      });
+      return deferred;
+    },
+    postTiles: function postTiles(content) {
+      var _this2 = this;
+
+      var count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+      return fetch(_config.urls.satelliteImageService + '/tiles', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(content)
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        // If the request fails, try it again up to 15 times and then fail it.
+        // There are resource limitations with the imagery endpoint.
+        if (res.errors && res.errors[0].status !== 200 && count < 25) {
+          return new Promise(function (resolve) {
+            setTimeout(function () {
+              count++;
+              resolve(_this2.postTiles(content, count));
+            }, 100);
+          });
+        } else {
+          return res;
+        }
+      });
+    },
+    postThumbs: function postThumbs(content) {
+      var _this3 = this;
+
+      var count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+      return fetch(_config.urls.satelliteImageService + '/thumbs', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(content)
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        // If the request fails, try it again up to 15 times and then fail it.
+        // There are resource limitations with the imagery endpoint.
+        if (res.errors && res.errors[0].status !== 200 && count < 25) {
+          return new Promise(function (resolve) {
+            setTimeout(function () {
+              count++;
+              resolve(_this3.postThumbs(content, count));
+            }, 100);
+          });
+        } else {
+          return res;
+        }
+      });
+    },
+    getImageryData: function getImageryData(params, tiles) {
+      var _this4 = this;
+
+      var deferred = new _Deferred2.default();
+      var sourceData = [];
+      tiles.forEach(function (tile) {
+        sourceData.push({ source: tile.attributes.source });
+      });
+
+      // Create request body that will be used for both the recent-tiles/tiles
+      // request and the recent-tiles/thumbs request
+      var content = {
+        bands: params.bands,
+        source_data: sourceData
+      };
+
+      // Make a post request to the tiles endpoint to all of the tile_urls for
+      // each tile returned in the get recent tiles request
+      this.postTiles(content).then(function (tileResponse) {
+        if (tileResponse.errors) {
+          deferred.reject(tileResponse);
+          return;
+        }
+
+        // Make a post request to the thumbs endpoint to get all of the thumbnail image urls for
+        // each tile returned in the get recent tiles request.
+        _this4.postThumbs(content).then(function (thumbResponse) {
+          if (thumbResponse.errors) {
+            deferred.reject(thumbResponse);
+            return;
+          }
+
+          tiles.forEach(function (data, i) {
+            data.tileUrl = tileResponse.data.attributes[i].tile_url;
+            data.thumbUrl = thumbResponse.data.attributes[i].thumbnail_url;
+          });
+          deferred.resolve(tiles);
+        });
+      });
+      return deferred;
+    }
   };
 
   exports.default = request;

@@ -114,12 +114,8 @@ export default class SubscriptionModal extends React.Component {
       return;
     }
 
-    // if (!this.state.currentCustomGraphic) {
-    //   return;
-    // }
-
     let validPoint = this.state.currentCustomGraphic ? true : false;
-    console.log('validPoint', validPoint);
+
     let validEmail = this.validateEmail(this.state.email);
     let validPhone = this.validatePhone(this.state.phoneNumber);
 

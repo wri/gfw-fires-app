@@ -157,6 +157,10 @@ class MapActions {
     app.debug('MapActions >>> setMasterDate');
     this.dispatch(date);
   }
+  setSentinalDate (date) {
+    app.debug('MapActions >>> setSentinalDate');
+    this.dispatch(date);
+  }
 
   togglePanels () {
     app.debug('MapActions >>> togglePanels');
@@ -263,6 +267,22 @@ class MapActions {
     app.map.graphics.clear();
     //- Reset the Map to its original zoom and location
     app.map.centerAndZoom(mapConfig.options.center, mapConfig.options.zoom);
+  }
+
+  toggleImageryVisible(bool) {
+    return bool;
+  }
+
+  getSatelliteImagery(params) {
+    return params;
+  }
+
+  setSelectedImagery(obj) {
+    return obj;
+  }
+
+  setImageryHoverInfo(obj) {
+    return obj;
   }
 
 }

@@ -11,10 +11,16 @@ class ModalActions {
   showLayerInfo (layerId) {
     app.debug('ModalActions >>> showLayerInfo');
 
-    let metadataId = layersConfig.filter((l) => l.id === layerId)[0].metadataId;
+    let url;
+    if (layerId === 'sentinalImagery') {
+      url = 'https://gis-gfw.wri.org/metadata/recent_satellite_imagery';
+    } else {
+      let metadataId = layersConfig.filter((l) => l.id === layerId)[0].metadataId;
+      url = metadataUrl + metadataId;
+    }
 
     esriRequest({
-      url: metadataUrl + metadataId,
+      url: url,
       handleAs: 'json',
       callbackParamName: 'callback'
     }, {

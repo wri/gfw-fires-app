@@ -4,10 +4,11 @@ import ImageLayer from 'esri/layers/ArcGISImageServiceLayer';
 import ImageParameters from 'esri/layers/ImageParameters';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 import FeatureLayer from 'esri/layers/FeatureLayer';
+import GFWImageryLayer from 'js/layers/GFWImageryLayer';
+import {errors} from 'js/config';
 import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import LayerDrawingOptions from 'esri/layers/LayerDrawingOptions';
 import SimpleRenderer from 'esri/renderers/SimpleRenderer';
-import { errors } from 'js/config';
 
 /**
 * Map Function that gets called for each entry in the provided layers config and returns an array of ArcGIS Layers
@@ -103,6 +104,13 @@ export default (layer) => {
       options.visible = layer.visible || false;
       esriLayer = new GraphicsLayer(options);
       break;
+    case 'imagery':
+      options.id = layer.id;
+      options.url = layer.url;
+      options.visible = false;
+      esriLayer = new GFWImageryLayer(options);
+      esriLayer.order = layer.order;
+    break;
     default:
       throw new Error(errors.incorrectLayerConfig(layer.type));
   }

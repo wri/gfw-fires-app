@@ -4,6 +4,7 @@ import {modalActions} from 'actions/ModalActions';
 import {mapActions} from 'actions/MapActions';
 import LayersHelper from 'helpers/LayersHelper';
 import ShareHelper from 'helpers/ShareHelper';
+import request from 'utils/request';
 import KEYS from 'js/constants';
 import alt from 'js/alt';
 
@@ -39,6 +40,7 @@ class MapStore {
     this.rainDate = this.getDate(defaults.yesterday);
     this.airQDate = this.getDate(defaults.todaysDate); //airQStartDate);
     this.windDate = this.getDate(defaults.todaysDate); //windStartDate);
+    this.sentinalDate = this.getDate(defaults.todaysDate);
     this.masterDate = this.getDate(defaults.todaysDate);
     this.panelsHidden = false;
     this.activeDG = undefined;
@@ -59,6 +61,13 @@ class MapStore {
     this.lat = undefined;
     this.lng = undefined;
     this.iconLoading = '';
+    this.imageryModalVisible = false;
+    this.imageryData = [];
+    this.loadingImagery = false;
+    this.imageryError = false;
+    this.selectedImagery = null;
+    this.imageryParams = null;
+    this.imageryHoverInfo = null;
 
     this.bindListeners({
       setBasemap: [mapActions.setBasemap, modalActions.showBasemapModal],
@@ -80,6 +89,7 @@ class MapStore {
       setAirQDate: mapActions.setAirQDate,
       setWindDate: mapActions.setWindDate,
       setMasterDate: mapActions.setMasterDate,
+      setSentinalDate: mapActions.setSentinalDate,
       setGlobe: modalActions.showCalendarModal,
       setCurrentCustomGraphic: modalActions.showSubscribeModal,
       setCalendar: mapActions.setCalendar,
@@ -102,7 +112,11 @@ class MapStore {
       updateCanopyDensity: modalActions.updateCanopyDensity,
       showFootprints: layerActions.showFootprints,
       toggleFootprintsVisibility: layerActions.toggleFootprintsVisibility,
-      toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility
+      toggleLayerPanelVisibility: layerActions.toggleLayerPanelVisibility,
+      toggleImageryVisible: mapActions.toggleImageryVisible,
+      getSatelliteImagery: mapActions.getSatelliteImagery,
+      setSelectedImagery: mapActions.setSelectedImagery,
+      setImageryHoverInfo: mapActions.setImageryHoverInfo
     });
   }
 
@@ -247,6 +261,12 @@ class MapStore {
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
     LayersHelper.updateWindDate(this.windDate);
+  }
+
+  setSentinalDate (dateObj) {
+    this.calendarVisible = '';
+
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
   }
 
   setMasterDate (dateObj) {
@@ -466,6 +486,80 @@ class MapStore {
 
   toggleLayerPanelVisibility () {
     this.layerPanelVisible = !this.layerPanelVisible;
+  }
+
+  toggleImageryVisible(bool) {
+    this.imageryModalVisible = bool;
+    this.imageryError = false;
+  }
+
+  getSatelliteImagery(params) {
+    // Confirm the imagery data isn't already being loaded.
+    if (this.loadingImagery) { return; }
+
+    this.imageryError = false;
+    this.loadingImagery = true;
+
+     // First make a reqest to the recent tiles metadata endpoint
+    request.getRecentTiles(params).then(response => {
+      // Only the first tile url is returned with the metadata response from the
+      // recent tiles endpoint. We can add this to state and show it on the map
+      // while the requests are made for the other tiles and the thumbnails.
+      const tiles = response.data.tiles;
+      this.imageryData = response.data.tiles;
+      this.imageryParams = params;
+      this.emitChange();
+
+       const tileArrays = [];
+
+      response.data.tiles.forEach((tile, i) => {
+        const index = i;
+        if ((index % 5 === 0) || (i === 0)) {
+          const tileArr = tiles.slice(index, index + 5);
+          tileArrays.push(tileArr);
+        }
+      });
+
+      let responseCount = 0;
+      tileArrays.forEach((tileArr, i) => {
+        const index = i * 5;
+
+         request.getImageryData(params, tileArr).then(data => {
+          data.forEach((d, pos) => {
+            this.imageryData[pos + index] = d;
+          });
+          responseCount++;
+
+           if (responseCount === tileArrays.length) {
+            this.loadingImagery = false;
+            // this.emitChange();
+          }
+          this.emitChange();
+        }, () => {
+          responseCount++;
+          if (responseCount === tileArrays.length) {
+            this.loadingImagery = false;
+          }
+        });
+
+      });
+
+     }, () => {
+      this.imageryParams = null;
+      this.selectedImagery = null;
+      this.loadingImagery = false;
+      this.imageryError = true;
+      this.imageryData = [];
+      this.emitChange();
+    });
+  }
+
+   setSelectedImagery(obj) {
+    this.selectedImagery = obj;
+   }
+
+   setImageryHoverInfo(obj) {
+    this.imageryHoverInfo = obj;
   }
 
 }

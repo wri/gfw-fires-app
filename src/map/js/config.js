@@ -62,7 +62,9 @@ export const config = {
       'https://gis-gfw.wri.org/',
       'https://production-api.globalforestwatch.org/v1/gfw-metadata/',
       'https://fires.globalforestwatch.org/map/php/proxy.php',
-      'https://gis-gfw.wri.org'
+      'https://gis-gfw.wri.org',
+      'https://production-api.globalforestwatch.org/recent-tiles/thumbs',
+      'production-api.globalforestwatch.org/recent-tiles/thumbs'
     ],
     initialHash: '#activeLayers=activeFires&activeBasemap=topo&x=115&y=0&z=5',
     calendars: [
@@ -201,6 +203,14 @@ export const config = {
         startDate: new window.Kalendae.moment('01/01/2013'),
         domId: 'masterDay',
         domClass: 'master-day'
+      },
+      {
+        date: new window.Kalendae.moment(),
+        method: 'changeSentinal',
+        direction: 'past',
+        startDate: new window.Kalendae.moment('01/01/2012'),
+        domId: 'sentinal',
+        domClass: 'sentinal'
       }
     ]
   },
@@ -243,6 +253,10 @@ export const config = {
     rangeSlider: '../vendors/ion.rangeslider/js/ion.rangeSlider.min.js',
     // rangeSlider: '../../node_modules/ion-rangeslider/js/ion.rangeSlider.min.js',
     chosen: '../vendors/chosen/chosen.jquery.js'
+  },
+
+  urls: {
+    satelliteImageService: 'https://production-api.globalforestwatch.org/recent-tiles'
   },
 
   /**
@@ -1001,7 +1015,13 @@ export const config = {
     {
       id: KEYS.planetBasemap,
       metadataId: 'planet_basemaps'
-    }
+    },
+    // {
+    //   id: 'imageryGraphicsLayer',
+    //   type: 'imagery',
+    //   url: 'https://earthengine.googleapis.com/map/',
+    //   metadataId: ''
+    // }
   ],
 
   symbol: {
@@ -1261,6 +1281,28 @@ export const config = {
         googleUrl: url => `https://plus.google.com/share?url=${url}`,
         twitterUrl: url => `https://twitter.com/share?url=${url}&via=gfw-fires`,
         facebookUrl: url => `https://www.facebook.com/sharer.php?u=${url}`
+      },
+      imagery: {
+
+        monthsOptions: [
+          { label: '4 weeks', value: 4 },
+          { label: '3 months', value: 3},
+          { label: '6 months', value: 6},
+          { label: '12 months', value: 12}
+        ],
+
+        cloudCoverageOptions: [
+          { label: '0', value: 0 },
+          { label: '25', value: 25 },
+          { label: '50', value: 50 },
+          { label: '75', value: 75 },
+          { label: '100', value: 100 }
+        ],
+
+        imageStyleOptions: [
+          { label: 'Natural Color'},
+          { label: 'Vegetation Health'}
+        ]
       }
     },
     metadataIds: {
@@ -1473,3 +1515,4 @@ export const alertsModalConfig = config.alertsModal;
 export const fireModalConfig = config.firesModal;
 export const layerInformation = config.text.layerInformation;
 export const shortTermServices = config.shortTermServices;
+export const urls = config.urls;
