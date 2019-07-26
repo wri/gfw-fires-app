@@ -285,10 +285,6 @@ const request = {
             features: qResults
           });
         });
-        // deferred.resolve({
-        //   layer: KEYS.oilPalm,
-        //   features: features
-        // });
       } else {
         deferred.resolve(false);
       }
@@ -366,10 +362,6 @@ const request = {
             features: qResults
           });
         });
-        // deferred.resolve({
-        //   layer: KEYS.rspoOilPalm,
-        //   features: features
-        // });
       } else {
         deferred.resolve(false);
       }
@@ -447,10 +439,6 @@ const request = {
             features: qResults
           });
         });
-        // deferred.resolve({
-        //   layer: KEYS.woodFiber,
-        //   features: features
-        // });
       } else {
         deferred.resolve(false);
       }
@@ -528,10 +516,6 @@ const request = {
             features: qResults
           });
         });
-        // deferred.resolve({
-        //   layer: KEYS.loggingConcessions,
-        //   features: features
-        // });
       } else {
         deferred.resolve(false);
       }
@@ -1167,11 +1151,6 @@ const request = {
     for (let i = 0; i < graphic._layer.graphics.length; i++) {
       let tempExtent = graphic._layer.graphics[i].geometry.getExtent();
 
-      //if the graphic clicked touches any other graphic, show those as well
-      // if (featureExtent.intersects(tempExtent)) {
-      //   overlaps.push(graphic._layer.graphics[i]);
-      // }
-
       //if the mapPoint is within the footprint - show
       if (tempExtent.contains(mapPoint)) {
         overlaps.push(graphic._layer.graphics[i]);
@@ -1212,7 +1191,6 @@ const request = {
   getRecentTiles(params) {
     const deferred = new Deferred();
 
-
     if (!params.start || !params.end) {
       // If no date, use the default.
       params.start = window.Kalendae.moment().subtract(3, 'months').format('YYYY-MM-DD');
@@ -1221,7 +1199,6 @@ const request = {
 
     const recentTilesUrl = new URL(urls.satelliteImageService);
     Object.keys(params).forEach(key => recentTilesUrl.searchParams.append(key, params[key]));
-
     this.fetchTiles(recentTilesUrl).then(response => {
       if (response.errors) {
         deferred.reject(response);

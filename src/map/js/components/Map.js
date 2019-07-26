@@ -15,7 +15,6 @@ import {mapConfig} from 'js/config';
 import ShareHelper from 'helpers/ShareHelper';
 import { ViewFinderSvg } from 'utils/svgs';
 import ScreenPoint from 'esri/geometry/ScreenPoint';
-import on from 'dojo/on';
 import React, {
   Component
 } from 'react';
@@ -54,46 +53,44 @@ export default class Map extends Component {
       } else {
         ShareHelper.applyInitialState();
       }
-
-      on.once(app.map, 'update-end', () => {
-        app.map.on('extent-change', (evt) => {
-          const imageryLayer = app.map.getLayer(KEYS.RECENT_IMAGERY);
-          if (!imageryLayer || !imageryLayer.visible || evt.lod.level > 9) { return; }
-          if (imageryLayer) {
-            imageryLayer.setUrl('');
-            mapActions.setSelectedImagery(null);
-
-            const { imageryParams } = this.state;
-            const params = imageryParams ? imageryParams : {};
-
-            const xVal = window.innerWidth / 2;
-            const yVal = window.innerHeight / 2;
-
-            // Create new screen point at center;
-            const screenPt = new ScreenPoint(xVal, yVal);
-            // Convert screen point to map point and zoom to point;
-            const mapPt = app.map.toMap(screenPt);
-            // Note: Lat and lon are intentionally reversed until imagery api is fixed.
-            // The imagery API only returns the correct image for that lat/lon if they are reversed.
-            params.lon = mapPt.getLatitude();
-            params.lat = mapPt.getLongitude();
-
-            mapActions.getSatelliteImagery(params);
-          }
-        });
-      });
     });
   }
+
   storeDidUpdate = () => {
     this.setState(mapStore.getState());
   };
+
+  getUpdatedSatelliteImagery = () => {
+    const imageryLayer = app.map.getLayer(KEYS.RECENT_IMAGERY);
+
+    if (imageryLayer) {
+      imageryLayer.setUrl('');
+    }
+    mapActions.setSelectedImagery(null);
+
+    const { imageryParams } = this.state;
+    const params = imageryParams ? imageryParams : {};
+
+    const xVal = window.innerWidth / 2;
+    const yVal = window.innerHeight / 2;
+
+    // Create new screen point at center;
+    const screenPt = new ScreenPoint(xVal, yVal);
+
+    // Convert screen point to map point and zoom to point;
+    const mapPt = app.map.toMap(screenPt);
+
+    params.lon = mapPt.getLongitude();
+    params.lat = mapPt.getLatitude();
+
+    mapActions.getSatelliteImagery(params);
+  }
 
   render () {
     const { imageryModalVisible, imageryError } = this.state;
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
-
         <AnalysisTools imageryModalVisible={imageryModalVisible} />
         <ControlPanel map={this.state.map} />
         <Timeline />
@@ -108,6 +105,7 @@ export default class Map extends Component {
             loadingImagery={this.state.loadingImagery}
             imageryModalVisible={imageryModalVisible}
             imageryError={imageryError}
+            getNewSatelliteImages={this.getUpdatedSatelliteImagery}
             imageryHoverVisible={this.state.imageryHoverVisible}
             selectedImagery={this.state.selectedImagery}
           />

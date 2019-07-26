@@ -305,10 +305,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.oilPalm,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -386,10 +382,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.rspoOilPalm,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -467,10 +459,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.woodFiber,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -548,10 +536,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
               features: qResults
             });
           });
-          // deferred.resolve({
-          //   layer: KEYS.loggingConcessions,
-          //   features: features
-          // });
         } else {
           deferred.resolve(false);
         }
@@ -1187,11 +1171,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       for (var i = 0; i < graphic._layer.graphics.length; i++) {
         var tempExtent = graphic._layer.graphics[i].geometry.getExtent();
 
-        //if the graphic clicked touches any other graphic, show those as well
-        // if (featureExtent.intersects(tempExtent)) {
-        //   overlaps.push(graphic._layer.graphics[i]);
-        // }
-
         //if the mapPoint is within the footprint - show
         if (tempExtent.contains(mapPoint)) {
           overlaps.push(graphic._layer.graphics[i]);
@@ -1242,7 +1221,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       Object.keys(params).forEach(function (key) {
         return recentTilesUrl.searchParams.append(key, params[key]);
       });
-
       this.fetchTiles(recentTilesUrl).then(function (response) {
         if (response.errors) {
           deferred.reject(response);
