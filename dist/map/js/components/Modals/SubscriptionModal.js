@@ -319,12 +319,6 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     }, {
       key: 'render',
       value: function render() {
-        // let nameToDisplay = this.state.customFeatName;
-        // if (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes && this.state.customFeatName === 'Custom Feature') {
-        //   nameToDisplay = this.state.currentCustomGraphic.attributes.featureName;
-        // }
-        //
-        //value={this.state.customFeatName ? this.state.customFeatName : this.state.currentCustomGraphic.attributes.featureName}
         return _react2.default.createElement(
           _ModalWrapper2.default,
           null,
