@@ -486,7 +486,6 @@ class MapStore {
 
     this.imageryError = false;
     this.loadingImagery = true;
-    console.log('???', 'firing query!');
 
      // First make a reqest to the recent tiles metadata endpoint
     request.getRecentTiles(params).then(response => {

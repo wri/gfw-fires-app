@@ -17,14 +17,7 @@ import GeometryService from 'esri/tasks/GeometryService';
 import SpatialReference from 'esri/SpatialReference';
 import { modalText } from 'js/config';
 
-
-import on from 'dojo/on';
-
 export default class ImageryModal extends Component {
-
-  //  static contextTypes = {
-  //   map: PropTypes.object.isRequired
-  // };
 
   constructor(props) {
     super(props);
@@ -32,8 +25,7 @@ export default class ImageryModal extends Component {
       monthsVal: modalText.imagery.monthsOptions[1].label,
       imageStyleVal: modalText.imagery.imageStyleOptions[0].label,
       cloudScore: [0, 25],
-      // start: null,
-      // end: null,
+
       selectedThumb: null,
       hoveredThumb: null,
     };
@@ -47,26 +39,8 @@ export default class ImageryModal extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('cwrp');
     if (nextProps.imageryModalVisible && !this.props.imageryModalVisible && !nextProps.imageryData.length) {
-      console.log('updateImagery');
       this.updateImagery();
-    }
-    // Load first tile in imageryData array only if the tile_url does not equal the tile_url from the previous props.
-    // or if this the first time the imagery data array has length.
-    if ((nextProps.imageryData.length &&
-    nextProps.imageryData[0] &&
-    this.props.imageryData[0] &&
-    nextProps.imageryData[0].attributes.tile_url !== this.props.imageryData[0].attributes.tile_url) ||
-    (nextProps.imageryData.length && !this.props.imageryData.length)) {
-      // filterImagery data based on the selected cloud score.
-      const filteredImageryData = nextProps.imageryData.filter((data) => {
-        return data.attributes.cloud_score >= this.state.cloudScore[0] && data.attributes.cloud_score <= this.state.cloudScore[1];
-      });
-      // Select first tile in the filteredImageryData array to display.
-      if (filteredImageryData[0]) {
-        // this.selectThumbnail(filteredImageryData[0], 0);
-      }
     }
   }
 
@@ -90,7 +64,6 @@ export default class ImageryModal extends Component {
     }
 
     this.setState({ selectedThumb: { index: i, tileObj } });
-    // setTimeout(() => mapActions.setSelectedImagery(tileObj), 1000);
     mapActions.setSelectedImagery(tileObj);
 
     // Add graphic to the map for hover effect on tile.
@@ -125,11 +98,11 @@ export default class ImageryModal extends Component {
     const geometryService = new GeometryService('https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer');
     var params = new ProjectParameters();
 
-    // // Set the projection of the geometry for the image server
+    // Set the projection of the geometry for the image server
     params.outSR = new SpatialReference(102100);
     params.geometries = [geometry];
 
-    // // update the graphics geometry with the new projected geometry
+    // update the graphics geometry with the new projected geometry
     const successfullyProjected = (geometries) => {
       registeredGraphic.geometry = geometries[0];
       imageryGraphicsLayer.add(registeredGraphic);
@@ -138,7 +111,6 @@ export default class ImageryModal extends Component {
       console.log('Failed to project the geometry: ', err);
     };
     geometryService.project(params).then(successfullyProjected, failedToProject);
-
   }
 
   hoverThumbnail(tileObj) {
@@ -208,7 +180,6 @@ export default class ImageryModal extends Component {
   };
 
   onChangeStart = (event) => {
-    console.log('???', 'changestart');
     if (event.currentTarget.dataset.type === 'cloudMin') {
       const cloudScoreCloned = [...this.state.cloudScore];
       if (Number(event.target.value) > cloudScoreCloned[1]) {
@@ -217,7 +188,6 @@ export default class ImageryModal extends Component {
       } else {
         cloudScoreCloned[0] = Number(event.target.value);
       }
-      console.log('???', 'test');
       this.setState({ cloudScore: cloudScoreCloned }, this.updateImagery);
     } else if (event.currentTarget.dataset.type === 'cloudMax') {
       const cloudScoreCloned = [...this.state.cloudScore];
@@ -227,7 +197,6 @@ export default class ImageryModal extends Component {
       } else {
         cloudScoreCloned[1] = Number(event.target.value);
       }
-      console.log('???', 'test');
       this.setState({ cloudScore: cloudScoreCloned }, this.updateImagery);
     } else {
       const value = parseInt(event.target.value.split(' ')[0]);
@@ -236,7 +205,6 @@ export default class ImageryModal extends Component {
       const end = this.state.end ? window.Kalendae.moment(this.state.end) : window.Kalendae.moment();
       const start = end.subtract(value, type).format('YYYY-MM-DD');
 
-      console.log('???', 'test');
       this.setState({ start, monthsVal: event.target.value, selectedThumb: null }, this.updateImagery);
     }
   }
@@ -244,7 +212,6 @@ export default class ImageryModal extends Component {
 
   onChangeImageStyle = (event) => {
     const value = event.target.value;
-    console.log('???', 'test');
     this.setState({ imageStyleVal: value, selectedThumb: null }, this.updateImagery);
   }
 
@@ -253,7 +220,6 @@ export default class ImageryModal extends Component {
   }
 
   updateImagery = () => {
-    console.log('???', 'firing updateImagery');
     const map = app.map;
 
     if (map.toMap === undefined) { return; }
@@ -268,6 +234,7 @@ export default class ImageryModal extends Component {
 
     // Convert screen point to map point and zoom to point;
     const mapPt = map.toMap(screenPt);
+
     // Note: Lat and lon are intentionally reversed until imagery api is fixed.
     // The imagery API only returns the correct image for that lat/lon if they are reversed.
     const lon = mapPt.getLatitude();
@@ -346,22 +313,17 @@ export default class ImageryModal extends Component {
                   <div className='gfw-btn sml white pointer'>{cloudScore[1]}</div>
                 </div>
               </div>
-              {/* <ImageryModalSlider
-                rangeSliderCallback={this.rangeSliderCallback}
-                bounds={[0, 100]}
-                initialStartValue={0}
-                initialEndValue={25}
-                step={25} /> */}
             </div>
           </div>
           <hr />
-
           <div className='imagery-modal__section flex secondary-filters'>
+            <div onClick={() => this.props.getNewSatelliteImages()} className='imagery-modal__update-images'>Retreive Updated Imagery</div>
             <div className='thumbnail-text'>
               {hoveredThumb || selectedThumb ? this.renderThumbText() : null}
             </div>
             <div className='relative'>
               <select
+                style={{ cursor: 'pointer'}} // Needs inline styling to override defaults
                 value={imageStyleVal}
                 onChange={this.onChangeImageStyle}>
                 {modalText.imagery.imageStyleOptions.map(this.renderDropdownOptions)}
