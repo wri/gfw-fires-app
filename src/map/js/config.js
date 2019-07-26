@@ -1197,7 +1197,7 @@ export const config = {
       subscriptionTabLabel: 'Draw or Upload Shape',
       subscriptionButtonLabel: 'START DRAWING',
       subscriptionButtonLabelRemove: 'CLEAR DRAWING',
-      drawingDisclaimer: 'Maximum fires returned are 10,000. Reduce the size of your shape or the time range to refine your analysis.',
+      drawingDisclaimer: 'Maximum fires returned are 5,000. Reduce the size of your shape or the time range to refine your analysis.',
       subscriptionInstructionsOne: 'Draw or upload a shape to calculate fire counts and subscribe to alerts.',
       subscriptionInstructionsTwo: 'fire alert emails or SMS messages',
       subscriptionInstructionsThree: ' when fires occur.',
