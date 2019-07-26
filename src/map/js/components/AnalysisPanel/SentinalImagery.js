@@ -237,8 +237,8 @@ export default class ImageryModal extends Component {
 
     // Note: Lat and lon are intentionally reversed until imagery api is fixed.
     // The imagery API only returns the correct image for that lat/lon if they are reversed.
-    const lon = mapPt.getLatitude();
-    const lat = mapPt.getLongitude();
+    const lon = mapPt.getLongitude();
+    const lat = mapPt.getLatitude();
 
     const params = { lat, lon, start, end };
 

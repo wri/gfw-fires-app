@@ -55,7 +55,6 @@ const ShareHelper = {
   },
 
   applyStateFromUrl (state) {
-    // console.log('ShareHelper >>> applyStateFromUrl');
 
     let activeLayers = state.activeLayers;
     let activeBasemap = state.activeBasemap;

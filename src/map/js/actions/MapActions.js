@@ -274,7 +274,6 @@ class MapActions {
   }
 
   getSatelliteImagery(params) {
-    console.log('second step in mapactions', params);
     return params;
   }
 
