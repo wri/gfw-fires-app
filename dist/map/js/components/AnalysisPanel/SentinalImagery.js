@@ -261,8 +261,8 @@ define(['exports', 'components/Modals/DraggableModalWrapper', 'actions/MapAction
 
         // Note: Lat and lon are intentionally reversed until imagery api is fixed.
         // The imagery API only returns the correct image for that lat/lon if they are reversed.
-        var lon = mapPt.getLatitude();
-        var lat = mapPt.getLongitude();
+        var lon = mapPt.getLongitude();
+        var lat = mapPt.getLatitude();
 
         var params = { lat: lat, lon: lon, start: start, end: end };
 

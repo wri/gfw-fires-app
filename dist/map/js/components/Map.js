@@ -130,13 +130,8 @@ define(['exports', 'components/AnalysisPanel/AnalysisTools', 'components/Mobile/
         // Convert screen point to map point and zoom to point;
         var mapPt = app.map.toMap(screenPt);
 
-        // Note: Lat and lon are intentionally reversed until imagery api is fixed.
-        // The imagery API only returns the correct image for that lat/lon if they are reversed.
-        // params.lon = mapPt.getLatitude();
-        // params.lat = mapPt.getLongitude();
         params.lon = mapPt.getLongitude();
         params.lat = mapPt.getLatitude();
-        console.log('lat/long', params.lat, params.lon);
 
         _MapActions.mapActions.getSatelliteImagery(params);
       };

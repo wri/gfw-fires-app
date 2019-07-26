@@ -111,9 +111,6 @@ define(['esri/map', 'esri/dijit/BasemapGallery', 'dojo/parser', 'esri/dijit/Sear
       storyAffectedArea = new _graphic2.default(evt.geometry, symbol, {});
       storiesLayer.clear();
       storiesLayer.add(storyAffectedArea);
-      console.log(storiesLayer);
-      // map.graphics.clear();
-      // map.graphics.add(storyAffectedArea);
 
       _domClass2.default.remove('story-affected-areas-label', 'field-required');
     }

@@ -14,10 +14,6 @@ define(['exports'], function (exports) {
       var date = new Date();
       // Set the date to filterValue amount of days before today
       date.setDate(date.getDate() - filterValue);
-      // console.log(`Date > date'${new window.Kalendae.moment(date).format('YYYY-MM-DD HH:mm:ss')}'`);
-      // let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      // const timeString = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      // return `ACQ_DATE > date '${dateString}' AND ACQ_TIME > '${timeString}'`;
       return 'Date > date\'' + new window.Kalendae.moment(date).format('YYYY-MM-DD HH:mm:ss') + '\'';
     },
 
@@ -25,9 +21,6 @@ define(['exports'], function (exports) {
       var date = new Date();
 
       date.setDate(date.getDate() - filterValue);
-      // let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      // const timeString = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      // return `ACQ_DATE > date '${dateString}' AND ACQ_TIME > '${timeString}'`;
       return 'Date > date\'' + new window.Kalendae.moment(date).format('YYYY-MM-DD HH:mm:ss') + '\'';
     },
 
@@ -38,9 +31,6 @@ define(['exports'], function (exports) {
       var endDate = queryStringArray[1];
 
       return "AcquisitionDate > '" + startDate + "' AND AcquisitionDate <= '" + endDate + "'";
-
-      // let dateString = `${date.getFullYear()}-${(date.getMonth() + 1)}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-      // return `AcquisitionDate > date '${dateString}'`;
     },
 
     /**
