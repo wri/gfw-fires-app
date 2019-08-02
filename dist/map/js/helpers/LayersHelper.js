@@ -146,6 +146,20 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         }
       }
 
+      layer = app.map.getLayer(_constants2.default.mining);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyMining(mapPoint));
+        }
+      }
+
+      layer = app.map.getLayer(_constants2.default.gfwLogging);
+      if (layer) {
+        if (layer.visible) {
+          deferreds.push(_request2.default.identifyLogging(mapPoint));
+        }
+      }
+
       layer = app.map.getLayer(_constants2.default.loggingConcessions);
       if (layer) {
         if (layer.visible) {
@@ -245,6 +259,12 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
               break;
             case _constants2.default.woodFiber:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.woodFiber));
+              break;
+            case _constants2.default.mining:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.mining));
+              break;
+            case _constants2.default.gfwLogging:
+              features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.gfwLogging));
               break;
             case _constants2.default.loggingConcessions:
               features = features.concat(_this.setActiveTemplates(item.features, _constants2.default.loggingConcessions));
@@ -381,7 +401,7 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
         var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default[keyword]);
         var fire_results = '',
             subscribe = '';
-        if (keyword === _constants2.default.woodFiber || keyword === _constants2.default.oilPalm || keyword === _constants2.default.loggingConcessions || keyword === _constants2.default.oilPalmGreenpeace || keyword === _constants2.default.woodFiberGreenpeace || keyword === _constants2.default.loggingGreenpeace || keyword === _constants2.default.coalConcessions) {
+        if (keyword === _constants2.default.woodFiber || keyword === _constants2.default.gfwLogging || keyword === _constants2.default.oilPalm || keyword === _constants2.default.mining || keyword === _constants2.default.loggingConcessions || keyword === _constants2.default.oilPalmGreenpeace || keyword === _constants2.default.woodFiberGreenpeace || keyword === _constants2.default.loggingGreenpeace || keyword === _constants2.default.coalConcessions) {
           fire_results = _this2.getFirePopupContent(item);
           subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
         } else if (keyword === _constants2.default.rspoOilPalm || keyword === _constants2.default.protectedAreasHelper) {

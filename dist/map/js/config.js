@@ -509,6 +509,20 @@ define(['exports', 'js/constants'], function (exports, _constants) {
         content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' + '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
       }
     }, {
+      id: _constants2.default.gfwLogging,
+      order: 10,
+      type: 'dynamic',
+      label: 'Logging',
+      sublabel: '(varies, select countries)',
+      group: 'forestUse',
+      className: 'gfw_logging',
+      url: 'https://gis-gfw.wri.org/arcgis/rest/services/land_use/MapServer',
+      metadataId: 'gfw_logging',
+      layerIds: [3],
+      infoTemplate: {
+        content: '<table><span class="name-field">${Name}</span></tr>' + '<tr><td class="field-name">GROUP/AFFILIATION: </td><td class="field-value">${Group}</td></tr>' + '<tr><td class="field-name">COUNTRY: </td><td class="field-value">${Country}</td></tr>' + '<tr><td class="field-name">SOURCE: </td><td class="field-value">${Source}</td></tr>' + '<tr><td class="field-name">TYPE: </td><td class="field-value">${Concession Type}</td></tr>' + '<tr><td class="field-name">LAST UPDATED: </td><td class="field-value">${Last Update}</td></tr>' + '<tr><td class="field-name">GIS CALCULATED AREA (ha): </td><td class="field-value">${GIS Calculated Area (ha)}</td></tr>'
+      }
+    }, {
       id: _constants2.default.loggingConcessions,
       order: 10,
       type: 'dynamic',
@@ -565,7 +579,8 @@ define(['exports', 'js/constants'], function (exports, _constants) {
       id: _constants2.default.coalConcessions,
       order: 10,
       type: 'dynamic',
-      label: 'Coal mining',
+      label: 'Indonesia Coal mining',
+      sublabel: '(varies, select countries)',
       group: 'forestUse',
       className: 'coal-concessions-greenpeace',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/partner_requests/greenpeace_en/MapServer',

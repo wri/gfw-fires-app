@@ -29,6 +29,7 @@ define(['exports'], function (exports) {
     rspoOilPalm: 'rspoOilPalm',
     woodFiber: 'woodFiber',
     mining: 'mining',
+    gfwLogging: 'gfwLogging',
 
     loggingGreenpeace: 'loggingGreenpeace',
     oilPalmGreenpeace: 'oilPalmGreenpeace',
