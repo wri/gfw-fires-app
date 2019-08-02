@@ -474,6 +474,83 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
     * @return {Deferred} deferred
     */
+    identifyMining: function identifyMining(mapPoint) {
+      var deferred = new _Deferred2.default();
+      var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.mining);
+      var firesConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.activeFires);
+      var viirsConfig = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.viirsFires);
+      var identifyTask = new _IdentifyTask2.default(config.url);
+      var params = new _IdentifyParameters2.default();
+      var layer = app.map.getLayer(_constants2.default.mining);
+      var layerDefinitions = [];
+      layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+
+      params.tolerance = 2;
+      params.returnGeometry = true;
+      params.width = app.map.width;
+      params.height = app.map.height;
+      params.geometry = mapPoint;
+      params.mapExtent = app.map.extent;
+      params.layerIds = config.layerIds;
+      params.layerDefinitions = layerDefinitions;
+      params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
+
+      identifyTask.execute(params, function (features) {
+        if (features.length > 0) {
+          var queries = features.map(function (feature) {
+            var qDeferred = new _Deferred2.default();
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/' + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
+            var query = new _query2.default();
+            var viirsQuery = new _query2.default();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            var queryString = _AppUtils2.default.generateFiresQuery(7);
+            var viirsQueryString = _AppUtils2.default.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            var deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            (0, _all2.default)(deferreds).then(function (results) {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
+              setTimeout(function () {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+
+            return qDeferred;
+          });
+          (0, _all2.default)(queries).then(function (qResults) {
+            deferred.resolve({
+              layer: _constants2.default.mining,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      }, function (error) {
+        console.log(error);
+        deferred.resolve(false);
+      });
+
+      return deferred.promise;
+    },
+
+    /**
+    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+    * @return {Deferred} deferred
+    */
     identifyLogging: function identifyLogging(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.gfwLogging);
@@ -961,8 +1038,8 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
         if (features.length > 0) {
           var queries = features.map(function (feature) {
             var qDeferred = new _Deferred2.default();
-            var queryTask = new _QueryTask2.default(firesConfig.url + firesConfig.layerIds[0]);
-            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + viirsConfig.layerIds[0]);
+            var queryTask = new _QueryTask2.default(firesConfig.url + '/' + firesConfig.layerIds[0]);
+            var viirsQueryTask = new _QueryTask2.default(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
             var query = new _query2.default();
             var viirsQuery = new _query2.default();
             query.geometry = feature.feature.geometry;
