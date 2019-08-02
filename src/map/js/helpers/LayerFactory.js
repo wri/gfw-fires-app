@@ -22,8 +22,6 @@ import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 export default (layer) => {
   if ((!layer.url && (layer.type !== 'graphic' && layer.type !== 'feature')) || !layer.type) { throw new Error(errors.missingLayerConfig); }
 
-  console.log(layer.id);
-
   let esriLayer, options = {};
 
   switch (layer.type) {
