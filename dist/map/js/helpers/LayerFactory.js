@@ -36,6 +36,8 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
       throw new Error(_config.errors.missingLayerConfig);
     }
 
+    console.log(layer.id);
+
     var esriLayer = void 0,
         options = {};
 
