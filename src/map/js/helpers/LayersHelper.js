@@ -130,6 +130,13 @@ let LayersHelper = {
       }
     }
 
+    layer = app.map.getLayer(KEYS.mining);
+    if (layer) {
+      if (layer.visible) {
+        deferreds.push(Request.identifyMining(mapPoint));
+      }
+    }
+
     layer = app.map.getLayer(KEYS.gfwLogging);
     if (layer) {
       if (layer.visible) {
@@ -235,6 +242,9 @@ let LayersHelper = {
             break;
           case KEYS.woodFiber:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.woodFiber));
+            break;
+          case KEYS.mining:
+            features = features.concat(this.setActiveTemplates(item.features, KEYS.mining));
             break;
           case KEYS.gfwLogging:
             features = features.concat(this.setActiveTemplates(item.features, KEYS.gfwLogging));
@@ -376,7 +386,7 @@ let LayersHelper = {
     featureObjects.forEach(item => {
       let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
       let fire_results = '', subscribe = '';
-      if (keyword === KEYS.woodFiber || keyword === KEYS.gfwLogging || keyword === KEYS.oilPalm || keyword === KEYS.loggingConcessions || keyword === KEYS.oilPalmGreenpeace || keyword === KEYS.woodFiberGreenpeace || keyword === KEYS.loggingGreenpeace || keyword === KEYS.coalConcessions) {
+      if (keyword === KEYS.woodFiber || keyword === KEYS.gfwLogging || keyword === KEYS.oilPalm || keyword === KEYS.mining || keyword === KEYS.loggingConcessions || keyword === KEYS.oilPalmGreenpeace || keyword === KEYS.woodFiberGreenpeace || keyword === KEYS.loggingGreenpeace || keyword === KEYS.coalConcessions) {
         fire_results = this.getFirePopupContent(item);
         subscribe = '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' + config.url + '/' + config.layerIds[0] + ' data-id=' + item.feature.attributes.OBJECTID + ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else if (keyword === KEYS.rspoOilPalm || keyword === KEYS.protectedAreasHelper) {
