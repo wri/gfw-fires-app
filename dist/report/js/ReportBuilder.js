@@ -36,7 +36,6 @@ define([
           self.init_report_options();
 
           this.getIdOne().then(() => {
-            // in getFireCounts, in queryForFiresCount, right before self.createPieChart
 
             if (window.reportOptions.aois) {
               this.aoilist = window.reportOptions.aois;

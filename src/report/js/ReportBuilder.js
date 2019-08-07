@@ -157,7 +157,6 @@ define([
               }).then(function(response) {
 
                 Promise.all(Config.countryPieCharts.map(function(chartConfig) {
-                  console.log('chartConfig', chartConfig);
                   return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
                 })).then(() => {
                   $(".chart-container-countries:odd").addClass('pull-right');

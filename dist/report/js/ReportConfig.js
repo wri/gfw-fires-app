@@ -2028,6 +2028,20 @@ define(["module"], function (module) {
             name3: 'Fire alerts on OIL PALM CONCESSIONS',
             colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
             domElement: 'oil_palm-fires-chart'
+        }, {
+            type: 'green_peace_mining',
+            name1: 'GREEN PEACE MINING CONCESSIONS',
+            name2: 'Fire alerts outside of GREEN PEACE MINING CONCESSIONS',
+            name3: 'Fire alerts on GREEN PEACE MINING CONCESSIONS',
+            colors: ["rgba(243, 250, 0, 1)", "rgba(216, 212, 212, 1)"],
+            domElement: 'green_peace_mining-fires-chart'
+        }, {
+            type: 'logging',
+            name1: 'LOGGING CONCESSIONS',
+            name2: 'Fire alerts outside of FIRES ON LOGGING CONCESSIONS',
+            name3: 'Fire alerts on FIRES ON LOGGING CONCESSIONS',
+            colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
+            domElement: 'logging-fires-chart'
         }],
         subDistrictQuery: {
             outFields: ['SUBDISTRIC', 'DISTRICT', 'fire_count'],
