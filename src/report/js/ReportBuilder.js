@@ -654,7 +654,7 @@ define([
             const data = [];
 
             let url;
-
+            console.log('chartConfig', chartConfig);
             if (window.reportOptions.aoiId && (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber')) {
               console.log('window aoid and oil/wood');
               url = `${Config.fires_api_endpoint_by_bound}'${chartConfig.type}'%20and%20iso%20=%20'${this.currentISO}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
@@ -671,31 +671,55 @@ define([
             request.get(url, {
               handleAs: 'json'
             }).then((res) => {
-              const allData = res.data.attributes.value;
-
-              if (allData !== null) {
+              if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
+                console.log('yo!', res.data);
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
+                let total = 0;
+                res.data.forEach((boundOfData, i) => {
+                  const r = Math.random() * 255;
+                  const g = Math.random() * 255;
+                  const b = Math.random() * 255;
+                  total = total + boundOfData.alert_count;
+                  data.push({
+                    color: `rgb(${r}, ${g}, ${b})`, // Todo: how should we do colors?
+                    name: boundOfData.bound1,
+                    visible: true,
+                    y: boundOfData.alert_count
+                  });
+                });
+                data.push({
+                  color: chartConfig.colors[0], // Todo: how should we do colors?
+                  name: chartConfig.name1,
+                  visible: true,
+                  y: window.totalFires - total
+                });
               } else {
-                $('#' + chartConfig.domElement + '-container').remove();
-                resolve();
-                return;
+                const allData = res.data.attributes.value;
+
+                if (allData !== null) {
+                  document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
+                } else {
+                  $('#' + chartConfig.domElement + '-container').remove();
+                  resolve();
+                  return;
+                }
+
+                const alerts = allData[0].alerts;
+
+                data.push({
+                  color: chartConfig.colors[0],
+                  name: chartConfig.name1,
+                  visible: true,
+                  y: alerts
+                });
+
+                data.push({
+                  color: chartConfig.colors[1],
+                  name: chartConfig.name2,
+                  visible: true,
+                  y: firesCount - alerts
+                });
               }
-
-              const alerts = allData[0].alerts;
-
-              data.push({
-                color: chartConfig.colors[0],
-                name: chartConfig.name1,
-                visible: true,
-                y: alerts
-              });
-
-              data.push({
-                color: chartConfig.colors[1],
-                name: chartConfig.name2,
-                visible: true,
-                y: firesCount - alerts
-              });
 
               this.buildPieChart(chartConfig.domElement, {
                 data: data,
@@ -3436,6 +3460,7 @@ define([
                   handleAs: 'json'
                 }).then((res) => {
                   const total = res.data.attributes.value[0].alerts;
+                  window.totalFires = total;
                   $("#totalFireAlerts").html(self.numberWithCommas(total));
                 });
 
