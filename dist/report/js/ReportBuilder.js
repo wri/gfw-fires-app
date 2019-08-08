@@ -184,7 +184,6 @@ define([
 
             queryTask.execute(query, (response) => {
               if (response.features.length > 0) {
-                console.log('response', response);
                 window.reportOptions.aoiId = response.features[0].attributes.id_1;
                 deferred.resolve(true);
               }
@@ -3553,8 +3552,6 @@ define([
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
 
-          console.log('id', id);
-          console.log('config', config);
           let hasData = true;
 
           config.data.forEach((value) => {
@@ -3636,7 +3633,6 @@ define([
               }]
           }, function(chart) { // on complete
             if (!hasData) {
-              console.log('it is bad if u see this');
               chart.renderer.text('No Fires', 275, 120)
                 .attr({
                   class: 'no-data-pie'

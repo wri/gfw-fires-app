@@ -1958,8 +1958,8 @@ define(["module"], function (module) {
             }
         },
         fires_api_endpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
-        fires_api_endpoint_by_bound: 'http://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20iso,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
-        fires_api_endpoint_by_bound_aoiID: 'http://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20adm1,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
+        fires_api_endpoint_by_bound: 'https://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20iso,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
+        fires_api_endpoint_by_bound_aoiID: 'https://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20adm1,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
         countryPieCharts: [{
             type: 'wdpa',
             name1: 'WDPA PROTECTED AREAS',
