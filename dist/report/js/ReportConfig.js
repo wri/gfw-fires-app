@@ -1958,6 +1958,7 @@ define(["module"], function (module) {
             }
         },
         fires_api_endpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
+        fires_api_endpoint_by_bound: 'http://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20iso,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
         countryPieCharts: [{
             type: 'wdpa',
             name1: 'WDPA PROTECTED AREAS',
@@ -2019,14 +2020,14 @@ define(["module"], function (module) {
             name1: 'WOOD FIBER AREAS',
             name2: 'Fire alerts outside of WOOD FIBER AREAS',
             name3: 'Fire alerts in WOOD FIBER AREAS',
-            colors: ["rgba(253, 240, 0, 1)", "rgba(216, 212, 212, 1)"],
+            colors: ["rgba(253, 240, 0, 1)", "rgba(216, 212, 212, 1)", "rgba(226, 222, 222, 1)", "rgba(236, 232, 232, 1)", "rgba(206, 202, 202, 1)", "rgba(196, 192, 192, 1)"],
             domElement: 'wood_fiber-fires-chart'
         }, {
             type: 'oil_palm',
             name1: 'OIL PALM CONCESSIONS',
             name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
             name3: 'Fire alerts on OIL PALM CONCESSIONS',
-            colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
+            colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)", "rgba(226, 222, 222, 1)", "rgba(236, 232, 232, 1)", "rgba(206, 202, 202, 1)", "rgba(196, 192, 192, 1)"],
             domElement: 'oil_palm-fires-chart'
         }, {
             type: 'green_peace_mining',
