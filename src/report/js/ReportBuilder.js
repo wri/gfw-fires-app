@@ -654,9 +654,12 @@ define([
             const data = [];
 
             let url;
+            // Client is slowly migrating the API calls to a newer format, but because there's no contract in place as of 8.8.2019, we're only migrating two of these calls.
             if (window.reportOptions.aoiId && (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber')) {
+              // AOID = subregion
               url = `${Config.fires_api_endpoint_by_bound_aoiID}'${chartConfig.type}'%20and%20adm1%20=%20'${window.reportOptions.aoiId}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
             } else if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
+              // No aoid = country view
               url = `${Config.fires_api_endpoint_by_bound}'${chartConfig.type}'%20and%20iso%20=%20'${this.currentISO}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
             } else if (window.reportOptions.aoiId) {
               url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
@@ -668,12 +671,18 @@ define([
               handleAs: 'json'
             }).then((res) => {
               if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
+                // Our two new queries will return data in "bounds". These need to be formatted differently from the others.
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
+                let colorCounter = 0;
                 res.data.forEach((boundOfData, i) => {
                   total = total + boundOfData.alert_count;
+                  colorCounter = colorCounter + i;
+                  if (colorCounter >= 250) {
+                    colorCounter = 0;
+                  }
                   data.push({
-                    color: `rgb(255, ${i}, ${i})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
+                    color: `rgb(255, ${colorCounter}, ${colorCounter})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                     name: boundOfData.bound1,
                     visible: true,
                     y: boundOfData.alert_count
@@ -684,13 +693,6 @@ define([
                   name: chartConfig.name1,
                   visible: true,
                   y: firesCount - total
-                });
-
-                this.buildPieChart(chartConfig.domElement, {
-                  data: data,
-                  name: chartConfig.name3,
-                  labelDistance: 5,
-                  total: firesCount
                 });
               } else {
                 const allData = res.data.attributes.value;
@@ -718,15 +720,13 @@ define([
                   visible: true,
                   y: firesCount - alerts
                 });
-
-
-                this.buildPieChart(chartConfig.domElement, {
-                  data: data,
-                  name: chartConfig.name3,
-                  labelDistance: 5,
-                  total: firesCount
-                });
               }
+              this.buildPieChart(chartConfig.domElement, {
+                data: data,
+                name: chartConfig.name3,
+                labelDistance: 5,
+                total: firesCount
+              });
               resolve();
             });
           });
