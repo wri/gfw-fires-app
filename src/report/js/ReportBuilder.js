@@ -657,12 +657,9 @@ define([
             // Client is slowly migrating the API calls to a newer format, but because there's no contract in place as of 8.8.2019, we're only migrating two of these calls.
             if (window.reportOptions.aoiId && (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber')) {
               // AOID = subregion
-              // url = `${Config.fires_api_endpoint_by_bound_aoiID}'${chartConfig.type}'%20and%20adm1%20=%20'${window.reportOptions.aoiId}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
               url = `${Config.fires_api_endpoint_by_bound}select adm1, sum(alerts) as alert_count FROM table where polyname = '${chartConfig.type}' and adm1 = '${window.reportOptions.aoiId}' and alert_date >= '${this.startDateRaw}' and alert_date <= '${this.endDateRaw}' group by bound1`;
-              console.log('url', url);
             } else if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
               // No aoid = country view
-              // the url should look like:
               url = `${Config.fires_api_endpoint_by_bound}select iso, sum(alerts) as alert_count FROM table where polyname = '${chartConfig.type}' and iso = '${this.currentISO}' and alert_date >= '${this.startDateRaw}' and alert_date <= '${this.endDateRaw}' group by bound1`;
             } else if (window.reportOptions.aoiId) {
               url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
@@ -677,21 +674,11 @@ define([
                 // Our two new queries will return data in "bounds". These need to be formatted differently from the others.
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
-                let colorCounterG = 0;
-                let colorCounterB = 0;
-
+                const numberOfBounds = Math.floor(255 / res.data.length);
                 res.data.forEach((boundOfData, i) => {
                   total = total + boundOfData.alert_count;
-                  colorCounterG = i;
-                  colorCounterB = 25 - i;
-                  if (colorCounterG > 25) {
-                    colorCounterG = i - 25;
-                  }
-                  if (colorCounterB < 0) {
-                    colorCounterB = i + 25;
-                  }
                   data.push({
-                    color: `rgb(${colorCounterB * 10}, 0, ${colorCounterG * 10})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
+                    color: `rgb(${255 - i * numberOfBounds}, 0, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                     name: boundOfData.bound1,
                     visible: true,
                     y: boundOfData.alert_count

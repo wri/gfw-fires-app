@@ -2314,10 +2314,6 @@ module.exports = {
           colors: [
             "rgba(253, 240, 0, 1)",
             "rgba(216, 212, 212, 1)",
-            "rgba(226, 222, 222, 1)",
-            "rgba(236, 232, 232, 1)",
-            "rgba(206, 202, 202, 1)",
-            "rgba(196, 192, 192, 1)"
           ],
           domElement: 'wood_fiber-fires-chart'
         },
@@ -2328,11 +2324,7 @@ module.exports = {
           name3: 'Fire alerts on OIL PALM CONCESSIONS',
           colors: [
             "rgba(255, 218, 0, 1)",
-            "rgba(216, 212, 212, 1)",
-            "rgba(226, 222, 222, 1)",
-            "rgba(236, 232, 232, 1)",
-            "rgba(206, 202, 202, 1)",
-            "rgba(196, 192, 192, 1)"
+            "rgba(216, 212, 212, 1)"
           ],
           domElement: 'oil_palm-fires-chart'
         },
