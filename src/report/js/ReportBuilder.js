@@ -655,7 +655,14 @@ define([
 
             let url;
 
-            if (window.reportOptions.aoiId) {
+            if (window.reportOptions.aoiId && (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber')) {
+              console.log('window aoid and oil/wood');
+              url = `${Config.fires_api_endpoint_by_bound}'${chartConfig.type}'%20and%20iso%20=%20'${this.currentISO}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
+              // url = `${reportConfig.fires_api_endpoint_by_bound}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
+            } else if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
+              console.log('no window aoid and oil/wood');
+              url = `${Config.fires_api_endpoint_by_bound}'${chartConfig.type}'%20and%20iso%20=%20'${this.currentISO}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
+            } else if (window.reportOptions.aoiId) {
               url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
             } else {
               url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}?period=${this.startDateRaw},${this.endDateRaw}`;
