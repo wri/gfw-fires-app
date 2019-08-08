@@ -184,6 +184,7 @@ define([
 
             queryTask.execute(query, (response) => {
               if (response.features.length > 0) {
+                console.log('response', response);
                 window.reportOptions.aoiId = response.features[0].attributes.id_1;
                 deferred.resolve(true);
               }
@@ -654,13 +655,9 @@ define([
             const data = [];
 
             let url;
-            console.log('chartConfig', chartConfig);
             if (window.reportOptions.aoiId && (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber')) {
-              console.log('window aoid and oil/wood');
-              url = `${Config.fires_api_endpoint_by_bound}'${chartConfig.type}'%20and%20iso%20=%20'${this.currentISO}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
-              // url = `${reportConfig.fires_api_endpoint_by_bound}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
+              url = `${Config.fires_api_endpoint_by_bound_aoiID}'${chartConfig.type}'%20and%20adm1%20=%20'${window.reportOptions.aoiId}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
             } else if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
-              console.log('no window aoid and oil/wood');
               url = `${Config.fires_api_endpoint_by_bound}'${chartConfig.type}'%20and%20iso%20=%20'${this.currentISO}'%20and%20alert_date%20>=%20'${this.startDateRaw}'%20and%20alert_date%20<=%20'${this.endDateRaw}'%20group%20by%20bound1`;
             } else if (window.reportOptions.aoiId) {
               url = `${Config.fires_api_endpoint}${chartConfig.type}/${this.currentISO}/${window.reportOptions.aoiId}?period=${this.startDateRaw},${this.endDateRaw}`;
@@ -672,26 +669,29 @@ define([
               handleAs: 'json'
             }).then((res) => {
               if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
-                console.log('yo!', res.data);
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
                 res.data.forEach((boundOfData, i) => {
-                  const r = Math.random() * 255;
-                  const g = Math.random() * 255;
-                  const b = Math.random() * 255;
                   total = total + boundOfData.alert_count;
                   data.push({
-                    color: `rgb(${r}, ${g}, ${b})`, // Todo: how should we do colors?
+                    color: `rgb(255, ${i}, ${i})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                     name: boundOfData.bound1,
                     visible: true,
                     y: boundOfData.alert_count
                   });
                 });
                 data.push({
-                  color: chartConfig.colors[0], // Todo: how should we do colors?
+                  color: chartConfig.colors[1],
                   name: chartConfig.name1,
                   visible: true,
-                  y: window.totalFires - total
+                  y: firesCount - total
+                });
+
+                this.buildPieChart(chartConfig.domElement, {
+                  data: data,
+                  name: chartConfig.name3,
+                  labelDistance: 5,
+                  total: firesCount
                 });
               } else {
                 const allData = res.data.attributes.value;
@@ -719,14 +719,15 @@ define([
                   visible: true,
                   y: firesCount - alerts
                 });
-              }
 
-              this.buildPieChart(chartConfig.domElement, {
-                data: data,
-                name: chartConfig.name3,
-                labelDistance: 5,
-                total: firesCount
-              });
+
+                this.buildPieChart(chartConfig.domElement, {
+                  data: data,
+                  name: chartConfig.name3,
+                  labelDistance: 5,
+                  total: firesCount
+                });
+              }
               resolve();
             });
           });
@@ -3460,7 +3461,6 @@ define([
                   handleAs: 'json'
                 }).then((res) => {
                   const total = res.data.attributes.value[0].alerts;
-                  window.totalFires = total;
                   $("#totalFireAlerts").html(self.numberWithCommas(total));
                 });
 
@@ -3553,6 +3553,8 @@ define([
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
 
+          console.log('id', id);
+          console.log('config', config);
           let hasData = true;
 
           config.data.forEach((value) => {
@@ -3634,6 +3636,7 @@ define([
               }]
           }, function(chart) { // on complete
             if (!hasData) {
+              console.log('it is bad if u see this');
               chart.renderer.text('No Fires', 275, 120)
                 .attr({
                   class: 'no-data-pie'
