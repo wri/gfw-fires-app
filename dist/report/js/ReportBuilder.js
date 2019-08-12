@@ -670,26 +670,61 @@ define([
             request.get(url, {
               handleAs: 'json'
             }).then((res) => {
+              console.log('res', res);
               if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
                 // Our two new queries will return data in "bounds". These need to be formatted differently from the others.
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
-                const numberOfBounds = Math.floor(255 / res.data.length);
-                res.data.forEach((boundOfData, i) => {
-                  total = total + boundOfData.alert_count;
-                  data.push({
-                    color: `rgb(${255 - i * numberOfBounds}, 0, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
-                    name: boundOfData.bound1,
-                    visible: true,
-                    y: boundOfData.alert_count
+                if (res.data.length > 5) { // 5 was arbitrarily chosen
+                  var tooltipArray = [];
+                  res.data.forEach(boundOfData => total = total + boundOfData.alert_count);
+                  res.data.forEach(boundOfData=> {
+                    const percentage = Math.round(boundOfData.alert_count / total);
+                    tooltipArray.push([boundOfData.bound1, boundOfData.alert_count, percentage]);
                   });
-                });
-                data.push({
-                  color: chartConfig.colors[1],
-                  name: chartConfig.name2,
-                  visible: true,
-                  y: firesCount - total
-                });
+                  data.push({
+                    color: chartConfig.colors[0],
+                    name: 'Other Companies',
+                    visible: true,
+                    y: total
+                  });
+                  data.push({
+                    color: chartConfig.colors[1],
+                    name: chartConfig.name2,
+                    visible: true,
+                    y: firesCount - total
+                  });
+                } else {
+                  const numberOfBounds = Math.floor(255 / res.data.length);
+                  let colorIndex = 'red';
+                  res.data.forEach((boundOfData, i) => {
+                    let r = 0, g = 0, b = 0;
+                    if (colorIndex === 'red') {
+                      r = 255 - i * numberOfBounds;
+                      colorIndex = 'green';
+                    } else if (colorIndex === 'green') {
+                      g = 255 - i * numberOfBounds;
+                      colorIndex = 'blue';
+                    } else if (colorIndex === 'blue') {
+                      b = 255 - i * numberOfBounds;
+                      colorIndex = 'red';
+                    }
+                    total = total + boundOfData.alert_count;
+                    data.push({
+                      // color: `rgb(${255 - i * numberOfBounds}, ${255 - i * numberOfBounds}, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
+                      color: `rgb(${r}, ${g}, ${b})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
+                      name: boundOfData.bound1,
+                      visible: true,
+                      y: boundOfData.alert_count
+                    });
+                  });
+                  data.push({
+                    color: chartConfig.colors[1],
+                    name: chartConfig.name2,
+                    visible: true,
+                    y: firesCount - total
+                  });
+                }
               } else {
                 const allData = res.data.attributes.value;
 
@@ -721,7 +756,8 @@ define([
                 data: data,
                 name: chartConfig.name3,
                 labelDistance: 5,
-                total: firesCount
+                total: firesCount,
+                tooltipArray: tooltipArray ? tooltipArray : []
               });
               resolve();
             });
@@ -3537,7 +3573,9 @@ define([
         },
 
         buildPieChart: function(id, config) {
+
           var self = this;
+
           // Config object needs the following
           //  - data: array of data objects with color, name, visible, and y
           //  - label distance
@@ -3585,22 +3623,43 @@ define([
                   }
               },
               tooltip: {
-                  formatter: function() {
-                      return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+                useHTML: true,
+                borderWidth: 0,
+                shared: false,
+                headerFormat: '',
+                shadow: false,
+                enabled: true,
+                positioner: function (a, b, point) {
+                  if (config.tooltipArray.length > 0) {
+                    return { x: this.chart.plotRight, y: this.chart.plotTop };
+                  } else {
+                    return { x: point.plotX, y: point.plotY};
                   }
+                },
+                formatter: function() {
+                  if (config.tooltipArray.length > 0) {
+                    let string = '<div class="pieChartExpandedTooltip">Other Companies:<br />';
+     
+                    config.tooltipArray.forEach(countryBound => {
+                      string = string + countryBound[0] + ': ' + countryBound[1] + ' fires (' + countryBound[2] + '%)' + '<br />'
+                    });
+                    return string + "</div><br />";
+                  } else {
+                    return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+                  }
+                }
               },
               credits: {
-                  enabled: false
+                enabled: false
               },
               legend: {
-                  enabled: false
+                enabled: false
               },
               exporting: !hasData ? false : {
                 scale: 4,
                 chartOptions:{
                   chart:{
                     marginTop: 50,
-                    // marginRight: 20,
                     events:{
                       load:function(){
                         this.renderer.rect(0, 0, this.chartWidth, 35).attr({
