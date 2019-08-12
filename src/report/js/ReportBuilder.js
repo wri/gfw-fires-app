@@ -675,10 +675,23 @@ define([
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
                 const numberOfBounds = Math.floor(255 / res.data.length);
+                let colorIndex = 'red';
                 res.data.forEach((boundOfData, i) => {
+                  let r = 0, g = 0, b = 0;
+                  if (colorIndex === 'red') {
+                    r = 255 - i * numberOfBounds;
+                    colorIndex = 'green';
+                  } else if (colorIndex === 'green') {
+                    g = 255 - i * numberOfBounds;
+                    colorIndex = 'blue';
+                  } else if (colorIndex === 'blue') {
+                    b = 255 - i * numberOfBounds;
+                    colorIndex = 'red';
+                  }
                   total = total + boundOfData.alert_count;
                   data.push({
-                    color: `rgb(${255 - i * numberOfBounds}, 0, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
+                    // color: `rgb(${255 - i * numberOfBounds}, ${255 - i * numberOfBounds}, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
+                    color: `rgb(${r}, ${g}, ${b})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                     name: boundOfData.bound1,
                     visible: true,
                     y: boundOfData.alert_count
