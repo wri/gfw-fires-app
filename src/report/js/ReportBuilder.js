@@ -3592,15 +3592,15 @@ define([
           let center = ['50%', '50%'];
           if (showInLegend) {
             // The oil Palm concessions gets a table rendered in the legend because there are too many items for the datalabels to account for.
-            center = ['80%', '50%'];
-            var tableForOilPalm = "<table><tr><th>Company</th><th>Fire Count</th><th>%</th></tr>";
-            config.data.forEach(dataInSeries => {
-              const { name, y } = dataInSeries;
-              const percentage = Math.round(y / config.total * 100);
-              const newRowOfTableData = `<tr><td>${name}</td><td>${y}</td><td>${percentage}</td></tr>`;
-              tableForOilPalm = tableForOilPalm + newRowOfTableData;
-            })
-            tableForOilPalm = tableForOilPalm + '</table>';
+            center = ['50%', '50%'];
+            // var tableForOilPalm = "<table><tr><th>Company</th><th>Fire Count</th><th>%</th></tr>";
+            // config.data.forEach(dataInSeries => {
+            //   const { name, y } = dataInSeries;
+            //   const percentage = Math.round(y / config.total * 100);
+            //   const newRowOfTableData = `<tr><td>${name}</td><td>${y}</td><td>${percentage}</td></tr>`;
+            //   tableForOilPalm = tableForOilPalm + newRowOfTableData;
+            // })
+            // tableForOilPalm = tableForOilPalm + '</table>';
 
           }
 
@@ -3630,6 +3630,7 @@ define([
               pie: {
                 shadow: false,
                 center: center,
+                padding: 10,
                 borderWidth: 0,
                 dataLabels: {
                   enabled: true
@@ -3648,7 +3649,7 @@ define([
               shadow: false,
               enabled: true,
               formatter: function() {
-                return this.key + ':' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+                return this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
               }
             },
             credits: {
@@ -3658,17 +3659,23 @@ define([
               enabled: showInLegend,
               layout: 'vertical',
               backgroundColor: '#FFFFFF',
-              floating: true,
               align: 'left',
-              // verticalAlign: 'top',
-              maxHeight: 100,
-              // width: 200,
-              // itemWidth: 50,
-              x: 90,
-              y: 45,
+              navigation: {
+                animation: false,
+                enabled: true
+              },
+              maxHeight: 140,
+              padding: 0,
+              itemHeight: 20,
+              symbolHeight: 10,
+              x: 300,
+              // y: -40,
+              itemWidth: 250,
               useHTML: true,
               labelFormatter: function () {
-                return tableForOilPalm;
+                const { name, y } = this;
+                const percentage = Math.round(y / config.total * 100);
+                return `${name}: ${y} fire(s) (${percentage}%)`;
               }
             },
             exporting: !hasData ? false : {
@@ -3695,7 +3702,7 @@ define([
                 size: '70%',
                 innerSize: '55%',
                 dataLabels: {
-                  distance: config.labelDistance,
+                  // distance: config.labelDistance,
                   color: 'black',
                   formatter: function() {
                     // Exclude data labels on oil palm concessions because there are too many slices of data.
