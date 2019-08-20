@@ -3585,6 +3585,22 @@ define([
           // "peat-fires-chart", {
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
+          console.log('config', config);
+          console.log('configdata', config.data);
+          
+          const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS' ? true : false;
+          if (showInLegend) {
+            // The oil Palm concessions gets a table rendered in the legend because there are too many items for the datalabels to account for.
+            var tableForOilPalm = '<table><tr><th>Company</th><th>Fire Count Fires</th><th>%</th></tr>';
+            config.data.forEach(dataInSeries => {
+              const { name, y } = dataInSeries;
+              const percentage = Math.round(y / config.total * 100);
+              const newRowOfTableData = `<tr><td>${name}</td><td>${y}</td><td>${percentage}</td></tr>`;
+              tableForOilPalm = tableForOilPalm + newRowOfTableData;
+            })
+            tableForOilPalm = tableForOilPalm + '</table>';
+
+          }
 
           let hasData = true;
 
@@ -3616,6 +3632,7 @@ define([
                 dataLabels: {
                   enabled: true
                 },
+                showInLegend: showInLegend,
                 style: {
                   fontSize: '.8em'
                 }
@@ -3636,7 +3653,18 @@ define([
               enabled: false
             },
             legend: {
-              enabled: true,
+              enabled: showInLegend,
+              layout: 'vertical',
+              backgroundColor: '#FFFFFF',
+              floating: false,
+              align: 'left',
+              verticalAlign: 'top',
+              x: 90,
+              y: 45,
+              useHTML: true,
+              labelFormatter: function () {
+                return tableForOilPalm;
+              }
             },
             exporting: !hasData ? false : {
               scale: 4,
