@@ -675,7 +675,7 @@ define([
                 // Our two new queries will return data in "bounds". These need to be formatted differently from the others.
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
-                if (res.data.length > 5) { // 5 was arbitrarily chosen
+                if (res.data.length > 54874784784784) { // 5 was arbitrarily chosen
                   var tooltipArray = [];
                   res.data.forEach(boundOfData => total = total + boundOfData.alert_count);
                   res.data.forEach(boundOfData=> {
@@ -711,7 +711,6 @@ define([
                     }
                     total = total + boundOfData.alert_count;
                     data.push({
-                      // color: `rgb(${255 - i * numberOfBounds}, ${255 - i * numberOfBounds}, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                       color: `rgb(${r}, ${g}, ${b})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                       name: boundOfData.bound1,
                       visible: true,
@@ -724,6 +723,7 @@ define([
                     visible: true,
                     y: firesCount - total
                   });
+                  console.log('data', data);
                 }
               } else {
                 const allData = res.data.attributes.value;
@@ -3586,6 +3586,8 @@ define([
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
 
+          const dataLabel = ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>';
+
           let hasData = true;
 
           config.data.forEach((value) => {
@@ -3597,95 +3599,80 @@ define([
           });
 
           $('#' + id).highcharts({
-              chart: {
-                  type: 'pie'
-              },
+            chart: {
+              type: 'pie'
+            },
+            title: {
+              text: null
+            },
+            yAxis: {
               title: {
                 text: null
-              },
-              yAxis: {
-                  title: {
-                      text: null
-                  }
-              },
-              plotOptions: {
-                  pie: {
-                      shadow: false,
-                      center: ['50%', '50%'],
-                      borderWidth: 0,
-                      dataLabels: {
-                        useHTML: true,
-                        format: ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>',
-                      },
-                      style: {
-                        fontSize: '.8em'
-                      }
-                  }
-              },
-              tooltip: {
-                useHTML: true,
-                borderWidth: 0,
-                shared: false,
-                headerFormat: '',
+              }
+            },
+            plotOptions: {
+              pie: {
                 shadow: false,
-                enabled: true,
-                positioner: function (a, b, point) {
-                  if (config.tooltipArray.length > 0) {
-                    return { x: this.chart.plotRight, y: this.chart.plotTop };
-                  } else {
-                    return { x: point.plotX, y: point.plotY};
-                  }
+                center: ['50%', '50%'],
+                borderWidth: 0,
+                dataLabels: {
+                  enabled: true
                 },
-                formatter: function() {
-                  if (config.tooltipArray.length > 0) {
-                    let string = '<div class="pieChartExpandedTooltip">Other Companies:<br />';
-     
-                    config.tooltipArray.forEach(countryBound => {
-                      string = string + countryBound[0] + ': ' + countryBound[1] + ' fires (' + countryBound[2] + '%)' + '<br />'
-                    });
-                    return string + "</div><br />";
-                  } else {
-                    return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
-                  }
+                style: {
+                  fontSize: '.8em'
                 }
-              },
-              credits: {
-                enabled: false
-              },
-              legend: {
-                enabled: false
-              },
-              exporting: !hasData ? false : {
-                scale: 4,
-                chartOptions:{
-                  chart:{
-                    marginTop: 50,
-                    events:{
-                      load:function(){
-                        this.renderer.rect(0, 0, this.chartWidth, 35).attr({
-                          fill: '#555'
-                        }).add();
-                        this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                        this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ config.name }</span>`, 56, 46, true).add();
-                      }
+              }
+            },
+            tooltip: {
+              useHTML: true,
+              borderWidth: 0,
+              shared: false,
+              headerFormat: '',
+              shadow: false,
+              enabled: true,
+              formatter: function() {
+                return this.key + ':' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+              }
+            },
+            credits: {
+              enabled: false
+            },
+            legend: {
+              enabled: true,
+            },
+            exporting: !hasData ? false : {
+              scale: 4,
+              chartOptions:{
+                chart:{
+                  marginTop: 50,
+                  events:{
+                    load:function(){
+                      this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                        fill: '#555'
+                      }).add();
+                      this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                      this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                      this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ config.name }</span>`, 56, 46, true).add();
                     }
                   }
                 }
-              },
-              series: !hasData ? [] : [{
-                  name: config.name,
-                  data: config.data,
-                  size: '70%',
-                  innerSize: '55%',
-                  dataLabels: {
-                      distance: config.labelDistance,
-                      color: 'black',
-                      formatter: function() {
-                          return Math.round((this.y / config.total) * 100) + "%";
-                      }
+              }
+            },
+            series: !hasData ? [] : [{
+                name: config.name,
+                data: config.data,
+                size: '70%',
+                innerSize: '55%',
+                dataLabels: {
+                  distance: config.labelDistance,
+                  color: 'black',
+                  formatter: function() {
+                    if (this.key.includes('Fire alerts')) {
+                      return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                    }
                   }
-              }]
+                }
+            }]
           }, function(chart) { // on complete
             if (!hasData) {
               chart.renderer.text('No Fires', 275, 120)
