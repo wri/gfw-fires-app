@@ -723,7 +723,6 @@ define([
                     visible: true,
                     y: firesCount - total
                   });
-                  console.log('data', data);
                 }
               } else {
                 const allData = res.data.attributes.value;
@@ -3193,13 +3192,6 @@ define([
               return finaltable;
           }
 
-          // if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
-          //   query.groupByFieldsForStatistics.push("NAME_1");
-          // } else if (configKey === "subDistrictQuery" && areaOfInterestType !== "GLOBAL"){
-          //   query.groupByFieldsForStatistics.push("ISLAND");
-          // }
-
-
             if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
               query.groupByFieldsForStatistics.push("NAME_1");
             } else if(configKey === 'subDistrictQuery' && areaOfInterestType === 'ALL') {
@@ -3585,24 +3577,9 @@ define([
           // "peat-fires-chart", {
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
-          console.log('config', config);
-          console.log('configdata', config.data);
           
           const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS' ? true : false;
           let center = ['50%', '50%'];
-          if (showInLegend) {
-            // The oil Palm concessions gets a table rendered in the legend because there are too many items for the datalabels to account for.
-            center = ['50%', '50%'];
-            // var tableForOilPalm = "<table><tr><th>Company</th><th>Fire Count</th><th>%</th></tr>";
-            // config.data.forEach(dataInSeries => {
-            //   const { name, y } = dataInSeries;
-            //   const percentage = Math.round(y / config.total * 100);
-            //   const newRowOfTableData = `<tr><td>${name}</td><td>${y}</td><td>${percentage}</td></tr>`;
-            //   tableForOilPalm = tableForOilPalm + newRowOfTableData;
-            // })
-            // tableForOilPalm = tableForOilPalm + '</table>';
-
-          }
 
           let hasData = true;
 
@@ -3630,10 +3607,10 @@ define([
               pie: {
                 shadow: false,
                 center: center,
-                padding: 10,
                 borderWidth: 0,
                 dataLabels: {
-                  enabled: true
+                  enabled: true,
+                  padding: 0,
                 },
                 showInLegend: showInLegend,
                 style: {
@@ -3669,7 +3646,7 @@ define([
               itemHeight: 20,
               symbolHeight: 10,
               x: 300,
-              // y: -40,
+              y: -80,
               itemWidth: 250,
               useHTML: true,
               labelFormatter: function () {
@@ -3685,6 +3662,7 @@ define([
                   marginTop: 50,
                   events:{
                     load:function(){
+                      console.log('export');
                       this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                         fill: '#555'
                       }).add();
@@ -3699,10 +3677,9 @@ define([
             series: !hasData ? [] : [{
                 name: config.name,
                 data: config.data,
-                size: '70%',
+                size: '60%',
                 innerSize: '55%',
                 dataLabels: {
-                  // distance: config.labelDistance,
                   color: 'black',
                   formatter: function() {
                     // Exclude data labels on oil palm concessions because there are too many slices of data.
