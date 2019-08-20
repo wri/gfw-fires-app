@@ -3586,8 +3586,6 @@ define([
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
 
-          const dataLabel = ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>';
-
           let hasData = true;
 
           config.data.forEach((value) => {
@@ -3667,7 +3665,12 @@ define([
                   distance: config.labelDistance,
                   color: 'black',
                   formatter: function() {
-                    if (this.key.includes('Fire alerts')) {
+                    // Exclude data labels on oil palm concessions because there are too many slices of data.
+                    if (config.name === 'Fire alerts on OIL PALM CONCESSIONS') {
+                      if (this.key.includes('Fire alerts')) {
+                        return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                      }
+                    } else {
                       return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
                     }
                   }
