@@ -3589,9 +3589,11 @@ define([
           console.log('configdata', config.data);
           
           const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS' ? true : false;
+          let center = ['50%', '50%'];
           if (showInLegend) {
             // The oil Palm concessions gets a table rendered in the legend because there are too many items for the datalabels to account for.
-            var tableForOilPalm = '<table><tr><th>Company</th><th>Fire Count Fires</th><th>%</th></tr>';
+            center = ['80%', '50%'];
+            var tableForOilPalm = "<table><tr><th>Company</th><th>Fire Count</th><th>%</th></tr>";
             config.data.forEach(dataInSeries => {
               const { name, y } = dataInSeries;
               const percentage = Math.round(y / config.total * 100);
@@ -3627,7 +3629,7 @@ define([
             plotOptions: {
               pie: {
                 shadow: false,
-                center: ['50%', '50%'],
+                center: center,
                 borderWidth: 0,
                 dataLabels: {
                   enabled: true
@@ -3656,9 +3658,12 @@ define([
               enabled: showInLegend,
               layout: 'vertical',
               backgroundColor: '#FFFFFF',
-              floating: false,
+              floating: true,
               align: 'left',
-              verticalAlign: 'top',
+              // verticalAlign: 'top',
+              maxHeight: 100,
+              // width: 200,
+              // itemWidth: 50,
               x: 90,
               y: 45,
               useHTML: true,
