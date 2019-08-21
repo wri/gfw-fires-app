@@ -670,60 +670,38 @@ define([
             request.get(url, {
               handleAs: 'json'
             }).then((res) => {
-              console.log('res', res);
+              // We have two queries which return data in "bounds" and need to be formatted differently from the others
               if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
-                // Our two new queries will return data in "bounds". These need to be formatted differently from the others.
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
-                if (res.data.length > 54874784784784) { // 5 was arbitrarily chosen
-                  var tooltipArray = [];
-                  res.data.forEach(boundOfData => total = total + boundOfData.alert_count);
-                  res.data.forEach(boundOfData=> {
-                    const percentage = Math.round(boundOfData.alert_count / total);
-                    tooltipArray.push([boundOfData.bound1, boundOfData.alert_count, percentage]);
-                  });
+                // We cycle through red, green, and blue colors, and chose to alternate them instead of doing a color grid to provide more contrast between narrow data segments.
+                let colorIndex = 'red';
+                res.data.forEach((boundOfData, i) => {
+                  let r = 0, g = 0, b = 0;
+                  if (colorIndex === 'red') {
+                    r = 255;
+                    colorIndex = 'green';
+                  } else if (colorIndex === 'green') {
+                    g = 255;
+                    colorIndex = 'blue';
+                  } else if (colorIndex === 'blue') {
+                    b = 255;
+                    colorIndex = 'red';
+                  }
+                  total = total + boundOfData.alert_count;
                   data.push({
-                    color: chartConfig.colors[0],
-                    name: 'Other Companies',
+                    color: `rgb(${r}, ${g}, ${b})`,
+                    name: boundOfData.bound1,
                     visible: true,
-                    y: total
+                    y: boundOfData.alert_count
                   });
-                  data.push({
-                    color: chartConfig.colors[1],
-                    name: chartConfig.name2,
-                    visible: true,
-                    y: firesCount - total
-                  });
-                } else {
-                  const numberOfBounds = Math.floor(255 / res.data.length);
-                  let colorIndex = 'red';
-                  res.data.forEach((boundOfData, i) => {
-                    let r = 0, g = 0, b = 0;
-                    if (colorIndex === 'red') {
-                      r = 255 //- i * numberOfBounds;
-                      colorIndex = 'green';
-                    } else if (colorIndex === 'green') {
-                      g = 255 //- i * numberOfBounds;
-                      colorIndex = 'blue';
-                    } else if (colorIndex === 'blue') {
-                      b = 255 //- i * numberOfBounds;
-                      colorIndex = 'red';
-                    }
-                    total = total + boundOfData.alert_count;
-                    data.push({
-                      color: `rgb(${r}, ${g}, ${b})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
-                      name: boundOfData.bound1,
-                      visible: true,
-                      y: boundOfData.alert_count
-                    });
-                  });
-                  data.push({
-                    color: chartConfig.colors[1],
-                    name: chartConfig.name2,
-                    visible: true,
-                    y: firesCount - total
-                  });
-                }
+                });
+                data.push({
+                  color: chartConfig.colors[1],
+                  name: chartConfig.name2,
+                  visible: true,
+                  y: firesCount - total
+                });
               } else {
                 const allData = res.data.attributes.value;
 
@@ -755,8 +733,7 @@ define([
                 data: data,
                 name: chartConfig.name3,
                 labelDistance: 5,
-                total: firesCount,
-                tooltipArray: tooltipArray ? tooltipArray : []
+                total: firesCount
               });
               resolve();
             });
@@ -3566,10 +3543,12 @@ define([
         buildPieChart: function(id, config) {
           var self = this;
 
+          // Oil Palm Concessions is the only chart that gets data shown in a legend
           const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS by company' ? true : false;
 
           if (showInLegend) {
-            // Sort the data because we only take the first 3 items when exporting the palm oil concession charts.
+            // When exporting the palm oil concession charts, we sort the data because we only take the first 3 items.
+            // There are usually a lot of immaterial data groups, so the data labels don't render well for all of them.
             config.data.sort((a, b) => {
               if (a.y > b.y) {
                 return -1;
@@ -3579,16 +3558,14 @@ define([
                 return 0;
               }
             });
-            var slicedDataForDataLabels = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').slice(0,3); // only take the top 3 companies of data
+            var slicedDataForDataLabels = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').slice(0,3);
             var dataLabelCount = 0;
-            var subtotalForExport = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').reduce(((acc, num) => acc + num.y), 0);
-            var subtotalPercentageForExport = Math.round(subtotalForExport / config.total * 100);
           }
 
-          let center = ['50%', '50%'];
+          const center = ['50%', '50%'];
 
+          // Test for no seriesData
           let hasData = true;
-
           config.data.forEach((value) => {
             if (value.y < 1) {
               hasData = false;
@@ -3711,11 +3688,11 @@ define([
                     textOverflow: 'none'
                   },
                   formatter: function() {
-                    // Exclude data labels on oil palm concessions because there are too many slices of data.
+                    // Exclude data labels on oil palm concessions because there are too many slices of data, except for those outside the concession.
                     if (config.name === 'Fire alerts on OIL PALM CONCESSIONS by company') {
-                      if (this.key.includes('Fire alerts on OIL PALM CONCESSIONS by company')) {
+                      if (this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
                         const percentage =  Math.round((this.y / config.total) * 100);
-                        return `${this.series.name} ${percentage}%`;
+                        return `${this.series.name}: ${percentage}%`;
                       } else {
                         return null;
                       }
