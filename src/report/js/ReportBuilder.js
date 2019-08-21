@@ -3507,7 +3507,6 @@ define([
                     },
                     xAxis: {
                       categories: fireDataLabels,
-                      // type: 'datetime',
                       minTickInterval: 20,
                       minRange: 30,
                       labels: {
@@ -3565,23 +3564,11 @@ define([
         },
 
         buildPieChart: function(id, config) {
-
           var self = this;
 
-          // Config object needs the following
-          //  - data: array of data objects with color, name, visible, and y
-          //  - label distance
-          //  - series name
-          //  - total to be used for calculating %
-          // Example
-          // "peat-fires-chart", {
-          //   'name': 'Peat Fires', data: [], labelDistance: -30
-          // }
           const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS by company' ? true : false;
 
           if (showInLegend) {
-            // const remainingCompanyFires = config.total - slicedDataForDataLabels[0].y - slicedDataForDataLabels[1].y - slicedDataForDataLabels[2].y;
-            // const remainingCompanyFiresPercentage = Math.round((remainingCompanyFires / config.total) * 100);
             // Sort the data because we only take the first 3 items when exporting the palm oil concession charts.
             config.data.sort((a, b) => {
               if (a.y > b.y) {
@@ -3596,7 +3583,6 @@ define([
             var dataLabelCount = 0;
             var subtotalForExport = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').reduce(((acc, num) => acc + num.y), 0);
             var subtotalPercentageForExport = Math.round(subtotalForExport / config.total * 100);
-            console.log('slice', slicedDataForDataLabels)
           }
 
           let center = ['50%', '50%'];
@@ -3672,10 +3658,6 @@ define([
               labelFormatter: function () {
                 const { name, y } = this;
                 const percentage = Math.round(y / config.total * 100);
-                // if (name.length > 50) {
-                //   var slicedName = name.slice(0, 50) + '...';
-                //   return `${slicedName}: ${y} fire(s) (${percentage}%)`;
-                // }
                 return `${name}: ${y} fire(s) (${percentage}%)`;
               }
             },
@@ -3702,19 +3684,14 @@ define([
                   dataLabels: {
                     enabled: true,
                     formatter: function () {
-                      // if (slicedDataForDataLabels && this.key === 'Fire alerts outside of OIL PALM CONCESSIONS') {
-                      // } else if (slicedDataForDataLabels && dataLabelCount < 2) {
-                      // if (dataLabelCount === 3) {
-                        // return `Other Companies with ${subtotalForExport} fires accounting for ${subtotalPercentageForExport}%`;
-                      // } else 
                       if (slicedDataForDataLabels && dataLabelCount < 3 && !this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
                         const { name, y } = slicedDataForDataLabels[dataLabelCount];
                         dataLabelCount = dataLabelCount + 1;
-                        console.log('sliced', name + ' ' + Math.round((y / config.total) * 100) + "%");
                         return name + ' ' + Math.round((y / config.total) * 100) + "%";
                       } else if (this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
-                        console.log('this', this);
-                        return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                        return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                      } else if (config.name.includes('WOOD FIBER')) {
+                        return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
                       } else {
                         return null;
                       }
@@ -3736,15 +3713,14 @@ define([
                   formatter: function() {
                     // Exclude data labels on oil palm concessions because there are too many slices of data.
                     if (config.name === 'Fire alerts on OIL PALM CONCESSIONS by company') {
-                      if (this.key.includes('Fire alerts')) {
+                      if (this.key.includes('Fire alerts on OIL PALM CONCESSIONS by company')) {
                         const percentage =  Math.round((this.y / config.total) * 100);
                         return `${this.series.name} ${percentage}%`;
                       } else {
-                        console.log('not including this one');
                         return null;
                       }
                     } else {
-                      return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                      return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
                     }
                   }
                 }
