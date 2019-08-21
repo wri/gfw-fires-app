@@ -2331,8 +2331,8 @@ module.exports = {
         {
           type: 'logging',
           name1: 'LOGGING CONCESSIONS',
-          name2: 'Fire alerts outside of FIRES ON LOGGING CONCESSIONS',
-          name3: 'Fire alerts on FIRES ON LOGGING CONCESSIONS',
+          name2: 'Fire alerts outside of LOGGING CONCESSIONS',
+          name3: 'Fire alerts on LOGGING CONCESSIONS',
           colors: [
             "rgba(255, 218, 0, 1)",
             "rgba(216, 212, 212, 1)"
@@ -2343,7 +2343,7 @@ module.exports = {
           type: 'oil_palm',
           name1: 'OIL PALM CONCESSIONS',
           name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
-          name3: 'Fire alerts on OIL PALM CONCESSIONS',
+          name3: 'Fire alerts on OIL PALM CONCESSIONS by company',
           colors: [
             "rgba(255, 218, 0, 1)",
             "rgba(216, 212, 212, 1)"

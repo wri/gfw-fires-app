@@ -675,7 +675,7 @@ define([
                 // Our two new queries will return data in "bounds". These need to be formatted differently from the others.
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
-                if (res.data.length > 5) { // 5 was arbitrarily chosen
+                if (res.data.length > 54874784784784) { // 5 was arbitrarily chosen
                   var tooltipArray = [];
                   res.data.forEach(boundOfData => total = total + boundOfData.alert_count);
                   res.data.forEach(boundOfData=> {
@@ -700,18 +700,17 @@ define([
                   res.data.forEach((boundOfData, i) => {
                     let r = 0, g = 0, b = 0;
                     if (colorIndex === 'red') {
-                      r = 255 - i * numberOfBounds;
+                      r = 255 //- i * numberOfBounds;
                       colorIndex = 'green';
                     } else if (colorIndex === 'green') {
-                      g = 255 - i * numberOfBounds;
+                      g = 255 //- i * numberOfBounds;
                       colorIndex = 'blue';
                     } else if (colorIndex === 'blue') {
-                      b = 255 - i * numberOfBounds;
+                      b = 255 //- i * numberOfBounds;
                       colorIndex = 'red';
                     }
                     total = total + boundOfData.alert_count;
                     data.push({
-                      // color: `rgb(${255 - i * numberOfBounds}, ${255 - i * numberOfBounds}, ${0 + i * numberOfBounds})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                       color: `rgb(${r}, ${g}, ${b})`, // Various shades of red start with (255,0,0) and increment from there, ending at (255, 255, 255).
                       name: boundOfData.bound1,
                       visible: true,
@@ -3193,13 +3192,6 @@ define([
               return finaltable;
           }
 
-          // if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
-          //   query.groupByFieldsForStatistics.push("NAME_1");
-          // } else if (configKey === "subDistrictQuery" && areaOfInterestType !== "GLOBAL"){
-          //   query.groupByFieldsForStatistics.push("ISLAND");
-          // }
-
-
             if (configKey === "subDistrictQuery" && areaOfInterestType === "GLOBAL") {
               query.groupByFieldsForStatistics.push("NAME_1");
             } else if(configKey === 'subDistrictQuery' && areaOfInterestType === 'ALL') {
@@ -3585,6 +3577,29 @@ define([
           // "peat-fires-chart", {
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
+          const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS by company' ? true : false;
+
+          if (showInLegend) {
+            // const remainingCompanyFires = config.total - slicedDataForDataLabels[0].y - slicedDataForDataLabels[1].y - slicedDataForDataLabels[2].y;
+            // const remainingCompanyFiresPercentage = Math.round((remainingCompanyFires / config.total) * 100);
+            // Sort the data because we only take the first 3 items when exporting the palm oil concession charts.
+            config.data.sort((a, b) => {
+              if (a.y > b.y) {
+                return -1;
+              } else if (b.y > a.y) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
+            var slicedDataForDataLabels = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').slice(0,3); // only take the top 3 companies of data
+            var dataLabelCount = 0;
+            var subtotalForExport = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').reduce(((acc, num) => acc + num.y), 0);
+            var subtotalPercentageForExport = Math.round(subtotalForExport / config.total * 100);
+            console.log('slice', slicedDataForDataLabels)
+          }
+
+          let center = ['50%', '50%'];
 
           let hasData = true;
 
@@ -3597,95 +3612,143 @@ define([
           });
 
           $('#' + id).highcharts({
-              chart: {
-                  type: 'pie'
-              },
+            chart: {
+              type: 'pie'
+            },
+            title: {
+              text: null
+            },
+            yAxis: {
               title: {
                 text: null
-              },
-              yAxis: {
-                  title: {
-                      text: null
-                  }
-              },
-              plotOptions: {
-                  pie: {
-                      shadow: false,
-                      center: ['50%', '50%'],
-                      borderWidth: 0,
-                      dataLabels: {
-                        useHTML: true,
-                        format: ' <div class="chart-data-label__container">{point.percentage:.0f}% <span class="chart-data-label__name">{point.name}</span>',
-                      },
-                      style: {
-                        fontSize: '.8em'
-                      }
-                  }
-              },
-              tooltip: {
-                useHTML: true,
-                borderWidth: 0,
-                shared: false,
-                headerFormat: '',
+              }
+            },
+            plotOptions: {
+              pie: {
                 shadow: false,
-                enabled: true,
-                positioner: function (a, b, point) {
-                  if (config.tooltipArray.length > 0) {
-                    return { x: this.chart.plotRight, y: this.chart.plotTop };
-                  } else {
-                    return { x: point.plotX, y: point.plotY};
+                center: center,
+                borderWidth: 0,
+                dataLabels: {
+                  enabled: true,
+                  padding: 0,
+                },
+                showInLegend: showInLegend,
+                style: {
+                  fontSize: '.8em'
+                }
+              }
+            },
+            tooltip: {
+              useHTML: true,
+              borderWidth: 0,
+              shared: false,
+              headerFormat: '',
+              shadow: false,
+              enabled: true,
+              formatter: function() {
+                return this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+              }
+            },
+            credits: {
+              enabled: false
+            },
+            legend: {
+              enabled: showInLegend,
+              layout: 'vertical',
+              backgroundColor: '#FFFFFF',
+              align: 'left',
+              navigation: {
+                animation: false,
+                enabled: true
+              },
+              maxHeight: 140,
+              padding: 0,
+              itemHeight: 20,
+              symbolHeight: 10,
+              x: 200,
+              y: -80,
+              itemWidth: 500,
+              useHTML: true,
+              labelFormatter: function () {
+                const { name, y } = this;
+                const percentage = Math.round(y / config.total * 100);
+                // if (name.length > 50) {
+                //   var slicedName = name.slice(0, 50) + '...';
+                //   return `${slicedName}: ${y} fire(s) (${percentage}%)`;
+                // }
+                return `${name}: ${y} fire(s) (${percentage}%)`;
+              }
+            },
+            exporting: !hasData ? false : {
+              scale: 4,
+              chartOptions:{
+                chart: {
+                  marginTop: 50,
+                  events:{
+                    load:function(){
+                      this.renderer.rect(0, 0, this.chartWidth, 35).attr({
+                        fill: '#555'
+                      }).add();
+                      this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
+                      this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
+                      this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ config.name }</span>`, 56, 46, true).add();
+                    }
                   }
                 },
-                formatter: function() {
-                  if (config.tooltipArray.length > 0) {
-                    let string = '<div class="pieChartExpandedTooltip">Other Companies:<br />';
-     
-                    config.tooltipArray.forEach(countryBound => {
-                      string = string + countryBound[0] + ': ' + countryBound[1] + ' fires (' + countryBound[2] + '%)' + '<br />'
-                    });
-                    return string + "</div><br />";
-                  } else {
-                    return Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
-                  }
+                legend: {
+                  enabled: false
+                },
+                series: {
+                  dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                      // if (slicedDataForDataLabels && this.key === 'Fire alerts outside of OIL PALM CONCESSIONS') {
+                      // } else if (slicedDataForDataLabels && dataLabelCount < 2) {
+                      // if (dataLabelCount === 3) {
+                        // return `Other Companies with ${subtotalForExport} fires accounting for ${subtotalPercentageForExport}%`;
+                      // } else 
+                      if (slicedDataForDataLabels && dataLabelCount < 3 && !this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
+                        const { name, y } = slicedDataForDataLabels[dataLabelCount];
+                        dataLabelCount = dataLabelCount + 1;
+                        console.log('sliced', name + ' ' + Math.round((y / config.total) * 100) + "%");
+                        return name + ' ' + Math.round((y / config.total) * 100) + "%";
+                      } else if (this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
+                        console.log('this', this);
+                        return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                      } else {
+                        return null;
+                      }
+                    }
+                  },
                 }
               },
-              credits: {
-                enabled: false
-              },
-              legend: {
-                enabled: false
-              },
-              exporting: !hasData ? false : {
-                scale: 4,
-                chartOptions:{
-                  chart:{
-                    marginTop: 50,
-                    events:{
-                      load:function(){
-                        this.renderer.rect(0, 0, this.chartWidth, 35).attr({
-                          fill: '#555'
-                        }).add();
-                        this.renderer.image('https://fires.globalforestwatch.org/images/gfwFires-logo-new.png', 10, 10, 38, 38).add();
-                        this.renderer.text(`<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Fire Report for ${ self.currentCountry }</span>`, 55, 28, true).add();
-                        this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ config.name }</span>`, 56, 46, true).add();
+            },
+            series: !hasData ? [] : [{
+                name: config.name,
+                data: config.data,
+                size: '60%',
+                innerSize: '55%',
+                dataLabels: {
+                  color: 'black',
+                  style: {
+                    textOverflow: 'none'
+                  },
+                  formatter: function() {
+                    // Exclude data labels on oil palm concessions because there are too many slices of data.
+                    if (config.name === 'Fire alerts on OIL PALM CONCESSIONS by company') {
+                      if (this.key.includes('Fire alerts')) {
+                        const percentage =  Math.round((this.y / config.total) * 100);
+                        return `${this.series.name} ${percentage}%`;
+                      } else {
+                        console.log('not including this one');
+                        return null;
                       }
+                    } else {
+                      return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
                     }
                   }
                 }
-              },
-              series: !hasData ? [] : [{
-                  name: config.name,
-                  data: config.data,
-                  size: '70%',
-                  innerSize: '55%',
-                  dataLabels: {
-                      distance: config.labelDistance,
-                      color: 'black',
-                      formatter: function() {
-                          return Math.round((this.y / config.total) * 100) + "%";
-                      }
-                  }
-              }]
+            }]
           }, function(chart) { // on complete
             if (!hasData) {
               chart.renderer.text('No Fires', 275, 120)

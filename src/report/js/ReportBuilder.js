@@ -700,13 +700,13 @@ define([
                   res.data.forEach((boundOfData, i) => {
                     let r = 0, g = 0, b = 0;
                     if (colorIndex === 'red') {
-                      r = 255 - i * numberOfBounds;
+                      r = 255 //- i * numberOfBounds;
                       colorIndex = 'green';
                     } else if (colorIndex === 'green') {
-                      g = 255 - i * numberOfBounds;
+                      g = 255 //- i * numberOfBounds;
                       colorIndex = 'blue';
                     } else if (colorIndex === 'blue') {
-                      b = 255 - i * numberOfBounds;
+                      b = 255 //- i * numberOfBounds;
                       colorIndex = 'red';
                     }
                     total = total + boundOfData.alert_count;
@@ -3577,8 +3577,28 @@ define([
           // "peat-fires-chart", {
           //   'name': 'Peat Fires', data: [], labelDistance: -30
           // }
-          
-          const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS' ? true : false;
+          const showInLegend = config.name === 'Fire alerts on OIL PALM CONCESSIONS by company' ? true : false;
+
+          if (showInLegend) {
+            // const remainingCompanyFires = config.total - slicedDataForDataLabels[0].y - slicedDataForDataLabels[1].y - slicedDataForDataLabels[2].y;
+            // const remainingCompanyFiresPercentage = Math.round((remainingCompanyFires / config.total) * 100);
+            // Sort the data because we only take the first 3 items when exporting the palm oil concession charts.
+            config.data.sort((a, b) => {
+              if (a.y > b.y) {
+                return -1;
+              } else if (b.y > a.y) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
+            var slicedDataForDataLabels = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').slice(0,3); // only take the top 3 companies of data
+            var dataLabelCount = 0;
+            var subtotalForExport = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').reduce(((acc, num) => acc + num.y), 0);
+            var subtotalPercentageForExport = Math.round(subtotalForExport / config.total * 100);
+            console.log('slice', slicedDataForDataLabels)
+          }
+
           let center = ['50%', '50%'];
 
           let hasData = true;
@@ -3645,24 +3665,27 @@ define([
               padding: 0,
               itemHeight: 20,
               symbolHeight: 10,
-              x: 300,
+              x: 200,
               y: -80,
-              itemWidth: 250,
+              itemWidth: 500,
               useHTML: true,
               labelFormatter: function () {
                 const { name, y } = this;
                 const percentage = Math.round(y / config.total * 100);
+                // if (name.length > 50) {
+                //   var slicedName = name.slice(0, 50) + '...';
+                //   return `${slicedName}: ${y} fire(s) (${percentage}%)`;
+                // }
                 return `${name}: ${y} fire(s) (${percentage}%)`;
               }
             },
             exporting: !hasData ? false : {
               scale: 4,
               chartOptions:{
-                chart:{
+                chart: {
                   marginTop: 50,
                   events:{
                     load:function(){
-                      console.log('export');
                       this.renderer.rect(0, 0, this.chartWidth, 35).attr({
                         fill: '#555'
                       }).add();
@@ -3671,8 +3694,34 @@ define([
                       this.renderer.text(`<span style="color: black; font-size: 0.8em; -webkit-font-smoothing: antialiased; font-family: 'Fira Sans', Georgia, serif;">${ config.name }</span>`, 56, 46, true).add();
                     }
                   }
+                },
+                legend: {
+                  enabled: false
+                },
+                series: {
+                  dataLabels: {
+                    enabled: true,
+                    formatter: function () {
+                      // if (slicedDataForDataLabels && this.key === 'Fire alerts outside of OIL PALM CONCESSIONS') {
+                      // } else if (slicedDataForDataLabels && dataLabelCount < 2) {
+                      // if (dataLabelCount === 3) {
+                        // return `Other Companies with ${subtotalForExport} fires accounting for ${subtotalPercentageForExport}%`;
+                      // } else 
+                      if (slicedDataForDataLabels && dataLabelCount < 3 && !this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
+                        const { name, y } = slicedDataForDataLabels[dataLabelCount];
+                        dataLabelCount = dataLabelCount + 1;
+                        console.log('sliced', name + ' ' + Math.round((y / config.total) * 100) + "%");
+                        return name + ' ' + Math.round((y / config.total) * 100) + "%";
+                      } else if (this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
+                        console.log('this', this);
+                        return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                      } else {
+                        return null;
+                      }
+                    }
+                  },
                 }
-              }
+              },
             },
             series: !hasData ? [] : [{
                 name: config.name,
@@ -3681,11 +3730,18 @@ define([
                 innerSize: '55%',
                 dataLabels: {
                   color: 'black',
+                  style: {
+                    textOverflow: 'none'
+                  },
                   formatter: function() {
                     // Exclude data labels on oil palm concessions because there are too many slices of data.
-                    if (config.name === 'Fire alerts on OIL PALM CONCESSIONS') {
+                    if (config.name === 'Fire alerts on OIL PALM CONCESSIONS by company') {
                       if (this.key.includes('Fire alerts')) {
-                        return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                        const percentage =  Math.round((this.y / config.total) * 100);
+                        return `${this.series.name} ${percentage}%`;
+                      } else {
+                        console.log('not including this one');
+                        return null;
                       }
                     } else {
                       return this.series.name + ' ' + Math.round((this.y / config.total) * 100) + "%";

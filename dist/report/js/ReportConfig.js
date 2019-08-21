@@ -2024,13 +2024,6 @@ define(["module"], function (module) {
             colors: ["rgba(253, 240, 0, 1)", "rgba(216, 212, 212, 1)"],
             domElement: 'wood_fiber-fires-chart'
         }, {
-            type: 'oil_palm',
-            name1: 'OIL PALM CONCESSIONS',
-            name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
-            name3: 'Fire alerts on OIL PALM CONCESSIONS',
-            colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
-            domElement: 'oil_palm-fires-chart'
-        }, {
             type: 'green_peace_mining',
             name1: 'GREEN PEACE MINING CONCESSIONS',
             name2: 'Fire alerts outside of GREEN PEACE MINING CONCESSIONS',
@@ -2040,10 +2033,17 @@ define(["module"], function (module) {
         }, {
             type: 'logging',
             name1: 'LOGGING CONCESSIONS',
-            name2: 'Fire alerts outside of FIRES ON LOGGING CONCESSIONS',
-            name3: 'Fire alerts on FIRES ON LOGGING CONCESSIONS',
+            name2: 'Fire alerts outside of LOGGING CONCESSIONS',
+            name3: 'Fire alerts on LOGGING CONCESSIONS',
             colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
             domElement: 'logging-fires-chart'
+        }, {
+            type: 'oil_palm',
+            name1: 'OIL PALM CONCESSIONS',
+            name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
+            name3: 'Fire alerts on OIL PALM CONCESSIONS by company',
+            colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
+            domElement: 'oil_palm-fires-chart'
         }],
         subDistrictQuery: {
             outFields: ['SUBDISTRIC', 'DISTRICT', 'fire_count'],
