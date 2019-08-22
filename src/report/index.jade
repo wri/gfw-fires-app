@@ -45,13 +45,6 @@ html(lang="en")
         detectlang: false,
         site: 'gfw-fires',
         picker: '#transifexTranslateElement'
-        //- version: 'latest',
-        //- autocollect: true,
-        //- dynamic: true,
-        //- staging: true,
-        //- parse_attr: ["attr1", "attr2", ...],
-        //- ignore_tags: ["tag1", "tag2", ...],
-        //- ignore_class: ["classname1", "classname2"]
       };
     script(src='https://cdn.transifex.com/live.js')
 
@@ -223,11 +216,6 @@ html(lang="en")
                 h3.pie-chart-title Fire alerts in PLANTATION AREAS
                 div#plantations-fires-chart(class='chart')
                 
-            //- div#idn_mys_peatlands-fires-chart-container(class='chart-container-countries country-pie-chart')
-            //-   div.chart-wrapper
-            //-     h3.pie-chart-title Fire alerts in Peatlands
-            //-     div#idn_mys_peatlands-fires-chart(class='chart')
-                
             div#idn_forest_moratorium-fires-chart-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
                 h3.pie-chart-title Fire alerts in FOREST MORATORIUM AREAS
@@ -242,11 +230,6 @@ html(lang="en")
               div.chart-wrapper
                 h3.pie-chart-title Fire alerts in WOOD FIBER AREAS
                 div#wood_fiber-fires-chart(class='chart')
-                
-            div#oil_palm-fires-chart-container(class='chart-container-countries country-pie-chart')
-              div.chart-wrapper
-                h3.pie-chart-title Fire alerts on OIL PALM CONCESSIONS
-                div#oil_palm-fires-chart(class='chart')
             
             div#green_peace_mining-fires-chart-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
@@ -257,6 +240,11 @@ html(lang="en")
               div.chart-wrapper
                 h3.pie-chart-title Fire alerts on LOGGING CONCESSIONS
                 div#logging-fires-chart(class='chart')
+                
+            div#oil_palm-fires-chart-container(class='chart-container-countries country-pie-chart')
+              div.chart-wrapper-oil-palm
+                h3.pie-chart-title Fire alerts on OIL PALM CONCESSIONS
+                div#oil_palm-fires-chart(class='chart-oil-palm')
 
         div#firesCountContainerSection.border-top-separator
           h3#firesCountTitleMain.report-section__title Fire History: Fire Season Progression
