@@ -1958,6 +1958,8 @@ define(["module"], function (module) {
             }
         },
         fires_api_endpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
+        fires_api_endpoint_by_bound: 'https://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20iso,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
+        fires_api_endpoint_by_bound_aoiID: 'https://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20adm1,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
         countryPieCharts: [{
             type: 'wdpa',
             name1: 'WDPA PROTECTED AREAS',
@@ -2022,10 +2024,24 @@ define(["module"], function (module) {
             colors: ["rgba(253, 240, 0, 1)", "rgba(216, 212, 212, 1)"],
             domElement: 'wood_fiber-fires-chart'
         }, {
+            type: 'green_peace_mining',
+            name1: 'GREEN PEACE MINING CONCESSIONS',
+            name2: 'Fire alerts outside of GREEN PEACE MINING CONCESSIONS',
+            name3: 'Fire alerts on GREEN PEACE MINING CONCESSIONS',
+            colors: ["rgba(243, 250, 0, 1)", "rgba(216, 212, 212, 1)"],
+            domElement: 'green_peace_mining-fires-chart'
+        }, {
+            type: 'logging',
+            name1: 'LOGGING CONCESSIONS',
+            name2: 'Fire alerts outside of LOGGING CONCESSIONS',
+            name3: 'Fire alerts on LOGGING CONCESSIONS',
+            colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
+            domElement: 'logging-fires-chart'
+        }, {
             type: 'oil_palm',
             name1: 'OIL PALM CONCESSIONS',
             name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
-            name3: 'Fire alerts on OIL PALM CONCESSIONS',
+            name3: 'Fire alerts on OIL PALM CONCESSIONS by company',
             colors: ["rgba(255, 218, 0, 1)", "rgba(216, 212, 212, 1)"],
             domElement: 'oil_palm-fires-chart'
         }],

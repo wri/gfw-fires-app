@@ -2215,109 +2215,142 @@ module.exports = {
         }
     },
     fires_api_endpoint: 'https://production-api.globalforestwatch.org/fire-alerts/summary-stats/',
+    fires_api_endpoint_by_bound: 'https://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20iso,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
+    fires_api_endpoint_by_bound_aoiID: 'https://production-api.globalforestwatch.org/v1/query/4145f642-5455-4414-b214-58ad39b83e1e?sql=select%20adm1,%20sum(alerts)%20as%20alert_count%20FROM%20table%20where%20polyname%20=%20',
     countryPieCharts: [
         {
-            type: 'wdpa',
-            name1: 'WDPA PROTECTED AREAS',
-            name2: 'Fire alerts outside of WDPA PROTECTED AREAS',
-            name3: 'Fire alerts in WDPA PROTECTED AREAS',
-            colors: [
-                "rgba(248, 137, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'wdpa-fires-chart'
-        }, {
-            type: 'idn_mys_peatlands',
-            name1: 'PEATLAND',
-            name2: 'Fire alerts outside of PEATLAND',
-            name3: 'Fire alerts on PEATLAND',
-            colors: [
-                "rgba(229, 0, 23, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'peatland-fires-chart'
-        }, {
-            type: 'ifl',
-            name1: 'INTACT FOREST LANDSCAPE AREAS',
-            name2: 'Fire alerts outside of INTACT FOREST LANDSCAPE AREAS',
-            name3: 'Fire alerts in INTACT FOREST LANDSCAPE AREAS',
-            colors: [
-                "rgba(209, 25, 43, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'ifl-fires-chart'
-        }, {
-            type: 'mining',
-            name1: 'MINING AREAS',
-            name2: 'Fire alerts outside of MINING AREAS',
-            name3: 'Fire aerts in MINING AREAS',
-            colors: [
-                "rgba(253, 240, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'mining-fires-chart'
-        }, {
-            type: 'primary_forest',
-            name1: 'PRIMARY FOREST AREAS',
-            name2: 'Fire alerts outside of PRIMARY FOREST AREAS',
-            name3: 'Fire alerts in PRIMARY FOREST AREAS',
-            colors: [
-                "rgba(255, 218, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'primary_forest-fires-chart'
-        }, {
-            type: 'plantations',
-            name1: 'PLANTATION AREAS',
-            name2: 'Fire alerts outside of PLANTATION AREAS',
-            name3: 'Fire alerts in PLANTATION AREAS',
-            colors: [
-                "rgba(255, 188, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'plantations-fires-chart'
-        }, {
-            type: 'idn_forest_moratorium',
-            name1: 'FOREST MORATORIUM AREAS',
-            name2: 'Fire alerts outside of FOREST MORATORIUM AREAS',
-            name3: 'Fire alerts in FOREST MORATORIUM AREAS',
-            colors: [
-                "rgba(229, 0, 23, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'idn_forest_moratorium-fires-chart'
-        }, {
-            type: 'rspo',
-            name1: 'RSPO PALM OIL CONCESSIONS',
-            name2: 'Fire alerts outside of RSPO PALM OIL CONCESSIONS',
-            name3: 'Fire alerts on RSPO PALM OIL CONCESSIONS',
-            colors: [
-                "rgba(209, 25, 43, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'rspo-fires-chart'
-        }, {
-            type: 'wood_fiber',
-            name1: 'WOOD FIBER AREAS',
-            name2: 'Fire alerts outside of WOOD FIBER AREAS',
-            name3: 'Fire alerts in WOOD FIBER AREAS',
-            colors: [
-                "rgba(253, 240, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'wood_fiber-fires-chart'
-        }, {
-            type: 'oil_palm',
-            name1: 'OIL PALM CONCESSIONS',
-            name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
-            name3: 'Fire alerts on OIL PALM CONCESSIONS',
-            colors: [
-                "rgba(255, 218, 0, 1)",
-                "rgba(216, 212, 212, 1)"
-            ],
-            domElement: 'oil_palm-fires-chart'
+          type: 'wdpa',
+          name1: 'WDPA PROTECTED AREAS',
+          name2: 'Fire alerts outside of WDPA PROTECTED AREAS',
+          name3: 'Fire alerts in WDPA PROTECTED AREAS',
+          colors: [
+            "rgba(248, 137, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'wdpa-fires-chart'
+        },
+        {
+          type: 'idn_mys_peatlands',
+          name1: 'PEATLAND',
+          name2: 'Fire alerts outside of PEATLAND',
+          name3: 'Fire alerts on PEATLAND',
+          colors: [
+              "rgba(229, 0, 23, 1)",
+              "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'peatland-fires-chart'
+        },
+        {
+          type: 'ifl',
+          name1: 'INTACT FOREST LANDSCAPE AREAS',
+          name2: 'Fire alerts outside of INTACT FOREST LANDSCAPE AREAS',
+          name3: 'Fire alerts in INTACT FOREST LANDSCAPE AREAS',
+          colors: [
+              "rgba(209, 25, 43, 1)",
+              "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'ifl-fires-chart'
+        },
+        {
+          type: 'mining',
+          name1: 'MINING AREAS',
+          name2: 'Fire alerts outside of MINING AREAS',
+          name3: 'Fire aerts in MINING AREAS',
+          colors: [
+            "rgba(253, 240, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'mining-fires-chart'
+        },
+        {
+          type: 'primary_forest',
+          name1: 'PRIMARY FOREST AREAS',
+          name2: 'Fire alerts outside of PRIMARY FOREST AREAS',
+          name3: 'Fire alerts in PRIMARY FOREST AREAS',
+          colors: [
+            "rgba(255, 218, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'primary_forest-fires-chart'
+        },
+        {
+          type: 'plantations',
+          name1: 'PLANTATION AREAS',
+          name2: 'Fire alerts outside of PLANTATION AREAS',
+          name3: 'Fire alerts in PLANTATION AREAS',
+          colors: [
+            "rgba(255, 188, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'plantations-fires-chart'
+        },
+        {
+          type: 'idn_forest_moratorium',
+          name1: 'FOREST MORATORIUM AREAS',
+          name2: 'Fire alerts outside of FOREST MORATORIUM AREAS',
+          name3: 'Fire alerts in FOREST MORATORIUM AREAS',
+          colors: [
+            "rgba(229, 0, 23, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'idn_forest_moratorium-fires-chart'
+        },
+        {
+          type: 'rspo',
+          name1: 'RSPO PALM OIL CONCESSIONS',
+          name2: 'Fire alerts outside of RSPO PALM OIL CONCESSIONS',
+          name3: 'Fire alerts on RSPO PALM OIL CONCESSIONS',
+          colors: [
+            "rgba(209, 25, 43, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'rspo-fires-chart'
+        },
+        {
+          type: 'wood_fiber',
+          name1: 'WOOD FIBER AREAS',
+          name2: 'Fire alerts outside of WOOD FIBER AREAS',
+          name3: 'Fire alerts in WOOD FIBER AREAS',
+          colors: [
+            "rgba(253, 240, 0, 1)",
+            "rgba(216, 212, 212, 1)",
+          ],
+          domElement: 'wood_fiber-fires-chart'
+        },
+        {
+          type: 'green_peace_mining',
+          name1: 'GREEN PEACE MINING CONCESSIONS',
+          name2: 'Fire alerts outside of GREEN PEACE MINING CONCESSIONS',
+          name3: 'Fire alerts on GREEN PEACE MINING CONCESSIONS',
+          colors: [
+            "rgba(243, 250, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'green_peace_mining-fires-chart'
+        },
+        {
+          type: 'logging',
+          name1: 'LOGGING CONCESSIONS',
+          name2: 'Fire alerts outside of LOGGING CONCESSIONS',
+          name3: 'Fire alerts on LOGGING CONCESSIONS',
+          colors: [
+            "rgba(255, 218, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'logging-fires-chart'
+        },
+        {
+          type: 'oil_palm',
+          name1: 'OIL PALM CONCESSIONS',
+          name2: 'Fire alerts outside of OIL PALM CONCESSIONS',
+          name3: 'Fire alerts on OIL PALM CONCESSIONS by company',
+          colors: [
+            "rgba(255, 218, 0, 1)",
+            "rgba(216, 212, 212, 1)"
+          ],
+          domElement: 'oil_palm-fires-chart'
         }
-    ],
+      ],
     subDistrictQuery: {
         outFields: ['SUBDISTRIC', 'DISTRICT', 'fire_count'],
         outFieldsGlobal: ['NAME_2', 'NAME_1', 'fire_count'],
