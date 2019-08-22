@@ -674,9 +674,20 @@ define([
               if (chartConfig.type === 'oil_palm' || chartConfig.type === 'wood_fiber') {
                 document.querySelector('#' + chartConfig.domElement + '-container').style.display = 'inherit';
                 let total = 0;
+                // When exporting the palm oil concession charts, we sort the data because we only take the first 3 items.
+                // There are usually a lot of immaterial data groups, so the data labels don't render well for all of them.
+                const sortedData = res.data.sort((a, b) => {
+                  if (a.alert_count > b.alert_count) {
+                    return -1;
+                  } else if (b.alert_count > a.alert_count) {
+                    return 1;
+                  } else {
+                    return 0;
+                  }
+                });
                 // We cycle through red, green, and blue colors, and chose to alternate them instead of doing a color grid to provide more contrast between narrow data segments.
                 let colorIndex = 'red';
-                res.data.forEach((boundOfData, i) => {
+                sortedData.forEach((boundOfData, i) => {
                   let r = 0, g = 0, b = 0;
                   if (colorIndex === 'red') {
                     r = 255;
@@ -3549,16 +3560,9 @@ define([
           if (showInLegend) {
             // When exporting the palm oil concession charts, we sort the data because we only take the first 3 items.
             // There are usually a lot of immaterial data groups, so the data labels don't render well for all of them.
-            config.data.sort((a, b) => {
-              if (a.y > b.y) {
-                return -1;
-              } else if (b.y > a.y) {
-                return 1;
-              } else {
-                return 0;
-              }
-            });
             var slicedDataForDataLabels = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').slice(0,3);
+            console.log('slied', slicedDataForDataLabels);
+            debugger;
             var dataLabelCount = 0;
           }
 
@@ -3635,7 +3639,8 @@ define([
               labelFormatter: function () {
                 const { name, y } = this;
                 const percentage = Math.round(y / config.total * 100);
-                return `${name}: ${y} fire(s) (${percentage}%)`;
+                const fireOrFires = y > 1 ? 'fires' : 'fire';
+                return `${name}: ${y} ${fireOrFires} (${percentage}%)`;
               }
             },
             exporting: !hasData ? false : {
@@ -3661,13 +3666,11 @@ define([
                   dataLabels: {
                     enabled: true,
                     formatter: function () {
-                      if (slicedDataForDataLabels && dataLabelCount < 3 && !this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
+                      if (slicedDataForDataLabels && dataLabelCount < 3) {
                         const { name, y } = slicedDataForDataLabels[dataLabelCount];
                         dataLabelCount = dataLabelCount + 1;
                         return name + ' ' + Math.round((y / config.total) * 100) + "%";
-                      } else if (this.key.includes('Fire alerts outside of OIL PALM CONCESSIONS')) {
-                        return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
-                      } else if (config.name.includes('WOOD FIBER')) {
+                      } else if (config.name !== 'Fire alerts on OIL PALM CONCESSIONS by company' || this.key === 'Fire alerts outside of OIL PALM CONCESSIONS') {
                         return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
                       } else {
                         return null;
