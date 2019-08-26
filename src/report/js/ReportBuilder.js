@@ -2227,7 +2227,7 @@ define([
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
-
+            console.log('dataFromRequest', dataFromRequest.filter(data => data.year === 2019));
             if (subregionReport || countryReport) { // We don't have an unusual fires chart when viewing the "Global Reports".
             /********************** NOTE **********************
               * The data we get back are objects containing the fire counts for a specific week in a specific year. 
@@ -2623,29 +2623,34 @@ define([
               currentWeekUsuality = 'Low';
             }
 
-            const stringifiedMonth = new Date().toLocaleString('en-us', { month: 'long' });
-            const currentDay = new Date().toLocaleString('en-us', { weekday: 'long' });
-            let stringifiedDayNumber = new Date().toLocaleString('en-us', { day: 'numeric' });
+            const currentDay = moment().format('dddd');
+            let dateString = moment().subtract(7, 'days').format('LL');
 
             if (currentDay !== 'Monday') {
               switch (currentDay) {
                 case 'Tuesday':
-                  return stringifiedDayNumber - 1;
+                  dateString = moment().subtract(8, 'days').format('LL');
+                  break;
 
                 case 'Wednesday':
-                  return stringifiedDayNumber - 2;
+                  dateString = moment().subtract(9, 'days').format('LL');
+                  break;
 
                 case 'Thursday':
-                  return stringifiedDayNumber - 3;
+                  dateString = moment().subtract(10, 'days').format('LL');
+                  break;
 
                 case 'Friday':
-                  return stringifiedDayNumber - 4;
+                  dateString = moment().subtract(11, 'days').format('LL');
+                  break;
 
                 case 'Saturday':
-                  return stringifiedDayNumber - 5;
+                  dateString = moment().subtract(12, 'days').format('LL');
+                  break;
 
                 case 'Sunday':
-                  return stringifiedDayNumber - 6;
+                  dateString = moment().subtract(13, 'days').format('LL');
+                  break;
 
                 default:
                   break;
@@ -2666,7 +2671,7 @@ define([
             }
 
             $('#unusualFiresCountTitle').html(
-              `There were <span style='color: red'>${unusualFiresCount.toLocaleString()}</span> <span style='font-weight: bold'>MODIS</span> fire alerts reported in the week of <span style='font-weight: bold'>${stringifiedMonth} ${stringifiedDayNumber}, ${currentYear}</span>. This was <span style='color: red'>${currentWeekUsuality}</span> compared to the same week in previous years.`
+              `There were <span style='color: red'>${unusualFiresCount.toLocaleString()}</span> <span style='font-weight: bold'>MODIS</span> fire alerts reported in the week of <span style='font-weight: bold'>${dateString}</span>. This was <span style='color: red'>${currentWeekUsuality}</span> compared to the same week in previous years.`
             );
             $('#unusualFiresCountSubtitle').html(
               `Unusual fire history analyses use MODIS fires data only for ${earliestYearOfData} to present.`
