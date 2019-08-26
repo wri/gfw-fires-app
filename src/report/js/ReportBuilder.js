@@ -2222,12 +2222,12 @@ define([
           let unusualFiresCount = 0;
           let earliestYearOfData = currentYear;
           let seriesData, standardDeviationSeries, standardDeviation2Series;
-          console.log('promiseUrls', promiseUrls);
+
           // Determine the type of report: global, state, or regional and run a query
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
-            console.log('res', dataFromRequest.filter(data => data.year === 2019));
+
             if (subregionReport || countryReport) { // We don't have an unusual fires chart when viewing the "Global Reports".
             /********************** NOTE **********************
               * The data we get back are objects containing the fire counts for a specific week in a specific year. 
@@ -2276,13 +2276,9 @@ define([
                 weekObject.sd2 = noSquaredDeviations ? 0 : standardDeviation * 2;
 
                 const currentWeekData = dataFromRequest.find(data => data.year === currentYear && data.week === weekObject.week);
-
-                // console.log('currentWeekData', currentWeekData);
                 weekObject.currentYearAlerts = currentWeekData ? currentWeekData.alerts : 0;
               });
-              // debugger;
-              // console.log('historicalDataByWeek', historicalDataByWeek);
-              // debugger;
+
               /********************** NOTE **********************
                * Per discussion with the client, plotting each week's standard deviation causes immense variances on a weekly basis which is too much noise to analyze.
                * To resolve this, we are to calculate a "window-average" for each week. A "window" begins 6 weeks prior to a specific week and extends 6 weeks beyond, for a total of 13 weeks.
@@ -2365,7 +2361,6 @@ define([
                 }
               });
 
-              console.log('historicalDataByWeek', historicalDataByWeek);
               // On load, we isolate 13 weeks of data, ending at the current week, and plot the current alerts, window averages, +/- 1 SD, and +/- 2 SD.
               const isolated13Weeks = [];
               if (currentWeek > 11) {
@@ -2384,7 +2379,7 @@ define([
                   }
                 }
               }
-              console.log('isolated13Weeks', isolated13Weeks);
+
               let isolatedAlerts = isolated13Weeks.map(week => week.currentYearAlerts);
               let currentWindowAvgs = isolated13Weeks.map(week => week.windowAverage);
               let isolatedStandardDeviation1 = isolated13Weeks.map(week => week.windowStandardDeviation1 + week.windowAverage);
@@ -2400,7 +2395,7 @@ define([
                * To remove this, we must begin our quarter-units at -0.5, and increment each time by .25.
                * Because we are using the `map` methods, we need to reset the xPosition to -0.75, otherwise we can't increment within the function.
               ***************************************************/
-              console.log('isolatedAlerts', isolatedAlerts);
+
               let xPosition = -0.75;
               seriesData = isolatedAlerts.map(x => {
                 xPosition += 0.25;
@@ -2437,7 +2432,6 @@ define([
                 return [xPosition, x];
               });
 
-              console.log('seriesDataAftercreation', seriesData);
               // Save data on our global object for future reference.
               threeMonthDataObject.currentYearFires = seriesData.slice(0);
               threeMonthDataObject.windowSD1 = standardDeviationSeries.slice(0);
@@ -2445,7 +2439,7 @@ define([
               threeMonthDataObject.windowMean = windowAverages.slice(0);
               threeMonthDataObject.windowSDMinus1 = standardDeviationMinus1Series.slice(0);
               threeMonthDataObject.windowSDMinus2 = standardDeviationMinus2Series.slice(0);
-              
+
               // We repeat the process above for 6 months (26 weeks).
               const isolated26Weeks = [];
               if (currentWeek > 24) {
@@ -2634,7 +2628,6 @@ define([
             let stringifiedDayNumber = new Date().toLocaleString('en-us', { day: 'numeric' });
 
             if (currentDay !== 'Monday') {
-              console.log('currentDay', currentDay);
               switch (currentDay) {
                 case 'Tuesday':
                   return stringifiedDayNumber - 1;
@@ -2658,7 +2651,7 @@ define([
                   break;
               }
             }
-            console.log('stringifiedDayNumber', stringifiedDayNumber);
+
             // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
             // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
             const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
