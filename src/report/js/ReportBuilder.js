@@ -2227,7 +2227,7 @@ define([
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
-            console.log('dataFromRequest', dataFromRequest.filter(data => data.year === 2019));
+
             if (subregionReport || countryReport) { // We don't have an unusual fires chart when viewing the "Global Reports".
             /********************** NOTE **********************
               * The data we get back are objects containing the fire counts for a specific week in a specific year. 
