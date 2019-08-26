@@ -2171,7 +2171,6 @@ define([
             document.getElementById('firesCountChartLoading').remove();
           });
         },
-
         buildUnusualFireCountsChart: () => {
           /********************** NOTE **********************
            * This function is where we build out our unusual fires chart for country and subregion reports. There is no support for global reports.
@@ -2250,9 +2249,9 @@ define([
                   sd1: 0,
                   sd2: 0,
                   currentYearAlerts: 0
-                }
+                };
                 historicalDataByWeek.push(historicalWeekObject);
-              };
+              }
 
               // historicalDataByWeek now contains 53 placeholderobjects, so we push an array of all historical alerts from that week to each from our query response.
               dataFromRequest.forEach(weekOfData => historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(weekOfData.alerts));
@@ -2640,6 +2639,19 @@ define([
                * Areaspline charts are smoothed out bar charts. Because we want to show the area underneath these series, we use the areaspline type..
             ***************************************************/
 
+           // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
+           // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
+           const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
+
+           if (!currentWeekDataHasUpdated) {
+             standardDeviation2Series.pop();
+             standardDeviationSeries.pop();
+             seriesData.pop();
+             windowAverages.pop();
+             standardDeviationMinus1Series.pop();
+             standardDeviationMinus2Series.pop();
+           }
+
             var unusualFires = Highcharts.chart('unusualFires', {
               chart: {
                 type: 'line',
@@ -2656,33 +2668,33 @@ define([
               xAxis: {
                 labels: {
                   formatter: function() {
-                      return currentYearToDateArray[this.value];
+                    return currentYearToDateArray[this.value];
                   }
-                },
+                }
               },
               yAxis: {
                 min: 0
               },
               plotOptions: {
                 spline: {
-                    marker: {
-                        enabled: false
-                    }
+                  marker: {
+                    enabled: false
+                  }
                 },
                 areaspline: {
-                    marker: {
-                        enabled: false
-                    }
+                  marker: {
+                    enabled: false
+                  }
                 }
               },
               exporting: { // To add export functionaltiy to new charts, copy the entire exporting object.
                 scale: 4,
                 chartOptions:{
-                  chart:{
+                  chart: {
                     marginTop: 75,
                     marginRight: 20,
-                    events:{
-                      load:function(){
+                    events: {
+                      load: function() {
                         // This function loads the actual content that appears when a user downloads something from the highcharts-contextbutton
                         const countryOrRegion = window.reportOptions.aois ? window.reportOptions.aois : window.reportOptions.country;
                         this.renderer.rect(0, 0, this.chartWidth, 35).attr({
@@ -2746,21 +2758,21 @@ define([
                 {
                   // Standard deviation 2
                   type: 'areaspline',
-                  color: '#E0E0E0', 
+                  color: '#E0E0E0',
                   data: standardDeviation2Series,
                   enableMouseTracking: false
                 },
                 {
                   // Standard deviation 1
                   type: 'areaspline',
-                  color: '#F8F8F8', 
+                  color: '#F8F8F8',
                   data: standardDeviationSeries,
                   enableMouseTracking: false
                 },
                 {
                   // Current Year Data
                   type: 'spline',
-                  color: '#d40000', 
+                  color: '#d40000',
                   data: seriesData,
                   name: 'currentYear',
                   zIndex: 10
@@ -2768,7 +2780,7 @@ define([
                 {
                   // Current Year Average Data
                   type: 'spline',
-                  color: '#e56666', 
+                  color: '#e56666',
                   data: windowAverages,
                   dashStyle: 'longdash',
                   name: 'mean',
@@ -2777,7 +2789,7 @@ define([
                 {
                   // Current Year -sd 1Data
                   type: 'areaspline',
-                  color: '#E0E0E0', 
+                  color: '#E0E0E0',
                   data: standardDeviationMinus1Series,
                   enableMouseTracking: false
                 },
@@ -2802,7 +2814,7 @@ define([
                 
                 // Update the categories based on whether it's 3, 6, or 12 months selected.
                 let selection = $(this).text();
-                rangeOfMonths = selection.includes('12') ? 12 : (selection.includes('6')) ? 6 : 3; 
+                rangeOfMonths = selection.includes('12') ? 12 : (selection.includes('6')) ? 6 : 3;
                 updatedCategoriesArray = [...categoriesArray];
                 currentYearToDateArray = updatedCategoriesArray.splice(0, currentMonth + 1);
                 currentYearToDateArray.unshift(...updatedCategoriesArray)
@@ -2815,6 +2827,20 @@ define([
                 standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0));
                 standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0));
                 standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0));
+
+
+                // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
+                // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
+                // const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
+
+                if (!currentWeekDataHasUpdated) {
+                  standardDeviation2Series.pop();
+                  standardDeviationSeries.pop();
+                  seriesData.pop();
+                  windowAverages.pop();
+                  standardDeviationMinus1Series.pop();
+                  standardDeviationMinus2Series.pop();
+                }
 
                 // Pass in the updated series to Highcharts, and force an update.
                 unusualFires.update({
@@ -2836,20 +2862,20 @@ define([
                     {
                       // Standard deviation 1
                       type: 'areaspline',
-                      color: '#F8F8F8', 
+                      color: '#F8F8F8',
                       data: standardDeviationSeries,
                       enableMouseTracking: false
                     },
                     {
                       // Current Year Data
                       type: 'spline',
-                      color: '#d40000', 
+                      color: '#d40000',
                       data: seriesData
                     },
                     {
                       // Current Year Average Data
                       type: 'spline',
-                      color: '#e56666', 
+                      color: '#e56666',
                       data: windowAverages,
                       dashStyle: 'longdash'
                     },
@@ -3561,8 +3587,6 @@ define([
             // When exporting the palm oil concession charts, we sort the data because we only take the first 3 items.
             // There are usually a lot of immaterial data groups, so the data labels don't render well for all of them.
             var slicedDataForDataLabels = config.data.filter(data => data.name !== 'Fire alerts outside of OIL PALM CONCESSIONS').slice(0,3);
-            console.log('slied', slicedDataForDataLabels);
-            debugger;
             var dataLabelCount = 0;
           }
 
@@ -3765,7 +3789,7 @@ define([
             }
 
             errback = function() {
-                console.log('Cannot get the extent');
+              console.log('Cannot get the extent');
             };
             queryTask.execute(query, callback, errback);
             return deferred.promise;
