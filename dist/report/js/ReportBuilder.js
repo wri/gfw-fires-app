@@ -2588,8 +2588,8 @@ define([
               twelveMonthDataObject.windowSDMinus2 = twelveMonthStandardDeviationMinus2Series.slice(0);
 
               // Calculate unusual fire counts. We need isolate all of the current week and current year data from the historical data.
-              arrayToFindFiresCount = dataFromRequest.filter(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
-              unusualFiresCount = arrayToFindFiresCount.length > 0 ? arrayToFindFiresCount['0'].alerts : 0;
+              const arrayToFindFiresCount = dataFromRequest.find(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
+              unusualFiresCount = seriesData[seriesData.length - 1][1] ? seriesData[seriesData.length - 1][1] : 0;
               earliestYearOfData = currentYear;
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
@@ -2612,25 +2612,25 @@ define([
             const stndrdDevMin1 = twelveMonthDataObject.windowSDMinus1[currentMonth - 1]['1'];
             const stndrdDevMin2 = twelveMonthDataObject.windowSDMinus2[currentMonth - 1]['1'];
 
-            // Update our usuality based on where the current week fires are in relation to the standard deviation.
-            let currentWeekUsuality;
-            if (unusualFiresCount > stndrdDev2) {
-              currentWeekUsuality = 'Unusually High';
-            } else if (unusualFiresCount > stndrdDev1) {
-              currentWeekUsuality = 'High';
-            } else if (unusualFiresCount < stndrdDev1 && unusualFiresCount > stndrdDevMin1) {
-              currentWeekUsuality = 'Average';
-            } else if (unusualFiresCount < stndrdDevMin2) {
-              currentWeekUsuality = 'Unusually Low';
-            } else {
-              currentWeekUsuality = 'Low';
-            }
+            // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
+            // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
+            const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
+            let dateString = moment().format('LL');
+            if (!currentWeekDataHasUpdated) {
+              standardDeviation2Series.pop();
+              standardDeviationSeries.pop();
+              seriesData.pop();
+              windowAverages.pop();
+              standardDeviationMinus1Series.pop();
+              standardDeviationMinus2Series.pop();
+              unusualFiresCount = seriesData[seriesData.length - 1][1];
 
-            const currentDay = moment().format('dddd');
-            let dateString = moment().subtract(7, 'days').format('LL');
-
-            if (currentDay !== 'Monday') {
+              const currentDay = moment().format('dddd');
               switch (currentDay) {
+                case 'Monday':
+                  dateString = moment().subtract(7, 'days').format('LL');
+                  break;
+
                 case 'Tuesday':
                   dateString = moment().subtract(8, 'days').format('LL');
                   break;
@@ -2660,17 +2660,18 @@ define([
               }
             }
 
-            // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
-            // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
-            const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
-            if (!currentWeekDataHasUpdated) {
-              standardDeviation2Series.pop();
-              standardDeviationSeries.pop();
-              seriesData.pop();
-              windowAverages.pop();
-              standardDeviationMinus1Series.pop();
-              standardDeviationMinus2Series.pop();
-              unusualFiresCount = seriesData[seriesData.length - 1][1];
+            // Update our usuality based on where the current week fires are in relation to the standard deviation.
+            let currentWeekUsuality;
+            if (unusualFiresCount > stndrdDev2) {
+              currentWeekUsuality = 'Unusually High';
+            } else if (unusualFiresCount > stndrdDev1) {
+              currentWeekUsuality = 'High';
+            } else if (unusualFiresCount < stndrdDev1 && unusualFiresCount > stndrdDevMin1) {
+              currentWeekUsuality = 'Average';
+            } else if (unusualFiresCount < stndrdDevMin2) {
+              currentWeekUsuality = 'Unusually Low';
+            } else {
+              currentWeekUsuality = 'Low';
             }
 
             $('#unusualFiresCountTitle').html(
@@ -2767,9 +2768,9 @@ define([
                       usuality = 'Unusually High';
                     } else if (fires > sd1) {
                       usuality = 'High';
-                    } else if (fires  < sd1 && fires > sdMinus1) {
+                    } else if (fires < sd1 && fires > sdMinus1) {
                       usuality = 'Average';
-                    } else if (fires  < sdMinus2) {
+                    } else if (fires < sdMinus2) {
                       usuality = 'Unusually Low';
                     } else {
                       usuality = 'Low';
@@ -3208,11 +3209,6 @@ define([
                   var concessionsFinalArray = [];
 
                   concessionsFinalArray = combineConcessionsArray.slice(0, 9);
-                  // combineConcessionsArray.map(function (item, index) {
-                  //   if (index > combineConcessionsArray.length - 10) {
-                  //     concessionsFinalArray.push(item);
-                  //   }
-                  // });
 
                   if (concessionsFinalArray.length > 0) {
                     concessionsFinalArray = concessionsFinalArray.reverse();
