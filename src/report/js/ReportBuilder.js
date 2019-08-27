@@ -2613,7 +2613,7 @@ define([
             // In order to be consistent with the main GFW application, we check if the current week has data
             const currentWeekData = dataFromRequest.find(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
             let dateString = moment().format('LL');
-            if (currentWeekData == null) {
+            if (!currentWeekData) {
               // If there isn't data for the current week, we use the previous week's data.
               // To get it, we pop off the last data item which was assigned to the previous year's data in our logic above.
               standardDeviation2Series.pop();
@@ -2901,7 +2901,7 @@ define([
                 // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
                 // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
 
-                if (currentWeekData == null) {
+                if (!currentWeekData) {
                   standardDeviation2Series.pop();
                   standardDeviationSeries.pop();
                   seriesData.pop();
