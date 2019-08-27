@@ -2321,7 +2321,7 @@ define([
                   }
                   historicalDataByWeek[weekIndex].windowAverage = Math.round((sumOfWindowAverages / 13));
                 }
-              })  
+              });
 
               // Now that our window averages have been properly calculated, we repeat the same process above to calculate the "window" standard deviations for each week
               historicalDataByWeek.forEach((week, weekIndex) => {
@@ -2587,9 +2587,6 @@ define([
               twelveMonthDataObject.windowSDMinus1 = twelveMonthStandardDeviationMinus1Series.slice(0);
               twelveMonthDataObject.windowSDMinus2 = twelveMonthStandardDeviationMinus2Series.slice(0);
 
-              // Calculate unusual fire counts. We need isolate all of the current week and current year data from the historical data.
-              const arrayToFindFiresCount = dataFromRequest.find(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
-              unusualFiresCount = seriesData[seriesData.length - 1][1] ? seriesData[seriesData.length - 1][1] : 0;
               earliestYearOfData = currentYear;
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
@@ -2612,11 +2609,13 @@ define([
             const stndrdDevMin1 = twelveMonthDataObject.windowSDMinus1[currentMonth - 1]['1'];
             const stndrdDevMin2 = twelveMonthDataObject.windowSDMinus2[currentMonth - 1]['1'];
 
-            // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
-            // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
-            const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
+            // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0
+            // In order to be consistent with the main GFW application, we check if the current week has data
+            const currentWeekDataExists = dataFromRequest.find(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
             let dateString = moment().format('LL');
-            if (!currentWeekDataHasUpdated) {
+            if (currentWeekDataExists == null) {
+              // If there isn't data for the current week, we use the previous week's data.
+              // To get it, we pop off the last data item which was assigned to the previous year's data in our logic above.
               standardDeviation2Series.pop();
               standardDeviationSeries.pop();
               seriesData.pop();
@@ -2625,6 +2624,7 @@ define([
               standardDeviationMinus2Series.pop();
               unusualFiresCount = seriesData[seriesData.length - 1][1];
 
+              // Data updates on Mondays, so since we're taking the previous week's data we need to adjust the date to last Monday
               const currentDay = moment().format('dddd');
               switch (currentDay) {
                 case 'Monday':
@@ -2658,9 +2658,42 @@ define([
                 default:
                   break;
               }
+            } else {
+              // If we have data for the current week, we need to adjust the date to be the most recent Monday.
+              const currentDay = moment().format('dddd');
+              switch (currentDay) {
+                case 'Tuesday':
+                  dateString = moment().subtract(1, 'days').format('LL');
+                  break;
+
+                case 'Wednesday':
+                  dateString = moment().subtract(2, 'days').format('LL');
+                  break;
+
+                case 'Thursday':
+                  dateString = moment().subtract(3, 'days').format('LL');
+                  break;
+
+                case 'Friday':
+                  dateString = moment().subtract(4, 'days').format('LL');
+                  break;
+
+                case 'Saturday':
+                  dateString = moment().subtract(5, 'days').format('LL');
+                  break;
+
+                case 'Sunday':
+                  dateString = moment().subtract(6, 'days').format('LL');
+                  break;
+
+                default:
+                  break;
+              }
             }
 
             // Update our usuality based on where the current week fires are in relation to the standard deviation.
+            unusualFiresCount = seriesData[seriesData.length - 1][1] ? seriesData[seriesData.length - 1][1] : 0;
+
             let currentWeekUsuality;
             if (unusualFiresCount > stndrdDev2) {
               currentWeekUsuality = 'Unusually High';
@@ -2867,9 +2900,8 @@ define([
 
                 // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
                 // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
-                // const currentWeekDataHasUpdated = seriesData[seriesData.length - 1][1] !== 0 ? true : false;
 
-                if (!currentWeekDataHasUpdated) {
+                if (currentWeekDataExists == null) {
                   standardDeviation2Series.pop();
                   standardDeviationSeries.pop();
                   seriesData.pop();
