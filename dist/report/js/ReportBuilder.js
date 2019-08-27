@@ -554,7 +554,6 @@ define([
                 }
 
                 tableRows += sortCombinedResults.map(function (feature) {
-                  // const { fire_count, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
                   const { fire_count, id_0, id_1, id_2, NAME_0, NAME_1, NAME_2, ISLAND, SUBDISTRIC } = feature.attributes;
                   const colorValue = fire_count;
                   const admin1 = NAME_1 ? NAME_1 : NAME_0;
@@ -612,7 +611,6 @@ define([
               } else if (feature_id === 'id_2' || window.reportOptions.aoiId) { // if they chose a country and a subregion from fires ui
                 options[boundaryConfig.layerIdGlobal] = ldos;
                 defExp = feature_id + " in (" + dist_names.join(",") + ") AND iso = '" + currentISO + "'";
-                // defExp = feature_id + " in (" + dist_names.join(",") + ") AND NAME_1 in ('" + window.reportOptions.aois + "') AND iso = '" + currentISO + "'";
               } else { // if only country selected without subregion
                 options[boundaryConfig.layerIdGlobal] = ldos;
                 const ids = window.reportOptions.stateObjects.map((adm) => {
@@ -647,7 +645,7 @@ define([
 
             return deferred.promise;
           });
-        }, // END
+        },
 
         createPieChart: function(firesCount, chartConfig) {
           return new Promise(resolve => {
@@ -2227,7 +2225,7 @@ define([
           Promise.all(promiseUrls.map(promiseUrl => {
             return request.get(promiseUrl, handleAs);
           })).then(response => dataFromRequest = response[0].data).then(() => {
-            console.log('dataFromRequest', dataFromRequest.filter(data => data.year === 2019));
+
             if (subregionReport || countryReport) { // We don't have an unusual fires chart when viewing the "Global Reports".
             /********************** NOTE **********************
               * The data we get back are objects containing the fire counts for a specific week in a specific year. 
@@ -2275,7 +2273,12 @@ define([
                 weekObject.sd1 = noSquaredDeviations ? 0 : standardDeviation;
                 weekObject.sd2 = noSquaredDeviations ? 0 : standardDeviation * 2;
 
-                const currentWeekData = dataFromRequest.find(data => data.year === currentYear && data.week === weekObject.week);
+                // If the current week is beyond the weekObject.week, we need to go to the previous year's data
+                if (weekObject.week >= currentWeek) {
+                  var currentWeekData = dataFromRequest.find(data => data.year === currentYear - 1 && data.week === weekObject.week);
+                } else {
+                  var currentWeekData = dataFromRequest.find(data => data.year === currentYear && data.week === weekObject.week);
+                }
                 weekObject.currentYearAlerts = currentWeekData ? currentWeekData.alerts : 0;
               });
 
@@ -2538,7 +2541,7 @@ define([
               isolatedStandardDeviation2 = isolated52Weeks.map(week => week.windowStandardDeviation2 + week.windowAverage);
               isolatedStandardDeviationMinus1 = isolated52Weeks.map(week => week.windowAverage - week.windowStandardDeviation1);
               isolatedStandardDeviationMinus2 = isolated52Weeks.map(week => week.windowAverage - week.windowStandardDeviation2);
-              
+
               // Add an x value to plot each point in the proper month and send each series of data to highcharts
               xPosition = -0.75;
               twelveMonthSeriesData = isolatedAlerts.map(x => {
@@ -2687,7 +2690,7 @@ define([
 
             var unusualFires = Highcharts.chart('unusualFires', {
               chart: {
-                type: 'line',
+                type: 'line'
               },
               title: {
                 text: ''
@@ -2757,7 +2760,7 @@ define([
                     const sd1 = twelveMonthDataObject.windowSD1[adjustedIndex]['1'];
                     const sdMinus1 = twelveMonthDataObject.windowSDMinus1[adjustedIndex]['1'];
                     const sdMinus2 = twelveMonthDataObject.windowSDMinus2[adjustedIndex]['1'];
-                    
+
                     // Update our usuality based on where the current week fires are in relation to the standard deviation.
                     let usuality;
                     if (fires > sd2) {
@@ -2771,7 +2774,7 @@ define([
                     } else {
                       usuality = 'Low';
                     }
-        
+
                     return (
                       '<div class="history-chart-tooltip__container">' +
                       '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + `<span class="firesCountChart__text"> ${fireOrFires} This Week</span></h3>` +
@@ -2860,7 +2863,6 @@ define([
                 standardDeviation2Series = selection.includes('12') ? twelveMonthDataObject.windowSD2.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSD2.slice(0) : threeMonthDataObject.windowSD2.slice(0));
                 standardDeviationMinus1Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus1.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSDMinus1.slice(0) : threeMonthDataObject.windowSDMinus1.slice(0));
                 standardDeviationMinus2Series = selection.includes('12') ? twelveMonthDataObject.windowSDMinus2.slice(0) : (selection.includes('6') ? sixMonthDataObject.windowSDMinus2.slice(0) : threeMonthDataObject.windowSDMinus2.slice(0));
-
 
                 // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
                 // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
