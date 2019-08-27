@@ -2588,8 +2588,8 @@ define([
               twelveMonthDataObject.windowSDMinus2 = twelveMonthStandardDeviationMinus2Series.slice(0);
 
               // Calculate unusual fire counts. We need isolate all of the current week and current year data from the historical data.
-              arrayToFindFiresCount = dataFromRequest.filter(weekOfData => weekOfData.week === currentWeek && weekOfData.year === currentYear);
-              unusualFiresCount = arrayToFindFiresCount.length > 0 ? arrayToFindFiresCount['0'].alerts : 0;
+              arrayToFindFiresCount = dataFromRequest.find(weekOfData => weekOfData.week === currentWeek - 1 && weekOfData.year === currentYear);
+              unusualFiresCount = arrayToFindFiresCount ? arrayToFindFiresCount.alerts : 0;
               earliestYearOfData = currentYear;
               dataFromRequest.forEach(week => week.year < earliestYearOfData ? earliestYearOfData = week.year : earliestYearOfData);
 
@@ -2767,9 +2767,9 @@ define([
                       usuality = 'Unusually High';
                     } else if (fires > sd1) {
                       usuality = 'High';
-                    } else if (fires  < sd1 && fires > sdMinus1) {
+                    } else if (fires < sd1 && fires > sdMinus1) {
                       usuality = 'Average';
-                    } else if (fires  < sdMinus2) {
+                    } else if (fires < sdMinus2) {
                       usuality = 'Unusually Low';
                     } else {
                       usuality = 'Low';
