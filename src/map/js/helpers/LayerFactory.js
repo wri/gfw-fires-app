@@ -76,8 +76,8 @@ export default (layer) => {
         const imageUrl = layer.id === 'viirsFires' ?
           // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
           // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
-          'http://gis-gfw.wri.org/FireflyD20.png';
-          'http://gis-gfw.wri.org/FireflyC20.png':
+          'http://gis-gfw.wri.org/FireflyD20.png' :
+          'http://gis-gfw.wri.org/FireflyC20.png';
 
         const symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
 
