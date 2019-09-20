@@ -3809,8 +3809,10 @@ define([
                       } else {
                         return null;
                       }
-                    } else {
+                    } else if (this.key.includes('alerts')) {
                       return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                    } else {
+                      return 'Fire alerts on ' + this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
                     }
                   }
                 }
