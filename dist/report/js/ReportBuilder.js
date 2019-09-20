@@ -3548,22 +3548,45 @@ define([
                 }, (err) => {
                   document.getElementById('firesLineChartLoading').remove();
                 });
+                
+              // Old query to get the joined alerts of Modis and Viirs for a specific region 
+                // let totalFireAlertsUrl;
+                // if (window.reportOptions.aoiId) {
+                //   totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                // } else {
+                //   totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                // }
 
-                let totalFireAlertsUrl;
+                // request.get(totalFireAlertsUrl, {
+                //   handleAs: 'json'
+                // }).then((res) => {
+                //   const total = res.data.attributes.value[0].alerts;
+
+                //   // $("#totalFireAlerts").html(self.numberWithCommas(total));
+                // });
 
                 if (window.reportOptions.aoiId) {
-                  totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                  var urlForTotalModisFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=modis`;
+                  var urlForTotalViirsFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=viirs`;
                 } else {
-                  totalFireAlertsUrl = Config.fires_api_endpoint + 'admin/' + queryFor + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
+                  var urlForTotalModisFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=modis`;
+                  var urlForTotalViirsFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=viirs`;
                 }
 
-                request.get(totalFireAlertsUrl, {
-                  handleAs: 'json'
-                }).then((res) => {
-                  const total = res.data.attributes.value[0].alerts;
-                  $("#totalFireAlerts").html(self.numberWithCommas(total));
-                });
+                const urlsForTotalFireAlerts = [];
+                urlsForTotalFireAlerts.push(urlForTotalModisFireAlerts);
+                urlsForTotalFireAlerts.push(urlForTotalViirsFireAlerts);
 
+                Promise
+                  .all(urlsForTotalFireAlerts.map( array => request(array, {handleAs: 'json'})))
+                  .then( results => {
+                    const totalModisFires = results.find( result => result.data.fire_type === 'modis').data.attributes.value[0].alerts;
+                    const totalViirsFires = results.find( result => result.data.fire_type === 'viirs').data.attributes.value[0].alerts;
+
+                    $("#totalModisFireAlerts").html(self.numberWithCommas(totalModisFires));
+                    $("#totalViirsFireAlerts").html(self.numberWithCommas(totalViirsFires));
+                  })
+                  .catch( err => console.log('error processing queries: ', err) );
 
               function createFigure(fireData, fireDataLabels) {
                 $("#totalFiresLabel").show();
@@ -3786,8 +3809,10 @@ define([
                       } else {
                         return null;
                       }
-                    } else {
+                    } else if (this.key.includes('alerts')) {
                       return this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
+                    } else {
+                      return 'Fire alerts on ' + this.key + ' ' + Math.round((this.y / config.total) * 100) + "%";
                     }
                   }
                 }
