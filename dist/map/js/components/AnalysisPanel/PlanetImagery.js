@@ -81,7 +81,7 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 				    activeImagery = _this$props.activeImagery;
 
 
-				var defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
+				var defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[1] : quarterlyBasemaps[1];
 
 				if (defaultBasemap) {
 					_MapActions.mapActions.setActivePlanetBasemap.defer(defaultBasemap);
@@ -102,7 +102,7 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 				    activeCategory = _this$props2.activeCategory,
 				    activeImagery = _this$props2.activeImagery;
 
-				var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+				var filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps.slice(1) : quarterlyBasemaps.slice(1);
 				var choice = filterBasemaps.find(function (basemap) {
 					return basemap.value === value;
 				});
@@ -149,7 +149,7 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 				    activePlanetPeriod = _props2.activePlanetPeriod;
 
 
-				var basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+				var basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps.slice(1) : quarterlyBasemaps.slice(1);
 
 				var defaultBasemap = basemaps.find(function (item) {
 					return item.label === activePlanetPeriod;
@@ -175,6 +175,9 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 				    activeCategory = _props3.activeCategory,
 				    activePlanetBasemap = _props3.activePlanetBasemap;
 
+
+				var monthlyOptions = monthlyBasemaps.slice(1);
+				var quarterlyOptions = quarterlyBasemaps.slice(1);
 
 				return _react2.default.createElement(
 					'div',
@@ -205,7 +208,7 @@ define(['exports', 'react', 'react-select', 'helpers/ShareHelper', 'actions/MapA
 								multi: false,
 								clearable: false,
 								value: activePlanetBasemap,
-								options: activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps,
+								options: activeCategory === 'PLANET-MONTHLY' ? monthlyOptions : quarterlyOptions,
 								onChange: this.handleBasemap.bind(this),
 								style: {
 									width: '175px'

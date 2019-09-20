@@ -74,8 +74,10 @@ export default (layer) => {
 
         // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
         const imageUrl = layer.id === 'viirsFires' ?
-          'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
-          'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+          // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
+          // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+          'http://gis-gfw.wri.org/FireflyD20.png' :
+          'http://gis-gfw.wri.org/FireflyC20.png';
 
         const symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
 
