@@ -130,12 +130,12 @@ define([
               self.buildUnusualFireCountsChart();
             } else {
                // The DOM does not allow an element to remove itself, it must be removed from it's parent.
-              const unusualFiresChart = document.getElementById('unusualFiresHistory'); 
+              const unusualFiresChart = document.getElementById('unusualFiresHistory');
               unusualFiresChart.parentNode.removeChild(unusualFiresChart);
             }
 
             // Creates the Annual Fire History graph
-            self.getFireHistoryCounts()
+            self.getFireHistoryCounts();
 
             document.querySelector('.report-section__charts-container_countries').style.display = '';
             document.querySelector('#ConcessionRspoContainer').style.display = 'none';
@@ -2178,11 +2178,11 @@ define([
             * We parse the query results and organize all of the data into an array of week-objects.
             * The week-objects are used to calculate averages and standard deviations, and are formatted so that we can plot the data into highcharts.
           ***************************************************/
-         
+
           // Make the query dynamic by pulling in the countryCode using the window options and our config file.
           const currentCountry = window.reportOptions.country;
           const countryCode = Config.countryFeatures.filter(countryObject => countryObject['English short name'].includes(currentCountry))[0]['Alpha-3 code'];
-         
+
           const handleAs = { handleAs: 'json' };
           const promiseUrls = [];
           let sourceOfData = 'MODIS' || 'VIIRS';
@@ -2191,8 +2191,8 @@ define([
           const countrySuffix = `ff289906-aa83-4a89-bba0-562edd8c16c6?sql=SELECT%20iso,%20adm1,%20adm2,%20week,%20year,%20alerts%20as%20count,%20area_ha,%20polyname%20FROM%20data%20WHERE%20iso%20=%20%27${countryCode}%27%20AND%20polyname%20=%20%27admin%27%20AND%20fire_type%20=%20%27${sourceOfData}%27`;
           const subregionReport = window.reportOptions.aois;
           const countryReport = window.reportOptions.country !== 'ALL';
-          const queryUrl = subregionReport ?  `${queryPrefix}/${stateQuerySuffix}` : (countryReport ? `${queryPrefix}/${countrySuffix}` : null);
-          
+          const queryUrl = subregionReport ? `${queryPrefix}/${stateQuerySuffix}` : (countryReport ? `${queryPrefix}/${countrySuffix}` : null);
+
           promiseUrls.push(queryUrl);
           let dataFromRequest = {};
           let threeMonthDataObject = {};
@@ -2711,7 +2711,7 @@ define([
               `There were <span style='color: red'>${unusualFiresCount.toLocaleString()}</span> <span style='font-weight: bold'>MODIS</span> fire alerts reported in the week of <span style='font-weight: bold'>${dateString}</span>. This was <span style='color: red'>${currentWeekUsuality}</span> compared to the same week in previous years.`
             );
             $('#unusualFiresCountSubtitle').html(
-              `Unusual fire history analyses use MODIS fires data only for ${earliestYearOfData} to present.`
+              `Unusual fire history analyses use MODIS fire alerts data only for ${earliestYearOfData} to present.`
             );
 
             /********************** NOTE **********************
@@ -2789,7 +2789,7 @@ define([
                     adjustedIndex = rangeOfMonths === 3 ? adjustedIndex + 39 : rangeOfMonths === 6 ? adjustedIndex + 26 : adjustedIndex;
 
                     const fires = this.point.y;
-                    const fireOrFires = fires === 1 ? 'Fire' : 'Fires';
+                    const fireOrFires = fires === 1 ? 'Fire Alert' : 'Fire Alerts';
                     const sd2 = twelveMonthDataObject.windowSD2[adjustedIndex]['1'];
                     const sd1 = twelveMonthDataObject.windowSD1[adjustedIndex]['1'];
                     const sdMinus1 = twelveMonthDataObject.windowSDMinus1[adjustedIndex]['1'];
@@ -2818,7 +2818,7 @@ define([
                   } else if (this.series.name === 'mean') {
                     return (
                       '<div class="history-chart-tooltip__container">' +
-                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fires On Average</span></h3>' +
+                      '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.y, 0, '.', ',') + '<span class="firesCountChart__text"> Fire Alerts On Average</span></h3>' +
                       '</div>'
                     )
                   }
@@ -3070,7 +3070,7 @@ define([
               formatter: function () {
                 return (
                   '<div class="history-chart-tooltip__container">' +
-                  '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fires</span></h3>' +
+                  '<h3 class="history-chart-tooltip__content">' + Highcharts.numberFormat(this.point.z, 0, '.', ',') + '<span class="firesCountChart__text"> Fire Alerts</span></h3>' +
                   '<p class="firesCountChart__popup">' + this.point.x + '</p>' +
                   '</div>'
                 );
@@ -3652,7 +3652,7 @@ define([
                       enabled: false
                     },
                     series: [{
-                      name: 'Daily Fires',
+                      name: 'Daily Fire Alerts',
                       data: fireData,
                       color: '#f49f2d'
                     }]
@@ -3723,7 +3723,7 @@ define([
               shadow: false,
               enabled: true,
               formatter: function() {
-                return this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fires)";
+                return this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fire alerts)";
               }
             },
             credits: {
