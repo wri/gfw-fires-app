@@ -87,6 +87,9 @@ html(lang="en")
               div.fire-alert__container1
                 p VIIRS Fire Alerts
 
+        div.top-banner-info-text 
+          p The data shown on this page represents information on “fire alerts” or “hotspots” detected by thermal sensors on different NASA satellites resulting in two fire products, labeled MODIS and VIIRS throughout this report. It is important to distinguish fire alerts from actual fires. A fire alert is the detection of a thermal anomaly from a surface that is produces a substantial amount of heat, which could range from a fire to a hot asphalt road. Although the occurrence of false positives is relatively low (7% for MODIS Version 6), they can still occur, especially in areas with more man-made surfaces. The accuracy of the alerts within forests varies with the size of the fire and tree canopy density. Additionally, GFW reports all fire alerts and does not filter by any alert confidence level, while some other platforms might.
+        
         div#aoiListSection.border-top-separator
           h3#aoiList
 
@@ -181,11 +184,14 @@ html(lang="en")
             div(class='sub-title')
             div(class='no-break')
               div#rspo-cert-table
-        div#section-seven(class='page-break')
-          div.report-section__charts-container_countries
+        
+        div#section-seven(class='page-break') 
+          div#infoTextContainer
+            h3.pie-chart-title.pie-chart-title-higher.land-use-info-text Fire alerts by LAND USE AREA
+            p The information shown here represents the publicly available data from various sources that are compiled by Global Forest Watch. However, some jurisdictions do not make their official land use licenses publicly accessible. Due to this reason, not all current concessions are captured in these charts, nor the boundaries are the most accurate and up-to-date, thus, this information cannot be used to clear companies’ names for legal purposes.
+          div.report-section__charts-container_countries.no-border
             div#land-use-fires-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
-                h3.pie-chart-title.pie-chart-title-higher Fire alerts by LAND USE AREA
                 div#land-use-fires-chart(class='chart')
 
             div#wdpa-fires-chart-container(class='chart-container-countries country-pie-chart')
