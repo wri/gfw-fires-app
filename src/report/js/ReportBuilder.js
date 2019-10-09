@@ -124,14 +124,16 @@ define([
 
             // Creates the Fire History: Fire Season Progression graph
             self.getFireCounts();
-            
+
             // Creates the Unusual Fires Chart. The chart should not be visibile on Global Reports.
             if (window.reportOptions.country !== 'ALL') {
               self.buildUnusualFireCountsChart();
             } else {
-               // The DOM does not allow an element to remove itself, it must be removed from it's parent.
+              // The DOM does not allow an element to remove itself, it must be removed from it's parent.
               const unusualFiresChart = document.getElementById('unusualFiresHistory');
               unusualFiresChart.parentNode.removeChild(unusualFiresChart);
+              const landUseInformationalText = document.getElementById('infoTextContainer');
+              landUseInformationalText.parentNode.removeChild(landUseInformationalText);
             }
 
             // Creates the Annual Fire History graph
