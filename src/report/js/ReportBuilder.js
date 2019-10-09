@@ -3566,14 +3566,11 @@ define([
 
                 //   // $("#totalFireAlerts").html(self.numberWithCommas(total));
                 // });
+                
+                const subquery = window.reportOptions.aoiId ? `/${window.reportOptions.aoiId}` : '';
 
-                if (window.reportOptions.aoiId) {
-                  var urlForTotalModisFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=modis`;
-                  var urlForTotalViirsFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}/${window.reportOptions.aoiId}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=viirs`;
-                } else {
-                  var urlForTotalModisFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=modis`;
-                  var urlForTotalViirsFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=viirs`;
-                }
+                const urlForTotalModisFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}${subquery}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=modis`;
+                const urlForTotalViirsFireAlerts = `${Config.fires_api_endpoint}admin/${queryFor}${subquery}?period=${self.startDateRaw},${self.endDateRaw}&fire_type=viirs`;
 
                 const urlsForTotalFireAlerts = [];
                 urlsForTotalFireAlerts.push(urlForTotalModisFireAlerts);
