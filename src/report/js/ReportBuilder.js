@@ -3722,7 +3722,13 @@ define([
               shadow: false,
               enabled: true,
               formatter: function() {
-                return this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fire alerts)";
+                if (this.key.includes('Fire alerts')) {
+                  // The tooltip needs to say "fire alerts outside..." for the grayed out section of the pie chart
+                  return this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fire alerts)";
+                } else {
+                  // The tooltip needs to say "fire alerts on..." for the highlighted section of the pie chart
+                  return 'Fire alerts on ' + this.key + ': ' + Math.round((this.y / config.total) * 100) + "% (" + this.y + " fire alerts)";
+                }
               }
             },
             credits: {
