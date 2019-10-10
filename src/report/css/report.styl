@@ -503,18 +503,22 @@ input.share-link-input {
   -webkit-animation sk-rotateplane 1.2s infinite ease-in-out
   animation sk-rotateplane 1.2s infinite ease-in-out
 
+.top-banner-info-text
+  p
+    font-size: 12px
+    font-style: italic
+
 .land-use-info-text
   border-top: 1px solid #ffcecb
-  font-style: italic
   margin-top: 0 !important
   padding-top: 10px
   position: inherit
   top: auto
-  font-size: 12px
 
-.top-banner-info-text
-  font-style: italic
-  font-size: 12px
+#infoTextContainer
+  p
+    font-style: italic
+    font-size: 12px
 
 @keyframes sk-rotateplane {
   0% { 
@@ -561,17 +565,7 @@ input.share-link-input {
 .fires-table .number-column
   min-width 50px
 
-//#all-concessions-fires-table .fires-table th:nth-child(3)
-//  background-color #118bbb
-
-//#all-concessions-fires-table .fires-table tr > td:nth-child(3)
-//  background-color #f8c8a9
-
-//.fires-table tr > td:first-child, .fires-table tr > td:nth-child(2)
-//  background-color #cddfb1
-
 .fires-table tr > td:last-child
-//background-color #f8c8a9
   text-align center
   padding 5px 0
 
@@ -593,7 +587,6 @@ input.share-link-input {
   left calc(50% - 30px);
   background url('images/loading.svg') no-repeat center
   background-size cover
-  //background url('images/loader.gif') no-repeat center
 
 @media print
   .page-break
@@ -613,7 +606,6 @@ input.share-link-input {
   margin-top: 2em;
   padding-top: 1em;
   border-top: 1px solid #ffcecb;
-//background: rgba(255, 0, 0, 0.02);
 }
 
 .report-section__charts-container_countries {
@@ -623,20 +615,10 @@ input.share-link-input {
   display: flex;
   flex-direction: column;
   padding-top: 50px;
-//background: rgba(255, 0, 0, 0.02);
 }
 
 .no-border
   border: none
-
-
-// .report-section__charts-container_countries div:nth-of-type(even) {
-//   justify-content: flex-start;
-// }
-
-// .report-section__charts-container_countries div:nth-of-type(odd) {
-//   justify-content: flex-end;
-// }
 
 tspan {
   font-family: 'Fira Sans', Georgia, serif
