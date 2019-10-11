@@ -2,6 +2,11 @@ GFW-Fires
 ---
 Please read this before beginning development to learn how to get started and how to change some simple components of the application.
 
+
+## Latest Build:
+Production: https://fires.globalforestwatch.org
+Staging: https://fires-staging.globalforestwatch.org
+
 ## Quickstart
 - install [node.js](http://nodejs.org/)
 - clone this repo `git clone git@github.com:wri/gfw-fires-app.git`
