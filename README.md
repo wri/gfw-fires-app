@@ -5,6 +5,7 @@ Please read this before beginning development to learn how to get started and ho
 
 ## Latest Build:
 Production: https://fires.globalforestwatch.org
+
 Staging: https://fires-staging.globalforestwatch.org
 
 ## Quickstart
