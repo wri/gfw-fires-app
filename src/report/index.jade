@@ -80,11 +80,16 @@ html(lang="en")
           div.num-of-fires__wraper
             div.num-of-fires__content
               span#confidence-count During this time period, there were
-              span#totalFireAlerts
+              span#totalModisFireAlerts
               div.fire-alert__container
-                p Fire
-                p Alerts
+                p MODIS and
+              span#totalViirsFireAlerts
+              div.fire-alert__container1
+                p VIIRS Fire Alerts
 
+        div.top-banner-info-text 
+          p The data shown on this page represents information on “fire alerts” or “hotspots” detected by thermal sensors on different NASA satellites resulting in two fire products, labeled MODIS and VIIRS throughout this report. It is important to distinguish fire alerts from actual fires. A fire alert is the detection of a thermal anomaly from a surface that is produces a substantial amount of heat, which could range from a fire to a hot asphalt road. Although the occurrence of false positives is relatively low (7% for MODIS Version 6), they can still occur, especially in areas with more man-made surfaces. The accuracy of the alerts within forests varies with the size of the fire and tree canopy density. Additionally, GFW reports all fire alerts and does not filter by any alert confidence level, while some other platforms might.
+        
         div#aoiListSection.border-top-separator
           h3#aoiList
 
@@ -102,10 +107,10 @@ html(lang="en")
                     div#fires-legend
                       div.legend-swatch__container
                           span(class='legend-swatch-round hc-fire viirs-fires-color')
-                          span(class='legend-label viirs-fires-label') VIIRS Fires
+                          span(class='legend-label viirs-fires-label') VIIRS Fire Alerts
                       div.legend-swatch__container
                           span(class='legend-swatch-round hc-fire modis-fires-color')
-                          span(class='legend-label modis-fires-label') MODIS Fires
+                          span(class='legend-label modis-fires-label') MODIS Fire Alerts
 
         div#section-two.map-section.page-break
           h3.report-section__title.text-center Greatest number of fire alerts by <span class="admin-type-1">PROVINCE</span>
@@ -145,7 +150,7 @@ html(lang="en")
 
         div#section-four.page-break.border-top-separator
           h3.report-section__title
-            | FIRE ALERT COUNT JAN 1,&nbsp;
+            | FIRE ALERTS COUNT JAN 1,&nbsp;
             span.fire-alert-count__year 2001
             |  - PRESENT
           h4.report-section__subtitle.fire-alert-count__subtitle MODIS fire alerts
@@ -179,11 +184,14 @@ html(lang="en")
             div(class='sub-title')
             div(class='no-break')
               div#rspo-cert-table
-        div#section-seven(class='page-break')
-          div.report-section__charts-container_countries
+        
+        div#section-seven(class='page-break') 
+          div#infoTextContainer
+            h3.pie-chart-title.pie-chart-title-higher.land-use-info-text Fire alerts by LAND USE AREA
+            p The information shown here represents the publicly available data from various sources that are compiled by Global Forest Watch. However, some jurisdictions do not make their official land use licenses publicly accessible. Due to this reason, not all current concessions are captured in these charts, nor the boundaries are the most accurate and up-to-date, thus, this information cannot be used to clear companies’ names for legal purposes.
+          div.report-section__charts-container_countries.no-border
             div#land-use-fires-container(class='chart-container-countries country-pie-chart')
               div.chart-wrapper
-                h3.pie-chart-title.pie-chart-title-higher Fire alerts by LAND USE AREA
                 div#land-use-fires-chart(class='chart')
 
             div#wdpa-fires-chart-container(class='chart-container-countries country-pie-chart')
@@ -247,9 +255,9 @@ html(lang="en")
                 div#oil_palm-fires-chart(class='chart-oil-palm')
 
         div#firesCountContainerSection.border-top-separator
-          h3#firesCountTitleMain.report-section__title Fire History: Fire Season Progression
+          h3#firesCountTitleMain.report-section__title Fire Alerts History: Fire Alerts Season Progression
           h4#firesCountTitle.report-section__subtitle
-          i.section-description Fire history analyses use MODIS fires data only for 2001 to present.
+          i.section-description Fire alerts history analyses use MODIS fires alerts data only for 2001 to present.
           div#firesCountContainer
             div#firesCountChart
               div#firesCountChartLoading.loading-chart
@@ -259,18 +267,18 @@ html(lang="en")
           div#noFiresMsg
 
         div#fireHistory.border-top-separator
-          h3.report-section__title Annual Fire History
+          h3.report-section__title Annual Fire Alerts History
           h4.report-section__subtitle Region: <strong class="country-name">Indonesia</strong>
           h4.report-section__subtitle Total MODIS fire alerts
-          i.section-description.fire-history__description Fire history analyses use MODIS fires data only for 2001 to present.
+          i.section-description.fire-history__description Fire alerts history analyses use MODIS fires alerts data only for 2001 to present.
           div.fire-history__chart
             div#fireHistoryChartLoading.loading-chart
         
         div#unusualFiresHistory.border-top-separator
-          h3.report-section__title Unusual Fires History
+          h3.report-section__title Unusual Fires Alerts History
           h4.report-section__subtitle Region: <strong class="country-name">Indonesia</strong>
           h4#unusualFiresCountTitle.report-section__subtitle There were 0 MODIS fire alerts reported in the week of the 14th of March 2019. This was average compared to the same week in previous years
-          i#unusualFiresCountSubtitle.section-description.fire-history__description Unusual fire history analyses use MODIS fires data only for 2016 to present.
+          i#unusualFiresCountSubtitle.section-description.fire-history__description Unusual fire alerts history analyses use MODIS fires alerts data only for 2016 to present.
           div#unusualFiresChartContainer
             div#unusualFiresCountOptionsContainer
               h3.selected
@@ -280,20 +288,20 @@ html(lang="en")
 
         div#section-eight(class='page-break')
           div(id='disclaimer' class='no-break')
-            p WRI uses NASA Fire Information for Resource Management Sytem (FIRMS) near real time (NRT) active fire data from the MODIS and VIIRS satellites to map fire locations. The sensors on these satellites detect the heat signatures of fires from the infrared spectral band. When a fire is detected, the system indicates the area where the fire occurred with an “alert.” Because each satellite orbits the earth twice per day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
+            p WRI uses NASA Fire Information for Resource Management Sytem (FIRMS) near real time (NRT) active fire alerts data from the MODIS and VIIRS satellites to map fire alert locations. The sensors on these satellites detect the heat signatures of fires from the infrared spectral band. When a fire is detected, the system indicates the area where the fire occurred with an “alert.” Because each satellite orbits the earth twice per day, these alerts can be provided in near-real time. Fire alerts are posted on the NASA FIRMS website within 3 hours of detection by the satellite.
             p The accuracy of fire detection has improved greatly since fire detection systems were first developed for the MODIS satellites. Fire data from the MODIS satellite are approximately 1km resolution and VIIRS satellite data has a resolution of 375m. Today, the rate of false positives is 1/10 to 1/1000 what it was under earlier systems first developed in the early 2000s. The algorithm used to detect fires includes steps to eliminate sources of false positives from sun glint, water glint, hot desert environments and others. When the system does not have enough information to detect a fire conclusively, the fire alert is discarded. In general, night observations have higher accuracy than daytime observations. Desert ecosystems have the highest rate of false positives. Many papers have been published to validate the NASA MODIS active fire alerts for use in various applications.
             p
               strong Sources:
             p NASA Fire Information for Resource Management (FIRMS) Active Fire Data
             p
-              | VIIRS 375m NRT - NRT VIIRS 375 m Active Fire product&nbsp;
+              | VIIRS 375m NRT - NRT VIIRS 375 m Active Fire Alert product&nbsp;
               a(href='https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/v1-vnp14imgt') VNP14IMGT
               | . Available on-line [
               a(href='https://earthdata.nasa.gov/firms') https://earthdata.nasa.gov/firms
               | ]. DOI:&nbsp;
               a(href='https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/v1-vnp14imgt') 5067/FIRMS/VIIRS/VNP14IMGT.NRT.001.
             p
-              | MODIS Collection 6 NRT - MODIS Collection 6 NRT Hotspot / Active Fire Detections&nbsp;
+              | MODIS Collection 6 NRT - MODIS Collection 6 NRT Hotspot / Active Fire Alert Detections&nbsp;
               a(href='https://earthdata.nasa.gov/earth-observation-data/near-real-time/firms/c6-mcd14dl') MCD14DL
               | . Available on-line [
               a(href='https://earthdata.nasa.gov/firms') https://earthdata.nasa.gov/firms

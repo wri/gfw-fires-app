@@ -28,7 +28,7 @@ export default class PlanetImagery extends React.Component {
 		const { value } = selected;
 		const { monthlyBasemaps, quarterlyBasemaps, activeImagery } = this.props;
 
-		const defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[0] : quarterlyBasemaps[0];
+		const defaultBasemap = value === 'PLANET-MONTHLY' ? monthlyBasemaps[1] : quarterlyBasemaps[1];
 
 		if(defaultBasemap) {
 			mapActions.setActivePlanetBasemap.defer(defaultBasemap);
@@ -44,7 +44,7 @@ export default class PlanetImagery extends React.Component {
 	getPlanetBasemaps() {
 		const { monthlyBasemaps, quarterlyBasemaps, activeImagery, activeCategory, activePlanetPeriod } = this.props;
 
-		const basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+		const basemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps.slice(1) : quarterlyBasemaps.slice(1);
 
 		const defaultBasemap = basemaps.find((item) => {
 			return item.label === activePlanetPeriod;
@@ -64,7 +64,7 @@ export default class PlanetImagery extends React.Component {
 	handleBasemap = selected => {
 		const { value } = selected;
 		const { monthlyBasemaps, quarterlyBasemaps, activeCategory, activeImagery } = this.props;
-		const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps;
+		const filterBasemaps = activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps.slice(1) : quarterlyBasemaps.slice(1);
 		const choice = filterBasemaps.find(basemap => basemap.value === value);
 
 		if (choice) {
@@ -77,6 +77,9 @@ export default class PlanetImagery extends React.Component {
 
 	render() {
 		const { active, monthlyBasemaps, quarterlyBasemaps, activeCategory, activePlanetBasemap } = this.props;
+
+    const monthlyOptions = monthlyBasemaps.slice(1);
+    const quarterlyOptions = quarterlyBasemaps.slice(1);
 
 		return (
 			<div className={`relative ${active ? 'active' : 'hidden'}`} onClick={(evt) => evt.stopPropagation()}>
@@ -101,7 +104,7 @@ export default class PlanetImagery extends React.Component {
 							multi={false}
 							clearable={false}
 							value={activePlanetBasemap}
-							options={activeCategory === 'PLANET-MONTHLY' ? monthlyBasemaps : quarterlyBasemaps}
+							options={activeCategory === 'PLANET-MONTHLY' ? monthlyOptions : quarterlyOptions}
 							onChange={this.handleBasemap.bind(this)}
 							style={{
 								width: '175px'

@@ -1405,8 +1405,8 @@ config.text.layerInformation[KEYS.treeCoverDensity] = {
     'Data in this layer were generated using multispectral satellite imagery from the <a href="https://landsat.usgs.gov/" target="_blank">Landsat 7 thematic mapper plus (ETM+)</a> sensor. The clear surface observations from over 600,000 images were analyzed using Google Earth Engine, a cloud platform for earth observation and data analysis, to determine per pixel tree cover using a supervised learning algorithm.'
   ],
   citation: [
-    '<strong>Citation:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “High-Resolution Global Maps of 21st-Century Forest Cover Change.” <em>Science</em> 342 (15 November): 850–53. Data available on-line from: <a href="http://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank">http://earthenginepartners.appspot.com/science-2013-global-forest</a>.',
-    '<strong>Suggested citation for data as displayed on GFW:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “Tree Cover.” University of Maryland, Google, USGS, and NASA. Accessed through Global Forest Watch on [date]. <a href="http://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a>.'
+    '<strong>Citation:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “High-Resolution Global Maps of 21st-Century Forest Cover Change.” <em>Science</em> 342 (15 November): 850–53. Data available on-line from: <a href="https://earthenginepartners.appspot.com/science-2013-global-forest" target="_blank">https://earthenginepartners.appspot.com/science-2013-global-forest</a>.',
+    '<strong>Suggested citation for data as displayed on GFW:</strong> Hansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “Tree Cover.” University of Maryland, Google, USGS, and NASA. Accessed through Global Forest Watch on [date]. <a href="https://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a>.'
   ]
 };
 
@@ -1419,7 +1419,7 @@ config.text.layerInformation[KEYS.activeFires] = {
     {label: 'Function', html: 'Displays fire alert data for the past 7 days'},
     {label: 'Resolution/Scale', html: '1 × 1 kilometer'},
     {label: 'Geographic Coverage', html: 'Global'},
-    {label: 'Source Data', html: '<a href="http://modis.gsfc.nasa.gov/about/" target="_blank">MODIS</a>'},
+    {label: 'Source Data', html: '<a href="https://modis.gsfc.nasa.gov/about/" target="_blank">MODIS</a>'},
     {label: 'Date of Content', html: 'Past 7 days'},
     {label: 'Cautions', html: '<p>Not all fires are detected. There are several reasons why MODIS may not have detected a certain fire. The fire may have started and ended between satellite overpasses. The fire may have been too small or too cool to be detected in the (approximately) 1 km<sup>2</sup> pixel. Cloud cover, heavy smoke, or tree canopy may completely obscure a fire.</p><p>It is not recommended to use active fire locations to estimate burned area due to spatial and temporal sampling issues.</p><p>When zoomed out, this data layer displays some degree of inaccuracy because the data points must be collapsed to be visible on a larger scale. Zoom in for greater detail.</p>'}
   ],
@@ -1430,7 +1430,7 @@ config.text.layerInformation[KEYS.activeFires] = {
   ],
   citation: [
     '<strong>Citation:</strong>NASA FIRMS. “NASA Fire Information for Resource Management System (FIRMS).” Accessed on [date]. <a href="earthdata.nasa.gov/data/near-real-time-data/firms" target="_blank">earthdata.nasa.gov/data/near-real-time-data/firms</a>.',
-    '<strong>Suggested citation for data as displayed on GFW:</strong> “NASA Active Fires.” NASA FIRMS. Accessed through Global Forest Watch on [date]. <a href="http://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a>.'
+    '<strong>Suggested citation for data as displayed on GFW:</strong> “NASA Active Fires.” NASA FIRMS. Accessed through Global Forest Watch on [date]. <a href="https://www.globalforestwatch.org" target="_blank">www.globalforestwatch.org</a>.'
   ]
 };
 
@@ -1450,7 +1450,7 @@ config.text.layerInformation[KEYS.burnScars] = {
   ],
   citation: [
     '<strong>Citation:</strong>Elvidge, Christopher D. and Kimberly Baugh. 2014. Burn scar mapping from Landsat 8. Presentation at APAN meeting in Bandung, Indonesia. January 20.',
-    '<strong>URL:</strong><a href="http://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf" target="_blank">http://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf</a>.'
+    '<strong>URL:</strong><a href="https://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf" target="_blank">https://www.apan.net/meetings/Bandung2014/Sessions/EM/Elvidge_L8_burnscar_20140120.pdf</a>.'
   ]
 };
 
@@ -1468,7 +1468,7 @@ config.text.layerInformation[KEYS.darkGrayBasemap] = {
     'This web map draws attention to your thematic content by providing a dark, neutral background with minimal colors, labels, and features.'
   ],
   citation: [
-    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+    'This work is licensed under the Web Services and API Terms of Use. <a href="https://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="https://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
   ]
 };
 
@@ -1486,7 +1486,7 @@ config.text.layerInformation[KEYS.topoBasemap] = {
     'Topographic map which includes boundaries, cities, water features, physiographic features, parks, landmarks, transportation, and buildings.'
   ],
   citation: [
-    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+    'This work is licensed under the Web Services and API Terms of Use. <a href="https://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="https://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
   ]
 };
 
@@ -1496,7 +1496,7 @@ config.text.layerInformation[KEYS.wriBasemap] = {
     'Satellite and high-resolution aerial imagery for the world with political boundaries and place names. You can turn on transportation including street names.'
   ],
   citation: [
-    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+    'This work is licensed under the Web Services and API Terms of Use. <a href="https://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="https://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
   ]
 };
 
@@ -1514,7 +1514,7 @@ config.text.layerInformation[KEYS.imageryBasemap] = {
     'Satellite and high-resolution aerial imagery for the world with political boundaries and place names. You can turn on transportation including street names.'
   ],
   citation: [
-    'This work is licensed under the Web Services and API Terms of Use. <a href="http://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="http://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
+    'This work is licensed under the Web Services and API Terms of Use. <a href="https://links.esri.com/tou_summary" target="_blank">View Summary</a>  |  <a href="https://links.esri.com/agol_tou" target="_blank">View Terms of Use</a> '
   ]
 };
 

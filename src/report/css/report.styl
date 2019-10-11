@@ -115,6 +115,7 @@ input.share-link-input {
 
 .num-of-fires__container {
   margin-bottom: 1em;
+  padding-left: 45px;
   text-align center
 }
 
@@ -139,9 +140,16 @@ input.share-link-input {
   justify-content: center;
 }
 
-#totalFireAlerts {
-  font-size: 4em;
-  color: #E50017;
+#totalViirsFireAlerts {
+  font-size: 3em;
+  color: #A6050F;
+  margin: 0 .5rem
+  min-width: 100px;
+}
+
+#totalModisFireAlerts {
+  color: #EB5101;
+  font-size: 3em;
   margin: 0 .5rem
   min-width: 100px;
 }
@@ -490,11 +498,27 @@ input.share-link-input {
 .loading-chart
   width 70px
   height 70px
-  // background-image url('/images/gfwFires-logo-new.png')
   background-color #e7002f
   margin 100px auto;
   -webkit-animation sk-rotateplane 1.2s infinite ease-in-out
   animation sk-rotateplane 1.2s infinite ease-in-out
+
+.top-banner-info-text
+  p
+    font-size: 12px
+    font-style: italic
+
+.land-use-info-text
+  border-top: 1px solid #ffcecb
+  margin-top: 0 !important
+  padding-top: 10px
+  position: inherit
+  top: auto
+
+#infoTextContainer
+  p
+    font-style: italic
+    font-size: 12px
 
 @keyframes sk-rotateplane {
   0% { 
@@ -541,17 +565,7 @@ input.share-link-input {
 .fires-table .number-column
   min-width 50px
 
-//#all-concessions-fires-table .fires-table th:nth-child(3)
-//  background-color #118bbb
-
-//#all-concessions-fires-table .fires-table tr > td:nth-child(3)
-//  background-color #f8c8a9
-
-//.fires-table tr > td:first-child, .fires-table tr > td:nth-child(2)
-//  background-color #cddfb1
-
 .fires-table tr > td:last-child
-//background-color #f8c8a9
   text-align center
   padding 5px 0
 
@@ -573,7 +587,6 @@ input.share-link-input {
   left calc(50% - 30px);
   background url('images/loading.svg') no-repeat center
   background-size cover
-  //background url('images/loader.gif') no-repeat center
 
 @media print
   .page-break
@@ -593,7 +606,6 @@ input.share-link-input {
   margin-top: 2em;
   padding-top: 1em;
   border-top: 1px solid #ffcecb;
-//background: rgba(255, 0, 0, 0.02);
 }
 
 .report-section__charts-container_countries {
@@ -603,16 +615,10 @@ input.share-link-input {
   display: flex;
   flex-direction: column;
   padding-top: 50px;
-//background: rgba(255, 0, 0, 0.02);
 }
 
-// .report-section__charts-container_countries div:nth-of-type(even) {
-//   justify-content: flex-start;
-// }
-
-// .report-section__charts-container_countries div:nth-of-type(odd) {
-//   justify-content: flex-end;
-// }
+.no-border
+  border: none
 
 tspan {
   font-family: 'Fira Sans', Georgia, serif
