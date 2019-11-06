@@ -1596,7 +1596,7 @@ module.exports = {
     {
         "English short name": "Timor-Leste",
         "French short name": "Timor-Leste (le)",
-        "gcr": "Timor - Leste",
+        "gcr": "Timor-Leste",
         "Alpha-2 code": "TL",
         "Alpha-3 code": "TLS",
         "Numeric": 626
@@ -1920,7 +1920,7 @@ module.exports = {
         'Thailand': 228,
         'Spain': 215,
         'Tonga': 232,
-        'East Timor': 229,
+        'Timor-Leste': 229,
         'Liberia': 127,
         'Grenada': 91,
         'Hungary': 103,
