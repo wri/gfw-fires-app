@@ -149,18 +149,14 @@ define([
               let url;
 
               if (window.reportOptions.aoiId) {
-                console.log('here', window.reportOptions.aoiId);
                 url = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + window.reportOptions.aoiId + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
               } else {
                 url = Config.fires_api_endpoint + 'admin/' + queryFor + '/' + '?period=' + self.startDateRaw + ',' + self.endDateRaw;
               }
 
-              console.log('url', url);
-              debugger;
               request.get(url, {
                 handleAs: 'json'
               }).then(function(response) {
-                console.log('here', response);
                 Promise.all(Config.countryPieCharts.map(function(chartConfig) {
                   return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
                 })).then(() => {
