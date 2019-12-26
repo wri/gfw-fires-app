@@ -9,7 +9,7 @@ Production: https://fires.globalforestwatch.org
 Staging: https://fires-staging.globalforestwatch.org
 
 ## Quickstart
-- install [node.js](http://nodejs.org/)
+- install [node.js](http://nodejs.org/) version 8
 - clone this repo `git clone git@github.com:wri/gfw-fires-app.git`
 - cd into repo folder `> cd gfw-fires-app`
 - install dependencies `> npm install`
