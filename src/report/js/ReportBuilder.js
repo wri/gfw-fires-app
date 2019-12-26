@@ -157,7 +157,6 @@ define([
               request.get(url, {
                 handleAs: 'json'
               }).then(function(response) {
-
                 Promise.all(Config.countryPieCharts.map(function(chartConfig) {
                   return self.createPieChart(response.data.attributes.value[0].alerts, chartConfig);
                 })).then(() => {
@@ -180,7 +179,7 @@ define([
           query.returnGeometry = false;
 
           if (window.reportOptions.aois) {
-            query.where = `NAME_1 = '${window.reportOptions.aois}'`;
+            query.where = `NAME_0 = '${window.reportOptions.country}' AND NAME_1 = '${window.reportOptions.aois}'`;
             query.returnGeometry = false;
             query.outFields = ['id_1'];
 
