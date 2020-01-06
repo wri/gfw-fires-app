@@ -316,7 +316,7 @@ export const config = {
     {
       id: KEYS.viirsFires,
       order: 13,
-      type: 'dynamic',
+      type: 'feature',
       label: 'VIIRS active fires',
       group: 'fires',
       visible: true,
@@ -343,7 +343,7 @@ export const config = {
     {
       id: KEYS.activeFires,
       order: 12,
-      type: 'dynamic',
+      type: 'feature',
       label: 'MODIS active fires',
       group: 'fires',
       visible: true,

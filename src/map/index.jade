@@ -21,6 +21,9 @@ block append head-scripts
     var base = location.pathname.replace(/\/[^/]+$/, '/map/');
     window.version = '#{meta.version}';
     var dojoConfig = {
+      has: {
+        "esri-featurelayer-webgl": 1
+      },
       parseOnLoad: false,
       async: true,
       cacheBust: 'v=#{meta.version}',
@@ -117,5 +120,5 @@ block content
   div#share-modal.modal.hidden
   div#fires-modal.modal.hidden
   div#master-modal.modal.hidden
-  script(src='https://js.arcgis.com/3.20/init.js', async)
+  script(src='https://js.arcgis.com/3.30/init.js', async)
   script(src='https://platform.twitter.com/widgets.js', async)
