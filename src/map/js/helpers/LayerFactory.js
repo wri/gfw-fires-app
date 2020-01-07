@@ -1,15 +1,15 @@
-import DynamicLayer from "esri/layers/ArcGISDynamicMapServiceLayer";
-import TiledLayer from "esri/layers/ArcGISTiledMapServiceLayer";
-import ImageLayer from "esri/layers/ArcGISImageServiceLayer";
-import ImageParameters from "esri/layers/ImageParameters";
-import GraphicsLayer from "esri/layers/GraphicsLayer";
-import FeatureLayer from "esri/layers/FeatureLayer";
-import GFWImageryLayer from "js/layers/GFWImageryLayer";
-import { errors } from "js/config";
-import SimpleMarkerSymbol from "esri/symbols/SimpleMarkerSymbol";
-import PictureMarkerSymbol from "esri/symbols/PictureMarkerSymbol";
-import LayerDrawingOptions from "esri/layers/LayerDrawingOptions";
-import SimpleRenderer from "esri/renderers/SimpleRenderer";
+import DynamicLayer from 'esri/layers/ArcGISDynamicMapServiceLayer';
+import TiledLayer from 'esri/layers/ArcGISTiledMapServiceLayer';
+import ImageLayer from 'esri/layers/ArcGISImageServiceLayer';
+import ImageParameters from 'esri/layers/ImageParameters';
+import GraphicsLayer from 'esri/layers/GraphicsLayer';
+import FeatureLayer from 'esri/layers/FeatureLayer';
+import GFWImageryLayer from 'js/layers/GFWImageryLayer';
+import { errors } from 'js/config';
+import SimpleMarkerSymbol from 'esri/symbols/SimpleMarkerSymbol';
+import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
+import LayerDrawingOptions from 'esri/layers/LayerDrawingOptions';
+import SimpleRenderer from 'esri/renderers/SimpleRenderer';
 
 /**
  * Map Function that gets called for each entry in the provided layers config and returns an array of ArcGIS Layers
@@ -22,7 +22,7 @@ import SimpleRenderer from "esri/renderers/SimpleRenderer";
  */
 export default layer => {
   if (
-    (!layer.url && layer.type !== "graphic" && layer.type !== "feature") ||
+    (!layer.url && layer.type !== 'graphic' && layer.type !== 'feature') ||
     !layer.type
   ) {
     throw new Error(errors.missingLayerConfig);
@@ -32,12 +32,12 @@ export default layer => {
     options = {};
 
   switch (layer.type) {
-    case "tiled":
+    case 'tiled':
       options.id = layer.id;
       options.visible = layer.visible || false;
       esriLayer = new TiledLayer(layer.url, options);
       break;
-    case "image":
+    case 'image':
       options.id = layer.id;
       options.visible = layer.visible || false;
       options.opacity = layer.opacity || 1;
@@ -48,14 +48,14 @@ export default layer => {
         esriLayer.setDefinitionExpression(layer.definitionExpression);
       }
       break;
-    case "wind":
+    case 'wind':
       break;
-    case "dynamic":
+    case 'dynamic':
       // Create some image parameters
       let imageParameters = new ImageParameters();
       imageParameters.layerOption = ImageParameters.LAYER_OPTION_SHOW;
       imageParameters.layerIds = layer.layerIds;
-      imageParameters.format = "png32";
+      imageParameters.format = 'png32';
       if (layer.defaultDefinitionExpression) {
         let layerDefs = [];
 
@@ -72,7 +72,7 @@ export default layer => {
       options.minScale = layer.minScale; // || 1.0;
       options.imageParameters = imageParameters;
       esriLayer = new DynamicLayer(layer.url, options);
-      if (layer.id === "viirsFires" || layer.id === "activeFires") {
+      if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
         // These two layers get firefly points placed on them.
         // We use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
 
@@ -81,11 +81,11 @@ export default layer => {
 
         // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
         const imageUrl =
-          layer.id === "viirsFires"
+          layer.id === 'viirsFires'
             ? // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
               // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
-              "http://gis-gfw.wri.org/FireflyD20.png"
-            : "http://gis-gfw.wri.org/FireflyC20.png";
+              'http://gis-gfw.wri.org/FireflyD20.png'
+            : 'http://gis-gfw.wri.org/FireflyC20.png';
 
         const symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
 
@@ -94,29 +94,29 @@ export default layer => {
         esriLayer.setLayerDrawingOptions(layerDrawingOptions);
       }
       break;
-    case "feature":
+    case 'feature':
       options.id = layer.id;
       options.visible = layer.visible || false;
-      options.definitionExpression = layer.defaultDefinitionExpression || "";
+      options.definitionExpression = layer.defaultDefinitionExpression || '';
       if (layer.url) {
         esriLayer = new FeatureLayer(
-          layer.url + "/" + layer.layerIds[0],
+          layer.url + '/' + layer.layerIds[0],
           options
         );
 
         const simpleJSON = {
-          type: "simple",
-          label: "",
-          description: ""
+          type: 'simple',
+          label: '',
+          description: ''
         };
 
         let imageUrl;
-        if (layer.id === "viirsFires") {
+        if (layer.id === 'viirsFires') {
           imageUrl =
-            "https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png"; // "http://gis-gfw.wri.org/FireflyD20.png"
-        } else if (layer.id === "activeFires") {
+            'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png'; // "http://gis-gfw.wri.org/FireflyD20.png"
+        } else if (layer.id === 'activeFires') {
           imageUrl =
-            "https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png"; // "http://gis-gfw.wri.org/FireflyC20.png";
+            'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png'; // "http://gis-gfw.wri.org/FireflyC20.png";
         }
 
         simpleJSON.symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
@@ -130,12 +130,12 @@ export default layer => {
         esriLayer = new FeatureLayer(featureCollection, options);
       }
       break;
-    case "graphic":
+    case 'graphic':
       options.id = layer.id;
       options.visible = layer.visible || false;
       esriLayer = new GraphicsLayer(options);
       break;
-    case "imagery":
+    case 'imagery':
       options.id = layer.id;
       options.url = layer.url;
       options.visible = false;

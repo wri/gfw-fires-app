@@ -1,14 +1,14 @@
-import { layersConfig, errors, mapConfig } from "js/config";
-import WebTiledLayer from "esri/layers/WebTiledLayer";
-import layerFactory from "helpers/LayerFactory";
-import Point from "esri/geometry/Point";
-import Symbols from "helpers/Symbols";
-import Deferred from "dojo/Deferred";
-import Graphic from "esri/graphic";
-import KEYS from "js/constants";
-import EsriMap from "esri/map";
-import alt from "js/alt";
-import on from "dojo/on";
+import { layersConfig, errors, mapConfig } from 'js/config';
+import WebTiledLayer from 'esri/layers/WebTiledLayer';
+import layerFactory from 'helpers/LayerFactory';
+import Point from 'esri/geometry/Point';
+import Symbols from 'helpers/Symbols';
+import Deferred from 'dojo/Deferred';
+import Graphic from 'esri/graphic';
+import KEYS from 'js/constants';
+import EsriMap from 'esri/map';
+import alt from 'js/alt';
+import on from 'dojo/on';
 
 // Variable to hold the user location graphic, this is deinfed here to make it
 // easier to remove at a later point
@@ -20,10 +20,10 @@ class MapActions {
    * may be merged into this in the Map component on app load, if url params are present
    */
   createMap(mapconfig) {
-    app.debug("MapActions >>> createMap");
+    app.debug('MapActions >>> createMap');
     let deferred = new Deferred();
     app.map = new EsriMap(mapconfig.id, mapconfig.options);
-    app.map.on("load", () => {
+    app.map.on('load', () => {
       // Clear out the phantom graphic that esri adds to the graphics layer before resolving
       app.map.graphics.clear();
       app.map.enableScrollWheelZoom();
@@ -39,7 +39,7 @@ class MapActions {
   }
 
   createLayers() {
-    app.debug("MapActions >>> createLayers");
+    app.debug('MapActions >>> createLayers');
 
     //- Remove layers from config that have no url unless they are of type graphic(which have no url)
     //- sort by order from the layer config
@@ -49,15 +49,14 @@ class MapActions {
         layer =>
           layer &&
           !layer.disabled &&
-          (layer.url || layer.type === "graphic" || layer.type === "feature")
+          (layer.url || layer.type === 'graphic' || layer.type === 'feature')
       )
       .sort((a, b) => a.order - b.order)
       .map(layerFactory);
-    console.log("kayers", layers);
     app.map.addLayers(layers);
 
     // If there is an error with a particular layer, handle that here
-    app.map.on("layers-add-result", result => {
+    app.map.on('layers-add-result', result => {
       let addedLayers = result.layers;
       // Check for Errors
       var layerErrors = addedLayers.filter(layer => layer.error);
@@ -74,7 +73,7 @@ class MapActions {
   }
 
   zoomToUserLocation() {
-    app.debug("MapActions >>> zoomToUserLocation");
+    app.debug('MapActions >>> zoomToUserLocation');
     if (
       navigator &&
       navigator.geolocation &&
@@ -91,7 +90,7 @@ class MapActions {
           userLocation = new Graphic(
             new Point([coords.longitude, coords.latitude]),
             Symbols.getSVGPointSymbol(),
-            { id: "userLocation" }
+            { id: 'userLocation' }
           );
           app.map.centerAndZoom(userLocation.geometry, 18);
           app.map.graphics.add(userLocation);
@@ -105,101 +104,101 @@ class MapActions {
     }
   }
   connectLayerEvents() {
-    app.debug("MapActions >>> connectLayerEvents");
+    app.debug('MapActions >>> connectLayerEvents');
     this.dispatch();
   }
 
   setDGDate(date) {
-    app.debug("MapActions >>> setDGDate");
+    app.debug('MapActions >>> setDGDate');
     this.dispatch(date);
   }
 
   dispatchExtent(extent) {
-    app.debug("MapActions >>> dispatchExtent");
+    app.debug('MapActions >>> dispatchExtent');
     this.dispatch(extent);
   }
 
   setAnalysisDate(date) {
-    app.debug("MapActions >>> setAnalysisDate");
+    app.debug('MapActions >>> setAnalysisDate');
     this.dispatch(date);
   }
 
   setArchiveDate(date) {
-    app.debug("MapActions >>> setArchiveDate");
+    app.debug('MapActions >>> setArchiveDate');
     this.dispatch(date);
   }
 
   setViirsArchiveDate(date) {
-    app.debug("MapActions >>> setViirsArchiveDate");
+    app.debug('MapActions >>> setViirsArchiveDate');
     this.dispatch(date);
   }
 
   setModisArchiveDate(date) {
-    app.debug("MapActions >>> setModisArchiveDate");
+    app.debug('MapActions >>> setModisArchiveDate');
     this.dispatch(date);
   }
 
   setNoaaDate(date) {
-    app.debug("MapActions >>> setNoaaDate");
+    app.debug('MapActions >>> setNoaaDate');
     this.dispatch(date);
   }
 
   setRiskDate(date) {
-    app.debug("MapActions >>> setRiskDate");
+    app.debug('MapActions >>> setRiskDate');
     this.dispatch(date);
   }
 
   setRainDate(date) {
-    app.debug("MapActions >>> setRainDate");
+    app.debug('MapActions >>> setRainDate');
     this.dispatch(date);
   }
 
   setAirQDate(date) {
-    app.debug("MapActions >>> setAirQDate");
+    app.debug('MapActions >>> setAirQDate');
     this.dispatch(date);
   }
 
   setWindDate(date) {
-    app.debug("MapActions >>> setWindDate");
+    app.debug('MapActions >>> setWindDate');
     this.dispatch(date);
   }
 
   setActivePlanetPeriod(basemap) {
-    app.debug("MapActions >>> setActivePlanetPeriod");
+    app.debug('MapActions >>> setActivePlanetPeriod');
     this.dispatch(basemap);
   }
 
   setActivePlanetCategory(category) {
-    app.debug("MapActions >>> setActivePlanetCategory");
+    app.debug('MapActions >>> setActivePlanetCategory');
     this.dispatch(category);
   }
 
   setActivePlanetBasemap(basemap) {
-    app.debug("MapActions >>> setActivePlanetBasemap");
+    app.debug('MapActions >>> setActivePlanetBasemap');
     this.dispatch(basemap);
   }
 
   setMasterDate(date) {
-    app.debug("MapActions >>> setMasterDate");
+    app.debug('MapActions >>> setMasterDate');
     this.dispatch(date);
   }
   setSentinalDate(date) {
-    app.debug("MapActions >>> setSentinalDate");
+    app.debug('MapActions >>> setSentinalDate');
     this.dispatch(date);
   }
 
   togglePanels() {
-    app.debug("MapActions >>> togglePanels");
+    app.debug('MapActions >>> togglePanels');
     this.dispatch();
   }
 
   setBasemap(basemap) {
-    app.debug("MapActions >>> setBasemap");
+    app.debug('MapActions >>> setBasemap');
     this.dispatch(basemap);
   }
 
   setImagery(imagery) {
-    app.debug("MapActions >>> setImagery");
+    app.debug('MapActions >>> setImagery');
     this.dispatch(imagery);
   }
 
@@ -239,13 +238,13 @@ class MapActions {
       // Show the correct basemap
       layer = app.map.getLayer(basemap);
       if (layer) {
-        on.once(layer, "update-end", () => {
+        on.once(layer, 'update-end', () => {
           const currentBasemap = app.map.getLayer(app.map.layerIds[0]);
           currentBasemap.hide();
         });
         layer.show();
       }
-    } else if (typeof basemap === "object") {
+    } else if (typeof basemap === 'object') {
       // Hide all other basemaps
       layer = app.map.getLayer(KEYS.wriBasemap);
       landsatLayer = app.map.getLayer(KEYS.landsat8);
@@ -261,9 +260,9 @@ class MapActions {
       // ex "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/{TileMatrix}/{TileCol}/{TileRow}.png"
       // ex  "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/${level}/${col}/${row}.png"
       const slippyUrl = value
-        .replace(/{TileRow}/, "${row}")
-        .replace(/{TileCol}/, "${col}")
-        .replace(/{TileMatrix}/, "${level}");
+        .replace(/{TileRow}/, '${row}')
+        .replace(/{TileCol}/, '${col}')
+        .replace(/{TileMatrix}/, '${level}');
       const planetBasemap = new WebTiledLayer(slippyUrl, {
         id: KEYS.planetBasemap,
         visible: true
@@ -306,11 +305,11 @@ class MapActions {
   }
 
   reset() {
-    app.debug("MapActions >>> reset");
+    app.debug('MapActions >>> reset');
     // Reset the Store, this will also reset layers, layer definitions, and all React components
     alt.recycle();
     // Reset the Canopy Density slider
-    var slider = $("#tree-cover-slider").data("ionRangeSlider");
+    var slider = $('#tree-cover-slider').data('ionRangeSlider');
     if (slider) {
       slider.reset();
     }
