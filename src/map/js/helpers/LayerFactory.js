@@ -99,60 +99,13 @@ export default layer => {
       options.visible = layer.visible || false;
       options.definitionExpression = layer.defaultDefinitionExpression || "";
       if (layer.url) {
-        // if (layer.id === "activeFires") {
-        //   const simpleJson = {
-        //     type: "simple",
-        //     label: "",
-        //     description: "",
-        //     symbol: {
-        //       color: [210, 105, 30, 191],
-        //       size: 6,
-        //       angle: 0,
-        //       xoffset: 0,
-        //       yoffset: 0,
-        //       type: "esriSMS",
-        //       style: "esriSMSCircle",
-        //       outline: {
-        //         color: [0, 0, 128, 255],
-        //         width: 0,
-        //         type: "esriSLS",
-        //         style: "esriSLSSolid"
-        //       }
-        //     }
-        //   };
-
-        //   options.renderer = new SimpleRenderer(simpleJson);
-        // } else if (layer.id === "viirsFires") {
-        //   const simpleJson = {
-        //     type: "simple",
-        //     label: "",
-        //     description: "",
-        //     symbol: {
-        //       color: [255, 255, 255, 1],
-        //       size: 6,
-        //       angle: 0,
-        //       xoffset: 0,
-        //       yoffset: 0,
-        //       type: "esriSMS",
-        //       style: "esriSMSCircle",
-        //       outline: {
-        //         color: [0, 0, 128, 255],
-        //         width: 0,
-        //         type: "esriSLS",
-        //         style: "esriSLSSolid"
-        //       }
-        //     }
-        //   };
-
-        //   options.renderer = new SimpleRenderer(simpleJson);
-        // }
         esriLayer = new FeatureLayer(
           layer.url + "/" + layer.layerIds[0],
           options
         );
-        let simpleJson;
+        let simpleJSON;
         if (layer.id === "activeFires") {
-          simpleJson = {
+          simpleJSON = {
             type: "simple",
             label: "",
             description: "",
@@ -173,27 +126,40 @@ export default layer => {
             }
           };
         } else if (layer.id === "viirsFires") {
-          simpleJson = {
+          simpleJSON = {
             type: "simple",
             label: "",
-            description: "",
-            symbol: {
-              color: [191, 30, 105, 210],
-              size: 6,
-              angle: 0,
-              xoffset: 0,
-              yoffset: 0,
-              type: "esriSMS",
-              style: "esriSMSCircle",
-              outline: {
-                color: [0, 0, 128, 255],
-                width: 0,
-                type: "esriSLS",
-                style: "esriSLSSolid"
-              }
-            }
+            description: ""
+            // symbol: {
+            //   color: [191, 30, 105, 210],
+            //   size: 6,
+            //   angle: 0,
+            //   xoffset: 0,
+            //   yoffset: 0,
+            //   type: "esriSMS",
+            //   style: "esriSMSCircle",
+            //   outline: {
+            //     color: [0, 0, 128, 255],
+            //     width: 0,
+            //     type: "esriSLS",
+            //     style: "esriSLSSolid"
+            //   }
+            // }
           };
-          esriLayer.renderer = new SimpleRenderer(simpleJson);
+
+          const layerDrawingOptions = [];
+          const layerDrawingOption = new LayerDrawingOptions();
+
+          // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
+          const imageUrl =
+            layer.id === "viirsFires"
+              ? // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
+                // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
+                "http://gis-gfw.wri.org/FireflyD20.png"
+              : "http://gis-gfw.wri.org/FireflyC20.png";
+          simpleJSON.symbol = new PictureMarkerSymbol(imageUrl, 16, 16);
+
+          esriLayer.renderer = new SimpleRenderer(simpleJSON);
         }
       } else {
         let featureCollection = {

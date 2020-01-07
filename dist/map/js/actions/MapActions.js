@@ -1,5 +1,5 @@
-define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFactory', 'esri/geometry/Point', 'helpers/Symbols', 'dojo/Deferred', 'esri/graphic', 'js/constants', 'esri/map', 'js/alt', 'dojo/on'], function (exports, _config, _WebTiledLayer, _LayerFactory, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt, _on) {
-  'use strict';
+define(["exports", "js/config", "esri/layers/WebTiledLayer", "helpers/LayerFactory", "esri/geometry/Point", "helpers/Symbols", "dojo/Deferred", "esri/graphic", "js/constants", "esri/map", "js/alt", "dojo/on"], function (exports, _config, _WebTiledLayer, _LayerFactory, _Point, _Symbols, _Deferred, _graphic, _constants, _map, _alt, _on) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -72,12 +72,12 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
     }
 
     _createClass(MapActions, [{
-      key: 'createMap',
+      key: "createMap",
       value: function createMap(mapconfig) {
-        app.debug('MapActions >>> createMap');
+        app.debug("MapActions >>> createMap");
         var deferred = new _Deferred2.default();
         app.map = new _map2.default(mapconfig.id, mapconfig.options);
-        app.map.on('load', function () {
+        app.map.on("load", function () {
           // Clear out the phantom graphic that esri adds to the graphics layer before resolving
           app.map.graphics.clear();
           app.map.enableScrollWheelZoom();
@@ -89,22 +89,23 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         return deferred;
       }
     }, {
-      key: 'createLayers',
+      key: "createLayers",
       value: function createLayers() {
-        app.debug('MapActions >>> createLayers');
+        app.debug("MapActions >>> createLayers");
 
         //- Remove layers from config that have no url unless they are of type graphic(which have no url)
         //- sort by order from the layer config
         //- return an arcgis layer for each config object
         var layers = _config.layersConfig.filter(function (layer) {
-          return layer && !layer.disabled && (layer.url || layer.type === 'graphic' || layer.type === 'feature');
+          return layer && !layer.disabled && (layer.url || layer.type === "graphic" || layer.type === "feature");
         }).sort(function (a, b) {
           return a.order - b.order;
         }).map(_LayerFactory2.default);
+        console.log("kayers", layers);
         app.map.addLayers(layers);
 
         // If there is an error with a particular layer, handle that here
-        app.map.on('layers-add-result', function (result) {
+        app.map.on("layers-add-result", function (result) {
           var addedLayers = result.layers;
           // Check for Errors
           var layerErrors = addedLayers.filter(function (layer) {
@@ -122,9 +123,9 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         });
       }
     }, {
-      key: 'zoomToUserLocation',
+      key: "zoomToUserLocation",
       value: function zoomToUserLocation() {
-        app.debug('MapActions >>> zoomToUserLocation');
+        app.debug("MapActions >>> zoomToUserLocation");
         if (navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition) {
           navigator.geolocation.getCurrentPosition(function (geoposition) {
             var coords = geoposition.coords;
@@ -133,7 +134,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
               app.map.graphics.remove(userLocation);
             }
             // Add a graphic to the map and zoom to it
-            userLocation = new _graphic2.default(new _Point2.default([coords.longitude, coords.latitude]), _Symbols2.default.getSVGPointSymbol(), { id: 'userLocation' });
+            userLocation = new _graphic2.default(new _Point2.default([coords.longitude, coords.latitude]), _Symbols2.default.getSVGPointSymbol(), { id: "userLocation" });
             app.map.centerAndZoom(userLocation.geometry, 18);
             app.map.graphics.add(userLocation);
           }, function (err) {
@@ -144,129 +145,129 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         }
       }
     }, {
-      key: 'connectLayerEvents',
+      key: "connectLayerEvents",
       value: function connectLayerEvents() {
-        app.debug('MapActions >>> connectLayerEvents');
+        app.debug("MapActions >>> connectLayerEvents");
         this.dispatch();
       }
     }, {
-      key: 'setDGDate',
+      key: "setDGDate",
       value: function setDGDate(date) {
-        app.debug('MapActions >>> setDGDate');
+        app.debug("MapActions >>> setDGDate");
         this.dispatch(date);
       }
     }, {
-      key: 'dispatchExtent',
+      key: "dispatchExtent",
       value: function dispatchExtent(extent) {
-        app.debug('MapActions >>> dispatchExtent');
+        app.debug("MapActions >>> dispatchExtent");
         this.dispatch(extent);
       }
     }, {
-      key: 'setAnalysisDate',
+      key: "setAnalysisDate",
       value: function setAnalysisDate(date) {
-        app.debug('MapActions >>> setAnalysisDate');
+        app.debug("MapActions >>> setAnalysisDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setArchiveDate',
+      key: "setArchiveDate",
       value: function setArchiveDate(date) {
-        app.debug('MapActions >>> setArchiveDate');
+        app.debug("MapActions >>> setArchiveDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setViirsArchiveDate',
+      key: "setViirsArchiveDate",
       value: function setViirsArchiveDate(date) {
-        app.debug('MapActions >>> setViirsArchiveDate');
+        app.debug("MapActions >>> setViirsArchiveDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setModisArchiveDate',
+      key: "setModisArchiveDate",
       value: function setModisArchiveDate(date) {
-        app.debug('MapActions >>> setModisArchiveDate');
+        app.debug("MapActions >>> setModisArchiveDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setNoaaDate',
+      key: "setNoaaDate",
       value: function setNoaaDate(date) {
-        app.debug('MapActions >>> setNoaaDate');
+        app.debug("MapActions >>> setNoaaDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setRiskDate',
+      key: "setRiskDate",
       value: function setRiskDate(date) {
-        app.debug('MapActions >>> setRiskDate');
+        app.debug("MapActions >>> setRiskDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setRainDate',
+      key: "setRainDate",
       value: function setRainDate(date) {
-        app.debug('MapActions >>> setRainDate');
+        app.debug("MapActions >>> setRainDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setAirQDate',
+      key: "setAirQDate",
       value: function setAirQDate(date) {
-        app.debug('MapActions >>> setAirQDate');
+        app.debug("MapActions >>> setAirQDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setWindDate',
+      key: "setWindDate",
       value: function setWindDate(date) {
-        app.debug('MapActions >>> setWindDate');
+        app.debug("MapActions >>> setWindDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setActivePlanetPeriod',
+      key: "setActivePlanetPeriod",
       value: function setActivePlanetPeriod(basemap) {
-        app.debug('MapActions >>> setActivePlanetPeriod');
+        app.debug("MapActions >>> setActivePlanetPeriod");
         this.dispatch(basemap);
       }
     }, {
-      key: 'setActivePlanetCategory',
+      key: "setActivePlanetCategory",
       value: function setActivePlanetCategory(category) {
-        app.debug('MapActions >>> setActivePlanetCategory');
+        app.debug("MapActions >>> setActivePlanetCategory");
         this.dispatch(category);
       }
     }, {
-      key: 'setActivePlanetBasemap',
+      key: "setActivePlanetBasemap",
       value: function setActivePlanetBasemap(basemap) {
-        app.debug('MapActions >>> setActivePlanetBasemap');
+        app.debug("MapActions >>> setActivePlanetBasemap");
         this.dispatch(basemap);
       }
     }, {
-      key: 'setMasterDate',
+      key: "setMasterDate",
       value: function setMasterDate(date) {
-        app.debug('MapActions >>> setMasterDate');
+        app.debug("MapActions >>> setMasterDate");
         this.dispatch(date);
       }
     }, {
-      key: 'setSentinalDate',
+      key: "setSentinalDate",
       value: function setSentinalDate(date) {
-        app.debug('MapActions >>> setSentinalDate');
+        app.debug("MapActions >>> setSentinalDate");
         this.dispatch(date);
       }
     }, {
-      key: 'togglePanels',
+      key: "togglePanels",
       value: function togglePanels() {
-        app.debug('MapActions >>> togglePanels');
+        app.debug("MapActions >>> togglePanels");
         this.dispatch();
       }
     }, {
-      key: 'setBasemap',
+      key: "setBasemap",
       value: function setBasemap(basemap) {
-        app.debug('MapActions >>> setBasemap');
+        app.debug("MapActions >>> setBasemap");
         this.dispatch(basemap);
       }
     }, {
-      key: 'setImagery',
+      key: "setImagery",
       value: function setImagery(imagery) {
-        app.debug('MapActions >>> setImagery');
+        app.debug("MapActions >>> setImagery");
         this.dispatch(imagery);
       }
     }, {
-      key: 'changeBasemap',
+      key: "changeBasemap",
       value: function changeBasemap(basemap) {
-        app.debug('MapActions >>> changeBasemap - ' + basemap);
+        app.debug("MapActions >>> changeBasemap - " + basemap);
         var layer = void 0,
             labelLayer = void 0,
             baseLayer = void 0,
@@ -305,13 +306,13 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
           // Show the correct basemap
           layer = app.map.getLayer(basemap);
           if (layer) {
-            _on2.default.once(layer, 'update-end', function () {
+            _on2.default.once(layer, "update-end", function () {
               var currentBasemap = app.map.getLayer(app.map.layerIds[0]);
               currentBasemap.hide();
             });
             layer.show();
           }
-        } else if ((typeof basemap === 'undefined' ? 'undefined' : _typeof(basemap)) === 'object') {
+        } else if ((typeof basemap === "undefined" ? "undefined" : _typeof(basemap)) === "object") {
           // Hide all other basemaps
           layer = app.map.getLayer(_constants2.default.wriBasemap);
           landsatLayer = app.map.getLayer(_constants2.default.landsat8);
@@ -327,7 +328,7 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
           // Note - we replace the url template with what the JS API 3.x API documents, it just works this way?
           // ex "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/{TileMatrix}/{TileCol}/{TileRow}.png"
           // ex  "https://tiles.planet.com/basemaps/v1/planet-tiles/global_monthly_2016_01_mosaic/gmap/${level}/${col}/${row}.png"
-          var slippyUrl = value.replace(/{TileRow}/, '${row}').replace(/{TileCol}/, '${col}').replace(/{TileMatrix}/, '${level}');
+          var slippyUrl = value.replace(/{TileRow}/, "${row}").replace(/{TileCol}/, "${col}").replace(/{TileMatrix}/, "${level}");
           var planetBasemap = new _WebTiledLayer2.default(slippyUrl, {
             id: _constants2.default.planetBasemap,
             visible: true
@@ -357,28 +358,28 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         }
       }
     }, {
-      key: 'centerAndZoomLatLng',
+      key: "centerAndZoomLatLng",
       value: function centerAndZoomLatLng(lat, lng, zoomLevel) {
         app.map.centerAndZoom(new _Point2.default(lng, lat), zoomLevel);
       }
     }, {
-      key: 'setCalendar',
+      key: "setCalendar",
       value: function setCalendar(footprints) {
         this.dispatch(footprints);
       }
     }, {
-      key: 'updateOverlays',
+      key: "updateOverlays",
       value: function updateOverlays(overlays) {
         this.dispatch(overlays);
       }
     }, {
-      key: 'reset',
+      key: "reset",
       value: function reset() {
-        app.debug('MapActions >>> reset');
+        app.debug("MapActions >>> reset");
         // Reset the Store, this will also reset layers, layer definitions, and all React components
         _alt2.default.recycle();
         // Reset the Canopy Density slider
-        var slider = $('#tree-cover-slider').data('ionRangeSlider');
+        var slider = $("#tree-cover-slider").data("ionRangeSlider");
         if (slider) {
           slider.reset();
         }
@@ -388,22 +389,22 @@ define(['exports', 'js/config', 'esri/layers/WebTiledLayer', 'helpers/LayerFacto
         app.map.centerAndZoom(_config.mapConfig.options.center, _config.mapConfig.options.zoom);
       }
     }, {
-      key: 'toggleImageryVisible',
+      key: "toggleImageryVisible",
       value: function toggleImageryVisible(bool) {
         return bool;
       }
     }, {
-      key: 'getSatelliteImagery',
+      key: "getSatelliteImagery",
       value: function getSatelliteImagery(params) {
         return params;
       }
     }, {
-      key: 'setSelectedImagery',
+      key: "setSelectedImagery",
       value: function setSelectedImagery(obj) {
         return obj;
       }
     }, {
-      key: 'setImageryHoverInfo',
+      key: "setImageryHoverInfo",
       value: function setImageryHoverInfo(obj) {
         return obj;
       }
