@@ -855,12 +855,14 @@ let LayersHelper = {
     const modisLayer = app.map.getLayer(modisLayerIds[optionIndex]);
 
     if (modisLayer) {
-      modisLayerIds.forEach(id => {
-        const layer = app.map.getLayer(id);
-        if (layer) {
-          layer.hide();
-        }
-      });
+      modisLayerIds
+        .filter(id => id !== modisLayerIds[optionIndex])
+        .forEach(id => {
+          const layer = app.map.getLayer(id);
+          if (layer) {
+            layer.hide();
+          }
+        });
       // The 72 hour layer uses the 7D service and filters the points with a definition expression.
       if (optionIndex === 2) {
         modisLayer.setDefinitionExpression(
@@ -871,46 +873,6 @@ let LayersHelper = {
       }
       modisLayer.show();
     }
-    // let firesLayer = app.map.getLayer(KEYS.activeFires);
-    // if (firesLayer) {
-    //   // normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
-    //   // We are hiding and showing the layer to avoid calling the service multiple times.
-    //   firesLayer.hide();
-    //   const layaDefs = [];
-    //   switch (optionIndex) {
-    //     case 0: //past 24 hours
-    //       firesLayer.url = shortTermServices.modis24HR.url;
-    //       firesLayer._url.path = shortTermServices.modis24HR.url;
-    //       firesLayer.setVisibleLayers([shortTermServices.modis24HR.id]);
-    //       break;
-    //     case 1: //past 48 hours
-    //       firesLayer.url = shortTermServices.modis48HR.url;
-    //       firesLayer._url.path = shortTermServices.modis48HR.url;
-    //       firesLayer.setVisibleLayers([shortTermServices.modis48HR.id]);
-    //       break;
-    //     case 2: //past 72 hours
-    //       firesLayer.url = shortTermServices.modis7D.url;
-    //       firesLayer._url.path = shortTermServices.modis7D.url;
-    //       firesLayer.setVisibleLayers([shortTermServices.modis7D.id]);
-    //       layaDefs[
-    //         shortTermServices.modis7D.id
-    //       ] = `Date > date'${new window.Kalendae.moment()
-    //         .subtract(3, "d")
-    //         .format("YYYY-MM-DD HH:mm:ss")}'`;
-    //       break;
-    //     case 3: //past 7 days
-    //       firesLayer.url = shortTermServices.modis7D.url;
-    //       firesLayer._url.path = shortTermServices.modis7D.url;
-    //       firesLayer.setVisibleLayers([shortTermServices.modis7D.id]);
-    //       break;
-    //     default:
-    //       console.log("default");
-    //       break;
-    //   }
-    //   firesLayer.setLayerDefinitions(layaDefs);
-    //   firesLayer.refresh();
-    //   firesLayer.show();
-    // }
   },
 
   updateViirsDefinitions(optionIndex) {
@@ -925,12 +887,14 @@ let LayersHelper = {
     ];
     const viirsLayer = app.map.getLayer(viirsLayerIds[optionIndex]);
     if (viirsLayer) {
-      viirsLayerIds.forEach(id => {
-        const layer = app.map.getLayer(id);
-        if (layer) {
-          layer.hide();
-        }
-      });
+      viirsLayerIds
+        .filter(id => id !== viirsLayerIds[optionIndex])
+        .forEach(id => {
+          const layer = app.map.getLayer(id);
+          if (layer) {
+            layer.hide();
+          }
+        });
       // The 72 hour layer uses the 7D service and filters the points with a definition expression.
       if (optionIndex === 2) {
         viirsLayer.setDefinitionExpression(

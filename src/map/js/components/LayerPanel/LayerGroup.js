@@ -1,14 +1,14 @@
 import React from 'react';
 
 let closeSymbolCode = 9660,
-    openSymbolCode = 9650;
+  openSymbolCode = 9650;
 
 /**
-* Get count of active layers in this group
-* @param {array} activeLayers - array of keys for the active layers
-* @param {array} children - This groups child components, which are layer checkboxes or null
-* @return {number} count
-*/
+ * Get count of active layers in this group
+ * @param {array} activeLayers - array of keys for the active layers
+ * @param {array} children - This groups child components, which are layer checkboxes or null
+ * @return {number} count
+ */
 let getCount = (activeLayers, children) => {
   let count = 0;
   children.forEach(layer => {
@@ -17,12 +17,13 @@ let getCount = (activeLayers, children) => {
     }
   });
 
-  return `${count.toString()}/${children.filter((c) => (c !== null && c.key)).length}`;
+  return `${count.toString()}/${
+    children.filter(c => c !== null && c.key).length
+  }`;
 };
 
 export default class LayerGroup extends React.Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = { open: true };
   }
@@ -31,20 +32,29 @@ export default class LayerGroup extends React.Component {
     let styles = { display: this.state.open ? 'block' : 'none' };
 
     return (
-      <div className='layer-category'>
-        <div className='layer-category-label pointer' onClick={this.toggle.bind(this)}>
+      <div className="layer-category">
+        <div
+          className="layer-category-label pointer"
+          onClick={this.toggle.bind(this)}
+        >
           {this.props.label}
-          <span className='active-layer-count'>({getCount(this.props.activeLayers, this.props.children)})</span>
-          <span className='layer-category-caret'>{String.fromCharCode(this.state.open ? closeSymbolCode : openSymbolCode)}</span>
+          <span className="active-layer-count">
+            ({getCount(this.props.activeLayers, this.props.children)})
+          </span>
+          <span className="layer-category-caret">
+            {String.fromCharCode(
+              this.state.open ? closeSymbolCode : openSymbolCode
+            )}
+          </span>
         </div>
-        <div className='layer-category-content' style={styles}>{this.props.children}</div>
+        <div className="layer-category-content" style={styles}>
+          {this.props.children}
+        </div>
       </div>
     );
   }
 
-  toggle () {
+  toggle() {
     this.setState({ open: !this.state.open });
   }
-
 }
-

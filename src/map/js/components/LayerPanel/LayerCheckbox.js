@@ -1,22 +1,21 @@
-import {layerActions} from 'actions/LayerActions';
-import {modalActions} from 'actions/ModalActions';
-import {mapStore} from 'stores/MapStore';
-import LayersHelper from 'helpers/LayersHelper';
-import KEYS from 'js/constants';
-import React from 'react';
+import { layerActions } from "actions/LayerActions";
+import { modalActions } from "actions/ModalActions";
+import { mapStore } from "stores/MapStore";
+import LayersHelper from "helpers/LayersHelper";
+import KEYS from "js/constants";
+import React from "react";
 
 // Info Icon Markup for innerHTML
 let useSvg = '<use xlink:href="#shape-info" />';
 
 export default class LayerCheckbox extends React.Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props);
     mapStore.listen(this.storeUpdated.bind(this));
     this.state = mapStore.getState();
   }
 
-  storeUpdated () {
+  storeUpdated() {
     this.setState(mapStore.getState());
   }
 
@@ -39,7 +38,6 @@ export default class LayerCheckbox extends React.Component {
     }
   }
 
-
   shouldComponentUpdate(nextProps) {
     return nextProps.checked !== this.props.checked || this.props.children;
   }
@@ -47,42 +45,134 @@ export default class LayerCheckbox extends React.Component {
   render() {
     let layer = this.props.layer;
     return (
-      <div className={`layer-checkbox relative ${layer.className}${this.props.checked ? ' active' : ''}${layer.disabled ? ' disabled' : ''}`}>
-        {!layer.disabled ? null : <span className='tooltipmap fire'>Coming Soon!</span>}
-        <span onClick={this.toggleLayer.bind(this)} className='toggle-switch pointer'><span/></span>
-        <span onClick={this.toggleLayer.bind(this)} className='layer-checkbox-label pointer'>{layer.label}</span>
-        {!layer.middleLabel ? null : <div className='layer-checkbox-label'>{layer.middleLabel}</div>}
-        {!layer.sublabel ? null : <div className='layer-checkbox-sublabel'>{layer.sublabel}</div>}
-        {!layer.metadataId ? null :
-          <span className={`info-icon pointer ${this.state.iconLoading === this.props.layer.id ? 'iconLoading' : ''}`} onClick={this.showInfo.bind(this)}>
-            <svg dangerouslySetInnerHTML={{ __html: useSvg }}/>
+      <div
+        className={`layer-checkbox relative ${layer.className}${
+          this.props.checked ? " active" : ""
+        }${layer.disabled ? " disabled" : ""}`}
+      >
+        {!layer.disabled ? null : (
+          <span className="tooltipmap fire">Coming Soon!</span>
+        )}
+        <span
+          onClick={this.toggleLayer.bind(this)}
+          className="toggle-switch pointer"
+        >
+          <span />
+        </span>
+        <span
+          onClick={this.toggleLayer.bind(this)}
+          className="layer-checkbox-label pointer"
+        >
+          {layer.label}
+        </span>
+        {!layer.middleLabel ? null : (
+          <div className="layer-checkbox-label">{layer.middleLabel}</div>
+        )}
+        {!layer.sublabel ? null : (
+          <div className="layer-checkbox-sublabel">{layer.sublabel}</div>
+        )}
+        {!layer.metadataId ? null : (
+          <span
+            className={`info-icon pointer ${
+              this.state.iconLoading === this.props.layer.id
+                ? "iconLoading"
+                : ""
+            }`}
+            onClick={this.showInfo.bind(this)}
+          >
+            <svg dangerouslySetInnerHTML={{ __html: useSvg }} />
           </span>
-        }
-        {!this.props.children ? null :
-          <div className={`layer-content-container ${this.props.checked || this.props.childrenVisible ? '' : 'hidden'}`}>
+        )}
+        {!this.props.children ? null : (
+          <div
+            className={`layer-content-container ${
+              this.props.checked || this.props.childrenVisible ? "" : "hidden"
+            }`}
+          >
             {this.props.children}
           </div>
-        }
+        )}
       </div>
     );
   }
 
-  showInfo () {
+  showInfo() {
     let layer = this.props.layer;
-    if (layer.disabled) { return; }
+    if (layer.disabled) {
+      return;
+    }
     layerActions.showLoading(layer.id);
     modalActions.showLayerInfo(this.props.layer.id);
   }
 
-  toggleLayer () {
+  toggleLayer() {
     let layer = this.props.layer;
-    if (layer.disabled) { return; }
+    if (layer.disabled) {
+      return;
+    }
     if (this.props.checked) {
       layerActions.removeActiveLayer(layer.id);
+      if (layer.id.includes("activeFires")) {
+        const modisLayerIds = [
+          KEYS.activeFires,
+          KEYS.activeFires48,
+          KEYS.activeFires72,
+          KEYS.activeFires7D,
+          KEYS.activeFires1Y
+        ];
+
+        const layerToHide = app.map.getLayer(
+          modisLayerIds[this.state.firesSelectIndex]
+        );
+        if (layerToHide) {
+          layerToHide.hide();
+        }
+      } else if (layer.id.includes("viirsFires")) {
+        const viirsLayerIds = [
+          KEYS.viirsFires,
+          KEYS.viirsFires48,
+          KEYS.viirsFires72,
+          KEYS.viirsFires7D,
+          KEYS.viirsFires1Y
+        ];
+        const layerToHide = app.map.getLayer(
+          viirsLayerIds[this.state.viirsSelectIndex]
+        );
+        if (layerToHide) {
+          layerToHide.hide();
+        }
+      }
     } else {
       layerActions.addActiveLayer(layer.id);
+      if (layer.id.includes("activeFires")) {
+        const modisLayerIds = [
+          KEYS.activeFires,
+          KEYS.activeFires48,
+          KEYS.activeFires72,
+          KEYS.activeFires7D,
+          KEYS.activeFires1Y
+        ];
+        const layerToShow = app.map.getLayer(
+          modisLayerIds[this.state.firesSelectIndex]
+        );
+        if (layerToShow) {
+          layerToShow.show();
+        }
+      } else if (layer.id.includes("viirsFires")) {
+        const viirsLayerIds = [
+          KEYS.viirsFires,
+          KEYS.viirsFires48,
+          KEYS.viirsFires72,
+          KEYS.viirsFires7D,
+          KEYS.viirsFires1Y
+        ];
+        const layerToShow = app.map.getLayer(
+          viirsLayerIds[this.state.viirsSelectIndex]
+        );
+        if (layerToShow) {
+          layerToShow.show();
+        }
+      }
     }
   }
-
 }
-
