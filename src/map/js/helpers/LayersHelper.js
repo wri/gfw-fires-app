@@ -3,41 +3,41 @@ import {
   layersConfig,
   uploadConfig,
   shortTermServices
-} from "js/config";
-import rasterFuncs from "utils/rasterFunctions";
-import Request from "utils/request";
-import utils from "utils/AppUtils";
-import all from "dojo/promise/all";
-import dojoQuery from "dojo/query";
-import domClass from "dojo/dom-class";
-import { layerActions } from "actions/LayerActions";
-import { modalActions } from "actions/ModalActions";
-import MosaicRule from "esri/layers/MosaicRule";
-import on from "dojo/on";
-import InfoTemplate from "esri/InfoTemplate";
-import WindHelper from "helpers/WindHelper";
-import KEYS from "js/constants";
-import ShareHelper from "helpers/ShareHelper";
+} from 'js/config';
+import rasterFuncs from 'utils/rasterFunctions';
+import Request from 'utils/request';
+import utils from 'utils/AppUtils';
+import all from 'dojo/promise/all';
+import dojoQuery from 'dojo/query';
+import domClass from 'dojo/dom-class';
+import { layerActions } from 'actions/LayerActions';
+import { modalActions } from 'actions/ModalActions';
+import MosaicRule from 'esri/layers/MosaicRule';
+import on from 'dojo/on';
+import InfoTemplate from 'esri/InfoTemplate';
+import WindHelper from 'helpers/WindHelper';
+import KEYS from 'js/constants';
+import ShareHelper from 'helpers/ShareHelper';
 
 let LayersHelper = {
   sendAnalytics(eventType, action, label) {
     //todo: why is this request getting sent so many times?
-    ga("A.send", "event", eventType, action, label);
-    ga("B.send", "event", eventType, action, label);
-    ga("C.send", "event", eventType, action, label);
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
   },
 
   removeCustomFeature(feature) {
     this.sendAnalytics(
-      "feature",
-      "delete",
-      "The user deleted a custom feature."
+      'feature',
+      'delete',
+      'The user deleted a custom feature.'
     );
     app.map.graphics.remove(feature);
   },
 
   checkZoomDependentLayers() {
-    app.debug("LayerHelper >>> checkZoomDependentLayers");
+    app.debug('LayerHelper >>> checkZoomDependentLayers');
 
     let level = 6,
       mainLayer = app.map.getLayer(KEYS.protectedAreas),
@@ -62,11 +62,11 @@ let LayersHelper = {
   },
 
   performIdentify(evt) {
-    app.debug("LayerHelper >>> performIdentify");
+    app.debug('LayerHelper >>> performIdentify');
     this.sendAnalytics(
-      "map",
-      "click",
-      "The user performed an identify task by clicking the map."
+      'map',
+      'click',
+      'The user performed an identify task by clicking the map.'
     );
 
     let mapPoint = evt.mapPoint,
@@ -81,7 +81,7 @@ let LayersHelper = {
     if (
       evt.graphic &&
       evt.graphic.attributes &&
-      evt.graphic.attributes.Layer === "custom"
+      evt.graphic.attributes.Layer === 'custom'
     ) {
       modalActions.showSubscribeModal(evt.graphic);
       return;
@@ -396,7 +396,7 @@ let LayersHelper = {
         if (features.length > 0) {
           if (
             features[0].infoTemplate &&
-            features[0].infoTemplate.title === "Crowdsourced fire stories" &&
+            features[0].infoTemplate.title === 'Crowdsourced fire stories' &&
             app.mobile() !== true
           ) {
             app.map.infoWindow.resize(650);
@@ -409,17 +409,17 @@ let LayersHelper = {
           let closeHandles = [];
           let self = this;
 
-          dojoQuery(".contentPane .layer-subscribe").forEach(rowData => {
+          dojoQuery('.contentPane .layer-subscribe').forEach(rowData => {
             subscribeHandles.push(
-              on(rowData, "click", function(clickEvt) {
+              on(rowData, 'click', function(clickEvt) {
                 let target = clickEvt.target
                     ? clickEvt.target
                     : clickEvt.srcElement,
-                  url = target.getAttribute("data-url"),
-                  objId = target.getAttribute("data-id");
+                  url = target.getAttribute('data-url'),
+                  objId = target.getAttribute('data-id');
 
                 Request.getFeatureGeometry(url, objId).then(item => {
-                  item.features[0].attributes.Layer = "prebuilt";
+                  item.features[0].attributes.Layer = 'prebuilt';
                   item.features[0].attributes.featureName =
                     item.features[0].attributes.name;
                   modalActions.showSubscribeModal(item.features[0]);
@@ -428,39 +428,39 @@ let LayersHelper = {
             );
           });
 
-          dojoQuery(".infoWindow-close").forEach(rowData => {
+          dojoQuery('.infoWindow-close').forEach(rowData => {
             closeHandles.push(
-              on(rowData, "click", function() {
-                let tweet = document.getElementById("tweet");
+              on(rowData, 'click', function() {
+                let tweet = document.getElementById('tweet');
                 if (tweet) {
-                  tweet.style.display = "none";
+                  tweet.style.display = 'none';
                 }
                 app.map.infoWindow.hide();
               })
             );
           });
 
-          dojoQuery(".contentPane .imagery-data").forEach(rowData => {
+          dojoQuery('.contentPane .imagery-data').forEach(rowData => {
             handles.push(
-              on(rowData, "click", function(clickEvt) {
+              on(rowData, 'click', function(clickEvt) {
                 let target = clickEvt.target
                     ? clickEvt.target
                     : clickEvt.srcElement,
                   bucket = target.dataset
                     ? target.dataset.bucket
-                    : target.getAttribute("data-bucket"),
-                  layerId = target.getAttribute("data-layer"),
-                  objId = target.getAttribute("data-id");
+                    : target.getAttribute('data-bucket'),
+                  layerId = target.getAttribute('data-layer'),
+                  objId = target.getAttribute('data-id');
 
-                dojoQuery(".contentPane .imagery-data").forEach(function(
+                dojoQuery('.contentPane .imagery-data').forEach(function(
                   innerNode
                 ) {
-                  domClass.remove(innerNode.parentElement, "selected");
+                  domClass.remove(innerNode.parentElement, 'selected');
                 });
 
-                domClass.add(clickEvt.currentTarget.parentElement, "selected");
+                domClass.add(clickEvt.currentTarget.parentElement, 'selected');
 
-                let propertyArray = bucket.split("_");
+                let propertyArray = bucket.split('_');
                 let bucketObj = {};
                 bucketObj.feature = {};
                 bucketObj.feature.attributes = {};
@@ -484,7 +484,7 @@ let LayersHelper = {
     let layer = app.map.getLayer(layerId);
     let mrule = new MosaicRule();
     mrule.method = MosaicRule.METHOD_LOCKRASTER;
-    let config = utils.getObject(layersConfig, "id", KEYS.digitalGlobe);
+    let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
 
     config.imageServices.forEach(function(service) {
       let mapLayer = app.map.getLayer(service.id);
@@ -501,14 +501,14 @@ let LayersHelper = {
   },
 
   setActiveTemplates: function(featureObjects, keyword) {
-    app.debug("LayersHelper >>> setActiveTemplates");
+    app.debug('LayersHelper >>> setActiveTemplates');
     let template,
       features = [];
 
     featureObjects.forEach(item => {
-      let config = utils.getObject(layersConfig, "id", KEYS[keyword]);
-      let fire_results = "",
-        subscribe = "";
+      let config = utils.getObject(layersConfig, 'id', KEYS[keyword]);
+      let fire_results = '',
+        subscribe = '';
       if (
         keyword === KEYS.woodFiber ||
         keyword === KEYS.gfwLogging ||
@@ -524,9 +524,9 @@ let LayersHelper = {
         subscribe =
           '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' +
           config.url +
-          "/" +
+          '/' +
           config.layerIds[0] +
-          " data-id=" +
+          ' data-id=' +
           item.feature.attributes.OBJECTID +
           ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else if (
@@ -537,9 +537,9 @@ let LayersHelper = {
         subscribe =
           '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' +
           config.url +
-          "/" +
+          '/' +
           config.layerIds[0] +
-          " data-id=" +
+          ' data-id=' +
           item.feature.attributes.objectid +
           ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
       } else if (keyword === KEYS.burnScars) {
@@ -551,9 +551,9 @@ let LayersHelper = {
         subscribe =
           '</table><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div><div class="layer-subscribe-container"><button data-url=' +
           config.url +
-          "/" +
+          '/' +
           config.layerIds[0] +
-          " data-id=" +
+          ' data-id=' +
           item.feature.attributes.OBJECTID +
           ' class="layer-subscribe subscribe-submit right btn red" id="subscribeViaFeature">Subscribe</button></div>';
         config = config[item.layerName];
@@ -563,11 +563,11 @@ let LayersHelper = {
       }
 
       let content =
-        "<div>" +
+        '<div>' +
         fire_results +
         config.infoTemplate.content +
         subscribe +
-        "</div>";
+        '</div>';
 
       template = new InfoTemplate(item.layerName, content);
       item.feature.setInfoTemplate(template);
@@ -579,11 +579,11 @@ let LayersHelper = {
   setDigitalGlobeTemplates: function(features) {
     let template;
 
-    let htmlContent = "<table>";
+    let htmlContent = '<table>';
     features.forEach(feature => {
       let date = window.Kalendae.moment(
         feature.attributes.AcquisitionDate
-      ).format("M/D/YYYY");
+      ).format('M/D/YYYY');
       htmlContent +=
         '<tr class="imagery-row"><td data-id="' +
         feature.attributes.OBJECTID +
@@ -603,8 +603,8 @@ let LayersHelper = {
         feature.attributes.SensorName +
         '</td></tr><div title="close" class="infoWindow-close close-icon"><svg viewBox="0 0 100 100"><use xlink:href="#shape-close" /></use></svg></div>';
     });
-    htmlContent += "</table>";
-    template = new InfoTemplate("DigitalGlobe Imagery", htmlContent);
+    htmlContent += '</table>';
+    template = new InfoTemplate('DigitalGlobe Imagery', htmlContent);
     features[0].setInfoTemplate(template);
     return [features[0]];
   },
@@ -626,17 +626,17 @@ let LayersHelper = {
       }
       if (
         item.feature.attributes.Details &&
-        item.feature.attributes.Details !== "Null"
+        item.feature.attributes.Details !== 'Null'
       ) {
         htmlContent +=
           '<tr><td class="field-value wide">' +
           item.feature.attributes.Details +
-          "</td></tr>";
+          '</td></tr>';
       }
 
       if (
         item.feature.attributes.Video &&
-        item.feature.attributes.Details !== "Null"
+        item.feature.attributes.Details !== 'Null'
       ) {
         htmlContent +=
           '<tr><td class="field-value wide"><a href="' +
@@ -647,17 +647,17 @@ let LayersHelper = {
       htmlContent +=
         '<tr><td class="field-value wide">' +
         item.feature.attributes.Date +
-        "</td></tr>";
+        '</td></tr>';
     });
-    htmlContent += "</table>";
-    template = new InfoTemplate("Crowdsourced fire stories", htmlContent);
+    htmlContent += '</table>';
+    template = new InfoTemplate('Crowdsourced fire stories', htmlContent);
     features[0].feature.setInfoTemplate(template);
     return [features[0].feature];
   },
 
   setCustomFeaturesTemplates: function(feature) {
     let template = new InfoTemplate(
-      "Custom",
+      'Custom',
       uploadConfig.infoTemplate.content
     );
     feature.setInfoTemplate(template);
@@ -671,9 +671,9 @@ let LayersHelper = {
       // Change the opacity of the layer
       layer.setOpacity(parameters.value);
       // Special clause for fire history layer
-      if (layer.hasOwnProperty("id") && layer.id === KEYS.fireHistory) {
+      if (layer.hasOwnProperty('id') && layer.id === KEYS.fireHistory) {
         let layers = layersConfig.filter(
-          layerConfig => layerConfig && layerConfig.label === "Fire history"
+          layerConfig => layerConfig && layerConfig.label === 'Fire history'
         );
         layers.forEach(subLayer => {
           let firesHistoryLayer = app.map.getLayer(subLayer.id);
@@ -692,16 +692,16 @@ let LayersHelper = {
         let visibleLayers = [];
         layers.forEach(layerName => {
           switch (layerName) {
-            case "provinces":
+            case 'provinces':
               visibleLayers.push(7);
               break;
-            case "districts":
+            case 'districts':
               visibleLayers.push(6);
               break;
-            case "subdistricts":
+            case 'subdistricts':
               visibleLayers.push(5);
               break;
-            case "villages":
+            case 'villages':
               visibleLayers.push(4);
               break;
             default:
@@ -776,7 +776,7 @@ let LayersHelper = {
     app.debug(`LayersHelper >>> hideLayer - ${layerId}`);
 
     if (layerId === KEYS.digitalGlobe) {
-      let config = utils.getObject(layersConfig, "id", KEYS.digitalGlobe);
+      let config = utils.getObject(layersConfig, 'id', KEYS.digitalGlobe);
       let bb = app.map.getLayer(KEYS.boundingBoxes);
       if (bb) {
         bb.hide();
@@ -824,23 +824,23 @@ let LayersHelper = {
 
     if (checked) {
       this.sendAnalytics(
-        "layer",
-        "toggle",
-        "The user toggled the Wind layer on."
+        'layer',
+        'toggle',
+        'The user toggled the Wind layer on.'
       );
       WindHelper.activateWindLayer();
     } else {
       this.sendAnalytics(
-        "layer",
-        "toggle",
-        "The user toggled the Wind layer off."
+        'layer',
+        'toggle',
+        'The user toggled the Wind layer off.'
       );
       WindHelper.deactivateWindLayer();
     }
   },
 
   getFirePopupContent(item) {
-    app.debug("LayersHelper >>> getFirePopupContent");
+    app.debug('LayersHelper >>> getFirePopupContent');
     let isFires = item.fires.length > 0;
 
     let firesDiv = '<div class="fire-popup-list" id="fireResults">RECENT FIRES';
@@ -853,7 +853,7 @@ let LayersHelper = {
         return item.fires.filter(function(fire) {
           return (
             window.Kalendae.moment(fire.attributes.ACQ_DATE) >
-            window.Kalendae.moment().subtract(numdays, "days")
+            window.Kalendae.moment().subtract(numdays, 'days')
           );
         }).length;
       });
@@ -872,10 +872,10 @@ let LayersHelper = {
         '<div id="fires24-pop" class="fire-pop-item"><div class="fire-pop-count">' +
         fireCounts[0] +
         '</div><div class="fire-pop-label">24 hrs</div></div>' +
-        "</div>";
+        '</div>';
     }
 
-    fire_results += "</div>";
+    fire_results += '</div>';
     return fire_results;
   },
 
@@ -892,11 +892,11 @@ let LayersHelper = {
    * @param {boolean} dontRefresh - Whether or not to not fetch a new image
    */
   updateFiresLayerDefinitions(optionIndex) {
-    app.debug("LayersHelper >>> updateFiresLayerDefinitions");
+    app.debug('LayersHelper >>> updateFiresLayerDefinitions');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Active Fires expression."
+      'widget',
+      'timeline',
+      'The user updated the Active Fires expression.'
     );
     /* normally you wouldn't alter the urls for a layer but since we have moved from one behemoth service to 4 different services, we need to modify the layer url and id.
      * We are hiding and showing the layer to avoid calling the service multiple times.
@@ -905,7 +905,8 @@ let LayersHelper = {
       KEYS.activeFires,
       KEYS.activeFires48,
       KEYS.activeFires72,
-      KEYS.activeFires7D
+      KEYS.activeFires7D,
+      KEYS.activeFires1Y
     ];
 
     const modisLayer = app.map.getLayer(modisLayerIds[optionIndex]);
@@ -923,8 +924,8 @@ let LayersHelper = {
       if (optionIndex === 2) {
         modisLayer.setDefinitionExpression(
           `Date > date'${new window.Kalendae.moment()
-            .subtract(3, "d")
-            .format("YYYY-MM-DD HH:mm:ss")}'`
+            .subtract(3, 'd')
+            .format('YYYY-MM-DD HH:mm:ss')}'`
         );
       }
       modisLayer.show();
@@ -939,7 +940,8 @@ let LayersHelper = {
       KEYS.viirsFires,
       KEYS.viirsFires48,
       KEYS.viirsFires72,
-      KEYS.viirsFires7D
+      KEYS.viirsFires7D,
+      KEYS.viirsFires1Y
     ];
     const viirsLayer = app.map.getLayer(viirsLayerIds[optionIndex]);
     if (viirsLayer) {
@@ -955,8 +957,8 @@ let LayersHelper = {
       if (optionIndex === 2) {
         viirsLayer.setDefinitionExpression(
           `Date > date'${new window.Kalendae.moment()
-            .subtract(3, "d")
-            .format("YYYY-MM-DD HH:mm:ss")}'`
+            .subtract(3, 'd')
+            .format('YYYY-MM-DD HH:mm:ss')}'`
         );
       }
       viirsLayer.show();
@@ -964,7 +966,7 @@ let LayersHelper = {
   },
 
   updatePlantationLayerDefinitions(optionIndex) {
-    app.debug("LayersHelper >>> updatePlantationLayerDefinitions");
+    app.debug('LayersHelper >>> updatePlantationLayerDefinitions');
 
     let plantations = app.map.getLayer(KEYS.plantationTypes);
 
@@ -974,7 +976,7 @@ let LayersHelper = {
   },
 
   updateForestDefinitions(optionIndex) {
-    app.debug("LayersHelper >>> updateForestDefinitions");
+    app.debug('LayersHelper >>> updateForestDefinitions');
 
     let primaryForests = app.map.getLayer(KEYS.primaryForests);
 
@@ -985,14 +987,14 @@ let LayersHelper = {
 
   updateFireHistoryDefinitions(index) {
     let firesHistory = app.map.getLayer(KEYS.fireHistory);
-    let value = "kd" + layerPanelText.fireHistoryOptions[index].value;
+    let value = 'kd' + layerPanelText.fireHistoryOptions[index].value;
     if (firesHistory) {
       firesHistory.setDefinitionExpression("Name = '" + value + "'");
     }
   },
 
   toggleArchiveConfidence(checked) {
-    app.debug("LayersHelper >>> toggleArchiveConfidence");
+    app.debug('LayersHelper >>> toggleArchiveConfidence');
 
     let archiveLayer = app.map.getLayer(KEYS.archiveFires);
 
@@ -1002,9 +1004,9 @@ let LayersHelper = {
 
       if (checked) {
         defQuery =
-          currentString + " AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+          currentString + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
       } else {
-        let string = currentString.split(" AND BRIGHTNESS")[0];
+        let string = currentString.split(' AND BRIGHTNESS')[0];
         defQuery = string;
       }
 
@@ -1016,11 +1018,11 @@ let LayersHelper = {
   },
 
   updateArchiveDates(clauseArray) {
-    app.debug("LayersHelper >>> updateArchiveDates");
+    app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Archive Fires expression."
+      'widget',
+      'timeline',
+      'The user updated the Archive Fires expression.'
     );
     let archiveLayer = app.map.getLayer(KEYS.archiveFires);
 
@@ -1029,20 +1031,20 @@ let LayersHelper = {
 
       let currentString = archiveLayer.layerDefinitions[0];
 
-      if (currentString.indexOf(" AND BRIGHTNESS") > -1) {
+      if (currentString.indexOf(' AND BRIGHTNESS') > -1) {
         let string =
           "ACQ_DATE <= date'" +
-          new window.Kalendae.moment(clauseArray[1]).format("M/D/YYYY") +
+          new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') +
           "' AND ACQ_DATE >= date'" +
-          new window.Kalendae.moment(clauseArray[0]).format("M/D/YYYY") +
+          new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') +
           "' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
-        defQuery = string + " AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30";
+        defQuery = string + ' AND BRIGHTNESS >= 330 AND CONFIDENCE >= 30';
       } else {
         let string =
           "ACQ_DATE <= date'" +
-          new window.Kalendae.moment(clauseArray[1]).format("M/D/YYYY") +
+          new window.Kalendae.moment(clauseArray[1]).format('M/D/YYYY') +
           "' AND ACQ_DATE >= date'" +
-          new window.Kalendae.moment(clauseArray[0]).format("M/D/YYYY") +
+          new window.Kalendae.moment(clauseArray[0]).format('M/D/YYYY') +
           "'";
         defQuery = string;
       }
@@ -1055,11 +1057,11 @@ let LayersHelper = {
   },
 
   updateViirsArchiveDates(clauseArray) {
-    app.debug("LayersHelper >>> updateArchiveDates");
+    app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Archive Fires expression."
+      'widget',
+      'timeline',
+      'The user updated the Archive Fires expression.'
     );
 
     const viirsLayerIds = [
@@ -1079,21 +1081,21 @@ let LayersHelper = {
       });
       viirsLayer.setDefinitionExpression(
         `ACQ_DATE <= date'${new window.Kalendae.moment(clauseArray[1]).format(
-          "M/D/YYYY"
+          'M/D/YYYY'
         )}' AND ACQ_DATE >= date'${new window.Kalendae.moment(
           clauseArray[0]
-        ).format("M/D/YYYY")}'`
+        ).format('M/D/YYYY')}'`
       );
       viirsLayer.show();
     }
   },
 
   updateModisArchiveDates(clauseArray) {
-    app.debug("LayersHelper >>> updateArchiveDates");
+    app.debug('LayersHelper >>> updateArchiveDates');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Archive Fires expression."
+      'widget',
+      'timeline',
+      'The user updated the Archive Fires expression.'
     );
 
     const modisLayerIds = [
@@ -1102,7 +1104,7 @@ let LayersHelper = {
       KEYS.activeFires72,
       KEYS.activeFires7D
     ];
-    console.log("start");
+    console.log('start');
     const modisLayer = app.map.getLayer(KEYS.activeFires1Y);
     if (modisLayer) {
       // Hide all other viirs layers, just in case.
@@ -1114,10 +1116,10 @@ let LayersHelper = {
       });
       modisLayer.setDefinitionExpression(
         `ACQ_DATE <= date'${new window.Kalendae.moment(clauseArray[1]).format(
-          "M/D/YYYY"
+          'M/D/YYYY'
         )}' AND ACQ_DATE >= date'${new window.Kalendae.moment(
           clauseArray[0]
-        ).format("M/D/YYYY")}'`
+        ).format('M/D/YYYY')}'`
       );
       modisLayer.show();
     }
@@ -1146,21 +1148,21 @@ let LayersHelper = {
   },
 
   updateNoaaDates(clauseArray) {
-    app.debug("LayersHelper >>> updateNoaaDates");
+    app.debug('LayersHelper >>> updateNoaaDates');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the NOAA-18 Fires date expression."
+      'widget',
+      'timeline',
+      'The user updated the NOAA-18 Fires date expression.'
     );
     let noaaLayer = app.map.getLayer(KEYS.noaa18Fires);
 
     if (noaaLayer) {
       let startDate = new window.Kalendae.moment(clauseArray[0]).format(
-        "M/D/YYYY"
+        'M/D/YYYY'
       );
       let endDate = new window.Kalendae.moment(clauseArray[1])
-        .add(1, "day")
-        .format("M/D/YYYY");
+        .add(1, 'day')
+        .format('M/D/YYYY');
 
       let defQuery =
         "Date >= date'" + startDate + "' AND Date <= date'" + endDate + "'";
@@ -1176,17 +1178,17 @@ let LayersHelper = {
    * @param {boolean} dontRefresh - Whether or not to not fetch a new image
    */
   updateDigitalGlobeLayerDefinitions(clauseArray) {
-    app.debug("LayersHelper >>> updateDigitalGlobeLayerDefinitions");
+    app.debug('LayersHelper >>> updateDigitalGlobeLayerDefinitions');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the DigitalGlobe date expression."
+      'widget',
+      'timeline',
+      'The user updated the DigitalGlobe date expression.'
     );
     let dgGraphics = clauseArray[2];
 
     clauseArray[1] = new window.Kalendae.moment(clauseArray[1])
-      .add(1, "day")
-      .format("M/D/YYYY");
+      .add(1, 'day')
+      .format('M/D/YYYY');
 
     let startDate = new Date(clauseArray[0]);
     let endDate = new Date(clauseArray[1]);
@@ -1213,16 +1215,16 @@ let LayersHelper = {
   },
 
   updateTreeCoverDefinitions(densityValue) {
-    app.debug("LayersHelper >>> updateTreeCoverDefinitions");
+    app.debug('LayersHelper >>> updateTreeCoverDefinitions');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Tree Cover Density slider."
+      'widget',
+      'timeline',
+      'The user updated the Tree Cover Density slider.'
     );
 
     let layerConfig = utils.getObject(
       layersConfig,
-      "id",
+      'id',
       KEYS.treeCoverDensity
     );
 
@@ -1239,21 +1241,21 @@ let LayersHelper = {
   },
 
   updateFireRisk(dayValue) {
-    app.debug("LayersHelper >>> updateFireRisk");
+    app.debug('LayersHelper >>> updateFireRisk');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Fire Risk date expression."
+      'widget',
+      'timeline',
+      'The user updated the Fire Risk date expression.'
     );
 
-    let date = window.Kalendae.moment(dayValue).format("M/D/YYYY");
+    let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
 
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
     let janOne = new Date(year, 0, 0);
 
-    let origDate = window.Kalendae.moment(janOne).format("M/D/YYYY");
+    let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
 
@@ -1262,14 +1264,14 @@ let LayersHelper = {
     // }
 
     if (julian.toString().length === 1) {
-      julian = "00" + julian.toString();
+      julian = '00' + julian.toString();
     } else if (julian.toString().length === 2) {
-      julian = "0" + julian.toString();
+      julian = '0' + julian.toString();
     } else {
       julian = julian.toString();
     }
 
-    let defQuery = year.toString() + julian + "_HEMI_FireRisk";
+    let defQuery = year.toString() + julian + '_HEMI_FireRisk';
 
     let riskLayer = app.map.getLayer(KEYS.fireWeather);
 
@@ -1279,19 +1281,19 @@ let LayersHelper = {
   },
 
   updateLastRain(dayValue) {
-    app.debug("LayersHelper >>> updateLastRain");
+    app.debug('LayersHelper >>> updateLastRain');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Days Since Last Rainfall date expression."
+      'widget',
+      'timeline',
+      'The user updated the Days Since Last Rainfall date expression.'
     );
 
-    let date = window.Kalendae.moment(dayValue).format("M/D/YYYY");
+    let date = window.Kalendae.moment(dayValue).format('M/D/YYYY');
     let otherDate = new Date(dayValue);
     let month = otherDate.getMonth();
     let year = otherDate.getFullYear();
     let janOne = new Date(year, 0, 0);
-    let origDate = window.Kalendae.moment(janOne).format("M/D/YYYY");
+    let origDate = window.Kalendae.moment(janOne).format('M/D/YYYY');
 
     let julian = this.daydiff(this.parseDate(origDate), this.parseDate(date));
     // if (month > 1 && this.isLeapYear(year)) {
@@ -1299,14 +1301,14 @@ let LayersHelper = {
     // }
 
     if (julian.toString().length === 1) {
-      julian = "00" + julian.toString();
+      julian = '00' + julian.toString();
     } else if (julian.toString().length === 2) {
-      julian = "0" + julian.toString();
+      julian = '0' + julian.toString();
     } else {
       julian = julian.toString();
     }
 
-    let defQuery = "DSLR_" + year.toString() + julian + "_HEMI";
+    let defQuery = 'DSLR_' + year.toString() + julian + '_HEMI';
     let rainLayer = app.map.getLayer(KEYS.lastRainfall);
 
     if (rainLayer) {
@@ -1315,53 +1317,53 @@ let LayersHelper = {
   },
 
   updateAirQDate(dayValue) {
-    app.debug("LayersHelper >>> updateAirQDate");
+    app.debug('LayersHelper >>> updateAirQDate');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Air Quality date expression."
+      'widget',
+      'timeline',
+      'The user updated the Air Quality date expression.'
     );
     const layer = app.map.getLayer(KEYS.airQuality);
 
     // Start of day
-    const start = window.Kalendae.moment(dayValue).startOf("day");
+    const start = window.Kalendae.moment(dayValue).startOf('day');
     // End of day
-    const end = window.Kalendae.moment(dayValue).endOf("day");
+    const end = window.Kalendae.moment(dayValue).endOf('day');
 
     const layerDefs = [];
     // Create layer definition
     layerDefs[0] = `update_date >= date'${start.format(
-      "YYYY-MM-DD HH:mm:ss"
-    )}' AND update_date <= date'${end.format("YYYY-MM-DD HH:mm:ss")}'`;
+      'YYYY-MM-DD HH:mm:ss'
+    )}' AND update_date <= date'${end.format('YYYY-MM-DD HH:mm:ss')}'`;
     layer.setLayerDefinitions(layerDefs);
   },
 
   updateWindDate(dayValue) {
-    app.debug("LayersHelper >>> updateWindDate");
+    app.debug('LayersHelper >>> updateWindDate');
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Wind Layer date expression."
+      'widget',
+      'timeline',
+      'The user updated the Wind Layer date expression.'
     );
 
-    let dateArray = window.Kalendae.moment(dayValue).format("MM/DD/YYYY");
+    let dateArray = window.Kalendae.moment(dayValue).format('MM/DD/YYYY');
 
-    let reportdates = dateArray.split("/");
+    let reportdates = dateArray.split('/');
     let datesFormatted =
       reportdates[2].toString() +
       reportdates[0].toString() +
       reportdates[1].toString();
     let updatedURL =
-      "https://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-" +
+      'https://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' +
       datesFormatted +
-      "00" +
-      ".1-0.gz.json";
+      '00' +
+      '.1-0.gz.json';
     WindHelper.deactivateWindLayer();
     WindHelper.activateWindLayer(updatedURL);
   },
 
   parseDate(str) {
-    let mdy = str.split("/");
+    let mdy = str.split('/');
     return new Date(mdy[2], mdy[0] - 1, mdy[1]);
   },
 
