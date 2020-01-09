@@ -1,5 +1,5 @@
-define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapStore', 'helpers/LayersHelper', 'js/constants', 'react'], function (exports, _LayerActions, _ModalActions, _MapStore, _LayersHelper, _constants, _react) {
-  'use strict';
+define(["exports", "actions/LayerActions", "actions/ModalActions", "stores/MapStore", "helpers/LayersHelper", "js/constants", "react"], function (exports, _LayerActions, _ModalActions, _MapStore, _LayersHelper, _constants, _react) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -82,12 +82,12 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
     }
 
     _createClass(LayerCheckbox, [{
-      key: 'storeUpdated',
+      key: "storeUpdated",
       value: function storeUpdated() {
         this.setState(_MapStore.mapStore.getState());
       }
     }, {
-      key: 'componentDidUpdate',
+      key: "componentDidUpdate",
       value: function componentDidUpdate(prevProps) {
         if (prevProps.checked !== this.props.checked) {
           if (this.props.layer.id === _constants2.default.windDirection) {
@@ -107,56 +107,69 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
         }
       }
     }, {
-      key: 'shouldComponentUpdate',
+      key: "shouldComponentUpdate",
       value: function shouldComponentUpdate(nextProps) {
         return nextProps.checked !== this.props.checked || this.props.children;
       }
     }, {
-      key: 'render',
+      key: "render",
       value: function render() {
         var layer = this.props.layer;
         return _react2.default.createElement(
-          'div',
-          { className: 'layer-checkbox relative ' + layer.className + (this.props.checked ? ' active' : '') + (layer.disabled ? ' disabled' : '') },
+          "div",
+          {
+            className: "layer-checkbox relative " + layer.className + (this.props.checked ? " active" : "") + (layer.disabled ? " disabled" : "")
+          },
           !layer.disabled ? null : _react2.default.createElement(
-            'span',
-            { className: 'tooltipmap fire' },
-            'Coming Soon!'
+            "span",
+            { className: "tooltipmap fire" },
+            "Coming Soon!"
           ),
           _react2.default.createElement(
-            'span',
-            { onClick: this.toggleLayer.bind(this), className: 'toggle-switch pointer' },
-            _react2.default.createElement('span', null)
+            "span",
+            {
+              onClick: this.toggleLayer.bind(this),
+              className: "toggle-switch pointer"
+            },
+            _react2.default.createElement("span", null)
           ),
           _react2.default.createElement(
-            'span',
-            { onClick: this.toggleLayer.bind(this), className: 'layer-checkbox-label pointer' },
+            "span",
+            {
+              onClick: this.toggleLayer.bind(this),
+              className: "layer-checkbox-label pointer"
+            },
             layer.label
           ),
           !layer.middleLabel ? null : _react2.default.createElement(
-            'div',
-            { className: 'layer-checkbox-label' },
+            "div",
+            { className: "layer-checkbox-label" },
             layer.middleLabel
           ),
           !layer.sublabel ? null : _react2.default.createElement(
-            'div',
-            { className: 'layer-checkbox-sublabel' },
+            "div",
+            { className: "layer-checkbox-sublabel" },
             layer.sublabel
           ),
           !layer.metadataId ? null : _react2.default.createElement(
-            'span',
-            { className: 'info-icon pointer ' + (this.state.iconLoading === this.props.layer.id ? 'iconLoading' : ''), onClick: this.showInfo.bind(this) },
-            _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: useSvg } })
+            "span",
+            {
+              className: "info-icon pointer " + (this.state.iconLoading === this.props.layer.id ? "iconLoading" : ""),
+              onClick: this.showInfo.bind(this)
+            },
+            _react2.default.createElement("svg", { dangerouslySetInnerHTML: { __html: useSvg } })
           ),
           !this.props.children ? null : _react2.default.createElement(
-            'div',
-            { className: 'layer-content-container ' + (this.props.checked || this.props.childrenVisible ? '' : 'hidden') },
+            "div",
+            {
+              className: "layer-content-container " + (this.props.checked || this.props.childrenVisible ? "" : "hidden")
+            },
             this.props.children
           )
         );
       }
     }, {
-      key: 'showInfo',
+      key: "showInfo",
       value: function showInfo() {
         var layer = this.props.layer;
         if (layer.disabled) {
@@ -166,7 +179,7 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
         _ModalActions.modalActions.showLayerInfo(this.props.layer.id);
       }
     }, {
-      key: 'toggleLayer',
+      key: "toggleLayer",
       value: function toggleLayer() {
         var layer = this.props.layer;
         if (layer.disabled) {
@@ -174,8 +187,35 @@ define(['exports', 'actions/LayerActions', 'actions/ModalActions', 'stores/MapSt
         }
         if (this.props.checked) {
           _LayerActions.layerActions.removeActiveLayer(layer.id);
+          if (layer.id.includes("activeFires")) {
+            var modisLayerIds = [_constants2.default.activeFires, _constants2.default.activeFires48, _constants2.default.activeFires72, _constants2.default.activeFires7D, _constants2.default.activeFires1Y];
+
+            var layerToHide = app.map.getLayer(modisLayerIds[this.state.firesSelectIndex]);
+            if (layerToHide) {
+              layerToHide.hide();
+            }
+          } else if (layer.id.includes("viirsFires")) {
+            var viirsLayerIds = [_constants2.default.viirsFires, _constants2.default.viirsFires48, _constants2.default.viirsFires72, _constants2.default.viirsFires7D, _constants2.default.viirsFires1Y];
+            var _layerToHide = app.map.getLayer(viirsLayerIds[this.state.viirsSelectIndex]);
+            if (_layerToHide) {
+              _layerToHide.hide();
+            }
+          }
         } else {
           _LayerActions.layerActions.addActiveLayer(layer.id);
+          if (layer.id.includes("activeFires")) {
+            var _modisLayerIds = [_constants2.default.activeFires, _constants2.default.activeFires48, _constants2.default.activeFires72, _constants2.default.activeFires7D, _constants2.default.activeFires1Y];
+            var layerToShow = app.map.getLayer(_modisLayerIds[this.state.firesSelectIndex]);
+            if (layerToShow) {
+              layerToShow.show();
+            }
+          } else if (layer.id.includes("viirsFires")) {
+            var _viirsLayerIds = [_constants2.default.viirsFires, _constants2.default.viirsFires48, _constants2.default.viirsFires72, _constants2.default.viirsFires7D, _constants2.default.viirsFires1Y];
+            var _layerToShow = app.map.getLayer(_viirsLayerIds[this.state.viirsSelectIndex]);
+            if (_layerToShow) {
+              _layerToShow.show();
+            }
+          }
         }
       }
     }]);

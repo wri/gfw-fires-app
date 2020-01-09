@@ -1,5 +1,5 @@
-define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/ModalActions', 'js/config', 'helpers/DateHelper', 'actions/MapActions', 'js/constants', 'react'], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
-  'use strict';
+define(["exports", "actions/LayerActions", "helpers/LayersHelper", "actions/ModalActions", "js/config", "helpers/DateHelper", "actions/MapActions", "js/constants", "react"], function (exports, _LayerActions, _LayersHelper, _ModalActions, _config, _DateHelper, _MapActions, _constants, _react) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -84,14 +84,14 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
     }
 
     _createClass(FiresControls, [{
-      key: 'componentDidUpdate',
+      key: "componentDidUpdate",
       value: function componentDidUpdate(prevProps) {
         if (prevProps.firesSelectIndex !== this.props.firesSelectIndex && this.props.firesSelectIndex !== firesOptions.length - 1) {
           _LayersHelper2.default.updateFiresLayerDefinitions(this.props.firesSelectIndex);
         }
       }
     }, {
-      key: 'componentWillReceiveProps',
+      key: "componentWillReceiveProps",
       value: function componentWillReceiveProps(nextProps) {
         // Set the default layer definition when the map has been loaded
         if (!this.props.loaded && nextProps.loaded) {
@@ -99,92 +99,110 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
         }
       }
     }, {
-      key: 'render',
+      key: "render",
       value: function render() {
         var activeItem = firesOptions[this.props.firesSelectIndex];
         var startDate = window.Kalendae.moment(this.props.archiveModisStartDate);
         var endDate = window.Kalendae.moment(this.props.archiveModisEndDate);
-        var showModisArchive = this.state.modisArchiveVisible ? '' : 'hidden';
+        var showModisArchive = this.state.modisArchiveVisible ? "" : "hidden";
 
         return _react2.default.createElement(
-          'div',
+          "div",
           null,
           _react2.default.createElement(
-            'div',
-            { className: 'timeline-container relative fires' },
+            "div",
+            { className: "timeline-container relative fires" },
             _react2.default.createElement(
-              'select',
-              { id: 'modis-select', className: 'pointer select-modis ' + (this.state.modisArchiveVisible === true ? '' : 'darken'), value: activeItem.value, onChange: this.changeFiresTimeline.bind(this) },
+              "select",
+              {
+                id: "modis-select",
+                className: "pointer select-modis " + (this.state.modisArchiveVisible === true ? "" : "darken"),
+                value: activeItem.value,
+                onChange: this.changeFiresTimeline.bind(this)
+              },
               firesOptions.map(this.optionsMap, this)
             ),
             _react2.default.createElement(
-              'div',
-              { id: 'modis-time-options', className: 'active-fires-control gfw-btn sml white ' + (this.state.modisArchiveVisible === true ? '' : 'darken') },
+              "div",
+              {
+                id: "modis-time-options",
+                className: "active-fires-control gfw-btn sml white " + (this.state.modisArchiveVisible === true ? "" : "darken")
+              },
               activeItem.label
             ),
             _react2.default.createElement(
-              'div',
-              { id: 'modis-custom-range-btn', className: 'active-fires-control gfw-btn sml white pointer ' + (this.state.modisArchiveVisible === true ? 'darken' : ''), onClick: this.toggleModisArchive.bind(this) },
-              'Custom Range'
+              "div",
+              {
+                id: "modis-custom-range-btn",
+                className: "active-fires-control gfw-btn sml white pointer " + (this.state.modisArchiveVisible === true ? "darken" : ""),
+                onClick: this.toggleModisArchive.bind(this)
+              },
+              "Custom Range"
             )
           ),
           _react2.default.createElement(
-            'div',
-            { id: 'modis-archive-date-ranges', className: showModisArchive },
+            "div",
+            { id: "modis-archive-date-ranges", className: showModisArchive },
             _react2.default.createElement(
-              'span',
-              { className: 'imagery-calendar-label' },
+              "span",
+              { className: "imagery-calendar-label" },
               this.props.options.minLabel
             ),
             _react2.default.createElement(
-              'button',
-              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveStart' ? ' current' : ''), onClick: this.changeStart.bind(this) },
+              "button",
+              {
+                className: "gfw-btn white pointer " + (this.props.calendarVisible === "archiveStart" ? " current" : ""),
+                onClick: this.changeStart.bind(this)
+              },
               _DateHelper2.default.getDate(startDate)
             ),
             _react2.default.createElement(
-              'span',
-              { className: 'imagery-calendar-label' },
+              "span",
+              { className: "imagery-calendar-label" },
               this.props.options.maxLabel
             ),
             _react2.default.createElement(
-              'button',
-              { className: 'gfw-btn white pointer ' + (this.props.calendarVisible === 'archiveEnd' ? ' current' : ''), onClick: this.changeEnd.bind(this) },
+              "button",
+              {
+                className: "gfw-btn white pointer " + (this.props.calendarVisible === "archiveEnd" ? " current" : ""),
+                onClick: this.changeEnd.bind(this)
+              },
               _DateHelper2.default.getDate(endDate)
             ),
             new Date(this.props.archiveModisEndDate) < new Date(this.props.archiveModisStartDate) ? _react2.default.createElement(
-              'p',
-              { className: 'error-message' },
+              "p",
+              { className: "error-message" },
               _config.layerPanelText.calendarValidation
-            ) : ''
+            ) : ""
           )
         );
       }
     }, {
-      key: 'toggleModisArchive',
+      key: "toggleModisArchive",
       value: function toggleModisArchive() {
         this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
         _LayerActions.layerActions.changeFiresTimeline(firesOptions.length - 1); //change to disabled option of Active fires
-        document.getElementById('modis-select').selectedIndex = firesOptions.length - 1;
+        document.getElementById("modis-select").selectedIndex = firesOptions.length - 1;
       }
     }, {
-      key: 'optionsMap',
+      key: "optionsMap",
       value: function optionsMap(item, index) {
-        if (item.label === 'Active Fires') {
+        if (item.label === "Active Fires") {
           return _react2.default.createElement(
-            'option',
+            "option",
             { key: index, value: item.value, disabled: true },
             item.label
           );
         } else {
           return _react2.default.createElement(
-            'option',
+            "option",
             { key: index, value: item.value },
             item.label
           );
         }
       }
     }, {
-      key: 'changeFiresTimeline',
+      key: "changeFiresTimeline",
       value: function changeFiresTimeline(evt) {
         _LayerActions.layerActions.changeFiresTimeline(evt.target.selectedIndex);
 
@@ -193,16 +211,16 @@ define(['exports', 'actions/LayerActions', 'helpers/LayersHelper', 'actions/Moda
         }
       }
     }, {
-      key: 'changeStart',
+      key: "changeStart",
       value: function changeStart() {
-        _ModalActions.modalActions.showCalendarModal('start');
-        _MapActions.mapActions.setCalendar('archiveModisStart');
+        _ModalActions.modalActions.showCalendarModal("start");
+        _MapActions.mapActions.setCalendar("archiveModisStart");
       }
     }, {
-      key: 'changeEnd',
+      key: "changeEnd",
       value: function changeEnd() {
-        _ModalActions.modalActions.showCalendarModal('end');
-        _MapActions.mapActions.setCalendar('archiveModisEnd');
+        _ModalActions.modalActions.showCalendarModal("end");
+        _MapActions.mapActions.setCalendar("archiveModisEnd");
       }
     }]);
 

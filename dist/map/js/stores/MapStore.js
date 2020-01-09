@@ -1,5 +1,5 @@
-define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 'actions/MapActions', 'helpers/LayersHelper', 'helpers/ShareHelper', 'utils/request', 'js/constants', 'js/alt'], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _LayersHelper, _ShareHelper, _request, _constants, _alt) {
-  'use strict';
+define(["exports", "js/config", "actions/LayerActions", "actions/ModalActions", "actions/MapActions", "helpers/LayersHelper", "helpers/ShareHelper", "utils/request", "js/constants", "js/alt"], function (exports, _config, _LayerActions, _ModalActions, _MapActions, _LayersHelper, _ShareHelper, _request, _constants, _alt) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -89,10 +89,10 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.activeDG = undefined;
       this.currentCustomGraphic = undefined;
       this.activeBasemap = _config.defaults.activeBasemap;
-      this.activeImagery = '';
+      this.activeImagery = "";
       this.activeCategory = _config.defaults.planetActiveCategory;
-      this.activePlanetBasemap = '';
-      this.activePlanetPeriod = '';
+      this.activePlanetBasemap = "";
+      this.activePlanetPeriod = "";
       this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
       this.plantationSelectIndex = _config.layerPanelText.plantationOptions.length - 1;
       this.forestSelectIndex = _config.layerPanelText.forestOptions.length - 1;
@@ -103,7 +103,7 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
       this.layerPanelVisible = app.mobile === false;
       this.lat = undefined;
       this.lng = undefined;
-      this.iconLoading = '';
+      this.iconLoading = "";
       this.imageryModalVisible = false;
       this.imageryData = [];
       this.loadingImagery = false;
@@ -164,29 +164,29 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     }
 
     _createClass(MapStore, [{
-      key: 'connectLayerEvents',
+      key: "connectLayerEvents",
       value: function connectLayerEvents() {
         var _this = this;
 
         // Enable Mouse Events for al graphics layers
         app.map.graphics.enableMouseEvents();
         // Set up Click Listener to Perform Identify
-        app.map.on('click', _LayersHelper2.default.performIdentify.bind(_LayersHelper2.default));
+        app.map.on("click", _LayersHelper2.default.performIdentify.bind(_LayersHelper2.default));
 
-        app.map.on('extent-change, basemap-change', function () {
+        app.map.on("extent-change, basemap-change", function () {
           _ShareHelper2.default.handleHashChange(undefined, _this.activeImagery, _this.activeCategory, _this.activePlanetPeriod);
         });
 
-        app.map.on('zoom-end', _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
+        app.map.on("zoom-end", _LayersHelper2.default.checkZoomDependentLayers.bind(_LayersHelper2.default));
         _LayersHelper2.default.updateAirQDate(_config.defaults.todaysDate);
       }
     }, {
-      key: 'setCalendar',
+      key: "setCalendar",
       value: function setCalendar(calendar) {
         this.calendarVisible = calendar;
       }
     }, {
-      key: 'updateOverlays',
+      key: "updateOverlays",
       value: function updateOverlays(overlay) {
         var newOverlays = this.overlaysVisible.slice();
         var index = newOverlays.indexOf(overlay);
@@ -199,49 +199,49 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         _LayersHelper2.default.updateOverlays(newOverlays);
       }
     }, {
-      key: 'togglePanels',
+      key: "togglePanels",
       value: function togglePanels() {
         this.panelsHidden = !this.panelsHidden;
       }
     }, {
-      key: 'setCurrentCustomGraphic',
+      key: "setCurrentCustomGraphic",
       value: function setCurrentCustomGraphic(graphic) {
-        if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === 'custom') {
+        if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === "custom") {
           graphic = app.map.graphics.graphics[0];
         }
         this.currentCustomGraphic = graphic;
       }
     }, {
-      key: 'setFootprints',
+      key: "setFootprints",
       value: function setFootprints(footprints) {
         this.footprints = footprints;
       }
     }, {
-      key: 'setGlobe',
+      key: "setGlobe",
       value: function setGlobe(globe) {
         this.activeDG = globe;
       }
     }, {
-      key: 'getDate',
+      key: "getDate",
       value: function getDate(date) {
-        return window.Kalendae.moment(date).format('M/D/YYYY');
+        return window.Kalendae.moment(date).format("M/D/YYYY");
       }
     }, {
-      key: 'showLoading',
+      key: "showLoading",
       value: function showLoading(layerInfo) {
         this.iconLoading = layerInfo;
       }
     }, {
-      key: 'hideLoading',
+      key: "hideLoading",
       value: function hideLoading() {
-        this.iconLoading = '';
+        this.iconLoading = "";
       }
     }, {
-      key: 'setDGDate',
+      key: "setDGDate",
       value: function setDGDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         if (!this.footprints) {
           return;
@@ -250,99 +250,100 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         _LayersHelper2.default.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
       }
     }, {
-      key: 'setAnalysisDate',
+      key: "setAnalysisDate",
       value: function setAnalysisDate(dateObj) {
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Analysis date expression.');
-        this.calendarVisible = '';
+        this.sendAnalytics("widget", "timeline", "The user updated the Analysis date expression.");
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
       }
     }, {
-      key: 'setArchiveDate',
+      key: "setArchiveDate",
       value: function setArchiveDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
       }
     }, {
-      key: 'setViirsArchiveDate',
+      key: "setViirsArchiveDate",
       value: function setViirsArchiveDate(dateObj) {
-        this.calendarVisible = '';
+        console.log("settting", dateObj);
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateViirsArchiveDates([this.archiveViirsStartDate, this.archiveViirsEndDate]);
       }
     }, {
-      key: 'setModisArchiveDate',
+      key: "setModisArchiveDate",
       value: function setModisArchiveDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateModisArchiveDates([this.archiveModisStartDate, this.archiveModisEndDate]);
       }
     }, {
-      key: 'setNoaaDate',
+      key: "setNoaaDate",
       value: function setNoaaDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
       }
     }, {
-      key: 'setRiskDate',
+      key: "setRiskDate",
       value: function setRiskDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateFireRisk(this.riskDate);
       }
     }, {
-      key: 'setRainDate',
+      key: "setRainDate",
       value: function setRainDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateLastRain(this.rainDate);
       }
     }, {
-      key: 'setAirQDate',
+      key: "setAirQDate",
       value: function setAirQDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         _LayersHelper2.default.updateAirQDate(this.airQDate);
       }
     }, {
-      key: 'setWindDate',
+      key: "setWindDate",
       value: function setWindDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
         _LayersHelper2.default.updateWindDate(this.windDate);
       }
     }, {
-      key: 'setSentinalDate',
+      key: "setSentinalDate",
       value: function setSentinalDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
 
-        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
       }
     }, {
-      key: 'setMasterDate',
+      key: "setMasterDate",
       value: function setMasterDate(dateObj) {
-        this.calendarVisible = '';
+        this.calendarVisible = "";
         //active, archive, noaa, fire risk, wind, air quality, maybe DG imagery
 
         var masterDate = window.Kalendae.moment(dateObj.date);
-        var masterFormatted = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+        var masterFormatted = window.Kalendae.moment(dateObj.date).format("M/D/YYYY");
 
         var archiveStart = window.Kalendae.moment(_config.defaults.archiveStartDate);
         var archiveEnd = window.Kalendae.moment(_config.defaults.archiveEndDate);
@@ -424,33 +425,33 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
       }
     }, {
-      key: 'sendAnalytics',
+      key: "sendAnalytics",
       value: function sendAnalytics(eventType, action, label) {
         //todo: why is this request getting sent so many times?
-        ga('A.send', 'event', eventType, action, label);
-        ga('B.send', 'event', eventType, action, label);
-        ga('C.send', 'event', eventType, action, label);
+        ga("A.send", "event", eventType, action, label);
+        ga("B.send", "event", eventType, action, label);
+        ga("C.send", "event", eventType, action, label);
       }
     }, {
-      key: 'addActiveLayer',
+      key: "addActiveLayer",
       value: function addActiveLayer(layerId) {
         var index = this.activeLayers.indexOf(layerId);
         if (index === -1) {
           // Create a copy of the strings array for easy change detection
           var layers = this.activeLayers.slice();
           layers.push(layerId);
-          if (layerId === 'plantationTypes') {
-            this.removeActiveLayer('plantationSpecies');
-          } else if (layerId === 'plantationSpecies') {
-            this.removeActiveLayer('plantationTypes');
+          if (layerId === "plantationTypes") {
+            this.removeActiveLayer("plantationSpecies");
+          } else if (layerId === "plantationSpecies") {
+            this.removeActiveLayer("plantationTypes");
           }
           this.activeLayers = layers;
           app.activeLayers = layers;
-          this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer on.');
+          this.sendAnalytics("layer", "toggle", "The user toggled the " + layerId + " layer on.");
         }
       }
     }, {
-      key: 'removeActiveLayer',
+      key: "removeActiveLayer",
       value: function removeActiveLayer(layerId) {
         var index = this.activeLayers.indexOf(layerId);
         if (index !== -1) {
@@ -459,25 +460,25 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
           layers.splice(index, 1);
           this.activeLayers = layers;
           app.activeLayers = layers;
-          this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer off.');
+          this.sendAnalytics("layer", "toggle", "The user toggled the " + layerId + " layer off.");
         }
       }
     }, {
-      key: 'addCustomFeature',
+      key: "addCustomFeature",
       value: function addCustomFeature() {
         this.drawnMapGraphics = true;
       }
     }, {
-      key: 'removeCustomFeature',
+      key: "removeCustomFeature",
       value: function removeCustomFeature(graphic) {
         _LayersHelper2.default.removeCustomFeature(graphic);
         this.drawnMapGraphics = false;
       }
     }, {
-      key: 'setBasemap',
+      key: "setBasemap",
       value: function setBasemap(basemap) {
         if (basemap !== this.activeBasemap) {
-          this.sendAnalytics('basemap', 'toggle', 'The user toggled the ' + basemap + ' basemap on.');
+          this.sendAnalytics("basemap", "toggle", "The user toggled the " + basemap + " basemap on.");
           this.activeBasemap = basemap;
           if (basemap === _constants2.default.wriBasemap) {
             _ShareHelper2.default.handleHashChange(basemap);
@@ -485,108 +486,108 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         }
       }
     }, {
-      key: 'setImagery',
+      key: "setImagery",
       value: function setImagery(imagery) {
         if (imagery !== this.activeImagery) {
-          this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery on.');
+          this.sendAnalytics("imagery", "toggle", "The user toggled the " + imagery + " imagery on.");
           this.activeImagery = imagery;
           _ShareHelper2.default.handleHashChange(undefined, imagery);
         } else {
-          this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery off.');
-          this.activeImagery = '';
+          this.sendAnalytics("imagery", "toggle", "The user toggled the " + imagery + " imagery off.");
+          this.activeImagery = "";
         }
       }
     }, {
-      key: 'setActivePlanetCategory',
+      key: "setActivePlanetCategory",
       value: function setActivePlanetCategory(category) {
         this.activeCategory = category;
       }
     }, {
-      key: 'setActivePlanetPeriod',
+      key: "setActivePlanetPeriod",
       value: function setActivePlanetPeriod(period) {
         this.activePlanetPeriod = period;
       }
     }, {
-      key: 'setActivePlanetBasemap',
+      key: "setActivePlanetBasemap",
       value: function setActivePlanetBasemap(basemap) {
         this.activePlanetBasemap = basemap;
       }
     }, {
-      key: 'changeFiresTimeline',
+      key: "changeFiresTimeline",
       value: function changeFiresTimeline(activeIndex) {
         this.firesSelectIndex = activeIndex;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires timeline.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Active Fires timeline.");
       }
     }, {
-      key: 'changePlantations',
+      key: "changePlantations",
       value: function changePlantations(activeIndex) {
         this.plantationSelectIndex = activeIndex;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Plantations selector.");
       }
     }, {
-      key: 'changeGeometryOfDrawnShape',
+      key: "changeGeometryOfDrawnShape",
       value: function changeGeometryOfDrawnShape(geo) {
         this.geometryOfDrawnShape = geo;
       }
     }, {
-      key: 'changeViirsTimeline',
+      key: "changeViirsTimeline",
       value: function changeViirsTimeline(activeIndex) {
         this.viirsSelectIndex = activeIndex;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
+        this.sendAnalytics("widget", "timeline", "The user updated the VIIRS Fires timeline.");
       }
     }, {
-      key: 'changeForestTimeline',
+      key: "changeForestTimeline",
       value: function changeForestTimeline(activeIndex) {
         this.forestSelectIndex = activeIndex;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Primary Forests timeline.");
       }
     }, {
-      key: 'changeFireHistoryTimeline',
+      key: "changeFireHistoryTimeline",
       value: function changeFireHistoryTimeline(activeIndex) {
         this.fireHistorySelectIndex = activeIndex;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Fire History timeline.");
       }
     }, {
-      key: 'incrementFireHistoryYear',
+      key: "incrementFireHistoryYear",
       value: function incrementFireHistoryYear() {
         this.fireHistorySelectIndex += 1;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Fire History timeline.");
       }
     }, {
-      key: 'decrementFireHistoryYear',
+      key: "decrementFireHistoryYear",
       value: function decrementFireHistoryYear() {
         this.fireHistorySelectIndex -= 1;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Fire History timeline.");
       }
     }, {
-      key: 'updateCanopyDensity',
+      key: "updateCanopyDensity",
       value: function updateCanopyDensity(newDensity) {
         this.canopyDensity = newDensity;
-        this.sendAnalytics('widget', 'timeline', 'The user updated the Tree Cover Density slider.');
+        this.sendAnalytics("widget", "timeline", "The user updated the Tree Cover Density slider.");
       }
     }, {
-      key: 'toggleFootprintsVisibility',
+      key: "toggleFootprintsVisibility",
       value: function toggleFootprintsVisibility() {
         this.footprintsVisible = !this.footprintsVisible;
       }
     }, {
-      key: 'showFootprints',
+      key: "showFootprints",
       value: function showFootprints() {
         this.footprintsVisible = true;
       }
     }, {
-      key: 'toggleLayerPanelVisibility',
+      key: "toggleLayerPanelVisibility",
       value: function toggleLayerPanelVisibility() {
         this.layerPanelVisible = !this.layerPanelVisible;
       }
     }, {
-      key: 'toggleImageryVisible',
+      key: "toggleImageryVisible",
       value: function toggleImageryVisible(bool) {
         this.imageryModalVisible = bool;
         this.imageryError = false;
       }
     }, {
-      key: 'getSatelliteImagery',
+      key: "getSatelliteImagery",
       value: function getSatelliteImagery(params) {
         var _this2 = this;
 
@@ -650,12 +651,12 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
         });
       }
     }, {
-      key: 'setSelectedImagery',
+      key: "setSelectedImagery",
       value: function setSelectedImagery(obj) {
         this.selectedImagery = obj;
       }
     }, {
-      key: 'setImageryHoverInfo',
+      key: "setImageryHoverInfo",
       value: function setImageryHoverInfo(obj) {
         this.imageryHoverInfo = obj;
       }
@@ -664,5 +665,5 @@ define(['exports', 'js/config', 'actions/LayerActions', 'actions/ModalActions', 
     return MapStore;
   }();
 
-  var mapStore = exports.mapStore = _alt2.default.createStore(MapStore, 'MapStore');
+  var mapStore = exports.mapStore = _alt2.default.createStore(MapStore, "MapStore");
 });

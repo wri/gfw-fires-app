@@ -115,9 +115,9 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           };
 
           var _imageUrl = void 0;
-          if (layer.id === 'viirsFires') {
+          if (layer.id.includes('viirsFires')) {
             _imageUrl = 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png'; // "http://gis-gfw.wri.org/FireflyD20.png"
-          } else if (layer.id === 'activeFires') {
+          } else if (layer.id.includes('activeFires')) {
             _imageUrl = 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png'; // "http://gis-gfw.wri.org/FireflyC20.png";
           }
 

@@ -158,7 +158,6 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
 
           // Some layers have legends or tools and they should be rendered inside the layer checkbox
           var childComponent = void 0;
-
           switch (layer.id) {
             case _constants2.default.waterStress:
               childComponent = _react2.default.createElement(_WaterStressLegend2.default, { url: layer.url, layerIds: layer.layerIds });
@@ -169,20 +168,32 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
             case _constants2.default.majorDams:
               childComponent = _react2.default.createElement(_DamsLegend2.default, { url: layer.url, layerIds: layer.layerIds });
               break;
-            case _constants2.default.activeFires:
-              childComponent = _react2.default.createElement(_FiresControls2.default, _extends({ loaded: _this2.props.loaded, options: layer.calendar }, _this2.state));
+            case _constants2.default.activeFires || _constants2.default.activeFires48 || _constants2.default.activeFires72 || _constants2.default.activeFires7D || _constants2.default.activeFires1Y:
+              childComponent = _react2.default.createElement(_FiresControls2.default, _extends({
+                loaded: _this2.props.loaded,
+                options: layer.calendar
+              }, _this2.state));
               break;
-            case _constants2.default.viirsFires:
-              childComponent = _react2.default.createElement(_ViirsControls2.default, _extends({ loaded: _this2.props.loaded, options: layer.calendar }, _this2.state));
+            case _constants2.default.viirsFires || _constants2.default.viirsFires48 || _constants2.default.viirsFires72 || _constants2.default.viirsFires7D || _constants2.default.viirsFires1Y:
+              childComponent = _react2.default.createElement(_ViirsControls2.default, _extends({
+                loaded: _this2.props.loaded,
+                options: layer.calendar
+              }, _this2.state));
               break;
             case _constants2.default.archiveFires:
-              childComponent = _react2.default.createElement(_ArchiveControls2.default, _extends({ options: layer.calendar, loaded: _this2.props.loaded }, _this2.state));
+              childComponent = _react2.default.createElement(_ArchiveControls2.default, _extends({
+                options: layer.calendar,
+                loaded: _this2.props.loaded
+              }, _this2.state));
               break;
             case _constants2.default.noaa18Fires:
               childComponent = _react2.default.createElement(_NoaaControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
               break;
             case _constants2.default.burnScars:
-              childComponent = _react2.default.createElement(_BurnScarsLegend2.default, _extends({ url: layer.url, layerIds: layer.layerIds }, _this2.state));
+              childComponent = _react2.default.createElement(_BurnScarsLegend2.default, _extends({
+                url: layer.url,
+                layerIds: layer.layerIds
+              }, _this2.state));
               break;
             case _constants2.default.treeCoverDensity:
               childComponent = _react2.default.createElement(_DensityDisplay2.default, _this2.state);
@@ -213,7 +224,13 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
               childComponent = _react2.default.createElement(_WindControls2.default, { options: layer.calendar, loaded: _this2.props.loaded });
               break;
             case _constants2.default.digitalGlobe:
-              childComponent = _react2.default.createElement(_ImageryComponent2.default, _extends({}, _this2.state, { domId: layer.calendar.domId, domClass: layer.calendar.domClass, childDomClass: layer.calendar.childDomClass, startDate: layer.calendar.startDate, currentDate: layer.calendar.currentDate }));
+              childComponent = _react2.default.createElement(_ImageryComponent2.default, _extends({}, _this2.state, {
+                domId: layer.calendar.domId,
+                domClass: layer.calendar.domClass,
+                childDomClass: layer.calendar.childDomClass,
+                startDate: layer.calendar.startDate,
+                currentDate: layer.calendar.currentDate
+              }));
               break;
             case _constants2.default.plantationTypes:
               childComponent = _react2.default.createElement(_PlantationControls2.default, _extends({ loaded: _this2.props.loaded }, _this2.state));
@@ -224,7 +241,12 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
 
           return _react2.default.createElement(
             _LayerCheckbox2.default,
-            { disabled: layer.disabled, key: layer.id, layer: layer, checked: activeLayers.indexOf(layer.id) > -1 },
+            {
+              disabled: layer.disabled,
+              key: layer.id,
+              layer: layer,
+              checked: activeLayers.indexOf(layer.id) > -1
+            },
             childComponent
           );
         };
@@ -269,7 +291,10 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
           _react2.default.createElement(
             _LayerGroup2.default,
             { activeLayers: this.state.activeLayers, label: 'Fire Risk' },
-            _react2.default.createElement(_LayerTransparency2.default, { initalOpacity: .80, layers: fireRiskLayers }),
+            _react2.default.createElement(_LayerTransparency2.default, {
+              initalOpacity: 0.8,
+              layers: fireRiskLayers
+            }),
             _config.layersConfig.map(this.checkboxMap('fireRisk'), this)
           ),
           _react2.default.createElement(
@@ -329,8 +354,13 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                   { className: 'flex flex-wrap flex-justify-between padding' },
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.darkGrayBasemap) },
-                    _react2.default.createElement('div', { className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : '') }),
+                    {
+                      className: 'basemap-item narrow pointer',
+                      onClick: this.clickedBasemap.bind(this, _constants2.default.darkGrayBasemap)
+                    },
+                    _react2.default.createElement('div', {
+                      className: 'basemap-thumbnail dark-gray-basemap ' + (this.state.activeBasemap === _constants2.default.darkGrayBasemap ? 'active' : '')
+                    }),
                     _react2.default.createElement(
                       'div',
                       { className: 'basemap-label narrow' },
@@ -339,8 +369,13 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.topoBasemap) },
-                    _react2.default.createElement('div', { className: 'basemap-thumbnail topo-basemap ' + (this.state.activeBasemap === _constants2.default.topoBasemap ? 'active' : '') }),
+                    {
+                      className: 'basemap-item narrow pointer',
+                      onClick: this.clickedBasemap.bind(this, _constants2.default.topoBasemap)
+                    },
+                    _react2.default.createElement('div', {
+                      className: 'basemap-thumbnail topo-basemap ' + (this.state.activeBasemap === _constants2.default.topoBasemap ? 'active' : '')
+                    }),
                     _react2.default.createElement(
                       'div',
                       { className: 'basemap-label narrow' },
@@ -349,8 +384,13 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.wriBasemap) },
-                    _react2.default.createElement('div', { className: 'basemap-thumbnail wri-basemap ' + (this.state.activeBasemap === _constants2.default.wriBasemap ? 'active' : '') }),
+                    {
+                      className: 'basemap-item narrow pointer',
+                      onClick: this.clickedBasemap.bind(this, _constants2.default.wriBasemap)
+                    },
+                    _react2.default.createElement('div', {
+                      className: 'basemap-thumbnail wri-basemap ' + (this.state.activeBasemap === _constants2.default.wriBasemap ? 'active' : '')
+                    }),
                     _react2.default.createElement(
                       'div',
                       { className: 'basemap-label narrow' },
@@ -359,8 +399,13 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.imageryBasemap) },
-                    _react2.default.createElement('div', { className: 'basemap-thumbnail imagery-basemap ' + (this.state.activeBasemap === _constants2.default.imageryBasemap ? 'active' : '') }),
+                    {
+                      className: 'basemap-item narrow pointer',
+                      onClick: this.clickedBasemap.bind(this, _constants2.default.imageryBasemap)
+                    },
+                    _react2.default.createElement('div', {
+                      className: 'basemap-thumbnail imagery-basemap ' + (this.state.activeBasemap === _constants2.default.imageryBasemap ? 'active' : '')
+                    }),
                     _react2.default.createElement(
                       'div',
                       { className: 'basemap-label narrow' },
@@ -369,8 +414,13 @@ define(['exports', 'components/LayerPanel/WaterStressLegend', 'components/LayerP
                   ),
                   _react2.default.createElement(
                     'div',
-                    { className: 'basemap-item narrow pointer', onClick: this.clickedBasemap.bind(this, _constants2.default.osmBasemap) },
-                    _react2.default.createElement('div', { className: 'basemap-thumbnail osm-basemap ' + (this.state.activeBasemap === _constants2.default.osmBasemap ? 'active' : '') }),
+                    {
+                      className: 'basemap-item narrow pointer',
+                      onClick: this.clickedBasemap.bind(this, _constants2.default.osmBasemap)
+                    },
+                    _react2.default.createElement('div', {
+                      className: 'basemap-thumbnail osm-basemap ' + (this.state.activeBasemap === _constants2.default.osmBasemap ? 'active' : '')
+                    }),
                     _react2.default.createElement(
                       'div',
                       { className: 'basemap-label narrow' },

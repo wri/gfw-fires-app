@@ -65,11 +65,11 @@ define(['exports', 'react'], function (exports, _react) {
       openSymbolCode = 9650;
 
   /**
-  * Get count of active layers in this group
-  * @param {array} activeLayers - array of keys for the active layers
-  * @param {array} children - This groups child components, which are layer checkboxes or null
-  * @return {number} count
-  */
+   * Get count of active layers in this group
+   * @param {array} activeLayers - array of keys for the active layers
+   * @param {array} children - This groups child components, which are layer checkboxes or null
+   * @return {number} count
+   */
   var getCount = function getCount(activeLayers, children) {
     var count = 0;
     children.forEach(function (layer) {
@@ -105,7 +105,10 @@ define(['exports', 'react'], function (exports, _react) {
           { className: 'layer-category' },
           _react2.default.createElement(
             'div',
-            { className: 'layer-category-label pointer', onClick: this.toggle.bind(this) },
+            {
+              className: 'layer-category-label pointer',
+              onClick: this.toggle.bind(this)
+            },
             this.props.label,
             _react2.default.createElement(
               'span',

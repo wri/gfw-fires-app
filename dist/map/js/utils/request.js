@@ -39,12 +39,11 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
   }
 
   var request = {
-
     /**
-    * @param {string} url - Url for an esri map service
-    * @param {array} layerIds - An array of layer ids
-    * @return {Deferred} deferred - A promise, will return either an array of layerInfos or an empty array
-    */
+     * @param {string} url - Url for an esri map service
+     * @param {array} layerIds - An array of layer ids
+     * @return {Deferred} deferred - A promise, will return either an array of layerInfos or an empty array
+     */
     getLegendInfos: function getLegendInfos(url, layerIds) {
       app.debug('Request >>> getLegendInfos');
       var deferred = new _Deferred2.default();
@@ -82,7 +81,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
       query.returnGeometry = true;
       query.outFields = ['name'];
       queryTask.execute(query).then(function (results) {
-
         qDeferred.resolve(results);
       }, function (err) {
         console.error(err);
@@ -117,7 +115,6 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
 
         (function (serviceConfig) {
           queryTask.execute(query, function (res) {
-
             // app.alreadyHaveBBs = true; //todo
             res.features.forEach(function (feature) {
               feature.setSymbol(_Symbols2.default.getBBSymbol());
@@ -163,25 +160,21 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
 
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
-    identifyActive: function identifyActive(mapPoint) {
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
+    identifyActive: function identifyActive(mapPoint, layer) {
       var deferred = new _Deferred2.default();
-      var layer = app.map.getLayer(_constants2.default.activeFires);
-      var identifyTask = new _IdentifyTask2.default(layer.url);
+      var identifyTask = new _IdentifyTask2.default(layer.url.slice(0, layer.url.length - 3));
       var params = new _IdentifyParameters2.default();
-      var layerDefinitions = [];
-      layerDefinitions[layer.visibleLayers[0]] = layer.layerDefinitions[layer.visibleLayers[0]];
 
-      params.tolerance = 2;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
       params.geometry = mapPoint;
       params.mapExtent = app.map.extent;
       params.layerIds = layer.layerIds;
-      params.layerDefinitions = layerDefinitions;
       params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
 
       identifyTask.execute(params, function (features) {
@@ -202,25 +195,21 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
-    identifyViirs: function identifyViirs(mapPoint) {
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
+    identifyViirs: function identifyViirs(mapPoint, layer) {
       var deferred = new _Deferred2.default();
-      var layer = app.map.getLayer(_constants2.default.viirsFires);
-      var identifyTask = new _IdentifyTask2.default(layer.url);
+      var identifyTask = new _IdentifyTask2.default(layer.url.slice(0, layer.url.length - 3));
       var params = new _IdentifyParameters2.default();
-      var layerDefinitions = [];
-      layerDefinitions[layer.visibleLayers[0]] = layer.layerDefinitions[layer.visibleLayers[0]];
 
-      params.tolerance = 2;
+      params.tolerance = 10;
       params.returnGeometry = true;
       params.width = app.map.width;
       params.height = app.map.height;
       params.geometry = mapPoint;
       params.mapExtent = app.map.extent;
       params.layerIds = layer.layerIds;
-      params.layerDefinitions = layerDefinitions;
       params.layerOption = _IdentifyParameters2.default.LAYER_OPTION_VISIBLE;
 
       identifyTask.execute(params, function (features) {
@@ -241,9 +230,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyOilPalm: function identifyOilPalm(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.oilPalm);
@@ -317,9 +306,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyRSPOOilPalm: function identifyRSPOOilPalm(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.rspoOilPalm);
@@ -394,9 +383,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyWoodFiber: function identifyWoodFiber(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.woodFiber);
@@ -471,9 +460,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyMining: function identifyMining(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.mining);
@@ -548,9 +537,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyLogging: function identifyLogging(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.gfwLogging);
@@ -626,9 +615,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyLoggingConcessions: function identifyLoggingConcessions(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.loggingConcessions);
@@ -703,9 +692,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyoilPalmGreenpeace: function identifyoilPalmGreenpeace(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.oilPalmGreenpeace);
@@ -780,9 +769,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyWoodFiberGreenpeace: function identifyWoodFiberGreenpeace(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.woodFiberGreenpeace);
@@ -857,9 +846,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyLoggingGreenpeace: function identifyLoggingGreenpeace(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.loggingGreenpeace);
@@ -934,9 +923,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyCoalConcessions: function identifyCoalConcessions(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.coalConcessions);
@@ -1010,9 +999,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyProtectedAreas: function identifyProtectedAreas(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.protectedAreasHelper);
@@ -1091,9 +1080,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyFireStories: function identifyFireStories(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.fireStories);
@@ -1127,9 +1116,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyOverlays: function identifyOverlays(mapPoint, layers) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.overlays);
@@ -1164,9 +1153,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyTwitter: function identifyTwitter(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.twitter);
@@ -1200,9 +1189,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyArchive: function identifyArchive(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.archiveFires);
@@ -1240,9 +1229,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyNoaa: function identifyNoaa(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.noaa18Fires);
@@ -1280,9 +1269,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyBurn: function identifyBurn(mapPoint) {
       var deferred = new _Deferred2.default();
       var config = _AppUtils2.default.getObject(_config.layersConfig, 'id', _constants2.default.burnScars);
@@ -1316,9 +1305,9 @@ define(['exports', 'js/config', 'esri/SpatialReference', 'esri/geometry/webMerca
     },
 
     /**
-    * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-    * @return {Deferred} deferred
-    */
+     * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+     * @return {Deferred} deferred
+     */
     identifyDigitalGlobe: function identifyDigitalGlobe(graphic, mapPoint) {
       var featureExtent = graphic.geometry.getExtent();
       var overlaps = [];
