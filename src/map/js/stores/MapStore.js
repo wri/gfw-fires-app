@@ -1,20 +1,21 @@
-import {layerPanelText, defaults, layersConfig} from 'js/config';
-import {layerActions} from 'actions/LayerActions';
-import {modalActions} from 'actions/ModalActions';
-import {mapActions} from 'actions/MapActions';
-import LayersHelper from 'helpers/LayersHelper';
-import ShareHelper from 'helpers/ShareHelper';
-import request from 'utils/request';
-import KEYS from 'js/constants';
-import alt from 'js/alt';
+import { layerPanelText, defaults, layersConfig } from "js/config";
+import { layerActions } from "actions/LayerActions";
+import { modalActions } from "actions/ModalActions";
+import { mapActions } from "actions/MapActions";
+import LayersHelper from "helpers/LayersHelper";
+import ShareHelper from "helpers/ShareHelper";
+import request from "utils/request";
+import KEYS from "js/constants";
+import alt from "js/alt";
 
 class MapStore {
-
-  constructor () {
+  constructor() {
     //- activeLayers defaults should be the id's of whatever layers
     //- are configured to be visible in layersConfig, filter out layers with no group
     //- because those layers are not in the ui and should not be in this list
-    this.activeLayers = layersConfig.filter(l => l.visible && l.group).map(l => l.id);
+    this.activeLayers = layersConfig
+      .filter(l => l.visible && l.group)
+      .map(l => l.id);
     this.canopyDensity = defaults.canopyDensity;
     this.lossFromSelectIndex = defaults.lossFromSelectIndex;
     this.footprintsVisible = true;
@@ -46,10 +47,10 @@ class MapStore {
     this.activeDG = undefined;
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
-    this.activeImagery = '';
+    this.activeImagery = "";
     this.activeCategory = defaults.planetActiveCategory;
-    this.activePlanetBasemap = '';
-    this.activePlanetPeriod = '';
+    this.activePlanetBasemap = "";
+    this.activePlanetPeriod = "";
     this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
@@ -60,7 +61,7 @@ class MapStore {
     this.layerPanelVisible = app.mobile === false;
     this.lat = undefined;
     this.lng = undefined;
-    this.iconLoading = '';
+    this.iconLoading = "";
     this.imageryModalVisible = false;
     this.imageryData = [];
     this.loadingImagery = false;
@@ -120,25 +121,33 @@ class MapStore {
     });
   }
 
-  connectLayerEvents () {
+  connectLayerEvents() {
     // Enable Mouse Events for al graphics layers
     app.map.graphics.enableMouseEvents();
     // Set up Click Listener to Perform Identify
-    app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
+    app.map.on("click", LayersHelper.performIdentify.bind(LayersHelper));
 
-    app.map.on('extent-change, basemap-change', () => {
-      ShareHelper.handleHashChange(undefined, this.activeImagery, this.activeCategory, this.activePlanetPeriod);
+    app.map.on("extent-change, basemap-change", () => {
+      ShareHelper.handleHashChange(
+        undefined,
+        this.activeImagery,
+        this.activeCategory,
+        this.activePlanetPeriod
+      );
     });
 
-    app.map.on('zoom-end', LayersHelper.checkZoomDependentLayers.bind(LayersHelper));
+    app.map.on(
+      "zoom-end",
+      LayersHelper.checkZoomDependentLayers.bind(LayersHelper)
+    );
     LayersHelper.updateAirQDate(defaults.todaysDate);
   }
 
-  setCalendar (calendar) {
+  setCalendar(calendar) {
     this.calendarVisible = calendar;
   }
 
-  updateOverlays (overlay) {
+  updateOverlays(overlay) {
     let newOverlays = this.overlaysVisible.slice();
     let index = newOverlays.indexOf(overlay);
     if (index > -1) {
@@ -150,131 +159,178 @@ class MapStore {
     LayersHelper.updateOverlays(newOverlays);
   }
 
-  togglePanels () {
+  togglePanels() {
     this.panelsHidden = !this.panelsHidden;
   }
 
-  setCurrentCustomGraphic (graphic) {
-    if (!graphic && app.map.graphics.graphics[0] && app.map.graphics.graphics[0].attributes && app.map.graphics.graphics[0].attributes.Layer === 'custom') {
+  setCurrentCustomGraphic(graphic) {
+    if (
+      !graphic &&
+      app.map.graphics.graphics[0] &&
+      app.map.graphics.graphics[0].attributes &&
+      app.map.graphics.graphics[0].attributes.Layer === "custom"
+    ) {
       graphic = app.map.graphics.graphics[0];
     }
     this.currentCustomGraphic = graphic;
   }
 
-  setFootprints (footprints) {
+  setFootprints(footprints) {
     this.footprints = footprints;
   }
 
-  setGlobe (globe) {
+  setGlobe(globe) {
     this.activeDG = globe;
   }
 
-  getDate (date) {
-    return window.Kalendae.moment(date).format('M/D/YYYY');
+  getDate(date) {
+    return window.Kalendae.moment(date).format("M/D/YYYY");
   }
 
-  showLoading (layerInfo) {
+  showLoading(layerInfo) {
     this.iconLoading = layerInfo;
   }
 
-  hideLoading () {
-    this.iconLoading = '';
+  hideLoading() {
+    this.iconLoading = "";
   }
 
-  setDGDate (dateObj) {
-    this.calendarVisible = '';
+  setDGDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
     if (!this.footprints) {
       return;
     }
 
-    LayersHelper.updateDigitalGlobeLayerDefinitions([this.dgStartDate, this.dgEndDate, this.footprints]);
+    LayersHelper.updateDigitalGlobeLayerDefinitions([
+      this.dgStartDate,
+      this.dgEndDate,
+      this.footprints
+    ]);
   }
 
-  setAnalysisDate (dateObj) {
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Analysis date expression.');
-    this.calendarVisible = '';
+  setAnalysisDate(dateObj) {
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Analysis date expression."
+    );
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
   }
 
-  setArchiveDate (dateObj) {
-    this.calendarVisible = '';
+  setArchiveDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
-    LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+    LayersHelper.updateArchiveDates([
+      this.archiveStartDate,
+      this.archiveEndDate
+    ]);
   }
 
-  setViirsArchiveDate (dateObj) {
-    this.calendarVisible = '';
+  setViirsArchiveDate(dateObj) {
+    console.log("settting", dateObj);
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
-    LayersHelper.updateViirsArchiveDates([this.archiveViirsStartDate, this.archiveViirsEndDate]);
+    LayersHelper.updateViirsArchiveDates([
+      this.archiveViirsStartDate,
+      this.archiveViirsEndDate
+    ]);
   }
 
-  setModisArchiveDate (dateObj) {
-    this.calendarVisible = '';
+  setModisArchiveDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
-    LayersHelper.updateModisArchiveDates([this.archiveModisStartDate, this.archiveModisEndDate]);
+    LayersHelper.updateModisArchiveDates([
+      this.archiveModisStartDate,
+      this.archiveModisEndDate
+    ]);
   }
 
-  setNoaaDate (dateObj) {
-    this.calendarVisible = '';
+  setNoaaDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
     LayersHelper.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
   }
 
-  setRiskDate (dateObj) {
-    this.calendarVisible = '';
+  setRiskDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
     LayersHelper.updateFireRisk(this.riskDate);
   }
 
-  setRainDate (dateObj) {
-    this.calendarVisible = '';
+  setRainDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
     LayersHelper.updateLastRain(this.rainDate);
   }
 
-  setAirQDate (dateObj) {
-    this.calendarVisible = '';
+  setAirQDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
     LayersHelper.updateAirQDate(this.airQDate);
   }
 
-  setWindDate (dateObj) {
-    this.calendarVisible = '';
+  setWindDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
     LayersHelper.updateWindDate(this.windDate);
   }
 
-  setSentinalDate (dateObj) {
-    this.calendarVisible = '';
+  setSentinalDate(dateObj) {
+    this.calendarVisible = "";
 
-    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
   }
 
-  setMasterDate (dateObj) {
-    this.calendarVisible = '';
+  setMasterDate(dateObj) {
+    this.calendarVisible = "";
     //active, archive, noaa, fire risk, wind, air quality, maybe DG imagery
 
     let masterDate = window.Kalendae.moment(dateObj.date);
-    let masterFormatted = window.Kalendae.moment(dateObj.date).format('M/D/YYYY');
+    let masterFormatted = window.Kalendae.moment(dateObj.date).format(
+      "M/D/YYYY"
+    );
 
     let archiveStart = window.Kalendae.moment(defaults.archiveStartDate);
     let archiveEnd = window.Kalendae.moment(defaults.archiveEndDate);
@@ -288,11 +344,13 @@ class MapStore {
 
     let today = window.Kalendae.moment(this.date);
 
-    if (masterDate.isAfter(today)) { //todo
+    if (masterDate.isAfter(today)) {
+      //todo
       this.removeActiveLayer(KEYS.archiveFires);
       this.removeActiveLayer(KEYS.activeFires);
       this.removeActiveLayer(KEYS.viirsFires);
-    } else if (masterDate.isBefore(archiveStart)) { //todo: both of these are actually outside any of these
+    } else if (masterDate.isBefore(archiveStart)) {
+      //todo: both of these are actually outside any of these
       this.removeActiveLayer(KEYS.archiveFires);
       this.removeActiveLayer(KEYS.activeFires);
       this.removeActiveLayer(KEYS.viirsFires);
@@ -306,7 +364,10 @@ class MapStore {
       this.removeActiveLayer(KEYS.viirsFires);
       this.archiveStartDate = masterFormatted;
       this.archiveEndDate = masterFormatted;
-      LayersHelper.updateArchiveDates([this.archiveStartDate, this.archiveEndDate]);
+      LayersHelper.updateArchiveDates([
+        this.archiveStartDate,
+        this.archiveEndDate
+      ]);
     }
 
     if (masterDate.isBefore(noaaStart)) {
@@ -352,33 +413,37 @@ class MapStore {
       this.addActiveLayer(KEYS.windDirection);
       this.windDate = masterFormatted;
     }
-
   }
 
-  sendAnalytics (eventType, action, label) { //todo: why is this request getting sent so many times?
-    ga('A.send', 'event', eventType, action, label);
-    ga('B.send', 'event', eventType, action, label);
-    ga('C.send', 'event', eventType, action, label);
+  sendAnalytics(eventType, action, label) {
+    //todo: why is this request getting sent so many times?
+    ga("A.send", "event", eventType, action, label);
+    ga("B.send", "event", eventType, action, label);
+    ga("C.send", "event", eventType, action, label);
   }
 
-  addActiveLayer (layerId) {
+  addActiveLayer(layerId) {
     let index = this.activeLayers.indexOf(layerId);
     if (index === -1) {
       // Create a copy of the strings array for easy change detection
       let layers = this.activeLayers.slice();
       layers.push(layerId);
-      if (layerId === 'plantationTypes') {
-        this.removeActiveLayer('plantationSpecies');
-      } else if (layerId === 'plantationSpecies') {
-        this.removeActiveLayer('plantationTypes');
+      if (layerId === "plantationTypes") {
+        this.removeActiveLayer("plantationSpecies");
+      } else if (layerId === "plantationSpecies") {
+        this.removeActiveLayer("plantationTypes");
       }
       this.activeLayers = layers;
       app.activeLayers = layers;
-      this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer on.');
+      this.sendAnalytics(
+        "layer",
+        "toggle",
+        "The user toggled the " + layerId + " layer on."
+      );
     }
   }
 
-  removeActiveLayer (layerId) {
+  removeActiveLayer(layerId) {
     let index = this.activeLayers.indexOf(layerId);
     if (index !== -1) {
       // Create a copy of the strings array for easy change detection
@@ -386,22 +451,30 @@ class MapStore {
       layers.splice(index, 1);
       this.activeLayers = layers;
       app.activeLayers = layers;
-      this.sendAnalytics('layer', 'toggle', 'The user toggled the ' + layerId + ' layer off.');
+      this.sendAnalytics(
+        "layer",
+        "toggle",
+        "The user toggled the " + layerId + " layer off."
+      );
     }
   }
 
-  addCustomFeature () {
+  addCustomFeature() {
     this.drawnMapGraphics = true;
   }
 
-  removeCustomFeature (graphic) {
+  removeCustomFeature(graphic) {
     LayersHelper.removeCustomFeature(graphic);
     this.drawnMapGraphics = false;
   }
 
-  setBasemap (basemap) {
+  setBasemap(basemap) {
     if (basemap !== this.activeBasemap) {
-      this.sendAnalytics('basemap', 'toggle', 'The user toggled the ' + basemap + ' basemap on.');
+      this.sendAnalytics(
+        "basemap",
+        "toggle",
+        "The user toggled the " + basemap + " basemap on."
+      );
       this.activeBasemap = basemap;
       if (basemap === KEYS.wriBasemap) {
         ShareHelper.handleHashChange(basemap);
@@ -409,82 +482,122 @@ class MapStore {
     }
   }
 
-  setImagery (imagery) {
+  setImagery(imagery) {
     if (imagery !== this.activeImagery) {
-      this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery on.');
+      this.sendAnalytics(
+        "imagery",
+        "toggle",
+        "The user toggled the " + imagery + " imagery on."
+      );
       this.activeImagery = imagery;
       ShareHelper.handleHashChange(undefined, imagery);
     } else {
-      this.sendAnalytics('imagery', 'toggle', 'The user toggled the ' + imagery + ' imagery off.');
-      this.activeImagery = '';
+      this.sendAnalytics(
+        "imagery",
+        "toggle",
+        "The user toggled the " + imagery + " imagery off."
+      );
+      this.activeImagery = "";
     }
   }
 
-  setActivePlanetCategory (category) {
+  setActivePlanetCategory(category) {
     this.activeCategory = category;
   }
 
-  setActivePlanetPeriod (period) {
+  setActivePlanetPeriod(period) {
     this.activePlanetPeriod = period;
   }
 
-  setActivePlanetBasemap (basemap) {
+  setActivePlanetBasemap(basemap) {
     this.activePlanetBasemap = basemap;
   }
 
-  changeFiresTimeline (activeIndex) {
+  changeFiresTimeline(activeIndex) {
     this.firesSelectIndex = activeIndex;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Active Fires timeline.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Active Fires timeline."
+    );
   }
 
-  changePlantations (activeIndex) {
+  changePlantations(activeIndex) {
     this.plantationSelectIndex = activeIndex;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Plantations selector.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Plantations selector."
+    );
   }
 
-  changeGeometryOfDrawnShape (geo) {
+  changeGeometryOfDrawnShape(geo) {
     this.geometryOfDrawnShape = geo;
   }
 
-  changeViirsTimeline (activeIndex) {
+  changeViirsTimeline(activeIndex) {
     this.viirsSelectIndex = activeIndex;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the VIIRS Fires timeline.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the VIIRS Fires timeline."
+    );
   }
 
-  changeForestTimeline (activeIndex) {
+  changeForestTimeline(activeIndex) {
     this.forestSelectIndex = activeIndex;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Primary Forests timeline.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Primary Forests timeline."
+    );
   }
 
-  changeFireHistoryTimeline (activeIndex) {
+  changeFireHistoryTimeline(activeIndex) {
     this.fireHistorySelectIndex = activeIndex;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Fire History timeline."
+    );
   }
 
-  incrementFireHistoryYear () {
+  incrementFireHistoryYear() {
     this.fireHistorySelectIndex += 1;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Fire History timeline."
+    );
   }
 
-  decrementFireHistoryYear () {
+  decrementFireHistoryYear() {
     this.fireHistorySelectIndex -= 1;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Fire History timeline.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Fire History timeline."
+    );
   }
 
-  updateCanopyDensity (newDensity) {
+  updateCanopyDensity(newDensity) {
     this.canopyDensity = newDensity;
-    this.sendAnalytics('widget', 'timeline', 'The user updated the Tree Cover Density slider.');
+    this.sendAnalytics(
+      "widget",
+      "timeline",
+      "The user updated the Tree Cover Density slider."
+    );
   }
 
-  toggleFootprintsVisibility () {
+  toggleFootprintsVisibility() {
     this.footprintsVisible = !this.footprintsVisible;
   }
 
-  showFootprints () {
+  showFootprints() {
     this.footprintsVisible = true;
   }
 
-  toggleLayerPanelVisibility () {
+  toggleLayerPanelVisibility() {
     this.layerPanelVisible = !this.layerPanelVisible;
   }
 
@@ -495,73 +608,78 @@ class MapStore {
 
   getSatelliteImagery(params) {
     // Confirm the imagery data isn't already being loaded.
-    if (this.loadingImagery) { return; }
+    if (this.loadingImagery) {
+      return;
+    }
 
     this.imageryError = false;
     this.loadingImagery = true;
 
-     // First make a reqest to the recent tiles metadata endpoint
-    request.getRecentTiles(params).then(response => {
-      // Only the first tile url is returned with the metadata response from the
-      // recent tiles endpoint. We can add this to state and show it on the map
-      // while the requests are made for the other tiles and the thumbnails.
-      const tiles = response.data.tiles;
-      this.imageryData = response.data.tiles;
-      this.imageryParams = params;
-      this.emitChange();
+    // First make a reqest to the recent tiles metadata endpoint
+    request.getRecentTiles(params).then(
+      response => {
+        // Only the first tile url is returned with the metadata response from the
+        // recent tiles endpoint. We can add this to state and show it on the map
+        // while the requests are made for the other tiles and the thumbnails.
+        const tiles = response.data.tiles;
+        this.imageryData = response.data.tiles;
+        this.imageryParams = params;
+        this.emitChange();
 
-       const tileArrays = [];
+        const tileArrays = [];
 
-      response.data.tiles.forEach((tile, i) => {
-        const index = i;
-        if ((index % 5 === 0) || (i === 0)) {
-          const tileArr = tiles.slice(index, index + 5);
-          tileArrays.push(tileArr);
-        }
-      });
-
-      let responseCount = 0;
-      tileArrays.forEach((tileArr, i) => {
-        const index = i * 5;
-
-         request.getImageryData(params, tileArr).then(data => {
-          data.forEach((d, pos) => {
-            this.imageryData[pos + index] = d;
-          });
-          responseCount++;
-
-           if (responseCount === tileArrays.length) {
-            this.loadingImagery = false;
-            // this.emitChange();
-          }
-          this.emitChange();
-        }, () => {
-          responseCount++;
-          if (responseCount === tileArrays.length) {
-            this.loadingImagery = false;
+        response.data.tiles.forEach((tile, i) => {
+          const index = i;
+          if (index % 5 === 0 || i === 0) {
+            const tileArr = tiles.slice(index, index + 5);
+            tileArrays.push(tileArr);
           }
         });
 
-      });
+        let responseCount = 0;
+        tileArrays.forEach((tileArr, i) => {
+          const index = i * 5;
 
-     }, () => {
-      this.imageryParams = null;
-      this.selectedImagery = null;
-      this.loadingImagery = false;
-      this.imageryError = true;
-      this.imageryData = [];
-      this.emitChange();
-    });
+          request.getImageryData(params, tileArr).then(
+            data => {
+              data.forEach((d, pos) => {
+                this.imageryData[pos + index] = d;
+              });
+              responseCount++;
+
+              if (responseCount === tileArrays.length) {
+                this.loadingImagery = false;
+                // this.emitChange();
+              }
+              this.emitChange();
+            },
+            () => {
+              responseCount++;
+              if (responseCount === tileArrays.length) {
+                this.loadingImagery = false;
+              }
+            }
+          );
+        });
+      },
+      () => {
+        this.imageryParams = null;
+        this.selectedImagery = null;
+        this.loadingImagery = false;
+        this.imageryError = true;
+        this.imageryData = [];
+        this.emitChange();
+      }
+    );
   }
 
-   setSelectedImagery(obj) {
+  setSelectedImagery(obj) {
     this.selectedImagery = obj;
-   }
+  }
 
-   setImageryHoverInfo(obj) {
+  setImageryHoverInfo(obj) {
     this.imageryHoverInfo = obj;
   }
-
 }
 
-export const mapStore = alt.createStore(MapStore, 'MapStore');
+export const mapStore = alt.createStore(MapStore, "MapStore");

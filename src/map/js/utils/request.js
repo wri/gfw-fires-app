@@ -14,12 +14,11 @@ import FeatureLayer from 'esri/layers/FeatureLayer';
 import KEYS from 'js/constants';
 
 const request = {
-
   /**
-  * @param {string} url - Url for an esri map service
-  * @param {array} layerIds - An array of layer ids
-  * @return {Deferred} deferred - A promise, will return either an array of layerInfos or an empty array
-  */
+   * @param {string} url - Url for an esri map service
+   * @param {array} layerIds - An array of layer ids
+   * @return {Deferred} deferred - A promise, will return either an array of layerInfos or an empty array
+   */
   getLegendInfos: (url, layerIds) => {
     app.debug('Request >>> getLegendInfos');
     let deferred = new Deferred();
@@ -29,16 +28,24 @@ const request = {
       handleAs: 'json',
       callbackParamName: 'callback',
       content: { f: 'json' }
-    }).then(res => {
-      if (res && res.layers && res.layers.length > 0) {
-        let layers = res.layers.filter(layer => layerIds.indexOf(layer.layerId) > -1);
-        let legendInfos = layers.length === 1 ? layers[0].legend : layers.map(layer => layer.legend);
-        deferred.resolve(legendInfos || []);
+    }).then(
+      res => {
+        if (res && res.layers && res.layers.length > 0) {
+          let layers = res.layers.filter(
+            layer => layerIds.indexOf(layer.layerId) > -1
+          );
+          let legendInfos =
+            layers.length === 1
+              ? layers[0].legend
+              : layers.map(layer => layer.legend);
+          deferred.resolve(legendInfos || []);
+        }
+      },
+      err => {
+        console.error(err);
+        deferred.resolve([]);
       }
-    }, err => {
-      console.error(err);
-      deferred.resolve([]);
-    });
+    );
 
     return deferred;
   },
@@ -52,16 +59,17 @@ const request = {
     query.where = 'OBJECTID = ' + objectId;
     query.returnGeometry = true;
     query.outFields = ['name'];
-    queryTask.execute(query).then(function (results) {
-
-      qDeferred.resolve(results);
-    }, function (err) {
-      console.error(err);
-      qDeferred.resolve(false);
-      return;
-    });
+    queryTask.execute(query).then(
+      function(results) {
+        qDeferred.resolve(results);
+      },
+      function(err) {
+        console.error(err);
+        qDeferred.resolve(false);
+        return;
+      }
+    );
     return qDeferred.promise;
-
   },
 
   getBoundingBoxes: () => {
@@ -77,7 +85,7 @@ const request = {
     //   deferred.resolve();
     // };
 
-    let layers = config.imageServices.map(function (service) {
+    let layers = config.imageServices.map(function(service) {
       let queryTask = new QueryTask(service.url);
       let qdef = new Deferred();
       let query = new Query();
@@ -87,40 +95,46 @@ const request = {
       query.where = 'Category = 1';
       query.returnGeometry = true;
 
-      (function (serviceConfig) {
-        queryTask.execute(query, function (res) {
+      (function(serviceConfig) {
+        queryTask.execute(
+          query,
+          function(res) {
+            // app.alreadyHaveBBs = true; //todo
+            res.features.forEach(feature => {
+              feature.setSymbol(Symbols.getBBSymbol());
 
-          // app.alreadyHaveBBs = true; //todo
-          res.features.forEach(feature => {
-            feature.setSymbol(Symbols.getBBSymbol());
+              feature.attributes.Layer = 'Digital_Globe';
+              feature.attributes.LayerId = serviceConfig.id;
 
-            feature.attributes.Layer = 'Digital_Globe';
-            feature.attributes.LayerId = serviceConfig.id;
+              dgMoment = window.Kalendae.moment(
+                feature.attributes.AcquisitionDate
+              );
 
-            dgMoment = window.Kalendae.moment(feature.attributes.AcquisitionDate);
+              moment_arr.push(dgMoment);
+              feature.attributes.moment = dgMoment;
 
-            moment_arr.push(dgMoment);
-            feature.attributes.moment = dgMoment;
-
-            dgBoxes.add(feature);
-            footprints.push(feature);
-            extents[feature.attributes.Tiles] = webMercatorUtils.geographicToWebMercator(feature.geometry).getExtent();
-
-          });
-          qdef.resolve(true);
-          dgBoxes.show();
-        }, function (err) {
-          console.error(err);
-          qdef.resolve(true);
-          return;
-        });
-
+              dgBoxes.add(feature);
+              footprints.push(feature);
+              extents[
+                feature.attributes.Tiles
+              ] = webMercatorUtils
+                .geographicToWebMercator(feature.geometry)
+                .getExtent();
+            });
+            qdef.resolve(true);
+            dgBoxes.show();
+          },
+          function(err) {
+            console.error(err);
+            qdef.resolve(true);
+            return;
+          }
+        );
       })(service);
 
       return qdef.promise;
-
     });
-    all(layers).then(function () {
+    all(layers).then(function() {
       deferred.resolve(true);
     });
 
@@ -128,11 +142,11 @@ const request = {
   },
 
   /**
-  * @param {string} url - Portal URL for the generate features service
-  * @param {object} content - payload for the request
-  * @param {DOM} form - form containing an input with files attached to it
-  * @return {promise}
-  */
+   * @param {string} url - Portal URL for the generate features service
+   * @param {object} content - payload for the request
+   * @param {DOM} form - form containing an input with files attached to it
+   * @return {promise}
+   */
   upload(url, content, form) {
     return esriRequest({
       url: url,
@@ -143,87 +157,91 @@ const request = {
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
-  identifyActive: mapPoint => {
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
+  identifyActive: (mapPoint, layer) => {
     let deferred = new Deferred();
-    let layer = app.map.getLayer(KEYS.activeFires);
-    let identifyTask = new IdentifyTask(layer.url);
+    let identifyTask = new IdentifyTask(
+      layer.url.slice(0, layer.url.length - 3)
+    );
     let params = new IdentifyParameters();
-    let layerDefinitions = [];
-    layerDefinitions[layer.visibleLayers[0]] = layer.layerDefinitions[layer.visibleLayers[0]];
 
-    params.tolerance = 2;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = layer.layerIds;
-    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.activeFires,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.activeFires,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
-  identifyViirs: mapPoint => {
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
+  identifyViirs: (mapPoint, layer) => {
     let deferred = new Deferred();
-    let layer = app.map.getLayer(KEYS.viirsFires);
-    let identifyTask = new IdentifyTask(layer.url);
+    let identifyTask = new IdentifyTask(
+      layer.url.slice(0, layer.url.length - 3)
+    );
     let params = new IdentifyParameters();
-    let layerDefinitions = [];
-    layerDefinitions[layer.visibleLayers[0]] = layer.layerDefinitions[layer.visibleLayers[0]];
 
-    params.tolerance = 2;
+    params.tolerance = 10;
     params.returnGeometry = true;
     params.width = app.map.width;
     params.height = app.map.height;
     params.geometry = mapPoint;
     params.mapExtent = app.map.extent;
     params.layerIds = layer.layerIds;
-    params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.viirsFires,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.viirsFires,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyOilPalm: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalm);
@@ -233,7 +251,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.oilPalm);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -245,61 +264,69 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.oilPalm,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.oilPalm,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyRSPOOilPalm: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.rspoOilPalm);
@@ -309,7 +336,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.rspoOilPalm);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -321,62 +349,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.rspoOilPalm,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.rspoOilPalm,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyWoodFiber: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.woodFiber);
@@ -386,7 +422,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.woodFiber);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -398,62 +435,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
-          });
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
 
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.woodFiber,
-            features: qResults
+            return qDeferred;
           });
-        });
-      } else {
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.woodFiber,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyMining: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.mining);
@@ -463,7 +508,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.mining);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -475,62 +521,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
-          });
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
 
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.mining,
-            features: qResults
+            return qDeferred;
           });
-        });
-      } else {
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.mining,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyLogging: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.gfwLogging);
@@ -540,7 +594,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.gfwLogging);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -552,63 +607,71 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            console.log('feature.fires', feature.fires);
-            qDeferred.resolve(feature);
-          });
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              console.log('feature.fires', feature.fires);
+              qDeferred.resolve(feature);
+            });
 
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.gfwLogging,
-            features: qResults
+            return qDeferred;
           });
-        });
-      } else {
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.gfwLogging,
+              features: qResults
+            });
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyLoggingConcessions: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.loggingConcessions);
@@ -618,7 +681,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.loggingConcessions);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -630,62 +694,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.loggingConcessions,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.loggingConcessions,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyoilPalmGreenpeace: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.oilPalmGreenpeace);
@@ -695,7 +767,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.oilPalmGreenpeace);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -707,62 +780,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.oilPalmGreenpeace,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.oilPalmGreenpeace,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyWoodFiberGreenpeace: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.woodFiberGreenpeace);
@@ -772,7 +853,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.woodFiberGreenpeace);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -784,62 +866,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.woodFiberGreenpeace,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.woodFiberGreenpeace,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyLoggingGreenpeace: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.loggingGreenpeace);
@@ -849,7 +939,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.loggingGreenpeace);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -861,62 +952,70 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.loggingGreenpeace,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.loggingGreenpeace,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyCoalConcessions: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.coalConcessions);
@@ -926,7 +1025,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.coalConcessions);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -938,61 +1038,69 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.coalConcessions,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.coalConcessions,
+              features: qResults
+            });
           });
-        });
-      } else {
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyProtectedAreas: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.protectedAreasHelper);
@@ -1002,7 +1110,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.protectedAreasHelper);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -1014,66 +1123,74 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        let queries = features.map(function (feature) {
-          let qDeferred = new Deferred();
-          let queryTask = new QueryTask(firesConfig.url + '/' + firesConfig.layerIds[0]);
-          let viirsQueryTask = new QueryTask(viirsConfig.url + '/' + viirsConfig.layerIds[0]);
-          let query = new Query();
-          let viirsQuery = new Query();
-          query.geometry = feature.feature.geometry;
-          viirsQuery.geometry = feature.feature.geometry;
-          const queryString = utils.generateFiresQuery(7);
-          const viirsQueryString = utils.generateViirsQuery(7);
-          query.where = queryString;
-          query.outFields = ['ACQ_DATE'];
-          viirsQuery.where = viirsQueryString;
-          viirsQuery.outFields = ['ACQ_DATE'];
-          const deferreds = [];
-          deferreds.push(queryTask.execute(query));
-          deferreds.push(viirsQueryTask.execute(viirsQuery));
-          all(deferreds).then(results => {
-            if (results[0].features && results[1].features) {
-              feature.fires = results[0].features.concat(results[1].features);
-            } else if (results[0].features) {
-              feature.fires = results[0].features;
-            } else if (results[1].features) {
-              feature.fires = results[1].features;
-            }
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          let queries = features.map(function(feature) {
+            let qDeferred = new Deferred();
+            let queryTask = new QueryTask(
+              firesConfig.url + '/' + firesConfig.layerIds[0]
+            );
+            let viirsQueryTask = new QueryTask(
+              viirsConfig.url + '/' + viirsConfig.layerIds[0]
+            );
+            let query = new Query();
+            let viirsQuery = new Query();
+            query.geometry = feature.feature.geometry;
+            viirsQuery.geometry = feature.feature.geometry;
+            const queryString = utils.generateFiresQuery(7);
+            const viirsQueryString = utils.generateViirsQuery(7);
+            query.where = queryString;
+            query.outFields = ['ACQ_DATE'];
+            viirsQuery.where = viirsQueryString;
+            viirsQuery.outFields = ['ACQ_DATE'];
+            const deferreds = [];
+            deferreds.push(queryTask.execute(query));
+            deferreds.push(viirsQueryTask.execute(viirsQuery));
+            all(deferreds).then(results => {
+              if (results[0].features && results[1].features) {
+                feature.fires = results[0].features.concat(results[1].features);
+              } else if (results[0].features) {
+                feature.fires = results[0].features;
+              } else if (results[1].features) {
+                feature.fires = results[1].features;
+              }
 
-            setTimeout(function () {
-              qDeferred.resolve(false);
-            }, 3000);
-            qDeferred.resolve(feature);
+              setTimeout(function() {
+                qDeferred.resolve(false);
+              }, 3000);
+              qDeferred.resolve(feature);
+            });
+            return qDeferred;
           });
-          return qDeferred;
-        });
-        all(queries).then(function (qResults) {
-          deferred.resolve({
-            layer: KEYS.protectedAreasHelper,
-            features: qResults
+          all(queries).then(function(qResults) {
+            deferred.resolve({
+              layer: KEYS.protectedAreasHelper,
+              features: qResults
+            });
           });
-        });
-        // deferred.resolve({
-        //   layer: KEYS.protectedAreas,
-        //   features: features
-        // });
-      } else {
+          // deferred.resolve({
+          //   layer: KEYS.protectedAreas,
+          //   features: features
+          // });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyFireStories: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.fireStories);
@@ -1089,27 +1206,31 @@ const request = {
     params.layerIds = config.layerIds;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.fireStories,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.fireStories,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyOverlays: (mapPoint, layers) => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.overlays);
@@ -1126,27 +1247,31 @@ const request = {
     params.layerIds = layers;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.overlays,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.overlays,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyTwitter: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.twitter);
@@ -1162,27 +1287,31 @@ const request = {
     params.layerIds = config.layerIds;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.twitter,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.twitter,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyArchive: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.archiveFires);
@@ -1190,7 +1319,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.archiveFires);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -1202,27 +1332,31 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.archiveFires,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.archiveFires,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyNoaa: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.noaa18Fires);
@@ -1230,7 +1364,8 @@ const request = {
     let params = new IdentifyParameters();
     let layer = app.map.getLayer(KEYS.noaa18Fires);
     let layerDefinitions = [];
-    layerDefinitions[config.layerIds[0]] = layer.layerDefinitions[config.layerIds[0]];
+    layerDefinitions[config.layerIds[0]] =
+      layer.layerDefinitions[config.layerIds[0]];
 
     params.tolerance = 2;
     params.returnGeometry = true;
@@ -1242,27 +1377,31 @@ const request = {
     params.layerDefinitions = layerDefinitions;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.noaa18Fires,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.noaa18Fires,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyBurn: mapPoint => {
     let deferred = new Deferred();
     let config = utils.getObject(layersConfig, 'id', KEYS.burnScars);
@@ -1278,27 +1417,31 @@ const request = {
     params.layerIds = config.layerIds;
     params.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
 
-    identifyTask.execute(params, function (features) {
-      if (features.length > 0) {
-        deferred.resolve({
-          layer: KEYS.burnScars,
-          features: features
-        });
-      } else {
+    identifyTask.execute(
+      params,
+      function(features) {
+        if (features.length > 0) {
+          deferred.resolve({
+            layer: KEYS.burnScars,
+            features: features
+          });
+        } else {
+          deferred.resolve(false);
+        }
+      },
+      function(error) {
+        console.log(error);
         deferred.resolve(false);
       }
-    }, function (error) {
-      console.log(error);
-      deferred.resolve(false);
-    });
+    );
 
     return deferred.promise;
   },
 
   /**
-  * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
-  * @return {Deferred} deferred
-  */
+   * @param {Point} geometry - Esri Point geometry to use as a query for a feature on the logging service
+   * @return {Deferred} deferred
+   */
   identifyDigitalGlobe: (graphic, mapPoint) => {
     let featureExtent = graphic.geometry.getExtent();
     let overlaps = [];
@@ -1319,18 +1462,16 @@ const request = {
   },
 
   fetchTiles(url, count = 0) {
-    return fetch(
-      url,
-      {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+    return fetch(url, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
       }
-    ).then(res => res.json())
+    })
+      .then(res => res.json())
       .then(res => {
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
           setTimeout(() => {
             if (res.errors && res.errors[0].status !== 200 && count < 25) {
               count++;
@@ -1342,18 +1483,21 @@ const request = {
       });
   },
 
-
   getRecentTiles(params) {
     const deferred = new Deferred();
 
     if (!params.start || !params.end) {
       // If no date, use the default.
-      params.start = window.Kalendae.moment().subtract(3, 'months').format('YYYY-MM-DD');
+      params.start = window.Kalendae.moment()
+        .subtract(3, 'months')
+        .format('YYYY-MM-DD');
       params.end = window.Kalendae.moment().format('YYYY-MM-DD');
     }
 
     const recentTilesUrl = new URL(urls.satelliteImageService);
-    Object.keys(params).forEach(key => recentTilesUrl.searchParams.append(key, params[key]));
+    Object.keys(params).forEach(key =>
+      recentTilesUrl.searchParams.append(key, params[key])
+    );
     this.fetchTiles(recentTilesUrl).then(response => {
       if (response.errors) {
         deferred.reject(response);
@@ -1365,22 +1509,20 @@ const request = {
   },
 
   postTiles(content, count = 0) {
-    return fetch(
-      urls.satelliteImageService + '/tiles',
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(content)
-      }
-    ).then(res => res.json())
+    return fetch(urls.satelliteImageService + '/tiles', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(content)
+    })
+      .then(res => res.json())
       .then(res => {
         // If the request fails, try it again up to 15 times and then fail it.
         // There are resource limitations with the imagery endpoint.
         if (res.errors && res.errors[0].status !== 200 && count < 25) {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             setTimeout(() => {
               count++;
               resolve(this.postTiles(content, count));
@@ -1389,27 +1531,24 @@ const request = {
         } else {
           return res;
         }
-
       });
   },
 
   postThumbs(content, count = 0) {
-    return fetch(
-      urls.satelliteImageService + '/thumbs',
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(content)
-      }
-    ).then(res => res.json())
+    return fetch(urls.satelliteImageService + '/thumbs', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(content)
+    })
+      .then(res => res.json())
       .then(res => {
         // If the request fails, try it again up to 15 times and then fail it.
         // There are resource limitations with the imagery endpoint.
         if (res.errors && res.errors[0].status !== 200 && count < 25) {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             setTimeout(() => {
               count++;
               resolve(this.postThumbs(content, count));
@@ -1424,7 +1563,7 @@ const request = {
   getImageryData(params, tiles) {
     const deferred = new Deferred();
     const sourceData = [];
-    tiles.forEach((tile) => {
+    tiles.forEach(tile => {
       sourceData.push({ source: tile.attributes.source });
     });
 
@@ -1432,7 +1571,7 @@ const request = {
     // request and the recent-tiles/thumbs request
     const content = {
       bands: params.bands,
-      source_data: sourceData,
+      source_data: sourceData
     };
 
     // Make a post request to the tiles endpoint to all of the tile_urls for
@@ -1460,7 +1599,6 @@ const request = {
     });
     return deferred;
   }
-
 };
 
 export { request as default };
