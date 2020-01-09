@@ -114,7 +114,7 @@ export default layer => {
         if (layer.id.includes('viirsFires')) {
           imageUrl =
             'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png'; // "http://gis-gfw.wri.org/FireflyD20.png"
-        } else if (layer.id === 'activeFires') {
+        } else if (layer.id.includes('activeFires')) {
           imageUrl =
             'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png'; // "http://gis-gfw.wri.org/FireflyC20.png";
         }
