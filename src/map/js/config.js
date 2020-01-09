@@ -285,49 +285,49 @@ export const config = {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     modis48HR: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     modis7D: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     modis1YR: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     viirs24HR: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     viirs48HR: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     viirs7D: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer', // Staging
-      id: 21
+      id: 21 // Staging
     },
     viirs1YR: {
       // url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer', // Staging
-      id: 0
+      id: 21 // Staging
     }
   },
 
@@ -362,6 +362,105 @@ export const config = {
         maxLabel: 'To'
       }
     },
+    {
+      id: KEYS.viirsFires48,
+      order: 13,
+      type: 'feature',
+      label: 'VIIRS active fires 48',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'viirs-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_48hrs/MapServer', // Staging
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
+      id: KEYS.viirsFires72,
+      order: 13,
+      type: 'feature',
+      label: 'VIIRS active fires 72',
+      group: 'fires',
+      visible: false,
+      definitionExpression: `Date > date'${new window.Kalendae.moment()
+        .subtract(3, 'd')
+        .format('YYYY-MM-DD HH:mm:ss')}`,
+      layerIds: [21],
+      className: 'viirs-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer', // Staging
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
+      id: KEYS.viirsFires7D,
+      order: 13,
+      type: 'feature',
+      label: 'VIIRS active fires 7D',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'viirs-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_7d/MapServer', // Staging
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
+      id: KEYS.viirsFires + '1Y',
+      order: 13,
+      type: 'feature',
+      label: 'VIIRS active fires 1Y',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'viirs-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_1yr/MapServer', // Staging
+      metadataId: 'viirs_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHT_TI5}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
 
     {
       id: KEYS.activeFires,
@@ -393,6 +492,103 @@ export const config = {
         maxLabel: 'To'
       }
     },
+    {
+      id: KEYS.activeFires48,
+      order: 12,
+      type: 'feature',
+      label: 'MODIS active fires 48',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'active-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_48hrs/MapServer', // Staging
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
+      id: KEYS.activeFires72,
+      order: 12,
+      type: 'feature',
+      label: 'MODIS active fires 72',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'active-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer', // Staging
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
+      id: KEYS.activeFires7D,
+      order: 12,
+      type: 'feature',
+      label: 'MODIS active fires 7D',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'active-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_7d/MapServer', // Staging
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+    {
+      id: KEYS.activeFires1Y,
+      order: 12,
+      type: 'feature',
+      label: 'MODIS active fires 1Y',
+      group: 'fires',
+      visible: false,
+      layerIds: [21],
+      className: 'active-fires',
+      // url:
+      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer", // Production
+      url:
+        'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_1yr/MapServer', // Staging
+      metadataId: 'firms_active_fires',
+      infoTemplate: {
+        content:
+          '<table><tr><td class="field-name">BRIGHTNESS: </td><td class="field-value">${BRIGHTNESS}</td></tr>' +
+          '<tr><td class="field-name">CONFIDENCE: </td><td class="field-value">${CONFIDENCE}</td></tr>' +
+          '<tr><td class="field-name">LATITUDE: </td><td class="field-value">${LATITUDE}</td></tr>' +
+          '<tr><td class="field-name">LONGITUDE: </td><td class="field-value">${LONGITUDE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION DATE: </td><td class="field-value">${ACQ_DATE}</td></tr>' +
+          '<tr><td class="field-name">ACQUISITION TIME: </td><td class="field-value">${ACQ_TIME}</td></tr>'
+      }
+    },
+
     {
       id: KEYS.archiveFires,
       order: 12,
