@@ -1,12 +1,12 @@
-import { layerActions } from "actions/LayerActions";
-import LayersHelper from "helpers/LayersHelper";
-import { modalActions } from "actions/ModalActions";
-import { layerPanelText } from "js/config";
-import DateHelper from "helpers/DateHelper";
-import { mapActions } from "actions/MapActions";
-import KEYS from "js/constants";
+import { layerActions } from 'actions/LayerActions';
+import LayersHelper from 'helpers/LayersHelper';
+import { modalActions } from 'actions/ModalActions';
+import { layerPanelText } from 'js/config';
+import DateHelper from 'helpers/DateHelper';
+import { mapActions } from 'actions/MapActions';
+import KEYS from 'js/constants';
 
-import React from "react";
+import React from 'react';
 
 let firesOptions = layerPanelText.firesOptions;
 
@@ -52,7 +52,7 @@ export default class FiresControls extends React.Component {
     let activeItem = firesOptions[this.props.firesSelectIndex];
     let startDate = window.Kalendae.moment(this.props.archiveModisStartDate);
     let endDate = window.Kalendae.moment(this.props.archiveModisEndDate);
-    let showModisArchive = this.state.modisArchiveVisible ? "" : "hidden";
+    let showModisArchive = this.state.modisArchiveVisible ? '' : 'hidden';
 
     return (
       <div>
@@ -60,7 +60,7 @@ export default class FiresControls extends React.Component {
           <select
             id="modis-select"
             className={`pointer select-modis ${
-              this.state.modisArchiveVisible === true ? "" : "darken"
+              this.state.modisArchiveVisible === true ? '' : 'darken'
             }`}
             value={activeItem.value}
             onChange={this.changeFiresTimeline.bind(this)}
@@ -70,7 +70,7 @@ export default class FiresControls extends React.Component {
           <div
             id="modis-time-options"
             className={`active-fires-control gfw-btn sml white ${
-              this.state.modisArchiveVisible === true ? "" : "darken"
+              this.state.modisArchiveVisible === true ? '' : 'darken'
             }`}
           >
             {activeItem.label}
@@ -78,7 +78,7 @@ export default class FiresControls extends React.Component {
           <div
             id="modis-custom-range-btn"
             className={`active-fires-control gfw-btn sml white pointer ${
-              this.state.modisArchiveVisible === true ? "darken" : ""
+              this.state.modisArchiveVisible === true ? 'darken' : ''
             }`}
             onClick={this.toggleModisArchive.bind(this)}
           >
@@ -91,7 +91,7 @@ export default class FiresControls extends React.Component {
           </span>
           <button
             className={`gfw-btn white pointer ${
-              this.props.calendarVisible === "archiveStart" ? " current" : ""
+              this.props.calendarVisible === 'archiveStart' ? ' current' : ''
             }`}
             onClick={this.changeStart.bind(this)}
           >
@@ -102,7 +102,7 @@ export default class FiresControls extends React.Component {
           </span>
           <button
             className={`gfw-btn white pointer ${
-              this.props.calendarVisible === "archiveEnd" ? " current" : ""
+              this.props.calendarVisible === 'archiveEnd' ? ' current' : ''
             }`}
             onClick={this.changeEnd.bind(this)}
           >
@@ -112,7 +112,7 @@ export default class FiresControls extends React.Component {
           new Date(this.props.archiveModisStartDate) ? (
             <p className="error-message">{layerPanelText.calendarValidation}</p>
           ) : (
-            ""
+            ''
           )}
         </div>
       </div>
@@ -122,12 +122,12 @@ export default class FiresControls extends React.Component {
   toggleModisArchive() {
     this.setState({ modisArchiveVisible: !this.state.modisArchiveVisible });
     layerActions.changeFiresTimeline(firesOptions.length - 1); //change to disabled option of Active fires
-    document.getElementById("modis-select").selectedIndex =
+    document.getElementById('modis-select').selectedIndex =
       firesOptions.length - 1;
   }
 
   optionsMap(item, index) {
-    if (item.label === "Active Fires") {
+    if (item.label === 'Active Fires') {
       return (
         <option key={index} value={item.value} disabled>
           {item.label}
@@ -151,12 +151,12 @@ export default class FiresControls extends React.Component {
   }
 
   changeStart() {
-    modalActions.showCalendarModal("start");
-    mapActions.setCalendar("archiveModisStart");
+    modalActions.showCalendarModal('start');
+    mapActions.setCalendar('archiveModisStart');
   }
 
   changeEnd() {
-    modalActions.showCalendarModal("end");
-    mapActions.setCalendar("archiveModisEnd");
+    modalActions.showCalendarModal('end');
+    mapActions.setCalendar('archiveModisEnd');
   }
 }

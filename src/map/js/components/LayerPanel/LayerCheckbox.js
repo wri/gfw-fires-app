@@ -1,9 +1,9 @@
-import { layerActions } from "actions/LayerActions";
-import { modalActions } from "actions/ModalActions";
-import { mapStore } from "stores/MapStore";
-import LayersHelper from "helpers/LayersHelper";
-import KEYS from "js/constants";
-import React from "react";
+import { layerActions } from 'actions/LayerActions';
+import { modalActions } from 'actions/ModalActions';
+import { mapStore } from 'stores/MapStore';
+import LayersHelper from 'helpers/LayersHelper';
+import KEYS from 'js/constants';
+import React from 'react';
 
 // Info Icon Markup for innerHTML
 let useSvg = '<use xlink:href="#shape-info" />';
@@ -47,8 +47,8 @@ export default class LayerCheckbox extends React.Component {
     return (
       <div
         className={`layer-checkbox relative ${layer.className}${
-          this.props.checked ? " active" : ""
-        }${layer.disabled ? " disabled" : ""}`}
+          this.props.checked ? ' active' : ''
+        }${layer.disabled ? ' disabled' : ''}`}
       >
         {!layer.disabled ? null : (
           <span className="tooltipmap fire">Coming Soon!</span>
@@ -75,8 +75,8 @@ export default class LayerCheckbox extends React.Component {
           <span
             className={`info-icon pointer ${
               this.state.iconLoading === this.props.layer.id
-                ? "iconLoading"
-                : ""
+                ? 'iconLoading'
+                : ''
             }`}
             onClick={this.showInfo.bind(this)}
           >
@@ -86,7 +86,7 @@ export default class LayerCheckbox extends React.Component {
         {!this.props.children ? null : (
           <div
             className={`layer-content-container ${
-              this.props.checked || this.props.childrenVisible ? "" : "hidden"
+              this.props.checked || this.props.childrenVisible ? '' : 'hidden'
             }`}
           >
             {this.props.children}
@@ -112,7 +112,7 @@ export default class LayerCheckbox extends React.Component {
     }
     if (this.props.checked) {
       layerActions.removeActiveLayer(layer.id);
-      if (layer.id.includes("activeFires")) {
+      if (layer.id.includes('activeFires')) {
         const modisLayerIds = [
           KEYS.activeFires,
           KEYS.activeFires48,
@@ -127,7 +127,7 @@ export default class LayerCheckbox extends React.Component {
         if (layerToHide) {
           layerToHide.hide();
         }
-      } else if (layer.id.includes("viirsFires")) {
+      } else if (layer.id.includes('viirsFires')) {
         const viirsLayerIds = [
           KEYS.viirsFires,
           KEYS.viirsFires48,
@@ -144,7 +144,7 @@ export default class LayerCheckbox extends React.Component {
       }
     } else {
       layerActions.addActiveLayer(layer.id);
-      if (layer.id.includes("activeFires")) {
+      if (layer.id.includes('activeFires')) {
         const modisLayerIds = [
           KEYS.activeFires,
           KEYS.activeFires48,
@@ -158,7 +158,7 @@ export default class LayerCheckbox extends React.Component {
         if (layerToShow) {
           layerToShow.show();
         }
-      } else if (layer.id.includes("viirsFires")) {
+      } else if (layer.id.includes('viirsFires')) {
         const viirsLayerIds = [
           KEYS.viirsFires,
           KEYS.viirsFires48,

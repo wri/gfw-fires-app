@@ -1,12 +1,12 @@
-import { layerPanelText, defaults, layersConfig } from "js/config";
-import { layerActions } from "actions/LayerActions";
-import { modalActions } from "actions/ModalActions";
-import { mapActions } from "actions/MapActions";
-import LayersHelper from "helpers/LayersHelper";
-import ShareHelper from "helpers/ShareHelper";
-import request from "utils/request";
-import KEYS from "js/constants";
-import alt from "js/alt";
+import { layerPanelText, defaults, layersConfig } from 'js/config';
+import { layerActions } from 'actions/LayerActions';
+import { modalActions } from 'actions/ModalActions';
+import { mapActions } from 'actions/MapActions';
+import LayersHelper from 'helpers/LayersHelper';
+import ShareHelper from 'helpers/ShareHelper';
+import request from 'utils/request';
+import KEYS from 'js/constants';
+import alt from 'js/alt';
 
 class MapStore {
   constructor() {
@@ -47,10 +47,10 @@ class MapStore {
     this.activeDG = undefined;
     this.currentCustomGraphic = undefined;
     this.activeBasemap = defaults.activeBasemap;
-    this.activeImagery = "";
+    this.activeImagery = '';
     this.activeCategory = defaults.planetActiveCategory;
-    this.activePlanetBasemap = "";
-    this.activePlanetPeriod = "";
+    this.activePlanetBasemap = '';
+    this.activePlanetPeriod = '';
     this.firesSelectIndex = 0; //layerPanelText.firesOptions.length - 1;
     this.plantationSelectIndex = layerPanelText.plantationOptions.length - 1;
     this.forestSelectIndex = layerPanelText.forestOptions.length - 1;
@@ -61,7 +61,7 @@ class MapStore {
     this.layerPanelVisible = app.mobile === false;
     this.lat = undefined;
     this.lng = undefined;
-    this.iconLoading = "";
+    this.iconLoading = '';
     this.imageryModalVisible = false;
     this.imageryData = [];
     this.loadingImagery = false;
@@ -125,9 +125,9 @@ class MapStore {
     // Enable Mouse Events for al graphics layers
     app.map.graphics.enableMouseEvents();
     // Set up Click Listener to Perform Identify
-    app.map.on("click", LayersHelper.performIdentify.bind(LayersHelper));
+    app.map.on('click', LayersHelper.performIdentify.bind(LayersHelper));
 
-    app.map.on("extent-change, basemap-change", () => {
+    app.map.on('extent-change, basemap-change', () => {
       ShareHelper.handleHashChange(
         undefined,
         this.activeImagery,
@@ -137,7 +137,7 @@ class MapStore {
     });
 
     app.map.on(
-      "zoom-end",
+      'zoom-end',
       LayersHelper.checkZoomDependentLayers.bind(LayersHelper)
     );
     LayersHelper.updateAirQDate(defaults.todaysDate);
@@ -168,7 +168,7 @@ class MapStore {
       !graphic &&
       app.map.graphics.graphics[0] &&
       app.map.graphics.graphics[0].attributes &&
-      app.map.graphics.graphics[0].attributes.Layer === "custom"
+      app.map.graphics.graphics[0].attributes.Layer === 'custom'
     ) {
       graphic = app.map.graphics.graphics[0];
     }
@@ -184,7 +184,7 @@ class MapStore {
   }
 
   getDate(date) {
-    return window.Kalendae.moment(date).format("M/D/YYYY");
+    return window.Kalendae.moment(date).format('M/D/YYYY');
   }
 
   showLoading(layerInfo) {
@@ -192,14 +192,14 @@ class MapStore {
   }
 
   hideLoading() {
-    this.iconLoading = "";
+    this.iconLoading = '';
   }
 
   setDGDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     if (!this.footprints) {
@@ -215,22 +215,22 @@ class MapStore {
 
   setAnalysisDate(dateObj) {
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Analysis date expression."
+      'widget',
+      'timeline',
+      'The user updated the Analysis date expression.'
     );
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
   }
 
   setArchiveDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateArchiveDates([
@@ -240,11 +240,11 @@ class MapStore {
   }
 
   setViirsArchiveDate(dateObj) {
-    console.log("settting", dateObj);
-    this.calendarVisible = "";
+    console.log('settting', dateObj);
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateViirsArchiveDates([
@@ -254,10 +254,10 @@ class MapStore {
   }
 
   setModisArchiveDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateModisArchiveDates([
@@ -267,69 +267,69 @@ class MapStore {
   }
 
   setNoaaDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateNoaaDates([this.noaaStartDate, this.noaaEndDate]);
   }
 
   setRiskDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateFireRisk(this.riskDate);
   }
 
   setRainDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateLastRain(this.rainDate);
   }
 
   setAirQDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     LayersHelper.updateAirQDate(this.airQDate);
   }
 
   setWindDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
     LayersHelper.updateWindDate(this.windDate);
   }
 
   setSentinalDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
 
     this[dateObj.dest] = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
   }
 
   setMasterDate(dateObj) {
-    this.calendarVisible = "";
+    this.calendarVisible = '';
     //active, archive, noaa, fire risk, wind, air quality, maybe DG imagery
 
     let masterDate = window.Kalendae.moment(dateObj.date);
     let masterFormatted = window.Kalendae.moment(dateObj.date).format(
-      "M/D/YYYY"
+      'M/D/YYYY'
     );
 
     let archiveStart = window.Kalendae.moment(defaults.archiveStartDate);
@@ -417,9 +417,9 @@ class MapStore {
 
   sendAnalytics(eventType, action, label) {
     //todo: why is this request getting sent so many times?
-    ga("A.send", "event", eventType, action, label);
-    ga("B.send", "event", eventType, action, label);
-    ga("C.send", "event", eventType, action, label);
+    ga('A.send', 'event', eventType, action, label);
+    ga('B.send', 'event', eventType, action, label);
+    ga('C.send', 'event', eventType, action, label);
   }
 
   addActiveLayer(layerId) {
@@ -428,17 +428,17 @@ class MapStore {
       // Create a copy of the strings array for easy change detection
       let layers = this.activeLayers.slice();
       layers.push(layerId);
-      if (layerId === "plantationTypes") {
-        this.removeActiveLayer("plantationSpecies");
-      } else if (layerId === "plantationSpecies") {
-        this.removeActiveLayer("plantationTypes");
+      if (layerId === 'plantationTypes') {
+        this.removeActiveLayer('plantationSpecies');
+      } else if (layerId === 'plantationSpecies') {
+        this.removeActiveLayer('plantationTypes');
       }
       this.activeLayers = layers;
       app.activeLayers = layers;
       this.sendAnalytics(
-        "layer",
-        "toggle",
-        "The user toggled the " + layerId + " layer on."
+        'layer',
+        'toggle',
+        'The user toggled the ' + layerId + ' layer on.'
       );
     }
   }
@@ -452,9 +452,9 @@ class MapStore {
       this.activeLayers = layers;
       app.activeLayers = layers;
       this.sendAnalytics(
-        "layer",
-        "toggle",
-        "The user toggled the " + layerId + " layer off."
+        'layer',
+        'toggle',
+        'The user toggled the ' + layerId + ' layer off.'
       );
     }
   }
@@ -471,9 +471,9 @@ class MapStore {
   setBasemap(basemap) {
     if (basemap !== this.activeBasemap) {
       this.sendAnalytics(
-        "basemap",
-        "toggle",
-        "The user toggled the " + basemap + " basemap on."
+        'basemap',
+        'toggle',
+        'The user toggled the ' + basemap + ' basemap on.'
       );
       this.activeBasemap = basemap;
       if (basemap === KEYS.wriBasemap) {
@@ -485,19 +485,19 @@ class MapStore {
   setImagery(imagery) {
     if (imagery !== this.activeImagery) {
       this.sendAnalytics(
-        "imagery",
-        "toggle",
-        "The user toggled the " + imagery + " imagery on."
+        'imagery',
+        'toggle',
+        'The user toggled the ' + imagery + ' imagery on.'
       );
       this.activeImagery = imagery;
       ShareHelper.handleHashChange(undefined, imagery);
     } else {
       this.sendAnalytics(
-        "imagery",
-        "toggle",
-        "The user toggled the " + imagery + " imagery off."
+        'imagery',
+        'toggle',
+        'The user toggled the ' + imagery + ' imagery off.'
       );
-      this.activeImagery = "";
+      this.activeImagery = '';
     }
   }
 
@@ -516,18 +516,18 @@ class MapStore {
   changeFiresTimeline(activeIndex) {
     this.firesSelectIndex = activeIndex;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Active Fires timeline."
+      'widget',
+      'timeline',
+      'The user updated the Active Fires timeline.'
     );
   }
 
   changePlantations(activeIndex) {
     this.plantationSelectIndex = activeIndex;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Plantations selector."
+      'widget',
+      'timeline',
+      'The user updated the Plantations selector.'
     );
   }
 
@@ -538,54 +538,54 @@ class MapStore {
   changeViirsTimeline(activeIndex) {
     this.viirsSelectIndex = activeIndex;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the VIIRS Fires timeline."
+      'widget',
+      'timeline',
+      'The user updated the VIIRS Fires timeline.'
     );
   }
 
   changeForestTimeline(activeIndex) {
     this.forestSelectIndex = activeIndex;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Primary Forests timeline."
+      'widget',
+      'timeline',
+      'The user updated the Primary Forests timeline.'
     );
   }
 
   changeFireHistoryTimeline(activeIndex) {
     this.fireHistorySelectIndex = activeIndex;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Fire History timeline."
+      'widget',
+      'timeline',
+      'The user updated the Fire History timeline.'
     );
   }
 
   incrementFireHistoryYear() {
     this.fireHistorySelectIndex += 1;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Fire History timeline."
+      'widget',
+      'timeline',
+      'The user updated the Fire History timeline.'
     );
   }
 
   decrementFireHistoryYear() {
     this.fireHistorySelectIndex -= 1;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Fire History timeline."
+      'widget',
+      'timeline',
+      'The user updated the Fire History timeline.'
     );
   }
 
   updateCanopyDensity(newDensity) {
     this.canopyDensity = newDensity;
     this.sendAnalytics(
-      "widget",
-      "timeline",
-      "The user updated the Tree Cover Density slider."
+      'widget',
+      'timeline',
+      'The user updated the Tree Cover Density slider.'
     );
   }
 
@@ -682,4 +682,4 @@ class MapStore {
   }
 }
 
-export const mapStore = alt.createStore(MapStore, "MapStore");
+export const mapStore = alt.createStore(MapStore, 'MapStore');
