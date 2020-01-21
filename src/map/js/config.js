@@ -342,7 +342,7 @@ export const config = {
       layerIds: [21],
       className: 'viirs-fires',
       // url:
-      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer", // Production
+      //   'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer', // Staging
       metadataId: 'viirs_fires',
@@ -468,7 +468,7 @@ export const config = {
       layerIds: [21],
       className: 'active-fires',
       // url:
-      //   "https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer", // Production
+      //   'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer', // Production
       url:
         'https://gfw-staging.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer', // Staging
       metadataId: 'firms_active_fires',
