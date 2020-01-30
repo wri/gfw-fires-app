@@ -1,5 +1,5 @@
-define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISImageServiceLayer', 'esri/layers/ImageParameters', 'esri/layers/GraphicsLayer', 'esri/layers/FeatureLayer', 'js/layers/GFWImageryLayer', 'js/config', 'esri/symbols/SimpleMarkerSymbol', 'esri/symbols/PictureMarkerSymbol', 'esri/layers/LayerDrawingOptions', 'esri/renderers/SimpleRenderer'], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _GFWImageryLayer, _config, _SimpleMarkerSymbol, _PictureMarkerSymbol, _LayerDrawingOptions, _SimpleRenderer) {
-  'use strict';
+define(["exports", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISImageServiceLayer", "esri/layers/ImageParameters", "esri/layers/GraphicsLayer", "esri/layers/FeatureLayer", "js/layers/GFWImageryLayer", "js/config", "esri/symbols/SimpleMarkerSymbol", "esri/symbols/PictureMarkerSymbol", "esri/layers/LayerDrawingOptions", "esri/renderers/SimpleRenderer"], function (exports, _ArcGISDynamicMapServiceLayer, _ArcGISTiledMapServiceLayer, _ArcGISImageServiceLayer, _ImageParameters, _GraphicsLayer, _FeatureLayer, _GFWImageryLayer, _config, _SimpleMarkerSymbol, _PictureMarkerSymbol, _LayerDrawingOptions, _SimpleRenderer) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -34,7 +34,7 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
   }
 
   exports.default = function (layer) {
-    if (!layer.url && layer.type !== 'graphic' && layer.type !== 'feature' || !layer.type) {
+    if (!layer.url && layer.type !== "graphic" && layer.type !== "feature" || !layer.type) {
       throw new Error(_config.errors.missingLayerConfig);
     }
 
@@ -42,12 +42,12 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options = {};
 
     switch (layer.type) {
-      case 'tiled':
+      case "tiled":
         options.id = layer.id;
         options.visible = layer.visible || false;
         esriLayer = new _ArcGISTiledMapServiceLayer2.default(layer.url, options);
         break;
-      case 'image':
+      case "image":
         options.id = layer.id;
         options.visible = layer.visible || false;
         options.opacity = layer.opacity || 1;
@@ -58,14 +58,14 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           esriLayer.setDefinitionExpression(layer.definitionExpression);
         }
         break;
-      case 'wind':
+      case "wind":
         break;
-      case 'dynamic':
+      case "dynamic":
         // Create some image parameters
         var imageParameters = new _ImageParameters2.default();
         imageParameters.layerOption = _ImageParameters2.default.LAYER_OPTION_SHOW;
         imageParameters.layerIds = layer.layerIds;
-        imageParameters.format = 'png32';
+        imageParameters.format = "png32";
         if (layer.defaultDefinitionExpression) {
           var layerDefs = [];
 
@@ -82,7 +82,7 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
         options.minScale = layer.minScale; // || 1.0;
         options.imageParameters = imageParameters;
         esriLayer = new _ArcGISDynamicMapServiceLayer2.default(layer.url, options);
-        if (layer.id === 'viirsFires' || layer.id === 'activeFires') {
+        if (layer.id === "viirsFires" || layer.id === "activeFires") {
           // These two layers get firefly points placed on them.
           // We use the 3.X API's `setLayerDrawingOptions()` to override the respective layers.
 
@@ -90,9 +90,9 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           var layerDrawingOption = new _LayerDrawingOptions2.default();
 
           // More colors available here: https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/whats-new-in-arcgis-online-firefly/
-          var imageUrl = layer.id === 'viirsFires' ? // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
+          var imageUrl = layer.id === "viirsFires" ? // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png' :
           // 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png';
-          'http://gis-gfw.wri.org/FireflyD20.png' : 'http://gis-gfw.wri.org/FireflyC20.png';
+          "http://gis-gfw.wri.org/FireflyD20.png" : "http://gis-gfw.wri.org/FireflyC20.png";
 
           var symbol = new _PictureMarkerSymbol2.default(imageUrl, 16, 16);
 
@@ -101,24 +101,24 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           esriLayer.setLayerDrawingOptions(layerDrawingOptions);
         }
         break;
-      case 'feature':
+      case "feature":
         options.id = layer.id;
         options.visible = layer.visible || false;
-        options.definitionExpression = layer.defaultDefinitionExpression || '';
+        options.definitionExpression = layer.defaultDefinitionExpression || "";
         if (layer.url) {
-          esriLayer = new _FeatureLayer2.default(layer.url + '/' + layer.layerIds[0], options);
+          esriLayer = new _FeatureLayer2.default(layer.url + "/" + layer.layerIds[0], options);
 
           var simpleJSON = {
-            type: 'simple',
-            label: '',
-            description: ''
+            type: "simple",
+            label: "",
+            description: ""
           };
 
           var _imageUrl = void 0;
-          if (layer.id.includes('viirsFires')) {
-            _imageUrl = 'https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png'; // "http://gis-gfw.wri.org/FireflyD20.png"
-          } else if (layer.id.includes('activeFires')) {
-            _imageUrl = 'https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png'; // "http://gis-gfw.wri.org/FireflyC20.png";
+          if (layer.id.includes("viirsFires")) {
+            _imageUrl = "https://static.arcgis.com/images/Symbols/Firefly/FireflyD20.png"; // "http://gis-gfw.wri.org/FireflyD20.png"
+          } else if (layer.id.includes("activeFires")) {
+            _imageUrl = "https://static.arcgis.com/images/Symbols/Firefly/FireflyC20.png"; // "http://gis-gfw.wri.org/FireflyC20.png";
           }
 
           simpleJSON.symbol = new _PictureMarkerSymbol2.default(_imageUrl, 16, 16);
@@ -132,12 +132,12 @@ define(['exports', 'esri/layers/ArcGISDynamicMapServiceLayer', 'esri/layers/ArcG
           esriLayer = new _FeatureLayer2.default(featureCollection, options);
         }
         break;
-      case 'graphic':
+      case "graphic":
         options.id = layer.id;
         options.visible = layer.visible || false;
         esriLayer = new _GraphicsLayer2.default(options);
         break;
-      case 'imagery':
+      case "imagery":
         options.id = layer.id;
         options.url = layer.url;
         options.visible = false;

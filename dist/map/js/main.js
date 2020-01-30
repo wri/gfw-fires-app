@@ -1,5 +1,5 @@
-define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/CanopyModal', 'components/Modals/SearchModal', 'components/Modals/BasemapModal', 'components/Modals/CalendarModal', 'components/Modals/ConfirmationModal', 'components/Modals/SubscriptionModal', 'components/Modals/FiresModal', 'components/Modals/ShareModal', 'actions/MapActions', 'actions/AnalysisActions', 'js/config', 'utils/loaders', 'components/Map', 'esri/config', 'esri/urlUtils', 'react-dom', 'react'], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _ConfirmationModal, _SubscriptionModal, _FiresModal, _ShareModal, _MapActions, _AnalysisActions, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
-  'use strict';
+define(["babel-polyfill", "components/Modals/LayerModal", "components/Modals/CanopyModal", "components/Modals/SearchModal", "components/Modals/BasemapModal", "components/Modals/CalendarModal", "components/Modals/ConfirmationModal", "components/Modals/SubscriptionModal", "components/Modals/FiresModal", "components/Modals/ShareModal", "actions/MapActions", "actions/AnalysisActions", "js/config", "utils/loaders", "components/Map", "esri/config", "esri/urlUtils", "react-dom", "react"], function (_babelPolyfill, _LayerModal, _CanopyModal, _SearchModal, _BasemapModal, _CalendarModal, _ConfirmationModal, _SubscriptionModal, _FiresModal, _ShareModal, _MapActions, _AnalysisActions, _config, _loaders, _Map, _config2, _urlUtils, _reactDom, _react) {
+  "use strict";
 
   var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
 
@@ -76,7 +76,7 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   }();
 
   if (!_babelPolyfill2.default) {
-    console.log('Missing Babel Polyfill.  May experience some weirdness in IE < 9.');
+    console.log("Missing Babel Polyfill.  May experience some weirdness in IE < 9.");
   }
 
   // Shim for rAF with timeout for callback
@@ -87,32 +87,32 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
   }();
 
   var configureApp = function configureApp() {
-    app.debug('main >>> configureApp');
+    app.debug("main >>> configureApp");
     _config.defaults.corsEnabledServers.forEach(function (server) {
       _config3.default.defaults.io.corsEnabledServers.push(server);
     });
 
     _urlUtils2.default.addProxyRule({
-      urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer',
-      proxyUrl: '/map/php/proxy.php'
+      urlPrefix: "https://gis-gfw.wri.org/arcgis/rest/services/protected_services/MapServer",
+      proxyUrl: "/map/php/proxy.php"
     });
 
     _urlUtils2.default.addProxyRule({
-      urlPrefix: 'https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer',
-      proxyUrl: '/map/php/proxy.php'
+      urlPrefix: "https://gis-gfw.wri.org/arcgis/rest/services/cached/wdpa_protected_areas/MapServer",
+      proxyUrl: "/map/php/proxy.php"
     });
   };
 
   var lazyloadAssets = function lazyloadAssets() {
-    (0, _loaders.loadCSS)('../vendors/kalendae/build/kalendae.css');
-    (0, _loaders.loadCSS)('../vendors/react-select/dist/react-select.min.css');
-    (0, _loaders.loadCSS)('https://js.arcgis.com/3.20/esri/css/esri.css');
+    (0, _loaders.loadCSS)("../vendors/kalendae/build/kalendae.css");
+    (0, _loaders.loadCSS)("../vendors/react-select/dist/react-select.min.css");
+    (0, _loaders.loadCSS)("https://js.arcgis.com/3.31/esri/css/esri.css");
   };
 
   var parseTitles = function parseTitles(planetBasemaps, isMonthly) {
     // Filter out 'Latest Monthly' and 'Latest Quarterly'
     return planetBasemaps.filter(function (basemap) {
-      if (basemap.title === 'Latest Monthly' || basemap.title === 'Latest Quarterly') {
+      if (basemap.title === "Latest Monthly" || basemap.title === "Latest Quarterly") {
         return false;
       } else {
         return true;
@@ -131,34 +131,34 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
   var parseMonthlyTitle = function parseMonthlyTitle(title) {
     // ex. formats 'Global Monthly 2016 01 Mosaic'
-    var words = title.split(' ');
+    var words = title.split(" ");
     var year = words[2];
     var month = words[3];
-    var yyyyMM = year + ' ' + month;
-    var label = window.Kalendae.moment(yyyyMM, 'YYYY MM').format('MMM YYYY');
+    var yyyyMM = year + " " + month;
+    var label = window.Kalendae.moment(yyyyMM, "YYYY MM").format("MMM YYYY");
     return label;
   };
 
   var parseQuarterlyTitle = function parseQuarterlyTitle(title) {
-    var words = title.split(' ');
+    var words = title.split(" ");
     var yearQuarter = words[2];
 
     var dict = {
-      1: 'JAN-MAR',
-      2: 'APR-JUN',
-      3: 'JUL-SEP',
-      4: 'OCT-DEC'
+      1: "JAN-MAR",
+      2: "APR-JUN",
+      3: "JUL-SEP",
+      4: "OCT-DEC"
     };
 
     if (yearQuarter === undefined) {
       return title;
     } else {
-      var _yearQuarter$split = yearQuarter.split('q'),
+      var _yearQuarter$split = yearQuarter.split("q"),
           _yearQuarter$split2 = _slicedToArray(_yearQuarter$split, 2),
           year = _yearQuarter$split2[0],
           quarter = _yearQuarter$split2[1];
 
-      var label = dict[quarter] + ' ' + year;
+      var label = dict[quarter] + " " + year;
       return label;
     }
   };
@@ -172,28 +172,28 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
           var basemaps = [];
 
           var xmlParser = new DOMParser();
-          var htmlString = '<!DOCTYPE html>' + xhttp.responseText.substring(38);
+          var htmlString = "<!DOCTYPE html>" + xhttp.responseText.substring(38);
 
-          var xmlDoc = xmlParser.parseFromString(htmlString, 'text/html');
+          var xmlDoc = xmlParser.parseFromString(htmlString, "text/html");
 
-          var contents = xmlDoc.getElementsByTagName('Contents')[0];
-          var layerCollection = contents.getElementsByTagName('Layer');
+          var contents = xmlDoc.getElementsByTagName("Contents")[0];
+          var layerCollection = contents.getElementsByTagName("Layer");
           var layerCollectionLength = layerCollection.length;
 
           for (var i = 0; i < layerCollectionLength; i++) {
             var currentLayer = layerCollection[i];
-            var title = currentLayer.getElementsByTagName('ows:Title')[0].innerHTML;
-            var url = currentLayer.getElementsByTagName('ResourceURL')[0].getAttribute('template');
+            var title = currentLayer.getElementsByTagName("ows:Title")[0].innerHTML;
+            var url = currentLayer.getElementsByTagName("ResourceURL")[0].getAttribute("template");
             basemaps.push({ title: title, url: url });
           }
 
           var monthlyBasemaps = [];
           var quarterlyBasemaps = [];
           basemaps.forEach(function (basemap) {
-            if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Monthly') >= 0) {
+            if (basemap && basemap.hasOwnProperty("title") && basemap.title.indexOf("Monthly") >= 0) {
               monthlyBasemaps.push(basemap);
             }
-            if (basemap && basemap.hasOwnProperty('title') && basemap.title.indexOf('Quarterly') >= 0) {
+            if (basemap && basemap.hasOwnProperty("title") && basemap.title.indexOf("Quarterly") >= 0) {
               quarterlyBasemaps.push(basemap);
             }
           });
@@ -207,27 +207,27 @@ define(['babel-polyfill', 'components/Modals/LayerModal', 'components/Modals/Can
 
           resolve(true);
         } else {
-          console.log('Error retrieving planet basemaps.');
+          console.log("Error retrieving planet basemaps.");
           reject(false);
         }
       }
     };
-    xhttp.open('GET', 'https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=6c3405821fb84e659550848226615428', true);
+    xhttp.open("GET", "https://api.planet.com/basemaps/v1/mosaics/wmts?api_key=6c3405821fb84e659550848226615428", true);
     xhttp.send();
   });
 
   var initializeApp = function initializeApp() {
-    app.debug('main >>> initializeApp');
-    _reactDom2.default.render(_react2.default.createElement(_Map2.default, null), document.getElementById('root'));
-    _reactDom2.default.render(_react2.default.createElement(_LayerModal2.default, null), document.getElementById('layer-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_CanopyModal2.default, null), document.getElementById('canopy-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_SearchModal2.default, null), document.getElementById('search-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_BasemapModal2.default, null), document.getElementById('basemap-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById('calendar-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById('subscription-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_ConfirmationModal2.default, null), document.getElementById('confirmation-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById('fires-modal'));
-    _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById('share-modal'));
+    app.debug("main >>> initializeApp");
+    _reactDom2.default.render(_react2.default.createElement(_Map2.default, null), document.getElementById("root"));
+    _reactDom2.default.render(_react2.default.createElement(_LayerModal2.default, null), document.getElementById("layer-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_CanopyModal2.default, null), document.getElementById("canopy-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_SearchModal2.default, null), document.getElementById("search-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_BasemapModal2.default, null), document.getElementById("basemap-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_CalendarModal2.default, { calendars: _config.defaults.calendars }), document.getElementById("calendar-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_SubscriptionModal2.default, null), document.getElementById("subscription-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_ConfirmationModal2.default, null), document.getElementById("confirmation-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_FiresModal2.default, null), document.getElementById("fires-modal"));
+    _reactDom2.default.render(_react2.default.createElement(_ShareModal2.default, null), document.getElementById("share-modal"));
   };
 
   configureApp();
