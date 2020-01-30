@@ -3538,21 +3538,14 @@ define([
             currentWeekUsuality = "Low";
           }
 
-          console.log("currentWeekUsuality", currentWeekUsuality, thisWeek);
           function getDateOfISOWeek(w, y) {
             var simple = new Date(y, 0, 1 + (w - 1) * 7);
             var dow = simple.getDay();
             var ISOweekStart = simple;
-            console.log("simple", simple);
-            console.log("dow", dow);
-            console.log("ISOweekStart", ISOweekStart);
-            debugger;
             if (dow <= 4) {
               ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
-              console.log("ISOweekStart", ISOweekStart);
             } else {
               ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
-              console.log("ISOweekStart", ISOweekStart);
             }
             return ISOweekStart;
           }
@@ -3737,21 +3730,21 @@ define([
                 // Standard deviation 2
                 type: "areaspline",
                 color: "#E0E0E0",
-                data: standardDeviation2Series,
+                data: threeMonthDataObject.windowSD2,
                 enableMouseTracking: false
               },
               {
                 // Standard deviation 1
                 type: "areaspline",
                 color: "#F8F8F8",
-                data: standardDeviationSeries,
+                data: threeMonthDataObject.windowSD1,
                 enableMouseTracking: false
               },
               {
                 // Current Year Data
                 type: "spline",
                 color: "#d40000",
-                data: seriesData,
+                data: threeMonthDataObject.currentYearFires,
                 name: "currentYear",
                 zIndex: 10
               },
@@ -3759,7 +3752,7 @@ define([
                 // Current Year Average Data
                 type: "spline",
                 color: "#e56666",
-                data: windowAverages,
+                data: threeMonthDataObject.windowMean,
                 dashStyle: "longdash",
                 name: "mean",
                 zIndex: 10
@@ -3768,14 +3761,14 @@ define([
                 // Current Year -sd 1Data
                 type: "areaspline",
                 color: "#E0E0E0",
-                data: standardDeviationMinus1Series,
+                data: threeMonthDataObject.windowSDMinus1,
                 enableMouseTracking: false
               },
               {
                 // Current Year -sd2 Data
                 type: "areaspline",
                 color: "#E0E0E0",
-                data: standardDeviationMinus2Series,
+                data: threeMonthDataObject.windowSDMinus2,
                 enableMouseTracking: false
               }
             ]
