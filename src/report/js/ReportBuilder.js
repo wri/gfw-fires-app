@@ -3060,7 +3060,15 @@ define([
       )
         .then(response => (dataFromRequest = response[0].data))
         .then(() => {
-          if (subregionReport || countryReport) {
+          if (subregionReport || countryReport) { // We don't have an unusual fires chart when viewing the "Global Reports".
+            /********************** NOTE **********************
+             * The data we get back are objects containing the fire counts for _most_ weeks in _each_ year since 2001.
+             * For each year, we check if any weeks are missing and add placeholder objects with zero-values.
+             * Once we have our data, we need to make a new array of data to pass into highcharts. The data must be an array of arrays, each with an [x, y] value // Todo: update documentation
+             * Our x axis is an array of months. Since we want 4 weeks of data per month, each week is spaced out by quarter-units.
+             * The series needs to begin a half-unit below the first index of 0, so we start the counter at -0.75, perodically incrementing by .25.
+             * We will have 6 series of data: (1) Historical Averages; (2) Current Year Fires; (3, 4) +/- 1 Standard Deviation; (5, 6) +/i 2 Standard Deviations
+             ***************************************************/
             console.log("dataFromRequest", dataFromRequest);
             // console.log(Math.max.apply(null, dataFromRequest.map(data => data.year)));
             console.log(
@@ -3187,62 +3195,53 @@ define([
             // const historicalDataByWeek = this.calculateHistoricalDataByWeek(completeDataSet);
 
             debugger;
-            // We don't have an unusual fires chart when viewing the "Global Reports".
-            /********************** NOTE **********************
-             * The data we get back are objects containing the fire counts for each week in each year since 2001.
-             * For each week, we check if any weeks are missing, and if so, we add placeholder objects with zero-values.
-             * On our inital load, we show the previous 3 months of data.
-             * Once we have our data, we need to make a new array of data to pass into highcharts. The data must be an array of arrays, each with an [x, y] value
-             * Our x axis is an array of months. Since we want 4 weeks of data per month, each week is spaced out by quarter-units.
-             * The series needs to begin a half-unit below the first index of 0, so we start the counter at -0.75, perodically incrementing by .25.
-             * We will have 6 series of data: (1) Historical Averages; (2) Current Year Fires; (3, 4) +/- 1 Standard Deviation; (5, 6) +/i 2 Standard Deviations
-             ***************************************************/
+           
 
             // historicalDataByWeek now contains 53 placeholderobjects, so we push an array of all historical alerts from that week to each from our query response.
-            completeDataSet.forEach(weekOfData =>
-              historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(
-                weekOfData.alerts
-              )
-            );
+            // completeDataSet.forEach(weekOfData =>
+            //   historicalDataByWeek[weekOfData.week - 1].historicalAlerts.push(
+            //     weekOfData.alerts
+            //   )
+            // );
 
-            // Now that we have our 53 week objects, we need to calculate the standard deviation for each week.
-            historicalDataByWeek.forEach(weekObject => {
-              let average,
-                deviations,
-                squaredDeviations,
-                denomenator,
-                standardDeviation;
-              if (weekObject.historicalAlerts.length > 0) {
-                average = Math.round(
-                  weekObject.historicalAlerts.reduce((a, b) => a + b) /
-                    weekObject.historicalAlerts.length
-                ); // calculate the average for each week
-                deviations = weekObject.historicalAlerts.map(
-                  alert => alert - average
-                ); // calculate deviance for each week
-                squaredDeviations = deviations.map(
-                  deviation => deviation * deviation
-                ); // square all of deviations
-                denomenator =
-                  squaredDeviations.length > 1
-                    ? squaredDeviations.length - 1
-                    : 1; // check the count of deviations because we shouldn't divide by zero
-                standardDeviation = Math.round(
-                  Math.sqrt(
-                    squaredDeviations.reduce((a, b) => a + b) / denomenator
-                  )
-                ); // Calculate standard deviation
-              }
+            // // Now that we have our 53 week objects, we need to calculate the standard deviation for each week.
+            // historicalDataByWeek.forEach(weekObject => {
+            //   let average,
+            //     deviations,
+            //     squaredDeviations,
+            //     denomenator,
+            //     standardDeviation;
+            //   if (weekObject.historicalAlerts.length > 0) {
+            //     average = Math.round(
+            //       weekObject.historicalAlerts.reduce((a, b) => a + b) /
+            //         weekObject.historicalAlerts.length
+            //     ); // calculate the average for each week
+            //     deviations = weekObject.historicalAlerts.map(
+            //       alert => alert - average
+            //     ); // calculate deviance for each week
+            //     squaredDeviations = deviations.map(
+            //       deviation => deviation * deviation
+            //     ); // square all of deviations
+            //     denomenator =
+            //       squaredDeviations.length > 1
+            //         ? squaredDeviations.length - 1
+            //         : 1; // check the count of deviations because we shouldn't divide by zero
+            //     standardDeviation = Math.round(
+            //       Math.sqrt(
+            //         squaredDeviations.reduce((a, b) => a + b) / denomenator
+            //       )
+            //     ); // Calculate standard deviation
+            //   }
 
-              // Assign the values to our week object. If there is no data, plug empty arrays or zeros.
-              const noSquaredDeviations =
-                squaredDeviations && squaredDeviations.length === 0
-                  ? true
-                  : false;
-              weekObject.deviations = noSquaredDeviations ? [] : deviations;
-              weekObject.historicalAverage = noSquaredDeviations ? 0 : average;
-              weekObject.sd1 = noSquaredDeviations ? 0 : standardDeviation;
-              weekObject.sd2 = noSquaredDeviations ? 0 : standardDeviation * 2;
+            //   // Assign the values to our week object. If there is no data, plug empty arrays or zeros.
+            //   const noSquaredDeviations =
+            //     squaredDeviations && squaredDeviations.length === 0
+            //       ? true
+            //       : false;
+            //   weekObject.deviations = noSquaredDeviations ? [] : deviations;
+            //   weekObject.historicalAverage = noSquaredDeviations ? 0 : average;
+            //   weekObject.sd1 = noSquaredDeviations ? 0 : standardDeviation;
+            //   weekObject.sd2 = noSquaredDeviations ? 0 : standardDeviation * 2;
 
               // If the current week is beyond the weekObject.week, we need to go to the previous year's data
               if (weekObject.week >= currentWeek) {
