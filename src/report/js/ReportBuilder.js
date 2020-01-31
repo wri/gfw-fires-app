@@ -3010,7 +3010,7 @@ define([
       let threeMonthDataObject = {};
       let sixMonthDataObject = {};
       let twelveMonthDataObject = {};
-      let categoriesArray = [
+      const monthsForTooltip = [
         "Jan",
         "Feb",
         "Mar",
@@ -3026,25 +3026,24 @@ define([
       ];
       let currentYearToDateArray = [];
       let rangeOfMonths = 3;
-      const currentYear = new Date().getFullYear();
-      const currentMonth = new Date().getMonth();
+      let currentWeek; // Todo: Do i need
+      const currentYear = new Date().getFullYear(); // Todo: Do i need?
+      const currentMonth = new Date().getMonth(); // Todo: Do i need
 
-      // Calculate the current Week of the current year
+      // Calculate the current Week of the current year Todo: don't need
       const today = new Date();
       const startDateOfCurrentYear = new Date(today.getFullYear(), 0, 0);
       const diff = today - startDateOfCurrentYear;
       const oneDay = 1000 * 60 * 60 * 24;
       const day = Math.floor(diff / oneDay);
-      let currentWeek = 1;
       for (let i = 1; i < day; i++) {
         if (i % 7 === 0) {
           currentWeek += 1;
         }
       }
 
-      // let unusualFiresCount = 0;
       let currentWeekData;
-      let earliestYearOfData = currentYear;
+      let earliestYearOfData;
       let seriesData,
         standardDeviationSeries,
         standardDeviation2Series,
@@ -3052,9 +3051,6 @@ define([
         standardDeviationMinus1Series,
         standardDeviationMinus2Series;
 
-      // Determine the type of report: global, state, or regional and run a query
-      console.log("primise", promiseUrls);
-      console.log("today", today);
       const getDateInfo = d => {
         // Copy date so don't modify original
         d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -3071,7 +3067,7 @@ define([
 
       const thisYear = getDateInfo(new Date())[0];
       const thisWeek = getDateInfo(new Date())[1]; // Weeks go from 1 to 53
-
+      currentWeek = thisWeek;
       Promise.all(
         promiseUrls.map(promiseUrl => {
           return request.get(promiseUrl, handleAs);
@@ -3118,6 +3114,7 @@ define([
             const setOfYears = new Set(); // Isolate each year so we can iterate over the weeks specific to that year.
 
             dataFromRequest.forEach(({ year }) => setOfYears.add(year));
+            earliestYearOfData = Math.min(...setOfYears);
 
             [...setOfYears].sort().forEach(year => {
               const annualData = dataFromRequest
@@ -3261,212 +3258,18 @@ define([
             };
 
             const allDataWithWindowAverages = calculateWindowAverage();
-            console.log("allDataWithWindowAverages", allDataWithWindowAverages);
 
-            /*
-             * This chart display data such that the last week shown is the current week.
-             * Since our data is ordered from week 1 to 53, we need to reorder our data.
-             * We slice the current year data, then append it to the end of the previous year's data.
-             */
-
-            const currentYearData = allDataWithWindowAverages.slice(
-              0,
-              thisWeek
-            );
-            const previousYearData = allDataWithWindowAverages.slice(thisWeek);
-            const reorderedData = previousYearData.concat(currentYearData); // current week is always the last value;
-
-            const threeMonthData = reorderedData.slice(40); // 13 weeks
-            const sixMonthData = reorderedData.slice(27); // 26 weeks
-            const twelveMonthData = reorderedData.slice(); // 53 weeks
-            console.log("threeMonthData", threeMonthData);
-            console.log("sixMonthData", sixMonthData);
-            console.log("twelveMonthData", twelveMonthData);
-
-            /*
-             * Now that we have our data properly ordered, we need to format it for our highcharts package, which actually creates the chart.
-             * In order to display our data in monthly increments along the x-axis, we need to add an additional coordinate to our series data that breaks each month up to 4 weeks
-             * Since each half-point represents a new month (0.5 = Jan, 1.5 = Feb), each month begins at .75 and ends at the following 1.5 (0.75, 1.0, 1.25, 1.5)
-             * We repeat this process for the window averages, the 1st standard deviation above and below, and the second standard deviation above and below, for a total of 5 series.
-             * We also calculate the unusual fires for each series, which is any fire that occurs in excess of the first standard deviation.
-             */
-
-            let threeMonthXPosition = -0.75;
-            let sixMonthXPosition = -0.75;
-            let twelveMonthXPosition = -0.75;
-            const three = {
-              currentYearFires: [],
-              windowSD1: [],
-              windowSD2: [],
-              windowMean: [],
-              windowSDMinus1: [],
-              windowSDMinus2: [],
-              unusualFireCount: 0
-            };
-            const six = {
-              currentYearFires: [],
-              windowSD1: [],
-              windowSD2: [],
-              windowMean: [],
-              windowSDMinus1: [],
-              windowSDMinus2: [],
-              unusualFireCount: 0
-            };
-            const twelve = {
-              currentYearFires: [],
-              windowSD1: [],
-              windowSD2: [],
-              windowMean: [],
-              windowSDMinus1: [],
-              windowSDMinus2: [],
-              unusualFireCount: 0
-            };
-
-            threeMonthData.forEach((item, index) => {
-              const {
-                currentYearAlerts,
-                historicalAlerts,
-                windowSD,
-                sd1,
-                sd2
-              } = item;
-              const {
-                currentYearFires,
-                windowMean,
-                windowSD1,
-                windowSD2,
-                windowSDMinus1,
-                windowSDMinus2
-              } = three;
-
-              const filteredAlertData = historicalAlerts.filter(
-                value => value !== -1
-              ); // alerts marked as -1 are placeholders for null data in the service.
-              const mostRecentFireData =
-                filteredAlertData[filteredAlertData.length - 1]; // Since it's in chronological order, the last index is the most recent count
-
-              currentYearFires.push([threeMonthXPosition, mostRecentFireData]);
-              windowSD1.push([threeMonthXPosition, sd1]);
-              windowSD2.push([threeMonthXPosition, sd2]);
-              windowMean.push([threeMonthXPosition, windowSD]);
-              windowSDMinus1.push([
-                threeMonthXPosition,
-                currentYearAlerts < sd1 ? 0 : currentYearAlerts - sd1
-              ]);
-              windowSDMinus2.push([
-                threeMonthXPosition,
-                currentYearAlerts < sd2 ? 0 : currentYearAlerts - sd2
-              ]);
-              if (
-                index === threeMonthData.length - 1 &&
-                mostRecentFireData > sd1
-              ) {
-                three.unusualFireCount = mostRecentFireData - sd1;
-              }
-              threeMonthXPosition += 0.25;
-            });
-
-            sixMonthData.forEach((item, index) => {
-              const {
-                currentYearAlerts,
-                historicalAlerts,
-                windowSD,
-                sd1,
-                sd2
-              } = item;
-              const {
-                currentYearFires,
-                windowMean,
-                windowSD1,
-                windowSD2,
-                windowSDMinus1,
-                windowSDMinus2
-              } = six;
-
-              const filteredAlertData = historicalAlerts.filter(
-                value => value !== -1
-              ); // alerts marked as -1 are placeholders for null data in the service.
-              const mostRecentFireData =
-                filteredAlertData[filteredAlertData.length - 1]; // Since it's in chronological order, the last index is the most recent count
-
-              currentYearFires.push([sixMonthXPosition, mostRecentFireData]);
-              windowSD1.push([sixMonthXPosition, sd1]);
-              windowSD2.push([sixMonthXPosition, sd2]);
-              windowMean.push([sixMonthXPosition, windowSD]);
-              windowSDMinus1.push([
-                sixMonthXPosition,
-                currentYearAlerts < sd1 ? 0 : currentYearAlerts - sd1
-              ]);
-              windowSDMinus2.push([
-                sixMonthXPosition,
-                currentYearAlerts < sd2 ? 0 : currentYearAlerts - sd2
-              ]);
-
-              if (
-                index === sixMonthData.length - 1 &&
-                mostRecentFireData > sd1
-              ) {
-                six.unusualFireCount = mostRecentFireData - sd1;
-              }
-              sixMonthXPosition += 0.25;
-            });
-
-            twelveMonthData.forEach((item, index) => {
-              const {
-                currentYearAlerts,
-                historicalAlerts,
-                windowSD,
-                sd1,
-                sd2
-              } = item;
-              const {
-                currentYearFires,
-                windowMean,
-                windowSD1,
-                windowSD2,
-                windowSDMinus1,
-                windowSDMinus2
-              } = twelve;
-
-              const filteredAlertData = historicalAlerts.filter(
-                value => value !== -1
-              ); // alerts marked as -1 are placeholders for null data in the service.
-              const mostRecentFireData =
-                filteredAlertData[filteredAlertData.length - 1]; // Since it's in chronological order, the last index is the most recent count
-
-              currentYearFires.push([twelveMonthXPosition, mostRecentFireData]);
-              windowSD1.push([twelveMonthXPosition, sd1]);
-              windowSD2.push([twelveMonthXPosition, sd2]);
-              windowMean.push([twelveMonthXPosition, windowSD]);
-              windowSDMinus1.push([
-                twelveMonthXPosition,
-                currentYearAlerts < sd1 ? 0 : currentYearAlerts - sd1
-              ]);
-              windowSDMinus2.push([
-                twelveMonthXPosition,
-                currentYearAlerts < sd2 ? 0 : currentYearAlerts - sd2
-              ]);
-              if (
-                index === twelveMonthData.length - 1 &&
-                mostRecentFireData > sd1
-              ) {
-                twelve.unusualFireCount = mostRecentFireData - sd1;
-              }
-              twelveMonthXPosition += 0.25;
-            });
-
-            console.log("result", thisWeek, thisYear, twelveMonthData);
             // Find the most recent week's data:
             let weekData = null;
             let yearIterator = 1;
             let weekIterator = thisWeek;
             let errorCatch = 0;
             const findWeekData = () =>
-              twelveMonthData.find(
+              allDataWithWindowAverages.find(
                 ({ week, historicalAlerts }) =>
                   week === weekIterator &&
                   historicalAlerts[historicalAlerts.length - yearIterator] !==
-                    -1
+                    -1 // -1 is a placeholder for years which are lacking data. They are not actual counts of fires, so we have to go back to the previous index which represents the fire count in the previous year.
               );
             while (weekData === null) {
               const recentWeekData = findWeekData();
@@ -3488,375 +3291,486 @@ define([
               }
             }
 
-            threeMonthDataObject = three;
-            sixMonthDataObject = six;
-            twelveMonthDataObject = twelve;
             currentWeekData = weekData;
             currentWeekData.unusualFiresCount =
-              weekData.historicalAlerts[
-                weekData.historicalAlerts.length - yearIterator
-              ];
+              weekData.historicalAlerts[weekData.historicalAlerts.length - 1];
             currentWeekData.year = thisYear - yearIterator + 1;
-          }
 
-          console.log("threeMonthDataObject", threeMonthDataObject);
-          console.log("sixMonthDataObject", sixMonthDataObject);
-          console.log("twelveMonthDataObject", twelveMonthDataObject);
-          console.log("weekData", currentWeekData);
-          debugger;
-          /*
-           * Additionally, the client provided us a framework for determining a subject measurement of unusual fires:
-           * "Average" means that total fires are within +/- 1 SD
-           * "High/Low" means that total fires are beyond +/- 1 SD
-           * "Unusually High/Low" means that total fires are beyond +/- 2 SD
-           */
+            /*
+             * This chart display data such that the last week shown is the current week.
+             * Since our data is ordered from week 1 to 53, we need to reorder our data.
+             * We slice the current year data, then append it to the end of the previous year's data.
+             */
 
-          let currentWeekUsuality;
-          const { unusualFiresCount, sd1, sd2 } = currentWeekData;
-          console.log(
-            "unusualFiresCount, sd1, sd2",
-            unusualFiresCount,
-            sd1,
-            sd2
-          );
-          if (unusualFiresCount > sd2) {
-            currentWeekUsuality = "Unusually High";
-          } else if (unusualFiresCount > sd1) {
-            currentWeekUsuality = "High";
-          } else if (
-            unusualFiresCount < sd1 &&
-            unusualFiresCount > unusualFiresCount - sd1
-          ) {
-            currentWeekUsuality = "Average";
-          } else if (
-            unusualFiresCount <
-            unusualFiresCount >
-            unusualFiresCount - sd2
-          ) {
-            currentWeekUsuality = "Unusually Low";
-          } else {
-            currentWeekUsuality = "Low";
-          }
+            const currentYearData = allDataWithWindowAverages.slice(
+              0,
+              weekData.week
+            );
+            const previousYearData = allDataWithWindowAverages.slice(
+              weekData.week
+            );
+            const reorderedData = previousYearData.concat(currentYearData); // current week is always the last value;
 
-          function getDateOfISOWeek(w, y) {
-            var simple = new Date(y, 0, 1 + (w - 1) * 7);
-            var dow = simple.getDay();
-            var ISOweekStart = simple;
-            if (dow <= 4) {
-              ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
-            } else {
-              ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
-            }
-            return ISOweekStart;
-          }
-          const isoDate = getDateOfISOWeek(
-            currentWeekData.week,
-            currentWeekData.year
-          );
-          const monthNames = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-          ];
-          const dateString = `${
-            monthNames[isoDate.getMonth()]
-          } ${isoDate.getDate()}, ${isoDate.getFullYear()}`;
+            const threeMonthData = reorderedData.slice(40); // 13 weeks
+            const sixMonthData = reorderedData.slice(27); // 26 weeks
+            const twelveMonthData = reorderedData.slice(); // 53 weeks
 
-          $("#unusualFiresCountTitle").html(
-            `There were <span style='color: red'>${unusualFiresCount.toLocaleString()}</span> <span style='font-weight: bold'>MODIS</span> fire alerts reported in the week of <span style='font-weight: bold'>${dateString}</span>. This was <span style='color: red'>${currentWeekUsuality}</span> compared to the same week in previous years.`
-          );
-          $("#unusualFiresCountSubtitle").html(
-            `Unusual fire history analyses use MODIS fire alerts data only for ${earliestYearOfData} to present.`
-          );
+            /*
+             * Now that we have our data properly ordered, we need to format it for our highcharts package, which actually creates the chart.
+             * In order to display our data in monthly increments along the x-axis, we need to add an additional coordinate to our series data that breaks each month up to 4 weeks
+             * Since each half-point represents a new month (0.5 = Jan, 1.5 = Feb), each month begins at .75 and ends at the following 1.5 (0.75, 1.0, 1.25, 1.5)
+             * We repeat this process for the window averages, the 1st standard deviation above and below, and the second standard deviation above and below, for a total of 5 series.
+             * We also calculate the unusual fires for each series, which is any fire that occurs in excess of the first standard deviation.
+             */
 
-          /********************** NOTE **********************
-           * We create our unusual fires chart below.
-           * HighCharts allows us to combine series with different chart types.
-           * We utilize areaspline charts for 4 standard deviation thresholds and spline charts for the current week fires and mean fires lines.
-           * Spline charts are smoothed out line charts. Since we only care about the points on these lines, we use the spline type.
-           * Areaspline charts are smoothed out bar charts. Because we want to show the area underneath these series, we use the areaspline type..
-           ***************************************************/
+            const createDataObject = monthlyData => {
+              const dataObject = {
+                currentYearFires: [],
+                windowSD1: [],
+                windowSD2: [],
+                windowMean: [],
+                windowSDMinus1: [],
+                windowSDMinus2: [],
+                unusualFireCount: 0
+              };
 
-          var unusualFires = Highcharts.chart("unusualFires", {
-            chart: {
-              type: "line"
-            },
-            title: {
-              text: ""
-            },
-            legend: {
-              enabled: false
-            },
-            credits: {
-              enabled: false
-            },
-            xAxis: {
-              labels: {
-                formatter: function() {
-                  return currentYearToDateArray[this.value];
+              let xPosition = -0.75;
+              monthlyData.forEach((item, index) => {
+                const {
+                  currentYearAlerts,
+                  historicalAlerts,
+                  windowSD,
+                  sd1,
+                  sd2
+                } = item;
+                const {
+                  currentYearFires,
+                  windowMean,
+                  windowSD1,
+                  windowSD2,
+                  windowSDMinus1,
+                  windowSDMinus2
+                } = dataObject;
+
+                /*
+                 * historicalAlerts is an array of each year's data in chronological order. The last index is the most recent count.
+                 * Alerts marked as -1 are placeholders for null data in the service.
+                 * By reversing the array, we can iterate over the indecies until we find a value that is non-negative. This will be the most recent data available for that week.
+                 */
+
+                const mostRecentFireData = [...historicalAlerts]
+                  .reverse()
+                  .find(data => data > -1);
+
+                currentYearFires.push([xPosition, mostRecentFireData]);
+                windowSD1.push([xPosition, sd1]);
+                windowSD2.push([xPosition, sd2]);
+                windowMean.push([xPosition, windowSD]);
+                windowSDMinus1.push([
+                  xPosition,
+                  currentYearAlerts < sd1 ? 0 : currentYearAlerts - sd1
+                ]);
+                windowSDMinus2.push([
+                  xPosition,
+                  currentYearAlerts < sd2 ? 0 : currentYearAlerts - sd2
+                ]);
+
+                // On the last index, we grab the unusual fire count for our chart subtitle.
+                if (
+                  index === threeMonthData.length - 1 &&
+                  mostRecentFireData > sd1
+                ) {
+                  dataObject.unusualFireCount = mostRecentFireData - sd1;
                 }
+                xPosition += 0.25;
+              });
+
+              return dataObject;
+            };
+
+            threeMonthDataObject = createDataObject(threeMonthData);
+            sixMonthDataObject = createDataObject(sixMonthData);
+            twelveMonthDataObject = createDataObject(twelveMonthData);
+
+            /*
+             * Additionally, the client provided us a framework for determining a subject measurement of unusual fires:
+             * "Average" means that total fires are within +/- 1 SD
+             * "High/Low" means that total fires are beyond +/- 1 SD
+             * "Unusually High/Low" means that total fires are beyond +/- 2 SD
+             */
+
+            let currentWeekUsuality;
+            const {
+              unusualFiresCount,
+              historicalAverage,
+              sd1,
+              sd2
+            } = currentWeekData;
+
+            const greaterThan2SD = () =>
+              unusualFiresCount > historicalAverage + sd2;
+            const greaterThan1SD = () =>
+              unusualFiresCount > historicalAverage + sd1;
+            const lessThan2SD = () =>
+              unusualFiresCount < historicalAverage - sd2;
+            const lessThan1SD = () =>
+              unusualFiresCount < historicalAverage - sd1;
+
+            if (greaterThan2SD()) {
+              currentWeekUsuality = "Unusually High";
+            } else if (greaterThan1SD()) {
+              currentWeekUsuality = "High";
+            } else if (lessThan2SD()) {
+              currentWeekUsuality = "Unusually Low";
+            } else if (lessThan1SD()) {
+              currentWeekUsuality = "Low";
+            } else {
+              currentWeekUsuality = "Average";
+            }
+
+            const getDateOfISOWeek = (w, y) => {
+              var simple = new Date(y, 0, 1 + (w - 1) * 7);
+              var dow = simple.getDay();
+              var ISOweekStart = simple;
+              if (dow <= 4) {
+                ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+              } else {
+                ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
               }
-            },
-            yAxis: {
-              min: 0
-            },
-            plotOptions: {
-              spline: {
-                marker: {
-                  enabled: false
+              return ISOweekStart;
+            };
+
+            const isoDate = getDateOfISOWeek(
+              currentWeekData.week,
+              currentWeekData.year
+            );
+
+            const monthNames = [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ];
+
+            const dateString = `${
+              monthNames[isoDate.getMonth()]
+            } ${isoDate.getDate()}, ${isoDate.getFullYear()}`;
+
+            $("#unusualFiresCountTitle").html(
+              `There were <span style='color: red'>${unusualFiresCount.toLocaleString()}</span> <span style='font-weight: bold'>MODIS</span> fire alerts reported in the week of <span style='font-weight: bold'>${dateString}</span>. This was <span style='color: red'>${currentWeekUsuality}</span> compared to the same week in previous years.`
+            );
+            $("#unusualFiresCountSubtitle").html(
+              `Unusual fire history analyses use MODIS fire alerts data only for ${earliestYearOfData} to present.`
+            );
+
+            const getArrayOfMonthsForTooltip = period => {
+              const latestMonths = [...monthsForTooltip].slice(
+                0,
+                currentMonth + 1
+              );
+              const previousMonths = [...monthsForTooltip].slice(
+                currentMonth + 1
+              );
+              const reorderedMonths = previousMonths.concat(latestMonths);
+              console.log(latestMonths);
+              console.log(previousMonths);
+              console.log(reorderedMonths);
+              console.log(period);
+              return reorderedMonths.slice(12 - period);
+            };
+
+            const arrayForXAxis = getArrayOfMonthsForTooltip(3);
+            /********************** NOTE **********************
+             * We create our unusual fires chart below.
+             * HighCharts allows us to combine series with different chart types.
+             * We utilize areaspline charts for 4 standard deviation thresholds and spline charts for the current week fires and mean fires lines.
+             * Spline charts are smoothed out line charts. Since we only care about the points on these lines, we use the spline type.
+             * Areaspline charts are smoothed out bar charts. Because we want to show the area underneath these series, we use the areaspline type..
+             ***************************************************/
+
+            var unusualFires = Highcharts.chart("unusualFires", {
+              chart: {
+                type: "line"
+              },
+              title: {
+                text: ""
+              },
+              legend: {
+                enabled: false
+              },
+              credits: {
+                enabled: false
+              },
+              xAxis: {
+                labels: {
+                  formatter: function() {
+                    // // There are multiple weeks per month, and since each month generally begins on the `0.50` position, we only add a label for those points.
+                    // if (this.value.toString().includes('.5')) {
+                    //   const roundedIndex = Math.round(this.value);
+                    //   return arrayForXAxis[roundedIndex];
+                    // } else {
+                    //   return '';
+                    // }
+                  }
                 }
               },
-              areaspline: {
-                marker: {
-                  enabled: false
+              yAxis: {
+                min: 0
+              },
+              plotOptions: {
+                spline: {
+                  marker: {
+                    enabled: false
+                  }
+                },
+                areaspline: {
+                  marker: {
+                    enabled: false
+                  }
                 }
-              }
-            },
-            exporting: {
-              // To add export functionaltiy to new charts, copy the entire exporting object.
-              scale: 4,
-              chartOptions: {
-                chart: {
-                  marginTop: 75,
-                  marginRight: 20,
-                  events: {
-                    load: function() {
-                      // This function loads the actual content that appears when a user downloads something from the highcharts-contextbutton
-                      const countryOrRegion = window.reportOptions.aois
-                        ? window.reportOptions.aois
-                        : window.reportOptions.country;
-                      this.renderer
-                        .rect(0, 0, this.chartWidth, 35)
-                        .attr({
-                          fill: "#555"
-                        })
-                        .add();
-                      this.renderer
-                        .image(
-                          "https://fires.globalforestwatch.org/images/gfwFires-logo-new.png",
-                          10,
-                          10,
-                          38,
-                          38
-                        )
-                        .add();
-                      this.renderer
-                        .text(
-                          `<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Unusual Fires Report for ${countryOrRegion}</span>`,
-                          55,
-                          28,
-                          true
-                        )
-                        .add();
+              },
+              exporting: {
+                // To add export functionaltiy to new charts, copy the entire exporting object.
+                scale: 4,
+                chartOptions: {
+                  chart: {
+                    marginTop: 75,
+                    marginRight: 20,
+                    events: {
+                      load: function() {
+                        // This function loads the actual content that appears when a user downloads something from the highcharts-contextbutton
+                        const countryOrRegion = window.reportOptions.aois
+                          ? window.reportOptions.aois
+                          : window.reportOptions.country;
+                        this.renderer
+                          .rect(0, 0, this.chartWidth, 35)
+                          .attr({
+                            fill: "#555"
+                          })
+                          .add();
+                        this.renderer
+                          .image(
+                            "https://fires.globalforestwatch.org/images/gfwFires-logo-new.png",
+                            10,
+                            10,
+                            38,
+                            38
+                          )
+                          .add();
+                        this.renderer
+                          .text(
+                            `<span style="color: white; font-weight: 300; font-size: 1.2rem; font-family: 'Fira Sans', Georgia, serif;">Unusual Fires Report for ${countryOrRegion}</span>`,
+                            55,
+                            28,
+                            true
+                          )
+                          .add();
+                      }
                     }
                   }
                 }
-              }
-            },
-            tooltip: {
-              useHTML: true,
-              backgroundColor: "#ffbb07",
-              borderWidth: 0,
-              formatter: function() {
-                if (this.series.name === "currentYear") {
-                  // Because our series can shift between 3, 6, and 12 months, we always reference the 12 month data set and dynamically adjust the index based on the current selection.
-                  let adjustedIndex = 0;
-                  twelveMonthDataObject.currentYearFires.filter((x, i) =>
-                    x[0] === this.point.x ? (adjustedIndex = i) : null
-                  );
-                  adjustedIndex =
-                    rangeOfMonths === 3
-                      ? adjustedIndex + 39
-                      : rangeOfMonths === 6
-                      ? adjustedIndex + 26
-                      : adjustedIndex;
+              },
+              tooltip: {
+                useHTML: true,
+                backgroundColor: "#ffbb07",
+                borderWidth: 0,
+                formatter: function() {
+                  if (this.series.name === "currentYear") {
+                    const fires = this.point.y;
+                    const fireOrFires =
+                      fires === 1 ? "Fire Alert" : "Fire Alerts";
 
-                  const fires = this.point.y;
-                  const fireOrFires =
-                    fires === 1 ? "Fire Alert" : "Fire Alerts";
-                  const sd2 =
-                    twelveMonthDataObject.windowSD2[adjustedIndex]["1"];
-                  const sd1 =
-                    twelveMonthDataObject.windowSD1[adjustedIndex]["1"];
-                  const sdMinus1 =
-                    twelveMonthDataObject.windowSDMinus1[adjustedIndex]["1"];
-                  const sdMinus2 =
-                    twelveMonthDataObject.windowSDMinus2[adjustedIndex]["1"];
+                    const getDataObjectForTooltip = () => {
+                      if (rangeOfMonths === 3) {
+                        return threeMonthDataObject;
+                      } else if (rangeOfMonths === 6) {
+                        return sixMonthDataObject;
+                      } else if (rangeOfMonths === 12) {
+                        return twelveMonthDataObject;
+                      }
+                    };
 
-                  // Update our usuality based on where the current week fires are in relation to the standard deviation.
-                  let usuality;
-                  if (fires > sd2) {
-                    usuality = "Unusually High";
-                  } else if (fires > sd1) {
-                    usuality = "High";
-                  } else if (fires < sd1 && fires > sdMinus1) {
-                    usuality = "Average";
-                  } else if (fires < sdMinus2) {
-                    usuality = "Unusually Low";
-                  } else {
-                    usuality = "Low";
+                    const dataObjectToReference = getDataObjectForTooltip();
+
+                    const weekSD1 = dataObjectToReference.windowSD1.find(
+                      ([pos]) => pos === this.point.x
+                    )[1];
+                    const weekSD2 = dataObjectToReference.windowSD2.find(
+                      ([pos]) => pos === this.point.x
+                    )[1];
+                    const weekSDMinus1 = dataObjectToReference.windowSDMinus1.find(
+                      ([pos]) => pos === this.point.x
+                    )[1];
+                    const weekSDMinus2 = dataObjectToReference.windowSDMinus2.find(
+                      ([pos]) => pos === this.point.x
+                    )[1];
+
+                    // Update our usuality based on where the current week fires are in relation to the standard deviation.
+                    let usuality;
+                    if (fires > weekSD2) {
+                      usuality = "Unusually High";
+                    } else if (fires > weekSD1) {
+                      usuality = "High";
+                    } else if (fires < weekSDMinus2) {
+                      usuality = "Unusually Low";
+                    } else if (fires < weekSDMinus1) {
+                      usuality = "Low";
+                    } else {
+                      usuality = "Average";
+                    }
+
+                    return (
+                      '<div class="history-chart-tooltip__container">' +
+                      '<h3 class="history-chart-tooltip__content">' +
+                      Highcharts.numberFormat(this.point.y, 0, ".", ",") +
+                      `<span class="firesCountChart__text"> ${fireOrFires} This Week</span></h3>` +
+                      `<p class="firesCountChart__popup">${usuality}</p>` +
+                      "</div>"
+                    );
+                  } else if (this.series.name === "mean") {
+                    return (
+                      '<div class="history-chart-tooltip__container">' +
+                      '<h3 class="history-chart-tooltip__content">' +
+                      Highcharts.numberFormat(this.point.y, 0, ".", ",") +
+                      '<span class="firesCountChart__text"> Fire Alerts On Average</span></h3>' +
+                      "</div>"
+                    );
                   }
-
-                  return (
-                    '<div class="history-chart-tooltip__container">' +
-                    '<h3 class="history-chart-tooltip__content">' +
-                    Highcharts.numberFormat(this.point.y, 0, ".", ",") +
-                    `<span class="firesCountChart__text"> ${fireOrFires} This Week</span></h3>` +
-                    `<p class="firesCountChart__popup">${usuality}</p>` +
-                    "</div>"
-                  );
-                } else if (this.series.name === "mean") {
-                  return (
-                    '<div class="history-chart-tooltip__container">' +
-                    '<h3 class="history-chart-tooltip__content">' +
-                    Highcharts.numberFormat(this.point.y, 0, ".", ",") +
-                    '<span class="firesCountChart__text"> Fire Alerts On Average</span></h3>' +
-                    "</div>"
-                  );
                 }
-              }
-            },
-            series: [
-              {
-                // Standard deviation 2
-                type: "areaspline",
-                color: "#E0E0E0",
-                data: threeMonthDataObject.windowSD2,
-                enableMouseTracking: false
               },
-              {
-                // Standard deviation 1
-                type: "areaspline",
-                color: "#F8F8F8",
-                data: threeMonthDataObject.windowSD1,
-                enableMouseTracking: false
-              },
-              {
-                // Current Year Data
-                type: "spline",
-                color: "#d40000",
-                data: threeMonthDataObject.currentYearFires,
-                name: "currentYear",
-                zIndex: 10
-              },
-              {
-                // Current Year Average Data
-                type: "spline",
-                color: "#e56666",
-                data: threeMonthDataObject.windowMean,
-                dashStyle: "longdash",
-                name: "mean",
-                zIndex: 10
-              },
-              {
-                // Current Year -sd 1Data
-                type: "areaspline",
-                color: "#E0E0E0",
-                data: threeMonthDataObject.windowSDMinus1,
-                enableMouseTracking: false
-              },
-              {
-                // Current Year -sd2 Data
-                type: "areaspline",
-                color: "#E0E0E0",
-                data: threeMonthDataObject.windowSDMinus2,
-                enableMouseTracking: false
-              }
-            ]
-          });
+              series: [
+                {
+                  // Standard deviation 2
+                  type: "areaspline",
+                  color: "#E0E0E0",
+                  data: threeMonthDataObject.windowSD2,
+                  enableMouseTracking: false
+                },
+                {
+                  // Standard deviation 1
+                  type: "areaspline",
+                  color: "#F8F8F8",
+                  data: threeMonthDataObject.windowSD1,
+                  enableMouseTracking: false
+                },
+                {
+                  // Current Year Data
+                  type: "spline",
+                  color: "#d40000",
+                  data: threeMonthDataObject.currentYearFires,
+                  name: "currentYear",
+                  zIndex: 10
+                },
+                {
+                  // Current Year Average Data
+                  type: "spline",
+                  color: "#e56666",
+                  data: threeMonthDataObject.windowMean,
+                  dashStyle: "longdash",
+                  name: "mean",
+                  zIndex: 10
+                },
+                {
+                  // Current Year -sd 1Data
+                  type: "areaspline",
+                  color: "#E0E0E0",
+                  data: threeMonthDataObject.windowSDMinus1,
+                  enableMouseTracking: false
+                },
+                {
+                  // Current Year -sd2 Data
+                  type: "areaspline",
+                  color: "#E0E0E0",
+                  data: threeMonthDataObject.windowSDMinus2,
+                  enableMouseTracking: false
+                }
+              ]
+            });
 
-          // Create list of time options on load
-          let timeOptions = ["3 months", "6 months", "12 months"];
-          timeOptions.forEach(period =>
-            $("#unusualFiresOptions").append(
-              `<ul class=${period === "3 months" ? "selected" : ""}>` +
-                period +
-                "</ul>"
-            )
-          );
-
-          // On click of a time option, we highlight it and update the series accordingly
-          $("#unusualFiresOptions ul").click(function() {
-            $("#unusualFiresOptions ul").removeClass("selected");
-            $(this).addClass("selected");
-
-            // Update the categories based on whether it's 3, 6, or 12 months selected.
-            let selection = $(this).text();
-            rangeOfMonths = selection.includes("12")
-              ? 12
-              : selection.includes("6")
-              ? 6
-              : 3;
-            updatedCategoriesArray = [...categoriesArray];
-            currentYearToDateArray = updatedCategoriesArray.splice(
-              0,
-              currentMonth + 1
-            );
-            currentYearToDateArray.unshift(...updatedCategoriesArray);
-            currentYearToDateArray = currentYearToDateArray.slice(
-              12 - rangeOfMonths
+            // Create list of time options on load
+            let timeOptions = ["3 months", "6 months", "12 months"];
+            timeOptions.forEach(period =>
+              $("#unusualFiresOptions").append(
+                `<ul class=${period === "3 months" ? "selected" : ""}>` +
+                  period +
+                  "</ul>"
+              )
             );
 
-            // Update the series data based on whether it's 3, 6, or 12 months selected.
-            seriesData = selection.includes("12")
-              ? twelveMonthDataObject.currentYearFires.slice(0)
-              : selection.includes("6")
-              ? sixMonthDataObject.currentYearFires.slice(0)
-              : threeMonthDataObject.currentYearFires.slice(0);
-            windowAverages = selection.includes("12")
-              ? twelveMonthDataObject.windowMean.slice(0)
-              : selection.includes("6")
-              ? sixMonthDataObject.windowMean.slice(0)
-              : threeMonthDataObject.windowMean.slice(0);
-            standardDeviationSeries = selection.includes("12")
-              ? twelveMonthDataObject.windowSD1.slice(0)
-              : selection.includes("6")
-              ? sixMonthDataObject.windowSD1.slice(0)
-              : threeMonthDataObject.windowSD1.slice(0);
-            standardDeviation2Series = selection.includes("12")
-              ? twelveMonthDataObject.windowSD2.slice(0)
-              : selection.includes("6")
-              ? sixMonthDataObject.windowSD2.slice(0)
-              : threeMonthDataObject.windowSD2.slice(0);
-            standardDeviationMinus1Series = selection.includes("12")
-              ? twelveMonthDataObject.windowSDMinus1.slice(0)
-              : selection.includes("6")
-              ? sixMonthDataObject.windowSDMinus1.slice(0)
-              : threeMonthDataObject.windowSDMinus1.slice(0);
-            standardDeviationMinus2Series = selection.includes("12")
-              ? twelveMonthDataObject.windowSDMinus2.slice(0)
-              : selection.includes("6")
-              ? sixMonthDataObject.windowSDMinus2.slice(0)
-              : threeMonthDataObject.windowSDMinus2.slice(0);
+            // On click of a time option, we highlight it and update the series accordingly based on whether it's 3, 6, or 12 months selected.
+            $("#unusualFiresOptions ul").click(function() {
+              $("#unusualFiresOptions ul").removeClass("selected");
+              $(this).addClass("selected");
 
-            // Data updates on Monday evenings, but sometimes it is delayed, resulting in the current week's data to show 0.
-            // In order to be consistent with the main GFW application, we check if the current week has data, and exclude it if not.
+              let periodSelected;
+              const objectToUse = () => {
+                const selection = $(this).text();
+                if (selection.includes("12")) {
+                  periodSelected = 12;
+                  return createDataObject(twelveMonthData);
+                } else if (selection.includes("6")) {
+                  periodSelected = 6;
+                  return createDataObject(sixMonthData);
+                } else if (selection.includes("3")) {
+                  periodSelected = 3;
+                  return createDataObject(threeMonthData);
+                }
+              };
 
-            if (!currentWeekData) {
-              standardDeviation2Series.pop();
-              standardDeviationSeries.pop();
-              seriesData.pop();
-              windowAverages.pop();
-              standardDeviationMinus1Series.pop();
-              standardDeviationMinus2Series.pop();
-            }
+              const dataObjectToUse = objectToUse();
 
-            // Pass in the updated series to Highcharts, and force an update.
-            unusualFires.update(
-              {
+              const newSeriesData = dataObjectToUse.currentYearFires.slice(0);
+              const newWindowAverages = dataObjectToUse.windowMean.slice(0);
+              const newStandardDeviationSeries = dataObjectToUse.windowSD1.slice(
+                0
+              );
+              const newStandardDeviation2Series = dataObjectToUse.windowSD2.slice(
+                0
+              );
+              const newStandardDeviationMinus1Series = dataObjectToUse.windowSDMinus1.slice(
+                0
+              );
+              const newStandardDeviationMinus2Series = dataObjectToUse.windowSDMinus2.slice(
+                0
+              );
+
+              const newArrayForXAxis = getArrayOfMonthsForTooltip(
+                periodSelected
+              );
+              console.log("arrayForX", newArrayForXAxis);
+              console.log("periodSelected", periodSelected);
+              // Pass in the updated series to Highcharts, and force an update.
+              unusualFires.update({
                 xAxis: {
                   labels: {
                     formatter: function() {
-                      return currentYearToDateArray[this.value];
+                      // console.log(this, periodSelected);
+                      // // There are multiple weeks per month, and since each month generally begins on the `0.50` position, we only add a label for those points.
+                      // if (
+                      //   periodSelected === 3 &&
+                      //   this.value.toString().includes('.5')
+                      // ) {
+                      //   const roundedIndex = Math.round(this.value);
+                      //   return newArrayForXAxis[roundedIndex];
+                      // } else if (
+                      //   periodSelected === 6 &&
+                      //   Number.isInteger(this.value)
+                      // ) {
+                      //   return newArrayForXAxis[this.value];
+                      // } else if (periodSelected === 12) {
+                      //   console.log
+                      //   return newArrayForXAxis[this.value];
+                      // } else {
+                      //   return '';
+                      // }
                     }
                   }
                 },
@@ -3865,34 +3779,34 @@ define([
                     // Standard deviation 2
                     type: "areaspline",
                     color: "#E0E0E0",
-                    data: standardDeviation2Series,
+                    data: newStandardDeviation2Series,
                     enableMouseTracking: false
                   },
                   {
                     // Standard deviation 1
                     type: "areaspline",
                     color: "#F8F8F8",
-                    data: standardDeviationSeries,
+                    data: newStandardDeviationSeries,
                     enableMouseTracking: false
                   },
                   {
                     // Current Year Data
                     type: "spline",
                     color: "#d40000",
-                    data: seriesData
+                    data: newSeriesData
                   },
                   {
                     // Current Year Average Data
                     type: "spline",
                     color: "#e56666",
-                    data: windowAverages,
+                    data: newWindowAverages,
                     dashStyle: "longdash"
                   },
                   {
                     // Current Year -sd 1Data
                     type: "areaspline",
                     color: "#E0E0E0",
-                    data: standardDeviationMinus1Series,
+                    data: newStandardDeviationMinus1Series,
                     enableMouseTracking: false
                   },
                   {
@@ -3900,15 +3814,14 @@ define([
                     type: "areaspline",
                     color: "#ffffff",
                     fillColor: "#ffffff",
-                    data: standardDeviationMinus2Series,
+                    data: newStandardDeviationMinus2Series,
                     enableMouseTracking: false,
                     zIndex: 5
                   }
                 ]
-              },
-              true
-            );
-          });
+              });
+            });
+          }
         })
         .catch(err =>
           console.log("Error processing response. Error message: ", err)
