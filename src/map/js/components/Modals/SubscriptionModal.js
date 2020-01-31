@@ -78,14 +78,14 @@ export default class SubscriptionModal extends React.Component {
     return re.test(email);
   }
 
-  validatePhone(phoneNumber) {
-    //todo: use old phone # validation library
-    if (phoneNumber.length > 5 || phoneNumber === 1) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // validatePhone(phoneNumber) {
+  //   //todo: use old phone # validation library
+  //   if (phoneNumber.length > 5 || phoneNumber === 1) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   sendAnalytics(eventType, action, label) {
     //todo: why is this request getting sent so many times?
@@ -123,13 +123,13 @@ export default class SubscriptionModal extends React.Component {
     let validPoint = this.state.currentCustomGraphic ? true : false;
 
     let validEmail = this.validateEmail(this.state.email);
-    let validPhone = this.validatePhone(this.state.phoneNumber);
+    // let validPhone = this.validatePhone(this.state.phoneNumber);
 
     if (!validPoint) {
       this.setState({
         pointErrors: true
       });
-    } else if (!validPhone && !validEmail) {
+    } else if (!validEmail) {
       this.setState({
         emailErrors: true,
         phoneErrors: true
@@ -139,16 +139,16 @@ export default class SubscriptionModal extends React.Component {
         emailErrors: true,
         phoneErrors: false
       });
-    } else if (this.state.phoneNumber && !validPhone) {
-      this.setState({
-        emailErrors: false,
-        phoneErrors: true
-      });
+      // } else if (this.state.phoneNumber && !validPhone) {
+      //   this.setState({
+      //     emailErrors: false,
+      //     phoneErrors: true
+      //   });
     } else {
       this.setState({
         pointErrors: false,
         emailErrors: false,
-        phoneErrors: false,
+        // phoneErrors: false,
         isUploading: true
       });
 
@@ -192,32 +192,32 @@ export default class SubscriptionModal extends React.Component {
         );
       }
 
-      if (this.state.phoneNumber && this.state.phoneNumber !== 1) {
-        let numbersOnly = this.state.phoneNumber.replace(/\D/g, "");
-        // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
+      // if (this.state.phoneNumber && this.state.phoneNumber !== 1) {
+      //   let numbersOnly = this.state.phoneNumber.replace(/\D/g, "");
+      //   // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 
-        smsParams = {
-          msg_addr: numbersOnly,
-          msg_type: "sms",
-          area_name: this.state.customFeatName
-        };
+      //   smsParams = {
+      //     msg_addr: numbersOnly,
+      //     msg_type: "sms",
+      //     area_name: this.state.customFeatName
+      //   };
 
-        smsParams.features = JSON.stringify({
-          rings: simplifiedGeometry.rings,
-          spatialReference: simplifiedGeometry.spatialReference
-        });
+      //   smsParams.features = JSON.stringify({
+      //     rings: simplifiedGeometry.rings,
+      //     spatialReference: simplifiedGeometry.spatialReference
+      //   });
 
-        subscriptions.push(
-          $.ajax({
-            type: "POST",
-            url: subscribeUrl,
-            data: smsParams,
-            error: this.error,
-            // success: this.success,
-            dataType: "json"
-          })
-        );
-      }
+      //   subscriptions.push(
+      //     $.ajax({
+      //       type: "POST",
+      //       url: subscribeUrl,
+      //       data: smsParams,
+      //       error: this.error,
+      //       // success: this.success,
+      //       dataType: "json"
+      //     })
+      //   );
+      // }
 
       all(subscriptions).then(this.success);
 
@@ -289,11 +289,8 @@ export default class SubscriptionModal extends React.Component {
           </a>
           {modalText.subscription.emailExplanationEnd}
         </p>
-        {/* <p>{modalText.subscription.phoneInstructions}</p>
-        <input id='phoneInput' className='longer' value={this.state.phoneNumber} placeholder={modalText.subscription.phonePlaceholder} onChange={this.updatePhone}></input>
-        <p className='sign-up'>{modalText.subscription.phoneExplanation}</p>
-        <div className={`submit-warning ${this.state.phoneErrors ? '' : 'hidden'}`}>{modalText.subscription.warningTextPhone}</div>
-        <input className='hidden' id={modalText.subscription.verifyInput} /> */}
+
+        <input className="hidden" id={modalText.subscription.verifyInput} />
 
         <div className="subscribe-container">
           {this.state.currentCustomGraphic &&
