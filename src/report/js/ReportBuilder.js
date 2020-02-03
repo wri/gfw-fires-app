@@ -75,9 +75,15 @@ define([
 
         var areaOfInterestType = window.reportOptions.aoitype;
 
-        var selectedCountry = window.reportOptions.country
-          ? window.reportOptions.country
-          : 'Indonesia';
+        let selectedCountry;
+        if (window.reportOptions.aois) {
+          selectedCountry = window.reportOptions.aois;
+        } else if (window.reportOptions.country) {
+          selectedCountry = window.reportOptions.country;
+        } else {
+          selectedCountry = '';
+        }
+
         // Getting basic administrative area info
         if (areaOfInterestType !== 'ALL') {
           self.getCountryAdminTypes(selectedCountry);
@@ -3159,7 +3165,7 @@ define([
 
               historicalDataByWeek.forEach((weekOfData, index) => {
                 const { historicalAlerts } = weekOfData;
-                console.log(historicalAlerts);
+
                 // Average
                 const totalAlertsThisWeek = historicalAlerts.reduce(
                   (number, sum) => number + sum
@@ -3169,7 +3175,6 @@ define([
                   totalAlertsThisWeek / numberOfYears
                 );
 
-                console.log(historicalAverage);
                 // Standard Deviations
                 const deviations = historicalAlerts.map(
                   alert => alert - historicalAverage
@@ -3189,8 +3194,7 @@ define([
                     sumOfSquaredDeviations / squaredDeviationDenominator
                   )
                 );
-                console.log(standardDeviation);
-                // debugger;
+
                 copyOfData[index].historicalAverage = historicalAverage;
                 copyOfData[index].sd1 = standardDeviation;
                 copyOfData[index].sd2 = standardDeviation * 2;
@@ -3269,8 +3273,7 @@ define([
                   weekOfDataWithWindowAverage.windowSD = Math.round(
                     averageSDInWindow
                   );
-                  console.log('weekOfData', weekOfData);
-                  console.log('sumOfWindowAverages', sumOfWindowAverages);
+
                   weekOfDataWithWindowAverage.windowAverage = Math.round(
                     sumOfWindowAverages / weeksPerWindowAsDefinedByClient
                   );
@@ -3376,10 +3379,7 @@ define([
                   windowSDMinus1,
                   windowSDMinus2
                 } = dataObject;
-                console.log('item', item);
-                console.log('currentYearAlerts', currentYearAlerts);
-                console.log('windowAverage', windowAverage);
-                console.log('windowSD', windowSD);
+
                 /*
                  * historicalAlerts is an array of each year's data in chronological order. The last index is the most recent count.
                  * Alerts marked as -1 are placeholders for null data in the service.
@@ -3395,7 +3395,10 @@ define([
                 windowSD2.push([xPosition, historicalAverage + windowSD * 2]);
                 windowMean.push([xPosition, historicalAverage]);
                 windowSDMinus1.push([xPosition, historicalAverage - windowSD]);
-                windowSDMinus2.push([xPosition, historicalAverage - windowSD * 2]);
+                windowSDMinus2.push([
+                  xPosition,
+                  historicalAverage - windowSD * 2
+                ]);
 
                 // On the last index, we grab the unusual fire count for our chart subtitle.
                 if (
@@ -3430,15 +3433,14 @@ define([
               windowSD
             } = currentWeekData;
 
-            console.log('xx',               unusualFiresCount,
-            historicalAverage,
-            sd1,
-            sd2,
-            windowSD);
-            const greaterThan2SD = () => unusualFiresCount > historicalAverage + windowSD * 2;
-            const greaterThan1SD = () => unusualFiresCount > historicalAverage + windowSD;
-            const lessThan2SD = () => unusualFiresCount < historicalAverage - windowSD * 2;
-            const lessThan1SD = () => unusualFiresCount < historicalAverage - windowSD;
+            const greaterThan2SD = () =>
+              unusualFiresCount > historicalAverage + windowSD * 2;
+            const greaterThan1SD = () =>
+              unusualFiresCount > historicalAverage + windowSD;
+            const lessThan2SD = () =>
+              unusualFiresCount < historicalAverage - windowSD * 2;
+            const lessThan1SD = () =>
+              unusualFiresCount < historicalAverage - windowSD;
 
             if (greaterThan2SD()) {
               currentWeekUsuality = 'Unusually High';
