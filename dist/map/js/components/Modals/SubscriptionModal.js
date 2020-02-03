@@ -1,5 +1,5 @@
-define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 'stores/MapStore', 'actions/ModalActions', 'components/Loader', 'esri/geometry/geometryEngine', 'dojo/promise/all', 'react', 'react-dom', 'intlTelInput'], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _all, _react, _reactDom, _intlTelInput) {
-  'use strict';
+define(["exports", "components/Modals/ModalWrapper", "js/config", "dojo/dom", "stores/MapStore", "actions/ModalActions", "components/Loader", "esri/geometry/geometryEngine", "dojo/promise/all", "react", "react-dom", "intlTelInput"], function (exports, _ModalWrapper, _config, _dom, _MapStore, _ModalActions, _Loader, _geometryEngine, _all, _react, _reactDom, _intlTelInput) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -112,13 +112,13 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         var validPoint = _this.state.currentCustomGraphic ? true : false;
 
         var validEmail = _this.validateEmail(_this.state.email);
-        var validPhone = _this.validatePhone(_this.state.phoneNumber);
+        // let validPhone = this.validatePhone(this.state.phoneNumber);
 
         if (!validPoint) {
           _this.setState({
             pointErrors: true
           });
-        } else if (!validPhone && !validEmail) {
+        } else if (!validEmail) {
           _this.setState({
             emailErrors: true,
             phoneErrors: true
@@ -128,75 +128,77 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
             emailErrors: true,
             phoneErrors: false
           });
-        } else if (_this.state.phoneNumber && !validPhone) {
-          _this.setState({
-            emailErrors: false,
-            phoneErrors: true
-          });
+          // } else if (this.state.phoneNumber && !validPhone) {
+          //   this.setState({
+          //     emailErrors: false,
+          //     phoneErrors: true
+          //   });
         } else {
           _this.setState({
             pointErrors: false,
             emailErrors: false,
-            phoneErrors: false,
+            // phoneErrors: false,
             isUploading: true
           });
 
-          var subscribeUrl = 'https://gfw-fires.wri.org/subscribe_by_polygon',
+          var subscribeUrl = "https://gfw-fires.wri.org/subscribe_by_polygon",
               subscriptions = [],
               emailParams = void 0,
               smsParams = void 0;
 
-          _this.sendAnalytics('subscription', 'request', 'The user subscribed to alerts.');
+          _this.sendAnalytics("subscription", "request", "The user subscribed to alerts.");
 
           // Simplify the geometry and then add a stringified and simpler version of it to params.features
           var simplifiedGeometry = _geometryEngine2.default.simplify(_this.state.currentCustomGraphic.geometry);
 
           if (_this.state.email) {
             emailParams = {
-              'msg_addr': _this.state.email,
-              'msg_type': 'email',
-              'area_name': _this.state.customFeatName
+              msg_addr: _this.state.email,
+              msg_type: "email",
+              area_name: _this.state.customFeatName
             };
 
             emailParams.features = JSON.stringify({
-              'rings': simplifiedGeometry.rings,
-              'spatialReference': simplifiedGeometry.spatialReference
+              rings: simplifiedGeometry.rings,
+              spatialReference: simplifiedGeometry.spatialReference
             });
 
             subscriptions.push($.ajax({
-              type: 'POST',
+              type: "POST",
               url: subscribeUrl,
               data: emailParams,
               error: _this.error,
               // success: this.success,
-              dataType: 'json'
+              dataType: "json"
             }));
           }
 
-          if (_this.state.phoneNumber && _this.state.phoneNumber !== 1) {
-            var numbersOnly = _this.state.phoneNumber.replace(/\D/g, '');
-            // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
+          // if (this.state.phoneNumber && this.state.phoneNumber !== 1) {
+          //   let numbersOnly = this.state.phoneNumber.replace(/\D/g, "");
+          //   // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 
-            smsParams = {
-              'msg_addr': numbersOnly,
-              'msg_type': 'sms',
-              'area_name': _this.state.customFeatName
-            };
+          //   smsParams = {
+          //     msg_addr: numbersOnly,
+          //     msg_type: "sms",
+          //     area_name: this.state.customFeatName
+          //   };
 
-            smsParams.features = JSON.stringify({
-              'rings': simplifiedGeometry.rings,
-              'spatialReference': simplifiedGeometry.spatialReference
-            });
+          //   smsParams.features = JSON.stringify({
+          //     rings: simplifiedGeometry.rings,
+          //     spatialReference: simplifiedGeometry.spatialReference
+          //   });
 
-            subscriptions.push($.ajax({
-              type: 'POST',
-              url: subscribeUrl,
-              data: smsParams,
-              error: _this.error,
-              // success: this.success,
-              dataType: 'json'
-            }));
-          }
+          //   subscriptions.push(
+          //     $.ajax({
+          //       type: "POST",
+          //       url: subscribeUrl,
+          //       data: smsParams,
+          //       error: this.error,
+          //       // success: this.success,
+          //       dataType: "json"
+          //     })
+          //   );
+          // }
 
           (0, _all2.default)(subscriptions).then(_this.success);
 
@@ -218,7 +220,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
       _this.error = function () {
         _this.close();
-        _ModalActions.modalActions.showConfirmationModal('error');
+        _ModalActions.modalActions.showConfirmationModal("error");
         _this.setState({
           isUploading: false
         });
@@ -234,9 +236,9 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
 
       _this.state = {
         currentCustomGraphic: undefined,
-        email: '',
-        customFeatName: '', //'Custom Feature',
-        phoneNumber: '',
+        email: "",
+        customFeatName: "", //'Custom Feature',
+        phoneNumber: "",
         pointErrors: false,
         emailErrors: false,
         phoneErrors: false,
@@ -247,25 +249,25 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
     }
 
     _createClass(SubscriptionModal, [{
-      key: 'componentDidMount',
+      key: "componentDidMount",
       value: function componentDidMount() {
         var _this2 = this;
 
-        $('#phoneInput').intlTelInput();
+        $("#phoneInput").intlTelInput();
 
         // Only b/c intlTelInput doesn't like values in initialState
         this.setState({
           phoneNumber: 1
         });
 
-        $('#phoneInput').on('countrychange', function (e, countryData) {
+        $("#phoneInput").on("countrychange", function (e, countryData) {
           _this2.setState({
             phoneNumber: countryData.dialCode
           });
         });
       }
     }, {
-      key: 'storeUpdated',
+      key: "storeUpdated",
       value: function storeUpdated() {
         var newState = _MapStore.mapStore.getState();
         if (newState.currentCustomGraphic && newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
@@ -277,7 +279,7 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         } else if (!newState.currentCustomGraphic && newState.currentCustomGraphic !== this.state.currentCustomGraphic) {
           this.setState({
             currentCustomGraphic: undefined,
-            customFeatName: ''
+            customFeatName: ""
           });
         }
 
@@ -288,101 +290,94 @@ define(['exports', 'components/Modals/ModalWrapper', 'js/config', 'dojo/dom', 's
         }
       }
     }, {
-      key: 'validateEmail',
+      key: "validateEmail",
       value: function validateEmail(email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
       }
     }, {
-      key: 'validatePhone',
-      value: function validatePhone(phoneNumber) {
-        //todo: use old phone # validation library
-        if (phoneNumber.length > 5 || phoneNumber === 1) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }, {
-      key: 'sendAnalytics',
+      key: "sendAnalytics",
       value: function sendAnalytics(eventType, action, label) {
         //todo: why is this request getting sent so many times?
-        ga('A.send', 'event', eventType, action, label);
-        ga('B.send', 'event', eventType, action, label);
-        ga('C.send', 'event', eventType, action, label);
+        ga("A.send", "event", eventType, action, label);
+        ga("B.send", "event", eventType, action, label);
+        ga("C.send", "event", eventType, action, label);
       }
     }, {
-      key: 'close',
+      key: "close",
       value: function close() {
         _ModalActions.modalActions.hideModal(_reactDom2.default.findDOMNode(this).parentElement);
       }
     }, {
-      key: 'render',
+      key: "render",
       value: function render() {
         return _react2.default.createElement(
           _ModalWrapper2.default,
           null,
           _react2.default.createElement(
-            'div',
-            { className: 'canopy-modal-title' },
+            "div",
+            { className: "canopy-modal-title" },
             _config.modalText.subscription.title
           ),
-          this.state.currentCustomGraphic ? _react2.default.createElement('input', { className: 'longer', value: this.state.customFeatName, onChange: this.updateName }) : null,
+          this.state.currentCustomGraphic ? _react2.default.createElement("input", {
+            className: "longer",
+            value: this.state.customFeatName,
+            onChange: this.updateName
+          }) : null,
           _react2.default.createElement(
-            'div',
-            { className: 'submit-warning ' + (this.state.pointErrors ? '' : 'hidden') },
+            "div",
+            {
+              className: "submit-warning " + (this.state.pointErrors ? "" : "hidden")
+            },
             _config.modalText.subscription.warningTextPoints
           ),
           _react2.default.createElement(
-            'p',
+            "p",
             null,
             _config.modalText.subscription.emailInstructions
           ),
-          _react2.default.createElement('input', { className: 'longer', value: this.state.email, placeholder: _config.modalText.subscription.emailPlaceholder, onChange: this.updateEmail }),
+          _react2.default.createElement("input", {
+            className: "longer",
+            value: this.state.email,
+            placeholder: _config.modalText.subscription.emailPlaceholder,
+            onChange: this.updateEmail
+          }),
           _react2.default.createElement(
-            'div',
-            { className: 'submit-warning ' + (this.state.emailErrors ? '' : 'hidden') },
+            "div",
+            {
+              className: "submit-warning " + (this.state.emailErrors ? "" : "hidden")
+            },
             _config.modalText.subscription.warningTextEmail
           ),
           _react2.default.createElement(
-            'p',
-            { className: 'sign-up' },
+            "p",
+            { className: "sign-up" },
             _config.modalText.subscription.emailExplanationStart,
             _react2.default.createElement(
-              'a',
+              "a",
               { href: _config.modalText.subscription.emailExplanationAddress },
               _config.modalText.subscription.emailExplanationDisplay
             ),
             _config.modalText.subscription.emailExplanationEnd
           ),
+          _react2.default.createElement("input", { className: "hidden", id: _config.modalText.subscription.verifyInput }),
           _react2.default.createElement(
-            'p',
-            null,
-            _config.modalText.subscription.phoneInstructions
-          ),
-          _react2.default.createElement('input', { id: 'phoneInput', className: 'longer', value: this.state.phoneNumber, placeholder: _config.modalText.subscription.phonePlaceholder, onChange: this.updatePhone }),
-          _react2.default.createElement(
-            'p',
-            { className: 'sign-up' },
-            _config.modalText.subscription.phoneExplanation
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'submit-warning ' + (this.state.phoneErrors ? '' : 'hidden') },
-            _config.modalText.subscription.warningTextPhone
-          ),
-          _react2.default.createElement('input', { className: 'hidden', id: _config.modalText.subscription.verifyInput }),
-          _react2.default.createElement(
-            'div',
-            { className: 'subscribe-container' },
-            this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? _react2.default.createElement(
-              'button',
-              { className: 'subscribe-submit left btn red ' + (app.mobile() === true ? 'narrow' : ''), onClick: this.deleteFeature.bind(this) },
+            "div",
+            { className: "subscribe-container" },
+            this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === "custom" ? _react2.default.createElement(
+              "button",
+              {
+                className: "subscribe-submit left btn red " + (app.mobile() === true ? "narrow" : ""),
+                onClick: this.deleteFeature.bind(this)
+              },
               _config.modalText.subscription.deletePlaceholder
             ) : null,
             _react2.default.createElement(
-              'button',
-              { className: 'subscribe-submit btn red ' + (app.mobile() === true ? 'narrow' : '') + (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === 'custom' ? ' right' : ''), onClick: this.subscribe.bind(this) },
+              "button",
+              {
+                className: "subscribe-submit btn red " + (app.mobile() === true ? "narrow" : "") + (this.state.currentCustomGraphic && this.state.currentCustomGraphic.attributes.Layer === "custom" ? " right" : ""),
+                onClick: this.subscribe.bind(this)
+              },
               _config.modalText.subscription.subscribePlaceholder
             )
           ),
