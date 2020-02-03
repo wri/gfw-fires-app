@@ -3159,7 +3159,7 @@ define([
 
               historicalDataByWeek.forEach((weekOfData, index) => {
                 const { historicalAlerts } = weekOfData;
-
+                console.log(historicalAlerts);
                 // Average
                 const totalAlertsThisWeek = historicalAlerts.reduce(
                   (number, sum) => number + sum
@@ -3169,6 +3169,7 @@ define([
                   totalAlertsThisWeek / numberOfYears
                 );
 
+                console.log(historicalAverage);
                 // Standard Deviations
                 const deviations = historicalAlerts.map(
                   alert => alert - historicalAverage
@@ -3183,7 +3184,8 @@ define([
                 const standardDeviation = Math.sqrt(
                   sumOfSquaredDeviations / squaredDeviationDenominator
                 );
-
+                console.log(standardDeviation);
+                // debugger;
                 copyOfData[index].historicalAverage = historicalAverage;
                 copyOfData[index].sd1 = Math.round(standardDeviation);
                 copyOfData[index].sd2 = Math.round(standardDeviation * 2);
@@ -3407,14 +3409,11 @@ define([
               sd2
             } = currentWeekData;
 
-            const greaterThan2SD = () =>
-              unusualFiresCount > historicalAverage + sd2;
-            const greaterThan1SD = () =>
-              unusualFiresCount > historicalAverage + sd1;
-            const lessThan2SD = () =>
-              unusualFiresCount < historicalAverage - sd2;
-            const lessThan1SD = () =>
-              unusualFiresCount < historicalAverage - sd1;
+            console.log("xx", unusualFiresCount, historicalAverage, sd1);
+            const greaterThan2SD = () => unusualFiresCount > sd2;
+            const greaterThan1SD = () => unusualFiresCount > sd1;
+            const lessThan2SD = () => unusualFiresCount < sd2;
+            const lessThan1SD = () => unusualFiresCount < sd1;
 
             if (greaterThan2SD()) {
               currentWeekUsuality = "Unusually High";

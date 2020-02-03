@@ -112,13 +112,13 @@ define(["exports", "components/Modals/ModalWrapper", "js/config", "dojo/dom", "s
         var validPoint = _this.state.currentCustomGraphic ? true : false;
 
         var validEmail = _this.validateEmail(_this.state.email);
-        var validPhone = _this.validatePhone(_this.state.phoneNumber);
+        // let validPhone = this.validatePhone(this.state.phoneNumber);
 
         if (!validPoint) {
           _this.setState({
             pointErrors: true
           });
-        } else if (!validPhone && !validEmail) {
+        } else if (!validEmail) {
           _this.setState({
             emailErrors: true,
             phoneErrors: true
@@ -128,16 +128,16 @@ define(["exports", "components/Modals/ModalWrapper", "js/config", "dojo/dom", "s
             emailErrors: true,
             phoneErrors: false
           });
-        } else if (_this.state.phoneNumber && !validPhone) {
-          _this.setState({
-            emailErrors: false,
-            phoneErrors: true
-          });
+          // } else if (this.state.phoneNumber && !validPhone) {
+          //   this.setState({
+          //     emailErrors: false,
+          //     phoneErrors: true
+          //   });
         } else {
           _this.setState({
             pointErrors: false,
             emailErrors: false,
-            phoneErrors: false,
+            // phoneErrors: false,
             isUploading: true
           });
 
@@ -173,30 +173,32 @@ define(["exports", "components/Modals/ModalWrapper", "js/config", "dojo/dom", "s
             }));
           }
 
-          if (_this.state.phoneNumber && _this.state.phoneNumber !== 1) {
-            var numbersOnly = _this.state.phoneNumber.replace(/\D/g, "");
-            // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
+          // if (this.state.phoneNumber && this.state.phoneNumber !== 1) {
+          //   let numbersOnly = this.state.phoneNumber.replace(/\D/g, "");
+          //   // let countryData = $('#phoneInput').intlTelInput('getSelectedCountryData');
 
-            smsParams = {
-              msg_addr: numbersOnly,
-              msg_type: "sms",
-              area_name: _this.state.customFeatName
-            };
+          //   smsParams = {
+          //     msg_addr: numbersOnly,
+          //     msg_type: "sms",
+          //     area_name: this.state.customFeatName
+          //   };
 
-            smsParams.features = JSON.stringify({
-              rings: simplifiedGeometry.rings,
-              spatialReference: simplifiedGeometry.spatialReference
-            });
+          //   smsParams.features = JSON.stringify({
+          //     rings: simplifiedGeometry.rings,
+          //     spatialReference: simplifiedGeometry.spatialReference
+          //   });
 
-            subscriptions.push($.ajax({
-              type: "POST",
-              url: subscribeUrl,
-              data: smsParams,
-              error: _this.error,
-              // success: this.success,
-              dataType: "json"
-            }));
-          }
+          //   subscriptions.push(
+          //     $.ajax({
+          //       type: "POST",
+          //       url: subscribeUrl,
+          //       data: smsParams,
+          //       error: this.error,
+          //       // success: this.success,
+          //       dataType: "json"
+          //     })
+          //   );
+          // }
 
           (0, _all2.default)(subscriptions).then(_this.success);
 
@@ -294,16 +296,6 @@ define(["exports", "components/Modals/ModalWrapper", "js/config", "dojo/dom", "s
         return re.test(email);
       }
     }, {
-      key: "validatePhone",
-      value: function validatePhone(phoneNumber) {
-        //todo: use old phone # validation library
-        if (phoneNumber.length > 5 || phoneNumber === 1) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }, {
       key: "sendAnalytics",
       value: function sendAnalytics(eventType, action, label) {
         //todo: why is this request getting sent so many times?
@@ -368,6 +360,7 @@ define(["exports", "components/Modals/ModalWrapper", "js/config", "dojo/dom", "s
             ),
             _config.modalText.subscription.emailExplanationEnd
           ),
+          _react2.default.createElement("input", { className: "hidden", id: _config.modalText.subscription.verifyInput }),
           _react2.default.createElement(
             "div",
             { className: "subscribe-container" },
