@@ -83,7 +83,7 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
   }
 
   var WIND_CONFIG = {
-    dataUrl: 'https://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
+    dataUrl: 'https://suitability-mapper.s3-ap-southeast-1.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
     id: 'Wind_Direction',
     opacity: 0.85,
     mapLoaderId: 'map_loader',
@@ -138,10 +138,10 @@ define(['exports', 'utils/windy', 'actions/ModalActions', 'dojo/Deferred', 'dojo
 
         // Event connections
         this._connects = [];
-        this._connects.push(_connect2.default.connect(map, "onPan", this, this._panHandler));
-        this._connects.push(_connect2.default.connect(map, "onExtentChange", this, this._extentChangeHandler));
-        this._connects.push(_connect2.default.connect(map, "onZoomStart", this, this.clear));
-        this._connects.push(_connect2.default.connect(this, "onVisibilityChange", this, this._visibilityChangeHandler));
+        this._connects.push(_connect2.default.connect(map, 'onPan', this, this._panHandler));
+        this._connects.push(_connect2.default.connect(map, 'onExtentChange', this, this._extentChangeHandler));
+        this._connects.push(_connect2.default.connect(map, 'onZoomStart', this, this.clear));
+        this._connects.push(_connect2.default.connect(this, 'onVisibilityChange', this, this._visibilityChangeHandler));
 
         return element;
       }
