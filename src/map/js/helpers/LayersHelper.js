@@ -1013,7 +1013,15 @@ let LayersHelper = {
 
     let reportdates = dateArray.split('/');
     let datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
-    let updatedURL = 'https://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-' + datesFormatted + '00' + '.1-0.gz.json';
+    const lastYearBeforeURLReformatting = 20200102; // On Jan 3, 2020, the format of the files in S3 was changed.
+    let updatedURL = 'https://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-';
+    if (Number(datesFormatted) > lastYearBeforeURLReformatting) {
+      updatedURL += `${datesFormatted}00%2F.1-0.gz.json`;
+    } else {
+      updatedURL += `${datesFormatted}00.1-0.gz.json`;
+    }
+
+    console.log('======= updating!', updatedURL);
     WindHelper.deactivateWindLayer();
     WindHelper.activateWindLayer(updatedURL);
   },
