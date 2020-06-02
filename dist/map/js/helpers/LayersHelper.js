@@ -1019,15 +1019,14 @@ define(['exports', 'js/config', 'utils/rasterFunctions', 'utils/request', 'utils
 
       var reportdates = dateArray.split('/');
       var datesFormatted = reportdates[2].toString() + reportdates[0].toString() + reportdates[1].toString();
-      var lastYearBeforeURLReformatting = 20200102; // On Jan 3, 2020, the format of the files in S3 was changed.
-      var updatedURL = 'https://suitability-mapper.s3.amazonaws.com/wind/archive/wind-surface-level-gfs-';
-      if (Number(datesFormatted) > lastYearBeforeURLReformatting) {
-        updatedURL += datesFormatted + '00%2F.1-0.gz.json';
+      var lastDateBeforeURLReformatting = 20200103; // On Jan 3, 2020, the format of the files in S3 was changed.
+      var updatedURL = 'https://suitability-mapper.s3-ap-southeast-1.amazonaws.com/wind/archive/wind-surface-level-gfs-';
+      if (Number(datesFormatted) > lastDateBeforeURLReformatting) {
+        updatedURL += datesFormatted + '%252F00.1-0.gz.json';
       } else {
         updatedURL += datesFormatted + '00.1-0.gz.json';
       }
 
-      console.log('======= updating!', updatedURL);
       _WindHelper2.default.deactivateWindLayer();
       _WindHelper2.default.activateWindLayer(updatedURL);
     },
