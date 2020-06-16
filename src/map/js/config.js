@@ -10,7 +10,7 @@ export const config = {
       showAttribution: false,
       center: [0, 40],
       fadeOnZoom: true,
-      basemap: 'topo',
+      basemap: 'dark-gray',
       slider: false,
       logo: false,
       zoom: app.mobile() === true ? 4 : 3
@@ -319,7 +319,7 @@ export const config = {
       type: 'dynamic',
       label: 'VIIRS active fires',
       group: 'fires',
-      visible: true,
+      visible: false,
       layerIds: [21],
       className: 'viirs-fires',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_VIIRS_24hrs/MapServer',
@@ -346,7 +346,7 @@ export const config = {
       type: 'dynamic',
       label: 'MODIS active fires',
       group: 'fires',
-      visible: true,
+      visible: false,
       layerIds: [21],
       className: 'active-fires',
       url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_Global_MODIS_24hrs/MapServer',
@@ -808,6 +808,7 @@ export const config = {
       id: KEYS.windDirection,
       order: 10,
       type: 'wind',
+      visible: true,
       label: 'Wind direction',
       sublabel: '(2000, 30m, Daily, NOAA)',
       group: 'airQuality',
@@ -820,224 +821,224 @@ export const config = {
         childDomClass: 'wind-direction'
       }
     },
-    {
-      id: KEYS.airQuality,
-      order: 25,
-      type: 'dynamic',
-      label: 'Air quality (beta)',
-      middleLabel: '(OpenAQ, US EPA Air Quality Index)',
-      sublabel: '(layer starts at 10/19/2017)',
-      group: 'airQuality',
-      className: 'air-quality',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
-      metadataId: 'gfw_airquality',
-      calendar: {
-        domId: 'airQCalendar',
-        domClass: 'air-quality'
-      },
-      layerIds: [0, 1]
-    },
-    {
-      id: KEYS.gfedEmissions,
-      order: 1,
-      type: 'dynamic',
-      label: 'Emission 2015',
-      sublabel: '(Global Fire Emissions Database)',
-      group: 'airQuality',
-      className: 'gfed-emissions',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/GFED_2015_Emissions/MapServer',
-      metadataId: 'gfed_emissions',
-      layerIds: [0]
-    },
-    {
-      id: KEYS.overlays,
-      order: 1,
-      type: 'dynamic',
-      label: '',
-      sublabel: '',
-      group: 'imagery',
-      className: 'overlays',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'latest_landsat',
-      layerIds: [4, 5, 6, 7],
-      Provinces: {
-        infoTemplate: {
-          content: '<table><span class="name-field">${NAME}</span></tr>' +
-          '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>' +
-          '<tr><td class="field-name">TYPE: </td><td class="field-value">${TYPE}</td></tr>'
-        }
-      },
-      Districts: {
-        infoTemplate: {
-          content: '<table><span class="name-field">${DISTRICT}</span></tr>' +
-          '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>' +
-          '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>'
-        }
-      },
-      Subdistricts: {
-        infoTemplate: {
-          content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' +
-          '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' +
-          '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
-        }
-      },
-      Villages: {
-        infoTemplate: {
-          content: '<table><span class="name-field">${NAME}</span></tr>' +
-          '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' +
-          '<tr><td class="field-name">SUBDISTRICT: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
-        }
-      },
-      infoTemplate: {
-        content: '<table><span class="name-field">${NAME}</span></tr>' +
-        '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${OBJECTID}</td></tr>'
-      }
-    },
-    {
-      id: KEYS.landsat8,
-      order: 1,
-      type: 'image',
-      label: 'Latest Landsat 8 Imagery',
-      sublabel: '(latest image, 30m, global)',
-      group: 'imagery',
-      className: 'tree-cover',
-      url: 'https://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
-      metadataId: 'latest_landsat'
-    },
-    {
-      id: KEYS.boundingBoxes,
-      order: 1,
-      type: 'feature',
-      label: 'Bounding boxes',
-      infoTemplate: {
-        content: '<table><span class="name-field">${Name}</span></tr>' +
-          '<tr><td class="field-name">IMAGE ACQUISITION DATE: </td><td class="field-value">${AcquisitionDate}</td></tr>'
-      },
-      layerDefinition: {
-        'geometryType': 'esriGeometryPolygon',
-         'fields': [{
-           'name': 'OBJECTID',
-           'type': 'esriFieldTypeOID',
-           'alias': 'OBJECTID'
-         }, {
-           'name': 'Name',
-           'type': 'esriFieldTypeString',
-           'alias': 'NAME'
-         }, {
-           'name': 'AcquisitionDate',
-           'type': 'esriFieldTypeDate',
-           'alias': 'ACQUISITION DATE'
-         }, {
-           'name': 'SensorName',
-           'type': 'esriFieldTypeString',
-           'alias': 'SENSOR NAME'
-         }]
-      },
-      // group: 'imagery',
-      className: 'digital-globe'
-    },
-    {
-      id: KEYS.digitalGlobe,
-      order: 5,
-      subLayers: [KEYS.digitalGlobe0, KEYS.digitalGlobe1, KEYS.digitalGlobe2, KEYS.digitalGlobe3, KEYS.digitalGlobe4],
-      imageServices: [
-        { id: 'dg-00', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer', mosaic: 'WV01' },
-        { id: 'dg-01', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer', mosaic: 'QB01' },
-        { id: 'dg-02', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer', mosaic: 'WV02' },
-        { id: 'dg-03', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer', mosaic: 'GEO1' },
-        { id: 'dg-04', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer', mosaic: 'WV03' },
-        { id: 'dg-05', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
-      ],
-      type: 'image',
-      label: 'DigitalGlobe - FirstLook',
-      mosaic: 'WV01',
-      // group: 'imagery',
-      'minScale': 0,
-      'maxScale': 10000,
-      className: 'digital-globe',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer',
-      metadataId: 'digital_globe',
-      calendar: {
-        // startDate: new Date('10/19/2015'),
-        // currentDate: new Date(),
-        // domId: 'imageryCalendar',
-        domClass: 'imagery-settings',
-        childDomClass: 'imagery-subsettings',
-        minLabel: 'ACQUIRED DATE MINIMUM',
-        maxLabel: 'ACQUIRED DATE MAXIMUM' //todo: switch these: line ~600
-      }
-    },
-    {
-      id: KEYS.digitalGlobe0,
-      type: 'image',
-      order: 5,
-      mosaic: 'QB01',
-      'minScale': 0,
-      'maxScale': 10000, //zoom level 6 is highest visible
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer'
-    },
-    {
-      id: KEYS.digitalGlobe1,
-      type: 'image',
-      order: 5,
-      mosaic: 'WV02',
-      'minScale': 0,
-      'maxScale': 10000,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer'
-    },
-    {
-      id: KEYS.digitalGlobe2,
-      type: 'image',
-      order: 5,
-      mosaic: 'GEO1',
-      'minScale': 0,
-      'maxScale': 10000,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer'
-    },
-    {
-      id: KEYS.digitalGlobe3,
-      type: 'image',
-      order: 5,
-      mosaic: 'WV03',
-      'minScale': 0,
-      'maxScale': 10000,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer'
-    },
-    {
-      id: KEYS.digitalGlobe4,
-      type: 'image',
-      order: 5,
-      mosaic: 'WV03_SWIR',
-      'minScale': 0,
-      'maxScale': 10000,
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer'
-    },
-    {
-      id: KEYS.fireStories,
-      order: 11,
-      type: 'feature',
-      label: 'Fire stories',
-      group: 'stories',
-      layerIds: [10],
-      className: 'fire-stories',
-      url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
-      metadataId: 'user_stories',
-      infoTemplate: app.mobile() === true ? {
-        content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' +
-        '<tr><td class="field-value wide">${Details}</td></tr>' +
-        '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
-        '<tr><td class="field-value wide">${Date}</td></tr>'
-      } : {
-        content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' +
-        '<tr><td class="field-value wide">${Details}</td></tr>' +
-        '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
-        '<tr><td class="field-value wide">${Date}</td></tr>'
-      }
-    },
-    {
-      id: KEYS.planetBasemap,
-      metadataId: 'planet_basemaps'
-    },
+    // {
+    //   id: KEYS.airQuality,
+    //   order: 25,
+    //   type: 'dynamic',
+    //   label: 'Air quality (beta)',
+    //   middleLabel: '(OpenAQ, US EPA Air Quality Index)',
+    //   sublabel: '(layer starts at 10/19/2017)',
+    //   group: 'airQuality',
+    //   className: 'air-quality',
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/OpenAQI/MapServer',
+    //   metadataId: 'gfw_airquality',
+    //   calendar: {
+    //     domId: 'airQCalendar',
+    //     domClass: 'air-quality'
+    //   },
+    //   layerIds: [0, 1]
+    // },
+    // {
+    //   id: KEYS.gfedEmissions,
+    //   order: 1,
+    //   type: 'dynamic',
+    //   label: 'Emission 2015',
+    //   sublabel: '(Global Fire Emissions Database)',
+    //   group: 'airQuality',
+    //   className: 'gfed-emissions',
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/GFED_2015_Emissions/MapServer',
+    //   metadataId: 'gfed_emissions',
+    //   layerIds: [0]
+    // },
+    // {
+    //   id: KEYS.overlays,
+    //   order: 1,
+    //   type: 'dynamic',
+    //   label: '',
+    //   sublabel: '',
+    //   group: 'imagery',
+    //   className: 'overlays',
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+    //   metadataId: 'latest_landsat',
+    //   layerIds: [4, 5, 6, 7],
+    //   Provinces: {
+    //     infoTemplate: {
+    //       content: '<table><span class="name-field">${NAME}</span></tr>' +
+    //       '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>' +
+    //       '<tr><td class="field-name">TYPE: </td><td class="field-value">${TYPE}</td></tr>'
+    //     }
+    //   },
+    //   Districts: {
+    //     infoTemplate: {
+    //       content: '<table><span class="name-field">${DISTRICT}</span></tr>' +
+    //       '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>' +
+    //       '<tr><td class="field-name">ISLAND: </td><td class="field-value">${ISLAND}</td></tr>'
+    //     }
+    //   },
+    //   Subdistricts: {
+    //     infoTemplate: {
+    //       content: '<table><span class="name-field">${SUBDISTRIC}</span></tr>' +
+    //       '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' +
+    //       '<tr><td class="field-name">PROVINCE: </td><td class="field-value">${PROVINCE}</td></tr>'
+    //     }
+    //   },
+    //   Villages: {
+    //     infoTemplate: {
+    //       content: '<table><span class="name-field">${NAME}</span></tr>' +
+    //       '<tr><td class="field-name">DISTRICT: </td><td class="field-value">${DISTRICT}</td></tr>' +
+    //       '<tr><td class="field-name">SUBDISTRICT: </td><td class="field-value">${SUBDISTRIC}</td></tr>'
+    //     }
+    //   },
+    //   infoTemplate: {
+    //     content: '<table><span class="name-field">${NAME}</span></tr>' +
+    //     '<tr><td class="field-name">IUCN CATEGORY: </td><td class="field-value">${OBJECTID}</td></tr>'
+    //   }
+    // },
+    // {
+    //   id: KEYS.landsat8,
+    //   order: 1,
+    //   type: 'image',
+    //   label: 'Latest Landsat 8 Imagery',
+    //   sublabel: '(latest image, 30m, global)',
+    //   group: 'imagery',
+    //   className: 'tree-cover',
+    //   url: 'https://landsat.arcgis.com/arcgis/rest/services/Landsat8_PanSharpened/ImageServer',
+    //   metadataId: 'latest_landsat'
+    // },
+    // {
+    //   id: KEYS.boundingBoxes,
+    //   order: 1,
+    //   type: 'feature',
+    //   label: 'Bounding boxes',
+    //   infoTemplate: {
+    //     content: '<table><span class="name-field">${Name}</span></tr>' +
+    //       '<tr><td class="field-name">IMAGE ACQUISITION DATE: </td><td class="field-value">${AcquisitionDate}</td></tr>'
+    //   },
+    //   layerDefinition: {
+    //     'geometryType': 'esriGeometryPolygon',
+    //      'fields': [{
+    //        'name': 'OBJECTID',
+    //        'type': 'esriFieldTypeOID',
+    //        'alias': 'OBJECTID'
+    //      }, {
+    //        'name': 'Name',
+    //        'type': 'esriFieldTypeString',
+    //        'alias': 'NAME'
+    //      }, {
+    //        'name': 'AcquisitionDate',
+    //        'type': 'esriFieldTypeDate',
+    //        'alias': 'ACQUISITION DATE'
+    //      }, {
+    //        'name': 'SensorName',
+    //        'type': 'esriFieldTypeString',
+    //        'alias': 'SENSOR NAME'
+    //      }]
+    //   },
+    //   // group: 'imagery',
+    //   className: 'digital-globe'
+    // },
+    // {
+    //   id: KEYS.digitalGlobe,
+    //   order: 5,
+    //   subLayers: [KEYS.digitalGlobe0, KEYS.digitalGlobe1, KEYS.digitalGlobe2, KEYS.digitalGlobe3, KEYS.digitalGlobe4],
+    //   imageServices: [
+    //     { id: 'dg-00', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer', mosaic: 'WV01' },
+    //     { id: 'dg-01', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer', mosaic: 'QB01' },
+    //     { id: 'dg-02', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer', mosaic: 'WV02' },
+    //     { id: 'dg-03', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer', mosaic: 'GEO1' },
+    //     { id: 'dg-04', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer', mosaic: 'WV03' },
+    //     { id: 'dg-05', url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer', mosaic: 'WV03_SWIR' }
+    //   ],
+    //   type: 'image',
+    //   label: 'DigitalGlobe - FirstLook',
+    //   mosaic: 'WV01',
+    //   // group: 'imagery',
+    //   'minScale': 0,
+    //   'maxScale': 10000,
+    //   className: 'digital-globe',
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV01/ImageServer',
+    //   metadataId: 'digital_globe',
+    //   calendar: {
+    //     // startDate: new Date('10/19/2015'),
+    //     // currentDate: new Date(),
+    //     // domId: 'imageryCalendar',
+    //     domClass: 'imagery-settings',
+    //     childDomClass: 'imagery-subsettings',
+    //     minLabel: 'ACQUIRED DATE MINIMUM',
+    //     maxLabel: 'ACQUIRED DATE MAXIMUM' //todo: switch these: line ~600
+    //   }
+    // },
+    // {
+    //   id: KEYS.digitalGlobe0,
+    //   type: 'image',
+    //   order: 5,
+    //   mosaic: 'QB01',
+    //   'minScale': 0,
+    //   'maxScale': 10000, //zoom level 6 is highest visible
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/QB01/ImageServer'
+    // },
+    // {
+    //   id: KEYS.digitalGlobe1,
+    //   type: 'image',
+    //   order: 5,
+    //   mosaic: 'WV02',
+    //   'minScale': 0,
+    //   'maxScale': 10000,
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV02/ImageServer'
+    // },
+    // {
+    //   id: KEYS.digitalGlobe2,
+    //   type: 'image',
+    //   order: 5,
+    //   mosaic: 'GEO1',
+    //   'minScale': 0,
+    //   'maxScale': 10000,
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/GE01/ImageServer'
+    // },
+    // {
+    //   id: KEYS.digitalGlobe3,
+    //   type: 'image',
+    //   order: 5,
+    //   mosaic: 'WV03',
+    //   'minScale': 0,
+    //   'maxScale': 10000,
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03/ImageServer'
+    // },
+    // {
+    //   id: KEYS.digitalGlobe4,
+    //   type: 'image',
+    //   order: 5,
+    //   mosaic: 'WV03_SWIR',
+    //   'minScale': 0,
+    //   'maxScale': 10000,
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/image_services/WV03_SWIR/ImageServer'
+    // },
+    // {
+    //   id: KEYS.fireStories,
+    //   order: 11,
+    //   type: 'feature',
+    //   label: 'Fire stories',
+    //   group: 'stories',
+    //   layerIds: [10],
+    //   className: 'fire-stories',
+    //   url: 'https://gis-gfw.wri.org/arcgis/rest/services/Fires/FIRMS_ASEAN/MapServer',
+    //   metadataId: 'user_stories',
+    //   infoTemplate: app.mobile() === true ? {
+    //     content: '<table class="fire-stories-popup mobile"><span class="name-field">${Title}</span></tr>' +
+    //     '<tr><td class="field-value wide">${Details}</td></tr>' +
+    //     '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
+    //     '<tr><td class="field-value wide">${Date}</td></tr>'
+    //   } : {
+    //     content: '<table class="fire-stories-popup"><span class="name-field">${Title}</span></tr>' +
+    //     '<tr><td class="field-value wide">${Details}</td></tr>' +
+    //     '<tr><td class="field-value wide"><a href="${Video}" target="_blank">Video</a></td></tr>' +
+    //     '<tr><td class="field-value wide">${Date}</td></tr>'
+    //   }
+    // },
+    // {
+    //   id: KEYS.planetBasemap,
+    //   metadataId: 'planet_basemaps'
+    // },
     // {
     //   id: 'imageryGraphicsLayer',
     //   type: 'imagery',

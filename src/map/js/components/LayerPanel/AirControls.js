@@ -23,6 +23,7 @@ export default class AirControls extends React.Component {
   render () {
 
     let date = window.Kalendae.moment(this.state.airQDate);
+    console.log('date homie', date);
     let config = utils.getObject(layersConfig, 'id', KEYS.airQuality);
 
     return <div>
