@@ -12,7 +12,7 @@ import domUtils from 'esri/domUtils';
 import Layer from 'esri/layers/layer';
 
 let WIND_CONFIG = {
-  dataUrl: 'https://suitability-mapper.s3.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
+  dataUrl: 'https://suitability-mapper.s3-ap-southeast-1.amazonaws.com/wind/wind-surface-level-gfs-1.0.gz.json',
   id: 'Wind_Direction',
   opacity: 0.85,
   mapLoaderId: 'map_loader',
@@ -59,10 +59,10 @@ class RasterLayer extends Layer {
 
       // Event connections
       this._connects = [];
-      this._connects.push(connect.connect(map, "onPan", this, this._panHandler));
-      this._connects.push(connect.connect(map, "onExtentChange", this, this._extentChangeHandler));
-      this._connects.push(connect.connect(map, "onZoomStart", this, this.clear));
-      this._connects.push(connect.connect(this, "onVisibilityChange", this, this._visibilityChangeHandler));
+      this._connects.push(connect.connect(map, 'onPan', this, this._panHandler));
+      this._connects.push(connect.connect(map, 'onExtentChange', this, this._extentChangeHandler));
+      this._connects.push(connect.connect(map, 'onZoomStart', this, this.clear));
+      this._connects.push(connect.connect(this, 'onVisibilityChange', this, this._visibilityChangeHandler));
 
       return element;
     }

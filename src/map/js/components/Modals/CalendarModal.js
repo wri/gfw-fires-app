@@ -203,7 +203,8 @@ export default class CalendarModal extends Component {
 		});
 	}
 	changeAirQ(date: any) {
-		this.close();
+    this.close();
+    console.log('date', date);
 		mapActions.setAirQDate({
 			date: date,
 			dest: 'airQDate'

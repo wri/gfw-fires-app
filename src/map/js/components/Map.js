@@ -91,7 +91,7 @@ export default class Map extends Component {
     return (
       <div id={mapConfig.id} className={'map'}>
         <LayerPanel loaded={this.state.loaded} />
-        <AnalysisTools imageryModalVisible={imageryModalVisible} />
+        {/* <AnalysisTools imageryModalVisible={imageryModalVisible} /> */}
         <ControlPanel map={this.state.map} />
         <Timeline />
         <MobileUnderlay />

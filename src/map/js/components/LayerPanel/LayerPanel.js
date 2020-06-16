@@ -133,13 +133,13 @@ export default class LayerPanel extends React.Component {
     //{layersConfig.map(this.checkboxMap('landCover'), this)}
     return (
       <div className={className}>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
+        {/* <LayerGroup activeLayers={this.state.activeLayers} label='Fires'>
           {layersConfig.map(this.checkboxMap('fires'), this)}
-        </LayerGroup>
+        </LayerGroup> */}
         <LayerGroup activeLayers={this.state.activeLayers} label='Air Quality'>
           {layersConfig.map(this.checkboxMap('airQuality'), this)}
         </LayerGroup>
-        <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
+        {/* <LayerGroup activeLayers={this.state.activeLayers} label='Fire Risk'>
           <LayerTransparency initalOpacity={.80} layers={fireRiskLayers}></LayerTransparency>
           {layersConfig.map(this.checkboxMap('fireRisk'), this)}
         </LayerGroup>
@@ -173,7 +173,7 @@ export default class LayerPanel extends React.Component {
 
         <LayerGroup activeLayers={this.state.activeLayers} label='Stories'>
           {layersConfig.map(this.checkboxMap('stories'), this)}
-        </LayerGroup>
+        </LayerGroup> */}
 
         <div className='mobile-show'>
           <div className='layer-category'>
