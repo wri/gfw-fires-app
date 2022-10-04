@@ -58,7 +58,7 @@
     "gulp-html-autoprefixer": "0.0.1",
     "gulp-imagemin": "^2.4.0",
     "gulp-jade": "^1.1.0",
-    "gulp-minify-inline": "^0.1.1",
+    "gulp-minify-inline": "^1.1.0",
     "gulp-plumber": "^1.0.1",
     "gulp-stylus": "^2.1.0",
     "gulp-umd": "^0.2.0",
